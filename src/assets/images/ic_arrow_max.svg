@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.485" height="8.035" viewBox="0 0 8.485 8.035">
+    <defs>
+        <style>
+            .cls-1{fill:#acb5c2}
+        </style>
+    </defs>
+    <g id="ic_arrow_max">
+        <path id="Rectangle_500" d="M0 0h1v7H0z" class="cls-1" data-name="Rectangle 500" transform="translate(3.743 1.036)"/>
+        <path id="Rectangle_501" d="M0 0h1v6H0z" class="cls-1" data-name="Rectangle 501" transform="rotate(45 2.122 5.122)"/>
+        <path id="Rectangle_502" d="M0 0h1v6H0z" class="cls-1" data-name="Rectangle 502" transform="rotate(-45 2.621 -3.915)"/>
+    </g>
+</svg>

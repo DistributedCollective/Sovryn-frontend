@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0.4;
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .cls-6 {
+        fill: url(#linear-gradient-5);
+      }
+
+      .cls-7 {
+        fill: url(#linear-gradient-6);
+      }
+
+      .cls-10, .cls-8 {
+        fill: none;
+      }
+
+      .cls-8 {
+        stroke: #fff;
+        stroke-width: 6px;
+      }
+
+      .cls-9 {
+        stroke: none;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0.1" y1="0.1" x2="0.801" y2="0.899" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#00b4af"/>
+      <stop offset="1" stop-color="#2c69b2"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-0.161" y1="-0.164" x2="1.17" y2="1.167" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="0.082" y1="0.017" x2="0.9" y2="0.839" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="-0.07" y1="-0.159" x2="1.047" y2="0.961" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-5" x1="0.883" y1="0.922" x2="0.088" y2="0.114" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#28dbd6"/>
+      <stop offset="1" stop-color="#084a9a"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-6" x1="0.916" y1="0.913" x2="0.096" y2="0.088" xlink:href="#linear-gradient-5"/>
+  </defs>
+  <g id="ic_maintenance" transform="translate(-560 -208)">
+    <circle id="Ellipse_72" data-name="Ellipse 72" class="cls-1" cx="72" cy="72" r="72" transform="translate(568 216)"/>
+    <g id="surface1" transform="translate(554 202)">
+      <path id="Path_540" data-name="Path 540" class="cls-2" d="M104,33.986l-7.83-14.08-19.9,5.99L72.212,6H55.788L51.743,25.757,32.021,19.681,24.087,33.691,38.931,45.9,24,58.014l7.83,14.063,19.9-5.972L55.788,86H72.212l4.045-19.757,19.7,6.076L103.9,58.309,89.069,46.087ZM84.521,46a20.528,20.528,0,0,1-41.042,0,20.528,20.528,0,0,1,41.042,0Z" transform="translate(62 0)"/>
+      <path id="Path_541" data-name="Path 541" class="cls-3" d="M84.278,37.389A28.889,28.889,0,1,0,55.389,66.278,28.889,28.889,0,0,0,84.278,37.389Zm-15.556,0A13.333,13.333,0,1,1,55.389,24.056,13.336,13.336,0,0,1,68.722,37.389Z" transform="translate(70.611 8.611)"/>
+      <path id="Path_542" data-name="Path 542" class="cls-4" d="M103.778,54.2,94.229,37,69.906,44.306,64.924,20H44.854L39.906,44.149l-24.1-7.431L6.1,53.854,24.247,68.785,6,83.576l9.549,17.2,24.323-7.309,4.983,24.305H64.924l4.948-24.149,24.1,7.431,9.688-17.136L85.514,68.993Zm-23.8,14.688c0,13.507-11.232,24.444-25.087,24.444S29.8,82.4,29.8,68.889,41.035,44.444,54.889,44.444,79.976,55.382,79.976,68.889Z" transform="translate(0 48.222)"/>
+      <path id="Path_543" data-name="Path 543" class="cls-5" d="M80.111,58.556A35.556,35.556,0,1,0,44.556,94.111,35.557,35.557,0,0,0,80.111,58.556Zm-17.778,0A17.778,17.778,0,1,1,44.556,40.778,17.768,17.768,0,0,1,62.333,58.556Z" transform="translate(10.333 58.556)"/>
+      <path id="Path_544" data-name="Path 544" class="cls-6" d="M58.778,47.889A24.889,24.889,0,1,0,33.889,72.778,24.89,24.89,0,0,0,58.778,47.889Zm-12.445,0A12.445,12.445,0,1,1,33.889,35.445,12.438,12.438,0,0,1,46.334,47.889Z" transform="translate(21 69.221)"/>
+      <path id="Path_545" data-name="Path 545" class="cls-7" d="M66.129,28.315A19.815,19.815,0,1,0,46.315,48.129,19.815,19.815,0,0,0,66.129,28.315Zm-10.669,0a9.145,9.145,0,1,1-9.145-9.145A9.147,9.147,0,0,1,55.46,28.315Z" transform="translate(79.686 17.686)"/>
+      <g id="Ellipse_73" data-name="Ellipse 73" class="cls-8" transform="translate(37 99)">
+        <circle class="cls-9" cx="18" cy="18" r="18"/>
+        <circle class="cls-10" cx="18" cy="18" r="15"/>
+      </g>
+      <g id="Ellipse_74" data-name="Ellipse 74" class="cls-8" transform="translate(112 32)">
+        <circle class="cls-9" cx="14" cy="14" r="14"/>
+        <circle class="cls-10" cx="14" cy="14" r="11"/>
+      </g>
+    </g>
+  </g>
+</svg>

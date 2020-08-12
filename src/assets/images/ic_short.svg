@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="ic_short" width="27" height="27" viewBox="0 0 27 27">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}.cls-2{fill:#ff5353}
+        </style>
+    </defs>
+    <rect id="Rectangle_517" width="27" height="27" class="cls-1" data-name="Rectangle 517" rx="13.5"/>
+    <rect id="Rectangle_376" width="19" height="19" class="cls-2" data-name="Rectangle 376" rx="9.5" transform="translate(4 4)"/>
+    <g id="Group_1080" data-name="Group 1080" transform="translate(10.672 10)">
+        <path id="Rectangle_500" d="M0 0h1v6H0z" class="cls-1" data-name="Rectangle 500" transform="translate(2.328)"/>
+        <path id="Rectangle_501" d="M0 0h1v4H0z" class="cls-1" data-name="Rectangle 501" transform="rotate(-45 5.078 2.103)"/>
+        <path id="Rectangle_502" d="M0 0h1v4H0z" class="cls-1" data-name="Rectangle 502" transform="rotate(45 -1.75 7.725)"/>
+    </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="368">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-3{fill:#2A5ADA}.cls-1{opacity:.3}.cls-2{opacity:.5}
+        </style>
+    </defs>
+    <g id="popup_left_token_link" transform="translate(8 -16)">
+        <path id="Path_214" d="M-32 0h224l-72 368H-32a8 8 0 0 1-8-8V8a8 8 0 0 1 8-8z" class="cls-1" data-name="Path 214" transform="translate(32 16)"/>
+        <path id="Path_384" d="M-32 368h248L144 0H-32a8 8 0 0 0-8 8v352a8 8 0 0 0 8 8z" class="cls-2" data-name="Path 384" transform="translate(32 16)"/>
+        <path id="Intersection_1" d="M6102-674v-368h184l24 122.667L6262-674z" class="cls-3" data-name="Intersection 1" transform="translate(-6110 1058)"/>
+    </g>
+</svg>

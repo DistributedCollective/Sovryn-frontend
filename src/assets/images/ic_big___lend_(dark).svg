@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="ic_big___lend__dark_" width="176" height="160" data-name="ic_big___lend_(dark)" viewBox="0 0 176 160">
+    <defs>
+        <style>
+            .cls-1{opacity:.1;fill:url(#linear-gradient)}.cls-2{fill:none}.cls-3{opacity:.15;fill:url(#radial-gradient)}.cls-4{fill:url(#linear-gradient-2)}.cls-5{fill:url(#linear-gradient-3)}.cls-6{fill:url(#linear-gradient-4)}.cls-7{fill:url(#linear-gradient-5)}.cls-8{fill:#fff}
+        </style>
+        <linearGradient id="linear-gradient" x1=".159" x2="1" y1=".144" y2="1.026" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#dfe5ee"/>
+            <stop offset="1" stop-color="#94e6ad"/>
+        </linearGradient>
+        <radialGradient id="radial-gradient" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#8ba4cc"/>
+            <stop offset="1" stop-color="#8ba4cc" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="linear-gradient-2" x1=".157" x2=".795" y1=".099" y2=".871" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#7ed899"/>
+            <stop offset="1" stop-color="#3e9b5a"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-3" x1=".067" x2=".935" y1=".076" y2=".892" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#f8e776"/>
+            <stop offset="1" stop-color="#d9c53e"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-4" x1="-.129" x2=".975" y1="-.054" y2=".812" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#f8e776"/>
+            <stop offset="1" stop-color="#c8b42b"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-5" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#20374a"/>
+            <stop offset=".356" stop-color="#627e92"/>
+            <stop offset="1" stop-color="#060b0f"/>
+        </linearGradient>
+    </defs>
+    <path id="Path_168" d="M-17978.977-3332.3c10.406-30.614 35.238-37.978 52.852-42.946s73.648-4.514 61.457 26.17-5.914 37.076 11.277 44.3 31.863 67.259-33.551 62.337-102.441-59.249-92.035-89.861z" class="cls-1" data-name="Path 168" transform="translate(18004.715 3382.398)"/>
+    <path id="Rectangle_342" d="M0 0h176v160H0z" class="cls-2" data-name="Rectangle 342"/>
+    <ellipse id="Ellipse_30" cx="40" cy="16" class="cls-3" data-name="Ellipse 30" rx="40" ry="16" transform="translate(48 120)"/>
+    <circle id="Ellipse_27" cx="40" cy="40" r="40" class="cls-4" data-name="Ellipse 27" transform="translate(48 40)"/>
+    <g id="Group_280" data-name="Group 280" transform="translate(36.004 102)">
+        <path id="Union_1" d="M23.875 28.841L0 21.531V.041s8-.097 15.852 0c5.239.065 9.994 3.438 12.58 5.677h10.922a4.5 4.5 0 0 1 4.5 4.5v.933c4.09-1.42 11.314-3.936 12.5-4.408 1.68-.666 5.68-1.115 7.086 2.475a5.441 5.441 0 0 1-2.262 7.119s-18.707 9.9-23.871 12.5A12.953 12.953 0 0 1 31.531 30a28.82 28.82 0 0 1-7.656-1.159z" class="cls-5" data-name="Union 1" transform="translate(15.996 2)"/>
+        <rect id="Rectangle_299" width="26" height="12" class="cls-6" data-name="Rectangle 299" rx="4.5" transform="translate(33.996 5.999)"/>
+        <rect id="Rectangle_297" width="16" height="28" class="cls-7" data-name="Rectangle 297" rx="1"/>
+        <circle id="Ellipse_28" cx="2" cy="2" r="2" class="cls-8" data-name="Ellipse 28" transform="translate(5.996 18)"/>
+    </g>
+    <path id="Path_164" d="M25.036 5.051l-2.86 2.8 8.69 9H10v4h20.867l-8.69 9 2.86 2.8L38.4 18.852z" class="cls-8" data-name="Path 164" transform="translate(64 61.149)"/>
+</svg>

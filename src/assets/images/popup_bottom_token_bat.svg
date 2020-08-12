@@ -1,0 +1,34 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>background</title>
+  <rect fill="#454e5a" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <defs>
+   <style>.cls-1,.cls-2{fill:#f5b403}.cls-1{opacity:.3}.cls-2{opacity:.5}.cls-3{fill:#f3b306}</style>
+  </defs>
+  <g stroke="null" transform="rotate(90 290.5001525878907,197.0001373291016) " id="svg_12">
+   <g stroke="null" transform="matrix(1.5336190679146295,0,0,1.5687747227658329,-3054.976351635769,-2027.6451650898616) " id="svg_7">
+    <path stroke="null" fill="#fff" class="cls-1" d="m2061.426062,1234.07833l224,0l-72,368l-152,0a8,8 0 0 1 -8,-8l0,-352a8,8 0 0 1 8,-8z" id="svg_10"/>
+    <path stroke="null" fill="#fff" class="cls-2" d="m2061.426062,1602.07833l248,0l-72,-368l-176,0a8,8 0 0 0 -8,8l0,352a8,8 0 0 0 8,8z" id="svg_9"/>
+    <path stroke="null" fill="#fff" class="cls-3" d="m2053.426062,1602.07833l0,-368l184,0l24,122.667l-48,245.333l-160,0z" id="svg_8"/>
+   </g>
+  </g>
+  <defs>
+   <style>.cls-1,.cls-2,.cls-3{fill:#c63b86}.cls-1{opacity:.3}.cls-2{opacity:.5}</style>
+  </defs>
+  <g id="svg_24">
+   <g transform="matrix(0.1312749444299124,0,0,0.1312749444299124,0,0) " id="svg_19">
+    <path class="cls-1" d="m2089.104004,1339.52002l224,0l-72,368l-152,0a8,8 0 0 1 -8,-8l0,-352a8,8 0 0 1 8,-8z" id="svg_22"/>
+    <path class="cls-2" d="m2089.104004,1707.52002l248,0l-72,-368l-176,0a8,8 0 0 0 -8,8l0,352a8,8 0 0 0 8,8z" id="svg_21"/>
+    <path class="cls-3" d="m2081.104004,1707.52002l0,-368l184,0l24,122.667l-48,245.333l-160,0z" id="svg_20"/>
+   </g>
+  </g>
+ </g>
+</svg>

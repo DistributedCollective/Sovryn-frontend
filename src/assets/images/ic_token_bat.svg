@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <defs>
+        <style>
+            .cls-1{fill:#c63b86}.cls-2{fill:#662d91}.cls-3{fill:#9e1f63}.cls-4,.cls-7{fill:#ff5000}.cls-5{fill:#fff;stroke-miterlimit:10}.cls-6,.cls-7{stroke:none}
+        </style>
+    </defs>
+    <g id="ic_token_bat" transform="translate(-181 -376)">
+        <rect id="Rectangle_419" width="64" height="64" class="cls-1" data-name="Rectangle 419" rx="32" transform="translate(181 376)"/>
+        <g id="Group_405" data-name="Group 405" transform="translate(192 386)">
+            <path id="Path_332" d="M41.891 1158.714l-20.845-11.934L0 1158.763z" class="cls-2" data-name="Path 332" transform="translate(0 -1122.764)"/>
+            <path id="Path_333" d="M1004.8 0l-.007 24.016 20.845 11.934z" class="cls-3" data-name="Path 333" transform="translate(-983.744)"/>
+            <path id="Path_334" d="M0 36l21.046-11.984L21.052 0z" class="cls-4" data-name="Path 334"/>
+            <g id="Path_335" class="cls-5" data-name="Path 335">
+                <path d="M610.034 710.542H591.018l.453-.757 8.605-14.372.428-.715.43.714 8.644 14.372.456.758z" class="cls-6" transform="translate(-579.502 -681.101)"/>
+                <path d="M600.505 695.67l-8.605 14.372h17.25l-8.645-14.372m-.002-1.943l.86 1.428 8.643 14.371.912 1.516H590.136l.906-1.514 8.605-14.372.856-1.43z" class="cls-7" transform="translate(-579.502 -681.101)"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,46 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>background</title>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <defs>
+   <clipPath id="svg_4">
+    <rect x="273.196808" y="175.867264" id="svg_10" fill="white" height="368" width="256"/>
+   </clipPath>
+  </defs>
+  <g id="svg_11">
+   <g transform="matrix(0.1312749444299124,0,0,0.1312749444299124,0,0) " id="svg_6" clip-path="url(#svg_4)">
+    <path id="svg_7" fill="#ACE6FF" d="m2264.104004,1339.686401l51,0l-26,123l-25,0l0,-123z" opacity="0.4"/>
+    <path id="svg_8" fill="#55CCFF" d="m2241.104004,1707.686401l96,0l-48,-245l-48,0l0,245z" opacity="0.4"/>
+    <path id="svg_9" fill="#231C3D" d="m2081.104004,1707.686401l0,-368.333008l184,0l24,123.000008l-48,245.333l-160,0z"/>
+   </g>
+  </g>
+  <defs>
+   <clipPath id="svg_15">
+    <rect x="273.196808" y="175.867264" id="svg_21" fill="white" height="368" width="256"/>
+   </clipPath>
+  </defs>
+  <g transform="rotate(87 290,199.9999694824219) " id="svg_22">
+   <g transform="matrix(0.1312749444299124,0,0,0.1312749444299124,0,0) " id="svg_17" clip-path="url(#svg_15)">
+    <path id="svg_18" fill="#ACE6FF" d="m2264.104004,1339.686401l51,0l-26,123l-25,0l0,-123z" opacity="0.4"/>
+    <path id="svg_19" fill="#55CCFF" d="m2241.104004,1707.686401l96,0l-48,-245l-48,0l0,245z" opacity="0.4"/>
+    <path id="svg_20" fill="#231C3D" d="m2081.104004,1707.686401l0,-368.333008l184,0l24,123.000008l-48,245.333l-160,0z"/>
+   </g>
+  </g>
+  <defs>
+   <clipPath id="svg_26">
+    <rect x="131" y="8.166504" id="svg_32" fill="white" height="368" width="256"/>
+   </clipPath>
+  </defs>
+  <g id="svg_33">
+   <g transform="rotate(90 309.00000000000006,218.00000000000003) " id="svg_28" clip-path="url(#svg_26)">
+    <path id="svg_29" fill="#ACE6FF" d="m364,34.166504l51,0l-26,123l-25,0l0,-123z" opacity="0.4"/>
+    <path id="svg_30" fill="#55CCFF" d="m341,402.166504l96,0l-48,-245l-48,0l0,245z" opacity="0.4"/>
+    <path id="svg_31" fill="#231C3D" d="m181,402.166504l0,-368.333008l184,0l24,123.000008l-48,245.333l-160,0z"/>
+   </g>
+  </g>
+ </g>
+</svg>

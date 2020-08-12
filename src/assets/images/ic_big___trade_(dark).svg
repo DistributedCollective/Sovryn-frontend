@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="175.995" height="160" viewBox="0 0 175.995 160">
+    <defs>
+        <style>
+            .cls-1{opacity:.1;fill:url(#linear-gradient)}.cls-2{fill:none}.cls-3{opacity:.2;fill:url(#radial-gradient)}.cls-4{fill:url(#linear-gradient-2)}.cls-5{fill:url(#linear-gradient-3)}.cls-6{fill:url(#linear-gradient-4)}.cls-7{fill:url(#linear-gradient-5)}.cls-8{fill:#fff}.cls-9{fill:url(#linear-gradient-8)}
+        </style>
+        <linearGradient id="linear-gradient" x1=".159" x2="1" y1=".144" y2="1.026" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#dfe5ee"/>
+            <stop offset="1" stop-color="#e7e4ff"/>
+        </linearGradient>
+        <radialGradient id="radial-gradient" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#7668d5"/>
+            <stop offset="1" stop-color="#7668d5" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="linear-gradient-2" x1=".157" x2=".795" y1=".099" y2=".871" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#988ceb"/>
+            <stop offset="1" stop-color="#4e41ac"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-3" x1=".067" x2=".935" y1=".076" y2=".892" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#f8e776"/>
+            <stop offset="1" stop-color="#d9c53e"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-4" x1="-.129" x2=".975" y1="-.054" y2=".812" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#f8e776"/>
+            <stop offset="1" stop-color="#c8b42b"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-5" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#20374a"/>
+            <stop offset=".356" stop-color="#627e92"/>
+            <stop offset="1" stop-color="#060b0f"/>
+        </linearGradient>
+        <linearGradient id="linear-gradient-8" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#20374a"/>
+            <stop offset=".605" stop-color="#627e92"/>
+            <stop offset="1" stop-color="#060b0f"/>
+        </linearGradient>
+    </defs>
+    <g id="ic_big___trade__dark_" data-name="ic_big___trade_(dark)" transform="translate(-60.002 -57.998)">
+        <path id="Path_183" d="M-17965.834-3318.64c-10.621-29.368 18.465-58.776 62.285-56.935s91.238 45.26 58.242 66.208-52.465 19.411-23.395 44.121-6.98 31.892-76.25 17.1-10.265-41.127-20.882-70.494z" class="cls-1" data-name="Path 183" transform="translate(18062.275 3433.655)"/>
+        <path id="Rectangle_344" d="M0 0h175.995v159.996H0z" class="cls-2" data-name="Rectangle 344" transform="translate(60.002 58.002)"/>
+        <ellipse id="Ellipse_30" cx="39.999" cy="16" class="cls-3" data-name="Ellipse 30" rx="39.999" ry="16" transform="translate(107.997 177.999)"/>
+        <circle id="Ellipse_27" cx="39.999" cy="39.999" r="39.999" class="cls-4" data-name="Ellipse 27" transform="translate(107.997 98.001)"/>
+        <g id="Group_280" data-name="Group 280" transform="translate(96.001 159.999)">
+            <path id="Union_1" d="M23.875 28.84L0 21.53V.041s8-.097 15.852 0c5.239.065 9.994 3.438 12.58 5.677h10.921a4.5 4.5 0 0 1 4.5 4.5v.933c4.09-1.419 11.316-3.935 12.5-4.408 1.68-.666 5.676-1.115 7.082 2.475a5.44 5.44 0 0 1-2.258 7.118s-18.707 9.9-23.871 12.5A12.953 12.953 0 0 1 31.531 30a28.82 28.82 0 0 1-7.656-1.16z" class="cls-5" data-name="Union 1" transform="translate(15.996 2)"/>
+            <rect id="Rectangle_299" width="25.999" height="12" class="cls-6" data-name="Rectangle 299" rx="4.5" transform="translate(33.995 5.999)"/>
+            <rect id="Rectangle_297" width="16" height="27.999" class="cls-7" data-name="Rectangle 297" rx="1"/>
+            <circle id="Ellipse_28" cx="2" cy="2" r="2" class="cls-8" data-name="Ellipse 28" transform="translate(5.996 18)"/>
+        </g>
+        <path id="Path_164" d="M29.035 7.051l-2.86 2.8 4.69 5H10v4h20.866l-4.69 5 2.86 2.8 9.364-9.8z" class="cls-8" data-name="Path 164" transform="translate(131.996 129.149)"/>
+        <g id="Group_284" data-name="Group 284" transform="rotate(180 99.997 58.002)">
+            <path id="Union_1-2" d="M23.875 28.84L0 21.53V.041s8-.097 15.852 0c5.239.065 9.994 3.438 12.58 5.677h10.921a4.5 4.5 0 0 1 4.5 4.5v.933c4.09-1.419 11.316-3.935 12.5-4.408 1.68-.666 5.676-1.115 7.082 2.475a5.44 5.44 0 0 1-2.258 7.118s-18.707 9.9-23.871 12.5A12.953 12.953 0 0 1 31.531 30a28.82 28.82 0 0 1-7.656-1.16z" class="cls-5" data-name="Union 1" transform="translate(15.996 2)"/>
+            <rect id="Rectangle_299-2" width="25.999" height="12" class="cls-6" data-name="Rectangle 299" rx="4.5" transform="translate(33.995 5.999)"/>
+            <rect id="Rectangle_297-2" width="16" height="27.999" class="cls-9" data-name="Rectangle 297" rx="1"/>
+            <circle id="Ellipse_28-2" cx="2" cy="2" r="2" class="cls-8" data-name="Ellipse 28" transform="translate(5.996 6)"/>
+        </g>
+        <path id="Path_167" d="M19.035 0l-2.86 2.8 4.69 5H0v4h20.866l-4.69 5 2.86 2.8L28.4 9.8z" class="cls-8" data-name="Path 167" transform="rotate(180 77.197 69.901)"/>
+    </g>
+</svg>

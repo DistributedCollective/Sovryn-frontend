@@ -1,0 +1,40 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <filter id="svg_31_blur">
+   <feGaussianBlur stdDeviation="0" in="SourceGraphic"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="#454e5a" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g transform="rotate(90 409.5,284.00000000000006) " id="svg_7">
+   <path id="svg_4" fill="#FFE9BF" d="m1.0502,112.090927l29.405588,0l-9.451796,48.30918l-19.953792,0c-0.27853,0 -0.545652,-0.110665 -0.742603,-0.307577c-0.196951,-0.196912 -0.307597,-0.464057 -0.307597,-0.742622l0,-46.20878c0,-0.27853 0.110646,-0.545652 0.307597,-0.742603c0.19695,-0.196951 0.464073,-0.307597 0.742603,-0.307597z" opacity="0.5"/>
+   <path id="svg_5" fill="#FFC555" d="m1.0502,160.400107l32.556186,0l-9.451796,-48.30918l-23.10439,0c-0.27853,0 -0.545652,0.110646 -0.742603,0.307597c-0.196951,0.19695 -0.307597,0.464073 -0.307597,0.742603l0,46.20878c0,0.278565 0.110646,0.54571 0.307597,0.742622c0.19695,0.196912 0.464073,0.307577 0.742603,0.307577z" opacity="0.5"/>
+   <path id="svg_6" fill="#519CCF" d="m0,160.400107l0,-48.30918l24.15459,0l3.150599,16.103104l-6.301197,32.206076l-21.003991,0z"/>
+  </g>
+  <defs>
+   <style>.cls-1,.cls-2,.cls-3{fill:#49BC98}.cls-1{opacity:.3}.cls-2{opacity:.5}</style>
+  </defs>
+  <g id="svg_19">
+   <g transform="matrix(0.1312749444299124,0,0,0.1312749444299124,0,0) " id="svg_14">
+    <path class="cls-1" d="m15861.017578,10203.927734l224,0l-72,368l-152,0a8,8 0 0 1 -8,-8l0,-352a8,8 0 0 1 8,-8z" id="svg_17"/>
+    <path class="cls-2" d="m15861.017578,10571.927734l248,0l-72,-368l-176,0a8,8 0 0 0 -8,8l0,352a8,8 0 0 0 8,8z" id="svg_16"/>
+    <path class="cls-3" d="m15853.017578,10571.927734l0,-368l184,0l24,122.667l-48,245.333l-160,0z" id="svg_15"/>
+   </g>
+  </g>
+  <defs>
+   <style>.cls-1,.cls-2,.cls-3{fill:#49BC98}.cls-1{opacity:.3}.cls-2{opacity:.5}</style>
+  </defs>
+  <g filter="url(#svg_31_blur)" stroke="null" transform="rotate(90 290.0000610351563,199.99975585937503) " id="svg_31">
+   <g stroke="null" transform="matrix(1.553150191988313,0,0,1.5660575608037572,-3106.4609224529686,-1997.4145747577386) " id="svg_26">
+    <path stroke="null" class="cls-1" d="m2066.820562,1219.150558l224,0l-72,368l-152,0a8,8 0 0 1 -8,-8l0,-352a8,8 0 0 1 8,-8z" id="svg_29"/>
+    <path stroke="null" class="cls-2" d="m2066.820562,1587.150558l248,0l-72,-368l-176,0a8,8 0 0 0 -8,8l0,352a8,8 0 0 0 8,8z" id="svg_28"/>
+    <path stroke="null" class="cls-3" d="m2058.820562,1587.150558l0,-368l184,0l24,122.667l-48,245.333l-160,0z" id="svg_27"/>
+   </g>
+  </g>
+ </g>
+</svg>
