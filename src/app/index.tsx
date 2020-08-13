@@ -15,6 +15,7 @@ import { GlobalStyle } from 'styles/global-styles';
 import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { LendingPage } from './containers/LendingPage/Loadable';
+import { TradePage } from './containers/TradePage/Loadable';
 
 export function App() {
   return (
@@ -26,7 +27,7 @@ export function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/lend" component={LendingPage} />
-        {/*<Route exact path="/trade" component={HomePage} />*/}
+        <Route exact path="/trade/:asset?" component={TradePage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
