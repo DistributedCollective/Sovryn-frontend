@@ -75,7 +75,12 @@ export function BorrowForm(props: Props) {
           disabled={loading}
         />
         {type !== 'none' && (
-          <SendTxProgress status={status} txHash={txHash} loading={loading} />
+          <SendTxProgress
+            status={status}
+            txHash={txHash}
+            loading={loading}
+            type={type}
+          />
         )}
       </div>
     </div>

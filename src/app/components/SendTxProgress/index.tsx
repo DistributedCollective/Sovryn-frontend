@@ -12,6 +12,7 @@ interface Props {
   status: TransactionStatus;
   txHash: string;
   loading: boolean;
+  type: string;
 }
 
 export function SendTxProgress(props: Props) {
@@ -23,6 +24,9 @@ export function SendTxProgress(props: Props) {
           props.status === TransactionStatus.PENDING) && <Icon icon="time" />}
         {props.status === TransactionStatus.SUCCESS && <Icon icon="tick" />}
         {props.status === TransactionStatus.ERROR && <Icon icon="error" />}
+        {props.type && (
+          <div className="ml-2 text-uppercase text-muted">{props.type}:</div>
+        )}
         <div className="ml-2">
           {props.txHash && <LinkToExplorer txHash={props.txHash} />}
           {!props.txHash &&
@@ -42,4 +46,5 @@ SendTxProgress.defaultProps = {
   status: TransactionStatus.NONE,
   txHash: null,
   loading: false,
+  type: null,
 };

@@ -172,6 +172,7 @@ export function LendingTokenSelectorCard(props: Props) {
             status={txState.status}
             txHash={txState.txHash}
             loading={txState.loading}
+            type={txState.type}
           />
         )}
       </div>
