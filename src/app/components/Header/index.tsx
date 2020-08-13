@@ -5,32 +5,84 @@
  */
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
-import logoSvg from 'assets/images/sovryn-logo-black.svg';
+import { Link, NavLink } from 'react-router-dom';
+import logoSvg from 'assets/images/sovryn-logo-white.svg';
 
 export function Header() {
   return (
-    <header className="mb-5 shadow">
-      <div className="container py-3">
-        <div className="d-flex flex-row justify-content-between align-items-center">
+    <header className="mb-2 shadow d-flex">
+      <div className="container p-0">
+        <nav className="navbar navbar-expand-lg">
           <Link to="/">
-            <LogoImg src={logoSvg} alt="Logo" />
+            <img className="navbar-brand" src={logoSvg} alt="Logo" />
           </Link>
-          <ul className="list-unstyled list-group list-group-horizontal">
-            <li className="list-group-item">
-              <Link to="/lend">Lend</Link>
-            </li>
-            <li className="list-group-item">
-              <Link to="/trade">Trade</Link>
-            </li>
-          </ul>
-        </div>
+          <button
+            className="navbar-toggler navbar-dark "
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon color-customTeal"></span>
+          </button>
+
+          <div
+            className="collapse navbar-collapse w-100 "
+            id="navbarSupportedContent"
+          >
+            <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
+              <NavItem className="nav-item list-group-item">
+                <NavLink
+                  className="text-customTeal text-decoration-none nav-link"
+                  to="/lend"
+                >
+                  Lend
+                </NavLink>
+              </NavItem>
+              <NavItem className="nav-item list-group-item">
+                <Link
+                  className="text-customTeal text-decoration-none nav-link"
+                  to="/trade"
+                >
+                  Trade
+                </Link>
+              </NavItem>
+              <NavItem className="nav-item list-group-item">
+                <Link
+                  className="text-customTeal text-decoration-none nav-link"
+                  to="/stats"
+                >
+                  Stats
+                </Link>
+              </NavItem>
+              <NavItem className="nav-item list-group-item">
+                <Link
+                  className="text-customTeal text-decoration-none nav-link"
+                  to="/faq"
+                >
+                  FAQ
+                </Link>
+              </NavItem>
+            </ul>
+          </div>
+        </nav>
       </div>
     </header>
   );
 }
 
 const LogoImg = styled.img`
-  width: 200px;
-  height: 44px;
+  width: 20em;
+`;
+
+const NavItems = styled.ul`
+  background: none;
+`;
+
+const NavItem = styled.li`
+  background: none;
+  font-size: 1.5em;
+  color: white;
 `;

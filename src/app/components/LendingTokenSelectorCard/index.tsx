@@ -16,6 +16,7 @@ import { AssetInterestRate } from '../AssetInterestRate';
 import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import styled from 'styled-components';
 
 interface Props {
   asset: Asset;
@@ -124,7 +125,10 @@ export function LendingTokenSelectorCard(props: Props) {
   }, [lendLoading, lendTx, lendStatus]);
 
   return (
-    <form className="d-block p-5 shadow border" onSubmit={handleSubmit}>
+    <form
+      className="d-block p-5 bg-secondary text-white shadow"
+      onSubmit={handleSubmit}
+    >
       <div className="d-flex flex-row justify-content-center">
         <img src={assetDetails.logoSvg} className="w-25" alt={props.asset} />
       </div>
@@ -133,7 +137,7 @@ export function LendingTokenSelectorCard(props: Props) {
           <h2>{props.asset}</h2>
         </div>
         <div className="col-6 text-right">
-          <div>Interest APR:</div>
+          <div className="text-muted">Interest APR:</div>
           <AssetInterestRate asset={props.asset} />
         </div>
       </div>
@@ -158,14 +162,23 @@ export function LendingTokenSelectorCard(props: Props) {
           />
         </div>
       </div>
-      <div className="mt-3 d-flex flex-row justify-content-start align-items-center overflow-hidden">
-        <Button
+      <div className="mt-3 d-flex flex-row justify-content-center align-items-center overflow-hidden">
+        {/*<Button
           className="mr-3 flex-shrink-0 flex-grow-0"
           text={`Lend ${props.asset}`}
           type="submit"
           loading={txState.loading}
           disabled={txState.loading}
-        />
+        />*/}
+        <div className="text-center w-100">
+          <button
+            className="btn btn-customOrange text-white font-weight-bold"
+            type="submit"
+            disabled={txState.loading}
+          >
+            {`Lend ${props.asset}`}
+          </button>
+        </div>
         {txState.type !== TxType.NONE && (
           <SendTxProgress
             status={txState.status}
@@ -178,3 +191,5 @@ export function LendingTokenSelectorCard(props: Props) {
     </form>
   );
 }
+
+const AssetLogo = styled.img``;

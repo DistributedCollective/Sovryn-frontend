@@ -34,9 +34,7 @@ export function AssetInterestRate(props: Props) {
     <Tooltip content={<>{interestRate.toFixed(18)}%</>}>
       <h2 className="d-flex flex-row">
         {interestRate.toFixed(4)}
-        <Tag minimal className="ml-2">
-          %
-        </Tag>
+        <span className="text-muted">%</span>
       </h2>
     </Tooltip>
   );

@@ -41,16 +41,25 @@ export function UnLendBalance(props: Props) {
   }, [unLend, balanceCall]);
 
   return (
-    <div className="mt-3 d-flex flex-row justify-content-start align-items-center overflow-hidden">
-      <Tooltip content={`Withdraw all lended balance`}>
-        <Button
+    <div className="mt-3 d-flex flex-row justify-content-center align-items-center text-center overflow-hidden">
+      <Tooltip content={`Withdraw all lended balance`} className="w-100">
+        {/*<Button
           className="mr-3 flex-shrink-0 flex-grow-0"
           onClick={handleUnLendClick}
           text={`UnLend ${props.asset}`}
           type="button"
           loading={loading}
           disabled={loading && balance.greaterThan(0)}
-        />
+        />*/}
+        <div className="text-center">
+          <button
+            className="btn btn-customOrange text-white font-weight-bold"
+            onClick={handleUnLendClick}
+            disabled={loading && balance.greaterThan(0)}
+          >
+            {`UnLend ${props.asset}`}
+          </button>
+        </div>
       </Tooltip>
       <SendTxProgress status={status} txHash={txHash} loading={loading} />
     </div>

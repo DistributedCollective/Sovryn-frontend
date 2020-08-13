@@ -23,10 +23,10 @@ export function LendingPage(props: Props) {
     <DrizzleProvider drizzle={drizzle}>
       <Header />
       <div className="container py-5">
-        <div className="row">
+        <div className="d-flex row justify-content-center align-items-top">
           {assets.map(asset => (
             <div className="col-12 col-lg-6" key={asset}>
-              <div className="py-3 py-lg-0">
+              <div className="py-1 py-lg-0">
                 <LendingTokenSelectorCard asset={asset} />
               </div>
             </div>
