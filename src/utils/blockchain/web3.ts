@@ -9,7 +9,7 @@ export const createWeb3 = (): Web3 => {
     // @ts-ignore
     window.ethereum.enable();
   } else {
-    web3 = new Web3(Web3.givenProvider);
+    web3 = new Web3(process.env.REACT_APP_PUBLIC_NODE as string);
   }
   return web3;
 };

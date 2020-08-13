@@ -2,14 +2,14 @@ import { useCacheCall } from './useCacheCall';
 import { Asset } from '../types/asset';
 import {
   getLendingContract,
-  getTokenContract,
-} from '../utils/blockchain/assetMapper';
+  getTokenContractName,
+} from '../utils/blockchain/contract-helpers';
 import { useAccount } from './useAccount';
 
 export function useTokenAllowanceForLending(asset: Asset): number {
   const owner = useAccount();
   return useCacheCall(
-    getTokenContract(asset).contractName,
+    getTokenContractName(asset),
     'allowance',
     /* owner */ owner,
     /* spender */ getLendingContract(asset).address,

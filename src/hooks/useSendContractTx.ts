@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useDrizzle } from './useDrizzle';
 import { TransactionStatus } from '../types/transaction-status';
-import { ContractName } from '../utils/blockchain/contracts';
 
-export function useSendContractTx(
-  contractName: ContractName,
-  methodName: string,
-) {
+export function useSendContractTx(contractName: string, methodName: string) {
   const drizzle = useDrizzle();
   const { transactionStack, transactions } = drizzleReactHooks.useDrizzleState(
     drizzleState => ({

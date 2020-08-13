@@ -23,7 +23,16 @@ export function SendTxProgress(props: Props) {
           props.status === TransactionStatus.PENDING) && <Icon icon="time" />}
         {props.status === TransactionStatus.SUCCESS && <Icon icon="tick" />}
         {props.status === TransactionStatus.ERROR && <Icon icon="error" />}
-        {props.txHash && <LinkToExplorer txHash={props.txHash} />}
+        <div className="ml-2">
+          {props.txHash && <LinkToExplorer txHash={props.txHash} />}
+          {!props.txHash &&
+            props.status === TransactionStatus.PENDING_FOR_USER && (
+              <span>Waiting for user interaction</span>
+            )}
+          {!props.txHash && props.status === TransactionStatus.ERROR && (
+            <span>Transaction denied.</span>
+          )}
+        </div>
       </div>
     </>
   );

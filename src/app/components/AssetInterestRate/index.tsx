@@ -7,9 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { Tag, Tooltip } from '@blueprintjs/core';
 import { fromWei } from 'web3-utils';
 import { bignumber } from 'mathjs';
-import { Asset } from '../../../types/asset';
-import { useCacheCall } from '../../../hooks/useCacheCall';
-import { getLendingContract } from '../../../utils/blockchain/assetMapper';
+import { Asset } from 'types/asset';
+import { useCacheCall } from 'hooks/useCacheCall';
+import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 
 interface Props {
   asset: Asset;
@@ -17,7 +17,7 @@ interface Props {
 
 export function AssetInterestRate(props: Props) {
   const interestWei = useCacheCall(
-    getLendingContract(props.asset).contractName,
+    getLendingContractName(props.asset),
     'nextSupplyInterestRate',
     1000, // todo: why 1000?
   );

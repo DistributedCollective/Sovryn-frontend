@@ -4,7 +4,7 @@
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Icon, InputGroup, Tag } from '@blueprintjs/core';
+import { Button, InputGroup, Tag } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../../hooks/useTokenApproveForLending';
@@ -14,8 +14,8 @@ import { useLendTokens } from '../../../hooks/useLendTokens';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetInterestRate } from '../AssetInterestRate';
 import { LenderBalance } from '../LenderBalance';
-import { LinkToExplorer } from '../LinkToExplorer';
 import { SendTxProgress } from '../SendTxProgress';
+import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 
 interface Props {
   asset: Asset;
@@ -28,7 +28,11 @@ enum TxType {
 }
 
 export function LendingTokenSelectorCard(props: Props) {
-  const [amount, setAmount] = useState('0.01');
+  const assetDetails = AssetsDictionary.get(props.asset);
+
+  const [amount, setAmount] = useState(
+    assetDetails.lendingLimits.min.toFixed(2),
+  );
 
   const allowance = useTokenAllowanceForLending(props.asset);
 
@@ -121,6 +125,9 @@ export function LendingTokenSelectorCard(props: Props) {
 
   return (
     <form className="d-block p-5 shadow border" onSubmit={handleSubmit}>
+      <div className="d-flex flex-row justify-content-center">
+        <img src={assetDetails.logoSvg} className="w-25" alt={props.asset} />
+      </div>
       <div className="row mt-3 d-flex align-items-center">
         <div className="col-6">
           <h2>{props.asset}</h2>
@@ -131,11 +138,19 @@ export function LendingTokenSelectorCard(props: Props) {
         </div>
       </div>
       <div className="row mt-5">
-        <div className="col-6">Enter deposit amount</div>
+        <div className="col-6">
+          <div>Enter deposit amount</div>
+          <div className="small text-muted">
+            (min: {assetDetails.lendingLimits.min.toFixed(2)}, max:{' '}
+            {assetDetails.lendingLimits.max.toFixed(2)})
+          </div>
+        </div>
         <div className="col-6">
           <InputGroup
             placeholder="Amount"
             type="number"
+            min={assetDetails.lendingLimits.min}
+            max={assetDetails.lendingLimits.max}
             value={amount}
             onChange={e => setAmount(e.target.value)}
             readOnly={txState.loading}

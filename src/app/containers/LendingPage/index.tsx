@@ -6,33 +6,34 @@
 
 import React from 'react';
 import { LendingTokenSelectorCard } from 'app/components/LendingTokenSelectorCard';
-import { createDrizzle } from 'utils/blockchain/createDrizzle';
-import { Asset } from 'types/asset';
+import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
+import { createDrizzleAssets } from 'utils/blockchain/createDrizzle';
 
 import { DrizzleProvider } from '../DrizzleProvider';
-
-const drizzle = createDrizzle([
-  'LoadContractRBTC',
-  'LoanContractSUSD',
-  'TestTokenRBTC',
-  'TestTokenSUSD',
-]);
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 
 interface Props {}
 
 export function LendingPage(props: Props) {
+  const assets = AssetsDictionary.assetList();
+  const drizzle = createDrizzleAssets(assets);
+
   return (
     <DrizzleProvider drizzle={drizzle}>
+      <Header />
       <div className="container py-5">
         <div className="row">
-          <div className="col-6">
-            <LendingTokenSelectorCard asset={Asset.BTC} />
-          </div>
-          <div className="col-6">
-            <LendingTokenSelectorCard asset={Asset.USD} />
-          </div>
+          {assets.map(asset => (
+            <div className="col-12 col-lg-6" key={asset}>
+              <div className="py-3 py-lg-0">
+                <LendingTokenSelectorCard asset={asset} />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+      <Footer />
     </DrizzleProvider>
   );
 }

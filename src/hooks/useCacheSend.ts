@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
-import { ContractName } from 'utils/blockchain/contracts';
 import { useDrizzle } from './useDrizzle';
 
 // export function useCacheSend(
@@ -12,7 +11,7 @@ import { useDrizzle } from './useDrizzle';
 //   return { send, TXObjects };
 // }
 
-export function useCacheSend(contractName: ContractName, methodName: string) {
+export function useCacheSend(contractName: string, methodName: string) {
   const drizzle = useDrizzle();
   const { transactionStack, transactions } = drizzleReactHooks.useDrizzleState(
     drizzleState => ({

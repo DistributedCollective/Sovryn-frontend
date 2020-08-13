@@ -36,7 +36,7 @@ const ConnectedApp = ({ Component }: Props) => (
   <Provider store={store}>
     <HelmetProvider>
       {/*<React.StrictMode>*/}
-        <Component />
+      <Component />
       {/*</React.StrictMode>*/}
     </HelmetProvider>
   </Provider>

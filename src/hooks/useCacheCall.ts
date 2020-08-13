@@ -1,8 +1,7 @@
 import { drizzleReactHooks } from '@drizzle/react-plugin';
-import { ContractName } from 'utils/blockchain/contracts';
 
 export function useCacheCall(
-  contractNameOrNames: ContractName,
+  contractNameOrNames: string | string[],
   methodNameOrFunction: string,
   ...args: any
 ) {
