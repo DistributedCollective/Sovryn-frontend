@@ -3,92 +3,122 @@
  * TradingViewChart
  *
  */
-import React, { useEffect, useRef, useState } from 'react';
-import { Asset } from '../../../types/asset';
-import { Helmet } from 'react-helmet-async';
+import React from 'react';
+import { Asset } from 'types/asset';
+import {
+  widget,
+  ChartingLibraryWidgetOptions,
+  IChartingLibraryWidget,
+  LanguageCode,
+} from 'libs/charting_library/charting_library.min';
 
 enum Theme {
   LIGHT = 'Light',
   DARK = 'Dark',
 }
 
-interface Props {
+export interface ChartContainerProps {
   asset: Asset;
   theme: Theme;
 }
 
-// todo implement charting_library package instead of external widget.
-export function TradingViewChart(props: Props) {
-  const tradingView = useRef(null);
-  const [scriptLoaded, setScriptLoaded] = useState(true);
+export interface ChartContainerState {}
 
-  useEffect(() => {
-    if (scriptLoaded) {
-      const timer = setInterval(() => {
-        setScriptLoaded(window.TradingView === undefined);
-      }, 50);
-      return () => {
-        clearInterval(timer);
-      };
-    }
-  }, [scriptLoaded]);
-
-  useEffect(() => {
-    if (window.TradingView) {
-      // @ts-ignore*
-      tradingView.current = new TradingView.widget({
-        symbol: 'COINBASE:' + props.asset + 'USD',
-        interval: '30',
-        timezone: 'Etc/UTC',
-        theme: props.theme,
-        locale: 'en',
-        toolbar_bg: '#f1f3f6',
-        container_id: 'tradingview_83599',
-        datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-          'https://api.kyber.network/chart',
-        ),
-        // libraryPath: '/charting_library/',
-        fullscreen: false,
-        autosize: true,
-        save_image: false,
-        preset: undefined,
-        loading_screen:
-          props.theme === Theme.DARK ? { backgroundColor: 'rgb(0, 0, 0)' } : {},
-        overrides:
-          props.theme === Theme.DARK
-            ? { 'paneProperties.background': 'rgb(0, 0, 0)' }
-            : {},
-        // custom_css_url: "/charting_library/custom_css.css"
-      } as any);
-    }
-
-    return () => {
-      if (tradingView.current) {
-        // @ts-ignore
-        tradingView.current.remove();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scriptLoaded, props.theme]);
-
-  useEffect(() => {
-    // todo: update chart with new asset without rerendering component.
-  }, [props.asset]);
-
-  return (
-    <>
-      <Helmet>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js" />
-      </Helmet>
-      {scriptLoaded}
-      <div
-        className={`w-100 h-100 shadow ${scriptLoaded ? 'bp3-skeleton' : ''}`}
-        id="tradingview_83599"
-      />
-    </>
-  );
+function getLanguageFromURL(): LanguageCode | null {
+  const regex = new RegExp('[\\?&]lang=([^&#]*)');
+  const results = regex.exec(window.location.search);
+  return results === null
+    ? null
+    : (decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode);
 }
 
-TradingViewChart.defaultProps = {
-  theme: Theme.LIGHT,
-};
+export class TradingViewChart extends React.PureComponent<
+  Partial<ChartContainerProps>,
+  ChartContainerState
+> {
+  static defaultProps = {
+    theme: Theme.LIGHT,
+  };
+  private tvWidget: IChartingLibraryWidget | null = null;
+
+  public componentDidMount(): void {
+    const widgetOptions: ChartingLibraryWidgetOptions = {
+      symbol: `WBTC_DAI` as string,
+      container_id: 'trading-view-container',
+      // BEWARE: no trailing slash is expected in feed URL
+      // tslint:disable-next-line:no-any
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
+        'https://api.kyber.network/chart',
+      ),
+      interval: '30' as any,
+      library_path: '/charting_library/',
+      locale: getLanguageFromURL() || 'en',
+      disabled_features: [
+        'left_toolbar',
+        'header_compare',
+        'header_undo_redo',
+        'header_saveload',
+        'header_settings',
+        'header_screenshot',
+        'use_localstorage_for_settings',
+        'header_fullscreen_button',
+        'go_to_date',
+      ],
+      enabled_features: ['study_templates'],
+      charts_storage_url: 'https://saveload.tradingview.com',
+      charts_storage_api_version: '1.1',
+      client_id: 'tradingview.com',
+      user_id: 'public_user_id',
+      fullscreen: false,
+      autosize: true,
+      studies_overrides: {},
+      // Dark theme
+      theme: this.props.theme,
+      loading_screen:
+        this.props.theme === Theme.DARK
+          ? { backgroundColor: 'rgb(0, 0, 0)' }
+          : {},
+      overrides:
+        this.props.theme === Theme.DARK
+          ? {
+              'paneProperties.background': 'rgb(0, 0, 0)',
+            }
+          : {},
+      custom_css_url: '/charting_library/custom_css.css',
+    };
+
+    const tvWidget = new widget(widgetOptions);
+    this.tvWidget = tvWidget;
+
+    tvWidget.onChartReady(() => {
+      // tvWidget.headerReady().then(() => {
+      //   const button = tvWidget.createButton();
+      //   button.setAttribute('title', 'Click to show a notification popup');
+      //   button.classList.add('apply-common-tooltip');
+      //   button.addEventListener('click', () =>
+      //     tvWidget.showNoticeDialog({
+      //       title: 'Notification',
+      //       body: 'TradingView Charting Library API works correctly',
+      //       callback: () => {
+      //         console.log('Noticed!');
+      //       },
+      //     }),
+      //   );
+      //   button.innerHTML = 'Check API';
+      // });
+    });
+  }
+
+  public componentWillUnmount(): void {
+    if (this.tvWidget !== null) {
+      this.tvWidget.remove();
+      this.tvWidget = null;
+    }
+  }
+
+  public render(): JSX.Element {
+    return (
+      <div id={'trading-view-container'} className={'w-100 h-100 shadow'} />
+    );
+  }
+}
