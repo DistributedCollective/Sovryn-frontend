@@ -13,12 +13,9 @@ import { DrizzleProvider } from '../DrizzleProvider';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
-interface Props {}
-
-export function LendingPage(props: Props) {
+export function LendingPage() {
   const assets = AssetsDictionary.assetList();
   const drizzle = createDrizzleAssets(assets);
-
   return (
     <DrizzleProvider drizzle={drizzle}>
       <Header />

@@ -5,22 +5,23 @@
  */
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useCacheCall } from '../../../hooks/useCacheCall';
 import { fromWei } from 'web3-utils';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 interface Props {}
 
 export function LendingContractTest(props: Props) {
   // const { useCacheCall } = drizzleReactHooks.useDrizzle();
-  const owner = useCacheCall(
+  const { value: owner } = useCacheCallWithValue(
     'LoadContractRBTC',
     'owner',
   );
 
-  const interestRate = useCacheCall(
+  const { value: interestRate } = useCacheCallWithValue(
     'LoadContractRBTC',
     'profitOf',
-    '0x1BB2B1bEeDA1FB25Ee5da9CAE6c0F12CeD831128'
+    '0',
+    '0x1BB2B1bEeDA1FB25Ee5da9CAE6c0F12CeD831128',
   );
 
   console.log('owner: ', owner);

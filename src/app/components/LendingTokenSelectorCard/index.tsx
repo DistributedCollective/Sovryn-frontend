@@ -8,7 +8,9 @@ import { Button, InputGroup, Tag } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../../hooks/useTokenApproveForLending';
-import { useTokenAllowanceForLending } from '../../../hooks/useTokenAllowanceForLending';
+import {
+  useTokenAllowance,
+} from '../../../hooks/useTokenAllowanceForLending';
 import { bignumber } from 'mathjs';
 import { useLendTokens } from '../../../hooks/useLendTokens';
 import { TransactionStatus } from '../../../types/transaction-status';
@@ -17,6 +19,8 @@ import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
+import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
+import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {
   asset: Asset;
@@ -30,13 +34,17 @@ enum TxType {
 
 export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
+  const isConnected = useIsConnected();
 
   const [amount, setAmount] = useState(
     assetDetails.lendingLimits.min.toFixed(2),
   );
 
   const weiAmount = useWeiAmount(amount);
-  const allowance = useTokenAllowanceForLending(props.asset);
+  const { value: allowance } = useTokenAllowance(
+    props.asset,
+    getLendingContract(props.asset).address,
+  );
 
   const {
     approve,
@@ -165,7 +173,7 @@ export function LendingTokenSelectorCard(props: Props) {
           text={`Lend ${props.asset}`}
           type="submit"
           loading={txState.loading}
-          disabled={txState.loading}
+          disabled={txState.loading || !isConnected}
         />
         {txState.type !== TxType.NONE && (
           <SendTxProgress

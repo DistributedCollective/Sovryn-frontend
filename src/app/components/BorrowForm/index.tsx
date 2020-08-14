@@ -10,6 +10,7 @@ import { Button, InputGroup, Tag } from '@blueprintjs/core';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { SendTxProgress } from '../SendTxProgress';
 import { useApproveAndTrade } from '../../../hooks/borrow/useApproveAndTrade';
+import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {
   asset: Asset;
@@ -19,6 +20,9 @@ interface Props {
 }
 
 export function BorrowForm(props: Props) {
+
+  const isConnected = useIsConnected();
+
   const handleContractToken = useCallback(() => {
     if (props.position === TradingPosition.LONG) {
       return Asset.USD;
@@ -72,7 +76,7 @@ export function BorrowForm(props: Props) {
           type="button"
           onClick={() => trade()}
           loading={loading}
-          disabled={loading}
+          disabled={loading || !isConnected}
         />
         {type !== 'none' && (
           <SendTxProgress

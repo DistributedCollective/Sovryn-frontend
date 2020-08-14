@@ -21,7 +21,7 @@ export function useSendContractTx(contractName: string, methodName: string) {
   const [loading, setLoading] = useState(false);
   const [temp, setTemp] = useState<string>(null as any);
 
-  const contractMethod = drizzle.contracts[contractName].methods[methodName];
+  const contractMethod = drizzle?.contracts[contractName]?.methods[methodName];
 
   useEffect(() => {
     let txHash = transactionStack[stackID] || null;
@@ -57,7 +57,7 @@ export function useSendContractTx(contractName: string, methodName: string) {
   }, [stackID, transactionStack, transactions]);
 
   return {
-    send: (...args) => setStackID(contractMethod.cacheSend(...args)),
+    send: (...args) => setStackID(contractMethod?.cacheSend(...args)),
     txHash: tx,
     txData: response,
     status,

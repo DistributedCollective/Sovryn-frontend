@@ -5,7 +5,6 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
-import { useCacheCall } from '../../../hooks/useCacheCall';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
 import { fromWei } from 'web3-utils';
@@ -13,6 +12,7 @@ import { useAccount } from '../../../hooks/useAccount';
 import { Button, Tooltip } from '@blueprintjs/core';
 import { SendTxProgress } from '../SendTxProgress';
 import { useUnLendTokens } from '../../../hooks/useUnLendTokens';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 interface Props {
   asset: Asset;
@@ -20,9 +20,10 @@ interface Props {
 
 export function UnLendBalance(props: Props) {
   const owner = useAccount();
-  const balanceCall = useCacheCall(
+  const { value: balanceCall } = useCacheCallWithValue(
     getLendingContractName(props.asset),
     'assetBalanceOf',
+    '0',
     owner,
   );
 

@@ -1,4 +1,4 @@
-import { Drizzle, generateStore } from '@drizzle/store';
+import { Drizzle, generateStore, IDrizzleOptions } from '@drizzle/store';
 import { createWeb3 } from './web3';
 import { Asset } from '../../types/asset';
 import { AssetsDictionary } from './assets-dictionary';
@@ -26,18 +26,25 @@ export const createDrizzleAssets = (
     );
   });
 
-  const options = {
+  const drizzleOptions: IDrizzleOptions = {
     contracts,
+    syncAlways: true,
+    polls: {
+      blocks: 1000,
+      accounts: 300,
+    },
+    networkWhitelist: [30 /* rsk mainnet */, 31 /* rsk testnet */],
     web3: {
+      customProvider: web3,
       fallback: {
         type: 'ws',
-        url: process.env.REACT_APP_PUBLIC_NODE,
+        url: process.env.REACT_APP_PUBLIC_NODE as string,
       },
     },
   };
-  const drizzleStore = generateStore({ drizzleOptions: options as any });
+  const drizzleStore = generateStore({ drizzleOptions });
 
-  return new Drizzle(options as any, drizzleStore);
+  return new Drizzle(drizzleOptions, drizzleStore);
 };
 
 const buildContractData = (
