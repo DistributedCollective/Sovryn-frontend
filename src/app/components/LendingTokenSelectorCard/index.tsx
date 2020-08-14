@@ -4,7 +4,7 @@
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, InputGroup, Tag } from '@blueprintjs/core';
+import { InputGroup, Tag } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../../hooks/useTokenApproveForLending';
@@ -130,21 +130,21 @@ export function LendingTokenSelectorCard(props: Props) {
       onSubmit={handleSubmit}
     >
       <div className="d-flex flex-row justify-content-center">
-        <img src={assetDetails.logoSvg} className="w-25" alt={props.asset} />
+        <AssetLogo src={assetDetails.logoSvg} className="" alt={props.asset} />
       </div>
       <div className="row mt-3 d-flex align-items-center">
         <div className="col-6">
           <h2>{props.asset}</h2>
         </div>
         <div className="col-6 text-right">
-          <div className="text-muted">Interest APR:</div>
+          <div className="text-lightGrey">Interest APR:</div>
           <AssetInterestRate asset={props.asset} />
         </div>
       </div>
       <div className="row mt-5">
         <div className="col-6">
           <div>Enter deposit amount</div>
-          <div className="small text-muted">
+          <div className="small text-lightGrey">
             (min: {assetDetails.lendingLimits.min.toFixed(2)}, max:{' '}
             {assetDetails.lendingLimits.max.toFixed(2)})
           </div>
@@ -192,4 +192,6 @@ export function LendingTokenSelectorCard(props: Props) {
   );
 }
 
-const AssetLogo = styled.img``;
+const AssetLogo = styled.img`
+  height: 5rem;
+`;

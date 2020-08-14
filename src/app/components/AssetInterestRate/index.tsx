@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import { Tag, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { fromWei } from 'web3-utils';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types/asset';
@@ -34,7 +34,7 @@ export function AssetInterestRate(props: Props) {
     <Tooltip content={<>{interestRate.toFixed(18)}%</>}>
       <h2 className="d-flex flex-row">
         {interestRate.toFixed(4)}
-        <span className="text-muted">%</span>
+        <span className="text-lightGrey">%</span>
       </h2>
     </Tooltip>
   );

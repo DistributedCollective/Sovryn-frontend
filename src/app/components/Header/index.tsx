@@ -17,53 +17,48 @@ export function Header() {
             <img className="navbar-brand" src={logoSvg} alt="Logo" />
           </Link>
           <button
-            className="navbar-toggler navbar-dark "
+            className="navbar-toggler custom-toggler navbar-dark "
             type="button"
             data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            data-target="#navbar"
           >
-            <span className="navbar-toggler-icon color-customTeal"></span>
+            <span className="navbar-toggler-icon custom-toggler"></span>
           </button>
 
-          <div
-            className="collapse navbar-collapse w-100 "
-            id="navbarSupportedContent"
-          >
+          <div className="collapse navbar-collapse w-100 " id="navbar">
             <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
-              <NavItem className="nav-item list-group-item">
+              <NavItem className="nav-item list-group-item border-0">
                 <NavLink
-                  className="text-customTeal text-decoration-none nav-link"
+                  className="text-white text-decoration-none nav-link border-bottom"
+                  activeClassName="text-white"
                   to="/lend"
                 >
                   Lend
                 </NavLink>
               </NavItem>
-              <NavItem className="nav-item list-group-item">
-                <Link
+              <NavItem className="nav-item list-group-item border-0">
+                <NavLink
                   className="text-customTeal text-decoration-none nav-link"
                   to="/trade"
                 >
                   Trade
-                </Link>
+                </NavLink>
               </NavItem>
-              <NavItem className="nav-item list-group-item">
-                <Link
+              <NavItem className="nav-item list-group-item border-0">
+                <NavLink
                   className="text-customTeal text-decoration-none nav-link"
                   to="/stats"
                 >
                   Stats
-                </Link>
+                </NavLink>
               </NavItem>
-              <NavItem className="nav-item list-group-item">
-                <Link
+              <NavItem className="nav-item list-group-item border-0">
+                <NavLink
                   className="text-customTeal text-decoration-none nav-link"
                   to="/faq"
                 >
                   FAQ
-                </Link>
+                </NavLink>
               </NavItem>
             </ul>
           </div>
@@ -72,14 +67,6 @@ export function Header() {
     </header>
   );
 }
-
-const LogoImg = styled.img`
-  width: 20em;
-`;
-
-const NavItems = styled.ul`
-  background: none;
-`;
 
 const NavItem = styled.li`
   background: none;

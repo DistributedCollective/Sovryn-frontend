@@ -8,10 +8,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-family: 'Mulish', 'PT Sans', sans-serif;
+    font-size: 18px;
     background-color: #202020;
-    color: white
+
   }
 
   #root {
@@ -21,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
 
   p,
   label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
+    font-family: 'PT Sans', sans-serif;
     line-height: 1.5em;
   }
 

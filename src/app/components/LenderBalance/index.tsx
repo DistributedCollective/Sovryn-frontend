@@ -91,10 +91,10 @@ export function LenderBalance(props: Props) {
 
   if (balance.greaterThan(0)) {
     return (
-      <div className="mt-5 border-top pt-3">
-        <div className="border m-4 py-3 px-5">
+      <>
+        <div className="border mt-4 py-3 px-3">
           <div>
-            Balance{' '}
+            <span className="font-weight-bold">Balance</span>
             <Tooltip
               className="float-right"
               content={
@@ -104,12 +104,15 @@ export function LenderBalance(props: Props) {
               }
             >
               <>
-                {balance.toFixed(2)} {props.asset}
+                {balance.toFixed(2)}
+                <span className="text-lightGrey font-weight-light">
+                  {` ${props.asset}`}
+                </span>
               </>
             </Tooltip>
           </div>
           <div>
-            Profit{' '}
+            <span className="font-weight-bold">Profit</span>
             <Tooltip
               className="float-right"
               content={
@@ -119,13 +122,16 @@ export function LenderBalance(props: Props) {
               }
             >
               <>
-                {tickerProfit.toFixed(8)} {props.asset}
+                {tickerProfit.toFixed(8)}
+                <span className="text-lightGrey font-weight-light">
+                  {` ${props.asset}`}
+                </span>
               </>
             </Tooltip>
           </div>
         </div>
         <UnLendBalance asset={props.asset} />
-      </div>
+      </>
     );
   }
 

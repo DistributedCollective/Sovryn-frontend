@@ -10,7 +10,7 @@ import { getLendingContractName } from '../../../utils/blockchain/contract-helpe
 import { bignumber } from 'mathjs';
 import { fromWei } from 'web3-utils';
 import { useAccount } from '../../../hooks/useAccount';
-import { Button, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { SendTxProgress } from '../SendTxProgress';
 import { useUnLendTokens } from '../../../hooks/useUnLendTokens';
 
