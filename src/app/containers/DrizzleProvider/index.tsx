@@ -4,34 +4,50 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Drizzle } from '@drizzle/store';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
+import { useLocation } from 'react-router-dom';
+import { useDrizzle } from '../../../hooks/useDrizzle';
+import { isObjectEmpty } from '../../../utils/helpers';
 
 interface Props {
   drizzle: Drizzle | any;
   children: React.ReactNode;
-  drizzleError: React.ReactNode;
-  drizzleLoadingContractsAndAccounts: React.ReactNode;
-  drizzleLoadingWeb3: React.ReactNode;
 }
 
-export function DrizzleProvider(props: Props) {
+export function DrizzleProvider({ drizzle, children, ...rest }: Props) {
   return (
-    <drizzleReactHooks.DrizzleProvider drizzle={props.drizzle}>
-      <drizzleReactHooks.Initializer
-        error={props.drizzleError}
-        loadingContractsAndAccounts={props.drizzleLoadingContractsAndAccounts}
-        loadingWeb3={props.drizzleLoadingWeb3}
-      >
-        {props.children}
-      </drizzleReactHooks.Initializer>
+    <drizzleReactHooks.DrizzleProvider drizzle={drizzle}>
+      <Initializer drizzle={drizzle} {...rest}>
+        {children}
+      </Initializer>
     </drizzleReactHooks.DrizzleProvider>
   );
 }
 
-DrizzleProvider.defaultProps = {
-  drizzleError: <>There was an error connecting to blockchain node.</>,
-  drizzleLoadingContractsAndAccounts: <>Loading contracts and accounts.</>,
-  drizzleLoadingWeb3: <>Loading web3.</>,
-};
+/**
+ * This fixes issue that caused drizzle to not initialize when moving between pages using react router.
+ * Drizzle wasn't able to find that injected web3 is loaded.
+ * @param props
+ * @constructor
+ */
+function Initializer(props: Props) {
+  const drizzle = useDrizzle();
+  const state = drizzleReactHooks.useDrizzleState(a => a);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (state.web3.status === '' && isObjectEmpty(drizzle.web3)) {
+      drizzle.store.dispatch({
+        type: 'DRIZZLE_INITIALIZING',
+        drizzle: drizzle,
+        options: drizzle.options,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location /*, drizzle.web3, state.web3.status, state.web3, drizzle*/]);
+
+  return <>{props.children}</>;
+}

@@ -10,6 +10,7 @@ import { InputGroup, Tag } from '@blueprintjs/core';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { SendTxProgress } from '../SendTxProgress';
 import { useApproveAndTrade } from '../../../hooks/borrow/useApproveAndTrade';
+import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {
   asset: Asset;
@@ -19,6 +20,9 @@ interface Props {
 }
 
 export function BorrowForm(props: Props) {
+
+  const isConnected = useIsConnected();
+
   const handleContractToken = useCallback(() => {
     if (props.position === TradingPosition.LONG) {
       return Asset.USD;
@@ -67,7 +71,7 @@ export function BorrowForm(props: Props) {
       </div>
       <div className="text-center w-100 mt-4">
         {/* <Button
-          className="mr-3 flex-shrink-0 flex-grow-0 bg-customTeal bg-image-none text-white font-weight-bold" 
+          className="mr-3 flex-shrink-0 flex-grow-0 bg-customTeal bg-image-none text-white font-weight-bold"
           text={`Buy`}
           type="button"
           onClick={() => trade()}
@@ -76,7 +80,7 @@ export function BorrowForm(props: Props) {
         /> */}
         <button
           className="btn btn-customTeal text-white font-weight-bold my-3 w-25"
-          disabled={loading}
+          disabled={loading || !isConnected}
           onClick={() => trade()}
         >
           Buy

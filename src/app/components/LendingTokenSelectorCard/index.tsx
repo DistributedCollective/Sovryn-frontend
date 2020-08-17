@@ -6,9 +6,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { InputGroup, Tag } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
+import styled from 'styled-components';
 import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../../hooks/useTokenApproveForLending';
-import { useTokenAllowanceForLending } from '../../../hooks/useTokenAllowanceForLending';
+import { useTokenAllowance } from '../../../hooks/useTokenAllowanceForLending';
 import { bignumber } from 'mathjs';
 import { useLendTokens } from '../../../hooks/useLendTokens';
 import { TransactionStatus } from '../../../types/transaction-status';
@@ -17,7 +18,8 @@ import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
-import styled from 'styled-components';
+import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
+import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {
   asset: Asset;
@@ -31,13 +33,17 @@ enum TxType {
 
 export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
+  const isConnected = useIsConnected();
 
   const [amount, setAmount] = useState(
     assetDetails.lendingLimits.min.toFixed(2),
   );
 
   const weiAmount = useWeiAmount(amount);
-  const allowance = useTokenAllowanceForLending(props.asset);
+  const { value: allowance } = useTokenAllowance(
+    props.asset,
+    getLendingContract(props.asset).address,
+  );
 
   const {
     approve,
@@ -131,7 +137,7 @@ export function LendingTokenSelectorCard(props: Props) {
       onSubmit={handleSubmit}
     >
       <div className="d-flex flex-row justify-content-center">
-        <AssetLogo src={assetDetails.logoSvg} className="" alt={props.asset} />
+        <AssetLogo src={assetDetails.logoSvg} alt={props.asset} />
       </div>
       <div className="row mt-3 d-flex align-items-center">
         <div className="col-6">
@@ -175,7 +181,7 @@ export function LendingTokenSelectorCard(props: Props) {
           <button
             className="btn btn-customOrange text-white font-weight-bold"
             type="submit"
-            disabled={txState.loading}
+            disabled={txState.loading || !isConnected}
           >
             {`Lend ${props.asset}`}
           </button>

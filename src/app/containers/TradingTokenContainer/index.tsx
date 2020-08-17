@@ -4,12 +4,12 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React from 'react';
+import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
+import { createDrizzleAssets } from 'utils/blockchain/createDrizzle';
+import { TradingToken } from 'app/components/TradingToken';
+import { Asset } from 'types/asset';
 import { DrizzleProvider } from '../DrizzleProvider';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-import { createDrizzleAssets } from '../../../utils/blockchain/createDrizzle';
-import { TradingToken } from '../../components/TradingToken';
-import { Asset } from '../../../types/asset';
 
 interface Props {
   asset: Asset;
@@ -17,19 +17,10 @@ interface Props {
 
 export function TradingTokenContainer(props: Props) {
   const assets = AssetsDictionary.assetList();
-  const drizzle = useRef(createDrizzleAssets(assets));
+  const drizzle = createDrizzleAssets(assets);
   return (
-    <DrizzleProvider
-      drizzle={drizzle.current}
-      drizzleError={<RenderLoader />}
-      drizzleLoadingContractsAndAccounts={<RenderLoader />}
-      drizzleLoadingWeb3={<RenderLoader />}
-    >
+    <DrizzleProvider drizzle={drizzle}>
       <TradingToken asset={props.asset} />
     </DrizzleProvider>
   );
-}
-
-function RenderLoader() {
-  return <div className="w-100 h-100 bp3-skeleton" />;
 }

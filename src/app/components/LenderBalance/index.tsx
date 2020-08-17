@@ -6,12 +6,12 @@
 import React, { useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { useCacheCall } from '../../../hooks/useCacheCall';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../../hooks/useAccount';
 import { fromWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
 import { UnLendBalance } from '../UnLendBalance';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 interface Props {
   asset: Asset;
@@ -21,22 +21,29 @@ export function LenderBalance(props: Props) {
   const lendingContractName = getLendingContractName(props.asset);
 
   const owner = useAccount();
-  const balanceCall = useCacheCall(
+  const { value: balanceCall } = useCacheCallWithValue(
     lendingContractName,
     'assetBalanceOf',
+    '0',
     owner,
   );
 
-  const tokenPrice = useCacheCall(lendingContractName, 'tokenPrice');
-  const checkpointPrice = useCacheCall(
+  const { value: tokenPrice } = useCacheCallWithValue(
+    lendingContractName,
+    'tokenPrice',
+    '0',
+  );
+  const { value: checkpointPrice } = useCacheCallWithValue(
     lendingContractName,
     'checkpointPrice',
+    '0',
     owner,
   );
 
-  const interestCall = useCacheCall(
+  const { value: interestCall } = useCacheCallWithValue(
     lendingContractName,
     'nextSupplyInterestRate',
+    '0',
     1000, // todo: why 1000?
   );
 

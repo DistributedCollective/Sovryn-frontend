@@ -19,7 +19,7 @@ enum Theme {
 
 export interface ChartContainerProps {
   asset: Asset;
-  theme: 'Dark';
+  theme: Theme;
 }
 
 export interface ChartContainerState {}
@@ -78,15 +78,15 @@ export class TradingViewChart extends React.PureComponent<
         this.props.theme === Theme.DARK
           ? { backgroundColor: 'rgb(0, 0, 0)' }
           : { backgroundColor: 'rgb(256, 256, 256)' },
-         overrides: {
-          "paneProperties.background": "#131722",
-          "paneProperties.vertGridProperties.color": "#363c4e",
-          "paneProperties.horzGridProperties.color": "#363c4e",
-          "symbolWatermarkProperties.transparency": 90,
-          "scalesProperties.textColor" : "#AAA",
-          "mainSeriesProperties.candleStyle.wickUpColor": '#336854',
-          "mainSeriesProperties.candleStyle.wickDownColor": '#7f323f',
-         },
+      overrides: {
+        'paneProperties.background': '#131722',
+        'paneProperties.vertGridProperties.color': '#363c4e',
+        'paneProperties.horzGridProperties.color': '#363c4e',
+        'symbolWatermarkProperties.transparency': 90,
+        'scalesProperties.textColor': '#AAA',
+        'mainSeriesProperties.candleStyle.wickUpColor': '#336854',
+        'mainSeriesProperties.candleStyle.wickDownColor': '#7f323f',
+      },
       //custom_css_url: '/charting_library/custom_css.css',
     };
 
@@ -94,21 +94,21 @@ export class TradingViewChart extends React.PureComponent<
     this.tvWidget = tvWidget;
 
     tvWidget.onChartReady(() => {
-      tvWidget.headerReady().then(() => {
-        const button = tvWidget.createButton();
-        button.setAttribute('title', 'Click to show a notification popup');
-        button.classList.add('apply-common-tooltip');
-        button.addEventListener('click', () =>
-          tvWidget.showNoticeDialog({
-            title: 'Notification',
-            body: 'TradingView Charting Library API works correctly',
-            callback: () => {
-              console.log('Noticed!');
-            },
-          }),
-        );
-        button.innerHTML = 'Check API';
-      });
+      // tvWidget.headerReady().then(() => {
+      //   const button = tvWidget.createButton();
+      //   button.setAttribute('title', 'Click to show a notification popup');
+      //   button.classList.add('apply-common-tooltip');
+      //   button.addEventListener('click', () =>
+      //     tvWidget.showNoticeDialog({
+      //       title: 'Notification',
+      //       body: 'TradingView Charting Library API works correctly',
+      //       callback: () => {
+      //         console.log('Noticed!');
+      //       },
+      //     }),
+      //   );
+      //   button.innerHTML = 'Check API';
+      // });
     });
   }
 

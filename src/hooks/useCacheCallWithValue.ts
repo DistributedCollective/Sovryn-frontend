@@ -1,4 +1,4 @@
-import { useBetterCacheCall } from './useBetterCacheCall';
+import { useCacheCall } from './useCacheCall';
 import { useEffect, useState } from 'react';
 
 export function useCacheCallWithValue(
@@ -7,7 +7,7 @@ export function useCacheCallWithValue(
   defaultValue: string = '0',
   ...args: any
 ) {
-  const { value, loading, error } = useBetterCacheCall(
+  const { value, loading, error } = useCacheCall(
     contractName,
     methodName,
     ...args,

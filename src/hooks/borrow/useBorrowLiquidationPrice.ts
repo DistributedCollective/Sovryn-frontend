@@ -15,7 +15,10 @@ export function useBorrowLiquidationPrice(
   const loading = false;
 
   const calculatePriceMovement = useCallback(() => {
-    return bignumber(1).div(leverage).minus(maintenanceMargin);
+    return bignumber(1)
+      .div(leverage)
+      .minus(maintenanceMargin)
+      .toDecimalPlaces(18);
   }, [leverage, maintenanceMargin]);
 
   const [maxPriceMovement, setMaxPriceMovement] = useState(

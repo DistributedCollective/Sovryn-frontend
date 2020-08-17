@@ -1,16 +1,33 @@
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
-/**
- * @deprecated use useCacheCallWithValue instead.
- * @param contractNameOrNames
- * @param methodNameOrFunction
- * @param args
- */
+interface CacheCallResponse {
+  value: string | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export function useCacheCall(
-  contractNameOrNames: string | string[],
-  methodNameOrFunction: string,
+  contractName: string,
+  methodName: string,
   ...args: any
-) {
-  const { useCacheCall } = drizzleReactHooks.useDrizzle();
-  return useCacheCall(contractNameOrNames, methodNameOrFunction, ...args);
+): CacheCallResponse {
+  const { drizzle } = drizzleReactHooks.useDrizzle();
+  return drizzleReactHooks.useDrizzleState(drizzleState => {
+    try {
+      const instance = drizzle.contracts[contractName];
+      const cacheKey = instance.methods[methodName].cacheCall(...args);
+      const cache = drizzleState.contracts[contractName][methodName][cacheKey];
+      return {
+        value: (cache && cache.value) || null,
+        loading: !cache,
+        error: (cache && cache.error) || null,
+      };
+    } catch (e) {
+      return {
+        value: null,
+        loading: false,
+        error: e.message,
+      };
+    }
+  }, args);
 }

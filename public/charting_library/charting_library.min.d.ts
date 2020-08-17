@@ -154,7 +154,7 @@ export declare type SupportedLineTools = 'text' | 'anchored_text' | 'note' | 'an
 export declare type SymbolType = 'stock' | 'index' | 'forex' | 'futures' | 'bitcoin' | 'crypto' | 'undefined' | 'expression' | 'spread' | 'cfd';
 export declare type TableElementFormatFunction = (inputs: TableFormatterInputs) => string | JQuery;
 export declare type TextInputFieldValidator = (value: string) => InputFieldValidatorResult;
-export declare type ThemeName = 'Dark' | 'Light';
+export declare type ThemeName = 'Light' | 'Dark';
 export declare type Timezone = 'Etc/UTC' | CustomTimezones;
 export declare type TradingDialogCustomField = TextWithCheckboxFieldMetaInfo | CustomComboBoxMetaInfo;
 export declare type WatchListSymbolListAddedCallback = (listId: string, symbols: string[]) => void;

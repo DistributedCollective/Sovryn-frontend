@@ -5,15 +5,15 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
-import { useParams } from 'react-router-dom';
 import { TradingTokenContainer } from '../TradingTokenContainer';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   location: any;
