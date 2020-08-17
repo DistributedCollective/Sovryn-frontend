@@ -13,7 +13,9 @@ import { DrizzleProvider } from '../DrizzleProvider';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
-interface Props {}
+interface Props {
+  location: any;
+}
 
 export function LendingPage(props: Props) {
   const assets = AssetsDictionary.assetList();
@@ -21,7 +23,7 @@ export function LendingPage(props: Props) {
 
   return (
     <DrizzleProvider drizzle={drizzle}>
-      <Header />
+      <Header location={props.location.pathname} />
       <div className="container py-5">
         <div className="d-flex row justify-content-center align-items-top">
           {assets.map(asset => (

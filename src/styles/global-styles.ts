@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Mulish', 'PT Sans', sans-serif;
     font-size: 18px;
     background-color: #202020;
-
+    color: white;
   }
 
   #root {

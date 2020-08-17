@@ -16,6 +16,7 @@ import { AssetInterestRate } from '../AssetInterestRate';
 import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import styled from 'styled-components';
 
 interface Props {
@@ -35,6 +36,7 @@ export function LendingTokenSelectorCard(props: Props) {
     assetDetails.lendingLimits.min.toFixed(2),
   );
 
+  const weiAmount = useWeiAmount(amount);
   const allowance = useTokenAllowanceForLending(props.asset);
 
   const {
@@ -73,17 +75,16 @@ export function LendingTokenSelectorCard(props: Props) {
   };
 
   const handleTx = useCallback(() => {
-    const weiAmount = toWei(amount, 'ether');
     if (bignumber(weiAmount).greaterThan(allowance)) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleLending(weiAmount);
     }
-  }, [allowance, amount, handleApprove, handleLending]);
+  }, [allowance, weiAmount, handleApprove, handleLending]);
 
   useEffect(() => {
     if (approveStatus === TransactionStatus.SUCCESS) {
-      handleLending(toWei(amount, 'ether'));
+      handleLending(weiAmount);
     }
     // eslint-disable-next-line
   }, [approveStatus]);
@@ -138,7 +139,7 @@ export function LendingTokenSelectorCard(props: Props) {
         </div>
         <div className="col-6 text-right">
           <div className="text-lightGrey">Interest APR:</div>
-          <AssetInterestRate asset={props.asset} />
+          <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
         </div>
       </div>
       <div className="row mt-5">
@@ -184,6 +185,7 @@ export function LendingTokenSelectorCard(props: Props) {
             status={txState.status}
             txHash={txState.txHash}
             loading={txState.loading}
+            type={txState.type}
           />
         )}
       </div>

@@ -18,3 +18,16 @@ export function useTokenApproveForLending(asset: Asset) {
     ...rest,
   };
 }
+
+export function useTokenApprove(tokenAsset: Asset, spenderAddress: string) {
+  const account = useAccount();
+  const { send, ...rest } = useSendContractTx(
+    getTokenContractName(tokenAsset),
+    'approve',
+  );
+  return {
+    approve: (weiAmount: string) =>
+      send(spenderAddress, weiAmount, { from: account }),
+    ...rest,
+  };
+}

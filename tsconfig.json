@@ -18,9 +18,5 @@
     "baseUrl": "./src"
   },
   "include": ["src"],
-  "linterOptions": {
-    "exclude": [
-      "src/charting_library"
-    ]
-  }
+  "exclude": ["src/libs/charting_library"]
 }
