@@ -13,14 +13,3 @@ export function useTokenAllowance(tokenAsset: Asset, spenderAddress: string) {
     spenderAddress,
   );
 }
-
-export function useTokenAllowance(tokenAsset: Asset, spenderAddress: string) {
-  const owner = useAccount();
-  return useCacheCallWithValue(
-    getTokenContractName(tokenAsset),
-    'allowance',
-    '0',
-    /* owner */ owner,
-    spenderAddress,
-  );
-}

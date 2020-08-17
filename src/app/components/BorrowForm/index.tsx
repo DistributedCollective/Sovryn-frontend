@@ -20,7 +20,6 @@ interface Props {
 }
 
 export function BorrowForm(props: Props) {
-
   const isConnected = useIsConnected();
 
   const handleContractToken = useCallback(() => {
