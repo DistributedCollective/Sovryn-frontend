@@ -15,6 +15,7 @@ import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
 import { TradingTokenContainer } from '../TradingTokenContainer';
 import { ActiveUserLoans } from '../../components/ActiveUserLoans';
+import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {
   location: any;
@@ -22,6 +23,7 @@ interface Props {
 
 export function TradePage(props: Props) {
   const params = useParams<{ asset: string }>();
+  const isConnected = useIsConnected();
 
   const handleAssetParam = useCallback(() => {
     if (!params.asset) {
@@ -66,11 +68,13 @@ export function TradePage(props: Props) {
               <TradingViewChart asset={asset} />
             </div>
           </div>
-          <div className="row mt-4">
-            <div className="col-12">
-              <ActiveUserLoans />
+          {isConnected && (
+            <div className="row mt-4">
+              <div className="col-12">
+                <ActiveUserLoans />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
       <Footer />

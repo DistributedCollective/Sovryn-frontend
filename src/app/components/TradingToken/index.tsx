@@ -11,7 +11,7 @@ import { TradingPositionSelector } from '../TradingPositionSelector';
 import { BorrowInterestRate } from '../BorrowInterestRate';
 import { BorrowAssetPrice } from '../BorrowAssetPrice';
 import { BorrowLiquidationPrice } from '../BorrowLiquidationPrice';
-import { BorrowForm } from '../BorrowForm';
+import { TradeDialog } from '../TradeDialog';
 
 interface Props {
   asset: Asset;
@@ -22,6 +22,8 @@ export function TradingToken(props: Props) {
   const [position, setPosition] = useState(TradingPosition.LONG);
 
   const [amount, setAmount] = useState('0');
+
+  const [openTrade, setOpenTrade] = useState(false);
 
   return (
     <div className="bg-secondary p-3 h-100 mr-0">
@@ -53,11 +55,21 @@ export function TradingToken(props: Props) {
 
       <BorrowInterestRate asset={props.asset} weiAmount={amount} />
 
-      <BorrowForm
-        asset={props.asset}
-        position={position}
+      <button
+        className="btn btn-customTeal text-white font-weight-bold my-3 w-25"
+        onClick={() => setOpenTrade(true)}
+      >
+        Buy
+      </button>
+
+      <TradeDialog
+        loanId={'0'}
         leverage={leverage}
-        onChange={value => setAmount(value)}
+        position={position}
+        asset={props.asset}
+        onChangeAmount={value => setAmount(value)}
+        onClose={() => setOpenTrade(false)}
+        isOpen={openTrade}
       />
     </div>
   );

@@ -1,7 +1,8 @@
 import { bignumber } from 'mathjs';
 import { fromWei } from 'web3-utils';
 
-export const weiToBn = (amount: any) => bignumber(fromWei(amount, 'ether'));
+export const weiToBn = (amount: any) =>
+  bignumber(fromWei(String(amount || '0'), 'ether'));
 
 export const weiToFixed = (amount: any, decimals: number = 0) =>
   weiToBn(amount).toFixed(decimals);

@@ -38,8 +38,8 @@ export const createDrizzleAssets = (
     contracts,
     syncAlways: true,
     polls: {
-      blocks: 1000,
-      accounts: 300,
+      blocks: 10000,
+      accounts: 10000,
     },
     networkWhitelist: [30 /* rsk mainnet */, 31 /* rsk testnet */],
     web3: {

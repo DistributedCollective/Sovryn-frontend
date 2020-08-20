@@ -1,9 +1,10 @@
+@import '_custom-variables.scss';
+
 //@import "~sanitize.css/sanitize.css";
 @import "~normalize.css";
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
-@import '~@blueprintjs/core/lib/css/blueprint.css';
-
-@import '_custom-variables.scss';
+@import '~@blueprintjs/core/src/blueprint';
+@import '~@blueprintjs/select/lib/css/blueprint-select.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "~bootstrap/scss/bootstrap";

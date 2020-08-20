@@ -19,6 +19,11 @@ interface Props {
   onChange: (weiAmount: string) => void;
 }
 
+/**
+ * @deprecated Used TradeDialog instead.
+ * @param props
+ * @constructor
+ */
 export function BorrowForm(props: Props) {
   const isConnected = useIsConnected();
 

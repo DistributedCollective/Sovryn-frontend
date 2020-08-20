@@ -19,7 +19,7 @@ export function useCacheCallWithValue(
 
   useEffect(() => {
     setFixedValue(value !== null ? value : defaultValue);
-  }, [defaultValue, value]);
+  }, [value, defaultValue]);
 
   return { value: fixedValue, loading, error };
 }
