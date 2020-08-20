@@ -12,10 +12,11 @@ export function useCacheCall(
   ...args: any
 ): CacheCallResponse {
   const { drizzle } = drizzleReactHooks.useDrizzle();
+
   return drizzleReactHooks.useDrizzleState(drizzleState => {
     try {
-      const instance = drizzle.contracts[contractName];
-      const cacheKey = instance.methods[methodName].cacheCall(...args);
+      const instance = drizzle?.contracts[contractName];
+      const cacheKey = instance?.methods[methodName].cacheCall(...args);
       const cache = drizzleState.contracts[contractName][methodName][cacheKey];
       return {
         value: (cache && cache.value) || null,

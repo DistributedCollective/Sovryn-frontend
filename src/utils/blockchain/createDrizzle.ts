@@ -3,6 +3,7 @@ import { createWeb3 } from './web3';
 import { Asset } from '../../types/asset';
 import { AssetsDictionary } from './assets-dictionary';
 import Web3 from 'web3';
+import { appContracts } from './app-contracts';
 
 export const createDrizzleAssets = (
   assets: Array<Asset>,
@@ -23,6 +24,13 @@ export const createDrizzleAssets = (
         item.getLendingContractName(),
         item.lendingContract,
       ),
+    );
+  });
+
+  Object.keys(appContracts).forEach(key => {
+    const item = appContracts[key];
+    contracts.push(
+      buildContractData(web3, key, { address: item.address, abi: item.abi }),
     );
   });
 

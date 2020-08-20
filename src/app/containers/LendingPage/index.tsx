@@ -7,9 +7,7 @@
 import React from 'react';
 import { LendingTokenSelectorCard } from 'app/components/LendingTokenSelectorCard';
 import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
-import { createDrizzleAssets } from 'utils/blockchain/createDrizzle';
 
-import { DrizzleProvider } from '../DrizzleProvider';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
@@ -19,10 +17,8 @@ interface Props {
 
 export function LendingPage(props: Props) {
   const assets = AssetsDictionary.assetList();
-  const drizzle = createDrizzleAssets(assets);
-
   return (
-    <DrizzleProvider drizzle={drizzle}>
+    <>
       <Header location={props.location.pathname} />
       <div className="container py-5">
         <div className="d-flex row justify-content-center align-items-top">
@@ -36,6 +32,6 @@ export function LendingPage(props: Props) {
         </div>
       </div>
       <Footer />
-    </DrizzleProvider>
+    </>
   );
 }

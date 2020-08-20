@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export function useCacheCallWithValue(
   contractName: string,
   methodName: string,
-  defaultValue: string = '0',
+  defaultValue: string | any = '0',
   ...args: any
 ) {
   const { value, loading, error } = useCacheCall(

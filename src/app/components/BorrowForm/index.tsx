@@ -9,7 +9,7 @@ import { TradingPosition } from '../../../types/trading-position';
 import { InputGroup, Tag } from '@blueprintjs/core';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { SendTxProgress } from '../SendTxProgress';
-import { useApproveAndTrade } from '../../../hooks/borrow/useApproveAndTrade';
+import { useApproveAndTrade } from '../../../hooks/trading/useApproveAndTrade';
 import { useIsConnected } from '../../../hooks/useAccount';
 
 interface Props {

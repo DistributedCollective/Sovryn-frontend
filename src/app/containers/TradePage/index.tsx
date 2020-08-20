@@ -14,6 +14,7 @@ import { Footer } from '../../components/Footer';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
 import { TradingTokenContainer } from '../TradingTokenContainer';
+import { ActiveUserLoans } from '../../components/ActiveUserLoans';
 
 interface Props {
   location: any;
@@ -63,6 +64,11 @@ export function TradePage(props: Props) {
               style={{ minHeight: 400 }}
             >
               <TradingViewChart asset={asset} />
+            </div>
+          </div>
+          <div className="row mt-4">
+            <div className="col-12">
+              <ActiveUserLoans />
             </div>
           </div>
         </div>

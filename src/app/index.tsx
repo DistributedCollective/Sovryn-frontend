@@ -16,20 +16,26 @@ import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { LendingPage } from './containers/LendingPage/Loadable';
 import { TradePage } from './containers/TradePage/Loadable';
+import { AssetsDictionary } from '../utils/blockchain/assets-dictionary';
+import { createDrizzleAssets } from '../utils/blockchain/createDrizzle';
+import { DrizzleProvider } from './containers/DrizzleProvider';
 
 export function App() {
+  const assets = AssetsDictionary.assetList();
+  const drizzle = createDrizzleAssets(assets);
   return (
     <BrowserRouter>
       <Helmet titleTemplate="%s - Sovryn" defaultTitle="Sovryn">
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/lend" component={LendingPage} />
-        <Route exact path="/trade/:asset?" component={TradePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <DrizzleProvider drizzle={drizzle}>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/lend" component={LendingPage} />
+          <Route exact path="/trade/:asset?" component={TradePage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </DrizzleProvider>
       <GlobalStyle />
     </BrowserRouter>
   );

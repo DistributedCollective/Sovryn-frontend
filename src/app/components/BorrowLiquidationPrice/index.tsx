@@ -7,9 +7,9 @@ import React from 'react';
 import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import { TradingPosition } from 'types/trading-position';
-import { useBorrowAssetPrice } from 'hooks/borrow/useBorrowAssetPrice';
+import { useBorrowAssetPrice } from 'hooks/trading/useBorrowAssetPrice';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useBorrowLiquidationPrice } from 'hooks/borrow/useBorrowLiquidationPrice';
+import { useBorrowLiquidationPrice } from 'hooks/trading/useBorrowLiquidationPrice';
 import { LoadableValue } from '../LoadableValue';
 
 interface Props {
