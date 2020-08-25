@@ -16,6 +16,7 @@ interface Props {
   value: Nullable<any>;
   items: Array<SelectItem>;
   loading: boolean;
+  filterable: boolean;
   placeholder: string;
   onChange: (customer: SelectItem) => void;
 }
@@ -48,6 +49,7 @@ export function FormSelect(props: Props) {
           }
         />
       }
+      filterable={props.filterable}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
       onItemSelect={onItemSelect}
@@ -64,6 +66,7 @@ export function FormSelect(props: Props) {
 
 FormSelect.defaultProps = {
   loading: false,
+  filterable: true,
   placeholder: '(No Selection)',
 };
 

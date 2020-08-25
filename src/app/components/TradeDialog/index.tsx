@@ -91,18 +91,23 @@ export function TradeDialog(props: Props) {
           />
         </div>
 
-        <InputGroup
-          className="mb-3"
-          value={amount}
-          onChange={handleAmountChange}
-          rightElement={
+        <div className="d-flex flex-row justify-content-between">
+          <div className="flex-grow-1 mr-3">
+            <InputGroup
+              className="mb-3"
+              value={amount}
+              onChange={handleAmountChange}
+            />
+          </div>
+          <div>
             <FormSelect
+              filterable={false}
               items={colaratedAssets}
               onChange={item => setSelected(item.key)}
               value={selected}
             />
-          }
-        />
+          </div>
+        </div>
 
         <BorrowInterestRate asset={props.asset} weiAmount={weiAmount} />
 
@@ -125,9 +130,9 @@ export function TradeDialog(props: Props) {
         )}
 
         <div className="d-flex flex-row justify-content-end align-items-center">
-          <a href="#" onClick={handleCloseClick}>
+          <button className="btn btn-link ml-3 mt-0" onClick={handleCloseClick}>
             Cancel
-          </a>
+          </button>
           <button
             className="btn btn-primary ml-3 mt-0"
             disabled={loading || !isConnected}

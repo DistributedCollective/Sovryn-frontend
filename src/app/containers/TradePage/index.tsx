@@ -62,7 +62,7 @@ export function TradePage(props: Props) {
               <TradingTokenContainer asset={asset} />
             </div>
             <div
-              className="col-md-12 col-lg-8 order-first order-md-last mb-2"
+              className="col-md-12 col-lg-8 order-first order-lg-last mb-2"
               style={{ minHeight: 400 }}
             >
               <TradingViewChart asset={asset} />

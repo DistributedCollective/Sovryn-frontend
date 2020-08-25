@@ -20,6 +20,8 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../../hooks/useAccount';
+import { useMaxDepositAmount } from '../../../hooks/lending/useMaxDepositAmount';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -131,6 +133,11 @@ export function LendingTokenSelectorCard(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lendLoading, lendTx, lendStatus]);
 
+  const { value: maxAmount, loading: maxLoading } = useMaxDepositAmount(
+    props.asset,
+    weiAmount,
+  );
+
   return (
     <form
       className="d-block p-5 bg-secondary text-white shadow"
@@ -152,8 +159,11 @@ export function LendingTokenSelectorCard(props: Props) {
         <div className="col-6">
           <div>Enter deposit amount</div>
           <div className="small text-lightGrey">
-            (min: {assetDetails.lendingLimits.min.toFixed(2)}, max:{' '}
-            {assetDetails.lendingLimits.max.toFixed(2)})
+            (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
+            <span className={maxLoading ? 'bp3-skeleton' : ''}>
+              {weiTo4(maxAmount)}
+            </span>
+            )
           </div>
         </div>
         <div className="col-6">
