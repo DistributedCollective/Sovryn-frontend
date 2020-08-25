@@ -3,7 +3,18 @@ import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useDrizzle } from './useDrizzle';
 import { TransactionStatus } from '../types/transaction-status';
 
-export function useSendContractTx(contractName: string, methodName: string) {
+export interface SendTxResponseInterface {
+  send: (...args: any) => void;
+  txHash: string;
+  txData: any;
+  status: TransactionStatus;
+  loading: boolean;
+}
+
+export function useSendContractTx(
+  contractName: string,
+  methodName: string,
+): SendTxResponseInterface {
   const drizzle = useDrizzle();
   const { transactionStack, transactions } = drizzleReactHooks.useDrizzleState(
     drizzleState => ({

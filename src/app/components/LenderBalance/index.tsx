@@ -111,7 +111,7 @@ export function LenderBalance(props: Props) {
               }
             >
               <>
-                {balance.toFixed(2)}
+                {balance.toFixed(4)}
                 <span className="text-lightGrey font-weight-light">
                   {` ${props.asset}`}
                 </span>

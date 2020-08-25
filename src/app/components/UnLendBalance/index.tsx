@@ -3,66 +3,30 @@
  * UnLendBalance
  *
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Asset } from '../../../types/asset';
-import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
-import { bignumber } from 'mathjs';
-import { fromWei } from 'web3-utils';
-import { useAccount } from '../../../hooks/useAccount';
-import { Tooltip } from '@blueprintjs/core';
-import { SendTxProgress } from '../SendTxProgress';
-import { useUnLendTokens } from '../../../hooks/useUnLendTokens';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { WithdrawLentAmount } from '../../containers/WithdrawLentAmount/Loadable';
 
 interface Props {
   asset: Asset;
 }
 
 export function UnLendBalance(props: Props) {
-  const owner = useAccount();
-  const { value: balanceCall } = useCacheCallWithValue(
-    getLendingContractName(props.asset),
-    'assetBalanceOf',
-    '0',
-    owner,
-  );
-
-  useEffect(() => {
-    if (balanceCall !== undefined) {
-      setBalance(bignumber(fromWei(balanceCall)));
-    }
-  }, [balanceCall]);
-
-  const [balance, setBalance] = useState(bignumber(0));
-
-  const { unLend, loading, txHash, status } = useUnLendTokens(props.asset);
-
-  const handleUnLendClick = useCallback(() => {
-    unLend(balanceCall);
-  }, [unLend, balanceCall]);
-
+  const [isOpen, setOpen] = useState(false);
   return (
     <div className="mt-3 d-flex flex-row justify-content-center align-items-center text-center overflow-hidden">
-      <Tooltip content={`Withdraw all lended balance`} className="w-100">
-        {/*<Button
-          className="mr-3 flex-shrink-0 flex-grow-0"
-          onClick={handleUnLendClick}
-          text={`UnLend ${props.asset}`}
-          type="button"
-          loading={loading}
-          disabled={loading && balance.greaterThan(0)}
-        />*/}
-        <div className="text-center">
-          <button
-            className="btn btn-customOrange text-white font-weight-bold"
-            onClick={handleUnLendClick}
-            disabled={loading && balance.greaterThan(0)}
-          >
-            {`UnLend ${props.asset}`}
-          </button>
-        </div>
-      </Tooltip>
-      <SendTxProgress status={status} txHash={txHash} loading={loading} />
+      <button
+        type="button"
+        className="btn btn-customOrange text-white font-weight-bold"
+        onClick={() => setOpen(true)}
+      >
+        {`Withdraw ${props.asset}`}
+      </button>
+      <WithdrawLentAmount
+        asset={props.asset}
+        isOpen={isOpen}
+        onClose={() => setOpen(false)}
+      />
     </div>
   );
 }

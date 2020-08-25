@@ -38,7 +38,7 @@ export function LendingTokenSelectorCard(props: Props) {
   const isConnected = useIsConnected();
 
   const [amount, setAmount] = useState(
-    assetDetails.lendingLimits.min.toFixed(2),
+    assetDetails.lendingLimits.min.toFixed(4),
   );
 
   const weiAmount = useWeiAmount(amount);
@@ -170,8 +170,6 @@ export function LendingTokenSelectorCard(props: Props) {
           <InputGroup
             placeholder="Amount"
             type="number"
-            min={assetDetails.lendingLimits.min}
-            max={assetDetails.lendingLimits.max}
             value={amount}
             onChange={e => setAmount(e.target.value)}
             readOnly={txState.loading}
@@ -180,13 +178,6 @@ export function LendingTokenSelectorCard(props: Props) {
         </div>
       </div>
       <div className="mt-3 d-flex flex-row justify-content-center align-items-center overflow-hidden">
-        {/*<Button
-          className="mr-3 flex-shrink-0 flex-grow-0"
-          text={`Lend ${props.asset}`}
-          type="submit"
-          loading={txState.loading}
-          disabled={txState.loading}
-        />*/}
         <div className="text-center w-100">
           <button
             className="btn btn-customOrange text-white font-weight-bold"

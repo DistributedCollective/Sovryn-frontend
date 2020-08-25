@@ -18,18 +18,6 @@ export function useMarginTrade(
     getLendingContractName(asset),
     'marginTrade',
   );
-  //
-  // console.log(
-  //   'trade data',
-  //   'asset', asset,
-  //   'loan id', loanId,
-  //   'levelrage', leverageAmount,
-  //   'loan token sent', loanTokenSent,
-  //   'col loan sent', collateralTokenSent,
-  //   'col token address', collateralTokenAddress,
-  //   'trader', trader,
-  //   'bytes', loadDataBytes,
-  // );
 
   return {
     trade: () =>
