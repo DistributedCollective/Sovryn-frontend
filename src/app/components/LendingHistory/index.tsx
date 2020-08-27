@@ -6,11 +6,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Asset } from 'types/asset';
-import { useAccount } from '../../../hooks/useAccount';
-import { useDrizzle } from '../../../hooks/useDrizzle';
+import { useAccount } from '../../hooks/useAccount';
+import { useDrizzle } from '../../hooks/useDrizzle';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
-import { useGetPastEvents } from '../../../hooks/useGetPastEvents';
-import { useGetActiveLoans } from '../../../hooks/trading/useGetActiveLoans';
+import { useGetPastEvents } from '../../hooks/useGetPastEvents';
+import { useGetActiveLoans } from '../../hooks/trading/useGetActiveLoans';
 
 interface Props {
   asset: Asset;

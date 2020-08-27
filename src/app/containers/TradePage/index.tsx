@@ -14,8 +14,8 @@ import { Footer } from '../../components/Footer';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
 import { TradingTokenContainer } from '../TradingTokenContainer';
-import { ActiveUserLoans } from '../../components/ActiveUserLoans';
-import { useIsConnected } from '../../../hooks/useAccount';
+import { ActiveUserLoans } from '../ActiveUserLoans';
+import { useIsConnected } from '../../hooks/useAccount';
 
 interface Props {
   location: any;

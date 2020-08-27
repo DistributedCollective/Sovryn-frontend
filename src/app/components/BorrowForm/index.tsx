@@ -7,10 +7,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
 import { TradingPosition } from '../../../types/trading-position';
 import { InputGroup, Tag } from '@blueprintjs/core';
-import { useWeiAmount } from '../../../hooks/useWeiAmount';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { SendTxProgress } from '../SendTxProgress';
-import { useApproveAndTrade } from '../../../hooks/trading/useApproveAndTrade';
-import { useIsConnected } from '../../../hooks/useAccount';
+import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
+import { useIsConnected } from '../../hooks/useAccount';
 
 interface Props {
   asset: Asset;

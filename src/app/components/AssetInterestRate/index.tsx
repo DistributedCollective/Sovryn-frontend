@@ -7,7 +7,7 @@ import React from 'react';
 import { Tooltip } from '@blueprintjs/core';
 
 import { Asset } from 'types/asset';
-import { useLendingInterestRate } from 'hooks/lending/useLendingInterestRate';
+import { useLendingInterestRate } from 'app/hooks/lending/useLendingInterestRate';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface Props {

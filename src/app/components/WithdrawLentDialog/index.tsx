@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
-import { SendTxResponseInterface } from 'hooks/useSendContractTx';
+import { SendTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';

@@ -1,4 +1,4 @@
-import { booleafy } from '../../utils/helpers';
+import { booleafy } from '../../../utils/helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
 export interface ActiveLoan {

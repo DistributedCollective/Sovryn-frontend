@@ -11,7 +11,7 @@ export function useMarginTrade(
   collateralTokenSent,
   collateralTokenAddress,
   trader,
-  loadDataBytes,
+  loanDataBytes,
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
@@ -28,7 +28,7 @@ export function useMarginTrade(
         collateralTokenSent,
         collateralTokenAddress,
         trader,
-        loadDataBytes,
+        loanDataBytes,
         { from: account },
       ),
     ...rest,

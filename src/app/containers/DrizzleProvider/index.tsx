@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { Drizzle } from '@drizzle/store';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useLocation } from 'react-router-dom';
-import { useDrizzle } from '../../../hooks/useDrizzle';
+import { useDrizzle } from '../../hooks/useDrizzle';
 import { isObjectEmpty } from '../../../utils/helpers';
 
 interface Props {

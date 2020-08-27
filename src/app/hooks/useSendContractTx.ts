@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useDrizzle } from './useDrizzle';
-import { TransactionStatus } from '../types/transaction-status';
+import { TransactionStatus } from '../../types/transaction-status';
 
 export interface SendTxResponseInterface {
   send: (...args: any) => void;

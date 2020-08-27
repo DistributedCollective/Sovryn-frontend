@@ -4,9 +4,9 @@
  *
  */
 import React from 'react';
-import { useAccount } from 'hooks/useAccount';
-import { useGetActiveLoans } from 'hooks/trading/useGetActiveLoans';
-import { ActiveUserLoan } from '../ActiveUserLoan';
+import { useAccount } from 'app/hooks/useAccount';
+import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
+import { ActiveUserLoan } from 'app/components/ActiveUserLoan';
 
 interface Props {}
 

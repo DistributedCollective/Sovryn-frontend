@@ -6,7 +6,7 @@
 import React from 'react';
 import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
-import { useBorrowInterestRate } from 'hooks/trading/useBorrowInterestRate';
+import { useBorrowInterestRate } from 'app/hooks/trading/useBorrowInterestRate';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 

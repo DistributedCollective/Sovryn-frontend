@@ -1,4 +1,4 @@
-import { Asset } from '../types/asset';
+import { Asset } from '../../types/asset';
 import { BigNumber, bignumber } from 'mathjs';
 
 export function useSwapToUsdRate(asset: Asset) {

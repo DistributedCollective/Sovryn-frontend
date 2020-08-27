@@ -9,14 +9,14 @@ import { Dialog, InputGroup } from '@blueprintjs/core';
 import { BorrowInterestRate } from '../BorrowInterestRate';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { FormSelect, SelectItem } from '../FormSelect';
-import { useTokenBalanceOf } from '../../../hooks/useTokenBalanceOf';
+import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { AssetWalletBalance } from '../AssetWalletBalance';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { useWeiAmount } from '../../../hooks/useWeiAmount';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { TradingPosition } from '../../../types/trading-position';
-import { useApproveAndTrade } from '../../../hooks/trading/useApproveAndTrade';
+import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { SendTxProgress } from '../SendTxProgress';
-import { useIsConnected } from '../../../hooks/useAccount';
+import { useIsConnected } from '../../hooks/useAccount';
 
 interface Props {
   asset: Asset;

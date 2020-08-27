@@ -1,5 +1,5 @@
-import { Asset } from '../types/asset';
-import { getTokenContractName } from '../utils/blockchain/contract-helpers';
+import { Asset } from '../../types/asset';
+import { getTokenContractName } from '../../utils/blockchain/contract-helpers';
 import { useAccount } from './useAccount';
 import { useCacheCallWithValue } from './useCacheCallWithValue';
 

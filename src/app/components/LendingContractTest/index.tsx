@@ -6,7 +6,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { fromWei } from 'web3-utils';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 interface Props {}
 

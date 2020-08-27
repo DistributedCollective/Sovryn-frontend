@@ -1,4 +1,4 @@
-import { Asset } from '../../types/asset';
+import { Asset } from '../../../types/asset';
 import { useGetMaxEscrowAmount } from './useGetMaxEscrowAmount';
 import { useMaxSwapSize } from '../bzx/useMaxSwapSize';
 import { useEffect, useState } from 'react';

@@ -7,11 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
-import { useAccount } from '../../../hooks/useAccount';
+import { useAccount } from '../../hooks/useAccount';
 import { fromWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
 import { UnLendBalance } from '../UnLendBalance';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 interface Props {
   asset: Asset;

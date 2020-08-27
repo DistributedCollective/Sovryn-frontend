@@ -8,19 +8,19 @@ import { InputGroup, Tag } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import styled from 'styled-components';
 import { Asset } from 'types/asset';
-import { useTokenApproveForLending } from '../../../hooks/useTokenApproveForLending';
-import { useTokenAllowance } from '../../../hooks/useTokenAllowanceForLending';
+import { useTokenApproveForLending } from '../../hooks/useTokenApproveForLending';
+import { useTokenAllowance } from '../../hooks/useTokenAllowanceForLending';
 import { bignumber } from 'mathjs';
-import { useLendTokens } from '../../../hooks/useLendTokens';
+import { useLendTokens } from '../../hooks/useLendTokens';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetInterestRate } from '../AssetInterestRate';
 import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-import { useWeiAmount } from '../../../hooks/useWeiAmount';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
-import { useIsConnected } from '../../../hooks/useAccount';
-import { useMaxDepositAmount } from '../../../hooks/lending/useMaxDepositAmount';
+import { useIsConnected } from '../../hooks/useAccount';
+import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {

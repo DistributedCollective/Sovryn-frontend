@@ -54,6 +54,20 @@ export class AssetsDictionary {
     return this.assets.get(asset) as AssetDetails;
   }
 
+  public static getByLoanContractAddress(address: string): AssetDetails {
+    return this.list().find(
+      item =>
+        item.lendingContract.address.toLowerCase() === address.toLowerCase(),
+    ) as AssetDetails;
+  }
+
+  public static getByTokenContractAddress(address: string): AssetDetails {
+    return this.list().find(
+      item =>
+        item.tokenContract.address.toLowerCase() === address.toLowerCase(),
+    ) as AssetDetails;
+  }
+
   public static list(): Array<AssetDetails> {
     return Array.from(this.assets.values());
   }

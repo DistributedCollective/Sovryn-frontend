@@ -8,7 +8,7 @@ import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useTokenBalanceOf } from 'hooks/useTokenBalanceOf';
+import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
 
 interface Props {
   asset: Asset;

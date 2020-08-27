@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useBorrowAssetPrice } from 'hooks/trading/useBorrowAssetPrice';
+import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
 import { LoadableValue } from '../LoadableValue';
 
 interface Props {
