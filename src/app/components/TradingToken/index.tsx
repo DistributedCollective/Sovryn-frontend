@@ -3,7 +3,7 @@
  * TradingToken
  *
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
 import { LeverageSelector } from '../LeverageSelector';
 import { TradingPosition } from '../../../types/trading-position';
@@ -12,6 +12,7 @@ import { BorrowInterestRate } from '../BorrowInterestRate';
 import { BorrowAssetPrice } from '../BorrowAssetPrice';
 import { BorrowLiquidationPrice } from '../BorrowLiquidationPrice';
 import { TradeDialog } from '../TradeDialog';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
 
 interface Props {
   asset: Asset;
@@ -20,10 +21,20 @@ interface Props {
 export function TradingToken(props: Props) {
   const [leverage, setLeverage] = useState(1);
   const [position, setPosition] = useState(TradingPosition.LONG);
+  const [asset, setAsset] = useState(props.asset);
 
   const [amount, setAmount] = useState('0');
+  const weiAmount = useWeiAmount(amount);
 
   const [openTrade, setOpenTrade] = useState(false);
+
+  useEffect(() => {
+    if (position === TradingPosition.LONG) {
+      setAsset(Asset.USD);
+    } else {
+      setAsset(Asset.BTC);
+    }
+  }, [position]);
 
   return (
     <div className="bg-secondary p-3 h-100 mr-0">
@@ -45,15 +56,15 @@ export function TradingToken(props: Props) {
         />
       </div>
 
-      <BorrowAssetPrice asset={props.asset} />
+      <BorrowAssetPrice asset={asset} />
 
       <BorrowLiquidationPrice
-        asset={props.asset}
+        asset={asset}
         leverage={leverage}
         position={position}
       />
 
-      <BorrowInterestRate asset={props.asset} weiAmount={amount} />
+      <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
 
       <button
         className="btn btn-customTeal text-white font-weight-bold my-3 w-25"
@@ -66,7 +77,7 @@ export function TradingToken(props: Props) {
         loanId={'0'}
         leverage={leverage}
         position={position}
-        asset={props.asset}
+        asset={asset}
         onChangeAmount={value => setAmount(value)}
         onClose={() => setOpenTrade(false)}
         isOpen={openTrade}

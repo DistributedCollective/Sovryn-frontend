@@ -14,6 +14,7 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCloseWithSwap } from '../../hooks/bzx/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   item: ActiveLoan;
@@ -45,7 +46,7 @@ export function CloseTradingPositionHandler(props: Props) {
 
   const receiver = useAccount();
 
-  const [amount, setAmount] = useState(props.item.interestDepositRemaining);
+  const [amount, setAmount] = useState(weiTo18(props.item.collateral));
   const [isCollateral, setIsCollateral] = useState(false);
   const [options] = useState(getOptions(props.item));
 
@@ -113,7 +114,7 @@ export function CloseTradingPositionHandler(props: Props) {
             disabled={rest.loading}
             onClick={() => handleConfirmSwap()}
           >
-            Withdraw
+            {amount >= props.item.collateral ? 'Close Position' : 'Withdraw'}
           </button>
         </div>
       </div>

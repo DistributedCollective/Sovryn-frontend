@@ -2,7 +2,8 @@ import bzxAbi from './abi/bzxAbi.json';
 
 export const appContracts = {
   bzxContract: {
-    address: '0xBAC609F5C8bb796Fa5A31002f12aaF24B7c35818',
+    address: '0x74808B7a84327c66bA6C3013d06Ed3DD7664b0D4',
     abi: bzxAbi,
+    watchEvents: ['Borrow', 'Burn', 'Mint', 'Transfer', 'Approval'],
   },
 };

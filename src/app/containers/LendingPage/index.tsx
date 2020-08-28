@@ -7,7 +7,6 @@
 import React from 'react';
 import { LendingTokenSelectorCard } from 'app/components/LendingTokenSelectorCard';
 import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
-
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 

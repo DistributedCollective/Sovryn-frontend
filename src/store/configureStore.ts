@@ -7,6 +7,7 @@ import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
 import createSagaMiddleware from 'redux-saga';
 
 import { createReducer } from './reducers';
+import { contractEventNotifier } from '../utils/blockchain/contract-event-notifier';
 
 export function configureAppStore() {
   const reduxSagaMonitorOptions = {};
@@ -14,7 +15,7 @@ export function configureAppStore() {
   const { run: runSaga } = sagaMiddleware;
 
   // Create the store with saga middleware
-  const middlewares = [sagaMiddleware];
+  const middlewares = [contractEventNotifier, sagaMiddleware];
 
   const enhancers = [
     createInjectorsEnhancer({

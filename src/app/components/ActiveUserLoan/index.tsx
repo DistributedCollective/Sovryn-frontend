@@ -51,20 +51,33 @@ export function ActiveUserLoan({ item }: Props) {
             <div className="font-weight-bold">Collateral Token</div>
             <div>{symbolByTokenAddress(item.collateralToken)}</div>
           </div>
+          {/*<div className="col">*/}
+          {/*  <div className="font-weight-bold">Interest deposit remaining</div>*/}
+          {/*  <div>*/}
+          {/*    {weiTo4(item.interestDepositRemaining)}{' '}*/}
+          {/*    {symbolByTokenAddress(item.loanToken)}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="col">
-            <div className="font-weight-bold">Interest deposit remaining</div>
+            <div className="font-weight-bold">Borrowed amount</div>
             <div>
-              {weiTo4(item.interestDepositRemaining)}{' '}
-              {symbolByTokenAddress(item.loanToken)}
+              {weiTo4(item.principal)} {symbolByTokenAddress(item.loanToken)}
             </div>
           </div>
           <div className="col">
-            <div className="font-weight-bold">InterestOwedPerDay</div>
+            <div className="font-weight-bold">Position size</div>
             <div>
-              {weiTo4(item.interestOwedPerDay)}{' '}
-              {symbolByTokenAddress(item.loanToken)}
+              {weiTo4(item.collateral)}{' '}
+              {symbolByTokenAddress(item.collateralToken)}
             </div>
           </div>
+          {/*<div className="col">*/}
+          {/*  <div className="font-weight-bold">InterestOwedPerDay</div>*/}
+          {/*  <div>*/}
+          {/*    {weiTo4(item.interestOwedPerDay)}{' '}*/}
+          {/*    {symbolByTokenAddress(item.loanToken)}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="col">
             <div className="btn-group">
               <button className="btn btn-info" onClick={() => {}}>

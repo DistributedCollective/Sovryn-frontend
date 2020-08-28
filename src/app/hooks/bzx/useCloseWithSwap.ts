@@ -15,19 +15,6 @@ export function useCloseWithSwap(
   const account = useAccount();
   const { send, ...rest } = useSendContractTx('bzxContract', 'closeWithSwap');
 
-  console.log(
-    'loanId',
-    loanId,
-    'receiver',
-    receiver,
-    'swapAmount',
-    swapAmount,
-    'returnTokenIsCollateral',
-    Web3.toHex(returnTokenIsCollateral),
-    'loanDataBytes',
-    loanDataBytes,
-  );
-
   return {
     send: () =>
       send(

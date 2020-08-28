@@ -63,6 +63,14 @@ export function TradeDialog(props: Props) {
     );
   }, [props.asset]);
 
+  useEffect(() => {
+    if (props.position === TradingPosition.LONG) {
+      setSelected(Asset.BTC);
+    } else {
+      setSelected(Asset.USD);
+    }
+  }, [props.position]);
+
   const weiAmount = useWeiAmount(amount);
 
   const { trade, loading, txHash, status, type } = useApproveAndTrade(
