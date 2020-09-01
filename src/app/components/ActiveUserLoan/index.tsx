@@ -8,6 +8,7 @@ import { ActiveLoan } from 'app/hooks/trading/useGetActiveLoans';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
+import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
 
 interface Props {
   item: ActiveLoan;
@@ -38,6 +39,7 @@ export function ActiveUserLoan({ item }: Props) {
   };
 
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
+  const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
 
   return (
     <>
@@ -80,8 +82,11 @@ export function ActiveUserLoan({ item }: Props) {
           {/*</div>*/}
           <div className="col">
             <div className="btn-group">
-              <button className="btn btn-info" onClick={() => {}}>
-                Add margin
+              <button
+                className="btn btn-info"
+                onClick={() => setPositionMarginModalOpen(true)}
+              >
+                Top-Up
               </button>
               <button
                 className="btn btn-danger"
@@ -119,6 +124,11 @@ export function ActiveUserLoan({ item }: Props) {
         item={item}
         showModal={positionCloseModalOpen}
         onCloseModal={() => setPositionCloseModalOpen(false)}
+      />
+      <TopUpTradingPositionHandler
+        item={item}
+        showModal={positionMarginModalOpen}
+        onCloseModal={() => setPositionMarginModalOpen(false)}
       />
     </>
   );

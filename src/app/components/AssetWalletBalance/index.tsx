@@ -3,7 +3,7 @@
  * AssetWalletBalance
  *
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
@@ -12,10 +12,17 @@ import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
 
 interface Props {
   asset: Asset;
+  onBalance?: (value: string) => void;
 }
 
 export function AssetWalletBalance(props: Props) {
   const { value, loading } = useTokenBalanceOf(props.asset);
+
+  useEffect(() => {
+    if (props.onBalance) {
+      props.onBalance(value);
+    }
+  }, [props, value]);
 
   return (
     <div className="mb-2">
