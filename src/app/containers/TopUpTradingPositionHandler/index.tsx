@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
 import { SendTxProgress } from '../../components/SendTxProgress';
@@ -15,6 +15,7 @@ import { useDepositCollateral } from '../../hooks/trading/useDepositCollateral';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
+import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 
 interface Props {
   item: ActiveLoan;
@@ -32,7 +33,6 @@ export function TopUpTradingPositionHandler(props: Props) {
 
   const { value: balance } = useTokenBalanceOf(tokenDetails.asset);
   const [amount, setAmount] = useState(weiTo18(balance));
-  const [valid, setValid] = useState(false);
 
   const weiAmount = useWeiAmount(amount);
 
@@ -42,9 +42,7 @@ export function TopUpTradingPositionHandler(props: Props) {
     send();
   };
 
-  useEffect(() => {
-    setValid(true);
-  }, [balance, amount]);
+  const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
 
   return (
     <Dialog isOpen={props.showModal} className="bg-secondary p-3">

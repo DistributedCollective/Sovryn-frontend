@@ -22,7 +22,7 @@ export function TradingViewChart(props: ChartContainerProps) {
     const widget = new TradingView.widget({
       width: 980,
       height: 610,
-      symbol: 'BITBAY:BTCUSD' /* props.asset */,
+      symbol: 'BITFINEX:BTCUSD' /* props.asset */,
       interval: '30' as any,
       timezone: 'Etc/UTC',
       theme: props.theme,

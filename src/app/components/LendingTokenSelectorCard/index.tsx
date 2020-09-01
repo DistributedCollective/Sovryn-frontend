@@ -21,7 +21,9 @@ import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { useAmountState } from '../../hooks/useAmountState';
+import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 
 interface Props {
   asset: Asset;
@@ -37,11 +39,12 @@ export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
-  const [amount, setAmount] = useState(
-    assetDetails.lendingLimits.min.toFixed(4),
+  const [amount, setAmount] = useAmountState(
+    weiTo4(toWei(assetDetails.lendingLimits.min.toString()))
   );
 
   const weiAmount = useWeiAmount(amount);
+
   const { value: allowance } = useTokenAllowance(
     props.asset,
     getLendingContract(props.asset).address,
@@ -138,6 +141,12 @@ export function LendingTokenSelectorCard(props: Props) {
     weiAmount,
   );
 
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    toWei(assetDetails.lendingLimits.min.toString()),
+    maxAmount,
+  );
+
   return (
     <form
       className="d-block p-5 bg-secondary text-white shadow"
@@ -169,7 +178,7 @@ export function LendingTokenSelectorCard(props: Props) {
         <div className="col-6">
           <InputGroup
             placeholder="Amount"
-            type="number"
+            type="text"
             value={amount}
             onChange={e => setAmount(e.target.value)}
             readOnly={txState.loading}
@@ -182,7 +191,7 @@ export function LendingTokenSelectorCard(props: Props) {
           <button
             className="btn btn-customOrange text-white font-weight-bold"
             type="submit"
-            disabled={txState.loading || !isConnected}
+            disabled={txState.loading || !isConnected || !valid}
           >
             {`Lend ${props.asset}`}
           </button>

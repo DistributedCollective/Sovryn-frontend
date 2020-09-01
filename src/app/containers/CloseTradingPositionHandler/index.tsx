@@ -6,8 +6,7 @@
 
 import React, { useState } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
-import { Dialog, InputGroup } from '@blueprintjs/core';
-// import { CloseTradingPositionForm } from '../../components/CloseTradingPositionForm';
+import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
@@ -15,6 +14,7 @@ import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCloseWithSwap } from '../../hooks/bzx/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 
 interface Props {
   item: ActiveLoan;
@@ -43,6 +43,9 @@ export function CloseTradingPositionHandler(props: Props) {
   const assetDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.loanToken,
   );
+  const tokenDetails = AssetsDictionary.getByTokenContractAddress(
+    props.item.collateralToken,
+  );
 
   const receiver = useAccount();
 
@@ -64,6 +67,8 @@ export function CloseTradingPositionHandler(props: Props) {
     send();
   };
 
+  const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
+
   return (
     <Dialog isOpen={props.showModal} className="bg-secondary p-3">
       <div className="container">
@@ -76,22 +81,21 @@ export function CloseTradingPositionHandler(props: Props) {
           />
         </div>
 
-        <div className="d-flex flex-row justify-content-between">
-          <div className="flex-grow-1 mr-3">
-            <InputGroup
-              className="mb-3"
-              value={amount}
-              onChange={e => setAmount(e.currentTarget.value)}
-            />
-          </div>
-          <div>
-            <FormSelect
-              filterable={false}
-              items={options}
-              onChange={item => setIsCollateral(item.key)}
-              value={isCollateral}
-            />
-          </div>
+        <div className="mb-3">
+          <InputGroup
+            className="mb-3"
+            value={amount}
+            onChange={e => setAmount(e.currentTarget.value)}
+            rightElement={<Tag>{tokenDetails.asset}</Tag>}
+          />
+        </div>
+        <div>
+          <FormSelect
+            filterable={false}
+            items={options}
+            onChange={item => setIsCollateral(item.key)}
+            value={isCollateral}
+          />
         </div>
 
         <div className="mb-4">
@@ -111,7 +115,7 @@ export function CloseTradingPositionHandler(props: Props) {
           </button>
           <button
             className="btn btn-primary ml-3 mt-0"
-            disabled={rest.loading}
+            disabled={rest.loading || !valid}
             onClick={() => handleConfirmSwap()}
           >
             {amount >= props.item.collateral ? 'Close Position' : 'Withdraw'}
