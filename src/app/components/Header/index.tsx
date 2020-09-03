@@ -4,19 +4,16 @@
  *
  */
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 
-interface Props {
-  location: string;
-}
-
-export function Header(props: Props) {
+export function Header() {
+  const { pathname } = useLocation();
   const pages = ['Lend', 'Trade', 'Stats', 'FAQs'];
 
   const pageNavs = pages.map((item, index) => {
     const styles =
-      props.location === `/${item}`
+      pathname === `/${item.toLowerCase()}`
         ? 'text-white border-bottom'
         : 'text-customTeal';
 
@@ -27,7 +24,7 @@ export function Header(props: Props) {
       >
         <NavLink
           className={'text-decoration-none nav-link ' + styles}
-          to={`/${item}`}
+          to={`/${item.toLowerCase()}`}
         >
           <h4>{item}</h4>
         </NavLink>
@@ -48,7 +45,7 @@ export function Header(props: Props) {
             data-toggle="collapse"
             data-target="#navbar-collaps"
           >
-            <span className="navbar-toggler-icon custom-toggler"></span>
+            <span className="navbar-toggler-icon custom-toggler" />
           </button>
 
           <div className="collapse navbar-collapse w-100 " id="navbar-collaps">

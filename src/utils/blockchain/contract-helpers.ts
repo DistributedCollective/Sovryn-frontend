@@ -18,3 +18,7 @@ export const getWeb3Contract = (address: string, abi: any) => {
   const web3 = web3Reader();
   return new web3.eth.Contract(abi, address);
 };
+
+export const symbolByTokenAddress = (address: string) => {
+  return AssetsDictionary.getByTokenContractAddress(address)?.symbol;
+};

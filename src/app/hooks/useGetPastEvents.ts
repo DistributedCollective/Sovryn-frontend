@@ -27,6 +27,7 @@ export function useGetPastEvents(
       filter = undefined,
       options = { fromBlock: OLDEST_BLOCK, toBlock: 'latest' },
     ) => {
+      setLoading(true);
       web3ContractRef.current
         .getPastEvents(event, { ...options, ...{ filter } })
         .then(data => {

@@ -5,22 +5,23 @@
  */
 import React, { useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
-import { LeverageSelector } from '../LeverageSelector';
+import { LeverageSelector } from '../../components/LeverageSelector';
 import { TradingPosition } from '../../../types/trading-position';
-import { TradingPositionSelector } from '../TradingPositionSelector';
-import { BorrowInterestRate } from '../BorrowInterestRate';
-import { BorrowAssetPrice } from '../BorrowAssetPrice';
-import { BorrowLiquidationPrice } from '../BorrowLiquidationPrice';
-import { TradeDialog } from '../TradeDialog';
+import { TradingPositionSelector } from '../../components/TradingPositionSelector';
+import { BorrowInterestRate } from '../../components/BorrowInterestRate';
+import { BorrowAssetPrice } from '../../components/BorrowAssetPrice';
+import { BorrowLiquidationPrice } from '../../components/BorrowLiquidationPrice';
+import { TradeDialog } from '../../components/TradeDialog';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 
 interface Props {
   asset: Asset;
+  position: TradingPosition;
+  onPositionChange: (position: TradingPosition) => void;
 }
 
 export function TradingToken(props: Props) {
   const [leverage, setLeverage] = useState(1);
-  const [position, setPosition] = useState(TradingPosition.LONG);
   const [asset, setAsset] = useState(props.asset);
 
   const [amount, setAmount] = useState('0');
@@ -29,12 +30,12 @@ export function TradingToken(props: Props) {
   const [openTrade, setOpenTrade] = useState(false);
 
   useEffect(() => {
-    if (position === TradingPosition.LONG) {
+    if (props.position === TradingPosition.LONG) {
       setAsset(Asset.USD);
     } else {
       setAsset(Asset.BTC);
     }
-  }, [position]);
+  }, [props.position]);
 
   return (
     <div className="bg-secondary p-3 h-100 mr-0">
@@ -51,8 +52,8 @@ export function TradingToken(props: Props) {
       <div className="mb-3">
         <label className="mr-4">Position</label>
         <TradingPositionSelector
-          value={position}
-          onChange={value => setPosition(value)}
+          value={props.position}
+          onChange={value => props.onPositionChange(value)}
         />
       </div>
 
@@ -61,7 +62,7 @@ export function TradingToken(props: Props) {
       <BorrowLiquidationPrice
         asset={asset}
         leverage={leverage}
-        position={position}
+        position={props.position}
       />
 
       <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
@@ -76,7 +77,7 @@ export function TradingToken(props: Props) {
       <TradeDialog
         loanId={'0'}
         leverage={leverage}
-        position={position}
+        position={props.position}
         asset={asset}
         onChangeAmount={value => setAmount(value)}
         onClose={() => setOpenTrade(false)}

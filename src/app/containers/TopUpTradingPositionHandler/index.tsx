@@ -11,11 +11,11 @@ import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
-import { useDepositCollateral } from '../../hooks/trading/useDepositCollateral';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
 
 interface Props {
   item: ActiveLoan;
@@ -36,7 +36,11 @@ export function TopUpTradingPositionHandler(props: Props) {
 
   const weiAmount = useWeiAmount(amount);
 
-  const { send, ...rest } = useDepositCollateral(props.item.loanId, weiAmount);
+  const { send, ...rest } = useApproveAndAddMargin(
+    tokenDetails.asset,
+    props.item.loanId,
+    weiAmount,
+  );
 
   const handleConfirm = () => {
     send();
@@ -71,6 +75,7 @@ export function TopUpTradingPositionHandler(props: Props) {
               status={rest.status}
               txHash={rest.txHash}
               loading={rest.loading}
+              type={rest.type}
             />
           </div>
         )}
