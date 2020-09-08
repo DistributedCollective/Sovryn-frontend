@@ -16,11 +16,13 @@ export function TradingPositionSelector(props: Props) {
   return (
     <ButtonGroup>
       <Button
+        className={`leverage-selector-group__button--${props.value}`}
         text={'Long'}
         active={TradingPosition.LONG === props.value}
         onClick={() => props.onChange(TradingPosition.LONG)}
       />
       <Button
+        className={`leverage-selector-group__button--${props.value}`}
         text={'Short'}
         active={TradingPosition.SHORT === props.value}
         onClick={() => props.onChange(TradingPosition.SHORT)}

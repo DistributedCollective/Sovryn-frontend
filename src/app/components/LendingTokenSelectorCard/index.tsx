@@ -4,7 +4,7 @@
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { InputGroup, Tag } from '@blueprintjs/core';
+import { InputGroup, Tag, Tooltip } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import styled from 'styled-components';
 import { Asset } from 'types/asset';
@@ -26,6 +26,8 @@ import { useAmountState } from '../../hooks/useAmountState';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
+
+import tooltipData from 'utils/data/tooltip-text.json';
 
 interface Props {
   asset: Asset;
@@ -150,6 +152,10 @@ export function LendingTokenSelectorCard(props: Props) {
   );
 
   const [showHistory, setShowHistory] = useState(false);
+  const tooltipText =
+    props.asset === 'BTC'
+      ? tooltipData.lending.InterestAPR_BTC
+      : tooltipData.lending.InterestAPR_USD;
 
   return (
     <>
@@ -165,7 +171,9 @@ export function LendingTokenSelectorCard(props: Props) {
             <h2>{props.asset}</h2>
           </div>
           <div className="col-6 text-right">
-            <div className="text-lightGrey">Interest APR:</div>
+            <div className="text-lightGrey">
+              <Tooltip content={tooltipText}>Interest APR:</Tooltip>
+            </div>
             <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
           </div>
         </div>

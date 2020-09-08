@@ -25,7 +25,6 @@
         border-radius: 100px;
         color: white;
         font-weight: bold;
-        transition: .5s linear;
 
         &:focus {
           outline: none;
@@ -33,7 +32,12 @@
     }
 
     .bp3-active {
-      background-color: $customTeal !important;
+        &.leverage-selector-group__button--LONG {
+            background-color: $customTeal;
+        }
+        &.leverage-selector-group__button--SHORT {
+            background-color: $customOrange !important;
+        }
     }
 }
 

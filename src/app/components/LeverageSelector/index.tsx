@@ -11,6 +11,7 @@ interface Props {
   max: number;
   value: number;
   onChange: (value: number) => void;
+  position: string;
 }
 
 export function LeverageSelector(props: Props) {
@@ -31,7 +32,7 @@ export function LeverageSelector(props: Props) {
     <ButtonGroup className="leverage-selector-group">
       {items.map(item => (
         <Button
-          className="leverage-selector-group__button"
+          className={`leverage-selector-group__button--${props.position}`}
           key={item}
           text={`${item}x`}
           active={item === props.value}

@@ -1,0 +1,12 @@
+{
+  "trading": {
+    "AssetPrice": "Current market price.",
+    "LiquidationPrice": "If price falls below this level, position may be liquidated.",
+    "InterestAPR": "Current annualised interest rate. This may change over time.",
+    "Balance": "Something about where balance is read from"
+  },
+  "lending": {
+    "InterestAPR_BTC": "Current annualised interest rate. Changes based on supply and demand.",
+    "InterestAPR_USD": "Current annualised interest rate. Changes based on supply and demand."
+  }
+}

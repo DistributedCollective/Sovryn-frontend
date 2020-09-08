@@ -37,6 +37,8 @@ export function TradingToken(props: Props) {
     }
   }, [props.position]);
 
+  const color = props.position === 'LONG' ? 'customTeal' : 'customOrange';
+
   return (
     <div className="bg-secondary p-3 h-100 mr-0">
       <div className="mb-3">
@@ -46,6 +48,7 @@ export function TradingToken(props: Props) {
           max={5}
           value={leverage}
           onChange={value => setLeverage(value)}
+          position={props.position}
         />
       </div>
 
@@ -68,7 +71,7 @@ export function TradingToken(props: Props) {
       <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
 
       <button
-        className="btn btn-customTeal text-white font-weight-bold my-3 w-25"
+        className={`btn btn-${color} text-white font-weight-bold my-3 w-25`}
         onClick={() => setOpenTrade(true)}
       >
         Buy
