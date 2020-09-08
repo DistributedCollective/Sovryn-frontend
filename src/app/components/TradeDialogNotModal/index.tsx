@@ -27,7 +27,7 @@ interface Props {
   onChangeAmount: (value) => void;
 }
 
-export function TradeDialog(props: Props) {
+export function TradeDialogNotModal(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
@@ -40,12 +40,12 @@ export function TradeDialog(props: Props) {
 
   const { value: tokenBalance } = useTokenBalanceOf(selected);
 
-  const [amount, setAmount] = useState(tokenBalance);
+  const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
 
-  useEffect(() => {
-    setAmount(weiTo18(tokenBalance));
-  }, [tokenBalance]);
+  // useEffect(() => {
+  //   setAmount(weiTo18(tokenBalance));
+  // }, [tokenBalance]);
 
   useEffect(() => {
     // Filter and set available colarated assets.
@@ -75,24 +75,18 @@ export function TradeDialog(props: Props) {
   );
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
+  const color = props.position === 'LONG' ? 'customTeal' : 'customOrange';
 
   return (
-    <div className="container">
-      <div className="d-flex flex-column align-items-center justify-content-center">
-        <img
-          className="mb-3"
-          src={assetDetails.logoSvg}
-          alt={props.asset}
-          style={{ height: '5rem' }}
-        />
-      </div>
-
+    <div className="mt-5 border-white">
+      <div className="row text-center mb-3"></div>
       <div className="d-flex flex-row justify-content-between">
         <div className="flex-grow-1 mr-3">
           <InputGroup
             className="mb-3"
             value={amount}
             onChange={handleAmountChange}
+            placeholder="Enter trade amount"
           />
         </div>
         <div>
@@ -105,13 +99,13 @@ export function TradeDialog(props: Props) {
         </div>
       </div>
 
-      <BorrowInterestRate asset={props.asset} weiAmount={weiAmount} />
-
       <AssetWalletBalance asset={selected} />
 
       <div className="mb-4">
         <div className="d-inline text-lightGrey">Leverage</div>
-        <div className="d-inline float-right">{props.leverage}x</div>
+        <div className="d-inline float-right">
+          {props.leverage}x {props.position}
+        </div>
       </div>
 
       {type !== 'none' && (
@@ -127,21 +121,19 @@ export function TradeDialog(props: Props) {
 
       <div className="d-flex flex-row justify-content-end align-items-center">
         <button
-          className="btn btn-primary ml-3 mt-0"
+          className={`btn btn-${color} text-white font-weight-bold my-3 w-50`}
           disabled={loading || !isConnected || !valid}
           onClick={() => trade()}
         >
-          Leverage {props.asset}
+          Trade BTC
         </button>
       </div>
     </div>
   );
 }
 
-TradeDialog.defaultProps = {
+TradeDialogNotModal.defaultProps = {
   leverage: 1,
   position: TradingPosition.LONG,
-  isOpen: true,
-  onClose: () => {},
   onChangeAmount: _ => {},
 };

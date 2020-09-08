@@ -11,7 +11,7 @@ import { TradingPositionSelector } from '../../components/TradingPositionSelecto
 import { BorrowInterestRate } from '../../components/BorrowInterestRate';
 import { BorrowAssetPrice } from '../../components/BorrowAssetPrice';
 import { BorrowLiquidationPrice } from '../../components/BorrowLiquidationPrice';
-import { TradeDialog } from '../../components/TradeDialog';
+import { TradeDialogNotModal } from '../../components/TradeDialogNotModal';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 
 interface Props {
@@ -70,14 +70,14 @@ export function TradingToken(props: Props) {
 
       <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
 
-      <button
-        className={`btn btn-${color} text-white font-weight-bold my-3 w-25`}
-        onClick={() => setOpenTrade(true)}
-      >
-        Buy
-      </button>
-
-      <TradeDialog
+      <TradeDialogNotModal
+        loanId={'0'}
+        leverage={leverage}
+        position={props.position}
+        asset={asset}
+        onChangeAmount={value => setAmount(value)}
+      />
+      {/* <TradeDialog
         loanId={'0'}
         leverage={leverage}
         position={props.position}
@@ -85,7 +85,7 @@ export function TradingToken(props: Props) {
         onChangeAmount={value => setAmount(value)}
         onClose={() => setOpenTrade(false)}
         isOpen={openTrade}
-      />
+      /> */}
     </div>
   );
 }

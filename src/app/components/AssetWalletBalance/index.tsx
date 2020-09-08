@@ -9,6 +9,7 @@ import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 interface Props {
   asset: Asset;
@@ -17,6 +18,7 @@ interface Props {
 
 export function AssetWalletBalance(props: Props) {
   const { value, loading } = useTokenBalanceOf(props.asset);
+  const connected = useIsConnected();
 
   useEffect(() => {
     if (props.onBalance) {
@@ -30,12 +32,16 @@ export function AssetWalletBalance(props: Props) {
       <div className="d-inline float-right">
         <LoadableValue
           value={
-            <Tooltip content={<>{weiToFixed(value, 18)} %</>}>
-              <>
-                {weiToFixed(value, 4)}{' '}
-                <span className="text-lightGrey">{props.asset}</span>
-              </>
-            </Tooltip>
+            connected ? (
+              <Tooltip content={<>{weiToFixed(value, 18)} %</>}>
+                <>
+                  {weiToFixed(value, 2)}{' '}
+                  <span className="text-lightGrey">{props.asset}</span>
+                </>
+              </Tooltip>
+            ) : (
+              <span>Connect to wallet</span>
+            )
           }
           loading={loading}
         />
