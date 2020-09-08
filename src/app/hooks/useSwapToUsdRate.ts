@@ -5,7 +5,11 @@ export function useSwapToUsdRate(asset: Asset) {
   return useSwapRate(asset, Asset.USD);
 }
 
-export function useSwapRate(srcAsset: Asset, dstAsset: Asset, srcAmount?: BigNumber) {
+export function useSwapRate(
+  srcAsset: Asset,
+  dstAsset: Asset,
+  srcAmount?: BigNumber,
+) {
   // if (srcAsset === dstAsset) {
   //   return bignumber(1);
   // }

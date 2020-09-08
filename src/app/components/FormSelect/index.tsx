@@ -36,8 +36,6 @@ export function FormSelect(props: Props) {
     setSelected(getSelected());
   }, [getSelected, props.value, props.items]);
 
-  console.log(selected);
-
   return (
     <Selector
       items={props.items}

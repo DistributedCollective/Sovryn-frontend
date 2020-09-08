@@ -32,8 +32,11 @@ export function TradeDialogNotModal(props: Props) {
   const isConnected = useIsConnected();
 
   const handleAmountChange = (e: any) => {
-    setAmount(e.currentTarget.value);
-    props.onChangeAmount(e.currentTarget.value);
+    //Check that input is a positive number before changing state
+    if (+e.target.value === +e.target.value && e.target.value >= 0) {
+      setAmount(e.currentTarget.value);
+      props.onChangeAmount(e.currentTarget.value);
+    }
   };
 
   const [selected, setSelected] = useState<Asset>(props.asset);
@@ -80,14 +83,29 @@ export function TradeDialogNotModal(props: Props) {
   return (
     <div className="mt-5 border-white">
       <div className="row text-center mb-3"></div>
+
+      <AssetWalletBalance asset={selected} />
+
+      <div className="mb-4">
+        <div className="d-inline text-lightGrey">Leverage</div>
+        <div className="d-inline float-right">
+          {props.leverage}x {props.position}
+        </div>
+      </div>
+
       <div className="d-flex flex-row justify-content-between">
         <div className="flex-grow-1 mr-3">
           <InputGroup
-            className="mb-3"
+            className="mb-0"
             value={amount}
             onChange={handleAmountChange}
             placeholder="Enter trade amount"
           />
+          {parseFloat(amount) > 0 && !loading && !valid && (
+            <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+              Trade amount exceeds balance
+            </div>
+          )}
         </div>
         <div>
           <FormSelect
@@ -96,15 +114,6 @@ export function TradeDialogNotModal(props: Props) {
             onChange={item => setSelected(item.key)}
             value={selected}
           />
-        </div>
-      </div>
-
-      <AssetWalletBalance asset={selected} />
-
-      <div className="mb-4">
-        <div className="d-inline text-lightGrey">Leverage</div>
-        <div className="d-inline float-right">
-          {props.leverage}x {props.position}
         </div>
       </div>
 
@@ -119,7 +128,7 @@ export function TradeDialogNotModal(props: Props) {
         </div>
       )}
 
-      <div className="d-flex flex-row justify-content-end align-items-center">
+      <div className="d-flex flex-row justify-content-end align-items-center mt-3">
         <button
           className={`btn btn-${color} text-white font-weight-bold my-3 w-50`}
           disabled={loading || !isConnected || !valid}

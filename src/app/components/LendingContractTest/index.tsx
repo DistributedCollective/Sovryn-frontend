@@ -12,10 +12,7 @@ interface Props {}
 
 export function LendingContractTest(props: Props) {
   // const { useCacheCall } = drizzleReactHooks.useDrizzle();
-  const { value: owner } = useCacheCallWithValue(
-    'LoadContractRBTC',
-    'owner',
-  );
+  const { value: owner } = useCacheCallWithValue('LoadContractRBTC', 'owner');
 
   const { value: interestRate } = useCacheCallWithValue(
     'LoadContractRBTC',
