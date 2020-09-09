@@ -9,9 +9,9 @@ import logoSvg from 'assets/images/sovryn-logo-white.svg';
 
 export function Header() {
   const { pathname } = useLocation();
-  const pages = ['Lend', 'Trade', 'Stats', 'FAQs'];
+  const pages = ['Trade', 'Lend', 'Stats', 'FAQs'];
 
-  const pageNavs = pages.map((item, index) => {
+  const pageNavs = pages.reverse().map((item, index) => {
     const styles =
       pathname === `/${item.toLowerCase()}`
         ? 'text-white border-bottom'

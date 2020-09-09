@@ -1,4 +1,5 @@
 # Sovryn App
+
 ---
 
 ## Install & Start
@@ -22,14 +23,15 @@ Build for production:
 ```shell
 yarn build
 ```
+
 ## Components vs Containers
 
-Containers are responsible on how things work and components on how things look. 
+Containers are responsible on how things work and components on how things look.
 Think about containers as pages or stateful wrappers that holds components and components as buttons, inputs, cards, etc.
 
 ## Environment variables
 
-You can use .env.local file for env variables while developing. 
+You can use .env.local file for env variables while developing.
 Variable should be prefixed by `REACT_APP_` to be accessible by react application.
 For example `REACT_APP_BASE_URL=http://test.app` can be retrieved by `process.env.REACT_APP_BASE_URL`
 
@@ -37,6 +39,7 @@ For example `REACT_APP_BASE_URL=http://test.app` can be retrieved by `process.en
 if you need some custom settings then copy .env.local file, name it .env and edit as needed. .env file can't be committed and will prevent configuration overwrites for other developers.
 
 ## Generators
+
 Project uses generators (./internals/generators) to speed up component & container creation.
 
 For example if you want to create new component run fallowing command:
@@ -92,4 +95,3 @@ But wait... there's more!
 - _The fastest fonts:_ Say goodbye to vacant text.
 - _Stay fast_: Profile your app's performance from the comfort of your command
   line!
-

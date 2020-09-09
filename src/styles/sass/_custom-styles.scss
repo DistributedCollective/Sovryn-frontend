@@ -1,8 +1,8 @@
 @import './_custom-variables.scss';
 
 .btn {
-    margin-top: 10px;
-    border-radius: 20px;
+  margin-top: 10px;
+  border-radius: 20px;
 }
 
 .custom-toggler .navbar-toggler-icon {
@@ -10,39 +10,47 @@
 }
 
 .custom-toggler.navbar-toggler {
-  border-color: #4ECDC4;
+  border-color: #4ecdc4;
 }
 
 .bp3-button-group {
-    border-radius: 50px;
+  border-radius: 50px;
+  background-color: grey;
+  border: none;
+  float: right;
+
+  .bp3-button {
     background-color: grey;
-    border: none;
-    float: right;
+    background-image: none;
+    border-radius: 100px;
+    color: white;
+    font-weight: bold;
 
-    .bp3-button {
-        background-color: grey;
-        background-image: none;
-        border-radius: 100px;
-        color: white;
-        font-weight: bold;
-        transition: .5s linear;
-
-        &:focus {
-          outline: none;
-        }
+    &:focus {
+      outline: none;
     }
-
-    .bp3-active {
-      background-color: $customTeal !important;
+    &:not(.bp3-active):hover {
+      color: #212121;
+      background-color: lightGrey;
     }
+  }
+
+  .bp3-active {
+    &.leverage-selector-group__button--LONG {
+      background-color: $customTeal;
+    }
+    &.leverage-selector-group__button--SHORT {
+      background-color: $customOrange !important;
+    }
+  }
 }
 
 .history-item {
-    border-left: 5px solid transparent;
-    &.buy {
-        border-left-color: $customTeal;
-    }
-    &.sell {
-        border-left-color: $customOrange;
-    }
+  border-left: 5px solid transparent;
+  &.buy {
+    border-left-color: $customTeal;
+  }
+  &.sell {
+    border-left-color: $customOrange;
+  }
 }
