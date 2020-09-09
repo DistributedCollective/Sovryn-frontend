@@ -4,6 +4,7 @@ import { weiTo18, weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { TradingHistoryItem } from '../TradingHistoryItem';
 import { Tooltip } from '@blueprintjs/core';
+import { bignumber } from 'mathjs';
 
 interface Props {
   items: EventData[];
@@ -42,6 +43,7 @@ export function TradingHistoryListItems(props: Props) {
     const tradeEvent = sorted.find(item => item.event === 'Trade');
     let loanId = '0x0';
 
+    let profit = '0';
     if (tradeEvent) {
       loanId = tradeEvent.returnValues.loanId;
       setState(prev => ({
@@ -58,13 +60,29 @@ export function TradingHistoryListItems(props: Props) {
           leverage: tradeEvent.returnValues.currentLeverage,
         },
       }));
-      // entryPrice = bignumber(tradeEvent.returnValues.entryPrice);
+
+      profit = bignumber(tradeEvent.returnValues.positionSize)
+        .minus(
+          bignumber(tradeEvent.returnValues.positionSize).div(
+            tradeEvent.returnValues.entryPrice,
+          ),
+        )
+        .toFixed(0);
     }
 
     const sellEvents = sorted.filter(item => item.event === 'CloseWithSwap');
     if (sellEvents.length) {
       sellEvents.forEach(ev => {
         loanId = ev.returnValues.loanId;
+
+        profit = bignumber(profit)
+          .add(
+            bignumber(ev.returnValues.positionCloseSize).div(
+              ev.returnValues.exitPrice,
+            ),
+          )
+          .toFixed(0);
+
         //   // todo calculation is needed here.
         //   const priceRate = bignumber(ev.returnValues.exitPrice).minus(
         //     entryPrice,
@@ -84,11 +102,11 @@ export function TradingHistoryListItems(props: Props) {
       // setState(prev => ({ ...prev, ...{ profit: profit.toString() } }));
     }
 
-    setState(prev => ({ ...prev, ...{ loanId: loanId } }));
+    setState(prev => ({
+      ...prev,
+      ...{ loanId: loanId, profit: profit },
+    }));
     setItems(sorted);
-
-    console.log(sorted);
-
     // getLoan(loanId);
   }, [props.items /*, getLoan*/]);
 
