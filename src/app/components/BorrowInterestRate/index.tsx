@@ -9,6 +9,7 @@ import { Asset } from 'types/asset';
 import { useBorrowInterestRate } from 'app/hooks/trading/useBorrowInterestRate';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import tooltipData from 'utils/data/tooltip-text.json';
 
 interface Props {
   asset: Asset;
@@ -23,13 +24,17 @@ export function BorrowInterestRate(props: Props) {
 
   return (
     <div className="mb-2">
-      <div className="d-inline text-lightGrey">Interest ARP</div>
+      <div className="d-inline text-lightGrey">
+        <Tooltip content={<>{tooltipData.trading.InterestAPR}</>}>
+          Interest APR
+        </Tooltip>
+      </div>
       <div className="d-inline float-right">
         <LoadableValue
           value={
-            <Tooltip content={<>{weiToFixed(value, 18)} %</>}>
+            <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
               <>
-                {weiToFixed(value, 4)} <span className="text-lightGrey">%</span>
+                {weiToFixed(value, 2)} <span className="text-lightGrey">%</span>
               </>
             </Tooltip>
           }

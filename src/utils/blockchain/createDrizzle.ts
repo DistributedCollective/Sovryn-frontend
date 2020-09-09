@@ -1,8 +1,8 @@
 import { Drizzle, generateStore, IDrizzleOptions } from '@drizzle/store';
+import Web3 from 'web3';
 import { createWeb3 } from './web3';
 import { Asset } from '../../types/asset';
 import { AssetsDictionary } from './assets-dictionary';
-import Web3 from 'web3';
 import { appContracts } from './app-contracts';
 
 export const createDrizzleAssets = (
@@ -13,6 +13,7 @@ export const createDrizzleAssets = (
 
   const assetList = AssetsDictionary.find(assets);
   const contracts: Array<any> = [];
+  const events: { [contractName: string]: Array<string> } = {};
 
   assetList.forEach(item => {
     contracts.push(
@@ -25,6 +26,7 @@ export const createDrizzleAssets = (
         item.lendingContract,
       ),
     );
+    events[item.getLendingContractName()] = ['Burn', 'Mint'];
   });
 
   Object.keys(appContracts).forEach(key => {
@@ -32,10 +34,12 @@ export const createDrizzleAssets = (
     contracts.push(
       buildContractData(web3, key, { address: item.address, abi: item.abi }),
     );
+    events[key] = item.watchEvents;
   });
 
   const drizzleOptions: IDrizzleOptions = {
     contracts,
+    // events,
     syncAlways: true,
     polls: {
       blocks: 10000,

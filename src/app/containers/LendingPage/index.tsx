@@ -7,19 +7,14 @@
 import React from 'react';
 import { LendingTokenSelectorCard } from 'app/components/LendingTokenSelectorCard';
 import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
-
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
-interface Props {
-  location: any;
-}
-
-export function LendingPage(props: Props) {
+export function LendingPage() {
   const assets = AssetsDictionary.assetList();
   return (
     <>
-      <Header location={props.location.pathname} />
+      <Header />
       <div className="container py-5">
         <div className="d-flex row justify-content-center align-items-top">
           {assets.map(asset => (

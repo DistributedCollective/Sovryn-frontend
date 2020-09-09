@@ -4,7 +4,7 @@
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { InputGroup, Tag } from '@blueprintjs/core';
+import { InputGroup, Tag, Tooltip } from '@blueprintjs/core';
 import { toWei } from 'web3-utils';
 import styled from 'styled-components';
 import { Asset } from 'types/asset';
@@ -22,6 +22,12 @@ import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { useAmountState } from '../../hooks/useAmountState';
+import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { CustomDialog } from '../CustomDialog';
+import { LendingHistory } from '../../containers/LendingHistory';
+
+import tooltipData from 'utils/data/tooltip-text.json';
 
 interface Props {
   asset: Asset;
@@ -37,11 +43,12 @@ export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
-  const [amount, setAmount] = useState(
-    assetDetails.lendingLimits.min.toFixed(4),
+  const [amount, setAmount] = useAmountState(
+    weiTo4(toWei(assetDetails.lendingLimits.min.toString())),
   );
 
   const weiAmount = useWeiAmount(amount);
+
   const { value: allowance } = useTokenAllowance(
     props.asset,
     getLendingContract(props.asset).address,
@@ -138,66 +145,96 @@ export function LendingTokenSelectorCard(props: Props) {
     weiAmount,
   );
 
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    toWei(assetDetails.lendingLimits.min.toString()),
+    maxAmount,
+  );
+
+  const [showHistory, setShowHistory] = useState(false);
+  const tooltipText =
+    props.asset === 'BTC'
+      ? tooltipData.lending.InterestAPR_BTC
+      : tooltipData.lending.InterestAPR_USD;
+
   return (
-    <form
-      className="d-block p-5 bg-secondary text-white shadow"
-      onSubmit={handleSubmit}
-    >
-      <div className="d-flex flex-row justify-content-center">
-        <AssetLogo src={assetDetails.logoSvg} alt={props.asset} />
-      </div>
-      <div className="row mt-3 d-flex align-items-center">
-        <div className="col-6">
-          <h2>{props.asset}</h2>
+    <>
+      <form
+        className="d-block p-5 bg-secondary text-white shadow"
+        onSubmit={handleSubmit}
+      >
+        <div className="d-flex flex-row justify-content-center">
+          <AssetLogo src={assetDetails.logoSvg} alt={props.asset} />
         </div>
-        <div className="col-6 text-right">
-          <div className="text-lightGrey">Interest APR:</div>
-          <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
-        </div>
-      </div>
-      <div className="row mt-5">
-        <div className="col-6">
-          <div>Enter deposit amount</div>
-          <div className="small text-lightGrey">
-            (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
-            <span className={maxLoading ? 'bp3-skeleton' : ''}>
-              {weiTo4(maxAmount)}
-            </span>
-            )
+        <div className="row mt-3 d-flex align-items-center">
+          <div className="col-6">
+            <h2>{props.asset}</h2>
+          </div>
+          <div className="col-6 text-right">
+            <div className="text-lightGrey">
+              <Tooltip content={tooltipText}>Interest APR:</Tooltip>
+            </div>
+            <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
           </div>
         </div>
-        <div className="col-6">
-          <InputGroup
-            placeholder="Amount"
-            type="number"
-            value={amount}
-            onChange={e => setAmount(e.target.value)}
-            readOnly={txState.loading}
-            rightElement={<Tag minimal>{props.asset}</Tag>}
-          />
+        <div className="row mt-5">
+          <div className="col-6">
+            <div>Enter deposit amount</div>
+            <div className="small text-lightGrey">
+              (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
+              <span className={maxLoading ? 'bp3-skeleton' : ''}>
+                {weiTo4(maxAmount)}
+              </span>
+              )
+            </div>
+          </div>
+          <div className="col-6">
+            <InputGroup
+              placeholder="Amount"
+              type="text"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+              readOnly={txState.loading}
+              rightElement={<Tag minimal>{props.asset}</Tag>}
+            />
+          </div>
         </div>
-      </div>
-      <div className="mt-3 d-flex flex-row justify-content-center align-items-center overflow-hidden">
-        <div className="text-center w-100">
-          <button
-            className="btn btn-customOrange text-white font-weight-bold"
-            type="submit"
-            disabled={txState.loading || !isConnected}
-          >
-            {`Lend ${props.asset}`}
-          </button>
+        <div className="mt-3 d-flex flex-row justify-content-center align-items-center overflow-hidden">
+          <div className="text-center w-100">
+            <button
+              className="btn btn-customOrange text-white font-weight-bold"
+              type="submit"
+              disabled={txState.loading || !isConnected || !valid}
+            >
+              {`Lend ${props.asset}`}
+            </button>
+          </div>
+          {txState.type !== TxType.NONE && (
+            <SendTxProgress
+              status={txState.status}
+              txHash={txState.txHash}
+              loading={txState.loading}
+              type={txState.type}
+            />
+          )}
         </div>
-        {txState.type !== TxType.NONE && (
-          <SendTxProgress
-            status={txState.status}
-            txHash={txState.txHash}
-            loading={txState.loading}
-            type={txState.type}
-          />
-        )}
-      </div>
-      <LenderBalance asset={props.asset} />
-    </form>
+        <LenderBalance asset={props.asset} />
+        <button
+          className="btn btn-customOrange text-white font-weight-bold"
+          type="button"
+          onClick={() => setShowHistory(true)}
+          disabled={!isConnected}
+        >
+          Lending history
+        </button>
+      </form>
+      <CustomDialog
+        show={showHistory}
+        onClose={() => setShowHistory(false)}
+        title="Lending history"
+        content={<LendingHistory asset={props.asset} />}
+      />
+    </>
   );
 }
 

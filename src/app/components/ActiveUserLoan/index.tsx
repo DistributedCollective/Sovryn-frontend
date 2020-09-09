@@ -5,39 +5,21 @@
  */
 import React, { useState } from 'react';
 import { ActiveLoan } from 'app/hooks/trading/useGetActiveLoans';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
+import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
+import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 
 interface Props {
   item: ActiveLoan;
 }
 
-// collateral: "295874052501784628400"
-// collateralToken: "0xE631653c4Dc6Fb98192b950BA0b598f90FA18B3E"
-// currentMargin: "51887504175342500822"
-// endTimestamp: "1600335856"
-// interestDepositRemaining: "256011443817261"
-// interestOwedPerDay: "9179529393280"
-// loanId: "0xde1821f5678c33ca4007474735d910c0b6bb14f3fa0734447a9bd7b75eaf68ae"
-// loanToken: "0xE53d858A78D884659BF6955Ea43CBA67c0Ae293F"
-// maintenanceMargin: "15000000000000000000"
-// maxLiquidatable: "0"
-// maxLoanTerm: "2419200"
-// maxSeizable: "0"
-// principal: "19479815282251308"
-// startMargin: "100000000000000000000"
-// startRate: "131578947368421"
-
 export function ActiveUserLoan({ item }: Props) {
   const date = (timestamp: string) =>
     new Date(Number(timestamp) * 1e3).toLocaleDateString();
 
-  const symbolByTokenAddress = (address: string) => {
-    return AssetsDictionary.getByTokenContractAddress(address)?.symbol;
-  };
-
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
+  const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
 
   return (
     <>
@@ -51,24 +33,40 @@ export function ActiveUserLoan({ item }: Props) {
             <div className="font-weight-bold">Collateral Token</div>
             <div>{symbolByTokenAddress(item.collateralToken)}</div>
           </div>
+          {/*<div className="col">*/}
+          {/*  <div className="font-weight-bold">Interest deposit remaining</div>*/}
+          {/*  <div>*/}
+          {/*    {weiTo4(item.interestDepositRemaining)}{' '}*/}
+          {/*    {symbolByTokenAddress(item.loanToken)}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="col">
-            <div className="font-weight-bold">Interest deposit remaining</div>
+            <div className="font-weight-bold">Borrowed amount</div>
             <div>
-              {weiTo4(item.interestDepositRemaining)}{' '}
-              {symbolByTokenAddress(item.loanToken)}
+              {weiTo4(item.principal)} {symbolByTokenAddress(item.loanToken)}
             </div>
           </div>
           <div className="col">
-            <div className="font-weight-bold">InterestOwedPerDay</div>
+            <div className="font-weight-bold">Position size</div>
             <div>
-              {weiTo4(item.interestOwedPerDay)}{' '}
-              {symbolByTokenAddress(item.loanToken)}
+              {weiTo4(item.collateral)}{' '}
+              {symbolByTokenAddress(item.collateralToken)}
             </div>
           </div>
+          {/*<div className="col">*/}
+          {/*  <div className="font-weight-bold">InterestOwedPerDay</div>*/}
+          {/*  <div>*/}
+          {/*    {weiTo4(item.interestOwedPerDay)}{' '}*/}
+          {/*    {symbolByTokenAddress(item.loanToken)}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="col">
             <div className="btn-group">
-              <button className="btn btn-info" onClick={() => {}}>
-                Add margin
+              <button
+                className="btn btn-info"
+                onClick={() => setPositionMarginModalOpen(true)}
+              >
+                Top-Up
               </button>
               <button
                 className="btn btn-danger"
@@ -106,6 +104,11 @@ export function ActiveUserLoan({ item }: Props) {
         item={item}
         showModal={positionCloseModalOpen}
         onCloseModal={() => setPositionCloseModalOpen(false)}
+      />
+      <TopUpTradingPositionHandler
+        item={item}
+        showModal={positionMarginModalOpen}
+        onCloseModal={() => setPositionMarginModalOpen(false)}
       />
     </>
   );

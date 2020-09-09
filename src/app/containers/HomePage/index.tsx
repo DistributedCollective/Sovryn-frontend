@@ -12,12 +12,12 @@ export function HomePage() {
       <div className="container vh-100 d-flex flex-row align-items-center justify-content-center">
         <div className="container d-flex flex-row justify-content-between">
           <div>
-            <Link to="/lend" className="bp3-button">
+            <Link to="/lend" className="bp3-button px-5 py-3">
               Lend
             </Link>
           </div>
           <div>
-            <Link to="/trade" className="bp3-button">
+            <Link to="/trade" className="bp3-button px-5 py-3">
               Trade
             </Link>
           </div>

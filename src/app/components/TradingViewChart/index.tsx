@@ -3,14 +3,8 @@
  * TradingViewChart
  *
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
-import {
-  widget,
-  ChartingLibraryWidgetOptions,
-  IChartingLibraryWidget,
-  LanguageCode,
-} from 'libs/charting_library/charting_library.min';
 
 enum Theme {
   LIGHT = 'Light',
@@ -22,37 +16,23 @@ export interface ChartContainerProps {
   theme: Theme;
 }
 
-export interface ChartContainerState {}
-
-function getLanguageFromURL(): LanguageCode | null {
-  const regex = new RegExp('[\\?&]lang=([^&#]*)');
-  const results = regex.exec(window.location.search);
-  return results === null
-    ? null
-    : (decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode);
-}
-
-export class TradingViewChart extends React.PureComponent<
-  Partial<ChartContainerProps>,
-  ChartContainerState
-> {
-  static defaultProps = {
-    theme: Theme.DARK,
-  };
-  private tvWidget: IChartingLibraryWidget | null = null;
-
-  public componentDidMount(): void {
-    const widgetOptions: ChartingLibraryWidgetOptions = {
-      symbol: `WBTC_DAI` as string,
-      container_id: 'trading-view-container',
-      // BEWARE: no trailing slash is expected in feed URL
-      // tslint:disable-next-line:no-any
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-        'https://api.kyber.network/chart',
-      ),
+export function TradingViewChart(props: ChartContainerProps) {
+  useEffect(() => {
+    // @ts-ignore
+    const widget = new TradingView.widget({
+      width: 980,
+      height: 610,
+      symbol: 'BITFINEX:BTCUSD' /* props.asset */,
       interval: '30' as any,
-      library_path: '/charting_library/',
-      locale: getLanguageFromURL() || 'en',
+      timezone: 'Etc/UTC',
+      theme: props.theme,
+      locale: 'en',
+      toolbar_bg: '#f1f3f6',
+      enable_publishing: false,
+      allow_symbol_change: true,
+      container_id: 'trading-view-container',
+      autosize: true,
+      fullscreen: false,
       disabled_features: [
         'left_toolbar',
         'header_compare',
@@ -64,18 +44,9 @@ export class TradingViewChart extends React.PureComponent<
         'header_fullscreen_button',
         'go_to_date',
       ],
-      enabled_features: ['study_templates'],
-      charts_storage_url: 'https://saveload.tradingview.com',
-      charts_storage_api_version: '1.1',
-      client_id: 'tradingview.com',
-      user_id: 'public_user_id',
-      fullscreen: false,
-      autosize: true,
-      studies_overrides: {},
-      // Dark theme
-      //theme: 'Dark',
+      // enabled_features: ['study_templates'],
       loading_screen:
-        this.props.theme === Theme.DARK
+        props.theme === Theme.DARK
           ? { backgroundColor: 'rgb(0, 0, 0)' }
           : { backgroundColor: 'rgb(256, 256, 256)' },
       overrides: {
@@ -87,44 +58,21 @@ export class TradingViewChart extends React.PureComponent<
         'mainSeriesProperties.candleStyle.wickUpColor': '#336854',
         'mainSeriesProperties.candleStyle.wickDownColor': '#7f323f',
       },
-      //custom_css_url: '/charting_library/custom_css.css',
-    };
-
-    const tvWidget = new widget(widgetOptions);
-    this.tvWidget = tvWidget;
-
-    tvWidget.onChartReady(() => {
-      // tvWidget.headerReady().then(() => {
-      //   const button = tvWidget.createButton();
-      //   button.setAttribute('title', 'Click to show a notification popup');
-      //   button.classList.add('apply-common-tooltip');
-      //   button.addEventListener('click', () =>
-      //     tvWidget.showNoticeDialog({
-      //       title: 'Notification',
-      //       body: 'TradingView Charting Library API works correctly',
-      //       callback: () => {
-      //         console.log('Noticed!');
-      //       },
-      //     }),
-      //   );
-      //   button.innerHTML = 'Check API';
-      // });
     });
-  }
 
-  public componentWillUnmount(): void {
-    if (this.tvWidget !== null) {
-      this.tvWidget.remove();
-      this.tvWidget = null;
-    }
-  }
+    return () => {
+      widget.remove();
+    };
+  }, [props.theme]);
 
-  public render(): JSX.Element {
-    return (
-      <div
-        id={'trading-view-container'}
-        className={'w-100 h-100 background-secondary'}
-      />
-    );
-  }
+  return (
+    <div
+      id={'trading-view-container'}
+      className={'w-100 h-100 background-secondary'}
+    />
+  );
 }
+
+TradingViewChart.defaultProps = {
+  theme: Theme.DARK,
+};

@@ -1,39 +1,46 @@
-import { useEffect, useState } from 'react';
-import { useDrizzle } from './useDrizzle';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { EventData, Contract } from 'web3-eth-contract';
+import { getWeb3Contract } from '../../utils/blockchain/contract-helpers';
+
+// todo move to .env and config to make reusable
+const OLDEST_BLOCK = 1125558;
 
 /**
- * public rsk nodes does not allow us to get events, try to use it in different way.
- * @param contractName
+ * @param contract
  * @param event
- * @param options
  */
 export function useGetPastEvents(
-  contractName: string,
+  contract: { abi: any; address: string },
   event: string = 'allEvents',
-  options: any,
 ) {
-  const { contracts, web3 } = useDrizzle();
-  const [events, setEvents] = useState([]);
+  const web3ContractRef = useRef<Contract>(null as any);
+  const [events, setEvents] = useState<EventData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    if (web3?.eth?.Contract) {
-      console.log('has contract', contractName, event, options);
-      const contract = contracts[contractName];
-      const yourContractWeb3 = new web3.eth.Contract(
-        contract.abi,
-        contract.address,
-      );
+    web3ContractRef.current = getWeb3Contract(contract.address, contract.abi);
+  }, [contract]);
 
-      yourContractWeb3
-        .getPastEvents(event, options)
+  const fetch = useCallback(
+    (
+      filter = undefined,
+      options = { fromBlock: OLDEST_BLOCK, toBlock: 'latest' },
+    ) => {
+      setLoading(true);
+      web3ContractRef.current
+        .getPastEvents(event, { ...options, ...{ filter } })
         .then(data => {
-          console.log('events:', data);
-          setEvents(data);
+          setEvents(data as any);
+          setLoading(false);
         })
-        .catch(console.error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event, contractName, options, web3]);
+        .catch(e => {
+          setLoading(false);
+          setError(e);
+        });
+    },
+    [event],
+  );
 
-  return events;
+  return { events, fetch: fetch, loading, error };
 }

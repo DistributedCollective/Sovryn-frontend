@@ -20,7 +20,7 @@ export function AssetInterestRate(props: Props) {
   return (
     <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
       <h2 className="d-flex flex-row">
-        {weiToFixed(value, 4)}
+        {weiToFixed(value, 2)}
         <span className="text-lightGrey">%</span>
       </h2>
     </Tooltip>

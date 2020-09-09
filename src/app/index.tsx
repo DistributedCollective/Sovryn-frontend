@@ -19,6 +19,7 @@ import { TradePage } from './containers/TradePage/Loadable';
 import { AssetsDictionary } from '../utils/blockchain/assets-dictionary';
 import { createDrizzleAssets } from '../utils/blockchain/createDrizzle';
 import { DrizzleProvider } from './containers/DrizzleProvider';
+import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 
 export function App() {
   const assets = AssetsDictionary.assetList();
@@ -33,6 +34,7 @@ export function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/lend" component={LendingPage} />
           <Route exact path="/trade/:asset?" component={TradePage} />
+          <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </DrizzleProvider>

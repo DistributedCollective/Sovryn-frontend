@@ -77,7 +77,8 @@
     "lint:fix": "yarn eslint -- --fix src",
     "lint:css": "stylelint src/**/*.css",
     "generate": "cross-env TS_NODE_PROJECT='./internals/ts-node.tsconfig.json' plop --plopfile internals/generators/plopfile.ts",
-    "prettify": "prettier --write"
+    "prettify": "prettier --write",
+    "build:prod": "yarn build && rm -rf dist && mv build dist"
   },
   "browserslist": {
     "production": [

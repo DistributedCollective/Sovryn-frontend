@@ -9,6 +9,7 @@ import { Asset } from 'types/asset';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
 import { LoadableValue } from '../LoadableValue';
+import tooltipData from 'utils/data/tooltip-text.json';
 
 interface Props {
   asset: Asset;
@@ -25,14 +26,16 @@ export function BorrowAssetPrice(props: Props) {
 
   return (
     <div className="mb-2">
-      <div className="d-inline text-lightGrey">Asset Price</div>
+      <div className="d-inline text-lightGrey">
+        <Tooltip content={tooltipData.trading.AssetPrice}>Asset Price</Tooltip>
+      </div>
       <div className="d-inline float-right">
         <LoadableValue
           value={
-            <Tooltip content={<>${weiToFixed(value, 18)}</>}>
+            <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
               <>
                 <span className="text-lightGrey">$</span>
-                {weiToFixed(value, 4)}
+                {weiToFixed(value, 2)}
               </>
             </Tooltip>
           }
