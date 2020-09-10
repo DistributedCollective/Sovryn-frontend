@@ -1,4 +1,1 @@
-export enum Asset {
-  BTC = 'BTC',
-  USD = 'USD',
-}
+export enum Asset {  BTC = 'BTC',  USD = 'USD',}

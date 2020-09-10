@@ -1,3 +1,1 @@
-export const ProtocolService = {
-  // constract: new Contract
-};
+export const ProtocolService = {  // constract: new Contract};
