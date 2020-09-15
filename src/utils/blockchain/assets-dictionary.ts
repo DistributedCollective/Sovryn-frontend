@@ -49,6 +49,27 @@ export class AssetsDictionary {
           { min: 1, max: 50000 },
         ),
       ],
+      // this one is fake btc token, will be removed later,
+      // without this app may crash if user has trade history on legacy contract.
+      [
+        Asset.BTC_DUMMY,
+        new AssetDetails(
+          Asset.BTC_DUMMY,
+          'BTC_DUMMY',
+          'BTC_DUMMY',
+          18,
+          {
+            address: '0xE53d858A78D884659BF6955Ea43CBA67c0Ae293F',
+            abi: TestTokenABI,
+          },
+          {
+            address: '0x08118a219a4e34E06176cD0861fcDDB865771111',
+            abi: LoanTokenABI,
+          },
+          btcIcon,
+          { min: 0.01, max: 1 },
+        ),
+      ],
     ],
   );
 

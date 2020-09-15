@@ -28,6 +28,7 @@ import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
 
 import tooltipData from 'utils/data/tooltip-text.json';
+import { useLendTokens } from '../../hooks/useLendTokens';
 
 interface Props {
   asset: Asset;
@@ -61,12 +62,9 @@ export function LendingTokenSelectorCard(props: Props) {
     loading: approveLoading,
   } = useTokenApproveForLending(props.asset);
 
-  const {
-    lend,
-    txHash: lendTx,
-    status: lendStatus,
-    loading: lendLoading,
-  } = useLendTokensRBTC(props.asset);
+  const { lend, ...lendInfo } = useLendTokens(props.asset);
+
+  const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(props.asset);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -77,11 +75,15 @@ export function LendingTokenSelectorCard(props: Props) {
 
   const handleLending = useCallback(
     (weiAmount: string) => {
-      if (!lendLoading) {
-        lend(weiAmount);
+      if (!(lendInfo.loading && lendBtcInfo.loading)) {
+        if (props.asset === Asset.BTC) {
+          lendBTC(weiAmount);
+        } else {
+          lend(weiAmount);
+        }
       }
     },
-    [lend, lendLoading],
+    [lend, lendBTC, props.asset, lendInfo.loading, lendBtcInfo.loading],
   );
 
   const handleSubmit = e => {
@@ -90,12 +92,15 @@ export function LendingTokenSelectorCard(props: Props) {
   };
 
   const handleTx = useCallback(() => {
-    if (bignumber(weiAmount).greaterThan(allowance)) {
+    if (
+      props.asset !== Asset.BTC &&
+      bignumber(weiAmount).greaterThan(allowance)
+    ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleLending(weiAmount);
     }
-  }, [allowance, weiAmount, handleApprove, handleLending]);
+  }, [allowance, weiAmount, handleApprove, handleLending, props]);
 
   useEffect(() => {
     if (approveStatus === TransactionStatus.SUCCESS) {
@@ -117,7 +122,11 @@ export function LendingTokenSelectorCard(props: Props) {
   });
 
   useEffect(() => {
-    if (!lendLoading && approveStatus !== TransactionStatus.NONE) {
+    if (
+      !lendInfo.loading &&
+      !lendBtcInfo.loading &&
+      approveStatus !== TransactionStatus.NONE
+    ) {
       setTxState({
         type: TxType.APPROVE,
         txHash: approveTx,
@@ -125,20 +134,43 @@ export function LendingTokenSelectorCard(props: Props) {
         loading: approveLoading,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [approveLoading, approveTx, approveStatus]);
+  }, [
+    approveLoading,
+    approveTx,
+    approveStatus,
+    lendInfo.loading,
+    lendBtcInfo.loading,
+  ]);
 
   useEffect(() => {
-    if (!approveLoading && lendStatus !== TransactionStatus.NONE) {
+    if (!approveLoading && lendInfo.status !== TransactionStatus.NONE) {
       setTxState({
         type: TxType.LEND,
-        txHash: lendTx,
-        status: lendStatus,
-        loading: lendLoading,
+        txHash: lendInfo.txHash,
+        status: lendInfo.status,
+        loading: lendInfo.loading,
+      });
+    } else if (
+      !approveLoading &&
+      lendBtcInfo.status !== TransactionStatus.NONE
+    ) {
+      setTxState({
+        type: TxType.LEND,
+        txHash: lendBtcInfo.txHash,
+        status: lendBtcInfo.status,
+        loading: lendBtcInfo.loading,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lendLoading, lendTx, lendStatus]);
+  }, [
+    approveLoading,
+    lendBtcInfo.loading,
+    lendBtcInfo.txHash,
+    lendInfo.loading,
+    lendBtcInfo.status,
+    lendInfo.status,
+    lendInfo.txHash,
+  ]);
 
   const { value: maxAmount, loading: maxLoading } = useMaxDepositAmount(
     props.asset,

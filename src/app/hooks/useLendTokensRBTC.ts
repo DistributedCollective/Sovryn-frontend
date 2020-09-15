@@ -10,7 +10,8 @@ export function useLendTokensRBTC(asset: Asset) {
     'mintWithBTC',
   );
   return {
-    lend: (weiAmount: string) => send(account, { from: account, value: weiAmount }),
+    lend: (weiAmount: string) =>
+      send(account, { from: account, value: weiAmount }),
     ...rest,
   };
 }
