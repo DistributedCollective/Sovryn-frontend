@@ -28,7 +28,7 @@ export function useGetActiveLoans(
   unsafeOnly: boolean = false,
 ) {
   const { value, loading, error } = useCacheCallWithValue(
-    'bzxContract',
+    'sovrynProtocol',
     'getUserLoans',
     [],
     account,

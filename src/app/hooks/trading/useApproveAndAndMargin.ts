@@ -19,14 +19,17 @@ export function useApproveAndAddMargin(
   loanId: string,
   depositAmount,
 ) {
-  const allowance = useTokenAllowance(token, appContracts.bzxContract.address);
+  const allowance = useTokenAllowance(
+    token,
+    appContracts.sovrynProtocol.address,
+  );
 
   const {
     approve,
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(token, appContracts.bzxContract.address);
+  } = useTokenApprove(token, appContracts.sovrynProtocol.address);
 
   const {
     send,

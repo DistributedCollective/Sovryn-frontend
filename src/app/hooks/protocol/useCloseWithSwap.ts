@@ -13,7 +13,10 @@ export function useCloseWithSwap(
   loanDataBytes,
 ): SendTxResponseInterface {
   const account = useAccount();
-  const { send, ...rest } = useSendContractTx('bzxContract', 'closeWithSwap');
+  const { send, ...rest } = useSendContractTx(
+    'sovrynProtocol',
+    'closeWithSwap',
+  );
 
   return {
     send: () =>

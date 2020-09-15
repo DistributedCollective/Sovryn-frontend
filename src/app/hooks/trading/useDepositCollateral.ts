@@ -6,7 +6,7 @@ import { toWei } from 'web3-utils';
 export function useDepositCollateral(token: Asset, loanId, depositAmount) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    'bzxContract',
+    'sovrynProtocol',
     'depositCollateral',
   );
 
