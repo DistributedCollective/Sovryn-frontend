@@ -9,7 +9,7 @@ export function useDepositCollateral(loanId, depositAmount) {
   );
 
   return {
-    send: () => send(loanId, depositAmount, { from: account }),
+    send: () => send(loanId, depositAmount, { from: account, value: depositAmount }),
     ...rest,
   };
 }

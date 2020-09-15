@@ -11,7 +11,7 @@ import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../hooks/useTokenApproveForLending';
 import { useTokenAllowance } from '../../hooks/useTokenAllowanceForLending';
 import { bignumber } from 'mathjs';
-import { useLendTokens } from '../../hooks/useLendTokens';
+import { useLendTokensRBTC } from '../../hooks/useLendTokensRBTC';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetInterestRate } from '../AssetInterestRate';
 import { LenderBalance } from '../LenderBalance';
@@ -66,7 +66,7 @@ export function LendingTokenSelectorCard(props: Props) {
     txHash: lendTx,
     status: lendStatus,
     loading: lendLoading,
-  } = useLendTokens(props.asset);
+  } = useLendTokensRBTC(props.asset);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {

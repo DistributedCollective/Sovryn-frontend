@@ -9,7 +9,7 @@ import { Asset } from 'types/asset';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../hooks/useAccount';
-import { useUnLendTokens } from '../../hooks/useUnLendTokens';
+import { useUnLendTokensRBTC } from '../../hooks/useUnLendTokensRBTC';
 import { WithdrawLentDialog } from '../../components/WithdrawLentDialog';
 import { toWei } from 'web3-utils';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
@@ -32,7 +32,7 @@ export function WithdrawLentAmount(props: Props) {
   const { value: price } = useTokenPrice(props.asset);
 
   const [amount, setAmount] = useState(weiTo18(balance));
-  const { unLend, ...txState } = useUnLendTokens(props.asset);
+  const { unLend, ...txState } = useUnLendTokensRBTC(props.asset);
 
   const handleUnLendClick = useCallback(() => {
     unLend(toWei(amount));
