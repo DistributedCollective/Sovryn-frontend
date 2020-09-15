@@ -2,10 +2,7 @@ import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { TransactionStatus } from 'types/transaction-status';
-import {
-  getLendingContract,
-  getTokenContract,
-} from 'utils/blockchain/contract-helpers';
+import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useTokenAllowance } from '../useTokenAllowanceForLending';
 import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
@@ -51,7 +48,7 @@ export function useApproveAndTrade(
     toWei(String(leverage), 'ether'),
     0,
     weiAmount,
-    getTokenContract(token).address,
+    token,
     account, // trader
     '0x',
   );
@@ -70,12 +67,15 @@ export function useApproveAndTrade(
   }, [trade, tradeLoading]);
 
   const handleTx = useCallback(() => {
-    if (bignumber(weiAmount).greaterThan(allowance.value)) {
+    if (
+      token !== Asset.BTC &&
+      bignumber(weiAmount).greaterThan(allowance.value)
+    ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [allowance, weiAmount, handleApprove, handleTrade]);
+  }, [token, allowance, weiAmount, handleApprove, handleTrade]);
 
   const [txState, setTxState] = useState<{
     type: TxType;
