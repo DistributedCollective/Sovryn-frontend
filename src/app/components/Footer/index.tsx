@@ -17,8 +17,8 @@ export function Footer() {
         <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
           <iframe
             title="MatomoOptout"
-            style={{ width: '100%', border: 'none' }}
-            src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=212121&fontColor=fafafa&fontSize=14px&fontFamily=Roboto"
+            style={{ width: '100%', border: 'none', marginLeft: '-5px' }}
+            src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=212121&fontColor=fafafa&fontSize=14px&fontFamily=system-ui"
           ></iframe>
         </div>
       </div>
