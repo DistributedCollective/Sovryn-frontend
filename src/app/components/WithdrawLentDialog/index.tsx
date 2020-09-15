@@ -31,8 +31,8 @@ export function WithdrawLentDialog(props: Props) {
 
   useEffect(() => {
     setValid(
-      bignumber(toWei(props.amount)).greaterThan(0) &&
-        bignumber(toWei(props.amount)).lessThanOrEqualTo(props.balance),
+      !!bignumber(toWei(props.amount)).greaterThan(0) &&
+        !!bignumber(toWei(props.amount)).lessThanOrEqualTo(props.balance),
     );
   }, [props.balance, props.amount]);
 
