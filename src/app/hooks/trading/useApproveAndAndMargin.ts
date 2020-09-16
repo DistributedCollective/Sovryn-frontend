@@ -19,21 +19,24 @@ export function useApproveAndAddMargin(
   loanId: string,
   depositAmount,
 ) {
-  const allowance = useTokenAllowance(token, appContracts.bzxContract.address);
+  const allowance = useTokenAllowance(
+    token,
+    appContracts.sovrynProtocol.address,
+  );
 
   const {
     approve,
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(token, appContracts.bzxContract.address);
+  } = useTokenApprove(token, appContracts.sovrynProtocol.address);
 
   const {
     send,
     txHash: tradeTx,
     status: tradeStatus,
     loading: tradeLoading,
-  } = useDepositCollateral(loanId, depositAmount);
+  } = useDepositCollateral(token, loanId, depositAmount);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -49,12 +52,15 @@ export function useApproveAndAddMargin(
   }, [send, tradeLoading]);
 
   const handleTx = useCallback(() => {
-    if (bignumber(depositAmount).greaterThan(allowance.value)) {
+    if (
+      token !== Asset.BTC &&
+      bignumber(depositAmount).greaterThan(allowance.value)
+    ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [depositAmount, allowance, handleApprove, handleTrade]);
+  }, [depositAmount, allowance, handleApprove, handleTrade, token]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

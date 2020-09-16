@@ -1,5 +1,5 @@
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
 export function useMaxSwapSize() {
-  return useCacheCallWithValue('bzxContract', 'maxSwapSize', '0');
+  return useCacheCallWithValue('sovrynProtocol', 'maxSwapSize', '0');
 }

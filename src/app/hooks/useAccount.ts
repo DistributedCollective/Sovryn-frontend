@@ -7,6 +7,19 @@ export function useAccount() {
 }
 
 export function useIsConnected() {
-  const account = useAccount();
-  return !!account;
+  return useDrizzleState(drizzleState => {
+    if (
+      drizzleState.web3?.networkId !== Number(process.env.REACT_APP_NETWORK_ID)
+    )
+      return false;
+    return !!drizzleState.accounts[0];
+  });
+}
+
+export function useIsCorrectNetwork() {
+  return useDrizzleState(drizzleState => {
+    return (
+      drizzleState.web3?.networkId === Number(process.env.REACT_APP_NETWORK_ID)
+    );
+  });
 }

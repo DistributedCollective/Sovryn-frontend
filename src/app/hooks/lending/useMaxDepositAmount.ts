@@ -1,6 +1,6 @@
 import { Asset } from '../../../types/asset';
 import { useGetMaxEscrowAmount } from './useGetMaxEscrowAmount';
-import { useMaxSwapSize } from '../bzx/useMaxSwapSize';
+import { useMaxSwapSize } from '../protocol/useMaxSwapSize';
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 

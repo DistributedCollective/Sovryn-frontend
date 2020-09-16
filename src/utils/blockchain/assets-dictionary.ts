@@ -5,6 +5,7 @@ import btcIcon from 'assets/images/rBTC-logo.png';
 import usdIcon from 'assets/images/dollar-sign.svg';
 import LoanTokenABI from './abi/abiLoanToken.json';
 import TestTokenABI from './abi/abiTestToken.json';
+import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
@@ -17,12 +18,12 @@ export class AssetsDictionary {
           'Bitcoin',
           18,
           {
-            address: '0xE53d858A78D884659BF6955Ea43CBA67c0Ae293F',
+            address: '0x21Fa1095205a37aDe78F394B3B984ea3f743bc70',
             abi: TestTokenABI,
           },
           {
-            address: '0x08118a219a4e34E06176cD0861fcDDB865771111',
-            abi: LoanTokenABI,
+            address: '0x021Bc6f3c101fC1354A212583a5aF0347FE283Cf',
+            abi: LoanTokenLogicWrbtc,
           },
           btcIcon,
           { min: 0.01, max: 1 },
@@ -36,11 +37,11 @@ export class AssetsDictionary {
           'USD',
           18,
           {
-            address: '0xE631653c4Dc6Fb98192b950BA0b598f90FA18B3E',
+            address: '0xD958866a46F4e7Db1Cc6A80589D0dc44Cbfb155b',
             abi: TestTokenABI,
           },
           {
-            address: '0xD1A979EDE2c17FCD31800Bed859e5EC3DA178Cb9',
+            address: '0x4a050817d9192A4E4a093ea6426D53417c5Eb1FC',
             abi: LoanTokenABI,
           },
           usdIcon,

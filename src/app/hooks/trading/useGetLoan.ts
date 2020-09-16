@@ -29,8 +29,8 @@ export function useGetLoan() {
 
   useEffect(() => {
     web3ContractRef.current = getWeb3Contract(
-      appContracts.bzxContract.address,
-      appContracts.bzxContract.abi,
+      appContracts.sovrynProtocol.address,
+      appContracts.sovrynProtocol.abi,
     );
   }, []);
 

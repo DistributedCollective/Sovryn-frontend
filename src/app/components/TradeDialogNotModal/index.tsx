@@ -6,12 +6,10 @@
 import React, { useEffect, useState } from 'react';
 import { Asset } from 'types/asset';
 import { InputGroup } from '@blueprintjs/core';
-import { BorrowInterestRate } from '../BorrowInterestRate';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { FormSelect, SelectItem } from '../FormSelect';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { AssetWalletBalance } from '../AssetWalletBalance';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { TradingPosition } from '../../../types/trading-position';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
@@ -28,12 +26,11 @@ interface Props {
 }
 
 export function TradeDialogNotModal(props: Props) {
-  const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
   const handleAmountChange = (e: any) => {
     //Check that input is a positive number before changing state
-    if (+e.target.value === +e.target.value && e.target.value >= 0) {
+    if (e.target.value && e.target.value >= 0) {
       setAmount(e.currentTarget.value);
       props.onChangeAmount(e.currentTarget.value);
     }
@@ -82,7 +79,7 @@ export function TradeDialogNotModal(props: Props) {
 
   return (
     <div className="mt-5 border-white">
-      <div className="row text-center mb-3"></div>
+      <div className="row text-center mb-3" />
 
       <AssetWalletBalance asset={selected} />
 
