@@ -21,6 +21,7 @@ export function Footer() {
             src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=212121&fontColor=fafafa&fontSize=14px&fontFamily=system-ui"
           ></iframe>
         </div>
+        <div>testing eol</div>
       </div>
     </footer>
   );
