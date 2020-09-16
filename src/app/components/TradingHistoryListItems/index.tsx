@@ -34,8 +34,6 @@ export function TradingHistoryListItems(props: Props) {
     profit: '0',
   });
 
-  // const { value: loan, getLoan } = useGetLoan();
-
   useEffect(() => {
     const sorted = props.items.sort((a, b) => b.blockNumber - a.blockNumber);
     setItems(sorted);
@@ -44,6 +42,7 @@ export function TradingHistoryListItems(props: Props) {
     let loanId = '0x0';
 
     let profit = '0';
+    let entryPrice = '0';
     if (tradeEvent) {
       loanId = tradeEvent.returnValues.loanId;
       setState(prev => ({
@@ -61,13 +60,7 @@ export function TradingHistoryListItems(props: Props) {
         },
       }));
 
-      profit = bignumber(tradeEvent.returnValues.positionSize)
-        .minus(
-          bignumber(tradeEvent.returnValues.positionSize).div(
-            tradeEvent.returnValues.entryPrice,
-          ),
-        )
-        .toFixed(0);
+      entryPrice = bignumber(tradeEvent.returnValues.entryPrice).toFixed(0);
     }
 
     const sellEvents = sorted.filter(item => item.event === 'CloseWithSwap');
@@ -75,56 +68,26 @@ export function TradingHistoryListItems(props: Props) {
       sellEvents.forEach(ev => {
         loanId = ev.returnValues.loanId;
 
+        const priceDiff = bignumber(ev.returnValues.exitPrice).minus(
+          entryPrice,
+        );
         profit = bignumber(profit)
-          .add(
-            bignumber(ev.returnValues.positionCloseSize).div(
-              ev.returnValues.exitPrice,
-            ),
-          )
+          .add(priceDiff.mul(bignumber(ev.returnValues.positionCloseSize)))
           .toFixed(0);
-
-        //   // todo calculation is needed here.
-        //   const priceRate = bignumber(ev.returnValues.exitPrice).minus(
-        //     entryPrice,
-        //   );
-        //   profit = profit.add(
-        //     bignumber(ev.returnValues.positionCloseSize),
-        //   );
-        //   setState(prev => ({
-        //     ...prev,
-        //     ...{
-        //       position: bignumber(prev.position)
-        //         .minus(ev.returnValues.positionCloseSize)
-        //         .toString(),
-        //     },
-        //   }));
       });
-      // setState(prev => ({ ...prev, ...{ profit: profit.toString() } }));
     }
 
     setState(prev => ({
       ...prev,
-      ...{ loanId: loanId, profit: profit },
+      ...{
+        loanId: loanId,
+        profit: bignumber(profit)
+          .div(10 ** 18)
+          .toFixed(0),
+      },
     }));
     setItems(sorted);
-    // getLoan(loanId);
   }, [props.items /*, getLoan*/]);
-
-  // collateral: "0"
-  // collateralToken: "0xE631653c4Dc6Fb98192b950BA0b598f90FA18B3E"
-  // currentMargin: "0"
-  // endTimestamp: "1598635465"
-  // interestDepositRemaining: "0"
-  // interestOwedPerDay: "0"
-  // loanId: "0xa3f4144ddb82f9be5c3ed791ab6253a18d0f15746e8b436460eeed91daa4298b"
-  // loanToken: "0xE53d858A78D884659BF6955Ea43CBA67c0Ae293F"
-  // maintenanceMargin: "15000000000000000000"
-  // maxLiquidatable: "0"
-  // maxLoanTerm: "2419200"
-  // maxSeizable: "0"
-  // principal: "0"
-  // startMargin: "50000000000000000000"
-  // startRate: "100000000000000"
 
   if (!state.prepared) {
     return <></>;
