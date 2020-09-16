@@ -38,11 +38,11 @@ export class AssetsDictionary {
           'USD',
           18,
           {
-            address: '0xE631653c4Dc6Fb98192b950BA0b598f90FA18B3E',
+            address: '0xD958866a46F4e7Db1Cc6A80589D0dc44Cbfb155b',
             abi: TestTokenABI,
           },
           {
-            address: '0xD1A979EDE2c17FCD31800Bed859e5EC3DA178Cb9',
+            address: '0x4a050817d9192A4E4a093ea6426D53417c5Eb1FC',
             abi: LoanTokenABI,
           },
           usdIcon,
