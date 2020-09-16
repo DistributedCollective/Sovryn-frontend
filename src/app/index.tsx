@@ -36,7 +36,7 @@ export function App() {
           <Route exact path="/lend" component={LendingPage} />
           <Route exact path="/trade/:asset?" component={TradePage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
-          <Route exact path="/stats" component={StatsPage} />
+          <Route exact path="/stats" component={StatsPage} drizzle={drizzle} />
           <Route component={NotFoundPage} />
         </Switch>
       </DrizzleProvider>
