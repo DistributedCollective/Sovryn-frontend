@@ -5,7 +5,6 @@ import btcIcon from 'assets/images/rBTC-logo.png';
 import usdIcon from 'assets/images/dollar-sign.svg';
 import LoanTokenABI from './abi/abiLoanToken.json';
 import TestTokenABI from './abi/abiTestToken.json';
-import TestToken from './abi/TestToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 
 export class AssetsDictionary {
@@ -20,7 +19,7 @@ export class AssetsDictionary {
           18,
           {
             address: '0x21Fa1095205a37aDe78F394B3B984ea3f743bc70',
-            abi: TestToken,
+            abi: TestTokenABI,
           },
           {
             address: '0x021Bc6f3c101fC1354A212583a5aF0347FE283Cf',
