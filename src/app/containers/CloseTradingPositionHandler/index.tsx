@@ -11,7 +11,7 @@ import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useCloseWithSwap } from '../../hooks/bzx/useCloseWithSwap';
+import { useCloseWithSwap } from '../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';

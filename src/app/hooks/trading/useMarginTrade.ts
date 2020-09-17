@@ -1,7 +1,11 @@
 import { Asset } from 'types/asset';
-import { getLendingContractName } from 'utils/blockchain/contract-helpers';
+import {
+  getLendingContractName,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { toWei } from 'web3-utils';
 
 export function useMarginTrade(
   asset: Asset,
@@ -9,7 +13,7 @@ export function useMarginTrade(
   leverageAmount,
   loanTokenSent,
   collateralTokenSent,
-  collateralTokenAddress,
+  collateralToken,
   trader,
   loanDataBytes,
 ) {
@@ -20,17 +24,22 @@ export function useMarginTrade(
   );
 
   return {
-    trade: () =>
-      send(
+    trade: () => {
+      return send(
         loanId,
         leverageAmount,
         loanTokenSent,
         collateralTokenSent,
-        collateralTokenAddress,
+        getTokenContract(collateralToken).address,
         trader,
         loanDataBytes,
-        { from: account },
-      ),
+        {
+          from: account,
+          value:
+            collateralToken === Asset.BTC ? collateralTokenSent : toWei('0'),
+        },
+      );
+    },
     ...rest,
   };
 }

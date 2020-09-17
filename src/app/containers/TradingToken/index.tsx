@@ -27,8 +27,6 @@ export function TradingToken(props: Props) {
   const [amount, setAmount] = useState('0');
   const weiAmount = useWeiAmount(amount);
 
-  const [openTrade, setOpenTrade] = useState(false);
-
   useEffect(() => {
     if (props.position === TradingPosition.LONG) {
       setAsset(Asset.USD);
@@ -36,8 +34,6 @@ export function TradingToken(props: Props) {
       setAsset(Asset.BTC);
     }
   }, [props.position]);
-
-  const color = props.position === 'LONG' ? 'customTeal' : 'customOrange';
 
   return (
     <div className="bg-secondary p-3 h-100 mr-0">
@@ -77,15 +73,6 @@ export function TradingToken(props: Props) {
         asset={asset}
         onChangeAmount={value => setAmount(value)}
       />
-      {/* <TradeDialog
-        loanId={'0'}
-        leverage={leverage}
-        position={props.position}
-        asset={asset}
-        onChangeAmount={value => setAmount(value)}
-        onClose={() => setOpenTrade(false)}
-        isOpen={openTrade}
-      /> */}
     </div>
   );
 }
