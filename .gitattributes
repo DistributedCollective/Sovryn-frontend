@@ -47,8 +47,8 @@
 *.sql             text
 *.styl            text
 *.tag             text
-*.ts              text eol=lf
-*.tsx             text eol=lf
+*.ts              text 
+*.tsx             text 
 *.xml             text
 *.xhtml           text diff=html
 
