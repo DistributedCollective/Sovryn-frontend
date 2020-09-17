@@ -6,10 +6,8 @@
 import React from 'react';
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { LoadableValue } from '../LoadableValue';
+import { StatsRowData } from '../StatsRowData';
 
 interface Props {
   asset: Asset;
@@ -18,36 +16,6 @@ interface Props {
 export function StatsRow(props: Props) {
   const logo = AssetsDictionary.get(props.asset).logoSvg;
   const lendingContract = getLendingContractName(props.asset);
-
-  const { value: totalAssetSupply } = useCacheCallWithValue(
-    lendingContract,
-    'totalAssetSupply',
-    '0',
-  );
-
-  const { value: supplyInterestRate } = useCacheCallWithValue(
-    lendingContract,
-    'supplyInterestRate',
-    '0',
-  );
-
-  const { value: borrowInterestRate } = useCacheCallWithValue(
-    lendingContract,
-    'borrowInterestRate',
-    '0',
-  );
-
-  const { value: totalAssetBorrowed } = useCacheCallWithValue(
-    lendingContract,
-    'totalAssetBorrow',
-    '0',
-  );
-
-  const { value: liquidity } = useCacheCallWithValue(
-    lendingContract,
-    'marketLiquidity',
-    '0',
-  );
 
   return (
     <>
@@ -61,40 +29,58 @@ export function StatsRow(props: Props) {
           />{' '}
           {props.asset}
         </td>
+
         <td className="text-right">
-          <LoadableValue
-            value={`${parseFloat(weiTo4(totalAssetSupply)).toLocaleString(
-              'en',
-              { maximumFractionDigits: 2 },
-            )} 
-              ${props.asset}`}
-            loading={totalAssetSupply === '0' ? true : false}
-          />
+          <StatsRowData
+            contract={lendingContract}
+            data={'totalAssetSupply'}
+            displayType={'normal'}
+          />{' '}
+          {props.asset}
         </td>
+
         <td className="text-right">
-          <LoadableValue
-            value={`${parseFloat(
-              weiTo4(totalAssetBorrowed),
-            ).toLocaleString('en', { maximumFractionDigits: 2 })} 
-          ${props.asset}`}
-            loading={totalAssetBorrowed === '0' ? true : false}
-          />
+          <StatsRowData
+            contract={lendingContract}
+            data={'totalAssetBorrow'}
+            displayType={'normal'}
+          />{' '}
+          {props.asset}
         </td>
+
         <td className="text-right">
-          <LoadableValue
-            value={`${parseFloat(weiTo4(liquidity)).toLocaleString('en', {
-              maximumFractionDigits: 2,
-            })}
-          ${props.asset}`}
-            loading={liquidity === '0' ? true : false}
-          />
+          <StatsRowData
+            contract={lendingContract}
+            data={'marketLiquidity'}
+            displayType={'normal'}
+          />{' '}
+          {props.asset}
         </td>
+
         <td className="text-right">
-          {weiTo4(supplyInterestRate)}
+          <StatsRowData
+            contract={lendingContract}
+            data={'tokenPrice'}
+            displayType={'normal'}
+          />{' '}
+          {props.asset}
+        </td>
+
+        <td className="text-right">
+          <StatsRowData
+            contract={lendingContract}
+            data={'supplyInterestRate'}
+            displayType={'percentage'}
+          />
           <span className="text-lightGrey">%</span>
         </td>
+
         <td className="text-right">
-          {weiTo4(borrowInterestRate)}
+          <StatsRowData
+            contract={lendingContract}
+            data={'borrowInterestRate'}
+            displayType={'percentage'}
+          />
           <span className="text-lightGrey">%</span>
         </td>
       </tr>

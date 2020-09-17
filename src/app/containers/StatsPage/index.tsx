@@ -27,6 +27,7 @@ export function StatsPage() {
                 <th>Total Asset Supplied</th>
                 <th>Total Asset Borrowed</th>
                 <th>Total Available</th>
+                <th>Asset Price</th>
                 <th>Supply APR</th>
                 <th>Borrow APR</th>
               </tr>
