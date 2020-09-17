@@ -7,12 +7,9 @@ import React from 'react';
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import {
-  getLendingContractName,
-  getTokenContractName,
-} from '../../../utils/blockchain/contract-helpers';
-import { fromWei } from 'web3-utils';
+import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { LoadableValue } from '../LoadableValue';
 
 interface Props {
   asset: Asset;
@@ -21,7 +18,6 @@ interface Props {
 export function StatsRow(props: Props) {
   const logo = AssetsDictionary.get(props.asset).logoSvg;
   const lendingContract = getLendingContractName(props.asset);
-  const tokenContract = getTokenContractName(props.asset);
 
   const { value: totalAssetSupply } = useCacheCallWithValue(
     lendingContract,
@@ -50,7 +46,7 @@ export function StatsRow(props: Props) {
   const { value: liquidity } = useCacheCallWithValue(
     lendingContract,
     'marketLiquidity',
-    'Loading',
+    '0',
   );
 
   return (
@@ -65,23 +61,42 @@ export function StatsRow(props: Props) {
           />{' '}
           {props.asset}
         </td>
-        <td>
-          {parseFloat(weiTo4(totalAssetSupply)).toLocaleString('en')}{' '}
-          {props.asset}
+        <td className="text-right">
+          <LoadableValue
+            value={`${parseFloat(weiTo4(totalAssetSupply)).toLocaleString(
+              'en',
+              { maximumFractionDigits: 2 },
+            )} 
+              ${props.asset}`}
+            loading={totalAssetSupply === '0' ? true : false}
+          />
         </td>
-        <td>
-          {parseFloat(weiTo4(totalAssetBorrowed)).toLocaleString('en')}{' '}
-          {props.asset}
+        <td className="text-right">
+          <LoadableValue
+            value={`${parseFloat(
+              weiTo4(totalAssetBorrowed),
+            ).toLocaleString('en', { maximumFractionDigits: 2 })} 
+          ${props.asset}`}
+            loading={totalAssetBorrowed === '0' ? true : false}
+          />
         </td>
-        <td>
-          {(
-            parseFloat(fromWei(totalAssetSupply)) -
-            parseFloat(fromWei(totalAssetBorrowed))
-          ).toLocaleString('en', { minimumFractionDigits: 4 })}{' '}
-          {props.asset}
+        <td className="text-right">
+          <LoadableValue
+            value={`${parseFloat(weiTo4(liquidity)).toLocaleString('en', {
+              maximumFractionDigits: 2,
+            })}
+          ${props.asset}`}
+            loading={liquidity === '0' ? true : false}
+          />
         </td>
-        <td>{weiTo4(supplyInterestRate)}%</td>
-        <td>{weiTo4(borrowInterestRate)}%</td>
+        <td className="text-right">
+          {weiTo4(supplyInterestRate)}
+          <span className="text-lightGrey">%</span>
+        </td>
+        <td className="text-right">
+          {weiTo4(borrowInterestRate)}
+          <span className="text-lightGrey">%</span>
+        </td>
       </tr>
     </>
   );
