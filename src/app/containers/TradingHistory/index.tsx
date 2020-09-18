@@ -7,7 +7,7 @@ import { TradingHistoryListItems } from '../../components/TradingHistoryListItem
 
 export function TradingHistory() {
   const account = useAccount();
-  const contract = appContracts.bzxContract;
+  const contract = appContracts.sovrynProtocol;
   const {
     events: swapCloses,
     fetch: fetchSwapClose,
