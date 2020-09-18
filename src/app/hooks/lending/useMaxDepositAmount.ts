@@ -4,12 +4,12 @@ import { useMaxSwapSize } from '../protocol/useMaxSwapSize';
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 
-export function useMaxDepositAmount(asset: Asset, weiAmount: string) {
+export function useMaxDepositAmount(asset: Asset, leverageWeiAmount: string) {
   const {
     value: escrowAmount,
     loading: escrowLoading,
     error: escrowError,
-  } = useGetMaxEscrowAmount(asset, weiAmount);
+  } = useGetMaxEscrowAmount(asset, leverageWeiAmount);
   const {
     value: maxSwapSize,
     loading: swapLoading,

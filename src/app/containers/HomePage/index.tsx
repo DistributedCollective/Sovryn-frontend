@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useDrizzle } from '../../hooks/useDrizzle';
+import { useAccount } from '../../hooks/useAccount';
 
 export function HomePage() {
+  const account = useAccount();
+  const drizzle = useDrizzle();
+  useEffect(() => {
+    if (account) {
+      drizzle.web3.eth.getBalance(account).then(e => console.log(e));
+    }
+  }, [drizzle, account]);
+
   return (
     <>
       <Helmet>
