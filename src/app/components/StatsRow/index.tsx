@@ -20,14 +20,14 @@ export function StatsRow(props: Props) {
   return (
     <>
       <tr>
-        <td>
+        <td className="text-right">
           <img
             className="d-inline"
             style={{ height: '40px' }}
             src={logo}
             alt=""
           />{' '}
-          {props.asset}
+          <strong>{props.asset}</strong>
         </td>
 
         <td className="text-right">
@@ -36,7 +36,7 @@ export function StatsRow(props: Props) {
             data={'totalAssetSupply'}
             displayType={'normal'}
           />{' '}
-          {props.asset}
+          <span className="text-lightGrey">{props.asset}</span>
         </td>
 
         <td className="text-right">
@@ -45,7 +45,7 @@ export function StatsRow(props: Props) {
             data={'totalAssetBorrow'}
             displayType={'normal'}
           />{' '}
-          {props.asset}
+          <span className="text-lightGrey">{props.asset}</span>
         </td>
 
         <td className="text-right">
@@ -54,16 +54,7 @@ export function StatsRow(props: Props) {
             data={'marketLiquidity'}
             displayType={'normal'}
           />{' '}
-          {props.asset}
-        </td>
-
-        <td className="text-right">
-          <StatsRowData
-            contract={lendingContract}
-            data={'tokenPrice'}
-            displayType={'normal'}
-          />{' '}
-          {props.asset}
+          <span className="text-lightGrey">{props.asset}</span>
         </td>
 
         <td className="text-right">
