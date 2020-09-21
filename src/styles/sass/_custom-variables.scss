@@ -1,12 +1,33 @@
+:root {
+  --Teal: #4ecdc4;
+  --background: #212121;
+  --component_bg: #0b223b;
+  --Gold: #fec006;
+  --Field_bg: #05182e;
+  --Green: #00ce7d;
+  --Red: #eb2106;
+  --Grey_text: #586c86;
+  --LightGrey: #a9bacd;
+  --MediumGrey: #7b96b5;
+  --white: #ffffff;
+}
+
 /* FOR BOOTSTRAP THEMES */
 
 $theme-colors: (
   'secondary': #414042,
   'customOrange': #ff9931,
-  'customTeal': #4ecdc4,
+  'customGold':  #fec006,
+  'customTeal':  #4ecdc4,
   'customBlack': #202020,
-  'lightGrey': #a2abb8,
+  'lightGrey':  #a9bacd,
+  'mediumGrey':  #7b96b5,
+  'primaryBackground': #212121,
+  'secondaryBackground':  #0b223b,
+  'fieldBackground':  #05182e
 );
+
+
 
 //$font-size-base: 18px;
 //$font-size-sm: 14px;
@@ -19,7 +40,6 @@ $customTeal: #4ecdc4;
 $lightGrey: #a2abb8;
 
 $pt-font-size: 18px;
-
 $pt-input-height: 37px;
 //$input-background-color: $lightGrey;
 //$input-color: $white;
