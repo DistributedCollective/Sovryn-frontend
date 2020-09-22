@@ -13,6 +13,7 @@ import { BorrowAssetPrice } from '../../components/BorrowAssetPrice';
 import { BorrowLiquidationPrice } from '../../components/BorrowLiquidationPrice';
 import { TradeDialogNotModal } from '../../components/TradeDialogNotModal';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
+import btcIcon from 'assets/images/rBTC-logo.png';
 
 interface Props {
   asset: Asset;
@@ -36,7 +37,30 @@ export function TradingToken(props: Props) {
   }, [props.position]);
 
   return (
-    <div className="bg-secondary p-3 h-100 mr-0">
+    <div className="h-100 mr-0 bg-background">
+      <div className="bg-component-bg p-3 mb-3">
+        <img
+          src={btcIcon}
+          alt=""
+          className="d-inline"
+          style={{ height: '3rem', verticalAlign: 'middle' }}
+        />
+        <h1 className="d-inline ml-2" style={{ verticalAlign: 'middle' }}>
+          {props.asset}
+        </h1>
+        <div
+          className="d-inline h-100 float-right"
+          style={{ marginTop: '10px' }}
+        >
+          <BorrowAssetPrice asset={asset} />
+        </div>
+      </div>
+      <div className="bg-component-bg p-3 mb-3">
+        <div className="row p-3">
+          <div className="col-6 bg-Grey_text text-center">Long</div>
+          <div className="col-6 bg-Grey_text text-center">Short</div>
+        </div>
+      </div>
       <div className="mb-3">
         <label className="mr-4">Leverage</label>
         <LeverageSelector
@@ -55,8 +79,6 @@ export function TradingToken(props: Props) {
           onChange={value => props.onPositionChange(value)}
         />
       </div>
-
-      <BorrowAssetPrice asset={asset} />
 
       <BorrowLiquidationPrice
         asset={asset}

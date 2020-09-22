@@ -4,6 +4,7 @@ import { useGetPastEvents } from '../../hooks/useGetPastEvents';
 import { useAccount } from '../../hooks/useAccount';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { TradingHistoryListItems } from '../../components/TradingHistoryListItems';
+import { HistoryLoanTable } from '../../components/HistoryLoanTable';
 
 export function TradingHistory() {
   const account = useAccount();
@@ -57,10 +58,15 @@ export function TradingHistory() {
   // @ts-ignore
   return (
     <div className={loading ? 'bp3-skeleton' : ''}>
-      {!events.length && <div>History is empty.</div>}
-      {items.map(([key, data]) => (
+      {!events.length && (
+        <div style={{ padding: '20px' }}>
+          You do not have any closed trades.
+        </div>
+      )}
+      {/*{items.map(([key, data]) => (
         <TradingHistoryListItems key={key} items={data} />
-      ))}
+      ))}*/}
+      {events.length > 0 && <HistoryLoanTable data={items} />}
     </div>
   );
 }

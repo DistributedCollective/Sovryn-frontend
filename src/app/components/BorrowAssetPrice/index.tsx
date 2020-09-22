@@ -25,24 +25,15 @@ export function BorrowAssetPrice(props: Props) {
   }, [value, props.onChange]);
 
   return (
-    <div className="mb-2">
-      <div className="d-inline text-lightGrey">
-        <Tooltip content={tooltipData.trading.AssetPrice}>Asset Price</Tooltip>
-      </div>
-      <div className="d-inline float-right">
-        <LoadableValue
-          value={
-            <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
-              <>
-                <span className="text-lightGrey">$</span>
-                {weiToFixed(value, 2)}
-              </>
-            </Tooltip>
-          }
-          loading={loading}
-        />
-      </div>
-    </div>
+    <LoadableValue
+      value={
+        <span style={{ verticalAlign: 'middle' }}>
+          <span className="text-lightGrey">Price: $</span>
+          {weiToFixed(value, 2)}
+        </span>
+      }
+      loading={loading}
+    />
   );
 }
 

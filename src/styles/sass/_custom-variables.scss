@@ -1,7 +1,8 @@
 :root {
   --Teal: #4ecdc4;
-  --background: #212121;
-  --component_bg: #0b223b;
+  --background: #192b41;
+  --secondary-bg: #414042;
+  --component-bg: #0b223b;
   --Gold: #fec006;
   --Field_bg: #05182e;
   --Green: #00ce7d;
@@ -19,12 +20,14 @@ $theme-colors: (
   'customOrange': #ff9931,
   'customGold':  #fec006,
   'customTeal':  #4ecdc4,
-  'customBlack': #202020,
+  'customBlack': #192b41,
   'lightGrey':  #a9bacd,
   'mediumGrey':  #7b96b5,
-  'primaryBackground': #212121,
-  'secondaryBackground':  #0b223b,
-  'fieldBackground':  #05182e
+  'Grey_text': #586c86,
+  'primaryBackground': #192b41,
+  'secondaryBackground':  #414042,
+  'fieldBackground':  #05182e,
+  'component-bg': #0b223b,
 );
 
 

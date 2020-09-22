@@ -3,92 +3,230 @@
  * ActiveLoanTable
  *
  */
-import React, { useState, useEffect } from 'react';
-import { weiTo2 } from '../../../utils/blockchain/math-helpers';
+import React, { useState } from 'react';
+import { useTable, useSortBy } from 'react-table';
+import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
+import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
+import { DisplayDate } from '../DisplayDate';
+import { CurrentMargin } from '../CurrentMargin';
+import { InterestAPR } from '../InterestAPR';
+import { weiTo2, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
 import {
-  faArrowCircleDown,
-  faArrowCircleUp,
+  faArrowAltCircleDown,
+  faArrowAltCircleUp,
   faSort,
+  faSortUp,
+  faSortDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   data: any;
+  activeTrades: boolean;
 }
 
 export function ActiveLoanTable(props: Props) {
-  const [sortColumn, setSortColumn] = useState({});
+  console.log(props.data);
+  const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
+  const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(props.data[0]);
 
-  const date = (timestamp: string) =>
-    new Date(Number(timestamp) * 1e3).toLocaleString('en-GB', {
-      timeZone: 'GMT',
+  const data = React.useMemo(() => {
+    return props.data.map(item => {
+      return {
+        item: item,
+        icon:
+          symbolByTokenAddress(item.collateralToken) === 'BTC' ? (
+            <FontAwesomeIcon
+              icon={faArrowAltCircleUp}
+              className="text-customTeal ml-2"
+              style={{ fontSize: '20px' }}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faArrowAltCircleDown}
+              className="text-customOrange ml-2"
+              style={{ fontSize: '20px' }}
+            />
+          ),
+        positionSize: `${parseFloat(weiTo4(item.collateral)).toLocaleString(
+          'en',
+        )} 
+        ${symbolByTokenAddress(item.collateralToken)}`,
+        currentMargin: (
+          <CurrentMargin
+            currentMargin={item.currentMargin}
+            startMargin={item.startMargin}
+          />
+        ),
+        interestAPR: (
+          <InterestAPR
+            collateral={item.collateral}
+            asset={symbolByTokenAddress(item.collateralToken)}
+          />
+        ),
+        startPrice: `$ ${weiTo2(item.startRate)}`,
+        endDate: <DisplayDate timestamp={item.endTimestamp} />,
+        borrowed: '',
+        startMargin: '',
+        maintenanceMargin: '',
+        currentPrice: '',
+        liquidationPrice: '',
+        topUp: (
+          <TopUpButton
+            onClick={() => {
+              setPositionMarginModalOpen(true);
+              setSelectedItem(item);
+            }}
+          >
+            Top-Up
+          </TopUpButton>
+        ),
+        close: (
+          <CloseButton
+            onClick={() => {
+              setPositionCloseModalOpen(true);
+              setSelectedItem(item);
+            }}
+          >
+            Close
+          </CloseButton>
+        ),
+      };
     });
+  }, [props.data]);
 
-  const cells = props.data.map((item, index) => (
-    <tr key={index}>
-      <td>
-        <FontAwesomeIcon className="text-customTeal" icon={faArrowCircleUp} />
-      </td>
-      <td>
-        {parseFloat(weiTo2(item.collateral)).toLocaleString('en')}{' '}
-        {symbolByTokenAddress(item.collateralToken)}
-      </td>
-      <td>{weiTo2(item.currentMargin)}%</td>
-      <td>todo</td>
-      <td>todo</td>
-      <td>{date(item.endTimestamp).slice(0, -3)} GMT</td>
-    </tr>
-  ));
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: '',
+        accessor: 'icon',
+        sortable: false,
+      },
+      {
+        Header: 'Position Size',
+        accessor: 'positionSize',
+        sortType: 'alphanumeric',
+        sortable: true,
+      },
+      {
+        Header: 'Current Margin',
+        accessor: 'currentMargin',
+        sortType: 'alphanumeric',
+        sortable: true,
+      },
+      {
+        Header: 'Interest APR',
+        accessor: 'interestAPR',
+      },
+      {
+        Header: 'Start Price',
+        accessor: 'startPrice',
+      },
+      {
+        Header: 'End Date',
+        accessor: 'endDate',
+        sortable: true,
+      },
+      {
+        Header: '',
+        accessor: 'topUp',
+      },
+      {
+        Header: '',
+        accessor: 'close',
+      },
+    ],
+    [],
+  );
 
-  function handleSort(col) {
-    let sortedData = [...props.data];
-    if (col === 'positionSize') {
-      sortedData.sort((a, b) =>
-        parseInt(a.collateral) > parseInt(b.collateral) ? 1 : -1,
-      );
-    } else if (col === 'currentMargin') {
-      alert('current margin');
-    }
-    console.log(sortedData);
-  }
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data }, useSortBy);
 
   return (
     <>
-      <table className="bp3-html-table">
+      <table {...getTableProps()} className="bp3-html-table table-dark">
         <thead>
-          <tr>
-            <th></th>
-            <th>
-              Position Size
-              <FontAwesomeIcon
-                className="text-lightGrey ml-1"
-                icon={faSort}
-                onClick={() => handleSort('positionSize')}
-              />
-            </th>
-            <th>
-              Current Margin
-              <FontAwesomeIcon
-                className="text-lightGrey ml-1"
-                icon={faSort}
-                onClick={() => handleSort('currentMargin')}
-              />
-            </th>
-            <th>Interest APR</th>
-            <th>Start Price</th>
-            <th>
-              End Date
-              <FontAwesomeIcon
-                className="text-lightGrey ml-1"
-                icon={faSort}
-                onClick={() => handleSort('endDate')}
-              />
-            </th>
-          </tr>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  {column.sortable && (
+                    <span className="float-right">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <FontAwesomeIcon
+                            icon={faSortDown}
+                            className="mr-1 text-white"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faSortUp}
+                            className="mr-1 text-white"
+                          />
+                        )
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faSort}
+                          className="mr-1 text-lightGrey"
+                        />
+                      )}
+                    </span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
-        <tbody>{cells}</tbody>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
+      <CloseTradingPositionHandler
+        item={selectedItem}
+        showModal={positionCloseModalOpen}
+        onCloseModal={() => setPositionCloseModalOpen(false)}
+      />
+      <TopUpTradingPositionHandler
+        item={selectedItem}
+        showModal={positionMarginModalOpen}
+        onCloseModal={() => setPositionMarginModalOpen(false)}
+      />
     </>
   );
 }
+
+const TopUpButton = styled.button`
+  border: 1px solid var(--Green);
+  width: 77px;
+  height: 32px;
+  color: var(--Green);
+  background-color: var(--bg-secondary);
+`;
+
+const CloseButton = styled.button`
+  border: 1px solid var(--Red);
+  width: 77px;
+  height: 32px;
+  color: var(--Red);
+  background-color: var(--bg-secondary);
+`;

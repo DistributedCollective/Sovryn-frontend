@@ -18,7 +18,7 @@ export function Footer() {
           <iframe
             title="MatomoOptout"
             style={{ width: '100%', border: 'none', marginLeft: '-5px' }}
-            src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=212121&fontColor=fafafa&fontSize=14px&fontFamily=system-ui"
+            src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=192b41&fontColor=fafafa&fontSize=14px&fontFamily=system-ui"
           ></iframe>
         </div>
       </div>

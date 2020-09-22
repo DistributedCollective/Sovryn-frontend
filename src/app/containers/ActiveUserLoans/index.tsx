@@ -28,7 +28,11 @@ export function ActiveUserLoans(props: Props) {
   }
 
   if (!value.length) {
-    return <>There is no active trades yet.</>;
+    return (
+      <div className="container" style={{ padding: '20px' }}>
+        You do not have any active trades.
+      </div>
+    );
   }
 
   return (
@@ -36,7 +40,7 @@ export function ActiveUserLoans(props: Props) {
       {/*{value.map(item => (
         <ActiveUserLoan key={item.loanId} item={item} />
       ))}*/}
-      <ActiveLoanTable data={value} />
+      <ActiveLoanTable data={value} activeTrades={true} />
     </>
   );
 }
