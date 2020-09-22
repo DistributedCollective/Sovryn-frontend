@@ -3,15 +3,14 @@
  * ActiveLoanTable
  *
  */
-import React from 'react';
-import { Cell, Column, Table } from '@blueprintjs/table';
+import React, { useState, useEffect } from 'react';
 import { weiTo2 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
-import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowCircleDown,
   faArrowCircleUp,
+  faSort,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
@@ -19,85 +18,77 @@ interface Props {
 }
 
 export function ActiveLoanTable(props: Props) {
+  const [sortColumn, setSortColumn] = useState({});
+
   const date = (timestamp: string) =>
     new Date(Number(timestamp) * 1e3).toLocaleString('en-GB', {
       timeZone: 'GMT',
     });
 
-  const positionSize = () =>
-    props.data.map(item => (
-      <Cell>
+  const cells = props.data.map((item, index) => (
+    <tr key={index}>
+      <td>
+        <FontAwesomeIcon className="text-customTeal" icon={faArrowCircleUp} />
+      </td>
+      <td>
         {parseFloat(weiTo2(item.collateral)).toLocaleString('en')}{' '}
         {symbolByTokenAddress(item.collateralToken)}
-      </Cell>
-    ));
+      </td>
+      <td>{weiTo2(item.currentMargin)}%</td>
+      <td>todo</td>
+      <td>todo</td>
+      <td>{date(item.endTimestamp).slice(0, -3)} GMT</td>
+    </tr>
+  ));
 
-  const iconRenderer = () =>
-    props.data.map(item => (
-      <Cell>
-        <FontAwesomeIcon
-          className="d-inline-block h-100 ml-2 pb-1 text-customOrange"
-          icon={faArrowCircleDown}
-        />
-      </Cell>
-    ));
-
-  const currentMargin = (rowIndex: number) => {
-    return <Cell>{weiTo2(props.data[rowIndex].currentMargin)}%</Cell>;
-  };
-
-  const interestAPR = () => props.data.map(item => <Cell>todo</Cell>);
-
-  const startPrice = () => props.data.map(item => <Cell>todo</Cell>);
-
-  const endDate = () =>
-    props.data.map(item => <Cell>{date(item.endTimestamp)} GMT</Cell>);
-
-  const testCell = () => <Cell>hello</Cell>;
+  function handleSort(col) {
+    let sortedData = [...props.data];
+    if (col === 'positionSize') {
+      sortedData.sort((a, b) =>
+        parseInt(a.collateral) > parseInt(b.collateral) ? 1 : -1,
+      );
+    } else if (col === 'currentMargin') {
+      alert('current margin');
+    }
+    console.log(sortedData);
+  }
 
   return (
     <>
-      {props.data && (
-        <Table numRows={props.data}>
-          <Column
-            name="Position Size"
-            cellRenderer={(rowIndex: number) => {
-              return (
-                <Cell>
-                  {parseFloat(
-                    weiTo2(props.data[rowIndex].collateral),
-                  ).toLocaleString('en')}{' '}
-                  {symbolByTokenAddress(props.data[rowIndex].collateralToken)}
-                </Cell>
-              );
-            }}
-          />
-          <Column
-            name="Current Margin"
-            cellRenderer={(rowIndex: number) => {
-              return <Cell>{weiTo2(props.data[rowIndex].currentMargin)}%</Cell>;
-            }}
-          />
-          <Column
-            name="Interest APR"
-            cellRenderer={(rowIndex: number) => {
-              return <Cell>todo</Cell>;
-            }}
-          />
-          <Column
-            name="Start Price"
-            cellRenderer={(rowIndex: number) => {
-              return <Cell>todo</Cell>;
-            }}
-          />
-          <Column
-            name="End Date/Time"
-            cellRenderer={(rowIndex: number) => {
-              return <Cell>{date(props.data[rowIndex].endTimestamp)} GMT</Cell>;
-            }}
-          />
-        </Table>
-      )}
+      <table className="bp3-html-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>
+              Position Size
+              <FontAwesomeIcon
+                className="text-lightGrey ml-1"
+                icon={faSort}
+                onClick={() => handleSort('positionSize')}
+              />
+            </th>
+            <th>
+              Current Margin
+              <FontAwesomeIcon
+                className="text-lightGrey ml-1"
+                icon={faSort}
+                onClick={() => handleSort('currentMargin')}
+              />
+            </th>
+            <th>Interest APR</th>
+            <th>Start Price</th>
+            <th>
+              End Date
+              <FontAwesomeIcon
+                className="text-lightGrey ml-1"
+                icon={faSort}
+                onClick={() => handleSort('endDate')}
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>{cells}</tbody>
+      </table>
     </>
   );
 }
