@@ -1202,6 +1202,17 @@
     classnames "^2.2"
     tslib "~1.13.0"
 
+"@blueprintjs/table@3.8.13":
+  version "3.8.13"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/table/-/table-3.8.13.tgz#034b2e21669ed168508245354a2238fe071807a5"
+  integrity sha512-5IAlTNOp7Hxe8g77rHNh+C/sT5JbPeQcJxk2Xwx66lDIvYIYQb6NjWQoaqdrYyzre/k1b2+0SJC6xWDucP4f4Q==
+  dependencies:
+    "@blueprintjs/core" "^3.31.0"
+    classnames "^2.2"
+    prop-types "^15.7.2"
+    react-lifecycles-compat "^3.0.4"
+    tslib "~1.13.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
