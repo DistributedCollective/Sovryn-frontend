@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect } from 'react';
-import { Button, ButtonGroup } from '@blueprintjs/core';
+import styled, { ThemeProvider } from 'styled-components';
 
 interface Props {
   min: number;
@@ -28,18 +28,45 @@ export function LeverageSelector(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
+  const Button = styled.div`
+    border-radius: 14.5px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2.4px;
+    color: ${props => props.theme.textColor};
+    background-color: ${props => props.theme.color};
+    border: ${props => props.theme.border};
+    height: 30px;
+    vertical-align: middle;
+  `;
+
+  const color = props.position === 'LONG' ? 'var(--Teal)' : 'var(--Gold)';
+
+  const active = {
+    color: color,
+    textColor: 'var(--white)',
+    border: 'none',
+  };
+
+  const inactive = {
+    textColor: 'var(--Grey_text)',
+    color: 'none',
+    border: '1px solid var(--Grey_text)',
+  };
+
   return (
-    <ButtonGroup className="leverage-selector-group">
-      {items.map(item => (
-        <Button
-          className={`leverage-selector-group__button--${props.position}`}
-          key={item}
-          text={`${item}x`}
-          active={item === props.value}
-          onClick={() => props.onChange(item)}
-        />
-      ))}
-    </ButtonGroup>
+    <div className="row">
+      <div className="col-3">Leverage</div>
+      <div className="col-9 d-inline-flex justify-content-between align-items-start h-75">
+        {items.map(item => (
+          <ThemeProvider theme={props.value === item ? active : inactive}>
+            <Button onClick={() => props.onChange(item)} className="btn">
+              <div>{item}X</div>
+            </Button>
+          </ThemeProvider>
+        ))}
+      </div>
+    </div>
   );
 }
 

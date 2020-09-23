@@ -10,6 +10,7 @@
   --Grey_text: #586c86;
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
+  --TabGrey: #213b58;
   --white: #ffffff;
 }
 
@@ -28,6 +29,7 @@ $theme-colors: (
   'secondaryBackground':  #414042,
   'fieldBackground':  #05182e,
   'component-bg': #0b223b,
+  'TabGrey': #213b58,
 );
 
 
@@ -38,11 +40,4 @@ $theme-colors: (
 
 /* FOR BLUEPRINT CUSTOMIZATION */
 
-$customOrange: #ff9931;
-$customTeal: #4ecdc4;
-$lightGrey: #a2abb8;
 
-$pt-font-size: 18px;
-$pt-input-height: 37px;
-//$input-background-color: $lightGrey;
-//$input-color: $white;

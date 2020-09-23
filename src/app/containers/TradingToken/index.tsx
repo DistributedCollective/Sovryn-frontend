@@ -56,45 +56,38 @@ export function TradingToken(props: Props) {
         </div>
       </div>
       <div className="bg-component-bg p-3 mb-3">
-        <div className="row p-3">
-          <div className="col-6 bg-Grey_text text-center">Long</div>
-          <div className="col-6 bg-Grey_text text-center">Short</div>
+        <div className="mb-3">
+          <TradingPositionSelector
+            value={props.position}
+            onChange={value => props.onPositionChange(value)}
+          />
         </div>
-      </div>
-      <div className="mb-3">
-        <label className="mr-4">Leverage</label>
-        <LeverageSelector
-          min={1}
-          max={5}
-          value={leverage}
-          onChange={value => setLeverage(value)}
+        <div className="mb-3">
+          <LeverageSelector
+            min={1}
+            max={5}
+            value={leverage}
+            onChange={value => setLeverage(value)}
+            position={props.position}
+          />
+        </div>
+        <BorrowLiquidationPrice
+          asset={asset}
+          leverage={leverage}
           position={props.position}
         />
-      </div>
 
-      <div className="mb-3">
-        <label className="mr-4">Position</label>
-        <TradingPositionSelector
-          value={props.position}
-          onChange={value => props.onPositionChange(value)}
+        <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
+      </div>
+      <div className="bg-component-bg p-3 mb-3">
+        <TradeDialogNotModal
+          loanId={'0'}
+          leverage={leverage}
+          position={props.position}
+          asset={asset}
+          onChangeAmount={value => setAmount(value)}
         />
       </div>
-
-      <BorrowLiquidationPrice
-        asset={asset}
-        leverage={leverage}
-        position={props.position}
-      />
-
-      <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
-
-      <TradeDialogNotModal
-        loanId={'0'}
-        leverage={leverage}
-        position={props.position}
-        asset={asset}
-        onChangeAmount={value => setAmount(value)}
-      />
     </div>
   );
 }

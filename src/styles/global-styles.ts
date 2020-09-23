@@ -41,6 +41,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 18px;
     font-weight: bold;
     letter-spacing: 2.77px;
+    color: inherit;
   }
   h4 {
     font-size: 19px;
@@ -60,7 +61,6 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     border: 1px solid var(--component-bg);
   }
-
   tr:nth-child(even) {
     background-color: var(--background)
   }
