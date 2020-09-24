@@ -3,7 +3,6 @@ import { EventData } from 'web3-eth-contract';
 import { useGetPastEvents } from '../../hooks/useGetPastEvents';
 import { useAccount } from '../../hooks/useAccount';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
-import { TradingHistoryListItems } from '../../components/TradingHistoryListItems';
 import { HistoryLoanTable } from '../../components/HistoryLoanTable';
 
 export function TradingHistory() {

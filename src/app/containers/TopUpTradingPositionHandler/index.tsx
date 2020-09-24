@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
-import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
+import { Dialog, InputGroup } from '@blueprintjs/core';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -24,15 +24,12 @@ interface Props {
 }
 
 export function TopUpTradingPositionHandler(props: Props) {
-  const assetDetails = AssetsDictionary.getByTokenContractAddress(
-    props.item.loanToken,
-  );
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );
-
+  const color = tokenDetails.asset === 'BTC' ? 'customTeal' : 'Gold';
   const { value: balance } = useTokenBalanceOf(tokenDetails.asset);
-  const [amount, setAmount] = useState(weiTo18(balance));
+  const [amount, setAmount] = useState();
 
   const weiAmount = useWeiAmount(amount);
 
@@ -49,52 +46,69 @@ export function TopUpTradingPositionHandler(props: Props) {
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
 
   return (
-    <Dialog isOpen={props.showModal} className="bg-secondary p-3">
-      <div className="container">
-        <div className="d-flex flex-column align-items-center justify-content-center">
-          <img
-            className="mb-3"
-            src={assetDetails.logoSvg}
-            alt={assetDetails.asset}
-            style={{ height: '5rem' }}
-          />
+    <Dialog
+      isOpen={props.showModal}
+      className={`bg-component-bg p-3 border border-${color}`}
+    >
+      <div className="container position-relative">
+        <div
+          className="position-absolute"
+          style={{ top: '0', right: '0', fontSize: '12px', cursor: 'pointer' }}
+          onClick={props.onCloseModal}
+        >
+          <u>Close</u> X
         </div>
 
-        <InputGroup
-          className="mb-3"
-          value={amount}
-          onChange={e => setAmount(e.currentTarget.value)}
-          rightElement={<Tag>{tokenDetails.asset}</Tag>}
-        />
+        <div className={`text-${color} text-center mt-4 modal-title`}>
+          Top Up position
+        </div>
 
-        <AssetWalletBalance asset={tokenDetails.asset} />
+        <div className="row mt-3">
+          <div className="col-4">
+            <div className="data-label">Currency</div>
+            <div className="data-container p-1">
+              <div>{tokenDetails.asset}</div>
+            </div>
+          </div>
+          <div className="col-8">
+            <div className="data-label">Top Up Amount</div>
+            <div className="data-container">
+              <InputGroup
+                value={amount || ''}
+                onChange={e => setAmount(e.currentTarget.value)}
+                placeholder="Enter amount"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="row mt-3 mb-4">
+          <div className="col-6">
+            <AssetWalletBalance asset={tokenDetails.asset} />
+          </div>
+          <div className="col-6">
+            <div>
+              <button
+                className={`btn btn-${color} text-white my-3 w-100 p-2 rounded`}
+                disabled={rest.loading || !valid}
+                onClick={() => handleConfirm()}
+              >
+                Top Up
+              </button>
+            </div>
+          </div>
+        </div>
 
         {rest.status !== TransactionStatus.NONE && (
-          <div className="mb-4">
+          <div className="row">
             <SendTxProgress
               status={rest.status}
               txHash={rest.txHash}
               loading={rest.loading}
               type={rest.type}
+              displayAbsolute={false}
             />
           </div>
         )}
-
-        <div className="d-flex flex-row justify-content-end align-items-center">
-          <button
-            className="btn btn-link ml-3 mt-0"
-            onClick={props.onCloseModal}
-          >
-            Cancel
-          </button>
-          <button
-            className="btn btn-primary ml-3 mt-0"
-            disabled={rest.loading || !valid}
-            onClick={() => handleConfirm()}
-          >
-            TOP UP {tokenDetails.asset}
-          </button>
-        </div>
       </div>
     </Dialog>
   );

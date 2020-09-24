@@ -5,27 +5,18 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowCircleDown,
-  faArrowCircleUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
-import { ActiveUserLoans } from '../ActiveUserLoans';
-import { useIsConnected } from '../../hooks/useAccount';
 import { TradingToken } from '../TradingToken';
 import { TradingActivity } from '../TradingActivity';
 import { TradingPosition } from '../../../types/trading-position';
-import { Icon } from '@blueprintjs/core';
 
 export function TradePage() {
   const params = useParams<{ asset: string }>();
-  const isConnected = useIsConnected();
 
   const handleAssetParam = useCallback(() => {
     if (!params.asset) {
@@ -61,7 +52,7 @@ export function TradePage() {
             </div>
             <div
               className="col-md-12 col-lg-7 order-first order-lg-last mb-2"
-              style={{ minHeight: 400 }}
+              style={{ minHeight: 300 }}
             >
               <TradingViewChart asset={asset} />
             </div>

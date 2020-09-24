@@ -28,7 +28,6 @@ interface Props {
 }
 
 export function ActiveLoanTable(props: Props) {
-  console.log(props.data);
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
   const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(props.data[0]);

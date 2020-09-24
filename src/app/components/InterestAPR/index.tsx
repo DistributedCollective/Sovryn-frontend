@@ -1,6 +1,4 @@
 import React from 'react';
-import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
-import { Asset } from 'types/asset';
 
 interface Props {
   collateral: string;

@@ -1,1 +1,7 @@
 @import './_custom-variables.scss';
+
+// BOOTSTRAP OVERIDE STYLES
+
+.rounded {
+    border-radius: 2rem !important;
+  }

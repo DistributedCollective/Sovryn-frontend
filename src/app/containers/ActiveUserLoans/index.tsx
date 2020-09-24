@@ -6,7 +6,6 @@
 import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { ActiveUserLoan } from 'app/components/ActiveUserLoan';
 import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
 
 interface Props {}

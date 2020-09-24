@@ -5,6 +5,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     height: 100%;
     width: 100%;
+    font-weight: 400;
+    letter-spacing: 1.2px;
   }
 
   body {
@@ -49,11 +51,30 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: 2.92px;
     color: var(--Grey_text);
   }
+  button {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
   .active {
     border-bottom: 1px solid var(--Teal);
     h4 {
       color: var(--Teal);
     }
+  }
+  .bordered {
+    border: 1px solid var(--Grey_text);
+  }
+  .data-container {
+    background-color: var(--Field_bg);
+    padding: 8px 14px;
+    &.bordered {
+      border: 1px solid var(--Grey_text);
+    }
+  }
+  .data-label {
+    padding: 8px 0;
+    color: var(--Grey_text);
+    font-size: 85%;
   }
   table {
     background-color: var(--component-bg);
@@ -79,6 +100,33 @@ export const GlobalStyle = createGlobalStyle`
       font-weight: 300;
       padding: 10px 5px;
       text-align: center;
+    }
+  }
+  .modal-title {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.49px;
+    text-transform: capitalize;
+  }
+  .bp3-input-group {
+    .bp3-input {
+      background-color: var(--Field_bg);
+      color: var(--white);
+      width: 100%;
+    }
+  }
+  .bp3-popover-wrapper {
+    .bp3-popover-target {
+      width: 100%;
+      button {
+        width: 100%100%;
+        background-color: var(--Field_bg);
+        background-image: none;
+        color: white;
+        &:active {
+          background-color: var(--Field_bg)
+        }
+      }
     }
   }
 `;

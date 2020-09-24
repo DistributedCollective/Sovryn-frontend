@@ -11,7 +11,7 @@ import { TradingPositionSelector } from '../../components/TradingPositionSelecto
 import { BorrowInterestRate } from '../../components/BorrowInterestRate';
 import { BorrowAssetPrice } from '../../components/BorrowAssetPrice';
 import { BorrowLiquidationPrice } from '../../components/BorrowLiquidationPrice';
-import { TradeDialogNotModal } from '../../components/TradeDialogNotModal';
+import { TradeDialog } from '../../components/TradeDialog';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import btcIcon from 'assets/images/rBTC-logo.png';
 
@@ -37,8 +37,8 @@ export function TradingToken(props: Props) {
   }, [props.position]);
 
   return (
-    <div className="h-100 mr-0 bg-background">
-      <div className="bg-component-bg p-3 mb-3">
+    <div className="mr-0 bg-background">
+      <div className="bg-component-bg p-3 mb-1">
         <img
           src={btcIcon}
           alt=""
@@ -55,14 +55,14 @@ export function TradingToken(props: Props) {
           <BorrowAssetPrice asset={asset} />
         </div>
       </div>
-      <div className="bg-component-bg p-3 mb-3">
-        <div className="mb-3">
+      <div className="bg-component-bg p-3 mb-2 mt-2">
+        <div className="mb-4 mt-2">
           <TradingPositionSelector
             value={props.position}
             onChange={value => props.onPositionChange(value)}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-2">
           <LeverageSelector
             min={1}
             max={5}
@@ -71,16 +71,21 @@ export function TradingToken(props: Props) {
             position={props.position}
           />
         </div>
-        <BorrowLiquidationPrice
-          asset={asset}
-          leverage={leverage}
-          position={props.position}
-        />
-
-        <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
+        <div className="row mb-2">
+          <div className="col-6">
+            <BorrowLiquidationPrice
+              asset={asset}
+              leverage={leverage}
+              position={props.position}
+            />
+          </div>
+          <div className="col-6">
+            <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
+          </div>
+        </div>
       </div>
-      <div className="bg-component-bg p-3 mb-3">
-        <TradeDialogNotModal
+      <div>
+        <TradeDialog
           loanId={'0'}
           leverage={leverage}
           position={props.position}
