@@ -54,3 +54,13 @@
     border-left-color: $customOrange;
   }
 }
+
+.bp3-dialog {
+  background-color: #202020;
+  & .bp3-dialog-header {
+    background-color: inherit;
+    & .bp3-heading {
+      color: $white;
+    }
+  }
+}

@@ -1,15 +1,15 @@
 import { Drizzle, generateStore, IDrizzleOptions } from '@drizzle/store';
 import Web3 from 'web3';
-import { createWeb3 } from './web3';
 import { Asset } from '../../types/asset';
 import { AssetsDictionary } from './assets-dictionary';
 import { appContracts } from './app-contracts';
+import { Sovryn } from '../sovryn';
 
 export const createDrizzleAssets = (
   assets: Array<Asset>,
   // events?: Array<any>,
 ) => {
-  const web3 = createWeb3();
+  const web3 = Sovryn.getWeb3();
 
   const assetList = AssetsDictionary.find(assets);
   const contracts: Array<any> = [];
