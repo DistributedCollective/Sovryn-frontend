@@ -33,8 +33,8 @@ export function StatsRow(props: Props) {
         <td className="text-right">
           <StatsRowData
             contract={lendingContract}
-            data='totalAssetSupply'
-            displayType='normal'
+            data="totalAssetSupply"
+            displayType="normal"
           />{' '}
           <span className="text-lightGrey">{props.asset}</span>
         </td>
@@ -42,8 +42,8 @@ export function StatsRow(props: Props) {
         <td className="text-right">
           <StatsRowData
             contract={lendingContract}
-            data='totalAssetBorrow'
-            displayType='normal'
+            data="totalAssetBorrow"
+            displayType="normal"
           />{' '}
           <span className="text-lightGrey">{props.asset}</span>
         </td>
@@ -51,8 +51,8 @@ export function StatsRow(props: Props) {
         <td className="text-right">
           <StatsRowData
             contract={lendingContract}
-            data='marketLiquidity'
-            displayType='normal'
+            data="marketLiquidity"
+            displayType="normal"
           />{' '}
           <span className="text-lightGrey">{props.asset}</span>
         </td>
@@ -60,8 +60,8 @@ export function StatsRow(props: Props) {
         <td className="text-right">
           <StatsRowData
             contract={lendingContract}
-            data='supplyInterestRate'
-            displayType='percentage'
+            data="supplyInterestRate"
+            displayType="percentage"
           />
           <span className="text-lightGrey">%</span>
         </td>
@@ -69,8 +69,8 @@ export function StatsRow(props: Props) {
         <td className="text-right">
           <StatsRowData
             contract={lendingContract}
-            data='borrowInterestRate'
-            displayType='percentage'
+            data="borrowInterestRate"
+            displayType="percentage"
           />
           <span className="text-lightGrey">%</span>
         </td>
