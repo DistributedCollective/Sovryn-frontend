@@ -11,20 +11,24 @@ export function useBalance() {
   });
 
   useEffect(() => {
-    setState(prevState => ({ ...prevState, loading: true, error: null }));
-    Sovryn.getWeb3()
-      .eth.getBalance(account)
-      .then(balance => {
-        setState(prevState => ({
-          ...prevState,
-          value: balance,
-          loading: false,
-          error: null,
-        }));
-      })
-      .catch(error => {
-        setState(prevState => ({ ...prevState, error }));
-      });
+    if (account) {
+      setState(prevState => ({ ...prevState, loading: true, error: null }));
+      Sovryn.getWeb3()
+        .eth.getBalance(account)
+        .then(balance => {
+          setState(prevState => ({
+            ...prevState,
+            value: balance,
+            loading: false,
+            error: null,
+          }));
+        })
+        .catch(error => {
+          setState(prevState => ({ ...prevState, error }));
+        });
+    } else {
+      setState(prevState => ({ ...prevState, loading: false }));
+    }
   }, [account]);
   return state;
 }

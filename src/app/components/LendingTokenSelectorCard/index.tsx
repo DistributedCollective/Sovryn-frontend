@@ -250,7 +250,7 @@ export function LendingTokenSelectorCard(props: Props) {
             />
           )}
         </div>
-        <LenderBalance asset={props.asset} />
+        {isConnected && <LenderBalance asset={props.asset} />}
         <button
           className="btn btn-customOrange text-white font-weight-bold"
           type="button"
