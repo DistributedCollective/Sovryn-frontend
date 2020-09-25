@@ -3,7 +3,7 @@ import { EventData, Contract } from 'web3-eth-contract';
 import { getWeb3Contract } from '../../utils/blockchain/contract-helpers';
 
 // todo move to .env and config to make reusable
-const OLDEST_BLOCK = 1125558;
+const OLDEST_BLOCK = 1194400;
 
 /**
  * @param contract
@@ -19,6 +19,7 @@ export function useGetPastEvents(
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    // @ts-ignore
     web3ContractRef.current = getWeb3Contract(contract.address, contract.abi);
   }, [contract]);
 

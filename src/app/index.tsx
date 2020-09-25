@@ -16,10 +16,12 @@ import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { LendingPage } from './containers/LendingPage/Loadable';
 import { TradePage } from './containers/TradePage/Loadable';
+import { StatsPage } from './containers/StatsPage/Loadable';
 import { AssetsDictionary } from '../utils/blockchain/assets-dictionary';
 import { createDrizzleAssets } from '../utils/blockchain/createDrizzle';
 import { DrizzleProvider } from './containers/DrizzleProvider';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
+import { WalletProvider } from './containers/WalletProvider';
 
 export function App() {
   const assets = AssetsDictionary.assetList();
@@ -29,15 +31,22 @@ export function App() {
       <Helmet titleTemplate="%s - Sovryn" defaultTitle="Sovryn">
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      <DrizzleProvider drizzle={drizzle}>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/lend" component={LendingPage} />
-          <Route exact path="/trade/:asset?" component={TradePage} />
-          <Route exact path="/trading-history" component={TradingHistoryPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </DrizzleProvider>
+      <WalletProvider>
+        <DrizzleProvider drizzle={drizzle}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/lend" component={LendingPage} />
+            <Route exact path="/trade/:asset?" component={TradePage} />
+            <Route
+              exact
+              path="/trading-history"
+              component={TradingHistoryPage}
+            />
+            <Route exact path="/stats" component={StatsPage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </DrizzleProvider>
+      </WalletProvider>
       <GlobalStyle />
     </BrowserRouter>
   );

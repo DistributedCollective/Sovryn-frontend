@@ -23,15 +23,15 @@ interface Props {
 }
 
 const getOptions = (item: ActiveLoan) => {
-  const loan = AssetsDictionary.getByTokenContractAddress(item.loanToken);
+  // const loan = AssetsDictionary.getByTokenContractAddress(item.loanToken);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const collateral = AssetsDictionary.getByTokenContractAddress(
     item.collateralToken,
   );
 
-  if (loan.asset) {
-    //
-  }
+  // if (loan.asset) {
+  //   //
+  // }
 
   return [
     { key: true, label: 'Withdraw in collateral tokens' },

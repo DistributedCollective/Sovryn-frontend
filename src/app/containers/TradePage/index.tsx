@@ -16,11 +16,11 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { Asset } from '../../../types/asset';
-import { ActiveUserLoans } from '../ActiveUserLoans';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingToken } from '../TradingToken';
 import { TradingPosition } from '../../../types/trading-position';
 import { Icon } from '@blueprintjs/core';
+import { ActiveUserLoans } from '../ActiveUserLoans';
 
 export function TradePage() {
   const params = useParams<{ asset: string }>();

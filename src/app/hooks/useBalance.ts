@@ -1,13 +1,30 @@
+import { useEffect, useState } from 'react';
 import { useAccount } from './useAccount';
-import { useDrizzleState } from './useDrizzleState';
+import { Sovryn } from '../../utils/sovryn';
 
 export function useBalance() {
   const account = useAccount();
-
-  const balance = useDrizzleState(state => state.accountBalances[account]);
-  return {
-    value: balance || '0',
-    loading: balance === undefined,
+  const [state, setState] = useState({
+    value: '0',
+    loading: true,
     error: null,
-  };
+  });
+
+  useEffect(() => {
+    setState(prevState => ({ ...prevState, loading: true, error: null }));
+    Sovryn.getWeb3()
+      .eth.getBalance(account)
+      .then(balance => {
+        setState(prevState => ({
+          ...prevState,
+          value: balance,
+          loading: false,
+          error: null,
+        }));
+      })
+      .catch(error => {
+        setState(prevState => ({ ...prevState, error }));
+      });
+  }, [account]);
+  return state;
 }

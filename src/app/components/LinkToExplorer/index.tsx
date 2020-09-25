@@ -4,6 +4,9 @@
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { blockExplorers } from '../../../utils/classifiers';
 
 interface Props {
   txHash: string;
@@ -22,15 +25,24 @@ export function LinkToExplorer(props: Props) {
   }, [props.txHash, props.startLength, props.endLength]);
 
   const [txHash, setTxHash] = useState(handleTx());
+  const [url, setUrl] = useState(
+    blockExplorers[Number(process.env.REACT_APP_NETWORK_ID)],
+  );
+
+  const { chainId } = useSelector(selectWalletProvider);
 
   useEffect(() => {
     setTxHash(handleTx());
   }, [handleTx, props.txHash, props.startLength, props.endLength]);
 
+  useEffect(() => {
+    setUrl(blockExplorers[Number(process.env.REACT_APP_NETWORK_ID)]);
+  }, [chainId]);
+
   return (
     <a
       className="ml-1 text-white"
-      href={`${process.env.REACT_APP_EXPLORER_URL}/tx/${props.txHash}`}
+      href={`${url}/tx/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
     >
