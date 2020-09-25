@@ -49,40 +49,6 @@ export function useSendContractTx(
     };
   }, [tx, status]);
 
-  useEffect(() => {
-    let interval;
-    if (
-      tx &&
-      status === TransactionStatus.PENDING &&
-      // @ts-ignore
-      window?.ethereum?.isNiftyWallet
-    ) {
-      interval = setInterval(() => {
-        drizzle.web3.eth
-          .getTransactionReceipt(tx)
-          .then(receipt => {
-            if (receipt !== null) {
-              setStatus(
-                receipt.status
-                  ? TransactionStatus.SUCCESS
-                  : TransactionStatus.ERROR,
-              );
-              setLoading(false);
-            }
-          })
-          .catch(() => {
-            setStatus(TransactionStatus.ERROR);
-            setLoading(false);
-          });
-      }, 5000);
-    }
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [tx, drizzle, status]);
-
   return {
     send: (...args) => {
       setLoading(true);
