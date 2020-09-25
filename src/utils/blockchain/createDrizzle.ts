@@ -1,15 +1,15 @@
 import { Drizzle, generateStore, IDrizzleOptions } from '@drizzle/store';
 import Web3 from 'web3';
-import { createWeb3 } from './web3';
 import { Asset } from '../../types/asset';
 import { AssetsDictionary } from './assets-dictionary';
 import { appContracts } from './app-contracts';
+import { Sovryn } from '../sovryn';
 
 export const createDrizzleAssets = (
   assets: Array<Asset>,
   // events?: Array<any>,
 ) => {
-  const web3 = createWeb3();
+  const web3 = Sovryn.getWeb3();
 
   const assetList = AssetsDictionary.find(assets);
   const contracts: Array<any> = [];
@@ -40,19 +40,6 @@ export const createDrizzleAssets = (
   const drizzleOptions: IDrizzleOptions = {
     contracts,
     // events,
-    syncAlways: true,
-    polls: {
-      blocks: 10000,
-      accounts: 10000,
-    },
-    networkWhitelist: [30 /* rsk mainnet */, 31 /* rsk testnet */],
-    web3: {
-      customProvider: web3,
-      fallback: {
-        type: 'ws',
-        url: process.env.REACT_APP_PUBLIC_NODE as string,
-      },
-    },
   };
   const drizzleStore = generateStore({ drizzleOptions });
 

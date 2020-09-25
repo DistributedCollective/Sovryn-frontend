@@ -6,6 +6,7 @@
 import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
+import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
   const { pathname } = useLocation();
@@ -33,28 +34,36 @@ export function Header() {
   });
 
   return (
-    <header className="mb-2 shadow d-flex">
-      <div className="container">
-        <nav className="navbar navbar-expand-lg px-0">
-          <Link to="/">
-            <img className="navbar-brand" src={logoSvg} alt="Logo" />
-          </Link>
-          <button
-            className="navbar-toggler custom-toggler navbar-dark "
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbar-collaps"
-          >
-            <span className="navbar-toggler-icon custom-toggler" />
-          </button>
+    <>
+      <header className="mb-2 shadow d-flex">
+        <div className="container">
+          <nav className="navbar navbar-expand-lg px-0">
+            <Link to="/">
+              <img className="navbar-brand" src={logoSvg} alt="Logo" />
+            </Link>
+            <button
+              className="navbar-toggler custom-toggler navbar-dark "
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbar-collaps"
+            >
+              <span className="navbar-toggler-icon custom-toggler" />
+            </button>
 
-          <div className="collapse navbar-collapse w-100 " id="navbar-collaps">
-            <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
-              {pageNavs}
-            </ul>
-          </div>
-        </nav>
+            <div
+              className="collapse navbar-collapse w-100 "
+              id="navbar-collaps"
+            >
+              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
+                {pageNavs}
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div className="container mt-3">
+        <ConnectWalletButton />
       </div>
-    </header>
+    </>
   );
 }
