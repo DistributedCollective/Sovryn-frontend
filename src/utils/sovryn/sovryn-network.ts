@@ -36,6 +36,9 @@ export class SovrynNetwork {
   private _readWeb3: Web3 = null as any;
   private _toaster = Toaster.create({ maxToasts: 3 });
   public contracts: { [key: string]: Contract } = {};
+  public contractList: Contract[] = [];
+  public writeContracts: { [key: string]: Contract } = {};
+  public writeContractList: Contract[] = [];
 
   constructor() {
     this._web3Modal = new Web3Modal({
@@ -50,10 +53,9 @@ export class SovrynNetwork {
       this.connect().then().catch();
     }
 
-    this._store.subscribe(() => {
-      const state = this.getState();
-      console.log('state updated.', state);
-    });
+    // this._store.subscribe(() => {
+    //   const state = this.getState();
+    // });
   }
 
   public static Instance() {
@@ -139,7 +141,7 @@ export class SovrynNetwork {
       options = args[args.length - 1];
     }
     return new Promise<string>((resolve, reject) => {
-      return this.contracts[contractName].methods[methodName](...params)
+      return this.writeContracts[contractName].methods[methodName](...params)
         .send(options)
         .once('transactionHash', tx => {
           this.store().dispatch(actions.addTransaction(tx));
@@ -152,7 +154,7 @@ export class SovrynNetwork {
     });
   }
 
-  public addContract(
+  public addWriteContract(
     contractName: string,
     contractConfig: {
       address: string;
@@ -162,17 +164,38 @@ export class SovrynNetwork {
     if (!this._writeWeb3) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { networkId, address } = this.getState();
+    const contract = this.makeContract(this._writeWeb3, contractConfig);
     // @ts-ignore
-    this.contracts[contractName] = new this._writeWeb3.eth.Contract(
-      contractConfig.abi,
-      contractConfig.address,
-      {
-        from: address,
-        // data: deployedBytecode,
-      },
-    );
+    this.writeContracts[contractName] = contract;
+    // @ts-ignore
+    this.writeContractList.push(contract);
+  }
+
+  public addReadContract(
+    contractName: string,
+    contractConfig: {
+      address: string;
+      abi: AbiItem | AbiItem[];
+    },
+  ) {
+    if (!this._readWeb3) {
+      return;
+    }
+    const contract = this.makeContract(this._readWeb3, contractConfig);
+    // @ts-ignore
+    this.contracts[contractName] = contract;
+    // @ts-ignore
+    this.contractList.push(contract);
+  }
+
+  protected makeContract(
+    web3: Web3,
+    contractConfig: { address: string; abi: AbiItem | AbiItem[] },
+  ) {
+    return new web3.eth.Contract(contractConfig.abi, contractConfig.address, {
+      // from: address,
+      // data: deployedBytecode,
+    });
   }
 
   protected initWriteWeb3(provider) {
@@ -189,12 +212,15 @@ export class SovrynNetwork {
     });
 
     AssetsDictionary.list().forEach(item => {
-      this.addContract(item.getTokenContractName(), item.tokenContract);
-      this.addContract(item.getLendingContractName(), item.lendingContract);
+      this.addWriteContract(item.getTokenContractName(), item.tokenContract);
+      this.addWriteContract(
+        item.getLendingContractName(),
+        item.lendingContract,
+      );
     });
 
     Array.from(Object.keys(appContracts)).forEach(key => {
-      this.addContract(key, appContracts[key]);
+      this.addWriteContract(key, appContracts[key]);
     });
   }
 
@@ -206,6 +232,18 @@ export class SovrynNetwork {
       this._readWeb3 = new Web3(
         new Web3.providers.WebsocketProvider(wsNodes[chainId]),
       );
+
+      AssetsDictionary.list().forEach(item => {
+        this.addReadContract(item.getTokenContractName(), item.tokenContract);
+        this.addReadContract(
+          item.getLendingContractName(),
+          item.lendingContract,
+        );
+      });
+
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addReadContract(key, appContracts[key]);
+      });
     }
   }
 
@@ -213,6 +251,12 @@ export class SovrynNetwork {
     if (provider.on) {
       provider.on('close', () => {
         put(actions.disconnect());
+      });
+      provider.on('error', error => {
+        console.error('provider error', error);
+      });
+      provider.on('open', a => {
+        console.log('connected?', a);
       });
       provider.on('accountsChanged', async (accounts: string[]) => {
         put(actions.accountChanged(accounts[0]));
@@ -250,13 +294,8 @@ export class SovrynNetwork {
 
     await this.initReadWeb3(chainId);
 
-    this.store().dispatch(
-      actions.connected({
-        address,
-        chainId,
-        networkId,
-      }),
-    );
+    this.store().dispatch(actions.chainChanged({ chainId, networkId }));
+    this.store().dispatch(actions.connected({ address }));
   }
 
   protected async testChain(chainId: number) {

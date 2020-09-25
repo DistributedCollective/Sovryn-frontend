@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { EventData } from 'web3-eth-contract';
-import { useGetPastEvents } from '../../hooks/useGetPastEvents';
 import { useAccount } from '../../hooks/useAccount';
-import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { TradingHistoryListItems } from '../../components/TradingHistoryListItems';
+import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
 
 export function TradingHistory() {
   const account = useAccount();
-  const contract = appContracts.sovrynProtocol;
   const {
     events: swapCloses,
     fetch: fetchSwapClose,
     loading: loadingSwapClose,
-  } = useGetPastEvents(contract, 'CloseWithSwap');
+  } = useGetContractPastEvents('sovrynProtocol', 'CloseWithSwap');
   const {
     events: trades,
     fetch: fetchTrades,
     loading: loadingTrades,
-  } = useGetPastEvents(contract, 'Trade');
+  } = useGetContractPastEvents('sovrynProtocol', 'Trade');
 
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<EventData[]>([]);

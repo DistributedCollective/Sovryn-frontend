@@ -8,6 +8,8 @@ export const initialState: ContainerState = {
   chainId: Number(process.env.REACT_APP_NETWORK_ID),
   networkId: Number(process.env.REACT_APP_NETWORK_ID),
   connected: false,
+  blockNumber: 0,
+  syncBlockNumber: 0,
   // todo ?
   transactions: {},
   transactionStack: [],
@@ -18,14 +20,9 @@ const walletProviderSlice = createSlice({
   initialState,
   reducers: {
     connect() {},
-    connected(
-      state,
-      { payload }: PayloadAction<{ address; networkId; chainId }>,
-    ) {
+    connected(state, { payload }: PayloadAction<{ address: string }>) {
       state.connected = true;
       state.address = payload.address;
-      state.networkId = payload.networkId;
-      state.chainId = payload.chainId;
     },
 
     accountChanged(state, action: PayloadAction<string>) {
@@ -58,6 +55,21 @@ const walletProviderSlice = createSlice({
         [state.transactionStack.length]: action.payload,
       };
     },
+
+    reSync(state, action: PayloadAction<number>) {
+      state.syncBlockNumber = action.payload;
+    },
+
+    readerReady() {},
+
+    blockFailed(state, action: PayloadAction<string>) {
+      console.log('block failed');
+    },
+    blockReceived(state, action: PayloadAction<any>) {
+      state.blockNumber = action.payload.number;
+    },
+
+    processBlock(state, action: PayloadAction<any>) {},
   },
 });
 
