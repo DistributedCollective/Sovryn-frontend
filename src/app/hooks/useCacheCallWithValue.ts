@@ -19,7 +19,8 @@ export function useCacheCallWithValue(
 
   useEffect(() => {
     setFixedValue(value !== null ? value : defaultValue);
-  }, [value, defaultValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, JSON.stringify(defaultValue)]);
 
   return { value: fixedValue, loading, error };
 }

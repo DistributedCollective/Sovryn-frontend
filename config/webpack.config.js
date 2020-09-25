@@ -295,11 +295,6 @@ module.exports = function (webpackEnv) {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
-        '@drizzle/store': path.resolve(__dirname, '../src/libs/@drizzle/store'),
-        '@drizzle/react-plugin': path.resolve(
-          __dirname,
-          '../src/libs/@drizzle/react-plugin',
-        ),
         ...(modules.webpackAliases || {}),
       },
       plugins: [

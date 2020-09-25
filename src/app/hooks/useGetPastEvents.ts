@@ -3,9 +3,13 @@ import { EventData, Contract } from 'web3-eth-contract';
 import { getWeb3Contract } from '../../utils/blockchain/contract-helpers';
 
 // todo move to .env and config to make reusable
+/**
+ * @deprecated
+ */
 const OLDEST_BLOCK = 1194400;
 
 /**
+ * @deprecated use useGetContractPastEvents instead
  * @param contract
  * @param event
  */

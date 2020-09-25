@@ -1,9 +1,9 @@
-import { ABI } from '@drizzle/store/types/IContract';
 import { Asset } from '../../types/asset';
+import { AbiItem } from 'web3-utils';
 
 interface ContractInterface {
   address: string;
-  abi: ABI[] | any;
+  abi: AbiItem | AbiItem[] | any;
 }
 
 interface MinMax {
