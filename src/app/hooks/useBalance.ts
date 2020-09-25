@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useAccount } from './useAccount';
 import { Sovryn } from '../../utils/sovryn';
-import { useEffect, useState } from 'react';
 
 export function useBalance() {
   const account = useAccount();
@@ -11,7 +11,6 @@ export function useBalance() {
   });
 
   useEffect(() => {
-    console.log('get balance!');
     setState(prevState => ({ ...prevState, loading: true, error: null }));
     Sovryn.getWeb3()
       .eth.getBalance(account)
