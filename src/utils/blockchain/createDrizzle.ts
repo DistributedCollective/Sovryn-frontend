@@ -40,19 +40,6 @@ export const createDrizzleAssets = (
   const drizzleOptions: IDrizzleOptions = {
     contracts,
     // events,
-    syncAlways: true,
-    polls: {
-      blocks: 10000,
-      accounts: 10000,
-    },
-    networkWhitelist: [30 /* rsk mainnet */, 31 /* rsk testnet */],
-    web3: {
-      customProvider: web3,
-      fallback: {
-        type: 'ws',
-        url: process.env.REACT_APP_PUBLIC_NODE as string,
-      },
-    },
   };
   const drizzleStore = generateStore({ drizzleOptions });
 

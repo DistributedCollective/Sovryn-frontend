@@ -4,12 +4,9 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Drizzle } from '@drizzle/store';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
-import { useLocation } from 'react-router-dom';
-import { useDrizzle } from '../../hooks/useDrizzle';
-import { isObjectEmpty } from '../../../utils/helpers';
 
 interface Props {
   drizzle: Drizzle | any;
@@ -33,21 +30,18 @@ export function DrizzleProvider({ drizzle, children, ...rest }: Props) {
  * @constructor
  */
 function Initializer(props: Props) {
-  const drizzle = useDrizzle();
-  const state = drizzleReactHooks.useDrizzleState(a => a);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (state.web3.status === '' && isObjectEmpty(drizzle.web3)) {
-      drizzle.store.dispatch({
-        type: 'DRIZZLE_INITIALIZING',
-        drizzle: drizzle,
-        options: drizzle.options,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location /*, drizzle.web3, state.web3.status, state.web3, drizzle*/]);
+  // const drizzle = useDrizzle();
+  // const state = drizzleReactHooks.useDrizzleState(a => a);
+  // useEffect(() => {
+  //   if (state.web3.status === '' && isObjectEmpty(drizzle.web3)) {
+  //     drizzle.store.dispatch({
+  //       type: 'DRIZZLE_INITIALIZING',
+  //       drizzle: drizzle,
+  //       options: drizzle.options,
+  //     });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location /*, drizzle.web3, state.web3.status, state.web3, drizzle*/]);
 
   return <>{props.children}</>;
 }
