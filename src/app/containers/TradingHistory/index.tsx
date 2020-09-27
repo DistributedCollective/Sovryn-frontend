@@ -54,6 +54,7 @@ export function TradingHistory() {
     setLoading(loadingTrades || loadingSwapClose);
   }, [loadingTrades, loadingSwapClose]);
 
+  console.log(events);
   // @ts-ignore
   return (
     <div className={loading ? 'bp3-skeleton' : ''}>

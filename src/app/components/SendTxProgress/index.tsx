@@ -64,7 +64,7 @@ export function SendTxProgress(props: Props) {
       >
         {props.status !== TransactionStatus.PENDING_FOR_USER && (
           <div
-            className="position-absolute"
+            className="position-relative"
             style={{
               top: '5px',
               right: '5px',

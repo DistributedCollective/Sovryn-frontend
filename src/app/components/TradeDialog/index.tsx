@@ -16,6 +16,7 @@ import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { SendTxProgress } from '../SendTxProgress';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { useCheckLiquidity } from '../../hooks/trading/useCheckLiquidity';
 
 interface Props {
   asset: Asset;
@@ -42,6 +43,16 @@ export function TradeDialog(props: Props) {
 
   const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
+
+  const { sufficient, liquidity } = useCheckLiquidity(
+    amount,
+    props.leverage,
+    props.position,
+    selected,
+  );
+
+  console.log('checkLiquidity: ' + sufficient);
+  console.log('Liquidity: ' + liquidity);
 
   // useEffect(() => {
   //   setAmount(weiTo18(tokenBalance));
