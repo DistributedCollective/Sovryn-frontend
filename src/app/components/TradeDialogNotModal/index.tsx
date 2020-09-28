@@ -23,6 +23,7 @@ interface Props {
   leverage: number;
   position: TradingPosition;
   onChangeAmount: (value) => void;
+  onChangeCollateral?: (asset: Asset) => void;
 }
 
 export function TradeDialogNotModal(props: Props) {
@@ -37,6 +38,13 @@ export function TradeDialogNotModal(props: Props) {
   };
 
   const [selected, setSelected] = useState<Asset>(props.asset);
+
+  useEffect(() => {
+    if (props.onChangeCollateral) {
+      props.onChangeCollateral(selected);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
 
   const { value: tokenBalance } = useTokenBalanceOf(selected);
 

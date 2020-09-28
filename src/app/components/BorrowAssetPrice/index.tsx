@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function BorrowAssetPrice(props: Props) {
-  const { value, loading } = useBorrowAssetPrice(props.asset);
+  const { value, loading } = useBorrowAssetPrice(props.asset, Asset.DOC);
 
   useEffect(() => {
     props.onChange(value);
@@ -32,7 +32,7 @@ export function BorrowAssetPrice(props: Props) {
       <div className="d-inline float-right">
         <LoadableValue
           value={
-            <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
+            <Tooltip content={<>{weiToFixed(value, 18)}</>}>
               <>
                 <span className="text-lightGrey">$</span>
                 {weiToFixed(value, 2)}
