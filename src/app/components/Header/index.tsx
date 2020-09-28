@@ -10,7 +10,7 @@ import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
   const { pathname } = useLocation();
-  const pages = ['Trade', 'Lend', 'Liquidity', 'Stats', 'FAQs'];
+  const pages = ['Trade', 'Lend', 'Stats', 'FAQs'];
 
   const pageNavs = pages.reverse().map((item, index) => {
     const styles =

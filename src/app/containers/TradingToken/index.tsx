@@ -56,16 +56,16 @@ export function TradingToken(props: Props) {
         />
       </div>
 
-      <BorrowAssetPrice asset={asset} />
+      <BorrowAssetPrice asset={props.asset} />
 
       <BorrowLiquidationPrice
-        asset={asset}
+        asset={props.asset}
         leverage={leverage}
         position={props.position}
       />
 
       <BorrowInterestRate
-        asset={asset}
+        asset={props.asset}
         weiAmount={weiAmount}
         leverage={leverage}
       />
