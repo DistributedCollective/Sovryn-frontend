@@ -29,7 +29,7 @@ export function BorrowForm(props: Props) {
 
   const handleContractToken = useCallback(() => {
     if (props.position === TradingPosition.LONG) {
-      return Asset.USD;
+      return Asset.DOC;
     }
     return Asset.BTC;
   }, [props.position]);
@@ -38,7 +38,7 @@ export function BorrowForm(props: Props) {
     if (props.position === TradingPosition.LONG) {
       return Asset.BTC;
     }
-    return Asset.USD;
+    return Asset.DOC;
   }, [props.position]);
 
   const [contractToken, setContractToken] = useState(handleContractToken);

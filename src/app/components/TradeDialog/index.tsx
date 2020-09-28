@@ -68,7 +68,7 @@ export function TradeDialog(props: Props) {
     if (props.position === TradingPosition.LONG) {
       setSelected(Asset.BTC);
     } else {
-      setSelected(Asset.USD);
+      setSelected(Asset.DOC);
     }
   }, [props.position]);
 

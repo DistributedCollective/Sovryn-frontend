@@ -2,7 +2,7 @@ import { Asset } from '../../types/asset';
 import { BigNumber, bignumber } from 'mathjs';
 
 export function useSwapToUsdRate(asset: Asset) {
-  return useSwapRate(asset, Asset.USD);
+  return useSwapRate(asset, Asset.DOC);
 }
 
 export function useSwapRate(

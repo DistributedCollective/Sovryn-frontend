@@ -21,7 +21,7 @@ interface Props {
 }
 
 export function TradingToken(props: Props) {
-  const [leverage, setLeverage] = useState(1);
+  const [leverage, setLeverage] = useState(2);
   const [asset, setAsset] = useState(props.asset);
 
   const [amount, setAmount] = useState('0');
@@ -29,7 +29,7 @@ export function TradingToken(props: Props) {
 
   useEffect(() => {
     if (props.position === TradingPosition.LONG) {
-      setAsset(Asset.USD);
+      setAsset(Asset.DOC);
     } else {
       setAsset(Asset.BTC);
     }
@@ -40,7 +40,7 @@ export function TradingToken(props: Props) {
       <div className="mb-3">
         <label className="mr-4">Leverage</label>
         <LeverageSelector
-          min={1}
+          min={props.position === TradingPosition.LONG ? 2 : 1}
           max={5}
           value={leverage}
           onChange={value => setLeverage(value)}

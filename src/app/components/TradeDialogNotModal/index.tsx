@@ -49,21 +49,25 @@ export function TradeDialogNotModal(props: Props) {
 
   useEffect(() => {
     // Filter and set available colarated assets.
-    setColaratedAssets(
-      AssetsDictionary.list().map(item => ({
+    const collateral = AssetsDictionary.get(props.asset)
+      .getCollateralAssets()
+      .map(item => AssetsDictionary.get(item))
+      .map(item => ({
         key: item.asset,
         label: item.symbol,
-      })),
-    );
+      }));
+    setColaratedAssets(collateral);
   }, [props.asset]);
 
   useEffect(() => {
-    if (props.position === TradingPosition.LONG) {
-      setSelected(Asset.BTC);
-    } else {
-      setSelected(Asset.USD);
+    if (
+      colaratedAssets.length &&
+      !colaratedAssets.find(item => item.key === selected)
+    ) {
+      setSelected(colaratedAssets[0].key);
     }
-  }, [props.position]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.position, colaratedAssets]);
 
   const weiAmount = useWeiAmount(amount);
 
