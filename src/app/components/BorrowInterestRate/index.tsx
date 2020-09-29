@@ -10,16 +10,20 @@ import { useBorrowInterestRate } from 'app/hooks/trading/useBorrowInterestRate';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import tooltipData from 'utils/data/tooltip-text.json';
+import { bignumber } from 'mathjs';
 
 interface Props {
   asset: Asset;
+  leverage: number;
   weiAmount: string;
 }
 
 export function BorrowInterestRate(props: Props) {
   const { value, loading } = useBorrowInterestRate(
     props.asset,
-    props.weiAmount,
+    bignumber(props.weiAmount)
+      .mul(props.leverage - 1)
+      .toString(),
   );
 
   return (

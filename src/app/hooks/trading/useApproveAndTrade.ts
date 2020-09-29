@@ -18,8 +18,8 @@ enum TxType {
 export function useApproveAndTrade(
   lendingContract: Asset,
   token: Asset,
-  leverage,
-  weiAmount,
+  leverage: number,
+  weiAmount: string,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
@@ -45,7 +45,7 @@ export function useApproveAndTrade(
   } = useMarginTrade(
     lendingContract,
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    toWei(String(leverage), 'ether'),
+    toWei(String(leverage - 1), 'ether'),
     0,
     weiAmount,
     token,
