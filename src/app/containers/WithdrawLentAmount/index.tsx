@@ -45,7 +45,10 @@ export function WithdrawLentAmount(props: Props) {
   }, [unlendToken, unlendBtc, amount, props.asset]);
 
   useEffect(() => {
-    setAmount(bignumber(balance).div(price).toFixed(18));
+    const result = bignumber(balance).div(price).toFixed(18);
+    if (!isNaN(Number(result)) && isFinite(Number(result))) {
+      setAmount(result);
+    }
   }, [balance, price]);
 
   return (

@@ -1,7 +1,9 @@
 import { Asset } from 'types/asset';
 import { AssetDetails } from './asset-details';
 
+// @ts-ignore
 import btcIcon from 'assets/images/rBTC-logo.png';
+// @ts-ignore
 import usdIcon from 'assets/images/dollar-sign.svg';
 import LoanTokenABI from './abi/abiLoanToken.json';
 import TestTokenABI from './abi/abiTestToken.json';

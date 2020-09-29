@@ -13,7 +13,7 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCloseWithSwap } from '../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
-import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 
@@ -24,15 +24,15 @@ interface Props {
 }
 
 const getOptions = (item: ActiveLoan) => {
-  const loan = AssetsDictionary.getByTokenContractAddress(item.loanToken);
+  // const loan = AssetsDictionary.getByTokenContractAddress(item.loanToken);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const collateral = AssetsDictionary.getByTokenContractAddress(
     item.collateralToken,
   );
 
-  if (loan.asset) {
-    //
-  }
+  // if (loan.asset) {
+  //   //
+  // }
 
   return [
     { key: true, label: symbolByTokenAddress(item.collateralToken) },
@@ -41,13 +41,6 @@ const getOptions = (item: ActiveLoan) => {
 };
 
 export function CloseTradingPositionHandler(props: Props) {
-  const assetDetails = AssetsDictionary.getByTokenContractAddress(
-    props.item.loanToken,
-  );
-  const tokenDetails = AssetsDictionary.getByTokenContractAddress(
-    props.item.collateralToken,
-  );
-
   const receiver = useAccount();
 
   const [amount, setAmount] = useState(weiTo18(props.item.collateral));

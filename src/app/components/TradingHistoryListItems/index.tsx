@@ -95,7 +95,7 @@ export function TradingHistoryListItems(props: Props) {
 
   return (
     <div
-      className={`container bg-secondary mb-3 ${
+      className={`container bg-component-bg mb-3 ${
         !state.prepared ? 'bp3-skeleton' : ''
       }`}
     >

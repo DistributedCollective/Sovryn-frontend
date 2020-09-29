@@ -15,6 +15,7 @@
 ##   Handle line endings automatically for files detected as
 ##   text and leave all files detected as binary untouched.
 ##   This will handle all files NOT defined below.
+
 *                 text=auto eol=lf
 
 # Source code
@@ -47,8 +48,8 @@
 *.sql             text
 *.styl            text
 *.tag             text
-*.ts              text
-*.tsx             text
+*.ts              text 
+*.tsx             text 
 *.xml             text
 *.xhtml           text diff=html
 

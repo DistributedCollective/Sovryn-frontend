@@ -10,7 +10,6 @@ import { Dialog, InputGroup } from '@blueprintjs/core';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';

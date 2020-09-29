@@ -48,7 +48,6 @@ export function TradeDialog(props: Props) {
     amount,
     props.leverage,
     props.position,
-    selected,
   );
 
   console.log('checkLiquidity: ' + sufficient);

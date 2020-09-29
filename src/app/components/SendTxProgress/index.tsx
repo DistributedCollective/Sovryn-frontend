@@ -64,10 +64,8 @@ export function SendTxProgress(props: Props) {
       >
         {props.status !== TransactionStatus.PENDING_FOR_USER && (
           <div
-            className="position-relative"
+            className="position-relative float-right"
             style={{
-              top: '5px',
-              right: '5px',
               fontSize: '12px',
               cursor: 'pointer',
             }}
@@ -99,7 +97,13 @@ export function SendTxProgress(props: Props) {
 
         {/* Sub text */}
         <div className="my-2">
-          {props.txHash ? <LinkToExplorer txHash={props.txHash} /> : subText}
+          {props.txHash ? (
+            <u>
+              <LinkToExplorer txHash={props.txHash} />
+            </u>
+          ) : (
+            subText
+          )}
         </div>
       </div>
     </>
