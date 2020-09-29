@@ -51,19 +51,27 @@ export function TradeDialog(props: Props) {
     props.position,
   );
 
-  // useEffect(() => {
-  //   setAmount(weiTo18(tokenBalance));
-  // }, [tokenBalance]);
-
   useEffect(() => {
     // Filter and set available colarated assets.
-    setColaratedAssets(
-      AssetsDictionary.list().map(item => ({
+    const collateral = AssetsDictionary.get(props.asset)
+      .getCollateralAssets()
+      .map(item => AssetsDictionary.get(item))
+      .map(item => ({
         key: item.asset,
         label: item.symbol,
-      })),
-    );
+      }));
+    setColaratedAssets(collateral);
   }, [props.asset]);
+
+  useEffect(() => {
+    if (
+      colaratedAssets.length &&
+      !colaratedAssets.find(item => item.key === selected)
+    ) {
+      setSelected(colaratedAssets[0].key);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.position, colaratedAssets]);
 
   const weiAmount = useWeiAmount(amount);
 
