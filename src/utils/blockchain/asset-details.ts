@@ -25,11 +25,11 @@ export class AssetDetails {
   ) {}
 
   public getTokenContractName(): string {
-    return this.name + '_token';
+    return this.asset + '_token';
   }
 
   public getLendingContractName(): string {
-    return this.name + '_lending';
+    return this.asset + '_lending';
   }
 
   public getTokenContractAddress(): string {

@@ -1,3 +1,5 @@
+import { Asset } from '../types/asset';
+
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
@@ -20,3 +22,20 @@ export const wsNodes = {
   30: 'wss://mainnet.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
 };
+
+export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
+
+export const liquidityPools = [
+  {
+    source: Asset.BTC,
+    target: Asset.DOC,
+    label: 'wRBTC / DoC',
+    tokenLabel: 'wRBTC',
+  },
+  {
+    source: Asset.DOC,
+    target: Asset.BTC,
+    label: 'DoC / wRBTC',
+    tokenLabel: 'DoC',
+  },
+];
