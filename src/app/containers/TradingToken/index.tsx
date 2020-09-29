@@ -64,7 +64,7 @@ export function TradingToken(props: Props) {
         </div>
         <div className="mb-2">
           <LeverageSelector
-            min={2}
+            min={props.position === TradingPosition.LONG ? 2 : 1}
             max={5}
             value={leverage}
             onChange={value => setLeverage(value)}
@@ -74,14 +74,14 @@ export function TradingToken(props: Props) {
         <div className="row mb-2">
           <div className="col-6">
             <BorrowLiquidationPrice
-              asset={asset}
+              asset={props.asset}
               leverage={leverage}
               position={props.position}
             />
           </div>
           <div className="col-6">
             <BorrowInterestRate
-              asset={asset}
+              asset={props.asset}
               weiAmount={weiAmount}
               leverage={leverage}
             />
