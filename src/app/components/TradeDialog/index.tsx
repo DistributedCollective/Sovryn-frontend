@@ -78,7 +78,7 @@ export function TradeDialog(props: Props) {
 
   return (
     <div className="position-relative h-100 w-100">
-      <div className="bg-component-bg p-3 mb-2">
+      <div className="bg-component-bg p-3">
         <div className="row">
           <div className="col-4">
             <div className="data-label text-MediumGrey">Currency</div>

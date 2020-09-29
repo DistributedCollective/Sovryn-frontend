@@ -41,7 +41,7 @@ export function TradePage() {
         <div className="container">
           <div className="row">
             <div
-              className="col-md-12 col-lg-5 mb-2 mr-0"
+              className="col-md-12 col-lg-5 mb-2 mr-0 d-flex flex-column justify-content-between"
               style={{ minHeight: 400 }}
             >
               <TradingToken
