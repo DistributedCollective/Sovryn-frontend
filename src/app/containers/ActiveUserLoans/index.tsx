@@ -26,7 +26,7 @@ export function ActiveUserLoans(props: Props) {
     return <div className="bp3-skeleton">Loading data.</div>;
   }
 
-  if (!value.length) {
+  if (!value.length && !loading) {
     return (
       <div className="container" style={{ padding: '20px' }}>
         You do not have any active trades.
@@ -39,7 +39,9 @@ export function ActiveUserLoans(props: Props) {
       {/*{value.map(item => (
         <ActiveUserLoan key={item.loanId} item={item} />
       ))}*/}
-      <ActiveLoanTable data={value} activeTrades={true} />
+      {!loading && value.length && (
+        <ActiveLoanTable data={value} activeTrades={true} />
+      )}
     </>
   );
 }
