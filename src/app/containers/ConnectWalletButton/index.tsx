@@ -10,14 +10,14 @@ import { useInjectSaga } from 'utils/redux-injectors';
 import { connectWalletButtonSaga } from './saga';
 import { Button } from '@blueprintjs/core';
 import { Sovryn } from '../../../utils/sovryn';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../WalletProvider/selectors';
 import { prettyTx } from '../../../utils/helpers';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
 export function ConnectWalletButton() {
   useInjectSaga({ key: 'connectWalletButton', saga: connectWalletButtonSaga });
 
-  const { connected, address } = useSelector(selectWalletProvider);
+  const connected = useIsConnected();
+  const address = useAccount();
   const [imgSrc, setImgSrc] = useState<string>(null as any);
 
   const handleWalletConnection = useCallback(() => {
