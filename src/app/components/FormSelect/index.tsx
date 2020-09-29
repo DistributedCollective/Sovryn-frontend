@@ -42,7 +42,6 @@ export function FormSelect(props: Props) {
       items={props.items}
       noResults={
         <MenuItem
-          className="background-Field_bg"
           disabled={true}
           text={
             props.loading && !props.items

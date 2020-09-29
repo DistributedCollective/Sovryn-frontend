@@ -63,7 +63,7 @@ export function LeverageSelector(props: Props) {
   );
 }
 
-const Button = styled.div`
+const Button = styled.button`
   border-radius: 2rem;
   font-size: 16px;
   font-weight: 600;
