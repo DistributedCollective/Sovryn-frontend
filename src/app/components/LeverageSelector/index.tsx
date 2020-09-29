@@ -47,17 +47,19 @@ export function LeverageSelector(props: Props) {
       <div className="col-3" style={{ verticalAlign: 'middle' }}>
         Leverage
       </div>
-      <div className="col-9 d-inline-flex justify-content-between align-items-start">
-        {items.map(item => (
-          <ThemeProvider
-            theme={props.value === item ? active : inactive}
-            key={item}
-          >
-            <Button onClick={() => props.onChange(item)} className="btn">
-              {item}X
-            </Button>
-          </ThemeProvider>
-        ))}
+      <div className="col-9">
+        <div className="d-inline-flex justify-content-between align-items-start w-100">
+          {items.map(item => (
+            <ThemeProvider
+              theme={props.value === item ? active : inactive}
+              key={item}
+            >
+              <Button onClick={() => props.onChange(item)} className="btn">
+                {item}X
+              </Button>
+            </ThemeProvider>
+          ))}
+        </div>
       </div>
     </div>
   );

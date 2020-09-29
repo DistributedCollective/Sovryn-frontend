@@ -54,6 +54,11 @@ export function TradingHistory() {
 
   console.log(events);
   // @ts-ignore
+
+  if (loading) {
+    return <div className="bp3-skeleton">Loading data.</div>;
+  }
+
   return (
     <div className={loading ? 'bp3-skeleton' : ''}>
       {!events.length && !loading && (
