@@ -50,9 +50,6 @@ export function TradeDialog(props: Props) {
     props.position,
   );
 
-  console.log('checkLiquidity: ' + sufficient);
-  console.log('Liquidity: ' + liquidity);
-
   // useEffect(() => {
   //   setAmount(weiTo18(tokenBalance));
   // }, [tokenBalance]);

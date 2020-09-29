@@ -24,8 +24,6 @@ export function useCheckLiquidity(
     );
   }, [position]);
 
-  console.log(contract);
-
   const liquidity: number = parseFloat(
     weiTo18(useCacheCallWithValue(contract, 'marketLiquidity', '0').value),
   );

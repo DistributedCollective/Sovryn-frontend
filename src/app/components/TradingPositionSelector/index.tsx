@@ -20,14 +20,6 @@ interface Props {
 export function TradingPositionSelector(props: Props) {
   const long = props.value === 'LONG';
 
-  const Tab = styled.div`
-    cursor: pointer;
-    border-bottom: ${props => `2px solid ${props.theme.color}`};
-    color: ${props => props.theme.color};
-    h3 span {
-      color: ${props => props.theme.textColor};
-    }
-  `;
   const active = {
     color: long ? 'var(--Teal)' : 'var(--Gold)',
     textColor: 'var(--white)',
@@ -70,6 +62,15 @@ export function TradingPositionSelector(props: Props) {
     </>
   );
 }
+
+const Tab = styled.div`
+  cursor: pointer;
+  border-bottom: ${props => `2px solid ${props.theme.color}`};
+  color: ${props => props.theme.color};
+  h3 span {
+    color: ${props => props.theme.textColor};
+  }
+`;
 
 TradingPositionSelector.defaultProps = {
   value: TradingPosition.LONG,
