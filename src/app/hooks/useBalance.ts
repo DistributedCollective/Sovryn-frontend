@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useAccount } from './useAccount';
 import { Sovryn } from '../../utils/sovryn';
+import { useSelector } from 'react-redux';
+import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 
 export function useBalance() {
-  const account = useAccount();
+  const { syncBlockNumber, address } = useSelector(selectWalletProvider);
   const [state, setState] = useState({
     value: '0',
     loading: true,
@@ -11,10 +12,10 @@ export function useBalance() {
   });
 
   useEffect(() => {
-    if (account) {
+    if (address) {
       setState(prevState => ({ ...prevState, loading: true, error: null }));
       Sovryn.getWeb3()
-        .eth.getBalance(account)
+        .eth.getBalance(address)
         .then(balance => {
           setState(prevState => ({
             ...prevState,
@@ -29,6 +30,6 @@ export function useBalance() {
     } else {
       setState(prevState => ({ ...prevState, loading: false }));
     }
-  }, [account]);
+  }, [address, syncBlockNumber]);
   return state;
 }
