@@ -91,15 +91,19 @@ export const GlobalStyle = createGlobalStyle`
     thead th {
         color: var(--Grey_text);
         text-transform: uppercase;
-        font-size: 16px;
         border-bottom: 2px solid var(--background);
+        @media (max-width: 1200px) {
+          font-size: 80%;
+        }
     }
     tbody tr td {
       color: white;
-      font-size: 16px;
       font-weight: 300;
       padding: 10px 5px;
       text-align: center;
+      @media (max-width: 1200px) {
+        font-size: 90%;
+      }
     }
   }
   .modal-title {

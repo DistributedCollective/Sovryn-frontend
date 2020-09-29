@@ -20,7 +20,7 @@ export function useCheckLiquidity(
     setContract(
       position === 'LONG'
         ? getLendingContractName(Asset.BTC)
-        : getLendingContractName(Asset.USD),
+        : getLendingContractName(Asset.DOC),
     );
   }, [position]);
 

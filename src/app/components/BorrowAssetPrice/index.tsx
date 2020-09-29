@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function BorrowAssetPrice(props: Props) {
-  const { value, loading } = useBorrowAssetPrice(props.asset);
+  const { value, loading } = useBorrowAssetPrice(props.asset, Asset.DOC);
 
   useEffect(() => {
     props.onChange(value);
@@ -27,7 +27,9 @@ export function BorrowAssetPrice(props: Props) {
       value={
         <span style={{ verticalAlign: 'middle' }}>
           <span className="text-lightGrey">Price: $</span>
-          {weiToFixed(value, 2)}
+          {parseFloat(weiToFixed(value, 2)).toLocaleString('en', {
+            minimumFractionDigits: 2,
+          })}
         </span>
       }
       loading={loading}

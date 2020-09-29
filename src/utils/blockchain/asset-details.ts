@@ -12,6 +12,7 @@ interface MinMax {
 }
 
 export class AssetDetails {
+  private _collateralAssets: Asset[] = [];
   constructor(
     public asset: Asset,
     public symbol: string,
@@ -37,5 +38,14 @@ export class AssetDetails {
 
   public getLendingContractAddress(): string {
     return this.lendingContract.address;
+  }
+
+  public getCollateralAssets() {
+    return this._collateralAssets;
+  }
+
+  public setCollateralAssets(assets: Asset[]) {
+    this._collateralAssets = assets;
+    return this;
   }
 }

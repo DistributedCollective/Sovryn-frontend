@@ -1,6 +1,6 @@
 import { store } from '../../store/store';
 import Web3 from 'web3';
-import { TransactionConfig } from 'web3-core';
+import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { rpcNodes, wsNodes } from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
@@ -230,7 +230,9 @@ export class SovrynNetwork {
       (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
     ) {
       this._readWeb3 = new Web3(
-        new Web3.providers.WebsocketProvider(wsNodes[chainId]),
+        new Web3.providers.WebsocketProvider(wsNodes[chainId], {
+          reconnectDelay: 10,
+        }),
       );
 
       AssetsDictionary.list().forEach(item => {
@@ -243,6 +245,18 @@ export class SovrynNetwork {
 
       Array.from(Object.keys(appContracts)).forEach(key => {
         this.addReadContract(key, appContracts[key]);
+      });
+
+      const provider: WebsocketProvider = this._readWeb3
+        .currentProvider as WebsocketProvider;
+
+      provider.on('end', () => {
+        console.info('try to resubscribe.');
+        provider.removeAllListeners('end');
+        this.contracts = {};
+        this.contractList = [];
+        this._readWeb3 = undefined as any;
+        this.initReadWeb3(chainId);
       });
     }
   }

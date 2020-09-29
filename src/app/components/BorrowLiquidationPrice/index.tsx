@@ -18,7 +18,7 @@ interface Props {
 }
 
 export function BorrowLiquidationPrice(props: Props) {
-  const { value: price } = useBorrowAssetPrice(props.asset);
+  const { value: price } = useBorrowAssetPrice(props.asset, Asset.DOC);
   const { value, loading } = useBorrowLiquidationPrice(
     props.asset,
     price,

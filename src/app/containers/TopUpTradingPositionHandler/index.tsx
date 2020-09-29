@@ -65,7 +65,7 @@ export function TopUpTradingPositionHandler(props: Props) {
         <div className="row mt-3">
           <div className="col-4">
             <div className="data-label">Currency</div>
-            <div className="data-container p-1">
+            <div className="data-container p-2">
               <div>{tokenDetails.asset}</div>
             </div>
           </div>

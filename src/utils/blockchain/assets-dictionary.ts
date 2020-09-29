@@ -1,6 +1,5 @@
 import { Asset } from 'types/asset';
 import { AssetDetails } from './asset-details';
-
 // @ts-ignore
 import btcIcon from 'assets/images/rBTC-logo.png';
 // @ts-ignore
@@ -20,35 +19,35 @@ export class AssetsDictionary {
           'Bitcoin',
           18,
           {
-            address: '0x21Fa1095205a37aDe78F394B3B984ea3f743bc70',
+            address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
             abi: TestTokenABI,
           },
           {
-            address: '0x021Bc6f3c101fC1354A212583a5aF0347FE283Cf',
+            address: '0xb01f116199C5eE8e2977b0a9280fE392c4162838',
             abi: LoanTokenLogicWrbtc,
           },
           btcIcon,
           { min: 0.01, max: 1 },
-        ),
+        ).setCollateralAssets([Asset.DOC]),
       ],
       [
-        Asset.USD,
+        Asset.DOC,
         new AssetDetails(
-          Asset.USD,
-          'USD',
-          'USD',
+          Asset.DOC,
+          'DoC',
+          'Dollar on Chain',
           18,
           {
-            address: '0xD958866a46F4e7Db1Cc6A80589D0dc44Cbfb155b',
+            address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
             abi: TestTokenABI,
           },
           {
-            address: '0x4a050817d9192A4E4a093ea6426D53417c5Eb1FC',
+            address: '0x543B6777A13e1fBBF8abaF08692F0Ad67cA352Fc',
             abi: LoanTokenABI,
           },
           usdIcon,
           { min: 1, max: 50000 },
-        ),
+        ).setCollateralAssets([Asset.BTC]),
       ],
     ],
   );

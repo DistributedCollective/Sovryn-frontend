@@ -22,7 +22,7 @@ interface Props {
 }
 
 export function TradingToken(props: Props) {
-  const [leverage, setLeverage] = useState(1);
+  const [leverage, setLeverage] = useState(2);
   const [asset, setAsset] = useState(props.asset);
 
   const [amount, setAmount] = useState('0');
@@ -30,7 +30,7 @@ export function TradingToken(props: Props) {
 
   useEffect(() => {
     if (props.position === TradingPosition.LONG) {
-      setAsset(Asset.USD);
+      setAsset(Asset.DOC);
     } else {
       setAsset(Asset.BTC);
     }
@@ -52,7 +52,7 @@ export function TradingToken(props: Props) {
           className="d-inline h-100 float-right"
           style={{ marginTop: '10px' }}
         >
-          <BorrowAssetPrice asset={asset} />
+          <BorrowAssetPrice asset={props.asset} />
         </div>
       </div>
       <div className="bg-component-bg p-3 mb-2 mt-2">
@@ -80,7 +80,11 @@ export function TradingToken(props: Props) {
             />
           </div>
           <div className="col-6">
-            <BorrowInterestRate asset={asset} weiAmount={weiAmount} />
+            <BorrowInterestRate
+              asset={asset}
+              weiAmount={weiAmount}
+              leverage={leverage}
+            />
           </div>
         </div>
       </div>

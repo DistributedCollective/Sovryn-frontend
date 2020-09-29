@@ -1,11 +1,11 @@
 import React from 'react';
 
 interface Props {
-  collateral: string;
-  asset: string;
+  interestPerDay: number;
+  principal: number;
 }
 
 export function InterestAPR(props: Props) {
-  const interest = 'todo';
-  return <>{interest}</>;
+  const APR = ((props.interestPerDay * 365) / props.principal) * 100;
+  return <>{APR.toFixed(2)} %</>;
 }

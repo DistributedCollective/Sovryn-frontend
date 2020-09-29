@@ -79,7 +79,7 @@ export function CloseTradingPositionHandler(props: Props) {
           <u>Close</u> X
         </div>
 
-        <div className="text-Red text-center mt-4 modal-title">
+        <div className="text-customTeal text-center mt-4 modal-title">
           Liquidate position
         </div>
 
@@ -131,9 +131,7 @@ export function CloseTradingPositionHandler(props: Props) {
           <div className="col-6"></div>
           <div className="col-6">
             <button
-              className={`btn btn-customTeal text-${
-                withdrawAll ? 'Red' : 'white'
-              } my-3 w-100 p-2 rounded`}
+              className="btn btn-customTeal text-white my-3 w-100 p-2 rounded"
               disabled={rest.loading || !valid}
               onClick={() => handleConfirmSwap()}
             >

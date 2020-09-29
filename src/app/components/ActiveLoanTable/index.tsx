@@ -10,7 +10,11 @@ import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositi
 import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
-import { weiTo2, weiTo4 } from '../../../utils/blockchain/math-helpers';
+import {
+  weiTo2,
+  weiTo4,
+  weiToFixed,
+} from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -50,9 +54,7 @@ export function ActiveLoanTable(props: Props) {
               style={{ fontSize: '20px' }}
             />
           ),
-        positionSize: `${parseFloat(weiTo4(item.collateral)).toLocaleString(
-          'en',
-        )} 
+        positionSize: `${parseFloat(weiToFixed(item.collateral, 4))} 
         ${symbolByTokenAddress(item.collateralToken)}`,
         currentMargin: (
           <CurrentMargin
@@ -62,11 +64,13 @@ export function ActiveLoanTable(props: Props) {
         ),
         interestAPR: (
           <InterestAPR
-            collateral={item.collateral}
-            asset={symbolByTokenAddress(item.collateralToken)}
+            interestPerDay={item.interestOwedPerDay}
+            principal={item.principal}
           />
         ),
-        startPrice: `$ ${weiTo2(item.startRate)}`,
+        startPrice: `$ ${parseFloat(weiTo2(item.startRate)).toLocaleString(
+          'en',
+        )}`,
         endDate: <DisplayDate timestamp={item.endTimestamp} />,
         borrowed: '',
         startMargin: '',
@@ -125,7 +129,7 @@ export function ActiveLoanTable(props: Props) {
         accessor: 'startPrice',
       },
       {
-        Header: 'End Date',
+        Header: 'Renewal Date',
         accessor: 'endDate',
         sortable: true,
       },
@@ -192,7 +196,9 @@ export function ActiveLoanTable(props: Props) {
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    <td className="align-middle" {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </td>
                   );
                 })}
               </tr>

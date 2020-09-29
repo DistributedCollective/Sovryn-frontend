@@ -19,13 +19,15 @@ export function CurrentMargin(props: Props) {
     <>
       <div className="d-inline">{`${weiTo4(props.currentMargin)} %`}</div>
       <div
-        className="d-inline float-right mr-2"
-        style={{ fontSize: '13px', color: diff > 0 ? 'Green' : 'Red' }}
+        className="d-inline ml-2 mr-2"
+        style={{ fontSize: '12px', color: diff > 0 ? 'Green' : 'Red' }}
       >
-        <FontAwesomeIcon
-          icon={diff > 0 ? faLongArrowAltUp : faLongArrowAltDown}
-        />
-        {` ${diff.toFixed(4)} %`}
+        <div className="d-inline">
+          <FontAwesomeIcon
+            icon={diff > 0 ? faLongArrowAltUp : faLongArrowAltDown}
+          />
+          {` ${diff.toFixed(4)} %`}
+        </div>
       </div>
     </>
   );
