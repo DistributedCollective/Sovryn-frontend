@@ -38,6 +38,7 @@ export function FormSelect(props: Props) {
 
   return (
     <Selector
+      className="p-0 w-100 background-Field_bg"
       items={props.items}
       noResults={
         <MenuItem

@@ -192,7 +192,7 @@ export function LendingTokenSelectorCard(props: Props) {
   return (
     <>
       <form
-        className="d-block p-5 bg-secondary text-white shadow"
+        className="d-block p-5 bg-component-bg text-white shadow"
         onSubmit={handleSubmit}
       >
         <div className="d-flex flex-row justify-content-center">
@@ -203,10 +203,12 @@ export function LendingTokenSelectorCard(props: Props) {
             <h2>{props.asset}</h2>
           </div>
           <div className="col-6 text-right">
-            <div className="text-lightGrey">
+            <div className="text-lightGrey data-label">
               <Tooltip content={tooltipText}>Interest APR:</Tooltip>
             </div>
-            <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
+            <div className="data-container">
+              <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
+            </div>
           </div>
         </div>
         <div className="row mt-5">
@@ -227,14 +229,18 @@ export function LendingTokenSelectorCard(props: Props) {
               value={amount}
               onChange={e => setAmount(e.target.value)}
               readOnly={txState.loading}
-              rightElement={<Tag minimal>{props.asset}</Tag>}
+              rightElement={
+                <Tag minimal className="text-white">
+                  {props.asset}
+                </Tag>
+              }
             />
           </div>
         </div>
-        <div className="mt-3 d-flex flex-row justify-content-center align-items-center overflow-hidden">
+        <div className="mt-3 d-flex flex-row justify-content-center align-items-center position-relative">
           <div className="text-center w-100">
             <button
-              className="btn btn-customOrange text-white font-weight-bold"
+              className="btn btn-customTeal rounded text-white"
               type="submit"
               disabled={txState.loading || !isConnected || !valid}
             >
@@ -250,22 +256,25 @@ export function LendingTokenSelectorCard(props: Props) {
             />
           )}
         </div>
+      </form>
+      <div className="bg-component-bg align-items-center mt-3 p-5">
         {isConnected && <LenderBalance asset={props.asset} />}
         <button
-          className="btn btn-customOrange text-white font-weight-bold"
+          className="btn btn-customTeal rounded text-white"
           type="button"
           onClick={() => setShowHistory(true)}
           disabled={!isConnected}
         >
           Lending history
         </button>
-      </form>
-      <CustomDialog
-        show={showHistory}
-        onClose={() => setShowHistory(false)}
-        title="Lending history"
-        content={<LendingHistory asset={props.asset} />}
-      />
+
+        <CustomDialog
+          show={showHistory}
+          onClose={() => setShowHistory(false)}
+          title="Lending history"
+          content={<LendingHistory asset={props.asset} />}
+        />
+      </div>
     </>
   );
 }

@@ -4,7 +4,6 @@
  *
  */
 import React, { useEffect } from 'react';
-import { Tooltip } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -27,25 +26,27 @@ export function AssetWalletBalance(props: Props) {
   }, [props, value]);
 
   return (
-    <div className="mb-2">
-      <div className="d-inline text-lightGrey">Balance</div>
-      <div className="d-inline float-right">
+    <>
+      <div className="mt-1 data-label text-MediumGrey">Account Balance</div>
+      <div className="m-0">
         <LoadableValue
           value={
             connected ? (
-              <Tooltip content={<>{weiToFixed(value, 18)} %</>}>
-                <>
-                  {weiToFixed(value, 2)}{' '}
-                  <span className="text-lightGrey">{props.asset}</span>
-                </>
-              </Tooltip>
+              <>
+                <span className="data-label text-MediumGrey">
+                  {props.asset}
+                </span>{' '}
+                {weiToFixed(value, 4)}
+              </>
             ) : (
-              <span>Connect to wallet</span>
+              <span className="data-label text-MediumGrey">
+                Connect to wallet
+              </span>
             )
           }
           loading={loading}
         />
       </div>
-    </div>
+    </>
   );
 }

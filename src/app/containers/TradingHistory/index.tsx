@@ -52,10 +52,15 @@ export function TradingHistory() {
     setLoading(loadingTrades || loadingSwapClose);
   }, [loadingTrades, loadingSwapClose]);
 
+  console.log(events);
   // @ts-ignore
   return (
     <div className={loading ? 'bp3-skeleton' : ''}>
-      {!events.length && <div>History is empty.</div>}
+      {!events.length && !loading && (
+        <div style={{ padding: '20px' }}>
+          You do not have any closed trades.
+        </div>
+      )}
       {items.map(([key, data]) => (
         <TradingHistoryListItems key={key} items={data} />
       ))}

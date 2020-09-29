@@ -29,7 +29,6 @@ function createBlockChannels({ web3 }) {
         // emit({
         //   type: 'BLOCK_RECEIVED',
         //   blockHeader,
-        //   drizzle,
         //   web3,
         //   syncAlways,
         // });
