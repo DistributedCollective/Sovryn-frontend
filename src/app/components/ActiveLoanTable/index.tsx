@@ -10,11 +10,7 @@ import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositi
 import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
-import {
-  weiTo2,
-  weiTo4,
-  weiToFixed,
-} from '../../../utils/blockchain/math-helpers';
+import { weiTo2, weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';

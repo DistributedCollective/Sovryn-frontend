@@ -13,3 +13,33 @@ export const prettyTx = (
   const end = text.substr(-endLength);
   return `${start} ··· ${end}`;
 };
+
+export const handleNumberInput = (value, onlyPositive = true) => {
+  return handleNumber(value.currentTarget.value, onlyPositive);
+};
+
+export const handleNumber = (value, onlyPositive = true) => {
+  if (value === undefined || value === null) {
+    value = '';
+  }
+
+  if (value === '') {
+    return value;
+  }
+
+  let number = value.replace(',', '.').replace(/[^\d.-]/g, '');
+
+  if (onlyPositive) {
+    number = number.replace('-', '');
+  }
+
+  if (onlyPositive && Number(number) < 0) {
+    return Math.abs(number).toString();
+  }
+
+  if (isNaN(number) && number !== '-') {
+    return '';
+  }
+
+  return number.toString();
+};

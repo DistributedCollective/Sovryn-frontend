@@ -22,11 +22,11 @@ const walletProviderSlice = createSlice({
     connect() {},
     connected(state, { payload }: PayloadAction<{ address: string }>) {
       state.connected = true;
-      state.address = payload.address;
+      state.address = payload.address || '';
     },
 
     accountChanged(state, action: PayloadAction<string>) {
-      state.address = action.payload;
+      state.address = action.payload || '';
     },
 
     chainChanged(

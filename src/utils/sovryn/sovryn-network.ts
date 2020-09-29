@@ -4,7 +4,6 @@ import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { rpcNodes, wsNodes } from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
-import { put } from 'redux-saga/effects';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -264,7 +263,7 @@ export class SovrynNetwork {
   protected subscribeProvider(provider) {
     if (provider.on) {
       provider.on('close', () => {
-        put(actions.disconnect());
+        this.store().dispatch(actions.disconnect());
       });
       provider.on('error', error => {
         console.error('provider error', error);
@@ -273,20 +272,20 @@ export class SovrynNetwork {
         console.log('connected?', a);
       });
       provider.on('accountsChanged', async (accounts: string[]) => {
-        put(actions.accountChanged(accounts[0]));
+        this.store().dispatch(actions.accountChanged(accounts[0]));
       });
       provider.on('chainChanged', async (chainId: number) => {
         const networkId = await this._writeWeb3.eth.net.getId();
         await this.testChain(chainId);
         await this.initReadWeb3(chainId);
-        put(actions.chainChanged({ chainId, networkId }));
+        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       });
 
       provider.on('networkChanged', async (networkId: number) => {
         const chainId = await (this._writeWeb3.eth as any).chainId();
         await this.testChain(chainId);
         await this.initReadWeb3(chainId);
-        put(actions.chainChanged({ chainId, networkId }));
+        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       });
     }
   }

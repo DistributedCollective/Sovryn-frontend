@@ -44,6 +44,7 @@ export function TradeDialog(props: Props) {
   const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { sufficient, liquidity } = useCheckLiquidity(
     amount,
     props.leverage,

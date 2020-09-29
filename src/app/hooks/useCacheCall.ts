@@ -46,7 +46,6 @@ export function useCacheCall(
           }));
         });
     } catch (error) {
-      // console.error(contractName, methodName, args, error);
       setState(prevState => ({ ...prevState, loading: false, error }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

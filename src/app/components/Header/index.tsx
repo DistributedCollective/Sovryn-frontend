@@ -9,7 +9,7 @@ import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
-  const pages = ['Trade', 'Lend', 'Stats', 'FAQs'];
+  const pages = ['Trade', 'Lend', 'Liquidity', 'Stats', 'FAQs'];
 
   const pageNavs = pages.reverse().map((item, index) => {
     return (
