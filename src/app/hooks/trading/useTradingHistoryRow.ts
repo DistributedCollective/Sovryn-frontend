@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EventData } from 'web3-eth-contract';
-import { weiTo18, weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
-import { TradingHistoryItem } from '../TradingHistoryItem';
-import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 
 interface Props {
@@ -21,7 +19,7 @@ interface ItemState {
   profit: string;
 }
 
-export function TradingHistoryListItems(props: Props) {
+export function useTradingHistoryRow(props: Props) {
   const [items, setItems] = useState<EventData[]>([]);
   const [state, setState] = useState<ItemState>({
     prepared: false,
@@ -89,63 +87,11 @@ export function TradingHistoryListItems(props: Props) {
     setItems(sorted);
   }, [props.items /*, getLoan*/]);
 
-  if (!state.prepared) {
-    return <></>;
-  }
-
-  return (
-    <div
-      className={`container bg-component-bg mb-3 ${
-        !state.prepared ? 'bp3-skeleton' : ''
-      }`}
-    >
-      {state.prepared && (
-        <div className="row py-3 align-items-center">
-          <div className="col-2">
-            <strong>
-              {state.loanToken}/{state.collateralToken}
-            </strong>
-          </div>
-          <div className="col-2">
-            <div>
-              <strong>Position</strong>
-            </div>
-            <Tooltip content={<>{weiTo18(state.position)}</>}>
-              {weiTo4(state.position)}
-            </Tooltip>
-          </div>
-          <div className="col-2">
-            <div>
-              <strong>Leverage</strong>
-            </div>
-            <Tooltip content={<>{weiTo18(state.leverage)}</>}>
-              <>x{weiToFixed(state.leverage, 0)}</>
-            </Tooltip>
-          </div>
-          <div className="col-2">
-            <div>
-              <strong>Entry Price</strong>
-            </div>
-            <Tooltip content={<>{weiTo18(state.entryPrice)}</>}>
-              {weiTo4(state.entryPrice)}
-            </Tooltip>
-          </div>
-          <div className="col-2">
-            <div>
-              <strong>Profit</strong>
-            </div>
-            <Tooltip content={<>{weiTo18(state.profit)}</>}>
-              {weiTo4(state.profit)}
-            </Tooltip>
-          </div>
-        </div>
-      )}
-
-      <div>
-        {items.map((item, index) => (
-          <TradingHistoryItem key={index} item={item} />
-        ))}
-      </div>
-    </div>
-  );
+  return {
+    Pair: `${state.loanToken}/{state.collateralToken}`,
+    Position: weiTo4(state.position),
+    Leverage: weiToFixed(state.leverage, 0),
+    EntryPrice: weiTo4(state.entryPrice),
+    Profit: weiTo4(state.profit),
+  };
 }

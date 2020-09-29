@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect } from 'react';
-import { Button, ButtonGroup } from '@blueprintjs/core';
+import styled, { ThemeProvider } from 'styled-components';
 
 interface Props {
   min: number;
@@ -28,20 +28,56 @@ export function LeverageSelector(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
+  const color = props.position === 'LONG' ? 'var(--Teal)' : 'var(--Gold)';
+
+  const active = {
+    color: color,
+    textColor: 'var(--white)',
+    border: '1px solid' + color,
+  };
+
+  const inactive = {
+    textColor: 'var(--Grey_text)',
+    color: 'none',
+    border: '1px solid var(--Grey_text)',
+  };
+
   return (
-    <ButtonGroup className="leverage-selector-group">
-      {items.map(item => (
-        <Button
-          className={`leverage-selector-group__button--${props.position}`}
-          key={item}
-          text={`${item}x`}
-          active={item === props.value}
-          onClick={() => props.onChange(item)}
-        />
-      ))}
-    </ButtonGroup>
+    <div className="row">
+      <div className="col-3" style={{ verticalAlign: 'middle' }}>
+        Leverage
+      </div>
+      <div className="col-9 d-inline-flex justify-content-between align-items-start">
+        {items.map(item => (
+          <ThemeProvider
+            theme={props.value === item ? active : inactive}
+            key={item}
+          >
+            <Button onClick={() => props.onChange(item)} className="btn">
+              {item}X
+            </Button>
+          </ThemeProvider>
+        ))}
+      </div>
+    </div>
   );
 }
+
+const Button = styled.button`
+  border-radius: 2rem;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  color: ${props => props.theme.textColor};
+  background-color: ${props => props.theme.color};
+  border: ${props => props.theme.border};
+  vertical-align: middle;
+  padding: 0.23rem 4.2%;
+  &:hover {
+    color: white;
+    border-color: white;
+  }
+`;
 
 LeverageSelector.defaultProps = {
   min: 1,

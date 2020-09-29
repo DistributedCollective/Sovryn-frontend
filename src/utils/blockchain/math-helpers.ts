@@ -10,3 +10,5 @@ export const weiToFixed = (amount: any, decimals: number = 0) =>
 export const weiTo18 = (amount: any) => weiToFixed(amount, 18);
 
 export const weiTo4 = (amount: any) => weiToFixed(amount, 4);
+
+export const weiTo2 = (amount: any) => weiToFixed(amount, 2);

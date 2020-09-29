@@ -16,6 +16,7 @@ import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { SendTxProgress } from '../SendTxProgress';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { useCheckLiquidity } from '../../hooks/trading/useCheckLiquidity';
 
 interface Props {
   asset: Asset;
@@ -23,10 +24,9 @@ interface Props {
   leverage: number;
   position: TradingPosition;
   onChangeAmount: (value) => void;
-  onChangeCollateral?: (asset: Asset) => void;
 }
 
-export function TradeDialogNotModal(props: Props) {
+export function TradeDialog(props: Props) {
   const isConnected = useIsConnected();
 
   const handleAmountChange = (e: any) => {
@@ -39,21 +39,17 @@ export function TradeDialogNotModal(props: Props) {
 
   const [selected, setSelected] = useState<Asset>(props.asset);
 
-  useEffect(() => {
-    if (props.onChangeCollateral) {
-      props.onChangeCollateral(selected);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
-
   const { value: tokenBalance } = useTokenBalanceOf(selected);
 
   const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
 
-  // useEffect(() => {
-  //   setAmount(weiTo18(tokenBalance));
-  // }, [tokenBalance]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { sufficient, liquidity } = useCheckLiquidity(
+    amount,
+    props.leverage,
+    props.position,
+  );
 
   useEffect(() => {
     // Filter and set available colarated assets.
@@ -87,70 +83,67 @@ export function TradeDialogNotModal(props: Props) {
   );
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
-  const color = props.position === 'LONG' ? 'customTeal' : 'customOrange';
+  const color = props.position === 'LONG' ? 'customTeal' : 'Gold';
 
   return (
-    <div className="mt-5 border-white">
-      <div className="row text-center mb-3" />
-
-      <AssetWalletBalance asset={selected} />
-
-      <div className="mb-4">
-        <div className="d-inline text-lightGrey">Leverage</div>
-        <div className="d-inline float-right">
-          {props.leverage}x {props.position}
-        </div>
-      </div>
-
-      <div className="d-flex flex-row justify-content-between">
-        <div className="flex-grow-1 mr-3">
-          <InputGroup
-            className="mb-0"
-            value={amount}
-            onChange={handleAmountChange}
-            placeholder="Enter trade amount"
-          />
-          {parseFloat(amount) > 0 && !loading && !valid && (
-            <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-              Trade amount exceeds balance
+    <div className="position-relative h-100 w-100">
+      <div className="bg-component-bg p-3">
+        <div className="row">
+          <div className="col-4">
+            <div className="data-label text-MediumGrey">Currency</div>
+            <div className="data-container bordered">
+              <FormSelect
+                filterable={false}
+                items={colaratedAssets}
+                onChange={item => setSelected(item.key)}
+                value={selected}
+              />
             </div>
-          )}
+          </div>
+          <div className="col-8">
+            <div className="data-label text-MediumGrey">Amount</div>
+            <InputGroup
+              className="data-container bordered"
+              value={amount}
+              onChange={handleAmountChange}
+              placeholder="Enter trade amount"
+            />
+            {parseFloat(amount) > 0 && !loading && !valid && (
+              <div className="font-small">Trade amount exceeds balance</div>
+            )}
+          </div>
         </div>
-        <div>
-          <FormSelect
-            filterable={false}
-            items={colaratedAssets}
-            onChange={item => setSelected(item.key)}
-            value={selected}
-          />
+
+        <div className="row mt-2 mb-2">
+          <div className="col-6">
+            <AssetWalletBalance asset={selected} />
+          </div>
+          <div className="col-6">
+            <button
+              className={`btn btn-${color} text-white my-3 w-100 p-2 rounded`}
+              disabled={loading || !isConnected || !valid}
+              onClick={() => trade()}
+            >
+              Place Trade
+            </button>
+          </div>
         </div>
       </div>
 
-      {type !== 'none' && (
-        <div className="mb-4">
-          <SendTxProgress
-            status={status}
-            txHash={txHash}
-            loading={loading}
-            type={type}
-          />
-        </div>
-      )}
-
-      <div className="d-flex flex-row justify-content-end align-items-center mt-3">
-        <button
-          className={`btn btn-${color} text-white font-weight-bold my-3 w-50`}
-          disabled={loading || !isConnected || !valid}
-          onClick={() => trade()}
-        >
-          Trade BTC
-        </button>
+      <div>
+        <SendTxProgress
+          status={status}
+          txHash={txHash}
+          loading={loading}
+          type={type}
+          position={props.position}
+        />
       </div>
     </div>
   );
 }
 
-TradeDialogNotModal.defaultProps = {
+TradeDialog.defaultProps = {
   leverage: 1,
   position: TradingPosition.LONG,
   onChangeAmount: _ => {},

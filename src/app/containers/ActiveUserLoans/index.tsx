@@ -6,7 +6,7 @@
 import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { ActiveUserLoan } from 'app/components/ActiveUserLoan';
+import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
 
 interface Props {}
 
@@ -26,15 +26,22 @@ export function ActiveUserLoans(props: Props) {
     return <div className="bp3-skeleton">Loading data.</div>;
   }
 
-  if (!value.length) {
-    return <>There is no active trades yet.</>;
+  if (!value.length && !loading) {
+    return (
+      <div className="container" style={{ padding: '20px' }}>
+        You do not have any active trades.
+      </div>
+    );
   }
 
   return (
     <>
-      {value.map(item => (
+      {/*{value.map(item => (
         <ActiveUserLoan key={item.loanId} item={item} />
-      ))}
+      ))}*/}
+      {!loading && value.length && (
+        <ActiveLoanTable data={value} activeTrades={true} />
+      )}
     </>
   );
 }

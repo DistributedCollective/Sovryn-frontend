@@ -4,7 +4,7 @@
  *
  */
 import React from 'react';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { LoadableValue } from '../LoadableValue';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
@@ -25,7 +25,7 @@ export function StatsRowData(props: Props) {
     <>
       {props.displayType === 'normal' ? (
         <LoadableValue
-          value={`${parseFloat(weiTo4(value)).toLocaleString('en', {
+          value={`${parseFloat(weiTo18(value)).toLocaleString('en', {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
           })} `}

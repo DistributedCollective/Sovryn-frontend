@@ -4,27 +4,21 @@
  *
  */
 import React from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
-  const { pathname } = useLocation();
   const pages = ['Trade', 'Lend', 'Liquidity', 'Stats', 'FAQs'];
 
   const pageNavs = pages.reverse().map((item, index) => {
-    const styles =
-      pathname === `/${item.toLowerCase()}`
-        ? 'text-white border-bottom'
-        : 'text-customTeal';
-
     return (
       <li
         key={index}
-        className="nav-item list-group-item border-0 text-customTeal bg-transparent font-size-larger"
+        className="nav-item list-group-item border-0 bg-transparent"
       >
         <NavLink
-          className={'text-decoration-none nav-link ' + styles}
+          className="text-decoration-none nav-link"
           to={`/${item.toLowerCase()}`}
         >
           <h4>{item}</h4>
