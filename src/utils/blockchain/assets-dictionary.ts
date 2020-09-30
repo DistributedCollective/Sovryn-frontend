@@ -1,3 +1,4 @@
+import Rsk from '@rsksmart/rsk3';
 import { Asset } from 'types/asset';
 import { AssetDetails } from './asset-details';
 // @ts-ignore
@@ -20,11 +21,15 @@ export class AssetsDictionary {
           'Bitcoin',
           18,
           {
-            address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+            address: Rsk.utils.toChecksumAddress(
+              '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
+            ),
             abi: abiTestWBRTCToken,
           },
           {
-            address: '0xe67Fe227e0504e8e96A34C3594795756dC26e14B',
+            address: Rsk.utils.toChecksumAddress(
+              '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
+            ),
             abi: LoanTokenLogicWrbtc,
           },
           btcIcon,
@@ -39,11 +44,15 @@ export class AssetsDictionary {
           'Dollar on Chain',
           18,
           {
-            address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
+            address: Rsk.utils.toChecksumAddress(
+              '0xe700691da7b9851f2f35f8b8182c69c53ccad9db',
+            ),
             abi: TestTokenABI,
           },
           {
-            address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+            address: Rsk.utils.toChecksumAddress(
+              '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
+            ),
             abi: LoanTokenABI,
           },
           usdIcon,
