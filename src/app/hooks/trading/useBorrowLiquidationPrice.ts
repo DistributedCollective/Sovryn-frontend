@@ -27,13 +27,13 @@ export function useBorrowLiquidationPrice(
       return toWei(
         bignumber(bignumber(1).minus(maxPriceMovement))
           .mul(bignumber(fromWei(priceInWei, 'ether')))
-          .toString(),
+          .toFixed(18),
       );
     }
     return toWei(
       bignumber(bignumber(1).add(maxPriceMovement))
         .mul(bignumber(fromWei(priceInWei, 'ether')))
-        .toString(),
+        .toFixed(18),
     );
   }, [position, maxPriceMovement, priceInWei]);
 
