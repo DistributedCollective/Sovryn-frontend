@@ -3,7 +3,7 @@
  * ActiveLoanTable
  *
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
@@ -31,11 +31,6 @@ export function ActiveLoanTable(props: Props) {
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
   const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(props.data[0]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -78,7 +73,7 @@ export function ActiveLoanTable(props: Props) {
         maintenanceMargin: '',
         currentPrice: '',
         liquidationPrice: '',
-        topUp: !loading && (
+        topUp: (
           <TopUpButton
             onClick={() => {
               setPositionMarginModalOpen(true);
@@ -88,7 +83,7 @@ export function ActiveLoanTable(props: Props) {
             Top-Up
           </TopUpButton>
         ),
-        close: !loading && (
+        close: (
           <CloseButton
             onClick={() => {
               setPositionCloseModalOpen(true);
@@ -100,7 +95,7 @@ export function ActiveLoanTable(props: Props) {
         ),
       };
     });
-  }, [props.data, loading]);
+  }, [props.data]);
 
   const columns = React.useMemo(
     () => [
@@ -207,20 +202,18 @@ export function ActiveLoanTable(props: Props) {
           })}
         </tbody>
       </table>
-      {!loading && (
-        <CloseTradingPositionHandler
-          item={selectedItem}
-          showModal={positionCloseModalOpen}
-          onCloseModal={() => setPositionCloseModalOpen(false)}
-        />
-      )}
-      {!loading && (
-        <TopUpTradingPositionHandler
-          item={selectedItem}
-          showModal={positionMarginModalOpen}
-          onCloseModal={() => setPositionMarginModalOpen(false)}
-        />
-      )}
+
+      <CloseTradingPositionHandler
+        item={selectedItem}
+        showModal={positionCloseModalOpen}
+        onCloseModal={() => setPositionCloseModalOpen(false)}
+      />
+
+      <TopUpTradingPositionHandler
+        item={selectedItem}
+        showModal={positionMarginModalOpen}
+        onCloseModal={() => setPositionMarginModalOpen(false)}
+      />
     </>
   );
 }

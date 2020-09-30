@@ -192,18 +192,18 @@ export function LendingTokenSelectorCard(props: Props) {
   return (
     <>
       <form
-        className="d-block p-5 bg-component-bg text-white shadow"
+        className="d-block bg-component-bg text-white shadow"
         onSubmit={handleSubmit}
       >
-        <div className="d-flex flex-row justify-content-center">
+        <div className="d-flex flex-row justify-content-center p-3 pt-5">
           <AssetLogo src={assetDetails.logoSvg} alt={props.asset} />
         </div>
-        <div className="row mt-3 d-flex align-items-center">
+        <div className="row mt-3 d-flex align-items-center py-2 px-5 mb-3">
           <div className="col-6">
             <h2>{props.asset}</h2>
           </div>
-          <div className="col-6 text-right">
-            <div className="text-lightGrey data-label">
+          <div className="col-6 text-right p-0">
+            <div className="text-MediumGrey data-label">
               <Tooltip content={tooltipText}>Interest APR:</Tooltip>
             </div>
             <div className="data-container">
@@ -211,10 +211,28 @@ export function LendingTokenSelectorCard(props: Props) {
             </div>
           </div>
         </div>
-        <div className="row mt-5">
-          <div className="col-6">
-            <div>Enter deposit amount</div>
-            <div className="small text-lightGrey">
+        <div className="position-relative h-100 w-100">
+          <div className="row py-2 px-5">
+            <div className="col-6 text-MediumGrey">
+              <div>Enter deposit amount</div>
+            </div>
+            <div className="col-6 data-container">
+              <InputGroup
+                placeholder="Amount"
+                type="text"
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                readOnly={txState.loading}
+                rightElement={
+                  <Tag minimal className="text-white">
+                    {props.asset}
+                  </Tag>
+                }
+              />
+            </div>
+          </div>
+          <div className="small text-MediumGrey row py-2 px-5 mb-5">
+            <div className="col-12">
               (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
               <span className={maxLoading ? 'bp3-skeleton' : ''}>
                 {weiTo4(maxAmount)}
@@ -222,31 +240,18 @@ export function LendingTokenSelectorCard(props: Props) {
               )
             </div>
           </div>
-          <div className="col-6">
-            <InputGroup
-              placeholder="Amount"
-              type="text"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
-              readOnly={txState.loading}
-              rightElement={
-                <Tag minimal className="text-white">
-                  {props.asset}
-                </Tag>
-              }
-            />
+          <div className="mb-5">
+            <div className="text-center w-100">
+              <button
+                className="btn btn-customTeal rounded text-white"
+                type="submit"
+                disabled={txState.loading || !isConnected || !valid}
+              >
+                {`Lend ${props.asset}`}
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="mt-3 d-flex flex-row justify-content-center align-items-center position-relative">
-          <div className="text-center w-100">
-            <button
-              className="btn btn-customTeal rounded text-white"
-              type="submit"
-              disabled={txState.loading || !isConnected || !valid}
-            >
-              {`Lend ${props.asset}`}
-            </button>
-          </div>
+          <div className="p-2"></div>
           {txState.type !== TxType.NONE && (
             <SendTxProgress
               status={txState.status}
@@ -257,7 +262,7 @@ export function LendingTokenSelectorCard(props: Props) {
           )}
         </div>
       </form>
-      <div className="bg-component-bg align-items-center mt-3 p-5">
+      <div className="bg-component-bg align-items-center mt-3 p-5 text-center">
         {isConnected && <LenderBalance asset={props.asset} />}
         <button
           className="btn btn-customTeal rounded text-white"
