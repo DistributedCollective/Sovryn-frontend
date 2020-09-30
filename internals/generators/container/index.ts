@@ -148,8 +148,8 @@ export const containerGenerator: PlopGenerator = {
     if (data.wantLoadable) {
       actions.push({
         type: 'add',
-        path: `${containerPath}/Loadable.ts`,
-        templateFile: './container/loadable.ts.hbs',
+        path: `${containerPath}/Loadable.tsx`,
+        templateFile: './container/loadable.tsx.hbs',
         abortOnFail: true,
       });
     }

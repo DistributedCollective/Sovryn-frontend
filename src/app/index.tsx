@@ -19,6 +19,7 @@ import { StatsPage } from './containers/StatsPage/Loadable';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
+import { PageSkeleton } from './components/PageSkeleton';
 
 export function App() {
   return (
@@ -28,13 +29,13 @@ export function App() {
       </Helmet>
       <WalletProvider>
         <Switch>
-          {/*<Route exact path="/" component={HomePage} />*/}
           <Route exact path="/" component={TradePage} />
           <Route exact path="/lend" component={LendingPage} />
           <Route exact path="/trade/:asset?" component={TradePage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
+          <Route exact path="/sandbox" component={PageSkeleton} />
           <Route component={NotFoundPage} />
         </Switch>
       </WalletProvider>
