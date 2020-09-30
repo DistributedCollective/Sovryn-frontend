@@ -25,21 +25,58 @@ import { store } from './store/store';
 
 // Initialize languages
 import './locales/i18n';
+import { useCallback, useEffect } from 'react';
+import { bottomRightToaster } from './utils/toaster';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 interface Props {
   Component: typeof App;
 }
-const ConnectedApp = ({ Component }: Props) => (
-  <Provider store={store}>
-    <HelmetProvider>
-      {/*<React.StrictMode>*/}
-      <Component />
-      {/*</React.StrictMode>*/}
-    </HelmetProvider>
-  </Provider>
-);
+const ConnectedApp = ({ Component }: Props) => {
+  const onUpdateNotification = useCallback(registration => {
+    const waitingWorker = registration && registration.waiting;
+    bottomRightToaster.show({
+      intent: 'primary',
+      message: (
+        <>
+          <p className="mb-0">
+            <strong>App was updated.</strong>
+          </p>
+          <p className="mb-0">Refresh page to use latest version.</p>
+        </>
+      ),
+      action: {
+        onClick: () => {
+          waitingWorker && waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+          window.location.reload();
+        },
+        text: 'Refresh',
+      },
+      timeout: 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    // If you want your app to work offline and load faster, you can change
+    // unregister() to register() below. Note this comes with some pitfalls.
+    // Learn more about service workers: https://bit.ly/CRA-PWA
+    serviceWorker.register({
+      onUpdate: registration => onUpdateNotification(registration),
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <HelmetProvider>
+        {/*<React.StrictMode>*/}
+        <Component />
+        {/*</React.StrictMode>*/}
+      </HelmetProvider>
+    </Provider>
+  );
+};
 const render = (Component: typeof App) => {
   ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
 };
@@ -56,8 +93,3 @@ if (module.hot) {
 }
 
 render(App);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
