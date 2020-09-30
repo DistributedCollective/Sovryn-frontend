@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { liquidityPools } from '../../../utils/classifiers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { Button, InputGroup, Text } from '@blueprintjs/core';
@@ -32,6 +32,11 @@ export function LiquidityRemoveContainer(props: Props) {
 
   const poolAddress = usePoolToken(sourceToken);
   const weiAmount = useWeiAmount(amount);
+
+  useEffect(() => {
+    console.log('pool token', sourceToken, poolAddress.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poolAddress.value]);
 
   const {
     value: targetValue,
