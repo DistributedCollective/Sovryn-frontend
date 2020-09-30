@@ -22,13 +22,13 @@ import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { useAmountState } from '../../hooks/useAmountState';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
 
 import tooltipData from 'utils/data/tooltip-text.json';
 import { useLendTokens } from '../../hooks/useLendTokens';
+import { handleNumberInput } from '../../../utils/helpers';
 
 interface Props {
   asset: Asset;
@@ -44,7 +44,7 @@ export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
-  const [amount, setAmount] = useAmountState(
+  const [amount, setAmount] = useState(
     weiTo4(toWei(assetDetails.lendingLimits.min.toString())),
   );
 
@@ -221,7 +221,7 @@ export function LendingTokenSelectorCard(props: Props) {
                 placeholder="Amount"
                 type="text"
                 value={amount}
-                onChange={e => setAmount(e.target.value)}
+                onChange={e => setAmount(handleNumberInput(e))}
                 readOnly={txState.loading}
                 rightElement={
                   <Tag minimal className="text-white">
@@ -251,7 +251,7 @@ export function LendingTokenSelectorCard(props: Props) {
               </button>
             </div>
           </div>
-          <div className="p-2"></div>
+          <div className="p-2" />
           {txState.type !== TxType.NONE && (
             <SendTxProgress
               status={txState.status}

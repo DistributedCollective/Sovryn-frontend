@@ -3,6 +3,7 @@ import { EventData } from 'web3-eth-contract';
 import { useAccount } from '../../hooks/useAccount';
 import { TradingHistoryListItems } from '../../components/TradingHistoryListItems';
 import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 
 export function TradingHistory() {
   const account = useAccount();
@@ -52,15 +53,12 @@ export function TradingHistory() {
     setLoading(loadingTrades || loadingSwapClose);
   }, [loadingTrades, loadingSwapClose]);
 
-  console.log(events);
-  // @ts-ignore
-
-  if (loading) {
-    return <div className="bp3-skeleton">Loading data.</div>;
+  if (loading && !items.length) {
+    return <SkeletonRow />;
   }
 
   return (
-    <div className={loading ? 'bp3-skeleton' : ''}>
+    <>
       {!events.length && !loading && (
         <div style={{ padding: '20px' }}>
           You do not have any closed trades.
@@ -69,6 +67,6 @@ export function TradingHistory() {
       {items.map(([key, data]) => (
         <TradingHistoryListItems key={key} items={data} />
       ))}
-    </div>
+    </>
   );
 }
