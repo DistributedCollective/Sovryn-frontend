@@ -5,24 +5,24 @@ import tokenAbi from './abi/abiTestToken.json';
 
 export const appContracts = {
   sovrynProtocol: {
-    address: '0x217d65Efe40e2d396519C9d094a6Cc87F5B8670b',
+    address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
     abi: bzxAbi,
   },
   // AMM liquidity protocol
   liquidityProtocol: {
-    address: '0x2c89d28602D27F1f6acEb3Dfb1f1C8B820191898',
+    address: '0x3ED5C55D08F75488736fb4A2e512698E71251cf0',
     abi: LiquidityPoolV2Converter,
   },
   priceFeed: {
-    address: '0x1afB9aA36Db759A6F08a1f138112B34f359e90b2',
+    address: '0x7f38c422b99075f63C9c919ECD200DF8d2Cf5BD4',
     abi: priceFeedsAbi,
   },
   BTC_poolToken: {
-    address: '0x5683AbcBDa5E5EeAcfE38ca4e0B461750052f122',
+    address: '0x7F433CC76298bB5099c15C1C7C8f2e89A8370111',
     abi: tokenAbi,
   },
   DOC_poolToken: {
-    address: '0x4160f0a3CC64B0EfFB9695285E934Cfd686a80Bd',
+    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
     abi: tokenAbi,
   },
 };

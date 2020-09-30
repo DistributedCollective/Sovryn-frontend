@@ -24,7 +24,7 @@ export class AssetsDictionary {
             abi: abiTestWBRTCToken,
           },
           {
-            address: '0xb01f116199C5eE8e2977b0a9280fE392c4162838',
+            address: '0xe67Fe227e0504e8e96A34C3594795756dC26e14B',
             abi: LoanTokenLogicWrbtc,
           },
           btcIcon,
@@ -43,7 +43,7 @@ export class AssetsDictionary {
             abi: TestTokenABI,
           },
           {
-            address: '0x543B6777A13e1fBBF8abaF08692F0Ad67cA352Fc',
+            address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
             abi: LoanTokenABI,
           },
           usdIcon,
