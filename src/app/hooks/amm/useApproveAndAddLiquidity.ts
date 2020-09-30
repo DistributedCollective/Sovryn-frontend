@@ -52,12 +52,12 @@ export function useApproveAndAddLiquidity(
   }, [deposit, tradeLoading]);
 
   const handleTx = useCallback(() => {
-    if (asset !== Asset.BTC && bignumber(amount).greaterThan(allowance.value)) {
-      handleApprove(toWei('1000000', 'ether'));
+    if (bignumber(amount).greaterThan(allowance.value)) {
+      handleApprove(toWei('1000000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [allowance.value, amount, asset, handleApprove, handleTrade]);
+  }, [allowance.value, amount, handleApprove, handleTrade]);
 
   const [txState, setTxState] = useState<{
     type: TxType;
