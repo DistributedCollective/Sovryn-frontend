@@ -48,6 +48,11 @@ export function useCacheCall(
     } catch (error) {
       setState(prevState => ({ ...prevState, loading: false, error }));
     }
+
+    return () => {
+      // todo: find a way to cancel contract call
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contractName, methodName, syncBlockNumber, JSON.stringify(args)]);
 

@@ -3,6 +3,7 @@ import { ActiveUserLoans } from '../ActiveUserLoans';
 import { TradingHistory } from '../TradingHistory';
 import { Tab } from '../../components/Tab';
 import { useIsConnected } from '../../hooks/useAccount';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 
 export function TradingActivity() {
   const isConnected = useIsConnected();
@@ -32,10 +33,13 @@ export function TradingActivity() {
       </div>
       <div className="row">
         <div className="col-12">
-          {isConnected && activeTrades && <ActiveUserLoans />}
-        </div>
-        <div className="col-12">
-          {isConnected && !activeTrades && <TradingHistory />}
+          {!isConnected ? (
+            <SkeletonRow loadingText="Connect to your Wallet first." />
+          ) : activeTrades ? (
+            <ActiveUserLoans />
+          ) : (
+            <TradingHistory />
+          )}
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
 import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 
 interface Props {}
 
@@ -22,8 +23,8 @@ export function ActiveUserLoans(props: Props) {
     false,
   );
 
-  if (loading) {
-    return <div className="bp3-skeleton">Loading data.</div>;
+  if (loading && !value.length) {
+    return <SkeletonRow />;
   }
 
   if (!value.length && !loading) {
@@ -35,13 +36,6 @@ export function ActiveUserLoans(props: Props) {
   }
 
   return (
-    <>
-      {/*{value.map(item => (
-        <ActiveUserLoan key={item.loanId} item={item} />
-      ))}*/}
-      {!loading && value.length && (
-        <ActiveLoanTable data={value} activeTrades={true} />
-      )}
-    </>
+    <>{value.length && <ActiveLoanTable data={value} activeTrades={true} />}</>
   );
 }

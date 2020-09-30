@@ -17,6 +17,7 @@ import { SendTxProgress } from '../SendTxProgress';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useCheckLiquidity } from '../../hooks/trading/useCheckLiquidity';
+import { handleNumberInput } from '../../../utils/helpers';
 
 interface Props {
   asset: Asset;
@@ -30,11 +31,9 @@ export function TradeDialog(props: Props) {
   const isConnected = useIsConnected();
 
   const handleAmountChange = (e: any) => {
-    //Check that input is a positive number before changing state
-    if (e.target.value && e.target.value >= 0) {
-      setAmount(e.currentTarget.value);
-      props.onChangeAmount(e.currentTarget.value);
-    }
+    const value = handleNumberInput(e, true);
+    setAmount(value);
+    props.onChangeAmount(value);
   };
 
   const [selected, setSelected] = useState<Asset>(props.asset);
