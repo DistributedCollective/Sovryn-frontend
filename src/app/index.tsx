@@ -29,7 +29,8 @@ export function App() {
       </Helmet>
       <WalletProvider>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          {/*<Route exact path="/" component={HomePage} />*/}
+          <Route exact path="/" component={TradePage} />
           <Route exact path="/lend" component={LendingPage} />
           <Route exact path="/trade/:asset?" component={TradePage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />

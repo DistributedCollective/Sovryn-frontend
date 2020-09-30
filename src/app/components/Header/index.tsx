@@ -9,9 +9,25 @@ import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
-  const pages = ['Trade', 'Lend', 'Liquidity', 'Stats', 'FAQs'];
+  const pages = [
+    { to: '/', title: 'Trade', exact: true },
+    'Lend',
+    'Liquidity',
+    'Stats',
+    'FAQs',
+  ];
 
   const pageNavs = pages.reverse().map((item, index) => {
+    let link: { to: string; title: string; exact: boolean } = item as any;
+
+    if (typeof item === 'string') {
+      link = {
+        to: `/${item.toLowerCase()}`,
+        title: item,
+        exact: false,
+      };
+    }
+
     return (
       <li
         key={index}
@@ -19,9 +35,10 @@ export function Header() {
       >
         <NavLink
           className="text-decoration-none nav-link"
-          to={`/${item.toLowerCase()}`}
+          to={link.to}
+          exact={link.exact}
         >
-          <h4>{item}</h4>
+          <h4>{link.title}</h4>
         </NavLink>
       </li>
     );
