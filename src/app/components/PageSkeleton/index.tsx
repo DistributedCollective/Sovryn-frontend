@@ -40,10 +40,10 @@ export function PageSkeleton() {
           </div>
         </div>
         <div className="row mb-3">
-          <div className="col-lg-4">
+          <div className="col-6 col-lg-4">
             <Skeleton height="100%" />
           </div>
-          <div className="col-lg-8">
+          <div className="col-6 col-lg-8">
             <div className="row mb-3">
               <div className="col-2">
                 <Skeleton />

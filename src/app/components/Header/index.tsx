@@ -3,7 +3,7 @@
  * Header
  *
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
@@ -17,7 +17,9 @@ export function Header() {
     'FAQs',
   ];
 
-  const pageNavs = pages.reverse().map((item, index) => {
+  const [show, setShow] = useState(false);
+
+  const pageNavs = pages.map((item, index) => {
     let link: { to: string; title: string; exact: boolean } = item as any;
 
     if (typeof item === 'string') {
@@ -55,17 +57,16 @@ export function Header() {
             <button
               className="navbar-toggler custom-toggler navbar-dark "
               type="button"
-              data-toggle="collapse"
-              data-target="#navbar-collaps"
+              onClick={() => setShow(prevState => !prevState)}
             >
               <span className="navbar-toggler-icon custom-toggler" />
             </button>
 
             <div
-              className="collapse navbar-collapse w-100 "
+              className={`collapse navbar-collapse w-100 ${show && 'show'}`}
               id="navbar-collaps"
             >
-              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
+              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal-lg w-100 justify-content-lg-end">
                 {pageNavs}
               </ul>
             </div>
