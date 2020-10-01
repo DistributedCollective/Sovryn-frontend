@@ -231,15 +231,7 @@ export function LendingTokenSelectorCard(props: Props) {
               />
             </div>
           </div>
-          <div className="small text-MediumGrey row py-2 px-5 mb-5">
-            {/* <div className="col-12">
-              (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
-              <span className={maxLoading ? 'bp3-skeleton' : ''}>
-                {weiTo4(maxAmount)}
-              </span>
-              )
-            </div> */}
-          </div>
+          <div className="small text-MediumGrey row py-2 px-5 mb-5"></div>
           <div className="mb-5">
             <div className="text-center w-100">
               <button
