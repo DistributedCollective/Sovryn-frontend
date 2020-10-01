@@ -128,6 +128,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build:testnet": "REACT_APP_ENV=testnet node scripts/build.js",
     "test": "node scripts/test.js",
     "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/test-generators.ts",
     "start:prod": "yarn build && serve -s build",

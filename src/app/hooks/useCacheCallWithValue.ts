@@ -1,8 +1,9 @@
 import { useCacheCall } from './useCacheCall';
 import { useEffect, useState } from 'react';
+import { ContractName } from '../../utils/types/contracts';
 
 export function useCacheCallWithValue(
-  contractName: string,
+  contractName: ContractName,
   methodName: string,
   defaultValue: string | any = '0',
   ...args: any

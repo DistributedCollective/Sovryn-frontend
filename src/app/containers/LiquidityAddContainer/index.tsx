@@ -17,6 +17,7 @@ import { useTargetAmountAndFee } from '../../hooks/amm/useTargetAmountAndFee';
 import { liquidityPools } from '../../../utils/classifiers';
 import { handleNumberInput } from '../../../utils/helpers';
 import { useBalanceOf } from '../../hooks/erc20/useBalanceOf';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 
 interface Props {}
 
@@ -31,7 +32,7 @@ export function LiquidityAddContainer(props: Props) {
   const [targetToken, setTargetToken] = useState(tokens[0].target);
   const [amount, setAmount] = useState('0');
 
-  const balance = useBalanceOf(`${sourceToken}_token`);
+  const balance = useBalanceOf(getTokenContractName(sourceToken));
   const weiAmount = useWeiAmount(amount);
 
   const { value: targetValue, loading: targetLoading } = useTargetAmountAndFee(

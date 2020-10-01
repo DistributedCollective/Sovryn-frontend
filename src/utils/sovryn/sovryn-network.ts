@@ -2,14 +2,13 @@ import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { rpcNodes, wsNodes } from '../classifiers';
+import { currentChainId, rpcNodes, wsNodes } from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { AbiItem } from 'web3-utils';
-import { AssetsDictionary } from '../blockchain/assets-dictionary';
 import { appContracts } from '../blockchain/app-contracts';
 
 export class SovrynNetwork {
@@ -46,7 +45,7 @@ export class SovrynNetwork {
       providerOptions: this._providerOptions,
     });
 
-    this.initReadWeb3(Number(process.env.REACT_APP_NETWORK_ID)).then().catch();
+    this.initReadWeb3(currentChainId).then().catch();
 
     if (this._web3Modal.cachedProvider) {
       this.connect().then().catch();
@@ -210,14 +209,6 @@ export class SovrynNetwork {
       ],
     });
 
-    AssetsDictionary.list().forEach(item => {
-      this.addWriteContract(item.getTokenContractName(), item.tokenContract);
-      this.addWriteContract(
-        item.getLendingContractName(),
-        item.lendingContract,
-      );
-    });
-
     Array.from(Object.keys(appContracts)).forEach(key => {
       this.addWriteContract(key, appContracts[key]);
     });
@@ -233,14 +224,6 @@ export class SovrynNetwork {
           reconnectDelay: 10,
         }),
       );
-
-      AssetsDictionary.list().forEach(item => {
-        this.addReadContract(item.getTokenContractName(), item.tokenContract);
-        this.addReadContract(
-          item.getLendingContractName(),
-          item.lendingContract,
-        );
-      });
 
       Array.from(Object.keys(appContracts)).forEach(key => {
         this.addReadContract(key, appContracts[key]);
@@ -312,7 +295,7 @@ export class SovrynNetwork {
   }
 
   protected async testChain(chainId: number) {
-    if (!wsNodes.hasOwnProperty(chainId)) {
+    if (chainId !== currentChainId) {
       this._toaster.show(
         {
           intent: 'danger',

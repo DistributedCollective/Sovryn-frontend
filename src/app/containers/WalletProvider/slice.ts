@@ -1,12 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState } from './types';
+import { currentChainId } from '../../../utils/classifiers';
 
 // The initial state of the WalletProvider container
 export const initialState: ContainerState = {
   address: '',
-  chainId: Number(process.env.REACT_APP_NETWORK_ID),
-  networkId: Number(process.env.REACT_APP_NETWORK_ID),
+  chainId: currentChainId,
+  networkId: currentChainId,
   connected: false,
   blockNumber: 0,
   syncBlockNumber: 0,

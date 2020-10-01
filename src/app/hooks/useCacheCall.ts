@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { Sovryn } from '../../utils/sovryn';
+import { ContractName } from '../../utils/types/contracts';
 
 interface CacheCallResponse {
   value: string | null;
@@ -20,7 +21,7 @@ interface CacheCallResponse {
  * @param args
  */
 export function useCacheCall(
-  contractName: string,
+  contractName: ContractName,
   methodName: string,
   ...args: any
 ): CacheCallResponse {

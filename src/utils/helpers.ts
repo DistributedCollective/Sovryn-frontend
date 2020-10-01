@@ -1,3 +1,5 @@
+import { utils } from '@rsksmart/rsk3';
+
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
@@ -42,4 +44,8 @@ export const handleNumber = (value, onlyPositive = true) => {
   }
 
   return number.toString();
+};
+
+export const toChecksumAddress = (address: string) => {
+  return !!address ? utils.toChecksumAddress(address) : '';
 };
