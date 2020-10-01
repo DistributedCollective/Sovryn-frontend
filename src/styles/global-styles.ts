@@ -127,16 +127,19 @@ export const GlobalStyle = createGlobalStyle`
   }
   .bp3-popover-wrapper {
     .bp3-popover-target {
-      width: 100%;
       button {
-        width: 100%100%;
+        width: 100%;
         background-color: var(--Field_bg);
         background-image: none;
         color: white;
-        &:active {
+        &:active, &:hover {
           background-color: var(--Field_bg)
         }
       }
     }
+  }
+  :focus {
+    outline: 0!important;
+    outline-offset: 0;
   }
 `;

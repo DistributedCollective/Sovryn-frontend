@@ -73,7 +73,7 @@ export function LiquidityAddContainer(props: Props) {
             !balance.loading &&
             Number(weiAmount) > Number(balance.value) && (
               <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-                Trade amount exceeds balance
+                Amount exceeds balance
               </div>
             )}
         </div>
@@ -90,7 +90,7 @@ export function LiquidityAddContainer(props: Props) {
         <LoadableValue
           loading={balance.loading}
           value={
-            <Text ellipsize>
+            <Text ellipsize tagName="span">
               {weiTo4(balance.value)} {sourceToken}
             </Text>
           }
@@ -105,7 +105,9 @@ export function LiquidityAddContainer(props: Props) {
               <LoadableValue
                 loading={expectedPoolTokens.loading}
                 value={
-                  <Text ellipsize>{weiTo4(expectedPoolTokens.value)}</Text>
+                  <Text ellipsize tagName="span">
+                    {weiTo4(expectedPoolTokens.value)}
+                  </Text>
                 }
                 tooltip={expectedPoolTokens.value}
               />
@@ -117,7 +119,7 @@ export function LiquidityAddContainer(props: Props) {
               <LoadableValue
                 loading={targetLoading}
                 value={
-                  <Text ellipsize>
+                  <Text ellipsize tagName="span">
                     {weiTo4(targetValue[0])} {targetToken}
                   </Text>
                 }
@@ -131,7 +133,7 @@ export function LiquidityAddContainer(props: Props) {
               <LoadableValue
                 loading={targetLoading}
                 value={
-                  <Text ellipsize>
+                  <Text ellipsize tagName="span">
                     {weiTo4(targetValue[1])} {targetToken}
                   </Text>
                 }
