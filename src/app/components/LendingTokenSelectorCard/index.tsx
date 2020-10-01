@@ -20,9 +20,9 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
-import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
+// import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+// import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
 
@@ -172,16 +172,16 @@ export function LendingTokenSelectorCard(props: Props) {
     lendInfo.txHash,
   ]);
 
-  const { value: maxAmount, loading: maxLoading } = useMaxDepositAmount(
-    props.asset,
-    weiAmount,
-  );
+  // const { value: maxAmount, loading: maxLoading } = useMaxDepositAmount(
+  //   props.asset,
+  //   weiAmount,
+  // );
 
-  const valid = useIsAmountWithinLimits(
-    weiAmount,
-    toWei(assetDetails.lendingLimits.min.toString()),
-    maxAmount,
-  );
+  // const valid = useIsAmountWithinLimits(
+  //   weiAmount,
+  //   toWei(assetDetails.lendingLimits.min.toString()),
+  //   maxAmount,
+  // );
 
   const [showHistory, setShowHistory] = useState(false);
   const tooltipText =
@@ -231,21 +231,14 @@ export function LendingTokenSelectorCard(props: Props) {
               />
             </div>
           </div>
-          <div className="small text-MediumGrey row py-2 px-5 mb-5">
-            <div className="col-12">
-              (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
-              <span className={maxLoading ? 'bp3-skeleton' : ''}>
-                {weiTo4(maxAmount)}
-              </span>
-              )
-            </div>
-          </div>
+          <div className="small text-MediumGrey row py-2 px-5 mb-5"></div>
           <div className="mb-5">
             <div className="text-center w-100">
               <button
                 className="btn btn-customTeal rounded text-white"
                 type="submit"
-                disabled={txState.loading || !isConnected || !valid}
+                disabled={txState.loading || !isConnected}
+                // disabled={txState.loading || !isConnected || !valid}
               >
                 {`Lend ${props.asset}`}
               </button>
