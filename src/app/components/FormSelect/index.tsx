@@ -58,6 +58,7 @@ export function FormSelect(props: Props) {
       activeItem={selected}
     >
       <Button
+        fill
         rightIcon="caret-down"
         text={selected ? selected.label : props.placeholder}
       />
