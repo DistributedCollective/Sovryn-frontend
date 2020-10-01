@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
+import { Dialog, InputGroup } from '@blueprintjs/core';
 import { SendTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { SendTxProgress } from '../SendTxProgress';
 import { CloseModalButton } from '../CloseModalButton';

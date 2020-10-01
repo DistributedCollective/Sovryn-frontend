@@ -38,7 +38,6 @@ export function ActiveLoanTable(props: Props) {
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
-      console.log(item);
       return {
         item: item,
         icon:
