@@ -32,16 +32,16 @@ export function SendTxProgress(props: Props) {
   let subText = '';
 
   if (props.status === TransactionStatus.PENDING_FOR_USER) {
-    mainText = 'Trade in Progress...';
-    subText = 'Please confirm your trade in MetaMask';
+    mainText = `${props.type} in Progress...`;
+    subText = 'Please confirm transaction in your wallet';
   }
 
   if (props.status === TransactionStatus.PENDING) {
-    mainText = 'Trade in Progress...';
+    mainText = `${props.type} in Progress...`;
   }
 
   if (props.status === TransactionStatus.SUCCESS) {
-    mainText = 'Trade Successful';
+    mainText = `${props.type} Successful`;
   }
 
   if (props.status === TransactionStatus.ERROR) {
@@ -91,7 +91,10 @@ export function SendTxProgress(props: Props) {
         </div>
 
         {/* Main text */}
-        <div className="my-2 font-weight-bold" style={{ fontSize: '22px' }}>
+        <div
+          className="my-2 font-weight-bold"
+          style={{ fontSize: '22px', textTransform: 'capitalize' }}
+        >
           {mainText}
         </div>
 

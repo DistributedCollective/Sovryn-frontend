@@ -231,21 +231,14 @@ export function LendingTokenSelectorCard(props: Props) {
               />
             </div>
           </div>
-          <div className="small text-MediumGrey row py-2 px-5 mb-5">
-            <div className="col-12">
-              (min: {assetDetails.lendingLimits.min.toFixed(4)}, max:{' '}
-              <span className={maxLoading ? 'bp3-skeleton' : ''}>
-                {weiTo4(maxAmount)}
-              </span>
-              )
-            </div>
-          </div>
+          <div className="small text-MediumGrey row py-2 px-5 mb-5"></div>
           <div className="mb-5">
             <div className="text-center w-100">
               <button
                 className="btn btn-customTeal rounded text-white"
                 type="submit"
-                disabled={txState.loading || !isConnected || !valid}
+                disabled={txState.loading || !isConnected}
+                // disabled={txState.loading || !isConnected || !valid}
               >
                 {`Lend ${props.asset}`}
               </button>
@@ -262,8 +255,8 @@ export function LendingTokenSelectorCard(props: Props) {
           )}
         </div>
       </form>
+      {isConnected && <LenderBalance asset={props.asset} />}
       <div className="bg-component-bg align-items-center mt-3 p-5 text-center">
-        {isConnected && <LenderBalance asset={props.asset} />}
         <button
           className="btn btn-customTeal rounded text-white"
           type="button"
@@ -272,7 +265,8 @@ export function LendingTokenSelectorCard(props: Props) {
         >
           Lending history
         </button>
-
+      </div>
+      <div>
         <CustomDialog
           show={showHistory}
           onClose={() => setShowHistory(false)}

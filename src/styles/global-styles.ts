@@ -51,9 +51,15 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: 2.92px;
     color: var(--Grey_text);
   }
+  .font {
+    &-xs {
+      font-size: 12px;
+    }
+  }
   button {
     text-transform: uppercase;
     font-weight: 600;
+    padding: 0.23rem 4.2%4.2%;
   }
   .active {
     border-bottom: 1px solid var(--Teal);
