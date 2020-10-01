@@ -99,7 +99,7 @@ export function WithdrawLentDialog(props: Props) {
             txHash={props.txState?.txHash}
             loading={props.txState?.loading}
             displayAbsolute={true}
-            type="Withdrawal"
+            type={'withdraw'}
           />
         </div>
       </div>

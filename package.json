@@ -45,6 +45,7 @@
     "deep-equal": "2.0.3",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
+    "env-cmd": "10.1.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "6.10.1",
     "eslint-config-react-app": "^5.2.1",
@@ -128,7 +129,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:testnet": "REACT_APP_ENV=testnet node scripts/build.js",
+    "build:testnet": "env-cmd -f .env.testnet yarn build",
     "test": "node scripts/test.js",
     "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/test-generators.ts",
     "start:prod": "yarn build && serve -s build",
@@ -138,8 +139,7 @@
     "lint:fix": "yarn eslint -- --fix src",
     "lint:css": "stylelint src/**/*.css",
     "generate": "cross-env TS_NODE_PROJECT='./internals/ts-node.tsconfig.json' plop --plopfile internals/generators/plopfile.ts",
-    "prettify": "prettier --write",
-    "build:prod": "yarn build && rm -rf dist && mv build dist"
+    "prettify": "prettier --write"
   },
   "browserslist": {
     "production": [
