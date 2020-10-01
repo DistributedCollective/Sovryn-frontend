@@ -61,7 +61,7 @@ export function WithdrawLentDialog(props: Props) {
           rightElement={<Tag>{props.asset}</Tag>}
         />
 
-        <div className="d-flex justify-content-end mb-5 mt-3">
+        <div className="d-flex justify-content-end my-1">
           <button
             className="btn btn-link btn-sm ml-3 mt-0"
             onClick={() => props.onChangeAmount(fromWei(props.balance))}
@@ -74,6 +74,8 @@ export function WithdrawLentDialog(props: Props) {
           status={props.txState?.status}
           txHash={props.txState?.txHash}
           loading={props.txState?.loading}
+          type={'withdraw'}
+          displayAbsolute={false}
         />
 
         <div className="d-flex flex-row justify-content-end align-items-center">

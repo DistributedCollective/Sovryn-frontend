@@ -123,6 +123,7 @@ export function CloseTradingPositionHandler(props: Props) {
             status={rest.status}
             txHash={rest.txHash}
             loading={rest.loading}
+            type={'trade_close'}
             displayAbsolute={false}
           />
         </div>
