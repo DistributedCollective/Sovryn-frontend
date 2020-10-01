@@ -11,7 +11,7 @@ import { useDepositCollateral } from './useDepositCollateral';
 enum TxType {
   NONE = 'none',
   APPROVE = 'approve',
-  TRADE = 'trade',
+  TOP_UP = 'top_up',
 }
 
 export function useApproveAndAddMargin(
@@ -96,7 +96,7 @@ export function useApproveAndAddMargin(
   useEffect(() => {
     if (!approveLoading && tradeStatus !== TransactionStatus.NONE) {
       setTxState({
-        type: TxType.TRADE,
+        type: TxType.TOP_UP,
         txHash: tradeTx,
         status: tradeStatus,
         loading: tradeLoading,
