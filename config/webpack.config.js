@@ -35,6 +35,9 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
 const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'true';
 
+const networkName = String(process.env.REACT_APP_NETWORK).toLowerCase();
+const isMainnet = networkName === 'mainnet';
+
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000',
 );
@@ -294,6 +297,9 @@ module.exports = function (webpackEnv) {
         ...(isEnvProductionProfile && {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling',
+        }),
+        ...(!isMainnet && {
+          'utils/blockchain/contracts': `utils/blockchain/contracts.${networkName}`,
         }),
         ...(modules.webpackAliases || {}),
       },

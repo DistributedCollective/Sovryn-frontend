@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { blockExplorers } from '../../../utils/classifiers';
+import { blockExplorers, currentChainId } from '../../../utils/classifiers';
 
 interface Props {
   txHash: string;
@@ -25,9 +25,7 @@ export function LinkToExplorer(props: Props) {
   }, [props.txHash, props.startLength, props.endLength]);
 
   const [txHash, setTxHash] = useState(handleTx());
-  const [url, setUrl] = useState(
-    blockExplorers[Number(process.env.REACT_APP_NETWORK_ID)],
-  );
+  const [url, setUrl] = useState(blockExplorers[currentChainId]);
 
   const { chainId } = useSelector(selectWalletProvider);
 
@@ -36,7 +34,7 @@ export function LinkToExplorer(props: Props) {
   }, [handleTx, props.txHash, props.startLength, props.endLength]);
 
   useEffect(() => {
-    setUrl(blockExplorers[Number(process.env.REACT_APP_NETWORK_ID)]);
+    setUrl(blockExplorers[currentChainId]);
   }, [chainId]);
 
   return (

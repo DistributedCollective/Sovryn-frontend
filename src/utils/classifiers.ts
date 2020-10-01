@@ -1,5 +1,13 @@
 import { Asset } from '../types/asset';
 
+export const chains = {
+  mainnet: 30,
+  testnet: 31,
+};
+
+export const currentChainId =
+  chains[String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet'];
+
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
@@ -29,13 +37,13 @@ export const liquidityPools = [
   {
     source: Asset.BTC,
     target: Asset.DOC,
-    label: 'wRBTC / DoC',
+    label: 'wRBTC',
     tokenLabel: 'wRBTC',
   },
   {
     source: Asset.DOC,
     target: Asset.BTC,
-    label: 'DoC / wRBTC',
+    label: 'DoC',
     tokenLabel: 'DoC',
   },
 ];

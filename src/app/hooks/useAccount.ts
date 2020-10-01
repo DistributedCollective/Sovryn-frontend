@@ -1,6 +1,7 @@
 import Rsk from '@rsksmart/rsk3';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
+import { currentChainId } from '../../utils/classifiers';
 
 export function useAccount() {
   const { address } = useSelector(selectWalletProvider);
@@ -9,9 +10,5 @@ export function useAccount() {
 
 export function useIsConnected() {
   const { connected, chainId, address } = useSelector(selectWalletProvider);
-  return (
-    connected &&
-    chainId === Number(process.env.REACT_APP_NETWORK_ID) &&
-    !!address
-  );
+  return connected && chainId === currentChainId && !!address;
 }

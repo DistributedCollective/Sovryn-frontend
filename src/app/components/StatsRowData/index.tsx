@@ -7,9 +7,10 @@ import React from 'react';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { LoadableValue } from '../LoadableValue';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { ContractName } from '../../../utils/types/contracts';
 
 interface Props {
-  contract: string;
+  contract: ContractName;
   data: string;
   displayType: string;
 }
