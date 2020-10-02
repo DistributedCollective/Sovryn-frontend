@@ -7,7 +7,7 @@
 import React, { useCallback, useState } from 'react';
 import { Button, InputGroup, Text } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useExpectedPoolTokens } from '../../hooks/amm/useExpectedPoolTokens';
@@ -62,22 +62,16 @@ export function LiquidityAddContainer(props: Props) {
     <div className="bg-secondary p-3">
       <h3 className="mb-3">Add Liquidity</h3>
       <div className="d-flex flex-row justify-content-between">
-        <div className="flex-grow-1 mr-3">
+        <div className="data-label">Amount</div>
+        <div className="flex-grow-1 mx-2 data-container">
           <InputGroup
             className="mb-0"
             value={amount}
             onChange={e => setAmount(handleNumberInput(e))}
             placeholder="Enter amount"
           />
-          {Number(weiAmount) > 0 &&
-            !balance.loading &&
-            Number(weiAmount) > Number(balance.value) && (
-              <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-                Trade amount exceeds balance
-              </div>
-            )}
         </div>
-        <div>
+        <div className="data-container">
           <FormSelect
             filterable={false}
             items={tokens}
@@ -86,18 +80,25 @@ export function LiquidityAddContainer(props: Props) {
           />
         </div>
       </div>
-      <div className="small mb-3">
-        <LoadableValue
-          loading={balance.loading}
-          value={
-            <Text ellipsize>
-              {weiTo4(balance.value)} {sourceToken}
-            </Text>
-          }
-          tooltip={balance.value}
-        />
+      <div className="d-flex flex-row justify-content-center">
+        {Number(weiAmount) > 0 &&
+          !balance.loading &&
+          Number(weiAmount) > Number(balance.value) && (
+            <div className="font-xs text-Gold">
+              Trade amount exceeds balance
+            </div>
+          )}
       </div>
-
+      <div className="d-flex flex-row justify-content-between mt-3">
+        <div className="data-label">Balance</div>
+        <div className="flex-grow-1 data-container small mx-2">
+          <LoadableValue
+            loading={balance.loading}
+            value={<Text ellipsize>{weiTo18(balance.value)}</Text>}
+          />
+        </div>
+        <div className="small data-container">{sourceToken}</div>
+      </div>
       <div className="border shadow my-3 p-3 bg-secondary">
         <div className="row">
           <div className="col">

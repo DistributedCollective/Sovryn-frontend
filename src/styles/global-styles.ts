@@ -37,6 +37,17 @@ export const GlobalStyle = createGlobalStyle`
       border: none;
     }
   }
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
   h1, h2, h3, h4 {
     text-transform: uppercase;
   }
