@@ -17,7 +17,7 @@ export function UnLendBalance(props: Props) {
     <div className="mt-3 d-flex flex-row justify-content-center align-items-center text-center overflow-hidden">
       <button
         type="button"
-        className="btn btn-customOrange text-white font-weight-bold"
+        className="btn btn-customTeal rounded text-white"
         onClick={() => setOpen(true)}
       >
         {`Withdraw ${props.asset}`}

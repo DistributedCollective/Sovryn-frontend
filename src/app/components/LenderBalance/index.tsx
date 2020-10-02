@@ -99,45 +99,53 @@ export function LenderBalance(props: Props) {
   if (balance.greaterThan(0)) {
     return (
       <>
-        <div className="border mt-4 py-3 px-3">
-          <div>
-            <span className="font-weight-bold">Balance</span>
-            <Tooltip
-              className="float-right"
-              content={
-                <>
-                  {balance.toFixed(18)} {props.asset}
-                </>
-              }
-            >
-              <>
-                {balance.toFixed(4)}
-                <span className="text-lightGrey font-weight-light">
-                  {` ${props.asset}`}
-                </span>
-              </>
-            </Tooltip>
+        <div className="bg-component-bg align-items-center mt-3 p-5 text-center">
+          <div className="bg-fieldBackground py-2 px-2">
+            <div className="row px-3">
+              <div className="data-label col-6 font-weight-bold">
+                Balance Lent
+              </div>
+              <div className="col-6 data-container">
+                <Tooltip
+                  className=""
+                  content={
+                    <>
+                      {balance.toFixed(18)} {props.asset}
+                    </>
+                  }
+                >
+                  <>
+                    {balance.toFixed(4)}
+                    <span className="text-lightGrey font-weight-light">
+                      {` ${props.asset}`}
+                    </span>
+                  </>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="row px-3 mt-2">
+              <div className="col-6 data-label font-weight-bold">Profit</div>
+              <div className="col-6 data-container">
+                <Tooltip
+                  className=""
+                  content={
+                    <>
+                      {tickerProfit.toFixed(18)} {props.asset}
+                    </>
+                  }
+                >
+                  <>
+                    {tickerProfit.toFixed(4)}
+                    <span className="text-lightGrey font-weight-light">
+                      {` ${props.asset}`}
+                    </span>
+                  </>
+                </Tooltip>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="font-weight-bold">Profit</span>
-            <Tooltip
-              className="float-right"
-              content={
-                <>
-                  {tickerProfit.toFixed(18)} {props.asset}
-                </>
-              }
-            >
-              <>
-                {tickerProfit.toFixed(8)}
-                <span className="text-lightGrey font-weight-light">
-                  {` ${props.asset}`}
-                </span>
-              </>
-            </Tooltip>
-          </div>
+          <UnLendBalance asset={props.asset} />
         </div>
-        <UnLendBalance asset={props.asset} />
       </>
     );
   }

@@ -108,7 +108,7 @@ export function TradeDialog(props: Props) {
               placeholder="Enter trade amount"
             />
             {parseFloat(amount) > 0 && !loading && !valid && (
-              <div className="font-small">Trade amount exceeds balance</div>
+              <div className="font-xs text-white">Amount exceeds balance</div>
             )}
           </div>
         </div>

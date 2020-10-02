@@ -33,7 +33,7 @@ export function HistoryLoanTable(props: Props) {
           ) : (
             <FontAwesomeIcon
               icon={faArrowAltCircleDown}
-              className="text-customOrange ml-2"
+              className="text-Gold ml-2"
               style={{ fontSize: '20px' }}
             />
           ),

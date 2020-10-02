@@ -255,8 +255,8 @@ export function LendingTokenSelectorCard(props: Props) {
           )}
         </div>
       </form>
+      {isConnected && <LenderBalance asset={props.asset} />}
       <div className="bg-component-bg align-items-center mt-3 p-5 text-center">
-        {isConnected && <LenderBalance asset={props.asset} />}
         <button
           className="btn btn-customTeal rounded text-white"
           type="button"
@@ -265,7 +265,8 @@ export function LendingTokenSelectorCard(props: Props) {
         >
           Lending history
         </button>
-
+      </div>
+      <div>
         <CustomDialog
           show={showHistory}
           onClose={() => setShowHistory(false)}
