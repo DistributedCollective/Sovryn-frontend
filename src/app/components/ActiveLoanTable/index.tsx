@@ -10,7 +10,11 @@ import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositi
 import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
-import { weiTo2, weiToFixed } from '../../../utils/blockchain/math-helpers';
+import {
+  weiTo2,
+  weiTo18,
+  weiToFixed,
+} from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -46,7 +50,7 @@ export function ActiveLoanTable(props: Props) {
           ) : (
             <FontAwesomeIcon
               icon={faArrowAltCircleDown}
-              className="text-customOrange ml-2"
+              className="text-Gold ml-2"
               style={{ fontSize: '20px' }}
             />
           ),
@@ -64,9 +68,12 @@ export function ActiveLoanTable(props: Props) {
             principal={item.principal}
           />
         ),
-        startPrice: `$ ${parseFloat(weiTo2(item.startRate)).toLocaleString(
-          'en',
-        )}`,
+        startPrice:
+          symbolByTokenAddress(item.collateralToken) === 'BTC'
+            ? `$ ${parseFloat(weiTo2(item.startRate)).toLocaleString('en')}`
+            : `$ ${(1 / parseFloat(weiTo18(item.startRate))).toLocaleString(
+                'en',
+              )}`,
         endDate: <DisplayDate timestamp={item.endTimestamp} />,
         borrowed: '',
         startMargin: '',
