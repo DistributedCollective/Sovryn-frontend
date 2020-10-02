@@ -47,9 +47,11 @@ export function useCacheCall(
           }));
         })
         .catch(() => {
+          // todo add logger?
           // silence...
         });
     } catch (error) {
+      // todo add winston logger?
       setState(prevState => ({ ...prevState, loading: false, error }));
     }
 

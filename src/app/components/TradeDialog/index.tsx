@@ -21,10 +21,12 @@ import { handleNumberInput } from '../../../utils/helpers';
 
 interface Props {
   asset: Asset;
+  collateral: Asset;
   loanId: string;
   leverage: number;
   position: TradingPosition;
   onChangeAmount: (value) => void;
+  onCollateralChange: (collateral: Asset) => void;
 }
 
 export function TradeDialog(props: Props) {
@@ -36,9 +38,7 @@ export function TradeDialog(props: Props) {
     props.onChangeAmount(value);
   };
 
-  const [selected, setSelected] = useState<Asset>(props.asset);
-
-  const { value: tokenBalance } = useTokenBalanceOf(selected);
+  const { value: tokenBalance } = useTokenBalanceOf(props.collateral);
 
   const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
@@ -52,22 +52,22 @@ export function TradeDialog(props: Props) {
 
   useEffect(() => {
     // Filter and set available colarated assets.
-    const collateral = AssetsDictionary.get(props.asset)
+    const _collateral = AssetsDictionary.get(props.asset)
       .getCollateralAssets()
       .map(item => AssetsDictionary.get(item))
       .map(item => ({
         key: item.asset,
         label: item.symbol,
       }));
-    setColaratedAssets(collateral);
+    setColaratedAssets(_collateral);
   }, [props.asset]);
 
   useEffect(() => {
     if (
       colaratedAssets.length &&
-      !colaratedAssets.find(item => item.key === selected)
+      !colaratedAssets.find(item => item.key === props.collateral)
     ) {
-      setSelected(colaratedAssets[0].key);
+      props.onCollateralChange(colaratedAssets[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.position, colaratedAssets]);
@@ -76,7 +76,7 @@ export function TradeDialog(props: Props) {
 
   const { trade, loading, txHash, status, type } = useApproveAndTrade(
     props.asset,
-    selected,
+    props.collateral,
     props.leverage,
     weiAmount,
   );
@@ -94,8 +94,8 @@ export function TradeDialog(props: Props) {
               <FormSelect
                 filterable={false}
                 items={colaratedAssets}
-                onChange={item => setSelected(item.key)}
-                value={selected}
+                onChange={item => props.onCollateralChange(item.key)}
+                value={props.collateral}
               />
             </div>
           </div>
@@ -115,7 +115,7 @@ export function TradeDialog(props: Props) {
 
         <div className="row mt-2 mb-2">
           <div className="col-6">
-            <AssetWalletBalance asset={selected} />
+            <AssetWalletBalance asset={props.collateral} />
           </div>
           <div className="col-6">
             <button
