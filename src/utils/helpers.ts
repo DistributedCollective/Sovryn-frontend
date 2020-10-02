@@ -39,6 +39,10 @@ export const handleNumber = (value, onlyPositive = true) => {
     return Math.abs(number).toString();
   }
 
+  if (number.length === 1 && number === '.') {
+    return '0.';
+  }
+
   if (isNaN(number) && number !== '-') {
     return '';
   }
