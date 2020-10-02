@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Dialog, InputGroup } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
 import { SendTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { SendTxProgress } from '../SendTxProgress';
 import { CloseModalButton } from '../CloseModalButton';
@@ -37,6 +37,9 @@ export function WithdrawLentDialog(props: Props) {
     );
   }, [props.balance, props.amount]);
 
+  console.log('Balance: ' + props.balance);
+  console.log('Amount: ' + props.amount);
+
   return (
     <Dialog
       isOpen={props.isOpen}
@@ -64,29 +67,39 @@ export function WithdrawLentDialog(props: Props) {
           <div className="col-md-5 col-sm-12 data-label">
             Amount to withdraw
           </div>
-          <div className="col-md-7 col-sm-12 data-container">
-            <InputGroup
+        </div>
+        <div className="d-flex flex-row">
+          <div className="flex-grow-1 data-container">
+            <input
+              type="number"
+              step=".00000000000000001"
               className="d-inline-block"
               value={props.amount}
               onChange={e => props.onChangeAmount(e.currentTarget.value)}
             />
-            <button
-              className="btn btn-TabGrey text-white btn-sm pl-2"
-              onClick={() => props.onChangeAmount(fromWei(props.balance))}
-            >
-              MAX
-            </button>
           </div>
-        </div>
-        <div className="row px-3 pt-3 mb-2">
-          <div className="col-md-5 col-sm-12 data-label">Currency</div>
-          <div className="col-md-7 col-sm-12 data-container">{props.asset}</div>
+          <div className="data-container mr-2 d-flex align-items-center">
+            {props.asset}
+          </div>
+          <button
+            className="btn btn-TabGrey text-white btn-sm ml-2"
+            onClick={() => props.onChangeAmount(fromWei(props.balance))}
+          >
+            MAX
+          </button>
         </div>
         <div className="position-relative h-100 w-100">
+          <SendTxProgress
+            status={props.txState?.status}
+            txHash={props.txState?.txHash}
+            loading={props.txState?.loading}
+            displayAbsolute={false}
+            type={'withdraw'}
+          />
           <div className="text-center">
             <div className="py-3">
               <button
-                className="btn btn-Gold rounded text-white my-5"
+                className="btn btn-Gold rounded text-white my-3"
                 onClick={() => props.onConfirm()}
                 disabled={props.txState?.loading || !isValid}
               >
@@ -94,13 +107,6 @@ export function WithdrawLentDialog(props: Props) {
               </button>
             </div>
           </div>
-          <SendTxProgress
-            status={props.txState?.status}
-            txHash={props.txState?.txHash}
-            loading={props.txState?.loading}
-            displayAbsolute={true}
-            type={'withdraw'}
-          />
         </div>
       </div>
     </Dialog>
