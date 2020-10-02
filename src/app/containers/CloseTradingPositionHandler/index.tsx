@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { Dialog, InputGroup } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
@@ -43,9 +43,13 @@ const getOptions = (item: ActiveLoan) => {
 export function CloseTradingPositionHandler(props: Props) {
   const receiver = useAccount();
 
-  const [amount, setAmount] = useState(weiTo18(props.item.collateral));
+  const [amount, setAmount] = useState<string>();
   const [isCollateral, setIsCollateral] = useState(false);
   const [options] = useState(getOptions(props.item));
+
+  useEffect(() => {
+    setAmount(weiTo18(props.item.collateral));
+  }, [props.item.collateral]);
 
   const weiAmount = useWeiAmount(amount);
 
@@ -109,12 +113,25 @@ export function CloseTradingPositionHandler(props: Props) {
           <div className="col-8">
             <div className="data-label">Withdraw amount</div>
             <div className="data-container">
-              <InputGroup
+              <input
+                type="number"
                 value={amount}
                 onChange={e => setAmount(e.currentTarget.value)}
+                placeholder="Enter amount"
               />
+              <span className="ml-2">
+                {symbolByTokenAddress(props.item.collateralToken)}
+              </span>
             </div>
           </div>
+        </div>
+        <div className="row">
+          <button
+            className="btn btn-small text-sm btn-TabGrey ml-auto mr-3"
+            onClick={() => setAmount(weiTo18(props.item.collateral))}
+          >
+            MAX
+          </button>
         </div>
 
         {/* To do */}

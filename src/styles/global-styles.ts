@@ -30,6 +30,12 @@ export const GlobalStyle = createGlobalStyle`
   input, select {
     font-family: inherit;
     font-size: inherit;
+    background-color: var(--Field_bg);
+    color: var(--white);
+    border: none;
+    &::selection {
+      border: none;
+    }
   }
   h1, h2, h3, h4 {
     text-transform: uppercase;
