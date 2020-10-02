@@ -20,15 +20,15 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
-// import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-// import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
 
 import tooltipData from 'utils/data/tooltip-text.json';
 import { useLendTokens } from '../../hooks/useLendTokens';
 import { handleNumberInput } from '../../../utils/helpers';
+import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { useLoanTokenTransactionLimit } from '../../hooks/lending/useLoanTokenTransactionLimit';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -44,9 +44,7 @@ export function LendingTokenSelectorCard(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
-  const [amount, setAmount] = useState(
-    weiTo4(toWei(assetDetails.lendingLimits.min.toString())),
-  );
+  const [amount, setAmount] = useState('');
 
   const weiAmount = useWeiAmount(amount);
 
@@ -172,16 +170,12 @@ export function LendingTokenSelectorCard(props: Props) {
     lendInfo.txHash,
   ]);
 
-  // const { value: maxAmount, loading: maxLoading } = useMaxDepositAmount(
-  //   props.asset,
-  //   weiAmount,
-  // );
+  const { value: maxAmount } = useLoanTokenTransactionLimit(
+    props.asset,
+    props.asset,
+  );
 
-  // const valid = useIsAmountWithinLimits(
-  //   weiAmount,
-  //   toWei(assetDetails.lendingLimits.min.toString()),
-  //   maxAmount,
-  // );
+  const valid = useIsAmountWithinLimits(weiAmount, undefined, maxAmount);
 
   const [showHistory, setShowHistory] = useState(false);
   const tooltipText =
@@ -192,17 +186,17 @@ export function LendingTokenSelectorCard(props: Props) {
   return (
     <>
       <form
-        className="d-block bg-component-bg text-white shadow"
+        className="d-block bg-component-bg text-white shadow px-4"
         onSubmit={handleSubmit}
       >
         <div className="d-flex flex-row justify-content-center p-3 pt-5">
           <AssetLogo src={assetDetails.logoSvg} alt={props.asset} />
         </div>
-        <div className="row mt-3 d-flex align-items-center py-2 px-5 mb-3">
+        <div className="row mt-3 d-flex align-items-center py-2 mb-3">
           <div className="col-6">
             <h2>{props.asset}</h2>
           </div>
-          <div className="col-6 text-right p-0">
+          <div className="col-6 text-right">
             <div className="text-MediumGrey data-label">
               <Tooltip content={tooltipText}>Interest APR:</Tooltip>
             </div>
@@ -212,33 +206,35 @@ export function LendingTokenSelectorCard(props: Props) {
           </div>
         </div>
         <div className="position-relative h-100 w-100">
-          <div className="row py-2 px-5">
+          <div className="row py-2">
             <div className="col-6 text-MediumGrey">
               <div>Enter deposit amount</div>
+              <small>(max: {weiTo4(maxAmount)})</small>
             </div>
-            <div className="col-6 data-container">
-              <InputGroup
-                placeholder="Amount"
-                type="text"
-                value={amount}
-                onChange={e => setAmount(handleNumberInput(e))}
-                readOnly={txState.loading}
-                rightElement={
-                  <Tag minimal className="text-white">
-                    {props.asset}
-                  </Tag>
-                }
-              />
+            <div className="col-6">
+              <div className="data-container">
+                <InputGroup
+                  placeholder="Amount"
+                  type="text"
+                  value={amount}
+                  onChange={e => setAmount(handleNumberInput(e))}
+                  readOnly={txState.loading}
+                  rightElement={
+                    <Tag minimal className="text-white">
+                      {props.asset}
+                    </Tag>
+                  }
+                />
+              </div>
             </div>
           </div>
-          <div className="small text-MediumGrey row py-2 px-5 mb-5"></div>
+          <div className="small text-MediumGrey row py-2 px-5 mb-5" />
           <div className="mb-5">
             <div className="text-center w-100">
               <button
                 className="btn btn-customTeal rounded text-white"
                 type="submit"
-                disabled={txState.loading || !isConnected}
-                // disabled={txState.loading || !isConnected || !valid}
+                disabled={txState.loading || !isConnected || !valid}
               >
                 {`Lend ${props.asset}`}
               </button>

@@ -4,6 +4,12 @@ import { useMaxSwapSize } from '../protocol/useMaxSwapSize';
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 
+/**
+ * todo: These checks are required for trading only, so move it to other trading hooks folder
+ *       and change name maybe.
+ * @param asset
+ * @param leverageWeiAmount
+ */
 export function useMaxDepositAmount(asset: Asset, leverageWeiAmount: string) {
   const {
     value: escrowAmount,

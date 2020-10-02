@@ -64,7 +64,7 @@ export function TradingToken(props: Props) {
         </div>
         <div className="mb-2">
           <LeverageSelector
-            min={props.position === TradingPosition.LONG ? 2 : 1}
+            min={2}
             max={5}
             value={leverage}
             onChange={value => setLeverage(value)}

@@ -13,7 +13,6 @@ import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useExpectedPoolTokens } from '../../hooks/amm/useExpectedPoolTokens';
 import { useApproveAndAddLiquidity } from '../../hooks/amm/useApproveAndAddLiquidity';
 import { LoadableValue } from '../../components/LoadableValue';
-import { useTargetAmountAndFee } from '../../hooks/amm/useTargetAmountAndFee';
 import { liquidityPools } from '../../../utils/classifiers';
 import { handleNumberInput } from '../../../utils/helpers';
 import { useBalanceOf } from '../../hooks/erc20/useBalanceOf';
@@ -29,17 +28,10 @@ export function LiquidityAddContainer(props: Props) {
   }));
 
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
-  const [targetToken, setTargetToken] = useState(tokens[0].target);
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('');
 
   const balance = useBalanceOf(getTokenContractName(sourceToken));
   const weiAmount = useWeiAmount(amount);
-
-  const { value: targetValue, loading: targetLoading } = useTargetAmountAndFee(
-    sourceToken,
-    targetToken,
-    weiAmount,
-  );
 
   const expectedPoolTokens = useExpectedPoolTokens(sourceToken, weiAmount);
 
@@ -51,7 +43,6 @@ export function LiquidityAddContainer(props: Props) {
 
   const handlePoolChange = useCallback(item => {
     setSourceToken(item.key);
-    setTargetToken(item.target);
   }, []);
 
   const amountValid = () => {
@@ -106,40 +97,14 @@ export function LiquidityAddContainer(props: Props) {
               <LoadableValue
                 loading={expectedPoolTokens.loading}
                 value={
-                  <Text ellipsize>{weiTo4(expectedPoolTokens.value)}</Text>
+                  <Text ellipsize tagName="span">
+                    {weiTo4(expectedPoolTokens.value)}
+                  </Text>
                 }
                 tooltip={expectedPoolTokens.value}
               />
             </div>
-            <div className="small">Expected tokens</div>
-          </div>
-          <div className="col">
-            <div className="font-weight-bold small">
-              <LoadableValue
-                loading={targetLoading}
-                value={
-                  <Text ellipsize>
-                    {weiTo4(targetValue[0])} {targetToken}
-                  </Text>
-                }
-                tooltip={targetValue[0]}
-              />
-            </div>
-            <div className="small">Target Amount</div>
-          </div>
-          <div className="col">
-            <div className="font-weight-bold small">
-              <LoadableValue
-                loading={targetLoading}
-                value={
-                  <Text ellipsize>
-                    {weiTo4(targetValue[1])} {targetToken}
-                  </Text>
-                }
-                tooltip={targetValue[1]}
-              />
-            </div>
-            <div className="small">Fee</div>
+            <div className="small">Expected pool tokens</div>
           </div>
         </div>
       </div>

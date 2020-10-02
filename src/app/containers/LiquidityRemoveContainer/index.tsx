@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { liquidityPools } from '../../../utils/classifiers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { Button, InputGroup, Text } from '@blueprintjs/core';
@@ -17,6 +17,7 @@ import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
 import { useRemoveLiquidity } from '../../hooks/amm/useRemoveLiquidity';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { useRemoveLiquidityReturnAndFee } from '../../hooks/amm/useRemoveLiquidityReturnAndFee';
+import { handleNumberInput } from '../../../utils/helpers';
 
 interface Props {}
 
@@ -32,11 +33,6 @@ export function LiquidityRemoveContainer(props: Props) {
 
   const poolAddress = usePoolToken(sourceToken);
   const weiAmount = useWeiAmount(amount);
-
-  useEffect(() => {
-    console.log('pool token', sourceToken, poolAddress.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [poolAddress.value]);
 
   const {
     value: targetValue,
@@ -66,7 +62,7 @@ export function LiquidityRemoveContainer(props: Props) {
           <InputGroup
             className="mb-0"
             value={amount}
-            onChange={e => setAmount(e.currentTarget.value)}
+            onChange={e => setAmount(handleNumberInput(e))}
             placeholder="Enter amount"
           />
         </div>

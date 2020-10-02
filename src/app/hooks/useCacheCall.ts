@@ -45,6 +45,9 @@ export function useCacheCall(
             loading: false,
             error: null,
           }));
+        })
+        .catch(() => {
+          // silence...
         });
     } catch (error) {
       setState(prevState => ({ ...prevState, loading: false, error }));

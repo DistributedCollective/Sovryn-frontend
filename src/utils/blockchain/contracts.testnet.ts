@@ -7,7 +7,7 @@ import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import tokenAbi from './abi/abiTestToken.json';
-import LoanTokenABI from './abi/abiLoanToken.json';
+import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import TestTokenABI from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
@@ -44,7 +44,7 @@ export const contracts = {
   },
   DOC_lending: {
     address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-    abi: LoanTokenABI,
+    abi: LoanTokenLogicStandard,
   },
   DOC_poolToken: {
     address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
