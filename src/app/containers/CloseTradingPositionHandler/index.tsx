@@ -87,31 +87,33 @@ export function CloseTradingPositionHandler(props: Props) {
           Liquidate position
         </div>
 
-        <div className="row mt-3">
-          <div className="col-4">
+        <div className="d-flex flex-row mt-3">
+          <div className="">
             <div className="data-label">Position Size</div>
           </div>
-          <div className="col-8">
+          <div className="flex-grow-1 mx-2">
             <div className="data-container">
               {weiTo18(props.item.collateral)}
             </div>
           </div>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col-4">
-            <div className="data-label">Withdraw in</div>
-            <div className="data-container">
-              <FormSelect
-                filterable={false}
-                items={options}
-                onChange={item => setIsCollateral(item.key)}
-                value={isCollateral}
-              />
-            </div>
+          <div className="data-container">
+            {symbolByTokenAddress(props.item.collateralToken)}
           </div>
-          <div className="col-8">
-            <div className="data-label">Withdraw amount</div>
+        </div>
+        <div className="d-flex flex-row mt-3">
+          <div className="data-label">Withdraw in</div>
+          <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
+        </div>
+        <div className="d-flex flex-row mt-0 mb-2">
+          <div className="data-container py-0">
+            <FormSelect
+              filterable={false}
+              items={options}
+              onChange={item => setIsCollateral(item.key)}
+              value={isCollateral}
+            />
+          </div>
+          <div className="flex-grow-1 mx-2">
             <div className="data-container">
               <input
                 type="number"
@@ -119,10 +121,10 @@ export function CloseTradingPositionHandler(props: Props) {
                 onChange={e => setAmount(e.currentTarget.value)}
                 placeholder="Enter amount"
               />
-              <span className="ml-2">
-                {symbolByTokenAddress(props.item.collateralToken)}
-              </span>
             </div>
+          </div>
+          <div className="data-container">
+            {symbolByTokenAddress(props.item.collateralToken)}
           </div>
         </div>
         <div className="row">

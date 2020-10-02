@@ -68,7 +68,6 @@ export function LiquidityRemoveContainer(props: Props) {
             value={amount}
             onChange={e => setAmount(e.currentTarget.value)}
             placeholder="Enter amount"
-            type="number"
           />
         </div>
         <div className="data-container">
