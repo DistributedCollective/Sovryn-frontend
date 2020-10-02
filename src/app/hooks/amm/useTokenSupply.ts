@@ -1,5 +1,5 @@
 import { Asset } from 'types/asset';
-import { getTokenContractName } from 'utils/blockchain/contract-helpers';
+import { getPoolTokenContractName } from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
 /**
@@ -7,5 +7,9 @@ import { useCacheCallWithValue } from '../useCacheCallWithValue';
  * @param asset
  */
 export function useTokenSupply(asset: Asset) {
-  return useCacheCallWithValue(getTokenContractName(asset), 'totalSupply', '0');
+  return useCacheCallWithValue(
+    getPoolTokenContractName(asset),
+    'totalSupply',
+    '0',
+  );
 }
