@@ -9,7 +9,7 @@ import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import tokenAbi from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
-import LoanTokenABI from './abi/abiLoanToken.json';
+import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import TestTokenABI from './abi/abiTestToken.json';
 
 console.log('loading mainnet contracts');
@@ -46,7 +46,7 @@ export const contracts = {
   },
   DOC_lending: {
     address: '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
-    abi: LoanTokenABI,
+    abi: LoanTokenLogicStandard,
   },
   DOC_poolToken: {
     address: '0x2dC80332C19Fbcd5169aB4A579D87EE006cb72c0',

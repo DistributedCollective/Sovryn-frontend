@@ -12,6 +12,8 @@ import { fromWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
 import { UnLendBalance } from '../UnLendBalance';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { useTokenPrice } from '../../hooks/lending/useTokenPrice';
+import { roundToSmaller } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -28,11 +30,8 @@ export function LenderBalance(props: Props) {
     owner,
   );
 
-  const { value: tokenPrice } = useCacheCallWithValue(
-    lendingContractName,
-    'tokenPrice',
-    '0',
-  );
+  const { value: tokenPrice } = useTokenPrice(props.asset);
+
   const { value: checkpointPrice } = useCacheCallWithValue(
     lendingContractName,
     'checkpointPrice',
@@ -42,9 +41,8 @@ export function LenderBalance(props: Props) {
 
   const { value: interestCall } = useCacheCallWithValue(
     lendingContractName,
-    'nextSupplyInterestRate',
+    'supplyInterestRate',
     '0',
-    1000, // todo: why 1000?
   );
 
   const [balance, setBalance] = useState(bignumber(0));
@@ -110,12 +108,12 @@ export function LenderBalance(props: Props) {
                   className=""
                   content={
                     <>
-                      {balance.toFixed(18)} {props.asset}
+                      {roundToSmaller(balance, 18)} {props.asset}
                     </>
                   }
                 >
                   <>
-                    {balance.toFixed(4)}
+                    {roundToSmaller(balance, 4)}
                     <span className="text-lightGrey font-weight-light">
                       {` ${props.asset}`}
                     </span>
@@ -130,12 +128,12 @@ export function LenderBalance(props: Props) {
                   className=""
                   content={
                     <>
-                      {tickerProfit.toFixed(18)} {props.asset}
+                      {roundToSmaller(tickerProfit, 18)} {props.asset}
                     </>
                   }
                 >
                   <>
-                    {tickerProfit.toFixed(4)}
+                    {roundToSmaller(tickerProfit, 4)}
                     <span className="text-lightGrey font-weight-light">
                       {` ${props.asset}`}
                     </span>
