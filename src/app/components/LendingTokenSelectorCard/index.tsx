@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { Asset } from 'types/asset';
 import { useTokenApproveForLending } from '../../hooks/useTokenApproveForLending';
 import { useTokenAllowance } from '../../hooks/useTokenAllowanceForLending';
-import { bignumber, min } from 'mathjs';
+import { bignumber } from 'mathjs';
 import { useLendTokensRBTC } from '../../hooks/useLendTokensRBTC';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetInterestRate } from '../AssetInterestRate';
@@ -27,7 +27,6 @@ import tooltipData from 'utils/data/tooltip-text.json';
 import { useLendTokens } from '../../hooks/useLendTokens';
 import { handleNumberInput } from '../../../utils/helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { useMaxDepositAmount } from '../../hooks/lending/useMaxDepositAmount';
 import { useLoanTokenTransactionLimit } from '../../hooks/lending/useLoanTokenTransactionLimit';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
@@ -171,23 +170,10 @@ export function LendingTokenSelectorCard(props: Props) {
     lendInfo.txHash,
   ]);
 
-  const { value: maxDeposit } = useMaxDepositAmount(props.asset, weiAmount);
-  const { value: txLimit } = useLoanTokenTransactionLimit(
+  const { value: maxAmount } = useLoanTokenTransactionLimit(
     props.asset,
     props.asset,
   );
-
-  const [maxAmount, setMaxAmount] = useState('0');
-
-  useEffect(() => {
-    if (txLimit === '0') {
-      setMaxAmount(maxDeposit);
-    } else if (maxDeposit === '0') {
-      setMaxAmount(txLimit);
-    } else {
-      setMaxAmount(min(bignumber(txLimit), bignumber(maxDeposit)).toString());
-    }
-  }, [maxDeposit, txLimit]);
 
   const valid = useIsAmountWithinLimits(weiAmount, undefined, maxAmount);
 
