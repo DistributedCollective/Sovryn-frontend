@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
-import { Dialog, InputGroup } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
