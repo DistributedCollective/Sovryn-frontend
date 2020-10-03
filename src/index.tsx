@@ -27,6 +27,7 @@ import { store } from './store/store';
 import './locales/i18n';
 import { useCallback, useEffect } from 'react';
 import { bottomRightToaster } from './utils/toaster';
+import { currentChainId } from './utils/classifiers';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
@@ -34,27 +35,42 @@ interface Props {
   Component: typeof App;
 }
 const ConnectedApp = ({ Component }: Props) => {
+  // todo move this to dedicated component.
   const onUpdateNotification = useCallback(registration => {
     const waitingWorker = registration && registration.waiting;
-    bottomRightToaster.show({
-      intent: 'primary',
-      message: (
-        <>
-          <p className="mb-0">
-            <strong>App was updated.</strong>
-          </p>
-          <p className="mb-0">Refresh page to use latest version.</p>
-        </>
-      ),
-      action: {
-        onClick: () => {
-          waitingWorker && waitingWorker.postMessage({ type: 'SKIP_WAITING' });
-          window.location.reload();
+    bottomRightToaster.show(
+      {
+        intent: 'primary',
+        message: (
+          <>
+            <p className="mb-0">
+              <strong>App was updated.</strong>
+            </p>
+            <p className="mb-0">Refresh page to use latest version.</p>
+          </>
+        ),
+        action: {
+          onClick: () => {
+            waitingWorker &&
+              waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+            window.location.reload();
+          },
+          text: 'Refresh',
         },
-        text: 'Refresh',
+        timeout: 0,
       },
-      timeout: 0,
-    });
+      'app-updated',
+    );
+  }, []);
+
+  useEffect(() => {
+    if (currentChainId === 30) {
+      bottomRightToaster.show({
+        intent: 'warning',
+        message: 'Nodes are having issues. The system only partly working.',
+        timeout: 0,
+      });
+    }
   }, []);
 
   useEffect(() => {
