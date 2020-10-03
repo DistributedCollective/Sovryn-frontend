@@ -2,7 +2,7 @@ import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { currentChainId, rpcNodes, wsNodes } from '../classifiers';
+import { currentChainId, rpcNodes, readNodes } from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
@@ -25,6 +25,7 @@ export class SovrynNetwork {
       },
       package: WalletConnectProvider,
       options: {
+        chainId: currentChainId,
         rpc: rpcNodes,
       },
     },
@@ -219,27 +220,38 @@ export class SovrynNetwork {
       !this._readWeb3 ||
       (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
     ) {
-      this._readWeb3 = new Web3(
-        new Web3.providers.WebsocketProvider(wsNodes[chainId], {
+      const nodeUrl = readNodes[chainId];
+      let web3Provider;
+      let isWebsocket = false;
+      if (nodeUrl.startsWith('http')) {
+        web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+          keepAlive: true,
+        });
+      } else {
+        web3Provider = new Web3.providers.WebsocketProvider(nodeUrl, {
           reconnectDelay: 10,
-        }),
-      );
+        });
+        isWebsocket = true;
+      }
+
+      this._readWeb3 = new Web3(web3Provider);
 
       Array.from(Object.keys(appContracts)).forEach(key => {
         this.addReadContract(key, appContracts[key]);
       });
 
-      const provider: WebsocketProvider = this._readWeb3
-        .currentProvider as WebsocketProvider;
+      if (isWebsocket) {
+        const provider: WebsocketProvider = this._readWeb3
+          .currentProvider as WebsocketProvider;
 
-      provider.on('end', () => {
-        console.info('try to resubscribe.');
-        provider.removeAllListeners('end');
-        this.contracts = {};
-        this.contractList = [];
-        this._readWeb3 = undefined as any;
-        this.initReadWeb3(chainId);
-      });
+        provider.on('end', () => {
+          provider.removeAllListeners('end');
+          this.contracts = {};
+          this.contractList = [];
+          this._readWeb3 = undefined as any;
+          this.initReadWeb3(chainId);
+        });
+      }
     }
   }
 
