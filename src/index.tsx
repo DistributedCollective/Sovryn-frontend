@@ -63,15 +63,15 @@ const ConnectedApp = ({ Component }: Props) => {
     );
   }, []);
 
-  useEffect(() => {
-    if (currentChainId === 30) {
-      bottomRightToaster.show({
-        intent: 'warning',
-        message: 'Nodes are having issues. The system only partly working.',
-        timeout: 0,
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (currentChainId === 30) {
+  //     bottomRightToaster.show({
+  //       intent: 'warning',
+  //       message: 'Nodes are having issues. The system only partly working.',
+  //       timeout: 0,
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     // If you want your app to work offline and load faster, you can change

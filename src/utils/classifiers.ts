@@ -19,14 +19,12 @@ export const networkNames = {
 };
 
 export const rpcNodes = {
-  // 30: 'https://mainnet.sovryn.app/rpc',
-  30: 'https://public-node.rsk.co',
+  30: 'https://mainnet.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const readNodes = {
-  // 30: 'wss://mainnet.sovryn.app/ws',
-  30: 'https://public-node.rsk.co',
+  30: 'wss://mainnet.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
 };
 
