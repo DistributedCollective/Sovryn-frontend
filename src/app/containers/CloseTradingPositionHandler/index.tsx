@@ -4,9 +4,9 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
-import { Dialog, InputGroup } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
@@ -43,9 +43,13 @@ const getOptions = (item: ActiveLoan) => {
 export function CloseTradingPositionHandler(props: Props) {
   const receiver = useAccount();
 
-  const [amount, setAmount] = useState(weiTo18(props.item.collateral));
+  const [amount, setAmount] = useState<string>();
   const [isCollateral, setIsCollateral] = useState(false);
   const [options] = useState(getOptions(props.item));
+
+  useEffect(() => {
+    setAmount(weiTo18(props.item.collateral));
+  }, [props.item.collateral]);
 
   const weiAmount = useWeiAmount(amount);
 
@@ -83,38 +87,53 @@ export function CloseTradingPositionHandler(props: Props) {
           Liquidate position
         </div>
 
-        <div className="row mt-3">
-          <div className="col-4">
+        <div className="d-flex flex-row mt-3">
+          <div className="">
             <div className="data-label">Position Size</div>
           </div>
-          <div className="col-8">
+          <div className="flex-grow-1 mx-2">
             <div className="data-container">
               {weiTo18(props.item.collateral)}
             </div>
           </div>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col-4">
-            <div className="data-label">Withdraw in</div>
-            <div className="data-container">
-              <FormSelect
-                filterable={false}
-                items={options}
-                onChange={item => setIsCollateral(item.key)}
-                value={isCollateral}
-              />
-            </div>
+          <div className="data-container">
+            {symbolByTokenAddress(props.item.collateralToken)}
           </div>
-          <div className="col-8">
-            <div className="data-label">Withdraw amount</div>
+        </div>
+        <div className="d-flex flex-row mt-3">
+          <div className="data-label">Withdraw in</div>
+          <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
+        </div>
+        <div className="d-flex flex-row mt-0 mb-2">
+          <div className="data-container py-0">
+            <FormSelect
+              filterable={false}
+              items={options}
+              onChange={item => setIsCollateral(item.key)}
+              value={isCollateral}
+            />
+          </div>
+          <div className="flex-grow-1 mx-2">
             <div className="data-container">
-              <InputGroup
+              <input
+                type="number"
                 value={amount}
                 onChange={e => setAmount(e.currentTarget.value)}
+                placeholder="Enter amount"
               />
             </div>
           </div>
+          <div className="data-container">
+            {symbolByTokenAddress(props.item.collateralToken)}
+          </div>
+        </div>
+        <div className="row">
+          <button
+            className="btn btn-small text-sm btn-TabGrey ml-auto mr-3"
+            onClick={() => setAmount(weiTo18(props.item.collateral))}
+          >
+            MAX
+          </button>
         </div>
 
         {/* To do */}
