@@ -20,11 +20,15 @@ import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { PageSkeleton } from './components/PageSkeleton';
+import { currentNetwork } from '../utils/classifiers';
+
+const title =
+  currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 export function App() {
   return (
     <BrowserRouter>
-      <Helmet titleTemplate="%s - Sovryn" defaultTitle="Sovryn">
+      <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>

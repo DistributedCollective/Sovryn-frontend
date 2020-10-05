@@ -5,8 +5,10 @@ export const chains = {
   testnet: 31,
 };
 
-export const currentChainId =
-  chains[String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet'];
+export const currentNetwork =
+  String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
+
+export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',

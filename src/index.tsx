@@ -27,7 +27,6 @@ import { store } from './store/store';
 import './locales/i18n';
 import { useCallback, useEffect } from 'react';
 import { bottomRightToaster } from './utils/toaster';
-import { currentChainId } from './utils/classifiers';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
