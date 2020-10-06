@@ -2,6 +2,8 @@ import { contracts } from 'utils/blockchain/contracts';
 import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 
+const FIRST_BLOCK = 2758025;
+
 const fixContracts = () => {
   const newObj = {};
   const keys = Object.keys(contracts);
@@ -11,6 +13,7 @@ const fixContracts = () => {
       newObj[key] = {
         address: toChecksumAddress(item.address),
         abi: item.abi,
+        blockNumber: item.blockNumber || FIRST_BLOCK,
       };
     }
   });

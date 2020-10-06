@@ -31,7 +31,8 @@ export function LendingHistory(props: Props) {
       fetchMint({ minter: account });
       fetchBurn({ burner: account });
     }
-  }, [account, fetchMint, fetchBurn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
 
   useEffect(() => {
     const merged = [...mint, ...burn].sort(
