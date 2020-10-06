@@ -33,28 +33,29 @@ export function WithdrawLentAmount(props: Props) {
   const { value: price } = useTokenPrice(props.asset);
 
   const [amount, setAmount] = useState(weiTo18(balance));
+  const fixedAmount = amount.slice(0, 19);
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
   const handleUnLendClick = useCallback(() => {
     if (props.asset === Asset.BTC) {
-      unlendBtc(toWei(amount));
+      unlendBtc(toWei(fixedAmount));
     } else {
-      unlendToken(toWei(amount));
+      unlendToken(toWei(fixedAmount));
     }
-  }, [unlendToken, unlendBtc, amount, props.asset]);
+  }, [props.asset, unlendBtc, fixedAmount, unlendToken]);
 
   useEffect(() => {
     const result = bignumber(balance).div(price).toFixed(18);
     if (!isNaN(Number(result)) && isFinite(Number(result))) {
-      setAmount(result);
+      setAmount(result.slice(0, 19));
     }
   }, [balance, price]);
 
   return (
     <WithdrawLentDialog
       asset={props.asset}
-      amount={amount}
+      amount={fixedAmount}
       balance={balance}
       onChangeAmount={value => setAmount(value)}
       onConfirm={() => handleUnLendClick()}
