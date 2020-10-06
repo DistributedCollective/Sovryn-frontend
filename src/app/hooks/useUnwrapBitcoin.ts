@@ -12,9 +12,8 @@ export function useUnwrapBitcoin(weiAmount: string) {
 
   return {
     unwrap: () => {
-      return send({
+      return send(weiAmount, {
         from: account,
-        // value: weiAmount,
       });
     },
     ...rest,
