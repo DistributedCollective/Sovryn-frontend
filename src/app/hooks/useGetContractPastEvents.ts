@@ -3,8 +3,7 @@ import { EventData } from 'web3-eth-contract';
 import { Sovryn } from '../../utils/sovryn';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
-
-const FIRST_BLOCK = 1194400;
+import { appContracts } from '../../utils/blockchain/app-contracts';
 
 export function useGetContractPastEvents(
   contractName: string,
@@ -17,10 +16,12 @@ export function useGetContractPastEvents(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
+  const firstBlock = appContracts[contractName].blockNumber;
+
   const loadEvents = useCallback(
     async (
       filter = undefined,
-      options = { fromBlock: FIRST_BLOCK, toBlock: 100 },
+      options = { fromBlock: firstBlock, toBlock: 100 },
     ) => {
       try {
         return await Sovryn.contracts[contractName].getPastEvents(event, {
@@ -31,13 +32,13 @@ export function useGetContractPastEvents(
         return [];
       }
     },
-    [contractName, event],
+    [contractName, event, firstBlock],
   );
 
   const fetch = useCallback(
     async (
       filter = undefined,
-      options = { fromBlock: FIRST_BLOCK, toBlock: 'latest' },
+      options = { fromBlock: firstBlock, toBlock: 'latest' },
     ) => {
       setLoading(true);
 
@@ -71,7 +72,7 @@ export function useGetContractPastEvents(
       setLoading(false);
       setError(null);
     },
-    [blockChunkSize, blockNumber, loadEvents],
+    [blockChunkSize, blockNumber, firstBlock, loadEvents],
   );
 
   return { events, fetch: fetch, loading, error };

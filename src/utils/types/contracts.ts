@@ -6,4 +6,5 @@ export type ContractData = { [contractName: string]: ContractItemData };
 export type ContractItemData = {
   address: string;
   abi: AbiItem | AbiItem[] | any;
+  blockNumber: number;
 };
