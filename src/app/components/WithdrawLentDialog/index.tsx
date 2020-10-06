@@ -37,9 +37,6 @@ export function WithdrawLentDialog(props: Props) {
     );
   }, [props.balance, props.amount]);
 
-  console.log('Balance: ' + props.balance);
-  console.log('Amount: ' + props.amount);
-
   return (
     <Dialog
       isOpen={props.isOpen}

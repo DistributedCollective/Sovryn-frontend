@@ -25,7 +25,14 @@ export function LenderBalance(props: Props) {
   const owner = useAccount();
   const { value: balanceCall } = useCacheCallWithValue(
     lendingContractName,
-    'assetBalanceOf',
+    'balanceOf',
+    '0',
+    owner,
+  );
+
+  const { value: profitOf } = useCacheCallWithValue(
+    lendingContractName,
+    'profitOf',
     '0',
     owner,
   );
@@ -52,10 +59,11 @@ export function LenderBalance(props: Props) {
   const [interestRate, setInterestRate] = useState(bignumber(0));
 
   useEffect(() => {
-    if (balanceCall !== undefined) {
-      setBalance(bignumber(fromWei(balanceCall)));
+    if (balanceCall !== undefined && checkpointPrice !== undefined) {
+      setBalance(bignumber(fromWei(balanceCall)).mul(fromWei(checkpointPrice)));
     }
-  }, [balanceCall]);
+  }, [balanceCall, checkpointPrice]);
+
   useEffect(() => {
     if (interestCall !== undefined) {
       setInterestRate(bignumber(fromWei(interestCall)));
@@ -69,20 +77,22 @@ export function LenderBalance(props: Props) {
       balance.greaterThan(0)
     ) {
       setProfit(
-        bignumber(fromWei(tokenPrice))
-          .minus(bignumber(fromWei(checkpointPrice)))
-          .mul(balance)
-          .div(10 ** 36),
+        bignumber(fromWei(profitOf || '0')).add(
+          bignumber(fromWei(tokenPrice))
+            .minus(bignumber(fromWei(checkpointPrice)))
+            .mul(balance)
+            .div(10 ** 36),
+        ),
       );
 
       setTickerDiff(
         balance.mul(interestRate.div(100)).div(31536000 /* seconds in year */),
       );
     }
-  }, [tokenPrice, checkpointPrice, balance, interestRate]);
+  }, [tokenPrice, checkpointPrice, balance, interestRate, profitOf]);
 
   useEffect(() => {
-    const ms = 500;
+    const ms = 3000;
     const diff = tickerDiff.toNumber() / (1000 / ms);
     let value = profit.toNumber();
     const interval = setInterval(() => {
