@@ -16,6 +16,7 @@ import { useAccount } from '../../hooks/useAccount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { handleNumberInput } from '../../../utils/helpers';
 
 interface Props {
   item: ActiveLoan;
@@ -105,7 +106,7 @@ export function CloseTradingPositionHandler(props: Props) {
           <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
         </div>
         <div className="d-flex flex-row mt-0 mb-2">
-          <div className="data-container py-0">
+          <div className="data-container py-0 d-flex align-items-center">
             <FormSelect
               filterable={false}
               items={options}
@@ -116,9 +117,9 @@ export function CloseTradingPositionHandler(props: Props) {
           <div className="flex-grow-1 mx-2">
             <div className="data-container">
               <input
-                type="number"
+                className="w-100"
                 value={amount}
-                onChange={e => setAmount(e.currentTarget.value)}
+                onChange={e => setAmount(handleNumberInput(e))}
                 placeholder="Enter amount"
               />
             </div>

@@ -5,7 +5,7 @@ export const weiToBn = (amount: any) =>
   bignumber(fromWei(String(amount || '0'), 'ether'));
 
 export const weiToFixed = (amount: any, decimals: number = 0): string =>
-  roundToSmaller(weiToBn(amount).toFixed(21), decimals);
+  roundToSmaller(weiToBn(amount).toFixed(64), decimals);
 
 export const weiTo18 = (amount: any): string => weiToFixed(amount, 18);
 
