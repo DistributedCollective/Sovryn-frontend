@@ -149,7 +149,7 @@ export function CloseTradingPositionHandler(props: Props) {
         </div>
 
         <div className="row">
-          <div className="col-6"></div>
+          <div className="col-6" />
           <div className="col-6">
             <button
               className="btn btn-customTeal text-white my-3 w-100 p-2 rounded"

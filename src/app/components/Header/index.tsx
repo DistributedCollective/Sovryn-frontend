@@ -12,7 +12,6 @@ export function Header() {
   const pages = [
     { to: '/', title: 'Trade', exact: true },
     'Lend',
-    'Liquidity',
     'Stats',
     'FAQs',
   ];
