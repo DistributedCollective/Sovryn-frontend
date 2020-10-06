@@ -175,7 +175,11 @@ export function LendingTokenSelectorCard(props: Props) {
     props.asset,
   );
 
-  const valid = useIsAmountWithinLimits(weiAmount, undefined, maxAmount);
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    undefined,
+    maxAmount !== '0' ? maxAmount : undefined,
+  );
 
   const [showHistory, setShowHistory] = useState(false);
   const tooltipText =
@@ -207,9 +211,13 @@ export function LendingTokenSelectorCard(props: Props) {
         </div>
         <div className="position-relative h-100 w-100">
           <div className="row py-2">
-            <div className="col-6 text-MediumGrey">
+            <div className="col-6 text-MediumGrey d-flex flex-column justify-content-center">
               <div>Enter deposit amount</div>
-              <small>(max: {weiTo4(maxAmount)})</small>
+              {maxAmount !== '0' && (
+                <>
+                  <small>(max: {weiTo4(maxAmount)})</small>
+                </>
+              )}
             </div>
             <div className="col-6">
               <div className="data-container">

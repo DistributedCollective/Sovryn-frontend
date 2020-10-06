@@ -81,6 +81,7 @@ export function TradeDialog(props: Props) {
     weiAmount,
   );
 
+  // const { value: maxAmount } = useLoanTokenTransactionLimit(props.asset, props.collateral);
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
   const color = props.position === 'LONG' ? 'customTeal' : 'Gold';
 
