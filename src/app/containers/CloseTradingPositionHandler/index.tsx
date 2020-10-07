@@ -153,7 +153,7 @@ export function CloseTradingPositionHandler(props: Props) {
                 disabled={rest.loading || !valid}
                 onClick={() => handleConfirmSwap()}
               >
-                {withdrawAll ? 'Close Amount' : 'Withdraw Amount'}
+                {withdrawAll ? 'Close Position' : 'Close Amount'}
               </button>
             </div>
           </div>
