@@ -2,7 +2,12 @@ import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { currentChainId, rpcNodes, readNodes } from '../classifiers';
+import {
+  currentChainId,
+  rpcNodes,
+  readNodes,
+  currentNetwork,
+} from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
@@ -311,7 +316,7 @@ export class SovrynNetwork {
       this._toaster.show(
         {
           intent: 'danger',
-          message: 'Unsupported network',
+          message: `Please switch to RSK ${currentNetwork}.`,
         },
         'network',
       );
