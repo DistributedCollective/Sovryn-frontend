@@ -27,15 +27,17 @@ interface Props {
 
 export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
-
+  const fixedAmount = props.amount.slice(0, 19);
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
-    setValid(
-      bignumber(toWei(props.amount)).greaterThan(0) &&
-        bignumber(toWei(props.amount)).lessThanOrEqualTo(props.balance),
-    );
-  }, [props.balance, props.amount]);
+    if (fixedAmount) {
+      setValid(
+        bignumber(toWei(fixedAmount)).greaterThan(0) &&
+          bignumber(toWei(fixedAmount)).lessThanOrEqualTo(props.balance),
+      );
+    }
+  }, [props.balance, props.amount, fixedAmount]);
 
   return (
     <Dialog
@@ -71,7 +73,7 @@ export function WithdrawLentDialog(props: Props) {
               type="number"
               step=".00000000000000001"
               className="d-inline-block"
-              value={props.amount}
+              value={fixedAmount}
               onChange={e => props.onChangeAmount(e.currentTarget.value)}
             />
           </div>
