@@ -9,7 +9,7 @@ import { Button, InputGroup, Text } from '@blueprintjs/core';
 import { handleNumberInput } from '../../../utils/helpers';
 import { FormSelect } from '../../components/FormSelect';
 import { LoadableValue } from '../../components/LoadableValue';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo4, weiToBigInt } from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useBalanceOf } from '../../hooks/erc20/useBalanceOf';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -34,7 +34,7 @@ export function WrappedBitcoinConverter(props: Props) {
 
   const rbtcBalance = useBalance();
   const wRbtcBalance = useBalanceOf(getTokenContractName(Asset.BTC));
-  const weiAmount = useWeiAmount(amount);
+  const weiAmount = useWeiAmount(weiToBigInt(amount));
 
   const tx = useConvertBitcoin(mode, weiAmount);
 

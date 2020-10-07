@@ -12,7 +12,7 @@ import { useAccount } from '../../hooks/useAccount';
 import { useUnLendTokensRBTC } from '../../hooks/useUnLendTokensRBTC';
 import { WithdrawLentDialog } from '../../components/WithdrawLentDialog';
 import { toWei } from 'web3-utils';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiToBigInt } from '../../../utils/blockchain/math-helpers';
 import { useTokenPrice } from '../../hooks/lending/useTokenPrice';
 import { bignumber } from 'mathjs';
 import { useUnLendTokens } from '../../hooks/useUnLendTokens';
@@ -33,22 +33,22 @@ export function WithdrawLentAmount(props: Props) {
   const { value: price } = useTokenPrice(props.asset);
 
   const [amount, setAmount] = useState(weiTo18(balance));
-  const fixedAmount = amount.slice(0, 19);
+  const fixedAmount = weiToBigInt(amount);
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
   const handleUnLendClick = useCallback(() => {
     if (props.asset === Asset.BTC) {
-      unlendBtc(toWei(fixedAmount));
+      unlendBtc(fixedAmount);
     } else {
-      unlendToken(toWei(fixedAmount));
+      unlendToken(fixedAmount);
     }
   }, [props.asset, unlendBtc, fixedAmount, unlendToken]);
 
   useEffect(() => {
     const result = bignumber(balance).div(price).toFixed(18);
     if (!isNaN(Number(result)) && isFinite(Number(result))) {
-      setAmount(result.slice(0, 19));
+      setAmount(weiToBigInt(result));
     }
   }, [balance, price]);
 

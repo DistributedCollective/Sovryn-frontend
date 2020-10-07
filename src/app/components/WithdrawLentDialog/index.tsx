@@ -13,6 +13,7 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
 import { fromWei, toWei } from 'web3-utils';
+import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -27,14 +28,14 @@ interface Props {
 
 export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
-  const fixedAmount = props.amount.slice(0, 19);
+  const fixedAmount = weiToBigInt(props.amount);
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
     if (fixedAmount) {
       setValid(
-        bignumber(toWei(fixedAmount)).greaterThan(0) &&
-          bignumber(toWei(fixedAmount)).lessThanOrEqualTo(props.balance),
+        bignumber(fixedAmount).greaterThan(0) &&
+          bignumber(fixedAmount).lessThanOrEqualTo(props.balance),
       );
     }
   }, [props.balance, props.amount, fixedAmount]);
@@ -72,7 +73,7 @@ export function WithdrawLentDialog(props: Props) {
             <input
               type="number"
               step=".00000000000000001"
-              className="d-inline-block"
+              className="d-inline-block w-100-input"
               value={fixedAmount}
               onChange={e => props.onChangeAmount(e.currentTarget.value)}
             />
