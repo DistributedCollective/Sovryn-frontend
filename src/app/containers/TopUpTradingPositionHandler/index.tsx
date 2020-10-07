@@ -5,8 +5,8 @@
  */
 
 import React, { useState } from 'react';
-import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { Dialog, InputGroup } from '@blueprintjs/core';
+import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -112,3 +112,7 @@ export function TopUpTradingPositionHandler(props: Props) {
     </Dialog>
   );
 }
+
+TopUpTradingPositionHandler.defaultProps = {
+  item: {},
+};

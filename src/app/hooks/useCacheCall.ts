@@ -35,6 +35,11 @@ export function useCacheCall(
 
   useEffect(() => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
+
+    if (methodName === 'getUserLoans') {
+      console.log('updating with sync number', syncBlockNumber);
+    }
+
     try {
       Sovryn.contracts[contractName].methods[methodName](...args)
         .call()

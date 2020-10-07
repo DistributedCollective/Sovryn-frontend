@@ -5,7 +5,7 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Button, MenuItem } from '@blueprintjs/core';
+import { Button, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
@@ -60,7 +60,9 @@ export function FormSelect(props: Props) {
       <Button
         fill
         rightIcon="caret-down"
-        text={selected ? selected.label : props.placeholder}
+        text={
+          <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
+        }
       />
     </Selector>
   );
@@ -85,7 +87,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
-      text={highlightText(item.label, query)}
+      text={<Text ellipsize>{highlightText(item.label, query)}</Text>}
     />
   );
 };

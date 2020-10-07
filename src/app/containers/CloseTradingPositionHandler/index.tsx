@@ -5,11 +5,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { Dialog } from '@blueprintjs/core';
+import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCloseWithSwap } from '../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
@@ -25,16 +24,9 @@ interface Props {
 }
 
 const getOptions = (item: ActiveLoan) => {
-  // const loan = AssetsDictionary.getByTokenContractAddress(item.loanToken);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const collateral = AssetsDictionary.getByTokenContractAddress(
-    item.collateralToken,
-  );
-
-  // if (loan.asset) {
-  //   //
-  // }
-
+  if (!item.collateralToken || !item.loanToken) {
+    return [];
+  }
   return [
     { key: true, label: symbolByTokenAddress(item.collateralToken) },
     { key: false, label: symbolByTokenAddress(item.loanToken) },
@@ -85,57 +77,61 @@ export function CloseTradingPositionHandler(props: Props) {
         </div>
 
         <div className="text-customTeal text-center mt-4 modal-title">
-          Liquidate position
+          {!!props.item.loanId ? 'Liquidate position' : 'Position liquidated'}
         </div>
 
-        <div className="d-flex flex-row mt-3">
-          <div className="">
-            <div className="data-label">Position Size</div>
-          </div>
-          <div className="flex-grow-1 mx-2">
-            <div className="data-container">
-              {weiTo18(props.item.collateral)}
+        {!!props.item.loanId && (
+          <>
+            <div className="d-flex flex-row mt-3">
+              <div className="">
+                <div className="data-label">Position Size</div>
+              </div>
+              <div className="flex-grow-1 mx-2">
+                <div className="data-container">
+                  {weiTo18(props.item.collateral)}
+                </div>
+              </div>
+              <div className="data-container">
+                {symbolByTokenAddress(props.item.collateralToken)}
+              </div>
             </div>
-          </div>
-          <div className="data-container">
-            {symbolByTokenAddress(props.item.collateralToken)}
-          </div>
-        </div>
-        <div className="d-flex flex-row mt-3">
-          <div className="data-label">Withdraw in</div>
-          <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
-        </div>
-        <div className="d-flex flex-row mt-0 mb-2">
-          <div className="data-container py-0 d-flex align-items-center">
-            <FormSelect
-              filterable={false}
-              items={options}
-              onChange={item => setIsCollateral(item.key)}
-              value={isCollateral}
-            />
-          </div>
-          <div className="flex-grow-1 mx-2">
-            <div className="data-container">
-              <input
-                className="w-100"
-                value={amount}
-                onChange={e => setAmount(handleNumberInput(e))}
-                placeholder="Enter amount"
-              />
+            <div className="d-flex flex-row mt-3">
+              <div className="data-label">Withdraw in</div>
+              <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
             </div>
-          </div>
-          <div className="data-container">
-            {symbolByTokenAddress(props.item.collateralToken)}
-          </div>
-        </div>
-        <div className="row">
-          <button
-            className="btn btn-small text-sm btn-TabGrey ml-auto mr-3"
-            onClick={() => setAmount(weiTo18(props.item.collateral))}
-          >
-            MAX
-          </button>
-        </div>
+            <div className="d-flex flex-row mt-0 mb-2">
+              <div className="data-container py-0 d-flex align-items-center">
+                <FormSelect
+                  filterable={false}
+                  items={options}
+                  onChange={item => setIsCollateral(item.key)}
+                  value={isCollateral}
+                />
+              </div>
+              <div className="flex-grow-1 mx-2">
+                <div className="data-container">
+                  <input
+                    className="w-100"
+                    value={amount}
+                    onChange={e => setAmount(handleNumberInput(e))}
+                    placeholder="Enter amount"
+                  />
+                </div>
+              </div>
+              <div className="data-container">
+                {symbolByTokenAddress(props.item.collateralToken)}
+              </div>
+            </div>
+            <div className="row">
+              <button
+                className="btn btn-small text-sm btn-TabGrey ml-auto mr-3"
+                onClick={() => setAmount(weiTo18(props.item.collateral))}
+              >
+                MAX
+              </button>
+            </div>
+          </>
+        )}
 
         {/* To do */}
         <div className="mb-4">
@@ -148,19 +144,27 @@ export function CloseTradingPositionHandler(props: Props) {
           />
         </div>
 
-        <div className="row">
-          <div className="col-6" />
-          <div className="col-6">
-            <button
-              className="btn btn-customTeal text-white my-3 w-100 p-2 rounded"
-              disabled={rest.loading || !valid}
-              onClick={() => handleConfirmSwap()}
-            >
-              {withdrawAll ? 'Close Position' : 'Withdraw'}
-            </button>
+        {!!props.item.loanId && (
+          <div className="row">
+            <div className="col-6" />
+            <div className="col-6">
+              <button
+                className="btn btn-customTeal text-white my-3 w-100 p-2 rounded"
+                disabled={rest.loading || !valid}
+                onClick={() => handleConfirmSwap()}
+              >
+                {withdrawAll ? 'Close Amount' : 'Withdraw Amount'}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Dialog>
   );
 }
+
+CloseTradingPositionHandler.defaultProps = {
+  item: {
+    collateral: '0',
+  },
+};

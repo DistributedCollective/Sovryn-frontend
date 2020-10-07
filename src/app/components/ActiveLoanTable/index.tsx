@@ -3,7 +3,7 @@
  * ActiveLoanTable
  *
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
@@ -34,7 +34,7 @@ interface Props {
 export function ActiveLoanTable(props: Props) {
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
   const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(props.data[0]);
+  const [selectedItem, setSelectedItem] = useState<any>(props.data[0]);
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -102,6 +102,15 @@ export function ActiveLoanTable(props: Props) {
         ),
       };
     });
+  }, [props.data]);
+
+  useEffect(() => {
+    // Resets selected item in modals if items was changed.
+    if (selectedItem && selectedItem.loanId) {
+      const loan = props.data.find(item => item.loanId === selectedItem.loanId);
+      setSelectedItem(loan);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
 
   const columns = React.useMemo(
@@ -216,11 +225,13 @@ export function ActiveLoanTable(props: Props) {
         onCloseModal={() => setPositionCloseModalOpen(false)}
       />
 
-      <TopUpTradingPositionHandler
-        item={selectedItem}
-        showModal={positionMarginModalOpen}
-        onCloseModal={() => setPositionMarginModalOpen(false)}
-      />
+      {selectedItem && (
+        <TopUpTradingPositionHandler
+          item={selectedItem}
+          showModal={positionMarginModalOpen}
+          onCloseModal={() => setPositionMarginModalOpen(false)}
+        />
+      )}
     </>
   );
 }
