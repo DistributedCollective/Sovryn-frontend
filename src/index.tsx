@@ -11,7 +11,6 @@ import 'react-app-polyfill/stable';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import * as serviceWorker from 'serviceWorker';
 
 // Import scss global styles
 import './styles/sass/styles.scss';
@@ -25,8 +24,7 @@ import { store } from './store/store';
 
 // Initialize languages
 import './locales/i18n';
-import { useCallback, useEffect } from 'react';
-import { bottomRightToaster } from './utils/toaster';
+import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
@@ -34,54 +32,6 @@ interface Props {
   Component: typeof App;
 }
 const ConnectedApp = ({ Component }: Props) => {
-  // todo move this to dedicated component.
-  const onUpdateNotification = useCallback(registration => {
-    const waitingWorker = registration && registration.waiting;
-    bottomRightToaster.show(
-      {
-        intent: 'primary',
-        message: (
-          <>
-            <p className="mb-0">
-              <strong>App was updated.</strong>
-            </p>
-            <p className="mb-0">Refresh page to use latest version.</p>
-          </>
-        ),
-        action: {
-          onClick: () => {
-            waitingWorker &&
-              waitingWorker.postMessage({ type: 'SKIP_WAITING' });
-            window.location.reload();
-          },
-          text: 'Refresh',
-        },
-        timeout: 0,
-      },
-      'app-updated',
-    );
-  }, []);
-
-  // useEffect(() => {
-  //   if (currentChainId === 30) {
-  //     bottomRightToaster.show({
-  //       intent: 'warning',
-  //       message: 'Nodes are having issues. The system only partly working.',
-  //       timeout: 0,
-  //     });
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    // If you want your app to work offline and load faster, you can change
-    // unregister() to register() below. Note this comes with some pitfalls.
-    // Learn more about service workers: https://bit.ly/CRA-PWA
-    serviceWorker.register({
-      onUpdate: registration => onUpdateNotification(registration),
-    });
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <Provider store={store}>
       <HelmetProvider>
@@ -89,6 +39,7 @@ const ConnectedApp = ({ Component }: Props) => {
         <Component />
         {/*</React.StrictMode>*/}
       </HelmetProvider>
+      <ServiceWorkerToaster />
     </Provider>
   );
 };
