@@ -12,7 +12,9 @@ import { CloseModalButton } from '../CloseModalButton';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { fromWei, toWei } from 'web3-utils';
+import { toWei } from 'web3-utils';
+import { handleNumberInput } from '../../../utils/helpers';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -27,13 +29,14 @@ interface Props {
 
 export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
-
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
     setValid(
-      bignumber(toWei(props.amount)).greaterThan(0) &&
-        bignumber(toWei(props.amount)).lessThanOrEqualTo(props.balance),
+      bignumber(toWei(props.amount || '0')).greaterThan(0) &&
+        bignumber(toWei(props.amount || '0')).lessThanOrEqualTo(
+          props.balance || '0',
+        ),
     );
   }, [props.balance, props.amount]);
 
@@ -68,11 +71,9 @@ export function WithdrawLentDialog(props: Props) {
         <div className="d-flex flex-row">
           <div className="flex-grow-1 data-container">
             <input
-              type="number"
-              step=".00000000000000001"
-              className="d-inline-block"
+              className="d-inline-block w-100"
               value={props.amount}
-              onChange={e => props.onChangeAmount(e.currentTarget.value)}
+              onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
           </div>
           <div className="data-container mr-2 d-flex align-items-center">
@@ -80,7 +81,7 @@ export function WithdrawLentDialog(props: Props) {
           </div>
           <button
             className="btn btn-TabGrey text-white btn-sm ml-2"
-            onClick={() => props.onChangeAmount(fromWei(props.balance))}
+            onClick={() => props.onChangeAmount(weiTo18(props.balance))}
           >
             MAX
           </button>

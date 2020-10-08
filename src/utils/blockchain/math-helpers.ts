@@ -15,9 +15,9 @@ export const weiTo4 = (amount: any): string => weiToFixed(amount, 4);
 export const weiTo2 = (amount: any): string => weiToFixed(amount, 2);
 
 export const roundToSmaller = (amount: any, decimals: number): string => {
-  let [integer, decimal] = bignumber(amount)
-    .toFixed(decimals + 2)
-    .split('.');
+  const bn = bignumber(amount);
+  const negative = bn.isNegative();
+  let [integer, decimal] = bn.toFixed(128).split('.');
 
   if (decimal && decimal.length) {
     decimal = decimal.substr(0, decimals);
@@ -29,5 +29,5 @@ export const roundToSmaller = (amount: any, decimals: number): string => {
     decimal = decimal + '0'.repeat(decimals - decimal.length);
   }
 
-  return `${integer}.${decimal}`;
+  return `${negative ? '-' : ''}${integer}.${decimal}`;
 };
