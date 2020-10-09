@@ -86,7 +86,7 @@ export function TopUpTradingPositionHandler(props: Props) {
           <div className="col-8">
             <div className="data-label d-flex flex-row align-items-end justify-content-between">
               <span>Top Up Amount</span>
-              {maxAmount !== '1' && (
+              {maxAmount !== '0' && (
                 <>
                   <small>(max: {weiTo4(maxAmount)})</small>
                 </>
