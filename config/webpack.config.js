@@ -22,6 +22,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -34,6 +35,7 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
 const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'true';
+const sentryToken = process.env.SENTRY_AUTH_TOKEN;
 
 const networkName = String(process.env.REACT_APP_NETWORK).toLowerCase();
 const isMainnet = networkName === 'mainnet';
@@ -651,6 +653,18 @@ module.exports = function (webpackEnv) {
           silent: true,
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
+        }),
+      isEnvProduction &&
+        sentryToken &&
+        new SentryWebpackPlugin({
+          // sentry-cli configuration
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+          org: 'sovryn',
+          project: 'sovryn-app',
+
+          // webpack specific configuration
+          include: '.',
+          ignore: ['node_modules', 'config', 'internals', 'scripts'],
         }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
