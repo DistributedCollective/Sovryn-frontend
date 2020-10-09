@@ -12,9 +12,8 @@ import { CloseModalButton } from '../CloseModalButton';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { toWei } from 'web3-utils';
-import { handleNumberInput } from '../../../utils/helpers';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { fromWei } from 'web3-utils';
+import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -29,16 +28,17 @@ interface Props {
 
 export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
+  const fixedAmount = weiToBigInt(props.amount);
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
-    setValid(
-      bignumber(toWei(props.amount || '0')).greaterThan(0) &&
-        bignumber(toWei(props.amount || '0')).lessThanOrEqualTo(
-          props.balance || '0',
-        ),
-    );
-  }, [props.balance, props.amount]);
+    if (fixedAmount) {
+      setValid(
+        bignumber(fixedAmount).greaterThan(0) &&
+          bignumber(fixedAmount).lessThanOrEqualTo(props.balance),
+      );
+    }
+  }, [props.balance, fixedAmount]);
 
   return (
     <Dialog
@@ -71,9 +71,11 @@ export function WithdrawLentDialog(props: Props) {
         <div className="d-flex flex-row">
           <div className="flex-grow-1 data-container">
             <input
-              className="d-inline-block w-100"
-              value={props.amount}
-              onChange={e => props.onChangeAmount(handleNumberInput(e))}
+              // type="number"
+              // step=".00000000000000001"
+              className="d-inline-block w-100-input"
+              value={fixedAmount}
+              onChange={e => props.onChangeAmount(e.currentTarget.value)}
             />
           </div>
           <div className="data-container mr-2 d-flex align-items-center">
@@ -81,7 +83,7 @@ export function WithdrawLentDialog(props: Props) {
           </div>
           <button
             className="btn btn-TabGrey text-white btn-sm ml-2"
-            onClick={() => props.onChangeAmount(weiTo18(props.balance))}
+            onClick={() => props.onChangeAmount(fromWei(props.balance))}
           >
             MAX
           </button>

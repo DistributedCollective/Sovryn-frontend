@@ -94,6 +94,9 @@ input[type=number] {
       border: 1px solid var(--Grey_text);
     }
   }
+  .w-100-input{
+    width: 100%;
+  }
   .data-label {
     padding: 8px 0;
     color: var(--Grey_text);

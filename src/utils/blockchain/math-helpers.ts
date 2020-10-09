@@ -11,6 +11,15 @@ export const weiTo4 = (amount: any): string => weiToFixed(amount, 4);
 
 export const weiTo2 = (amount: any): string => weiToFixed(amount, 2);
 
+export const weiToBigInt = (amount: any) => {
+  if (amount) {
+    return `${amount.split('.')[0]}.${
+      amount.split('.')[1] ? amount.split('.')[1].slice(0, 18) : '0'
+    }`;
+  }
+  return '0';
+};
+
 export const roundToSmaller = (amount: any, decimals: number): string => {
   const bn = bignumber(amount);
   const negative = bn.isNegative();
