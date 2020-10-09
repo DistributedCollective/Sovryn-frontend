@@ -12,10 +12,8 @@ import { CloseModalButton } from '../CloseModalButton';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { fromWei, toWei } from 'web3-utils';
+import { fromWei } from 'web3-utils';
 import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
-import { handleNumberInput } from '../../../utils/helpers';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
