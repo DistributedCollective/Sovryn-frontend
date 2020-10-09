@@ -1,11 +1,8 @@
 import { bignumber } from 'mathjs';
-import { fromWei } from 'web3-utils';
-
-export const weiToBn = (amount: any) =>
-  bignumber(fromWei(String(amount || '0'), 'ether'));
+import { Unit } from 'web3-utils';
 
 export const weiToFixed = (amount: any, decimals: number = 0): string => {
-  return roundToSmaller(weiToBn(amount).toFixed(128), decimals);
+  return roundToSmaller(bignumber(fromWei(amount, 'ether')), decimals);
 };
 
 export const weiTo18 = (amount: any): string => weiToFixed(amount, 18);
@@ -24,9 +21,9 @@ export const weiToBigInt = (amount: any) => {
 };
 
 export const roundToSmaller = (amount: any, decimals: number): string => {
-  let [integer, decimal] = bignumber(amount)
-    .toFixed(decimals + 2)
-    .split('.');
+  const bn = bignumber(amount);
+  const negative = bn.isNegative();
+  let [integer, decimal] = bn.toFixed(128).split('.');
 
   if (decimal && decimal.length) {
     decimal = decimal.substr(0, decimals);
@@ -38,5 +35,34 @@ export const roundToSmaller = (amount: any, decimals: number): string => {
     decimal = decimal + '0'.repeat(decimals - decimal.length);
   }
 
-  return `${integer}.${decimal}`;
+  if (decimal !== '') {
+    return `${negative ? '-' : ''}${integer}.${decimal}`;
+  }
+  return `${negative ? '-' : ''}${integer}`;
+};
+
+export const fromWei = (amount: any, unit: Unit = 'ether') => {
+  let decimals = 0;
+  switch (unit) {
+    case 'ether':
+      decimals = 18;
+      break;
+    default:
+      throw new Error('Unsupported unit (custom fromWei helper)');
+  }
+
+  return roundToSmaller(bignumber(amount).div(10 ** decimals), decimals);
+};
+
+export const toWei = (amount: any, unit: Unit = 'ether') => {
+  let decimals = 0;
+  switch (unit) {
+    case 'ether':
+      decimals = 18;
+      break;
+    default:
+      throw new Error('Unsupported unit (custom fromWei helper)');
+  }
+
+  return roundToSmaller(bignumber(amount).mul(10 ** decimals), 0);
 };

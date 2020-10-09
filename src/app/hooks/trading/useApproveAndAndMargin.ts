@@ -15,12 +15,12 @@ enum TxType {
 }
 
 export function useApproveAndAddMargin(
-  token: Asset,
+  collateralToken: Asset,
   loanId: string,
   depositAmount,
 ) {
   const allowance = useTokenAllowance(
-    token,
+    collateralToken,
     appContracts.sovrynProtocol.address,
   );
 
@@ -29,14 +29,14 @@ export function useApproveAndAddMargin(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(token, appContracts.sovrynProtocol.address);
+  } = useTokenApprove(collateralToken, appContracts.sovrynProtocol.address);
 
   const {
     send,
     txHash: tradeTx,
     status: tradeStatus,
     loading: tradeLoading,
-  } = useDepositCollateral(token, loanId, depositAmount);
+  } = useDepositCollateral(collateralToken, loanId, depositAmount);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -53,14 +53,14 @@ export function useApproveAndAddMargin(
 
   const handleTx = useCallback(() => {
     if (
-      token !== Asset.BTC &&
+      collateralToken !== Asset.BTC &&
       bignumber(depositAmount).greaterThan(allowance.value)
     ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [depositAmount, allowance, handleApprove, handleTrade, token]);
+  }, [depositAmount, allowance, handleApprove, handleTrade, collateralToken]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

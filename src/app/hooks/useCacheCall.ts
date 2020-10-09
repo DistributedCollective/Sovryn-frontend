@@ -35,6 +35,7 @@ export function useCacheCall(
 
   useEffect(() => {
     setState(prevState => ({ ...prevState, loading: true, error: null }));
+
     try {
       Sovryn.contracts[contractName].methods[methodName](...args)
         .call()

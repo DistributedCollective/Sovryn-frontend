@@ -8,7 +8,7 @@ import { appContracts } from '../../utils/blockchain/app-contracts';
 export function useGetContractPastEvents(
   contractName: string,
   event: string = 'allEvents',
-  blockChunkSize: number = 1000,
+  blockChunkSize: number = 50000,
 ) {
   const { blockNumber } = useSelector(selectWalletProvider);
 
@@ -21,7 +21,7 @@ export function useGetContractPastEvents(
   const loadEvents = useCallback(
     async (
       filter = undefined,
-      options = { fromBlock: firstBlock, toBlock: 100 },
+      options = { fromBlock: firstBlock, toBlock: firstBlock + blockChunkSize },
     ) => {
       try {
         return await Sovryn.contracts[contractName].getPastEvents(event, {
@@ -32,7 +32,7 @@ export function useGetContractPastEvents(
         return [];
       }
     },
-    [contractName, event, firstBlock],
+    [blockChunkSize, contractName, event, firstBlock],
   );
 
   const fetch = useCallback(

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toWei, Unit } from 'web3-utils';
+import { weiToBigInt } from '../../utils/blockchain/math-helpers';
 
 export function useWeiAmount(amount: any, unit: Unit = 'ether') {
   const handleCalculation = useCallback(() => {
@@ -16,5 +17,5 @@ export function useWeiAmount(amount: any, unit: Unit = 'ether') {
     setWeiAmount(handleCalculation());
   }, [amount, unit, handleCalculation]);
 
-  return weiAmount;
+  return weiToBigInt(weiAmount);
 }

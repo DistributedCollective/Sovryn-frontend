@@ -97,6 +97,13 @@ function registerValidSW(swUrl: string, config?: Config) {
           }
         };
       };
+
+      // Show update toaster for users in other tabs too.
+      if (registration.waiting && registration.waiting.state === 'installed') {
+        if (config && config.onUpdate) {
+          config.onUpdate(registration);
+        }
+      }
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);

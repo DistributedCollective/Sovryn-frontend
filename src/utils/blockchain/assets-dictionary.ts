@@ -10,17 +10,25 @@ export class AssetsDictionary {
     [
       [
         Asset.BTC,
-        new AssetDetails(Asset.BTC, 'BTC', 'Bitcoin', 18, btcIcon, {
+        new AssetDetails(Asset.BTC, Asset.DOC, 'BTC', 'Bitcoin', 18, btcIcon, {
           min: 0.01,
           max: 1,
-        }).setCollateralAssets([Asset.DOC]),
+        }).setCollateralAssets([Asset.DOC, Asset.BTC]),
       ],
       [
         Asset.DOC,
-        new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, usdIcon, {
-          min: 1,
-          max: 50000,
-        }).setCollateralAssets([Asset.BTC]),
+        new AssetDetails(
+          Asset.DOC,
+          Asset.BTC,
+          'DoC',
+          'Dollar on Chain',
+          18,
+          usdIcon,
+          {
+            min: 1,
+            max: 50000,
+          },
+        ).setCollateralAssets([Asset.BTC, Asset.DOC]),
       ],
     ],
   );

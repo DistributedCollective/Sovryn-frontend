@@ -2,10 +2,10 @@ import { Asset } from 'types/asset';
 import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
-export function useTokenPrice(asset: Asset) {
+export function useLending_supplyInterestRate(asset: Asset) {
   return useCacheCallWithValue(
     getLendingContractName(asset),
-    'tokenPrice',
+    'supplyInterestRate',
     '0',
   );
 }

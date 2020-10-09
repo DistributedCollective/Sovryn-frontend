@@ -11,6 +11,8 @@
     "@fortawesome/react-fontawesome": "0.1.11",
     "@reduxjs/toolkit": "1.3.2",
     "@rsksmart/rsk3": "0.3.4",
+    "@sentry/react": "5.25.0",
+    "@sentry/tracing": "5.25.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "10.0.1",
@@ -235,6 +237,7 @@
     }
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "1.13.0",
     "@types/mathjs": "6.0.5",
     "node-sass": "4.14.1"
   },

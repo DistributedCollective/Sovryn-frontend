@@ -27,7 +27,7 @@ import tooltipData from 'utils/data/tooltip-text.json';
 import { useLendTokens } from '../../hooks/useLendTokens';
 import { handleNumberInput } from '../../../utils/helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { useLoanTokenTransactionLimit } from '../../hooks/lending/useLoanTokenTransactionLimit';
+import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
@@ -170,7 +170,7 @@ export function LendingTokenSelectorCard(props: Props) {
     lendInfo.txHash,
   ]);
 
-  const { value: maxAmount } = useLoanTokenTransactionLimit(
+  const { value: maxAmount } = useLending_transactionLimit(
     props.asset,
     props.asset,
   );

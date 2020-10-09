@@ -20,6 +20,7 @@ export class AssetDetails {
   public lendingContract: ContractInterface;
   constructor(
     public asset: Asset,
+    public primaryCollateralAsset: Asset,
     public symbol: string,
     public name: string,
     public decimals: number,

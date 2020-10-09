@@ -5,7 +5,7 @@ import {
   getTokenContract,
 } from '../../../utils/blockchain/contract-helpers';
 
-export function useLoanTokenTransactionLimit(loanToken: Asset, asset: Asset) {
+export function useLending_transactionLimit(loanToken: Asset, asset: Asset) {
   return useCacheCallWithValue(
     getLendingContractName(loanToken),
     'transactionLimit',

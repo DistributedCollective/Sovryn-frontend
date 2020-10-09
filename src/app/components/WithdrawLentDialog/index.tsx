@@ -14,6 +14,8 @@ import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
 import { fromWei, toWei } from 'web3-utils';
 import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
+import { handleNumberInput } from '../../../utils/helpers';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -38,7 +40,7 @@ export function WithdrawLentDialog(props: Props) {
           bignumber(fixedAmount).lessThanOrEqualTo(props.balance),
       );
     }
-  }, [props.balance, props.amount, fixedAmount]);
+  }, [props.balance, fixedAmount]);
 
   return (
     <Dialog
@@ -71,8 +73,8 @@ export function WithdrawLentDialog(props: Props) {
         <div className="d-flex flex-row">
           <div className="flex-grow-1 data-container">
             <input
-              type="number"
-              step=".00000000000000001"
+              // type="number"
+              // step=".00000000000000001"
               className="d-inline-block w-100-input"
               value={fixedAmount}
               onChange={e => props.onChangeAmount(e.currentTarget.value)}
