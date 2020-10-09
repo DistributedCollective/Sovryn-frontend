@@ -15,6 +15,8 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 
 interface Props {
   item: ActiveLoan;
@@ -27,13 +29,14 @@ export function TopUpTradingPositionHandler(props: Props) {
     props.item.collateralToken,
   );
   const color = tokenDetails.asset === 'BTC' ? 'customTeal' : 'Gold';
-  const { value: balance } = useTokenBalanceOf(tokenDetails.asset);
   const [amount, setAmount] = useState();
+  const [collateral /*, setCollateral*/] = useState(tokenDetails.asset);
+  const { value: balance } = useTokenBalanceOf(collateral);
 
   const weiAmount = useWeiAmount(amount);
 
   const { send, ...rest } = useApproveAndAddMargin(
-    tokenDetails.asset,
+    collateral,
     props.item.loanId,
     weiAmount,
   );
@@ -43,6 +46,18 @@ export function TopUpTradingPositionHandler(props: Props) {
   };
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const { sufficient, liquidity } = useCheckLiquidity(
+  //   weiAmount,
+  //   props.leverage,
+  //   props.position,
+  // );
+
+  const { value: maxAmount } = useLending_transactionLimit(
+    tokenDetails.asset,
+    collateral,
+  );
 
   return (
     <Dialog
@@ -70,7 +85,14 @@ export function TopUpTradingPositionHandler(props: Props) {
             </div>
           </div>
           <div className="col-8">
-            <div className="data-label">Top Up Amount</div>
+            <div className="data-label d-flex flex-row align-items-end justify-content-between">
+              <span>Top Up Amount</span>
+              {maxAmount !== '1' && (
+                <>
+                  <small>(max: {weiTo4(maxAmount)})</small>
+                </>
+              )}
+            </div>
             <div className="data-container">
               <InputGroup
                 value={amount || ''}
@@ -82,7 +104,7 @@ export function TopUpTradingPositionHandler(props: Props) {
         </div>
         <div className="row mt-3 mb-4">
           <div className="col-6">
-            <AssetWalletBalance asset={tokenDetails.asset} />
+            <AssetWalletBalance asset={collateral} />
           </div>
           <div className="col-6">
             <div>

@@ -18,6 +18,8 @@ import { useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useCheckLiquidity } from '../../hooks/trading/useCheckLiquidity';
 import { handleNumberInput } from '../../../utils/helpers';
+import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -81,7 +83,10 @@ export function TradeDialog(props: Props) {
     weiAmount,
   );
 
-  // const { value: maxAmount } = useLoanTokenTransactionLimit(props.asset, props.collateral);
+  const { value: maxAmount } = useLending_transactionLimit(
+    props.asset,
+    props.collateral,
+  );
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
   const color = props.position === 'LONG' ? 'customTeal' : 'Gold';
 
@@ -101,7 +106,14 @@ export function TradeDialog(props: Props) {
             </div>
           </div>
           <div className="col-8">
-            <div className="data-label text-MediumGrey">Amount</div>
+            <div className="data-label text-MediumGrey d-flex flex-row align-items-end justify-content-between">
+              <span>Amount</span>
+              {maxAmount !== '0' && (
+                <>
+                  <small>(max: {weiTo4(maxAmount)})</small>
+                </>
+              )}
+            </div>
             <InputGroup
               className="data-container bordered"
               value={amount}
