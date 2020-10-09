@@ -30,13 +30,12 @@ export function TopUpTradingPositionHandler(props: Props) {
   );
   const color = tokenDetails.asset === 'BTC' ? 'customTeal' : 'Gold';
   const [amount, setAmount] = useState();
-  const [collateral /*, setCollateral*/] = useState(tokenDetails.asset);
-  const { value: balance } = useTokenBalanceOf(collateral);
+  const { value: balance } = useTokenBalanceOf(tokenDetails.asset);
 
   const weiAmount = useWeiAmount(amount);
 
   const { send, ...rest } = useApproveAndAddMargin(
-    collateral,
+    tokenDetails.asset,
     props.item.loanId,
     weiAmount,
   );
@@ -56,7 +55,7 @@ export function TopUpTradingPositionHandler(props: Props) {
 
   const { value: maxAmount } = useLending_transactionLimit(
     tokenDetails.asset,
-    collateral,
+    tokenDetails.asset,
   );
 
   return (
@@ -104,7 +103,7 @@ export function TopUpTradingPositionHandler(props: Props) {
         </div>
         <div className="row mt-3 mb-4">
           <div className="col-6">
-            <AssetWalletBalance asset={collateral} />
+            <AssetWalletBalance asset={tokenDetails.asset} />
           </div>
           <div className="col-6">
             <div>
