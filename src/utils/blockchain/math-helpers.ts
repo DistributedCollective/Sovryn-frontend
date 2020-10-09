@@ -22,7 +22,6 @@ export const weiToBigInt = (amount: any) => {
 
 export const roundToSmaller = (amount: any, decimals: number): string => {
   const bn = bignumber(amount);
-  const negative = bn.isNegative();
   let [integer, decimal] = bn.toFixed(128).split('.');
 
   if (decimal && decimal.length) {
@@ -36,9 +35,9 @@ export const roundToSmaller = (amount: any, decimals: number): string => {
   }
 
   if (decimal !== '') {
-    return `${negative ? '-' : ''}${integer}.${decimal}`;
+    return `${integer}.${decimal}`;
   }
-  return `${negative ? '-' : ''}${integer}`;
+  return `${integer}`;
 };
 
 export const fromWei = (amount: any, unit: Unit = 'ether') => {
