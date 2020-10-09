@@ -43,7 +43,7 @@ export function WithdrawLentAmount(props: Props) {
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
-  const [txAmount, setTxAmount] = useState('0');
+  const [, /*txAmount*/ setTxAmount] = useState('0');
 
   useEffect(() => {
     setBalance(calculateBalance());
