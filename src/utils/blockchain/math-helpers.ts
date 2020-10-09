@@ -50,7 +50,7 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
       throw new Error('Unsupported unit (custom fromWei helper)');
   }
 
-  return roundToSmaller(bignumber(amount).div(10 ** decimals), decimals);
+  return roundToSmaller(bignumber(amount || '0').div(10 ** decimals), decimals);
 };
 
 export const toWei = (amount: any, unit: Unit = 'ether') => {
@@ -63,5 +63,5 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
       throw new Error('Unsupported unit (custom fromWei helper)');
   }
 
-  return roundToSmaller(bignumber(amount).mul(10 ** decimals), 0);
+  return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
 };
