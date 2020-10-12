@@ -128,7 +128,7 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 
   // Profit for long
   let unitProfit = bignumber(closePrice).minus(entryPrice).toString();
-  if (events[0].position) {
+  if (events[0].position === TradingPosition.SHORT) {
     unitProfit = bignumber(entryPrice).minus(closePrice).toString();
   }
 
