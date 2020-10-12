@@ -4,6 +4,7 @@ import { Sovryn } from '../../utils/sovryn';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { appContracts } from '../../utils/blockchain/app-contracts';
+import { toChunks } from '../../utils/helpers';
 
 export function useGetContractPastEvents(
   contractName: string,
@@ -76,24 +77,4 @@ export function useGetContractPastEvents(
   );
 
   return { events, fetch: fetch, loading, error };
-}
-
-function toChunks(from: number, to: number, size: number) {
-  let end = from;
-  let array: Array<number[]> = [];
-  const amount = to - from;
-  const chunks = Math.floor(amount / size);
-  const reminder = amount % size;
-
-  if (chunks) {
-    for (let i = 0; i < chunks; i++) {
-      const chunkEnd = end + size;
-      array.push([end, chunkEnd]);
-      end = chunkEnd;
-    }
-  }
-  if (reminder) {
-    array.push([end, end + reminder]);
-  }
-  return array;
 }

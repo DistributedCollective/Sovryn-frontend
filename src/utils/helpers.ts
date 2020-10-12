@@ -53,3 +53,23 @@ export const handleNumber = (value, onlyPositive = true) => {
 export const toChecksumAddress = (address: string) => {
   return !!address ? utils.toChecksumAddress(address) : '';
 };
+
+export const toChunks = (from: number, to: number, size: number) => {
+  let end = from;
+  let array: Array<number[]> = [];
+  const amount = to - from;
+  const chunks = Math.floor(amount / size);
+  const reminder = amount % size;
+
+  if (chunks) {
+    for (let i = 0; i < chunks; i++) {
+      const chunkEnd = end + size;
+      array.push([end, chunkEnd - 1]);
+      end = chunkEnd;
+    }
+  }
+  if (reminder) {
+    array.push([end, end + reminder]);
+  }
+  return array;
+};

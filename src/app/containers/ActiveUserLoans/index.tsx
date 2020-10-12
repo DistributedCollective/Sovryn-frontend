@@ -14,10 +14,10 @@ interface Props {}
 export function ActiveUserLoans(props: Props) {
   const account = useAccount();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { value, error, loading } = useGetActiveLoans(
+  const { value, loading } = useGetActiveLoans(
     account,
     0,
-    100000,
+    1000,
     0,
     false,
     false,
