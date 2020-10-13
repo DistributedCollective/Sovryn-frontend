@@ -11,7 +11,6 @@ import 'react-app-polyfill/stable';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import * as serviceWorker from 'serviceWorker';
 
 // Import scss global styles
 import './styles/sass/styles.scss';
@@ -25,21 +24,29 @@ import { store } from './store/store';
 
 // Initialize languages
 import './locales/i18n';
+import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
+
+if (process.env.REACT_APP_SENTRY_DSN) {
+  import('./sentry').then(({ default: sentryInit }) => sentryInit());
+}
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 interface Props {
   Component: typeof App;
 }
-const ConnectedApp = ({ Component }: Props) => (
-  <Provider store={store}>
-    <HelmetProvider>
-      {/*<React.StrictMode>*/}
-      <Component />
-      {/*</React.StrictMode>*/}
-    </HelmetProvider>
-  </Provider>
-);
+const ConnectedApp = ({ Component }: Props) => {
+  return (
+    <Provider store={store}>
+      <HelmetProvider>
+        {/*<React.StrictMode>*/}
+        <Component />
+        {/*</React.StrictMode>*/}
+      </HelmetProvider>
+      <ServiceWorkerToaster />
+    </Provider>
+  );
+};
 const render = (Component: typeof App) => {
   ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
 };
@@ -56,8 +63,3 @@ if (module.hot) {
 }
 
 render(App);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

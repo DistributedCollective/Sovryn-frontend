@@ -1,54 +1,34 @@
 import { Asset } from 'types/asset';
 import { AssetDetails } from './asset-details';
-
 // @ts-ignore
 import btcIcon from 'assets/images/rBTC-logo.png';
 // @ts-ignore
 import usdIcon from 'assets/images/dollar-sign.svg';
-import LoanTokenABI from './abi/abiLoanToken.json';
-import TestTokenABI from './abi/abiTestToken.json';
-import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
     [
       [
         Asset.BTC,
-        new AssetDetails(
-          Asset.BTC,
-          'BTC',
-          'Bitcoin',
-          18,
-          {
-            address: '0x21Fa1095205a37aDe78F394B3B984ea3f743bc70',
-            abi: TestTokenABI,
-          },
-          {
-            address: '0x021Bc6f3c101fC1354A212583a5aF0347FE283Cf',
-            abi: LoanTokenLogicWrbtc,
-          },
-          btcIcon,
-          { min: 0.01, max: 1 },
-        ),
+        new AssetDetails(Asset.BTC, Asset.DOC, 'BTC', 'Bitcoin', 18, btcIcon, {
+          min: 0.01,
+          max: 1,
+        }).setCollateralAssets([Asset.DOC, Asset.BTC]),
       ],
       [
-        Asset.USD,
+        Asset.DOC,
         new AssetDetails(
-          Asset.USD,
-          'USD',
-          'USD',
+          Asset.DOC,
+          Asset.BTC,
+          'DoC',
+          'Dollar on Chain',
           18,
-          {
-            address: '0xD958866a46F4e7Db1Cc6A80589D0dc44Cbfb155b',
-            abi: TestTokenABI,
-          },
-          {
-            address: '0x4a050817d9192A4E4a093ea6426D53417c5Eb1FC',
-            abi: LoanTokenABI,
-          },
           usdIcon,
-          { min: 1, max: 50000 },
-        ),
+          {
+            min: 1,
+            max: 50000,
+          },
+        ).setCollateralAssets([Asset.BTC, Asset.DOC]),
       ],
     ],
   );

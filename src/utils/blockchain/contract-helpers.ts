@@ -14,6 +14,9 @@ export const getTokenContract = (asset: Asset) =>
 export const getTokenContractName = (asset: Asset) =>
   AssetsDictionary.get(asset).getTokenContractName();
 
+export const getPoolTokenContractName = (asset: Asset) =>
+  AssetsDictionary.get(asset).getPoolTokenContractName();
+
 export const getWeb3Contract = (address: string, abi: any) => {
   const web3 = Sovryn.getWeb3();
   return new web3.eth.Contract(abi, address);

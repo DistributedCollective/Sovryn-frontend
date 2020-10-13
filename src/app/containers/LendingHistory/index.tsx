@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { EventData } from 'web3-eth-contract';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { Asset } from 'types/asset';
-import { useGetPastEvents } from '../../hooks/useGetPastEvents';
 import { useAccount } from '../../hooks/useAccount';
 import { LendingHistoryItem } from '../../components/LendingHistoryItem';
+import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
 
 interface Props {
   asset: Asset;
@@ -12,17 +12,17 @@ interface Props {
 
 export function LendingHistory(props: Props) {
   const account = useAccount();
-  const contract = getLendingContract(props.asset);
+  const contract = getLendingContractName(props.asset);
   const {
     events: mint,
     fetch: fetchMint,
     loading: loadingMint,
-  } = useGetPastEvents(contract, 'Mint');
+  } = useGetContractPastEvents(contract, 'Mint');
   const {
     events: burn,
     fetch: fetchBurn,
     loading: loadingBurn,
-  } = useGetPastEvents(contract, 'Burn');
+  } = useGetContractPastEvents(contract, 'Burn');
 
   const [events, setEvents] = useState<EventData[]>([]);
 
@@ -31,7 +31,8 @@ export function LendingHistory(props: Props) {
       fetchMint({ minter: account });
       fetchBurn({ burner: account });
     }
-  }, [account, fetchMint, fetchBurn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
 
   useEffect(() => {
     const merged = [...mint, ...burn].sort(

@@ -6,9 +6,9 @@
 import React, { useState } from 'react';
 import { ActiveLoan } from 'app/hooks/trading/useGetActiveLoans';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
-import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
+import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler/Loadable';
+import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler/Loadable';
 
 interface Props {
   item: ActiveLoan;

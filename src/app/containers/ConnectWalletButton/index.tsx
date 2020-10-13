@@ -10,22 +10,19 @@ import { useInjectSaga } from 'utils/redux-injectors';
 import { connectWalletButtonSaga } from './saga';
 import { Button } from '@blueprintjs/core';
 import { Sovryn } from '../../../utils/sovryn';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../WalletProvider/selectors';
 import { prettyTx } from '../../../utils/helpers';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
-interface Props {}
-
-export function ConnectWalletButton(props: Props) {
+export function ConnectWalletButton() {
   useInjectSaga({ key: 'connectWalletButton', saga: connectWalletButtonSaga });
 
-  const { connected, address } = useSelector(selectWalletProvider);
+  const connected = useIsConnected();
+  const address = useAccount();
   const [imgSrc, setImgSrc] = useState<string>(null as any);
 
   const handleWalletConnection = useCallback(() => {
-    console.log('connect clicked', Sovryn);
     Sovryn.connect()
-      .then(e => console.log(e))
+      .then(() => {})
       .catch(console.error);
   }, []);
 
@@ -39,6 +36,7 @@ export function ConnectWalletButton(props: Props) {
         blockies
           .create({
             seed: address.toLowerCase(),
+            size: 6,
           })
           .toDataURL(),
       );
@@ -51,20 +49,16 @@ export function ConnectWalletButton(props: Props) {
         {connected && (
           <div className="d-flex flex-row justify-content-start align-items-center">
             {imgSrc && <img src={imgSrc} alt={address} className="mr-3" />}
-            <div>
-              <div>
-                <strong>{prettyTx(address)}</strong>
-              </div>
-              <div className="text-right">
-                <Button
-                  small
-                  minimal
-                  className="text-white"
-                  icon="log-out"
-                  text="Disconnect"
-                  onClick={handleDisconnect}
-                />
-              </div>
+            <div className="d-flex flex-row justify-content-between">
+              <strong>{prettyTx(address)}</strong>
+              <Button
+                small
+                minimal
+                className="ml-3 text-white"
+                icon="log-out"
+                title="Disconnect"
+                onClick={handleDisconnect}
+              />
             </div>
           </div>
         )}

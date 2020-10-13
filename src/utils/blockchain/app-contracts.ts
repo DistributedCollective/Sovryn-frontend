@@ -1,9 +1,23 @@
-import bzxAbi from './abi/bzxAbi.json';
+import { contracts } from 'utils/blockchain/contracts';
+import { toChecksumAddress } from '../helpers';
+import { ContractData } from '../types/contracts';
 
-export const appContracts = {
-  sovrynProtocol: {
-    address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
-    abi: bzxAbi,
-    watchEvents: ['Borrow', 'Burn', 'Mint', 'Transfer', 'Approval'],
-  },
+const FIRST_BLOCK = 2758025;
+
+const fixContracts = () => {
+  const newObj = {};
+  const keys = Object.keys(contracts);
+  keys.forEach(key => {
+    if (contracts.hasOwnProperty(key)) {
+      const item = contracts[key];
+      newObj[key] = {
+        address: toChecksumAddress(item.address),
+        abi: item.abi,
+        blockNumber: item.blockNumber || FIRST_BLOCK,
+      };
+    }
+  });
+  return newObj;
 };
+
+export const appContracts: ContractData = fixContracts();

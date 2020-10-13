@@ -82,8 +82,8 @@ export const componentGenerator: PlopGenerator = {
     if (data.wantLoadable) {
       actions.push({
         type: 'add',
-        path: `${containerPath}/Loadable.ts`,
-        templateFile: './component/loadable.ts.hbs',
+        path: `${containerPath}/Loadable.tsx`,
+        templateFile: './component/loadable.tsx.hbs',
         abortOnFail: true,
       });
     }

@@ -5,162 +5,158 @@
  */
 import React, { useEffect, useState } from 'react';
 import { Asset } from 'types/asset';
-import { Dialog, InputGroup } from '@blueprintjs/core';
-import { BorrowInterestRate } from '../BorrowInterestRate';
+import { InputGroup } from '@blueprintjs/core';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { FormSelect, SelectItem } from '../FormSelect';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { AssetWalletBalance } from '../AssetWalletBalance';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { TradingPosition } from '../../../types/trading-position';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { SendTxProgress } from '../SendTxProgress';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
+import { useCheckLiquidity } from '../../hooks/trading/useCheckLiquidity';
+import { handleNumberInput } from '../../../utils/helpers';
+import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
+  collateral: Asset;
   loanId: string;
   leverage: number;
   position: TradingPosition;
-  isOpen: boolean;
-  onClose: () => void;
   onChangeAmount: (value) => void;
+  onCollateralChange: (collateral: Asset) => void;
 }
 
 export function TradeDialog(props: Props) {
-  const assetDetails = AssetsDictionary.get(props.asset);
   const isConnected = useIsConnected();
 
-  const handleCloseClick = (e: any) => {
-    if (e && e.preventDefault) e.preventDefault();
-    props.onClose();
-  };
-
   const handleAmountChange = (e: any) => {
-    setAmount(e.currentTarget.value);
-    props.onChangeAmount(e.currentTarget.value);
+    const value = handleNumberInput(e, true);
+    setAmount(value);
+    props.onChangeAmount(value);
   };
 
-  const [selected, setSelected] = useState<Asset>(props.asset);
+  const { value: tokenBalance } = useTokenBalanceOf(props.collateral);
 
-  const { value: tokenBalance } = useTokenBalanceOf(selected);
-
-  const [amount, setAmount] = useState(tokenBalance);
+  const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);
 
-  useEffect(() => {
-    setAmount(weiTo18(tokenBalance));
-  }, [tokenBalance]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { sufficient, liquidity } = useCheckLiquidity(
+    amount,
+    props.leverage,
+    props.position,
+  );
 
   useEffect(() => {
     // Filter and set available colarated assets.
-    setColaratedAssets(
-      AssetsDictionary.list().map(item => ({
+    const _collateral = AssetsDictionary.get(props.asset)
+      .getCollateralAssets()
+      .map(item => AssetsDictionary.get(item))
+      .map(item => ({
         key: item.asset,
         label: item.symbol,
-      })),
-    );
+      }));
+    setColaratedAssets(_collateral);
   }, [props.asset]);
 
   useEffect(() => {
-    if (props.position === TradingPosition.LONG) {
-      setSelected(Asset.BTC);
-    } else {
-      setSelected(Asset.USD);
+    if (
+      colaratedAssets.length &&
+      !colaratedAssets.find(item => item.key === props.collateral)
+    ) {
+      props.onCollateralChange(colaratedAssets[0].key);
     }
-  }, [props.position]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.position, colaratedAssets]);
 
   const weiAmount = useWeiAmount(amount);
 
   const { trade, loading, txHash, status, type } = useApproveAndTrade(
     props.asset,
-    selected,
+    props.collateral,
     props.leverage,
     weiAmount,
   );
 
+  const { value: maxAmount } = useLending_transactionLimit(
+    props.asset,
+    props.collateral,
+  );
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
+  const color = props.position === 'LONG' ? 'customTeal' : 'Gold';
 
   return (
-    <Dialog
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      autoFocus={true}
-      canOutsideClickClose={false}
-      canEscapeKeyClose={false}
-      className="bg-secondary py-3"
-    >
-      <div className="container">
-        <div className="d-flex flex-column align-items-center justify-content-center">
-          <img
-            className="mb-3"
-            src={assetDetails.logoSvg}
-            alt={props.asset}
-            style={{ height: '5rem' }}
-          />
-        </div>
-
-        <div className="d-flex flex-row justify-content-between">
-          <div className="flex-grow-1 mr-3">
+    <div className="position-relative h-100 w-100">
+      <div className="bg-component-bg p-3">
+        <div className="row">
+          <div className="col-4">
+            <div className="data-label text-MediumGrey">Currency</div>
+            <div className="data-container bordered">
+              <FormSelect
+                filterable={false}
+                items={colaratedAssets}
+                onChange={item => props.onCollateralChange(item.key)}
+                value={props.collateral}
+              />
+            </div>
+          </div>
+          <div className="col-8">
+            <div className="data-label text-MediumGrey d-flex flex-row align-items-end justify-content-between">
+              <span>Amount</span>
+              {maxAmount !== '0' && (
+                <>
+                  <small>(max: {weiTo4(maxAmount)})</small>
+                </>
+              )}
+            </div>
             <InputGroup
-              className="mb-3"
+              className="data-container bordered"
               value={amount}
               onChange={handleAmountChange}
+              placeholder="Enter trade amount"
             />
-          </div>
-          <div>
-            <FormSelect
-              filterable={false}
-              items={colaratedAssets}
-              onChange={item => setSelected(item.key)}
-              value={selected}
-            />
+            {parseFloat(amount) > 0 && !loading && !valid && (
+              <div className="font-xs text-white">Amount exceeds balance</div>
+            )}
           </div>
         </div>
 
-        <BorrowInterestRate asset={props.asset} weiAmount={weiAmount} />
-
-        <AssetWalletBalance asset={selected} />
-
-        <div className="mb-4">
-          <div className="d-inline text-lightGrey">Leverage</div>
-          <div className="d-inline float-right">{props.leverage}x</div>
-        </div>
-
-        {type !== 'none' && (
-          <div className="mb-4">
-            <SendTxProgress
-              status={status}
-              txHash={txHash}
-              loading={loading}
-              type={type}
-            />
+        <div className="row mt-2 mb-2">
+          <div className="col-6">
+            <AssetWalletBalance asset={props.collateral} />
           </div>
-        )}
-
-        <div className="d-flex flex-row justify-content-end align-items-center">
-          <button className="btn btn-link ml-3 mt-0" onClick={handleCloseClick}>
-            Cancel
-          </button>
-          <button
-            className="btn btn-primary ml-3 mt-0"
-            disabled={loading || !isConnected || !valid}
-            onClick={() => trade()}
-          >
-            Leverage {props.asset}
-          </button>
+          <div className="col-6">
+            <button
+              className={`btn btn-${color} text-white my-3 w-100 p-2 rounded`}
+              disabled={loading || !isConnected || !valid}
+              onClick={() => trade()}
+            >
+              Place Trade
+            </button>
+          </div>
         </div>
       </div>
-    </Dialog>
+
+      <div>
+        <SendTxProgress
+          status={status}
+          txHash={txHash}
+          loading={loading}
+          type={type}
+          position={props.position}
+        />
+      </div>
+    </div>
   );
 }
 
 TradeDialog.defaultProps = {
   leverage: 1,
   position: TradingPosition.LONG,
-  isOpen: true,
-  onClose: () => {},
   onChangeAmount: _ => {},
 };

@@ -1,14 +1,17 @@
 import { Asset } from 'types/asset';
-import { toWei } from 'web3-utils';
+import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import { getTokenContract } from '../../../utils/blockchain/contract-helpers';
 
-/**
- * @todo Make sure asset price is retrieved from oracle contract when it's ready.
- * @param asset
- */
-export function useBorrowAssetPrice(asset: Asset) {
-  // hard-coding price to 1000$ because we dont have oracle contract yet.
+export function useBorrowAssetPrice(sourceAsset: Asset, destAsset: Asset) {
+  const result = useCacheCallWithValue(
+    'priceFeed',
+    'queryRate',
+    '0',
+    getTokenContract(sourceAsset).address,
+    getTokenContract(destAsset).address,
+  );
   return {
-    value: toWei('1000', 'ether'),
-    loading: false,
+    ...result,
+    value: result.value?.rate || '0',
   };
 }

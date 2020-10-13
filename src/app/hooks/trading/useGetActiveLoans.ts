@@ -27,7 +27,7 @@ export function useGetActiveLoans(
   isLender: boolean = false,
   unsafeOnly: boolean = false,
 ) {
-  const { value, loading, error } = useCacheCallWithValue(
+  return useCacheCallWithValue(
     'sovrynProtocol',
     'getUserLoans',
     [],
@@ -38,5 +38,4 @@ export function useGetActiveLoans(
     booleafy(isLender),
     booleafy(unsafeOnly),
   );
-  return { value, loading, error };
 }

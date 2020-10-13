@@ -4,12 +4,13 @@
  *
  */
 import React from 'react';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { LoadableValue } from '../LoadableValue';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { ContractName } from '../../../utils/types/contracts';
 
 interface Props {
-  contract: string;
+  contract: ContractName;
   data: string;
   displayType: string;
 }
@@ -25,7 +26,7 @@ export function StatsRowData(props: Props) {
     <>
       {props.displayType === 'normal' ? (
         <LoadableValue
-          value={`${parseFloat(weiTo4(value)).toLocaleString('en', {
+          value={`${parseFloat(weiTo18(value)).toLocaleString('en', {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
           })} `}

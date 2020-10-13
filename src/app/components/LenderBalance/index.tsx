@@ -6,138 +6,108 @@
 import React, { useEffect, useState } from 'react';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../hooks/useAccount';
-import { fromWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
-import { UnLendBalance } from '../UnLendBalance';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { useLending_profitOf } from '../../hooks/lending/useLending_profitOf';
+import { useLending_assetBalanceOf } from '../../hooks/lending/useLending_assetBalanceOf';
+import { UnLendBalance } from '../UnLendBalance/Loadable';
+import { useLending_supplyInterestRate } from '../../hooks/lending/useLending_supplyInterestRate';
 
 interface Props {
   asset: Asset;
 }
 
 export function LenderBalance(props: Props) {
-  const lendingContractName = getLendingContractName(props.asset);
-
   const owner = useAccount();
-  const { value: balanceCall } = useCacheCallWithValue(
-    lendingContractName,
-    'assetBalanceOf',
-    '0',
-    owner,
+  const { value: balanceCall } = useLending_assetBalanceOf(props.asset, owner);
+  const { value: profitCall } = useLending_profitOf(props.asset, owner);
+  const { value: interestCall } = useLending_supplyInterestRate(props.asset);
+  const [balance, setBalance] = useState(
+    bignumber(balanceCall).minus(profitCall).toString(),
   );
-
-  const { value: tokenPrice } = useCacheCallWithValue(
-    lendingContractName,
-    'tokenPrice',
-    '0',
-  );
-  const { value: checkpointPrice } = useCacheCallWithValue(
-    lendingContractName,
-    'checkpointPrice',
-    '0',
-    owner,
-  );
-
-  const { value: interestCall } = useCacheCallWithValue(
-    lendingContractName,
-    'nextSupplyInterestRate',
-    '0',
-    1000, // todo: why 1000?
-  );
-
-  const [balance, setBalance] = useState(bignumber(0));
-  const [profit, setProfit] = useState(bignumber(0));
-  const [tickerDiff, setTickerDiff] = useState(bignumber(0));
-  const [tickerProfit, setTickerProfit] = useState(bignumber(0));
-  const [interestRate, setInterestRate] = useState(bignumber(0));
+  const [profit, setProfit] = useState(profitCall);
+  const [ticker, setTicker] = useState('0');
 
   useEffect(() => {
-    if (balanceCall !== undefined) {
-      setBalance(bignumber(fromWei(balanceCall)));
-    }
-  }, [balanceCall]);
-  useEffect(() => {
-    if (interestCall !== undefined) {
-      setInterestRate(bignumber(fromWei(interestCall)));
-    }
-  }, [interestCall]);
+    setBalance(bignumber(balanceCall).minus(profitCall).toString());
+  }, [balanceCall, profitCall]);
 
   useEffect(() => {
-    if (
-      tokenPrice !== undefined &&
-      checkpointPrice !== undefined &&
-      balance.greaterThan(0)
-    ) {
-      setProfit(
-        bignumber(fromWei(tokenPrice))
-          .minus(bignumber(fromWei(checkpointPrice)))
-          .mul(balance)
-          .div(10 ** 36),
-      );
-
-      setTickerDiff(
-        balance.mul(interestRate.div(100)).div(31536000 /* seconds in year */),
-      );
-    }
-  }, [tokenPrice, checkpointPrice, balance, interestRate]);
+    setTicker(
+      bignumber(balance)
+        .mul(
+          bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
+        )
+        .div(10 ** 18)
+        .toFixed(0),
+    );
+  }, [balance, interestCall]);
 
   useEffect(() => {
-    const ms = 500;
-    const diff = tickerDiff.toNumber() / (1000 / ms);
-    let value = profit.toNumber();
+    const ms = 1000;
+    const diff = bignumber(ticker).div(1000).div(ms);
+    let value = bignumber(profitCall).add(profit);
     const interval = setInterval(() => {
-      value = value + diff;
-      setTickerProfit(bignumber(value));
+      value = value.add(diff);
+      setProfit(value.toFixed(0));
     }, ms);
     return () => {
       clearInterval(interval);
     };
-  }, [profit, tickerDiff]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profitCall, ticker]);
 
-  if (balance.greaterThan(0)) {
+  if (bignumber(balance).greaterThan(0)) {
     return (
       <>
-        <div className="border mt-4 py-3 px-3">
-          <div>
-            <span className="font-weight-bold">Balance</span>
-            <Tooltip
-              className="float-right"
-              content={
-                <>
-                  {balance.toFixed(18)} {props.asset}
-                </>
-              }
-            >
-              <>
-                {balance.toFixed(4)}
-                <span className="text-lightGrey font-weight-light">
-                  {` ${props.asset}`}
-                </span>
-              </>
-            </Tooltip>
+        <div className="bg-component-bg align-items-center mt-3 p-5 text-center">
+          <div className="bg-fieldBackground py-2 px-2">
+            <div className="row px-3">
+              <div className="data-label col-6 font-weight-bold">
+                Balance Lent
+              </div>
+              <div className="col-6 data-container">
+                <Tooltip
+                  className=""
+                  content={
+                    <>
+                      {weiTo18(balance)} {props.asset}
+                    </>
+                  }
+                >
+                  <>
+                    {weiTo4(balance)}
+                    <span className="text-lightGrey font-weight-light">
+                      {` ${props.asset}`}
+                    </span>
+                  </>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="row px-3">
+              <div className="data-label col-6 font-weight-bold">Profit</div>
+              <div className="col-6 data-container">
+                <Tooltip
+                  className=""
+                  content={
+                    <>
+                      {weiTo18(profit)} {props.asset}
+                    </>
+                  }
+                >
+                  <>
+                    {weiTo4(profit)}
+                    <span className="text-lightGrey font-weight-light">
+                      {` ${props.asset}`}
+                    </span>
+                  </>
+                </Tooltip>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="font-weight-bold">Profit</span>
-            <Tooltip
-              className="float-right"
-              content={
-                <>
-                  {tickerProfit.toFixed(18)} {props.asset}
-                </>
-              }
-            >
-              <>
-                {tickerProfit.toFixed(8)}
-                <span className="text-lightGrey font-weight-light">
-                  {` ${props.asset}`}
-                </span>
-              </>
-            </Tooltip>
-          </div>
+          <UnLendBalance asset={props.asset} />
         </div>
-        <UnLendBalance asset={props.asset} />
       </>
     );
   }

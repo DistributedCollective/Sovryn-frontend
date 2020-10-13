@@ -136,6 +136,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldValue",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newValue",
+        "type": "address"
+      }
+    ],
+    "name": "SetEarlyAccessToken",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "from",
         "type": "address"
       },
@@ -457,6 +482,27 @@
     "constant": true,
     "inputs": [
       {
+        "internalType": "string",
+        "name": "funcId",
+        "type": "string"
+      }
+    ],
+    "name": "checkPause",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isPaused",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_user",
         "type": "address"
@@ -498,6 +544,21 @@
         "internalType": "uint8",
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "earlyAccessToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -665,6 +726,21 @@
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "kinkLevel",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "internalType": "uint256",
@@ -789,6 +865,21 @@
     "constant": true,
     "inputs": [],
     "name": "marketLiquidity",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "maxScaleRate",
     "outputs": [
       {
         "internalType": "uint256",
@@ -956,6 +1047,21 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_earlyAccessTokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setEarlyAccessToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "sovrynContractAddress",
@@ -994,6 +1100,21 @@
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "targetLevel",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -1070,6 +1191,27 @@
       }
     ],
     "name": "totalSupplyInterestRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "transactionLimit",
     "outputs": [
       {
         "internalType": "uint256",

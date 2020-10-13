@@ -8,6 +8,8 @@ import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
 import { useMarginTrade } from './useMarginTrade';
 import { useAccount } from '../useAccount';
+import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+// import { useLending_tokenPrice } from '../lending/useLending_tokenPrice';
 
 enum TxType {
   NONE = 'none',
@@ -18,15 +20,22 @@ enum TxType {
 export function useApproveAndTrade(
   lendingContract: Asset,
   token: Asset,
-  leverage,
-  weiAmount,
+  leverage: number,
+  collateralTokenSent: string,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
 ) {
+  const getToken = useCallback(() => {
+    if (lendingContract === token) {
+      return AssetsDictionary.get(lendingContract).primaryCollateralAsset;
+    }
+    return token;
+  }, [lendingContract, token]);
+
   const account = useAccount();
   const allowance = useTokenAllowance(
-    token,
+    getToken(),
     getLendingContract(lendingContract).address,
   );
 
@@ -35,7 +44,7 @@ export function useApproveAndTrade(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(token, getLendingContract(lendingContract).address);
+  } = useTokenApprove(getToken(), getLendingContract(lendingContract).address);
 
   const {
     trade,
@@ -45,12 +54,13 @@ export function useApproveAndTrade(
   } = useMarginTrade(
     lendingContract,
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    toWei(String(leverage), 'ether'),
-    0,
-    weiAmount,
-    token,
+    toWei(String(leverage - 1), 'ether'),
+    lendingContract === token ? collateralTokenSent : '0',
+    lendingContract === token ? '0' : collateralTokenSent,
+    getToken(),
     account, // trader
     '0x',
+    token === Asset.BTC ? collateralTokenSent : '0',
   );
 
   const handleApprove = useCallback(
@@ -68,14 +78,14 @@ export function useApproveAndTrade(
 
   const handleTx = useCallback(() => {
     if (
-      token !== Asset.BTC &&
-      bignumber(weiAmount).greaterThan(allowance.value)
+      getToken() !== Asset.BTC &&
+      bignumber(collateralTokenSent).greaterThan(allowance.value)
     ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [token, allowance, weiAmount, handleApprove, handleTrade]);
+  }, [getToken, allowance, collateralTokenSent, handleApprove, handleTrade]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

@@ -5,13 +5,15 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Dialog, InputGroup, Tag } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
 import { SendTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { SendTxProgress } from '../SendTxProgress';
+import { CloseModalButton } from '../CloseModalButton';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { bignumber } from 'mathjs';
-import { fromWei, toWei } from 'web3-utils';
+import { fromWei } from 'web3-utils';
+import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
   asset: Asset;
@@ -26,15 +28,17 @@ interface Props {
 
 export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
-
+  const fixedAmount = weiToBigInt(props.amount);
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
-    setValid(
-      !!bignumber(toWei(props.amount)).greaterThan(0) &&
-        !!bignumber(toWei(props.amount)).lessThanOrEqualTo(props.balance),
-    );
-  }, [props.balance, props.amount]);
+    if (fixedAmount) {
+      setValid(
+        bignumber(fixedAmount).greaterThan(0) &&
+          bignumber(fixedAmount).lessThanOrEqualTo(props.balance),
+      );
+    }
+  }, [props.balance, fixedAmount]);
 
   return (
     <Dialog
@@ -42,54 +46,67 @@ export function WithdrawLentDialog(props: Props) {
       autoFocus={true}
       canOutsideClickClose={false}
       canEscapeKeyClose={false}
-      className="bg-secondary py-3"
+      className="bg-secondary p-3 border border-Gold"
     >
-      <div className="container">
-        <div className="d-flex flex-column align-items-center justify-content-center">
+      <div className="container position-relative p-3">
+        <div className="" onClick={() => props.onClose()}>
+          <CloseModalButton />
+        </div>
+        <div className="text-center">
           <img
-            className="mb-3"
+            className="d-inline"
             src={assetDetails.logoSvg}
             alt={props.asset}
             style={{ height: '5rem' }}
           />
-          <h2 className="mb-4">Withdraw</h2>
+          <div className="text-Gold text-center mt-4 modal-title d-inline">
+            Withdraw {props.asset}
+          </div>
         </div>
-
-        <InputGroup
-          value={props.amount}
-          onChange={e => props.onChangeAmount(e.currentTarget.value)}
-          rightElement={<Tag>{props.asset}</Tag>}
-        />
-
-        <div className="d-flex justify-content-end mb-5 mt-3">
+        <div className="row p-3 mt-3">
+          <div className="col-md-5 col-sm-12 data-label">
+            Amount to withdraw
+          </div>
+        </div>
+        <div className="d-flex flex-row">
+          <div className="flex-grow-1 data-container">
+            <input
+              // type="number"
+              // step=".00000000000000001"
+              className="d-inline-block w-100-input"
+              value={fixedAmount}
+              onChange={e => props.onChangeAmount(e.currentTarget.value)}
+            />
+          </div>
+          <div className="data-container mr-2 d-flex align-items-center">
+            {props.asset}
+          </div>
           <button
-            className="btn btn-link btn-sm ml-3 mt-0"
+            className="btn btn-TabGrey text-white btn-sm ml-2"
             onClick={() => props.onChangeAmount(fromWei(props.balance))}
           >
             MAX
           </button>
         </div>
-
-        <SendTxProgress
-          status={props.txState?.status}
-          txHash={props.txState?.txHash}
-          loading={props.txState?.loading}
-        />
-
-        <div className="d-flex flex-row justify-content-end align-items-center">
-          <button
-            className="btn btn-link ml-3 mt-0"
-            onClick={() => props.onClose()}
-          >
-            Cancel
-          </button>
-          <button
-            className="btn btn-primary ml-3 mt-0"
-            onClick={() => props.onConfirm()}
-            disabled={props.txState?.loading || !isValid}
-          >
-            Withdraw {props.asset}
-          </button>
+        <div className="position-relative h-100 w-100">
+          <SendTxProgress
+            status={props.txState?.status}
+            txHash={props.txState?.txHash}
+            loading={props.txState?.loading}
+            displayAbsolute={false}
+            type={'withdraw'}
+          />
+          <div className="text-center">
+            <div className="py-3">
+              <button
+                className="btn btn-Gold rounded text-white my-3"
+                onClick={() => props.onConfirm()}
+                disabled={props.txState?.loading || !isValid}
+              >
+                Withdraw {props.asset}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </Dialog>

@@ -15,10 +15,7 @@ export function useBorrowLiquidationPrice(
   const loading = false;
 
   const calculatePriceMovement = useCallback(() => {
-    return bignumber(1)
-      .div(leverage)
-      .minus(maintenanceMargin)
-      .toDecimalPlaces(18);
+    return 1 - ((1 + maintenanceMargin) * (leverage - 1)) / leverage;
   }, [leverage, maintenanceMargin]);
 
   const [maxPriceMovement, setMaxPriceMovement] = useState(
@@ -30,13 +27,13 @@ export function useBorrowLiquidationPrice(
       return toWei(
         bignumber(bignumber(1).minus(maxPriceMovement))
           .mul(bignumber(fromWei(priceInWei, 'ether')))
-          .toString(),
+          .toFixed(18),
       );
     }
     return toWei(
       bignumber(bignumber(1).add(maxPriceMovement))
         .mul(bignumber(fromWei(priceInWei, 'ether')))
-        .toString(),
+        .toFixed(18),
     );
   }, [position, maxPriceMovement, priceInWei]);
 

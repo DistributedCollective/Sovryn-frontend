@@ -6,13 +6,13 @@
     "@babel/core": "7.9.0",
     "@blueprintjs/core": "3.30.1",
     "@blueprintjs/select": "3.13.7",
-    "@drizzle/react-plugin": "1.5.1",
-    "@drizzle/store": "1.5.1",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.11",
     "@reduxjs/toolkit": "1.3.2",
     "@rsksmart/rsk3": "0.3.4",
+    "@sentry/react": "5.25.0",
+    "@sentry/tracing": "5.25.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "10.0.1",
@@ -46,6 +46,7 @@
     "deep-equal": "2.0.3",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
+    "env-cmd": "10.1.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "6.10.1",
     "eslint-config-react-app": "^5.2.1",
@@ -70,6 +71,7 @@
     "jest-resolve": "24.9.0",
     "jest-styled-components": "7.0.2",
     "jest-watch-typeahead": "0.4.2",
+    "jquery": "3.5.1",
     "lint-staged": "10.0.8",
     "local-storage": "2.0.0",
     "mathjs": "7.1.0",
@@ -94,6 +96,8 @@
     "react-i18next": "11.3.4",
     "react-redux": "7.2.0",
     "react-router-dom": "5.1.2",
+    "react-scripts": "3.4.1",
+    "react-table": "7.5.1",
     "react-test-renderer": "16.13.0",
     "redux-injectors": "1.3.0",
     "redux-saga": "1.1.3",
@@ -126,17 +130,18 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build:testnet": "env-cmd -f .env.testnet yarn build",
     "test": "node scripts/test.js",
     "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/test-generators.ts",
     "start:prod": "yarn build && serve -s build",
+    "start:mainnet": "env-cmd -f .env.mainnet.local yarn start",
     "checkTs": "tsc --noEmit",
     "eslint": "eslint --ext js,ts,tsx",
     "lint": "yarn eslint -- src",
     "lint:fix": "yarn eslint -- --fix src",
     "lint:css": "stylelint src/**/*.css",
     "generate": "cross-env TS_NODE_PROJECT='./internals/ts-node.tsconfig.json' plop --plopfile internals/generators/plopfile.ts",
-    "prettify": "prettier --write",
-    "build:prod": "yarn build && rm -rf dist && mv build dist"
+    "prettify": "prettier --write"
   },
   "browserslist": {
     "production": [
@@ -232,6 +237,7 @@
     }
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "1.13.0",
     "@types/mathjs": "6.0.5",
     "node-sass": "4.14.1"
   },

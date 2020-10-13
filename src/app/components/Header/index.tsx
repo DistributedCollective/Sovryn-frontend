@@ -3,31 +3,43 @@
  * Header
  *
  */
-import React from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function Header() {
-  const { pathname } = useLocation();
-  const pages = ['Trade', 'Lend', 'Stats', 'FAQs'];
+  const pages = [
+    { to: '/', title: 'Trade', exact: true },
+    'Lend',
+    'Stats',
+    'FAQs',
+  ];
 
-  const pageNavs = pages.reverse().map((item, index) => {
-    const styles =
-      pathname === `/${item.toLowerCase()}`
-        ? 'text-white border-bottom'
-        : 'text-customTeal';
+  const [show, setShow] = useState(false);
+
+  const pageNavs = pages.map((item, index) => {
+    let link: { to: string; title: string; exact: boolean } = item as any;
+
+    if (typeof item === 'string') {
+      link = {
+        to: `/${item.toLowerCase()}`,
+        title: item,
+        exact: false,
+      };
+    }
 
     return (
       <li
         key={index}
-        className="nav-item list-group-item border-0 text-customTeal bg-transparent font-size-larger"
+        className="nav-item list-group-item border-0 bg-transparent"
       >
         <NavLink
-          className={'text-decoration-none nav-link ' + styles}
-          to={`/${item.toLowerCase()}`}
+          className="text-decoration-none nav-link"
+          to={link.to}
+          exact={link.exact}
         >
-          <h4>{item}</h4>
+          <h4>{link.title}</h4>
         </NavLink>
       </li>
     );
@@ -44,17 +56,16 @@ export function Header() {
             <button
               className="navbar-toggler custom-toggler navbar-dark "
               type="button"
-              data-toggle="collapse"
-              data-target="#navbar-collaps"
+              onClick={() => setShow(prevState => !prevState)}
             >
               <span className="navbar-toggler-icon custom-toggler" />
             </button>
 
             <div
-              className="collapse navbar-collapse w-100 "
+              className={`collapse navbar-collapse w-100 ${show && 'show'}`}
               id="navbar-collaps"
             >
-              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal w-100 flex-row-reverse">
+              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal-lg w-100 justify-content-lg-end">
                 {pageNavs}
               </ul>
             </div>

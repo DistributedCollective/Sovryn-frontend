@@ -9,7 +9,7 @@ import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider/dist/cjs/index';
 import { Button, Dialog } from '@blueprintjs/core';
-import { rpcNodes, wsNodes } from '../../../utils/classifiers';
+import { rpcNodes, readNodes } from '../../../utils/classifiers';
 import { toHex } from 'web3-utils';
 
 const providerOptions = {
@@ -35,7 +35,7 @@ const web3Modal = new Web3Modal({
 });
 
 function initWeb3(provider: any) {
-  // const web3: any = new Web3(new Web3.providers.WebsocketProvider(wsNodes[provider.chainId]));
+  // const web3: any = new Web3(new Web3.providers.WebsocketProvider(readNodes[provider.chainId]));
   const web3: any = new Web3(provider);
 
   web3.eth.extend({

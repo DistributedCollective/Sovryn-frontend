@@ -1,16 +1,19 @@
 import { store } from '../../store/store';
 import Web3 from 'web3';
-import { TransactionConfig } from 'web3-core';
+import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { rpcNodes, wsNodes } from '../classifiers';
+import {
+  currentChainId,
+  rpcNodes,
+  readNodes,
+  currentNetwork,
+} from '../classifiers';
 import { Toaster } from '@blueprintjs/core';
-import { put } from 'redux-saga/effects';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { AbiItem } from 'web3-utils';
-import { AssetsDictionary } from '../blockchain/assets-dictionary';
 import { appContracts } from '../blockchain/app-contracts';
 
 export class SovrynNetwork {
@@ -27,6 +30,7 @@ export class SovrynNetwork {
       },
       package: WalletConnectProvider,
       options: {
+        chainId: currentChainId,
         rpc: rpcNodes,
       },
     },
@@ -36,6 +40,9 @@ export class SovrynNetwork {
   private _readWeb3: Web3 = null as any;
   private _toaster = Toaster.create({ maxToasts: 3 });
   public contracts: { [key: string]: Contract } = {};
+  public contractList: Contract[] = [];
+  public writeContracts: { [key: string]: Contract } = {};
+  public writeContractList: Contract[] = [];
 
   constructor() {
     this._web3Modal = new Web3Modal({
@@ -44,16 +51,15 @@ export class SovrynNetwork {
       providerOptions: this._providerOptions,
     });
 
-    this.initReadWeb3(Number(process.env.REACT_APP_NETWORK_ID)).then().catch();
+    this.initReadWeb3(currentChainId).then().catch();
 
     if (this._web3Modal.cachedProvider) {
       this.connect().then().catch();
     }
 
-    this._store.subscribe(() => {
-      const state = this.getState();
-      console.log('state updated.', state);
-    });
+    // this._store.subscribe(() => {
+    //   const state = this.getState();
+    // });
   }
 
   public static Instance() {
@@ -139,7 +145,7 @@ export class SovrynNetwork {
       options = args[args.length - 1];
     }
     return new Promise<string>((resolve, reject) => {
-      return this.contracts[contractName].methods[methodName](...params)
+      return this.writeContracts[contractName].methods[methodName](...params)
         .send(options)
         .once('transactionHash', tx => {
           this.store().dispatch(actions.addTransaction(tx));
@@ -152,7 +158,7 @@ export class SovrynNetwork {
     });
   }
 
-  public addContract(
+  public addWriteContract(
     contractName: string,
     contractConfig: {
       address: string;
@@ -162,17 +168,38 @@ export class SovrynNetwork {
     if (!this._writeWeb3) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { networkId, address } = this.getState();
+    const contract = this.makeContract(this._writeWeb3, contractConfig);
     // @ts-ignore
-    this.contracts[contractName] = new this._writeWeb3.eth.Contract(
-      contractConfig.abi,
-      contractConfig.address,
-      {
-        from: address,
-        // data: deployedBytecode,
-      },
-    );
+    this.writeContracts[contractName] = contract;
+    // @ts-ignore
+    this.writeContractList.push(contract);
+  }
+
+  public addReadContract(
+    contractName: string,
+    contractConfig: {
+      address: string;
+      abi: AbiItem | AbiItem[];
+    },
+  ) {
+    if (!this._readWeb3) {
+      return;
+    }
+    const contract = this.makeContract(this._readWeb3, contractConfig);
+    // @ts-ignore
+    this.contracts[contractName] = contract;
+    // @ts-ignore
+    this.contractList.push(contract);
+  }
+
+  protected makeContract(
+    web3: Web3,
+    contractConfig: { address: string; abi: AbiItem | AbiItem[] },
+  ) {
+    return new web3.eth.Contract(contractConfig.abi, contractConfig.address, {
+      // from: address,
+      // data: deployedBytecode,
+    });
   }
 
   protected initWriteWeb3(provider) {
@@ -188,13 +215,8 @@ export class SovrynNetwork {
       ],
     });
 
-    AssetsDictionary.list().forEach(item => {
-      this.addContract(item.getTokenContractName(), item.tokenContract);
-      this.addContract(item.getLendingContractName(), item.lendingContract);
-    });
-
     Array.from(Object.keys(appContracts)).forEach(key => {
-      this.addContract(key, appContracts[key]);
+      this.addWriteContract(key, appContracts[key]);
     });
   }
 
@@ -203,32 +225,67 @@ export class SovrynNetwork {
       !this._readWeb3 ||
       (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
     ) {
-      this._readWeb3 = new Web3(
-        new Web3.providers.WebsocketProvider(wsNodes[chainId]),
-      );
+      const nodeUrl = readNodes[chainId];
+      let web3Provider;
+      let isWebsocket = false;
+      if (nodeUrl.startsWith('http')) {
+        web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+          keepAlive: true,
+        });
+      } else {
+        web3Provider = new Web3.providers.WebsocketProvider(nodeUrl, {
+          reconnectDelay: 10,
+        });
+        isWebsocket = true;
+      }
+
+      this._readWeb3 = new Web3(web3Provider);
+
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addReadContract(key, appContracts[key]);
+      });
+
+      if (isWebsocket) {
+        const provider: WebsocketProvider = this._readWeb3
+          .currentProvider as WebsocketProvider;
+
+        provider.on('end', () => {
+          provider.removeAllListeners('end');
+          this.contracts = {};
+          this.contractList = [];
+          this._readWeb3 = undefined as any;
+          this.initReadWeb3(chainId);
+        });
+      }
     }
   }
 
   protected subscribeProvider(provider) {
     if (provider.on) {
       provider.on('close', () => {
-        put(actions.disconnect());
+        this.store().dispatch(actions.disconnect());
+      });
+      provider.on('error', error => {
+        console.error('provider error', error);
+      });
+      provider.on('open', a => {
+        console.log('connected?', a);
       });
       provider.on('accountsChanged', async (accounts: string[]) => {
-        put(actions.accountChanged(accounts[0]));
+        this.store().dispatch(actions.accountChanged(accounts[0]));
       });
       provider.on('chainChanged', async (chainId: number) => {
         const networkId = await this._writeWeb3.eth.net.getId();
         await this.testChain(chainId);
         await this.initReadWeb3(chainId);
-        put(actions.chainChanged({ chainId, networkId }));
+        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       });
 
       provider.on('networkChanged', async (networkId: number) => {
         const chainId = await (this._writeWeb3.eth as any).chainId();
         await this.testChain(chainId);
         await this.initReadWeb3(chainId);
-        put(actions.chainChanged({ chainId, networkId }));
+        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       });
     }
   }
@@ -250,21 +307,16 @@ export class SovrynNetwork {
 
     await this.initReadWeb3(chainId);
 
-    this.store().dispatch(
-      actions.connected({
-        address,
-        chainId,
-        networkId,
-      }),
-    );
+    this.store().dispatch(actions.chainChanged({ chainId, networkId }));
+    this.store().dispatch(actions.connected({ address }));
   }
 
   protected async testChain(chainId: number) {
-    if (!wsNodes.hasOwnProperty(chainId)) {
+    if (chainId !== currentChainId) {
       this._toaster.show(
         {
           intent: 'danger',
-          message: 'Unsupported network',
+          message: `Please switch to RSK ${currentNetwork}.`,
         },
         'network',
       );

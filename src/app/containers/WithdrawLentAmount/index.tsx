@@ -6,16 +6,16 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Asset } from 'types/asset';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../hooks/useAccount';
 import { useUnLendTokensRBTC } from '../../hooks/useUnLendTokensRBTC';
 import { WithdrawLentDialog } from '../../components/WithdrawLentDialog';
-import { toWei } from 'web3-utils';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
-import { useTokenPrice } from '../../hooks/lending/useTokenPrice';
-import { bignumber } from 'mathjs';
+import { weiTo18, weiToBigInt } from '../../../utils/blockchain/math-helpers';
+import { bignumber, min } from 'mathjs';
 import { useUnLendTokens } from '../../hooks/useUnLendTokens';
+import { useLending_totalAssetSupply } from '../../hooks/lending/useLending_totalAssetSupply';
+import { useLending_totalAssetBorrow } from '../../hooks/lending/useLending_totalAssetBorrow';
+import { useLending_assetBalanceOf } from '../../hooks/lending/useLending_assetBalanceOf';
+import { useLending_tokenPrice } from '../../hooks/lending/useLending_tokenPrice';
 
 interface Props {
   asset: Asset;
@@ -24,34 +24,56 @@ interface Props {
 }
 
 export function WithdrawLentAmount(props: Props) {
-  const { value: balance } = useCacheCallWithValue(
-    getLendingContractName(props.asset),
-    'assetBalanceOf',
-    '0',
+  const { value: userBalance } = useLending_assetBalanceOf(
+    props.asset,
     useAccount(),
   );
-  const { value: price } = useTokenPrice(props.asset);
+  const { value: totalAssetSupply } = useLending_totalAssetSupply(props.asset);
+  const { value: totalAssetBorrow } = useLending_totalAssetBorrow(props.asset);
+  const { value: tokenPrice } = useLending_tokenPrice(props.asset);
 
+  const calculateBalance = useCallback(() => {
+    const availableAssets = bignumber(totalAssetSupply).minus(totalAssetBorrow);
+    return min(bignumber(userBalance), availableAssets).toString();
+  }, [totalAssetSupply, totalAssetBorrow, userBalance]);
+
+  const [balance, setBalance] = useState(calculateBalance());
   const [amount, setAmount] = useState(weiTo18(balance));
+  const fixedAmount = weiToBigInt(amount);
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
-  const handleUnLendClick = useCallback(() => {
-    if (props.asset === Asset.BTC) {
-      unlendBtc(toWei(amount));
-    } else {
-      unlendToken(toWei(amount));
-    }
-  }, [unlendToken, unlendBtc, amount, props.asset]);
+  const [, /*txAmount*/ setTxAmount] = useState('0');
 
   useEffect(() => {
-    setAmount(bignumber(balance).div(price).toFixed(18));
-  }, [balance, price]);
+    setBalance(calculateBalance());
+  }, [userBalance, totalAssetBorrow, totalAssetSupply, calculateBalance]);
+
+  useEffect(() => {
+    setAmount(weiTo18(balance));
+  }, [balance]);
+
+  useEffect(() => {
+    setTxAmount(
+      bignumber(amount)
+        .div(tokenPrice)
+        .mul(10 ** 36)
+        .toFixed(0),
+    );
+  }, [amount, tokenPrice]);
+
+  const handleUnLendClick = useCallback(() => {
+    if (props.asset === Asset.BTC) {
+      unlendBtc(fixedAmount);
+    } else {
+      unlendToken(fixedAmount);
+    }
+  }, [props.asset, unlendBtc, fixedAmount, unlendToken]);
 
   return (
     <WithdrawLentDialog
       asset={props.asset}
-      amount={amount}
+      amount={fixedAmount}
       balance={balance}
       onChangeAmount={value => setAmount(value)}
       onConfirm={() => handleUnLendClick()}
