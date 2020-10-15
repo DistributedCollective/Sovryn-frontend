@@ -2,25 +2,17 @@ import { Asset } from 'types/asset';
 import { getTokenContractName } from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from './useCacheCallWithValue';
 import { useAccount } from './useAccount';
-import { useEffect, useState } from 'react';
-import { useBalance } from './useBalance';
 
+/**
+ * Returns balance of a token
+ * BTC is wRBTC token and not an actual user's BTC balance.
+ * @param asset
+ */
 export function useTokenBalanceOf(asset: Asset) {
-  const account = useAccount();
-
-  const [contractName, setContractName] = useState(getTokenContractName(asset));
-
-  const btcResult = useBalance();
-  const tokenResult = useCacheCallWithValue(
-    contractName,
+  return useCacheCallWithValue(
+    getTokenContractName(asset),
     'balanceOf',
     '0',
-    account,
+    useAccount(),
   );
-
-  useEffect(() => {
-    setContractName(getTokenContractName(asset));
-  }, [asset]);
-
-  return asset === Asset.BTC ? btcResult : tokenResult;
 }

@@ -4,5 +4,11 @@
     "title": "App was updated.",
     "message": "New content is available and will be used when all tabs for this page are closed.",
     "button": "Update Now"
+  },
+  "tokenSwapContainer": {
+    "title": "Swap Tokens",
+    "buttons": {
+      "submit": "Swap"
+    }
   }
 }

@@ -61,6 +61,7 @@ export function useSendContractTx(
         .catch(e => {
           setStatus(TransactionStatus.ERROR);
           setLoading(false);
+          console.error(e);
         });
     },
     txHash: tx,

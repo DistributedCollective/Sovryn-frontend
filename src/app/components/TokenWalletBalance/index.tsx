@@ -1,22 +1,22 @@
 /**
  *
- * AssetWalletBalance
+ * TokenWalletBalance
  *
  */
 import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
+import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 
 interface Props {
   asset: Asset;
   onBalance?: (value: string) => void;
 }
 
-export function AssetWalletBalance(props: Props) {
-  const { value, loading } = useAssetBalanceOf(props.asset);
+export function TokenWalletBalance(props: Props) {
+  const { value, loading } = useTokenBalanceOf(props.asset);
   const connected = useIsConnected();
 
   useEffect(() => {

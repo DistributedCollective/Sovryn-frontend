@@ -8,7 +8,7 @@ import { Asset } from 'types/asset';
 import { InputGroup } from '@blueprintjs/core';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { FormSelect, SelectItem } from '../FormSelect';
-import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetWalletBalance } from '../AssetWalletBalance';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { TradingPosition } from '../../../types/trading-position';
@@ -40,7 +40,7 @@ export function TradeDialog(props: Props) {
     props.onChangeAmount(value);
   };
 
-  const { value: tokenBalance } = useTokenBalanceOf(props.collateral);
+  const { value: tokenBalance } = useAssetBalanceOf(props.collateral);
 
   const [amount, setAmount] = useState('');
   const [colaratedAssets, setColaratedAssets] = useState<Array<SelectItem>>([]);

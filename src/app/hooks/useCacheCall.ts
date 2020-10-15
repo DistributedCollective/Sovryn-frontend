@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
-import { Sovryn } from '../../utils/sovryn';
-import { ContractName } from '../../utils/types/contracts';
+import { ContractName } from 'utils/types/contracts';
+import { contractReader } from 'utils/sovryn/contract-reader';
 
 interface CacheCallResponse {
   value: string | null;
@@ -27,7 +27,7 @@ export function useCacheCall(
 ): CacheCallResponse {
   const { syncBlockNumber } = useSelector(selectWalletProvider);
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     value: null,
     loading: false,
     error: null,
@@ -37,8 +37,8 @@ export function useCacheCall(
     setState(prevState => ({ ...prevState, loading: true, error: null }));
 
     try {
-      Sovryn.contracts[contractName].methods[methodName](...args)
-        .call()
+      contractReader
+        .call(contractName, methodName, args)
         .then(value => {
           setState(prevState => ({
             ...prevState,
@@ -47,13 +47,24 @@ export function useCacheCall(
             error: null,
           }));
         })
-        .catch(() => {
+        .catch(error => {
           // todo add logger?
           // silence...
+          setState(prevState => ({
+            ...prevState,
+            loading: false,
+            value: null,
+            error,
+          }));
         });
     } catch (error) {
       // todo add winston logger?
-      setState(prevState => ({ ...prevState, loading: false, error }));
+      setState(prevState => ({
+        ...prevState,
+        loading: false,
+        value: null,
+        error,
+      }));
     }
 
     return () => {

@@ -36,6 +36,8 @@ export function ActiveLoanTable(props: Props) {
   const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(props.data[0]);
 
+  console.log(props.data[0]);
+
   const data = React.useMemo(() => {
     return props.data.map(item => {
       return {
