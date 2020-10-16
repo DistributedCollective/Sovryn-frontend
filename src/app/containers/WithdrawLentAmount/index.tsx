@@ -13,9 +13,9 @@ import { weiTo18, weiToBigInt } from '../../../utils/blockchain/math-helpers';
 import { bignumber, min } from 'mathjs';
 import { useUnLendTokens } from '../../hooks/useUnLendTokens';
 import { useLending_totalAssetSupply } from '../../hooks/lending/useLending_totalAssetSupply';
-import { useLending_totalAssetBorrow } from '../../hooks/lending/useLending_totalAssetBorrow';
 import { useLending_assetBalanceOf } from '../../hooks/lending/useLending_assetBalanceOf';
 import { useLending_tokenPrice } from '../../hooks/lending/useLending_tokenPrice';
+import { useLending_totalAssetBorrow } from '../../hooks/lending/useLending_totalAssetBorrow';
 
 interface Props {
   asset: Asset;
@@ -28,6 +28,7 @@ export function WithdrawLentAmount(props: Props) {
     props.asset,
     useAccount(),
   );
+  const { value: price } = useLending_tokenPrice(props.asset);
   const { value: totalAssetSupply } = useLending_totalAssetSupply(props.asset);
   const { value: totalAssetBorrow } = useLending_totalAssetBorrow(props.asset);
   const { value: tokenPrice } = useLending_tokenPrice(props.asset);
@@ -43,7 +44,7 @@ export function WithdrawLentAmount(props: Props) {
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
-  const [, /*txAmount*/ setTxAmount] = useState('0');
+  const [txAmount, setTxAmount] = useState('0');
 
   useEffect(() => {
     setBalance(calculateBalance());
@@ -69,6 +70,13 @@ export function WithdrawLentAmount(props: Props) {
       unlendToken(fixedAmount);
     }
   }, [props.asset, unlendBtc, fixedAmount, unlendToken]);
+
+  useEffect(() => {
+    const result = bignumber(balance).div(price).toFixed(18);
+    if (!isNaN(Number(result)) && isFinite(Number(result))) {
+      setAmount(weiToBigInt(result));
+    }
+  }, [balance, price]);
 
   return (
     <WithdrawLentDialog

@@ -21,6 +21,7 @@ import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { PageSkeleton } from './components/PageSkeleton';
 import { currentNetwork } from '../utils/classifiers';
+import LendBorrowSovryn from './containers/LendBorrowSovryn';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -34,6 +35,7 @@ export function App() {
       <WalletProvider>
         <Switch>
           <Route exact path="/" component={TradePage} />
+          <Route exact path="/layout" component={LendBorrowSovryn} />
           <Route exact path="/lend" component={LendingPage} />
           <Route exact path="/trade/:asset?" component={TradePage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
