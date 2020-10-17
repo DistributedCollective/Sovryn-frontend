@@ -68,6 +68,13 @@ input[type=number] {
     letter-spacing: 2.92px;
     color: var(--Grey_text);
   }
+  a {
+    color: inherit;
+    font-weight: bold;
+    &:hover {
+      color: inherit;
+    }
+  }
   .font {
     &-xs {
       font-size: 12px;

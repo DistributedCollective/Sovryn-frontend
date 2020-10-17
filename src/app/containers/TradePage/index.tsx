@@ -7,6 +7,7 @@
 import React from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
+import { HintDialog } from '../../components/HintDialog';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { TradingToken } from '../TradingToken';
 import { TradingActivity } from '../TradingActivity';
@@ -17,6 +18,7 @@ export function TradePage() {
     <>
       <Header />
       <main>
+        <HintDialog />
         <div className="container">
           <div className="row">
             <div
