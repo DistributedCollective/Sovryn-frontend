@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@blueprintjs/core';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { LinkToExplorer } from '../LinkToExplorer';
+import { TopUpHint } from '../TopUpHint';
 
 interface Props {
   status: TransactionStatus;
@@ -37,9 +38,8 @@ const typeClassifiers = {
       withdraw: 'Withdrawal in Progress',
     },
     description: {
-      default: 'Your transaction is being processed.',
-      trade:
-        'Your transaction is being processed and will be added to your Trading Activity once completed.',
+      default: <TopUpHint />,
+      trade: <TopUpHint />,
     },
   },
   success: {
@@ -115,7 +115,7 @@ export function SendTxProgress(props: Props) {
   const closeWindow = () => setDisplay(false);
 
   let color = props.position === 'LONG' ? 'customTeal' : 'Gold';
-  const iconSize = props.displayAbsolute ? 40 : 17;
+  const iconSize = props.displayAbsolute ? 30 : 17;
 
   let mainText = getTitle(props.status, props.type);
   let subText = getDescription(props.status, props.type);

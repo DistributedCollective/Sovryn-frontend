@@ -5,18 +5,24 @@ export function TopUpHint() {
   const links = {
     mainnet: {
       text: 'the Fast-BTC-Relay',
-      link: '',
+      link: 'https://fastbtc.sovryn.app/',
     },
     testnet: {
       text: 'the RSK Testnet faucet',
-      link: '',
+      link: 'https://faucet.rsk.co/',
     },
   };
 
   return (
     <p>
       While you wait, you can top up your wallet from{' '}
-      {links[currentNetwork].text}
+      <a
+        href={links[currentNetwork].link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {links[currentNetwork].text}
+      </a>
     </p>
   );
 }
