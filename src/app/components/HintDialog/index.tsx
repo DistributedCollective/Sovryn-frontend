@@ -15,7 +15,7 @@ export function HintDialog() {
     if (!connected || (!loading && parseFloat(value) === 0)) {
       const delay = setTimeout(() => {
         setShow(true);
-      }, 1000);
+      }, 2000);
       return () => clearTimeout(delay);
     } else if (connected && !loading && parseFloat(value) > 0) {
       setShow(false);
