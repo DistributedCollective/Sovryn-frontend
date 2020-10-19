@@ -44,7 +44,7 @@ export function useApproveAndTrade(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(getToken(), getLendingContract(lendingContract).address);
+  } = useTokenApprove(token, getLendingContract(lendingContract).address);
 
   const {
     trade,
@@ -78,14 +78,14 @@ export function useApproveAndTrade(
 
   const handleTx = useCallback(() => {
     if (
-      getToken() !== Asset.BTC &&
+      token !== Asset.BTC &&
       bignumber(collateralTokenSent).greaterThan(allowance.value)
     ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [getToken, allowance, collateralTokenSent, handleApprove, handleTrade]);
+  }, [allowance, collateralTokenSent, handleApprove, handleTrade, token]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

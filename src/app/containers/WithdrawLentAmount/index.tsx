@@ -9,7 +9,7 @@ import { Asset } from 'types/asset';
 import { useAccount } from '../../hooks/useAccount';
 import { useUnLendTokensRBTC } from '../../hooks/useUnLendTokensRBTC';
 import { WithdrawLentDialog } from '../../components/WithdrawLentDialog';
-import { weiTo18, weiToBigInt } from '../../../utils/blockchain/math-helpers';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { bignumber, min } from 'mathjs';
 import { useUnLendTokens } from '../../hooks/useUnLendTokens';
 import { useLending_totalAssetSupply } from '../../hooks/lending/useLending_totalAssetSupply';
@@ -40,7 +40,6 @@ export function WithdrawLentAmount(props: Props) {
 
   const [balance, setBalance] = useState(calculateBalance());
   const [amount, setAmount] = useState(weiTo18(balance));
-  const fixedAmount = weiToBigInt(amount);
   const { unLend: unlendToken, ...txTokenState } = useUnLendTokens(props.asset);
   const { unLend: unlendBtc, ...txBtcState } = useUnLendTokensRBTC(props.asset);
 
@@ -65,11 +64,11 @@ export function WithdrawLentAmount(props: Props) {
 
   const handleUnLendClick = useCallback(() => {
     if (props.asset === Asset.BTC) {
-      unlendBtc(fixedAmount);
+      unlendBtc(txAmount);
     } else {
-      unlendToken(fixedAmount);
+      unlendToken(txAmount);
     }
-  }, [props.asset, unlendBtc, fixedAmount, unlendToken]);
+  }, [props.asset, unlendBtc, txAmount, unlendToken]);
 
   useEffect(() => {
     const result = bignumber(balance).div(price).toFixed(18);
@@ -81,7 +80,7 @@ export function WithdrawLentAmount(props: Props) {
   return (
     <WithdrawLentDialog
       asset={props.asset}
-      amount={fixedAmount}
+      amount={amount}
       balance={balance}
       onChangeAmount={value => setAmount(value)}
       onConfirm={() => handleUnLendClick()}
