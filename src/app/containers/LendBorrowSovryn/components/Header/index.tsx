@@ -12,7 +12,7 @@ const Header: React.FC<Props> = props => {
   return (
     <Container
       fluid
-      className="d-flex justify-content-between w-100 h-10 align-items-center "
+      className="d-flex justify-content-between w-100 h-10 align-items-center header"
     >
       <Link className="nav-item" to="/trade">
         Trade
