@@ -59,6 +59,7 @@ export function useSendContractTx(
           setStatus(TransactionStatus.PENDING);
         })
         .catch(e => {
+          console.error(e);
           setStatus(TransactionStatus.ERROR);
           setLoading(false);
         });
