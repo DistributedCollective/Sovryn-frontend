@@ -14,7 +14,7 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   const [key, setKey] = useState<string | null>('lend');
 
   return (
-    <Row className="w-100" style={{ margin: '0 11%' }}>
+    <Row className="w-100">
       <Tabs
         className={clsx('tabs', currency === 'DOC' && 'tabs__green')}
         activeKey={key}

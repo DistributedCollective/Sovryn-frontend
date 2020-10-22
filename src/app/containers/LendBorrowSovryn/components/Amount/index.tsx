@@ -28,12 +28,11 @@ const Amount: React.FC<Props> = ({
         <div className="d-flex input-container">
           <div className="flex-grow-1 data-container">
             <input
-              // type="number"
-              // step=".00000000000000001"
+              type="number"
               className="d-inline-block w-100-input"
               value={''}
               placeholder="Enter amount"
-              // onChange={e => props.onChangeAmount(e.currentTarget.value)}
+              onChange={() => {}}
             />
           </div>
           <div className=" mr-2 d-flex align-items-center">

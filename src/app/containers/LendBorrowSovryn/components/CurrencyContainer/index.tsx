@@ -28,7 +28,7 @@ const currencyRows = [
 
 const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   return (
-    <Container className="d-flex flex-column w-100">
+    <Container className="d-flex flex-column w-100" style={{ padding: 0 }}>
       <Tab.Container id="left-tabs-example" defaultActiveKey={state}>
         <Nav
           onSelect={k => setState(k as 'BTC' | 'DOC')}
