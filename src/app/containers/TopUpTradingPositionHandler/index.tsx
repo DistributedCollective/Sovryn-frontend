@@ -12,7 +12,7 @@ import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
-import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
@@ -30,7 +30,7 @@ export function TopUpTradingPositionHandler(props: Props) {
   );
   const color = tokenDetails.asset === 'BTC' ? 'customTeal' : 'Gold';
   const [amount, setAmount] = useState();
-  const { value: balance } = useTokenBalanceOf(tokenDetails.asset);
+  const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
 
   const weiAmount = useWeiAmount(amount);
 

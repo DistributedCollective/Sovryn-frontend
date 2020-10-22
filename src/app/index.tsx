@@ -19,10 +19,10 @@ import { StatsPage } from './containers/StatsPage/Loadable';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { PageSkeleton } from './components/PageSkeleton';
 import { currentNetwork } from '../utils/classifiers';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
+import { SandboxPage } from './containers/SandboxPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -42,7 +42,7 @@ export function App() {
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
-          <Route exact path="/sandbox" component={PageSkeleton} />
+          <Route exact path="/sandbox" component={SandboxPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </WalletProvider>

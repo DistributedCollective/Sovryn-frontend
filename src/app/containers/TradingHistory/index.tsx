@@ -182,7 +182,7 @@ export function TradingHistory() {
       const entries = Object.entries(items);
 
       const closeEntries: CalculatedEvent[] = [];
-      entries.forEach(([loanId, events]) => {
+      entries.forEach(([, /*loanId*/ events]) => {
         // exclude entries that does not have sell events
         if (events.filter(item => item.type === 'sell').length > 0) {
           const calculation = calculateProfits(events);
@@ -212,7 +212,6 @@ export function TradingHistory() {
       );
       tradeRequest.current.promise
         .then(loaded => {
-          console.log('loaded opens', loaded);
           mergeEvents(closeEvents, loaded);
         })
         .catch(e => {
@@ -237,7 +236,6 @@ export function TradingHistory() {
     );
     closeRequest.current.promise
       .then(loaded => {
-        console.log('loaded closes', loaded);
         if (loaded.length) {
           loadTradeEvents(loaded);
         } else {

@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function AssetWalletBalance(props: Props) {
-  const { value, loading } = useTokenBalanceOf(props.asset);
+  const { value, loading } = useAssetBalanceOf(props.asset);
   const connected = useIsConnected();
 
   useEffect(() => {
