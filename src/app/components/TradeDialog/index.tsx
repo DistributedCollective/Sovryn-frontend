@@ -31,6 +31,11 @@ interface Props {
   onCollateralChange: (collateral: Asset) => void;
 }
 
+/**
+ * @deprecated Use MarginTradeForm container instead
+ * @param props
+ * @constructor
+ */
 export function TradeDialog(props: Props) {
   const isConnected = useIsConnected();
 

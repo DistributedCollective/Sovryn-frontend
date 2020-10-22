@@ -28,7 +28,7 @@ export function LeverageSelector(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
-  const color = props.position === 'LONG' ? 'var(--Teal)' : 'var(--Gold)';
+  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--gold)';
 
   const active = {
     color: color,
@@ -37,16 +37,14 @@ export function LeverageSelector(props: Props) {
   };
 
   const inactive = {
-    textColor: 'var(--Grey_text)',
+    textColor: 'var(--dark-gray)',
     color: 'none',
-    border: '1px solid var(--Grey_text)',
+    border: '1px solid var(--dark-gray)',
   };
 
   return (
-    <div className="row">
-      <div className="col-3" style={{ verticalAlign: 'middle' }}>
-        Leverage
-      </div>
+    <div className="row d-flex flex-row align-items-center">
+      <div className="col-3 font-weight-bold font-size-lg">Leverage</div>
       <div className="col-9">
         <div className="d-inline-flex justify-content-between align-items-start w-100">
           {items.map(item => (
@@ -66,7 +64,7 @@ export function LeverageSelector(props: Props) {
 }
 
 const Button = styled.button`
-  border-radius: 2rem;
+  border-radius: 5px;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 2.4px;

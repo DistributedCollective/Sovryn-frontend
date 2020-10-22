@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@blueprintjs/core';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { LinkToExplorer } from '../LinkToExplorer';
+import { TradingPosition } from '../../../types/trading-position';
 
 interface Props {
   status: TransactionStatus;
@@ -105,6 +106,17 @@ const getDescription = (
   return '!!! No description';
 };
 
+const getIcon = (status: TransactionStatus) => {
+  switch (status) {
+    default:
+      return 'time';
+    case TransactionStatus.SUCCESS:
+      return 'tick';
+    case TransactionStatus.ERROR:
+      return 'error';
+  }
+};
+
 export function SendTxProgress(props: Props) {
   const [display, setDisplay] = useState(false);
 
@@ -114,35 +126,43 @@ export function SendTxProgress(props: Props) {
 
   const closeWindow = () => setDisplay(false);
 
-  let color = props.position === 'LONG' ? 'customTeal' : 'Gold';
-  const iconSize = props.displayAbsolute ? 40 : 17;
+  let color = props.position === TradingPosition.LONG ? 'teal' : 'gold';
 
   let mainText = getTitle(props.status, props.type);
   let subText = getDescription(props.status, props.type);
 
   if (props.status === TransactionStatus.ERROR) {
-    color = 'Red';
+    color = 'red';
     if (!props.txHash) {
       mainText = getTitle('denied', props.type);
       subText = getDescription('denied', props.type);
     }
   }
 
+  if (!display) {
+    return null;
+  }
+
   return (
-    <>
-      <div
-        className={`bg-${color} h-100 w-100 ${
-          props.displayAbsolute ? 'position-absolute p-4' : 'my-3 px-3 py-2'
-        }`}
-        style={{
-          top: '0',
-          left: '0',
-          right: '0',
-          bottom: '0',
-          opacity: '0.9',
-          display: display ? 'block' : 'none',
-        }}
-      >
+    <div
+      className={`bg-white text-black p-4 rounded d-flex flex-row justify-content-between ${
+        props.displayAbsolute ? 'position-absolute p-4' : 'my-3 px-3 py-2'
+      }`}
+      style={{
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+      }}
+    >
+      <div className="flex-grow-0 flex-shrink-1 mr-3">
+        <Icon
+          icon={getIcon(props.status)}
+          iconSize={17}
+          style={{ color: `var(--${color})` }}
+        />
+      </div>
+      <div className="flex-grow-1">
         {props.status !== TransactionStatus.PENDING_FOR_USER &&
           props.displayAbsolute && (
             <div
@@ -157,49 +177,21 @@ export function SendTxProgress(props: Props) {
             </div>
           )}
         <div
-          className={[
-            'd-flex',
-            props.displayAbsolute
-              ? 'flex-column'
-              : 'flex-row align-items-center',
-          ].join(' ')}
+          className="text-uppercase font-weight-bold"
+          style={{ color: `var(--${color})` }}
         >
-          {/* Icon row */}
-          <div className="mr-3">
-            {props.status === TransactionStatus.PENDING_FOR_USER && (
-              <Icon icon="time" iconSize={iconSize} />
-            )}
-            {props.status === TransactionStatus.PENDING && (
-              <Icon icon="time" iconSize={iconSize} />
-            )}
-            {props.status === TransactionStatus.SUCCESS && (
-              <Icon icon="tick" iconSize={iconSize} />
-            )}
-            {props.status === TransactionStatus.ERROR && (
-              <Icon icon="error" iconSize={iconSize} />
-            )}
-          </div>
-          {/* Main text */}
-          <div
-            className={`font-weight-bold ${props.displayAbsolute && 'mt-1'}`}
-            style={{ fontSize: props.displayAbsolute ? '22px' : '16px' }}
-          >
-            {mainText}
-          </div>
+          {mainText}
         </div>
-
-        {/* Sub text */}
-        <div
-          className="mt-1"
-          style={{ fontSize: props.displayAbsolute ? '16px' : '14px' }}
-        >
+        <div className="font-weight-light">
           {props.txHash ? (
             <>
-              {subText && (
-                <p className="mb-1 text-primaryBackground">{subText}</p>
-              )}
+              {subText && <p className="mb-1">{subText}</p>}
               <p className="m-0">
-                Transaction: <LinkToExplorer txHash={props.txHash} />
+                Transaction:{' '}
+                <LinkToExplorer
+                  txHash={props.txHash}
+                  className="ml-1 text-black"
+                />
               </p>
             </>
           ) : (
@@ -207,7 +199,7 @@ export function SendTxProgress(props: Props) {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

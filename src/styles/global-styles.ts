@@ -10,8 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 16px;
+    font-family: 'Rowdies', cursive;
+    font-size: 14px;
     background-color: var(--background);
     color: white;
   }
@@ -137,26 +137,6 @@ input[type=number] {
     font-weight: 300;
     letter-spacing: 0.49px;
     text-transform: capitalize;
-  }
-  .bp3-input-group {
-    .bp3-input {
-      background-color: var(--Field_bg);
-      color: var(--white);
-      width: 100%;
-    }
-  }
-  .bp3-popover-wrapper {
-    .bp3-popover-target {
-      button {
-        width: 100%;
-        background-color: var(--Field_bg);
-        background-image: none;
-        color: white;
-        &:active, &:hover {
-          background-color: var(--Field_bg)
-        }
-      }
-    }
   }
   :focus {
     outline: 0!important;

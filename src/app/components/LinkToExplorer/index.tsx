@@ -7,11 +7,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { blockExplorers, currentChainId } from '../../../utils/classifiers';
+import { strict } from 'assert';
 
 interface Props {
   txHash: string;
   startLength: number;
   endLength: number;
+  className: string;
 }
 
 export function LinkToExplorer(props: Props) {
@@ -39,7 +41,7 @@ export function LinkToExplorer(props: Props) {
 
   return (
     <a
-      className="ml-1 text-white"
+      className={props.className}
       href={`${url}/tx/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
@@ -52,4 +54,5 @@ export function LinkToExplorer(props: Props) {
 LinkToExplorer.defaultProps = {
   startLength: 10,
   endLength: 4,
+  className: 'ml-1 text-white',
 };

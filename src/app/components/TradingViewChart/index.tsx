@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import { Asset } from 'types/asset';
+import { TradingPairType } from 'utils/trading-pair-dictionary';
 import { Skeleton } from '../PageSkeleton';
 
 enum Theme {
@@ -13,7 +13,8 @@ enum Theme {
 }
 
 export interface ChartContainerProps {
-  asset: Asset;
+  // asset: Asset;
+  pair: TradingPairType;
   theme: Theme;
 }
 
@@ -26,7 +27,7 @@ export function TradingViewChart(props: ChartContainerProps) {
       const widget = new TradingView.widget({
         width: 980,
         height: 610,
-        symbol: 'BITFINEX:BTCUSD' /* props.asset */,
+        symbol: 'BITFINEX:' + props.pair.toLowerCase(),
         interval: '30' as any,
         timezone: 'Etc/UTC',
         theme: props.theme,
@@ -70,12 +71,13 @@ export function TradingViewChart(props: ChartContainerProps) {
     } catch (e) {
       setHasCharts(false);
     }
-  }, [props.theme]);
+  }, [props.theme, props.pair]);
 
   return (
     <div
       id={'trading-view-container'}
       className={'w-100 h-100 background-secondary'}
+      style={{ minHeight: 320 }}
     >
       {!hasCharts && (
         <>

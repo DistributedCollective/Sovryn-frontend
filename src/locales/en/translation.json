@@ -4,5 +4,42 @@
     "title": "App was updated.",
     "message": "New content is available and will be used when all tabs for this page are closed.",
     "button": "Update Now"
+  },
+  "tradingPage": {
+    "meta": {
+      "title": "Trading",
+      "description": "Trade with Sovryn."
+    }
+  },
+  "tradeOrSwapTabs": {
+    "tabs": {
+      "trade": "Trade",
+      "swap": "Swap"
+    }
+  },
+  "marginTradeForm": {
+    "fields": {
+      "currency": "Currency",
+      "currency_placeholder": "Choose currency",
+      "amount": "Amount"
+    },
+    "buttons": {
+      "submit": "Place Trade"
+    }
+  },
+  "swapTradeForm": {
+    "fields": {
+      "tradeAmount": "Trade Amount",
+      "currency": "Currency",
+      "currency_placeholder": "Choose currency",
+      "receive": "Receive"
+    },
+    "buttons": {
+      "submit": "Place Trade"
+    }
+  },
+  "amountField": {
+    "placeholder": "Enter amount",
+    "btn_max": "Max"
   }
 }
