@@ -93,6 +93,11 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   events = events.reverse();
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
+
+  if (!opens.length) {
+    return null;
+  }
+
   const positionSize = opens
     .reduce(
       (previous, current) => previous.add(current.positionSize),
@@ -366,32 +371,34 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <table {...getTableProps()} className="bp3-html-table table-dark">
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <td className="text-left" {...cell.getCellProps()}>
-                  {cell.render('Cell')}
-                </td>
+    <div className="bg-primary p-3 sovryn-border">
+      <table {...getTableProps()} className="sovryn-table">
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                </th>
               ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td className="text-left" {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }

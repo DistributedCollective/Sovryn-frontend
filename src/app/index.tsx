@@ -14,7 +14,6 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { LendingPage } from './containers/LendingPage/Loadable';
-import { TradePage } from './containers/TradePage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -38,7 +37,6 @@ export function App() {
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/layout" component={LendBorrowSovryn} />
           <Route exact path="/lend" component={LendingPage} />
-          <Route exact path="/trade/:asset?" component={TradePage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />

@@ -24,7 +24,6 @@ import { useIsConnected } from '../../hooks/useAccount';
 import { TradeButton } from '../../components/TradeButton';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
-import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
@@ -71,10 +70,10 @@ export function MarginTradeForm(props: Props) {
   );
 
   const { value: tokenBalance } = useTokenBalanceOf(collateral);
-  const { value: maxAmount } = useLending_transactionLimit(
-    pair.getAssetForPosition(position),
-    collateral,
-  );
+  // const { value: maxAmount } = useLending_transactionLimit(
+  //   pair.getAssetForPosition(position),
+  //   collateral,
+  // );
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
 
   return (

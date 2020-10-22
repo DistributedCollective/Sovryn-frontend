@@ -7,7 +7,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { blockExplorers, currentChainId } from '../../../utils/classifiers';
-import { strict } from 'assert';
 
 interface Props {
   txHash: string;

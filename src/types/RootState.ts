@@ -1,6 +1,5 @@
 import { WalletProviderState } from 'app/containers/WalletProvider/types';
 import { TradingPageState } from 'app/containers/TradingPage/types';
-import { TokenSwapContainerState } from 'app/containers/TokenSwapContainer/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -10,6 +9,5 @@ import { TokenSwapContainerState } from 'app/containers/TokenSwapContainer/types
 export interface RootState {
   walletProvider?: WalletProviderState;
   tradingPage?: TradingPageState;
-  tokenSwapContainer?: TokenSwapContainerState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

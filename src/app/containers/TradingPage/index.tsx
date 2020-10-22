@@ -18,8 +18,8 @@ import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
 import Header from '../LendBorrowSovryn/components/Header';
 import { TradingViewChart } from '../../components/TradingViewChart';
-import { TradingPairDictionary } from '../../../utils/trading-pair-dictionary';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
+import { TradingActivity } from '../TradingActivity/Loadable';
 
 const s = translations.tradingPage;
 
@@ -54,6 +54,11 @@ export function TradingPage(props: Props) {
             <div className="col-12 col-lg-6 mt-5 mt-lg-0 order-lg-0 pr-lg-5">
               <TradingPairSelector />
               <TradeOrSwapTabs />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <TradingActivity />
             </div>
           </div>
         </div>

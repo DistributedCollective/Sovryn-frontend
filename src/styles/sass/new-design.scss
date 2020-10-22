@@ -86,6 +86,34 @@
   //}
 }
 
+.sovryn-table {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+  width: 100%;
+  thead tr {
+    height: 40px;
+    border-bottom: 1px solid var(--light-gray);
+    th {
+      font-family: inherit;
+      font-weight: inherit;
+      color: var(--light-gray);
+      font-size: 12px;
+      letter-spacing: 0.07px;
+      text-transform: uppercase;
+    }
+  }
+  tbody tr {
+    height: 60px;
+    border-top: 1px solid var(--white);
+    &:first-of-type {
+      border-top: none;
+    }
+  }
+}
 
+input {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+}
 
 .font-size-lg { font-size: 19px; }

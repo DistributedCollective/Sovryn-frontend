@@ -5,10 +5,12 @@
     "message": "New content is available and will be used when all tabs for this page are closed.",
     "button": "Update Now"
   },
-  "tokenSwapContainer": {
-    "title": "Swap Tokens",
-    "buttons": {
-      "submit": "Swap"
+  "tradingActivity": {
+    "title": "Trading Activity",
+    "walletNote": "Connect your wallet first!",
+    "tabs": {
+      "activeTrades": "Active Trades",
+      "tradingHistory": "Trading History"
     }
   },
   "tradingPage": {

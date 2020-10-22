@@ -5,9 +5,9 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Button, Icon, MenuItem, Text } from '@blueprintjs/core';
+import { Icon, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
 

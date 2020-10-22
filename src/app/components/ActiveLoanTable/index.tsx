@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
-import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
 import {
@@ -25,6 +24,7 @@ import {
   faSortUp,
   faSortDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { Text } from '@blueprintjs/core';
 
 interface Props {
   data: any;
@@ -44,7 +44,7 @@ export function ActiveLoanTable(props: Props) {
           symbolByTokenAddress(item.collateralToken) === 'BTC' ? (
             <FontAwesomeIcon
               icon={faArrowAltCircleUp}
-              className="text-customTeal ml-2"
+              className="text-customTeal mx-2"
               style={{ fontSize: '20px' }}
             />
           ) : (
@@ -74,31 +74,30 @@ export function ActiveLoanTable(props: Props) {
             : `$ ${(1 / parseFloat(weiTo18(item.startRate))).toLocaleString(
                 'en',
               )}`,
-        endDate: <DisplayDate timestamp={item.endTimestamp} />,
-        borrowed: '',
-        startMargin: '',
-        maintenanceMargin: '',
-        currentPrice: '',
-        liquidationPrice: '',
-        topUp: (
-          <TopUpButton
-            onClick={() => {
-              setPositionMarginModalOpen(true);
-              setSelectedItem(item);
-            }}
-          >
-            Top-Up
-          </TopUpButton>
-        ),
-        close: (
-          <CloseButton
-            onClick={() => {
-              setPositionCloseModalOpen(true);
-              setSelectedItem(item);
-            }}
-          >
-            Close
-          </CloseButton>
+        profit: '',
+        actions: (
+          <div className="d-flex flex-row flex-nowrap justify-content-end">
+            <div className="mr-1">
+              <TopUpButton
+                onClick={() => {
+                  setPositionMarginModalOpen(true);
+                  setSelectedItem(item);
+                }}
+              >
+                Top-Up
+              </TopUpButton>
+            </div>
+            <div className="ml-1">
+              <CloseButton
+                onClick={() => {
+                  setPositionCloseModalOpen(true);
+                  setSelectedItem(item);
+                }}
+              >
+                Close
+              </CloseButton>
+            </div>
+          </div>
         ),
       };
     });
@@ -141,17 +140,12 @@ export function ActiveLoanTable(props: Props) {
         accessor: 'startPrice',
       },
       {
-        Header: 'Renewal Date',
-        accessor: 'endDate',
-        sortable: true,
+        Header: 'Profit / Loss',
+        accessor: 'profit',
       },
       {
         Header: '',
-        accessor: 'topUp',
-      },
-      {
-        Header: '',
-        accessor: 'close',
+        accessor: 'actions',
       },
     ],
     [],
@@ -166,36 +160,35 @@ export function ActiveLoanTable(props: Props) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <>
-      <table {...getTableProps()} className="bp3-html-table table-dark">
+    <div className="bg-primary sovryn-border p-3">
+      <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  {column.sortable && (
-                    <span className="float-right">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <FontAwesomeIcon
-                            icon={faSortDown}
-                            className="mr-1 text-white"
-                          />
+                  <Text ellipsize tagName="span">
+                    {column.render('Header')}
+                    {column.sortable && (
+                      <span className="mx-1">
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <FontAwesomeIcon
+                              icon={faSortDown}
+                              className="text-white"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faSortUp}
+                              className="text-white"
+                            />
+                          )
                         ) : (
-                          <FontAwesomeIcon
-                            icon={faSortUp}
-                            className="mr-1 text-white"
-                          />
-                        )
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faSort}
-                          className="mr-1 text-lightGrey"
-                        />
-                      )}
-                    </span>
-                  )}
+                          <FontAwesomeIcon icon={faSort} />
+                        )}
+                      </span>
+                    )}
+                  </Text>
                 </th>
               ))}
             </tr>
@@ -232,22 +225,24 @@ export function ActiveLoanTable(props: Props) {
           onCloseModal={() => setPositionMarginModalOpen(false)}
         />
       )}
-    </>
+    </div>
   );
 }
 
-const TopUpButton = styled.button`
-  border: 1px solid var(--Green);
+const TopUpButton = styled.button.attrs(_ => ({ type: 'button' }))`
+  border: 2px solid var(--green);
   width: 77px;
   height: 32px;
-  color: var(--Green);
-  background-color: var(--bg-secondary);
+  color: var(--green);
+  background-color: var(--primary);
+  border-radius: 8px;
 `;
 
-const CloseButton = styled.button`
-  border: 1px solid var(--Red);
+const CloseButton = styled.button.attrs(_ => ({ type: 'button' }))`
+  border: 2px solid var(--red);
   width: 77px;
   height: 32px;
-  color: var(--Red);
-  background-color: var(--bg-secondary);
+  color: var(--red);
+  background-color: var(--primary);
+  border-radius: 8px;
 `;
