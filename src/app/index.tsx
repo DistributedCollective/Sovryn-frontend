@@ -35,8 +35,7 @@ export function App() {
       <WalletProvider>
         <Switch>
           <Route exact path="/" component={TradingPage} />
-          <Route exact path="/layout" component={LendBorrowSovryn} />
-          <Route exact path="/lend" component={LendingPage} />
+          <Route exact path="/lend" component={LendBorrowSovryn} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />

@@ -18,7 +18,6 @@ const CurrencyRow: React.FC<Props> = ({
   borrowApr,
   state,
 }) => {
-  console.log(';;;;;;', state);
   return (
     <Row
       className={clsx(

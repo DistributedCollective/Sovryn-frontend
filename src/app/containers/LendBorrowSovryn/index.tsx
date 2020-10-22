@@ -13,20 +13,20 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   const [key, setKey] = useState<'BTC' | 'DOC'>('BTC');
 
   return (
-    <Container fluid className="main-container">
+    <>
       <Header />
-      <Row className="d-flex justify-content-between flex-wrap">
-        <Row className="d-flex col-lg-6 col-md-12">
+      <main className="container d-flex justify-content-between">
+        <Row className="d-flex col-6">
           <CurrencyContainer state={key} setState={setKey} />
         </Row>
-        <Row className="d-flex col-lg-6 justify-content-center col-md-12">
+        <Row className="d-flex col-6 justify-content-center ">
           <CurrencyDetails currency={key} />
         </Row>
-      </Row>
-      <Row className="d-flex col-12 ">
+      </main>
+      <Container className="d-flex justify-content-center">
         <LendingHistory />
-      </Row>
-    </Container>
+      </Container>
+    </>
   );
 };
 

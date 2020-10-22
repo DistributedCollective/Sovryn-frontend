@@ -10,10 +10,7 @@ type Props = {};
 
 const Header: React.FC<Props> = props => {
   return (
-    <Container
-      fluid
-      className="d-flex justify-content-between w-100 h-10 align-items-center header"
-    >
+    <Container className="d-flex justify-content-between w-100 h-10 align-items-center header mt-4">
       <Link className="nav-item" to="/trade">
         Trade
       </Link>
