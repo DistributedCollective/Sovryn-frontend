@@ -165,6 +165,9 @@ input[type=number] {
       }
     }
   }
+  #WEB3_CONNECT_MODAL_ID > div {
+    z-index: 30;
+  }
   :focus {
     outline: 0!important;
     outline-offset: 0;

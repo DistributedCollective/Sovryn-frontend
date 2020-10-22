@@ -11,6 +11,7 @@ import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
 import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
+import { ActiveLoanProfit } from '../ActiveLoanProfit';
 import {
   weiTo2,
   weiTo18,
@@ -85,7 +86,7 @@ export function ActiveLoanTable(props: Props) {
               )}`,
         endDate: <DisplayDate timestamp={item.endTimestamp} />,
         leverage: `${leverageFromMargin(item.startMargin)}x`,
-        profit: '',
+        profit: <ActiveLoanProfit item={item} />,
         liquidationPrice: <ActiveLoanLiquidation item={item} />,
         topUp: (
           <TopUpButton

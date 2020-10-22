@@ -4,25 +4,27 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { weiTo18, toWei } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { useBorrowLiquidationPrice } from '../../hooks/trading/useBorrowLiquidationPrice';
 import { TradingPosition } from 'types/trading-position';
 import { Asset } from 'types/asset';
 import { leverageFromMargin } from '../../../utils/blockchain/leverage-from-start-margin';
+import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
 
 export function ActiveLoanLiquidation(props) {
+  const [danger, setDanger] = useState<boolean>(false);
+  const tokenSymbol = symbolByTokenAddress(props.item.collateralToken);
+  const { value: currentPrice } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
   const asset = Asset.BTC;
   const priceInWei =
-    symbolByTokenAddress(props.item.collateralToken) === 'BTC'
+    tokenSymbol === 'BTC'
       ? props.item.startRate
       : toWei(1 / parseFloat(weiTo18(props.item.startRate)));
   const leverage = leverageFromMargin(props.item.startMargin);
   const position =
-    symbolByTokenAddress(props.item.collateralToken) === 'BTC'
-      ? TradingPosition.LONG
-      : TradingPosition.SHORT;
+    tokenSymbol === 'BTC' ? TradingPosition.LONG : TradingPosition.SHORT;
 
   const { value: liquidationPrice } = useBorrowLiquidationPrice(
     asset,
@@ -30,13 +32,21 @@ export function ActiveLoanLiquidation(props) {
     leverage,
     position,
   );
+
+  useEffect(() => {
+    parseFloat(liquidationPrice) < parseFloat(currentPrice) * 1.1 &&
+    parseFloat(liquidationPrice) > parseFloat(currentPrice) * 0.9
+      ? setDanger(true)
+      : setDanger(false);
+  }, [liquidationPrice, currentPrice]);
+
   return (
-    <>
+    <span style={{ color: danger ? 'var(--Gold)' : 'white' }}>
       $
       {parseFloat(weiTo18(liquidationPrice)).toLocaleString('en', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}
-    </>
+    </span>
   );
 }
