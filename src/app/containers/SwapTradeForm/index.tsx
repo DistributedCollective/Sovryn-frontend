@@ -4,13 +4,12 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldGroup } from '../../components/FieldGroup';
 import { FormSelect } from '../../components/FormSelect';
 import { AmountField } from '../AmountField';
 import { weiTo18, weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { TradeButton } from '../../components/TradeButton';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -19,6 +18,16 @@ import { useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { DummyField } from '../../components/DummyField';
 import { LoadableValue } from '../../components/LoadableValue';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
+import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSelector } from 'react-redux';
+import { selectTradingPage } from '../TradingPage/selectors';
+import { TradingPairDictionary } from '../../../utils/trading-pair-dictionary';
+import { SendTxProgress } from '../../components/SendTxProgress';
+import { TokenWalletBalance } from '../../components/TokenWalletBalance/Loadable';
 
 const s = translations.swapTradeForm;
 
@@ -27,15 +36,56 @@ interface Props {}
 const color = 'var(--teal)';
 
 export function SwapTradeForm(props: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const isConnected = useIsConnected();
+
+  const { tradingPair } = useSelector(selectTradingPage);
 
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.BTC);
-  const tokens = [];
+  const [targetToken, setTargetToken] = useState(Asset.BTC);
+  const [options, setOptions] = useState<any[]>([]);
 
   const weiAmount = useWeiAmount(amount);
+
+  const { value: tokens } = useCacheCallWithValue(
+    'converterRegistry',
+    'getConvertibleTokens',
+    [],
+  );
+
+  useEffect(() => {
+    setOptions(
+      tokens.map(item => {
+        const asset = AssetsDictionary.getByTokenContractAddress(item);
+        return {
+          key: asset.asset,
+          label: asset.name,
+          address: asset.getTokenContractAddress(),
+        };
+      }),
+    );
+  }, [tokens]);
+
+  useEffect(() => {
+    setTargetToken(TradingPairDictionary.get(tradingPair).getAsset());
+  }, [tradingPair]);
+
+  const { value: path } = useSwapNetwork_conversionPath(
+    AssetsDictionary.get(sourceToken).getTokenContractAddress(),
+    AssetsDictionary.get(targetToken).getTokenContractAddress(),
+  );
+
+  const { value: rateByPath, loading } = useSwapNetwork_rateByPath(
+    path,
+    weiAmount,
+  );
+
+  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+    path,
+    weiAmount,
+    rateByPath,
+  );
 
   const { value: tokenBalance } = useTokenBalanceOf(sourceToken);
 
@@ -57,7 +107,7 @@ export function SwapTradeForm(props: Props) {
                 onChange={value => setSourceToken(value.key)}
                 placeholder={t(s.fields.currency_placeholder)}
                 value={sourceToken}
-                items={tokens}
+                items={options}
               />
             </FieldGroup>
           </div>
@@ -65,32 +115,28 @@ export function SwapTradeForm(props: Props) {
             <FieldGroup label={t(s.fields.receive)} labelColor={color}>
               <DummyField>
                 <LoadableValue
-                  value={<>{weiToFixed('0', 8)}</>}
-                  loading={false}
+                  value={<>{weiToFixed(rateByPath, 8)}</>}
+                  loading={loading}
                 />
               </DummyField>
             </FieldGroup>
           </div>
         </div>
         <div className="d-flex flex-row justify-content-between align-items-center">
-          <AssetWalletBalance asset={sourceToken} />
+          <TokenWalletBalance asset={sourceToken} />
           <TradeButton
             text={t(s.buttons.submit)}
-            onClick={() => {}}
-            disabled={!isConnected /* || loading || !valid*/}
+            onClick={() => send()}
+            disabled={
+              !isConnected || tx.loading || amount <= '0' || rateByPath <= '0'
+            }
+            loading={tx.loading}
             textColor={color}
           />
         </div>
-
-        {/*<div>*/}
-        {/*  <SendTxProgress*/}
-        {/*    status={status}*/}
-        {/*    txHash={txHash}*/}
-        {/*    loading={loading}*/}
-        {/*    type={type}*/}
-        {/*    position={position}*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div>
+          <SendTxProgress {...tx} />
+        </div>
       </div>
     </>
   );
