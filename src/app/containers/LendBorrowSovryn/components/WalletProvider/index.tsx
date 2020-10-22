@@ -1,21 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button as IconButton } from '@blueprintjs/core';
+import React, { useCallback } from 'react';
+import { Button as IconButton, Spinner } from '@blueprintjs/core';
 import Button from 'react-bootstrap/Button';
 
 import '../../assets/index.scss';
-import * as blockies from 'blockies-ts';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../../WalletProvider/selectors';
 import { prettyTx } from '../../../../../utils/helpers';
 import { Sovryn } from '../../../../../utils/sovryn';
-import { useHistory } from 'react-router-dom';
 
 type Props = {};
 
 const WalletProviderContainer: React.FC<Props> = props => {
-  const history = useHistory();
-  const [imgSrc, setImgSrc] = useState<string>(null as any);
-  const { connected, address } = useSelector(selectWalletProvider);
+  const { connected, connecting, address } = useSelector(selectWalletProvider);
 
   const handleWalletConnection = useCallback(() => {
     Sovryn.connect()
@@ -24,49 +20,34 @@ const WalletProviderContainer: React.FC<Props> = props => {
   }, []);
 
   const handleDisconnect = () => {
-    Sovryn.disconnect().then(() => {
-      history.push('/');
-    });
+    Sovryn.disconnect().then(() => {});
   };
 
-  useEffect(() => {
-    if (address) {
-      setImgSrc(
-        blockies
-          .create({
-            seed: address.toLowerCase(),
-            size: 6,
-          })
-          .toDataURL(),
-      );
-    }
-  }, [address]);
-
   return (
-    <>
+    <div className="d-flex flex-row">
       {!connected && !address ? (
-        <div>
-          <Button onClick={handleWalletConnection} className="engage-wallet">
-            Engage wallet
-          </Button>
-          <Button className="help">?</Button>
-        </div>
+        <Button
+          onClick={handleWalletConnection}
+          className="engage-wallet d-flex justify-content-center align-items-center"
+        >
+          {connecting && <Spinner size={22} />}
+          {!connecting && <span>Engage wallet</span>}
+        </Button>
       ) : (
-        <div className="d-flex flex-row justify-content-start align-items-center">
-          {imgSrc && <img src={imgSrc} alt={address} className="mr-3" />}
-          <div className="d-flex flex-row justify-content-between align-items-center">
-            <strong>{prettyTx(address)}</strong>
+        <div className="engage-wallet w-auto d-flex justify-content-center align-items-center">
+          <span className="d-flex flex-nowrap flex-row align-items-center">
+            <span>{prettyTx(address, 5, 3)}</span>
             <IconButton
-              className="ml-3 icon-btn"
+              className="ml-1 icon-btn"
               title="Disconnect"
               onClick={handleDisconnect}
               icon="log-in"
             />
-          </div>
-          <Button className="help">?</Button>
+          </span>
         </div>
       )}
-    </>
+      <Button className="help flex-shrink-0 flex-grow-0">?</Button>
+    </div>
   );
 };
 
