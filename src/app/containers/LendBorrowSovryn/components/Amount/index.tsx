@@ -1,6 +1,7 @@
 import React from 'react';
 
-import '../../../assets/index.scss';
+import '../../assets/index.scss';
+import clsx from 'clsx';
 
 type Props = {
   amountName: string;
@@ -9,14 +10,19 @@ type Props = {
   maxValue: number | string;
 };
 
-const DepositAmount: React.FC<Props> = ({
+const Amount: React.FC<Props> = ({
   amountName,
   currency,
   minValue,
   maxValue,
 }) => {
   return (
-    <div className="deposit-amount-container">
+    <div
+      className={clsx(
+        'amount-container',
+        currency === 'DOC' && 'amount-container__green',
+      )}
+    >
       <div className="d-flex flex-column ">
         <p> {amountName}</p>
         <div className="d-flex input-container">
@@ -47,4 +53,4 @@ const DepositAmount: React.FC<Props> = ({
   );
 };
 
-export default DepositAmount;
+export default Amount;

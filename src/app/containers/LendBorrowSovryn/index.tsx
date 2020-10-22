@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import CurrencyContainer from './components/CurrencyContainer';
 
 import './assets/index.scss';
-import BTCLendForm from './components/BTCLendForm';
+import CurrencyDetails from './components/CurrencyDetails';
+import LendingHistory from './components/LendingHistory';
 
 type Props = {};
 
 const LendBorrowSovryn: React.FC<Props> = props => {
+  const [key, setKey] = useState<'BTC' | 'DOC'>('BTC');
+
   return (
-    <div className="main-container">
+    <Container fluid className="main-container">
       <Header />
-      <Container fluid className="d-flex w-100">
-        <CurrencyContainer />
-        <BTCLendForm />
-      </Container>
-    </div>
+      <Row className="d-flex justify-content-between flex-wrap">
+        <Row className="d-flex col-lg-6 col-md-12">
+          <CurrencyContainer state={key} setState={setKey} />
+        </Row>
+        <Row className="d-flex col-lg-6 justify-content-center col-md-12">
+          <CurrencyDetails currency={key} />
+        </Row>
+      </Row>
+      <Row className="d-flex col-12 ">
+        <LendingHistory />
+      </Row>
+    </Container>
   );
 };
 

@@ -9,6 +9,9 @@
     text-decoration: none;
   }
 }
+.header {
+  margin-bottom: 5%;
+}
 
 .engage-wallet {
   background: #171717;
@@ -53,7 +56,7 @@
   padding: 4vh 7vw;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   background-image: url("img/bg@3x.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -62,7 +65,6 @@
 
 .currency-container {
   padding: 9px;
-  width: 80vh;
   border-right: 5px solid #fff;
   border-bottom: 5px solid #fff;
   border-left: 1px solid #fff;
@@ -115,7 +117,21 @@
 }
 
 .nav-tabs {
-  width: 508px;
+  width: 99%;
+}
+
+.tabs__green {
+  .nav-tabs, .nav-tabs .nav-item.show .nav-link {
+    color: #88c6a3!important;
+  }
+
+  .nav-item:hover, .nav-item:active {
+    color:#88c6a3!important;
+  }
+
+  .nav-link.active {
+    color: #88c6a3!important;
+  }
 }
 
 .tabs {
@@ -124,11 +140,11 @@
 
   .nav-tabs, .nav-tabs .nav-item.show .nav-link {
     color: #f89b2b;
-    background: none !important;
+    background: #171717 !important;
 
     &:hover, &:active, &:focus {
       color: #495057;
-      background: none !important;
+      background: #171717 !important;
     }
   }
 
@@ -138,28 +154,83 @@
 
   .nav-link.active {
     color: #f89b2b;
-    background: none !important;
+    background: #171717 !important;
     border-color: #dee2e6 #dee2e6 #dee2e6;
   }
 
   &:hover, &:active, &:focus {
-    background: none !important;
+    background: #171717 !important;
+
   }
 }
 
 .deposit-button-group {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
 
-  & > button {
-    width: 220px;
+  & button {
+    width: 100%;
     font-weight: 700;
     font-size: 22px;
-
   }
+
+  & button.disabled {
+    background: #656565;
+    border: 1px solid #656565;
+  }
+
 }
 
-.deposit-amount-container {
+.withdraw-content {
+  background: #fff;
+  color: #000;
+  height: 91px;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+
+  & > div:first-child {
+    margin-right: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & > div:last-child {
+   & > h4:after {
+     content: "+1.2% 24 hrs";
+     color: #00ce7d;
+     font-size: 16px;
+     margin-left: 8px;
+   }
+  }
+
+  & h4 {
+    color: #000;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 0.26px;
+    margin-bottom: 8px;
+  }
+
+  & p {
+    padding: 0;
+    margin: 0;
+  }
+
+}
+.amount-container__green {
+  & div:first-child {
+
+    & p {
+      color: #88c6a3 !important;
+    }
+  }
+}
+.amount-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -208,9 +279,27 @@
   }
 }
 
-.lend-container {
+.disabledItem {
+  //height: 312px;
+  background: #282828;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background: none;
+}
+
+
+.deposit-button-group.nav-pills .nav-link {
+  width: 48%;
+}
+
+.nav-pills a {
+  color: #fff
+}
+
+.tabs-container {
   background: #171717;
-  width: 514px;
+  width: 100%;
   height: 416px;
   border-radius: 0 8px 8px 8px;
   display: flex;
@@ -225,6 +314,7 @@
   //box-shadow: 3px 3px 0 #fff;
 }
 .lending-history-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   border-right: 5px solid #fff;
@@ -233,7 +323,7 @@
   border-top: 1px solid #fff;
   background: #171717;
   border-radius: 8px;
-  margin-top: 30px;
+  margin-top: 5%;
   justify-content: center;
   padding: 18px 40px;
 
@@ -241,19 +331,40 @@
     background: #171717;
     border: none;
 
-    & .cell {
-      border-bottom: 1px solid #fff;
+    & thead th {
+      border-bottom: 1px solid #797979;
     }
-    & tr {
+
+    & td {
+      border: none;
       border-bottom: 1px solid #fff;
+      font-size: 14px;
+    }
+    tr:nth-child(even) {
+      background: #171717;
+    }
+
+    & .cell {
+      & > th {
+        font-weight: 300;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: #979797
+      }
     }
   }
 
 }
+
+
 .lending-history {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  & img {
+    cursor: pointer;
+  }
 
   & h3 {
     margin: 0;
@@ -263,6 +374,11 @@
 }
 
 
+.account-balance-container__green {
+  & button {
+    background: #88c6a3!important;
+  }
+}
 
 .account-balance-container {
   display: flex;

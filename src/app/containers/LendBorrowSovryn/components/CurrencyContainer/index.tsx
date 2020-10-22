@@ -1,12 +1,15 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Nav, Tab } from 'react-bootstrap';
 import '../../assets/index.scss';
 
-import btcIcon from '../../assets/img/bitcoin.svg';
+import btcIcon from '../../assets/img/bitcoin.png';
 import docIcon from '../../assets/img/icon.svg';
 import CurrencyRow from './CurrencyRow';
 
-type Props = {};
+type Props = {
+  state: 'BTC' | 'DOC';
+  setState: (key: 'BTC' | 'DOC') => void;
+};
 
 const currencyRows = [
   {
@@ -23,12 +26,24 @@ const currencyRows = [
   },
 ];
 
-const CurrencyContainer: React.FC<Props> = props => {
+const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   return (
-    <Container fluid className="d-flex flex-column w-100 mt-5">
-      {currencyRows.map(info => (
-        <CurrencyRow {...info} />
-      ))}
+    <Container className="d-flex flex-column w-100">
+      <Tab.Container id="left-tabs-example" defaultActiveKey={state}>
+        <Nav
+          onSelect={k => setState(k as 'BTC' | 'DOC')}
+          className="d-flex flex-column currency-nav"
+          variant="pills"
+        >
+          {currencyRows.map(info => {
+            return (
+              <Nav.Link eventKey={info.title}>
+                <CurrencyRow {...info} state={state} />
+              </Nav.Link>
+            );
+          })}
+        </Nav>
+      </Tab.Container>
     </Container>
   );
 };
