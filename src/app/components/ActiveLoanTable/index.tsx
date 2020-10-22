@@ -10,12 +10,14 @@ import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositi
 import { DisplayDate } from '../DisplayDate';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
+import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
 import {
   weiTo2,
   weiTo18,
   weiToFixed,
 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
+import { leverageFromMargin } from '../../../utils/blockchain/leverage-from-start-margin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import {
@@ -70,16 +72,21 @@ export function ActiveLoanTable(props: Props) {
         ),
         startPrice:
           symbolByTokenAddress(item.collateralToken) === 'BTC'
-            ? `$ ${parseFloat(weiTo2(item.startRate)).toLocaleString('en')}`
+            ? `$ ${parseFloat(weiTo18(item.startRate)).toLocaleString('en', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
             : `$ ${(1 / parseFloat(weiTo18(item.startRate))).toLocaleString(
                 'en',
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
               )}`,
         endDate: <DisplayDate timestamp={item.endTimestamp} />,
-        borrowed: '',
-        startMargin: '',
-        maintenanceMargin: '',
-        currentPrice: '',
-        liquidationPrice: '',
+        leverage: `${leverageFromMargin(item.startMargin)}x`,
+        profit: '',
+        liquidationPrice: <ActiveLoanLiquidation item={item} />,
         topUp: (
           <TopUpButton
             onClick={() => {
@@ -139,6 +146,21 @@ export function ActiveLoanTable(props: Props) {
       {
         Header: 'Start Price',
         accessor: 'startPrice',
+      },
+      {
+        Header: 'Leverage',
+        accessor: 'leverage',
+        sortable: true,
+      },
+      {
+        Header: 'Profit',
+        accessor: 'profit',
+        sortable: true,
+      },
+      {
+        Header: 'Liquidation Price',
+        accessor: 'liquidationPrice',
+        sortable: true,
       },
       {
         Header: 'Renewal Date',
