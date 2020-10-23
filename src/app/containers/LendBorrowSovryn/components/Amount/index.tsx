@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 import '../../assets/index.scss';
 import clsx from 'clsx';
@@ -16,6 +16,10 @@ const Amount: React.FC<Props> = ({
   minValue,
   maxValue,
 }) => {
+  const [value, currentValue] = useState<string>('');
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
+    currentValue(e.target.value as string);
   return (
     <div
       className={clsx(
@@ -30,9 +34,9 @@ const Amount: React.FC<Props> = ({
             <input
               type="number"
               className="d-inline-block w-100-input"
-              value={''}
+              value={value}
               placeholder="Enter amount"
-              onChange={() => {}}
+              onChange={onChange}
             />
           </div>
           <div className=" mr-2 d-flex align-items-center">
