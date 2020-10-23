@@ -6,9 +6,20 @@ import '../../assets/index.scss';
 type Props = {
   currency: string;
   value: string;
+  isConnected: boolean;
+  valid: boolean;
+  loading: boolean;
+  handleSubmit: (e: any) => void;
 };
 
-const AccountBalance: React.FC<Props> = ({ currency, value }) => {
+const AccountBalance: React.FC<Props> = ({
+  currency,
+  value,
+  handleSubmit,
+  isConnected,
+  valid,
+  loading,
+}) => {
   return (
     <div
       className={clsx(
@@ -22,7 +33,12 @@ const AccountBalance: React.FC<Props> = ({ currency, value }) => {
           {currency} <b> {value}</b>
         </span>
       </div>
-      <button>Lend {currency}</button>
+      <button
+        onClick={handleSubmit}
+        disabled={/*loading || */ !isConnected || !valid}
+      >
+        Lend {currency}
+      </button>
     </div>
   );
 };
