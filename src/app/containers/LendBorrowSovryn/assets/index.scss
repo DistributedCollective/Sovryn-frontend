@@ -280,15 +280,13 @@
   }
 }
 
-.disabledItem {
-  //height: 312px;
-  background: #282828;
+.selectedItem {
+  background: #212020;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   background: none;
 }
-
 
 .deposit-button-group.nav-pills .nav-link {
   width: 48%;
@@ -356,8 +354,6 @@
   }
 
 }
-
-
 .lending-history {
   display: flex;
   justify-content: space-between;
@@ -373,8 +369,6 @@
     font-weight: 700;
   }
 }
-
-
 .account-balance-container__green {
   & button {
     background: #88c6a3!important;
@@ -409,6 +403,10 @@
     font-weight: bold;
     border-radius: 25.5px;
     text-transform: uppercase;
+  }
+
+  & button:disabled {
+    background: #656565!important;
   }
 }
 

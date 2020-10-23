@@ -14,7 +14,7 @@ interface Props {
   value: string;
   onChange: (value: string) => void;
   onMaxClicked: () => void;
-  allowNegative: boolean;
+  allowNegative?: boolean;
 }
 
 export function AmountField(props: Props) {
@@ -45,7 +45,7 @@ AmountField.defaultProps = {
 };
 
 const StyledWrapper = styled.label.attrs(_ => ({
-  className: 'd-flex flex-row w-100 border rounded px-2 py-1',
+  className: 'd-flex flex-row w-100 border rounded px-2 py-1 m-0',
 }))`
   height: 48px;
 `;

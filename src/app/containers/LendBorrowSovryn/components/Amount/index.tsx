@@ -5,6 +5,8 @@ import clsx from 'clsx';
 
 type Props = {
   amountName: string;
+  amountValue: string;
+  onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
   currency: string;
   minValue: number | string;
   maxValue: number | string;
@@ -15,6 +17,8 @@ const Amount: React.FC<Props> = ({
   currency,
   minValue,
   maxValue,
+  onChangeAmount,
+  amountValue,
 }) => {
   return (
     <div
@@ -30,9 +34,9 @@ const Amount: React.FC<Props> = ({
             <input
               type="number"
               className="d-inline-block w-100-input"
-              value={''}
+              value={amountValue}
               placeholder="Enter amount"
-              onChange={() => {}}
+              onChange={onChangeAmount}
             />
           </div>
           <div className=" mr-2 d-flex align-items-center">

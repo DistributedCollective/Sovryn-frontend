@@ -23,7 +23,7 @@ const CurrencyRow: React.FC<Props> = ({
       className={clsx(
         'currency-container',
         'align-items-center',
-        state !== title && 'disabledItem',
+        state === title && 'selectedItem',
       )}
     >
       <Col className="d-flex currency">

@@ -125,6 +125,69 @@ input {
   font-weight: 400;
 }
 
-.font-size-lg {
-  font-size: 19px;
+.font-size-lg { font-size: 19px; }
+
+.font-family-work-sans {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.font-family-work-sans {
+  font-family: 'Rowdies', cursive;
+}
+
+
+.bp3-dialog {
+  @extend .sovryn-border;
+  @extend .bg-primary;
+  @extend .p-3;
+}
+
+.bp3-popover {
+  &.bp3-select-popover {
+    & .bp3-popover-content {
+      @extend .sovryn-border;
+      @extend .bg-primary;
+      & .bp3-menu {
+        background-color: transparent;
+        & .bp3-menu-item {
+          color: var(--white);
+          &.bp3-active {
+            background-color: var(--dark-gray);
+          }
+        }
+      }
+      & .bp3-input-group {
+        & input {
+          background-color: transparent;
+          border: 1px solid var(--light-gray);
+          color: var(--white);
+        }
+      }
+    }
+
+    & .bp3-popover-arrow-fill {
+      fill: var(--white);
+    }
+  }
+
+  &.bp3-tooltip {
+    & .bp3-popover-content {
+      @extend .sovryn-border;
+      @extend .bg-primary;
+    }
+
+    & .bp3-popover-arrow {
+      width: 30px;
+      height: 30px;
+    }
+
+    & .bp3-popover-arrow-fill {
+      fill: var(--white);
+    }
+  }
+}
+
+.bp3-toast {
+  @extend .sovryn-border;
+  background-color: var(--primary);
 }
