@@ -30,6 +30,11 @@ export const readNodes = {
   31: 'wss://testnet.sovryn.app/ws',
 };
 
+// export const rpcNodesFallback = {
+//   30: 'https://public-node.rsk.co',
+//   31: 'https://public-node.testnet.rsk.co',
+// };
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const liquidityPools = [

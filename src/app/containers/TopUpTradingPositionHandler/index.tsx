@@ -5,7 +5,6 @@
  */
 
 import React, { useState } from 'react';
-import { Dialog, InputGroup } from '@blueprintjs/core';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
@@ -15,8 +14,12 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { Dialog } from '../Dialog/Loadable';
+import { DialogButton } from '../../components/DialogButton';
+import { AmountField } from '../AmountField';
+import { DummyField } from '../../components/DummyField';
+import { FieldGroup } from '../../components/FieldGroup';
 
 interface Props {
   item: ActiveLoan;
@@ -28,8 +31,7 @@ export function TopUpTradingPositionHandler(props: Props) {
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );
-  const color = tokenDetails.asset === 'BTC' ? 'customTeal' : 'Gold';
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
 
   const weiAmount = useWeiAmount(amount);
@@ -53,82 +55,49 @@ export function TopUpTradingPositionHandler(props: Props) {
   //   props.position,
   // );
 
-  const { value: maxAmount } = useLending_transactionLimit(
-    tokenDetails.asset,
-    tokenDetails.asset,
-  );
+  // if maxAmount is 0 = unlimited
+  // const { value: maxAmount } = useLending_transactionLimit(
+  //   tokenDetails.asset,
+  //   tokenDetails.asset,
+  // );
 
   return (
-    <Dialog
-      isOpen={props.showModal}
-      className={`bg-component-bg p-3 border border-${color}`}
-    >
+    <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="container position-relative">
-        <div
-          className="position-absolute"
-          style={{ top: '0', right: '0', fontSize: '12px', cursor: 'pointer' }}
-          onClick={props.onCloseModal}
-        >
-          <u>Close</u> X
-        </div>
-
-        <div className={`text-${color} text-center mt-4 modal-title`}>
+        <h4 className="text-teal text-center mb-5 text-uppercase">
           Top Up position
-        </div>
+        </h4>
 
-        <div className="row mt-3">
-          <div className="col-4">
-            <div className="data-label">Currency</div>
-            <div className="data-container p-2">
-              <div>{tokenDetails.asset}</div>
-            </div>
+        <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
+          <div className="col-4 col-lg-4 flex-grow-0">
+            <FieldGroup label="Currency">
+              <DummyField>{tokenDetails.asset}</DummyField>
+            </FieldGroup>
           </div>
-          <div className="col-8">
-            <div className="data-label d-flex flex-row align-items-end justify-content-between">
-              <span>Top Up Amount</span>
-              {maxAmount !== '0' && (
-                <>
-                  <small>(max: {weiTo4(maxAmount)})</small>
-                </>
-              )}
-            </div>
-            <div className="data-container">
-              <InputGroup
+          <div className="col flex-grow-1 flex-shrink-0">
+            <FieldGroup label="Top Up Amount">
+              <AmountField
                 value={amount || ''}
-                onChange={e => setAmount(e.currentTarget.value)}
-                placeholder="Enter amount"
+                onChange={value => setAmount(value)}
+                onMaxClicked={() => setAmount(weiTo18(balance))}
               />
-            </div>
-          </div>
-        </div>
-        <div className="row mt-3 mb-4">
-          <div className="col-6">
-            <AssetWalletBalance asset={tokenDetails.asset} />
-          </div>
-          <div className="col-6">
-            <div>
-              <button
-                className={`btn btn-${color} text-white my-3 w-100 p-2 rounded`}
-                disabled={rest.loading || !valid}
-                onClick={() => handleConfirm()}
-              >
-                Top Up
-              </button>
-            </div>
+            </FieldGroup>
           </div>
         </div>
 
         {rest.status !== TransactionStatus.NONE && (
-          <div className="row">
-            <SendTxProgress
-              status={rest.status}
-              txHash={rest.txHash}
-              loading={rest.loading}
-              type={rest.type}
-              displayAbsolute={false}
-            />
-          </div>
+          <SendTxProgress {...rest} displayAbsolute={false} />
         )}
+
+        <div className="mt-4 d-flex flex-row justify-content-between">
+          <AssetWalletBalance asset={tokenDetails.asset} />
+          <DialogButton
+            text="Top Up"
+            onClick={() => handleConfirm()}
+            disabled={rest.loading || !valid}
+            loading={rest.loading}
+          />
+        </div>
       </div>
     </Dialog>
   );
