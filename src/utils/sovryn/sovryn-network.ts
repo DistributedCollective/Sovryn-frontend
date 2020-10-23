@@ -269,7 +269,7 @@ export class SovrynNetwork {
         console.error('provider error', error);
       });
       provider.on('open', a => {
-        console.log('connected?', a);
+        console.log('provider open?', a);
       });
       provider.on('accountsChanged', async (accounts: string[]) => {
         this.store().dispatch(actions.accountChanged(accounts[0]));
@@ -291,6 +291,7 @@ export class SovrynNetwork {
   }
 
   protected async connectProvider(provider) {
+    this.store().dispatch(actions.connect());
     await this.subscribeProvider(provider);
 
     this.initWriteWeb3(provider);

@@ -17,6 +17,7 @@
   background: #171717;
   margin-right: 50px;
   width: 125px;
+  height: 58px;
   padding: 2px 20px;
   border-radius: 8px;
   font-weight: 600;
@@ -39,7 +40,8 @@
   color: #656565;
   font-weight: 600;
   font-size: 22px;
-  padding: 6px 17px;
+  width: 58px;
+  height: 58px;
   border: 2px solid #656565;
   border-radius: 100%;
   background: none;
@@ -106,7 +108,6 @@
 
 .icon-btn {
   background: none !important;
-  margin-right: 15px;
 
   &:hover, &:active, &:focus {
     //background: rgba(236, 236, 236, 0.23) !important;

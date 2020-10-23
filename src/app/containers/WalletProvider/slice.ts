@@ -9,6 +9,7 @@ export const initialState: ContainerState = {
   chainId: currentChainId,
   networkId: currentChainId,
   connected: false,
+  connecting: false,
   blockNumber: 0,
   syncBlockNumber: 0,
   // todo ?
@@ -20,9 +21,12 @@ const walletProviderSlice = createSlice({
   name: 'walletProvider',
   initialState,
   reducers: {
-    connect() {},
+    connect(state) {
+      state.connecting = true;
+    },
     connected(state, { payload }: PayloadAction<{ address: string }>) {
       state.connected = true;
+      state.connecting = false;
       state.address = payload.address || '';
     },
 
@@ -45,6 +49,7 @@ const walletProviderSlice = createSlice({
       state.chainId = initialState.chainId;
       state.networkId = initialState.networkId;
       state.connected = initialState.connected;
+      state.connecting = false;
       state.transactions = initialState.transactions;
       state.transactionStack = initialState.transactionStack;
     },
