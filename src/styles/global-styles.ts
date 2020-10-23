@@ -10,8 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 16px;
+    font-family: 'Rowdies', cursive;
+    font-size: 14px;
     background-color: var(--background);
     color: white;
   }
@@ -28,9 +28,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input, select {
-    font-family: inherit;
-    font-size: inherit;
-    background-color: var(--Field_bg);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 400;
+    background-color: var(--primary);
     color: var(--white);
     border: none;
     &::selection {
@@ -108,36 +108,6 @@ input[type=number] {
     padding: 8px 0;
     color: var(--Grey_text);
     font-size: 85%;
-  }
-  table {
-    background-color: var(--component-bg);
-    color: white;
-    width: 100%;
-    border: 1px solid var(--component-bg);
-  }
-  tr:nth-child(even) {
-    background-color: var(--background)
-  }
-  .bp3-html-table {
-    width: 100%;
-    background-color: var(--component-bg);
-    thead th {
-        color: var(--Grey_text);
-        text-transform: uppercase;
-        border-bottom: 2px solid var(--background);
-        @media (max-width: 1200px) {
-          font-size: 80%;
-        }
-    }
-    tbody tr td {
-      color: white;
-      font-weight: 300;
-      padding: 10px 5px;
-      text-align: center;
-      @media (max-width: 1200px) {
-        font-size: 90%;
-      }
-    }
   }
   .modal-title {
     font-size: 22px;

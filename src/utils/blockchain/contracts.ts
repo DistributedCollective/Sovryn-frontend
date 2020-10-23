@@ -11,6 +11,8 @@ import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import TestTokenABI from './abi/abiTestToken.json';
+import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
+import ConverterRegistryABI from './abi/ConverterRegistry.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -28,6 +30,16 @@ export const contracts = {
     address: '0x437AC62769f386b2d238409B7f0a7596d36506e4',
     abi: priceFeedsAbi,
     blockNumber: 2742435,
+  },
+  swapNetwork: {
+    address: '0x98aCE08D2b759a265ae326F010496bcD63C15afc',
+    abi: SwapNetworkABI,
+    blockNumber: 2742574,
+  },
+  converterRegistry: {
+    address: '0x31A0F8400c75d52FdB413372233F28E3bdFB1c06',
+    abi: ConverterRegistryABI,
+    blockNumber: 2742580,
   },
   BTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',

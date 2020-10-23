@@ -1,6 +1,6 @@
 :root {
   --Teal: #4ecdc4;
-  --background: #192b41;
+  --background: #171717;
   --secondary-bg: #414042;
   --component-bg: #0b223b;
   --Gold: #fec006;
@@ -11,13 +11,66 @@
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
   --TabGrey: #213b58;
-  --white: #ffffff;
+
+  --black: #000;
+  --dark-gray: #656565;
+  --light-gray: #979797;
+  --white: #fff;
+  --black: #000;
+  --red: #eb2106;
+  --green: #00ce7d;
+  --teal: #4ecdc4;
+  --gold: #fec006;
+  --primary: #171717;
+  --secondary: #2d2d2d;
+
+  --dark: var(--primary);
+
+  --body-bg: var(--primary);
+  --body-color: var(--white);
+
 }
+
+$body-bg: #171717;
+$body-color: #fff;
+
+$dark-gray: #656565;
+$light-gray: #979797;
+
+$black: #000;
+$white: $body-color;
+//$blue:    #007bff !default;
+//$indigo:  #6610f2 !default;
+//$purple:  #6f42c1 !default;
+//$pink:    #e83e8c !default;
+$red:     #eb2106;
+//$orange:  #fd7e14 !default;
+//$yellow:  #ffc107 !default;
+$green:   #00ce7d;
+$teal:    #4ecdc4;
+//$cyan:    #17a2b8 !default;
+
+
+$primary:       $body-bg;
+$secondary:     #2d2d2d;
+$success:       $green;
+//$info:          $cyan !default;
+//$warning:       $yellow !default;
+$danger:        $red;
+$light:         $body-color;
+$dark:          $body-bg;
+
 
 /* FOR BOOTSTRAP THEMES */
 
 $theme-colors: (
-  'secondary': #0b223b,
+  'black': $black,
+  'muted': $dark-gray,
+  'long': $teal,
+  'short': #fec006,
+  'dark-gray': $dark-gray,
+  'light-gray': $light-gray,
+
   'customOrange': #ff9931,
   'Gold':  #fec006,
   'customTeal':  #4ecdc4,
@@ -32,8 +85,8 @@ $theme-colors: (
   'Red': #eb2106
 );
 
-$body-bg: #192b41;
-$body-color: #fff;
+
+$border-radius: 5px;
 
 //$font-size-base: 18px;
 //$font-size-sm: 14px;

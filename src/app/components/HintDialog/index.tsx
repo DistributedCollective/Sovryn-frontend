@@ -12,22 +12,29 @@ export function HintDialog() {
   const { value, loading } = useTokenBalanceOf(Asset.BTC);
 
   useEffect(() => {
-    if (!connected || (!loading && parseFloat(value) === 0)) {
+    if (connected && !loading && parseFloat(value) > 0) {
+      setShow(false);
+    } else if (!connected || (!loading && parseFloat(value) === 0)) {
       const delay = setTimeout(() => {
         setShow(true);
       }, 2000);
       return () => clearTimeout(delay);
-    } else if (connected && !loading && parseFloat(value) > 0) {
-      setShow(false);
     }
+    console.log(loading);
   }, [connected, loading, value]);
 
   return (
     <Dialog isOpen={show} className="bg-secondary p-3">
       <div className="container">
         <div className="d-flex justify-content-between mb-3">
-          <h4>Sovryn Tips</h4>
-          <Button icon="cross" onClick={() => setShow(false)} minimal />
+          <h3 className="text-muted">Sovryn Tips</h3>
+          <Button
+            icon="cross"
+            style={{ marginRight: '-10px', marginTop: '-10px' }}
+            className="text-white"
+            onClick={() => setShow(false)}
+            minimal
+          />
         </div>
         {!connected && <HintHowToConnect />}
         {connected && !loading && parseFloat(value) === 0 && <HintHowToTopup />}

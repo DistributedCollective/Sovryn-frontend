@@ -5,8 +5,9 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Button, MenuItem, Text } from '@blueprintjs/core';
+import { Icon, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
+import styled from 'styled-components';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
 
@@ -38,7 +39,7 @@ export function FormSelect(props: Props) {
 
   return (
     <Selector
-      className="p-0 w-100 background-Field_bg"
+      className="w-100"
       items={props.items}
       noResults={
         <MenuItem
@@ -56,14 +57,14 @@ export function FormSelect(props: Props) {
       onItemSelect={onItemSelect}
       itemsEqual={areOptionsEqual}
       activeItem={selected}
+      popoverProps={{
+        targetTagName: 'div',
+      }}
     >
-      <Button
-        fill
-        rightIcon="caret-down"
-        text={
-          <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
-        }
-      />
+      <StyledSelection active={!!selected}>
+        <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
+        <Icon icon="caret-down" />
+      </StyledSelection>
     </Selector>
   );
 }
@@ -71,8 +72,27 @@ export function FormSelect(props: Props) {
 FormSelect.defaultProps = {
   loading: false,
   filterable: true,
-  placeholder: '(No Selection)',
+  placeholder: 'Select something',
 };
+
+interface StyledProps {
+  active: boolean;
+}
+const StyledSelection = styled.button.attrs(_ => ({
+  type: 'button',
+  className:
+    'border rounded px-2 py-2 d-flex flex-row justify-content-between w-100 align-items-center',
+}))`
+  height: 48px;
+  background-color: transparent;
+  width: 100%;
+  color: ${(props: StyledProps) =>
+    props.active ? `var(--white)` : `var(--light-gray)`};
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: normal;
+`;
 
 export const renderItem: ItemRenderer<SelectItem> = (
   item,

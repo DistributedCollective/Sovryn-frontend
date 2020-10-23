@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function AssetWalletBalance(props: Props) {
-  const { value, loading } = useTokenBalanceOf(props.asset);
+  const { value, loading } = useAssetBalanceOf(props.asset);
   const connected = useIsConnected();
 
   useEffect(() => {
@@ -26,27 +26,17 @@ export function AssetWalletBalance(props: Props) {
   }, [props, value]);
 
   return (
-    <>
-      <div className="mt-1 data-label text-MediumGrey">Account Balance</div>
-      <div className="m-0">
-        <LoadableValue
-          value={
-            connected ? (
-              <>
-                <span className="data-label text-MediumGrey">
-                  {props.asset}
-                </span>{' '}
-                {weiToFixed(value, 4)}
-              </>
-            ) : (
-              <span className="data-label text-MediumGrey">
-                Connect to wallet
-              </span>
-            )
-          }
-          loading={loading}
-        />
-      </div>
-    </>
+    <div>
+      <div className="font-weight-bold text-muted mb-2">Account Balance</div>
+      {!connected && <span>Connect to wallet</span>}
+      {connected && (
+        <div className="d-flex flex-row justify-content-start align-items-center">
+          <span className="text-muted">{props.asset}</span>
+          <span className="text-white font-weight-bold ml-2">
+            <LoadableValue value={weiToFixed(value, 4)} loading={loading} />
+          </span>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,0 +1,130 @@
+.sovryn-border {
+  border-bottom: 5px;
+  border-right: 5px;
+  border-top: 1px;
+  border-left: 1px;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: $white;
+}
+.sovryn-border-left {
+  border-left: 1px solid $white;
+}
+.sovryn-border-top {
+  border-top: 1px solid $white;
+}
+.sovryn-border-bottom {
+  border-bottom: 5px solid $white;
+}
+.sovryn-border-right {
+  border-right: 5px solid $white;
+}
+
+.sovryn-tabs {
+  background: none !important;
+
+  .tab-content {
+    padding: $grid-gutter-width / 2;
+    border-bottom: 5px;
+    border-right: 5px;
+    border-top: 1px;
+    border-left: 1px;
+    border-style: solid;
+    border-radius: 0 8px 8px 8px;
+    border-color: $white;
+    z-index: 1;
+  }
+
+  .nav-tabs {
+    border-bottom: 0;
+    & .nav-item {
+      font-size: 22px;
+      color: $text-muted;
+      margin-right: 5px;
+      border-right: 5px;
+      border-top: 1px;
+      border-left: 1px;
+      border-bottom: 0;
+      border-style: solid;
+      border-color: $text-muted;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: -1px;
+      border-bottom: 1px solid $white;
+
+      &.active {
+        color: $white;
+        border-color: $white;
+        border-bottom: 1px solid $dark;
+      }
+    }
+  }
+
+  //.nav-tabs, .nav-tabs .nav-item.show .nav-link {
+  //  color: #f89b2b;
+  //  background: none !important;
+  //
+  //  &:hover, &:active, &:focus {
+  //    color: #495057;
+  //    background: none !important;
+  //  }
+  //}
+  //
+  //.nav-item:hover, .nav-item:active {
+  //  color: #f89b2b;
+  //}
+  //
+  //.nav-link.active {
+  //  color: #f89b2b;
+  //  background: none !important;
+  //  border-color: #dee2e6 #dee2e6 #dee2e6;
+  //}
+  //
+  //&:hover, &:active, &:focus {
+  //  background: none !important;
+  //}
+}
+
+@mixin table-header {
+  font-family: inherit;
+  font-weight: inherit;
+  color: var(--light-gray);
+  font-size: 12px;
+  letter-spacing: 0.07px;
+  text-transform: uppercase;
+}
+
+.sovryn-table {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+  width: 100%;
+  thead tr {
+    height: 40px;
+    border-bottom: 1px solid var(--light-gray);
+    th {
+      @include table-header;
+    }
+  }
+  tbody tr {
+    height: 60px;
+    border-top: 1px solid var(--white);
+    &:first-of-type {
+      border-top: none;
+    }
+    &.table-header {
+      height: 60%;
+      > td {
+        @include table-header;
+        padding-top: 20px;
+      }
+    }
+  }
+}
+
+input {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+}
+
+.font-size-lg {
+  font-size: 19px;
+}

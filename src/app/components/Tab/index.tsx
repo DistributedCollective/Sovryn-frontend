@@ -1,33 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Text } from '@blueprintjs/core';
 
 interface Props {
   text: string;
   active: boolean;
+  onClick: () => void;
 }
 
 export function Tab(props: Props) {
   return (
-    <>
-      {props.active && <ActiveDiv>{props.text}</ActiveDiv>}
-      {!props.active && <InactiveDiv>{props.text}</InactiveDiv>}
-    </>
+    <StyledTab active={props.active} onClick={() => props.onClick()}>
+      <Text ellipsize>{props.text}</Text>
+    </StyledTab>
   );
 }
 
-const ActiveDiv = styled.div`
-  background-color: var(--component-bg);
-  color: white;
-  padding: 5px;
-  cursor: pointer;
-  text-align: center;
-  margin: 0;
-`;
-
-const InactiveDiv = styled.div`
-  color: var(--Grey_text);
-  padding: 5px;
-  cursor: pointer;
-  text-align: center;
-  margin: 0;
+interface StyledProps {
+  active: boolean;
+}
+const StyledTab = styled.button.attrs(_ => ({
+  type: 'button',
+  className: 'btn',
+}))`
+  color: var(--primary);
+  background-color: var(--light-gray);
+  padding: 9px 11px;
+  border-radius: 8px;
+  ${(props: StyledProps) =>
+    props.active &&
+    css`
+      background-color: var(--white);
+      &:hover {
+        color: var(--primary);
+      }
+    `}
 `;
