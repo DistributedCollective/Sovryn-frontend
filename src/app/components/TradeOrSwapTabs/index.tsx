@@ -9,6 +9,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { translations } from 'locales/i18n';
 import { MarginTradeForm } from '../../containers/MarginTradeForm/Loadable';
 import { SwapTradeForm } from '../../containers/SwapTradeForm/Loadable';
+import { FastBtcForm } from '../../containers/FastBtcForm/Loadable';
 
 const s = translations.tradeOrSwapTabs;
 
@@ -17,12 +18,13 @@ interface Props {}
 enum TabType {
   TRADE,
   SWAP,
+  BTC,
 }
 
 export function TradeOrSwapTabs(props: Props) {
   const { t } = useTranslation();
 
-  const [key, setKey] = useState<TabType>(TabType.TRADE);
+  const [key, setKey] = useState<TabType>(TabType.BTC);
 
   return (
     <div className="sovryn-tabs">
@@ -43,6 +45,9 @@ export function TradeOrSwapTabs(props: Props) {
           title={t(s.tabs.swap)}
         >
           <SwapTradeForm />
+        </Tab>
+        <Tab eventKey={(TabType.BTC as unknown) as string} title={'Fast BTC*'}>
+          <FastBtcForm />
         </Tab>
       </Tabs>
     </div>
