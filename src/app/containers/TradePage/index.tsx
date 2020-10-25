@@ -10,7 +10,6 @@ import { Footer } from '../../components/Footer';
 import { HintDialog } from '../../components/HintDialog';
 import { Announcement } from '../../components/Announcement';
 import { TradingViewChart } from '../../components/TradingViewChart';
-import { InfoBox } from '../../components/InfoBox';
 import { TradingToken } from '../TradingToken';
 import { TradingActivity } from '../TradingActivity';
 import { Asset } from '../../../types/asset';
