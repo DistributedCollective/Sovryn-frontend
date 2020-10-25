@@ -8,6 +8,7 @@ import React from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { HintDialog } from '../../components/HintDialog';
+import { Announcement } from '../../components/Announcement';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { InfoBox } from '../../components/InfoBox';
 import { TradingToken } from '../TradingToken';
@@ -20,7 +21,9 @@ export function TradePage() {
       <Header />
       <main>
         <HintDialog />
-        <InfoBox />
+        <div className="container">
+          <Announcement />
+        </div>
         <div className="container">
           <div className="row">
             <div
