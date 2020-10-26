@@ -32,7 +32,6 @@ function* callCreateWebSocketChannel({ payload }: PayloadAction<boolean>) {
       yield put(event);
     }
   } finally {
-    console.log('closing channel');
     blockChannel.close();
   }
 }
@@ -49,31 +48,35 @@ function createWebSocketChannel(state) {
         if (res && res.btcadr) {
           emit(actions.getDepositAddressSuccess(res));
         } else {
-          console.log('no response here.');
-          emit(actions.getDepositAddressFailed());
+          emit(actions.depositError(res.error));
         }
       });
     }
 
     socket.emit('txAmount', info => {
-      console.log('tx ampunt', info);
       emit(actions.changeAmountInfo(info));
-    });
-    console.log('ddddddd', state.receiverAddress);
-    socket.emit('getDepositHistory', state.receiverAddress, info => {
-      console.log('gdh', info);
-      emit(actions.setDepositHistory(info));
     });
 
     socket.on('txAmount', info => emit(actions.changeAmountInfo(info)));
 
-    socket.on('depositTx', tx => emit(actions.changeDepositTx(tx)));
-    socket.on('transferTx', tx => emit(actions.changeTransferTx(tx)));
-    socket.on('depositError', tx => emit(actions.depositError(tx)));
-    socket.on('getDepositHistory', info => {
-      console.log('on deposit history', info);
-      emit(actions.setDepositHistory(info));
+    socket.on('depositTx', tx => {
+      emit(actions.changeDepositTx(tx));
+      getHistory();
     });
+    socket.on('transferTx', tx => {
+      emit(actions.changeTransferTx(tx));
+      getHistory();
+    });
+    socket.on('depositError', errorMessage =>
+      emit(actions.depositError(errorMessage)),
+    );
+    getHistory();
+
+    function getHistory() {
+      socket.on('getDepositHistory', info => {
+        emit(actions.setDepositHistory(info));
+      });
+    }
 
     return () => {
       socket.disconnect();

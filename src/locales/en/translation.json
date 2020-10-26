@@ -19,6 +19,17 @@
       "description": "Trade with Sovryn."
     }
   },
+  "fastBtcPage": {
+    "meta": {
+      "title": "Fast-BTC",
+      "description": "Move your Bitcoin to RSK network."
+    }
+  },
+  "fastBtcForm": {
+    "history": {
+      "empty": "History is empty."
+    }
+  },
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Trade",

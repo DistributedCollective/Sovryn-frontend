@@ -13,6 +13,8 @@ export const currentChainId = chains[currentNetwork];
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
+  btc_30: 'https://live.blockcypher.com/btc',
+  btc_31: 'https://live.blockcypher.com/btc-testnet',
 };
 
 export const networkNames = {
@@ -32,7 +34,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app',
-  31: 'https://fastbtc.sovryn.app',
+  31: 'http://18.138.223.132:3009',
 };
 
 // export const rpcNodesFallback = {
