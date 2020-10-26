@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState } from './types';
+import { ContainerState, DepositTx, TransferTx } from './types';
+import { toaster } from '../../../utils/toaster';
 
 // The initial state of the FastBtcForm container
 export const initialState: ContainerState = {
@@ -12,10 +13,11 @@ export const initialState: ContainerState = {
   minDepositAmount: 0,
   maxDepositAmount: 0,
   isDepositLoading: false,
-  depositTx: '',
-  transferTx: '',
+  depositTx: null,
+  transferTx: null,
   depositError: '',
   history: [],
+  isHistoryLoading: true,
 };
 
 const fastBtcFormSlice = createSlice({
@@ -25,6 +27,7 @@ const fastBtcFormSlice = createSlice({
     changeReceiverAddress(state, { payload }: PayloadAction<string>) {
       state.receiverAddress = payload;
       state.isReceiverAddressValidating = true;
+      state.isHistoryLoading = true;
     },
     changeReceiverAddressValidity(state, { payload }: PayloadAction<boolean>) {
       state.isReceiverAddressValid = payload;
@@ -47,25 +50,30 @@ const fastBtcFormSlice = createSlice({
       state,
       { payload }: PayloadAction<{ min: number; max: number }>,
     ) {
-      console.warn('amounts', payload);
       state.maxDepositAmount = payload.max;
       state.minDepositAmount = payload.min;
     },
-    changeDepositTx(state, { payload }: PayloadAction<string>) {
-      console.warn('deposit tx', payload);
+    changeDepositTx(state, { payload }: PayloadAction<DepositTx>) {
       state.depositTx = payload;
     },
-    changeTransferTx(state, { payload }: PayloadAction<string>) {
-      console.warn('transfer tx', payload);
+    changeTransferTx(state, { payload }: PayloadAction<TransferTx>) {
       state.transferTx = payload;
     },
     depositError(state, { payload }: PayloadAction<string>) {
-      console.warn('deposit error', payload);
+      toaster.show({
+        intent: 'warning',
+        message: 'Fast-BTC - Deposit failed with error.',
+        timeout: 0,
+      });
       state.depositError = payload;
     },
     setDepositHistory(state, { payload }: PayloadAction<Array<any>>) {
-      console.warn('history', payload);
       state.history = payload;
+      state.isHistoryLoading = false;
+    },
+    reset(state) {
+      state.depositTx = null;
+      state.transferTx = null;
     },
   },
 });

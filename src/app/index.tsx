@@ -22,6 +22,7 @@ import { currentNetwork } from '../utils/classifiers';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
+import { FastBtcPage } from './containers/FastBtcPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -36,6 +37,7 @@ export function App() {
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
+          <Route exact path="/fast-btc" component={FastBtcPage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
