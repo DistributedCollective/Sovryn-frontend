@@ -2,16 +2,17 @@ import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { Toaster } from '@blueprintjs/core';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
 import {
   currentChainId,
   rpcNodes,
   readNodes,
   currentNetwork,
 } from '../classifiers';
-import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
-import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
@@ -32,6 +33,14 @@ export class SovrynNetwork {
       options: {
         chainId: currentChainId,
         rpc: rpcNodes,
+      },
+    },
+    portis: {
+      package: Portis, // required
+      options: {
+        dappId: process.env.REACT_APP_PORTIS_ID,
+        network: currentNetwork === 'mainnet' ? 'orchid' : 'orchidTestnet',
+        id: process.env.REACT_APP_PORTIS_ID,
       },
     },
   };

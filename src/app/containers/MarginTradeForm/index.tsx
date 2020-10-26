@@ -25,8 +25,8 @@ import { TradeButton } from '../../components/TradeButton';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 
 const s = translations.marginTradeForm;
 
@@ -69,7 +69,7 @@ export function MarginTradeForm(props: Props) {
     weiAmount,
   );
 
-  const { value: tokenBalance } = useTokenBalanceOf(collateral);
+  const { value: tokenBalance } = useAssetBalanceOf(collateral);
   // const { value: maxAmount } = useLending_transactionLimit(
   //   pair.getAssetForPosition(position),
   //   collateral,
@@ -137,6 +137,7 @@ export function MarginTradeForm(props: Props) {
             onClick={() => trade()}
             disabled={!isConnected || loading || !valid}
             textColor={color}
+            loading={loading}
           />
         </div>
 
