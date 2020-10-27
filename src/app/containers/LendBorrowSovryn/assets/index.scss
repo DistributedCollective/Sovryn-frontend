@@ -4,7 +4,7 @@
   font-weight: 600;
 
 
-  &:hover, &:active {
+  &:hover, &:active, &.active {
     color: #fec006;
     text-decoration: none;
   }
@@ -15,7 +15,6 @@
 
 .engage-wallet {
   background: #171717;
-  margin-right: 50px;
   width: 125px;
   height: 58px;
   padding: 2px 20px;

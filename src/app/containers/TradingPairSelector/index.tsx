@@ -106,7 +106,7 @@ export function TradingPairSelector(props: Props) {
             <Text ellipsize>Select trade pair</Text>
           )}
         </span>
-        <span className="sovryn-border-left py-3 px-4">
+        <span className="sovryn-border-left px-2 py-3 px-lg-4">
           <Icon icon="caret-down" />
         </span>
       </button>

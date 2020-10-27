@@ -6,6 +6,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Spinner, Text } from '@blueprintjs/core';
+import { media } from '../../../styles/media';
 
 interface Props {
   text: React.ReactNode;
@@ -27,7 +28,7 @@ export function TradeButton(props: Props) {
     >
       <Text
         ellipsize
-        className="d-flex flex-row align-items-center"
+        className="d-flex flex-row align-items-center justify-content-center"
         tagName="span"
       >
         {props.loading && <Spinner className="mr-1" size={17} />}
@@ -52,7 +53,7 @@ const StyledButton = styled.button`
   background-color: var(--primary);
   border-radius: 20px;
   padding: 11px 22px;
-  font-size: 14px;
+  font-size: 12px;
   &:hover:not(:disabled) {
     color: var(--white);
   }
@@ -64,4 +65,7 @@ const StyledButton = styled.button`
     css`
       cursor: not-allowed;
     `}
+  ${media.lg`
+  font-size: 14px
+  `}
 `;

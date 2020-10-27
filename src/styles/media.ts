@@ -18,10 +18,10 @@ import {
 
 // Update your breakpoints if you want
 export const sizes = {
-  small: 600,
-  medium: 1024,
-  large: 1440,
-  xlarge: 1920,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
 };
 
 // Iterate through the sizes and create a media template

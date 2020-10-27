@@ -3,7 +3,7 @@ import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState } from './types';
 import { currentChainId } from '../../../utils/classifiers';
 
-// The initial state of the WalletProvider container
+// The initial state of the WalletConnector container
 export const initialState: ContainerState = {
   address: '',
   chainId: currentChainId,

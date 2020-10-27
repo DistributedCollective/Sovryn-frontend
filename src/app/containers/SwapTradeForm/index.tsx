@@ -60,7 +60,7 @@ export function SwapTradeForm(props: Props) {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         return {
           key: asset.asset,
-          label: asset.name,
+          label: asset.symbol,
           address: asset.getTokenContractAddress(),
         };
       }),
@@ -122,8 +122,10 @@ export function SwapTradeForm(props: Props) {
             </FieldGroup>
           </div>
         </div>
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <TokenWalletBalance asset={sourceToken} />
+        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+          <div className="mb-3 mb-lg-0">
+            <TokenWalletBalance asset={sourceToken} />
+          </div>
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => send()}

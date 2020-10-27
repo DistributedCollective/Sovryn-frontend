@@ -38,7 +38,7 @@
   .nav-tabs {
     border-bottom: 0;
     & .nav-item {
-      font-size: 22px;
+      font-size: 15px;
       color: $text-muted;
       margin-right: 5px;
       border-right: 5px;
@@ -50,6 +50,10 @@
       border-radius: 8px 8px 0 0;
       margin-bottom: -1px;
       border-bottom: 1px solid $white;
+
+      @include media-breakpoint-up(lg) {
+        font-size: 22px;
+      }
 
       &.active {
         color: $white;
@@ -84,6 +88,13 @@
   //}
 }
 
+.sovryn-tabs .custom-stats-tab {
+  border: none!important;
+  &.charts-active {
+    color: var(--gold);
+  }
+}
+
 @mixin table-header {
   font-family: inherit;
   font-weight: inherit;
@@ -94,7 +105,7 @@
 }
 
 .sovryn-table {
-  font-family: 'Work Sans', sans-serif;
+  font-family: var(--secondary-font);
   font-weight: 400;
   width: 100%;
   thead tr {
@@ -121,18 +132,18 @@
 }
 
 input {
-  font-family: 'Work Sans', sans-serif;
+  font-family: var(--secondary-font);
   font-weight: 400;
 }
 
 .font-size-lg { font-size: 19px; }
 
 .font-family-work-sans {
-  font-family: 'Work Sans', sans-serif;
+  font-family: var(--secondary-font);
 }
 
 .font-family-work-sans {
-  font-family: 'Rowdies', cursive;
+  font-family: var(--primary-font);
 }
 
 
@@ -147,15 +158,7 @@ input {
     & .bp3-popover-content {
       @extend .sovryn-border;
       @extend .bg-primary;
-      & .bp3-menu {
-        background-color: transparent;
-        & .bp3-menu-item {
-          color: var(--white);
-          &.bp3-active {
-            background-color: var(--dark-gray);
-          }
-        }
-      }
+
       & .bp3-input-group {
         & input {
           background-color: transparent;
@@ -170,7 +173,7 @@ input {
     }
   }
 
-  &.bp3-tooltip {
+  &, &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
       @extend .bg-primary;
@@ -185,9 +188,33 @@ input {
       fill: var(--white);
     }
   }
+
+  & .bp3-menu {
+    background-color: transparent;
+    & .bp3-menu-item {
+      color: var(--white);
+      font-family: var(--secondary-font);
+      &.bp3-active {
+        background-color: var(--dark-gray);
+      }
+    }
+  }
+
 }
 
 .bp3-toast {
   @extend .sovryn-border;
   background-color: var(--primary);
+}
+
+.bp3-drawer {
+  background-color: var(--primary);
+  color: var(--white);
+  width: 100%!important;
+  border-right: 5px solid var(--white);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  @include media-breakpoint-up(md) {
+    width: 360px!important;
+  }
 }

@@ -8,7 +8,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import Header from '../LendBorrowSovryn/components/Header';
+import { Header } from 'app/components/Header';
 import { FastBtcForm } from '../FastBtcForm/Loadable';
 
 const s = translations.tradingPage;

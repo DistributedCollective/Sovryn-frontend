@@ -27,6 +27,7 @@ import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
+import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 
 const s = translations.marginTradeForm;
 
@@ -53,7 +54,7 @@ export function MarginTradeForm(props: Props) {
   const options = (position === TradingPosition.LONG
     ? pair.getLongCollateral()
     : pair.getShortCollateral()
-  ).map(item => ({ key: item, label: item }));
+  ).map(item => ({ key: item, label: AssetsDictionary.get(item).symbol }));
 
   const color =
     position === TradingPosition.LONG ? 'var(--teal)' : 'var(--gold)';
@@ -130,8 +131,10 @@ export function MarginTradeForm(props: Props) {
             </FieldGroup>
           </div>
         </div>
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <AssetWalletBalance asset={collateral} />
+        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+          <div className="mb-3 mb-lg-0">
+            <AssetWalletBalance asset={collateral} />
+          </div>
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => trade()}

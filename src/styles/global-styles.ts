@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { media } from './media';
 
 export const GlobalStyle = createGlobalStyle`
   html,
@@ -10,10 +11,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Rowdies', cursive;
-    font-size: 14px;
+    font-family: var(--primary-font);
+    font-size: 12px;
     background-color: var(--background);
     color: white;
+    ${media.lg`
+    font-size: 14px;
+    `}
   }
 
   #root {
@@ -28,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input, select {
-    font-family: 'Work Sans', sans-serif;
+    font-family: var(--secondary-font);
     font-size: 400;
     background-color: var(--primary);
     color: var(--white);
@@ -114,26 +118,6 @@ input[type=number] {
     font-weight: 300;
     letter-spacing: 0.49px;
     text-transform: capitalize;
-  }
-  .bp3-input-group {
-    .bp3-input {
-      background-color: var(--Field_bg);
-      color: var(--white);
-      width: 100%;
-    }
-  }
-  .bp3-popover-wrapper {
-    .bp3-popover-target {
-      button {
-        width: 100%;
-        background-color: var(--Field_bg);
-        background-image: none;
-        color: white;
-        &:active, &:hover {
-          background-color: var(--Field_bg)
-        }
-      }
-    }
   }
   #WEB3_CONNECT_MODAL_ID > div {
     z-index: 30;
