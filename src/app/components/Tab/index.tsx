@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Text } from '@blueprintjs/core';
+import { media } from '../../../styles/media';
 
 interface Props {
   text: string;
@@ -27,6 +28,8 @@ const StyledTab = styled.button.attrs(_ => ({
   background-color: var(--light-gray);
   padding: 9px 11px;
   border-radius: 8px;
+  font-size: 12px;
+  ${media.lg`font-size: 1rem;`}
   ${(props: StyledProps) =>
     props.active &&
     css`

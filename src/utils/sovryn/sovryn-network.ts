@@ -1,20 +1,29 @@
-import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { Toaster } from '@blueprintjs/core';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
+import { store } from 'store/store';
 import {
   currentChainId,
   rpcNodes,
   readNodes,
   currentNetwork,
 } from '../classifiers';
-import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal, { IProviderOptions } from 'web3modal';
+import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
 import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
+
+const themeColors: ThemeColors = {
+  background: 'var(--primary)',
+  border: 'none',
+  main: 'var(--white)',
+  secondary: 'var(--white)',
+  hover: 'var(--secondary)',
+};
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
@@ -34,6 +43,14 @@ export class SovrynNetwork {
         rpc: rpcNodes,
       },
     },
+    portis: {
+      package: Portis, // required
+      options: {
+        dappId: process.env.REACT_APP_PORTIS_ID,
+        network: currentNetwork === 'mainnet' ? 'orchid' : 'orchidTestnet',
+        id: process.env.REACT_APP_PORTIS_ID,
+      },
+    },
   };
   private _provider = null;
   private _writeWeb3: Web3 = null as any;
@@ -49,6 +66,7 @@ export class SovrynNetwork {
       disableInjectedProvider: false,
       cacheProvider: true,
       providerOptions: this._providerOptions,
+      theme: themeColors,
     });
 
     this.initReadWeb3(currentChainId).then().catch();

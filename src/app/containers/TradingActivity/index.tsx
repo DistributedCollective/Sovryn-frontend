@@ -15,17 +15,17 @@ export function TradingActivity() {
   const [activeTrades, setActiveTrades] = useState(true);
   return (
     <div>
-      <div className="mt-5 mb-4 d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <h3 className="mt-0 mb-3 mb-lg-0 text-white">{t(s.title)}</h3>
-        <div className="row">
-          <div className="col-6">
+      <div className="mt-5 mb-4 d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
+        <h3 className="mt-0 mb-3 mb-md-0 text-white">{t(s.title)}</h3>
+        <div className="d-flex flex-row align-items-center justify-content-start justify-content-md-end">
+          <div className="mr-3">
             <Tab
               text={t(s.tabs.activeTrades)}
               active={activeTrades}
               onClick={() => setActiveTrades(true)}
             />
           </div>
-          <div className="col-6">
+          <div>
             <Tab
               text={t(s.tabs.tradingHistory)}
               active={!activeTrades}

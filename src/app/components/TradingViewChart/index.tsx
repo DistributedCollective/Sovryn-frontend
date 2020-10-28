@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from 'react';
 import { TradingPairType } from 'utils/trading-pair-dictionary';
 import { Skeleton } from '../PageSkeleton';
-import { Asset } from '../../../types/asset';
 
 enum Theme {
   LIGHT = 'Light',
@@ -14,7 +13,6 @@ enum Theme {
 }
 
 export interface ChartContainerProps {
-  asset: Asset;
   pair: TradingPairType;
   theme: Theme;
 }
@@ -56,7 +54,7 @@ export function TradingViewChart(props: ChartContainerProps) {
             ? { backgroundColor: 'rgb(0, 0, 0)' }
             : { backgroundColor: 'rgb(256, 256, 256)' },
         overrides: {
-          'paneProperties.background': '#131722',
+          'paneProperties.background': '#000000',
           'paneProperties.vertGridProperties.color': '#363c4e',
           'paneProperties.horzGridProperties.color': '#363c4e',
           'symbolWatermarkProperties.transparency': 90,

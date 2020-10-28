@@ -14,7 +14,7 @@ export class TradingPairDictionary {
     [
       TradingPairType.BTC_DOC,
       new TradingPair(
-        'BTC - DOC',
+        'BTC',
         Asset.BTC,
         Asset.DOC,
         Asset.BTC,
@@ -25,7 +25,7 @@ export class TradingPairDictionary {
     [
       TradingPairType.BTC_DOC_TEST,
       new TradingPair(
-        'TEST (BTC - DOC)',
+        'TEST (BTC)',
         Asset.DOC,
         Asset.BTC,
         Asset.DOC,

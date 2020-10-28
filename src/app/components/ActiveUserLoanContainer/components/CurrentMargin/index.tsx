@@ -1,5 +1,5 @@
 import React from 'react';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLongArrowAltUp,
@@ -20,7 +20,10 @@ export function CurrentMargin(props: Props) {
       <div className="d-inline">{`${weiTo4(props.currentMargin)} %`}</div>
       <div
         className="d-inline ml-2 mr-2"
-        style={{ fontSize: '12px', color: diff > 0 ? 'Green' : 'Red' }}
+        style={{
+          fontSize: '12px',
+          color: diff > 0 ? 'var(--Green)' : 'var(--Red)',
+        }}
       >
         <div className="d-inline">
           <FontAwesomeIcon

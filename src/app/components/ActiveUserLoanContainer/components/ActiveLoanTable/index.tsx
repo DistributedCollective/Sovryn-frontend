@@ -5,26 +5,25 @@
  */
 import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
-import { CloseTradingPositionHandler } from '../../containers/CloseTradingPositionHandler';
-import { TopUpTradingPositionHandler } from '../../containers/TopUpTradingPositionHandler';
+import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
+import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
 import { CurrentMargin } from '../CurrentMargin';
 import { InterestAPR } from '../InterestAPR';
+import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
+import { ActiveLoanProfit } from '../ActiveLoanProfit';
+import { DisplayDate } from '../DisplayDate';
+import { ActiveLoanExpandedRow } from '../ActiveLoanExpandedRow';
+import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
 import {
-  weiTo2,
   weiTo18,
   weiToFixed,
-} from '../../../utils/blockchain/math-helpers';
-import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+} from '../../../../../utils/blockchain/math-helpers';
+import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import styled from 'styled-components';
-import {
-  faArrowAltCircleDown,
-  faArrowAltCircleUp,
-  faSort,
-  faSortUp,
-  faSortDown,
-} from '@fortawesome/free-solid-svg-icons';
+import { Icon } from '@blueprintjs/core';
 import { Text } from '@blueprintjs/core';
+import { Asset } from 'types/asset';
 
 interface Props {
   data: any;
@@ -35,6 +34,10 @@ export function ActiveLoanTable(props: Props) {
   const [positionCloseModalOpen, setPositionCloseModalOpen] = useState(false);
   const [positionMarginModalOpen, setPositionMarginModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(props.data[0]);
+  const [expandedItem, setExpandedItem] = useState('');
+  const [expandedId, setExpandedId] = useState('');
+  //TODO: Assets should not be hardcoded
+  const { value: currentPrice } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -42,16 +45,16 @@ export function ActiveLoanTable(props: Props) {
         item: item,
         icon:
           symbolByTokenAddress(item.collateralToken) === 'BTC' ? (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleUp}
+            <Icon
+              icon="circle-arrow-up"
               className="text-customTeal mx-2"
-              style={{ fontSize: '20px' }}
+              iconSize={20}
             />
           ) : (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleDown}
+            <Icon
+              icon="circle-arrow-down"
               className="text-Gold ml-2"
-              style={{ fontSize: '20px' }}
+              iconSize={20}
             />
           ),
         positionSize: `${parseFloat(weiToFixed(item.collateral, 4))} 
@@ -70,13 +73,42 @@ export function ActiveLoanTable(props: Props) {
         ),
         startPrice:
           symbolByTokenAddress(item.collateralToken) === 'BTC'
-            ? `$ ${parseFloat(weiTo2(item.startRate)).toLocaleString('en')}`
+            ? `$ ${parseFloat(weiTo18(item.startRate)).toLocaleString('en', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
             : `$ ${(1 / parseFloat(weiTo18(item.startRate))).toLocaleString(
                 'en',
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
               )}`,
-        profit: '',
+        endDate: <DisplayDate timestamp={item.endTimestamp} />,
+        leverage: `${leverageFromMargin(item.startMargin)}x`,
+        profit: <ActiveLoanProfit item={item} currentPrice={currentPrice} />,
+        liquidationPrice: (
+          <ActiveLoanLiquidation item={item} currentPrice={currentPrice} />
+        ),
+        currentPrice: parseFloat(weiTo18(currentPrice)).toLocaleString('en', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }),
+        maintenanceMargin: `${parseFloat(
+          weiTo18(item.maintenanceMargin),
+        ).toLocaleString('en', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} %`,
+        startMargin: `${parseFloat(weiTo18(item.startMargin)).toLocaleString(
+          'en',
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          },
+        )} %`,
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-end">
+          <div className="d-flex flex-row flex-nowrap justify-content-between">
             <div className="mr-1">
               <TopUpButton
                 onClick={() => {
@@ -101,7 +133,7 @@ export function ActiveLoanTable(props: Props) {
         ),
       };
     });
-  }, [props.data]);
+  }, [props.data, currentPrice]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.
@@ -111,6 +143,12 @@ export function ActiveLoanTable(props: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
+
+  useEffect(() => {
+    if (!expandedId) {
+      setExpandedItem('');
+    }
+  }, [expandedId]);
 
   const columns = React.useMemo(
     () => [
@@ -142,6 +180,7 @@ export function ActiveLoanTable(props: Props) {
       {
         Header: 'Profit / Loss',
         accessor: 'profit',
+        sortable: true,
       },
       {
         Header: '',
@@ -173,18 +212,20 @@ export function ActiveLoanTable(props: Props) {
                       <span className="mx-1">
                         {column.isSorted ? (
                           column.isSortedDesc ? (
-                            <FontAwesomeIcon
-                              icon={faSortDown}
+                            <Icon
+                              icon="sort-desc"
                               className="text-white"
+                              iconSize={15}
                             />
                           ) : (
-                            <FontAwesomeIcon
-                              icon={faSortUp}
+                            <Icon
+                              icon="sort-asc"
                               className="text-white"
+                              iconSize={15}
                             />
                           )
                         ) : (
-                          <FontAwesomeIcon icon={faSort} />
+                          <Icon icon="double-caret-vertical" iconSize={15} />
                         )}
                       </span>
                     )}
@@ -194,19 +235,38 @@ export function ActiveLoanTable(props: Props) {
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody {...getTableBodyProps()} style={{ cursor: 'pointer' }}>
           {rows.map(row => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td className="align-middle" {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
+              //If row is expanded render expanded row
+              row.id === expandedId ? (
+                <ActiveLoanExpandedRow
+                  data={expandedItem}
+                  key={expandedId}
+                  handleClick={() => setExpandedId('')}
+                />
+              ) : (
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() => {
+                    setExpandedItem(data[row.id]);
+                    setExpandedId(row.id);
+                  }}
+                  style={{
+                    opacity: expandedId ? '0.2' : '1',
+                    border: expandedId ? 'none' : '',
+                  }}
+                >
+                  {row.cells.map(cell => {
+                    return (
+                      <td className="align-middle" {...cell.getCellProps()}>
+                        {cell.render('Cell')}
+                      </td>
+                    );
+                  })}
+                </tr>
+              )
             );
           })}
         </tbody>
