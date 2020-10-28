@@ -55,10 +55,7 @@ export function TradingPage(props: Props) {
                 tradingPage.isMobileStatsOpen && `d-block`
               } d-lg-block`}
             >
-              <TradingViewChart
-                pair={tradingPage.tradingPair}
-                asset={Asset.BTC}
-              />
+              <TradingViewChart pair={tradingPage.tradingPair} />
             </div>
             <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
               <TradingPairSelector />

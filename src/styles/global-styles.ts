@@ -16,7 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: var(--background);
     color: white;
     ${media.lg`
-    font-size: 14px;
+    font-size: 16px;
     `}
   }
 
@@ -113,36 +113,6 @@ input[type=number] {
     padding: 8px 0;
     color: var(--Grey_text);
     font-size: 85%;
-  }
-  table {
-    background-color: var(--component-bg);
-    color: white;
-    width: 100%;
-    border: 1px solid var(--component-bg);
-  }
-  tr:nth-child(even) {
-    background-color: var(--background)
-  }
-  .bp3-html-table {
-    width: 100%;
-    background-color: var(--component-bg);
-    thead th {
-        color: var(--Grey_text);
-        text-transform: uppercase;
-        border-bottom: 2px solid var(--background);
-        @media (max-width: 1200px) {
-          font-size: 80%;
-        }
-    }
-    tbody tr td {
-      color: white;
-      font-weight: 300;
-      padding: 10px 5px;
-      text-align: center;
-      @media (max-width: 1200px) {
-        font-size: 90%;
-      }
-    }
   }
   .modal-title {
     font-size: 22px;

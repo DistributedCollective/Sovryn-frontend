@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from 'react';
 import { TradingPairType } from 'utils/trading-pair-dictionary';
 import { Skeleton } from '../PageSkeleton';
-import { Asset } from '../../../types/asset';
 
 enum Theme {
   LIGHT = 'Light',
@@ -14,7 +13,6 @@ enum Theme {
 }
 
 export interface ChartContainerProps {
-  asset: Asset;
   pair: TradingPairType;
   theme: Theme;
 }
