@@ -3,10 +3,14 @@
  * Header
  *
  */
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
-import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
+import { Container } from 'react-bootstrap';
+import WalletProvider from '../../containers/WalletConnector';
+import styled from 'styled-components';
+import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
+import { media } from '../../../styles/media';
 
 export function Header() {
   const pages = [
@@ -16,9 +20,7 @@ export function Header() {
     'FAQs',
   ];
 
-  const [show, setShow] = useState(false);
-
-  const pageNavs = pages.map((item, index) => {
+  const menuItems = pages.map((item, index) => {
     let link: { to: string; title: string; exact: boolean } = item as any;
 
     if (typeof item === 'string') {
@@ -29,52 +31,70 @@ export function Header() {
       };
     }
 
-    return (
-      <li
-        key={index}
-        className="nav-item list-group-item border-0 bg-transparent"
-      >
-        <NavLink
-          className="text-decoration-none nav-link"
-          to={link.to}
-          exact={link.exact}
-        >
-          <h4>{link.title}</h4>
-        </NavLink>
-      </li>
-    );
+    return <MenuItem key={index} text={link.title} href={link.to} />;
   });
+
+  const dropDownMenu = <Menu>{menuItems}</Menu>;
 
   return (
     <>
-      <header className="mb-2 shadow d-flex">
-        <div className="container">
-          <nav className="navbar navbar-expand-lg px-0">
-            <Link to="/">
-              <img className="navbar-brand" src={logoSvg} alt="Logo" />
+      <header>
+        <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
+          <div className="d-lg-none">
+            <StyledMenuButton>
+              <Popover content={<Menu>{dropDownMenu}</Menu>}>
+                <Icon icon="menu" />
+              </Popover>
+            </StyledMenuButton>
+          </div>
+          <div className="d-none d-lg-block">
+            <Link className="nav-item mr-4" to="/">
+              Trade
             </Link>
-            <button
-              className="navbar-toggler custom-toggler navbar-dark "
-              type="button"
-              onClick={() => setShow(prevState => !prevState)}
-            >
-              <span className="navbar-toggler-icon custom-toggler" />
-            </button>
-
-            <div
-              className={`collapse navbar-collapse w-100 ${show && 'show'}`}
-              id="navbar-collaps"
-            >
-              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal-lg w-100 justify-content-lg-end">
-                {pageNavs}
-              </ul>
+            <Link className="nav-item mr-4" to="/lend">
+              Lend/Borrow
+            </Link>
+          </div>
+          <div className="mx-3">
+            <Link to="/">
+              <StyledLogo src={logoSvg} />
+            </Link>
+          </div>
+          <div className="d-lg-flex flex-row align-items-center">
+            <div className="d-none d-lg-block">
+              <Link className="nav-item mr-4" to="/fast-btc">
+                Fast-Btc
+              </Link>
+              <Link className="nav-item mr-4" to="/stats">
+                Stats
+              </Link>
             </div>
-          </nav>
-        </div>
+            <WalletProvider />
+          </div>
+        </Container>
       </header>
-      <div className="container mt-3">
-        <ConnectWalletButton />
-      </div>
     </>
   );
 }
+
+const StyledLogo = styled.img.attrs(_ => ({
+  alt: '',
+}))`
+  width: 114px;
+  height: 48px;
+  margin: 0 15px;
+  ${media.lg`
+  width: 190px;
+  height: 80px;
+  `}
+`;
+
+const StyledMenuButton = styled.button`
+  width: 48px;
+  height: 48px;
+  text-align: left;
+  padding-left: 0;
+  color: var(--white);
+  background: none;
+  border: none;
+`;

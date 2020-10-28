@@ -43,9 +43,11 @@ export function LeverageSelector(props: Props) {
   };
 
   return (
-    <div className="row d-flex flex-row align-items-center">
-      <div className="col-3 font-weight-bold font-size-lg">Leverage</div>
-      <div className="col-9">
+    <div className="row d-flex flex-column flex-lg-row align-items-lg-center">
+      <div className="col-12 col-lg-3 font-weight-bold font-size-lg mb-3 mb-lg-0">
+        Leverage
+      </div>
+      <div className="col-12 col-lg-9">
         <div className="d-inline-flex justify-content-between align-items-start w-100">
           {items.map(item => (
             <ThemeProvider

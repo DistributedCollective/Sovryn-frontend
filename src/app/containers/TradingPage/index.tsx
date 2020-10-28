@@ -16,11 +16,12 @@ import { reducer, sliceKey } from './slice';
 import { selectTradingPage } from './selectors';
 import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import Header from '../LendBorrowSovryn/components/Header';
 import { TradingViewChart } from '../../components/TradingViewChart';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
+import { Header } from 'app/components/Header';
 import { Asset } from '../../../types/asset';
+//import { HintDialog } from '../../components/HintDialog';
 
 const s = translations.tradingPage;
 
@@ -46,16 +47,20 @@ export function TradingPage(props: Props) {
       </Helmet>
       <>
         <Header />
-
-        <div className="container mt-5">
+        {/* <HintDialog /> */}
+        <div className="container my-5">
           <div className="row">
-            <div className="col-12 col-lg-6 order-lg-1 pl-lg-5">
+            <div
+              className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 pl-lg-5 d-none ${
+                tradingPage.isMobileStatsOpen && `d-block`
+              } d-lg-block`}
+            >
               <TradingViewChart
                 pair={tradingPage.tradingPair}
                 asset={Asset.BTC}
               />
             </div>
-            <div className="col-12 col-lg-6 mt-5 mt-lg-0 order-lg-0 pr-lg-5">
+            <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
               <TradingPairSelector />
               <TradeOrSwapTabs />
             </div>

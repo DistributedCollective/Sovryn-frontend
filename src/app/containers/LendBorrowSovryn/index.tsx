@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Header from './components/Header';
 import { Container, Row } from 'react-bootstrap';
 import CurrencyContainer from './components/CurrencyContainer';
 
 import './assets/index.scss';
 import CurrencyDetails from './components/CurrencyDetails';
 import LendingHistory from './components/LendingHistory';
+import { Header } from 'app/components/Header';
 
 type Props = {};
 

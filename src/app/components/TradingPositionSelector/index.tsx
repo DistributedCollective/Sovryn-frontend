@@ -64,10 +64,10 @@ function Tab(props: TabProps) {
   return (
     <button
       type="button"
-      className={`w-100 btn btn-trading-position px-3 py-2 text-dark font-weight-bold text-uppercase d-flex flex-row align-items-center justify-content-center ${classes}`}
+      className={`w-100 btn px-1 px-lg-3 py-2 text-dark font-weight-bold text-uppercase d-flex flex-row align-items-center justify-content-center ${classes}`}
       onClick={() => props.onClick(props.type)}
     >
-      <FontAwesomeIcon icon={icon} className="mr-3" />
+      <FontAwesomeIcon icon={icon} className="mr-1 mr-lg-3" />
       <Text ellipsize tagName="span" className="font-size-lg">
         {props.text}
       </Text>

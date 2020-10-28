@@ -6,7 +6,7 @@
 import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
+import { ActiveLoanTable } from 'app/components/ActiveUserLoanContainer/components/ActiveLoanTable';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { InfoBox } from '../../components/InfoBox';
 
