@@ -142,7 +142,7 @@ input {
   font-family: var(--secondary-font);
 }
 
-.font-family-work-sans {
+.font-family-rowdies {
   font-family: var(--primary-font);
 }
 
@@ -217,4 +217,9 @@ input {
   @include media-breakpoint-up(md) {
     width: 360px!important;
   }
+}
+
+.web3modal-modal-card {
+  @extend .sovryn-border;
+  @extend .font-family-work-sans;
 }

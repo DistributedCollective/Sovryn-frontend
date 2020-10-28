@@ -1,10 +1,10 @@
-import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { Toaster } from '@blueprintjs/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
+import { store } from 'store/store';
 import {
   currentChainId,
   rpcNodes,
@@ -13,9 +13,17 @@ import {
 } from '../classifiers';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
-import Web3Modal, { IProviderOptions } from 'web3modal';
+import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
 import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
+
+const themeColors: ThemeColors = {
+  background: 'var(--primary)',
+  border: 'none',
+  main: 'var(--white)',
+  secondary: 'var(--white)',
+  hover: 'var(--secondary)',
+};
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
@@ -58,6 +66,7 @@ export class SovrynNetwork {
       disableInjectedProvider: false,
       cacheProvider: true,
       providerOptions: this._providerOptions,
+      theme: themeColors,
     });
 
     this.initReadWeb3(currentChainId).then().catch();
