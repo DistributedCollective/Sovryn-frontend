@@ -149,18 +149,11 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     asset,
   );
 
-  const {
-    approve: approveWithdraw,
-    txHash: approveTxWithdraw,
-    status: approveStatusWithdraw,
-    loading: approveLoadingWithdraw,
-  } = useTokenApprove(asset, getLendingContract(Asset.BTC).address);
-
   const handleApproveWithdraw = useCallback(
     (weiAmount: string) => {
-      approveWithdraw(weiAmount);
+      approve(weiAmount);
     },
-    [approveWithdraw],
+    [approve],
   );
 
   const handleWithdraw = useCallback(
@@ -184,12 +177,6 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     }
   }, [asset, weiAmount, allowance, handleApproveWithdraw, handleWithdraw]);
 
-  useEffect(() => {
-    if (approveStatusWithdraw === TransactionStatus.SUCCESS) {
-      handleWithdraw(weiAmount);
-    }
-    // eslint-disable-next-line
-  }, [approveStatusWithdraw]);
   const { value: maxAmount } = useLending_transactionLimit(asset, asset);
 
   const valid = useIsAmountWithinLimits(
@@ -197,28 +184,6 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     undefined,
     maxAmount !== '0' ? maxAmount : undefined,
   );
-
-  useEffect(() => {
-    if (
-      !unlendLoadingToken &&
-      !unlendLoadingBtc &&
-      approveStatusWithdraw !== TransactionStatus.NONE
-    ) {
-      setTxState({
-        type: TxType.APPROVE,
-        txHash: approveTxWithdraw,
-        status: approveStatusWithdraw,
-        loading: approveLoadingWithdraw,
-      });
-    }
-  }, [
-    approveLoadingWithdraw,
-    approveStatus,
-    approveStatusWithdraw,
-    approveTxWithdraw,
-    unlendLoadingBtc,
-    unlendLoadingToken,
-  ]);
 
   // WITHDRAW SUBMIT
   const handleSubmitWithdraw = e => {

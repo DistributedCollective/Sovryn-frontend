@@ -18,6 +18,7 @@ import { useLending_supplyInterestRate } from '../../../../hooks/lending/useLend
 import { bignumber } from 'mathjs';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_assetBalanceOf';
+import { Tooltip } from '@blueprintjs/core';
 
 type Props = {
   currency: string;
@@ -37,9 +38,11 @@ const ButtonGroup: React.FC<Props> = ({
   const { value: profitCall } = useLending_profitOf(asset, useAccount());
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
   const { value: interestCall } = useLending_supplyInterestRate(asset);
+
   const [balance, setBalance] = useState(
     bignumber(balanceCall).minus(profitCall).toString(),
   );
+
   const [profit, setProfit] = useState(profitCall);
   const [ticker, setTicker] = useState('0');
 
@@ -72,7 +75,6 @@ const ButtonGroup: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profitCall, ticker]);
 
-  const { value, loading } = useAssetBalanceOf(asset);
   useEffect(() => {
     setCurrentButton(key);
   }, [key, setCurrentButton]);
@@ -113,16 +115,24 @@ const ButtonGroup: React.FC<Props> = ({
             <p>
               BTC{' '}
               <strong>
-                <LoadableValue value={weiToFixed(value, 4)} loading={loading} />
+                <Tooltip
+                  position="top"
+                  content={<>{weiToFixed(balance, 18)}</>}
+                >
+                  {weiToFixed(balance, 4)}
+                </Tooltip>
               </strong>
             </p>
           </div>
           <div>
-            <h4>
-              Profit <span>{weiTo2(profit)}% </span>
-            </h4>
+            <h4>Profit</h4>
             <p>
-              BTC <strong>{weiToFixed(profit, 8)}</strong>
+              BTC{' '}
+              <strong>
+                <Tooltip position="top" content={<>{weiToFixed(profit, 18)}</>}>
+                  {weiToFixed(profit, 4)}
+                </Tooltip>
+              </strong>
             </p>
           </div>
         </div>

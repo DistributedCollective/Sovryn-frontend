@@ -233,6 +233,7 @@
   & p {
     padding: 0;
     margin: 0;
+    width: max-content;
   }
 
 }
@@ -339,7 +340,7 @@
   border-top: 1px solid #fff;
   background: #171717;
   border-radius: 8px;
-  margin-top: 5%;
+  margin: 5% 0;
   justify-content: center;
   padding: 18px 40px;
 

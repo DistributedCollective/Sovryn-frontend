@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import '../../assets/index.scss';
 import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
 import { Asset } from '../../../../../types/asset';
+import { SendTxProgress } from '../../../../components/SendTxProgress';
+import { TxType } from '../CurrencyDetails';
 
 type Props = {
   currency: string;
@@ -40,6 +42,14 @@ const AccountBalance: React.FC<Props> = ({
       >
         {title} {currency}
       </button>
+      {txState.type !== TxType.NONE && (
+        <SendTxProgress
+          status={txState.status}
+          txHash={txState.txHash}
+          loading={txState.loading}
+          type={txState.type}
+        />
+      )}
     </div>
   );
 };
