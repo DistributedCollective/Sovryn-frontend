@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse, Table } from 'react-bootstrap';
-import '../../assets/index.scss';
-
+import { EventData } from 'web3-eth-contract';
+import { Tooltip } from '@blueprintjs/core';
 import ArrowDown from '../../assets/img/arrow-down.svg';
 import ArrowUp from '../../assets/img/arrow-up.svg';
 import { useAccount } from '../../../../hooks/useAccount';
 import { getLendingContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
-import { EventData } from 'web3-eth-contract';
 import { Asset } from '../../../../../types/asset';
+import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
+import { prettyTx } from '../../../../../utils/helpers';
+
+import '../../assets/index.scss';
 
 type Props = {};
 
@@ -67,7 +70,7 @@ const LendingHistory: React.FC<Props> = props => {
       </div>
       <Collapse in={open}>
         {!events.length ? (
-          <div>History is empty.</div>
+          <div className="empty-history">History is empty.</div>
         ) : (
           <div id="example-collapse-text">
             <Table responsive="sm">
@@ -82,10 +85,14 @@ const LendingHistory: React.FC<Props> = props => {
               <tbody>
                 {events.map((event, index) => (
                   <tr className="cell">
-                    <td>{event.returnValues.assetAmount}</td>
-                    <td>-</td>
-                    <td>{event.returnValues.price}</td>
-                    <td>{event.transactionHash}</td>
+                    <td>{weiToFixed(event.returnValues.assetAmount, 8)}</td>
+                    <td>&mdash;</td>
+                    <td>${weiToFixed(event.returnValues.price, 3)}</td>
+                    <td>
+                      <Tooltip content={<> {event.transactionHash}</>}>
+                        {prettyTx(event.transactionHash)}
+                      </Tooltip>
+                    </td>
                   </tr>
                 ))}
               </tbody>

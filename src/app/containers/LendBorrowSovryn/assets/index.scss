@@ -9,6 +9,7 @@
     text-decoration: none;
   }
 }
+
 .header {
   margin-bottom: 5%;
 }
@@ -95,10 +96,23 @@
     padding: 0;
   }
 
-  & span {
+  & > span {
     font-size: 14px;
   }
 
+  & > div {
+    width: max-content;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+
+.currency-title {
   & > div {
     &:first-child {
       margin-right: 60px;
@@ -123,15 +137,15 @@
 
 .tabs__green {
   .nav-tabs, .nav-tabs .nav-item.show .nav-link {
-    color: #88c6a3!important;
+    color: #88c6a3 !important;
   }
 
   .nav-item:hover, .nav-item:active {
-    color:#88c6a3!important;
+    color: #88c6a3 !important;
   }
 
   .nav-link.active {
-    color: #88c6a3!important;
+    color: #88c6a3 !important;
   }
 }
 
@@ -201,12 +215,11 @@
   }
 
   & > div:last-child {
-   & > h4:after {
-     content: "+1.2% 24 hrs";
-     color: #00ce7d;
-     font-size: 16px;
-     margin-left: 8px;
-   }
+    & > h4 > span {
+      color: #00ce7d;
+      font-size: 16px;
+      margin-left: 8px;
+    }
   }
 
   & h4 {
@@ -223,6 +236,7 @@
   }
 
 }
+
 .amount-container__green {
   & div:first-child {
 
@@ -231,6 +245,7 @@
     }
   }
 }
+
 .amount-container {
   display: flex;
   justify-content: space-between;
@@ -258,6 +273,7 @@
 
   .min-max-btc {
     width: 35%;
+    margin-bottom: 6px;
     justify-content: center;
 
     & span {
@@ -280,8 +296,8 @@
   }
 }
 
-.selectedItem {
-  background: #212020;
+.selected-item {
+  background: #313131;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -289,7 +305,7 @@
 }
 
 .deposit-button-group.nav-pills .nav-link {
-  width: 48%;
+  width: 50%;
 }
 
 .nav-pills a {
@@ -312,6 +328,7 @@
   padding: 20px;
   //box-shadow: 3px 3px 0 #fff;
 }
+
 .lending-history-container {
   width: 100%;
   display: flex;
@@ -338,7 +355,9 @@
       border: none;
       border-bottom: 1px solid #fff;
       font-size: 14px;
+      color: #4ecdc4;
     }
+
     tr:nth-child(even) {
       background: #171717;
     }
@@ -354,6 +373,7 @@
   }
 
 }
+
 .lending-history {
   display: flex;
   justify-content: space-between;
@@ -369,9 +389,17 @@
     font-weight: 700;
   }
 }
+
+.empty-history {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .account-balance-container__green {
   & button {
-    background: #88c6a3!important;
+    background: #88c6a3 !important;
   }
 }
 
@@ -406,7 +434,9 @@
   }
 
   & button:disabled {
-    background: #656565!important;
+    background: #656565 !important;
+    pointer-events: auto ! important;
+    cursor: not-allowed ! important;
   }
 }
 

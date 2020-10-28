@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Container, Nav, Tab } from 'react-bootstrap';
 import '../../assets/index.scss';
 
 import btcIcon from '../../assets/img/bitcoin.png';
 import docIcon from '../../assets/img/icon.svg';
 import CurrencyRow from './CurrencyRow';
+import { Asset } from '../../../../../types/asset';
+import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 
 type Props = {
   state: 'BTC' | 'DOC';
@@ -27,8 +29,18 @@ const currencyRows = [
 ];
 
 const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
+  const [amount, setAmount] = useState<string>('');
+
+  const getAsset = (asset: string) => {
+    return asset === 'BTC' ? Asset.BTC : Asset.DOC;
+  };
+  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value as string);
+  };
+  const weiAmount = useWeiAmount(amount);
+
   return (
-    <Container className="d-flex flex-column w-100" style={{ padding: 0 }}>
+    <Container className="d-flex flex-column w-100 p-0">
       <Tab.Container id="left-tabs" defaultActiveKey={state}>
         <Nav
           onSelect={k => setState(k as 'BTC' | 'DOC')}
@@ -37,8 +49,13 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
         >
           {currencyRows.map(info => {
             return (
-              <Nav.Link eventKey={info.title}>
-                <CurrencyRow {...info} state={state} />
+              <Nav.Link key={info.title} eventKey={info.title}>
+                <CurrencyRow
+                  {...info}
+                  state={state}
+                  weiAmount={weiAmount}
+                  asset={getAsset(info.title)}
+                />
               </Nav.Link>
             );
           })}

@@ -18,7 +18,6 @@ interface Props {
 }
 
 export function HistoryLoanTable(props: Props) {
-  console.log(props.items);
   const data = React.useMemo(() => {
     return props.items.map(item => {
       return {

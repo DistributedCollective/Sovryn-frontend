@@ -65,7 +65,7 @@ export function BorrowInterestRate(props: Props) {
         <LoadableValue
           value={
             <>
-              {weiToFixed(value, 2)} <span className="text-muted"> %</span>
+              {weiToFixed(value, 2)} <span className="text-muted">%</span>
             </>
           }
           loading={loading}

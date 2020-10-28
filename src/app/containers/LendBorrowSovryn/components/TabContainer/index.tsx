@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Amount from '../Amount';
 import ButtonGroup from '../ButtonGroup';
 import AccountBalance from '../AccountBalance';
+import { TransactionStatus } from '../../../../../types/transaction-status';
 
 import '../../assets/index.scss';
-import { TransactionStatus } from '../../../../../types/transaction-status';
 
 type Props = {
   currency: string;
   amountName: string;
   maxValue: string;
-  minValue: string;
+  minValue?: string;
   amountValue: string;
   leftButton: string;
   rightButton: string;
-  accountBalanceValue: string;
   onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onMaxChange: (max: string) => void;
   handleSubmit: (e: any) => void;
+  handleSubmitWithdraw?: (e: any) => void;
   isConnected: boolean;
   valid: boolean;
   txState: {
@@ -34,16 +35,19 @@ const TabContainer: React.FC<Props> = ({
   amountValue,
   onChangeAmount,
   handleSubmit,
+  handleSubmitWithdraw,
   leftButton,
   rightButton,
-  accountBalanceValue,
   isConnected,
   valid,
   txState,
+  onMaxChange,
 }) => {
+  const [currentButton, setCurrentButton] = useState(leftButton);
   return (
     <div className="tabs-container">
       <ButtonGroup
+        setCurrentButton={setCurrentButton}
         currency={currency}
         leftButton={leftButton}
         rightButton={rightButton}
@@ -51,18 +55,19 @@ const TabContainer: React.FC<Props> = ({
       <Amount
         amountValue={amountValue}
         onChangeAmount={onChangeAmount}
+        onMaxChange={onMaxChange}
         currency={currency}
         amountName={amountName}
         maxValue={maxValue}
-        minValue={minValue}
       />
       <AccountBalance
-        loading={txState.loading}
+        title={currentButton}
+        txState={txState}
         valid={valid}
         isConnected={isConnected}
         handleSubmit={handleSubmit}
+        handleSubmitWithdraw={handleSubmitWithdraw}
         currency={currency}
-        value={accountBalanceValue}
       />
     </div>
   );

@@ -70,10 +70,7 @@ export function MarginTradeForm(props: Props) {
   );
 
   const { value: tokenBalance } = useTokenBalanceOf(collateral);
-  // const { value: maxAmount } = useLending_transactionLimit(
-  //   pair.getAssetForPosition(position),
-  //   collateral,
-  // );
+
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
 
   return (

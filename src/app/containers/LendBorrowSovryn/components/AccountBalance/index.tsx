@@ -2,24 +2,30 @@ import React from 'react';
 import clsx from 'clsx';
 
 import '../../assets/index.scss';
+import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
+import { Asset } from '../../../../../types/asset';
 
 type Props = {
   currency: string;
-  value: string;
+  title?: string;
   isConnected: boolean;
   valid: boolean;
-  loading: boolean;
+  txState: any;
   handleSubmit: (e: any) => void;
+  handleSubmitWithdraw?: (e: any) => void;
 };
 
 const AccountBalance: React.FC<Props> = ({
   currency,
-  value,
   handleSubmit,
+  handleSubmitWithdraw,
   isConnected,
   valid,
-  loading,
+  txState,
+  title,
 }) => {
+  let asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
+
   return (
     <div
       className={clsx(
@@ -27,17 +33,12 @@ const AccountBalance: React.FC<Props> = ({
         currency === 'DOC' && 'account-balance-container__green',
       )}
     >
-      <div className="account-balance">
-        <p>Account Balance</p>
-        <span>
-          {currency} <b> {value}</b>
-        </span>
-      </div>
+      <AssetWalletBalance asset={asset} />
       <button
-        onClick={handleSubmit}
-        disabled={/*loading || */ !isConnected || !valid}
+        onClick={title === 'Withdraw' ? handleSubmitWithdraw : handleSubmit}
+        disabled={txState.loading || !isConnected || !valid}
       >
-        Lend {currency}
+        {title} {currency}
       </button>
     </div>
   );

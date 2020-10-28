@@ -1,21 +1,28 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Row, Tab, Tabs } from 'react-bootstrap';
 import clsx from 'clsx';
+import { bignumber } from 'mathjs';
+import { toWei } from 'web3-utils';
+
 import TabContainer from '../TabContainer';
 import { Asset } from '../../../../../types/asset';
 import { useIsConnected } from '../../../../hooks/useAccount';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowanceForLending';
 import { getLendingContract } from '../../../../../utils/blockchain/contract-helpers';
-import { useTokenApproveForLending } from '../../../../hooks/useTokenApproveForLending';
+import {
+  useTokenApprove,
+  useTokenApproveForLending,
+} from '../../../../hooks/useTokenApproveForLending';
 import { useLendTokens } from '../../../../hooks/useLendTokens';
 import { useLendTokensRBTC } from '../../../../hooks/useLendTokensRBTC';
-import { bignumber } from 'mathjs';
-import { toWei } from 'web3-utils';
 import { TransactionStatus } from '../../../../../types/transaction-status';
 import { useLending_transactionLimit } from '../../../../hooks/lending/useLending_transactionLimit';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
+
 import '../../assets/index.scss';
+import { useUnLendTokensRBTC } from '../../../../hooks/useUnLendTokensRBTC';
+import { useUnLendTokens } from '../../../../hooks/useUnLendTokens';
 
 type Props = {
   currency: 'BTC' | 'DOC';
@@ -25,17 +32,14 @@ export enum TxType {
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',
+  WITHDRAW = 'withdraw',
 }
 
 const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   const [key, setKey] = useState<string | null>('lend');
   const [amount, setAmount] = useState<string>('');
-  let asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
-
-  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as string);
-  };
   const isConnected = useIsConnected();
+  let asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
 
   const weiAmount = useWeiAmount(amount);
 
@@ -44,16 +48,36 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     getLendingContract(asset).address,
   );
 
+  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value as string);
+  };
+
+  const onMaxChange = (max: string) => {
+    setAmount(max);
+  };
+
+  const [txState, setTxState] = useState<{
+    type: TxType;
+    txHash: string;
+    status: TransactionStatus;
+    loading: boolean;
+  }>({
+    type: TxType.NONE,
+    txHash: null as any,
+    status: TransactionStatus.NONE,
+    loading: false,
+  });
+
+  // LENDING
+  const { lend: lendToken, ...lendInfo } = useLendTokens(asset);
+  const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(asset);
+
   const {
     approve,
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
   } = useTokenApproveForLending(asset);
-
-  const { lend, ...lendInfo } = useLendTokens(asset);
-
-  const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(asset);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -68,17 +92,12 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
         if (asset === Asset.BTC) {
           lendBTC(weiAmount);
         } else {
-          lend(weiAmount);
+          lendToken(weiAmount);
         }
       }
     },
-    [lendInfo.loading, lendBtcInfo.loading, asset, lendBTC, lend],
+    [lendInfo.loading, lendBtcInfo.loading, asset, lendBTC, lendToken],
   );
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    handleTx();
-  };
 
   const handleTx = useCallback(() => {
     if (asset !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
@@ -94,18 +113,6 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     }
     // eslint-disable-next-line
   }, [approveStatus]);
-
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
-    type: TxType.NONE,
-    txHash: null as any,
-    status: TransactionStatus.NONE,
-    loading: false,
-  });
 
   useEffect(() => {
     if (
@@ -128,36 +135,61 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     lendBtcInfo.loading,
   ]);
 
-  useEffect(() => {
-    if (!approveLoading && lendInfo.status !== TransactionStatus.NONE) {
-      setTxState({
-        type: TxType.LEND,
-        txHash: lendInfo.txHash,
-        status: lendInfo.status,
-        loading: lendInfo.loading,
-      });
-    } else if (
-      !approveLoading &&
-      lendBtcInfo.status !== TransactionStatus.NONE
-    ) {
-      setTxState({
-        type: TxType.LEND,
-        txHash: lendBtcInfo.txHash,
-        status: lendBtcInfo.status,
-        loading: lendBtcInfo.loading,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    approveLoading,
-    lendBtcInfo.loading,
-    lendBtcInfo.txHash,
-    lendInfo.loading,
-    lendBtcInfo.status,
-    lendInfo.status,
-    lendInfo.txHash,
-  ]);
+  // DEPOSIT SUBMIT
+  const handleSubmit = e => {
+    e.preventDefault();
+    handleTx();
+  };
 
+  // WITHDRAW
+  const { unLend: unlendToken, loading: unlendLoadingToken } = useUnLendTokens(
+    asset,
+  );
+  const { unLend: unlendBtc, loading: unlendLoadingBtc } = useUnLendTokensRBTC(
+    asset,
+  );
+
+  const {
+    approve: approveWithdraw,
+    txHash: approveTxWithdraw,
+    status: approveStatusWithdraw,
+    loading: approveLoadingWithdraw,
+  } = useTokenApprove(asset, getLendingContract(Asset.BTC).address);
+
+  const handleApproveWithdraw = useCallback(
+    (weiAmount: string) => {
+      approveWithdraw(weiAmount);
+    },
+    [approveWithdraw],
+  );
+
+  const handleWithdraw = useCallback(
+    (weiAmount: string) => {
+      if (!(unlendLoadingToken && unlendLoadingBtc)) {
+        if (asset === Asset.BTC) {
+          unlendBtc(weiAmount);
+        } else {
+          unlendToken(weiAmount);
+        }
+      }
+    },
+    [unlendLoadingToken, unlendLoadingBtc, asset, unlendBtc, unlendToken],
+  );
+
+  const handleTxWithdraw = useCallback(() => {
+    if (asset !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
+      handleApproveWithdraw(toWei('1000000', 'ether'));
+    } else {
+      handleWithdraw(weiAmount);
+    }
+  }, [asset, weiAmount, allowance, handleApproveWithdraw, handleWithdraw]);
+
+  useEffect(() => {
+    if (approveStatusWithdraw === TransactionStatus.SUCCESS) {
+      handleWithdraw(weiAmount);
+    }
+    // eslint-disable-next-line
+  }, [approveStatusWithdraw]);
   const { value: maxAmount } = useLending_transactionLimit(asset, asset);
 
   const valid = useIsAmountWithinLimits(
@@ -165,6 +197,34 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     undefined,
     maxAmount !== '0' ? maxAmount : undefined,
   );
+
+  useEffect(() => {
+    if (
+      !unlendLoadingToken &&
+      !unlendLoadingBtc &&
+      approveStatusWithdraw !== TransactionStatus.NONE
+    ) {
+      setTxState({
+        type: TxType.APPROVE,
+        txHash: approveTxWithdraw,
+        status: approveStatusWithdraw,
+        loading: approveLoadingWithdraw,
+      });
+    }
+  }, [
+    approveLoadingWithdraw,
+    approveStatus,
+    approveStatusWithdraw,
+    approveTxWithdraw,
+    unlendLoadingBtc,
+    unlendLoadingToken,
+  ]);
+
+  // WITHDRAW SUBMIT
+  const handleSubmitWithdraw = e => {
+    e.preventDefault();
+    handleTxWithdraw();
+  };
 
   return (
     <Row className="w-100">
@@ -180,27 +240,27 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
       </Tabs>
       {key === 'lend' && (
         <TabContainer
+          onMaxChange={onMaxChange}
           txState={txState}
           isConnected={isConnected}
           valid={valid}
-          accountBalanceValue="2.736587"
           leftButton="Deposit"
           rightButton="Withdraw"
           amountValue={amount}
           onChangeAmount={onChangeAmount}
           handleSubmit={handleSubmit}
+          handleSubmitWithdraw={handleSubmitWithdraw}
           currency={currency}
           amountName="Deposit Amount"
-          maxValue="119.8648"
-          minValue="0.0100"
+          maxValue={maxAmount}
         />
       )}
       {key === 'borrow' && (
         <TabContainer
+          onMaxChange={onMaxChange}
           txState={txState}
           isConnected={isConnected}
           valid={valid}
-          accountBalanceValue="2.736587"
           leftButton="Borrow"
           rightButton="Replay"
           amountValue={amount}
@@ -208,8 +268,7 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
           handleSubmit={handleSubmit}
           currency={currency}
           amountName="Borrow Amount"
-          minValue="0.0100"
-          maxValue="119.8648"
+          maxValue={maxAmount}
         />
       )}
     </Row>
