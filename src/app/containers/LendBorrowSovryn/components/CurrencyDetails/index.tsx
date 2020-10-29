@@ -1,19 +1,15 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Row, Tab, Tabs } from 'react-bootstrap';
-import clsx from 'clsx';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
 import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 
 import TabContainer from '../TabContainer';
 import { Asset } from '../../../../../types/asset';
-import { useIsConnected } from '../../../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../../../hooks/useAccount';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowanceForLending';
 import { getLendingContract } from '../../../../../utils/blockchain/contract-helpers';
-import {
-  useTokenApprove,
-  useTokenApproveForLending,
-} from '../../../../hooks/useTokenApproveForLending';
+import { useTokenApproveForLending } from '../../../../hooks/useTokenApproveForLending';
 import { useLendTokens } from '../../../../hooks/useLendTokens';
 import { useLendTokensRBTC } from '../../../../hooks/useLendTokensRBTC';
 import { TransactionStatus } from '../../../../../types/transaction-status';
@@ -23,6 +19,9 @@ import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimi
 import '../../assets/index.scss';
 import { useUnLendTokensRBTC } from '../../../../hooks/useUnLendTokensRBTC';
 import { useUnLendTokens } from '../../../../hooks/useUnLendTokens';
+import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
+import { useLending_balanceOf } from '../../../../hooks/lending/useLending_balanceOf';
+import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 
 type Props = {
   currency: 'BTC' | 'DOC';
@@ -48,20 +47,11 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     getLendingContract(asset).address,
   );
 
-  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as string);
+  const onChangeAmount = (value: string) => {
+    setAmount(value);
   };
 
-  const onMaxChange = (max: string) => {
-    setAmount(max);
-  };
-
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
+  const [txState, setTxState] = useState<any>({
     type: TxType.NONE,
     txHash: null as any,
     status: TransactionStatus.NONE,
@@ -71,6 +61,10 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   // LENDING
   const { lend: lendToken, ...lendInfo } = useLendTokens(asset);
   const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(asset);
+
+  // WITHDRAW
+  const { unLend: unlendToken, ...unlendInfo } = useUnLendTokens(asset);
+  const { unLend: unlendBtc, ...unlendBtcInfo } = useUnLendTokensRBTC(asset);
 
   const {
     approve,
@@ -135,19 +129,64 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
     lendBtcInfo.loading,
   ]);
 
+  useEffect(() => {
+    if (!approveLoading && lendInfo.status !== TransactionStatus.NONE) {
+      setTxState({
+        type: TxType.LEND,
+        txHash: lendInfo.txHash,
+        status: lendInfo.status,
+        loading: lendInfo.loading,
+      });
+    } else if (
+      !approveLoading &&
+      lendBtcInfo.status !== TransactionStatus.NONE
+    ) {
+      setTxState({
+        type: TxType.LEND,
+        txHash: lendBtcInfo.txHash,
+        status: lendBtcInfo.status,
+        loading: lendBtcInfo.loading,
+      });
+    } else if (
+      !approveLoading &&
+      unlendInfo.status !== TransactionStatus.NONE
+    ) {
+      setTxState({
+        type: TxType.WITHDRAW,
+        txHash: unlendInfo.txHash,
+        status: unlendInfo.status,
+        loading: unlendInfo.loading,
+      });
+    } else if (
+      !approveLoading &&
+      unlendBtcInfo.status !== TransactionStatus.NONE
+    ) {
+      setTxState({
+        type: TxType.WITHDRAW,
+        txHash: unlendBtcInfo.txHash,
+        status: unlendBtcInfo.status,
+        loading: unlendBtcInfo.loading,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    approveLoading,
+    lendBtcInfo.loading,
+    lendBtcInfo.txHash,
+    lendInfo.loading,
+    lendBtcInfo.status,
+    lendInfo.status,
+    lendInfo.txHash,
+    unlendInfo.status,
+    unlendInfo.txHash,
+    unlendBtcInfo.status,
+    unlendBtcInfo.txHash,
+  ]);
+
   // DEPOSIT SUBMIT
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handleTx();
   };
-
-  // WITHDRAW
-  const { unLend: unlendToken, loading: unlendLoadingToken } = useUnLendTokens(
-    asset,
-  );
-  const { unLend: unlendBtc, loading: unlendLoadingBtc } = useUnLendTokensRBTC(
-    asset,
-  );
 
   const handleApproveWithdraw = useCallback(
     (weiAmount: string) => {
@@ -158,7 +197,7 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
 
   const handleWithdraw = useCallback(
     (weiAmount: string) => {
-      if (!(unlendLoadingToken && unlendLoadingBtc)) {
+      if (!(unlendInfo.loading && unlendBtcInfo.loading)) {
         if (asset === Asset.BTC) {
           unlendBtc(weiAmount);
         } else {
@@ -166,7 +205,7 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
         }
       }
     },
-    [unlendLoadingToken, unlendLoadingBtc, asset, unlendBtc, unlendToken],
+    [unlendInfo.loading, unlendBtcInfo.loading, asset, unlendBtc, unlendToken],
   );
 
   const handleTxWithdraw = useCallback(() => {
@@ -186,57 +225,69 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   );
 
   // WITHDRAW SUBMIT
-  const handleSubmitWithdraw = e => {
-    e.preventDefault();
+  const handleSubmitWithdraw = () => {
     handleTxWithdraw();
   };
 
+  const { value: userBalance } = useAssetBalanceOf(currency as Asset);
+  const { value: depositedBalance } = useLending_balanceOf(
+    currency as Asset,
+    useAccount(),
+  );
+
+  const onMaxChange = (type: string) => {
+    let amount = '0';
+    if (type === 'Deposit') {
+      amount = userBalance;
+    } else if (type === 'Withdraw') {
+      amount = depositedBalance;
+    }
+    setAmount(weiTo18(amount));
+  };
+
   return (
-    <Row className="w-100">
+    <div className="sovryn-tabs">
       <Tabs
-        className={clsx('tabs', currency === 'DOC' && 'tabs__green')}
         activeKey={key}
         onSelect={k => setKey(k as string)}
         defaultActiveKey="lend"
         id="borrow-&-lend-tabs"
       >
-        <Tab eventKey="lend" title="LEND" />
-        <Tab eventKey="borrow" title="BORROW" />
+        <Tab eventKey="lend" title="LEND">
+          <TabContainer
+            onMaxChange={onMaxChange}
+            txState={txState}
+            isConnected={isConnected}
+            valid={valid}
+            leftButton="Deposit"
+            rightButton="Withdraw"
+            amountValue={amount}
+            onChangeAmount={onChangeAmount}
+            handleSubmit={handleSubmit}
+            handleSubmitWithdraw={handleSubmitWithdraw}
+            currency={currency}
+            amountName="Deposit Amount"
+            maxValue={maxAmount}
+          />
+        </Tab>
+        <Tab eventKey="borrow" title="BORROW">
+          <TabContainer
+            onMaxChange={onMaxChange}
+            txState={txState}
+            isConnected={isConnected}
+            valid={valid}
+            leftButton="Borrow"
+            rightButton="Replay"
+            amountValue={amount}
+            onChangeAmount={onChangeAmount}
+            handleSubmit={handleSubmit}
+            currency={currency}
+            amountName="Borrow Amount"
+            maxValue={maxAmount}
+          />
+        </Tab>
       </Tabs>
-      {key === 'lend' && (
-        <TabContainer
-          onMaxChange={onMaxChange}
-          txState={txState}
-          isConnected={isConnected}
-          valid={valid}
-          leftButton="Deposit"
-          rightButton="Withdraw"
-          amountValue={amount}
-          onChangeAmount={onChangeAmount}
-          handleSubmit={handleSubmit}
-          handleSubmitWithdraw={handleSubmitWithdraw}
-          currency={currency}
-          amountName="Deposit Amount"
-          maxValue={maxAmount}
-        />
-      )}
-      {key === 'borrow' && (
-        <TabContainer
-          onMaxChange={onMaxChange}
-          txState={txState}
-          isConnected={isConnected}
-          valid={valid}
-          leftButton="Borrow"
-          rightButton="Replay"
-          amountValue={amount}
-          onChangeAmount={onChangeAmount}
-          handleSubmit={handleSubmit}
-          currency={currency}
-          amountName="Borrow Amount"
-          maxValue={maxAmount}
-        />
-      )}
-    </Row>
+    </div>
   );
 };
 

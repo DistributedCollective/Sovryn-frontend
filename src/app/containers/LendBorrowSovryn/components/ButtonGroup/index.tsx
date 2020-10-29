@@ -1,18 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Nav, Tab } from 'react-bootstrap';
 import '../../assets/index.scss';
 import clsx from 'clsx';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  weiTo18,
-  weiTo2,
-  weiToFixed,
-} from '../../../../../utils/blockchain/math-helpers';
+import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../../../types/asset';
-import { AssetInterestRate } from '../../../../components/AssetInterestRate';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { LenderBalance } from '../../../../components/LenderBalance';
 import { useLending_profitOf } from '../../../../hooks/lending/useLending_profitOf';
 import { useLending_supplyInterestRate } from '../../../../hooks/lending/useLending_supplyInterestRate';
 import { bignumber } from 'mathjs';
@@ -34,7 +25,7 @@ const ButtonGroup: React.FC<Props> = ({
   setCurrentButton,
 }) => {
   const [key, setKey] = useState(leftButton);
-  const asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
+  const asset = currency as Asset;
   const { value: profitCall } = useLending_profitOf(asset, useAccount());
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
   const { value: interestCall } = useLending_supplyInterestRate(asset);
@@ -80,64 +71,77 @@ const ButtonGroup: React.FC<Props> = ({
   }, [key, setCurrentButton]);
 
   return (
-    <Tab.Container id="button-group " defaultActiveKey={leftButton}>
-      <Nav
-        onSelect={k => setKey(k as string)}
-        className="deposit-button-group w-100"
-        variant="pills"
-      >
-        <Nav.Link eventKey={leftButton}>
-          <Button
-            variant="light"
-            size="lg"
-            className={clsx(
-              'button-deposit',
-              key === rightButton && 'disabled',
-            )}
+    <>
+      <div className="row">
+        <Tab.Container id="button-group " defaultActiveKey={leftButton}>
+          <Nav
+            onSelect={k => setKey(k as string)}
+            className="deposit-button-group w-100"
+            variant="pills"
           >
-            {leftButton}
-          </Button>
-        </Nav.Link>
-        <Nav.Link eventKey={rightButton}>
-          <Button
-            variant="light"
-            size="lg"
-            className={clsx('button-deposit', key === leftButton && 'disabled')}
-          >
-            {rightButton}
-          </Button>
-        </Nav.Link>
-      </Nav>
-      {key === 'Withdraw' && currency === 'BTC' && (
-        <div className="withdraw-content">
-          <div>
-            <h4>Balance</h4>
-            <p>
-              BTC{' '}
-              <strong>
-                <Tooltip
-                  position="top"
-                  content={<>{weiToFixed(balance, 18)}</>}
-                >
-                  {weiToFixed(balance, 4)}
-                </Tooltip>
-              </strong>
-            </p>
-          </div>
-          <div>
-            <h4>Profit</h4>
-            <p>
-              BTC{' '}
-              <strong>
-                <Tooltip position="top" content={<>{weiToFixed(profit, 18)}</>}>
-                  {weiToFixed(profit, 4)}
-                </Tooltip>
-              </strong>
-            </p>
+            <Nav.Link eventKey={leftButton}>
+              <Button
+                variant="light"
+                size="lg"
+                className={clsx(
+                  'button-deposit',
+                  key === rightButton && 'disabled',
+                )}
+              >
+                {leftButton}
+              </Button>
+            </Nav.Link>
+            <Nav.Link eventKey={rightButton}>
+              <Button
+                variant="light"
+                size="lg"
+                className={clsx(
+                  'button-deposit',
+                  key === leftButton && 'disabled',
+                )}
+              >
+                {rightButton}
+              </Button>
+            </Nav.Link>
+          </Nav>
+        </Tab.Container>
+      </div>
+
+      {key === 'Withdraw' && (
+        <div className="container my-3">
+          <div className="withdraw-content py-3 row">
+            <div className="col-6">
+              <h4>Balance</h4>
+              <div>
+                <span className="text-muted">{currency} </span>
+                <strong>
+                  <Tooltip
+                    position="top"
+                    content={<>{weiToFixed(balance, 18)}</>}
+                  >
+                    {weiToFixed(balance, 4)}
+                  </Tooltip>
+                </strong>
+              </div>
+            </div>
+            <div className="col-6">
+              <h4>Profit</h4>
+              <div>
+                <span className="text-muted">{currency} </span>
+                <strong>
+                  <Tooltip
+                    position="top"
+                    content={<>{weiToFixed(profit, 18)}</>}
+                  >
+                    {weiToFixed(profit, 8)}
+                  </Tooltip>
+                </strong>
+              </div>
+            </div>
           </div>
         </div>
       )}
-    </Tab.Container>
+    </>
   );
 };
 

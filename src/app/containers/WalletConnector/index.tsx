@@ -7,7 +7,6 @@ import {
   Popover,
   Spinner,
 } from '@blueprintjs/core';
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
 import '../LendBorrowSovryn/assets/index.scss';

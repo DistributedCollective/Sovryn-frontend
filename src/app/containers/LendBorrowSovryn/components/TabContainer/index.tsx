@@ -14,10 +14,10 @@ type Props = {
   amountValue: string;
   leftButton: string;
   rightButton: string;
-  onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onMaxChange: (max: string) => void;
-  handleSubmit: (e: any) => void;
-  handleSubmitWithdraw?: (e: any) => void;
+  onChangeAmount: (e: string) => void;
+  onMaxChange: (button: string) => void;
+  handleSubmit: () => void;
+  handleSubmitWithdraw?: () => void;
   isConnected: boolean;
   valid: boolean;
   txState: {
@@ -45,7 +45,7 @@ const TabContainer: React.FC<Props> = ({
 }) => {
   const [currentButton, setCurrentButton] = useState(leftButton);
   return (
-    <div className="tabs-container">
+    <>
       <ButtonGroup
         setCurrentButton={setCurrentButton}
         currency={currency}
@@ -55,7 +55,7 @@ const TabContainer: React.FC<Props> = ({
       <Amount
         amountValue={amountValue}
         onChangeAmount={onChangeAmount}
-        onMaxChange={onMaxChange}
+        onMaxChange={() => onMaxChange(currentButton)}
         currency={currency}
         amountName={amountName}
         maxValue={maxValue}
@@ -69,7 +69,7 @@ const TabContainer: React.FC<Props> = ({
         handleSubmitWithdraw={handleSubmitWithdraw}
         currency={currency}
       />
-    </div>
+    </>
   );
 };
 
