@@ -2,11 +2,13 @@ import { toWei } from 'web3-utils';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types/asset';
 import { TransactionStatus } from 'types/transaction-status';
-import { useTokenAllowance } from '../useTokenAllowanceForLending';
-import { useTokenApprove } from '../useTokenApproveForLending';
+import { useAllowance } from '../useTokenAllowanceForLending';
+import { useApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { useRemoveLiquidity } from './useRemoveLiquidity';
+import { Sovryn } from '../../../utils/sovryn';
+import TokenAbi from 'utils/blockchain/abi/abiTestToken.json';
 
 enum TxType {
   NONE = 'none',
@@ -20,8 +22,28 @@ export function useApproveAndRemoveLiquidity(
   amount: string,
   minReturn: string,
 ) {
-  const allowance = useTokenAllowance(
-    asset,
+  useEffect(() => {
+    if (
+      poolAddress &&
+      poolAddress !== '0x0000000000000000000000000000000000000000' &&
+      !Sovryn.writeContracts.hasOwnProperty(`liquidity_${asset}`) &&
+      Sovryn.writeContracts[
+        `liquidity_${asset}`
+      ]?.options?.address.toLowerCase() !== poolAddress.toLowerCase()
+    ) {
+      Sovryn.addWriteContract(`liquidity_${asset}`, {
+        address: poolAddress,
+        abi: TokenAbi as any,
+      });
+    }
+
+    console.log(Sovryn.writeContracts);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poolAddress]);
+
+  const allowance = useAllowance(
+    `liquidity_${asset}` as any,
     appContracts.liquidityBTCProtocol.address,
   );
 
@@ -30,7 +52,10 @@ export function useApproveAndRemoveLiquidity(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(asset, appContracts.liquidityBTCProtocol.address);
+  } = useApprove(
+    `liquidity_${asset}` as any,
+    appContracts.liquidityBTCProtocol.address,
+  );
 
   const {
     withdraw,

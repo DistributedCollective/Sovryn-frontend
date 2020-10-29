@@ -34,7 +34,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app',
-  31: 'http://testnet.sovryn.app:3009',
+  31: 'https://testnet.sovryn.app/fastbtc',
 };
 
 // export const rpcNodesFallback = {
