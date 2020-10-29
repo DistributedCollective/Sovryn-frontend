@@ -25,6 +25,7 @@ type Props = {
   rightButton: string;
   leftButton: string;
   setCurrentButton: (current: string) => void;
+  setBorrowAmount?: (amount: string) => void;
 };
 
 const ButtonGroup: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const ButtonGroup: React.FC<Props> = ({
   leftButton,
   rightButton,
   setCurrentButton,
+  setBorrowAmount,
 }) => {
   const [key, setKey] = useState(leftButton);
   const asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
@@ -48,7 +50,10 @@ const ButtonGroup: React.FC<Props> = ({
 
   useEffect(() => {
     setBalance(bignumber(balanceCall).minus(profitCall).toString());
-  }, [balanceCall, profitCall]);
+    if (setBorrowAmount) {
+      setBorrowAmount(bignumber(balanceCall).minus(profitCall).toString());
+    }
+  }, [balanceCall, profitCall, setBorrowAmount]);
 
   useEffect(() => {
     setTicker(

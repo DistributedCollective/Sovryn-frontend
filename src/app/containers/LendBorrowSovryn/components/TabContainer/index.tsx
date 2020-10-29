@@ -6,6 +6,14 @@ import { TransactionStatus } from '../../../../../types/transaction-status';
 
 import '../../assets/index.scss';
 
+export enum TxType {
+  NONE = 'none',
+  APPROVE = 'approve',
+  LEND = 'lend',
+  WITHDRAW = 'withdraw',
+  BORROW = 'borrow',
+}
+
 type Props = {
   currency: string;
   amountName: string;
@@ -16,6 +24,7 @@ type Props = {
   rightButton: string;
   onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onMaxChange: (max: string) => void;
+  setBorrowAmount?: (amount: string) => void;
   handleSubmit: (e: any) => void;
   handleSubmitWithdraw?: (e: any) => void;
   isConnected: boolean;
@@ -42,12 +51,14 @@ const TabContainer: React.FC<Props> = ({
   valid,
   txState,
   onMaxChange,
+  setBorrowAmount,
 }) => {
   const [currentButton, setCurrentButton] = useState(leftButton);
   return (
     <div className="tabs-container">
       <ButtonGroup
         setCurrentButton={setCurrentButton}
+        setBorrowAmount={setBorrowAmount}
         currency={currency}
         leftButton={leftButton}
         rightButton={rightButton}

@@ -37,7 +37,7 @@ export function TradingPage(props: Props) {
   const dispatch = useDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>

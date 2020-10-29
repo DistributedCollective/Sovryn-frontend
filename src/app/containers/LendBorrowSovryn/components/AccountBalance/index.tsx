@@ -5,7 +5,7 @@ import '../../assets/index.scss';
 import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
 import { Asset } from '../../../../../types/asset';
 import { SendTxProgress } from '../../../../components/SendTxProgress';
-import { TxType } from '../CurrencyDetails';
+import { TxType } from '../TabContainer';
 
 type Props = {
   currency: string;

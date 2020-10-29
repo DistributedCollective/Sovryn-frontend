@@ -34,9 +34,11 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   const getAsset = (asset: string) => {
     return asset === 'BTC' ? Asset.BTC : Asset.DOC;
   };
+
   const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value as string);
   };
+
   const weiAmount = useWeiAmount(amount);
 
   return (
