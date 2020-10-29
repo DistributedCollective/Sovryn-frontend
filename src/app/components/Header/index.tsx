@@ -40,7 +40,7 @@ export function Header() {
     <>
       <header>
         <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
-          <div className="d-lg-none">
+          <div className="d-xl-none">
             <StyledMenuButton>
               <Popover content={<Menu>{dropDownMenu}</Menu>}>
                 <Icon icon="menu" />
@@ -52,8 +52,8 @@ export function Header() {
               <StyledLogo src={logoSvg} />
             </Link>
           </div>
-          <div className="d-lg-flex flex-row align-items-center">
-            <div className="d-none d-lg-block">
+          <div className="d-xl-flex flex-row align-items-center">
+            <div className="d-none d-xl-block">
               <NavLink className="nav-item mr-4" to="/" exact>
                 Trade
               </NavLink>
@@ -81,7 +81,7 @@ const StyledLogo = styled.img.attrs(_ => ({
   width: 114px;
   height: 48px;
   margin: 0 15px;
-  ${media.lg`
+  ${media.xl`
   width: 190px;
   height: 80px;
   `}
