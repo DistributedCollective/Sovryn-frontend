@@ -16,6 +16,7 @@ import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
+import { NavLink } from 'react-router-dom';
 
 type Props = {};
 
@@ -78,9 +79,12 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           </StyledButton>
         </div>
       )}
-      <Button className="help flex-shrink-0 flex-grow-0 d-none d-lg-block">
-        ?
-      </Button>
+      <NavLink
+        to="/faqs"
+        className="help flex-shrink-0 flex-grow-0 d-none d-lg-flex flex-row text-decoration-none justify-content-center align-items-center"
+      >
+        <span>?</span>
+      </NavLink>
     </div>
   );
 };

@@ -4,10 +4,10 @@
  *
  */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { Container } from 'react-bootstrap';
-import WalletProvider from '../../containers/WalletConnector';
+import WalletConnector from '../../containers/WalletConnector';
 import styled from 'styled-components';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
@@ -47,29 +47,27 @@ export function Header() {
               </Popover>
             </StyledMenuButton>
           </div>
-          <div className="d-none d-lg-block">
-            <Link className="nav-item mr-4" to="/">
-              Trade
-            </Link>
-            <Link className="nav-item mr-4" to="/lend">
-              Lend/Borrow
-            </Link>
-          </div>
-          <div className="mx-3">
+          <div className="mr-3">
             <Link to="/">
               <StyledLogo src={logoSvg} />
             </Link>
           </div>
           <div className="d-lg-flex flex-row align-items-center">
             <div className="d-none d-lg-block">
-              <Link className="nav-item mr-4" to="/fast-btc">
+              <NavLink className="nav-item mr-4" to="/" exact>
+                Trade
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/lend">
+                Lend/Borrow
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/fast-btc">
                 Fast-Btc
-              </Link>
-              <Link className="nav-item mr-4" to="/stats">
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/stats">
                 Stats
-              </Link>
+              </NavLink>
             </div>
-            <WalletProvider />
+            <WalletConnector />
           </div>
         </Container>
       </header>
