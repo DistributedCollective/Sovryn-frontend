@@ -1,6 +1,6 @@
 /**
  *
- * ActiveLoanTable
+ * ActiveLoanLiquidation
  *
  */
 

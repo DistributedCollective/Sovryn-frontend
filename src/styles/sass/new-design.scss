@@ -108,14 +108,20 @@
   font-family: var(--secondary-font);
   font-weight: 400;
   width: 100%;
-  thead tr {
+  &.sovryn-table-mobile {
+    font-size: 12px
+  }
+  .table-header div {
+    @include table-header;
+  }
+  thead tr, .table-header:not(.sub-header) {
     height: 40px;
     border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
   }
-  tbody tr {
+  tbody tr, div.mobile-row {
     height: 60px;
     border-top: 1px solid var(--white);
     &:first-of-type {
@@ -127,6 +133,18 @@
         @include table-header;
         padding-top: 20px;
       }
+    }
+  }
+  .mobile-row {
+    align-content: center;
+  }
+  .sub-header div {
+    font-size: 8px;
+  }
+  &.sovryn-table-mobile {
+    [class^='col'] {
+      padding-left: 5px;
+      padding-right: 5px;
     }
   }
 }
