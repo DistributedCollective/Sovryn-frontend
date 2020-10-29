@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { FastBtcForm } from '../FastBtcForm/Loadable';
+import { Footer } from '../../components/Footer';
 
 const s = translations.tradingPage;
 
@@ -24,13 +25,13 @@ export function FastBtcPage(props: Props) {
         <title>{t(s.meta.title)}</title>
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
-      <>
-        <Header />
+      <Header />
 
-        <div className="container mt-5">
-          <FastBtcForm />
-        </div>
-      </>
+      <div className="container mt-5">
+        <FastBtcForm />
+      </div>
+
+      <Footer />
     </>
   );
 }
