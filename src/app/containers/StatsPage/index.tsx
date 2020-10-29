@@ -19,9 +19,9 @@ export function StatsPage() {
     <>
       <Header />
       <main>
-        <div className="container mt-3">
-          <div className="table-responsive mt-5 mb-5">
-            <table className="bp3-html-table table-dark">
+        <div className="container mt-5">
+          <div className="sovryn-table mt-5 mb-5">
+            <table className="w-100">
               <thead>
                 <tr>
                   <th>Asset</th>

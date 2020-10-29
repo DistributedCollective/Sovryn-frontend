@@ -1,20 +1,29 @@
-import { store } from '../../store/store';
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { Toaster } from '@blueprintjs/core';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
+import { store } from 'store/store';
 import {
   currentChainId,
   rpcNodes,
   readNodes,
   currentNetwork,
 } from '../classifiers';
-import { Toaster } from '@blueprintjs/core';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal, { IProviderOptions } from 'web3modal';
+import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
 import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
+
+const themeColors: ThemeColors = {
+  background: 'var(--primary)',
+  border: 'none',
+  main: 'var(--white)',
+  secondary: 'var(--white)',
+  hover: 'var(--secondary)',
+};
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
@@ -34,6 +43,14 @@ export class SovrynNetwork {
         rpc: rpcNodes,
       },
     },
+    portis: {
+      package: Portis, // required
+      options: {
+        dappId: process.env.REACT_APP_PORTIS_ID,
+        network: currentNetwork === 'mainnet' ? 'orchid' : 'orchidTestnet',
+        id: process.env.REACT_APP_PORTIS_ID,
+      },
+    },
   };
   private _provider = null;
   private _writeWeb3: Web3 = null as any;
@@ -49,6 +66,7 @@ export class SovrynNetwork {
       disableInjectedProvider: false,
       cacheProvider: true,
       providerOptions: this._providerOptions,
+      theme: themeColors,
     });
 
     this.initReadWeb3(currentChainId).then().catch();
@@ -74,6 +92,7 @@ export class SovrynNetwork {
       this.connectProvider(await this._web3Modal.connect());
       return true;
     } catch (e) {
+      console.error('connect fails.');
       console.error(e);
       return false;
     }
@@ -84,6 +103,7 @@ export class SovrynNetwork {
       this.connectProvider(await this._web3Modal.connectTo(provider));
       return true;
     } catch (e) {
+      console.error('connectTo fails.');
       console.error(e);
       return false;
     }
@@ -203,112 +223,133 @@ export class SovrynNetwork {
   }
 
   protected initWriteWeb3(provider) {
-    this._writeWeb3 = new Web3(provider);
+    try {
+      this._writeWeb3 = new Web3(provider);
 
-    this._writeWeb3.eth.extend({
-      methods: [
-        {
-          name: 'chainId',
-          call: 'eth_chainId',
-          outputFormatter: (this._writeWeb3.utils as any).hexToNumber,
-        },
-      ],
-    });
+      this._writeWeb3.eth.extend({
+        methods: [
+          {
+            name: 'chainId',
+            call: 'eth_chainId',
+            outputFormatter: (this._writeWeb3.utils as any).hexToNumber,
+          },
+        ],
+      });
 
-    Array.from(Object.keys(appContracts)).forEach(key => {
-      this.addWriteContract(key, appContracts[key]);
-    });
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addWriteContract(key, appContracts[key]);
+      });
+    } catch (e) {
+      console.error('init write web3 fails');
+      console.error(e);
+    }
   }
 
   protected async initReadWeb3(chainId: number) {
-    if (
-      !this._readWeb3 ||
-      (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
-    ) {
-      const nodeUrl = readNodes[chainId];
-      let web3Provider;
-      let isWebsocket = false;
-      if (nodeUrl.startsWith('http')) {
-        web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
-          keepAlive: true,
+    try {
+      if (
+        !this._readWeb3 ||
+        (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
+      ) {
+        const nodeUrl = readNodes[chainId];
+        let web3Provider;
+        let isWebsocket = false;
+        if (nodeUrl.startsWith('http')) {
+          web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+            keepAlive: true,
+          });
+        } else {
+          web3Provider = new Web3.providers.WebsocketProvider(nodeUrl, {
+            reconnectDelay: 10,
+          });
+          isWebsocket = true;
+        }
+
+        this._readWeb3 = new Web3(web3Provider);
+
+        Array.from(Object.keys(appContracts)).forEach(key => {
+          this.addReadContract(key, appContracts[key]);
         });
-      } else {
-        web3Provider = new Web3.providers.WebsocketProvider(nodeUrl, {
-          reconnectDelay: 10,
-        });
-        isWebsocket = true;
+
+        if (isWebsocket) {
+          const provider: WebsocketProvider = this._readWeb3
+            .currentProvider as WebsocketProvider;
+
+          provider.on('end', () => {
+            provider.removeAllListeners('end');
+            this.contracts = {};
+            this.contractList = [];
+            this._readWeb3 = undefined as any;
+            this.initReadWeb3(chainId);
+          });
+        }
       }
-
-      this._readWeb3 = new Web3(web3Provider);
-
-      Array.from(Object.keys(appContracts)).forEach(key => {
-        this.addReadContract(key, appContracts[key]);
-      });
-
-      if (isWebsocket) {
-        const provider: WebsocketProvider = this._readWeb3
-          .currentProvider as WebsocketProvider;
-
-        provider.on('end', () => {
-          provider.removeAllListeners('end');
-          this.contracts = {};
-          this.contractList = [];
-          this._readWeb3 = undefined as any;
-          this.initReadWeb3(chainId);
-        });
-      }
+    } catch (e) {
+      console.error('init read web3 fails.');
+      console.error(e);
     }
   }
 
   protected subscribeProvider(provider) {
-    if (provider.on) {
-      provider.on('close', () => {
-        this.store().dispatch(actions.disconnect());
-      });
-      provider.on('error', error => {
-        console.error('provider error', error);
-      });
-      provider.on('open', a => {
-        console.log('connected?', a);
-      });
-      provider.on('accountsChanged', async (accounts: string[]) => {
-        this.store().dispatch(actions.accountChanged(accounts[0]));
-      });
-      provider.on('chainChanged', async (chainId: number) => {
-        const networkId = await this._writeWeb3.eth.net.getId();
-        await this.testChain(chainId);
-        await this.initReadWeb3(chainId);
-        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-      });
+    try {
+      if (provider.on) {
+        provider.on('close', () => {
+          this.store().dispatch(actions.disconnect());
+        });
+        provider.on('error', error => {
+          console.error('provider error', error);
+        });
+        provider.on('open', a => {
+          console.log('provider open?', a);
+        });
+        provider.on('accountsChanged', async (accounts: string[]) => {
+          this.store().dispatch(actions.accountChanged(accounts[0]));
+        });
+        provider.on('chainChanged', async (chainId: number) => {
+          const networkId = await this._writeWeb3.eth.net.getId();
+          await this.testChain(chainId);
+          await this.initReadWeb3(chainId);
+          this.store().dispatch(actions.chainChanged({ chainId, networkId }));
+        });
 
-      provider.on('networkChanged', async (networkId: number) => {
-        const chainId = await (this._writeWeb3.eth as any).chainId();
-        await this.testChain(chainId);
-        await this.initReadWeb3(chainId);
-        this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-      });
+        provider.on('networkChanged', async (networkId: number) => {
+          const chainId = await (this._writeWeb3.eth as any).chainId();
+          await this.testChain(chainId);
+          await this.initReadWeb3(chainId);
+          this.store().dispatch(actions.chainChanged({ chainId, networkId }));
+        });
+      }
+    } catch (e) {
+      console.error('subscribe provider fails');
+      console.error(e);
     }
   }
 
   protected async connectProvider(provider) {
-    await this.subscribeProvider(provider);
+    try {
+      this.store().dispatch(actions.connect());
+      await this.subscribeProvider(provider);
 
-    this.initWriteWeb3(provider);
+      this.initWriteWeb3(provider);
 
-    const accounts = await this._writeWeb3.eth.getAccounts();
+      const accounts = await this._writeWeb3.eth.getAccounts();
 
-    const address = accounts[0];
-    const networkId = await this._writeWeb3.eth.net.getId();
-    const chainId = await (this._writeWeb3.eth as any).chainId();
+      const address = accounts[0];
+      const networkId = await this._writeWeb3.eth.net.getId();
+      const chainId = await (this._writeWeb3.eth as any).chainId();
 
-    this._provider = provider;
+      this._provider = provider;
 
-    await this.testChain(chainId);
+      await this.testChain(chainId);
 
-    await this.initReadWeb3(chainId);
+      await this.initReadWeb3(chainId);
 
-    this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-    this.store().dispatch(actions.connected({ address }));
+      this.store().dispatch(actions.chainChanged({ chainId, networkId }));
+      this.store().dispatch(actions.connected({ address }));
+    } catch (e) {
+      console.error('connect provider fails.');
+      console.error(e);
+    }
   }
 
   protected async testChain(chainId: number) {

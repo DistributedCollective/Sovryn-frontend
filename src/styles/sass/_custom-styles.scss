@@ -2,10 +2,6 @@
 
 // BOOTSTRAP OVERIDE STYLES
 
-.rounded {
-    border-radius: 2rem !important;
-}
-
 .skeleton-wrapper {
   max-width: 100%;
   overflow-x: hidden;
@@ -18,4 +14,8 @@
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+.active {
+  border-bottom: none!important;
 }

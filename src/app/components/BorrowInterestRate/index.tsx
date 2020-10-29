@@ -10,12 +10,15 @@ import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useBorrowInterestRate } from 'app/hooks/trading/useBorrowInterestRate';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { LoadableValue } from '../LoadableValue';
+import { FieldGroup } from '../FieldGroup';
+import { DummyField } from '../DummyField';
 
 interface Props {
   asset: Asset;
   collateral: Asset;
   leverage: number;
   weiAmount: string;
+  labelColor: string;
 }
 
 export function BorrowInterestRate(props: Props) {
@@ -57,14 +60,21 @@ export function BorrowInterestRate(props: Props) {
   const { value, loading } = useBorrowInterestRate(props.asset, borrowAmount);
 
   return (
-    <div>
-      <div className="text-MediumGrey data-label">Interest APR</div>
-      <div className="data-container">
+    <FieldGroup label="Interest APR" labelColor={props.labelColor}>
+      <DummyField>
         <LoadableValue
-          value={<>{weiToFixed(value, 2)} %</>}
+          value={
+            <>
+              {weiToFixed(value, 2)} <span className="text-muted">%</span>
+            </>
+          }
           loading={loading}
         />
-      </div>
-    </div>
+      </DummyField>
+    </FieldGroup>
   );
 }
+
+BorrowInterestRate.defaultProps = {
+  labelColor: 'var(--dark-gray)',
+};

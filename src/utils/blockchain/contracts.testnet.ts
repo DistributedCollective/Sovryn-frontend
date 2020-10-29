@@ -6,11 +6,14 @@
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
+import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import tokenAbi from './abi/abiTestToken.json';
 import TestTokenABI from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
+import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
+import ConverterRegistryABI from './abi/ConverterRegistry.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -24,10 +27,25 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  liquidityBTCProtocol: {
+    address: '0xd975CF1a5Af1C201568Dc49158724B04802932CE',
+    abi: RBTCWrapperProxy,
+    blockNumber: 1287654,
+  },
   priceFeed: {
     address: '0x7f38c422b99075f63C9c919ECD200DF8d2Cf5BD4',
     abi: priceFeedsAbi,
     blockNumber: 1218689,
+  },
+  swapNetwork: {
+    address: '0x61172B53423E205a399640e5283e51FE60EC2256',
+    abi: SwapNetworkABI,
+    blockNumber: 1218795,
+  },
+  converterRegistry: {
+    address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
+    abi: ConverterRegistryABI,
+    blockNumber: 1218799,
   },
   BTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',

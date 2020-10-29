@@ -5,6 +5,7 @@ export interface WalletProviderState {
   chainId: number;
   networkId: number;
   connected: boolean;
+  connecting: boolean;
   blockNumber: number;
   syncBlockNumber: number;
   // todo ?

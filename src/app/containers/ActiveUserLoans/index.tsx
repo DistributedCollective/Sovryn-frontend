@@ -6,7 +6,7 @@
 import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
+import { ActiveLoanTableContainer } from 'app/components/ActiveUserLoanContainer/components/ActiveLoanTableContainer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { InfoBox } from '../../components/InfoBox';
 
@@ -56,6 +56,10 @@ export function ActiveUserLoans(props: Props) {
   }
 
   return (
-    <>{value.length && <ActiveLoanTable data={value} activeTrades={true} />}</>
+    <>
+      {value.length && (
+        <ActiveLoanTableContainer data={value} activeTrades={true} />
+      )}
+    </>
   );
 }

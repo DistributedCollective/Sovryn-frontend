@@ -22,8 +22,7 @@ import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import { useIsConnected } from '../../hooks/useAccount';
 import { CustomDialog } from '../CustomDialog';
 import { LendingHistory } from '../../containers/LendingHistory';
-
-import tooltipData from 'utils/data/tooltip-text.json';
+import tooltipData from 'utils/display-text/tooltip-text.json';
 import { useLendTokens } from '../../hooks/useLendTokens';
 import { handleNumberInput } from '../../../utils/helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';

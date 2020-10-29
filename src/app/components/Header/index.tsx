@@ -3,22 +3,27 @@
  * Header
  *
  */
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
-import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
+import { Container } from 'react-bootstrap';
+import WalletConnector from '../../containers/WalletConnector';
+import styled from 'styled-components';
+import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
+import { media } from '../../../styles/media';
 
 export function Header() {
+  const history = useHistory();
+
   const pages = [
     { to: '/', title: 'Trade', exact: true },
-    'Lend',
+    { to: '/lend', title: 'Lend / Borrow' },
+    { to: '/liquidity', title: 'Liquidity' },
     'Stats',
     'FAQs',
   ];
 
-  const [show, setShow] = useState(false);
-
-  const pageNavs = pages.map((item, index) => {
+  const menuItems = pages.map((item, index) => {
     let link: { to: string; title: string; exact: boolean } = item as any;
 
     if (typeof item === 'string') {
@@ -30,51 +35,76 @@ export function Header() {
     }
 
     return (
-      <li
+      <MenuItem
         key={index}
-        className="nav-item list-group-item border-0 bg-transparent"
-      >
-        <NavLink
-          className="text-decoration-none nav-link"
-          to={link.to}
-          exact={link.exact}
-        >
-          <h4>{link.title}</h4>
-        </NavLink>
-      </li>
+        text={link.title}
+        onClick={() => history.push(link.to)}
+      />
     );
   });
 
+  const dropDownMenu = <Menu>{menuItems}</Menu>;
+
   return (
     <>
-      <header className="mb-2 shadow d-flex">
-        <div className="container">
-          <nav className="navbar navbar-expand-lg px-0">
+      <header>
+        <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
+          <div className="d-xl-none">
+            <StyledMenuButton>
+              <Popover content={<Menu>{dropDownMenu}</Menu>}>
+                <Icon icon="menu" />
+              </Popover>
+            </StyledMenuButton>
+          </div>
+          <div className="mr-3">
             <Link to="/">
-              <img className="navbar-brand" src={logoSvg} alt="Logo" />
+              <StyledLogo src={logoSvg} />
             </Link>
-            <button
-              className="navbar-toggler custom-toggler navbar-dark "
-              type="button"
-              onClick={() => setShow(prevState => !prevState)}
-            >
-              <span className="navbar-toggler-icon custom-toggler" />
-            </button>
-
-            <div
-              className={`collapse navbar-collapse w-100 ${show && 'show'}`}
-              id="navbar-collaps"
-            >
-              <ul className="nav navbar-nav list-unstyled list-group list-group-horizontal-lg w-100 justify-content-lg-end">
-                {pageNavs}
-              </ul>
+          </div>
+          <div className="d-xl-flex flex-row align-items-center">
+            <div className="d-none d-xl-block">
+              <NavLink className="nav-item mr-4" to="/" exact>
+                Trade
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/lend">
+                Lend/Borrow
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/fast-btc">
+                Fast-Btc
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/liquidity">
+                Liquidity
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/stats">
+                Stats
+              </NavLink>
             </div>
-          </nav>
-        </div>
+            <WalletConnector />
+          </div>
+        </Container>
       </header>
-      <div className="container mt-3">
-        <ConnectWalletButton />
-      </div>
     </>
   );
 }
+
+const StyledLogo = styled.img.attrs(_ => ({
+  alt: '',
+}))`
+  width: 114px;
+  height: 48px;
+  margin: 0 15px;
+  ${media.xl`
+  width: 190px;
+  height: 80px;
+  `}
+`;
+
+const StyledMenuButton = styled.button`
+  width: 48px;
+  height: 48px;
+  text-align: left;
+  padding-left: 0;
+  color: var(--white);
+  background: none;
+  border: none;
+`;

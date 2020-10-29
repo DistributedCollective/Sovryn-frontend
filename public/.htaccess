@@ -23,13 +23,13 @@
 #<FilesMatch "\.(html|htm|js|json|css)$">
 #	<IfModule mod_headers.c>
 #		FileETag None
-#		Header unset ETag
-#		Header unset Pragma
-#		Header unset Cache-Control
-#		Header unset Last-Modified
-#		Header set Pragma "no-cache"
-#		Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-#		Header set Expires "Mon, 10 Apr 1972 00:00:00 GMT"
+#		Index unset ETag
+#		Index unset Pragma
+#		Index unset Cache-Control
+#		Index unset Last-Modified
+#		Index set Pragma "no-cache"
+#		Index set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#		Index set Expires "Mon, 10 Apr 1972 00:00:00 GMT"
 #	</IfModule>
 #</FilesMatch>
 #------------

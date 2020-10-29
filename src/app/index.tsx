@@ -13,14 +13,16 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { LendingPage } from './containers/LendingPage/Loadable';
-import { TradePage } from './containers/TradePage/Loadable';
+// import { LendingPage } from './containers/LendingPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { PageSkeleton } from './components/PageSkeleton';
 import { currentNetwork } from '../utils/classifiers';
+import LendBorrowSovryn from './containers/LendBorrowSovryn';
+import { TradingPage } from './containers/TradingPage/Loadable';
+import { SandboxPage } from './containers/SandboxPage/Loadable';
+import { FastBtcPage } from './containers/FastBtcPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -33,13 +35,13 @@ export function App() {
       </Helmet>
       <WalletProvider>
         <Switch>
-          <Route exact path="/" component={TradePage} />
-          <Route exact path="/lend" component={LendingPage} />
-          <Route exact path="/trade/:asset?" component={TradePage} />
+          <Route exact path="/" component={TradingPage} />
+          <Route exact path="/lend" component={LendBorrowSovryn} />
+          <Route exact path="/fast-btc" component={FastBtcPage} />
           <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
-          <Route exact path="/sandbox" component={PageSkeleton} />
+          <Route exact path="/sandbox" component={SandboxPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </WalletProvider>

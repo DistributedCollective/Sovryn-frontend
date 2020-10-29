@@ -14,7 +14,7 @@ export function TopUpHint() {
   };
 
   return (
-    <p>
+    <>
       While you wait, you can top up your wallet from{' '}
       <a
         href={links[currentNetwork].link}
@@ -23,6 +23,6 @@ export function TopUpHint() {
       >
         {links[currentNetwork].text}
       </a>
-    </p>
+    </>
   );
 }

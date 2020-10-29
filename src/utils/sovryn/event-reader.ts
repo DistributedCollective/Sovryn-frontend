@@ -16,7 +16,10 @@ class EventReader {
     contractName: ContractName,
     eventName: string,
     filter: any = undefined,
-    options: ReaderOption = { fromBlock: 0, toBlock: 'latest' },
+    options: ReaderOption = {
+      fromBlock: Number(process.env.REACT_APP_TEST_FIRST_BLOCK) || 0,
+      toBlock: 'latest',
+    },
     blockChunkSize: number = 50000,
   ) {
     let finished = false;

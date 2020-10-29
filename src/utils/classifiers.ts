@@ -13,6 +13,8 @@ export const currentChainId = chains[currentNetwork];
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
+  btc_30: 'https://live.blockcypher.com/btc',
+  btc_31: 'https://live.blockcypher.com/btc-testnet',
 };
 
 export const networkNames = {
@@ -30,14 +32,24 @@ export const readNodes = {
   31: 'wss://testnet.sovryn.app/ws',
 };
 
+export const fastBtcApis = {
+  30: 'https://fastbtc.sovryn.app',
+  31: 'http://testnet.sovryn.app:3009',
+};
+
+// export const rpcNodesFallback = {
+//   30: 'https://public-node.rsk.co',
+//   31: 'https://public-node.testnet.rsk.co',
+// };
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const liquidityPools = [
   {
     source: Asset.BTC,
     target: Asset.DOC,
-    label: 'wRBTC',
-    tokenLabel: 'wRBTC',
+    label: 'rBTC',
+    tokenLabel: 'rBTC',
   },
   {
     source: Asset.DOC,
