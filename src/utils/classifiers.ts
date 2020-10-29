@@ -48,8 +48,8 @@ export const liquidityPools = [
   {
     source: Asset.BTC,
     target: Asset.DOC,
-    label: 'wRBTC',
-    tokenLabel: 'wRBTC',
+    label: 'rBTC',
+    tokenLabel: 'rBTC',
   },
   {
     source: Asset.DOC,
