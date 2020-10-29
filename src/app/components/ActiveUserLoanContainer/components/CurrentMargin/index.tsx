@@ -17,11 +17,12 @@ export function CurrentMargin(props: Props) {
 
   return (
     <>
-      <div className="d-inline">{`${weiTo4(props.currentMargin)} %`}</div>
-      <div
-        className="d-inline ml-2 mr-2"
+      <div className="d-md-inline d-sm-block">{`${weiTo4(
+        props.currentMargin,
+      )} %`}</div>
+      <small
+        className="d-md-inline d-sm-block ml-2 mr-2"
         style={{
-          fontSize: '12px',
           color: diff > 0 ? 'var(--Green)' : 'var(--Red)',
         }}
       >
@@ -31,7 +32,7 @@ export function CurrentMargin(props: Props) {
           />
           {` ${diff.toFixed(4)} %`}
         </div>
-      </div>
+      </small>
     </>
   );
 }
