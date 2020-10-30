@@ -13,7 +13,6 @@ import { weiTo18, weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../components/TradeButton';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
 import { useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { DummyField } from '../../components/DummyField';
@@ -27,9 +26,14 @@ import { useSelector } from 'react-redux';
 import { selectTradingPage } from '../TradingPage/selectors';
 import { TradingPairDictionary } from '../../../utils/trading-pair-dictionary';
 import { SendTxProgress } from '../../components/SendTxProgress';
-import { TokenWalletBalance } from '../../components/TokenWalletBalance/Loadable';
+import { AssetWalletBalance } from '../../components/AssetWalletBalance';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 
 const s = translations.swapTradeForm;
+
+function tokenAddress(asset: Asset) {
+  return AssetsDictionary.get(asset).getTokenContractAddress();
+}
 
 interface Props {}
 
@@ -61,7 +65,6 @@ export function SwapTradeForm(props: Props) {
         return {
           key: asset.asset,
           label: asset.symbol,
-          address: asset.getTokenContractAddress(),
         };
       }),
     );
@@ -72,8 +75,8 @@ export function SwapTradeForm(props: Props) {
   }, [tradingPair]);
 
   const { value: path } = useSwapNetwork_conversionPath(
-    AssetsDictionary.get(sourceToken).getTokenContractAddress(),
-    AssetsDictionary.get(targetToken).getTokenContractAddress(),
+    tokenAddress(sourceToken),
+    tokenAddress(targetToken),
   );
 
   const { value: rateByPath, loading } = useSwapNetwork_rateByPath(
@@ -87,7 +90,11 @@ export function SwapTradeForm(props: Props) {
     rateByPath,
   );
 
-  const { value: tokenBalance } = useTokenBalanceOf(sourceToken);
+  const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
+
+  useEffect(() => {
+    console.log('path:', path);
+  }, [path]);
 
   return (
     <>
@@ -124,7 +131,7 @@ export function SwapTradeForm(props: Props) {
         </div>
         <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
           <div className="mb-3 mb-lg-0">
-            <TokenWalletBalance asset={sourceToken} />
+            <AssetWalletBalance asset={sourceToken} />
           </div>
           <TradeButton
             text={t(s.buttons.submit)}
