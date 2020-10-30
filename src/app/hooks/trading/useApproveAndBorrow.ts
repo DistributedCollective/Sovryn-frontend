@@ -49,6 +49,7 @@ export function useApproveAndBorrow(
       .address,
   );
 
+  // @ts-ignore
   const {
     borrow,
     txHash: borrowTx,
@@ -57,7 +58,7 @@ export function useApproveAndBorrow(
   } = useBorrow(
     lendingContract,
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    '1000000000', // withdrawAmount
+    '1000000000000000000', // withdrawAmount
     '1209600',
     collateralTokenSent,
     getToken(),
@@ -82,13 +83,13 @@ export function useApproveAndBorrow(
   const handleTx = useCallback(() => {
     if (
       token !== Asset.BTC &&
-      bignumber('1000000000').greaterThan(allowance.value)
+      bignumber(withdrawAmount).greaterThan(allowance.value)
     ) {
-      handleApprove(toWei('1000000', 'ether'));
+      handleApprove(toWei('1000000000000000000' /*withdrawAmount*/, 'ether'));
     } else {
       handleBorrow();
     }
-  }, [token, allowance.value, handleApprove, handleBorrow]);
+  }, [token, withdrawAmount, allowance.value, handleApprove, handleBorrow]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

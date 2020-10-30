@@ -11,7 +11,6 @@ import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits'
 import TabContainer from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
-import { weiTo18 } from '../../../../utils/blockchain/math-helpers';
 
 type Props = {
   currency: 'BTC' | 'DOC';
@@ -40,8 +39,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const [borrowAmount, setBorrowAmount] = useState('0');
 
   useEffect(() => {
-    setBorrowAmount(amount);
-  }, [amount]);
+    // @ts-ignore
+    setBorrowAmount(weiAmount);
+  }, [amount, weiAmount]);
 
   const { borrow, ...txState } = useApproveAndBorrow(
     currency === Asset.BTC ? Asset.BTC : Asset.DOC,

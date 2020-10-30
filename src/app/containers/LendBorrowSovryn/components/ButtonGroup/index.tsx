@@ -51,7 +51,7 @@ const ButtonGroup: React.FC<Props> = ({
   useEffect(() => {
     setBalance(bignumber(balanceCall).minus(profitCall).toString());
     if (setBorrowAmount) {
-      setBorrowAmount(bignumber(balanceCall).minus(profitCall).toString());
+      // setBorrowAmount(bignumber(balanceCall).minus(profitCall).toString());
     }
   }, [balanceCall, profitCall, setBorrowAmount]);
 
