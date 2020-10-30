@@ -29,7 +29,7 @@ export function useSwapNetwork_convertByPath(
         },
       ];
 
-      if (sourceToken === Asset.BTC || targetToken === Asset.DOC) {
+      if (sourceToken !== Asset.BTC && targetToken !== Asset.BTC) {
         args = [
           path,
           amount,
@@ -41,7 +41,6 @@ export function useSwapNetwork_convertByPath(
           '0',
           {
             from: account,
-            value: sourceToken === Asset.BTC ? amount : '0',
           },
         ];
       }
