@@ -6,8 +6,6 @@ import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useTokenAllowance } from '../useTokenAllowanceForLending';
 import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
-import { useAccount } from '../useAccount';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useBorrow } from './useBorrow';
 
 enum TxType {
@@ -17,25 +15,18 @@ enum TxType {
 }
 
 export function useApproveAndBorrow(
-  lendingContract: Asset,
-  token: Asset,
+  borrowToken: Asset,
+  collateralToken: Asset,
   withdrawAmount: string,
   collateralTokenSent: string,
+  initialLoanDuration: string,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
 ) {
-  const getToken = useCallback(() => {
-    if (lendingContract === token) {
-      return AssetsDictionary.get(lendingContract).primaryCollateralAsset;
-    }
-    return token;
-  }, [lendingContract, token]);
-
-  const account = useAccount();
   const allowance = useTokenAllowance(
-    getToken(),
-    getLendingContract(lendingContract).address,
+    collateralToken,
+    getLendingContract(borrowToken).address,
   );
 
   const {
@@ -43,28 +34,20 @@ export function useApproveAndBorrow(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(
-    token,
-    getLendingContract(lendingContract === Asset.BTC ? Asset.DOC : Asset.BTC)
-      .address,
-  );
+  } = useTokenApprove(collateralToken, getLendingContract(borrowToken).address);
 
-  // @ts-ignore
   const {
     borrow,
     txHash: borrowTx,
     status: borrowStatus,
     loading: borrowLoading,
   } = useBorrow(
-    lendingContract,
+    borrowToken,
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    '1000000000000000000', // withdrawAmount
-    '1209600',
+    withdrawAmount,
+    initialLoanDuration,
     collateralTokenSent,
-    getToken(),
-    account, // borrower
-    account, // receiver
-    '0x',
+    collateralToken,
   );
 
   const handleApprove = useCallback(
@@ -82,14 +65,20 @@ export function useApproveAndBorrow(
 
   const handleTx = useCallback(() => {
     if (
-      token !== Asset.BTC &&
+      collateralToken !== Asset.BTC &&
       bignumber(withdrawAmount).greaterThan(allowance.value)
     ) {
       handleApprove(toWei('1000000000000000000' /*withdrawAmount*/, 'ether'));
     } else {
       handleBorrow();
     }
-  }, [token, withdrawAmount, allowance.value, handleApprove, handleBorrow]);
+  }, [
+    collateralToken,
+    withdrawAmount,
+    allowance.value,
+    handleApprove,
+    handleBorrow,
+  ]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

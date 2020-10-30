@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
+import { useAccount } from '../useAccount';
 
 export function useCloseWithDeposit(
   asset: Asset,
@@ -9,15 +10,15 @@ export function useCloseWithDeposit(
   withdrawAmount,
 ) {
   const { send, ...rest } = useSendContractTx(
-    getLendingContractName(asset),
+    'sovrynProtocol',
     'closeWithDeposit',
   );
-
+  const account = useAccount();
   console.log('rest', rest);
 
   return {
     closeWithDeposit: () => {
-      return send(loanId, receiver, withdrawAmount);
+      return send(loanId, receiver, withdrawAmount, { from: account });
     },
     ...rest,
   };
