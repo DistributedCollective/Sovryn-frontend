@@ -10,13 +10,13 @@ import { useSelector } from 'react-redux';
 import { selectTradingPage } from '../../../TradingPage/selectors';
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import '../../assets/index.scss';
+import ButtonGroup from '../ButtonGroup';
 
 type Props = {
   amountName: string;
   amountValue: string;
   onChangeAmount: (e: ChangeEvent<HTMLInputElement>) => void;
   onMaxChange: (max: string) => void;
-
   currency: string;
   minValue?: number | string;
   maxValue?: number | string;
@@ -85,7 +85,7 @@ const Amount: React.FC<Props> = ({
         </div>
       </div>
       <div className="d-flex flex-column min-max-btc">
-        {maxValue !== '0' && (
+        {maxValue !== '0' && maxValue !== '' && (
           <p>
             <span>Max:</span>
             {currency} <strong>{maxValue}</strong>
