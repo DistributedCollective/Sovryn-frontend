@@ -59,16 +59,25 @@ export function SwapTradeForm(props: Props) {
   );
 
   useEffect(() => {
-    setOptions(
-      tokens.map(item => {
+    const newOptions = tokens
+      .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         return {
           key: asset.asset,
           label: asset.symbol,
         };
-      }),
-    );
-  }, [tokens]);
+      })
+      .filter(item => String(item.key) !== String(targetToken));
+    setOptions(newOptions);
+
+    if (
+      !newOptions.find(item => item.key === sourceToken) &&
+      newOptions.length
+    ) {
+      setSourceToken(newOptions[0].key);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokens, targetToken]);
 
   useEffect(() => {
     setTargetToken(TradingPairDictionary.get(tradingPair).getAsset());
@@ -91,10 +100,6 @@ export function SwapTradeForm(props: Props) {
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
-
-  useEffect(() => {
-    console.log('path:', path);
-  }, [path]);
 
   return (
     <>
