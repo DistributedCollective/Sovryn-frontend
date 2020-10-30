@@ -8,9 +8,11 @@ import { TradingPairDictionary } from '../../../../utils/trading-pair-dictionary
 import { TradingPosition } from '../../../../types/trading-position';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import TabContainer from '../components/TabContainer';
+import TabContainer, { TxType } from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
+import { TransactionStatus } from '../../../../types/transaction-status';
+import { useApproveAndCloseWithDeposit } from '../../../hooks/trading/useApproveAndCloseWithDeposit';
 
 type Props = {
   currency: 'BTC' | 'DOC';
@@ -43,11 +45,20 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     setBorrowAmount(weiAmount);
   }, [amount, weiAmount]);
 
-  const { borrow, ...txState } = useApproveAndBorrow(
+  const { borrow, ...txStateBorrow } = useApproveAndBorrow(
     currency === Asset.BTC ? Asset.BTC : Asset.DOC,
     pair.getCollateralForPosition(position)[0],
     borrowAmount,
     weiAmount,
+  );
+
+  const {
+    closeWithDeposit,
+    ...txStateCloseWithDeposit
+  } = useApproveAndCloseWithDeposit(
+    currency === Asset.BTC ? Asset.BTC : Asset.DOC,
+    pair.getCollateralForPosition(position)[0],
+    borrowAmount,
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(
@@ -55,6 +66,36 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   );
 
   const handleSubmitBorrow = () => borrow();
+
+  const handleSubmitCloseWithDeposit = () => closeWithDeposit();
+
+  const [txState, setTxState] = useState<{
+    type: TxType;
+    txHash: string;
+    status: TransactionStatus;
+    loading: boolean;
+  }>({
+    type: TxType.NONE,
+    txHash: null as any,
+    status: TransactionStatus.NONE,
+    loading: false,
+  });
+
+  useEffect(() => {
+    if (
+      txStateCloseWithDeposit.status !== 'none' &&
+      txStateCloseWithDeposit.txHash
+    ) {
+      setTxState({ ...txStateCloseWithDeposit });
+    }
+  }, [txStateCloseWithDeposit]);
+
+  useEffect(() => {
+    if (txStateBorrow.status !== 'none' && txStateBorrow.txHash) {
+      setTxState({ ...txStateBorrow });
+    }
+  }, [txStateBorrow]);
+
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
 
   return (
@@ -65,10 +106,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
       isConnected={isConnected}
       valid={valid}
       leftButton="Borrow"
-      rightButton="Replay"
+      rightButton="Repay"
       amountValue={amount}
       onChangeAmount={onChangeAmount}
       handleSubmit={handleSubmitBorrow}
+      handleSubmitRepay={handleSubmitCloseWithDeposit}
       currency={currency}
       amountName="Borrow Amount"
       maxValue={''}

@@ -27,6 +27,7 @@ type Props = {
   setBorrowAmount?: (amount: string) => void;
   handleSubmit: (e: any) => void;
   handleSubmitWithdraw?: (e: any) => void;
+  handleSubmitRepay?: (e: any) => void;
   isConnected: boolean;
   valid: boolean;
   txState: {
@@ -45,6 +46,7 @@ const TabContainer: React.FC<Props> = ({
   onChangeAmount,
   handleSubmit,
   handleSubmitWithdraw,
+  handleSubmitRepay,
   leftButton,
   rightButton,
   isConnected,
@@ -78,6 +80,7 @@ const TabContainer: React.FC<Props> = ({
         isConnected={isConnected}
         handleSubmit={handleSubmit}
         handleSubmitWithdraw={handleSubmitWithdraw}
+        handleSubmitRepay={handleSubmitRepay}
         currency={currency}
       />
     </div>

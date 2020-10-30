@@ -15,12 +15,14 @@ type Props = {
   txState: any;
   handleSubmit: (e: any) => void;
   handleSubmitWithdraw?: (e: any) => void;
+  handleSubmitRepay?: (e: any) => void;
 };
 
 const AccountBalance: React.FC<Props> = ({
   currency,
   handleSubmit,
   handleSubmitWithdraw,
+  handleSubmitRepay,
   isConnected,
   valid,
   txState,
@@ -37,7 +39,13 @@ const AccountBalance: React.FC<Props> = ({
     >
       <AssetWalletBalance asset={asset} />
       <button
-        onClick={title === 'Withdraw' ? handleSubmitWithdraw : handleSubmit}
+        onClick={
+          title === 'Withdraw'
+            ? handleSubmitWithdraw
+            : title === 'Repay'
+            ? handleSubmitRepay
+            : handleSubmit
+        }
         disabled={txState.loading || !isConnected || !valid}
       >
         {title} {currency}
