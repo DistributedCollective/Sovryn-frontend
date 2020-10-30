@@ -44,10 +44,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   }, [amount, weiAmount]);
 
   const { borrow, ...txState } = useApproveAndBorrow(
-    currency === Asset.BTC ? Asset.BTC : Asset.DOC,
-    pair.getCollateralForPosition(position)[0],
-    borrowAmount,
-    weiAmount,
+    Asset.DOC,
+    Asset.BTC,
+    '2000000000000000000000', // borrowing 200 doc
+    '22500000000000000', // leaving 0.0225 btc as collateral
+    '1209600',
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(

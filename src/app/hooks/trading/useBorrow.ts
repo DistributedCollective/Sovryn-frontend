@@ -7,19 +7,16 @@ import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 
 export function useBorrow(
-  asset: Asset,
+  borrowToken: Asset,
   loanId,
   withdrawAmount,
   initialLoanDuration,
   collateralTokenSent,
   collateralToken: Asset,
-  borrower,
-  receiver,
-  loanDataBytes,
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    getLendingContractName(asset),
+    getLendingContractName(borrowToken),
     'borrow',
   );
 
@@ -31,12 +28,12 @@ export function useBorrow(
         initialLoanDuration,
         collateralTokenSent,
         getTokenContract(collateralToken).address,
-        borrower,
-        receiver,
-        loanDataBytes,
+        account, // borrower
+        account, // receiver
+        '0x', // loanDataBytes
         {
           from: account,
-          value: asset === Asset.BTC ? collateralTokenSent : '0',
+          value: collateralToken === Asset.BTC ? collateralTokenSent : '0',
         },
       );
     },
