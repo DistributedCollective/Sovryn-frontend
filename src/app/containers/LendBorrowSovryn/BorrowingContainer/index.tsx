@@ -11,6 +11,7 @@ import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits'
 import TabContainer from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
+import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
 
 type Props = {
   currency: 'BTC' | 'DOC';
@@ -43,12 +44,25 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     setBorrowAmount(weiAmount);
   }, [amount, weiAmount]);
 
+  const tokenToBorrow = Asset.DOC;
+  const tokenToCollarate = Asset.BTC;
+  const withdrawAmount = '20000000000000000000'; // 20 doc
+  const initialLoanDuration = 60 * 60 * 24 * 10; // 10 days
+
+  const { value: collateralTokenSent } = useSovryn_getRequiredCollateral(
+    tokenToBorrow,
+    tokenToCollarate,
+    withdrawAmount,
+    '50000000000000000000',
+    true,
+  );
+
   const { borrow, ...txState } = useApproveAndBorrow(
-    Asset.DOC,
-    Asset.BTC,
-    '2000000000000000000000', // borrowing 200 doc
-    '22500000000000000', // leaving 0.0225 btc as collateral
-    '1209600',
+    tokenToBorrow,
+    tokenToCollarate,
+    withdrawAmount,
+    collateralTokenSent,
+    initialLoanDuration.toString(),
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(
