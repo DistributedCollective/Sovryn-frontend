@@ -38,8 +38,11 @@ function* callCreateWebSocketChannel({ payload }: PayloadAction<boolean>) {
 
 function createWebSocketChannel(state) {
   return eventChannel(emit => {
-    const socket = io(fastBtcApis[currentChainId], {
+    const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
+
+    const socket = io(origin, {
       reconnectionDelayMax: 10000,
+      path: pathname,
     });
 
     if (state.receiverAddress) {

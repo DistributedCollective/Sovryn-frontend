@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Tab, Tabs } from 'react-bootstrap';
-import clsx from 'clsx';
+import { Tab, Tabs } from 'react-bootstrap';
 
 import LendingContainer from '../../LendingContainer';
 import BorrowingContainer from '../../BorrowingContainer';
@@ -14,20 +13,21 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   const [key, setKey] = useState<string | null>('lend');
 
   return (
-    <Row className="w-100">
+    <div className="sovryn-tabs">
       <Tabs
-        className={clsx('tabs', currency === 'DOC' && 'tabs__green')}
         activeKey={key}
         onSelect={k => setKey(k as string)}
         defaultActiveKey="lend"
         id="borrow-&-lend-tabs"
       >
-        <Tab eventKey="lend" title="LEND" />
-        <Tab eventKey="borrow" title="BORROW" />
+        <Tab eventKey="lend" title="LEND">
+          <LendingContainer currency={currency} />
+        </Tab>
+        <Tab eventKey="borrow" title="BORROW">
+          <BorrowingContainer currency={currency} />
+        </Tab>
       </Tabs>
-      {key === 'lend' && <LendingContainer currency={currency} />}
-      {key === 'borrow' && <BorrowingContainer currency={currency} />}
-    </Row>
+    </div>
   );
 };
 

@@ -22,8 +22,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const isConnected = useIsConnected();
   const weiAmount = useWeiAmount(amount);
 
-  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as string);
+  const onChangeAmount = (e: string) => {
+    setAmount(e);
   };
 
   const onMaxChange = (max: string) => {

@@ -1,4 +1,3 @@
-import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { TransactionStatus } from 'types/transaction-status';
@@ -8,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useSwapNetwork_convertByPath } from './useSwapNetwork_convertByPath';
+import { bignumber } from 'mathjs';
 
 enum TxType {
   NONE = 'none',
@@ -15,33 +15,52 @@ enum TxType {
   SWAP = 'swap',
 }
 
+function resolveContract(sourceToken: Asset, targetToken: Asset) {
+  return sourceToken === Asset.BTC || targetToken === Asset.BTC
+    ? appContracts.liquidityBTCProtocol.address
+    : appContracts.swapNetwork.address;
+}
+
 export function useSwapNetwork_approveAndConvertByPath(
   path: string[],
   amount: string,
   minReturn: string,
 ) {
-  let token = Asset.DOC;
+  let sourceToken = Asset.DOC;
+  let targetToken = Asset.BTC;
   try {
-    token = AssetsDictionary.getByTokenContractAddress(path[0]).asset;
+    sourceToken = AssetsDictionary.getByTokenContractAddress(path[0]).asset;
+    targetToken = AssetsDictionary.getByTokenContractAddress(
+      path[path.length - 1],
+    ).asset;
   } catch (e) {
     //
   }
 
-  const allowance = useTokenAllowance(token, appContracts.swapNetwork.address);
+  const allowance = useTokenAllowance(
+    sourceToken,
+    resolveContract(sourceToken, targetToken),
+  );
 
   const {
     approve,
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(token, appContracts.swapNetwork.address);
+  } = useTokenApprove(sourceToken, resolveContract(sourceToken, targetToken));
 
   const {
     send,
     txHash: tradeTx,
     status: tradeStatus,
     loading: tradeLoading,
-  } = useSwapNetwork_convertByPath(path, amount, minReturn);
+  } = useSwapNetwork_convertByPath(
+    sourceToken,
+    targetToken,
+    path,
+    amount,
+    minReturn,
+  );
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -57,12 +76,15 @@ export function useSwapNetwork_approveAndConvertByPath(
   }, [send, tradeLoading]);
 
   const handleTx = useCallback(() => {
-    if (bignumber(amount).greaterThan(allowance.value)) {
+    if (
+      sourceToken !== Asset.BTC &&
+      bignumber(amount).greaterThan(allowance.value)
+    ) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [amount, allowance.value, handleApprove, handleTrade]);
+  }, [amount, allowance.value, handleApprove, handleTrade, sourceToken]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

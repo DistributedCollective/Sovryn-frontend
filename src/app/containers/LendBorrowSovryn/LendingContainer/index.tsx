@@ -34,8 +34,8 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     getLendingContract(asset).address,
   );
 
-  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as string);
+  const onChangeAmount = (e: string) => {
+    setAmount(e);
   };
 
   const onMaxChange = (max: string) => {
@@ -122,8 +122,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   ]);
 
   // DEPOSIT SUBMIT
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handleTx();
   };
 
@@ -172,8 +171,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   );
 
   // WITHDRAW SUBMIT
-  const handleSubmitWithdraw = e => {
-    e.preventDefault();
+  const handleSubmitWithdraw = () => {
     handleTxWithdraw();
   };
 

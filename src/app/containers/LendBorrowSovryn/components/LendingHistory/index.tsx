@@ -84,7 +84,7 @@ const LendingHistory: React.FC<Props> = props => {
               </thead>
               <tbody>
                 {events.map((event, index) => (
-                  <tr className="cell">
+                  <tr className="cell" key={index}>
                     <td>{weiToFixed(event.returnValues.assetAmount, 8)}</td>
                     <td>&mdash;</td>
                     <td>${weiToFixed(event.returnValues.price, 3)}</td>
