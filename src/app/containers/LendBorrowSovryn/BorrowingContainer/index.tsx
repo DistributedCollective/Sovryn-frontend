@@ -2,17 +2,12 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
-import { useSelector } from 'react-redux';
-import { selectTradingPage } from '../../TradingPage/selectors';
-import { TradingPairDictionary } from '../../../../utils/trading-pair-dictionary';
-import { TradingPosition } from '../../../../types/trading-position';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import TabContainer, { TxType } from '../components/TabContainer';
+import TabContainer from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
 import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
-import { TransactionStatus } from '../../../../types/transaction-status';
 import { useApproveAndCloseWithDeposit } from '../../../hooks/trading/useApproveAndCloseWithDeposit';
 
 type Props = {
@@ -33,12 +28,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   };
 
   // BORROW
-  const { tradingPair } = useSelector(selectTradingPage);
-
-  const pair = TradingPairDictionary.get(tradingPair);
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [position, setPosition] = useState(TradingPosition.LONG);
   const [borrowAmount, setBorrowAmount] = useState('0');
 
   useEffect(() => {
@@ -54,7 +44,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const { value: collateralTokenSent } = useSovryn_getRequiredCollateral(
     tokenToBorrow,
     tokenToCollarate,
-    withdrawAmount,
+    borrowAmount,
     '50000000000000000000',
     true,
   );
@@ -62,7 +52,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const { borrow, ...txStateBorrow } = useApproveAndBorrow(
     tokenToBorrow,
     tokenToCollarate,
-    withdrawAmount,
+    borrowAmount,
     collateralTokenSent,
     initialLoanDuration.toString(),
   );
@@ -72,44 +62,17 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     ...txStateCloseWithDeposit
   } = useApproveAndCloseWithDeposit(
     currency === Asset.BTC ? Asset.BTC : Asset.DOC,
-    pair.getCollateralForPosition(position)[0],
+    tokenToCollarate,
     borrowAmount,
   );
 
-  const { value: tokenBalance } = useAssetBalanceOf(
-    pair.getCollateralForPosition(position)[0],
-  );
+  const { value: tokenBalance } = useAssetBalanceOf(tokenToCollarate);
 
   const handleSubmitBorrow = () => borrow();
 
-  const handleSubmitCloseWithDeposit = () => closeWithDeposit();
-
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
-    type: TxType.NONE,
-    txHash: null as any,
-    status: TransactionStatus.NONE,
-    loading: false,
-  });
-
-  useEffect(() => {
-    if (
-      txStateCloseWithDeposit.status !== 'none' &&
-      txStateCloseWithDeposit.txHash
-    ) {
-      setTxState({ ...txStateCloseWithDeposit });
-    }
-  }, [txStateCloseWithDeposit]);
-
-  useEffect(() => {
-    if (txStateBorrow.status !== 'none' && txStateBorrow.txHash) {
-      setTxState({ ...txStateBorrow });
-    }
-  }, [txStateBorrow]);
+  const handleSubmitCloseWithDeposit = () => {
+    closeWithDeposit();
+  };
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
 
@@ -117,7 +80,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     <TabContainer
       setBorrowAmount={setBorrowAmount}
       onMaxChange={onMaxChange}
-      txState={txState}
+      txState={txStateBorrow}
       isConnected={isConnected}
       valid={valid}
       leftButton="Borrow"

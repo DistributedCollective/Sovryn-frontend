@@ -355,7 +355,14 @@
       border: none;
       border-bottom: 1px solid #fff;
       font-size: 14px;
+    }
+
+    .cell__green {
       color: #4ecdc4;
+    }
+
+    .cell__red {
+      color: #ec5b5b;
     }
 
     tr:nth-child(even) {

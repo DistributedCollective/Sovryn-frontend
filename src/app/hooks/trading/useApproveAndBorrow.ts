@@ -68,7 +68,7 @@ export function useApproveAndBorrow(
       collateralToken !== Asset.BTC &&
       bignumber(withdrawAmount).greaterThan(allowance.value)
     ) {
-      handleApprove(toWei('1000000000000000000' /*withdrawAmount*/, 'ether'));
+      handleApprove(toWei(withdrawAmount, 'ether'));
     } else {
       handleBorrow();
     }

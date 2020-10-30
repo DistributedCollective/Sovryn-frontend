@@ -8,12 +8,12 @@ import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
 import { useAccount } from '../useAccount';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-import { useCloseWithDeposit } from './useCloseWithDepsit';
+import { useCloseWithDeposit } from './useCloseWithDeposit';
 
 enum TxType {
   NONE = 'none',
   APPROVE = 'approve',
-  BORROW = 'borrow',
+  CLOSE_WITH_DEPOSIT = 'closeWithDeposit',
 }
 
 export function useApproveAndCloseWithDeposit(
@@ -34,6 +34,11 @@ export function useApproveAndCloseWithDeposit(
     getLendingContract(lendingContract).address,
   );
 
+  console.log(
+    getLendingContract(lendingContract === Asset.BTC ? Asset.DOC : Asset.BTC)
+      .address,
+  );
+
   const {
     approve,
     txHash: approveTx,
@@ -50,7 +55,7 @@ export function useApproveAndCloseWithDeposit(
     lendingContract,
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
     account, // receiver
-    '1000000000000000000', // withdrawAmount
+    withdrawAmount,
   );
 
   const handleApprove = useCallback(
@@ -71,7 +76,7 @@ export function useApproveAndCloseWithDeposit(
       token !== Asset.BTC &&
       bignumber(withdrawAmount).greaterThan(allowance.value)
     ) {
-      handleApprove(toWei('1000000000000000000' /*withdrawAmount*/, 'ether'));
+      handleApprove(toWei(withdrawAmount, 'ether'));
     } else {
       handleCloseWithDeposit();
     }
@@ -117,7 +122,7 @@ export function useApproveAndCloseWithDeposit(
   useEffect(() => {
     if (!approveLoading && status !== TransactionStatus.NONE) {
       setTxState({
-        type: TxType.BORROW,
+        type: TxType.CLOSE_WITH_DEPOSIT,
         txHash: txHash,
         status: status,
         loading: loading,

@@ -12,6 +12,7 @@ import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
 import { prettyTx } from '../../../../../utils/helpers';
 
 import '../../assets/index.scss';
+import clsx from 'clsx';
 
 type Props = {};
 
@@ -76,7 +77,7 @@ const LendingHistory: React.FC<Props> = props => {
             <Table responsive="sm">
               <thead>
                 <tr className="cell">
-                  <th>Land amount</th>
+                  <th>Lend amount</th>
                   <th>Date &amp; time</th>
                   <th>Price</th>
                   <th>Transaction</th>
@@ -84,10 +85,16 @@ const LendingHistory: React.FC<Props> = props => {
               </thead>
               <tbody>
                 {events.map((event, index) => (
-                  <tr className="cell">
+                  <tr
+                    className={clsx(
+                      'cell',
+                      event.event === 'Mint' ? 'cell__green' : 'cell__red',
+                    )}
+                  >
                     <td>{weiToFixed(event.returnValues.assetAmount, 8)}</td>
                     <td>&mdash;</td>
-                    <td>${weiToFixed(event.returnValues.price, 3)}</td>
+                    {console.log(event.returnValues.price)}
+                    <td>${weiToFixed(event.returnValues.price, 5)}</td>
                     <td>
                       <Tooltip content={<> {event.transactionHash}</>}>
                         {prettyTx(event.transactionHash)}

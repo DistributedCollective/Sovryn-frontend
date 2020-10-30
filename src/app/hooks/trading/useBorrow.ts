@@ -20,6 +20,8 @@ export function useBorrow(
     'borrow',
   );
 
+  console.log('borrow', rest);
+
   return {
     borrow: () => {
       return send(
