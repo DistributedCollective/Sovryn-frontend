@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse, Table } from 'react-bootstrap';
 import { EventData } from 'web3-eth-contract';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Tooltip } from '@blueprintjs/core';
 import ArrowDown from '../../assets/img/arrow-down.svg';
 import ArrowUp from '../../assets/img/arrow-up.svg';
@@ -33,6 +34,7 @@ const LendingHistory: React.FC<Props> = props => {
   } = useGetContractPastEvents(contract, 'Burn');
 
   const [events, setEvents] = useState<EventData[]>([]);
+  const [copied, setCopied] = useState<string>('');
 
   useEffect(() => {
     if (account) {
@@ -55,6 +57,22 @@ const LendingHistory: React.FC<Props> = props => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    let time;
+    if (copied) {
+      time = setTimeout(() => {
+        setCopied('');
+      }, 1500);
+    }
+    return () => clearTimeout(time);
+  }, [copied]);
+
+  const onCopied = (text: string) => {
+    if (text.length) {
+      setCopied(text);
+    }
   };
 
   return (
@@ -93,13 +111,17 @@ const LendingHistory: React.FC<Props> = props => {
                   >
                     <td>{weiToFixed(event.returnValues.assetAmount, 8)}</td>
                     <td>&mdash;</td>
-                    {console.log(event.returnValues.price)}
                     <td>${weiToFixed(event.returnValues.price, 5)}</td>
-                    <td>
-                      <Tooltip content={<> {event.transactionHash}</>}>
-                        {prettyTx(event.transactionHash)}
-                      </Tooltip>
-                    </td>
+                    <CopyToClipboard
+                      text={event.transactionHash}
+                      onCopy={() => onCopied(event.transactionHash)}
+                    >
+                      <td>
+                        <Tooltip content={<> {event.transactionHash}</>}>
+                          {prettyTx(event.transactionHash)}
+                        </Tooltip>
+                      </td>
+                    </CopyToClipboard>
                   </tr>
                 ))}
               </tbody>
@@ -107,6 +129,11 @@ const LendingHistory: React.FC<Props> = props => {
           </div>
         )}
       </Collapse>
+      {copied && (
+        <div className="alert-position alert alert-success">
+          Copied: {copied.slice(0, 14)}...
+        </div>
+      )}
     </div>
   );
 };

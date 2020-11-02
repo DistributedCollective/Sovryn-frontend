@@ -9,8 +9,8 @@ import { Asset } from '../../../../../types/asset';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 
 type Props = {
-  state: 'BTC' | 'DOC';
-  setState: (key: 'BTC' | 'DOC') => void;
+  state: Asset;
+  setState: (key: Asset) => void;
 };
 
 const currencyRows = [
@@ -45,7 +45,7 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
     <Container className="d-flex flex-column w-100 p-0">
       <Tab.Container id="left-tabs" defaultActiveKey={state}>
         <Nav
-          onSelect={k => setState(k as 'BTC' | 'DOC')}
+          onSelect={k => setState(k as Asset)}
           className="d-flex flex-column currency-nav"
           variant="pills"
         >

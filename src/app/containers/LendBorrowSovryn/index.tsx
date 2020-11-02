@@ -6,11 +6,12 @@ import './assets/index.scss';
 import CurrencyDetails from './components/CurrencyDetails';
 import LendingHistory from './components/LendingHistory';
 import { Header } from 'app/components/Header';
+import { Asset } from '../../../types/asset';
 
 type Props = {};
 
 const LendBorrowSovryn: React.FC<Props> = props => {
-  const [key, setKey] = useState<'BTC' | 'DOC'>('BTC');
+  const [key, setKey] = useState<Asset>(Asset.BTC);
 
   return (
     <>

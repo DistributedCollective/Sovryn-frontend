@@ -34,11 +34,6 @@ export function useApproveAndCloseWithDeposit(
     getLendingContract(lendingContract).address,
   );
 
-  console.log(
-    getLendingContract(lendingContract === Asset.BTC ? Asset.DOC : Asset.BTC)
-      .address,
-  );
-
   const {
     approve,
     txHash: approveTx,

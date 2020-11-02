@@ -14,7 +14,6 @@ export function useCloseWithDeposit(
     'closeWithDeposit',
   );
   const account = useAccount();
-  console.log('rest', rest);
 
   return {
     closeWithDeposit: () => {

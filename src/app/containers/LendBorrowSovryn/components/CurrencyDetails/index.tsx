@@ -5,9 +5,10 @@ import clsx from 'clsx';
 import LendingContainer from '../../LendingContainer';
 import BorrowingContainer from '../../BorrowingContainer';
 import '../../assets/index.scss';
+import { Asset } from '../../../../../types/asset';
 
 type Props = {
-  currency: 'BTC' | 'DOC';
+  currency: Asset;
 };
 
 const CurrencyDetails: React.FC<Props> = ({ currency }) => {
@@ -16,7 +17,7 @@ const CurrencyDetails: React.FC<Props> = ({ currency }) => {
   return (
     <Row className="w-100">
       <Tabs
-        className={clsx('tabs', currency === 'DOC' && 'tabs__green')}
+        className={clsx('tabs', currency === Asset.DOC && 'tabs__green')}
         activeKey={key}
         onSelect={k => setKey(k as string)}
         defaultActiveKey="lend"

@@ -343,6 +343,12 @@
   justify-content: center;
   padding: 18px 40px;
 
+  & .alert-position {
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+  }
+
   .table {
     background: #171717;
     border: none;

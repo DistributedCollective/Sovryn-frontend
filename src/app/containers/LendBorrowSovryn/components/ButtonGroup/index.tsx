@@ -21,7 +21,7 @@ import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_
 import { Tooltip } from '@blueprintjs/core';
 
 type Props = {
-  currency: string;
+  currency: Asset;
   rightButton: string;
   leftButton: string;
   setCurrentButton: (current: string) => void;

@@ -5,6 +5,7 @@ import AccountBalance from '../AccountBalance';
 import { TransactionStatus } from '../../../../../types/transaction-status';
 
 import '../../assets/index.scss';
+import { Asset } from '../../../../../types/asset';
 
 export enum TxType {
   NONE = 'none',
@@ -12,10 +13,11 @@ export enum TxType {
   LEND = 'lend',
   WITHDRAW = 'withdraw',
   BORROW = 'borrow',
+  CLOSE_WITH_DEPOSIT = 'closeWithDeposit',
 }
 
 type Props = {
-  currency: string;
+  currency: Asset;
   amountName: string;
   maxValue: string;
   minValue?: string;
@@ -31,7 +33,8 @@ type Props = {
   isConnected: boolean;
   valid: boolean;
   txState: {
-    txHash: string;
+    type: TxType;
+    txHash: any;
     status: TransactionStatus;
     loading: boolean;
   };

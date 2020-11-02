@@ -8,7 +8,7 @@ import { SendTxProgress } from '../../../../components/SendTxProgress';
 import { TxType } from '../TabContainer';
 
 type Props = {
-  currency: string;
+  currency: Asset;
   title?: string;
   isConnected: boolean;
   valid: boolean;
@@ -28,8 +28,6 @@ const AccountBalance: React.FC<Props> = ({
   txState,
   title,
 }) => {
-  let asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
-
   return (
     <div
       className={clsx(
@@ -37,7 +35,7 @@ const AccountBalance: React.FC<Props> = ({
         currency === 'DOC' && 'account-balance-container__green',
       )}
     >
-      <AssetWalletBalance asset={asset} />
+      <AssetWalletBalance asset={currency} />
       <button
         onClick={
           title === 'Withdraw'

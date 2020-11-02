@@ -4,14 +4,15 @@ import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import TabContainer from '../components/TabContainer';
+import TabContainer, { TxType } from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
 import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
 import { useApproveAndCloseWithDeposit } from '../../../hooks/trading/useApproveAndCloseWithDeposit';
+import { TransactionStatus } from '../../../../types/transaction-status';
 
 type Props = {
-  currency: 'BTC' | 'DOC';
+  currency: Asset;
 };
 
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
@@ -36,9 +37,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     setBorrowAmount(weiAmount);
   }, [amount, weiAmount]);
 
-  const tokenToBorrow = Asset.DOC;
-  const tokenToCollarate = Asset.BTC;
-  const withdrawAmount = '20000000000000000000'; // 20 doc
+  const tokenToBorrow = currency;
+  const tokenToCollarate = currency === Asset.BTC ? Asset.DOC : Asset.BTC;
   const initialLoanDuration = 60 * 60 * 24 * 10; // 10 days
 
   const { value: collateralTokenSent } = useSovryn_getRequiredCollateral(
@@ -60,15 +60,13 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const {
     closeWithDeposit,
     ...txStateCloseWithDeposit
-  } = useApproveAndCloseWithDeposit(
-    currency === Asset.BTC ? Asset.BTC : Asset.DOC,
-    tokenToCollarate,
-    borrowAmount,
-  );
+  } = useApproveAndCloseWithDeposit(currency, tokenToCollarate, borrowAmount);
 
   const { value: tokenBalance } = useAssetBalanceOf(tokenToCollarate);
 
-  const handleSubmitBorrow = () => borrow();
+  const handleSubmitBorrow = () => {
+    borrow();
+  };
 
   const handleSubmitCloseWithDeposit = () => {
     closeWithDeposit();
@@ -80,7 +78,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     <TabContainer
       setBorrowAmount={setBorrowAmount}
       onMaxChange={onMaxChange}
-      txState={txStateBorrow}
+      txState={
+        txStateBorrow.status !== 'none' && txStateBorrow.loading
+          ? txStateBorrow
+          : txStateCloseWithDeposit
+      }
       isConnected={isConnected}
       valid={valid}
       leftButton="Borrow"

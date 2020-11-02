@@ -19,19 +19,18 @@ import TabContainer, { TxType } from '../components/TabContainer';
 import '../assets/index.scss';
 
 type Props = {
-  currency: 'BTC' | 'DOC';
+  currency: Asset;
 };
 
 const LendingContainer: React.FC<Props> = ({ currency }) => {
   const [amount, setAmount] = useState<string>('');
   const isConnected = useIsConnected();
-  let asset = currency === 'BTC' ? Asset.BTC : Asset.DOC;
 
   const weiAmount = useWeiAmount(amount);
 
   const { value: allowance } = useTokenAllowance(
-    asset,
-    getLendingContract(asset).address,
+    currency,
+    getLendingContract(currency).address,
   );
 
   const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,15 +54,15 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   });
 
   // LENDING
-  const { lend: lendToken, ...lendInfo } = useLendTokens(asset);
-  const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(asset);
+  const { lend: lendToken, ...lendInfo } = useLendTokens(currency);
+  const { lend: lendBTC, ...lendBtcInfo } = useLendTokensRBTC(currency);
 
   const {
     approve,
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApproveForLending(asset);
+  } = useTokenApproveForLending(currency);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -75,23 +74,23 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   const handleLending = useCallback(
     (weiAmount: string) => {
       if (!(lendInfo.loading && lendBtcInfo.loading)) {
-        if (asset === Asset.BTC) {
+        if (currency === Asset.BTC) {
           lendBTC(weiAmount);
         } else {
           lendToken(weiAmount);
         }
       }
     },
-    [lendInfo.loading, lendBtcInfo.loading, asset, lendBTC, lendToken],
+    [lendInfo.loading, lendBtcInfo.loading, currency, lendBTC, lendToken],
   );
 
   const handleTx = useCallback(() => {
-    if (asset !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
+    if (currency !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
       handleApprove(toWei('1000000', 'ether'));
     } else {
       handleLending(weiAmount);
     }
-  }, [asset, weiAmount, allowance, handleApprove, handleLending]);
+  }, [currency, weiAmount, allowance, handleApprove, handleLending]);
 
   useEffect(() => {
     if (approveStatus === TransactionStatus.SUCCESS) {
@@ -129,10 +128,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
 
   // WITHDRAW
   const { unLend: unlendToken, loading: unlendLoadingToken } = useUnLendTokens(
-    asset,
+    currency,
   );
   const { unLend: unlendBtc, loading: unlendLoadingBtc } = useUnLendTokensRBTC(
-    asset,
+    currency,
   );
 
   const handleApproveWithdraw = useCallback(
@@ -145,25 +144,25 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   const handleWithdraw = useCallback(
     (weiAmount: string) => {
       if (!(unlendLoadingToken && unlendLoadingBtc)) {
-        if (asset === Asset.BTC) {
+        if (currency === Asset.BTC) {
           unlendBtc(weiAmount);
         } else {
           unlendToken(weiAmount);
         }
       }
     },
-    [unlendLoadingToken, unlendLoadingBtc, asset, unlendBtc, unlendToken],
+    [unlendLoadingToken, unlendLoadingBtc, currency, unlendBtc, unlendToken],
   );
 
   const handleTxWithdraw = useCallback(() => {
-    if (asset !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
+    if (currency !== Asset.BTC && bignumber(weiAmount).greaterThan(allowance)) {
       handleApproveWithdraw(toWei('1000000', 'ether'));
     } else {
       handleWithdraw(weiAmount);
     }
-  }, [asset, weiAmount, allowance, handleApproveWithdraw, handleWithdraw]);
+  }, [currency, weiAmount, allowance, handleApproveWithdraw, handleWithdraw]);
 
-  const { value: maxAmount } = useLending_transactionLimit(asset, asset);
+  const { value: maxAmount } = useLending_transactionLimit(currency, currency);
 
   const valid = useIsAmountWithinLimits(
     weiAmount,
