@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 
-import { useIsConnected } from '../../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../../hooks/useAccount';
 import { Asset } from '../../../../types/asset';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useTokenAllowance } from '../../../hooks/useTokenAllowanceForLending';
@@ -17,6 +17,9 @@ import { useLending_transactionLimit } from '../../../hooks/lending/useLending_t
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
 import TabContainer, { TxType } from '../components/TabContainer';
 import '../assets/index.scss';
+import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
+import { useLending_balanceOf } from '../../../hooks/lending/useLending_balanceOf';
+import { weiTo18 } from '../../../../utils/blockchain/math-helpers';
 
 type Props = {
   currency: Asset;
@@ -33,12 +36,24 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     getLendingContract(currency).address,
   );
 
-  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value as string);
+  const onChangeAmount = (e: string) => {
+    setAmount(e);
   };
 
-  const onMaxChange = (max: string) => {
-    setAmount(max);
+  const { value: userBalance } = useAssetBalanceOf(currency as Asset);
+  const { value: depositedBalance } = useLending_balanceOf(
+    currency as Asset,
+    useAccount(),
+  );
+
+  const onMaxChange = (type: string) => {
+    let amount = '0';
+    if (type === 'Deposit') {
+      amount = userBalance;
+    } else if (type === 'Withdraw') {
+      amount = depositedBalance;
+    }
+    setAmount(weiTo18(amount));
   };
 
   const [txState, setTxState] = useState<{
@@ -121,8 +136,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   ]);
 
   // DEPOSIT SUBMIT
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handleTx();
   };
 
@@ -171,8 +185,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   );
 
   // WITHDRAW SUBMIT
-  const handleSubmitWithdraw = e => {
-    e.preventDefault();
+  const handleSubmitWithdraw = () => {
     handleTxWithdraw();
   };
 

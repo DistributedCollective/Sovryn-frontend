@@ -10,15 +10,27 @@ export function useAddLiquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    'liquidityProtocol',
+    asset === Asset.BTC ? 'liquidityBTCProtocol' : 'liquidityProtocol',
     'addLiquidity',
   );
 
   return {
     deposit: () => {
-      return send(getTokenContract(asset).address, amount, minReturn, {
-        from: account,
-      });
+      const args = [
+        getTokenContract(asset).address,
+        amount,
+        minReturn,
+        {
+          from: account,
+          value: Asset.BTC ? amount : '0',
+        },
+      ];
+
+      if (asset === Asset.BTC) {
+        args.shift();
+      }
+
+      return send(...args);
     },
     ...rest,
   };

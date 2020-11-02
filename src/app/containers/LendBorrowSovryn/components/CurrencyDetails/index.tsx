@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Row, Tab, Tabs } from 'react-bootstrap';
 import clsx from 'clsx';
 
+import { Asset } from '../../../../../types/asset';
 import LendingContainer from '../../LendingContainer';
 import BorrowingContainer from '../../BorrowingContainer';
 import '../../assets/index.scss';
-import { Asset } from '../../../../../types/asset';
 
 type Props = {
   currency: Asset;

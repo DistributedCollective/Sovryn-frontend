@@ -5,44 +5,58 @@
  */
 
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { Tab, Tabs } from 'react-bootstrap';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { useIsConnected } from '../../hooks/useAccount';
 import { LiquidityAddContainer } from '../LiquidityAddContainer';
 import { LiquidityRemoveContainer } from '../LiquidityRemoveContainer';
-import { WrappedBitcoinConverter } from '../WrappedBitcoinConverter';
+
+enum TabType {
+  ADD,
+  REMOVE,
+  CONVERT,
+}
 
 interface Props {}
 
 export function LiquidityPage(props: Props) {
-  const isConnected = useIsConnected();
-
   return (
     <>
+      <Helmet>
+        <title>Liquidity</title>
+        <meta name="description" content="Add liquidity" />
+      </Helmet>
       <Header />
-      <main>
-        <div className="container">
-          <h2 className="text-center mb-5">Liquidity</h2>
-          {!isConnected && <p>Please connect to your wallet first.</p>}
-          {isConnected && (
-            <>
-              <div className="row">
-                <div className="col-lg-6">
+      {/* <HintDialog /> */}
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
+            <div className="sovryn-tabs">
+              <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
+                <Tab
+                  eventKey={(TabType.ADD as unknown) as string}
+                  title={'Supply'}
+                >
                   <LiquidityAddContainer />
-                </div>
-                <div className="col-lg-6 mt-3 mt-lg-0">
+                </Tab>
+                <Tab
+                  eventKey={(TabType.REMOVE as unknown) as string}
+                  title={'Withdraw'}
+                >
                   <LiquidityRemoveContainer />
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-lg-6 offset-lg-3">
-                  <WrappedBitcoinConverter />
-                </div>
-              </div>
-            </>
-          )}
+                </Tab>
+                {/*<Tab*/}
+                {/*  eventKey={(TabType.CONVERT as unknown) as string}*/}
+                {/*  title={'Convert'}*/}
+                {/*>*/}
+                {/*  <WrappedBitcoinConverter />*/}
+                {/*</Tab>*/}
+              </Tabs>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
       <Footer />
     </>
   );

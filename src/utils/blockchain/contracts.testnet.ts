@@ -6,6 +6,7 @@
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
+import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import tokenAbi from './abi/abiTestToken.json';
 import TestTokenABI from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
@@ -25,6 +26,11 @@ export const contracts = {
     address: '0x3ED5C55D08F75488736fb4A2e512698E71251cf0',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
+  },
+  liquidityBTCProtocol: {
+    address: '0xd975CF1a5Af1C201568Dc49158724B04802932CE',
+    abi: RBTCWrapperProxy,
+    blockNumber: 1287654,
   },
   priceFeed: {
     address: '0x7f38c422b99075f63C9c919ECD200DF8d2Cf5BD4',

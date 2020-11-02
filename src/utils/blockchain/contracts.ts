@@ -13,6 +13,7 @@ import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import TestTokenABI from './abi/abiTestToken.json';
 import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
+import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -25,6 +26,11 @@ export const contracts = {
     address: '0xd715192612F03D20BaE53a5054aF530C9Bb0fA3f',
     abi: LiquidityPoolV2Converter,
     blockNumber: 2742633,
+  },
+  liquidityBTCProtocol: {
+    address: '-',
+    abi: RBTCWrapperProxy,
+    blockNumber: 1287654,
   },
   priceFeed: {
     address: '0x437AC62769f386b2d238409B7f0a7596d36506e4',

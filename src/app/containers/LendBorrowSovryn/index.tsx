@@ -16,12 +16,14 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   return (
     <>
       <Header />
-      <main className="container d-flex justify-content-between">
-        <Row className="d-flex col-6">
-          <CurrencyContainer state={key} setState={setKey} />
-        </Row>
-        <Row className="d-flex col-6 justify-content-center ">
-          <CurrencyDetails currency={key} />
+      <main className="container">
+        <Row>
+          <div className="col-12 col-lg-6">
+            <CurrencyContainer state={key} setState={setKey} />
+          </div>
+          <div className="col-12 col-lg-6 mt-3 mt-lg-0">
+            <CurrencyDetails currency={key} />
+          </div>
         </Row>
       </main>
       <Container className="d-flex justify-content-center">

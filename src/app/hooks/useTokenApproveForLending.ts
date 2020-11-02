@@ -5,6 +5,7 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from './useSendContractTx';
 import { useAccount } from './useAccount';
+import { ContractName } from '../../utils/types/contracts';
 
 export function useTokenApproveForLending(asset: Asset) {
   const account = useAccount();
@@ -25,6 +26,16 @@ export function useTokenApprove(tokenAsset: Asset, spenderAddress: string) {
     getTokenContractName(tokenAsset),
     'approve',
   );
+  return {
+    approve: (weiAmount: string) =>
+      send(spenderAddress, weiAmount, { from: account }),
+    ...rest,
+  };
+}
+
+export function useApprove(contractName: ContractName, spenderAddress: string) {
+  const account = useAccount();
+  const { send, ...rest } = useSendContractTx(contractName, 'approve');
   return {
     approve: (weiAmount: string) =>
       send(spenderAddress, weiAmount, { from: account }),
