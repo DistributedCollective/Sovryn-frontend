@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
@@ -37,6 +37,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [position, setPosition] = useState(TradingPosition.LONG);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [borrowAmount, setBorrowAmount] = useState('0');
 
   useEffect(() => {

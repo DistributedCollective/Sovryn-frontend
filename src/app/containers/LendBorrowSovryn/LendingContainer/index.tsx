@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 
