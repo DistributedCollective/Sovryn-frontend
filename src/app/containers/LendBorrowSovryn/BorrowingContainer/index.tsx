@@ -4,12 +4,11 @@ import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import TabContainer, { TxType } from '../components/TabContainer';
+import TabContainer from '../components/TabContainer';
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
 import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
 import { useApproveAndCloseWithDeposit } from '../../../hooks/trading/useApproveAndCloseWithDeposit';
-import { TransactionStatus } from '../../../../types/transaction-status';
 
 type Props = {
   currency: Asset;

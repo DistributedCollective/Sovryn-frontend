@@ -1,5 +1,4 @@
 import { Asset } from 'types/asset';
-import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 
