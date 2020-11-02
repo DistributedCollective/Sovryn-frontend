@@ -19,6 +19,7 @@ export function Header() {
     { to: '/', title: 'Trade', exact: true },
     { to: '/lend', title: 'Lend / Borrow' },
     { to: '/liquidity', title: 'Liquidity' },
+    { to: '/fast-btc', title: 'Fast-BTC' },
     'Stats',
     'FAQs',
   ];

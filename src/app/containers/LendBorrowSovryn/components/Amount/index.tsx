@@ -1,18 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-
-import clsx from 'clsx';
-import { translations } from '../../../../../locales/i18n';
-import { useTokenBalanceOf } from '../../../../hooks/useTokenBalanceOf';
-import { TradingPairDictionary } from '../../../../../utils/trading-pair-dictionary';
-import { useTranslation } from 'react-i18next';
-import { TradingPosition } from '../../../../../types/trading-position';
-import { useSelector } from 'react-redux';
-import { selectTradingPage } from '../../../TradingPage/selectors';
-import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
+import React from 'react';
 import '../../assets/index.scss';
 import { FieldGroup } from '../../../../components/FieldGroup';
 import { AmountField } from '../../../AmountField';
-import ButtonGroup from '../ButtonGroup';
 
 type Props = {
   amountName: string;
@@ -45,7 +34,7 @@ const Amount: React.FC<Props> = ({
           />
         </FieldGroup>
       </div>
-      {maxValue !== '0' && (
+      {maxValue !== '0' && maxValue !== '' && (
         <div className="d-flex flex-column min-max-btc p-3 align-items-center justify-content-center">
           <div>Max:</div>
           <div>

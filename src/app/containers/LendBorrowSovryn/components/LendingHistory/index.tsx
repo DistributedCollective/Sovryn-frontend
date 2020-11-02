@@ -104,6 +104,7 @@ const LendingHistory: React.FC<Props> = props => {
               <tbody>
                 {events.map((event, index) => (
                   <tr
+                    key={index}
                     className={clsx(
                       'cell',
                       event.event === 'Mint' ? 'cell__green' : 'cell__red',

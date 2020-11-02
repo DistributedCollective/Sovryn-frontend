@@ -36,9 +36,6 @@ export function useApproveAndRemoveLiquidity(
         abi: TokenAbi as any,
       });
     }
-
-    console.log(Sovryn.writeContracts);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolAddress]);
 

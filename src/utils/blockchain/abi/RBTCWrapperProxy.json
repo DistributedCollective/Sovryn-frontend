@@ -15,6 +15,16 @@
         "internalType": "address",
         "name": "_poolTokenAddress",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_sovrynSwapNetworkAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_docTokenAddress",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -25,6 +35,21 @@
     "payable": true,
     "stateMutability": "payable",
     "type": "fallback"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "docTokenAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": true,
@@ -45,6 +70,21 @@
     "constant": true,
     "inputs": [],
     "name": "poolTokenAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "sovrynSwapNetworkAddress",
     "outputs": [
       {
         "internalType": "address",
@@ -121,6 +161,37 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "contract IERC20Token[]",
+        "name": "_path",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minReturn",
+        "type": "uint256"
+      }
+    ],
+    "name": "convertByPath",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
     "type": "function"
   }
 ]
