@@ -1,9 +1,13 @@
 import React from 'react';
-import '../../assets/index.scss';
-import clsx from 'clsx';
-import { AssetInterestRate } from '../../../../components/AssetInterestRate';
-import { Asset } from '../../../../../types/asset';
 import styled from 'styled-components';
+import clsx from 'clsx';
+
+import { Asset } from 'types/asset';
+import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
+import { NextBorrowInterestRate } from 'app/components/NextBorrowInterestRate';
+
+import '../../assets/index.scss';
+import { Text } from '@blueprintjs/core';
 
 type Props = {
   icon: string;
@@ -11,7 +15,8 @@ type Props = {
   lendApr: number;
   borrowApr: number;
   state: string;
-  weiAmount: string;
+  lendingAmount: string;
+  borrowAmount: string;
   asset: Asset;
 };
 
@@ -19,8 +24,9 @@ const CurrencyRow: React.FC<Props> = ({
   icon,
   title,
   state,
-  weiAmount,
   asset,
+  lendingAmount,
+  borrowAmount,
 }) => {
   return (
     <div
@@ -35,14 +41,16 @@ const CurrencyRow: React.FC<Props> = ({
       </div>
       <div className="d-flex currency w-lg-50">
         <div className="mr-3 w-50">
-          <span className="text-muted">Lend APR:</span>
-          <AssetInterestRate asset={asset} weiAmount={weiAmount} />
+          <Text ellipsize className="text-muted">
+            Lend APR:
+          </Text>
+          <NextSupplyInterestRate asset={asset} weiAmount={lendingAmount} />
         </div>
         <div className="w-50">
-          <span className="text-muted">Borrow APR:</span>
-          <p>
-            <span> ...</span>
-          </p>
+          <Text ellipsize className="text-muted">
+            Borrow APR:
+          </Text>
+          <NextBorrowInterestRate asset={asset} weiAmount={borrowAmount} />
         </div>
       </div>
     </div>

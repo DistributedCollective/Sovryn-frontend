@@ -55,7 +55,8 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
                 <CurrencyRow
                   {...info}
                   state={state}
-                  weiAmount={weiAmount}
+                  lendingAmount={weiAmount}
+                  borrowAmount={weiAmount}
                   asset={getAsset(info.title)}
                 />
               </Nav.Link>

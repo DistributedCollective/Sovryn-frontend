@@ -1,69 +1,33 @@
-import React, { useState } from 'react';
-import { Button, Nav, Tab, Tabs } from 'react-bootstrap';
+import React from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Asset } from '../../../../../types/asset';
 import LendingContainer from '../../LendingContainer';
 import BorrowingContainer from '../../BorrowingContainer';
 import '../../assets/index.scss';
-import clsx from 'clsx';
-import RepayingContainer from '../../RepayingContainer';
+import { selectLendBorrowSovryn } from '../../selectors';
+import { actions } from '../../slice';
+import { TabType } from '../../types';
 
-type Props = {
-  currency: Asset;
-};
+type Props = {};
 
-const CurrencyDetails: React.FC<Props> = ({ currency }) => {
-  const [key, setKey] = useState<string | null>('lend');
-  const [borrowKey, setBorrowKey] = useState<'borrow' | 'repay'>('borrow');
+const CurrencyDetails: React.FC<Props> = () => {
+  const { tab, asset } = useSelector(selectLendBorrowSovryn);
+  const dispatch = useDispatch();
 
   return (
     <div className="sovryn-tabs">
       <Tabs
-        activeKey={key}
-        onSelect={k => setKey(k as string)}
+        activeKey={tab}
+        onSelect={k => dispatch(actions.changeTab((k as unknown) as TabType))}
         defaultActiveKey="lend"
         id="borrow-&-lend-tabs"
       >
-        <Tab eventKey="lend" title="LEND">
-          <LendingContainer currency={currency} />
+        <Tab eventKey={TabType.LEND} title="LEND">
+          <LendingContainer currency={asset} />
         </Tab>
-        <Tab eventKey="borrow" title="BORROW">
-          <div className="row">
-            <Tab.Container id="button-group " defaultActiveKey={'borrow'}>
-              <Nav
-                onSelect={k => setBorrowKey(k as any)}
-                className="deposit-button-group w-100"
-                variant="pills"
-              >
-                <Nav.Link eventKey={'borrow'}>
-                  <Button
-                    variant="light"
-                    size="lg"
-                    className={clsx(
-                      'button-deposit',
-                      borrowKey !== 'borrow' && 'disabled',
-                    )}
-                  >
-                    Borrow
-                  </Button>
-                </Nav.Link>
-                <Nav.Link eventKey={'repay'}>
-                  <Button
-                    variant="light"
-                    size="lg"
-                    className={clsx(
-                      'button-deposit',
-                      borrowKey !== 'repay' && 'disabled',
-                    )}
-                  >
-                    Repay
-                  </Button>
-                </Nav.Link>
-              </Nav>
-            </Tab.Container>
-          </div>
-          {borrowKey === 'borrow' && <BorrowingContainer currency={currency} />}
-          {borrowKey === 'repay' && <RepayingContainer currency={currency} />}
+        <Tab eventKey={TabType.BORROW} title="BORROW">
+          <BorrowingContainer currency={asset} />
         </Tab>
       </Tabs>
     </div>
