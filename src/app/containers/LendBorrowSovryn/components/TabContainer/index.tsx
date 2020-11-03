@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Amount from '../Amount';
 import ButtonGroup from '../ButtonGroup';
 import AccountBalance from '../AccountBalance';
-
-import '../../assets/index.scss';
 import { TransactionStatus } from '../../../../../types/transaction-status';
 
+import '../../assets/index.scss';
+import { Asset } from '../../../../../types/asset';
+
+export enum TxType {
+  NONE = 'none',
+  APPROVE = 'approve',
+  LEND = 'lend',
+  WITHDRAW = 'withdraw',
+  BORROW = 'borrow',
+  CLOSE_WITH_DEPOSIT = 'closeWithDeposit',
+}
+
 type Props = {
-  currency: string;
+  currency: Asset;
   amountName: string;
   maxValue: string;
-  minValue: string;
+  minValue?: string;
   amountValue: string;
   leftButton: string;
   rightButton: string;
-  accountBalanceValue: string;
-  onChangeAmount: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: any) => void;
+  onChangeAmount: (e: string) => void;
+  onMaxChange: (button: string) => void;
+  handleSubmit: () => void;
+  handleSubmitWithdraw?: () => void;
+  setBorrowAmount?: (amount: string) => void;
+  handleSubmitRepay?: () => void;
   isConnected: boolean;
   valid: boolean;
   txState: {
-    txHash: string;
+    type: TxType;
+    txHash: any;
     status: TransactionStatus;
     loading: boolean;
   };
@@ -34,16 +48,22 @@ const TabContainer: React.FC<Props> = ({
   amountValue,
   onChangeAmount,
   handleSubmit,
+  handleSubmitWithdraw,
+  handleSubmitRepay,
   leftButton,
   rightButton,
-  accountBalanceValue,
   isConnected,
   valid,
   txState,
+  onMaxChange,
+  setBorrowAmount,
 }) => {
+  const [currentButton, setCurrentButton] = useState(leftButton);
   return (
-    <div className="tabs-container">
+    <>
       <ButtonGroup
+        setCurrentButton={setCurrentButton}
+        setBorrowAmount={setBorrowAmount}
         currency={currency}
         leftButton={leftButton}
         rightButton={rightButton}
@@ -51,20 +71,22 @@ const TabContainer: React.FC<Props> = ({
       <Amount
         amountValue={amountValue}
         onChangeAmount={onChangeAmount}
+        onMaxChange={() => onMaxChange(currentButton)}
         currency={currency}
         amountName={amountName}
         maxValue={maxValue}
-        minValue={minValue}
       />
       <AccountBalance
-        loading={txState.loading}
+        title={currentButton}
+        txState={txState}
         valid={valid}
         isConnected={isConnected}
         handleSubmit={handleSubmit}
+        handleSubmitWithdraw={handleSubmitWithdraw}
+        handleSubmitRepay={handleSubmitRepay}
         currency={currency}
-        value={accountBalanceValue}
       />
-    </div>
+    </>
   );
 };
 

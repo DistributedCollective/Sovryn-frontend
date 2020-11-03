@@ -34,7 +34,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app',
-  31: 'http://testnet.sovryn.app:3009',
+  31: 'https://testnet.sovryn.app/fastbtc',
 };
 
 // export const rpcNodesFallback = {
@@ -48,8 +48,8 @@ export const liquidityPools = [
   {
     source: Asset.BTC,
     target: Asset.DOC,
-    label: 'wRBTC',
-    tokenLabel: 'wRBTC',
+    label: 'rBTC',
+    tokenLabel: 'rBTC',
   },
   {
     source: Asset.DOC,

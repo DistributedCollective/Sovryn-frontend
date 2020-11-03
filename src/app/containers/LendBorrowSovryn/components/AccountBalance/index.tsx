@@ -2,44 +2,63 @@ import React from 'react';
 import clsx from 'clsx';
 
 import '../../assets/index.scss';
+import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
+import { Asset } from '../../../../../types/asset';
+import { SendTxProgress } from '../../../../components/SendTxProgress';
+import { TradeButton } from '../../../../components/TradeButton';
+import { TxType } from '../TabContainer';
 
 type Props = {
-  currency: string;
-  value: string;
+  currency: Asset;
+  title?: string;
   isConnected: boolean;
   valid: boolean;
-  loading: boolean;
-  handleSubmit: (e: any) => void;
+  txState: any;
+  handleSubmit: () => void;
+  handleSubmitWithdraw?: () => void;
+  handleSubmitRepay?: () => void;
 };
 
 const AccountBalance: React.FC<Props> = ({
   currency,
-  value,
   handleSubmit,
+  handleSubmitWithdraw,
+  handleSubmitRepay,
   isConnected,
   valid,
-  loading,
+  txState,
+  title,
 }) => {
   return (
-    <div
-      className={clsx(
-        'account-balance-container',
-        currency === 'DOC' && 'account-balance-container__green',
+    <>
+      {txState.type !== TxType.NONE && (
+        <SendTxProgress
+          {...txState}
+          type={txState.type}
+          displayAbsolute={false}
+        />
       )}
-    >
-      <div className="account-balance">
-        <p>Account Balance</p>
-        <span>
-          {currency} <b> {value}</b>
-        </span>
-      </div>
-      <button
-        onClick={handleSubmit}
-        disabled={/*loading || */ !isConnected || !valid}
+      <div
+        className={clsx(
+          'account-balance-container position-relative',
+          currency === Asset.DOC && 'account-balance-container__green',
+        )}
       >
-        Lend {currency}
-      </button>
-    </div>
+        <AssetWalletBalance asset={currency} />
+        <TradeButton
+          text={`${title} ${currency}`}
+          onClick={
+            title === 'Withdraw'
+              ? handleSubmitWithdraw
+              : title === 'Repay'
+              ? handleSubmitRepay
+              : handleSubmit
+          }
+          disabled={txState.loading || !isConnected || !valid}
+          loading={txState.loading}
+        />
+      </div>
+    </>
   );
 };
 

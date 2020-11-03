@@ -7,21 +7,29 @@
 import React, { useCallback, useState } from 'react';
 import { liquidityPools } from '../../../utils/classifiers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { Button, InputGroup, Text } from '@blueprintjs/core';
+import { Text } from '@blueprintjs/core';
 import { FormSelect } from '../../components/FormSelect';
 import { LoadableValue } from '../../components/LoadableValue';
-import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
+import {
+  weiTo4,
+  weiTo18,
+  weiToFixed,
+} from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
-import { useRemoveLiquidity } from '../../hooks/amm/useRemoveLiquidity';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { useRemoveLiquidityReturnAndFee } from '../../hooks/amm/useRemoveLiquidityReturnAndFee';
-import { handleNumberInput } from '../../../utils/helpers';
+import { FieldGroup } from '../../components/FieldGroup';
+import { AmountField } from '../AmountField';
+import { TradeButton } from '../../components/TradeButton';
+import { useIsConnected } from '../../hooks/useAccount';
+import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 
 interface Props {}
 
 export function LiquidityRemoveContainer(props: Props) {
+  const isConnected = useIsConnected();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
     label: item.tokenLabel,
@@ -39,7 +47,12 @@ export function LiquidityRemoveContainer(props: Props) {
     loading: targetLoading,
   } = useRemoveLiquidityReturnAndFee(poolAddress.value, weiAmount);
 
-  const tx = useRemoveLiquidity(poolAddress.value, weiAmount, '1');
+  const tx = useApproveAndRemoveLiquidity(
+    sourceToken,
+    poolAddress.value,
+    weiAmount,
+    '1',
+  );
 
   const handleWithdraw = useCallback(() => {
     tx.withdraw();
@@ -54,49 +67,30 @@ export function LiquidityRemoveContainer(props: Props) {
   };
 
   return (
-    <div className="bg-secondary p-3">
-      <h3 className="mb-3">Remove Liquidity</h3>
-      <div className="d-flex flex-row justify-content-between">
-        <div className="data-label">Amount</div>
-        <div className="flex-grow-1 mx-2 data-container">
-          <InputGroup
-            className="mb-0"
-            value={amount}
-            onChange={e => setAmount(handleNumberInput(e))}
-            placeholder="Enter amount"
-          />
+    <>
+      <div className="row">
+        <div className="col-6 pr-1">
+          <FieldGroup label="Currency">
+            <FormSelect
+              onChange={handlePoolChange}
+              placeholder="Select currency"
+              value={sourceToken}
+              items={tokens}
+            />
+          </FieldGroup>
         </div>
-        <div className="data-container">
-          <FormSelect
-            filterable={false}
-            items={tokens}
-            onChange={handlePoolChange}
-            value={sourceToken}
-          />
+        <div className="col-6 pl-1">
+          <FieldGroup label="Enter amount">
+            <AmountField
+              onChange={value => setAmount(value)}
+              onMaxClicked={() => setAmount(weiTo18(balance.value))}
+              value={amount}
+            />
+          </FieldGroup>
         </div>
       </div>
-      <div className="d-flex flex-row justify-content-center">
-        {Number(weiAmount) > 0 &&
-          !balance.loading &&
-          Number(weiAmount) > Number(balance.value) && (
-            <div className="font-xs text-Gold">
-              Trade amount exceeds balance
-            </div>
-          )}
-      </div>
-      <div className="d-flex flex-row justify-content-between mt-3">
-        <div className="data-label">Balance</div>
 
-        <div className="data-container flex-grow-1 mx-2 small">
-          <LoadableValue
-            loading={balance.loading}
-            value={<Text ellipsize>{weiTo18(balance.value)}</Text>}
-            tooltip={weiTo18(balance.value)}
-          />
-        </div>
-        <div className="small data-container">{sourceToken}</div>
-      </div>
-      <div className="border shadow my-3 p-3 bg-secondary">
+      <div className="border my-3 p-3 bg-white text-black">
         <div className="row">
           <div className="col">
             <div className="font-weight-bold small">
@@ -129,22 +123,39 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <Button
-        text="Withdraw"
-        onClick={handleWithdraw}
-        loading={tx.loading}
-        disabled={tx.loading || !amountValid()}
-      />
       {tx.status !== TransactionStatus.NONE && (
-        <div className="mb-4">
-          <SendTxProgress
-            status={tx.status}
-            txHash={tx.txHash}
-            loading={tx.loading}
-            type={'withdraw'}
-          />
+        <div className="mt-3">
+          <SendTxProgress {...tx} displayAbsolute={false} />
         </div>
       )}
-    </div>
+
+      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+        <div className="mb-3 mb-lg-0">
+          <div>
+            <div className="font-weight-bold text-muted mb-2">
+              Supplied Balance
+            </div>
+            {!isConnected && <span>Connect to wallet</span>}
+            {isConnected && (
+              <div className="d-flex flex-row justify-content-start align-items-center">
+                <span className="text-muted">{sourceToken}</span>
+                <span className="text-white font-weight-bold ml-2">
+                  <LoadableValue
+                    value={weiToFixed(balance.value, 4)}
+                    loading={balance.loading}
+                  />
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+        <TradeButton
+          text="Withdraw"
+          onClick={handleWithdraw}
+          loading={tx.loading}
+          disabled={!isConnected || tx.loading || !amountValid()}
+        />
+      </div>
+    </>
   );
 }

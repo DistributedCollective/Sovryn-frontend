@@ -7,7 +7,6 @@ import {
   Popover,
   Spinner,
 } from '@blueprintjs/core';
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
 import '../LendBorrowSovryn/assets/index.scss';
@@ -16,6 +15,7 @@ import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
+import { NavLink } from 'react-router-dom';
 
 type Props = {};
 
@@ -42,14 +42,14 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           {connecting && <Spinner size={22} />}
           {!connecting && (
             <>
-              <span className="d-none d-lg-inline">Engage wallet</span>
-              <Icon icon="log-in" className="d-lg-none" />
+              <span className="d-none d-xl-inline">Engage wallet</span>
+              <Icon icon="log-in" className="d-xl-none" />
             </>
           )}
         </StyledButton>
       ) : (
         <div>
-          <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-lg-flex mr-3">
+          <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
             <span className="d-flex flex-nowrap flex-row align-items-center">
               <span>{prettyTx(address, 5, 3)}</span>
               <IconButton
@@ -60,7 +60,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               />
             </span>
           </div>
-          <StyledButton className="d-lg-none">
+          <StyledButton className="d-xl-none">
             <Popover
               content={
                 <Menu>
@@ -78,9 +78,12 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           </StyledButton>
         </div>
       )}
-      <Button className="help flex-shrink-0 flex-grow-0 d-none d-lg-block">
-        ?
-      </Button>
+      <NavLink
+        to="/faqs"
+        className="help flex-shrink-0 flex-grow-0 d-none d-xl-flex flex-row text-decoration-none justify-content-center align-items-center"
+      >
+        <span>?</span>
+      </NavLink>
     </div>
   );
 };
@@ -96,7 +99,7 @@ const StyledButton = styled.button.attrs(_ => ({
   width: 48px;
   height: 48px;
   text-align: right;
-  ${media.lg`
+  ${media.xl`
   text-align: inherit;
   background: #171717;
   margin-right: 50px;

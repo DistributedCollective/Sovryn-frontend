@@ -16,13 +16,14 @@ export const GlobalStyle = createGlobalStyle`
     background-color: var(--background);
     color: white;
     ${media.lg`
-    font-size: 14px;
+    font-size: 16px;
     `}
   }
 
   #root {
     min-height: 100vh;
     min-width: 100vw;
+    overflow: auto;
   }
 
   p,

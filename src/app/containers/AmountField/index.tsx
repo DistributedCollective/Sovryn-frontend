@@ -15,6 +15,8 @@ interface Props {
   onChange: (value: string) => void;
   onMaxClicked: () => void;
   allowNegative?: boolean;
+  hideMaxButton?: boolean;
+  rightElement?: React.ReactNode;
 }
 
 export function AmountField(props: Props) {
@@ -29,38 +31,26 @@ export function AmountField(props: Props) {
           props.onChange(handleNumberInput(e, !props.allowNegative))
         }
         rightElement={
-          <button
-            className="btn"
-            type="button"
-            onClick={() => props.onMaxClicked()}
-          >
-            {t(translations.amountField.btn_max)}
-          </button>
+          <>
+            {!props.hideMaxButton && !props.rightElement && (
+              <button
+                className="btn"
+                type="button"
+                onClick={() => props.onMaxClicked()}
+              >
+                {t(translations.amountField.btn_max)}
+              </button>
+            )}
+            {props.rightElement && <>{props.rightElement}</>}
+          </>
         }
       />
     </>
-    // <StyledWrapper>
-    //   <div className="d-flex align-items-center">
-    //     <InputField
-    //       value={props.value}
-    //       placeholder={t(translations.amountField.placeholder)}
-    //       onChange={e =>
-    //         props.onChange(handleNumberInput(e, !props.allowNegative))
-    //       }
-    //     />
-    //   </div>
-    //   <button
-    //     className="btn"
-    //     type="button"
-    //     onClick={() => props.onMaxClicked()}
-    //   >
-    //     {t(translations.amountField.btn_max)}
-    //   </button>
-    // </StyledWrapper>
   );
 }
 
 AmountField.defaultProps = {
   allowNegative: false,
+  hideMaxButton: false,
   onMaxClicked: () => {},
 };

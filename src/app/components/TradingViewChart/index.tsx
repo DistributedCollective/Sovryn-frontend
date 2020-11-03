@@ -13,7 +13,6 @@ enum Theme {
 }
 
 export interface ChartContainerProps {
-  // asset: Asset;
   pair: TradingPairType;
   theme: Theme;
 }

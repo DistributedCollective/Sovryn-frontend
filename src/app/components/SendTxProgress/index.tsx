@@ -8,6 +8,7 @@ import { Icon } from '@blueprintjs/core';
 import { TransactionStatus } from '../../../types/transaction-status';
 import { LinkToExplorer } from '../LinkToExplorer';
 import { TradingPosition } from '../../../types/trading-position';
+import { TopUpHint } from '../TopUpHint';
 
 interface Props {
   status: TransactionStatus;
@@ -39,8 +40,7 @@ const typeClassifiers = {
     },
     description: {
       default: 'Your transaction is being processed.',
-      trade:
-        'Your transaction is being processed and will be added to your Trading Activity once completed.',
+      trade: <TopUpHint />,
     },
   },
   success: {

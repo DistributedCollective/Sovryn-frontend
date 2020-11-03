@@ -36,7 +36,8 @@ export function useSendContractTx(
               setLoading(false);
             }
           })
-          .catch(() => {
+          .catch(e => {
+            console.error(e);
             setStatus(TransactionStatus.ERROR);
             setLoading(false);
           });

@@ -3,7 +3,7 @@ import { TradingPair } from './models/trading-pair';
 
 export enum TradingPairType {
   BTC_DOC = 'BTCUSD',
-  BTC_DOC_TEST = 'ETHUSD',
+  DOC_TEST = 'ETHUSD',
 }
 
 export class TradingPairDictionary {
@@ -23,9 +23,9 @@ export class TradingPairDictionary {
       ),
     ],
     [
-      TradingPairType.BTC_DOC_TEST,
+      TradingPairType.DOC_TEST,
       new TradingPair(
-        'TEST (BTC)',
+        'DOC - SWAP test',
         Asset.DOC,
         Asset.BTC,
         Asset.DOC,
