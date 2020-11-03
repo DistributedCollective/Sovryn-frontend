@@ -8,26 +8,40 @@ import React from 'react';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
 
 interface Props {
-  data: any;
+  data: Array<{
+    actions: any;
+    currentMargin: any;
+    currentPrice: string;
+    endDate: any;
+    icon: any;
+    id: string;
+    interestAPR: any;
+    leverage: string;
+    liquidationPrice: any;
+    maintenanceMargin: string;
+    mobileActions: any;
+    positionSize: string;
+    profit: any;
+    startMargin: string;
+    startPrice: string;
+  }>;
   setExpandedId: any;
-  setExpandedItem: any;
-  expandedId: any;
-  expandedItem: any;
+  expandedId: string;
 }
 
 export function ActiveLoanTableMobile(props: Props) {
   const rows = props.data.map(item => {
-    console.log(item.id);
     return item.id === props.expandedId ? (
       <ExpandedRowMobile
+        key={item.id}
         item={item}
         handleClick={() => props.setExpandedId('')}
       />
     ) : (
       <div
+        key={item.id}
         className="row mobile-row"
         onClick={() => {
-          props.setExpandedItem(item.id);
           props.setExpandedId(item.id);
         }}
         style={{ opacity: props.expandedId ? '0.2' : '1' }}

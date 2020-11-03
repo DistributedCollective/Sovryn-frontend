@@ -161,9 +161,7 @@ export function ActiveLoanTableContainer(props: Props) {
         <ActiveLoanTableMobile
           data={data}
           setExpandedId={setExpandedId}
-          setExpandedItem={setExpandedItem}
           expandedId={expandedId}
-          expandedItem={expandedItem}
         />
       )}
       <CloseTradingPositionHandler
