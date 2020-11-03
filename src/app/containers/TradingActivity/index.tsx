@@ -39,7 +39,7 @@ export function TradingActivity() {
           {!isConnected ? (
             <SkeletonRow loadingText={t(s.walletNote)} />
           ) : activeTrades ? (
-            <ActiveUserLoans />
+            <ActiveUserLoans loanType={1} />
           ) : (
             <TradingHistory />
           )}
