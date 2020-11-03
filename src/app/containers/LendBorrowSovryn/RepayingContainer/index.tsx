@@ -7,6 +7,7 @@ import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits'
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
 import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
+import { useApproveAndCloseWithDeposit } from '../../../hooks/trading/useApproveAndCloseWithDeposit';
 import { AssetsDictionary } from '../../../../utils/blockchain/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
 import { FieldGroup } from '../../../components/FieldGroup';
@@ -21,10 +22,20 @@ type Props = {
   currency: Asset;
 };
 
-const BorrowingContainer: React.FC<Props> = ({ currency }) => {
+const RepayingContainer: React.FC<Props> = ({ currency }) => {
   const [amount, setAmount] = useState<string>('');
   const isConnected = useIsConnected();
   const borrowAmount = useWeiAmount(amount);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onChangeAmount = (e: string) => {
+    setAmount(e);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onMaxChange = (max: string) => {
+    setAmount(max);
+  };
 
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
@@ -67,10 +78,22 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     initialLoanDuration.toString(),
   );
 
+  const {
+    closeWithDeposit,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ...txStateCloseWithDeposit
+  } = useApproveAndCloseWithDeposit(currency, tokenToCollarate, borrowAmount);
+
   const { value: tokenBalance } = useAssetBalanceOf(tokenToCollarate);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmitBorrow = () => {
     borrow();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleSubmitCloseWithDeposit = () => {
+    closeWithDeposit();
   };
 
   const valid = useIsAmountWithinLimits(collateralTokenSent, '1', tokenBalance);
@@ -112,13 +135,36 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         </div>
         <TradeButton
           text={`Borrow ${currency}`}
-          onClick={handleSubmitBorrow}
+          onClick={() => borrow()}
           disabled={!valid || !isConnected || txStateBorrow.loading}
           loading={txStateBorrow.loading}
         />
       </div>
     </>
   );
+
+  // return (
+  //   <TabContainer
+  //     setBorrowAmount={setBorrowAmount}
+  //     onMaxChange={onMaxChange}
+  //     txState={
+  //       txStateBorrow.status !== 'none' && txStateBorrow.loading
+  //         ? txStateBorrow
+  //         : txStateCloseWithDeposit
+  //     }
+  //     isConnected={isConnected}
+  //     valid={valid}
+  //     leftButton="Borrow"
+  //     rightButton="Repay"
+  //     amountValue={amount}
+  //     onChangeAmount={onChangeAmount}
+  //     handleSubmit={handleSubmitBorrow}
+  //     handleSubmitRepay={handleSubmitCloseWithDeposit}
+  //     currency={currency}
+  //     amountName="Borrow Amount"
+  //     maxValue={''}
+  //   />
+  // );
 };
 
-export default BorrowingContainer;
+export default RepayingContainer;

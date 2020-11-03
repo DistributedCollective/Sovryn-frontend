@@ -7,6 +7,7 @@ import CurrencyDetails from './components/CurrencyDetails';
 import LendingHistory from './components/LendingHistory';
 import { Header } from 'app/components/Header';
 import { Asset } from '../../../types/asset';
+import { ActiveUserLoans } from '../ActiveUserLoans';
 
 type Props = {};
 
@@ -26,7 +27,8 @@ const LendBorrowSovryn: React.FC<Props> = props => {
           </div>
         </Row>
       </main>
-      <Container className="d-flex justify-content-center">
+      <Container className="mt-4">
+        <ActiveUserLoans loanType={2} />
         <LendingHistory />
       </Container>
     </>

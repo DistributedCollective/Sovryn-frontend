@@ -10,7 +10,9 @@ import { ActiveLoanTableContainer } from 'app/components/ActiveUserLoanContainer
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { InfoBox } from '../../components/InfoBox';
 
-interface Props {}
+interface Props {
+  loanType: number;
+}
 
 export function ActiveUserLoans(props: Props) {
   const account = useAccount();
@@ -19,7 +21,7 @@ export function ActiveUserLoans(props: Props) {
     account,
     0,
     1000,
-    0,
+    props.loanType,
     false,
     false,
   );
@@ -63,3 +65,7 @@ export function ActiveUserLoans(props: Props) {
     </>
   );
 }
+
+ActiveUserLoans.defaultProps = {
+  loanType: 0,
+};
