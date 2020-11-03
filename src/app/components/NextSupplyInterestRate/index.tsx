@@ -1,13 +1,13 @@
 /**
  *
- * AssetInterestRate
+ * NextBorrowInterestRate
  *
  */
 import React from 'react';
 import { Tooltip } from '@blueprintjs/core';
 
 import { Asset } from 'types/asset';
-import { useLendingInterestRate } from 'app/hooks/lending/useLendingInterestRate';
+import { useLending_nextSupplyInterestRate } from 'app/hooks/lending/useLending_nextSupplyInterestRate';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface Props {
@@ -15,8 +15,11 @@ interface Props {
   weiAmount: string;
 }
 
-export function AssetInterestRate(props: Props) {
-  const { value } = useLendingInterestRate(props.asset, props.weiAmount);
+export function NextSupplyInterestRate(props: Props) {
+  const { value } = useLending_nextSupplyInterestRate(
+    props.asset,
+    props.weiAmount,
+  );
   return (
     <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
       <h2 className="d-flex flex-row">

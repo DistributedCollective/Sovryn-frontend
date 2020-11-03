@@ -13,7 +13,7 @@ import { useTokenAllowance } from '../../hooks/useTokenAllowanceForLending';
 import { bignumber } from 'mathjs';
 import { useLendTokensRBTC } from '../../hooks/useLendTokensRBTC';
 import { TransactionStatus } from '../../../types/transaction-status';
-import { AssetInterestRate } from '../AssetInterestRate';
+import { NextSupplyInterestRate } from '../NextSupplyInterestRate';
 import { LenderBalance } from '../LenderBalance';
 import { SendTxProgress } from '../SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
@@ -204,7 +204,10 @@ export function LendingTokenSelectorCard(props: Props) {
               <Tooltip content={tooltipText}>Interest APR:</Tooltip>
             </div>
             <div className="data-container">
-              <AssetInterestRate asset={props.asset} weiAmount={weiAmount} />
+              <NextSupplyInterestRate
+                asset={props.asset}
+                weiAmount={weiAmount}
+              />
             </div>
           </div>
         </div>

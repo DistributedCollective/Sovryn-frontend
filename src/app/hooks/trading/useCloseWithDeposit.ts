@@ -1,12 +1,12 @@
-import { Asset } from 'types/asset';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { Asset } from '../../../types/asset';
 
 export function useCloseWithDeposit(
   asset: Asset,
   loanId,
   receiver,
-  withdrawAmount,
+  repayAmount,
 ) {
   const { send, ...rest } = useSendContractTx(
     'sovrynProtocol',
@@ -15,9 +15,11 @@ export function useCloseWithDeposit(
   const account = useAccount();
 
   return {
-    closeWithDeposit: () => {
-      return send(loanId, receiver, withdrawAmount, { from: account });
-    },
+    send: () =>
+      send(loanId, receiver, repayAmount, {
+        from: account,
+        value: asset === Asset.BTC ? repayAmount : '0',
+      }),
     ...rest,
   };
 }

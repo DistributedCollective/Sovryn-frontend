@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types/asset';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useBorrowInterestRate } from 'app/hooks/trading/useBorrowInterestRate';
+import { useLending_nextBorrowInterestRate } from 'app/hooks/trading/useLending_nextBorrowInterestRate';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { LoadableValue } from '../LoadableValue';
 import { FieldGroup } from '../FieldGroup';
@@ -57,7 +57,10 @@ export function BorrowInterestRate(props: Props) {
     );
   }, [totalDeposit, props.leverage]);
 
-  const { value, loading } = useBorrowInterestRate(props.asset, borrowAmount);
+  const { value, loading } = useLending_nextBorrowInterestRate(
+    props.asset,
+    borrowAmount,
+  );
 
   return (
     <FieldGroup label="Interest APR" labelColor={props.labelColor}>
