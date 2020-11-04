@@ -22,17 +22,6 @@ export class TradingPairDictionary {
         [Asset.DOC, Asset.BTC],
       ),
     ],
-    [
-      TradingPairType.DOC_TEST,
-      new TradingPair(
-        'DOC - SWAP test',
-        Asset.DOC,
-        Asset.BTC,
-        Asset.DOC,
-        [Asset.BTC, Asset.DOC],
-        [Asset.DOC, Asset.BTC],
-      ),
-    ],
   ]);
 
   public static get(pair: TradingPairType): TradingPair {

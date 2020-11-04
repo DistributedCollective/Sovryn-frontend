@@ -21,6 +21,7 @@ import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
+import { TabType } from './types';
 //import { HintDialog } from '../../components/HintDialog';
 
 const s = translations.tradingPage;
@@ -57,7 +58,7 @@ export function TradingPage(props: Props) {
             <TradingViewChart pair={tradingPage.tradingPair} />
           </div>
           <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
-            <TradingPairSelector />
+            {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}
             <TradeOrSwapTabs />
           </div>
         </div>
