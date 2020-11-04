@@ -16,6 +16,7 @@ import { DummyField } from '../../../components/DummyField/Loadable';
 import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../../components/TradeButton';
 import { SendTxProgress } from '../../../components/SendTxProgress';
+import { bignumber } from 'mathjs';
 
 type Props = {
   currency: Asset;
@@ -29,6 +30,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
   const [tokenToCollarate, setTokenToCollarate] = useState<Asset>(Asset.DOC);
+  const [collateralTokenSent, setCollateralTokenSent] = useState('0');
 
   // Update list of collaterals for borrow and assign current one to first in array if previous selection is not available
   useEffect(() => {
@@ -51,13 +53,19 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const tokenToBorrow = currency;
   const initialLoanDuration = 60 * 60 * 24 * 10; // 10 days
 
-  const { value: collateralTokenSent } = useSovryn_getRequiredCollateral(
+  const { value: requiredCollateral } = useSovryn_getRequiredCollateral(
     tokenToBorrow,
     tokenToCollarate,
     borrowAmount,
     '50000000000000000000',
     true,
   );
+
+  // Add buffer to collateralTokenSent of 0.2%, to prevent failing transaction
+  // in case token price changes between tx start and mining
+  useEffect(() => {
+    setCollateralTokenSent(bignumber(requiredCollateral).mul(1.002).toFixed(0));
+  }, [requiredCollateral]);
 
   const { borrow, ...txStateBorrow } = useApproveAndBorrow(
     tokenToBorrow,

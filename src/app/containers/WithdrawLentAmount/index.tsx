@@ -23,6 +23,11 @@ interface Props {
   onClose: () => void;
 }
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export function WithdrawLentAmount(props: Props) {
   const { value: userBalance } = useLending_assetBalanceOf(
     props.asset,

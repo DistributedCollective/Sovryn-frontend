@@ -54,9 +54,11 @@ export function LeverageSelector(props: Props) {
               theme={props.value === item ? active : inactive}
               key={item}
             >
-              <Button onClick={() => props.onChange(item)} className="btn">
-                {item}X
-              </Button>
+              <div>
+                <Button onClick={() => props.onChange(item)} className="btn">
+                  {item}X
+                </Button>
+              </div>
             </ThemeProvider>
           ))}
         </div>
@@ -74,7 +76,7 @@ const Button = styled.button`
   background-color: ${props => props.theme.color};
   border: ${props => props.theme.border};
   vertical-align: middle;
-  padding: 0.23rem 4.2%;
+  padding: 5px 15px;
   &:hover {
     color: white;
     border-color: white;

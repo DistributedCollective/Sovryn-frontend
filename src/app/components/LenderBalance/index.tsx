@@ -18,6 +18,11 @@ interface Props {
   asset: Asset;
 }
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export function LenderBalance(props: Props) {
   const owner = useAccount();
   const { value: balanceCall } = useLending_assetBalanceOf(props.asset, owner);

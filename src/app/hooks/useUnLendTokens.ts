@@ -6,6 +6,10 @@ import {
 } from './useSendContractTx';
 import { useAccount } from './useAccount';
 
+/**
+ * @deprecated
+ * @param asset
+ */
 export function useUnLendTokens(
   asset: Asset,
 ): Partial<SendTxResponseInterface> & { unLend: (weiAmount: string) => void } {

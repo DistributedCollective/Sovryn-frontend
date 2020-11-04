@@ -11,6 +11,11 @@ interface Props {
   asset: Asset;
 }
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export function UnLendBalance(props: Props) {
   const [isOpen, setOpen] = useState(false);
   return (
