@@ -23,11 +23,35 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { FastBtcPage } from './containers/FastBtcPage/Loadable';
+import { useEffect, useState } from 'react';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
+function getFaviconEl(): HTMLLinkElement {
+  return document.getElementById('favicon') as HTMLLinkElement;
+}
+
 export function App() {
+  const [theme, setTheme] = useState(
+    window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light',
+  );
+  useEffect(() => {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', e => {
+        setTheme(e.matches ? 'dark' : 'light');
+      });
+  }, []);
+
+  useEffect(() => {
+    // add white favicon for dark mode.
+    getFaviconEl().href = theme === 'dark' ? '/favicon.ico' : '/favicon.ico';
+  }, [theme]);
+
   return (
     <BrowserRouter>
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
