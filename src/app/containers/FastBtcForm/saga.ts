@@ -1,10 +1,10 @@
 import Rsk from '@rsksmart/rsk3';
 import { eventChannel } from 'redux-saga';
 import { take, call, put, select, takeLatest } from 'redux-saga/effects';
-import { actions } from './slice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
-import { currentChainId, fastBtcApis } from '../../../utils/classifiers';
+import { currentChainId, fastBtcApis } from 'utils/classifiers';
+import { actions } from './slice';
 import { selectFastBtcForm } from './selectors';
 
 export function* verifyReceiverWallet({ payload }: PayloadAction<string>) {
@@ -54,6 +54,7 @@ function createWebSocketChannel(state) {
           emit(actions.depositError(res.error));
         }
       });
+      getHistory(state.receiverAddress);
     }
 
     socket.emit('txAmount', info => {
@@ -64,21 +65,22 @@ function createWebSocketChannel(state) {
 
     socket.on('depositTx', tx => {
       emit(actions.changeDepositTx(tx));
-      getHistory();
+      getHistory(state.receiverAddress);
     });
     socket.on('transferTx', tx => {
       emit(actions.changeTransferTx(tx));
-      getHistory();
+      getHistory(state.receiverAddress);
     });
     socket.on('depositError', errorMessage =>
       emit(actions.depositError(errorMessage)),
     );
-    getHistory();
 
-    function getHistory() {
-      socket.on('getDepositHistory', info => {
-        emit(actions.setDepositHistory(info));
-      });
+    getHistory(state.receiverAddress);
+
+    function getHistory(address: string) {
+      socket.emit('getDepositHistory', address, info =>
+        emit(actions.setDepositHistory(info)),
+      );
     }
 
     return () => {

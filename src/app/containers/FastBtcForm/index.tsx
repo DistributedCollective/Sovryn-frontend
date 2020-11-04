@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import QRCode from 'qrcode.react';
 import { Icon, Spinner } from '@blueprintjs/core';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
@@ -49,7 +50,8 @@ export function FastBtcForm(props: Props) {
   return (
     <>
       <div className="row">
-        <div className="col-12 col-lg-6 mt-5 mt-lg-0 pr-lg-5">
+        <div className="col-12 col-lg-6 mt-5 mt-lg-0">
+          <h3 className="mb-3">Fast-BTC Relay</h3>
           <div className="sovryn-border p-3">
             <FieldGroup label={'Your RSK Wallet'}>
               <InputField
@@ -75,7 +77,9 @@ export function FastBtcForm(props: Props) {
             {state.depositAddress && (
               <>
                 <FieldGroup label={'BTC Deposit Address'}>
-                  <DummyField>{state.depositAddress}</DummyField>
+                  <CopyToClipboard text={state.depositAddress}>
+                    <DummyField>{state.depositAddress}</DummyField>
+                  </CopyToClipboard>
                 </FieldGroup>
                 <div className="d-flex justify-content-between mb-4">
                   <span>min: {state.minDepositAmount} BTC</span>
@@ -140,10 +144,11 @@ export function FastBtcForm(props: Props) {
             )}
           </div>
         </div>
-        <div className="col-12 col-lg-6 pl-lg-5 mt-5 mt-lg-0">
+        <div className="col-12 col-lg-6 mt-5 mt-lg-0">
+          <h3 className="mb-3">History</h3>
           <div className="sovryn-border p-3">
             {!state.history.length && !state.isHistoryLoading && (
-              <p>{t(s.history.empty)}</p>
+              <p className="mb-0">{t(s.history.empty)}</p>
             )}
             {state.isHistoryLoading && !state.history.length && <SkeletonRow />}
             {state.history.map(item => (

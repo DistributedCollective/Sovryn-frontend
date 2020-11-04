@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Nav, Tab } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import '../../assets/index.scss';
 
 import CurrencyRow from './CurrencyRow';
 import { Asset } from '../../../../../types/asset';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LendingPoolDictionary } from '../../../../../utils/lending-pool-dictionary';
-import { useSelector } from 'react-redux';
 import { selectLendBorrowSovryn } from '../../selectors';
 
 type Props = {
