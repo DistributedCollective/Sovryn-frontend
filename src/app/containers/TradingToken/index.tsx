@@ -20,6 +20,11 @@ interface Props {
   marketToken: Asset;
 }
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export function TradingToken(props: Props) {
   const [position, setPosition] = useState(TradingPosition.LONG);
 
