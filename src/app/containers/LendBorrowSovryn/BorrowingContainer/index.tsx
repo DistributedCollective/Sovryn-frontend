@@ -17,12 +17,15 @@ import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../../components/TradeButton';
 import { SendTxProgress } from '../../../components/SendTxProgress';
 import { bignumber } from 'mathjs';
+import { useDispatch } from 'react-redux';
+import { actions } from '../slice';
 
 type Props = {
   currency: Asset;
 };
 
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
   const isConnected = useIsConnected();
   const borrowAmount = useWeiAmount(amount);
@@ -82,6 +85,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   };
 
   const valid = useIsAmountWithinLimits(collateralTokenSent, '1', tokenBalance);
+
+  useEffect(() => {
+    dispatch(actions.changeBorrowAmount(amount));
+  }, [amount, dispatch]);
+
   return (
     <>
       <FieldGroup label="Amount to borrow">

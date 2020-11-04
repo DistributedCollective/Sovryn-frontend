@@ -13,12 +13,15 @@ import { useLending_balanceOf } from '../../../hooks/lending/useLending_balanceO
 import { weiTo18 } from '../../../../utils/blockchain/math-helpers';
 import { useLending_approveAndLend } from '../../../hooks/lending/useLending_approveAndLend';
 import { useLending_approveAndUnlend } from '../../../hooks/lending/useLending_approveAndUnlend';
+import { actions } from '../slice';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   currency: Asset;
 };
 
 const LendingContainer: React.FC<Props> = ({ currency }) => {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
   const isConnected = useIsConnected();
 
@@ -92,6 +95,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     setTxState(unlendTx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(unlendTx)]);
+
+  useEffect(() => {
+    dispatch(actions.changeLendAmount(amount));
+  }, [amount, dispatch]);
 
   return (
     <TabContainer

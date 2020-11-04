@@ -6,15 +6,14 @@
 
 import React from 'react';
 
+import { LendingPoolDictionary } from 'utils/lending-pool-dictionary';
+
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { StatsRow } from '../../components/StatsRow';
 
-import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
-
 export function StatsPage() {
-  const assets = AssetsDictionary.assetList();
-
+  const assets = LendingPoolDictionary.assetList();
   return (
     <>
       <Header />
