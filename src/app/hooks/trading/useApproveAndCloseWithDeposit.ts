@@ -6,7 +6,7 @@ import { useTokenAllowance } from '../useTokenAllowanceForLending';
 import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
 import { useCloseWithDeposit } from './useCloseWithDeposit';
-import { contracts } from 'utils/blockchain/contracts';
+import { getContract } from '../../../utils/blockchain/contract-helpers';
 
 enum TxType {
   NONE = 'none',
@@ -23,7 +23,7 @@ export function useApproveAndCloseWithDeposit(
 ) {
   const allowance = useTokenAllowance(
     borrowToken,
-    contracts.sovrynProtocol.address,
+    getContract('sovrynProtocol').address,
   );
 
   const {
@@ -31,7 +31,7 @@ export function useApproveAndCloseWithDeposit(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(borrowToken, contracts.sovrynProtocol.address);
+  } = useTokenApprove(borrowToken, getContract('sovrynProtocol').address);
 
   const {
     send,

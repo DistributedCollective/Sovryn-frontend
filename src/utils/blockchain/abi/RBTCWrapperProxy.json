@@ -8,22 +8,7 @@
       },
       {
         "internalType": "address",
-        "name": "_liquidityPoolV2ConverterAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_poolTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
         "name": "_sovrynSwapNetworkAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_docTokenAddress",
         "type": "address"
       }
     ],
@@ -32,54 +17,90 @@
     "type": "constructor"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_provider",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_reserveAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_poolTokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "LiquidityAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_provider",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_reserveAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_poolTokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "LiquidityRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_beneficiary",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_sourceTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_targetTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IERC20Token[]",
+        "name": "_path",
+        "type": "address[]"
+      }
+    ],
+    "name": "TokenConverted",
+    "type": "event"
+  },
+  {
     "payable": true,
     "stateMutability": "payable",
     "type": "fallback"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "docTokenAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "liquidityPoolV2ConverterAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "poolTokenAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "constant": true,
@@ -115,6 +136,11 @@
     "constant": false,
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_liquidityPoolConverterAddress",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "_amount",
         "type": "uint256"
@@ -140,6 +166,11 @@
   {
     "constant": false,
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "_liquidityPoolConverterAddress",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "_amount",

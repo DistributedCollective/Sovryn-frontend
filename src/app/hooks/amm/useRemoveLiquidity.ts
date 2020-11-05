@@ -1,6 +1,7 @@
+import { Asset } from 'types/asset';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
 
 export function useRemoveLiquidity(
   asset: Asset,
@@ -15,21 +16,17 @@ export function useRemoveLiquidity(
   );
 
   return {
-    withdraw: () => {
-      const args = [
-        poolTokenAddress,
+    withdraw: () =>
+      send(
+        asset === Asset.BTC
+          ? getContract('liquidityProtocol').address
+          : poolTokenAddress,
         amount,
         minReturn,
         {
           from: account,
         },
-      ];
-
-      if (asset === Asset.BTC) {
-        args.shift();
-      }
-      return send(...args);
-    },
+      ),
     ...rest,
   };
 }

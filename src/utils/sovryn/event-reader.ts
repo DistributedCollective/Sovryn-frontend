@@ -3,7 +3,7 @@ import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
 import { toChunks } from '../helpers';
 import { EventData } from 'web3-eth-contract';
-import { contracts } from 'utils/blockchain/contracts';
+import { getContract } from '../blockchain/contract-helpers';
 
 type ReaderOption = { fromBlock: number; toBlock: number | 'latest' };
 
@@ -31,7 +31,8 @@ class EventReader {
     const promise = new Promise(async (resolve, reject) => {
       const run = async () => {
         const blockNumber = await this.getBlockNumber();
-        const start = options.fromBlock || contracts[contractName].blockNumber;
+        const start =
+          options.fromBlock || getContract(contractName).blockNumber;
         const end =
           options?.toBlock === 'latest'
             ? blockNumber

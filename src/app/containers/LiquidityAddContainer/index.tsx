@@ -6,6 +6,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { Text } from '@blueprintjs/core';
+import { bignumber } from 'mathjs';
 import { FormSelect } from '../../components/FormSelect';
 import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
@@ -14,8 +15,6 @@ import { useExpectedPoolTokens } from '../../hooks/amm/useExpectedPoolTokens';
 import { useApproveAndAddLiquidity } from '../../hooks/amm/useApproveAndAddLiquidity';
 import { LoadableValue } from '../../components/LoadableValue';
 import { liquidityPools } from '../../../utils/classifiers';
-import { useBalanceOf } from '../../hooks/erc20/useBalanceOf';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AmountField } from '../AmountField';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
@@ -36,7 +35,7 @@ export function LiquidityAddContainer(props: Props) {
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
   const [amount, setAmount] = useState('');
 
-  const balance = useBalanceOf(getTokenContractName(sourceToken));
+  const balance = useAssetBalanceOf(sourceToken);
   const weiAmount = useWeiAmount(amount);
 
   const expectedPoolTokens = useExpectedPoolTokens(sourceToken, weiAmount);
@@ -52,7 +51,10 @@ export function LiquidityAddContainer(props: Props) {
   }, []);
 
   const amountValid = () => {
-    return Number(weiAmount) > 0 && Number(weiAmount) <= Number(balance.value);
+    return (
+      bignumber(weiAmount).greaterThan(0) &&
+      bignumber(weiAmount).lessThanOrEqualTo(balance.value)
+    );
   };
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);

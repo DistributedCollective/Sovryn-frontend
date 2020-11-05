@@ -1,6 +1,7 @@
 /**
  * Do not import this file directly.
- * Import app-contracts.ts (appContracts) instead.
+ * Use getContract(contractName) helper
+ * @example getContract('sovrynProtocol');
  */
 
 import bzxAbi from './abi/bzxAbi.json';

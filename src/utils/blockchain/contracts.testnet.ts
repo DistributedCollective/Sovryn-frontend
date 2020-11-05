@@ -1,6 +1,7 @@
 /**
  * Do not import this file directly.
- * Import app-contracts.ts (appContracts) instead.
+ * Use getContract(contractName) helper
+ * @example getContract('sovrynProtocol');
  */
 
 import bzxAbi from './abi/bzxAbi.json';
@@ -28,7 +29,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   liquidityBTCProtocol: {
-    address: '0xd975CF1a5Af1C201568Dc49158724B04802932CE',
+    address: '0xbFDB5fc90b960bcc2e7be2D8E347F8A7E5146077',
     abi: RBTCWrapperProxy,
     blockNumber: 1287654,
   },
