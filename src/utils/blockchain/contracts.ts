@@ -29,9 +29,9 @@ export const contracts = {
     blockNumber: 2742633,
   },
   liquidityBTCProtocol: {
-    address: '-',
+    address: '0x78E7e79F1acc1f57a3291d5BfA8436A0771C1800',
     abi: RBTCWrapperProxy,
-    blockNumber: 1287654,
+    blockNumber: 2838500,
   },
   priceFeed: {
     address: '0x437AC62769f386b2d238409B7f0a7596d36506e4',
