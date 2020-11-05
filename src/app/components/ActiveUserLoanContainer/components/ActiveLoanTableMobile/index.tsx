@@ -17,7 +17,6 @@ interface Props {
 
 export function ActiveLoanTableMobile(props: Props) {
   const rows = props.data.map(item => {
-    console.log(item.id);
     return item.id === props.expandedId ? (
       <ExpandedRowMobile
         item={item}

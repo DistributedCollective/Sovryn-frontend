@@ -20,7 +20,6 @@ export function HintDialog() {
       }, 2000);
       return () => clearTimeout(delay);
     }
-    console.log(loading);
   }, [connected, loading, value]);
 
   return (

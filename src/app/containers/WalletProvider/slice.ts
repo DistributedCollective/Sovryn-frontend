@@ -69,7 +69,7 @@ const walletProviderSlice = createSlice({
     readerReady() {},
 
     blockFailed(state, action: PayloadAction<string>) {
-      console.log('block failed');
+      console.error('block failed');
     },
     blockReceived(state, action: PayloadAction<any>) {
       state.blockNumber = action.payload.number;

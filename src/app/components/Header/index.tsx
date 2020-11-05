@@ -101,7 +101,9 @@ const StyledLogo = styled.img.attrs(_ => ({
   `}
 `;
 
-const StyledMenuButton = styled.button`
+const StyledMenuButton = styled.button.attrs(_ => ({
+  type: 'button',
+}))`
   width: 48px;
   height: 48px;
   text-align: left;

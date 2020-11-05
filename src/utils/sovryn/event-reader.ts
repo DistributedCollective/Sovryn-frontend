@@ -3,6 +3,7 @@ import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
 import { toChunks } from '../helpers';
 import { EventData } from 'web3-eth-contract';
+import { contracts } from 'utils/blockchain/contracts';
 
 type ReaderOption = { fromBlock: number; toBlock: number | 'latest' };
 
@@ -17,7 +18,7 @@ class EventReader {
     eventName: string,
     filter: any = undefined,
     options: ReaderOption = {
-      fromBlock: Number(process.env.REACT_APP_TEST_FIRST_BLOCK) || 0,
+      fromBlock: 0,
       toBlock: 'latest',
     },
     blockChunkSize: number = 50000,
@@ -30,7 +31,7 @@ class EventReader {
     const promise = new Promise(async (resolve, reject) => {
       const run = async () => {
         const blockNumber = await this.getBlockNumber();
-        const start = options.fromBlock || 0;
+        const start = options.fromBlock || contracts[contractName].blockNumber;
         const end =
           options?.toBlock === 'latest'
             ? blockNumber
@@ -72,9 +73,6 @@ class EventReader {
         if (finished) {
           return;
         }
-
-        // Cancel-path scenario
-        console.log("OK, I'll stop counting.");
         reject();
       };
 
