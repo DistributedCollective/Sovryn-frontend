@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import ArrowDown from '../../assets/img/arrow-down.svg';
 import ArrowUp from '../../assets/img/arrow-up.svg';
-import { useAccount, useIsConnected } from '../../../../hooks/useAccount';
+import { useIsConnected } from '../../../../hooks/useAccount';
 import { getLendingContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
@@ -27,29 +27,18 @@ const LendingHistory: React.FC<Props> = props => {
 
   const { asset } = useSelector(selectLendBorrowSovryn);
 
-  const account = useAccount();
   const contract = getLendingContractName(asset);
-  const {
-    events: mint,
-    fetch: fetchMint,
-    loading: loadingMint,
-  } = useGetContractPastEvents(contract, 'Mint');
-  const {
-    events: burn,
-    fetch: fetchBurn,
-    loading: loadingBurn,
-  } = useGetContractPastEvents(contract, 'Burn');
+  const { events: mint, loading: loadingMint } = useGetContractPastEvents(
+    contract,
+    'Mint',
+  );
+  const { events: burn, loading: loadingBurn } = useGetContractPastEvents(
+    contract,
+    'Burn',
+  );
 
   const [events, setEvents] = useState<EventData[]>([]);
   const [copied, setCopied] = useState<string>('');
-
-  useEffect(() => {
-    if (account && asset) {
-      fetchMint({ minter: account });
-      fetchBurn({ burner: account });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, asset]);
 
   useEffect(() => {
     const merged = [...mint, ...burn].sort(

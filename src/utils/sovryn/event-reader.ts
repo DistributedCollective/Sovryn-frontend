@@ -1,8 +1,8 @@
+import { EventData } from 'web3-eth-contract';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
 import { toChunks } from '../helpers';
-import { EventData } from 'web3-eth-contract';
 import { getContract } from '../blockchain/contract-helpers';
 
 type ReaderOption = { fromBlock: number; toBlock: number | 'latest' };
@@ -28,63 +28,65 @@ class EventReader {
       finished = true;
     };
 
-    const promise = new Promise(async (resolve, reject) => {
-      const run = async () => {
-        const blockNumber = await this.getBlockNumber();
-        const start =
-          options.fromBlock || getContract(contractName).blockNumber;
-        const end =
-          options?.toBlock === 'latest'
-            ? blockNumber
-            : options.toBlock || blockNumber;
+    const promise: Promise<EventData[]> = new Promise(
+      async (resolve, reject) => {
+        const run = async () => {
+          const blockNumber = await this.getBlockNumber();
+          const start =
+            options.fromBlock || getContract(contractName).blockNumber;
+          const end =
+            options?.toBlock === 'latest'
+              ? blockNumber
+              : options.toBlock || blockNumber;
 
-        const chunks = toChunks(start, end, blockChunkSize);
+          const chunks = toChunks(start, end, blockChunkSize);
 
-        if (!chunks) {
-          return [];
-        }
+          if (!chunks) {
+            return [];
+          }
 
-        const events: EventData[] = [];
+          const events: EventData[] = [];
 
-        for (let i = 0; i < chunks.length; i++) {
-          const [fromBlock, toBlock] = chunks[i];
-          const result = await this.getPastEvents(
-            contractName,
-            eventName,
-            filter,
-            {
-              ...options,
-              fromBlock,
-              toBlock,
-            },
-          );
-          events.push(...result);
-        }
+          for (let i = 0; i < chunks.length; i++) {
+            const [fromBlock, toBlock] = chunks[i];
+            const result = await this.getPastEvents(
+              contractName,
+              eventName,
+              filter,
+              {
+                ...options,
+                fromBlock,
+                toBlock,
+              },
+            );
+            events.push(...result);
+          }
 
-        return events;
-      };
+          return events;
+        };
 
-      run()
-        .then(results => resolve(results))
-        .catch(reject);
+        run()
+          .then(results => resolve(results))
+          .catch(reject);
 
-      // When consumer calls `cancel`:
-      cancel = () => {
-        // In case the promise has already resolved/rejected, don't run cancel behavior!
+        // When consumer calls `cancel`:
+        cancel = () => {
+          // In case the promise has already resolved/rejected, don't run cancel behavior!
+          if (finished) {
+            return;
+          }
+          reject();
+        };
+
+        // If was cancelled before promise was launched, trigger cancel logic
         if (finished) {
-          return;
+          // (to avoid duplication, just calling `cancel`)
+          cancel();
         }
-        reject();
-      };
-
-      // If was cancelled before promise was launched, trigger cancel logic
-      if (finished) {
-        // (to avoid duplication, just calling `cancel`)
-        cancel();
-      }
-    })
+      },
+    )
       // After any scenario, set `finished = true` so cancelling has no effect
-      .then(resolvedValue => {
+      .then((resolvedValue: any) => {
         finished = true;
         return resolvedValue;
       })
@@ -94,6 +96,25 @@ class EventReader {
       });
 
     return { promise, cancel };
+  }
+
+  public getPastEventsInChunksPromise(
+    contractName: ContractName,
+    eventName: string,
+    filter: any = undefined,
+    options: ReaderOption = {
+      fromBlock: 0,
+      toBlock: 'latest',
+    },
+    blockChunkSize: number = 50000,
+  ) {
+    return this.getPastEventsInChunks(
+      contractName,
+      eventName,
+      filter,
+      options,
+      blockChunkSize,
+    ).promise;
   }
 
   public async getPastEvents(
