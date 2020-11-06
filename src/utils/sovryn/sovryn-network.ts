@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { TransactionConfig, WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { Toaster } from '@blueprintjs/core';
+import { Toaster } from '@blueprintjs/core/lib/esm/components/toast/toaster';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 import { store } from 'store/store';
