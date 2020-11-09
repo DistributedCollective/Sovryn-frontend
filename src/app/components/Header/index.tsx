@@ -51,11 +51,11 @@ export function Header() {
       <header>
         <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
           <div className="d-xl-none">
-            <StyledMenuButton>
+            <button className="hamburger" type="button">
               <Popover content={<Menu>{dropDownMenu}</Menu>}>
                 <Icon icon="menu" />
               </Popover>
-            </StyledMenuButton>
+            </button>
           </div>
           <div className="mr-3">
             <Link to="/">
@@ -95,17 +95,8 @@ const StyledLogo = styled.img.attrs(_ => ({
   height: 48px;
   margin: 0 15px;
   ${media.xl`
-  width: 190px;
-  height: 80px;
+  width: 138px;
+  height: 58px;
+  margin: 0 15px 0 0;
   `}
-`;
-
-const StyledMenuButton = styled.button`
-  width: 48px;
-  height: 48px;
-  text-align: left;
-  padding-left: 0;
-  color: var(--white);
-  background: none;
-  border: none;
 `;

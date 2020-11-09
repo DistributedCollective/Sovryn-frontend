@@ -1,42 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Nav, Tab } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import '../../assets/index.scss';
 
-import btcIcon from 'assets/images/btc-logo.svg';
-import docIcon from 'assets/images/dollar-sign.svg';
 import CurrencyRow from './CurrencyRow';
 import { Asset } from '../../../../../types/asset';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { LendingPoolDictionary } from '../../../../../utils/lending-pool-dictionary';
+import { selectLendBorrowSovryn } from '../../selectors';
 
 type Props = {
   state: Asset;
   setState: (key: Asset) => void;
 };
 
-const currencyRows = [
-  {
-    icon: btcIcon,
-    title: 'BTC',
-    lendApr: 0.36,
-    borrowApr: 2.03,
-  },
-  {
-    icon: docIcon,
-    title: 'DOC',
-    lendApr: 5.16,
-    borrowApr: 8.44,
-  },
-];
+const currencyRows = LendingPoolDictionary.list();
 
 const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [amount, setAmount] = useState<string>('');
-
-  const getAsset = (asset: string) => {
-    return asset === 'BTC' ? Asset.BTC : Asset.DOC;
-  };
-  const weiAmount = useWeiAmount(amount);
-
+  const { borrowAmount, lendAmount } = useSelector(selectLendBorrowSovryn);
+  const weiBorrowAmount = useWeiAmount(borrowAmount);
+  const weiLendAmount = useWeiAmount(lendAmount);
   return (
     <Container className="d-flex flex-column w-100 p-0">
       <Tab.Container id="left-tabs" defaultActiveKey={state}>
@@ -48,15 +31,19 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
           {currencyRows.map(info => {
             return (
               <Nav.Link
-                key={info.title}
-                eventKey={info.title}
+                key={info.getAsset()}
+                eventKey={info.getAsset()}
                 className="currency-row-link"
               >
                 <CurrencyRow
-                  {...info}
-                  state={state}
-                  weiAmount={weiAmount}
-                  asset={getAsset(info.title)}
+                  lendingPool={info}
+                  active={state === info.getAsset()}
+                  lendingAmount={
+                    state === info.getAsset() ? weiLendAmount : '0'
+                  }
+                  borrowAmount={
+                    state === info.getAsset() ? weiBorrowAmount : '0'
+                  }
                 />
               </Nav.Link>
             );

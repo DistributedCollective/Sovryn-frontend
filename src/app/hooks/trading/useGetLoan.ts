@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { EventData, Contract } from 'web3-eth-contract';
+import { Contract } from 'web3-eth-contract';
 import { getWeb3Contract } from 'utils/blockchain/contract-helpers';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
 

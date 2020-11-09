@@ -74,6 +74,7 @@
   transition: border-color 0.3s;
   &__active {
     border-color: var(--white);
+    color: var(--white)!important;
   }
   //
   //& h3 {

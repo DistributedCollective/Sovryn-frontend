@@ -2,36 +2,28 @@ import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { TransactionStatus } from 'types/transaction-status';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useTokenAllowance } from '../useTokenAllowanceForLending';
 import { useTokenApprove } from '../useTokenApproveForLending';
 import { useCallback, useEffect, useState } from 'react';
-import { useAccount } from '../useAccount';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useCloseWithDeposit } from './useCloseWithDeposit';
+import { getContract } from '../../../utils/blockchain/contract-helpers';
 
 enum TxType {
   NONE = 'none',
   APPROVE = 'approve',
-  CLOSE_WITH_DEPOSIT = 'closeWithDeposit',
+  BORROW = 'borrow',
 }
 
 export function useApproveAndCloseWithDeposit(
-  lendingContract: Asset,
-  token: Asset,
-  withdrawAmount: string,
+  borrowToken: Asset,
+  collateralToken: Asset,
+  loanId: string,
+  receiver: string,
+  repayAmount: string,
 ) {
-  const getToken = useCallback(() => {
-    if (lendingContract === token) {
-      return AssetsDictionary.get(lendingContract).primaryCollateralAsset;
-    }
-    return token;
-  }, [lendingContract, token]);
-
-  const account = useAccount();
   const allowance = useTokenAllowance(
-    getToken(),
-    getLendingContract(lendingContract).address,
+    borrowToken,
+    getContract('sovrynProtocol').address,
   );
 
   const {
@@ -39,19 +31,14 @@ export function useApproveAndCloseWithDeposit(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(
-    token,
-    getLendingContract(lendingContract === Asset.BTC ? Asset.DOC : Asset.BTC)
-      .address,
-  );
+  } = useTokenApprove(borrowToken, getContract('sovrynProtocol').address);
 
-  // @ts-ignore
-  const { closeWithDeposit, txHash, status, loading } = useCloseWithDeposit(
-    lendingContract,
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    account, // receiver
-    withdrawAmount,
-  );
+  const {
+    send,
+    txHash: borrowTx,
+    status: borrowStatus,
+    loading: repayLoading,
+  } = useCloseWithDeposit(borrowToken, loanId, receiver, repayAmount);
 
   const handleApprove = useCallback(
     (weiAmount: string) => {
@@ -60,28 +47,22 @@ export function useApproveAndCloseWithDeposit(
     [approve],
   );
 
-  const handleCloseWithDeposit = useCallback(() => {
-    if (!loading) {
-      closeWithDeposit();
+  const handleRepay = useCallback(() => {
+    if (!repayLoading) {
+      send();
     }
-  }, [closeWithDeposit, loading]);
+  }, [repayLoading, send]);
 
   const handleTx = useCallback(() => {
     if (
-      token !== Asset.BTC &&
-      bignumber(withdrawAmount).greaterThan(allowance.value)
+      borrowToken !== Asset.BTC &&
+      bignumber(repayAmount).greaterThan(allowance.value)
     ) {
-      handleApprove(toWei(withdrawAmount, 'ether'));
+      handleApprove(toWei(repayAmount, 'ether'));
     } else {
-      handleCloseWithDeposit();
+      handleRepay();
     }
-  }, [
-    token,
-    withdrawAmount,
-    allowance.value,
-    handleApprove,
-    handleCloseWithDeposit,
-  ]);
+  }, [borrowToken, repayAmount, allowance.value, handleApprove, handleRepay]);
 
   const [txState, setTxState] = useState<{
     type: TxType;
@@ -97,13 +78,13 @@ export function useApproveAndCloseWithDeposit(
 
   useEffect(() => {
     if (approveStatus === TransactionStatus.SUCCESS) {
-      handleCloseWithDeposit();
+      handleRepay();
     }
     // eslint-disable-next-line
   }, [approveStatus]);
 
   useEffect(() => {
-    if (!loading && approveStatus !== TransactionStatus.NONE) {
+    if (!repayLoading && approveStatus !== TransactionStatus.NONE) {
       setTxState({
         type: TxType.APPROVE,
         txHash: approveTx,
@@ -115,19 +96,19 @@ export function useApproveAndCloseWithDeposit(
   }, [approveLoading, approveTx, approveStatus]);
 
   useEffect(() => {
-    if (!approveLoading && status !== TransactionStatus.NONE) {
+    if (!approveLoading && borrowStatus !== TransactionStatus.NONE) {
       setTxState({
-        type: TxType.CLOSE_WITH_DEPOSIT,
-        txHash: txHash,
-        status: status,
-        loading: loading,
+        type: TxType.BORROW,
+        txHash: borrowTx,
+        status: borrowStatus,
+        loading: repayLoading,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, txHash, status]);
+  }, [repayLoading, borrowTx, borrowStatus]);
 
   return {
-    closeWithDeposit: () => handleTx(),
+    send: () => handleTx(),
     ...txState,
   };
 }

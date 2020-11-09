@@ -1,14 +1,14 @@
-import { toWei } from 'web3-utils';
+import { useCallback, useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types/asset';
+import { Sovryn } from 'utils/sovryn';
+import TokenAbi from 'utils/blockchain/abi/abiTestToken.json';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { TransactionStatus } from 'types/transaction-status';
 import { useAllowance } from '../useTokenAllowanceForLending';
 import { useApprove } from '../useTokenApproveForLending';
-import { useCallback, useEffect, useState } from 'react';
-import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { useRemoveLiquidity } from './useRemoveLiquidity';
-import { Sovryn } from '../../../utils/sovryn';
-import TokenAbi from 'utils/blockchain/abi/abiTestToken.json';
+import { getContract } from '../../../utils/blockchain/contract-helpers';
 
 enum TxType {
   NONE = 'none',
@@ -36,12 +36,24 @@ export function useApproveAndRemoveLiquidity(
         abi: TokenAbi as any,
       });
     }
+    if (
+      poolAddress &&
+      poolAddress !== '0x0000000000000000000000000000000000000000' &&
+      !Sovryn.contracts.hasOwnProperty(`liquidity_${asset}`) &&
+      Sovryn.contracts[`liquidity_${asset}`]?.options?.address.toLowerCase() !==
+        poolAddress.toLowerCase()
+    ) {
+      Sovryn.addReadContract(`liquidity_${asset}`, {
+        address: poolAddress,
+        abi: TokenAbi as any,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolAddress]);
 
   const allowance = useAllowance(
     `liquidity_${asset}` as any,
-    appContracts.liquidityBTCProtocol.address,
+    getContract('liquidityBTCProtocol').address,
   );
 
   const {
@@ -51,7 +63,7 @@ export function useApproveAndRemoveLiquidity(
     loading: approveLoading,
   } = useApprove(
     `liquidity_${asset}` as any,
-    appContracts.liquidityBTCProtocol.address,
+    getContract('liquidityBTCProtocol').address,
   );
 
   const {

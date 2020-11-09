@@ -4,11 +4,12 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import QRCode from 'qrcode.react';
 import { Icon, Spinner } from '@blueprintjs/core';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
@@ -18,7 +19,7 @@ import { selectFastBtcForm } from './selectors';
 import { fastBtcFormSaga } from './saga';
 import { FieldGroup } from '../../components/FieldGroup';
 import { InputField } from '../../components/InputField';
-import { useAccount } from '../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { DummyField } from '../../components/DummyField';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { weiTo4, weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -33,6 +34,7 @@ export function FastBtcForm(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: fastBtcFormSaga });
 
+  const isConnected = useIsConnected();
   const state = useSelector(selectFastBtcForm);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
@@ -43,21 +45,30 @@ export function FastBtcForm(props: Props) {
   const address = useAccount();
 
   useEffect(() => {
-    dispatch(actions.changeReceiverAddress(address));
+    if (address && address.length) {
+      dispatch(actions.changeReceiverAddress(address));
+    }
   }, [address, dispatch]);
+
+  const handleInputChange = useCallback(
+    e => {
+      dispatch(actions.changeReceiverAddress(e.currentTarget.value));
+    },
+    [dispatch],
+  );
 
   return (
     <>
       <div className="row">
-        <div className="col-12 col-lg-6 mt-5 mt-lg-0 pr-lg-5">
+        <div className="col-12 col-lg-6 mt-5 mt-lg-0">
+          <h3 className="mb-3">Fast-BTC Relay</h3>
           <div className="sovryn-border p-3">
             <FieldGroup label={'Your RSK Wallet'}>
               <InputField
+                placeholder="Your RSK Wallet"
                 invalid={!state.isReceiverAddressValid}
                 value={state.receiverAddress}
-                onChange={e =>
-                  dispatch(actions.changeReceiverAddress(e.currentTarget.value))
-                }
+                onChange={handleInputChange}
                 rightElement={
                   state.isReceiverAddressValidating && (
                     <>
@@ -68,6 +79,13 @@ export function FastBtcForm(props: Props) {
               />
             </FieldGroup>
 
+            {!isConnected && (
+              <p>
+                Connect to your wallet or just enter wallet address above
+                yourself.
+              </p>
+            )}
+
             {state.depositError && (
               <div className="alert alert-warning">{state.depositError}</div>
             )}
@@ -75,7 +93,9 @@ export function FastBtcForm(props: Props) {
             {state.depositAddress && (
               <>
                 <FieldGroup label={'BTC Deposit Address'}>
-                  <DummyField>{state.depositAddress}</DummyField>
+                  <CopyToClipboard text={state.depositAddress}>
+                    <DummyField>{state.depositAddress}</DummyField>
+                  </CopyToClipboard>
                 </FieldGroup>
                 <div className="d-flex justify-content-between mb-4">
                   <span>min: {state.minDepositAmount} BTC</span>
@@ -140,12 +160,21 @@ export function FastBtcForm(props: Props) {
             )}
           </div>
         </div>
-        <div className="col-12 col-lg-6 pl-lg-5 mt-5 mt-lg-0">
+        <div className="col-12 col-lg-6 mt-5 mt-lg-0">
+          <h3 className="mb-3">History</h3>
           <div className="sovryn-border p-3">
             {!state.history.length && !state.isHistoryLoading && (
-              <p>{t(s.history.empty)}</p>
+              <p className="mb-0">{t(s.history.empty)}</p>
             )}
-            {state.isHistoryLoading && !state.history.length && <SkeletonRow />}
+            {state.isHistoryLoading && !state.history.length && (
+              <SkeletonRow
+                loadingText={
+                  !state.receiverAddress || !state.isReceiverAddressValid
+                    ? 'Enter your RSK wallet address to see history.'
+                    : 'Loading...'
+                }
+              />
+            )}
             {state.history.map(item => (
               <div
                 className="d-flex flex-row justify-content-between w-100"

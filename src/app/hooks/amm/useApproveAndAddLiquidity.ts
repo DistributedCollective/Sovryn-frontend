@@ -21,7 +21,9 @@ export function useApproveAndAddLiquidity(
 ) {
   const allowance = useTokenAllowance(
     asset,
-    appContracts.liquidityProtocol.address,
+    asset === Asset.BTC
+      ? appContracts.liquidityBTCProtocol.address
+      : appContracts.liquidityProtocol.address,
   );
 
   const {
@@ -29,7 +31,12 @@ export function useApproveAndAddLiquidity(
     txHash: approveTx,
     status: approveStatus,
     loading: approveLoading,
-  } = useTokenApprove(asset, appContracts.liquidityProtocol.address);
+  } = useTokenApprove(
+    asset,
+    asset === Asset.BTC
+      ? appContracts.liquidityBTCProtocol.address
+      : appContracts.liquidityProtocol.address,
+  );
 
   const {
     deposit,

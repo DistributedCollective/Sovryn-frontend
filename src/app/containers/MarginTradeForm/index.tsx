@@ -101,7 +101,7 @@ export function MarginTradeForm(props: Props) {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={pair.getAsset()}
+            asset={pair.getAssetForPosition(position)}
             collateral={collateral}
             weiAmount={weiAmount}
             leverage={leverage}

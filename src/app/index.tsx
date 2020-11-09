@@ -13,7 +13,6 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
-// import { LendingPage } from './containers/LendingPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -24,11 +23,35 @@ import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { FastBtcPage } from './containers/FastBtcPage/Loadable';
 import { EmailOptInSuccessPage } from './containers/EmailOptInSuccessPage';
+import { useEffect, useState } from 'react';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
+function getFaviconEl(): HTMLLinkElement {
+  return document.getElementById('favicon') as HTMLLinkElement;
+}
+
 export function App() {
+  const [theme, setTheme] = useState(
+    window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light',
+  );
+  useEffect(() => {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', e => {
+        setTheme(e.matches ? 'dark' : 'light');
+      });
+  }, []);
+
+  useEffect(() => {
+    // add white favicon for dark mode.
+    getFaviconEl().href = theme === 'dark' ? '/favicon.ico' : '/favicon.ico';
+  }, [theme]);
+
   return (
     <BrowserRouter>
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>

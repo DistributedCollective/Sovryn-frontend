@@ -244,3 +244,16 @@ input {
   @extend .sovryn-border;
   @extend .font-family-work-sans;
 }
+
+
+header {
+  .hamburger {
+    width: 48px;
+    height: 48px;
+    text-align: left;
+    padding-left: 0;
+    color: var(--white);
+    background: none;
+    border: none;
+  }
+}

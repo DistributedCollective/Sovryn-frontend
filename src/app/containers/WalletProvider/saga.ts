@@ -10,6 +10,7 @@ import {
 import { actions } from './slice';
 import { Sovryn } from '../../../utils/sovryn';
 import { selectWalletProvider } from './selectors';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -40,7 +41,7 @@ function createBlockChannels({ web3 }) {
       });
 
     return () => {
-      blockEvents.off();
+      blockEvents.unsubscribe((error, success) => {});
     };
   });
 }
@@ -119,7 +120,17 @@ function* processBlock({ block, address }) {
   }
 }
 
+function* walletConnected({ payload }: PayloadAction<{ address: string }>) {
+  yield put(actions.accountChanged(payload.address));
+}
+
+function* walletDisconnected() {
+  yield put(actions.accountChanged(''));
+}
+
 export function* walletProviderSaga() {
   yield takeLatest(actions.chainChanged.type, callCreateBlockChannels);
+  yield takeLatest(actions.connected.type, walletConnected);
+  yield takeLatest(actions.disconnected.type, walletDisconnected);
   yield takeEvery(actions.blockReceived.type, processBlockHeader);
 }

@@ -22,6 +22,7 @@ import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { NotificationForm } from '../../components/NotificationForm/container';
+import { TabType } from './types';
 //import { HintDialog } from '../../components/HintDialog';
 
 const s = translations.tradingPage;
@@ -51,14 +52,14 @@ export function TradingPage(props: Props) {
       <div className="container mt-5">
         <div className="row">
           <div
-            className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 pl-lg-5 d-none ${
+            className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
               tradingPage.isMobileStatsOpen && `d-block`
             } d-lg-block`}
           >
             <TradingViewChart pair={tradingPage.tradingPair} />
           </div>
-          <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
-            <TradingPairSelector />
+          <div className="col-12 col-lg-6 order-lg-0">
+            {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}
             <TradeOrSwapTabs />
           </div>
         </div>

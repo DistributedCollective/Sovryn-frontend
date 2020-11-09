@@ -27,7 +27,6 @@ const walletProviderSlice = createSlice({
     connected(state, { payload }: PayloadAction<{ address: string }>) {
       state.connected = true;
       state.connecting = false;
-      state.address = payload.address || '';
     },
 
     accountChanged(state, action: PayloadAction<string>) {
@@ -69,7 +68,7 @@ const walletProviderSlice = createSlice({
     readerReady() {},
 
     blockFailed(state, action: PayloadAction<string>) {
-      console.log('block failed');
+      console.error('block failed');
     },
     blockReceived(state, action: PayloadAction<any>) {
       state.blockNumber = action.payload.number;

@@ -117,6 +117,7 @@
     "serve": "11.3.0",
     "shelljs": "0.8.3",
     "socket.io-client": "2.3.1",
+    "source-map-explorer": "2.5.0",
     "style-loader": "0.23.1",
     "styled-components": "5.1.1",
     "stylelint": "13.2.1",
@@ -151,7 +152,8 @@
     "lint:fix": "yarn eslint -- --fix src",
     "lint:css": "stylelint src/**/*.css",
     "generate": "cross-env TS_NODE_PROJECT='./internals/ts-node.tsconfig.json' plop --plopfile internals/generators/plopfile.ts",
-    "prettify": "prettier --write"
+    "prettify": "prettier --write",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "browserslist": {
     "production": [

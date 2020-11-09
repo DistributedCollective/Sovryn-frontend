@@ -1,5 +1,8 @@
 import { Asset } from 'types/asset';
-import { getTokenContract } from 'utils/blockchain/contract-helpers';
+import {
+  getContract,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 
@@ -16,21 +19,17 @@ export function useAddLiquidity(
 
   return {
     deposit: () => {
-      const args = [
-        getTokenContract(asset).address,
+      return send(
+        asset === Asset.BTC
+          ? getContract('liquidityProtocol').address
+          : getTokenContract(asset).address,
         amount,
         minReturn,
         {
           from: account,
-          value: Asset.BTC ? amount : '0',
+          value: asset === Asset.BTC ? amount : '0',
         },
-      ];
-
-      if (asset === Asset.BTC) {
-        args.shift();
-      }
-
-      return send(...args);
+      );
     },
     ...rest,
   };

@@ -30,10 +30,12 @@ export const rpcNodes = {
 export const readNodes = {
   30: 'wss://mainnet.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
+  // 30: 'https://public-node.rsk.co',
+  // 31: 'https://public-node.testnet.rsk.co',
 };
 
 export const fastBtcApis = {
-  30: 'https://fastbtc.sovryn.app',
+  30: 'https://fastbtc.sovryn.app/',
   31: 'https://testnet.sovryn.app/fastbtc',
 };
 

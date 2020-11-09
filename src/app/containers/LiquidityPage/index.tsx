@@ -15,7 +15,6 @@ import { LiquidityRemoveContainer } from '../LiquidityRemoveContainer';
 enum TabType {
   ADD,
   REMOVE,
-  CONVERT,
 }
 
 interface Props {}

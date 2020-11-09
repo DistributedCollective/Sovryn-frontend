@@ -5,16 +5,20 @@ export function InfoBox(props) {
   const [show, setShow] = useState<any>(true);
 
   useEffect(() => {
-    console.log(window.localStorage.getItem('showInfoBox'));
-    setShow(
-      window.localStorage.getItem('showInfoBox') === 'false' ? false : true,
-    );
+    try {
+      setShow(window.localStorage.getItem('showInfoBox') !== 'false');
+    } catch (e) {
+      //
+    }
   }, [show]);
 
   function closeInfoBox() {
     setShow(false);
-    window.localStorage.setItem('showInfoBox', 'false');
-    console.log(window.localStorage.getItem('showInfoBox'));
+    try {
+      window.localStorage.setItem('showInfoBox', 'false');
+    } catch (e) {
+      //
+    }
   }
 
   return (

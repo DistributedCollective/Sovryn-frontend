@@ -4,12 +4,13 @@ import {
   TradingPairDictionary,
   TradingPairType,
 } from 'utils/trading-pair-dictionary';
-import { ContainerState } from './types';
+import { ContainerState, TabType } from './types';
 
 // The initial state of the TradingPage container
 export const initialState: ContainerState = {
   tradingPair: TradingPairDictionary.pairTypeList()[0], // Set first pair as default selection.
   isMobileStatsOpen: false,
+  tab: TabType.TRADE,
 };
 
 const tradingPageSlice = createSlice({
@@ -21,6 +22,9 @@ const tradingPageSlice = createSlice({
     },
     toggleMobileStats(state) {
       state.isMobileStatsOpen = !state.isMobileStatsOpen;
+    },
+    changeTab(state, { payload }: PayloadAction<TabType>) {
+      state.tab = payload;
     },
   },
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import '../../assets/index.scss';
 import { FieldGroup } from '../../../../components/FieldGroup';
 import { AmountField } from '../../../AmountField';
+import { weiTo4 } from '../../../../../utils/blockchain/math-helpers';
 
 type Props = {
   amountName: string;
@@ -39,7 +40,7 @@ const Amount: React.FC<Props> = ({
           <div>Max:</div>
           <div>
             <span className="text-muted">{currency}</span>{' '}
-            <strong>{maxValue}</strong>
+            <strong>{weiTo4(maxValue)}</strong>
           </div>
         </div>
       )}

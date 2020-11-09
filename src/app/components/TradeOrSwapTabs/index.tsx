@@ -3,7 +3,7 @@
  * TradeOrSwapTabs
  *
  */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from 'react-bootstrap';
 import { translations } from 'locales/i18n';
@@ -13,16 +13,11 @@ import { Icon } from '@blueprintjs/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTradingPage } from '../../containers/TradingPage/selectors';
 import { actions } from 'app/containers/TradingPage/slice';
+import { TabType } from '../../containers/TradingPage/types';
 
 const s = translations.tradeOrSwapTabs;
 
 interface Props {}
-
-enum TabType {
-  TRADE,
-  SWAP,
-  CHARTS,
-}
 
 export function TradeOrSwapTabs(props: Props) {
   const { t } = useTranslation();
@@ -30,24 +25,21 @@ export function TradeOrSwapTabs(props: Props) {
   const dispatch = useDispatch();
   const trading = useSelector(selectTradingPage);
 
-  const [key, setKey] = useState<TabType>(TabType.TRADE);
-
   const handleSelection = useCallback(
     e => {
-      if (e !== String(TabType.CHARTS)) {
-        setKey(e);
+      if (e !== 'charts') {
+        dispatch(actions.changeTab(e));
       } else {
-        setKey(key);
         dispatch(actions.toggleMobileStats());
       }
     },
-    [dispatch, key],
+    [dispatch],
   );
 
   return (
     <div className="sovryn-tabs">
       <Tabs
-        activeKey={key}
+        activeKey={trading.tab}
         onSelect={handleSelection}
         defaultActiveKey={TabType.TRADE}
         id="trade-n-swap-tabs"
@@ -70,7 +62,7 @@ export function TradeOrSwapTabs(props: Props) {
             'custom-stats-tab d-lg-none',
             trading.isMobileStatsOpen ? 'charts-active' : '',
           ].join(' ')}
-          eventKey={(TabType.CHARTS as unknown) as string}
+          eventKey={'charts'}
         >
           {trading.isMobileStatsOpen}
         </Tab>

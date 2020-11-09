@@ -6,7 +6,6 @@ import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
 import { Asset } from '../../../../../types/asset';
 import { SendTxProgress } from '../../../../components/SendTxProgress';
 import { TradeButton } from '../../../../components/TradeButton';
-import { TxType } from '../TabContainer';
 
 type Props = {
   currency: Asset;
@@ -31,13 +30,11 @@ const AccountBalance: React.FC<Props> = ({
 }) => {
   return (
     <>
-      {txState.type !== TxType.NONE && (
-        <SendTxProgress
-          {...txState}
-          type={txState.type}
-          displayAbsolute={false}
-        />
-      )}
+      <SendTxProgress
+        {...txState}
+        type={txState.type}
+        displayAbsolute={false}
+      />
       <div
         className={clsx(
           'account-balance-container position-relative',

@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSortBy, useTable } from 'react-table';
 import { EventData } from 'web3-eth-contract';
 import { useAccount } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { eventReader } from '../../../utils/sovryn/event-reader';
 import { Asset } from '../../../types/asset';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { TradingPosition } from '../../../types/trading-position';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowAltCircleDown,
   faArrowAltCircleUp,
@@ -22,6 +21,8 @@ import {
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { TradeProfit } from '../../components/TradeProfit';
+import { useSelector } from 'react-redux';
+import { selectEventsState } from '../../../store/global/events-store/selectors';
 
 type EventType = 'buy' | 'sell';
 
@@ -163,10 +164,17 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 
 export function TradingHistory() {
   const account = useAccount();
-  const closeRequest = useRef<any>(null);
-  const tradeRequest = useRef<any>(null);
+  const eventsState = useSelector(selectEventsState);
 
-  const [loading, setLoading] = useState(false);
+  const tradeStates = eventsState[account]?.['sovrynProtocol']?.Trade || {
+    events: [],
+    loading: false,
+  };
+  const closeStates = eventsState[account]?.['sovrynProtocol']
+    ?.CloseWithSwap || { events: [], loading: false };
+
+  const loading = tradeStates.loading || closeStates.loading;
+
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
 
   const mergeEvents = useCallback(
@@ -197,79 +205,22 @@ export function TradingHistory() {
         }
       });
       setEvents(closeEntries);
-      setLoading(false);
     },
     [],
   );
 
-  const loadTradeEvents = useCallback(
-    (closeEvents: EventData[] = []) => {
-      if (tradeRequest.current) {
-        tradeRequest.current.cancel();
-        tradeRequest.current = null;
-      }
-      tradeRequest.current = eventReader.getPastEventsInChunks(
-        'sovrynProtocol',
-        'Trade',
-        {
-          user: account,
-        },
-      );
-      tradeRequest.current.promise
-        .then(loaded => {
-          mergeEvents(closeEvents, loaded);
-        })
-        .catch(e => {
-          mergeEvents();
-          console.error(e);
-        });
-    },
-    [tradeRequest, account, mergeEvents],
-  );
-
-  const loadCloseWithSwapEvents = useCallback(() => {
-    if (closeRequest.current) {
-      closeRequest.current.cancel();
-      closeRequest.current = null;
-    }
-    closeRequest.current = eventReader.getPastEventsInChunks(
-      'sovrynProtocol',
-      'CloseWithSwap',
-      {
-        user: account,
-      },
-    );
-    closeRequest.current.promise
-      .then(loaded => {
-        if (loaded.length) {
-          loadTradeEvents(loaded);
-        } else {
-          mergeEvents();
-        }
-      })
-      .catch(e => {
-        mergeEvents();
-        console.error(e);
-      });
-  }, [closeRequest, account, loadTradeEvents, mergeEvents]);
-
   useEffect(() => {
     if (account) {
-      setLoading(true);
-      loadCloseWithSwapEvents();
-      return () => {
-        if (closeRequest.current) {
-          closeRequest.current.cancel();
-          closeRequest.current = null;
-        }
-        if (tradeRequest.current) {
-          tradeRequest.current.cancel();
-          tradeRequest.current = null;
-        }
-      };
+      mergeEvents(closeStates.events, tradeStates.events);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [
+    account,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(tradeStates.events),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(closeStates.events),
+  ]);
 
   if (loading && !events.length) {
     return <SkeletonRow />;

@@ -48,10 +48,9 @@
   },
   "swapTradeForm": {
     "fields": {
-      "tradeAmount": "Trade Amount",
-      "currency": "Source Currency",
       "currency_placeholder": "Choose currency",
-      "receive": "Receive"
+      "send": "You send",
+      "receive": "You receive"
     },
     "buttons": {
       "submit": "Place Trade"
