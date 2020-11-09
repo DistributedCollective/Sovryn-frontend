@@ -6,12 +6,12 @@ export interface EmailNotificationState {
     NAME: string;
     WALLET_ADDRESS: string;
   };
-  createdAt: Date;
+  createdAt: string;
   email: string;
   emailBlacklisted: boolean;
   id: number;
   listIds: Array<number>;
-  modeifiedAt: Date;
+  modifiedAt: string;
   smsBlacklisted: boolean;
 }
 

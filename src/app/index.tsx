@@ -23,6 +23,7 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { FastBtcPage } from './containers/FastBtcPage/Loadable';
+import { EmailOptInSuccessPage } from './containers/EmailOptInSuccessPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -42,6 +43,11 @@ export function App() {
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />
+          <Route
+            exact
+            path="/optin-success"
+            component={EmailOptInSuccessPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       </WalletProvider>

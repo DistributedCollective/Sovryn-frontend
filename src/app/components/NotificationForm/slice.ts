@@ -10,16 +10,16 @@ export const initialState: ContainerState = {
     NAME: '',
     WALLET_ADDRESS: '',
   },
-  createdAt: new Date(),
+  createdAt: '',
   email: '',
   emailBlacklisted: false,
   id: 0,
   listIds: [],
-  modeifiedAt: new Date(),
+  modifiedAt: '',
   smsBlacklisted: false,
 };
 
-const walletAddress = useAccount();
+const walletAddress = '0xtesttesttest';
 const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
 const mailSrv = process.env.REACT_APP_MAIL_SRV;
 
