@@ -104,5 +104,19 @@
       </div>
     </div>
 
+
+    <% if (process.env.REACT_APP_YBUG_ID) { %>
+    <!-- Ybug code start (https://ybug.io) -->
+    <script type='text/javascript'>
+      (function() {
+        window.ybug_settings = {"id":"<%= process.env.REACT_APP_YBUG_ID %>"};
+        var ybug = document.createElement('script'); ybug.type = 'text/javascript'; ybug.async = true;
+        ybug.src = 'https://widget.ybug.io/button/'+window.ybug_settings.id+'.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ybug, s);
+      })();
+    </script>
+    <!-- Ybug code end -->
+    <% } %>
+
   </body>
 </html>
