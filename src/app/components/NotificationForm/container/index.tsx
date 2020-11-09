@@ -10,6 +10,8 @@ import { useAccount } from '../../../hooks/useAccount';
 import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { media } from '../../../../styles/media';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import { reducer, sliceKey, actions } from '../slice';
 
 export function NotificationForm() {
   const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
@@ -24,13 +26,13 @@ export function NotificationForm() {
 
   const [response, setResponse] = useState('');
 
-  function reducer(state, { field, value }) {
+  function formReducer(state, { field, value }) {
     return {
       ...state,
       [field]: value,
     };
   }
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(formReducer, initialState);
 
   const onChange = e => {
     if (e.target.type === 'checkbox') {
@@ -73,6 +75,8 @@ export function NotificationForm() {
         setResponse('error');
       });
   };
+
+  useInjectReducer({ key: sliceKey, reducer: reducer });
 
   function getUser() {
     axios
