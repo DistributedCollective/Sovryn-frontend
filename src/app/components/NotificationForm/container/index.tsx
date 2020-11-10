@@ -11,12 +11,16 @@ import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { media } from '../../../../styles/media';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { reducer, sliceKey, actions } from '../slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { reducer, sliceKey } from '../slice';
+import { selectEmailNotification } from '../selectors';
 
 export function NotificationForm() {
   const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
   const mailSrv = process.env.REACT_APP_MAIL_SRV;
   const walletAddress = useAccount();
+
+  useInjectReducer({ key: sliceKey, reducer: reducer });
 
   const initialState = {
     name: '',
@@ -32,17 +36,19 @@ export function NotificationForm() {
       [field]: value,
     };
   }
-  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [state, formDispatch] = useReducer(formReducer, initialState);
 
   const onChange = e => {
     if (e.target.type === 'checkbox') {
-      dispatch({ field: e.target.name, value: !state.marketing });
+      formDispatch({ field: e.target.name, value: !state.marketing });
     } else {
-      dispatch({ field: e.target.name, value: e.target.value });
+      formDispatch({ field: e.target.name, value: e.target.value });
     }
   };
 
   const { name, email } = state;
+
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -79,23 +85,7 @@ export function NotificationForm() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
 
   function getUser() {
-    axios
-      .post(
-        mailSrv + 'getUser',
-        {
-          walletAddress: walletAddress,
-        },
-        {
-          headers: {
-            Authorization: mailApiKey,
-          },
-        },
-      )
-      .then(res => {
-        console.log('got user');
-        console.log(res.data);
-      })
-      .catch(e => console.log(e));
+    alert('getUser');
   }
 
   return (
