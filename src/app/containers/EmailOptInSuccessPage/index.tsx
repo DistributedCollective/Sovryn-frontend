@@ -7,7 +7,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { translations } from 'locales/i18n';
 

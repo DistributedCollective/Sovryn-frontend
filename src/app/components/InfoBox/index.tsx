@@ -22,11 +22,8 @@ export function InfoBox(props) {
   }
 
   return (
-    <div
-      className="container mb-3"
-      style={{ display: show ? 'block' : 'none' }}
-    >
-      <div className="p-3 bg-component-bg">
+    <div className="mt-3" style={{ display: show ? 'block' : 'none' }}>
+      <div className="sovryn-border p-3">
         <Button
           icon="cross"
           onClick={() => closeInfoBox()}

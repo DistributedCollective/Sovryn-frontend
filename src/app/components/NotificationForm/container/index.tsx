@@ -4,23 +4,32 @@
  *
  */
 
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
-import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
-import styled from 'styled-components';
-import { media } from '../../../../styles/media';
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { useDispatch, useSelector } from 'react-redux';
-import { reducer, sliceKey } from '../slice';
-import { selectEmailNotification } from '../selectors';
+import { NotificationFormComponent } from '../NotificationFormComponent';
 
 export function NotificationForm() {
   const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
   const mailSrv = process.env.REACT_APP_MAIL_SRV;
+
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const walletAddress = useAccount();
 
-  useInjectReducer({ key: sliceKey, reducer: reducer });
+  const [foundUser, setFoundUser] = useState({
+    email: '',
+    id: 0,
+    attributes: {
+      'DOUBLE_OPT-IN': '',
+      NAME: '',
+      WALLET_ADDRESS: '',
+    },
+    createdAt: '',
+    emailBlacklisted: false,
+    listIds: [],
+    modifiedAt: '',
+    smsBlacklisted: false,
+  });
 
   const initialState = {
     name: '',
@@ -30,27 +39,25 @@ export function NotificationForm() {
 
   const [response, setResponse] = useState('');
 
-  function formReducer(state, { field, value }) {
+  function reducer(state, { field, value }) {
     return {
       ...state,
       [field]: value,
     };
   }
-  const [state, formDispatch] = useReducer(formReducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onChange = e => {
     if (e.target.type === 'checkbox') {
-      formDispatch({ field: e.target.name, value: !state.marketing });
+      dispatch({ field: e.target.name, value: !state.marketing });
     } else {
-      formDispatch({ field: e.target.name, value: e.target.value });
+      dispatch({ field: e.target.name, value: e.target.value });
     }
   };
 
   const { name, email } = state;
 
-  const dispatch = useDispatch();
-
-  const handleSubmit = e => {
+  const addUser = e => {
     e.preventDefault();
     axios
       .post(
@@ -82,107 +89,120 @@ export function NotificationForm() {
       });
   };
 
-  useInjectReducer({ key: sliceKey, reducer: reducer });
+  const updateUser = e => {
+    e.preventDefault();
+    axios
+      .post(
+        mailSrv + 'updateUser',
+        {
+          email: email,
+          walletAddress: walletAddress,
+        },
+        {
+          headers: {
+            Authorization: mailApiKey,
+          },
+        },
+      )
+      .then(res => {
+        console.log('updated user');
+        setResponse(res.data);
+      })
+      .catch(e => {
+        console.log('Error updating user');
+        console.log(e);
+      });
+  };
 
-  function getUser() {
-    alert('getUser');
-  }
+  useEffect(() => {
+    if (walletAddress) {
+      axios
+        .post(
+          mailSrv + 'getUser',
+          {
+            walletAddress: walletAddress,
+          },
+          {
+            headers: {
+              Authorization: mailApiKey,
+            },
+          },
+        )
+        .then(res => {
+          console.log('Got user');
+          console.log(res.data);
+          setFoundUser(res.data);
+        })
+        .catch(e => console.log(e));
+    } else {
+      setFoundUser({
+        email: '',
+        id: 0,
+        attributes: {
+          'DOUBLE_OPT-IN': '',
+          NAME: '',
+          WALLET_ADDRESS: '',
+        },
+        createdAt: '',
+        emailBlacklisted: false,
+        listIds: [],
+        modifiedAt: '',
+        smsBlacklisted: false,
+      });
+    }
+  }, [walletAddress, mailApiKey, mailSrv]);
+
+  useEffect(() => {
+    if (foundUser.email) {
+      state.name = foundUser.attributes.NAME;
+      state.email = foundUser.email;
+    }
+  });
 
   return (
     <div className="mt-5">
       <div className="w-100 sovryn-border p-3 mt-2">
-        {response === 'success' ? (
+        {!foundUser.email && response !== 'success' && walletAddress && (
+          <NotificationFormComponent
+            name={name}
+            email={email}
+            marketing={state.marketing}
+            response={response}
+            onSubmit={addUser}
+            onChange={onChange}
+            formType="signup"
+          />
+        )}
+
+        {showUpdateForm && (
+          <NotificationFormComponent
+            name={name}
+            email={email}
+            marketing={state.marketing}
+            response={response}
+            onSubmit={updateUser}
+            onChange={onChange}
+            formType="update"
+          />
+        )}
+
+        {response === 'success' && (
           <div>
-            Click the link in the email from us to confirm your email address,
-            and you will be signed up for email notifications!
+            Check your inbox for an email from us, click the link, and you will
+            be signed up for email notifications!
           </div>
-        ) : (
-          <form>
-            <p>
-              <span className="text-red mr-2">
-                <Icon icon="issue" iconSize={20} />
-              </span>
-              Want to receive email notifications when your positions are close
-              to liquidation?
-            </p>
-            <div className="row">
-              <FormGroup
-                label="Name / Pseudonym"
-                labelFor="text-input"
-                labelInfo="(required)"
-                className="col-md-6 col-sm-12"
-              >
-                <InputGroup
-                  id="name"
-                  name="name"
-                  value={name}
-                  onChange={onChange}
-                  placeholder="name / pseudonym"
-                />
-              </FormGroup>
-              <FormGroup
-                label="Email Address"
-                labelFor="email-input"
-                labelInfo="(required)"
-                className="col-md-6 col-sm-12"
-              >
-                <InputGroup
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={onChange}
-                  placeholder="email@email.com"
-                />
-              </FormGroup>
-            </div>
-            <div className="row px-3">
-              <Checkbox
-                name="marketing"
-                checked={state.marketing}
-                onChange={onChange}
-                className="col-md-8 col-sm-12"
-              >
-                I would like to receive emails about updates and new features
-                from Sovryn
-              </Checkbox>
-              <div className="col-md-4 col-sm-12">
-                <StyledButton
-                  className="sovryn-border float-right"
-                  type="submit"
-                  onClick={handleSubmit}
-                  disabled={!email || !name}
-                >
-                  Submit
-                </StyledButton>
-              </div>
-              <div className="row">
-                {response !== 'success' && response && (
-                  <p>There was an error submitting your form</p>
-                )}
-              </div>
-            </div>
-          </form>
+        )}
+
+        {foundUser.email && !showUpdateForm && (
+          <p>
+            You are currently signed up for email notifications about margin
+            calls at {foundUser.email}.
+            <span onClick={() => setShowUpdateForm(true)}>
+              Update settings.
+            </span>
+          </p>
         )}
       </div>
-      <button onClick={getUser}>Get User</button>
     </div>
   );
 }
-
-const StyledButton = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
-  border-radius: 20px;
-  padding: 5px 30px;
-  font-size: 12px;
-  &:disabled {
-    opacity: 0.7;
-  }
-  &:hover:not(:disabled) {
-    color: var(--Gold);
-  }
-  ${media.lg`
-  font-size: 14px
-  `}
-`;
