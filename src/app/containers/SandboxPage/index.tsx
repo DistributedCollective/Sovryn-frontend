@@ -7,35 +7,25 @@
 import React from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { Sovryn } from '../../../utils/sovryn';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { sha3 } from 'web3-utils';
 
-export function SandboxPage(props) {
-  const dispatch = useDispatch();
-
-  function getUser() {
-    const apiKey = process.env.REACT_APP_MAIL_API_KEY;
-    const srv = process.env.REACT_APP_MAIL_SRV;
-    axios
-      .post(
-        srv + 'getUser',
-        {
-          email: 'k.shall0507@gmail.com',
-        },
-        {
-          headers: {
-            Authorization: apiKey,
-          },
-        },
-      )
-      .then(res => {
-        console.log('got user');
-        console.log(res.data);
-        dispatch({ type: 'getUser' });
-      })
-      .catch(e => console.log(e));
+export function SandboxPage() {
+  const address = useAccount();
+  function testTx() {
+    if (address) {
+      Sovryn.getWriteWeb3()
+        .eth.sign(sha3('test') as string, address)
+        .then(res => console.log(res));
+    } else {
+      alert('not connected');
+    }
   }
+
   return (
     <div>
-      <button onClick={getUser}>Get User</button>
+      <button onClick={testTx}>Test sign transaction</button>
     </div>
   );
 }

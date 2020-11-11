@@ -8,6 +8,8 @@ import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
+import { Sovryn } from '../../../../utils/sovryn';
+import { sha3 } from 'web3-utils';
 
 export function NotificationForm() {
   const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
@@ -98,6 +100,7 @@ export function NotificationForm() {
   //UPDATE USER
   const updateUser = e => {
     e.preventDefault();
+
     const updatedUser = {
       name: foundUser.attributes.NAME,
       newName: name !== foundUser.attributes.NAME ? name : null,
@@ -105,22 +108,31 @@ export function NotificationForm() {
       newEmail: email !== foundUser.email ? email : null,
       walletAddress: walletAddress,
     };
-    console.log(updatedUser);
-    axios
-      .post(mailSrv + 'updateUser', updatedUser, {
-        headers: {
-          Authorization: mailApiKey,
-        },
-      })
-      .then(res => {
-        console.log('updated user');
-        setResponse('success');
-        console.log(res.data);
-      })
-      .catch(e => {
-        console.log('Error updating user');
-        console.log(e);
-      });
+
+    const message = 'test';
+
+    Sovryn.getWriteWeb3()
+      .eth.sign(sha3(message) as string, walletAddress)
+      .then(res =>
+        axios
+          .post(
+            mailSrv + 'updateUser',
+            { ...updatedUser, signedMessage: res, message: message },
+            {
+              headers: {
+                Authorization: mailApiKey,
+              },
+            },
+          )
+          .then(res => {
+            setResponse('success');
+            console.log(res.data);
+          })
+          .catch(e => {
+            console.log('Error updating user');
+            console.log(e);
+          }),
+      );
   };
 
   //GET USER
@@ -141,12 +153,13 @@ export function NotificationForm() {
           },
         )
         .then(res => {
-          console.log('Got user');
-          console.log(res.data);
           setFoundUser(res.data);
           setLoading(false);
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          console.log(e);
+          setLoading(false);
+        });
     } else {
       setFoundUser({
         email: '',
