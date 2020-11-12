@@ -100,6 +100,7 @@ export function NotificationForm() {
   //UPDATE USER
   const updateUser = e => {
     e.preventDefault();
+    setResponse('pending');
 
     const timestamp = new Date();
 
@@ -225,8 +226,8 @@ export function NotificationForm() {
 
           {foundUser.email && !showUpdateForm && (
             <p>
-              You are currently signed up for email notifications about margin
-              calls at {foundUser.email}.{' '}
+              You are currently signed up for email notifications at{' '}
+              {foundUser.email}.{' '}
               <span onClick={updateForm} className="font-weight-bold">
                 Update settings.
               </span>
