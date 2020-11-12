@@ -21,7 +21,7 @@ import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
-import { NotificationForm } from '../../components/NotificationForm/container';
+import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { TabType } from './types';
 //import { HintDialog } from '../../components/HintDialog';
 
