@@ -9,7 +9,6 @@ import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
 import { Sovryn } from '../../../../utils/sovryn';
-import { sha3 } from 'web3-utils';
 
 export function NotificationForm() {
   const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
@@ -63,6 +62,7 @@ export function NotificationForm() {
   //ADD USER
   const addUser = e => {
     e.preventDefault();
+    setResponse('pending');
     const newUser = {
       name: state.name,
       email: state.email,
@@ -101,6 +101,8 @@ export function NotificationForm() {
   const updateUser = e => {
     e.preventDefault();
 
+    const timestamp = new Date();
+
     const updatedUser = {
       name: foundUser.attributes.NAME,
       newName: name !== foundUser.attributes.NAME ? name : null,
@@ -109,10 +111,11 @@ export function NotificationForm() {
       walletAddress: walletAddress,
     };
 
-    const message = 'test';
+    const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
+    console.log(walletAddress);
 
     Sovryn.getWriteWeb3()
-      .eth.sign(sha3(message) as string, walletAddress)
+      .eth.personal.sign(message, walletAddress, '')
       .then(res =>
         axios
           .post(
@@ -129,7 +132,7 @@ export function NotificationForm() {
             console.log(res.data);
           })
           .catch(e => {
-            console.log('Error updating user');
+            setResponse('error');
             console.log(e);
           }),
       );
@@ -181,7 +184,7 @@ export function NotificationForm() {
 
   return (
     <div className="mt-5">
-      {loading ? (
+      {loading || response === 'pending' ? (
         <div className="bp3-skeleton">&nbsp;</div>
       ) : (
         <div className="w-100 sovryn-border p-3 mt-2">

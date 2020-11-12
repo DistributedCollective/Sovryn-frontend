@@ -8,8 +8,8 @@ import React from 'react';
 import { lazyLoad } from 'utils/loadable';
 import { PageSkeleton } from 'app/components/PageSkeleton';
 
-export const EmailOptInSuccessPage = lazyLoad(
+export const EmailPage = lazyLoad(
   () => import('./index'),
-  module => module.EmailOptInSuccessPage,
+  module => module.EmailPage,
   { fallback: <PageSkeleton /> },
 );

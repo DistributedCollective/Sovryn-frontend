@@ -22,7 +22,7 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { FastBtcPage } from './containers/FastBtcPage/Loadable';
-import { EmailOptInSuccessPage } from './containers/EmailOptInSuccessPage';
+import { EmailPage } from './containers/EmailPage';
 import { useEffect, useState } from 'react';
 
 const title =
@@ -69,7 +69,12 @@ export function App() {
           <Route
             exact
             path="/optin-success"
-            component={EmailOptInSuccessPage}
+            render={props => <EmailPage {...props} type="OPTIN" />}
+          />
+          <Route
+            exact
+            path="/unsubscribe"
+            render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
           />
           <Route component={NotFoundPage} />
         </Switch>
