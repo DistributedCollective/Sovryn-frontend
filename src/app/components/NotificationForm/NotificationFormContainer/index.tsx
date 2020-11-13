@@ -170,9 +170,7 @@ export function NotificationForm() {
 
   return (
     <>
-      {loading ? (
-        <div className="bp3-skeleton">&nbsp;</div>
-      ) : (
+      <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
             foundUser.email
@@ -181,7 +179,7 @@ export function NotificationForm() {
           }`}
           onClick={() => setShowForm(true)}
         />
-      )}
+      </div>
       <CustomDialog
         show={showForm}
         title="Email Notifications"
