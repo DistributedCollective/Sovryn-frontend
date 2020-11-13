@@ -8,6 +8,8 @@ import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
+import { EmailNotificationButton } from '../EmailNotificationButton';
+import { CustomDialog } from '../../CustomDialog';
 import { Sovryn } from '../../../../utils/sovryn';
 
 export function NotificationForm() {
@@ -29,10 +31,10 @@ export function NotificationForm() {
     smsBlacklisted: false,
   };
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [response, setResponse] = useState('');
   const [foundUser, setFoundUser] = useState(emptyUser);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
   //Reducer for updating state on form change
   function reducer(state, { field, value }) {
@@ -85,12 +87,13 @@ export function NotificationForm() {
       });
   };
 
-  //SHOW UPDATE FORM
-  const updateForm = () => {
-    dispatch({ field: 'name', value: foundUser.attributes.NAME });
-    dispatch({ field: 'email', value: foundUser.email });
-    setShowUpdateForm(true);
-  };
+  //SET VALUES IN UPDATE FORM
+  useEffect(() => {
+    if (foundUser.email && foundUser.attributes.NAME) {
+      dispatch({ field: 'name', value: foundUser.attributes.NAME });
+      dispatch({ field: 'email', value: foundUser.email });
+    }
+  }, [foundUser]);
 
   //UPDATE USER
   const updateUser = e => {
@@ -133,7 +136,6 @@ export function NotificationForm() {
   //GET USER
   useEffect(() => {
     setLoading(true);
-    setShowUpdateForm(false);
     if (walletAddress) {
       axios
         .post(mailSrv + 'getUser', {
@@ -167,57 +169,68 @@ export function NotificationForm() {
   }, [walletAddress, mailSrv]);
 
   return (
-    <div className="mt-5">
-      {loading || response === 'pending' ? (
+    <>
+      {loading ? (
         <div className="bp3-skeleton">&nbsp;</div>
       ) : (
-        <div className="w-100 sovryn-border p-3 mt-2">
-          {!foundUser.email && response !== 'success' && walletAddress && (
-            <NotificationFormComponent
-              name={name}
-              email={email}
-              marketing={state.marketing}
-              response={response}
-              onSubmit={addUser}
-              onChange={onChange}
-              formType="signup"
-            />
-          )}
-
-          {showUpdateForm && response !== 'success' && (
-            <NotificationFormComponent
-              name={name}
-              email={email}
-              marketing={state.marketing}
-              response={response}
-              onSubmit={updateUser}
-              onChange={onChange}
-              formType="update"
-            />
-          )}
-
-          {response === 'success' && !foundUser.email && (
-            <div>
-              Check your inbox for an email from us, click the link, and you
-              will be signed up for email notifications!
-            </div>
-          )}
-
-          {response === 'success' && foundUser.email && (
-            <div>Your details have been updated.</div>
-          )}
-
-          {foundUser.email && !showUpdateForm && (
-            <p>
-              You are currently signed up for email notifications at{' '}
-              {foundUser.email}.{' '}
-              <span onClick={updateForm} className="font-weight-bold">
-                Update settings.
-              </span>
-            </p>
-          )}
-        </div>
+        <EmailNotificationButton
+          text={`${
+            foundUser.email
+              ? 'Update email settings'
+              : 'Get email notifications'
+          }`}
+          onClick={() => setShowForm(true)}
+        />
       )}
-    </div>
+      <CustomDialog
+        show={showForm}
+        title="Email Notifications"
+        onClose={() => setShowForm(false)}
+        content={
+          <div>
+            {loading || response === 'pending' ? (
+              <div className="bp3-skeleton">&nbsp;</div>
+            ) : (
+              <div>
+                {!foundUser.email && response !== 'success' && (
+                  <NotificationFormComponent
+                    name={name}
+                    email={email}
+                    marketing={state.marketing}
+                    response={response}
+                    onSubmit={addUser}
+                    onChange={onChange}
+                    formType="signup"
+                  />
+                )}
+
+                {foundUser.email && response !== 'success' && (
+                  <NotificationFormComponent
+                    name={name}
+                    email={email}
+                    marketing={state.marketing}
+                    response={response}
+                    onSubmit={updateUser}
+                    onChange={onChange}
+                    formType="update"
+                  />
+                )}
+
+                {response === 'success' && !foundUser.email && (
+                  <div>
+                    Check your inbox for an email from us, click the link, and
+                    you will be signed up for email notifications!
+                  </div>
+                )}
+
+                {response === 'success' && foundUser.email && (
+                  <div>Your details have been updated.</div>
+                )}
+              </div>
+            )}
+          </div>
+        }
+      />
+    </>
   );
 }

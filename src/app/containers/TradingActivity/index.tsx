@@ -5,6 +5,7 @@ import { TradingHistory } from '../TradingHistory';
 import { Tab } from '../../components/Tab';
 import { useIsConnected } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { translations } from 'locales/i18n';
 
 const s = translations.tradingActivity;
@@ -16,7 +17,11 @@ export function TradingActivity() {
   return (
     <div>
       <div className="mt-5 mb-4 d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
-        <h3 className="mt-0 mb-3 mb-md-0 text-white">{t(s.title)}</h3>
+        <h3 className="mt-0 mb-3 mb-md-0 text-white">
+          {t(s.title)}
+          <NotificationForm />
+        </h3>
+
         <div className="d-flex flex-row align-items-center justify-content-start justify-content-md-end">
           <div className="mr-3">
             <Tab

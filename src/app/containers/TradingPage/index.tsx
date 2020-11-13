@@ -21,7 +21,6 @@ import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
-import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { TabType } from './types';
 import { HintDialog } from '../../components/HintDialog';
 import { Announcement } from '../../components/Announcement';
@@ -67,7 +66,6 @@ export function TradingPage(props: Props) {
         </div>
         <div className="row">
           <div className="col">
-            <NotificationForm />
             <TradingActivity />
           </div>
         </div>
