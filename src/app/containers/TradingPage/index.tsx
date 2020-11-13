@@ -24,6 +24,7 @@ import { Footer } from '../../components/Footer';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { TabType } from './types';
 import { HintDialog } from '../../components/HintDialog';
+import { Announcement } from '../../components/Announcement';
 
 const s = translations.tradingPage;
 
@@ -50,6 +51,7 @@ export function TradingPage(props: Props) {
       <Header />
       <HintDialog />
       <div className="container mt-5">
+        <Announcement />
         <div className="row">
           <div
             className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${

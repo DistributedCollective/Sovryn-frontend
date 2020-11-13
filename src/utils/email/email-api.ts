@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { Sovryn } from '../../utils/sovryn';
 
-const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
 const mailSrv = process.env.REACT_APP_MAIL_SRV;
 
 //ADD USER
 export function createUser(newUser): string | void {
   axios
-    .post(mailSrv + 'addUser', newUser, {
-      headers: {
-        Authorization: mailApiKey,
-      },
-    })
+    .post(mailSrv + 'addUser', newUser)
     .then(res => {
       console.log('data: ' + res.data);
       return 'success';
@@ -40,15 +35,11 @@ export function updateUser(
     .eth.personal.sign(message, walletAddress, '')
     .then(res =>
       axios
-        .post(
-          mailSrv + 'updateUser',
-          { ...updatedUser, signedMessage: res, message: message },
-          {
-            headers: {
-              Authorization: mailApiKey,
-            },
-          },
-        )
+        .post(mailSrv + 'updateUser', {
+          ...updatedUser,
+          signedMessage: res,
+          message: message,
+        })
         .then(res => {
           handleUpdateSuccess();
           console.log(res.data);
@@ -63,17 +54,9 @@ export function updateUser(
 //GET USER
 export function getUser(walletAddress, getUserSuccess, getUserError) {
   axios
-    .post(
-      mailSrv + 'getUser',
-      {
-        walletAddress: walletAddress,
-      },
-      {
-        headers: {
-          Authorization: mailApiKey,
-        },
-      },
-    )
+    .post(mailSrv + 'getUser', {
+      walletAddress: walletAddress,
+    })
     .then(res => {
       getUserSuccess(res);
     })

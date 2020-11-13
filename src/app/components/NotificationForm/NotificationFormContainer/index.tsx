@@ -11,7 +11,6 @@ import { NotificationFormComponent } from '../NotificationFormComponent';
 import { Sovryn } from '../../../../utils/sovryn';
 
 export function NotificationForm() {
-  const mailApiKey = process.env.REACT_APP_MAIL_API_KEY;
   const mailSrv = process.env.REACT_APP_MAIL_SRV;
 
   const walletAddress = useAccount();
@@ -74,11 +73,7 @@ export function NotificationForm() {
       },
     };
     axios
-      .post(mailSrv + 'addUser', newUser, {
-        headers: {
-          Authorization: mailApiKey,
-        },
-      })
+      .post(mailSrv + 'addUser', newUser)
       .then(res => {
         console.log('data: ' + res.data);
         setResponse('success');
@@ -119,15 +114,11 @@ export function NotificationForm() {
       .eth.personal.sign(message, walletAddress, '')
       .then(res =>
         axios
-          .post(
-            mailSrv + 'updateUser',
-            { ...updatedUser, signedMessage: res, message: message },
-            {
-              headers: {
-                Authorization: mailApiKey,
-              },
-            },
-          )
+          .post(mailSrv + 'updateUser', {
+            ...updatedUser,
+            signedMessage: res,
+            message: message,
+          })
           .then(res => {
             setResponse('success');
             console.log(res.data);
@@ -145,17 +136,9 @@ export function NotificationForm() {
     setShowUpdateForm(false);
     if (walletAddress) {
       axios
-        .post(
-          mailSrv + 'getUser',
-          {
-            walletAddress: walletAddress,
-          },
-          {
-            headers: {
-              Authorization: mailApiKey,
-            },
-          },
-        )
+        .post(mailSrv + 'getUser', {
+          walletAddress: walletAddress,
+        })
         .then(res => {
           setFoundUser(res.data);
           setLoading(false);
@@ -181,7 +164,7 @@ export function NotificationForm() {
       });
       setLoading(false);
     }
-  }, [walletAddress, mailApiKey, mailSrv]);
+  }, [walletAddress, mailSrv]);
 
   return (
     <div className="mt-5">
