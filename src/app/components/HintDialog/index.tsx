@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { HintHowToConnect } from '../HintHowToConnect';
 import { HintHowToTopup } from '../HintHowToTopup';
 import { Button, Dialog } from '@blueprintjs/core';
-import { useTokenBalanceOf } from 'app/hooks/useTokenBalanceOf';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { Asset } from 'types/asset';
 
 export function HintDialog() {
   const [show, setShow] = useState<boolean>(false);
   const connected = useIsConnected();
-  const { value, loading } = useTokenBalanceOf(Asset.BTC);
+  const { value, loading } = useAssetBalanceOf(Asset.BTC);
 
   useEffect(() => {
     if (connected && !loading && parseFloat(value) > 0) {
@@ -23,10 +23,10 @@ export function HintDialog() {
   }, [connected, loading, value]);
 
   return (
-    <Dialog isOpen={show} className="bg-secondary p-3">
+    <Dialog isOpen={show} className="p-3">
       <div className="container">
         <div className="d-flex justify-content-between mb-3">
-          <h3 className="text-muted">Sovryn Tips</h3>
+          <h3 className="text-teal">Sovryn Tips</h3>
           <Button
             icon="cross"
             style={{ marginRight: '-10px', marginTop: '-10px' }}

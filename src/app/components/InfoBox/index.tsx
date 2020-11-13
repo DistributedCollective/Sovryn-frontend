@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Icon } from '@blueprintjs/core';
 
-export function InfoBox(props) {
+interface Props {
+  icon: string;
+  content: React.ReactNode;
+  localStorageRef: string;
+}
+
+export function InfoBox(props: Props) {
   const [show, setShow] = useState<any>(true);
 
   useEffect(() => {
-    try {
-      setShow(window.localStorage.getItem('showInfoBox') !== 'false');
-    } catch (e) {
-      //
-    }
-  }, [show]);
+    console.log(window.localStorage.getItem(props.localStorageRef));
+    setShow(
+      window.localStorage.getItem(props.localStorageRef) === 'false'
+        ? false
+        : true,
+    );
+  }, [show, props.localStorageRef]);
 
   function closeInfoBox() {
     setShow(false);
-    try {
-      window.localStorage.setItem('showInfoBox', 'false');
-    } catch (e) {
-      //
-    }
+    window.localStorage.setItem(props.localStorageRef, 'false');
+    console.log(window.localStorage.getItem(props.localStorageRef));
   }
 
   return (
-    <div
-      className="container mb-3"
-      style={{ display: show ? 'block' : 'none' }}
-    >
-      <div className="p-3 bg-component-bg">
+    <div className={`my-3 d-none ${show && 'd-block'}`}>
+      <div className="p-3 sovryn-border">
         <Button
           icon="cross"
           onClick={() => closeInfoBox()}
@@ -35,15 +36,7 @@ export function InfoBox(props) {
         />
         <p className="pt-3">
           <Icon icon="info-sign" className="mr-2" />
-          Need help making a transaction? Read our guide on{' '}
-          <a
-            href="https://sovryn.app/blog/how-to-earn-and-leverage-bitcoin.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            how to trade and lend with Sovryn
-          </a>
-          .
+          {props.content}
         </p>
       </div>
     </div>

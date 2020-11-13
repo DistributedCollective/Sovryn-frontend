@@ -5,7 +5,7 @@ export function TopUpHint() {
   const links = {
     mainnet: {
       text: 'the Fast-BTC-Relay',
-      link: 'https://fastbtc.sovryn.app/',
+      link: '/fast-btc',
     },
     testnet: {
       text: 'the RSK Testnet faucet',

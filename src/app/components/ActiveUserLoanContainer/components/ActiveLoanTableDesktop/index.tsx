@@ -61,7 +61,7 @@ export function ActiveLoanTableDesktop(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border p-3">
+    <div className="bg-primary sovryn-border p-3 d-none d-md-block">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -102,7 +102,7 @@ export function ActiveLoanTableDesktop(props: Props) {
             prepareRow(row);
             return (
               //If row is expanded render expanded row
-              row.id === props.expandedId ? (
+              data[row.id].id === props.expandedId ? (
                 <ActiveLoanExpandedRow
                   data={props.expandedItem}
                   key={props.expandedId}
@@ -113,7 +113,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   {...row.getRowProps()}
                   onClick={() => {
                     props.setExpandedItem(data[row.id]);
-                    props.setExpandedId(row.id);
+                    props.setExpandedId(data[row.id].id);
                   }}
                   style={{
                     opacity: props.expandedId ? '0.2' : '1',
