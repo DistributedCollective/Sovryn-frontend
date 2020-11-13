@@ -25,11 +25,11 @@ export function NotificationFormComponent(props: Props) {
       buttonText: 'submit',
       title: (
         <p>
-          <span className="text-red mr-2">
+          <span className="mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>
-          Want to receive email notifications when your positions are close to
-          liquidation?
+          Want to receive email notifications about margin calls and liquidated
+          positions?
         </p>
       ),
     },
@@ -83,6 +83,7 @@ export function NotificationFormComponent(props: Props) {
           checked={props.marketing}
           onChange={props.onChange}
           className="col-md-8 col-sm-12"
+          style={{ fontSize: '11px' }}
         >
           I would like to receive emails about updates and new features from
           Sovryn
