@@ -26,7 +26,7 @@ export function HintDialog() {
     <Dialog isOpen={show} className="bg-secondary p-3">
       <div className="container">
         <div className="d-flex justify-content-between mb-3">
-          <h3 className="text-muted">Sovryn Tips</h3>
+          <h3 className="text-teal">Sovryn Tips</h3>
           <Button
             icon="cross"
             style={{ marginRight: '-10px', marginTop: '-10px' }}

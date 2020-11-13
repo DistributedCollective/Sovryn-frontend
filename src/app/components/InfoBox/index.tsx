@@ -22,7 +22,7 @@ export function InfoBox(props) {
   }
 
   return (
-    <div className="mt-3" style={{ display: show ? 'block' : 'none' }}>
+    <div className={`mt-3 d-none ${show && 'd-nlock'}`}>
       <div className="sovryn-border p-3">
         <Button
           icon="cross"

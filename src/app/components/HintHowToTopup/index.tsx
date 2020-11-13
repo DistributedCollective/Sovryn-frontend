@@ -6,7 +6,7 @@ export function HintHowToTopup() {
   const link = {
     mainnet: {
       text: 'the Fast-BTC-Relay',
-      link: 'https://fastbtc.sovryn.app/',
+      link: '/fast-btc',
     },
     testnet: {
       text: 'the RSK Testnet faucet',

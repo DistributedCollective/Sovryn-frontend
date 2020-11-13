@@ -23,7 +23,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { TabType } from './types';
-//import { HintDialog } from '../../components/HintDialog';
+import { HintDialog } from '../../components/HintDialog';
 
 const s = translations.tradingPage;
 
@@ -48,7 +48,7 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      {/* <HintDialog /> */}
+      <HintDialog />
       <div className="container mt-5">
         <div className="row">
           <div

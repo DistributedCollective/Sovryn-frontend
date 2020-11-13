@@ -55,7 +55,7 @@ export function ActiveLoanTableMobile(props: Props) {
   });
 
   return (
-    <div className="bg-primary sovryn-border p-3">
+    <div className="bg-primary sovryn-border p-3 d-block d-md-none">
       <div className="sovryn-table sovryn-table-mobile p-3">
         <div className="row table-header">
           <div className="col-2"></div>

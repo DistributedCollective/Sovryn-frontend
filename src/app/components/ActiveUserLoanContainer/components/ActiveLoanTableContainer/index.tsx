@@ -37,7 +37,7 @@ export function ActiveLoanTableContainer(props: Props) {
   const [selectedItem, setSelectedItem] = useState<any>(props.data[0]);
   const [expandedItem, setExpandedItem] = useState('');
   const [expandedId, setExpandedId] = useState('');
-  const [windowSize, setWindowSize] = useState(window.innerWidth);
+
   //TODO: Assets should not be hardcoded
   const { value: currentPrice } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
 
@@ -147,28 +147,20 @@ export function ActiveLoanTableContainer(props: Props) {
     }
   }, [expandedId]);
 
-  useEffect(() => {
-    window.addEventListener('resize', () => setWindowSize(window.innerWidth));
-  }, []);
-
   return (
     <>
-      {windowSize > 991 && (
-        <ActiveLoanTableDesktop
-          data={data}
-          setExpandedId={setExpandedId}
-          setExpandedItem={setExpandedItem}
-          expandedId={expandedId}
-          expandedItem={expandedItem}
-        />
-      )}
-      {windowSize <= 991 && (
-        <ActiveLoanTableMobile
-          data={data}
-          setExpandedId={setExpandedId}
-          expandedId={expandedId}
-        />
-      )}
+      <ActiveLoanTableDesktop
+        data={data}
+        setExpandedId={setExpandedId}
+        setExpandedItem={setExpandedItem}
+        expandedId={expandedId}
+        expandedItem={expandedItem}
+      />
+      <ActiveLoanTableMobile
+        data={data}
+        setExpandedId={setExpandedId}
+        expandedId={expandedId}
+      />
       <CloseTradingPositionHandler
         item={selectedItem}
         showModal={positionCloseModalOpen}
