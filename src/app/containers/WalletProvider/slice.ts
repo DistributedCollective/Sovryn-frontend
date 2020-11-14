@@ -40,7 +40,6 @@ const walletProviderSlice = createSlice({
     },
 
     accountChanged(state, action: PayloadAction<string>) {
-      console.log('account changed', action.payload);
       state.address = action.payload || '';
     },
 
