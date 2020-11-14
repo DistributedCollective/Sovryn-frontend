@@ -10,6 +10,8 @@ import {
 import { actions } from './slice';
 import { Sovryn } from '../../../utils/sovryn';
 import { selectWalletProvider } from './selectors';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -119,7 +121,36 @@ function* processBlock({ block, address }) {
   }
 }
 
+function* connectedSaga({ payload }: PayloadAction<{ address: string }>) {
+  yield put(actions.accountChanged(payload.address));
+}
+
+function* accountChangedSaga({ payload }: PayloadAction<{ address: string }>) {
+  const state = yield select(selectWalletProvider);
+  if (state.whitelist.enabled) {
+    yield put(actions.whitelistCheck());
+  }
+}
+
+function* whitelistCheckSaga() {
+  const state = yield select(selectWalletProvider);
+  try {
+    const result = yield call(
+      [contractReader, contractReader.call],
+      'whitelistToken' as any,
+      'balanceOf',
+      [state.address],
+    );
+    yield put(actions.whitelistChecked(result > 0));
+  } catch (e) {
+    yield put(actions.whitelistChecked(false));
+  }
+}
+
 export function* walletProviderSaga() {
   yield takeLatest(actions.chainChanged.type, callCreateBlockChannels);
   yield takeEvery(actions.blockReceived.type, processBlockHeader);
+  yield takeEvery(actions.connected.type, connectedSaga);
+  yield takeEvery(actions.accountChanged.type, accountChangedSaga);
+  yield takeEvery(actions.whitelistCheck.type, whitelistCheckSaga);
 }

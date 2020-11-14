@@ -15,6 +15,15 @@ export const initialState: ContainerState = {
   // todo ?
   transactions: {},
   transactionStack: [],
+  whitelist: {
+    enabled:
+      !!process.env.REACT_APP_WHITELIST_TOKEN &&
+      process.env.REACT_APP_WHITELIST === 'true',
+    loading: false,
+    loaded: false,
+    whitelisted: false,
+    isDialogOpen: false,
+  },
 };
 
 const walletProviderSlice = createSlice({
@@ -31,6 +40,7 @@ const walletProviderSlice = createSlice({
     },
 
     accountChanged(state, action: PayloadAction<string>) {
+      console.log('account changed', action.payload);
       state.address = action.payload || '';
     },
 
@@ -76,6 +86,20 @@ const walletProviderSlice = createSlice({
     },
 
     processBlock(state, action: PayloadAction<any>) {},
+
+    whitelistCheck(state) {
+      state.whitelist.loading = true;
+      state.whitelist.loaded = false;
+    },
+    whitelistChecked(state, { payload }: PayloadAction<boolean>) {
+      state.whitelist.whitelisted = payload;
+      state.whitelist.isDialogOpen = !payload;
+      state.whitelist.loading = false;
+      state.whitelist.loaded = true;
+    },
+    whitelistDialog(state, { payload }: PayloadAction<boolean>) {
+      state.whitelist.isDialogOpen = payload;
+    },
   },
 });
 

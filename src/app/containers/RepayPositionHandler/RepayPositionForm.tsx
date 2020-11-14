@@ -20,12 +20,14 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';
 import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAndCloseWithDeposit';
+import { useCanInteract } from '../../hooks/useCanInteract';
 
 interface Props {
   loan: ActiveLoan;
 }
 
 export function RepayPositionForm({ loan }: Props) {
+  const canInteract = useCanInteract();
   const { asset } = AssetsDictionary.getByTokenContractAddress(loan.loanToken);
 
   const { value: balance } = useAssetBalanceOf(asset);
@@ -79,7 +81,7 @@ export function RepayPositionForm({ loan }: Props) {
         <TradeButton
           text="Repay"
           loading={closeTx.loading}
-          disabled={closeTx.loading || !valid}
+          disabled={closeTx.loading || !valid || !canInteract}
           onClick={() => send()}
         />
       </div>
