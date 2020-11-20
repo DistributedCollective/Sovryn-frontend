@@ -11,7 +11,6 @@ export function InfoBox(props: Props) {
   const [show, setShow] = useState<any>(true);
 
   useEffect(() => {
-    console.log(window.localStorage.getItem(props.localStorageRef));
     setShow(
       window.localStorage.getItem(props.localStorageRef) === 'false'
         ? false
@@ -22,7 +21,6 @@ export function InfoBox(props: Props) {
   function closeInfoBox() {
     setShow(false);
     window.localStorage.setItem(props.localStorageRef, 'false');
-    console.log(window.localStorage.getItem(props.localStorageRef));
   }
 
   return (
