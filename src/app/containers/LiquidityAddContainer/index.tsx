@@ -20,12 +20,12 @@ import { AmountField } from '../AmountField';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { TradeButton } from '../../components/TradeButton';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-import { useIsConnected } from '../../hooks/useAccount';
+import { useCanInteract } from '../../hooks/useCanInteract';
 
 interface Props {}
 
 export function LiquidityAddContainer(props: Props) {
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
     target: item.target,

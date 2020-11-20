@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
@@ -17,8 +17,8 @@ import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../../components/TradeButton';
 import { SendTxProgress } from '../../../components/SendTxProgress';
 import { bignumber } from 'mathjs';
-import { useDispatch } from 'react-redux';
 import { actions } from '../slice';
+import { useCanInteract } from '../../../hooks/useCanInteract';
 
 type Props = {
   currency: Asset;
@@ -27,7 +27,7 @@ type Props = {
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
 
   // BORROW

@@ -20,6 +20,7 @@ import { DialogButton } from '../../components/DialogButton';
 import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
+import { useCanInteract } from '../../hooks/useCanInteract';
 
 interface Props {
   item: ActiveLoan;
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export function TopUpTradingPositionHandler(props: Props) {
+  const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );
@@ -94,7 +96,7 @@ export function TopUpTradingPositionHandler(props: Props) {
           <DialogButton
             text="Top Up"
             onClick={() => handleConfirm()}
-            disabled={rest.loading || !valid}
+            disabled={rest.loading || !valid || !canInteract}
             loading={rest.loading}
           />
         </div>
