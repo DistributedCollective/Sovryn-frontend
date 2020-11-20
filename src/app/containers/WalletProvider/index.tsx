@@ -6,13 +6,13 @@
 
 import React from 'react';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { reducer, sliceKey } from './slice';
-import { walletProviderSaga } from './saga';
 import {
   eventsSlice,
   reducer as eventsReducer,
 } from 'store/global/events-store/slice';
 import { eventsStateSaga } from 'store/global/events-store/saga';
+import { reducer, sliceKey } from './slice';
+import { walletProviderSaga } from './saga';
 
 interface Props {
   children: React.ReactNode;

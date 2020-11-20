@@ -23,13 +23,13 @@ import { useRemoveLiquidityReturnAndFee } from '../../hooks/amm/useRemoveLiquidi
 import { FieldGroup } from '../../components/FieldGroup';
 import { AmountField } from '../AmountField';
 import { TradeButton } from '../../components/TradeButton';
-import { useIsConnected } from '../../hooks/useAccount';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
+import { useCanInteract } from 'app/hooks/useCanInteract';
 
 interface Props {}
 
 export function LiquidityRemoveContainer(props: Props) {
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
     label: `${item.tokenLabel} - Pool token`,

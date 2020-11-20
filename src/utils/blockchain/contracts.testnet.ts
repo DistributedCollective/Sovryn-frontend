@@ -78,4 +78,12 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 1218844,
   },
+  ...(process.env.REACT_APP_WHITELIST_TOKEN &&
+    process.env.REACT_APP_WHITELIST === 'true' && {
+      whitelistToken: {
+        address: process.env.REACT_APP_WHITELIST_TOKEN,
+        abi: tokenAbi,
+        blockNumber: 1218844,
+      },
+    }),
 };

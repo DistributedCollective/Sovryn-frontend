@@ -11,6 +11,7 @@ import WalletConnector from '../../containers/WalletConnector';
 import styled from 'styled-components';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
+import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 
 export function Header() {
   const history = useHistory();
@@ -84,6 +85,7 @@ export function Header() {
           </div>
         </Container>
       </header>
+      <WhitelistedNotification />
     </>
   );
 }

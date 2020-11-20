@@ -20,7 +20,6 @@ import { AmountField } from '../AmountField';
 import { FormSelect } from '../../components/FormSelect';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
-import { useIsConnected } from '../../hooks/useAccount';
 import { TradeButton } from '../../components/TradeButton';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
@@ -28,6 +27,7 @@ import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { min } from 'mathjs';
 
@@ -36,7 +36,7 @@ const s = translations.marginTradeForm;
 interface Props {}
 
 export function MarginTradeForm(props: Props) {
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
   const { tradingPair } = useSelector(selectTradingPage);
 
   const pair = TradingPairDictionary.get(tradingPair);
