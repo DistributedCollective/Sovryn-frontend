@@ -44,9 +44,6 @@ const slice = createSlice({
       >,
     ) {
       prepareEventDataState(state, payload);
-
-      console.log('got events', payload);
-
       const proxy =
         state[payload.address][payload.contractName][payload.eventName];
 

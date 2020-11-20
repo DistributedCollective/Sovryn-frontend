@@ -20,6 +20,7 @@ type Props = {
   currency: Asset;
   amountName: string;
   maxValue: string;
+  loadingLimit: boolean;
   minValue?: string;
   amountValue: string;
   leftButton: string;
@@ -57,6 +58,7 @@ const TabContainer: React.FC<Props> = ({
   txState,
   onMaxChange,
   setBorrowAmount,
+  loadingLimit,
 }) => {
   const [currentButton, setCurrentButton] = useState(leftButton);
   return (
@@ -74,7 +76,8 @@ const TabContainer: React.FC<Props> = ({
         onMaxChange={() => onMaxChange(currentButton)}
         currency={currency}
         amountName={amountName}
-        maxValue={maxValue}
+        maxValue={currentButton === 'Deposit' ? maxValue : '0'}
+        loadingLimit={loadingLimit}
       />
       <AccountBalance
         title={currentButton}

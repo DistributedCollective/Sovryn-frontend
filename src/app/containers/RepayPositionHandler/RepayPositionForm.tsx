@@ -6,7 +6,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { min, bignumber } from 'mathjs';
-import { useAccount } from '../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { ActiveLoan } from '../../hooks/trading/useGetLoan';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -20,14 +20,13 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';
 import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAndCloseWithDeposit';
-import { useCanInteract } from '../../hooks/useCanInteract';
 
 interface Props {
   loan: ActiveLoan;
 }
 
 export function RepayPositionForm({ loan }: Props) {
-  const canInteract = useCanInteract();
+  const canInteract = useIsConnected();
   const { asset } = AssetsDictionary.getByTokenContractAddress(loan.loanToken);
 
   const { value: balance } = useAssetBalanceOf(asset);
