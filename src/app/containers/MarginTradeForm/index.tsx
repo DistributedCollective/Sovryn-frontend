@@ -25,9 +25,11 @@ import { TradeButton } from '../../components/TradeButton';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { min } from 'mathjs';
 
 const s = translations.marginTradeForm;
 
@@ -71,11 +73,19 @@ export function MarginTradeForm(props: Props) {
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
-  // const { value: maxAmount } = useLending_transactionLimit(
-  //   pair.getAssetForPosition(position),
-  //   collateral,
-  // );
-  const valid = useIsAmountWithinLimits(weiAmount, '1', tokenBalance);
+  const {
+    value: maxAmount,
+    loading: loadingLimit,
+  } = useLending_transactionLimit(
+    pair.getAssetForPosition(position),
+    collateral,
+  );
+
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    '1',
+    maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
+  );
 
   return (
     <>
@@ -122,7 +132,19 @@ export function MarginTradeForm(props: Props) {
             </FieldGroup>
           </div>
           <div className="col-6 pl-1">
-            <FieldGroup label={t(s.fields.amount)} labelColor={color}>
+            <FieldGroup
+              label={
+                <>
+                  {t(s.fields.amount)}{' '}
+                  {maxAmount !== '0' && !loadingLimit && (
+                    <span className="text-muted">
+                      (Max: {weiTo4(maxAmount)} {collateral})
+                    </span>
+                  )}
+                </>
+              }
+              labelColor={color}
+            >
               <AmountField
                 onChange={value => setAmount(value)}
                 onMaxClicked={() => setAmount(weiTo18(tokenBalance))}

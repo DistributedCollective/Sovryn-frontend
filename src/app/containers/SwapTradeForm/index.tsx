@@ -168,7 +168,11 @@ export function SwapTradeForm(props: Props) {
           text={t(s.buttons.submit)}
           onClick={() => send()}
           disabled={
-            !isConnected || tx.loading || amount <= '0' || rateByPath <= '0'
+            !isConnected ||
+            tx.loading ||
+            amount <= '0' ||
+            rateByPath <= '0' ||
+            targetToken === sourceToken
           }
           loading={tx.loading}
           textColor={color}

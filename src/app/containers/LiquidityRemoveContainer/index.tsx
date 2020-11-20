@@ -32,7 +32,7 @@ export function LiquidityRemoveContainer(props: Props) {
   const isConnected = useIsConnected();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
-    label: item.tokenLabel,
+    label: `${item.tokenLabel} - Pool token`,
   }));
 
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
