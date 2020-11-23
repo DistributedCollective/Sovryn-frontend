@@ -252,7 +252,8 @@
     "@sentry/webpack-plugin": "1.13.0",
     "@types/mathjs": "6.0.5",
     "@types/socket.io-client": "1.4.34",
-    "node-sass": "4.14.1"
+    "node-sass": "4.14.1",
+    "webpack-subresource-integrity": "1.5.2"
   },
   "babel": {
     "presets": [

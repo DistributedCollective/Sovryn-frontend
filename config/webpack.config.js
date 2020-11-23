@@ -23,6 +23,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -195,6 +196,7 @@ module.exports = function (webpackEnv) {
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: 'this',
+      crossOriginLoading: 'anonymous',
     },
     optimization: {
       minimize: isEnvProduction,
@@ -665,6 +667,11 @@ module.exports = function (webpackEnv) {
           // webpack specific configuration
           include: '.',
           ignore: ['node_modules', 'config', 'internals', 'scripts'],
+        }),
+      // Sri only enabled in production as it can interfere with hot reloading
+      isEnvProduction &&
+        new SriPlugin({
+          hashFuncNames: ['sha256', 'sha384'],
         }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
