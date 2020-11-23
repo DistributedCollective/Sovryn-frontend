@@ -107,9 +107,11 @@ export function FastBtcForm(props: Props) {
                       <QRCode
                         value={state.depositAddress}
                         renderAs="svg"
-                        bgColor="var(--primary)"
-                        fgColor="var(--white)"
+                        bgColor="var(--white)"
+                        fgColor="var(--primary)"
+                        includeMargin={true}
                         size={258}
+                        className="rounded"
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-center mt-3">
