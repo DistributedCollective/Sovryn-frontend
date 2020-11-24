@@ -32,19 +32,29 @@ function getFaviconEl(): HTMLLinkElement {
   return document.getElementById('favicon') as HTMLLinkElement;
 }
 
-export function App() {
-  const [theme, setTheme] = useState(
-    window.matchMedia &&
+function resolveColorScheme() {
+  try {
+    return window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
-      : 'light',
-  );
+      : 'light';
+  } catch (e) {
+    return 'light';
+  }
+}
+
+export function App() {
+  const [theme, setTheme] = useState(resolveColorScheme());
   useEffect(() => {
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', e => {
-        setTheme(e.matches ? 'dark' : 'light');
-      });
+    try {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', e => {
+          setTheme(e.matches ? 'dark' : 'light');
+        });
+    } catch (e) {
+      setTheme('light');
+    }
   }, []);
 
   useEffect(() => {
