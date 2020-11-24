@@ -251,6 +251,7 @@
     }
   },
   "devDependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "7.12.1",
     "@sentry/webpack-plugin": "1.13.0",
     "@types/mathjs": "6.0.5",
     "@types/socket.io-client": "1.4.34",
