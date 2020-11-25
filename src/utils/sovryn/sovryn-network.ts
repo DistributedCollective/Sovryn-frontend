@@ -10,6 +10,7 @@ import {
   rpcNodes,
   readNodes,
   currentNetwork,
+  databaseRpcNodes,
 } from '../classifiers';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
@@ -55,11 +56,14 @@ export class SovrynNetwork {
   private _provider = null;
   private _writeWeb3: Web3 = null as any;
   private _readWeb3: Web3 = null as any;
+  private _databaseWeb3: Web3 = null as any;
   private _toaster = Toaster.create({ maxToasts: 3 });
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};
   public writeContractList: Contract[] = [];
+  public databaseContracts: { [key: string]: Contract } = {};
+  public databaseContractList: Contract[] = [];
 
   constructor() {
     this._web3Modal = new Web3Modal({
@@ -212,6 +216,23 @@ export class SovrynNetwork {
     this.contractList.push(contract);
   }
 
+  public addDatabaseContract(
+    contractName: string,
+    contractConfig: {
+      address: string;
+      abi: AbiItem | AbiItem[];
+    },
+  ) {
+    if (!this._databaseWeb3) {
+      return;
+    }
+    const contract = this.makeContract(this._databaseWeb3, contractConfig);
+    // @ts-ignore
+    this.databaseContracts[contractName] = contract;
+    // @ts-ignore
+    this.databaseContractList.push(contract);
+  }
+
   protected makeContract(
     web3: Web3,
     contractConfig: { address: string; abi: AbiItem | AbiItem[] },
@@ -284,8 +305,25 @@ export class SovrynNetwork {
           });
         }
       }
+      this.initDatabaseWeb3(chainId);
     } catch (e) {
       console.error('init read web3 fails.');
+      console.error(e);
+    }
+  }
+
+  protected async initDatabaseWeb3(chainId: number) {
+    try {
+      const nodeUrl = databaseRpcNodes[chainId];
+      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+        keepAlive: true,
+      });
+      this._databaseWeb3 = new Web3(web3Provider);
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addDatabaseContract(key, appContracts[key]);
+      });
+    } catch (e) {
+      console.error('init database web3 fails.');
       console.error(e);
     }
   }

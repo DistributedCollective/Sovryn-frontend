@@ -132,13 +132,18 @@ class EventReader {
     options: ReaderOption = { fromBlock: 0, toBlock: 'latest' },
   ) {
     try {
-      return await this.sovryn.contracts[contractName].getPastEvents(
-        eventName,
-        {
+      return this.sovryn.databaseContracts[contractName]
+        .getPastEvents(eventName, {
           ...options,
           ...{ filter },
-        },
-      );
+        })
+        .then(e =>
+          e.map(e => ({
+            ...e,
+            returnValues: (e as any).returnVal,
+            event: (e as any)?.returnVal?.event,
+          })),
+        );
     } catch (e) {
       return [];
     }
