@@ -40,10 +40,11 @@ const ButtonGroup: React.FC<Props> = ({
   const [ticker, setTicker] = useState('0');
 
   useEffect(() => {
+    setProfit('0');
+  }, [currency]);
+
+  useEffect(() => {
     setBalance(bignumber(balanceCall).minus(profitCall).toString());
-    if (setBorrowAmount) {
-      // setBorrowAmount(bignumber(balanceCall).minus(profitCall).toString());
-    }
   }, [balanceCall, profitCall, setBorrowAmount]);
 
   useEffect(() => {

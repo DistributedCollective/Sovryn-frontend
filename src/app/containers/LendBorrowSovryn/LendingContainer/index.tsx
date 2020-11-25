@@ -15,6 +15,7 @@ import { useLending_approveAndLend } from '../../../hooks/lending/useLending_app
 import { useLending_approveAndUnlend } from '../../../hooks/lending/useLending_approveAndUnlend';
 import { actions } from '../slice';
 import { useDispatch } from 'react-redux';
+import { min } from 'mathjs';
 
 type Props = {
   currency: Asset;
@@ -36,11 +37,15 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     currency as Asset,
     useAccount(),
   );
+  const {
+    value: maxAmount,
+    loading: loadingLimit,
+  } = useLending_transactionLimit(currency, currency);
 
   const onMaxChange = (type: string) => {
     let amount = '0';
     if (type === 'Deposit') {
-      amount = userBalance;
+      amount = min(userBalance, maxAmount);
     } else if (type === 'Withdraw') {
       amount = depositedBalance;
     }
@@ -78,8 +83,6 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     }
   }, [unlendTx.loading, unlend]);
 
-  const { value: maxAmount } = useLending_transactionLimit(currency, currency);
-
   const valid = useIsAmountWithinLimits(
     weiAmount,
     '1',
@@ -115,6 +118,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
       currency={currency}
       amountName="Deposit Amount"
       maxValue={maxAmount}
+      loadingLimit={loadingLimit}
     />
   );
 };

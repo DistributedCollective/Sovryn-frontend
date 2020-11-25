@@ -13,6 +13,7 @@ type Props = {
   currency: string;
   minValue?: number | string;
   maxValue?: number | string;
+  loadingLimit?: boolean;
 };
 
 const Amount: React.FC<Props> = ({
@@ -23,11 +24,23 @@ const Amount: React.FC<Props> = ({
   onChangeAmount,
   amountValue,
   onMaxChange,
+  loadingLimit,
 }) => {
   return (
     <div className="d-flex flex-row justify-content-between mb-3">
       <div className="d-flex flex-grow-1 flex-column">
-        <FieldGroup label={amountName}>
+        <FieldGroup
+          label={
+            <>
+              {amountName}{' '}
+              {maxValue !== '0' && !loadingLimit && (
+                <span className="text-muted">
+                  (Max: {weiTo4(maxValue)} {currency})
+                </span>
+              )}
+            </>
+          }
+        >
           <AmountField
             onChange={onChangeAmount}
             value={amountValue}
@@ -35,15 +48,6 @@ const Amount: React.FC<Props> = ({
           />
         </FieldGroup>
       </div>
-      {maxValue !== '0' && maxValue !== '' && (
-        <div className="d-flex flex-column min-max-btc p-3 align-items-center justify-content-center">
-          <div>Max:</div>
-          <div>
-            <span className="text-muted">{currency}</span>{' '}
-            <strong>{weiTo4(maxValue)}</strong>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

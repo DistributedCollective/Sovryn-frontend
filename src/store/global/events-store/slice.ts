@@ -4,7 +4,7 @@ import { ContainerState, LoadEventsParams } from './types';
 
 export const initialState: ContainerState = {};
 
-function prepareEventDataState(state, payload: LoadEventsParams) {
+export function prepareEventDataState(state, payload: LoadEventsParams) {
   if (!state.hasOwnProperty(payload.address)) {
     state[payload.address] = {};
   }
@@ -22,8 +22,7 @@ function prepareEventDataState(state, payload: LoadEventsParams) {
       loading: true,
       loaded: false,
       events: [],
-      fromBlock: 0,
-      toBlock: 0,
+      lastBlock: 0,
     };
   }
   return state;
@@ -45,15 +44,15 @@ const slice = createSlice({
       >,
     ) {
       prepareEventDataState(state, payload);
-
       const proxy =
         state[payload.address][payload.contractName][payload.eventName];
 
       proxy.events.push(...payload.events);
       proxy.loaded = true;
       proxy.loading = false;
-      proxy.fromBlock = payload.fromBlock;
-      proxy.toBlock = payload.toBlock;
+      if (proxy.lastBlock < payload.toBlock) {
+        proxy.lastBlock = payload.toBlock;
+      }
     },
   },
 });

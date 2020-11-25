@@ -20,8 +20,7 @@ export interface EventLogData {
   events: EventData[];
   loading: boolean;
   loaded: boolean;
-  fromBlock: number;
-  toBlock: number;
+  lastBlock: number;
 }
 
 export interface LoadEventsParams {

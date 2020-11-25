@@ -14,7 +14,6 @@ import { weiTo18, weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../components/TradeButton';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { DummyField } from '../../components/DummyField';
 import { LoadableValue } from '../../components/LoadableValue';
@@ -26,6 +25,7 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
+import { useCanInteract } from '../../hooks/useCanInteract';
 
 const s = translations.swapTradeForm;
 
@@ -39,7 +39,7 @@ const color = 'var(--teal)';
 
 export function SwapTradeForm(props: Props) {
   const { t } = useTranslation();
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
 
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.DOC);
@@ -168,7 +168,11 @@ export function SwapTradeForm(props: Props) {
           text={t(s.buttons.submit)}
           onClick={() => send()}
           disabled={
-            !isConnected || tx.loading || amount <= '0' || rateByPath <= '0'
+            !isConnected ||
+            tx.loading ||
+            amount <= '0' ||
+            rateByPath <= '0' ||
+            targetToken === sourceToken
           }
           loading={tx.loading}
           textColor={color}

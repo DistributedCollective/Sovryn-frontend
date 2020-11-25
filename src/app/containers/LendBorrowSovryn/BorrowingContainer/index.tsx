@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { useIsConnected } from '../../../hooks/useAccount';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
@@ -13,12 +13,13 @@ import { FieldGroup } from '../../../components/FieldGroup';
 import { AmountField } from '../../AmountField';
 import { AssetWalletBalance } from '../../../components/AssetWalletBalance';
 import { DummyField } from '../../../components/DummyField/Loadable';
-import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
+import { weiTo4, weiToFixed } from '../../../../utils/blockchain/math-helpers';
 import { TradeButton } from '../../../components/TradeButton';
 import { SendTxProgress } from '../../../components/SendTxProgress';
-import { bignumber } from 'mathjs';
-import { useDispatch } from 'react-redux';
+import { bignumber, min } from 'mathjs';
 import { actions } from '../slice';
+import { useCanInteract } from '../../../hooks/useCanInteract';
+import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
 
 type Props = {
   currency: Asset;
@@ -27,7 +28,7 @@ type Props = {
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
-  const isConnected = useIsConnected();
+  const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
 
   // BORROW
@@ -79,12 +80,20 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(tokenToCollarate);
+  const {
+    value: maxAmount,
+    loading: loadingLimit,
+  } = useLending_transactionLimit(currency, tokenToCollarate);
 
   const handleSubmitBorrow = () => {
     borrow();
   };
 
-  const valid = useIsAmountWithinLimits(collateralTokenSent, '1', tokenBalance);
+  const valid = useIsAmountWithinLimits(
+    collateralTokenSent,
+    '1',
+    maxAmount !== '0' ? min(maxAmount, tokenBalance) : tokenBalance,
+  );
 
   useEffect(() => {
     dispatch(actions.changeBorrowAmount(amount));
@@ -114,9 +123,20 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           </FieldGroup>
         </div>
         <div className="col-8">
-          <FieldGroup label="Collateral amount">
+          <FieldGroup
+            label={
+              <>
+                Collateral amount{' '}
+                {maxAmount !== '0' && !loadingLimit && (
+                  <span className="text-muted">
+                    (Max: {weiTo4(maxAmount)} {tokenToCollarate})
+                  </span>
+                )}
+              </>
+            }
+          >
             <DummyField>
-              {weiTo4(collateralTokenSent)} {tokenToCollarate}
+              {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
             </DummyField>
           </FieldGroup>
         </div>

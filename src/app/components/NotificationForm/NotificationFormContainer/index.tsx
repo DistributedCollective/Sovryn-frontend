@@ -77,7 +77,6 @@ export function NotificationForm() {
     axios
       .post(mailSrv + 'addUser', newUser)
       .then(res => {
-        console.log('data: ' + res.data);
         setResponse('success');
       })
       .catch(e => {
@@ -111,7 +110,6 @@ export function NotificationForm() {
     };
 
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
-    console.log(walletAddress);
 
     Sovryn.getWriteWeb3()
       .eth.personal.sign(message, walletAddress, '')

@@ -1,11 +1,11 @@
-import { bignumber } from 'mathjs';
+import { useCallback, useEffect, useState } from 'react';
 import { toWei } from 'web3-utils';
+import { bignumber } from 'mathjs';
 import { Asset } from 'types/asset';
 import { TransactionStatus } from 'types/transaction-status';
+import { appContracts } from 'utils/blockchain/app-contracts';
 import { useTokenAllowance } from '../useTokenAllowanceForLending';
 import { useTokenApprove } from '../useTokenApproveForLending';
-import { useCallback, useEffect, useState } from 'react';
-import { appContracts } from '../../../utils/blockchain/app-contracts';
 import { useAddLiquidity } from './useAddLiquidity';
 
 enum TxType {
@@ -59,12 +59,12 @@ export function useApproveAndAddLiquidity(
   }, [deposit, tradeLoading]);
 
   const handleTx = useCallback(() => {
-    if (bignumber(amount).greaterThan(allowance.value)) {
+    if (asset !== Asset.BTC && bignumber(amount).greaterThan(allowance.value)) {
       handleApprove(toWei('1000000000', 'ether'));
     } else {
       handleTrade();
     }
-  }, [allowance.value, amount, handleApprove, handleTrade]);
+  }, [allowance.value, amount, asset, handleApprove, handleTrade]);
 
   const [txState, setTxState] = useState<{
     type: TxType;

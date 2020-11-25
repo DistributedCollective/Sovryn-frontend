@@ -6,7 +6,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { min, bignumber } from 'mathjs';
-import { useAccount } from '../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { ActiveLoan } from '../../hooks/trading/useGetLoan';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -26,6 +26,7 @@ interface Props {
 }
 
 export function RepayPositionForm({ loan }: Props) {
+  const canInteract = useIsConnected();
   const { asset } = AssetsDictionary.getByTokenContractAddress(loan.loanToken);
 
   const { value: balance } = useAssetBalanceOf(asset);
@@ -79,7 +80,7 @@ export function RepayPositionForm({ loan }: Props) {
         <TradeButton
           text="Repay"
           loading={closeTx.loading}
-          disabled={closeTx.loading || !valid}
+          disabled={closeTx.loading || !valid || !canInteract}
           onClick={() => send()}
         />
       </div>
