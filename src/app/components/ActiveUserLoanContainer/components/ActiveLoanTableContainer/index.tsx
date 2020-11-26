@@ -6,11 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
-import { CurrentMargin } from '../CurrentMargin';
-import { InterestAPR } from '../InterestAPR';
 import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
-import { ActiveLoanProfit } from '../ActiveLoanProfit';
-import { DisplayDate } from '../DisplayDate';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
@@ -20,9 +16,7 @@ import styled from 'styled-components';
 import { Icon } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import {
-  formatAsUSD,
   formatAsBTCPrice,
-  formatAsBTC,
   percentTo2,
   formatAsNumber,
   calculateProfit,
