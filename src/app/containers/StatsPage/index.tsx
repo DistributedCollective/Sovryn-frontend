@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-
 import { LendingPoolDictionary } from 'utils/lending-pool-dictionary';
 
 import { Header } from '../../components/Header';
