@@ -3,7 +3,7 @@
  * ActiveLoanExpandedRow
  *
  */
-import { WhitelistedNotification } from 'app/components/WhitelistedNotification';
+
 import React from 'react';
 
 export function ActiveLoanExpandedRow(props) {
