@@ -1,8 +1,19 @@
-import React from 'react';
-import { useTable, useSortBy } from 'react-table';
+import React, { useState, useEffect } from 'react';
 import { ActiveLoanExpandedRow } from '../ActiveLoanExpandedRow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Icon } from '@blueprintjs/core';
-import { Text } from '@blueprintjs/core';
+import {
+  formatAsUSD,
+  formatAsBTCPrice,
+  formatAsBTC,
+  percentTo2,
+  formatAsNumber,
+  calculateProfit,
+} from 'utils/display-text/format';
+import {
+  faLongArrowAltUp,
+  faLongArrowAltDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   data: any;
@@ -12,123 +23,166 @@ interface Props {
   expandedItem: any;
 }
 
+const useSortableData = (
+  items,
+  config = { key: 'none', direction: 'none' },
+) => {
+  const [sortConfig, setSortConfig] = React.useState(config);
+
+  const sortedItems = React.useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  const requestSort = key => {
+    let direction = 'ascending';
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === 'ascending'
+    ) {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  return { items: sortedItems, requestSort, sortConfig };
+};
+
 export function ActiveLoanTableDesktop(props: Props) {
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: '',
-        accessor: 'icon',
-        sortable: false,
-      },
-      {
-        Header: 'Position Size',
-        accessor: 'positionSize',
-        sortType: 'alphanumeric',
-        sortable: true,
-      },
-      {
-        Header: 'Current Margin',
-        accessor: 'currentMargin',
-        sortType: 'alphanumeric',
-        sortable: true,
-      },
-      {
-        Header: 'Interest APR',
-        accessor: 'interestAPR',
-      },
-      {
-        Header: 'Start Price',
-        accessor: 'startPrice',
-      },
-      {
-        Header: 'Profit / Loss',
-        accessor: 'profit',
-        sortable: true,
-      },
-      {
-        Header: '',
-        accessor: 'actions',
-      },
-    ],
-    [],
-  );
-  const data = props.data;
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useSortBy);
+  const { items, requestSort, sortConfig } = useSortableData(props.data);
+  function getIcons(name) {
+    if (sortConfig.key !== name) {
+      return <Icon icon="double-caret-vertical" iconSize={15} />;
+    } else if (sortConfig.direction === 'ascending') {
+      return <Icon icon="sort-asc" iconSize={15} className="text-white" />;
+    } else {
+      return <Icon icon="sort-desc" iconSize={15} className="text-white" />;
+    }
+  }
+
   return (
     <div className="bg-primary sovryn-border p-3 d-none d-md-block">
-      <table {...getTableProps()} className="sovryn-table">
+      <table className="sovryn-table">
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  <Text ellipsize tagName="span">
-                    {column.render('Header')}
-                    {column.sortable && (
-                      <span className="mx-1">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <Icon
-                              icon="sort-desc"
-                              className="text-white"
-                              iconSize={15}
-                            />
-                          ) : (
-                            <Icon
-                              icon="sort-asc"
-                              className="text-white"
-                              iconSize={15}
-                            />
-                          )
-                        ) : (
-                          <Icon icon="double-caret-vertical" iconSize={15} />
-                        )}
-                      </span>
-                    )}
-                  </Text>
-                </th>
-              ))}
-            </tr>
-          ))}
+          <tr style={{ cursor: 'pointer' }}>
+            <th onClick={() => requestSort('icon')}>{getIcons('icon')}</th>
+            <th onClick={() => requestSort('positionInUSD')}>
+              Position Size {getIcons('positionInUSD')}
+            </th>
+            <th onClick={() => requestSort('currentMargin')}>
+              Current Margin {getIcons('currentMargin')}
+            </th>
+            <th onClick={() => requestSort('interestAPR')}>
+              Interest APR {getIcons('interestAPR')}
+            </th>
+            <th onClick={() => requestSort('startMargin')}>
+              Start Price {getIcons('startMargin')}
+            </th>
+            <th onClick={() => requestSort('profit')}>
+              Profit / Loss {getIcons('profit')}
+            </th>
+            <th style={{ cursor: 'initial' }}></th>
+          </tr>
         </thead>
-        <tbody {...getTableBodyProps()} style={{ cursor: 'pointer' }}>
-          {rows.map(row => {
-            prepareRow(row);
+        <tbody>
+          {items.map(item => {
+            const expanded = props.expandedId === item.id;
             return (
-              //If row is expanded render expanded row
-              data[row.id].id === props.expandedId ? (
-                <ActiveLoanExpandedRow
-                  data={props.expandedItem}
-                  key={props.expandedId}
-                  handleClick={() => props.setExpandedId('')}
-                />
-              ) : (
+              <>
                 <tr
-                  {...row.getRowProps()}
                   onClick={() => {
-                    props.setExpandedItem(data[row.id]);
-                    props.setExpandedId(data[row.id].id);
+                    if (!expanded) {
+                      props.setExpandedItem(item);
+                      props.setExpandedId(item.id);
+                    } else {
+                      props.setExpandedId('');
+                    }
                   }}
                   style={{
-                    opacity: props.expandedId ? '0.2' : '1',
-                    border: props.expandedId ? 'none' : '',
+                    cursor: 'pointer',
+                    opacity: expanded || !props.expandedId ? '1' : '0.2',
                   }}
                 >
-                  {row.cells.map(cell => {
-                    return (
-                      <td className="align-middle" {...cell.getCellProps()}>
-                        {cell.render('Cell')}
-                      </td>
-                    );
-                  })}
+                  <td>
+                    {item.icon === 'LONG' && (
+                      <Icon
+                        icon="circle-arrow-up"
+                        className="text-customTeal mx-2"
+                        iconSize={20}
+                      />
+                    )}
+                    {item.icon === 'SHORT' && (
+                      <Icon
+                        icon="circle-arrow-down"
+                        className="text-Gold ml-2"
+                        iconSize={20}
+                      />
+                    )}
+                  </td>
+                  <td>{formatAsBTC(item.positionSize, item.currency)}</td>
+                  <td>
+                    {item.currentMargin.toLocaleString('en', {
+                      maximumFractionDigits: 4,
+                      minimumFractionDigits: 4,
+                    })}{' '}
+                    %
+                    <small
+                      className="d-md-inline d-sm-block ml-2 mr-2"
+                      style={{
+                        color:
+                          item.marginDiff > 0 ? 'var(--Green)' : 'var(--Red)',
+                      }}
+                    >
+                      <div className="d-inline">
+                        <FontAwesomeIcon
+                          icon={
+                            item.marginDiff > 0
+                              ? faLongArrowAltUp
+                              : faLongArrowAltDown
+                          }
+                        />
+                        {` ${item.marginDiff.toFixed(4)} %`}
+                      </div>
+                    </small>
+                  </td>
+                  <td>{item.interestAPR} %</td>
+                  <td>
+                    ${' '}
+                    {item.startPrice.toLocaleString('en', {
+                      maximumFractionDigits: 4,
+                      minimumFractionDigits: 4,
+                    })}
+                  </td>
+                  <td>
+                    ${' '}
+                    {item.profit.toLocaleString('en', {
+                      maximumFractionDigits: 4,
+                      minimumFractionDigits: 4,
+                    })}
+                  </td>
+                  <td>{item.actions}</td>
                 </tr>
-              )
+                {props.expandedId === item.id && (
+                  <ActiveLoanExpandedRow
+                    className="d-none d-md-block"
+                    data={item}
+                    key={props.expandedId}
+                    handleClick={() => props.setExpandedId('')}
+                  />
+                )}
+              </>
             );
           })}
         </tbody>

@@ -245,6 +245,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
 
   const data = React.useMemo(() => {
     return props.items.map(item => {
+      console.log(item);
       return {
         item: item,
         icon:

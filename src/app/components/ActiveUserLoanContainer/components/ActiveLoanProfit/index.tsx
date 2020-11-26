@@ -10,6 +10,7 @@ import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 export function ActiveLoanProfit(props) {
   const [profit, setProfit] = useState<number>(0);
   const collateral: number = parseFloat(fromWei(props.item.collateral));
+  console.log('Collateral: ' + collateral);
   useEffect(() => {
     if (props.currentPrice) {
       const formattedPrice = parseFloat(fromWei(props.currentPrice));

@@ -3,21 +3,12 @@
  * ActiveLoanExpandedRow
  *
  */
+import { WhitelistedNotification } from 'app/components/WhitelistedNotification';
 import React from 'react';
 
 export function ActiveLoanExpandedRow(props) {
   return (
     <>
-      <tr style={{ opacity: '1' }} onClick={props.handleClick}>
-        <td>{props.data.icon}</td>
-        <td>{props.data.positionSize}</td>
-        <td>{props.data.currentMargin}</td>
-        <td>{props.data.interestAPR}</td>
-        <td>{props.data.startPrice}</td>
-        <td>{props.data.profit}</td>
-        <td>{props.data.actions}</td>
-      </tr>
-
       <tr
         className="table-header"
         style={{ opacity: '1', border: 'none' }}
@@ -41,10 +32,22 @@ export function ActiveLoanExpandedRow(props) {
         onClick={props.handleClick}
       >
         <td></td>
-        <td>{props.data.leverage}</td>
-        <td>{props.data.startMargin}</td>
+        <td>{props.data.leverage}X</td>
+        <td>
+          {props.data.startMargin.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })}{' '}
+          %
+        </td>
         <td>{props.data.maintenanceMargin}</td>
-        <td>{props.data.currentPrice}</td>
+        <td>
+          ${' '}
+          {props.data.currentPrice.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })}
+        </td>
         <td>{props.data.liquidationPrice}</td>
         <td>{props.data.endDate}</td>
       </tr>
