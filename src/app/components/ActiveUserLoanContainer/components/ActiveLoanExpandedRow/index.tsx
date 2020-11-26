@@ -9,11 +9,7 @@ import React from 'react';
 export function ActiveLoanExpandedRow(props) {
   return (
     <>
-      <tr
-        className="table-header"
-        style={{ opacity: '1', border: 'none' }}
-        onClick={props.handleClick}
-      >
+      <tr className="table-header border-0" onClick={props.handleClick}>
         <td></td>
         <td>Leverage</td>
         <td>Start Margin</td>

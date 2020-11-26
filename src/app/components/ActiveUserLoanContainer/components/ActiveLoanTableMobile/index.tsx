@@ -39,11 +39,10 @@ export function ActiveLoanTableMobile(props: Props) {
       <>
         <div
           key={item.id}
-          className="row mobile-row"
+          className={`row mobile-row ${!expanded && 'opaque'}`}
           onClick={() => {
             props.setExpandedId(props.expandedId === item.id ? '' : item.id);
           }}
-          style={{ opacity: expanded ? '1' : '0.2' }}
         >
           <div className="col-2">
             {item.icon === 'LONG' && (
@@ -64,7 +63,9 @@ export function ActiveLoanTableMobile(props: Props) {
           <div className="col-4">
             {formatAsBTC(item.positionSize, item.currency)}
           </div>
-          <div className="col-3">
+          <div
+            className={`col-3 ${item.profit > 0 ? 'text-green' : 'text-red'}`}
+          >
             ${' '}
             {item.profit.toLocaleString('en', {
               maximumFractionDigits: 4,

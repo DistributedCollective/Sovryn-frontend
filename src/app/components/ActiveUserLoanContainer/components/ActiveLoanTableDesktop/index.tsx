@@ -103,10 +103,9 @@ export function ActiveLoanTableDesktop(props: Props) {
                       props.setExpandedId('');
                     }
                   }}
-                  style={{
-                    cursor: 'pointer',
-                    opacity: expanded || !props.expandedId ? '1' : '0.2',
-                  }}
+                  className={`cursor-pointer ${
+                    props.expandedId && !expanded && 'opaque'
+                  }`}
                 >
                   <td>
                     {item.icon === 'LONG' && (
@@ -132,11 +131,9 @@ export function ActiveLoanTableDesktop(props: Props) {
                     })}{' '}
                     %
                     <small
-                      className="d-md-inline d-sm-block ml-2 mr-2"
-                      style={{
-                        color:
-                          item.marginDiff > 0 ? 'var(--Green)' : 'var(--Red)',
-                      }}
+                      className={`d-md-inline d-sm-block ml-2 mr-2 ${
+                        item.marginDiff > 0 ? 'text-green' : 'text-red'
+                      }`}
                     >
                       <div className="d-inline">
                         <FontAwesomeIcon
@@ -158,7 +155,11 @@ export function ActiveLoanTableDesktop(props: Props) {
                       minimumFractionDigits: 4,
                     })}
                   </td>
-                  <td>
+                  <td
+                    className={`${
+                      item.marginDiff > 0 ? 'text-green' : 'text-red'
+                    }`}
+                  >
                     ${' '}
                     {item.profit.toLocaleString('en', {
                       maximumFractionDigits: 4,
