@@ -1,23 +1,33 @@
+/**
+ *
+ * BorrowHistory
+ *
+ */
+
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { translations } from 'locales/i18n';
 
-import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
-import { actions } from 'app/containers/LendBorrowSovryn/slice';
+import { BorrowAmount } from '../../components/ActiveBorrowTable/BorrowAmount';
+import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { CollateralAmount } from '../../components/ActiveBorrowTable/CollateralAmount';
+import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
+import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 
-import { InterestAPR } from '../ActiveUserLoanContainer/components/InterestAPR';
-import { DisplayDate } from '../ActiveUserLoanContainer/components/DisplayDate';
-import { BorrowAmount } from './BorrowAmount';
-import { CollateralAmount } from './CollateralAmount';
+interface Props {}
 
-interface Props {
-  data: any;
-}
+export function BorrowHistory(props: Props) {
+  const { t } = useTranslation();
 
-export function ActiveBorrowTable(props: Props) {
-  const dispatch = useDispatch();
+  const { events, loading } = useGetContractPastEvents(
+    'sovrynProtocol',
+    'Borrow',
+  );
+
   const columns = React.useMemo(
     () => [
       {
@@ -38,8 +48,8 @@ export function ActiveBorrowTable(props: Props) {
         sortable: true,
       },
       {
-        Header: 'Payback until',
-        accessor: 'endTimestamp',
+        Header: 'Date',
+        accessor: 'timestamp',
         sortable: true,
       },
       {
@@ -50,47 +60,37 @@ export function ActiveBorrowTable(props: Props) {
     [],
   );
   const data = React.useMemo(() => {
-    return props.data.map(item => {
+    return events.map(item => {
+      const timestamp = String(
+        new Date((item as any).eventDate).getTime() / 1e3,
+      );
       return {
-        id: item.loanId,
+        id: item.returnValues.loanId,
         borrowAmount: (
           <BorrowAmount
-            amount={item.principal}
+            amount={item.returnValues.newPrincipal}
             asset={
-              AssetsDictionary.getByTokenContractAddress(item.loanToken).asset
+              AssetsDictionary.getByTokenContractAddress(
+                item.returnValues.loanToken,
+              ).asset
             }
           />
         ),
         collateralAmount: (
           <CollateralAmount
-            amount={item.collateral}
+            amount={item.returnValues.newCollateral}
             asset={
-              AssetsDictionary.getByTokenContractAddress(item.collateralToken)
-                .asset
+              AssetsDictionary.getByTokenContractAddress(
+                item.returnValues.collateralToken,
+              ).asset
             }
           />
         ),
-        interestAPR: (
-          <InterestAPR
-            interestPerDay={item.interestOwedPerDay}
-            principal={item.principal}
-          />
-        ),
-        endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
-        actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-between">
-            <div className="mr-1">
-              <StyledRepayButton
-                onClick={() => dispatch(actions.openRepayModal(item.loanId))}
-              >
-                Repay
-              </StyledRepayButton>
-            </div>
-          </div>
-        ),
+        interestAPR: <>{weiToFixed(item.returnValues.interestRate, 2)} %</>,
+        timestamp: <DisplayDate timestamp={timestamp} />,
       };
     });
-  }, [props.data, dispatch]);
+  }, [events]);
   const {
     getTableProps,
     getTableBodyProps,
@@ -150,17 +150,20 @@ export function ActiveBorrowTable(props: Props) {
               </tr>
             );
           })}
+          {rows.length === 0 && !loading && (
+            <tr>
+              <td colSpan={99}>{t(translations.borrowHistory.no_items)}</td>
+            </tr>
+          )}
+          {rows.length === 0 && loading && (
+            <tr>
+              <td colSpan={99}>
+                <SkeletonRow />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
   );
 }
-
-const StyledRepayButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--green);
-  width: 77px;
-  height: 32px;
-  color: var(--green);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;
