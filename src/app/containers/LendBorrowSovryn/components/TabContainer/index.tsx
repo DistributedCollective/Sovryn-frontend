@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { TransactionStatus } from 'types/transaction-status';
+import { Asset } from 'types/asset';
+
 import Amount from '../Amount';
 import ButtonGroup from '../ButtonGroup';
 import AccountBalance from '../AccountBalance';
-import { TransactionStatus } from '../../../../../types/transaction-status';
 
 import '../../assets/index.scss';
-import { Asset } from '../../../../../types/asset';
 
 export enum TxType {
   NONE = 'none',
@@ -18,7 +19,6 @@ export enum TxType {
 
 type Props = {
   currency: Asset;
-  amountName: string;
   maxValue: string;
   loadingLimit: boolean;
   minValue?: string;
@@ -43,7 +43,6 @@ type Props = {
 
 const TabContainer: React.FC<Props> = ({
   currency,
-  amountName,
   maxValue,
   minValue,
   amountValue,
@@ -75,7 +74,9 @@ const TabContainer: React.FC<Props> = ({
         onChangeAmount={onChangeAmount}
         onMaxChange={() => onMaxChange(currentButton)}
         currency={currency}
-        amountName={amountName}
+        amountName={
+          currentButton === 'Deposit' ? 'Deposit Amount' : 'Amount to redeem'
+        }
         maxValue={currentButton === 'Deposit' ? maxValue : '0'}
         loadingLimit={loadingLimit}
       />

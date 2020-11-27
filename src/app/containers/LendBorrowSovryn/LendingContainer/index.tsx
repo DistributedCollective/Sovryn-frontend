@@ -1,21 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
-import { useAccount, useIsConnected } from '../../../hooks/useAccount';
-import { Asset } from '../../../../types/asset';
-import { useWeiAmount } from '../../../hooks/useWeiAmount';
-import { TransactionStatus } from '../../../../types/transaction-status';
-import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
-import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import TabContainer, { TxType } from '../components/TabContainer';
-import '../assets/index.scss';
-import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { useLending_balanceOf } from '../../../hooks/lending/useLending_balanceOf';
-import { weiTo18 } from '../../../../utils/blockchain/math-helpers';
-import { useLending_approveAndLend } from '../../../hooks/lending/useLending_approveAndLend';
-import { useLending_approveAndUnlend } from '../../../hooks/lending/useLending_approveAndUnlend';
-import { actions } from '../slice';
 import { useDispatch } from 'react-redux';
 import { min } from 'mathjs';
+
+import { Asset } from 'types/asset';
+import { TransactionStatus } from 'types/transaction-status';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
+
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
+import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
+import { useLending_approveAndLend } from 'app/hooks/lending/useLending_approveAndLend';
+import { useLending_approveAndUnlend } from 'app/hooks/lending/useLending_approveAndUnlend';
+import { useLending_transactionLimit } from 'app/hooks/lending/useLending_transactionLimit';
+import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
+import { useAccount, useIsConnected } from 'app/hooks/useAccount';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
+
+import TabContainer, { TxType } from '../components/TabContainer';
+import { actions } from '../slice';
+import '../assets/index.scss';
 
 type Props = {
   currency: Asset;
@@ -110,13 +112,12 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
       isConnected={isConnected}
       valid={valid}
       leftButton="Deposit"
-      rightButton="Withdraw"
+      rightButton="Redeem"
       amountValue={amount}
       onChangeAmount={onChangeAmount}
       handleSubmit={handleLendSubmit}
       handleSubmitWithdraw={handleUnlendSubmit}
       currency={currency}
-      amountName="Deposit Amount"
       maxValue={maxAmount}
       loadingLimit={loadingLimit}
     />

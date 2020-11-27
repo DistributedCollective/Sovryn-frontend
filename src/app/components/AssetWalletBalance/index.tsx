@@ -5,10 +5,10 @@
  */
 import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
-import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
+import { LoadableValue } from '../LoadableValue';
 
 interface Props {
   asset: Asset;
