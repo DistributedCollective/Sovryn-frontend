@@ -5,6 +5,10 @@
  */
 
 import React from 'react';
+import {
+  numberToUSD,
+  numberToPercent,
+} from '../../../../../utils/display-text/format';
 
 export function ExpandedRowMobile(props) {
   return (
@@ -16,20 +20,10 @@ export function ExpandedRowMobile(props) {
       </div>
       <div className="row mobile-expanded-row pb-2">
         <div className="col-4">
-          {props.item.currentMargin.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}{' '}
-          %
+          {numberToPercent(props.item.currentMargin, 2)}
         </div>
         <div className="col-4">{props.item.interestAPR} %</div>
-        <div className="col-4">
-          ${' '}
-          {props.item.startPrice.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}
-        </div>
+        <div className="col-4">{numberToUSD(props.item.startPrice, 2)}</div>
       </div>
       <div className="row table-header sub-header">
         <div className="col-4">Leverage</div>
@@ -39,11 +33,7 @@ export function ExpandedRowMobile(props) {
       <div className="row mobile-expanded-row pb-2">
         <div className="col-4">{props.item.leverage}X</div>
         <div className="col-4">
-          {props.item.startMargin.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}{' '}
-          %
+          {numberToPercent(props.item.startMargin, 2)}
         </div>
         <div className="col-4">{props.item.maintenanceMargin}</div>
       </div>
@@ -53,13 +43,7 @@ export function ExpandedRowMobile(props) {
         <div className="col-4"></div>
       </div>
       <div className="row mobile-expanded-row pb-2">
-        <div className="col-4">
-          ${' '}
-          {props.item.currentPrice.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}
-        </div>
+        <div className="col-4">{numberToUSD(props.item.currentPrice, 2)}</div>
         <div className="col-4">{props.item.liquidationPrice}</div>
         <div className="col-4"></div>
       </div>

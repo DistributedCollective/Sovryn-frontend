@@ -7,7 +7,7 @@
 import React from 'react';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
 import { Icon } from '@blueprintjs/core';
-import { formatAsBTC } from 'utils/display-text/format';
+import { formatAsBTC, numberToUSD } from 'utils/display-text/format';
 
 interface Props {
   data: Array<{
@@ -66,11 +66,7 @@ export function ActiveLoanTableMobile(props: Props) {
           <div
             className={`col-3 ${item.profit > 0 ? 'text-green' : 'text-red'}`}
           >
-            ${' '}
-            {item.profit.toLocaleString('en', {
-              maximumFractionDigits: 4,
-              minimumFractionDigits: 4,
-            })}
+            {numberToUSD(item.profit, 2)}
           </div>
           <div
             className={`col-3 ${

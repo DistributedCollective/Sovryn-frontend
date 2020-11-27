@@ -41,8 +41,9 @@ export function ActiveLoanLiquidation(props) {
 
   return (
     <span style={{ color: danger ? 'var(--Gold)' : 'white' }}>
-      ${' '}
-      {parseFloat(weiTo18(liquidationPrice)).toLocaleString('en', {
+      {parseFloat(weiTo18(liquidationPrice)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}

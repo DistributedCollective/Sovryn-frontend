@@ -2,14 +2,25 @@ import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
 import { symbolByTokenAddress } from '../blockchain/contract-helpers';
 
 export function formatAsNumber(value, decimals): number {
-  return parseFloat(weiToFixed(value, 4).toLocaleString());
+  return parseFloat(weiToFixed(value, decimals).toLocaleString());
 }
 
-export function formatAsUSD(value) {
-  return `$ ${parseFloat(weiTo18(value)).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+export function numberToUSD(value: number, decimals: number) {
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
+}
+
+export function numberToPercent(value: number, decimals: number) {
+  return (
+    value.toLocaleString(undefined, {
+      maximumFractionDigits: decimals,
+      minimumFractionDigits: decimals,
+    }) + ' %'
+  );
 }
 
 export function formatAsBTCPrice(value, address): number {
@@ -26,17 +37,10 @@ export function formatAsBTC(value, currency) {
         ${currency}`;
 }
 
-export function percentTo2(value) {
+export function stringToPercent(value, decimals) {
   return `${parseFloat(weiTo18(value)).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })} %`;
-}
-
-export function percentTo4(value) {
-  return `${parseFloat(weiTo18(value)).toLocaleString('en', {
-    minimumFractionDigits: 4,
-    maximumFractionDigits: 4,
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
   })} %`;
 }
 

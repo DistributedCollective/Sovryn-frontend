@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { numberToPercent, numberToUSD } from 'utils/display-text/format';
 
 export function ActiveLoanExpandedRow(props) {
   return (
@@ -29,21 +30,9 @@ export function ActiveLoanExpandedRow(props) {
       >
         <td></td>
         <td>{props.data.leverage}X</td>
-        <td>
-          {props.data.startMargin.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}{' '}
-          %
-        </td>
+        <td>{numberToPercent(props.data.startMargin, 2)}</td>
         <td>{props.data.maintenanceMargin}</td>
-        <td>
-          ${' '}
-          {props.data.currentPrice.toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })}
-        </td>
+        <td>{numberToUSD(props.data.currentPrice, 2)}</td>
         <td>{props.data.liquidationPrice}</td>
         <td>{props.data.endDate}</td>
       </tr>

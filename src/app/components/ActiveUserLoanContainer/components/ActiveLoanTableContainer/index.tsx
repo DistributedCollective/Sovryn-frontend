@@ -17,7 +17,7 @@ import { Icon } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import {
   formatAsBTCPrice,
-  percentTo2,
+  stringToPercent,
   formatAsNumber,
   calculateProfit,
 } from 'utils/display-text/format';
@@ -80,7 +80,7 @@ export function ActiveLoanTableContainer(props: Props) {
           <ActiveLoanLiquidation item={item} currentPrice={currentPrice} />
         ),
         currentPrice: currentPrice,
-        maintenanceMargin: percentTo2(item.maintenanceMargin),
+        maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         mobileActions: (
           <div className="d-flex flex-row flex-nowrap justify-content-around">
             <Icon

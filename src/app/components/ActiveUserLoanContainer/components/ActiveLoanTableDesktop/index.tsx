@@ -2,7 +2,11 @@ import React from 'react';
 import { ActiveLoanExpandedRow } from '../ActiveLoanExpandedRow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Icon } from '@blueprintjs/core';
-import { formatAsBTC } from 'utils/display-text/format';
+import {
+  formatAsBTC,
+  numberToUSD,
+  numberToPercent,
+} from 'utils/display-text/format';
 import {
   faLongArrowAltUp,
   faLongArrowAltDown,
@@ -125,11 +129,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   </td>
                   <td>{formatAsBTC(item.positionSize, item.currency)}</td>
                   <td>
-                    {item.currentMargin.toLocaleString('en', {
-                      maximumFractionDigits: 4,
-                      minimumFractionDigits: 4,
-                    })}{' '}
-                    %
+                    {numberToPercent(item.currentMargin, 2)}
                     <small
                       className={`d-md-inline d-sm-block ml-2 mr-2 ${
                         item.marginDiff > 0 ? 'text-green' : 'text-red'
@@ -143,28 +143,18 @@ export function ActiveLoanTableDesktop(props: Props) {
                               : faLongArrowAltDown
                           }
                         />
-                        {` ${item.marginDiff.toFixed(4)} %`}
+                        {numberToPercent(item.marginDiff, 2)}
                       </div>
                     </small>
                   </td>
                   <td>{item.interestAPR} %</td>
-                  <td>
-                    ${' '}
-                    {item.startPrice.toLocaleString('en', {
-                      maximumFractionDigits: 4,
-                      minimumFractionDigits: 4,
-                    })}
-                  </td>
+                  <td>{numberToUSD(item.startPrice, 2)}</td>
                   <td
                     className={`${
                       item.marginDiff > 0 ? 'text-green' : 'text-red'
                     }`}
                   >
-                    ${' '}
-                    {item.profit.toLocaleString('en', {
-                      maximumFractionDigits: 4,
-                      minimumFractionDigits: 4,
-                    })}
+                    {numberToUSD(item.profit, 4)}
                   </td>
                   <td>{item.actions}</td>
                 </tr>
