@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { selectEventsState } from 'store/global/events-store/selectors';
 import { useAccount } from './useAccount';
+import { ContractName } from '../../utils/types/contracts';
 
 const _default = {
   loading: true,
@@ -9,7 +10,7 @@ const _default = {
 };
 
 export function useGetContractPastEvents(
-  contractName: string,
+  contractName: ContractName,
   event: string = 'allEvents',
 ) {
   const account = useAccount();

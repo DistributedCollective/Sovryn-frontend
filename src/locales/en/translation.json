@@ -82,5 +82,17 @@
     "not_connected": "Connect to Wallet",
     "btn": "Withdraw"
   },
-  "lendingContainer": {}
+  "lendingContainer": {},
+  "borrowActivity": {
+    "title": "Borrow Activity",
+    "tabs": {
+      "active": "Active Loans",
+      "history": "Borrow History"
+    },
+    "walletNote": "Connect your wallet first!"
+  },
+  "borrowHistory": {
+    "table": {},
+    "no_items": "Your borrow history is empty."
+  }
 }
