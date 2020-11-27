@@ -6,11 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
-import { CurrentMargin } from '../CurrentMargin';
-import { InterestAPR } from '../InterestAPR';
 import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
-import { ActiveLoanProfit } from '../ActiveLoanProfit';
-import { DisplayDate } from '../DisplayDate';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
@@ -20,11 +16,12 @@ import styled from 'styled-components';
 import { Icon } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
 import {
-  formatAsUSD,
   formatAsBTCPrice,
-  formatAsBTC,
-  percentTo2,
+  stringToPercent,
+  formatAsNumber,
+  calculateProfit,
 } from 'utils/display-text/format';
+import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 
 interface Props {
   data: any;
@@ -39,49 +36,51 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedId, setExpandedId] = useState('');
 
   //TODO: Assets should not be hardcoded
-  const { value: currentPrice } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
+  const { value } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
+  const currentPrice = parseFloat(fromWei(value));
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
+      console.log(item);
+      const currentMargin = formatAsNumber(item.currentMargin, 4);
+      const startMargin = formatAsNumber(item.startMargin, 4);
+      const currency = symbolByTokenAddress(item.collateralToken);
       return {
         id: item.loanId,
-        icon:
-          symbolByTokenAddress(item.collateralToken) === 'BTC' ? (
-            <Icon
-              icon="circle-arrow-up"
-              className="text-customTeal mx-2"
-              iconSize={20}
-            />
-          ) : (
-            <Icon
-              icon="circle-arrow-down"
-              className="text-Gold ml-2"
-              iconSize={20}
-            />
-          ),
-        positionSize: formatAsBTC(item.collateral, item.collateralToken),
-        currentMargin: (
-          <CurrentMargin
-            currentMargin={item.currentMargin}
-            startMargin={item.startMargin}
-          />
-        ),
+        currency: currency,
+        icon: currency === 'BTC' ? 'LONG' : 'SHORT',
+        positionSize: formatAsNumber(item.collateral, 4),
+        positionInUSD:
+          currency === 'BTC'
+            ? formatAsNumber(item.collateral, 4) * currentPrice
+            : formatAsNumber(item.collateral, 4),
+        positionCurrency: symbolByTokenAddress(item.collateralToken),
+        currentMargin: currentMargin,
+        startMargin: startMargin,
+        marginDiff: ((currentMargin - startMargin) * 100) / startMargin,
         interestAPR: (
-          <InterestAPR
-            interestPerDay={item.interestOwedPerDay}
-            principal={item.principal}
-          />
-        ),
+          ((item.interestOwedPerDay * 365) / item.principal) *
+          100
+        ).toFixed(2),
         startPrice: formatAsBTCPrice(item.startRate, item.collateralToken),
-        endDate: <DisplayDate timestamp={item.endTimestamp} />,
-        leverage: `${leverageFromMargin(item.startMargin)}x`,
-        profit: <ActiveLoanProfit item={item} currentPrice={currentPrice} />,
+        endDate: new Date(Number(item.endTimestamp) * 1e3).toLocaleString(
+          'en-GB',
+          {
+            timeZone: 'GMT',
+          },
+        ),
+        leverage: leverageFromMargin(item.startMargin),
+        profit: calculateProfit(
+          item.collateral,
+          item.startRate,
+          currentPrice,
+          symbolByTokenAddress(item.collateralToken),
+        ),
         liquidationPrice: (
           <ActiveLoanLiquidation item={item} currentPrice={currentPrice} />
         ),
-        currentPrice: formatAsUSD(currentPrice),
-        maintenanceMargin: percentTo2(item.maintenanceMargin),
-        startMargin: percentTo2(item.startMargin),
+        currentPrice: currentPrice,
+        maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         mobileActions: (
           <div className="d-flex flex-row flex-nowrap justify-content-around">
             <Icon

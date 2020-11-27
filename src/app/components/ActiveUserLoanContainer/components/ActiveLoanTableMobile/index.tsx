@@ -6,6 +6,8 @@
 
 import React from 'react';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
+import { Icon } from '@blueprintjs/core';
+import { formatAsBTC, numberToUSD } from 'utils/display-text/format';
 
 interface Props {
   data: Array<{
@@ -24,6 +26,7 @@ interface Props {
     profit: any;
     startMargin: string;
     startPrice: string;
+    currency: any;
   }>;
   setExpandedId: any;
   expandedId: string;
@@ -31,26 +34,56 @@ interface Props {
 
 export function ActiveLoanTableMobile(props: Props) {
   const rows = props.data.map(item => {
-    return item.id === props.expandedId ? (
-      <ExpandedRowMobile
-        key={item.id}
-        item={item}
-        handleClick={() => props.setExpandedId('')}
-      />
-    ) : (
-      <div
-        key={item.id}
-        className="row mobile-row"
-        onClick={() => {
-          props.setExpandedId(item.id);
-        }}
-        style={{ opacity: props.expandedId ? '0.2' : '1' }}
-      >
-        <div className="col-2">{item.icon}</div>
-        <div className="col-4">{item.positionSize}</div>
-        <div className="col-3">{item.profit}</div>
-        <div className="col-3">{item.mobileActions}</div>
-      </div>
+    const expanded = item.id === props.expandedId || !props.expandedId;
+    return (
+      <>
+        <div
+          key={item.id}
+          className={`row mobile-row ${!expanded && 'opaque'}`}
+          onClick={() => {
+            props.setExpandedId(props.expandedId === item.id ? '' : item.id);
+          }}
+        >
+          <div className="col-2">
+            {item.icon === 'LONG' && (
+              <Icon
+                icon="circle-arrow-up"
+                className="text-customTeal mx-2"
+                iconSize={20}
+              />
+            )}
+            {item.icon === 'SHORT' && (
+              <Icon
+                icon="circle-arrow-down"
+                className="text-Gold ml-2"
+                iconSize={20}
+              />
+            )}
+          </div>
+          <div className="col-4">
+            {formatAsBTC(item.positionSize, item.currency)}
+          </div>
+          <div
+            className={`col-3 ${item.profit > 0 ? 'text-green' : 'text-red'}`}
+          >
+            {numberToUSD(item.profit, 2)}
+          </div>
+          <div
+            className={`col-3 ${
+              item.id === props.expandedId ? 'd-none' : 'd-block'
+            }`}
+          >
+            {item.mobileActions}
+          </div>
+        </div>
+        {item.id === props.expandedId && (
+          <ExpandedRowMobile
+            key={item.id}
+            item={item}
+            handleClick={() => props.setExpandedId('')}
+          />
+        )}
+      </>
     );
   });
 

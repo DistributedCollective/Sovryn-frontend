@@ -14,6 +14,7 @@ import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin'
 
 export function ActiveLoanLiquidation(props) {
   const [danger, setDanger] = useState<boolean>(false);
+
   const tokenSymbol = symbolByTokenAddress(props.item.collateralToken);
   const asset = Asset.BTC;
   const priceInWei =
@@ -40,8 +41,9 @@ export function ActiveLoanLiquidation(props) {
 
   return (
     <span style={{ color: danger ? 'var(--Gold)' : 'white' }}>
-      ${' '}
-      {parseFloat(weiTo18(liquidationPrice)).toLocaleString('en', {
+      {parseFloat(weiTo18(liquidationPrice)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}

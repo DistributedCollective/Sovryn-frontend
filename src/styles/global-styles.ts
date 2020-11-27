@@ -127,4 +127,10 @@ input[type=number] {
     outline: 0!important;
     outline-offset: 0;
   }
+  .cursor-pointer {
+    cursor: pointer
+  }
+  .opaque {
+    opacity: 0.2
+  }
 `;
