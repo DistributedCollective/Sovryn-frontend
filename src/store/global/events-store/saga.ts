@@ -9,7 +9,7 @@ import { selectEventsState } from './selectors';
 import { selectWalletProvider } from '../../../app/containers/WalletProvider/selectors';
 
 const pools = AssetsDictionary.list();
-const protocolEvents = ['Trade', 'CloseWithSwap', 'CloseWithDeposit'];
+const protocolEvents = ['Trade', 'Borrow', 'CloseWithSwap', 'CloseWithDeposit'];
 
 function* preloadUserEvents({ payload }: PayloadAction<string>) {
   if (!payload) {
@@ -60,26 +60,30 @@ function* preloadNewUserEvents() {
 }
 
 function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
-  const state = yield select(selectEventsState);
-  const proxy =
-    state?.[payload.address]?.[payload.contractName]?.[payload.eventName];
-  const result = yield call(
-    [eventReader, eventReader.getPastEventsInChunksPromise],
-    payload.contractName,
-    payload.eventName,
-    payload.filters,
-    { fromBlock: proxy?.lastBlock, toBlock: 'latest' },
-  );
-  yield put(
-    actions.addEvents({
-      contractName: payload.contractName,
-      eventName: payload.eventName,
-      address: payload.address,
-      events: JSON.parse(JSON.stringify(result.events)),
-      fromBlock: result.fromBlock,
-      toBlock: result.toBlock,
-    }),
-  );
+  try {
+    const state = yield select(selectEventsState);
+    const proxy =
+      state?.[payload.address]?.[payload.contractName]?.[payload.eventName];
+    const result = yield call(
+      [eventReader, eventReader.getPastEventsInChunksPromise],
+      payload.contractName,
+      payload.eventName,
+      payload.filters,
+      { fromBlock: proxy?.lastBlock, toBlock: 'latest' },
+    );
+    yield put(
+      actions.addEvents({
+        contractName: payload.contractName,
+        eventName: payload.eventName,
+        address: payload.address,
+        events: JSON.parse(JSON.stringify(result.events)),
+        fromBlock: result.fromBlock,
+        toBlock: result.toBlock,
+      }),
+    );
+  } catch (e) {
+    // Failed to retrieve chunk.
+  }
 }
 
 export function* eventsStateSaga() {

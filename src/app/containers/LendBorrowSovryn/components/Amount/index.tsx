@@ -1,8 +1,10 @@
 import React from 'react';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
+
+import { FieldGroup } from 'app/components/FieldGroup';
+import { AmountField } from 'app/containers/AmountField';
+
 import '../../assets/index.scss';
-import { FieldGroup } from '../../../../components/FieldGroup';
-import { AmountField } from '../../../AmountField';
-import { weiTo4 } from '../../../../../utils/blockchain/math-helpers';
 
 type Props = {
   amountName: string;

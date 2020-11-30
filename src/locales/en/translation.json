@@ -59,5 +59,40 @@
   "amountField": {
     "placeholder": "Enter amount",
     "btn_max": "Max"
+  },
+  "liquidityPage": {
+    "meta": {
+      "title": "Liquidity",
+      "description": "Add liquidity to Sovryn platform"
+    },
+    "tabs": {
+      "add": "Supply",
+      "remove": "Withdraw"
+    }
+  },
+  "liquidityRemoveContainer": {
+    "fields": {
+      "currency": "Currency",
+      "currency_placeholder": "Select currency",
+      "amount": "Enter amount",
+      "target_amount": "Target Amount",
+      "fee": "Fee"
+    },
+    "supplied_balance": "Supplied Balance",
+    "not_connected": "Connect to Wallet",
+    "btn": "Withdraw"
+  },
+  "lendingContainer": {},
+  "borrowActivity": {
+    "title": "Borrow Activity",
+    "tabs": {
+      "active": "Active Loans",
+      "history": "Borrow History"
+    },
+    "walletNote": "Connect your wallet first!"
+  },
+  "borrowHistory": {
+    "table": {},
+    "no_items": "Your borrow history is empty."
   }
 }
