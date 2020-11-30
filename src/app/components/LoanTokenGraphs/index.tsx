@@ -19,7 +19,7 @@ import { Asset } from '../../../types/asset';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { databaseRpcNodes } from '../../../utils/classifiers';
-import { getTokenContract } from '../../../utils/blockchain/contract-helpers';
+import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 
 interface DataItem {
   date: Date;
@@ -50,7 +50,7 @@ export function LoanTokenGraphs(props: Props) {
         method: 'custom_getLoanTokenHistory',
         params: [
           {
-            address: getTokenContract(props.lendingPool.getAsset()).address,
+            address: getLendingContract(props.lendingPool.getAsset()).address,
           },
         ],
       }),
