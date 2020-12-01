@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import i18next from 'i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 export function LanguageToggle() {
   const [currentLang, setCurrentLang] = useState(
-    i18next.language || window.localStorage.i18nextLng,
+    i18next.language || reactLocalStorage.get('i18nextLng'),
   );
+
   const changeLanguage = lng => {
     i18next.changeLanguage(lng);
+    reactLocalStorage.set('i18nextLng', lng);
     setCurrentLang(lng);
   };
 
