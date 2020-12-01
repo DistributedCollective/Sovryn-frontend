@@ -97,7 +97,7 @@ export function ActiveLoanTableDesktop(props: Props) {
           {items.map(item => {
             const expanded = props.expandedId === item.id;
             return (
-              <>
+              <React.Fragment key={item.id}>
                 <tr
                   onClick={() => {
                     if (!expanded) {
@@ -166,7 +166,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                     handleClick={() => props.setExpandedId('')}
                   />
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </tbody>

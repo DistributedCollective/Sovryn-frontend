@@ -44,7 +44,6 @@ export function ActiveLoanTableContainer(props: Props) {
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
-      console.log(item);
       const currentMargin = formatAsNumber(item.currentMargin, 4);
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);

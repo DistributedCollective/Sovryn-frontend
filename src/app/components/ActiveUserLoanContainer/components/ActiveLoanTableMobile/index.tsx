@@ -39,7 +39,7 @@ export function ActiveLoanTableMobile(props: Props) {
   const rows = props.data.map(item => {
     const expanded = item.id === props.expandedId || !props.expandedId;
     return (
-      <>
+      <React.Fragment key={item.id}>
         <div
           key={item.id}
           className={`row mobile-row ${!expanded && 'opaque'}`}
@@ -86,7 +86,7 @@ export function ActiveLoanTableMobile(props: Props) {
             handleClick={() => props.setExpandedId('')}
           />
         )}
-      </>
+      </React.Fragment>
     );
   });
 
@@ -94,12 +94,12 @@ export function ActiveLoanTableMobile(props: Props) {
     <div className="bg-primary sovryn-border p-3 d-block d-md-none">
       <div className="sovryn-table sovryn-table-mobile p-3">
         <div className="row table-header">
-          <div className="col-2"></div>
+          <div className="col-2" />
           <div className="col-4">
             {t(translations.activeLoan.table.positionSize)}
           </div>
           <div className="col-3">{t(translations.activeLoan.table.profit)}</div>
-          <div className="col-3"></div>
+          <div className="col-3" />
         </div>
         {rows}
       </div>

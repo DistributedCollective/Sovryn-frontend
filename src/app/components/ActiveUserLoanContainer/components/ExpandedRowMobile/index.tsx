@@ -7,10 +7,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import {
-  numberToUSD,
-  numberToPercent,
-} from 'utils/display-text/format';
+import { numberToUSD, numberToPercent } from 'utils/display-text/format';
 
 export function ExpandedRowMobile(props) {
   const { t } = useTranslation();
@@ -45,16 +42,16 @@ export function ExpandedRowMobile(props) {
       <div className="row table-header sub-header">
         <div className="col-4">{t(s.currentPrice)}</div>
         <div className="col-4">{t(s.liquidationPrice)}</div>
-        <div className="col-4"></div>
+        <div className="col-4" />
       </div>
       <div className="row mobile-expanded-row pb-2">
         <div className="col-4">{numberToUSD(props.item.currentPrice, 2)}</div>
         <div className="col-4">{props.item.liquidationPrice}</div>
-        <div className="col-4"></div>
+        <div className="col-4" />
       </div>
       <div className="row table-header sub-header">
         <div className="col-8">{t(s.renewalDate)}</div>
-        <div className="col-4"></div>
+        <div className="col-4" />
       </div>
       <div className="row mobile-expanded-row pb-3 border-bottom">
         <div className="col-8">{props.item.endDate}</div>
