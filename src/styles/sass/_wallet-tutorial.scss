@@ -1,0 +1,124 @@
+// Clip paths
+$main-polygon: polygon(0 0, 100% 7%, 100% 93%, 0% 100%);
+$right-polygon: polygon(0 21%, 100% 0, 100% 100%, 0% 100%);
+$middle-polygon: polygon(0 0, 100% 6%, 100% 96%, 0% 100%);
+$border-width: 15px;
+$border-width-thin: 8px;
+
+.wallet-tutorial {
+  &_container {
+    background-color: rgba(23, 23, 23, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    margin: 0 auto;
+    > div:first-of-type {
+      margin: 0 auto;
+      width: #{'min(1200px, 80vw)'};
+      height: #{'min(900px, 80vh)'};
+      margin-top: 20px;
+    }
+    .badger {
+        position: absolute;
+        right: 48%;
+        /* left: 50%; */
+        top: 12%;
+        z-index: -1;
+        height: 43%;
+    }
+  }
+
+  &_border {
+    background-color: black !important;
+    width: #{'min(1200px, 80vw)'};
+    height: #{'min(900px, 80vh)'};
+    padding: $border-width;
+    border: none;
+    border-radius: 0;
+    clip-path: $main-polygon;
+  }
+  &_main {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    clip-path: $main-polygon;
+  }
+
+  &_banner {
+    width: 100%;
+    background-color: black;
+    text-align: center;
+    transform: rotate(-2deg);
+    margin-top: -8px;
+    padding: 5px;
+    p {
+      margin: 10px 0 10px 0;
+    }
+  }
+  &_box-right {
+    height: 20%;
+    width: calc(15% + 100px);
+    z-index: 20;
+    position: absolute;
+    right: 13%;
+    top: 2%;
+  }
+  &_left-col {
+    .step-box {
+      background-image: url(../../assets/images/tutorial/step.svg);
+      height: 10vw;
+      width: 30vw;
+      object-fit: contain;
+      top: 8%;
+      left: 10%;
+      background-repeat: no-repeat;
+      position: absolute;
+      z-index: 50;
+      p {
+        color: black;
+        margin: 0 auto;
+        vertical-align: middle;
+      }
+    }
+    .polygon {
+      height: 65%;
+      width: 80%;
+      clip-path: $middle-polygon;
+      background-color: black;
+      margin: 0 auto;
+      margin-top: 15%;
+      padding: $border-width-thin;
+      &--inner {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        clip-path: $middle-polygon;
+        position: relative;
+        img {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 85%
+        }
+      }
+    }
+  }
+  &_right-col {
+    .polygon {
+      height: 50%;
+      width: 80%;
+      clip-path: $middle-polygon;
+      background-color: black;
+      margin: 0 auto;
+      margin-top: 25%;
+      padding: $border-width-thin;
+      &--inner {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        clip-path: $middle-polygon;
+        position: relative;
+      }
+    }
+  }
+}
