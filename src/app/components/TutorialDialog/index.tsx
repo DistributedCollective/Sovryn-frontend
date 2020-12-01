@@ -3,7 +3,7 @@ import browserImg from 'assets/images/tutorial/browser.svg';
 import connect from 'assets/images/tutorial/connect.svg';
 import badger from 'assets/images/tutorial/BADGER_V2.png';
 import arm from 'assets/images/tutorial/ARM.png';
-import test from 'assets/images/tutorial/test.svg';
+import background from 'assets/images/tutorial/test.svg';
 
 import { Dialog } from '@blueprintjs/core';
 
@@ -12,7 +12,7 @@ export function TutorialDialog() {
 
   return (
     <div className="wallet-tutorial_container">
-      <img src={test} alt="" />
+      <img src={background} alt="" />
       <div>
         <div className="wallet-tutorial_box-right">
           <img src={connect} alt="" />
