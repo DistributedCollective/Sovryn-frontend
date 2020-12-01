@@ -4,6 +4,7 @@ import { EventData } from 'web3-eth-contract';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Tooltip } from '@blueprintjs/core';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import ArrowDown from '../../assets/img/arrow-down.svg';
 import ArrowUp from '../../assets/img/arrow-up.svg';
@@ -18,10 +19,12 @@ import clsx from 'clsx';
 import { ComponentSkeleton } from 'app/components/PageSkeleton';
 import { DateFromBlock } from './DateFromBlock';
 import { selectLendBorrowSovryn } from '../../selectors';
+import { translations } from 'locales/i18n';
 
 type Props = {};
 
 const LendingHistory: React.FC<Props> = props => {
+  const { t } = useTranslation();
   const isConnected = useIsConnected();
   const [open, setOpen] = useState(false);
 
@@ -76,7 +79,7 @@ const LendingHistory: React.FC<Props> = props => {
   return (
     <div className="lending-history-container">
       <div className="lending-history">
-        <h3>Lending history </h3>
+        <h3>{t(translations.lend.history.title)}</h3>
         <div aria-expanded={open}>
           {open ? (
             <img src={ArrowUp} onClick={handleClose} alt="arrow up" />

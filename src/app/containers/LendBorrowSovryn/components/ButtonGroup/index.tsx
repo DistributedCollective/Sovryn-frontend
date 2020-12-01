@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Nav, Tab } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import '../../assets/index.scss';
 import clsx from 'clsx';
 import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
@@ -27,6 +29,7 @@ const ButtonGroup: React.FC<Props> = ({
   setBorrowAmount,
 }) => {
   const [key, setKey] = useState(leftButton);
+  const { t } = useTranslation();
   const asset = currency as Asset;
   const { value: profitCall } = useLending_profitOf(asset, useAccount());
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
@@ -117,7 +120,7 @@ const ButtonGroup: React.FC<Props> = ({
         <div className="container my-3">
           <div className="withdraw-content py-3 row">
             <div className="col-6">
-              <h4>Balance</h4>
+              <h4>{t(translations.lend.container.balance)}</h4>
               <div>
                 <span className="text-muted">{currency} </span>
                 <strong>
@@ -131,7 +134,7 @@ const ButtonGroup: React.FC<Props> = ({
               </div>
             </div>
             <div className="col-6">
-              <h4>Profit</h4>
+              <h4>{t(translations.lend.container.profit)}</h4>
               <div>
                 <span className="text-muted">{currency} </span>
                 <strong>

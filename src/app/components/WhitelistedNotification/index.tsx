@@ -1,9 +1,12 @@
 import React from 'react';
-import { useIsWhitelisted } from '../../hooks/whitelist/useIsWhitelisted';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { useIsWhitelisted } from '../../hooks/whitelist/useIsWhitelisted';
 
 export function WhitelistedNotification() {
   const isWhitelisted = useIsWhitelisted();
+  const { t } = useTranslation();
 
   if (isWhitelisted) return <></>;
 
@@ -13,11 +16,7 @@ export function WhitelistedNotification() {
         <div className="ml-3 mr-4">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
-        <div>
-          Currently Sovryn is available for invited users only and your wallet
-          is not yet whitelisted. All interactions is disabled until you switch
-          to whitelisted wallet or get whitelisted for current one.
-        </div>
+        <div>{t(translations.whiteListedNotification.text)}</div>
       </div>
     </div>
   );

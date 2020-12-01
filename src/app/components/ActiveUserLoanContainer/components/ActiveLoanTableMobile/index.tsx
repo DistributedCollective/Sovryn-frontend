@@ -5,6 +5,8 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
 
 interface Props {
@@ -30,6 +32,7 @@ interface Props {
 }
 
 export function ActiveLoanTableMobile(props: Props) {
+  const { t } = useTranslation();
   const rows = props.data.map(item => {
     return item.id === props.expandedId ? (
       <ExpandedRowMobile
@@ -59,8 +62,10 @@ export function ActiveLoanTableMobile(props: Props) {
       <div className="sovryn-table sovryn-table-mobile p-3">
         <div className="row table-header">
           <div className="col-2"></div>
-          <div className="col-4">Position Size</div>
-          <div className="col-3">Profit</div>
+          <div className="col-4">
+            {t(translations.activeLoan.table.positionSize)}
+          </div>
+          <div className="col-3">{t(translations.activeLoan.table.profit)}</div>
           <div className="col-3"></div>
         </div>
         {rows}

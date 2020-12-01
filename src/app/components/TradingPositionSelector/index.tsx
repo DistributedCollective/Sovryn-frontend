@@ -4,11 +4,13 @@
  *
  */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Text } from '@blueprintjs/core';
 import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleUp';
 import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleDown';
 import { TradingPosition } from 'types/trading-position';
+import { translations } from 'locales/i18n';
 
 interface Props {
   value: TradingPosition;
@@ -16,13 +18,14 @@ interface Props {
 }
 
 export function TradingPositionSelector(props: Props) {
+  const { t } = useTranslation();
   return (
     <div className="row mb-3">
       <div className="col-6 pr-1">
         <Tab
           type={TradingPosition.LONG}
           active={props.value === TradingPosition.LONG}
-          text="Long"
+          text={t(translations.trandingPositionSelector.long)}
           onClick={value => props.onChange(value)}
         />
       </div>
@@ -30,7 +33,7 @@ export function TradingPositionSelector(props: Props) {
         <Tab
           type={TradingPosition.SHORT}
           active={props.value === TradingPosition.SHORT}
-          text="Short"
+          text={t(translations.trandingPositionSelector.short)}
           onClick={value => props.onChange(value)}
         />
       </div>

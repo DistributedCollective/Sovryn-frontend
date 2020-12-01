@@ -4,8 +4,12 @@
  *
  */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function ActiveLoanExpandedRow(props) {
+  const { t } = useTranslation();
+
   return (
     <>
       <tr style={{ opacity: '1' }} onClick={props.handleClick}>
@@ -24,12 +28,12 @@ export function ActiveLoanExpandedRow(props) {
         onClick={props.handleClick}
       >
         <td></td>
-        <td>Leverage</td>
-        <td>Start Margin</td>
-        <td>Mainenance Margin</td>
-        <td>Current Price</td>
-        <td>Liquidation Price</td>
-        <td>Renewal Date</td>
+        <td>{t(translations.activeLoan.expandedRow.leverage)}</td>
+        <td>{t(translations.activeLoan.expandedRow.startMargin)}</td>
+        <td>{t(translations.activeLoan.expandedRow.mainenanceMargin)}</td>
+        <td>{t(translations.activeLoan.expandedRow.currentPrice)}</td>
+        <td>{t(translations.activeLoan.expandedRow.liquidationPrice)}</td>
+        <td>{t(translations.activeLoan.expandedRow.renewalDate)}</td>
       </tr>
 
       <tr

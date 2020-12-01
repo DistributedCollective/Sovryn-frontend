@@ -7,6 +7,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Tab, Tabs } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { LiquidityAddContainer } from '../LiquidityAddContainer';
@@ -20,11 +22,13 @@ enum TabType {
 interface Props {}
 
 export function LiquidityPage(props: Props) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Helmet>
-        <title>Liquidity</title>
-        <meta name="description" content="Add liquidity" />
+        <title>{t(translations.liquidity.title)}</title>
+        <meta name="description" content={t(translations.liquidity.meta)} />
       </Helmet>
       <Header />
       {/* <HintDialog /> */}
@@ -35,13 +39,13 @@ export function LiquidityPage(props: Props) {
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab
                   eventKey={(TabType.ADD as unknown) as string}
-                  title={'Supply'}
+                  title={t(translations.lend.container.supply)}
                 >
                   <LiquidityAddContainer />
                 </Tab>
                 <Tab
                   eventKey={(TabType.REMOVE as unknown) as string}
-                  title={'Withdraw'}
+                  title={t(translations.lend.container.rightBtn)}
                 >
                   <LiquidityRemoveContainer />
                 </Tab>

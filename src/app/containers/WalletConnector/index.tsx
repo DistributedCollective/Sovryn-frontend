@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button as IconButton,
   Icon,
@@ -13,6 +14,7 @@ import '../LendBorrowSovryn/assets/index.scss';
 import { useSelector } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
+import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
 import { NavLink } from 'react-router-dom';
@@ -21,6 +23,7 @@ type Props = {};
 
 const WalletConnectorContainer: React.FC<Props> = props => {
   const { connected, connecting, address } = useSelector(selectWalletProvider);
+  const { t } = useTranslation();
 
   const handleWalletConnection = useCallback(() => {
     Sovryn.connect()
@@ -42,7 +45,9 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           {connecting && <Spinner size={22} />}
           {!connecting && (
             <>
-              <span className="d-none d-xl-inline">Engage wallet</span>
+              <span className="d-none d-xl-inline">
+                {t(translations.wallet.connect_btn)}
+              </span>
               <Icon icon="log-in" className="d-xl-none" />
             </>
           )}
@@ -54,7 +59,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               <span>{prettyTx(address, 5, 3)}</span>
               <IconButton
                 className="ml-1 icon-btn"
-                title="Disconnect"
+                title={t(translations.wallet.disconnect)}
                 onClick={handleDisconnect}
                 icon="log-out"
               />
@@ -67,7 +72,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   <MenuItem icon="user" text={prettyTx(address)} />
                   <MenuItem
                     icon="log-out"
-                    text="Disconnect"
+                    text={t(translations.wallet.disconnect)}
                     onClick={handleDisconnect}
                   />
                 </Menu>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import clsx from 'clsx';
 import { Text } from '@blueprintjs/core';
@@ -6,6 +7,7 @@ import { Text } from '@blueprintjs/core';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { NextBorrowInterestRate } from 'app/components/NextBorrowInterestRate';
 import { LendingPool } from 'utils/models/lending-pool';
+import { translations } from 'locales/i18n';
 
 import '../../assets/index.scss';
 
@@ -22,6 +24,8 @@ const CurrencyRow: React.FC<Props> = ({
   borrowAmount,
   active,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={clsx(
@@ -36,7 +40,7 @@ const CurrencyRow: React.FC<Props> = ({
       <div className="d-flex currency w-lg-50">
         <div className="mr-3 w-50">
           <Text ellipsize className="text-muted">
-            Lend APR:
+            {t(translations.lend.currency.lendArp)}:
           </Text>
           <NextSupplyInterestRate
             asset={lendingPool.getAsset()}
@@ -45,7 +49,7 @@ const CurrencyRow: React.FC<Props> = ({
         </div>
         <div className="w-50">
           <Text ellipsize className="text-muted">
-            Borrow APR:
+            {t(translations.lend.currency.borrowArp)}:
           </Text>
           <NextBorrowInterestRate
             asset={lendingPool.getAsset()}

@@ -5,6 +5,7 @@
  */
 import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { Container } from 'react-bootstrap';
 import WalletConnector from '../../containers/WalletConnector';
@@ -12,17 +13,19 @@ import styled from 'styled-components';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
+import { translations } from 'locales/i18n';
 
 export function Header() {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const pages = [
-    { to: '/', title: 'Trade', exact: true },
-    { to: '/lend', title: 'Lend / Borrow' },
-    { to: '/liquidity', title: 'Liquidity' },
-    { to: '/fast-btc', title: 'Fast-BTC' },
-    'Stats',
-    'FAQs',
+    { to: '/', title: t(translations.mainMenu.trade), exact: true },
+    { to: '/lend', title: t(translations.mainMenu.lend) },
+    { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
+    { to: '/fast-btc', title: t(translations.mainMenu.fastBtc) },
+    t(translations.mainMenu.stats),
+    t(translations.mainMenu.faqs),
   ];
 
   const menuItems = pages.map((item, index) => {
@@ -66,19 +69,19 @@ export function Header() {
           <div className="d-xl-flex flex-row align-items-center">
             <div className="d-none d-xl-block">
               <NavLink className="nav-item mr-4" to="/" exact>
-                Trade
+                {t(translations.mainMenu.trade)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/lend">
-                Lend/Borrow
+                {t(translations.mainMenu.lend)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/fast-btc">
-                Fast-Btc
+                {t(translations.mainMenu.fastBtc)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/liquidity">
-                Liquidity
+                {t(translations.mainMenu.liquidity)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
-                Stats
+                {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
             <WalletConnector />

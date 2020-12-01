@@ -4,6 +4,9 @@
  *
  */
 import React from 'react';
+import { Trans } from 'react-i18next';
+import { LanguageToggle } from '../../components/LanguageToggle';
+import { translations } from 'locales/i18n';
 
 export function Footer() {
   return (
@@ -11,8 +14,11 @@ export function Footer() {
       <div className="container py-3">
         <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey">
           <h6>
-            Powered by <strong>Bitcoin</strong>
+            <Trans i18nKey={translations.footer.title} />
           </h6>
+          <div>
+            <LanguageToggle />
+          </div>
         </div>
         <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
           <iframe
