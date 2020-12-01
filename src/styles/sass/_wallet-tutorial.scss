@@ -14,111 +14,124 @@ $border-width-thin: 8px;
     margin: 0 auto;
     > div:first-of-type {
       margin: 0 auto;
-      width: #{'min(1200px, 80vw)'};
-      height: #{'min(900px, 80vh)'};
+      width: 1000px;
+      //   height: #{'min(900px, 80vh)'};
       margin-top: 20px;
+      position: relative;
     }
-    .badger {
-        position: absolute;
-        right: 48%;
-        /* left: 50%; */
-        top: 12%;
-        z-index: -1;
-        height: 43%;
-    }
-  }
-
-  &_border {
-    background-color: black !important;
-    width: #{'min(1200px, 80vw)'};
-    height: #{'min(900px, 80vh)'};
-    padding: $border-width;
-    border: none;
-    border-radius: 0;
-    clip-path: $main-polygon;
-  }
-  &_main {
-    background-color: white;
-    height: 100%;
-    width: 100%;
-    clip-path: $main-polygon;
-  }
-
-  &_banner {
-    width: 100%;
-    background-color: black;
-    text-align: center;
-    transform: rotate(-2deg);
-    margin-top: -8px;
-    padding: 5px;
-    p {
-      margin: 10px 0 10px 0;
-    }
-  }
-  &_box-right {
-    height: 20%;
-    width: calc(15% + 100px);
-    z-index: 20;
-    position: absolute;
-    right: 13%;
-    top: 2%;
-  }
-  &_left-col {
-    .step-box {
-      background-image: url(../../assets/images/tutorial/step.svg);
-      height: 10vw;
-      width: 30vw;
-      object-fit: contain;
-      top: 8%;
-      left: 10%;
-      background-repeat: no-repeat;
+    .arm {
       position: absolute;
-      z-index: 50;
-      p {
-        color: black;
-        margin: 0 auto;
-        vertical-align: middle;
+      left: 32%;
+      top: 20%;
+      z-index: 20;
+      transition: 0.1s all;
+      &.high {
+        transform: rotate(20deg);
+        margin-top: -12px;
+      }
+      &.mid-high {
+
+      }
+      &.center {
+        transform: rotate(-30deg);
+        margin-top: 50px;
+      }
+      &.mid-low {
+        transform: rotate(-50deg);
+        margin-top: 60px;
+        margin-left: 20px;
+      }
+      &.low {
+        transform: rotate(-50deg);
+        margin-top: 80px;
+        margin-left: 40px;
       }
     }
-    .polygon {
-      height: 65%;
-      width: 80%;
-      clip-path: $middle-polygon;
-      background-color: black;
-      margin: 0 auto;
-      margin-top: 15%;
-      padding: $border-width-thin;
-      &--inner {
-        background-color: white;
-        height: 100%;
-        width: 100%;
-        clip-path: $middle-polygon;
-        position: relative;
-        img {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 85%
+    .right-box {
+        color: var(--black);
+        position: absolute;
+        left: 60%;
+        top: 35%;
+        width: 310px;
+        font-size: small;
+    }
+    .left-box {
+        position: absolute;
+        left: 17%;
+        top: 28.5%;
+        &.browser {
+            left: 8.5%;
         }
-      }
     }
-  }
-  &_right-col {
-    .polygon {
-      height: 50%;
-      width: 80%;
-      clip-path: $middle-polygon;
-      background-color: black;
-      margin: 0 auto;
-      margin-top: 25%;
-      padding: $border-width-thin;
-      &--inner {
-        background-color: white;
-        height: 100%;
+    .step-box {
+        position: absolute;
+        left: 5%;
+        top: 15%;
+        p {
+            color: var(--black);
+            position: absolute;
+            left: 30%;
+            top: 30%;
+        }
+    }
+    .stepper {
+        position: absolute;
+        left: 15%;
+        top: 90%;
+        > .flex-row > * {
+            cursor: pointer;
+        }
+        &_circle {
+            background-color: var(--gray);
+            height: 20px;
+            width: 20px;
+            margin: 0 2px;
+            border-radius: 100%;
+            &.active {
+                background-color: var(--black);
+            }
+            &:first-of-type {
+                margin-left: 8px
+            }
+            &:last-of-type {
+                margin-right: 8px;
+            }
+        }
+    }
+    .engage {
+        position: absolute;
+        left: 75%;
+        top: 80%;
+    }
+    .close {
+        position: absolute;
+        left: 5%;
+        top: 6%;
+    }
+    .banner {
+        background-color: black;
+        position: absolute;
         width: 100%;
-        clip-path: $middle-polygon;
-        position: relative;
-      }
+        transform: rotate(-1deg);
+        margin-top: -2px;
+        p {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+            margin: 0
+        }
+    }
+    .speech {
+        position: absolute;
+        left: 52%;
+        top: 14%;
+        color: var(--black);
+        p {
+            position: absolute;
+            left: 35%;
+            top: 14%;
+        }
     }
   }
 }
+    
