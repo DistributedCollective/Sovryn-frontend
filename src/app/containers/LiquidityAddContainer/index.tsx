@@ -5,8 +5,10 @@
  */
 
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
+import { translations } from 'locales/i18n';
 import { FormSelect } from '../../components/FormSelect';
 import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
@@ -25,6 +27,7 @@ import { useCanInteract } from '../../hooks/useCanInteract';
 interface Props {}
 
 export function LiquidityAddContainer(props: Props) {
+  const { t } = useTranslation();
   const isConnected = useCanInteract();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
@@ -64,17 +67,17 @@ export function LiquidityAddContainer(props: Props) {
       <div className="position-relative">
         <div className="row">
           <div className="col-6 pr-1">
-            <FieldGroup label="Currency">
+            <FieldGroup label={t(translations.liquidity.currency)}>
               <FormSelect
                 onChange={handlePoolChange}
-                placeholder="Select currency"
+                placeholder={t(translations.liquidity.currencySelect)}
                 value={sourceToken}
                 items={tokens}
               />
             </FieldGroup>
           </div>
           <div className="col-6 pl-1">
-            <FieldGroup label="Enter amount">
+            <FieldGroup label={t(translations.liquidity.amount)}>
               <AmountField
                 onChange={value => setAmount(value)}
                 onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
@@ -98,7 +101,7 @@ export function LiquidityAddContainer(props: Props) {
                   tooltip={expectedPoolTokens.value}
                 />
               </div>
-              <div className="small">Expected pool tokens</div>
+              <div className="small">{t(translations.liquidity.token)}</div>
             </div>
           </div>
         </div>
@@ -114,7 +117,7 @@ export function LiquidityAddContainer(props: Props) {
             <AssetWalletBalance asset={sourceToken} />
           </div>
           <TradeButton
-            text="Supply"
+            text={t(translations.liquidity.supply)}
             onClick={handleSupply}
             loading={tx.loading}
             disabled={!isConnected || tx.loading || !amountValid()}

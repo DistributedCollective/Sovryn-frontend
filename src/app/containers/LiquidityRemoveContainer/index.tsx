@@ -5,10 +5,9 @@
  */
 
 import React, { useCallback, useState } from 'react';
-import { Text } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-
+import { Text } from '@blueprintjs/core';
 import { liquidityPools } from '../../../utils/classifiers';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { FormSelect } from '../../components/FormSelect';
@@ -74,24 +73,17 @@ export function LiquidityRemoveContainer(props: Props) {
     <>
       <div className="row">
         <div className="col-6 pr-1">
-          <FieldGroup
-            label={t(translations.liquidityRemoveContainer.fields.currency)}
-          >
+          <FieldGroup label={t(translations.liquidity.currency)}>
             <FormSelect
               onChange={handlePoolChange}
-              placeholder={t(
-                translations.liquidityRemoveContainer.fields
-                  .currency_placeholder,
-              )}
+              placeholder={t(translations.liquidity.currencySelect)}
               value={sourceToken}
               items={tokens}
             />
           </FieldGroup>
         </div>
         <div className="col-6 pl-1">
-          <FieldGroup
-            label={t(translations.liquidityRemoveContainer.fields.amount)}
-          >
+          <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}
               onMaxClicked={() => setAmount(weiTo18(balance.value))}
@@ -116,7 +108,7 @@ export function LiquidityRemoveContainer(props: Props) {
               />
             </div>
             <div className="small">
-              {t(translations.liquidityRemoveContainer.fields.target_amount)}
+              {t(translations.liquidity.amountTarget)}
             </div>
           </div>
           <div className="col">
@@ -131,9 +123,7 @@ export function LiquidityRemoveContainer(props: Props) {
                 tooltip={targetValue[1]}
               />
             </div>
-            <div className="small">
-              {t(translations.liquidityRemoveContainer.fields.fee)}
-            </div>
+            <div className="small">{t(translations.liquidity.fee)}</div>
           </div>
         </div>
       </div>
@@ -148,12 +138,10 @@ export function LiquidityRemoveContainer(props: Props) {
         <div className="mb-3 mb-lg-0">
           <div>
             <div className="font-weight-bold text-muted mb-2">
-              {t(translations.liquidityRemoveContainer.supplied_balance)}
+              {t(translations.assetWalletBalance.suppliedBalance)}
             </div>
             {!isConnected && (
-              <span>
-                {t(translations.liquidityRemoveContainer.not_connected)}
-              </span>
+              <span>{t(translations.assetWalletBalance.accountBalance)}</span>
             )}
             {isConnected && (
               <div className="d-flex flex-row justify-content-start align-items-center">
@@ -169,7 +157,7 @@ export function LiquidityRemoveContainer(props: Props) {
           </div>
         </div>
         <TradeButton
-          text={t(translations.liquidityRemoveContainer.btn)}
+          text={t(translations.liquidity.withdraw)}
           onClick={handleWithdraw}
           loading={tx.loading}
           disabled={!isConnected || tx.loading || !amountValid()}

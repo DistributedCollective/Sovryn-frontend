@@ -23,14 +23,12 @@ interface Props {}
 
 export function LiquidityPage(props: Props) {
   const { t } = useTranslation();
+
   return (
     <>
       <Helmet>
-        <title>{t(translations.liquidityPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.liquidityPage.meta.description)}
-        />
+        <title>{t(translations.liquidity.title)}</title>
+        <meta name="description" content={t(translations.liquidity.meta)} />
       </Helmet>
       <Header />
       {/* <HintDialog /> */}
@@ -41,13 +39,13 @@ export function LiquidityPage(props: Props) {
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab
                   eventKey={(TabType.ADD as unknown) as string}
-                  title={t(translations.liquidityPage.tabs.add)}
+                  title={t(translations.lend.container.supply)}
                 >
                   <LiquidityAddContainer />
                 </Tab>
                 <Tab
                   eventKey={(TabType.REMOVE as unknown) as string}
-                  title={t(translations.liquidityPage.tabs.remove)}
+                  title={t(translations.lend.container.rightBtn)}
                 >
                   <LiquidityRemoveContainer />
                 </Tab>

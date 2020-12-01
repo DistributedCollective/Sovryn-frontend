@@ -1,33 +1,38 @@
 import React from 'react';
 import { Icon } from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { Trans } from 'react-i18next';
 import { ConnectWalletButton } from '../../containers/ConnectWalletButton';
 
 export function HintHowToConnect() {
+  const { t } = useTranslation();
   return (
     <div>
       <p>
-        <Icon icon="info-sign" /> Before you can trade and lend with Sovryn, you
-        need to connect to the RSK network.
+        <Icon icon="info-sign" /> {t(translations.hintHowToConnect.hintOne)}
       </p>{' '}
       <p>
         {' '}
-        Get instructions on how to connect with{' '}
-        <a
-          href="https://sovryn.app/blog/metamask-wallet-for-sovryn.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Metamask{' '}
-        </a>
-        or{' '}
-        <a
-          href="https://sovryn.app/blog/using-nifty-wallet-for-sovryn.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Nifty{' '}
-        </a>
-        and then connect your wallet:
+        <Trans
+          i18nKey={translations.hintHowToConnect.hintTwo}
+          components={[
+            <a
+              href="https://sovryn.app/blog/metamask-wallet-for-sovryn.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Metamask
+            </a>,
+            <a
+              href="https://sovryn.app/blog/using-nifty-wallet-for-sovryn.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Nifty
+            </a>,
+          ]}
+        />
       </p>
       <ConnectWalletButton />
     </div>

@@ -61,11 +61,11 @@ export function FastBtcForm(props: Props) {
     <>
       <div className="row">
         <div className="col-12 col-lg-6 mt-5 mt-lg-0">
-          <h3 className="mb-3">Fast-BTC Relay</h3>
+          <h3 className="mb-3">{t(s.title)}</h3>
           <div className="sovryn-border p-3">
-            <FieldGroup label={'Your RSK Wallet'}>
+            <FieldGroup label={t(s.placeholder)}>
               <InputField
-                placeholder="Your RSK Wallet"
+                placeholder={t(s.placeholder)}
                 invalid={!state.isReceiverAddressValid}
                 value={state.receiverAddress}
                 onChange={handleInputChange}
@@ -79,12 +79,7 @@ export function FastBtcForm(props: Props) {
               />
             </FieldGroup>
 
-            {!isConnected && (
-              <p>
-                Connect to your wallet or just enter wallet address above
-                yourself.
-              </p>
-            )}
+            {!isConnected && <p>{t(s.connect)}</p>}
 
             {state.depositError && (
               <div className="alert alert-warning">{state.depositError}</div>
@@ -92,7 +87,7 @@ export function FastBtcForm(props: Props) {
 
             {state.depositAddress && (
               <>
-                <FieldGroup label={'BTC Deposit Address'}>
+                <FieldGroup label={t(s.depositAdress)}>
                   <CopyToClipboard text={state.depositAddress}>
                     <DummyField>{state.depositAddress}</DummyField>
                   </CopyToClipboard>
@@ -115,7 +110,7 @@ export function FastBtcForm(props: Props) {
                       />
                     </div>
                     <div className="d-flex flex-row justify-content-center mt-3">
-                      <span>Waiting for deposit</span>
+                      <span>{t(s.waitingForDeposit)}</span>
                       <Spinner size={22} className="ml-3" />
                     </div>
                   </>
@@ -127,7 +122,7 @@ export function FastBtcForm(props: Props) {
                 <p>
                   <Icon icon="tick" className="mr-2" />
                   Deposited {satoshiTo4(state.depositTx.value)}{' '}
-                  <span className="text-muted">BTC</span> to deposit wallet.
+                  <span className="text-muted">BTC</span> {t(s.toDepositWallet)}
                 </p>
                 <LinkToExplorer
                   txHash={state.depositTx.txHash}
@@ -135,7 +130,7 @@ export function FastBtcForm(props: Props) {
                 />
                 {!state.transferTx && (
                   <div className="d-flex flex-row justify-content-start mt-3">
-                    <span>We are exchanging to rBTC it now.</span>
+                    <span>{t(s.exchanging)}</span>
                     <Spinner size={22} className="ml-3" />
                   </div>
                 )}
@@ -147,14 +142,13 @@ export function FastBtcForm(props: Props) {
                   <p>
                     <Icon icon="tick" className="mr-2" />
                     {weiTo4(state.transferTx.value)}{' '}
-                    <span className="text-muted">rBTC</span> was transfered to
-                    your RSK walllet
+                    <span className="text-muted">rBTC</span> {t(s.transfered)}
                   </p>
                   <LinkToExplorer txHash={state.transferTx.txHash} />
                 </div>
                 <div className="mt-3 d-flex flex-row justify-content-end">
                   <TradeButton
-                    text="Swap again"
+                    text={t(s.swapAgain)}
                     onClick={() => dispatch(actions.reset())}
                   />
                 </div>
@@ -163,7 +157,7 @@ export function FastBtcForm(props: Props) {
           </div>
         </div>
         <div className="col-12 col-lg-6 mt-5 mt-lg-0">
-          <h3 className="mb-3">History</h3>
+          <h3 className="mb-3">{t(s.history.title)}</h3>
           <div className="sovryn-border p-3">
             {!state.history.length && !state.isHistoryLoading && (
               <p className="mb-0">{t(s.history.empty)}</p>
@@ -172,8 +166,8 @@ export function FastBtcForm(props: Props) {
               <SkeletonRow
                 loadingText={
                   !state.receiverAddress || !state.isReceiverAddressValid
-                    ? 'Enter your RSK wallet address to see history.'
-                    : 'Loading...'
+                    ? t(s.history.walletHistory)
+                    : t(s.history.loading)
                 }
               />
             )}

@@ -6,6 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import { Asset } from 'types/asset';
 import { InputGroup } from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { FormSelect, SelectItem } from '../FormSelect';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
@@ -38,6 +40,7 @@ interface Props {
  */
 export function TradeDialog(props: Props) {
   const isConnected = useIsConnected();
+  const { t } = useTranslation();
 
   const handleAmountChange = (e: any) => {
     const value = handleNumberInput(e, true);
@@ -100,7 +103,7 @@ export function TradeDialog(props: Props) {
       <div className="bg-component-bg p-3">
         <div className="row">
           <div className="col-4">
-            <div className="data-label text-MediumGrey">Currency</div>
+            <div className="data-label text-MediumGrey">{t(translations.tradeDialog.currency)}</div>
             <div className="data-container bordered">
               <FormSelect
                 filterable={false}
@@ -112,7 +115,7 @@ export function TradeDialog(props: Props) {
           </div>
           <div className="col-8">
             <div className="data-label text-MediumGrey d-flex flex-row align-items-end justify-content-between">
-              <span>Amount</span>
+              <span>{t(translations.tradeDialog.amount)}</span>
               {maxAmount !== '0' && (
                 <>
                   <small>(max: {weiTo4(maxAmount)})</small>
@@ -123,7 +126,7 @@ export function TradeDialog(props: Props) {
               className="data-container bordered"
               value={amount}
               onChange={handleAmountChange}
-              placeholder="Enter trade amount"
+              placeholder={t(translations.tradeDialog.enterTradeAmount)}
             />
             {parseFloat(amount) > 0 && !loading && !valid && (
               <div className="font-xs text-white">Amount exceeds balance</div>
@@ -141,7 +144,7 @@ export function TradeDialog(props: Props) {
               disabled={loading || !isConnected || !valid}
               onClick={() => trade()}
             >
-              Place Trade
+              {t(translations.tradeDialog.placeTrade)}
             </button>
           </div>
         </div>
