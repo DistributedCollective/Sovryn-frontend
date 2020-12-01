@@ -49,12 +49,6 @@ export function LiquidityPage(props: Props) {
                 >
                   <LiquidityRemoveContainer />
                 </Tab>
-                {/*<Tab*/}
-                {/*  eventKey={(TabType.CONVERT as unknown) as string}*/}
-                {/*  title={'Convert'}*/}
-                {/*>*/}
-                {/*  <WrappedBitcoinConverter />*/}
-                {/*</Tab>*/}
               </Tabs>
             </div>
           </div>

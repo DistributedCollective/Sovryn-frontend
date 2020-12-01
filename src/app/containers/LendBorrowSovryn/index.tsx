@@ -13,9 +13,9 @@ import { actions, reducer, sliceKey } from './slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLendBorrowSovryn } from './selectors';
 import { TabType } from './types';
-import { ActiveUserBorrows } from '../ActiveUserBorrows';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from '../RepayPositionHandler/Loadable';
+import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 
 type Props = {};
 
@@ -44,7 +44,7 @@ const LendBorrowSovryn: React.FC<Props> = props => {
       </main>
       <Container className="mt-4">
         {state.tab === TabType.LEND && <LendingHistory />}
-        {state.tab === TabType.BORROW && <ActiveUserBorrows />}
+        {state.tab === TabType.BORROW && <BorrowActivity />}
         <RepayPositionHandler />
       </Container>
       <Footer />

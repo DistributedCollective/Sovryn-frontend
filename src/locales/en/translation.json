@@ -248,5 +248,29 @@
     "topUpAmount": "Top Up Amount",
     "topUp": "Top Up",
     "currency": "Currency"
+  },
+  "liquidityRemoveContainer": {
+    "fields": {
+      "currency": "Currency",
+      "currency_placeholder": "Select currency",
+      "amount": "Enter amount",
+      "target_amount": "Target Amount",
+      "fee": "Fee"
+    },
+    "supplied_balance": "Supplied Balance",
+    "not_connected": "Connect to Wallet",
+    "btn": "Withdraw"
+  },
+  "borrowActivity": {
+    "title": "Borrow Activity",
+    "tabs": {
+      "active": "Active Loans",
+      "history": "Borrow History"
+    },
+    "walletNote": "Connect your wallet first!"
+  },
+  "borrowHistory": {
+    "table": {},
+    "no_items": "Your borrow history is empty."
   }
 }

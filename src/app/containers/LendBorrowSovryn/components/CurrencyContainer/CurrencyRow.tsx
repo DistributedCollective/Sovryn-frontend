@@ -10,6 +10,8 @@ import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
 
 import '../../assets/index.scss';
+import './style.scss';
+import { LoanTokenGraphs } from '../../../../components/LoanTokenGraphs';
 
 type Props = {
   lendingPool: LendingPool;
@@ -29,7 +31,7 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border px-3 py-1 py-lg-2 d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center currency-container font-family-work-sans mb-3 text-muted',
+        'sovryn-border px-3 py-1 py-lg-2 currency-container font-family-work-sans mb-3 text-muted',
         active && 'currency-container__active',
       )}
     >
@@ -57,6 +59,11 @@ const CurrencyRow: React.FC<Props> = ({
           />
         </div>
       </div>
+      {active && (
+        <div className="mt-3">
+          <LoanTokenGraphs lendingPool={lendingPool} />
+        </div>
+      )}
     </div>
   );
 };

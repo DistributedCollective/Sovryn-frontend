@@ -1,11 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
+
+import { Asset } from 'types/asset';
+import { AssetWalletBalance } from 'app/components/AssetWalletBalance';
+import { SendTxProgress } from 'app/components/SendTxProgress';
+import { TradeButton } from 'app/components/TradeButton';
 
 import '../../assets/index.scss';
-import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
-import { Asset } from '../../../../../types/asset';
-import { SendTxProgress } from '../../../../components/SendTxProgress';
-import { TradeButton } from '../../../../components/TradeButton';
 
 type Props = {
   currency: Asset;
@@ -35,17 +35,12 @@ const AccountBalance: React.FC<Props> = ({
         type={txState.type}
         displayAbsolute={false}
       />
-      <div
-        className={clsx(
-          'account-balance-container position-relative',
-          currency === Asset.DOC && 'account-balance-container__green',
-        )}
-      >
+      <div className="account-balance-container position-relative">
         <AssetWalletBalance asset={currency} />
         <TradeButton
           text={`${title} ${currency}`}
           onClick={
-            title === 'Withdraw'
+            title === 'Redeem'
               ? handleSubmitWithdraw
               : title === 'Repay'
               ? handleSubmitRepay

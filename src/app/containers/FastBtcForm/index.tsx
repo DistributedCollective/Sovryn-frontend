@@ -121,7 +121,7 @@ export function FastBtcForm(props: Props) {
               <div className="mt-3">
                 <p>
                   <Icon icon="tick" className="mr-2" />
-                  Deposited {weiTo4(state.depositTx.value)}{' '}
+                  Deposited {satoshiTo4(state.depositTx.value)}{' '}
                   <span className="text-muted">BTC</span> {t(s.toDepositWallet)}
                 </p>
                 <LinkToExplorer
@@ -204,4 +204,8 @@ export function FastBtcForm(props: Props) {
       </div>
     </>
   );
+}
+
+function satoshiTo4(amount: string | number) {
+  return (Number(amount) / 1e8).toFixed(4);
 }
