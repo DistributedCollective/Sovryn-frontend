@@ -70,8 +70,8 @@
 }
 .currency-container {
   border-color: var(--gray);
-  will-change: border-color;
-  transition: border-color 0.3s;
+  will-change: border-color, height;
+  transition: border-color 0.3s, height 0.3s;
   &__active {
     border-color: var(--white);
     color: var(--white)!important;

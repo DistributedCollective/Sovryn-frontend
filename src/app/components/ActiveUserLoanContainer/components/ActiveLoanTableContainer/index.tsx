@@ -4,6 +4,8 @@
  *
  */
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
 import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
@@ -34,6 +36,7 @@ export function ActiveLoanTableContainer(props: Props) {
   const [selectedItem, setSelectedItem] = useState<any>(props.data[0]);
   const [expandedItem, setExpandedItem] = useState('');
   const [expandedId, setExpandedId] = useState('');
+  const { t } = useTranslation();
 
   //TODO: Assets should not be hardcoded
   const { value } = useBorrowAssetPrice(Asset.BTC, Asset.DOC);
@@ -41,7 +44,6 @@ export function ActiveLoanTableContainer(props: Props) {
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
-      console.log(item);
       const currentMargin = formatAsNumber(item.currentMargin, 4);
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);
@@ -112,7 +114,7 @@ export function ActiveLoanTableContainer(props: Props) {
                   setSelectedItem(item);
                 }}
               >
-                Top-Up
+                {t(translations.activeLoan.table.container.topUp)}
               </TopUpButton>
             </div>
             <div className="ml-1">
@@ -122,14 +124,14 @@ export function ActiveLoanTableContainer(props: Props) {
                   setSelectedItem(item);
                 }}
               >
-                Close
+                {t(translations.activeLoan.table.container.close)}
               </CloseButton>
             </div>
           </div>
         ),
       };
     });
-  }, [props.data, currentPrice]);
+  }, [props.data, currentPrice, t]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.

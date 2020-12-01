@@ -5,6 +5,8 @@
  */
 
 import React from 'react';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { InfoBox } from '../InfoBox';
 
 export function Announcement() {
@@ -12,12 +14,10 @@ export function Announcement() {
     <InfoBox
       icon="info-sign"
       content={
-        <>
-          As Sovryn has only recently launched, there is currently a{' '}
-          <span className="font-weight-bold">$21 limit </span>
-          on all transactions on the platform. We will be raising this limit to
-          $210 soon. Thank you for being an early adopter!
-        </>
+        <Trans
+          i18nKey={translations.announcement.message}
+          components={[<span className="font-weight-bold"></span>]}
+        />
       }
       localStorageRef="txLimitInfo"
     />

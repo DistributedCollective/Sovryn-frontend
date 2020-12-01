@@ -7,6 +7,8 @@
 import React from 'react';
 import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { media } from '../../../../styles/media';
 
 interface Props {
@@ -20,6 +22,8 @@ interface Props {
 }
 
 export function NotificationFormComponent(props: Props) {
+  const { t } = useTranslation();
+  const s = translations.notificationFromContainer;
   const text = {
     signup: {
       buttonText: 'submit',
@@ -28,18 +32,13 @@ export function NotificationFormComponent(props: Props) {
           <span className="mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>
-          Want to receive email notifications about margin calls and liquidated
-          positions?
+          {t(s.want)}
         </p>
       ),
     },
     update: {
       buttonText: 'update',
-      title: (
-        <p>
-          Update the name or email address associated with this wallet address.
-        </p>
-      ),
+      title: <p>{t(s.update)}</p>,
     },
   };
 
@@ -85,8 +84,7 @@ export function NotificationFormComponent(props: Props) {
           className="col-md-8 col-sm-12"
           style={{ fontSize: '11px' }}
         >
-          I would like to receive emails about updates and new features from
-          Sovryn
+          {t(s.recieve)}
         </Checkbox>
         <div className="col-md-4 col-sm-12">
           <StyledButton

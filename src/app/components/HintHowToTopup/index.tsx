@@ -1,8 +1,11 @@
 import React from 'react';
 import { Icon } from '@blueprintjs/core';
 import { currentNetwork } from 'utils/classifiers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function HintHowToTopup() {
+  const { t } = useTranslation();
   const link = {
     mainnet: {
       text: 'the Fast-BTC-Relay',
@@ -17,12 +20,11 @@ export function HintHowToTopup() {
   return (
     <div>
       <p>
-        <Icon icon="info-sign" /> You're connected! To trade and lend with
-        Sovryn, you will need some Bitcoin on the RSK platform.
+        <Icon icon="info-sign" /> {t(translations.hintHowToTopUp.hintOne)}
       </p>{' '}
       <p>
         {' '}
-        Top up your wallet at{' '}
+        {t(translations.hintHowToTopUp.hintTwo)}{' '}
         <a
           href={link[currentNetwork].link}
           target="_blank"
@@ -30,7 +32,7 @@ export function HintHowToTopup() {
         >
           {link[currentNetwork].text}
         </a>
-        , and get started!
+        , {t(translations.hintHowToTopUp.hintThree)}
       </p>
     </div>
   );

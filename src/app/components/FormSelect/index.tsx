@@ -8,6 +8,8 @@ import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import { Icon, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
 
@@ -23,6 +25,7 @@ interface Props {
 }
 
 export function FormSelect(props: Props) {
+  const { t } = useTranslation();
   const onItemSelect = item => props.onChange(item);
 
   const getSelected = useCallback(() => {
@@ -46,8 +49,8 @@ export function FormSelect(props: Props) {
           disabled={true}
           text={
             props.loading && !props.items
-              ? 'Loading, please wait.'
-              : 'No results.'
+              ? t(translations.formSelect.loading)
+              : t(translations.formSelect.noresults)
           }
         />
       }

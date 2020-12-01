@@ -5,6 +5,8 @@
  */
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
@@ -21,6 +23,8 @@ import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
+
+const s = translations.topUpTradingPositionHandler;
 
 interface Props {
   item: ActiveLoan;
@@ -49,6 +53,7 @@ export function TopUpTradingPositionHandler(props: Props) {
   };
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
+  const { t } = useTranslation();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const { sufficient, liquidity } = useCheckLiquidity(
@@ -67,17 +72,17 @@ export function TopUpTradingPositionHandler(props: Props) {
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="container position-relative">
         <h4 className="text-teal text-center mb-5 text-uppercase">
-          Top Up position
+          {t(s.title)}
         </h4>
 
         <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
           <div className="col-4 col-lg-4 flex-grow-0">
-            <FieldGroup label="Currency">
+            <FieldGroup label={t(s.currency)}>
               <DummyField>{tokenDetails.asset}</DummyField>
             </FieldGroup>
           </div>
           <div className="col flex-grow-1 flex-shrink-0">
-            <FieldGroup label="Top Up Amount">
+            <FieldGroup label={t(s.topUpAmount)}>
               <AmountField
                 value={amount || ''}
                 onChange={value => setAmount(value)}
@@ -94,7 +99,7 @@ export function TopUpTradingPositionHandler(props: Props) {
         <div className="mt-4 d-flex flex-row justify-content-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
           <DialogButton
-            text="Top Up"
+            text={t(s.topUp)}
             onClick={() => handleConfirm()}
             disabled={rest.loading || !valid || !canInteract}
             loading={rest.loading}
