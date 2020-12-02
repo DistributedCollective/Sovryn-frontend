@@ -56,14 +56,17 @@ export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 export const liquidityPools = [
   {
     source: Asset.BTC,
-    target: Asset.DOC,
     label: 'rBTC',
     tokenLabel: 'rBTC',
   },
   {
     source: Asset.DOC,
-    target: Asset.BTC,
     label: 'DoC',
     tokenLabel: 'DoC',
+  },
+  {
+    source: Asset.USDT,
+    label: 'USDT',
+    tokenLabel: 'USDT',
   },
 ];

@@ -20,8 +20,6 @@
     <script
       type="text/javascript"
       src="https://s3.tradingview.com/tv.js"
-      integrity="sha384-DYyh2xpwPoxHreZgm5YBtY0ZjTItWkFBz2FSVcL2LWpJazdzq9x8oOkHwVkQ21Bg"
-      crossorigin="anonymous"
     ></script>
 
     <title>Sovryn</title>
@@ -79,11 +77,6 @@
         g.type = 'text/javascript';
         g.async = true;
         g.src = '//cdn.matomo.cloud/sovrynapp.matomo.cloud/matomo.js';
-        g.setAttribute('crossorigin', 'anonymous');
-        g.setAttribute(
-          'integrity',
-          'sha256-CZU3GjWaSnAdZvixg95hRN6aBC5brIS2+SCWj1FWd0I=',
-        );
         s.parentNode.insertBefore(g, s);
       })();
     </script>
@@ -148,8 +141,6 @@
         ybug.async = true;
         ybug.src =
           'https://widget.ybug.io/button/' + window.ybug_settings.id + '.js';
-        ybug.setAttribute('integrity', 'sha256-5pV9b7qjc0Vcr2Zt4HvYy934+2R+m/MfrfEJCaLqy0E=');
-        ybug.setAttribute('crossorigin', 'anonymous');
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ybug, s);
       })();

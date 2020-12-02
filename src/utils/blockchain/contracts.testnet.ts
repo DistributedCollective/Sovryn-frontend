@@ -78,6 +78,21 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 1218844,
   },
+  USDT_token: {
+    address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  USDT_lending: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
+  USDT_poolToken: {
+    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+    abi: tokenAbi,
+    blockNumber: 1218844,
+  },
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {
       whitelistToken: {
