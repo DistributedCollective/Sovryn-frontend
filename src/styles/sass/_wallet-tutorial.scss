@@ -2,6 +2,7 @@ $scale: 0.8;
 
 .wallet-tutorial {
   &_container {
+    z-index: 100;
     background-color: rgba(23, 23, 23, 0.5);
     width: 100vw;
     height: 100vh;
@@ -59,7 +60,7 @@ $scale: 0.8;
     .right-box {
       color: var(--black);
       position: absolute;
-      left: 62%;
+      left: 60%;
       top: 32%;
       width: 250px;
       font-size: 10px;
@@ -140,8 +141,14 @@ $scale: 0.8;
       position: absolute;
       left: 70%;
       top: 75%;
-      opacity: 0.8;
+      opacity: 0.5;
       height: calc(0.8 * 49px);
+      &.active {
+          opacity: 1;
+          cursor: pointer;
+          -webkit-animation: infinite bounce 1s linear;
+          animation: bounce 1s infinite linear;
+      }
       img {
           height: 100%;
           width: 100%;
@@ -149,6 +156,7 @@ $scale: 0.8;
     }
     .close {
       position: absolute;
+      cursor: pointer;
       left: 5%;
       top: 6%;
       height: calc(0.8 * 45px);
@@ -168,6 +176,7 @@ $scale: 0.8;
         vertical-align: middle;
         padding: 12px;
         margin: 0;
+        font-size: smaller;
       }
     }
     .speech {
@@ -191,7 +200,7 @@ $scale: 0.8;
       p {
         position: absolute;
         left: 12%;
-        top: 15%;
+        top: 12%;
         padding: 10px;
         text-align: center;
         width: 150px;
@@ -225,4 +234,19 @@ $scale: 0.8;
       100% {
         transform: scale(1);
       }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1)
+    }
+    30% {
+        transform: scale(1.05)
+    }
+    50% {
+        transform: scale(1.03)
+    }
+    70% {
+        transform: scale(1.05)
+    }
 }

@@ -402,7 +402,7 @@ export class SovrynNetwork {
       await this.disconnect();
       return Promise.reject('Unsupported network');
     }
-    localStorage.setItem('conntedToRskBefore', 'true');
+    localStorage.setItem('connectedToRskBefore', 'true');
     return Promise.resolve();
   }
 }

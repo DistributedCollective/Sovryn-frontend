@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { TutorialDialog } from '../../components/TutorialDialog';
+import { TutorialDialog } from '../../components/TutorialDialog/container';
 
 interface Props {}
 

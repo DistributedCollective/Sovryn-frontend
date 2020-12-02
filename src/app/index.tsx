@@ -25,7 +25,7 @@ import { FastBtcPage } from './containers/FastBtcPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { useEffect, useState } from 'react';
 
-import { TutorialDialog } from './components/TutorialDialog';
+import { TutorialDialog } from './components/TutorialDialog/container';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
