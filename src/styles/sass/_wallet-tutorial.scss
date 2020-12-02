@@ -1,9 +1,5 @@
-// Clip paths
-$main-polygon: polygon(0 0, 100% 7%, 100% 93%, 0% 100%);
-$right-polygon: polygon(0 21%, 100% 0, 100% 100%, 0% 100%);
-$middle-polygon: polygon(0 0, 100% 6%, 100% 96%, 0% 100%);
-$border-width: 15px;
-$border-width-thin: 8px;
+@keyframes arm-move {
+}
 
 .wallet-tutorial {
   &_container {
@@ -19,119 +15,188 @@ $border-width-thin: 8px;
       margin-top: 20px;
       position: relative;
     }
+    .background {
+        position: relative;
+        img {
+            width: 100%;
+            height: 100%
+        }
+    }
     .arm {
       position: absolute;
       left: 32%;
       top: 20%;
       z-index: 20;
-      transition: 0.1s all;
+      transition: 0.9s;
+      transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
       &.high {
-        transform: rotate(20deg);
-        margin-top: -12px;
+        transform: rotate(14deg);
+        transform-origin: 90% 45%;
       }
       &.mid-high {
-
+        transform: rotate(1deg);
+        transform-origin: 90% 45%;
       }
       &.center {
-        transform: rotate(-30deg);
-        margin-top: 50px;
+        transform: rotate(-20deg);
+        transform-origin: 90% 45%;
       }
       &.mid-low {
-        transform: rotate(-50deg);
-        margin-top: 60px;
-        margin-left: 20px;
+        transform: rotate(-40deg);
+        transform-origin: 90% 45%;
       }
       &.low {
         transform: rotate(-50deg);
-        margin-top: 80px;
-        margin-left: 40px;
+        transform-origin: 90% 45%;
       }
     }
     .right-box {
-        color: var(--black);
-        position: absolute;
-        left: 60%;
-        top: 35%;
-        width: 310px;
-        font-size: small;
+      color: var(--black);
+      position: absolute;
+      left: 60%;
+      top: 35%;
+      width: 310px;
+      font-size: small;
+      p {
+        font-size: larger;
+        text-align: center;
+      }
+      .row {
+        line-height: 1.8;
+        padding: 0 8px;
+        > .col-5 {
+          font-weight: bold;
+        }
+        [class^='col'] {
+          padding: 0;
+        }
+      }
     }
     .left-box {
-        position: absolute;
-        left: 17%;
-        top: 28.5%;
-        &.browser {
-            left: 8.5%;
-        }
+      position: absolute;
+      left: 17%;
+      top: 28.5%;
+      &.browser {
+        left: 8.5%;
+      }
     }
     .step-box {
+      position: absolute;
+      left: 5%;
+      top: 15%;
+      p {
+        color: var(--black);
         position: absolute;
-        left: 5%;
-        top: 15%;
-        p {
-            color: var(--black);
-            position: absolute;
-            left: 30%;
-            top: 30%;
-        }
+        left: 25%;
+        top: 25%;
+        font-size: larger;
+      }
     }
     .stepper {
-        position: absolute;
-        left: 15%;
-        top: 90%;
-        > .flex-row > * {
-            cursor: pointer;
+      position: absolute;
+      left: 15%;
+      top: 85%;
+      > .flex-row > * {
+        cursor: pointer;
+      }
+      &_circle {
+        background-color: var(--black);
+        opacity: 0.25;
+        height: 20px;
+        width: 20px;
+        margin: 0 2px;
+        border-radius: 100%;
+        &.active {
+          background-color: var(--black);
+          opacity: 1;
         }
-        &_circle {
-            background-color: var(--gray);
-            height: 20px;
-            width: 20px;
-            margin: 0 2px;
-            border-radius: 100%;
-            &.active {
-                background-color: var(--black);
-            }
-            &:first-of-type {
-                margin-left: 8px
-            }
-            &:last-of-type {
-                margin-right: 8px;
-            }
+        &:first-of-type {
+          margin-left: 8px;
         }
+        &:last-of-type {
+          margin-right: 8px;
+        }
+      }
     }
     .engage {
-        position: absolute;
-        left: 75%;
-        top: 80%;
+      position: absolute;
+      left: 75%;
+      top: 80%;
+      opacity: 0.8;
     }
     .close {
-        position: absolute;
-        left: 5%;
-        top: 6%;
+      position: absolute;
+      left: 5%;
+      top: 6%;
     }
     .banner {
-        background-color: black;
-        position: absolute;
-        width: 100%;
-        transform: rotate(-1deg);
-        margin-top: -2px;
-        p {
-            text-align: center;
-            vertical-align: middle;
-            padding: 12px;
-            margin: 0
-        }
+      background-color: black;
+      position: relative;
+      width: 98%;
+      transform: rotate(-1deg);
+      margin-top: -2px;
+      p {
+        text-align: center;
+        vertical-align: middle;
+        padding: 12px;
+        margin: 0;
+      }
     }
     .speech {
+      position: absolute;
+      left: 50%;
+      top: 4%;
+      color: var(--black);
+      width: 200px;
+
+      &.step1, &.step3, &.step5 {
+        -webkit-animation: 1 grow 0.8s alternate ease-in-out;
+        animation: grow 0.8s 1 alternate ease-in-out;
+      }
+      &.step2, &.step4, &.step6 {
+        -webkit-animation: 1 bob 0.8s alternate ease-in-out;
+        animation: bob 0.8s 1 alternate ease-in-out;
+      }
+      img {
+        height: 100%;
+        width: 100%;
+        transform: rotate(10deg);
+      }
+      p {
         position: absolute;
-        left: 52%;
-        top: 14%;
-        color: var(--black);
-        p {
-            position: absolute;
-            left: 35%;
-            top: 14%;
-        }
+        left: 15%;
+        top: 20%;
+        padding: 10px;
+        text-align: center;
+        width: 150px;
+      }
     }
   }
 }
-    
+
+@keyframes bob {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  85% {
+      transform: translateY(5px)
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0.01);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+}
