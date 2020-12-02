@@ -5,6 +5,7 @@ export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [Asset.BTC, new LendingPool('BTC', Asset.BTC)],
     [Asset.DOC, new LendingPool('DoC', Asset.DOC)],
+    [Asset.USDT, new LendingPool('USDT', Asset.USDT)],
   ]);
 
   public static get(asset: Asset): LendingPool {

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Text } from '@blueprintjs/core';
@@ -44,6 +44,11 @@ export function LiquidityRemoveContainer(props: Props) {
 
   const poolAddress = usePoolToken(sourceToken);
   const weiAmount = useWeiAmount(amount);
+
+  useEffect(() => {
+    console.log(`${sourceToken} pool address - `, poolAddress.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poolAddress.value]);
 
   const {
     value: targetValue,

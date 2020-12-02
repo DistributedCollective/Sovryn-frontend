@@ -31,7 +31,6 @@ export function LiquidityAddContainer(props: Props) {
   const isConnected = useCanInteract();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
-    target: item.target,
     label: item.label,
   }));
 
