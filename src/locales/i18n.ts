@@ -4,11 +4,15 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './en/translation.json';
+import es from './es/translation.json';
 import { ConvertedToObjectType } from './types';
 
 const translationsJson = {
   en: {
     translation: en,
+  },
+  es: {
+    translation: es,
   },
 };
 
@@ -45,8 +49,11 @@ export const i18n = i18next
   .init(
     {
       resources: translationsJson,
-
+      react: {
+        useSuspense: true,
+      },
       fallbackLng: 'en',
+      whitelist: ['en', 'es'], // available languages for browser dector to pick from
       debug:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',

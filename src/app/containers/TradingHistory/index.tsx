@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSortBy, useTable } from 'react-table';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EventData } from 'web3-eth-contract';
+import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { Asset } from '../../../types/asset';
@@ -163,6 +165,7 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 }
 
 export function TradingHistory() {
+  const { t } = useTranslation();
   const account = useAccount();
   const eventsState = useSelector(selectEventsState);
 
@@ -227,7 +230,11 @@ export function TradingHistory() {
   }
 
   if (!loading && !events.length) {
-    return <div className="p-3">You do not have any closed trades.</div>;
+    return (
+      <div className="p-3">
+        {t(translations.tradingHistoryPage.noClosedTrades)}
+      </div>
+    );
   }
 
   return (

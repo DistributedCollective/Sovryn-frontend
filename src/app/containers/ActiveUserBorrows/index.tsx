@@ -4,14 +4,17 @@
  *
  */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { ActiveBorrowTable } from '../../components/ActiveBorrowTable';
+import { translations } from 'locales/i18n';
 
 interface Props {}
 
 export function ActiveUserBorrows(props: Props) {
+  const { t } = useTranslation();
   const account = useAccount();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { value, loading } = useGetActiveLoans(
@@ -29,7 +32,9 @@ export function ActiveUserBorrows(props: Props) {
 
   if (!value.length && !loading) {
     return (
-      <div className="container pt-4">You do not have any active loans.</div>
+      <div className="container pt-4">
+        {t(translations.activeUserBorrows.text)}
+      </div>
     );
   }
 

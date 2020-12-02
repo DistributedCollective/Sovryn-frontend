@@ -4,6 +4,9 @@
  *
  */
 import React, { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { LanguageToggle } from '../../components/LanguageToggle';
 
 export function Footer() {
   const [hasMatomo, setHasMatomo] = useState(false);
@@ -17,8 +20,14 @@ export function Footer() {
       <div className="container py-3">
         <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey">
           <h6>
-            Powered by <strong>Bitcoin</strong>
+            <Trans
+              i18nKey={translations.footer.title}
+              components={[<strong></strong>]}
+            />
           </h6>
+          <div>
+            <LanguageToggle />
+          </div>
         </div>
         {hasMatomo && (
           <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">

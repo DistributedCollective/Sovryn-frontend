@@ -4,7 +4,9 @@
  *
  */
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled, { ThemeProvider } from 'styled-components';
+import { translations } from 'locales/i18n';
 
 interface Props {
   min: number;
@@ -15,6 +17,8 @@ interface Props {
 }
 
 export function LeverageSelector(props: Props) {
+  const { t } = useTranslation();
+
   const items = Array.from(
     Array(props.max + 1 - props.min),
     (_, i) => i + props.min,
@@ -45,7 +49,7 @@ export function LeverageSelector(props: Props) {
   return (
     <div className="row d-flex flex-column flex-lg-row align-items-lg-center">
       <div className="col-12 col-lg-3 font-weight-bold font-size-lg mb-3 mb-lg-0">
-        Leverage
+        <LeverageText>{t(translations.leverageSelector.text)}</LeverageText>
       </div>
       <div className="col-12 col-lg-9">
         <div className="d-inline-flex justify-content-between align-items-start w-100">
@@ -81,6 +85,12 @@ const Button = styled.button`
     color: white;
     border-color: white;
   }
+`;
+
+const LeverageText = styled.div`
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 `;
 
 LeverageSelector.defaultProps = {

@@ -7,12 +7,14 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog } from '@blueprintjs/core';
 import { SendTxResponseInterface } from 'app/hooks/useSendContractTx';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { bignumber } from 'mathjs';
+import { fromWei } from 'web3-utils';
 import { SendTxProgress } from '../SendTxProgress';
 import { CloseModalButton } from '../CloseModalButton';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { Asset } from '../../../types/asset';
-import { bignumber } from 'mathjs';
-import { fromWei } from 'web3-utils';
 import { weiToBigInt } from '../../../utils/blockchain/math-helpers';
 
 interface Props {
@@ -30,6 +32,7 @@ export function WithdrawLentDialog(props: Props) {
   const assetDetails = AssetsDictionary.get(props.asset);
   const fixedAmount = weiToBigInt(props.amount);
   const [isValid, setValid] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (fixedAmount) {
@@ -60,12 +63,12 @@ export function WithdrawLentDialog(props: Props) {
             style={{ height: '5rem' }}
           />
           <div className="text-Gold text-center mt-4 modal-title d-inline">
-            Withdraw {props.asset}
+          {t(translations.withdrawLentDialog.withdraw)} {props.asset}
           </div>
         </div>
         <div className="row p-3 mt-3">
           <div className="col-md-5 col-sm-12 data-label">
-            Amount to withdraw
+          {t(translations.withdrawLentDialog.amount)}
           </div>
         </div>
         <div className="d-flex flex-row">
@@ -103,7 +106,7 @@ export function WithdrawLentDialog(props: Props) {
                 onClick={() => props.onConfirm()}
                 disabled={props.txState?.loading || !isValid}
               >
-                Withdraw {props.asset}
+                {t(translations.withdrawLentDialog.withdraw)} {props.asset}
               </button>
             </div>
           </div>

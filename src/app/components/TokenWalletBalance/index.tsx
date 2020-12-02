@@ -4,6 +4,8 @@
  *
  */
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -17,6 +19,8 @@ interface Props {
 
 export function TokenWalletBalance(props: Props) {
   const { value, loading } = useTokenBalanceOf(props.asset);
+  const { t } = useTranslation();
+
   const connected = useIsConnected();
 
   useEffect(() => {
@@ -27,8 +31,8 @@ export function TokenWalletBalance(props: Props) {
 
   return (
     <div>
-      <div className="font-weight-bold text-muted mb-2">Account Balance</div>
-      {!connected && <span>Connect to wallet</span>}
+      <div className="font-weight-bold text-muted mb-2">{t(translations.assetWalletBalance.accountBalance)}</div>
+      {!connected && <span>{t(translations.assetWalletBalance.connect)}</span>}
       {connected && (
         <div className="d-flex flex-row justify-content-start align-items-center">
           <span className="text-muted">{props.asset}</span>

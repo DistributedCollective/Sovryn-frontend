@@ -5,13 +5,16 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { LendingPoolDictionary } from 'utils/lending-pool-dictionary';
+import { translations } from 'locales/i18n';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { StatsRow } from '../../components/StatsRow';
 
 export function StatsPage() {
+  const { t } = useTranslation();
   const assets = LendingPoolDictionary.assetList();
   return (
     <>
@@ -22,12 +25,12 @@ export function StatsPage() {
             <table className="w-100">
               <thead>
                 <tr>
-                  <th>Asset</th>
-                  <th>Total Asset Supplied</th>
-                  <th>Total Asset Borrowed</th>
-                  <th>Total Available</th>
-                  <th>Supply APR</th>
-                  <th>Borrow APR</th>
+                  <th>{t(translations.statsPage.asset)}</th>
+                  <th>{t(translations.statsPage.totalAssetSupplied)}</th>
+                  <th>{t(translations.statsPage.totalAssetBorrowed)}</th>
+                  <th>{t(translations.statsPage.totalAvailable)}</th>
+                  <th>{t(translations.statsPage.supplyAPR)}</th>
+                  <th>{t(translations.statsPage.borrowAPR)}</th>
                 </tr>
               </thead>
               <tbody className="mt-5">

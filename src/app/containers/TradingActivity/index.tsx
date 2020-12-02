@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { ActiveUserLoans } from '../ActiveUserLoans';
 import { TradingHistory } from '../TradingHistory';
 import { Tab } from '../../components/Tab';
 import { useIsConnected } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
-import { translations } from 'locales/i18n';
 
 const s = translations.tradingActivity;
 

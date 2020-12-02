@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@blueprintjs/core';
 import { FieldGroup } from '../../components/FieldGroup';
@@ -55,14 +55,23 @@ export function SwapTradeForm(props: Props) {
     [],
   );
 
+  const getOptions = useCallback(() => {
+    return tokens
+      .map(item => {
+        const asset = AssetsDictionary.getByTokenContractAddress(item);
+        if (!asset) {
+          return null;
+        }
+        return {
+          key: asset.asset,
+          label: asset.symbol,
+        };
+      })
+      .filter(item => item !== null);
+  }, [tokens]);
+
   useEffect(() => {
-    const newOptions = tokens.map(item => {
-      const asset = AssetsDictionary.getByTokenContractAddress(item);
-      return {
-        key: asset.asset,
-        label: asset.symbol,
-      };
-    });
+    const newOptions = getOptions();
     setSourceOptions(newOptions);
 
     if (
@@ -75,13 +84,7 @@ export function SwapTradeForm(props: Props) {
   }, [tokens, targetToken]);
 
   useEffect(() => {
-    const newOptions = tokens.map(item => {
-      const asset = AssetsDictionary.getByTokenContractAddress(item);
-      return {
-        key: asset.asset,
-        label: asset.symbol,
-      };
-    });
+    const newOptions = getOptions();
     setTargetOptions(newOptions);
 
     if (

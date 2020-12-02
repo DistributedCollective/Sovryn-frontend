@@ -25,14 +25,12 @@ export function EmailPage(props: Props) {
 
   const text = {
     OPTIN: {
-      title: 'Success!',
-      subText:
-        'You will now receive email notifications when your positions are close to liquidation, and if a position has been liquidated. You may opt out of these at any time',
+      title: t(s.email.optin.title),
+      subText: t(s.email.optin.text),
     },
     UNSUBSCRIBE: {
-      title: 'You are now unsubscribed from email notifications',
-      subText:
-        'You will no longer receive emails about margin calls or liquidated positions. You can re-subscribe to these notifications at any time.',
+      title: t(s.email.unsubscribe.title),
+      subText: t(s.email.unsubscribe.text),
     },
   };
 

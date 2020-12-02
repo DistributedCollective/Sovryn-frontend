@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
@@ -30,6 +32,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const [amount, setAmount] = useState<string>('');
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
+  const { t } = useTranslation();
 
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
@@ -101,7 +104,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
 
   return (
     <>
-      <FieldGroup label="Amount to borrow">
+      <FieldGroup label={t(translations.lend.borrowingContainer.amount)}>
         <AmountField
           value={amount}
           onChange={value => setAmount(value)}
@@ -114,7 +117,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
       </FieldGroup>
       <div className="row">
         <div className="col-4">
-          <FieldGroup label="Token to collarate">
+          <FieldGroup label={t(translations.lend.borrowingContainer.token)}>
             <FormSelect
               onChange={item => setTokenToCollarate(item.key)}
               value={tokenToCollarate}
@@ -126,7 +129,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           <FieldGroup
             label={
               <>
-                Collateral amount{' '}
+                {t(translations.lend.borrowingContainer.collateralAmount)}{' '}
                 {maxAmount !== '0' && !loadingLimit && (
                   <span className="text-muted">
                     (Max: {weiTo4(maxAmount)} {tokenToCollarate})
@@ -147,7 +150,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           <AssetWalletBalance asset={tokenToCollarate} />
         </div>
         <TradeButton
-          text={`Borrow ${currency}`}
+          text={t(translations.lend.borrowingContainer.borrow) + ` ${currency}`}
           onClick={handleSubmitBorrow}
           disabled={!valid || !isConnected || txStateBorrow.loading}
           loading={txStateBorrow.loading}
