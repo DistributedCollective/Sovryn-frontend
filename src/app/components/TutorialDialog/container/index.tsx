@@ -40,6 +40,15 @@ export function TutorialDialog() {
     }
   }, [checks]);
 
+  useEffect(() => {
+    const body = document.getElementsByTagName('body')[0];
+    if (show) {
+      body.classList.add('overflow-hidden');
+    } else {
+      body.classList.remove('overflow-hidden');
+    }
+  });
+
   function handleClose() {
     window.sessionStorage.setItem('closedRskTutorial', 'true');
     setShow(false);
