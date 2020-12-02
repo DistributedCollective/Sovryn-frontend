@@ -8,26 +8,34 @@ import engage from 'assets/images/tutorial/engage.svg';
 import close from 'assets/images/tutorial/close.svg';
 import speechBubble from 'assets/images/tutorial/speech_bubble.svg';
 import { content } from './content';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 export function TutorialDialog() {
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
   const [cycle, setCycle] = useState(true);
   const [step, setStep] = useState(1);
   const [speechText, setSpeechText] = useState(content[1].speech);
-  const firstTime = !window.localStorage.getItem('rsk');
-  const connected = '';
-  const closed = '';
-
-  //Check if user has connected to RSK before
-  useEffect(() => {
-    firstTime ? console.log('First time user') : console.log('Used before');
-  }, [firstTime]);
+  const previousUser =
+    window.localStorage.getItem('connectedToRskBefore') === 'true';
+  const connected = useIsConnected();
+  const closed = window.sessionStorage.getItem('closedRskTutorial');
 
   //Check if user is currently connected
 
   //On close, save preference in session storage
 
+  function handleClose() {
+    window.sessionStorage.setItem('closedRskTutorial', 'true');
+    setShow(false);
+  }
+
   //On open, check session storage for preference
+
+  useEffect(() => {
+    if ((!previousUser && !connected) || closed !== 'true') {
+      setShow(true);
+    }
+  }, [previousUser, closed, connected]);
 
   const timer = ms => new Promise(res => setTimeout(res, ms));
 
@@ -72,7 +80,7 @@ export function TutorialDialog() {
               <img src={speechBubble} alt="" />
               <p>{speechText}</p>
             </div>
-            <div className="close" onClick={() => setShow(false)}>
+            <div className="close" onClick={handleClose}>
               <img src={close} alt="close" />
             </div>
             <div className={`left-box ${step === 1 && 'browser'}`}>
@@ -150,7 +158,10 @@ export function TutorialDialog() {
               </div>
             </div>
             <div className="banner">
-              <p>Join us on discord...</p>
+              <p>
+                For any assistance, reach out to the community (DISCORD INVITE
+                LINK)
+              </p>
             </div>
             <div className="engage">
               <img src={engage} alt="engage button" />
