@@ -61,9 +61,6 @@ export function Screen2(props: Props) {
   }, [props.onMainnet]);
   return (
     <>
-      <div className="title-text">
-        <p>How to Connect to the RSK Network</p>
-      </div>
       <div className="crater">
         <img src={crater} alt="" />
       </div>

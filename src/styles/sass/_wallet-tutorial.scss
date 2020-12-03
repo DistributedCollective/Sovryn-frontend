@@ -15,6 +15,16 @@ $scale: 0.8;
       top: 5%;
       margin: 0 auto;
     }
+    .title {
+      color: var(--black);
+      top: 8%;
+      left: 73%;
+      text-align: center;
+      width: 200px;
+      h1 {
+        font-size: 20px;
+      }
+    }
     .background {
       position: relative;
       width: 100%;
@@ -334,14 +344,14 @@ $scale: 0.8;
     height: calc(131px * #{$scale});
     width: calc(205px * #{$scale});
     top: 44%;
-    left: 39%;
+    left: 7%;
     z-index: 25;
   }
   .mobile-icon {
     height: calc(149px * #{$scale});
     width: calc(134px * #{$scale});
     top: 44%;
-    left: 12%;
+    left: 43%;
     z-index: 25;
   }
   .hardware-icon {
@@ -385,4 +395,12 @@ $scale: 0.8;
       left: 68%;
     }
   }
+}
+
+.tutorial-container {
+  width: 750px;
+  height: 430px;
+  top: 5%;
+  left: 2%;
+  padding: 80px 20px 0 20px;
 }

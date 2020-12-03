@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import background from 'assets/images/tutorial/test.svg';
 import close from 'assets/images/tutorial/close.svg';
 import { Screen1 } from '../screen1';
+import { Screen11 } from '../Screen1_1';
 import { Screen2 } from '../screen2';
 
 import { translations } from 'locales/i18n';
@@ -25,9 +26,20 @@ export function TutorialDialogComponent(props) {
           <div className="close" onClick={props.handleClose}>
             <img src={close} alt="close" />
           </div>
+          <div className="title position-absolute">
+            <h1>
+              {t(
+                translations.rskConnectTutorial.screens[screen.toString()]
+                  .title,
+              )}
+            </h1>
+          </div>
           <div className="banner">
             <p>
-              {t(translations.rskConnectTutorial.banner)}{' '}
+              {t(
+                translations.rskConnectTutorial.screens[screen.toString()]
+                  .banner,
+              )}{' '}
               <a
                 href="https://discord.com/invite/J22WS6z"
                 target="_blank"
@@ -40,9 +52,11 @@ export function TutorialDialogComponent(props) {
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}
+              onMainnet={props.onMainnet}
               handleEngage={props.handleEngage}
             />
           )}
+          {screen === 11 && <Screen11 />}
           {screen === 2 && (
             <Screen2
               onMainnet={props.onMainnet}

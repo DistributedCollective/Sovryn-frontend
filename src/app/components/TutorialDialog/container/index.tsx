@@ -8,7 +8,7 @@ import { TutorialDialogComponent } from '../component';
 
 export function TutorialDialog() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true);
 
   const checks = {
     previousUser:
@@ -33,12 +33,12 @@ export function TutorialDialog() {
     setShow(false);
   }
 
-  useEffect(() => {
-    const shouldShow = Object.values(checks).every(check => check === false);
-    if (shouldShow) {
-      setShow(true);
-    }
-  }, [checks]);
+  // useEffect(() => {
+  //   const shouldShow = Object.values(checks).every(check => check === false);
+  //   if (shouldShow) {
+  //     setShow(true);
+  //   }
+  // }, [checks]);
 
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];

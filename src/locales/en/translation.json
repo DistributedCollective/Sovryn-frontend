@@ -291,6 +291,19 @@
       "explorer_url": "New Block Explorer URL"
     },
     "step": "Step",
-    "banner": "For any assistance, reach out to the community"
+    "screens": {
+      "1": {
+        "title": "Connect Your Wallet",
+        "banner": "Don't have a wallet? We recomend Metamask.io"
+      },
+      "11": {
+        "title": "Connect to the RSK Network",
+        "banner": "Don't have a wallet? We recomend Metamask.io"
+      },
+      "2": {
+        "title": "How to Connect to RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      }
+    }
   }
 }

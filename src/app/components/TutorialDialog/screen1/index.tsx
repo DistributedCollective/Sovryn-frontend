@@ -4,16 +4,28 @@ import rectangle from 'assets/images/tutorial/screen1_rectangle.svg';
 import browserIcon from 'assets/images/tutorial/brower_icon.svg';
 import mobileIcon from 'assets/images/tutorial/mobile_icon.svg';
 import hardwareIcon from 'assets/images/tutorial/hardware_icon.svg';
+import { currentChainId } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
   handleClick: (num: Number) => void;
+  onMainnet: boolean;
   handleEngage: () => void;
 }
 
 export function Screen1(props: Props) {
   const { t } = useTranslation();
+  function handleBrowserClick() {
+    if (
+      window.ethereum &&
+      parseInt(window.ethereum.chainId) === currentChainId
+    ) {
+      props.handleEngage();
+    } else {
+      props.handleClick(2);
+    }
+  }
 
   return (
     <>
@@ -21,7 +33,7 @@ export function Screen1(props: Props) {
         <div className="screen1-background">
           <img src={screen1Bg} alt="" />
         </div>
-        <div className="browser-wallet" onClick={props.handleEngage}>
+        <div className="browser-wallet" onClick={handleBrowserClick}>
           <div className="rectangle1">
             <img src={rectangle} alt="" />
           </div>
