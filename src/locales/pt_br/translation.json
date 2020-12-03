@@ -22,8 +22,8 @@
     "title": "Operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Operações ativas",
-      "tradingHistory": "Histórico de operações"
+      "activeTrades": "Ativas",
+      "tradingHistory": "Concluídas"
     }
   },
   "tradingPage": {
