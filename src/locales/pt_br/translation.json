@@ -1,7 +1,7 @@
 {
   "title": "Sovryn",
   "announcement": {
-    "message": "Como a Sovryn foi recém lançada, existe atualmente um limite de <0>$21</0> em todas as transações na plataforma. Vamos aumentar esse limite para $210 em breve. Obrigado por ser um dos primeiros a adotar!"
+    "message": "Como a Sovryn foi recém lançada, existe atualmente um limite de <0>$21</0> em todas as transações na plataforma. Em breve vamos aumentar esse limite para $210. Obrigado por ser um dos primeiros a usar!"
   },
   "homePage": {
     "title": "Página inicial",
@@ -227,7 +227,7 @@
     },
     "container": {
       "leftBtn": "Depositar",
-      "rightBtn": "Resgatar",
+      "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Saldo",
       "profit": "Lucro",
