@@ -16,26 +16,56 @@ $scale: 0.8;
       margin: 0 auto;
     }
     .background {
-        position: relative;
+      position: relative;
+      width: 100%;
+      img {
         width: 100%;
-        img {
-            width: 100%;
-            height: 100%
-        }
+        height: 100%;
+      }
+    }
+    .title-text {
+      position: absolute;
+      color: var(--black);
+      top: 8%;
+      left: 75%;
+      width: 180px;
+      font-weight: 900;
+    }
+    .crater {
+      position: absolute;
+      left: 50%;
+      top: 66%;
+      height: calc(0.8 * 168px);
+      width: calc(0.8 * 474px);
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .badger-body {
+      position: absolute;
+      left: 29%;
+      top: 12%;
+      height: calc(0.8 * 375px);
+      width: calc(0.8 * 286px);
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .arm {
       position: absolute;
       left: 32%;
-      top: 20%;
+      top: 18%;
       z-index: 20;
       transition: 0.9s;
       transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
       height: calc(0.8 * 256px);
-     width: calc(0.8 * 264px);
+      width: calc(0.8 * 264px);
       img {
         width: 100%;
-        height: 100%
-    }
+        height: 100%;
+      }
       &.high {
         transform: rotate(14deg);
         transform-origin: 90% 45%;
@@ -78,24 +108,46 @@ $scale: 0.8;
           padding: 0;
         }
       }
+      &_outline {
+        position: absolute;
+        left: 58%;
+        top: 28%;
+        height: calc(0.8 * 239px);
+        width: calc(0.8 * 343px);
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
     .left-box {
       position: absolute;
       left: 17%;
       top: 26%;
       img {
-          height: calc(320px * 0.8);
+        height: calc(320px * 0.8);
       }
       &.browser {
         left: 8.5%;
+      }
+      &_outline {
+        position: absolute;
+        left: 8%;
+        top: 19%;
+        height: calc(0.8 * 398px);
+        width: calc(0.8 * 364px);
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .step-box {
       position: absolute;
       left: 5%;
       top: 15%;
-      height: calc(0.8* 76px);
-      width: calc(0.8* 153px);
+      height: calc(0.8 * 76px);
+      width: calc(0.8 * 153px);
       img {
         height: 100%;
         width: 100%;
@@ -116,7 +168,7 @@ $scale: 0.8;
         cursor: pointer;
       }
       img {
-          height: calc(0.8* 25px);
+        height: calc(0.8 * 25px);
       }
       &_circle {
         background-color: var(--black);
@@ -144,14 +196,14 @@ $scale: 0.8;
       opacity: 0.5;
       height: calc(0.8 * 49px);
       &.active {
-          opacity: 1;
-          cursor: pointer;
-          -webkit-animation: infinite bounce 1s linear;
-          animation: bounce 1s infinite linear;
+        opacity: 1;
+        cursor: pointer;
+        -webkit-animation: infinite bounce 1s linear;
+        animation: bounce 1s infinite linear;
       }
       img {
-          height: 100%;
-          width: 100%;
+        height: 100%;
+        width: 100%;
       }
     }
     .close {
@@ -161,8 +213,8 @@ $scale: 0.8;
       top: 6%;
       height: calc(0.8 * 45px);
       img {
-          height: 100%;
-          width: 100%;
+        height: 100%;
+        width: 100%;
       }
     }
     .banner {
@@ -185,11 +237,15 @@ $scale: 0.8;
       top: 0%;
       color: var(--black);
       width: 200px;
-      &.step1, &.step3, &.step5 {
+      &.step1,
+      &.step3,
+      &.step5 {
         -webkit-animation: 1 grow 0.8s alternate ease-in-out;
         animation: grow 0.8s 1 alternate ease-in-out;
       }
-      &.step2, &.step4, &.step6 {
+      &.step2,
+      &.step4,
+      &.step6 {
         -webkit-animation: 1 bob 0.8s alternate ease-in-out;
         animation: bob 0.8s 1 alternate ease-in-out;
       }
@@ -217,7 +273,7 @@ $scale: 0.8;
     transform: translateY(-20px);
   }
   85% {
-      transform: translateY(5px)
+    transform: translateY(5px);
   }
   100% {
     transform: translateY(0);
@@ -225,28 +281,108 @@ $scale: 0.8;
 }
 
 @keyframes grow {
-    0% {
-        transform: scale(0.01);
-      }
-      50% {
-        transform: scale(1.2);
-      }
-      100% {
-        transform: scale(1);
-      }
+  0% {
+    transform: scale(0.01);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes bounce {
-    0% {
-        transform: scale(1)
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+}
+
+// SCREEN 1
+
+.screen1 {
+  .screen1-background {
+    position: absolute;
+    top: 10%;
+    left: 4%;
+    height: calc(211px * #{$scale});
+    width: calc(595px * #{$scale});
+    img {
+      height: 100%;
+      width: 100%;
     }
-    30% {
-        transform: scale(1.05)
+  }
+  .browser-wallet *,
+  .mobile-wallet * {
+    cursor: pointer;
+  }
+  .hardware-wallet {
+    * {
+      opacity: 0.7;
     }
-    50% {
-        transform: scale(1.03)
+  }
+  .browser-icon {
+    height: calc(131px * #{$scale});
+    width: calc(205px * #{$scale});
+    top: 44%;
+    left: 39%;
+    z-index: 25;
+  }
+  .mobile-icon {
+    height: calc(149px * #{$scale});
+    width: calc(134px * #{$scale});
+    top: 44%;
+    left: 12%;
+    z-index: 25;
+  }
+  .hardware-icon {
+    height: calc(142px * #{$scale});
+    width: calc(158px * #{$scale});
+    top: 44%;
+    left: 73%;
+    z-index: 25;
+  }
+  [class*='wallet-text'] {
+    color: var(--black);
+    top: 73%;
+    width: 160px;
+    text-align: center;
+  }
+  .browser-wallet-text {
+    left: 8%;
+  }
+  .mobile-wallet-text {
+    left: 40%;
+  }
+  .hardware-wallet-text {
+    left: 71%;
+  }
+  [class^='rectangle'] {
+    position: absolute;
+    height: calc(328px * #{$scale});
+    width: calc(251px * #{$scale});
+    top: 35%;
+    img {
+      height: 100%;
+      width: 100%;
     }
-    70% {
-        transform: scale(1.05)
+    &[class$='1'] {
+      left: 6%;
     }
+    &[class$='2'] {
+      left: 37%;
+    }
+    &[class$='3'] {
+      left: 68%;
+    }
+  }
 }
