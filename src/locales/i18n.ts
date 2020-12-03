@@ -17,7 +17,7 @@ const translationsJson = {
   },
   pt_br: {
     translation: pt_br,
-  }
+  },
 };
 
 export type TranslationResource = typeof en;
