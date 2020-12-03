@@ -234,7 +234,7 @@
       "supply": "Fornecer"
     },
     "borrowingContainer": {
-      "amount": "Quantidade a pedir emprestado",
+      "amount": "Valor do empréstimo",
       "token": "Token a ser colaterizado",
       "collateralAmount": "Quantidade colaterizada",
       "borrow": "Tomar empréstimo"
