@@ -10,7 +10,13 @@ import { useTranslation } from 'react-i18next';
 
 export function TutorialDialogComponent(props) {
   const { t } = useTranslation();
-  const [screen, setScreen] = useState(1);
+  const [mouseLeave, setMouseLeave] = useState(false);
+  const activeTutorial =
+    window.localStorage.getItem('tutorial_active') === 'true' &&
+    props.onNetwork === true
+      ? true
+      : false;
+  const [screen, setScreen] = useState(activeTutorial ? 2 : 1);
 
   function changeScreen(num) {
     setScreen(num);
@@ -18,8 +24,16 @@ export function TutorialDialogComponent(props) {
 
   return (
     <>
-      <div className="wallet-tutorial_container">
-        <div>
+      <div
+        className="wallet-tutorial_container"
+        onMouseLeave={() => {
+          console.log('Mouse out');
+          if (screen === 2) {
+            setMouseLeave(true);
+          }
+        }}
+      >
+        <div className={`${screen === 2 && 'left'} position-absolute`}>
           <div className="background">
             <img src={background} alt="" />
           </div>
@@ -40,27 +54,44 @@ export function TutorialDialogComponent(props) {
                 translations.rskConnectTutorial.screens[screen.toString()]
                   .banner,
               )}{' '}
-              <a
-                href="https://discord.com/invite/J22WS6z"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                https://discord.com/invite/J22WS6z
-              </a>
+              {screen === 1 && (
+                <a
+                  href="https://metamask.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Metamask.io
+                </a>
+              )}
+              {screen !== 1 && (
+                <a
+                  href="https://discord.com/invite/J22WS6z"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  https://discord.com/invite/J22WS6z
+                </a>
+              )}
             </p>
           </div>
+          {/* <Screen2
+            onMainnet={props.onMainnet}
+            handleEngage={props.handleEngage}
+            mouseLeave={mouseLeave}
+          /> */}
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}
-              onMainnet={props.onMainnet}
+              onNetwork={props.onNetwork}
               handleEngage={props.handleEngage}
             />
           )}
-          {screen === 11 && <Screen11 />}
           {screen === 2 && (
             <Screen2
-              onMainnet={props.onMainnet}
+              onNetwork={props.onNetwork}
               handleEngage={props.handleEngage}
+              mouseLeave={mouseLeave}
+              activeTutorial={activeTutorial}
             />
           )}
         </div>

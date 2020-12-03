@@ -276,14 +276,15 @@
   "rskConnectTutorial": {
     "speech": {
       "1": "Open up your browser wallet",
-      "2": "Go to Network Selection",
+      "2": "Go to network dropdown",
       "3": "Select custom RPC",
       "4": "Input network details",
       "5": "Click Save",
-      "6": "Click Add Network"
+      "6": "Click Add Network",
+      "7": "Engage Your Wallet!"
     },
     "input_settings": {
-      "title": "Input settings",
+      "title": "RSK Network Settings",
       "network": "Network Name",
       "new_RPC": "New RPC URL",
       "chain_Id": "Chain ID",
@@ -294,11 +295,11 @@
     "screens": {
       "1": {
         "title": "Connect Your Wallet",
-        "banner": "Don't have a wallet? We recomend Metamask.io"
+        "banner": "Don't have a wallet? We recomend"
       },
       "11": {
         "title": "Connect to the RSK Network",
-        "banner": "Don't have a wallet? We recomend Metamask.io"
+        "banner": "Don't have a wallet? We recomend"
       },
       "2": {
         "title": "How to Connect to RSK Network",

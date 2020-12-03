@@ -1,3 +1,5 @@
+@import './_animations';
+
 $scale: 0.8;
 
 .wallet-tutorial {
@@ -11,9 +13,17 @@ $scale: 0.8;
     > div:first-of-type {
       width: 800px;
       //   height: #{'min(900px, 80vh)'};
-      position: relative;
-      top: 5%;
-      margin: 0 auto;
+      &:not(.left) {
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      transition: 1.5s ease-in-out;
+      &.left {
+        left: 2%;
+        top: 5%;
+      }
     }
     .title {
       color: var(--black);
@@ -23,6 +33,9 @@ $scale: 0.8;
       width: 200px;
       h1 {
         font-size: 20px;
+        font-family: 'Kalam';
+        font-weight: bolder;
+        transform: skewX(10deg);
       }
     }
     .background {
@@ -44,7 +57,7 @@ $scale: 0.8;
     .crater {
       position: absolute;
       left: 50%;
-      top: 66%;
+      top: 64%;
       height: calc(0.8 * 168px);
       width: calc(0.8 * 474px);
       img {
@@ -63,38 +76,67 @@ $scale: 0.8;
         height: 100%;
       }
     }
-    .arm {
-      position: absolute;
-      left: 32%;
-      top: 18%;
+    [class^='arm_'] {
+      left: 45%;
+      top: 32%;
       z-index: 20;
       transition: 0.9s;
       transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      height: calc(0.8 * 256px);
-      width: calc(0.8 * 264px);
-      img {
-        width: 100%;
-        height: 100%;
-      }
-      &.high {
-        transform: rotate(14deg);
-        transform-origin: 90% 45%;
-      }
-      &.mid-high {
-        transform: rotate(1deg);
-        transform-origin: 90% 45%;
-      }
-      &.center {
+      transform-origin: 45% 28%;
+      &[class*='1'] {
         transform: rotate(-20deg);
-        transform-origin: 90% 45%;
+        .arm2 {
+          transform: rotate(38deg);
+        }
       }
-      &.mid-low {
+      &[class*='2'] {
+        transform: rotate(25deg);
+        .arm2 {
+          transform: rotate(-15deg);
+        }
+      }
+      &[class*='3'] {
+        transform: rotate(-23deg);
+        .arm2 {
+          transform: rotate(-30deg);
+        }
+      }
+      &[class*='4'] {
+        transform: rotate(-23deg);
+        .arm2 {
+          transform: rotate(5deg);
+        }
+      }
+      &[class*='5'] {
         transform: rotate(-40deg);
-        transform-origin: 90% 45%;
+        .arm2 {
+          transform: rotate(-15deg);
+        }
       }
-      &.low {
-        transform: rotate(-50deg);
-        transform-origin: 90% 45%;
+      &[class*='6'] {
+        transform: rotate(-30deg);
+        .arm2 {
+          transform: rotate(-34deg);
+        }
+      }
+      &[class*='7'] {
+        transform: rotate(-100deg);
+        .arm2 {
+          transform: rotate(-40deg);
+        }
+      }
+      .arm1 {
+        height: calc(0.8 * 142px);
+        width: calc(0.8 * 134px);
+      }
+      .arm2 {
+        height: calc(0.8 * 173px);
+        width: calc(0.8 * 188px);
+        left: -71%;
+        margin-top: -10%;
+        transform-origin: 85% 65%;
+        transition: 0.9s;
+        transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
       }
     }
     .right-box {
@@ -107,6 +149,8 @@ $scale: 0.8;
       p {
         font-size: larger;
         text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
       }
       .row {
         line-height: 1.8;
@@ -238,7 +282,9 @@ $scale: 0.8;
         vertical-align: middle;
         padding: 12px;
         margin: 0;
-        font-size: smaller;
+        font-size: 15px;
+        font-family: 'Kalam';
+        transform: skewX(10deg);
       }
     }
     .speech {
@@ -275,47 +321,7 @@ $scale: 0.8;
   }
 }
 
-@keyframes bob {
-  0% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(-20px);
-  }
-  85% {
-    transform: translateY(5px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
 
-@keyframes grow {
-  0% {
-    transform: scale(0.01);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.05);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  70% {
-    transform: scale(1.05);
-  }
-}
 
 // SCREEN 1
 
@@ -334,6 +340,14 @@ $scale: 0.8;
   .browser-wallet *,
   .mobile-wallet * {
     cursor: pointer;
+  }
+  .browser-icon, .mobile-icon {
+    &:hover {
+      -webkit-animation: swing 1.3s ease;
+      animation: swing 1.3s ease;
+      -webkit-animation-iteration-count: infinite;
+      animation-iteration-count: infinite;
+    }
   }
   .hardware-wallet {
     * {

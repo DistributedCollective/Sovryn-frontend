@@ -41,4 +41,9 @@ export const content = {
     speech: t(translations.rskConnectTutorial[6]),
     armPosition: 'low',
   },
+  7: {
+    leftImage: step6screen1,
+    speech: t(translations.rskConnectTutorial[7]),
+    armPosition: 'low',
+  },
 };

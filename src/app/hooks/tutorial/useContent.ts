@@ -41,5 +41,10 @@ export function useContent() {
       speech: t(translations.rskConnectTutorial.speech['6']),
       armPosition: 'low',
     },
+    7: {
+      leftImage: step6screen1,
+      speech: t(translations.rskConnectTutorial.speech['7']),
+      armPosition: 'low',
+    },
   };
 }

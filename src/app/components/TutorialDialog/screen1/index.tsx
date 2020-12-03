@@ -10,17 +10,16 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   handleClick: (num: Number) => void;
-  onMainnet: boolean;
+  onNetwork: boolean;
   handleEngage: () => void;
 }
 
 export function Screen1(props: Props) {
   const { t } = useTranslation();
+
   function handleBrowserClick() {
-    if (
-      window.ethereum &&
-      parseInt(window.ethereum.chainId) === currentChainId
-    ) {
+    window.localStorage.setItem('tutorial_active', 'true');
+    if (props.onNetwork === true) {
       props.handleEngage();
     } else {
       props.handleClick(2);

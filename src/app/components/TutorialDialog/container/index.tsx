@@ -5,10 +5,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { TutorialDialogComponent } from '../component';
+import { currentChainId } from 'utils/classifiers';
 
 export function TutorialDialog() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   const [show, setShow] = useState<boolean>(true);
+
+  const onNetwork =
+    window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
   const checks = {
     previousUser:
@@ -29,7 +33,7 @@ export function TutorialDialog() {
 
   function handleEngage() {
     handleWalletConnection();
-    window.sessionStorage.setItem('closedRskTutorial', 'true');
+    // window.sessionStorage.setItem('closedRskTutorial', 'true');
     setShow(false);
   }
 
@@ -50,6 +54,7 @@ export function TutorialDialog() {
   });
 
   function handleClose() {
+    window.localStorage.setItem('tutorial_active', 'false');
     window.sessionStorage.setItem('closedRskTutorial', 'true');
     setShow(false);
   }
@@ -61,7 +66,7 @@ export function TutorialDialog() {
       {show && (
         <TutorialDialogComponent
           handleClose={handleClose}
-          onMainnet={connectedToMainnet}
+          onNetwork={onNetwork}
           handleEngage={handleEngage}
         />
       )}
