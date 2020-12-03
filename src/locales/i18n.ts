@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './en/translation.json';
 import es from './es/translation.json';
+import pt_br from './pt_br/translation.json';
 import { ConvertedToObjectType } from './types';
 
 const translationsJson = {
@@ -14,6 +15,9 @@ const translationsJson = {
   es: {
     translation: es,
   },
+  pt_br: {
+    translation: pt_br,
+  }
 };
 
 export type TranslationResource = typeof en;
@@ -53,7 +57,7 @@ export const i18n = i18next
         useSuspense: true,
       },
       fallbackLng: 'en',
-      whitelist: ['en', 'es'], // available languages for browser dector to pick from
+      whitelist: ['en', 'es', 'pt_br'], // available languages for browser dector to pick from
       debug:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',
