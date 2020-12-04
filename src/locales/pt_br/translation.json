@@ -165,7 +165,7 @@
     "totalAssetSupplied": "Total de ativos fornecidos",
     "totalAssetBorrowed": "Total de ativos emprestados",
     "totalAvailable": "Total disponível",
-    "supplyAPR": "Juros anual (Fornecedor)",
+    "supplyAPR": "Juros anual (Emprestador)",
     "borrowAPR": "Juros anual (Tomador)"
   },
   "pageNotFound": {
@@ -222,7 +222,7 @@
     "currency": {
       "lend": "Emprestar",
       "borrow": "Tomar",
-      "lendArp": "Juros anual (Fornecedor)",
+      "lendArp": "Juros anual (Emprestador)",
       "borrowArp": "Juros anual (Tomador)"
     },
     "container": {
