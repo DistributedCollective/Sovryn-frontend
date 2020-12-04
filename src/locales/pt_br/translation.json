@@ -268,7 +268,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar Tokens",
-        "description": "Confirme a transação em sua carteira para aprovar gastar {{amount}} {{asset}} neste contrato inteligente.",
+        "description": "Confirme a transação na sua carteira para aprovar gastar {{amount}} {{asset}} neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
