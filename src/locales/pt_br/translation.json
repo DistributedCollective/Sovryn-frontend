@@ -125,7 +125,7 @@
   },
   "assetWalletBalance": {
     "accountBalance": "Saldo disponível",
-    "suppliedBalance": "Saldo fornecido",
+    "suppliedBalance": "Saldo disponibilizado",
     "connect": "Conectar carteira"
   },
   "leverageSelector": {
