@@ -1,20 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { bignumber } from 'mathjs';
+import { useEffect } from 'react';
 import { Asset } from 'types/asset';
 import { Sovryn } from 'utils/sovryn';
 import TokenAbi from 'utils/blockchain/abi/abiTestToken.json';
-import { toWei } from 'utils/blockchain/math-helpers';
-import { TransactionStatus } from 'types/transaction-status';
-import { useAllowance } from '../useTokenAllowanceForLending';
-import { useApprove } from '../useTokenApproveForLending';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import {
+  CheckAndApproveResult,
+  contractWriter,
+} from 'utils/sovryn/contract-writer';
 import { useRemoveLiquidity } from './useRemoveLiquidity';
-import { getContract } from '../../../utils/blockchain/contract-helpers';
-
-enum TxType {
-  NONE = 'none',
-  APPROVE = 'approve',
-  WITHDRAW = 'withdraw',
-}
 
 export function useApproveAndRemoveLiquidity(
   asset: Asset,
@@ -51,94 +44,30 @@ export function useApproveAndRemoveLiquidity(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolAddress]);
 
-  const allowance = useAllowance(
-    `liquidity_${asset}` as any,
-    getContract('liquidityBTCProtocol').address,
+  const { withdraw, ...txState } = useRemoveLiquidity(
+    asset,
+    poolAddress,
+    amount,
+    minReturn,
   );
-
-  const {
-    approve,
-    txHash: approveTx,
-    status: approveStatus,
-    loading: approveLoading,
-  } = useApprove(
-    `liquidity_${asset}` as any,
-    getContract('liquidityBTCProtocol').address,
-  );
-
-  const {
-    withdraw,
-    txHash: withdrawTx,
-    status: withdrawStatus,
-    loading: withdrawLoading,
-  } = useRemoveLiquidity(asset, poolAddress, amount, minReturn);
-
-  const handleApprove = useCallback(
-    (weiAmount: string) => {
-      approve(weiAmount);
-    },
-    [approve],
-  );
-
-  const handleWithdraw = useCallback(() => {
-    if (!withdrawLoading) {
-      withdraw();
-    }
-  }, [withdraw, withdrawLoading]);
-
-  const handleTx = useCallback(() => {
-    if (asset === Asset.BTC && bignumber(amount).greaterThan(allowance.value)) {
-      handleApprove(toWei('1000000000', 'ether'));
-    } else {
-      handleWithdraw();
-    }
-  }, [asset, allowance.value, amount, handleApprove, handleWithdraw]);
-
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
-    type: TxType.NONE,
-    txHash: null as any,
-    status: TransactionStatus.NONE,
-    loading: false,
-  });
-
-  useEffect(() => {
-    if (approveStatus === TransactionStatus.SUCCESS) {
-      handleWithdraw();
-    }
-    // eslint-disable-next-line
-  }, [approveStatus]);
-
-  useEffect(() => {
-    if (!withdrawLoading && approveStatus !== TransactionStatus.NONE) {
-      setTxState({
-        type: TxType.APPROVE,
-        txHash: approveTx,
-        status: approveStatus,
-        loading: approveLoading,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [approveLoading, approveTx, approveStatus]);
-
-  useEffect(() => {
-    if (!approveLoading && withdrawStatus !== TransactionStatus.NONE) {
-      setTxState({
-        type: TxType.WITHDRAW,
-        txHash: withdrawTx,
-        status: withdrawStatus,
-        loading: withdrawLoading,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [withdrawLoading, withdrawTx, withdrawStatus]);
 
   return {
-    withdraw: () => handleTx(),
+    withdraw: async () => {
+      let tx: CheckAndApproveResult = {};
+      if (asset !== Asset.BTC) {
+        tx = await contractWriter.checkAndApproveContract(
+          `liquidity_${asset}` as any,
+          getContract('liquidityBTCProtocol').address,
+          amount,
+          // toWei('1000000', 'ether'),
+          asset,
+        );
+        if (tx.rejected) {
+          return;
+        }
+      }
+      await withdraw(tx?.nonce, tx?.approveTx);
+    },
     ...txState,
   };
 }

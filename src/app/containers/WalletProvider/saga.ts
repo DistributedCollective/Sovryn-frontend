@@ -3,15 +3,19 @@ import {
   call,
   put,
   select,
-  takeLatest,
   take,
   takeEvery,
+  takeLatest,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { TransactionReceipt } from 'web3-core';
 import { Sovryn } from 'utils/sovryn';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
+import { selectTransactionStack } from '../../../store/global/transactions-store/selectors';
+import { actions as txActions } from '../../../store/global/transactions-store/slice';
+import { TxStatus } from '../../../store/global/transactions-store/types';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -79,9 +83,12 @@ function* processBlockHeader(event) {
 
 function* processBlock({ block, address }) {
   try {
-    // Emit block for addition to store.
-    // Regardless of syncing success/failure, this is still the latest block.
-    // yield put({ type: 'BLOCK_PROCESSING', block });
+    const transactionStack = yield select(selectTransactionStack);
+
+    if (!block) {
+      console.log('no block?');
+      return;
+    }
 
     const txs = block.transactions;
     let hasChanges = false;
@@ -90,6 +97,23 @@ function* processBlock({ block, address }) {
       for (let i = 0; i < txs.length; i++) {
         const from = (txs[i].from || '').toLowerCase();
         const to = (txs[i].to || '').toLowerCase();
+        const hash: string = txs[i].hash || '';
+
+        if (transactionStack.includes(hash) && from === address.toLowerCase()) {
+          const receipt: TransactionReceipt = yield call(
+            [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+            hash,
+          );
+          if (receipt?.status) {
+            hasChanges = true;
+          }
+          yield put(
+            txActions.updateTransactionStatus({
+              transactionHash: hash,
+              status: receipt.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
+            }),
+          );
+        }
 
         const hasContract = Sovryn.contractList.find(contract => {
           const address = contract.options.address.toLowerCase();
@@ -98,7 +122,6 @@ function* processBlock({ block, address }) {
 
         if (hasContract) {
           hasChanges = true;
-          break;
         }
 
         if (
@@ -106,7 +129,6 @@ function* processBlock({ block, address }) {
           (address.toLowerCase() === from || address.toLowerCase() === from)
         ) {
           hasChanges = true;
-          break;
         }
       }
     }

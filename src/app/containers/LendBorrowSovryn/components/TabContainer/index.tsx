@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { TransactionStatus } from 'types/transaction-status';
 import { Asset } from 'types/asset';
 
 import Amount from '../Amount';
@@ -7,15 +6,7 @@ import ButtonGroup from '../ButtonGroup';
 import AccountBalance from '../AccountBalance';
 
 import '../../assets/index.scss';
-
-export enum TxType {
-  NONE = 'none',
-  APPROVE = 'approve',
-  LEND = 'lend',
-  WITHDRAW = 'withdraw',
-  BORROW = 'borrow',
-  CLOSE_WITH_DEPOSIT = 'closeWithDeposit',
-}
+import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 
 type Props = {
   currency: Asset;
@@ -33,12 +24,7 @@ type Props = {
   handleSubmitRepay?: () => void;
   isConnected: boolean;
   valid: boolean;
-  txState: {
-    type: TxType;
-    txHash: any;
-    status: TransactionStatus;
-    loading: boolean;
-  };
+  txState: SendTxResponse;
 };
 
 const TabContainer: React.FC<Props> = ({

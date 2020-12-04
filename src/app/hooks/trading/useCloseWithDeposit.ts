@@ -1,6 +1,7 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { Asset } from '../../../types/asset';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useCloseWithDeposit(
   asset: Asset,
@@ -15,11 +16,16 @@ export function useCloseWithDeposit(
   const account = useAccount();
 
   return {
-    send: () =>
-      send(loanId, receiver, repayAmount, {
-        from: account,
-        value: asset === Asset.BTC ? repayAmount : '0',
-      }),
+    send: (nonce?: number, approveTx?: string | null) =>
+      send(
+        [loanId, receiver, repayAmount],
+        {
+          from: account,
+          value: asset === Asset.BTC ? repayAmount : '0',
+          nonce,
+        },
+        { type: TxType.CLOSE_WITH_DEPOSIT, approveTransactionHash: approveTx },
+      ),
     ...rest,
   };
 }

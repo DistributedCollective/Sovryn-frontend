@@ -1,35 +1,20 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState, Transaction } from './types';
+import { ContainerState, Transaction, TxStatus, TxType } from './types';
+import { Asset } from '../../../types/asset';
 
 export const initialState: ContainerState = {
   transactionStack: [],
   transactions: {},
+  loading: false,
+  requestDialog: {
+    open: false,
+    type: TxType.NONE,
+    amount: '0',
+    asset: null as any,
+    error: null,
+  },
 };
-
-// export function prepareEventDataState(state, payload: LoadEventsParams) {
-//   if (!state.hasOwnProperty(payload.address)) {
-//     state[payload.address] = {};
-//   }
-//
-//   if (!state[payload.address].hasOwnProperty(payload.contractName)) {
-//     state[payload.address][payload.contractName] = {};
-//   }
-//
-//   if (
-//     !state[payload.address][payload.contractName].hasOwnProperty(
-//       payload.eventName,
-//     )
-//   ) {
-//     state[payload.address][payload.contractName][payload.eventName] = {
-//       loading: true,
-//       loaded: false,
-//       events: [],
-//       lastBlock: 0,
-//     };
-//   }
-//   return state;
-// }
 
 const slice = createSlice({
   name: 'transactionsState',
@@ -38,6 +23,42 @@ const slice = createSlice({
     addTransaction(state, { payload }: PayloadAction<Transaction>) {
       state.transactionStack.push(payload.transactionHash);
       state.transactions[payload.transactionHash] = payload;
+    },
+    updateTransactionStatus(
+      state,
+      { payload }: PayloadAction<{ transactionHash: string; status: TxStatus }>,
+    ) {
+      if (state.transactions.hasOwnProperty(payload.transactionHash)) {
+        state.transactions[payload.transactionHash].status = payload.status;
+        state.transactions[payload.transactionHash].loading = false;
+      }
+    },
+    setLoading(state, { payload }: PayloadAction<boolean>) {
+      state.loading = payload;
+    },
+    openTransactionRequestDialog(
+      state,
+      {
+        payload,
+      }: PayloadAction<{ type: TxType; amount?: string; asset?: Asset }>,
+    ) {
+      state.requestDialog.open = true;
+      state.requestDialog.type = payload.type;
+      state.requestDialog.asset = payload.asset || null;
+      state.requestDialog.amount = payload.amount || '0';
+      state.requestDialog.error = null;
+    },
+    closeTransactionRequestDialog(state) {
+      state.requestDialog.open = false;
+      state.requestDialog.type = TxType.NONE;
+      state.requestDialog.asset = null as any;
+      state.requestDialog.amount = '0';
+    },
+    setTransactionRequestDialogError(
+      state,
+      { payload }: PayloadAction<string>,
+    ) {
+      state.requestDialog.error = payload;
     },
   },
 });

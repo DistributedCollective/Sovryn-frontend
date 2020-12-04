@@ -16,11 +16,11 @@ class ContractReader {
    * @param methodName
    * @param args
    */
-  public async call(
+  public async call<T = string | RevertInstructionError>(
     contractName: ContractName,
     methodName: string,
     args: Array<any>,
-  ): Promise<string | RevertInstructionError> {
+  ): Promise<T> {
     return this.sovryn.contracts[contractName].methods[methodName](
       ...args,
     ).call();

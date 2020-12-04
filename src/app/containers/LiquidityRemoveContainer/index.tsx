@@ -20,7 +20,6 @@ import {
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
-import { TransactionStatus } from '../../../types/transaction-status';
 import { useRemoveLiquidityReturnAndFee } from '../../hooks/amm/useRemoveLiquidityReturnAndFee';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AmountField } from '../AmountField';
@@ -133,11 +132,9 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      {tx.status !== TransactionStatus.NONE && (
-        <div className="mt-3">
-          <SendTxProgress {...tx} displayAbsolute={false} />
-        </div>
-      )}
+      <div className="mt-3">
+        <SendTxProgress {...tx} displayAbsolute={false} />
+      </div>
 
       <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
         <div className="mb-3 mb-lg-0">
