@@ -231,7 +231,7 @@
       "amountName": "Valor do depósito",
       "balance": "Saldo",
       "profit": "Lucro",
-      "supply": "Fornecer"
+      "supply": "Depositar"
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
