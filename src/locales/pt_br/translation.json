@@ -226,7 +226,7 @@
       "borrowArp": "Juros anual (Tomador)"
     },
     "container": {
-      "leftBtn": "Retirar",
+      "leftBtn": "Depositar",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Saldo",
