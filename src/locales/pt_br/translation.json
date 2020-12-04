@@ -181,7 +181,7 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer",
+    "supply": "Depositar",
     "withdraw": "Retirar"
   },
   "modal": {
@@ -226,12 +226,12 @@
       "borrowArp": "Juros anual (Tomador)"
     },
     "container": {
-      "leftBtn": "Depositar",
+      "leftBtn": "Fornecer",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Saldo",
       "profit": "Lucro",
-      "supply": "Fornecer"
+      "supply": "Depositar"
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
