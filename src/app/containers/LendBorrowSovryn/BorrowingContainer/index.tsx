@@ -28,6 +28,7 @@ import { bignumber, min } from 'mathjs';
 import { actions } from '../slice';
 import { useCanInteract } from '../../../hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
+import { LendingPoolDictionary } from '../../../../utils/lending-pool-dictionary';
 
 type Props = {
   currency: Asset;
@@ -50,8 +51,10 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
 
   // Update list of collaterals for borrow and assign current one to first in array if previous selection is not available
   useEffect(() => {
-    const options = AssetsDictionary.list()
-      .filter(item => item.asset !== currency)
+    const loanPool = LendingPoolDictionary.get(currency);
+    const options = loanPool
+      .getBorrowCollateral()
+      .map(item => AssetsDictionary.get(item))
       .map(item => ({
         key: item.asset,
         label: item.symbol,

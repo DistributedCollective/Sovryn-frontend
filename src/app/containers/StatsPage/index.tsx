@@ -21,16 +21,26 @@ export function StatsPage() {
       <Header />
       <main>
         <div className="container mt-5">
-          <div className="sovryn-table mt-5 mb-5">
+          <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
             <table className="w-100">
               <thead>
                 <tr>
                   <th>{t(translations.statsPage.asset)}</th>
-                  <th>{t(translations.statsPage.totalAssetSupplied)}</th>
-                  <th>{t(translations.statsPage.totalAssetBorrowed)}</th>
-                  <th>{t(translations.statsPage.totalAvailable)}</th>
-                  <th>{t(translations.statsPage.supplyAPR)}</th>
-                  <th>{t(translations.statsPage.borrowAPR)}</th>
+                  <th className="text-right">
+                    {t(translations.statsPage.totalAssetSupplied)}
+                  </th>
+                  <th className="text-right">
+                    {t(translations.statsPage.totalAssetBorrowed)}
+                  </th>
+                  <th className="text-right">
+                    {t(translations.statsPage.totalAvailable)}
+                  </th>
+                  <th className="text-right">
+                    {t(translations.statsPage.supplyAPR)}
+                  </th>
+                  <th className="text-right">
+                    {t(translations.statsPage.borrowAPR)}
+                  </th>
                 </tr>
               </thead>
               <tbody className="mt-5">

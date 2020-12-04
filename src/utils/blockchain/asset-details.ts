@@ -8,13 +8,7 @@ interface ContractInterface {
   abi: AbiItem | AbiItem[] | any;
 }
 
-interface MinMax {
-  min: number;
-  max: number;
-}
-
 export class AssetDetails {
-  private _collateralAssets: Asset[] = [];
   public tokenContract: ContractInterface;
   public tokenPoolContract: ContractInterface;
   public lendingContract: ContractInterface;
@@ -25,7 +19,6 @@ export class AssetDetails {
     public name: string,
     public decimals: number,
     public logoSvg: string,
-    public lendingLimits: MinMax,
   ) {
     this.tokenContract = appContracts[this.getTokenContractName()];
     this.tokenPoolContract = appContracts[this.getPoolTokenContractName()];
@@ -44,20 +37,15 @@ export class AssetDetails {
     return (this.asset + '_lending') as ContractName;
   }
 
+  public getAmmContractName(): ContractName {
+    return (this.asset + '_amm') as ContractName;
+  }
+
   public getTokenContractAddress(): string {
     return this.tokenContract.address;
   }
 
   public getLendingContractAddress(): string {
     return this.lendingContract.address;
-  }
-
-  public getCollateralAssets() {
-    return this._collateralAssets;
-  }
-
-  public setCollateralAssets(assets: Asset[]) {
-    this._collateralAssets = assets;
-    return this;
   }
 }

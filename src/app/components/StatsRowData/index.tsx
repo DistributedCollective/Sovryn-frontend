@@ -13,6 +13,7 @@ interface Props {
   contract: ContractName;
   data: string;
   displayType: string;
+  prepend?: string;
 }
 
 export function StatsRowData(props: Props) {
@@ -22,18 +23,45 @@ export function StatsRowData(props: Props) {
     '0',
   );
 
+  function MaybePrepend() {
+    if (props.prepend) {
+      return (
+        <>
+          {' '}
+          <span className="text-lightGrey">{props.prepend}</span>
+        </>
+      );
+    }
+    return <></>;
+  }
+
   return (
     <>
       {props.displayType === 'normal' ? (
+        <>
+          <LoadableValue
+            value={
+              <>
+                {parseFloat(weiTo18(value)).toLocaleString('en', {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                })}
+                <MaybePrepend />
+              </>
+            }
+            loading={loading}
+          />
+        </>
+      ) : (
         <LoadableValue
-          value={`${parseFloat(weiTo18(value)).toLocaleString('en', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2,
-          })} `}
+          value={
+            <>
+              {weiTo4(value)}
+              <MaybePrepend />
+            </>
+          }
           loading={loading}
         />
-      ) : (
-        <LoadableValue value={`${weiTo4(value)}`} loading={loading} />
       )}
     </>
   );

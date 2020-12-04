@@ -8,6 +8,7 @@ export class TradingPair {
   constructor(
     private _name: string,
     private _asset: Asset,
+    private _chartSymbol: string,
     private _longAsset: Asset,
     private _shortAsset: Asset,
     private _longCollateral: Asset[],
@@ -54,5 +55,9 @@ export class TradingPair {
     return position === TradingPosition.LONG
       ? this._longCollateral
       : this._shortCollateral;
+  }
+
+  public getChartSymbol() {
+    return this._chartSymbol;
   }
 }

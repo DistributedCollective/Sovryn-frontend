@@ -78,6 +78,48 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 2742648,
   },
+  // start non-mainnet yet //
+  USDT_token: {
+    address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  USDT_lending: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
+  USDT_poolToken: {
+    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+    abi: tokenAbi,
+    blockNumber: 1218844,
+  },
+  USDT_amm: {
+    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
+    abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  BPRO_token: {
+    address: '0x440cd83C160de5C96DDb20246815EA44C7Abbca8',
+    abi: TestTokenABI,
+    blockNumber: 1764667,
+  },
+  BPRO_lending: {
+    address: '0x6226b4B3F29Ecb5f9EEC3eC3391488173418dD5d',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
+  BPRO_poolToken: {
+    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+    abi: tokenAbi,
+    blockNumber: 1218844,
+  },
+  BPRO_amm: {
+    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
+    abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  // end non-mainnet //
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {
       whitelistToken: {
