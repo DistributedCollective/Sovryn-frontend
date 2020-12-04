@@ -181,8 +181,8 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer",
-    "withdraw": "Retirar"
+    "supply": "Fornecer liquidez",
+    "withdraw": "Retirar liquidez"
   },
   "modal": {
     "close": "Fechar"
