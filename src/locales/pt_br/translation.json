@@ -181,7 +181,7 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Depositar",
+    "supply": "Fornecer",
     "withdraw": "Retirar"
   },
   "modal": {
