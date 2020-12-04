@@ -4,7 +4,6 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import { TradingPairType } from 'utils/trading-pair-dictionary';
 import { Skeleton } from '../PageSkeleton';
 
 enum Theme {
@@ -13,7 +12,7 @@ enum Theme {
 }
 
 export interface ChartContainerProps {
-  pair: TradingPairType;
+  symbol: string;
   theme: Theme;
 }
 
@@ -26,7 +25,7 @@ export function TradingViewChart(props: ChartContainerProps) {
       const widget = new TradingView.widget({
         width: 980,
         height: 610,
-        symbol: 'BITFINEX:' + props.pair.toLowerCase(),
+        symbol: props.symbol.toLowerCase(),
         interval: '30' as any,
         timezone: 'Etc/UTC',
         // theme: 'Dark',
@@ -68,7 +67,7 @@ export function TradingViewChart(props: ChartContainerProps) {
     } catch (e) {
       setHasCharts(false);
     }
-  }, [props.pair]);
+  }, [props.symbol]);
 
   return (
     <div

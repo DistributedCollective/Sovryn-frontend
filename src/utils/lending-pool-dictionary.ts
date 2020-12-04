@@ -3,9 +3,10 @@ import { LendingPool } from './models/lending-pool';
 
 export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
-    [Asset.BTC, new LendingPool('BTC', Asset.BTC)],
-    [Asset.DOC, new LendingPool('DoC', Asset.DOC)],
-    [Asset.USDT, new LendingPool('USDT', Asset.USDT)],
+    [Asset.BTC, new LendingPool('BTC', Asset.BTC, [Asset.DOC])],
+    [Asset.DOC, new LendingPool('DoC', Asset.DOC, [Asset.BTC])],
+    [Asset.USDT, new LendingPool('USDT', Asset.USDT, [Asset.BTC])],
+    [Asset.BPRO, new LendingPool('BPRO', Asset.BPRO, [Asset.BTC])],
   ]);
 
   public static get(asset: Asset): LendingPool {

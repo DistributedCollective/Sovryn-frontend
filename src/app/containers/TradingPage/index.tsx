@@ -24,6 +24,7 @@ import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { HintDialog } from '../../components/HintDialog';
 import { Announcement } from '../../components/Announcement';
+import { TradingPairDictionary } from '../../../utils/trading-pair-dictionary';
 
 const s = translations.tradingPage;
 
@@ -41,6 +42,10 @@ export function TradingPage(props: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
+  const symbol = TradingPairDictionary.get(
+    tradingPage.tradingPair,
+  )?.getChartSymbol();
+
   return (
     <>
       <Helmet>
@@ -57,7 +62,7 @@ export function TradingPage(props: Props) {
               tradingPage.isMobileStatsOpen && `d-block`
             } d-lg-block`}
           >
-            <TradingViewChart pair={tradingPage.tradingPair} />
+            <TradingViewChart symbol={symbol} />
           </div>
           <div className="col-12 col-lg-6 order-lg-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}

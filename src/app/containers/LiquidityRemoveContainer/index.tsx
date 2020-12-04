@@ -26,6 +26,7 @@ import { AmountField } from '../AmountField';
 import { TradeButton } from '../../components/TradeButton';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 import { useIsConnected } from '../../hooks/useAccount';
+import { getContractNameByAddress } from '../../../utils/blockchain/contract-helpers';
 
 interface Props {}
 
@@ -45,7 +46,11 @@ export function LiquidityRemoveContainer(props: Props) {
   const weiAmount = useWeiAmount(amount);
 
   useEffect(() => {
-    console.log(`${sourceToken} pool address - `, poolAddress.value);
+    console.log(
+      `${sourceToken} pool address - `,
+      poolAddress.value,
+      getContractNameByAddress(poolAddress.value),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poolAddress.value]);
 

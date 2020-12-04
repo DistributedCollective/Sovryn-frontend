@@ -1,19 +1,18 @@
 import { Asset } from 'types/asset';
+
+import docIcon from 'assets/images/tokens/doc.svg';
+import usdtIcon from 'assets/images/tokens/usdt.svg';
+import rbtcIcon from 'assets/images/tokens/rbtc.png';
+import bproIcon from 'assets/images/tokens/bpro.svg';
+
 import { AssetDetails } from './asset-details';
-// @ts-ignore
-import btcIcon from 'assets/images/rBTC-logo.png';
-// @ts-ignore
-import usdIcon from 'assets/images/dollar-sign.svg';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
     [
       [
         Asset.BTC,
-        new AssetDetails(Asset.BTC, Asset.DOC, 'BTC', 'Bitcoin', 18, btcIcon, {
-          min: 0.01,
-          max: 1,
-        }).setCollateralAssets([Asset.DOC, Asset.USDT, Asset.BTC]),
+        new AssetDetails(Asset.BTC, Asset.DOC, 'BTC', 'Bitcoin', 18, rbtcIcon),
       ],
       [
         Asset.DOC,
@@ -23,19 +22,16 @@ export class AssetsDictionary {
           'DoC',
           'Dollar on Chain',
           18,
-          usdIcon,
-          {
-            min: 1,
-            max: 50000,
-          },
-        ).setCollateralAssets([Asset.BTC, Asset.DOC, Asset.USDT]),
+          docIcon,
+        ),
       ],
       [
         Asset.USDT,
-        new AssetDetails(Asset.USDT, Asset.BTC, 'USDT', 'USDT', 18, usdIcon, {
-          min: 1,
-          max: 50000,
-        }).setCollateralAssets([Asset.BTC, Asset.DOC, Asset.USDT]),
+        new AssetDetails(Asset.USDT, Asset.BTC, 'USDT', 'USDT', 18, usdtIcon),
+      ],
+      [
+        Asset.BPRO,
+        new AssetDetails(Asset.BPRO, Asset.BTC, 'BPRO', 'BitPro', 18, bproIcon),
       ],
     ],
   );

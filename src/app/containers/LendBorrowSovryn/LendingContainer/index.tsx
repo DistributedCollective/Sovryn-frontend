@@ -48,7 +48,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   const onMaxChange = (type: string) => {
     let amount = '0';
     if (type === 'Deposit') {
-      amount = min(userBalance, maxAmount);
+      amount = userBalance;
+      if (maxAmount !== '0') {
+        amount = min(userBalance, maxAmount);
+      }
     } else if (type === 'Redeem') {
       amount = depositedBalance;
     }

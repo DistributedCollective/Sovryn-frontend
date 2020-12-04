@@ -70,6 +70,11 @@ export const liquidityPools = [
     label: 'USDT',
     tokenLabel: 'USDT',
   },
+  {
+    source: Asset.BPRO,
+    label: 'BPro',
+    tokenLabel: 'BPro',
+  },
 ];
 
 export const gasLimit = {
@@ -77,4 +82,5 @@ export const gasLimit = {
   [TxType.ADD_LIQUIDITY]: 275000,
   [TxType.BORROW]: 1300000,
   [TxType.CONVERT_BY_PATH]: 580000,
+  [TxType.LEND]: 200000,
 };
