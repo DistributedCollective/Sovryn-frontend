@@ -116,7 +116,7 @@ const ButtonGroup: React.FC<Props> = ({
         </Tab.Container>
       </div>
 
-      {key === 'Withdraw' && (
+      {key === 'Redeem' && (
         <div className="container my-3">
           <div className="withdraw-content py-3 row">
             <div className="col-6">

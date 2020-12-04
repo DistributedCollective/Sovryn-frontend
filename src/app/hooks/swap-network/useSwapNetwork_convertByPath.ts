@@ -1,7 +1,8 @@
+import { bignumber } from 'mathjs';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { bignumber } from 'mathjs';
 import { Asset } from '../../../types/asset';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useSwapNetwork_convertByPath(
   sourceToken: Asset,
@@ -18,16 +19,18 @@ export function useSwapNetwork_convertByPath(
     'convertByPath',
   );
   return {
-    send: () => {
+    send: (nonce?: number, approveTx?: string | null) => {
       let args = [
         path,
         amount,
         bignumber(minReturn).minus(bignumber(minReturn).mul(0.005)).toFixed(0), // removes 0.5%
-        {
-          from: account,
-          value: sourceToken === Asset.BTC ? amount : '0',
-        },
       ];
+
+      let config: any = {
+        from: account,
+        value: sourceToken === Asset.BTC ? amount : '0',
+        nonce,
+      };
 
       if (sourceToken !== Asset.BTC && targetToken !== Asset.BTC) {
         args = [
@@ -39,13 +42,18 @@ export function useSwapNetwork_convertByPath(
           account,
           '0x0000000000000000000000000000000000000000',
           '0',
-          {
-            from: account,
-          },
         ];
+
+        config = {
+          from: account,
+          nonce,
+        };
       }
 
-      return send(...args);
+      return send(args, config, {
+        type: TxType.CONVERT_BY_PATH,
+        approveTransactionHash: approveTx,
+      });
     },
     ...rest,
   };

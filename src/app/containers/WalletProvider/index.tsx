@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   eventsSlice,
@@ -18,6 +19,8 @@ import {
 import { transactionsStateSaga } from 'store/global/transactions-store/saga';
 import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
+import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
+import { TxRequestDialog } from './components/TxRequestDialog';
 
 interface Props {
   children: React.ReactNode;
@@ -33,5 +36,12 @@ export function WalletProvider(props: Props) {
   useInjectReducer({ key: transactionsSlice, reducer: transactionsReducer });
   useInjectSaga({ key: transactionsSlice, saga: transactionsStateSaga });
 
-  return <>{props.children}</>;
+  const requestDialog = useSelector(selectRequestDialogState);
+
+  return (
+    <>
+      <>{props.children}</>
+      <TxRequestDialog {...requestDialog} />
+    </>
+  );
 }

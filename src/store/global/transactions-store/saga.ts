@@ -1,8 +1,8 @@
-import { PayloadAction } from '@reduxjs/toolkit';
+// import { PayloadAction } from '@reduxjs/toolkit';
 
-function* preloadUserEvents({ payload }: PayloadAction<string>) {
-  //
-}
+// function* preloadUserEvents({ payload }: PayloadAction<string>) {
+//   //
+// }
 
 export function* transactionsStateSaga() {
   // yield takeLatest(walletActions.accountChanged.type, preloadUserEvents);

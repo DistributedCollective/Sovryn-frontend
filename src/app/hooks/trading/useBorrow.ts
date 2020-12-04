@@ -5,6 +5,7 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useBorrow(
   borrowToken: Asset,
@@ -21,20 +22,24 @@ export function useBorrow(
   );
 
   return {
-    borrow: () => {
+    borrow: (nonce?: number, approveTx?: string | null) => {
       return send(
-        loanId,
-        withdrawAmount,
-        initialLoanDuration,
-        collateralTokenSent,
-        getTokenContract(collateralToken).address,
-        account, // borrower
-        account, // receiver
-        '0x', // loanDataBytes
+        [
+          loanId,
+          withdrawAmount,
+          initialLoanDuration,
+          collateralTokenSent,
+          getTokenContract(collateralToken).address,
+          account, // borrower
+          account, // receiver
+          '0x',
+        ], // loanDataBytes
         {
           from: account,
           value: collateralToken === Asset.BTC ? collateralTokenSent : '0',
+          nonce,
         },
+        { type: TxType.BORROW, approveTransactionHash: approveTx },
       );
     },
     ...rest,

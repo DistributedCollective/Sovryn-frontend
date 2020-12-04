@@ -65,7 +65,7 @@ export function MarginTradeForm(props: Props) {
     setCollateral(pair.getCollateralForPosition(position)[0]);
   }, [position, pair]);
 
-  const { trade, loading, txHash, status, type } = useApproveAndTrade(
+  const { trade, loading, txHash, status } = useApproveAndTrade(
     pair.getAssetForPosition(position),
     collateral,
     leverage,
@@ -165,13 +165,11 @@ export function MarginTradeForm(props: Props) {
             loading={loading}
           />
         </div>
-
-        <div>
+        <div className="text-white">
           <SendTxProgress
             status={status}
             txHash={txHash}
             loading={loading}
-            type={type}
             position={position}
           />
         </div>

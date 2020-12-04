@@ -1,9 +1,7 @@
-import {
-  SendTxResponseInterface,
-  useSendContractTx,
-} from '../useSendContractTx';
+import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import Web3 from 'web3-utils';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useCloseWithSwap(
   loanId,
@@ -11,7 +9,7 @@ export function useCloseWithSwap(
   swapAmount,
   returnTokenIsCollateral,
   loanDataBytes,
-): SendTxResponseInterface {
+) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
     'sovrynProtocol',
@@ -21,12 +19,15 @@ export function useCloseWithSwap(
   return {
     send: () =>
       send(
-        loanId,
-        receiver,
-        swapAmount,
-        Web3.toHex(returnTokenIsCollateral),
-        loanDataBytes,
+        [
+          loanId,
+          receiver,
+          swapAmount,
+          Web3.toHex(returnTokenIsCollateral),
+          loanDataBytes,
+        ],
         { from: account },
+        { type: TxType.CLOSE_WITH_SWAP },
       ),
     ...rest,
   };

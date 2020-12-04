@@ -1,4 +1,5 @@
 import { Asset } from '../types/asset';
+import { TxType } from '../store/global/transactions-store/types';
 
 export const chains = {
   mainnet: 30,
@@ -70,3 +71,10 @@ export const liquidityPools = [
     tokenLabel: 'USDT',
   },
 ];
+
+export const gasLimit = {
+  [TxType.TRADE]: 1750000,
+  [TxType.ADD_LIQUIDITY]: 275000,
+  [TxType.BORROW]: 1300000,
+  [TxType.CONVERT_BY_PATH]: 580000,
+};
