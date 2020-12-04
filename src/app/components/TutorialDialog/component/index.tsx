@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import background from 'assets/images/tutorial/test.svg';
 import close from 'assets/images/tutorial/close.svg';
 import { Screen1 } from '../screen1';
-import { Screen11 } from '../Screen1_1';
 import { Screen2 } from '../screen2';
+import { Screen3 } from '../screen3';
 
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
@@ -74,11 +74,7 @@ export function TutorialDialogComponent(props) {
               )}
             </p>
           </div>
-          {/* <Screen2
-            onMainnet={props.onMainnet}
-            handleEngage={props.handleEngage}
-            mouseLeave={mouseLeave}
-          /> */}
+          {/* <Screen3 /> */}
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}
@@ -94,6 +90,7 @@ export function TutorialDialogComponent(props) {
               activeTutorial={activeTutorial}
             />
           )}
+          {screen === 3 && <Screen3 />}
         </div>
       </div>
     </>

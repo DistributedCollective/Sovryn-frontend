@@ -31,8 +31,15 @@ export function Screen2(props: Props) {
   const [speechText, setSpeechText] = useState(
     props.activeTutorial ? content[7].speech : content[1].speech,
   );
+  const [moving, setMoving] = useState(false);
 
   const timer = ms => new Promise(res => setTimeout(res, ms));
+
+  //   useEffect(() => {
+  //     setTimeout(function () {
+  //       setMoving(false);
+  //     }, 1000);
+  //   });
 
   async function printText(str) {
     await timer(500);
@@ -74,125 +81,136 @@ export function Screen2(props: Props) {
 
   return (
     <>
-      <div className="crater">
-        <img src={crater} alt="" />
-      </div>
-      <div className={`arm_${step} position-absolute`}>
-        <div className="arm1 position-absolute">
-          <img src={arm1} alt="" className="h-100 w-100" />
-        </div>
-        <div className="arm2 position-relative">
-          <img src={arm2} alt="" className="h-100 w-100" />
-        </div>
-      </div>
-      <div className="badger-body">
-        <img src={badgerBody} alt="" />
-      </div>
-      <div className={`speech step${step}`}>
-        <img src={speechBubble} alt="" />
-        <p>{speechText}</p>
-      </div>
-
-      <div className="left-box_outline">
-        <img src={leftBox} alt="" />
-      </div>
-      <div className={`left-box ${step === 1 && 'browser'}`}>
-        <img src={content[step].leftImage} alt="" />
-      </div>
-      <div className="right-box_outline">
-        <img src={rightBox} alt="" />
-      </div>
-      <div className="right-box">
-        <div>
-          <p>{t(translations.rskConnectTutorial.input_settings.title)}</p>
-          <div>
-            <div className="row">
-              <div className="col-5">
-                {t(translations.rskConnectTutorial.input_settings.network)}
-              </div>
-              <div className="col-7">RSK Mainnet</div>
+      {!moving && (
+        <>
+          <div className="crater">
+            <img src={crater} alt="" />
+          </div>
+          <div className={`arm_${step} position-absolute`}>
+            <div className="arm1 position-absolute">
+              <img src={arm1} alt="" className="h-100 w-100" />
             </div>
-            <div className="row">
-              <div className="col-5">
-                {t(translations.rskConnectTutorial.input_settings.new_RPC)}
-              </div>
-              <div className="col-7">https://public-node.rsk.co</div>
-            </div>
-            <div className="row">
-              <div className="col-5">
-                {t(translations.rskConnectTutorial.input_settings.chain_Id)}
-              </div>
-              <div className="col-7">30</div>
-            </div>
-            <div className="row">
-              <div className="col-5">
-                {t(translations.rskConnectTutorial.input_settings.symbol)}
-              </div>
-              <div className="col-7">RBTC</div>
-            </div>
-            <div className="row">
-              <div className="col-5">
-                {t(translations.rskConnectTutorial.input_settings.explorer_url)}
-              </div>
-              <div className="col-7">https://explorer.rsk.co</div>
+            <div className="arm2 position-relative">
+              <img src={arm2} alt="" className="h-100 w-100" />
             </div>
           </div>
-        </div>
-      </div>
-      <div className="step-box">
-        <img src={stepBox} alt="" />
-        <p>
-          {t(translations.rskConnectTutorial.step)}: <b>0{step}</b>
-        </p>
-      </div>
-      <div className="stepper">
-        <div className="d-flex flex-row">
-          <img
-            src={leftArrow}
-            alt="left arrow"
-            onClick={() => (step > 1 ? stepChange(step - 1) : null)}
-          />
+          <div className="badger-body">
+            <img src={badgerBody} alt="" />
+          </div>
+          <div className={`speech step${step}`}>
+            <img src={speechBubble} alt="" />
+            <p>{speechText}</p>
+          </div>
+
+          <div className="left-box_outline">
+            <img src={leftBox} alt="" />
+          </div>
+          <div className={`left-box ${step === 1 && 'browser'}`}>
+            <img src={content[step].leftImage} alt="" />
+          </div>
+          <div className="right-box_outline">
+            <img src={rightBox} alt="" />
+          </div>
+          <div className="right-box">
+            <div>
+              <div>
+                <div className="row">
+                  <p>
+                    {t(translations.rskConnectTutorial.input_settings.title)}
+                  </p>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    {t(translations.rskConnectTutorial.input_settings.network)}
+                  </div>
+                  <div className="col-7">RSK Mainnet</div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    {t(translations.rskConnectTutorial.input_settings.new_RPC)}
+                  </div>
+                  <div className="col-7">https://public-node.rsk.co</div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    {t(translations.rskConnectTutorial.input_settings.chain_Id)}
+                  </div>
+                  <div className="col-7">30</div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    {t(translations.rskConnectTutorial.input_settings.symbol)}
+                  </div>
+                  <div className="col-7">RBTC</div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    {t(
+                      translations.rskConnectTutorial.input_settings
+                        .explorer_url,
+                    )}
+                  </div>
+                  <div className="col-7">https://explorer.rsk.co</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="step-box">
+            <img src={stepBox} alt="" />
+            <p>
+              {t(translations.rskConnectTutorial.step)}: <b>0{step}</b>
+            </p>
+          </div>
+          <div className="stepper">
+            <div className="d-flex flex-row">
+              <img
+                src={leftArrow}
+                alt="left arrow"
+                onClick={() => (step > 1 ? stepChange(step - 1) : null)}
+              />
+              <div
+                className={`stepper_circle ${step === 1 && 'active'}`}
+                onClick={() => stepChange(1)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 2 && 'active'}`}
+                onClick={() => stepChange(2)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 3 && 'active'}`}
+                onClick={() => stepChange(3)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 4 && 'active'}`}
+                onClick={() => stepChange(4)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 5 && 'active'}`}
+                onClick={() => stepChange(5)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 6 && 'active'}`}
+                onClick={() => stepChange(6)}
+              ></div>
+              <div
+                className={`stepper_circle ${step === 7 && 'active'}`}
+                onClick={() => stepChange(7)}
+              ></div>
+              <img
+                src={rightArrow}
+                alt="right arrow"
+                onClick={() => (step < 7 ? stepChange(step + 1) : null)}
+              />
+            </div>
+          </div>
           <div
-            className={`stepper_circle ${step === 1 && 'active'}`}
-            onClick={() => stepChange(1)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 2 && 'active'}`}
-            onClick={() => stepChange(2)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 3 && 'active'}`}
-            onClick={() => stepChange(3)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 4 && 'active'}`}
-            onClick={() => stepChange(4)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 5 && 'active'}`}
-            onClick={() => stepChange(5)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 6 && 'active'}`}
-            onClick={() => stepChange(6)}
-          ></div>
-          <div
-            className={`stepper_circle ${step === 7 && 'active'}`}
-            onClick={() => stepChange(7)}
-          ></div>
-          <img
-            src={rightArrow}
-            alt="right arrow"
-            onClick={() => (step < 7 ? stepChange(step + 1) : null)}
-          />
-        </div>
-      </div>
-      <div
-        className={`engage ${props.onNetwork && 'active'}`}
-        onClick={props.handleEngage}
-      >
-        <img src={engage} alt="engage button" />
-      </div>
+            className={`engage ${props.onNetwork && 'active'}`}
+            onClick={props.handleEngage}
+          >
+            <img src={engage} alt="engage button" />
+          </div>
+        </>
+      )}
     </>
   );
 }

@@ -1,5 +1,22 @@
 @import './_animations';
 
+@mixin fade-in($speed) {
+  animation: fadeIn ease $speed;
+  -webkit-animation: fadeIn ease $speed;
+  -moz-animation: fadeIn ease $speed;
+}
+
+@mixin position($top, $left) {
+  top: $top;
+  left: $left;
+}
+
+@mixin size($height, $width) {
+  height: calc(0.8 * #{$height});
+  width: calc(0.8 * #{$width});
+}
+// TODO: Add mixin for arm animation
+
 $scale: 0.8;
 
 .wallet-tutorial {
@@ -14,23 +31,21 @@ $scale: 0.8;
       width: 800px;
       //   height: #{'min(900px, 80vh)'};
       &:not(.left) {
-        top: 45%;
-        left: 50%;
+        @include position(45%, 50%);
         transform: translate(-50%, -50%);
       }
 
       transition: 1.5s ease-in-out;
       &.left {
-        left: 2%;
-        top: 5%;
+        @include position(5%, 2%);
       }
     }
     .title {
       color: var(--black);
-      top: 8%;
-      left: 73%;
+      @include position(8%, 2%);
       text-align: center;
       width: 200px;
+      @include fade-in(2.5s);
       h1 {
         font-size: 20px;
         font-family: 'Kalam';
@@ -38,6 +53,7 @@ $scale: 0.8;
         transform: skewX(10deg);
       }
     }
+    // REMOVE THIS - Use Bootstrap classes
     .background {
       position: relative;
       width: 100%;
@@ -46,20 +62,22 @@ $scale: 0.8;
         height: 100%;
       }
     }
+    //UNTIL HERE
     .title-text {
       position: absolute;
       color: var(--black);
-      top: 8%;
-      left: 75%;
+      @include position(8%, 75%);
       width: 180px;
       font-weight: 900;
+      @include fade-in(3s);
     }
     .crater {
       position: absolute;
-      left: 50%;
-      top: 64%;
+      @include position(65%, 53%);
+      transform: rotate(2deg);
       height: calc(0.8 * 168px);
       width: calc(0.8 * 474px);
+      @include fade-in(1.5s);
       img {
         width: 100%;
         height: 100%;
@@ -67,22 +85,24 @@ $scale: 0.8;
     }
     .badger-body {
       position: absolute;
-      left: 29%;
-      top: 12%;
+      left: 25%;
+      top: 17%;
       height: calc(0.8 * 375px);
       width: calc(0.8 * 286px);
+      @include fade-in(3s);
       img {
         width: 100%;
         height: 100%;
       }
     }
     [class^='arm_'] {
-      left: 45%;
-      top: 32%;
+      left: 42%;
+      top: 39%;
       z-index: 20;
       transition: 0.9s;
       transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
       transform-origin: 45% 28%;
+      @include fade-in(3s);
       &[class*='1'] {
         transform: rotate(-20deg);
         .arm2 {
@@ -142,19 +162,22 @@ $scale: 0.8;
     .right-box {
       color: var(--black);
       position: absolute;
-      left: 60%;
-      top: 32%;
-      width: 250px;
-      font-size: 10px;
+      left: 58%;
+      top: 28%;
+      width: 300px;
+      font-size: 12px;
+      @include fade-in(1.5s);
       p {
         font-size: larger;
         text-align: center;
         font-weight: bold;
         text-decoration: underline;
+        margin: 0 auto;
+        padding-bottom: 15px;
       }
       .row {
-        line-height: 1.8;
-        padding: 0 8px;
+        line-height: 1;
+        padding: 6px 8px;
         > .col-5 {
           font-weight: bold;
         }
@@ -164,10 +187,11 @@ $scale: 0.8;
       }
       &_outline {
         position: absolute;
-        left: 58%;
-        top: 28%;
-        height: calc(0.8 * 239px);
-        width: calc(0.8 * 343px);
+        transform: rotate(180deg);
+        left: 54%;
+        top: 24%;
+        height: calc(1 * 239px);
+        width: calc(1 * 343px);
         img {
           width: 100%;
           height: 100%;
@@ -176,20 +200,22 @@ $scale: 0.8;
     }
     .left-box {
       position: absolute;
-      left: 17%;
-      top: 26%;
+      left: 15%;
+      top: 31%;
+      @include fade-in(2s);
       img {
-        height: calc(320px * 0.8);
+        height: calc(320px * 0.75);
       }
       &.browser {
         left: 8.5%;
+        top: 33%;
       }
       &_outline {
         position: absolute;
-        left: 8%;
-        top: 19%;
-        height: calc(0.8 * 398px);
-        width: calc(0.8 * 364px);
+        @include position(27%, 8%);
+        height: calc(0.7 * 398px);
+        width: calc(0.7 * 364px);
+        transform: rotate(180deg);
         img {
           width: 100%;
           height: 100%;
@@ -199,9 +225,10 @@ $scale: 0.8;
     .step-box {
       position: absolute;
       left: 5%;
-      top: 15%;
-      height: calc(0.8 * 76px);
-      width: calc(0.8 * 153px);
+      top: 24%;
+      height: calc(0.7 * 76px);
+      width: calc(0.7 * 153px);
+      @include fade-in(2.5s);
       img {
         height: 100%;
         width: 100%;
@@ -218,6 +245,7 @@ $scale: 0.8;
       position: absolute;
       left: 15%;
       top: 82%;
+      @include fade-in(1.5s);
       > .flex-row > * {
         cursor: pointer;
       }
@@ -249,6 +277,7 @@ $scale: 0.8;
       top: 75%;
       opacity: 0.5;
       height: calc(0.8 * 49px);
+      @include fade-in(3.5s);
       &.active {
         opacity: 1;
         cursor: pointer;
@@ -262,8 +291,9 @@ $scale: 0.8;
     }
     .close {
       position: absolute;
+      z-index: 200;
       cursor: pointer;
-      left: 5%;
+      left: 92%;
       top: 6%;
       height: calc(0.8 * 45px);
       img {
@@ -275,8 +305,10 @@ $scale: 0.8;
       background-color: black;
       position: relative;
       width: 98%;
-      transform: rotate(-1deg);
+      margin-left: 2%;
+      transform: rotate(1deg);
       margin-top: -2px;
+      @include fade-in(1.5s);
       p {
         text-align: center;
         vertical-align: middle;
@@ -289,10 +321,12 @@ $scale: 0.8;
     }
     .speech {
       position: absolute;
-      left: 50%;
-      top: 0%;
+      z-index: 20;
+      left: 47%;
+      top: 2%;
       color: var(--black);
       width: 200px;
+      @include fade-in(3s);
       &.step1,
       &.step3,
       &.step5 {
@@ -321,27 +355,26 @@ $scale: 0.8;
   }
 }
 
-
-
 // SCREEN 1
 
 .screen1 {
-  .screen1-background {
-    position: absolute;
-    top: 10%;
-    left: 4%;
-    height: calc(211px * #{$scale});
-    width: calc(595px * #{$scale});
-    img {
-      height: 100%;
-      width: 100%;
-    }
+  .badger1 {
+    @include position(9%, 31%);
+    @include size(211px, 323px);
+    @include fade-in(2s);
+  }
+  .planet {
+    @include position(11%, 70%);
+    @include size(115px, 221px);
+    @include fade-in(2s);
+    transform: rotate(45deg);
   }
   .browser-wallet *,
   .mobile-wallet * {
     cursor: pointer;
   }
-  .browser-icon, .mobile-icon {
+  .browser-icon,
+  .mobile-icon {
     &:hover {
       -webkit-animation: swing 1.3s ease;
       animation: swing 1.3s ease;
@@ -395,6 +428,7 @@ $scale: 0.8;
     height: calc(328px * #{$scale});
     width: calc(251px * #{$scale});
     top: 35%;
+    transform: rotate(180deg);
     img {
       height: 100%;
       width: 100%;
@@ -411,10 +445,50 @@ $scale: 0.8;
   }
 }
 
-.tutorial-container {
-  width: 750px;
-  height: 430px;
-  top: 5%;
-  left: 2%;
-  padding: 80px 20px 0 20px;
+//Screen 3
+.badger-qr {
+  // @include size(484px, 277px);
+  width: 277px;
+  height: 484px;
+  @include position(1%, 35%);
+  transform: scale(1.1);
+}
+
+//WALLET CONNECT
+
+#walletconnect-wrapper {
+  z-index: 100;
+  #walletconnect-qrcode-modal.walletconnect-qrcode__base {
+    background: rgba(37, 41, 46, 0) !important;
+    position: relative !important;
+    width: 400px;
+    height: 500px;
+    .walletconnect-modal__base {
+      transform: translateY(0) !important;
+      width: 190px !important;
+      height: 190px !important;
+      padding: 5px !important;
+      position: absolute !important;
+      margin: 0 auto;
+      left: 35%;
+      top: 20%;
+    }
+    #walletconnect-qrcode-modal > div > div:nth-child(2) {
+      padding-top: 5%;
+    }
+    > div:nth-child(2) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    #walletconnect-qrcode-text {
+      display: none;
+    }
+    .walletconnect-modal__footer {
+      display: none;
+    }
+  }
+}
+
+#walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
+  display: none;
 }

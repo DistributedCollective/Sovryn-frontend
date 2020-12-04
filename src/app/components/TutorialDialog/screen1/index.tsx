@@ -4,6 +4,8 @@ import rectangle from 'assets/images/tutorial/screen1_rectangle.svg';
 import browserIcon from 'assets/images/tutorial/brower_icon.svg';
 import mobileIcon from 'assets/images/tutorial/mobile_icon.svg';
 import hardwareIcon from 'assets/images/tutorial/hardware_icon.svg';
+import badger1 from 'assets/images/tutorial/badger_1.svg';
+import planet from 'assets/images/tutorial/planet.svg';
 import { currentChainId } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
@@ -29,8 +31,11 @@ export function Screen1(props: Props) {
   return (
     <>
       <div className="screen1">
-        <div className="screen1-background">
-          <img src={screen1Bg} alt="" />
+        <div className="badger1 position-absolute">
+          <img src={badger1} alt="" className="h-100 w-100" />
+        </div>
+        <div className="planet position-absolute">
+          <img src={planet} alt="" className="h-100 w-100" />
         </div>
         <div className="browser-wallet" onClick={handleBrowserClick}>
           <div className="rectangle1">
@@ -47,7 +52,7 @@ export function Screen1(props: Props) {
             <p>Browser Wallet</p>
           </div>
         </div>
-        <div className="mobile-wallet">
+        <div className="mobile-wallet" onClick={() => props.handleClick(3)}>
           <div className="rectangle2">
             <img src={rectangle} alt="" />
           </div>

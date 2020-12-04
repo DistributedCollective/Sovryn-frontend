@@ -54,6 +54,8 @@ export function TutorialDialog() {
   });
 
   function handleClose() {
+    const walletConectModal = document.getElementById('walletconnect-wrapper');
+    walletConectModal?.classList.add('d-none');
     window.localStorage.setItem('tutorial_active', 'false');
     window.sessionStorage.setItem('closedRskTutorial', 'true');
     setShow(false);

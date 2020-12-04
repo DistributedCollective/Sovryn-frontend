@@ -289,7 +289,7 @@
       "new_RPC": "New RPC URL",
       "chain_Id": "Chain ID",
       "symbol": "Symbol",
-      "explorer_url": "New Block Explorer URL"
+      "explorer_url": "Block Explorer URL"
     },
     "step": "Step",
     "screens": {
@@ -303,6 +303,10 @@
       },
       "2": {
         "title": "How to Connect to RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "3": {
+        "title": "Scan QR Code",
         "banner": "For any assistance, reach out to the community"
       }
     }
