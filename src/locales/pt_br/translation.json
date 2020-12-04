@@ -19,7 +19,7 @@
     "button": "Atualizar agora"
   },
   "tradingActivity": {
-    "title": "Operações",
+    "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
       "activeTrades": "Ativas",
