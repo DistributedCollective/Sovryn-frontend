@@ -181,8 +181,8 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer",
-    "withdraw": "Retirar"
+    "supply": "Fornecer liquidez",
+    "withdraw": "Retirar liquidez"
   },
   "modal": {
     "close": "Fechar"
@@ -202,18 +202,8 @@
     "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
     "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn"
   },
-  "tradeDialog": {
-    "currency": "Moeda",
-    "amount": "Quantidade",
-    "placeTrade": "Realizar operação",
-    "enterTradeAmount": "Insira o valor da operação"
-  },
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
-  },
-  "withdrawLentDialog": {
-    "withdraw": "Resgatar",
-    "amount": "Quantidade a resgatar"
   },
   "lend": {
     "history": {
@@ -272,5 +262,21 @@
   "borrowHistory": {
     "table": {},
     "no_items": "Seu histórico de empréstimos está vazio."
+  },
+  "walletProvider": {
+    "txRequestDialog": {
+      "closeButton": "Ok",
+      "approve": {
+        "title": "Aprovar Tokens",
+        "description": "Confirme a transação na sua carteira para aprovar gastar {{amount}} {{asset}} neste contrato inteligente.",
+        "error": "Falha na solicitação de aprovação:"
+      }
+    }
+  },
+  "sendTxProgress": {
+    "pending_for_user": {
+      "title": "Pendente para o usuário",
+      "text": "Por favor, confirme a transação na sua carteira."
+    }
   }
 }
