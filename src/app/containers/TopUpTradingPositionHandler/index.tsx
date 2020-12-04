@@ -11,7 +11,6 @@ import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { TransactionStatus } from '../../../types/transaction-status';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
@@ -92,9 +91,7 @@ export function TopUpTradingPositionHandler(props: Props) {
           </div>
         </div>
 
-        {rest.status !== TransactionStatus.NONE && (
-          <SendTxProgress {...rest} displayAbsolute={false} />
-        )}
+        <SendTxProgress {...rest} displayAbsolute={false} />
 
         <div className="mt-4 d-flex flex-row justify-content-between">
           <AssetWalletBalance asset={tokenDetails.asset} />

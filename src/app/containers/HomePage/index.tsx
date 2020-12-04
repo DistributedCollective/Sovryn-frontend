@@ -17,12 +17,12 @@ export function HomePage() {
         <div className="container d-flex flex-row justify-content-between">
           <div>
             <Link to="/lend" className="bp3-button px-5 py-3">
-            {t(translations.homePage.lend)}
+              {t(translations.homePage.lend)}
             </Link>
           </div>
           <div>
             <Link to="/trade" className="bp3-button px-5 py-3">
-            {t(translations.homePage.trade)}
+              {t(translations.homePage.trade)}
             </Link>
           </div>
         </div>

@@ -20,7 +20,6 @@ import { AmountField } from '../AmountField';
 import { DialogButton } from '../../components/DialogButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { Asset } from '../../../types/asset';
-import { TransactionStatus } from '../../../types/transaction-status';
 
 interface Props {
   item: ActiveLoan;
@@ -113,13 +112,7 @@ export function CloseTradingPositionHandler(props: Props) {
           </>
         )}
 
-        {rest.status !== TransactionStatus.NONE && (
-          <SendTxProgress
-            {...rest}
-            type={'trade_close'}
-            displayAbsolute={false}
-          />
-        )}
+        <SendTxProgress {...rest} displayAbsolute={false} />
 
         {!!props.item.loanId && (
           <div className="mt-4 d-flex flex-row justify-content-between">

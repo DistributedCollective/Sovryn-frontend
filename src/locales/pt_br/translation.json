@@ -1,0 +1,276 @@
+{
+  "title": "Sovryn",
+  "announcement": {
+    "message": "Como a Sovryn foi recém lançada, existe atualmente um limite de <0>$21</0> em todas as transações na plataforma. Em breve vamos aumentar esse limite para $210. Obrigado por ser um dos primeiros a usar!"
+  },
+  "homePage": {
+    "title": "Página inicial",
+    "meta": "Página inicial da Sovryn",
+    "lend": "Emprestar",
+    "trade": "Operar"
+  },
+  "hintHowToConnect": {
+    "hintOne": "Antes de operar e emprestar com a Sovryn, você precisa se conectar a rede RSK.",
+    "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
+  },
+  "serviceWorkerToaster": {
+    "title": "O aplicativo foi atualizado.",
+    "message": "Novo conteúdo disponível e será usado quando todas as guias desta página forem fechadas.",
+    "button": "Atualizar agora"
+  },
+  "tradingActivity": {
+    "title": "Minhas operações",
+    "walletNote": "Primeiro conecte sua carteira!",
+    "tabs": {
+      "activeTrades": "Ativas",
+      "tradingHistory": "Concluídas"
+    }
+  },
+  "tradingPage": {
+    "meta": {
+      "title": "Operações",
+      "description": "Opere com a Sovryn."
+    },
+    "email": {
+      "optin": {
+        "title": "Sucesso",
+        "text": "Agora você receberá notificações por e-mail quando suas posições estiverem próximas da liquidação e se uma posição for liquidada. Você pode cancelar a inscrição a qualquer momento"
+      },
+      "unsubscribe": {
+        "title": "Você cancelou a inscrição nas notificações por e-mail",
+        "text": "Você não receberá mais e-mails sobre chamadas de margem ou posições liquidadas. Você pode se inscrever novamente a qualquer momento."
+      }
+    }
+  },
+  "tradingHistoryPage": {
+    "title": "Histórico de operações",
+    "auth": "Por favor, conecte e autorize sua carteira.",
+    "noClosedTrades": "Você não tem operações concluídas."
+  },
+  "fastBtcPage": {
+    "meta": {
+      "title": "Fast-BTC",
+      "description": "Transfira seu Bitcoin para a rede RSK."
+    }
+  },
+  "fastBtcForm": {
+    "title": "Fast-BTC Relay",
+    "history": {
+      "title": "Histórico",
+      "empty": "Histórico vazio.",
+      "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
+      "loading": "Carregando..."
+    },
+    "connect": "Conecte sua carteira ou insira você mesmo um endereço no campo acima.",
+    "depositAdress": "Endereço de depósito BTC",
+    "toDepositWallet": "depositar carteira",
+    "placeholder": "Seu endereço da carteira RSK",
+    "waitingForDeposit": "Aguardando depósito",
+    "exchanging": "Nós estamos trocando seu BTC para rBTC.",
+    "transfered": "foi transferido para sua carteira RSK",
+    "swapAgain": "Realizar nova troca"
+  },
+  "tradeOrSwapTabs": {
+    "tabs": {
+      "trade": "Operar",
+      "swap": "Trocar moedas"
+    }
+  },
+  "marginTradeForm": {
+    "fields": {
+      "currency": "Moeda",
+      "currency_placeholder": "Escolha a moeda",
+      "amount": "Quantidade"
+    },
+    "buttons": {
+      "submit": "Realizar operação"
+    }
+  },
+  "swapTradeForm": {
+    "fields": {
+      "currency_placeholder": "Escolha a moeda",
+      "send": "Você envia",
+      "receive": "Você recebe"
+    },
+    "buttons": {
+      "submit": "Realizar troca"
+    }
+  },
+  "amountField": {
+    "placeholder": "Insira a quantidade",
+    "btn_max": "Max"
+  },
+  "wallet": {
+    "btn": "Conectar carteira",
+    "connect_btn": "Escolher carteira",
+    "disconnect": "Desconectar"
+  },
+  "hintDialog": {
+    "title": "Dicas Sovryn"
+  },
+  "footer": {
+    "title": "Distribuído por <0>Bitcoin</0>"
+  },
+  "mainMenu": {
+    "trade": "Operar",
+    "lend": "Empréstimos",
+    "fastBtc": "Fast-Btc",
+    "liquidity": "Liquidez",
+    "stats": "Estatísticas",
+    "faqs": "FAQs"
+  },
+  "trandingPositionSelector": {
+    "long": "Comprado",
+    "short": "Vendido"
+  },
+  "assetWalletBalance": {
+    "accountBalance": "Saldo disponível",
+    "suppliedBalance": "Saldo disponibilizado",
+    "connect": "Conectar carteira"
+  },
+  "leverageSelector": {
+    "text": "Alavancagem"
+  },
+  "activeLoan": {
+    "expandedRow": {
+      "leverage": "alavancagem",
+      "startMargin": "Margem inicial",
+      "mainenanceMargin": "Margem de manutenção",
+      "currentPrice": "Preço atual",
+      "liquidationPrice": "Preço de liquidação",
+      "renewalDate": "Data de renovação"
+    },
+    "table": {
+      "positionSize": "Tamanho da posição",
+      "profit": "Lucro",
+      "container": {
+        "topUp": "Aumentar posição",
+        "close": "Fechar posição"
+      }
+    }
+  },
+  "expandedRowMobile": {
+    "currentMargin": "Margem atual",
+    "interestAPR": "Juros anual",
+    "startPrice": "Preço inicial",
+    "leverage": "Alavancagem",
+    "startMargin": "Margem inicial",
+    "maintenanceMargin": "Margem de manutenção",
+    "currentPrice": "Preço atual",
+    "liquidationPrice": "Preço de liquidação",
+    "renewalDate": "Data de renovação"
+  },
+  "statsPage": {
+    "asset": "Ativo",
+    "totalAssetSupplied": "Total de ativos fornecidos",
+    "totalAssetBorrowed": "Total de ativos emprestados",
+    "totalAvailable": "Total disponível",
+    "supplyAPR": "Juros anual (Emprestador)",
+    "borrowAPR": "Juros anual (Tomador)"
+  },
+  "pageNotFound": {
+    "text": "Página não encontrada.",
+    "backHome": "Ir para página inicial"
+  },
+  "liquidity": {
+    "title": "Liquidez",
+    "meta": "Adicionar liquidez",
+    "currency":"Moeda",
+    "currencySelect": "Selecionar moeda",
+    "amount": "Insira a quantidade",
+    "amountTarget": "Quantidade desejada",
+    "token": "Pool tokens a receber",
+    "fee": "Taxa",
+    "supply": "Fornecer",
+    "withdraw": "Retirar"
+  },
+  "modal": {
+    "close": "Fechar"
+  },
+  "formSelect": {
+    "loading": "Abrindo, por favor aguarde.",
+    "noresults": "Sem resultados.",
+    "placeholder": "Selecione algo"
+  },
+  "hintHowToTopUp": {
+    "hintOne": "Você está conectado! Para operar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
+    "hintTwo": "Carregue sua carteira na",
+    "hintThree": "e comece a usar!"
+  },
+  "notificationFromContainer": {
+    "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
+    "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
+    "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn"
+  },
+  "tradeDialog": {
+    "currency": "Moeda",
+    "amount": "Quantidade",
+    "placeTrade": "Realizar operação",
+    "enterTradeAmount": "Insira o valor da operação"
+  },
+  "whiteListedNotification": {
+    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
+  },
+  "withdrawLentDialog": {
+    "withdraw": "Resgatar",
+    "amount": "Quantidade a resgatar"
+  },
+  "lend": {
+    "history": {
+      "title": "Histórico"
+    },
+    "currency": {
+      "lend": "Emprestar",
+      "borrow": "Tomar",
+      "lendArp": "Juros anual (Emprestador)",
+      "borrowArp": "Juros anual (Tomador)"
+    },
+    "container": {
+      "leftBtn": "Fornecer",
+      "rightBtn": "Retirar",
+      "amountName": "Valor do depósito",
+      "balance": "Saldo",
+      "profit": "Lucro",
+      "supply": "Fornecer"
+    },
+    "borrowingContainer": {
+      "amount": "Valor do empréstimo",
+      "token": "Token a ser colaterizado",
+      "collateralAmount": "Quantidade colaterizada",
+      "borrow": "Tomar empréstimo"
+    }
+  },
+  "activeUserBorrows": {
+    "text": "Você não tem nenhum empréstimo ativo."
+  },
+  "topUpTradingPositionHandler": {
+    "title": "Aumentar posição",
+    "topUpAmount": "Aumentar quantidade",
+    "topUp": "Aumentar",
+    "currency": "Moeda"
+  },
+  "liquidityRemoveContainer": {
+    "fields": {
+      "currency": "Moeda",
+      "currency_placeholder": "Escolha a moeda",
+      "amount": "Insira a quantidade",
+      "target_amount": "Quantidade desejada",
+      "fee": "Taxa"
+    },
+    "supplied_balance": "Saldo fornecido",
+    "not_connected": "Conectar carteira",
+    "btn": "Retirar"
+  },
+  "borrowActivity": {
+    "title": "Empréstimos",
+    "tabs": {
+      "active": "Empréstimos ativos",
+      "history": "Histórico de empréstimos"
+    },
+    "walletNote": "Primeiro conecte sua carteira!"
+  },
+  "borrowHistory": {
+    "table": {},
+    "no_items": "Seu histórico de empréstimos está vazio."
+  }
+}

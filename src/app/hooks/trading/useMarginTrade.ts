@@ -5,6 +5,7 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useMarginTrade(
   asset: Asset,
@@ -18,27 +19,33 @@ export function useMarginTrade(
   weiAmount: string = '0',
 ) {
   const account = useAccount();
-  const { send, ...rest } = useSendContractTx(
+  const { send, ...txState } = useSendContractTx(
     getLendingContractName(asset),
     'marginTrade',
   );
 
   return {
-    trade: () => {
-      return send(
-        loanId,
-        leverageAmount,
-        loanTokenSent,
-        collateralTokenSent,
-        getTokenContract(collateralToken).address,
-        trader,
-        loanDataBytes,
+    trade: (nonce?: number, approveTx?: string | null) =>
+      send(
+        [
+          loanId,
+          leverageAmount,
+          loanTokenSent,
+          collateralTokenSent,
+          getTokenContract(collateralToken).address,
+          trader,
+          loanDataBytes,
+        ],
         {
           from: account,
           value: weiAmount,
+          nonce,
         },
-      );
-    },
-    ...rest,
+        {
+          approveTransactionHash: approveTx,
+          type: TxType.TRADE,
+        },
+      ),
+    ...txState,
   };
 }
