@@ -9,21 +9,17 @@ import { currentChainId } from 'utils/classifiers';
 
 export function TutorialDialog() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   const onNetwork =
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
   const checks = {
-    previousUser:
-      window.localStorage.getItem('connectedToRskBefore') === 'true',
+    // previousUser:
+    //   window.localStorage.getItem('connectedToRskBefore') === 'true',
     connected: useIsConnected(),
     closedBefore: window.sessionStorage.getItem('closedRskTutorial') === 'true',
   };
-
-  const connectedToMainnet = window.ethereum
-    ? window.ethereum.chainId === '0x1e'
-    : false;
 
   const handleWalletConnection = useCallback(() => {
     Sovryn.connect()
@@ -33,16 +29,19 @@ export function TutorialDialog() {
 
   function handleEngage() {
     handleWalletConnection();
-    // window.sessionStorage.setItem('closedRskTutorial', 'true');
+    window.localStorage.setItem('ongoing_tutorial', 'false');
+    window.sessionStorage.setItem('closedRskTutorial', 'true');
     setShow(false);
   }
 
-  // useEffect(() => {
-  //   const shouldShow = Object.values(checks).every(check => check === false);
-  //   if (shouldShow) {
-  //     setShow(true);
-  //   }
-  // }, [checks]);
+  useEffect(() => {
+    const shouldShow = Object.values(checks).every(check => check === false);
+    if (shouldShow) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [checks]);
 
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];

@@ -83,8 +83,8 @@ export function Screen2(props: Props) {
     <>
       {!moving && (
         <>
-          <div className="crater">
-            <img src={crater} alt="" />
+          <div className="crater position-absolute">
+            <img src={crater} alt="" className="w-100 h-100" />
           </div>
           <div className={`arm_${step} position-absolute`}>
             <div className="arm1 position-absolute">
@@ -94,28 +94,30 @@ export function Screen2(props: Props) {
               <img src={arm2} alt="" className="h-100 w-100" />
             </div>
           </div>
-          <div className="badger-body">
-            <img src={badgerBody} alt="" />
+          <div className="badger-body position-absolute">
+            <img src={badgerBody} alt="" className="h-100 w-100" />
           </div>
           <div className={`speech step${step}`}>
             <img src={speechBubble} alt="" />
             <p>{speechText}</p>
           </div>
 
-          <div className="left-box_outline">
-            <img src={leftBox} alt="" />
+          <div className="left-box_outline position-absolute">
+            <img src={leftBox} alt="" className="h-100 w-100" />
           </div>
-          <div className={`left-box ${step === 1 && 'browser'}`}>
+          <div
+            className={`left-box ${step === 1 && 'browser position-absolute'}`}
+          >
             <img src={content[step].leftImage} alt="" />
           </div>
-          <div className="right-box_outline">
-            <img src={rightBox} alt="" />
+          <div className="right-box_outline position-absolute">
+            <img src={rightBox} alt="" className="h-100 w-100" />
           </div>
-          <div className="right-box">
+          <div className="right-box position-absolute">
             <div>
               <div>
                 <div className="row">
-                  <p>
+                  <p className="text-center mx-auto">
                     {t(translations.rskConnectTutorial.input_settings.title)}
                   </p>
                 </div>

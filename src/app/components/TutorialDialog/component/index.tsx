@@ -25,7 +25,7 @@ export function TutorialDialogComponent(props) {
   return (
     <>
       <div
-        className="wallet-tutorial_container"
+        className="wallet-tutorial_container position-absolute mx-auto"
         onMouseLeave={() => {
           console.log('Mouse out');
           if (screen === 2) {
@@ -34,8 +34,8 @@ export function TutorialDialogComponent(props) {
         }}
       >
         <div className={`${screen === 2 && 'left'} position-absolute`}>
-          <div className="background">
-            <img src={background} alt="" />
+          <div className="background position-relative w-100">
+            <img src={background} alt="" className="w-100 h-100" />
           </div>
           <div className="close" onClick={props.handleClose}>
             <img src={close} alt="close" />
