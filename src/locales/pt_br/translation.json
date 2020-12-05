@@ -231,7 +231,7 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo ativo."
+    "text": "Você não tem nenhum empréstimo em andamento."
   },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
