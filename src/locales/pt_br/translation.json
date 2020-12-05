@@ -255,7 +255,7 @@
     "title": "Meus empréstimos",
     "tabs": {
       "active": "Em andamento",
-      "history": "Concluídos"
+      "history": "Quitados"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
