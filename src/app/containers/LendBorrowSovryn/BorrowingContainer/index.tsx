@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import {
+  Popover,
+  PopoverInteractionKind,
+  Position,
+  NumericInput,
+} from '@blueprintjs/core';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
@@ -30,6 +36,8 @@ type Props = {
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
+  const [borrowDays, setBorrowDays] = useState(28); // by default 28 days
+  const [borrowDaysPopup, setBorrowDaysPopup] = useState(false);
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
   const { t } = useTranslation();
@@ -58,7 +66,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   }, [currency]);
 
   const tokenToBorrow = currency;
-  const initialLoanDuration = 60 * 60 * 24 * 10; // 10 days
+  const initialLoanDuration = 60 * 60 * 24 * borrowDays;
 
   const { value: requiredCollateral } = useSovryn_getRequiredCollateral(
     tokenToBorrow,
@@ -92,10 +100,34 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     borrow();
   };
 
+  const handleBorrowDaysChange = (valueAsNumber: number) => {
+    setBorrowDays(valueAsNumber);
+  };
+
+  const handleInteraction = (isOpenBorrowPopover: boolean) => {
+    setBorrowDaysPopup(isOpenBorrowPopover);
+  };
+
   const valid = useIsAmountWithinLimits(
     collateralTokenSent,
     '1',
     maxAmount !== '0' ? min(maxAmount, tokenBalance) : tokenBalance,
+  );
+
+  const popoverContent = (
+    <div className="bp3-popover-borrow">
+      {t(translations.lend.borrowingContainer.chooseDays)}
+      <NumericInput
+        min={1}
+        max={30}
+        onValueChange={handleBorrowDaysChange}
+        clampValueOnBlur={true}
+        value={borrowDays}
+      />
+      <button className="bp3-button bp3-popover-dismiss">
+        {t(translations.modal.close)}
+      </button>
+    </div>
   );
 
   useEffect(() => {
@@ -116,6 +148,18 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         />
       </FieldGroup>
       <div className="row">
+        <div className="col-12">
+          Borrow for {}
+          <Popover
+            content={popoverContent}
+            interactionKind={PopoverInteractionKind.CLICK}
+            isOpen={borrowDaysPopup}
+            onInteraction={state => handleInteraction(state)}
+            position={Position.BOTTOM}
+          >
+            <a href="#!">{borrowDays} days.</a>
+          </Popover>
+        </div>
         <div className="col-4">
           <FieldGroup label={t(translations.lend.borrowingContainer.token)}>
             <FormSelect
