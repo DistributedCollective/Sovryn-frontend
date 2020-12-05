@@ -22,7 +22,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
+      "activeTrades": "Em andamento",
       "tradingHistory": "Concluídas"
     }
   },
@@ -219,7 +219,7 @@
       "leftBtn": "Fornecer",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
-      "balance": "Saldo",
+      "balance": "Emprestado",
       "profit": "Lucro",
       "supply": "Fornecer"
     },
@@ -252,10 +252,10 @@
     "btn": "Retirar"
   },
   "borrowActivity": {
-    "title": "Empréstimos",
+    "title": "Meus empréstimos",
     "tabs": {
-      "active": "Empréstimos ativos",
-      "history": "Histórico de empréstimos"
+      "active": "Em andamento",
+      "history": "Concluídos"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
