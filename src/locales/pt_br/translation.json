@@ -227,7 +227,8 @@
       "amount": "Valor do empréstimo",
       "token": "Token a ser colaterizado",
       "collateralAmount": "Quantidade colaterizada",
-      "borrow": "Tomar empréstimo"
+      "borrow": "Tomar empréstimo",
+      "chooseDays": "Choose days"
     }
   },
   "activeUserBorrows": {

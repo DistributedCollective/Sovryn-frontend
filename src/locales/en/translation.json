@@ -227,7 +227,8 @@
       "amount": "Amount to borrow",
       "token": "Token to collarate",
       "collateralAmount": "Collateral amount",
-      "borrow": "Borrow"
+      "borrow": "Borrow",
+      "chooseDays": "Choose days"
     }
   },
   "activeUserBorrows": {

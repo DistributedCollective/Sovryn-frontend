@@ -224,7 +224,8 @@
       "lend": "Prestar",
       "borrow": "Pedir prestado",
       "lendArp": "Prestar APR",
-      "borrowArp": "Pedir prestado APR"
+      "borrowArp": "Pedir prestado APR",
+      "chooseDays": "Choose days"
      },
      "container": {
        "leftBtn": "Deposit",
