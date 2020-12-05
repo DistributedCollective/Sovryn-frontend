@@ -22,6 +22,10 @@ export function TutorialDialogComponent(props) {
     setScreen(num);
   }
 
+  function back() {
+    setScreen(1);
+  }
+
   return (
     <>
       <div
@@ -30,6 +34,8 @@ export function TutorialDialogComponent(props) {
           console.log('Mouse out');
           if (screen === 2) {
             setMouseLeave(true);
+          } else {
+            setMouseLeave(false);
           }
         }}
       >
@@ -40,6 +46,11 @@ export function TutorialDialogComponent(props) {
           <div className="close" onClick={props.handleClose}>
             <img src={close} alt="close" />
           </div>
+          {screen !== 1 && (
+            <div className="back position-absolute" onClick={() => back()}>
+              <button>Back</button>
+            </div>
+          )}
           <div className="title position-absolute">
             <h1>
               {t(

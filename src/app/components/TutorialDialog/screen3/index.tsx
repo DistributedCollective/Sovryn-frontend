@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import badgerQr from 'assets/images/tutorial/badger_qr.svg';
 import speech2 from 'assets/images/tutorial/speech2.svg';
 import { Sovryn } from 'utils/sovryn';
-import { SovrynNetwork } from 'utils/sovryn/sovryn-network';
 
 export function Screen3() {
   const [fade, setFade] = useState(false);
@@ -13,13 +12,12 @@ export function Screen3() {
     Sovryn.connectTo('walletconnect');
   }
 
-  function closeModal() {
-    const walletConectModal = document.getElementById('walletconnect-wrapper');
-    walletConectModal?.classList.add('d-none');
-  }
-
   useEffect(() => {
     connect();
+    return function cleanup() {
+      var walletConnectModal = document.getElementById('walletconnect-wrapper');
+      walletConnectModal?.remove();
+    };
   }, []);
 
   return (
@@ -31,6 +29,9 @@ export function Screen3() {
         <div className="speech2 position-absolute">
           <img src={speech2} alt="" className="h-100 w-100" />
         </div>
+        <p className="speech-qr position-absolute">
+          Scan qr with a wallet-connect compatible wallet
+        </p>
       </div>
     </>
   );

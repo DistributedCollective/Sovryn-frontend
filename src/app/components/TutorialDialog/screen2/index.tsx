@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-
-import arm from 'assets/images/tutorial/ARM.png';
 import arm1 from 'assets/images/tutorial/arm_1.svg';
 import arm2 from 'assets/images/tutorial/arm_2.svg';
 import stepBox from 'assets/images/tutorial/step-box.svg';
@@ -14,7 +12,9 @@ import leftBox from 'assets/images/tutorial/left_box.svg';
 import rightBox from 'assets/images/tutorial/right_box.svg';
 import badgerBody from 'assets/images/tutorial/badger_body.svg';
 import crater from 'assets/images/tutorial/crater.svg';
+import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../hooks/tutorial/useContent';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 interface Props {
   onNetwork: boolean;
@@ -106,7 +106,7 @@ export function Screen2(props: Props) {
             <img src={leftBox} alt="" className="h-100 w-100" />
           </div>
           <div
-            className={`left-box ${step === 1 && 'browser position-absolute'}`}
+            className={`left-box position-absolute ${step === 1 && 'browser'}`}
           >
             <img src={content[step].leftImage} alt="" />
           </div>
@@ -131,7 +131,16 @@ export function Screen2(props: Props) {
                   <div className="col-5">
                     {t(translations.rskConnectTutorial.input_settings.new_RPC)}
                   </div>
-                  <div className="col-7">https://public-node.rsk.co</div>
+                  <div className="col-7">
+                    <CopyToClipboard
+                      text="https://public-node.rsk.co"
+                      onCopy={() => alert('Copied!')}
+                    >
+                      <span className="cursor-pointer">
+                        https://public-node.rsk.co <Icon icon="duplicate" />
+                      </span>
+                    </CopyToClipboard>
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-5">
@@ -152,7 +161,16 @@ export function Screen2(props: Props) {
                         .explorer_url,
                     )}
                   </div>
-                  <div className="col-7">https://explorer.rsk.co</div>
+                  <div className="col-7">
+                    <CopyToClipboard
+                      text="https://public-node.rsk.co"
+                      onCopy={() => alert('Copied!')}
+                    >
+                      <span className="cursor-pointer">
+                        https://explorer.rsk.co <Icon icon="duplicate" />
+                      </span>
+                    </CopyToClipboard>
+                  </div>
                 </div>
               </div>
             </div>
