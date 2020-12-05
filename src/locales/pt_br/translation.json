@@ -211,7 +211,7 @@
     },
     "currency": {
       "lend": "Emprestar",
-      "borrow": "Tomar",
+      "borrow": "Tomar empréstimo",
       "lendArp": "Juros anual (Emprestador)",
       "borrowArp": "Juros anual (Tomador)"
     },
