@@ -1,8 +1,9 @@
-import step2screen1 from 'assets/images/tutorial/step2screen1.svg';
+import step2screen1 from 'assets/images/tutorial/screen1step2.png';
 import step3screen1 from 'assets/images/tutorial/step3screen1.svg';
 import step4screen1 from 'assets/images/tutorial/step4screen1.svg';
 import step5screen1 from 'assets/images/tutorial/step5screen1.svg';
-import step6screen1 from 'assets/images/tutorial/step6screen1.svg';
+import step6screen1 from 'assets/images/tutorial/screen1step6.png';
+import step7screen1 from 'assets/images/tutorial/step6screen1.svg';
 import browserImg from 'assets/images/tutorial/browser.svg';
 
 import { translations } from 'locales/i18n';
@@ -42,7 +43,7 @@ export function useContent() {
       armPosition: 'low',
     },
     7: {
-      leftImage: step6screen1,
+      leftImage: step7screen1,
       speech: t(translations.rskConnectTutorial.speech['7']),
       armPosition: 'low',
     },

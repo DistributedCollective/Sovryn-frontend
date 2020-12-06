@@ -274,6 +274,9 @@
     "no_items": "Your borrow history is empty."
   },
   "rskConnectTutorial": {
+    "browser_wallet": "Browser Wallet",
+    "mobile_wallet": "Mobile Wallet",
+    "hardware_wallet": "Hardware Wallet",
     "speech": {
       "1": "Open up your browser wallet",
       "2": "Go to network dropdown",
@@ -283,6 +286,7 @@
       "6": "Click Add Network",
       "7": "Engage Your Wallet!"
     },
+    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
     "input_settings": {
       "title": "RSK Network Settings",
       "network": "Network Name",

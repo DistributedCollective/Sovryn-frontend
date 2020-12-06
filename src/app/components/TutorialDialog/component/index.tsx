@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import background from 'assets/images/tutorial/test.svg';
 import close from 'assets/images/tutorial/close.svg';
 import { Screen1 } from '../screen1';

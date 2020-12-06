@@ -33,7 +33,7 @@ export function Screen2(props: Props) {
   );
   const [moving, setMoving] = useState(false);
 
-  const timer = ms => new Promise(res => setTimeout(res, ms));
+  // const timer = ms => new Promise(res => setTimeout(res, ms));
 
   //   useEffect(() => {
   //     setTimeout(function () {
@@ -41,20 +41,20 @@ export function Screen2(props: Props) {
   //     }, 1000);
   //   });
 
-  async function printText(str) {
-    await timer(500);
-    setSpeechText('');
-    for (let i = 0; i < str.length; i++) {
-      setSpeechText(prevState => `${prevState}${str[i]}`);
-      await timer(50);
-    }
-  }
+  // async function printText(str) {
+  //   await timer(500);
+  //   setSpeechText('');
+  //   for (let i = 0; i < str.length; i++) {
+  //     setSpeechText(prevState => `${prevState}${str[i]}`);
+  //     await timer(50);
+  //   }
+  // }
 
   function stepChange(num) {
-    setSpeechText('');
     setStep(num);
     setCycle(false);
-    printText(content[num].speech);
+    setSpeechText(content[num].speech);
+    // printText(content[num].speech);
   }
 
   useEffect(() => {

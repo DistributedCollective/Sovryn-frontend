@@ -95,7 +95,7 @@ $scale: 0.8;
         }
       }
       &[class*='3'] {
-        transform: rotate(-23deg);
+        transform: rotate(-18deg);
         .arm2 {
           transform: rotate(-30deg);
         }
@@ -103,11 +103,11 @@ $scale: 0.8;
       &[class*='4'] {
         transform: rotate(-23deg);
         .arm2 {
-          transform: rotate(5deg);
+          transform: rotate(15deg);
         }
       }
       &[class*='5'] {
-        transform: rotate(-40deg);
+        transform: rotate(-35deg);
         .arm2 {
           transform: rotate(-15deg);
         }
@@ -115,7 +115,7 @@ $scale: 0.8;
       &[class*='6'] {
         transform: rotate(-30deg);
         .arm2 {
-          transform: rotate(-34deg);
+          transform: rotate(-23deg);
         }
       }
       &[class*='7'] {
@@ -295,12 +295,18 @@ $scale: 0.8;
       &.step5 {
         -webkit-animation: 1 grow 0.8s alternate ease-in-out;
         animation: grow 0.8s 1 alternate ease-in-out;
+        p {
+          @include fade-in(3s);
+        }
       }
       &.step2,
       &.step4,
       &.step6 {
         -webkit-animation: 1 bob 0.8s alternate ease-in-out;
         animation: bob 0.8s 1 alternate ease-in-out;
+        p {
+          @include fade-in(3s);
+        }
       }
       img {
         height: calc(200px * 0.7);
@@ -420,14 +426,20 @@ $scale: 0.8;
 }
 .speech-qr {
   color: black;
-  @include position(-6%, 60%);
-    width: 217px;
+  @include position(27%, 70%);
+  width: 250px;
 }
 .speech2 {
   width: 304px;
   height: 111px;
   transform: rotateY(180deg);
-  @include position(-8%, 54%);
+  background-image: url('../../assets/images/tutorial/speech2.svg');
+  background-repeat: no-repeat;
+  transform: scale(-1, -1);
+  @include position(18%, 65%);
+  img {
+    transform: rotateX(180deg);
+  }
 }
 
 //WALLET CONNECT
