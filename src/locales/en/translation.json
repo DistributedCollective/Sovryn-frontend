@@ -19,11 +19,11 @@
     "button": "Update Now"
   },
   "tradingActivity": {
-    "title": "Trading Activity",
+    "title": "My Trading Activity",
     "walletNote": "Connect your wallet first!",
     "tabs": {
-      "activeTrades": "Active Trades",
-      "tradingHistory": "Trading History"
+      "activeTrades": "Active",
+      "tradingHistory": "Closed"
     }
   },
   "tradingPage": {
