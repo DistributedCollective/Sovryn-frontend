@@ -10,7 +10,7 @@
     "trade": "Operar"
   },
   "hintHowToConnect": {
-    "hintOne": "Antes de operar e emprestar com a Sovryn, você precisa se conectar a rede RSK.",
+    "hintOne": "Para usar a Sovryn, você precisa antes conectar a sua carteira na rede da RSK.",
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
