@@ -38,6 +38,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const [amount, setAmount] = useState<string>('');
   const [borrowDays, setBorrowDays] = useState(28); // by default 28 days
   const [borrowDaysPopup, setBorrowDaysPopup] = useState(false);
+  const [isShowedBorrowDays] = useState(false);
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
   const { t } = useTranslation();
@@ -148,18 +149,20 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         />
       </FieldGroup>
       <div className="row">
-        <div className="col-12">
-          Borrow for {}
-          <Popover
-            content={popoverContent}
-            interactionKind={PopoverInteractionKind.CLICK}
-            isOpen={borrowDaysPopup}
-            onInteraction={state => handleInteraction(state)}
-            position={Position.BOTTOM}
-          >
-            <a href="#!">{borrowDays} days.</a>
-          </Popover>
-        </div>
+        {isShowedBorrowDays && (
+          <div className="col-12">
+            Borrow for {}
+            <Popover
+              content={popoverContent}
+              interactionKind={PopoverInteractionKind.CLICK}
+              isOpen={borrowDaysPopup}
+              onInteraction={state => handleInteraction(state)}
+              position={Position.BOTTOM}
+            >
+              <a href="#!">{borrowDays} days.</a>
+            </Popover>
+          </div>
+        )}
         <div className="col-4">
           <FieldGroup label={t(translations.lend.borrowingContainer.token)}>
             <FormSelect
