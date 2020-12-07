@@ -22,12 +22,6 @@ export const contracts = {
     abi: bzxAbi,
     blockNumber: 1218686,
   },
-  // AMM liquidity protocol
-  liquidityProtocol: {
-    address: '0x3ED5C55D08F75488736fb4A2e512698E71251cf0',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   BTCWrapperProxy: {
     address: '0x55684391E3d0Cf69f41c40ddF736BD1C6D3D538c',
     abi: RBTCWrapperProxy,

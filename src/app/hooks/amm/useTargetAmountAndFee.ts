@@ -1,14 +1,18 @@
 import { Asset } from 'types/asset';
-import { getTokenContract } from 'utils/blockchain/contract-helpers';
+import {
+  getAmmContractName,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
 export function useTargetAmountAndFee(
+  pool: Asset,
   sourceToken: Asset,
   targetToken: Asset,
   amount: string,
 ) {
   return useCacheCallWithValue(
-    'liquidityProtocol',
+    getAmmContractName(pool),
     'targetAmountAndFee',
     ['0', '0'],
     getTokenContract(sourceToken).address,
