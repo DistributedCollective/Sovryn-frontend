@@ -175,7 +175,7 @@
   "liquidity": {
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
-    "currency":"Moeda",
+    "currency": "Moeda",
     "currencySelect": "Selecionar moeda",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",

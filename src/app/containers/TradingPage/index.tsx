@@ -22,7 +22,6 @@ import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { TabType } from './types';
-import { HintDialog } from '../../components/HintDialog';
 import { Announcement } from '../../components/Announcement';
 
 const s = translations.tradingPage;
@@ -48,7 +47,6 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      <HintDialog />
       <div className="container mt-5">
         <Announcement />
         <div className="row">

@@ -15820,6 +15820,11 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
+storage-factory@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/storage-factory/-/storage-factory-0.1.1.tgz#a693158ca9e9e6331d855155a2a17d7f71edb7d2"
+  integrity sha512-9yQyNSJtQwjvpb+GpohTG+zRrhtoc2fPkDf9uPm6RAEN44oNglhhikETd/55bqwk7Ipwoy735b7d1b9LoVLFsg==
+
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"

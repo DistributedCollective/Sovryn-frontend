@@ -25,6 +25,8 @@ import { FastBtcPage } from './containers/FastBtcPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { useEffect, useState } from 'react';
 
+import { TutorialDialog } from './components/TutorialDialog/container';
+
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -68,6 +70,7 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>
+        <TutorialDialog />
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
