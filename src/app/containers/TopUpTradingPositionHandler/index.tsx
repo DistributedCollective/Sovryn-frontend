@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { SendTxProgress } from '../../components/SendTxProgress';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';

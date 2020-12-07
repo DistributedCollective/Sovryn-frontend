@@ -18,7 +18,7 @@ import { translations } from 'locales/i18n';
 import { DummyField } from '../../components/DummyField';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
 import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';

@@ -1,5 +1,5 @@
 import { Asset } from 'types/asset';
-import { TradingPair } from './models/trading-pair';
+import { TradingPair } from '../models/trading-pair';
 
 export enum TradingPairType {
   BTC_DOC = 'BTC_DOC',

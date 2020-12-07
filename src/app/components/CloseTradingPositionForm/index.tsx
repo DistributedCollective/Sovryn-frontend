@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { Asset } from '../../../types/asset';
 
 interface SwapOptions {}

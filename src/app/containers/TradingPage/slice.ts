@@ -3,7 +3,7 @@ import { createSlice } from 'utils/@reduxjs/toolkit';
 import {
   TradingPairDictionary,
   TradingPairType,
-} from 'utils/trading-pair-dictionary';
+} from 'utils/dictionaries/trading-pair-dictionary';
 import { ContainerState, TabType } from './types';
 
 // The initial state of the TradingPage container

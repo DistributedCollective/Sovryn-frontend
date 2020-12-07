@@ -1,8 +1,10 @@
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import { Asset } from '../../../types/asset';
+import { getAmmContractName } from '../../../utils/blockchain/contract-helpers';
 
-export function useLiquidationLimit(poolTokenAddress: string) {
+export function useLiquidationLimit(asset: Asset, poolTokenAddress: string) {
   return useCacheCallWithValue(
-    'liquidityProtocol',
+    getAmmContractName(asset),
     'liquidationLimit',
     '0',
     poolTokenAddress,

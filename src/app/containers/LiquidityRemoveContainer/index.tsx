@@ -7,16 +7,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Text } from '@blueprintjs/core';
-import { liquidityPools } from '../../../utils/classifiers';
+import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { FormSelect } from '../../components/FormSelect';
 import { LoadableValue } from '../../components/LoadableValue';
-import {
-  weiTo4,
-  weiTo18,
-  weiToFixed,
-} from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
@@ -26,40 +22,46 @@ import { AmountField } from '../AmountField';
 import { TradeButton } from '../../components/TradeButton';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 import { useIsConnected } from '../../hooks/useAccount';
-import { getContractNameByAddress } from '../../../utils/blockchain/contract-helpers';
+
+const pools = LiquidityPoolDictionary.list();
+const poolList = pools.map(item => ({
+  key: item.getAsset(),
+  label: item.getAssetDetails().symbol,
+}));
 
 interface Props {}
 
 export function LiquidityRemoveContainer(props: Props) {
   const { t } = useTranslation();
   const isConnected = useIsConnected();
-  const tokens = liquidityPools.map(item => ({
-    key: item.source,
-    label: `${item.tokenLabel} - Pool token`,
-  }));
+  const [pool, setPool] = useState(poolList[0].key);
 
+  const prepareTokens = useCallback(() => {
+    return LiquidityPoolDictionary.get(pool)
+      .getSupplyAssets()
+      .map(item => ({
+        key: item.getAssetDetails().asset,
+        label: item.getAssetDetails().symbol,
+      }));
+  }, [pool]);
+
+  const [tokens, setTokens] = useState(prepareTokens());
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
-  const balance = usePoolTokenBalance(sourceToken);
+
+  const poolAddress = usePoolToken(pool, sourceToken);
+
+  const balance = usePoolTokenBalance(pool, sourceToken);
   const [amount, setAmount] = useState(weiTo18(balance.value));
 
-  const poolAddress = usePoolToken(sourceToken);
   const weiAmount = useWeiAmount(amount);
-
-  useEffect(() => {
-    console.log(
-      `${sourceToken} pool address - `,
-      poolAddress.value,
-      getContractNameByAddress(poolAddress.value),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [poolAddress.value]);
 
   const {
     value: targetValue,
     loading: targetLoading,
-  } = useRemoveLiquidityReturnAndFee(poolAddress.value, weiAmount);
+  } = useRemoveLiquidityReturnAndFee(pool, poolAddress.value, weiAmount);
 
   const tx = useApproveAndRemoveLiquidity(
+    pool,
     sourceToken,
     poolAddress.value,
     weiAmount,
@@ -71,8 +73,20 @@ export function LiquidityRemoveContainer(props: Props) {
   }, [tx]);
 
   const handlePoolChange = useCallback(item => {
+    setPool(item.key);
+  }, []);
+
+  const handleTokenChange = useCallback(item => {
     setSourceToken(item.key);
   }, []);
+
+  useEffect(() => {
+    const _tokens = prepareTokens();
+    setTokens(_tokens);
+    if (!_tokens.find(i => i.key === sourceToken)) {
+      setSourceToken(_tokens[0].key);
+    }
+  }, [sourceToken, pool, prepareTokens]);
 
   const amountValid = () => {
     return Number(weiAmount) > 0 && Number(weiAmount) <= Number(balance.value);
@@ -81,17 +95,27 @@ export function LiquidityRemoveContainer(props: Props) {
   return (
     <>
       <div className="row">
-        <div className="col-6 pr-1">
-          <FieldGroup label={t(translations.liquidity.currency)}>
+        <div className="col-lg-3 col-6">
+          <FieldGroup label={t(translations.liquidity.pool)}>
             <FormSelect
               onChange={handlePoolChange}
+              placeholder={t(translations.liquidity.poolSelect)}
+              value={pool}
+              items={poolList}
+            />
+          </FieldGroup>
+        </div>
+        <div className="col-lg-3 col-6">
+          <FieldGroup label={t(translations.liquidity.currency)}>
+            <FormSelect
+              onChange={handleTokenChange}
               placeholder={t(translations.liquidity.currencySelect)}
               value={sourceToken}
               items={tokens}
             />
           </FieldGroup>
         </div>
-        <div className="col-6 pl-1">
+        <div className="col-lg-6 col-12">
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}

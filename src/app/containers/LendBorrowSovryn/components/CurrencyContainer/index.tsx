@@ -6,7 +6,7 @@ import '../../assets/index.scss';
 import CurrencyRow from './CurrencyRow';
 import { Asset } from '../../../../../types/asset';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { LendingPoolDictionary } from '../../../../../utils/lending-pool-dictionary';
+import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending-pool-dictionary';
 import { selectLendBorrowSovryn } from '../../selectors';
 
 type Props = {

@@ -5,7 +5,7 @@ import usdtIcon from 'assets/images/tokens/usdt.svg';
 import rbtcIcon from 'assets/images/tokens/rbtc.png';
 import bproIcon from 'assets/images/tokens/bpro.svg';
 
-import { AssetDetails } from './asset-details';
+import { AssetDetails } from '../models/asset-details';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(

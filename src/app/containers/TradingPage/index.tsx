@@ -23,7 +23,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { Announcement } from '../../components/Announcement';
-import { TradingPairDictionary } from '../../../utils/trading-pair-dictionary';
+import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 const s = translations.tradingPage;
 

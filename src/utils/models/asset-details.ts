@@ -1,7 +1,7 @@
 import { Asset } from '../../types/asset';
 import { AbiItem } from 'web3-utils';
 import { ContractName } from '../types/contracts';
-import { appContracts } from './app-contracts';
+import { appContracts } from '../blockchain/app-contracts';
 
 interface ContractInterface {
   address: string;
@@ -10,8 +10,8 @@ interface ContractInterface {
 
 export class AssetDetails {
   public tokenContract: ContractInterface;
-  public tokenPoolContract: ContractInterface;
   public lendingContract: ContractInterface;
+  public ammContract: ContractInterface;
   constructor(
     public asset: Asset,
     public primaryCollateralAsset: Asset,
@@ -21,16 +21,16 @@ export class AssetDetails {
     public logoSvg: string,
   ) {
     this.tokenContract = appContracts[this.getTokenContractName()];
-    this.tokenPoolContract = appContracts[this.getPoolTokenContractName()];
     this.lendingContract = appContracts[this.getLendingContractName()];
+    if (appContracts.hasOwnProperty(this.getAmmContractName())) {
+      this.ammContract = appContracts[this.getAmmContractName()];
+    } else {
+      this.ammContract = null as any;
+    }
   }
 
   public getTokenContractName(): ContractName {
     return (this.asset + '_token') as ContractName;
-  }
-
-  public getPoolTokenContractName(): ContractName {
-    return (this.asset + '_poolToken') as ContractName;
   }
 
   public getLendingContractName(): ContractName {
@@ -43,9 +43,5 @@ export class AssetDetails {
 
   public getTokenContractAddress(): string {
     return this.tokenContract.address;
-  }
-
-  public getLendingContractAddress(): string {
-    return this.lendingContract.address;
   }
 }

@@ -15,7 +15,7 @@ import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits'
 import '../assets/index.scss';
 import { Asset } from '../../../../types/asset';
 import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
-import { AssetsDictionary } from '../../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { AmountField } from '../../AmountField';
@@ -28,7 +28,7 @@ import { bignumber, min } from 'mathjs';
 import { actions } from '../slice';
 import { useCanInteract } from '../../../hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
-import { LendingPoolDictionary } from '../../../../utils/lending-pool-dictionary';
+import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
 
 type Props = {
   currency: Asset;

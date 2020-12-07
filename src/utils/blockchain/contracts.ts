@@ -28,7 +28,7 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 2742633,
   },
-  liquidityBTCProtocol: {
+  BTCWrapperProxy: {
     address: '0x78E7e79F1acc1f57a3291d5BfA8436A0771C1800',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
@@ -58,11 +58,6 @@ export const contracts = {
     abi: LoanTokenLogicWrbtc,
     blockNumber: 2742496,
   },
-  BTC_poolToken: {
-    address: '0x840437bDe7346EC13b5451417DF50586f4DAf836',
-    abi: tokenAbi,
-    blockNumber: 2742648,
-  },
   DOC_token: {
     address: '0xe700691da7b9851f2f35f8b8182c69c53ccad9db',
     abi: TestTokenABI,
@@ -73,10 +68,10 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 2742476,
   },
-  DOC_poolToken: {
-    address: '0x2dC80332C19Fbcd5169aB4A579D87EE006cb72c0',
-    abi: tokenAbi,
-    blockNumber: 2742648,
+  DOC_amm: {
+    address: '0xd715192612F03D20BaE53a5054aF530C9Bb0fA3f',
+    abi: LiquidityPoolV2Converter,
+    blockNumber: 2742633,
   },
   // start non-mainnet yet //
   USDT_token: {
@@ -88,11 +83,6 @@ export const contracts = {
     address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
-  },
-  USDT_poolToken: {
-    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
-    abi: tokenAbi,
-    blockNumber: 1218844,
   },
   USDT_amm: {
     address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
@@ -108,11 +98,6 @@ export const contracts = {
     address: '0x6226b4B3F29Ecb5f9EEC3eC3391488173418dD5d',
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
-  },
-  BPRO_poolToken: {
-    address: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
-    abi: tokenAbi,
-    blockNumber: 1218844,
   },
   BPRO_amm: {
     address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',

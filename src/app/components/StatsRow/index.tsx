@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { Asset } from 'types/asset';
-import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { StatsRowData } from '../StatsRowData';
 

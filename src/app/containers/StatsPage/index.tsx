@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { LendingPoolDictionary } from 'utils/lending-pool-dictionary';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 import { translations } from 'locales/i18n';
 
 import { Header } from '../../components/Header';

@@ -10,7 +10,7 @@ import { Select } from '@blueprintjs/select';
 import {
   TradingPairDictionary,
   TradingPairType,
-} from 'utils/trading-pair-dictionary';
+} from 'utils/dictionaries/trading-pair-dictionary';
 import { selectTradingPage } from '../TradingPage/selectors';
 import { actions } from '../TradingPage/slice';
 import {

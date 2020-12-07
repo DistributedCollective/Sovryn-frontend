@@ -1,24 +1,30 @@
 import { Asset } from 'types/asset';
-import { appContracts } from 'utils/blockchain/app-contracts';
 import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
+import { getAmmContract } from 'utils/blockchain/contract-helpers';
 import { useAddLiquidity } from './useAddLiquidity';
 
 export function useApproveAndAddLiquidity(
+  pool: Asset,
   asset: Asset,
   amount: string,
   minReturn: string,
 ) {
-  const { deposit, ...txState } = useAddLiquidity(asset, amount, minReturn);
+  const { deposit, ...txState } = useAddLiquidity(
+    pool,
+    asset,
+    amount,
+    minReturn,
+  );
   return {
     deposit: async () => {
       let tx: CheckAndApproveResult = {};
       if (asset !== Asset.BTC) {
         tx = await contractWriter.checkAndApprove(
           asset,
-          appContracts.liquidityProtocol.address,
+          getAmmContract(pool).address,
           amount,
           // toWei('1000000', 'ether'),
         );
