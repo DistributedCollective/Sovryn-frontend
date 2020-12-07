@@ -4,6 +4,7 @@ import close from 'assets/images/tutorial/close.svg';
 import { Screen1 } from '../screen1';
 import { Screen2 } from '../screen2';
 import { Screen3 } from '../screen3';
+import * as storage from 'utils/storage';
 
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,7 @@ export function TutorialDialogComponent(props) {
   const { t } = useTranslation();
   const [mouseLeave, setMouseLeave] = useState(false);
   const activeTutorial =
-    window.localStorage.getItem('tutorial_active') === 'true' &&
+    storage.local.getItem('tutorial_active') === 'true' &&
     props.onNetwork === true
       ? true
       : false;
@@ -48,7 +49,7 @@ export function TutorialDialogComponent(props) {
           </div>
           {screen !== 1 && (
             <div className="back position-absolute" onClick={() => back()}>
-              <button>Back</button>
+              <button>{t(translations.common.back)}</button>
             </div>
           )}
           <div className="title position-absolute">

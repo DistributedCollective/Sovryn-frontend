@@ -6,6 +6,8 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { TutorialDialogComponent } from '../component';
 import { currentChainId } from 'utils/classifiers';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import * as storage from 'utils/storage';
 
 export function TutorialDialog() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
@@ -18,7 +20,7 @@ export function TutorialDialog() {
     // previousUser:
     //   window.localStorage.getItem('connectedToRskBefore') === 'true',
     connected: useIsConnected(),
-    closedBefore: window.sessionStorage.getItem('closedRskTutorial') === 'true',
+    closedBefore: storage.session.getItem('closedRskTutorial') === 'true',
   };
 
   const handleWalletConnection = useCallback(() => {
@@ -31,8 +33,8 @@ export function TutorialDialog() {
 
   function handleEngage() {
     handleWalletConnection();
-    window.localStorage.setItem('ongoing_tutorial', 'false');
-    window.sessionStorage.setItem('closedRskTutorial', 'true');
+    storage.local.setItem('ongoing_tutorial', 'false');
+    storage.session.setItem('closedRskTutorial', 'true');
     setShow(false);
   }
 
@@ -58,8 +60,8 @@ export function TutorialDialog() {
     const walletConectModal = document.getElementById('walletconnect-wrapper');
     walletConectModal?.classList.remove('showWalletConnect');
     walletConectModal?.classList.add('d-none');
-    window.localStorage.setItem('tutorial_active', 'false');
-    window.sessionStorage.setItem('closedRskTutorial', 'true');
+    reactLocalStorage.set('tutorial_active', 'false');
+    storage.session.setItem('closedRskTutorial', 'true');
     setShow(false);
   }
 
@@ -68,11 +70,13 @@ export function TutorialDialog() {
   return (
     <>
       {show && (
-        <TutorialDialogComponent
-          handleClose={handleClose}
-          onNetwork={onNetwork}
-          handleEngage={handleEngage}
-        />
+        <div className="d-none d-md-block">
+          <TutorialDialogComponent
+            handleClose={handleClose}
+            onNetwork={onNetwork}
+            handleEngage={handleEngage}
+          />
+        </div>
       )}
     </>
   );

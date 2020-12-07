@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import badgerQr from 'assets/images/tutorial/badger_qr.svg';

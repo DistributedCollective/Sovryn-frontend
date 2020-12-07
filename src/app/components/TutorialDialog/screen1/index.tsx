@@ -7,6 +7,7 @@ import badger1 from 'assets/images/tutorial/badger_1.svg';
 import planet from 'assets/images/tutorial/planet.svg';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import * as storage from 'utils/storage';
 
 interface Props {
   handleClick: (num: Number) => void;
@@ -18,7 +19,7 @@ export function Screen1(props: Props) {
   const { t } = useTranslation();
 
   function handleBrowserClick() {
-    window.localStorage.setItem('tutorial_active', 'true');
+    storage.local.setItem('tutorial_active', 'true');
     if (props.onNetwork === true) {
       props.handleEngage();
     } else {
