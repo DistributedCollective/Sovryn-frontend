@@ -202,18 +202,8 @@
     "update": "Update the name or email address associated with this wallet address.",
     "recieve": "I would like to receive emails about updates and new features from Sovryn"
   },
-  "tradeDialog": {
-    "currency": "Currency",
-    "amount": "Amount",
-    "placeTrade": "Place Trade",
-    "enterTradeAmount": "Enter trade amount"
-  },
   "whiteListedNotification": {
     "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
-  },
-  "withdrawLentDialog": {
-    "withdraw": "Withdraw",
-    "amount": "Amount to withdraw"
   },
   "lend": {
     "history": {
@@ -313,6 +303,22 @@
         "title": "Scan QR Code",
         "banner": "For any assistance, reach out to the community"
       }
+    }
+  },
+  "walletProvider": {
+    "txRequestDialog": {
+      "closeButton": "Ok",
+      "approve": {
+        "title": "Approve Tokens",
+        "description": "Confirm transaction in your wallet to approve {{amount}} {{asset}} spending in this smart-contract.",
+        "error": "Approve request failed:"
+      }
+    }
+  },
+  "sendTxProgress": {
+    "pending_for_user": {
+      "title": "Pending for user",
+      "text": "Please confirm transaction in your wallet."
     }
   }
 }

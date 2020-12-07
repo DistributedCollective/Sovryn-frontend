@@ -31,7 +31,6 @@ export function LiquidityAddContainer(props: Props) {
   const isConnected = useCanInteract();
   const tokens = liquidityPools.map(item => ({
     key: item.source,
-    target: item.target,
     label: item.label,
   }));
 
@@ -106,11 +105,9 @@ export function LiquidityAddContainer(props: Props) {
           </div>
         </div>
 
-        {tx.type !== 'none' && (
-          <div className="mt-3">
-            <SendTxProgress {...tx} displayAbsolute={false} />
-          </div>
-        )}
+        <div className="mt-3">
+          <SendTxProgress {...tx} displayAbsolute={false} />
+        </div>
 
         <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
           <div className="mb-3 mb-lg-0">

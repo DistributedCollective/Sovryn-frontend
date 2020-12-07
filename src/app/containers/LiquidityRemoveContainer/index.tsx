@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Text } from '@blueprintjs/core';
@@ -20,7 +20,6 @@ import {
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
-import { TransactionStatus } from '../../../types/transaction-status';
 import { useRemoveLiquidityReturnAndFee } from '../../hooks/amm/useRemoveLiquidityReturnAndFee';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AmountField } from '../AmountField';
@@ -44,6 +43,11 @@ export function LiquidityRemoveContainer(props: Props) {
 
   const poolAddress = usePoolToken(sourceToken);
   const weiAmount = useWeiAmount(amount);
+
+  useEffect(() => {
+    console.log(`${sourceToken} pool address - `, poolAddress.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poolAddress.value]);
 
   const {
     value: targetValue,
@@ -128,11 +132,9 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      {tx.status !== TransactionStatus.NONE && (
-        <div className="mt-3">
-          <SendTxProgress {...tx} displayAbsolute={false} />
-        </div>
-      )}
+      <div className="mt-3">
+        <SendTxProgress {...tx} displayAbsolute={false} />
+      </div>
 
       <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
         <div className="mb-3 mb-lg-0">

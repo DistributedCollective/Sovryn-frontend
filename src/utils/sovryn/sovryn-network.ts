@@ -150,10 +150,7 @@ export class SovrynNetwork {
     return new Promise<string>((resolve, reject) => {
       this._writeWeb3.eth
         .sendTransaction(tx)
-        .once('transactionHash', tx => {
-          this.store().dispatch(actions.addTransaction(tx));
-          resolve(tx);
-        })
+        .once('transactionHash', tx => resolve(tx))
         .catch(e => {
           console.log('rejecting.');
           reject(e);
@@ -171,10 +168,7 @@ export class SovrynNetwork {
     return new Promise<string>((resolve, reject) => {
       return this.writeContracts[contractName].methods[methodName](...params)
         .send(options)
-        .once('transactionHash', tx => {
-          this.store().dispatch(actions.addTransaction(tx));
-          resolve(tx);
-        })
+        .once('transactionHash', tx => resolve(tx))
         .catch(e => {
           console.log('rejecting');
           reject(e);

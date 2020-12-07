@@ -1,74 +1,118 @@
-import { useEffect, useState } from 'react';
-import { TransactionStatus } from '../../types/transaction-status';
-import { Sovryn } from '../../utils/sovryn';
+import { useCallback, useEffect, useState } from 'react';
+import { TransactionConfig } from 'web3-core';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectLoadingTransaction,
+  selectTransactions,
+} from 'store/global/transactions-store/selectors';
+import {
+  Transaction,
+  TxStatus,
+  TxType,
+} from 'store/global/transactions-store/types';
+import { actions } from 'store/global/transactions-store/slice';
+import { Asset } from 'types/asset';
+import { contractWriter } from 'utils/sovryn/contract-writer';
+import { ContractName } from 'utils/types/contracts';
+import { useAccount } from './useAccount';
+import { Nullable } from 'types';
+import { gasLimit } from '../../utils/classifiers';
 
-export interface SendTxResponseInterface {
-  send: (...args: any) => void;
+export interface TransactionOptions {
+  type?: TxType;
+  approveTransactionHash?: Nullable<string>;
+  asset?: Asset;
+  assetAmount?: string;
+}
+
+export interface SendTxResponse {
   txHash: string;
-  txData: any;
-  status: TransactionStatus;
+  txData: Nullable<Transaction>;
+  status: TxStatus | any;
   loading: boolean;
 }
 
+export interface SendTxResponseInterface extends SendTxResponse {
+  send: (
+    args: any[],
+    config?: TransactionConfig,
+    options?: TransactionOptions,
+  ) => void;
+}
+
 export function useSendContractTx(
-  contractName: string,
+  contractName: ContractName,
   methodName: string,
 ): SendTxResponseInterface {
-  const [tx, setTx] = useState<string>(null as any);
-  const [status, setStatus] = useState<TransactionStatus>(
-    TransactionStatus.NONE,
-  );
-  const [loading, setLoading] = useState(false);
+  const transactions = useSelector(selectTransactions);
+  const loading = useSelector(selectLoadingTransaction);
+  const dispatch = useDispatch();
+  const account = useAccount();
+  const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
+  const [tx, setTx] = useState<Transaction>();
 
-  useEffect(() => {
-    let interval;
-    if (tx && status === TransactionStatus.PENDING) {
-      interval = setInterval(() => {
-        Sovryn.getWeb3()
-          .eth.getTransactionReceipt(tx)
-          .then(receipt => {
-            if (receipt !== null) {
-              setStatus(
-                receipt.status
-                  ? TransactionStatus.SUCCESS
-                  : TransactionStatus.ERROR,
-              );
-              setLoading(false);
-            }
-          })
-          .catch(e => {
-            console.error(e);
-            setStatus(TransactionStatus.ERROR);
-            setLoading(false);
-          });
-      }, 5000);
-    }
-    return () => {
-      if (interval) {
-        clearInterval(interval);
+  const send = useCallback(
+    (
+      args: any[],
+      config: TransactionConfig = {},
+      options: TransactionOptions = {},
+    ) => {
+      // dispatch(
+      //   actions.openTransactionRequestDialog({
+      //     type: options?.type || TxType.NONE,
+      //   }),
+      // );
+      setTxId(TxStatus.PENDING_FOR_USER);
+      if (
+        options.approveTransactionHash &&
+        options.type &&
+        gasLimit.hasOwnProperty(options.type)
+      ) {
+        config.gas = gasLimit[options.type];
       }
-    };
-  }, [tx, status]);
-
-  return {
-    send: (...args) => {
-      setLoading(true);
-      setStatus(TransactionStatus.PENDING_FOR_USER);
-      Sovryn.callContract(contractName, methodName, ...args)
+      contractWriter
+        .send(contractName, methodName, args, config)
         .then(e => {
-          setTx(e);
-          setStatus(TransactionStatus.PENDING);
+          const transactionHash = e as string;
+          dispatch(
+            actions.addTransaction({
+              transactionHash: transactionHash,
+              approveTransactionHash: options?.approveTransactionHash || null,
+              type: options?.type || TxType.OTHER,
+              status: TxStatus.PENDING,
+              loading: true,
+              to: contractName,
+              from: account,
+              value: (config?.value as string) || '0',
+              asset: options?.asset || null,
+              assetAmount: options?.assetAmount || null,
+            }),
+          );
+          setTxId(transactionHash);
+          dispatch(actions.closeTransactionRequestDialog());
         })
         .catch(e => {
-          console.error(e);
-          setStatus(TransactionStatus.ERROR);
-          setLoading(false);
-          console.error(e);
+          console.error(e.message);
+          setTxId(TxStatus.FAILED);
+          dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
-    txHash: tx,
-    txData: null,
-    status,
-    loading,
+    [account, contractName, methodName, dispatch],
+  );
+
+  useEffect(() => {
+    if (txId && transactions.hasOwnProperty(txId)) {
+      setTx(transactions[txId]);
+    } else {
+      setTx(undefined);
+    }
+  }, [txId, transactions]);
+
+  return {
+    send,
+    txData: tx || null,
+    txHash: tx?.transactionHash || '',
+    status: tx ? tx.status : txId,
+    loading: loading,
   };
 }

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { min } from 'mathjs';
 
 import { Asset } from 'types/asset';
-import { TransactionStatus } from 'types/transaction-status';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
@@ -15,9 +14,11 @@ import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
 import { useAccount, useIsConnected } from 'app/hooks/useAccount';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 
-import TabContainer, { TxType } from '../components/TabContainer';
+import TabContainer from '../components/TabContainer';
 import { actions } from '../slice';
 import '../assets/index.scss';
+import { SendTxResponse } from '../../../hooks/useSendContractTx';
+import { TxType } from '../../../../store/global/transactions-store/types';
 
 type Props = {
   currency: Asset;
@@ -48,22 +49,17 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     let amount = '0';
     if (type === 'Deposit') {
       amount = min(userBalance, maxAmount);
-    } else if (type === 'Withdraw') {
+    } else if (type === 'Redeem') {
       amount = depositedBalance;
     }
     setAmount(weiTo18(amount));
   };
 
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
-    type: TxType.NONE,
+  const [txState, setTxState] = useState<SendTxResponse>({
     txHash: null as any,
-    status: TransactionStatus.NONE,
+    status: TxType.NONE,
     loading: false,
+    txData: null,
   });
 
   // LENDING
@@ -97,7 +93,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   }, [JSON.stringify(lendTx)]);
 
   useEffect(() => {
-    setTxState(unlendTx);
+    setTxState(unlendTx as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(unlendTx)]);
 

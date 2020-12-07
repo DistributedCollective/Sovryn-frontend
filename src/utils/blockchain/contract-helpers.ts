@@ -27,6 +27,14 @@ export const getWeb3Contract = (address: string, abi: any) => {
 export const getContract = (contractName: ContractName) =>
   appContracts[contractName];
 
+export const getContractNameByAddress = (address: string): ContractName => {
+  return Object.keys(Sovryn.contracts).find(
+    key =>
+      Sovryn.contracts[key].options.address.toLowerCase() ===
+      address.toLowerCase(),
+  ) as ContractName;
+};
+
 export const symbolByTokenAddress = (address: string) => {
   return AssetsDictionary.getByTokenContractAddress(address)?.symbol;
 };

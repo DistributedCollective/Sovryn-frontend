@@ -18,8 +18,8 @@ export class TradingPairDictionary {
         Asset.BTC,
         Asset.DOC,
         Asset.BTC,
-        [Asset.BTC, Asset.DOC],
-        [Asset.DOC, Asset.BTC],
+        [Asset.BTC, Asset.DOC, Asset.USDT],
+        [Asset.DOC, Asset.BTC, Asset.USDT],
       ),
     ],
   ]);

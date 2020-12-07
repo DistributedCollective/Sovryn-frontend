@@ -1,4 +1,5 @@
 import { Asset } from '../types/asset';
+import { TxType } from '../store/global/transactions-store/types';
 
 export const chains = {
   mainnet: 30,
@@ -56,14 +57,24 @@ export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 export const liquidityPools = [
   {
     source: Asset.BTC,
-    target: Asset.DOC,
     label: 'rBTC',
     tokenLabel: 'rBTC',
   },
   {
     source: Asset.DOC,
-    target: Asset.BTC,
     label: 'DoC',
     tokenLabel: 'DoC',
   },
+  {
+    source: Asset.USDT,
+    label: 'USDT',
+    tokenLabel: 'USDT',
+  },
 ];
+
+export const gasLimit = {
+  [TxType.TRADE]: 1750000,
+  [TxType.ADD_LIQUIDITY]: 275000,
+  [TxType.BORROW]: 1300000,
+  [TxType.CONVERT_BY_PATH]: 580000,
+};
