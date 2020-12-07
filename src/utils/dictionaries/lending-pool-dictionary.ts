@@ -1,5 +1,5 @@
 import { Asset } from 'types/asset';
-import { LendingPool } from './models/lending-pool';
+import { LendingPool } from '../models/lending-pool';
 
 export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([

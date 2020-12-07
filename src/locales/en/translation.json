@@ -175,8 +175,10 @@
   "liquidity": {
     "title": "Liquidity",
     "meta": "Add liquidity",
+    "pool": "Pool",
     "currency": "Currency",
     "currencySelect": "Select currency",
+    "poolSelect": "Select pool",
     "amount": "Enter amount",
     "amountTarget": "Target Amount",
     "token": "Expected pool tokens",

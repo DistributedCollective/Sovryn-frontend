@@ -15,7 +15,7 @@ import { AmountField } from '../AmountField';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { TradeButton } from '../../components/TradeButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';

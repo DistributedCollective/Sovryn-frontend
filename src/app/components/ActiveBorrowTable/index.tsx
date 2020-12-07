@@ -4,7 +4,7 @@ import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { AssetsDictionary } from 'utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { actions } from 'app/containers/LendBorrowSovryn/slice';
 
 import { InterestAPR } from '../ActiveUserLoanContainer/components/InterestAPR';

@@ -11,7 +11,7 @@ import { Icon, Text } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 
 import { BorrowAmount } from '../../components/ActiveBorrowTable/BorrowAmount';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { CollateralAmount } from '../../components/ActiveBorrowTable/CollateralAmount';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';

@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
-import { AssetsDictionary } from '../blockchain/assets-dictionary';
-import { AssetDetails } from '../blockchain/asset-details';
+import { AssetsDictionary } from '../dictionaries/assets-dictionary';
+import { AssetDetails } from './asset-details';
 
 export class LendingPool {
   private _assetDetails;

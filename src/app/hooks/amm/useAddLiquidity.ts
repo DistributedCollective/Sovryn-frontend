@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import {
-  getContract,
+  getAmmContract,
+  getAmmContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
@@ -8,22 +9,22 @@ import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useAddLiquidity(
+  pool: Asset,
   asset: Asset,
   amount: string,
   minReturn: string,
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    asset === Asset.BTC ? 'liquidityBTCProtocol' : 'liquidityProtocol',
+    asset === Asset.BTC ? 'BTCWrapperProxy' : getAmmContractName(pool),
     'addLiquidity',
   );
-
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
       return send(
         [
           asset === Asset.BTC
-            ? getContract('liquidityProtocol').address
+            ? getAmmContract(pool).address
             : getTokenContract(asset).address,
           amount,
           minReturn,

@@ -1,10 +1,14 @@
 import { Asset } from 'types/asset';
-import { getContract } from 'utils/blockchain/contract-helpers';
+import {
+  // getAmmContract,
+  getAmmContractName,
+} from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useRemoveLiquidity(
+  pool: Asset,
   asset: Asset,
   poolTokenAddress: string,
   amount: string,
@@ -12,7 +16,7 @@ export function useRemoveLiquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    asset === Asset.BTC ? 'liquidityBTCProtocol' : 'liquidityProtocol',
+    getAmmContractName(pool),
     'removeLiquidity',
   );
 
@@ -20,9 +24,8 @@ export function useRemoveLiquidity(
     withdraw: (nonce?: number, approveTx?: string | null) =>
       send(
         [
-          asset === Asset.BTC
-            ? getContract('liquidityProtocol').address
-            : poolTokenAddress,
+          poolTokenAddress,
+          // asset === Asset.BTC ? getAmmContract(pool).address : poolTokenAddress,
           amount,
           minReturn,
         ],

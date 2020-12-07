@@ -7,7 +7,7 @@ import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { Asset } from '../../../types/asset';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { TradingPosition } from '../../../types/trading-position';
 import {
   faArrowAltCircleDown,

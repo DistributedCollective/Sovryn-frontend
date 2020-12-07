@@ -1,5 +1,5 @@
 /* --- STATE --- */
-import { TradingPairType } from 'utils/trading-pair-dictionary';
+import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 
 export interface TradingPageState {
   tradingPair: TradingPairType;

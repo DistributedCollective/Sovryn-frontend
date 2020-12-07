@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useSwapNetwork_convertByPath } from './useSwapNetwork_convertByPath';
 import {
   CheckAndApproveResult,

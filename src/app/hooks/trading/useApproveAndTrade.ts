@@ -4,7 +4,7 @@ import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useCallback } from 'react';
 import { useMarginTrade } from './useMarginTrade';
 import { useAccount } from '../useAccount';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import {
   CheckAndApproveResult,
   contractWriter,
