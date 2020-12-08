@@ -26,7 +26,7 @@ export function Screen1(props) {
           </div>
         </div>
       </div>
-      <div className="description my-4 small">
+      <div className="description my-4">
         <p>
           In order to borrow/lend and trade on Sovryn, you must first enable
           your Bitcoin by transferring them to your rsk wallet.
@@ -37,7 +37,11 @@ export function Screen1(props) {
         </p>
       </div>
       <div className="create-button text-center position-absolute">
-        <button type="button" className="btn" onClick={props.changeScreen(2)}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => props.changeScreen(2)}
+        >
           <div>Create Address</div>
         </button>
       </div>
