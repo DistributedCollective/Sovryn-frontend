@@ -9,7 +9,7 @@ export function Screen2(props) {
   useEffect(() => {
     setTimeout(() => {
       setShow(true);
-    }, 1000);
+    }, 500);
   });
 
   return (

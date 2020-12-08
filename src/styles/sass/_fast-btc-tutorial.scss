@@ -26,12 +26,12 @@
         transform: translate(-50%, -50%);
         width: 500px;
         height: 500px;
-        transition: 1s all ease-in-out;
+        transition: 0.5s all ease-in-out;
         &.wide {
             width: 800px;
         }
         * {
-            @include fade-in(1.5s);
+            @include fade-in(0.8s);
             text-underline-position: under;
             -ms-text-underline-position: under;
         }
