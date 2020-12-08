@@ -1,3 +1,11 @@
+@import './_animations';
+
+@mixin fade-in($speed) {
+    animation: fadeIn ease $speed;
+    -webkit-animation: fadeIn ease $speed;
+    -moz-animation: fadeIn ease $speed;
+  }
+
 @mixin position($top, $left) {
     top: $top;
     left: $left;
@@ -18,8 +26,14 @@
         transform: translate(-50%, -50%);
         width: 500px;
         height: 500px;
+        transition: 1s all ease-in-out;
         &.wide {
             width: 800px;
+        }
+        * {
+            @include fade-in(1.5s);
+            text-underline-position: under;
+            -ms-text-underline-position: under;
         }
     }
     .green-circle {
@@ -49,7 +63,10 @@
         font-size: 20px;
         text-transform: initial;
     }
-    .description, p {
+    ul {
+        padding-left: 20px;
+    }
+    p {
         font-family: 'Work Sans';
         font-size: 80%;
     }
