@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Icon } from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function Screen2(props) {
+  const { t } = useTranslation();
+  const s = translations.fastBTC.screens[2];
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -16,10 +20,7 @@ export function Screen2(props) {
     <>
       {show && (
         <>
-          <p className="pt-3 text-center">
-            Your unique BTC address has been created, transfer BTC to receive
-            RBTC in your RSK wallet
-          </p>
+          <p className="pt-3 text-center">{t(s.p1)}</p>
           <div className="row">
             <div className="col-6">
               <div className="qr-code">
@@ -50,42 +51,37 @@ export function Screen2(props) {
             <div className="col-6">
               <p className="mb-2">
                 <strong className="mb-2 d-block">
-                  <u>Deposit requirements:</u>
+                  <u>{t(s.depositRequirements)}:</u>
                 </strong>
                 <ul>
-                  <li>min: 0.001 BTC</li>
-                  <li>max: 0.01632829 BTC</li>
+                  <li>{t(translations.common.min)}: 0.001 BTC</li>
+                  <li>{t(translations.common.max)}: 0.01632829 BTC</li>
                   <li>
-                    Fee 1.00 USD*{' '}
+                    {t(s.fee)} 1.00 USD*{' '}
                     <span className="small">
-                      <em>Deducted from transaction amount</em>
+                      <em>{t(s.feeExplainer)}</em>
                     </span>
                   </li>
                 </ul>
               </p>
               <p>
                 <strong className="mb-2 d-block">
-                  <u>Important:</u>
+                  <u>{t(s.important)}:</u>
                 </strong>
                 <ul>
-                  <li>
-                    Do not deposit any non - BTC assets to this address,
-                    otherwise your assets will be lost permanently
-                  </li>
-                  <li>
-                    Please allow upto 15 mins for the transaction to process
-                  </li>
+                  <li>{t(s.important1)}</li>
+                  <li>{t(s.important2)}</li>
                 </ul>
               </p>
               <p>
-                For support please join us on{' '}
+                {t(s.contactUs)}{' '}
                 <a href="discord.com/invite/J22WS6z">discord.</a>
               </p>
             </div>
           </div>
           <div className="float-right">
             <div className="sovryn-border small p-2">
-              Transaction detected
+              {t(s.txDetected)}
               <div
                 className={`ml-2 d-inline-block circle-${
                   props.transactionDetected ? 'green' : 'red'

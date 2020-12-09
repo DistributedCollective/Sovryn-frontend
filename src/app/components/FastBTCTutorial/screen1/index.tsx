@@ -1,12 +1,17 @@
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button } from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function Screen1(props) {
+  const { t } = useTranslation();
+  const s = translations.fastBTC.screens[1];
+
   return (
     <>
       <div className="heading my-4">
-        <h2>Your Are Connected!</h2>
+        <h2>{t(s.title)}</h2>
       </div>
       <div className="btc-address sovryn-border bg-primary py-3 pl-2">
         <div className="row d-flex w-100 mx-auto">
@@ -27,14 +32,8 @@ export function Screen1(props) {
         </div>
       </div>
       <div className="description my-4">
-        <p>
-          In order to borrow/lend and trade on Sovryn, you must first enable
-          your Bitcoin by transferring them to your rsk wallet.
-        </p>
-        <p>
-          You do this by creating a unique btc address that pegs to your RSK
-          address, supercharging your BTC into RBTC.
-        </p>
+        <p>{t(s.p1)}</p>
+        <p>{t(s.p2)}</p>
       </div>
       <div className="create-button text-center position-absolute">
         <button
@@ -42,7 +41,7 @@ export function Screen1(props) {
           className="btn"
           onClick={() => props.changeScreen(2)}
         >
-          <div>Create Address</div>
+          <div>{t(s.createAddress)}</div>
         </button>
       </div>
     </>

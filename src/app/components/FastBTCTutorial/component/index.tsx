@@ -13,32 +13,22 @@ import {
 } from '../../../containers/FastBtcForm/slice';
 import { selectFastBtcForm } from '../../../containers/FastBtcForm/selectors';
 import { fastBtcFormSaga } from '../../../containers/FastBtcForm/saga';
-import { useAccount, useIsConnected } from '../../../hooks/useAccount';
-import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-
-import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
 
 export function FastBTCTutorialComponent(props) {
-  const { t } = useTranslation();
   const [screen, setScreen] = useState(1);
 
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: fastBtcFormSaga });
 
-  const isConnected = useIsConnected();
   const state = useSelector(selectFastBtcForm);
   const transactionDetected = state.depositTx;
-
   const dispatch = useDispatch();
 
-  const address = useAccount();
-
   useEffect(() => {
-    if (address && address.length) {
-      dispatch(actions.changeReceiverAddress(address));
+    if (props.address && props.address.length) {
+      dispatch(actions.changeReceiverAddress(props.address));
     }
-  }, [address, dispatch]);
+  }, [props.address, dispatch]);
 
   useEffect(() => {
     if (state.depositTx) {
@@ -58,7 +48,10 @@ export function FastBTCTutorialComponent(props) {
             screen !== 1 && 'wide'
           }`}
         >
-          <div className="position-absolute text-white close cursor-pointer">
+          <div
+            className="position-absolute text-white close cursor-pointer"
+            onClick={() => props.handleClose()}
+          >
             <Icon icon="cross" />
           </div>
           <div className="logo text-center mt-2">
