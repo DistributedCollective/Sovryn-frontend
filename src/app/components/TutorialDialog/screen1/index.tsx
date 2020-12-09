@@ -51,7 +51,7 @@ export function Screen1(props: Props) {
             <p>{t(translations.rskConnectTutorial.browser_wallet)}t</p>
           </div>
         </div>
-        <div className="mobile-wallet" onClick={() => props.handleClick(3)}>
+        <div className="mobile-wallet" onClick={() => props.handleClick(4)}>
           <div className="rectangle2">
             <img src={rectangle} alt="" />
           </div>

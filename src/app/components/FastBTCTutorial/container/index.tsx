@@ -4,7 +4,7 @@ import * as storage from 'utils/storage';
 import { useAccount, useIsConnected } from '../../../hooks/useAccount';
 
 export function FastBTCTutorialDialog() {
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
   const isConnected = useIsConnected();
   const address = useAccount();
 
