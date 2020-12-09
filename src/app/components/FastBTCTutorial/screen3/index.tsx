@@ -1,13 +1,18 @@
 import React from 'react';
 import { Spinner } from '@blueprintjs/core';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function Screen3(props) {
+  const { t } = useTranslation();
+  const s = translations.fastBTC.screens[3];
+
   return (
     <>
-      <h2 className="mt-3">Transaction Details</h2>
+      <h2 className="mt-3">{t(s.txDetails)}</h2>
       <p className="m-3 text-center">
-        Transaction hash:{' '}
+        {t(s.txHash)}:{' '}
         <div className="d-inline-block">
           {!props.depositTxHash && !props.transferTxHash && (
             <Spinner size={18} />
@@ -23,21 +28,21 @@ export function Screen3(props) {
       <div className="row m-1">
         <div className="col-6">
           <p>
-            From wallet: <br /> address...
+            {t(s.from)}: <br /> address...
           </p>
           <p>
-            To wallet: <br /> address...
+            {t(s.to)}: <br /> address...
           </p>
           <p>
-            Amount transacted: <br /> amount...
+            {t(s.amount)}: <br /> amount...
           </p>
           <p>
-            Fee: <br /> 1.00 USD
+            {t(s.fee)}: <br /> 1.00 USD
           </p>
         </div>
         <div className="col-6">
           <p>
-            Initiated:<span className="float-right">time...</span>
+            {t(s.initiated)}:<span className="float-right">time...</span>
           </p>
           <p>
             Status:<span className="float-right">status...</span>
@@ -49,7 +54,7 @@ export function Screen3(props) {
       </div>
       <div className="create-button text-right position-absolute">
         <button type="button" className="btn">
-          <div>Close</div>
+          <div>{t(translations.common.close)}</div>
         </button>
       </div>
     </>

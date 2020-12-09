@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FastBTCTutorialComponent } from '../component';
 import * as storage from 'utils/storage';
+import { useAccount, useIsConnected } from '../../../hooks/useAccount';
 
 export function FastBTCTutorialDialog() {
-  //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   const [show, setShow] = useState<boolean>(true);
+  const isConnected = useIsConnected();
+  const address = useAccount();
 
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];
@@ -20,13 +22,19 @@ export function FastBTCTutorialDialog() {
     setShow(false);
   }
 
-  //On open, check session storage for preference
+  //TODO: On open, check session storage for preference
+
+  //TODO: Write checks for if component should render (eg is connected && balance === 0)
 
   return (
     <>
       {show && (
         <div className="d-none d-md-block">
-          <FastBTCTutorialComponent />
+          <FastBTCTutorialComponent
+            isConnected={isConnected}
+            address={address}
+            handleClose={handleClose}
+          />
         </div>
       )}
     </>
