@@ -19,7 +19,7 @@ export function Header() {
   const pages = [
     { to: '/', title: 'Trade', exact: true },
     { to: '/lend', title: 'Lend / Borrow' },
-    { to: '/liquidity', title: 'Market maker' },
+    { to: '/liquidity', title: 'Market-making' },
     { to: '/fast-btc', title: 'Top-Up' },
     'Stats',
     'FAQs',
@@ -75,7 +75,7 @@ export function Header() {
                 Top-Up
               </NavLink>
               <NavLink className="nav-item mr-4" to="/liquidity">
-                Market Maker
+                Market-making
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 Stats
