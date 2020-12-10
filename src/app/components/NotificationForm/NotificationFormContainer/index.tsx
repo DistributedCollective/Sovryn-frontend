@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
@@ -65,7 +65,7 @@ export function NotificationForm() {
   }, [foundUser]);
 
   //UPDATE OR ADD USER
-  const addUser = e => {
+  const addUser = (e, formType) => {
     e.preventDefault();
     setResponse('pending');
 
@@ -80,12 +80,13 @@ export function NotificationForm() {
     };
 
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
+    const route = formType === 'signup' ? 'addUser' : 'updateUser';
 
     Sovryn.getWriteWeb3()
       .eth.personal.sign(message, walletAddress, '')
       .then(res =>
         axios
-          .post(mailSrv + 'updateUser', {
+          .post(mailSrv + route, {
             ...newUser,
             signedMessage: res,
             message: message,
@@ -101,8 +102,7 @@ export function NotificationForm() {
       );
   };
 
-  //GET USER
-  useEffect(() => {
+  const getUser = useCallback(() => {
     setLoading(true);
     if (walletAddress) {
       axios
@@ -110,7 +110,8 @@ export function NotificationForm() {
           walletAddress: walletAddress,
         })
         .then(res => {
-          setFoundUser(res.data);
+          console.log(res);
+          setFoundUser(res.data[0]);
           setLoading(false);
         })
         .catch(e => {
@@ -129,7 +130,18 @@ export function NotificationForm() {
       });
       setLoading(false);
     }
-  }, [walletAddress, mailSrv]);
+  }, [mailSrv, walletAddress]);
+
+  //GET USER
+  useEffect(() => {
+    getUser();
+  }, [walletAddress, mailSrv, getUser]);
+
+  function resetForm() {
+    setShowForm(false);
+    setResponse('');
+    getUser();
+  }
 
   return (
     <>
@@ -143,55 +155,44 @@ export function NotificationForm() {
           onClick={() => setShowForm(true)}
         />
       </div>
-      <CustomDialog
-        show={showForm}
-        title="Email Notifications"
-        onClose={() => setShowForm(false)}
-        content={
-          <div>
-            {loading || response === 'pending' ? (
-              <div className="bp3-skeleton">&nbsp;</div>
-            ) : (
-              <div>
-                {response !== 'success' && (
-                  <NotificationFormComponent
-                    name={name}
-                    email={email}
-                    marketing={state.marketing}
-                    response={response}
-                    onSubmit={addUser}
-                    onChange={onChange}
-                    formType="signup"
-                  />
-                )}
+      {showForm && (
+        <CustomDialog
+          show={showForm}
+          title="Email Notifications"
+          onClose={() => resetForm()}
+          content={
+            <div>
+              {loading || response === 'pending' ? (
+                <div className="bp3-skeleton">&nbsp;</div>
+              ) : (
+                <div>
+                  {response !== 'success' && (
+                    <NotificationFormComponent
+                      name={name}
+                      email={email}
+                      marketing={state.marketing}
+                      response={response}
+                      onSubmit={addUser}
+                      onChange={onChange}
+                      formType={foundUser.email ? 'update' : 'signup'}
+                    />
+                  )}
+                  {response === 'success' && !foundUser.email && (
+                    <div>
+                      You will now receive email notifications about margin
+                      calls and liquidated positions.
+                    </div>
+                  )}
 
-                {/* {foundUser.email && response !== 'success' && (
-                  <NotificationFormComponent
-                    name={name}
-                    email={email}
-                    marketing={state.marketing}
-                    response={response}
-                    onSubmit={updateUser}
-                    onChange={onChange}
-                    formType="update"
-                  />
-                )} */}
-
-                {response === 'success' && !foundUser.email && (
-                  <div>
-                    Check your inbox for an email from us, click the link, and
-                    you will be signed up for email notifications!
-                  </div>
-                )}
-
-                {response === 'success' && foundUser.email && (
-                  <div>Your details have been updated.</div>
-                )}
-              </div>
-            )}
-          </div>
-        }
-      />
+                  {response === 'success' && foundUser.email && (
+                    <div>Your details have been updated.</div>
+                  )}
+                </div>
+              )}
+            </div>
+          }
+        />
+      )}
     </>
   );
 }
