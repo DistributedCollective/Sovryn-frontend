@@ -94,6 +94,7 @@ export class SovrynNetwork {
     } catch (e) {
       console.error('connect fails.');
       console.error(e);
+      this.disconnect();
       return false;
     }
   }
@@ -105,6 +106,7 @@ export class SovrynNetwork {
     } catch (e) {
       console.error('connectTo fails.');
       console.error(e);
+      this.disconnect();
       return false;
     }
   }
@@ -294,7 +296,7 @@ export class SovrynNetwork {
     try {
       if (provider.on) {
         provider.on('close', () => {
-          this.store().dispatch(actions.disconnect());
+          this.disconnect();
         });
         provider.on('error', error => {
           console.error('provider error', error);
@@ -349,7 +351,7 @@ export class SovrynNetwork {
     } catch (e) {
       console.error('connect provider fails.');
       console.error(e);
-      this.store().dispatch(actions.disconnect());
+      this.disconnect();
     }
   }
 
