@@ -117,8 +117,8 @@
   "mainMenu": {
     "trade": "Trade",
     "lend": "Lend/Borrow",
-    "fastBtc": "Fast-Btc",
-    "liquidity": "Liquidity",
+    "fastBtc": "Top-Up",
+    "liquidity": "Market-making",
     "stats": "Stats",
     "faqs": "FAQs"
   },

@@ -5,7 +5,6 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { getAmmContract } from 'utils/blockchain/contract-helpers';
 import { useAddLiquidity } from './useAddLiquidity';
-import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useApproveAndAddLiquidity(
   pool: Asset,
@@ -26,7 +25,7 @@ export function useApproveAndAddLiquidity(
         tx = await contractWriter.checkAndApprove(
           asset,
           getAmmContract(pool).address,
-          transferAmount.get(amount),
+          amount,
         );
         if (tx.rejected) {
           return;

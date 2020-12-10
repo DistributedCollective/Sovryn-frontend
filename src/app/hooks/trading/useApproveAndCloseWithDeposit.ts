@@ -5,7 +5,6 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
-import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useApproveAndCloseWithDeposit(
   borrowToken: Asset,
@@ -28,7 +27,7 @@ export function useApproveAndCloseWithDeposit(
         tx = await contractWriter.checkAndApprove(
           borrowToken,
           getContract('sovrynProtocol').address,
-          transferAmount.get(repayAmount),
+          repayAmount,
         );
         if (tx.rejected) {
           return;

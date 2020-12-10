@@ -5,7 +5,6 @@ import {
   contractWriter,
 } from 'utils/sovryn/contract-writer';
 import { useLending_burn } from './useLending_burn';
-import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useLending_approveAndUnlend(
   asset: Asset,
@@ -19,7 +18,7 @@ export function useLending_approveAndUnlend(
         tx = await contractWriter.checkAndApprove(
           asset,
           getLendingContract(asset).address,
-          transferAmount.get(withdrawAmount),
+          withdrawAmount,
         );
         if (tx.rejected) {
           return;
