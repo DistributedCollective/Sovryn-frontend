@@ -25,7 +25,6 @@ export function useApproveAndAddMargin(
         collateralToken,
         appContracts.sovrynProtocol.address,
         depositAmount,
-        // toWei('1000000', 'ether'),
       );
       if (tx.rejected) {
         return;

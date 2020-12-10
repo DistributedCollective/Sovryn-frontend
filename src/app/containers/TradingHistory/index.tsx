@@ -176,6 +176,8 @@ export function TradingHistory() {
   const closeStates = eventsState[account]?.['sovrynProtocol']
     ?.CloseWithSwap || { events: [], loading: false };
 
+  console.log('trades:', tradeStates.events);
+
   const loading = tradeStates.loading || closeStates.loading;
 
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
@@ -185,6 +187,8 @@ export function TradingHistory() {
       const mergedEvents = [...closeEvents, ...tradeEvents].sort(
         (a, b) => b.blockNumber - a.blockNumber,
       );
+
+      console.log('merged:', mergedEvents);
 
       const items: { [key: string]: CustomEvent[] } = {};
       mergedEvents.forEach(item => {
@@ -207,6 +211,8 @@ export function TradingHistory() {
           }
         }
       });
+
+      console.log('close entries', closeEntries);
       setEvents(closeEntries);
     },
     [],

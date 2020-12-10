@@ -1,5 +1,6 @@
 import { Asset } from 'types/asset';
 import {
+  getAmmContract,
   getContract,
   getPoolTokenContractName,
 } from 'utils/blockchain/contract-helpers';
@@ -8,6 +9,7 @@ import {
   contractWriter,
 } from 'utils/sovryn/contract-writer';
 import { useRemoveLiquidity } from './useRemoveLiquidity';
+import { toWei } from '../../../utils/blockchain/math-helpers';
 
 export function useApproveAndRemoveLiquidity(
   pool: Asset,
@@ -27,18 +29,17 @@ export function useApproveAndRemoveLiquidity(
   return {
     withdraw: async () => {
       let tx: CheckAndApproveResult = {};
-      // if (asset !== Asset.BTC) {
       tx = await contractWriter.checkAndApproveContract(
         getPoolTokenContractName(pool, asset),
-        getContract('BTCWrapperProxy').address,
-        amount,
-        // toWei('1000000', 'ether'),
+        asset === Asset.BTC
+          ? getContract('BTCWrapperProxy').address
+          : getAmmContract(pool).address,
+        [amount, toWei('100000')],
         asset,
       );
       if (tx.rejected) {
         return;
       }
-      // }
       await withdraw(tx?.nonce, tx?.approveTx);
     },
     ...txState,

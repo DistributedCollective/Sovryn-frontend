@@ -48,7 +48,6 @@ export function useApproveAndTrade(
           token,
           getLendingContract(lendingContract).address,
           collateralTokenSent,
-          // toWei('1000000', 'ether'),
         );
         if (tx.rejected) {
           return;
