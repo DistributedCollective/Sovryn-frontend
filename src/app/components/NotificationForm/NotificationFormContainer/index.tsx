@@ -93,7 +93,6 @@ export function NotificationForm() {
           })
           .then(res => {
             setResponse('success');
-            console.log(res.data);
           })
           .catch(e => {
             setResponse('error');
