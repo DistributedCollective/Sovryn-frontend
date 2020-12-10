@@ -6,7 +6,6 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
-import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 function resolveContract(sourceToken: Asset, targetToken: Asset) {
   return sourceToken === Asset.BTC || targetToken === Asset.BTC
@@ -45,7 +44,7 @@ export function useSwapNetwork_approveAndConvertByPath(
         tx = await contractWriter.checkAndApprove(
           sourceToken,
           resolveContract(sourceToken, targetToken),
-          transferAmount.get(amount),
+          amount,
         );
         if (tx.rejected) {
           return;

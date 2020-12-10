@@ -12,6 +12,7 @@ import { getTokenContractName } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
 import { weiTo4 } from '../blockchain/math-helpers';
 import { gas } from '../blockchain/gas-price';
+import { transferAmount } from '../blockchain/transfer-approve-amount';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -37,7 +38,7 @@ class ContractWriter {
   public async checkAndApprove(
     asset: Asset,
     spenderAddress: string,
-    amount: string,
+    amount: string | string[],
   ): Promise<CheckAndApproveResult> {
     return this.checkAndApproveContract(
       getTokenContractName(asset),
@@ -50,9 +51,10 @@ class ContractWriter {
   public async checkAndApproveContract(
     contractName: ContractName,
     spenderAddress: string,
-    amount: string,
+    amount: string | string[],
     asset: Asset,
   ): Promise<CheckAndApproveResult> {
+    const amounts = Array.isArray(amount) ? amount : [amount, amount];
     const address = this.sovryn.store().getState().walletProvider?.address;
     const dispatch = this.sovryn.store().dispatch;
     dispatch(txActions.setLoading(true));
@@ -65,19 +67,24 @@ class ContractWriter {
       );
       console.log('allowance: ', weiTo4(allowance));
       let approveTx: any = null;
-      if (bignumber(allowance).lessThan(amount)) {
+      if (bignumber(allowance).lessThan(amounts[0])) {
         dispatch(
           txActions.openTransactionRequestDialog({
             type: TxType.APPROVE,
             asset,
-            amount,
+            amount: amounts[0],
           }),
         );
         approveTx = await contractWriter
-          .send(contractName, 'approve', [spenderAddress, amount], {
-            nonce,
-            from: address,
-          })
+          .send(
+            contractName,
+            'approve',
+            [spenderAddress, transferAmount.get(amounts[1])],
+            {
+              nonce,
+              from: address,
+            },
+          )
           .then(tx => {
             this.sovryn.store().dispatch(
               txActions.addTransaction({
@@ -90,7 +97,7 @@ class ContractWriter {
                 from: address,
                 value: '0',
                 asset,
-                assetAmount: amount,
+                assetAmount: transferAmount.get(amounts[1]),
               }),
             );
             return tx;
