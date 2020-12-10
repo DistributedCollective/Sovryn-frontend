@@ -3,7 +3,6 @@ import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { Asset } from '../../../types/asset';
 import { TxType } from '../../../store/global/transactions-store/types';
-import { getAmmContractName } from '../../../utils/blockchain/contract-helpers';
 
 export function useSwapNetwork_convertByPath(
   sourceToken: Asset,
@@ -15,7 +14,7 @@ export function useSwapNetwork_convertByPath(
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
     sourceToken === Asset.BTC || targetToken === Asset.BTC
-      ? getAmmContractName(Asset.BTC)
+      ? 'BTCWrapperProxy'
       : 'swapNetwork',
     'convertByPath',
   );

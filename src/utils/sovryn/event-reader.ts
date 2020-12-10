@@ -141,7 +141,7 @@ class EventReader {
           e.map(e => ({
             ...e,
             returnValues: (e as any).returnVal,
-            event: (e as any)?.returnVal?.event,
+            event: (e as any)?.eventName,
           })),
         );
     } catch (e) {

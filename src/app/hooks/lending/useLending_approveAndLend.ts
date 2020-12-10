@@ -5,6 +5,7 @@ import {
   contractWriter,
 } from 'utils/sovryn/contract-writer';
 import { useLending_mint } from './useLending_mint';
+import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useLending_approveAndLend(asset: Asset, depositAmount: string) {
   const { send: mint, ...mintTx } = useLending_mint(asset, depositAmount);
@@ -15,7 +16,7 @@ export function useLending_approveAndLend(asset: Asset, depositAmount: string) {
         tx = await contractWriter.checkAndApprove(
           asset,
           getLendingContract(asset).address,
-          depositAmount,
+          transferAmount.get(depositAmount),
         );
         if (tx.rejected) {
           return;

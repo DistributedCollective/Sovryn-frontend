@@ -23,7 +23,7 @@ export class TradingPairDictionary {
         // asset for sort position
         Asset.BTC,
         [Asset.BTC, Asset.DOC],
-        [Asset.DOC, Asset.BTC],
+        [Asset.BTC, Asset.DOC],
       ),
     ],
     [
@@ -37,14 +37,32 @@ export class TradingPairDictionary {
         Asset.USDT,
         // asset for sort position
         Asset.BPRO,
-        [Asset.USDT],
-        [Asset.USDT],
+        [Asset.USDT, Asset.BPRO],
+        [Asset.USDT, Asset.BPRO],
       ),
     ],
   ]);
 
   public static get(pair: TradingPairType): TradingPair {
     return this.pairs.get(pair) as TradingPair;
+  }
+
+  public static getByLoanAsset(asset: Asset): TradingPair {
+    return this.list().find(
+      item => item.getShortAsset() === asset || item.getLongAsset() === asset,
+    ) as TradingPair;
+  }
+
+  public static getByShortAsset(asset: Asset): TradingPair {
+    return this.list().find(
+      item => item.getShortAsset() === asset,
+    ) as TradingPair;
+  }
+
+  public static getByLongAsset(asset: Asset): TradingPair {
+    return this.list().find(
+      item => item.getLongAsset() === asset,
+    ) as TradingPair;
   }
 
   public static list(): Array<TradingPair> {

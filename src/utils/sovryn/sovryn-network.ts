@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { TransactionConfig, WebsocketProvider } from 'web3-core';
+import { WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { Toaster } from '@blueprintjs/core/lib/esm/components/toast/toaster';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -144,36 +144,6 @@ export class SovrynNetwork {
 
   public getWeb3() {
     return this._readWeb3;
-  }
-
-  public async send(tx: TransactionConfig) {
-    return new Promise<string>((resolve, reject) => {
-      this._writeWeb3.eth
-        .sendTransaction(tx)
-        .once('transactionHash', tx => resolve(tx))
-        .catch(e => {
-          console.log('rejecting.');
-          reject(e);
-        });
-    });
-  }
-
-  public async callContract(contractName: string, methodName, ...args) {
-    let params = args;
-    let options = {};
-    if (args && args.length && typeof args[args.length - 1] === 'object') {
-      params = args.slice(0, -1);
-      options = args[args.length - 1];
-    }
-    return new Promise<string>((resolve, reject) => {
-      return this.writeContracts[contractName].methods[methodName](...params)
-        .send(options)
-        .once('transactionHash', tx => resolve(tx))
-        .catch(e => {
-          console.log('rejecting');
-          reject(e);
-        });
-    });
   }
 
   public addWriteContract(
