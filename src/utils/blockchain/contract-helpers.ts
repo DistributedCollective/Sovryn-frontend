@@ -44,3 +44,7 @@ export const getContractNameByAddress = (address: string): ContractName => {
 export const symbolByTokenAddress = (address: string) => {
   return AssetsDictionary.getByTokenContractAddress(address)?.symbol;
 };
+
+export const assetByTokenAddress = (address: string): Asset => {
+  return AssetsDictionary.getByTokenContractAddress(address)?.asset;
+};

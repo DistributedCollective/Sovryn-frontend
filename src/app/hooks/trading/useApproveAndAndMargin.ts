@@ -6,6 +6,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
+import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useApproveAndAddMargin(
   collateralToken: Asset,
@@ -24,8 +25,7 @@ export function useApproveAndAddMargin(
       tx = await contractWriter.checkAndApprove(
         collateralToken,
         appContracts.sovrynProtocol.address,
-        depositAmount,
-        // toWei('1000000', 'ether'),
+        transferAmount.get(depositAmount),
       );
       if (tx.rejected) {
         return;

@@ -5,6 +5,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
+import { transferAmount } from '../../../utils/blockchain/transfer-approve-amount';
 
 export function useApproveAndBorrow(
   borrowToken: Asset,
@@ -32,8 +33,7 @@ export function useApproveAndBorrow(
         tx = await contractWriter.checkAndApprove(
           collateralToken,
           getLendingContract(borrowToken).address,
-          collateralTokenSent,
-          // toWei('1000000', 'ether'),
+          transferAmount.get(collateralTokenSent),
         );
         if (tx.rejected) {
           return;

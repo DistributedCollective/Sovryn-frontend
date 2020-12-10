@@ -11,6 +11,7 @@ import { Asset } from '../../types/asset';
 import { getTokenContractName } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
 import { weiTo4 } from '../blockchain/math-helpers';
+import { gas } from '../blockchain/gas-price';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -121,6 +122,9 @@ class ContractWriter {
     args: Array<any>,
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
+    if (!options.gasPrice) {
+      options.gasPrice = gas.get();
+    }
     return new Promise<string | RevertInstructionError>((resolve, reject) => {
       return this.sovryn.writeContracts[contractName].methods[methodName](
         ...args,
