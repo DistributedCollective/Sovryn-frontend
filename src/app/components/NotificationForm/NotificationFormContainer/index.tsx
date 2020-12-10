@@ -109,7 +109,6 @@ export function NotificationForm() {
           walletAddress: walletAddress,
         })
         .then(res => {
-          console.log(res);
           setFoundUser(res.data[0]);
           setLoading(false);
         })
@@ -137,9 +136,11 @@ export function NotificationForm() {
   }, [walletAddress, mailSrv, getUser]);
 
   function resetForm() {
+    setLoading(true);
     setShowForm(false);
     setResponse('');
     getUser();
+    setLoading(false);
   }
 
   return (
