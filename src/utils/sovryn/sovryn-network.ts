@@ -349,6 +349,7 @@ export class SovrynNetwork {
     } catch (e) {
       console.error('connect provider fails.');
       console.error(e);
+      this.store().dispatch(actions.disconnect());
     }
   }
 
