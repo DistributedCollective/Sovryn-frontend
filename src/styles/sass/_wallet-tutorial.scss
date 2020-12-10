@@ -460,39 +460,44 @@ $scale: 0.8;
 }
 
 //WALLET CONNECT
-#walletconnect-wrapper {
-  z-index: 100;
-  display: none;
-  &.showWalletConnect {
-    display: flex !important;
-  }
-  #walletconnect-qrcode-modal.walletconnect-qrcode__base {
-    background: rgba(37, 41, 46, 0) !important;
-    position: relative !important;
-    width: 400px;
-    height: 500px;
-    .walletconnect-modal__base {
-      transform: translateY(0) !important;
-      width: 180px !important;
-      height: 180px !important;
-      padding: 0 !important;
-      position: absolute !important;
-      margin: 0 auto;
-      left: 35%;
-      top: 22%;
-      box-shadow: none !important;
-    }
-    #walletconnect-qrcode-text {
-      display: none;
-    }
-    .walletconnect-modal__footer {
-      display: none;
-    }
-  }
-  #walletconnect-qrcode-modal > div > div:nth-child(2) {
-    margin-top: 12px;
-  }
-  #walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
+@media (min-width: 768px) {
+  #walletconnect-wrapper {
+    z-index: 100;
     display: none;
+    &.showWalletConnect {
+      display: flex !important;
+    }
+    #walletconnect-qrcode-modal.walletconnect-qrcode__base {
+      background: rgba(37, 41, 46, 0) !important;
+      position: relative !important;
+      width: 400px;
+      height: 500px;
+      .walletconnect-modal__base {
+        transform: translateY(0) !important;
+        width: 180px !important;
+        height: 180px !important;
+        padding: 0 !important;
+        position: absolute !important;
+        margin: 0 auto;
+        left: 35%;
+        top: 22%;
+        box-shadow: none !important;
+      }
+      #walletconnect-qrcode-text {
+        display: none;
+      }
+      .walletconnect-modal__footer {
+        display: none;
+      }
+    }
+    #walletconnect-qrcode-modal > div > div:nth-child(2) {
+      margin-top: 12px;
+    }
+    #walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
+      p {
+        display: none;
+      }
+    }
   }
 }
+

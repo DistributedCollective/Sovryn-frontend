@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import background from 'assets/images/tutorial/test.svg';
 import close from 'assets/images/tutorial/close.svg';
-import { Screen1 } from '../screen1';
-import { Screen2 } from '../screen2';
-import { Screen3 } from '../screen3';
-import { Screen4 } from '../screen4';
+import { Screen1 } from './screen1';
+import { Screen2 } from './screen2';
+import { Screen3 } from './screen3';
+import { Screen4 } from './screen4';
 import * as storage from 'utils/storage';
 
 import { translations } from 'locales/i18n';

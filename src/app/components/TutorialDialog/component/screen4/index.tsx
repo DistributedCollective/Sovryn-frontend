@@ -13,7 +13,7 @@ import badgerBody from 'assets/images/tutorial/badger_body.svg';
 import crater from 'assets/images/tutorial/crater.svg';
 import scanQR from 'assets/images/tutorial/scanQr.svg';
 import { Icon } from '@blueprintjs/core';
-import { useContent } from '../../../hooks/tutorial/useContent';
+import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export function Screen4(props) {

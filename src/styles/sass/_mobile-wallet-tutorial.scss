@@ -1,0 +1,125 @@
+.wallet-tutorial-mobile {
+  &_container {
+    z-index: 100;
+    background-color: rgba(23, 23, 23, 0.8);
+    width: 100vw;
+    height: 100vh;
+    > div:first-of-type {
+      width: 300px;
+      @include position(45%, 50%);
+      transform: translate(-50%, -50%);
+    }
+    .title {
+      color: var(--black);
+      top: 6%;
+      left: 5%;
+      width: 50%;
+      transform: rotate(-5deg);
+      text-align: center;
+      text-transform: uppercase;
+      font-family: 'Kalam';
+      font-weight: 700;
+    }
+    [class^='close'] {
+      width: 30px;
+      top: 10%;
+      left: 85%;
+      &[class*='--3'] {
+        left: 77%;
+        top: 12%
+      }
+    }
+    .logo-grid {
+      color: var(--black);
+      width: 80%;
+      margin: 0 auto;
+      top: 25%;
+      left: 15%;
+      img {
+        width: 75px;
+        &:active {
+          transform: scale(0.9);
+        }
+      }
+      .col-4 {
+        padding-right: 5px;
+        padding-left: 5px;
+      }
+    }
+    .step-image {
+      top: 17%;
+      left: 35%;
+      height: calc(264px * 0.6);
+      width: calc(157px * 0.6);
+    }
+    .step-description {
+      color: var(--black);
+      top: 54%;
+      width: 100%;
+      text-align: center;
+      padding-left: 25px;
+      padding-right: 25px;
+      margin: 0;
+    }
+    .stepper {
+      top: 60%;
+      left: 5%;
+      &_circle {
+        background-color: var(--white);
+        opacity: 0.5;
+        height: 22px;
+        width: 22px;
+        margin: 0 8px;
+        border-radius: 100%;
+        margin-top: 9px;
+        &.active {
+          background-color: var(--white);
+          opacity: 1;
+        }
+        &:first-of-type {
+          margin-left: 8px;
+        }
+        &:last-of-type {
+          margin-right: 8px;
+        }
+        .right-arrow {
+          transform: translateY(6px)
+        }
+      }
+    }
+    .open-wallet {
+      background-color: var(--orange);
+      margin-top: 20px;
+      left: 14%;
+      color: var(--black);
+      text-transform: uppercase;
+      font-size: larger;
+      font-family: 'Work Sans';
+    }
+    .settings {
+      color: (var(--black));
+      top: 71%;
+      font-size: 9px;
+      font-weight: 600;
+      font-family: 'Work Sans';
+      width: 100%;
+      .row {
+        margin: 0;
+        margin-bottom: 4px;
+      }
+      .col-8 {
+        padding-right: 0;
+      }
+      .col-4 {
+        padding-right: 0;
+        font-family: 'Kalam';
+        transform: skewX(10deg);
+      }
+      .col-12 {
+        font-size: 12px;
+        padding-bottom: 8px;
+        font-family: 'Rowdies';
+      }
+    }
+  }
+}
