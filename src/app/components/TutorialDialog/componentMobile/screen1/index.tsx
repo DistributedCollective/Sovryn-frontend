@@ -43,7 +43,7 @@ export function Screen1(props) {
     <>
       <div className="position-absolute screen1">
         <img className="w-100 h-100" src={screen1Container} alt="" />
-        <div className="title position-absolute">
+        <div className="title1 position-absolute">
           <p>Select YOUR WALLET</p>
         </div>
         <div className="close position-absolute" onClick={props.handleClose}>

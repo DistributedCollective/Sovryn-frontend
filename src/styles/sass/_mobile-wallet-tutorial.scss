@@ -9,7 +9,7 @@
       @include position(45%, 50%);
       transform: translate(-50%, -50%);
     }
-    .title {
+    [class^='title']{
       color: var(--black);
       top: 6%;
       left: 5%;
@@ -19,6 +19,12 @@
       text-transform: uppercase;
       font-family: 'Kalam';
       font-weight: 700;
+      &[class*='1'] {
+        width: 45%;
+        left: 2%;
+        top: 5%;
+        transform: rotate(0);
+      }
     }
     [class^='close'] {
       width: 30px;
