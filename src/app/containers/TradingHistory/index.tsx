@@ -23,8 +23,6 @@ import {
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { TradeProfit } from '../../components/TradeProfit';
-import { useSelector } from 'react-redux';
-import { selectEventsState } from '../../../store/global/events-store/selectors';
 import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
 
 type EventType = 'buy' | 'sell';
