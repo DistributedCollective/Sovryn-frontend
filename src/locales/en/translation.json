@@ -60,15 +60,17 @@
     }
   },
   "fastBtcForm": {
-    "title": "Fast-BTC Relay",
+    "title": "Top-Up",
     "history": {
       "title": "History",
       "empty": "History is empty.",
       "walletHistory": "Enter your RSK wallet address to see history.",
       "loading": "Loading..."
     },
+    "connectWallet": "To use Top-Up you need to connect your wallet with the dapp.",
     "connect": "Connect to your wallet or just enter wallet address above yourself.",
     "depositAdress": "BTC Deposit Address",
+    "depositAddressCopied": "Your BTC deposit address copied to clipboard",
     "toDepositWallet": "to deposit wallet",
     "placeholder": "Your RSK Wallet",
     "waitingForDeposit": "Waiting for deposit",
@@ -335,7 +337,8 @@
       },
       "3": {
         "txDetails": "Transaction Details",
-        "txHash": "Transaction hash",
+        "txHash": "rBTC Tx hash",
+        "txId": " BTC Tx ID",
         "from": "From wallet",
         "to": "To wallet",
         "amount": "Amount transacted",
@@ -360,6 +363,11 @@
     "pending_for_user": {
       "title": "Pending for user",
       "text": "Please confirm transaction in your wallet."
+    }
+  },
+  "topUpBtcDialog": {
+    "meta": {
+      "title": "Top-UP"
     }
   }
 }

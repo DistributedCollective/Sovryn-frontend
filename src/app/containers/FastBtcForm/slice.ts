@@ -5,10 +5,12 @@ import { toaster } from '../../../utils/toaster';
 
 // The initial state of the FastBtcForm container
 export const initialState: ContainerState = {
+  dialogOpen: false,
   step: 1,
   receiverAddress: '',
   isReceiverAddressValidating: false,
   isReceiverAddressValid: true,
+  generatingAddress: false,
   depositAddress: '',
   minDepositAmount: 0,
   maxDepositAmount: 0,
@@ -24,9 +26,13 @@ const fastBtcFormSlice = createSlice({
   name: 'fastBtcForm',
   initialState,
   reducers: {
+    changeStep(state, { payload }: PayloadAction<number>) {
+      state.step = payload;
+    },
     changeReceiverAddress(state, { payload }: PayloadAction<string>) {
       state.receiverAddress = payload;
       state.isReceiverAddressValidating = true;
+      state.generatingAddress = true;
       state.isHistoryLoading = true;
     },
     changeReceiverAddressValidity(state, { payload }: PayloadAction<boolean>) {
@@ -41,10 +47,12 @@ const fastBtcFormSlice = createSlice({
       state.receiverAddress = payload.web3adr;
       state.depositAddress = payload.btcadr;
       state.isReceiverAddressValidating = false;
+      state.generatingAddress = false;
     },
     getDepositAddressFailed(state) {
       state.depositAddress = '';
       state.isReceiverAddressValidating = false;
+      state.generatingAddress = false;
     },
     changeAmountInfo(
       state,
@@ -55,9 +63,15 @@ const fastBtcFormSlice = createSlice({
     },
     changeDepositTx(state, { payload }: PayloadAction<DepositTx>) {
       state.depositTx = payload;
+      if (payload) {
+        state.step = 3;
+      }
     },
     changeTransferTx(state, { payload }: PayloadAction<TransferTx>) {
       state.transferTx = payload;
+      if (payload) {
+        state.step = 3;
+      }
     },
     depositError(state, { payload }: PayloadAction<string>) {
       toaster.show({
@@ -74,6 +88,16 @@ const fastBtcFormSlice = createSlice({
     reset(state) {
       state.depositTx = null;
       state.transferTx = null;
+      state.step = 2;
+    },
+    showDialog(state, { payload }: PayloadAction<boolean>) {
+      state.dialogOpen = payload;
+    },
+    resetAddresses(state) {
+      state.step = 1;
+      state.depositAddress = '';
+      state.receiverAddress = '';
+      state.generatingAddress = false;
     },
   },
 });
