@@ -1,15 +1,24 @@
+@import './_animations';
+
+@mixin fade-in($speed) {
+  animation: fadeIn ease $speed;
+  -webkit-animation: fadeIn ease $speed;
+  -moz-animation: fadeIn ease $speed;
+}
+
 .wallet-tutorial-mobile {
   &_container {
     z-index: 100;
-    background-color: rgba(23, 23, 23, 0.8);
+    background-color: rgba(256, 256, 256, 0.6);
     width: 100vw;
     height: 100vh;
     > div:first-of-type {
       width: 300px;
       @include position(45%, 50%);
       transform: translate(-50%, -50%);
+      @include fade-in(1s);
     }
-    [class^='title']{
+    [class^='title'] {
       color: var(--black);
       top: 6%;
       left: 5%;
@@ -32,7 +41,7 @@
       left: 85%;
       &[class*='--3'] {
         left: 77%;
-        top: 12%
+        top: 12%;
       }
     }
     .logo-grid {
@@ -89,7 +98,7 @@
           margin-right: 8px;
         }
         .right-arrow {
-          transform: translateY(6px)
+          transform: translateY(6px);
         }
       }
     }
@@ -125,6 +134,44 @@
         font-size: 12px;
         padding-bottom: 8px;
         font-family: 'Rowdies';
+      }
+    }
+
+    // Email Not Ready Component
+    .mobile-not-ready-img * {
+      @include fade-in(2s)
+    }
+    [class^='mobile-not-ready-text'] {
+      color: var(--black);
+      width: 70%;
+      top: 32%;
+      left: 15%;
+      text-align: center;
+      font-size: 14px;
+      &[class*='2'] {
+        top: 85%;
+      }
+      &[class*='--success'] {
+        top: 70%;
+        left: 11%;
+        @include fade-in(2s)
+      }
+    }
+    .email-form {
+      left: 16%;
+      top: 65%;
+      text-align: center;
+      input {
+        font-size: 14px !important;
+        text-align: center;
+        width: 200px;
+      }
+      button {
+        background-color: var(--orange);
+        border: none;
+        border-radius: 20px;
+        font-size: 1.6em;
+        margin-top: 10px;
       }
     }
   }

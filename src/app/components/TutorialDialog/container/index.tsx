@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { TutorialDialogComponent } from '../component';
-import { TutorialDialogMobileComponent } from '../componentMobile';
+import { MobileNotReady } from '../mobileNotReady';
 import { currentChainId } from 'utils/classifiers';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import * as storage from 'utils/storage';
@@ -80,7 +80,7 @@ export function TutorialDialog() {
             />
           </div>
           <div className="d-block d-md-none">
-            <TutorialDialogMobileComponent handleClose={handleClose} />
+            <MobileNotReady />
           </div>
         </>
       )}

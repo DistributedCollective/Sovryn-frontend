@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import arm1 from 'assets/images/tutorial/arm_1.svg';

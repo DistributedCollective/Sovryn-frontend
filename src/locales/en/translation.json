@@ -327,6 +327,15 @@
       }
     }
   },
+  "mobileNotReady": {
+    "submit": "Submit",
+    "p1": "The Sovryn user experience is not yet optimized for mobile.",
+    "p2": "Register your email to hear when our mobile version is ready!",
+    "p3": "Until then, why not try the desktop version?",
+    "errorText": "Error submitting form",
+    "success": "Success!",
+    "successText": "We will contact you as soon as Sovryn Mobile is live."
+  },
   "fastBTC": {
     "screens": {
       "1": {
