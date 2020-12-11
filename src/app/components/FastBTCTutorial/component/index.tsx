@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import logo from 'assets/images/sovryn-logo-white-inline.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon } from '@blueprintjs/core';
-import { Screen1 } from '../screen1';
 import { Screen2 } from '../screen2';
 import { Screen3 } from '../screen3';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -57,12 +56,6 @@ export function FastBTCTutorialComponent(props) {
           <div className="logo text-center mt-2">
             <img src={logo} alt="" />
           </div>
-          {screen === 1 && (
-            <Screen1
-              btcAddress={state.depositAddress}
-              changeScreen={changeScreen}
-            />
-          )}
           {screen === 2 && (
             <Screen2
               btcAddress={state.depositAddress}

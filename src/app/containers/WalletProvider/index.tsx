@@ -21,6 +21,7 @@ import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
 import { TxRequestDialog } from './components/TxRequestDialog';
+import { FastBtcForm } from '../FastBtcForm/Loadable';
 
 interface Props {
   children: React.ReactNode;
@@ -42,6 +43,7 @@ export function WalletProvider(props: Props) {
     <>
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
+      <FastBtcForm />
     </>
   );
 }
