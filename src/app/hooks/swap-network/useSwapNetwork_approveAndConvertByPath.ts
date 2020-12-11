@@ -9,7 +9,7 @@ import {
 
 function resolveContract(sourceToken: Asset, targetToken: Asset) {
   return sourceToken === Asset.BTC || targetToken === Asset.BTC
-    ? appContracts.liquidityBTCProtocol.address
+    ? appContracts.BTCWrapperProxy.address
     : appContracts.swapNetwork.address;
 }
 
@@ -45,7 +45,6 @@ export function useSwapNetwork_approveAndConvertByPath(
           sourceToken,
           resolveContract(sourceToken, targetToken),
           amount,
-          // toWei('1000000', 'ether'),
         );
         if (tx.rejected) {
           return;

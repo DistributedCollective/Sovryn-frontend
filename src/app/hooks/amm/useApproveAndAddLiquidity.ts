@@ -26,7 +26,6 @@ export function useApproveAndAddLiquidity(
           asset,
           getAmmContract(pool).address,
           amount,
-          // toWei('1000000', 'ether'),
         );
         if (tx.rejected) {
           return;

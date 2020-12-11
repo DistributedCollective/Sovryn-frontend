@@ -90,7 +90,7 @@ export function ActiveLoanTableDesktop(props: Props) {
             <th onClick={() => requestSort('profit')}>
               Profit / Loss {getIcons('profit')}
             </th>
-            <th style={{ cursor: 'initial' }}></th>
+            <th style={{ cursor: 'initial' }} />
           </tr>
         </thead>
         <tbody>
@@ -122,10 +122,11 @@ export function ActiveLoanTableDesktop(props: Props) {
                     {item.icon === 'SHORT' && (
                       <Icon
                         icon="circle-arrow-down"
-                        className="text-Gold ml-2"
+                        className="text-Gold mx-2"
                         iconSize={20}
                       />
-                    )}
+                    )}{' '}
+                    {item.pair}
                   </td>
                   <td>{formatAsBTC(item.positionSize, item.currency)}</td>
                   <td>
@@ -150,9 +151,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   <td>{item.interestAPR} %</td>
                   <td>{numberToUSD(item.startPrice, 2)}</td>
                   <td
-                    className={`${
-                      item.marginDiff > 0 ? 'text-green' : 'text-red'
-                    }`}
+                    className={`${item.profit > 0 ? 'text-green' : 'text-red'}`}
                   >
                     {numberToUSD(item.profit, 4)}
                   </td>

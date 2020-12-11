@@ -42,11 +42,15 @@ export function CloseTradingPositionHandler(props: Props) {
 
   const [amount, setAmount] = useState<string>();
   const [isCollateral, setIsCollateral] = useState(false);
-  const [options] = useState(getOptions(props.item));
+  const [options, setOptions] = useState(getOptions(props.item));
 
   useEffect(() => {
     setAmount(weiTo18(props.item.collateral));
   }, [props.item.collateral]);
+
+  useEffect(() => {
+    setOptions(getOptions(props.item));
+  }, [props.item]);
 
   const weiAmount = useWeiAmount(amount);
 

@@ -66,6 +66,8 @@ export function MarginTradeForm(props: Props) {
   }, [position, pair]);
 
   const { trade, loading, txHash, status } = useApproveAndTrade(
+    pair,
+    position,
     pair.getAssetForPosition(position),
     collateral,
     leverage,

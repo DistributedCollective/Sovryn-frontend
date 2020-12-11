@@ -3,9 +3,9 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
+import { TxType } from 'store/global/transactions-store/types';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useMarginTrade(
   asset: Asset,

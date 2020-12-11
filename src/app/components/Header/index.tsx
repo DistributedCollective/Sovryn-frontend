@@ -5,6 +5,7 @@
  */
 import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { Container } from 'react-bootstrap';
@@ -14,22 +15,33 @@ import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 import { translations } from 'locales/i18n';
+import { actions } from 'app/containers/FastBtcForm/slice';
 
 export function Header() {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const pages = [
     { to: '/', title: t(translations.mainMenu.trade), exact: true },
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
-    { to: '/fast-btc', title: t(translations.mainMenu.fastBtc) },
+    {
+      to: '/',
+      title: t(translations.mainMenu.fastBtc),
+      onClick: () => dispatch(actions.showDialog(true)),
+    },
     t(translations.mainMenu.stats),
     t(translations.mainMenu.faqs),
   ];
 
   const menuItems = pages.map((item, index) => {
-    let link: { to: string; title: string; exact: boolean } = item as any;
+    let link: {
+      to: string;
+      title: string;
+      exact: boolean;
+      onClick?: () => void;
+    } = item as any;
 
     if (typeof item === 'string') {
       link = {
@@ -43,7 +55,7 @@ export function Header() {
       <MenuItem
         key={index}
         text={link.title}
-        onClick={() => history.push(link.to)}
+        onClick={() => (link.onClick ? link.onClick() : history.push(link.to))}
       />
     );
   });
@@ -74,9 +86,16 @@ export function Header() {
               <NavLink className="nav-item mr-4" to="/lend">
                 {t(translations.mainMenu.lend)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/fast-btc">
+              <Link
+                to="/"
+                className="nav-item mr-4"
+                onClick={e => {
+                  e.preventDefault();
+                  dispatch(actions.showDialog(true));
+                }}
+              >
                 {t(translations.mainMenu.fastBtc)}
-              </NavLink>
+              </Link>
               <NavLink className="nav-item mr-4" to="/liquidity">
                 {t(translations.mainMenu.liquidity)}
               </NavLink>

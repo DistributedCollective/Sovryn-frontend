@@ -62,10 +62,11 @@ function* preloadNewUserEvents() {
 function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
   try {
     const state = yield select(selectEventsState);
+    const { blockNumber } = yield select(selectWalletProvider);
     const proxy =
       state?.[payload.address]?.[payload.contractName]?.[payload.eventName];
     const result = yield call(
-      [eventReader, eventReader.getPastEventsInChunksPromise],
+      [eventReader, eventReader.getPastEvents],
       payload.contractName,
       payload.eventName,
       payload.filters,
@@ -76,9 +77,9 @@ function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
         contractName: payload.contractName,
         eventName: payload.eventName,
         address: payload.address,
-        events: JSON.parse(JSON.stringify(result.events)),
-        fromBlock: result.fromBlock,
-        toBlock: result.toBlock,
+        events: JSON.parse(JSON.stringify(result)),
+        fromBlock: 0,
+        toBlock: blockNumber,
       }),
     );
   } catch (e) {

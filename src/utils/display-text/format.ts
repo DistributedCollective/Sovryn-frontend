@@ -1,11 +1,13 @@
-import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
-import { symbolByTokenAddress } from '../blockchain/contract-helpers';
+import { weiToFixed, weiTo18 } from '../blockchain/math-helpers';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
 }
 
 export function numberToUSD(value: number, decimals: number) {
+  if (value === null) {
+    return null;
+  }
   return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -23,8 +25,8 @@ export function numberToPercent(value: number, decimals: number) {
   );
 }
 
-export function formatAsBTCPrice(value, address): number {
-  return symbolByTokenAddress(address) === 'BTC'
+export function formatAsBTCPrice(value, isLongPosition: boolean): number {
+  return isLongPosition
     ? parseFloat(weiTo18(value))
     : 1 / parseFloat(weiTo18(value));
 }
@@ -44,19 +46,32 @@ export function stringToPercent(value, decimals) {
   })} %`;
 }
 
+// export function calculateProfit(
+//   c: string,
+//   s: string,
+//   currentPrice: number,
+//   isLong: boolean,
+// ): number {
+//   const collateral: number = parseFloat(fromWei(c));
+//   const startRate: number = parseFloat(fromWei(s));
+//   const collateralCurrentValue = isLong
+//     ? collateral * currentPrice
+//     : collateral;
+//   const collateralStartValue = isLong
+//     ? collateral * startRate
+//     : collateral * (currentPrice * startRate);
+//   return collateralCurrentValue - collateralStartValue;
+// }
+
 export function calculateProfit(
-  c: string,
-  s: string,
+  startPrice: number,
   currentPrice: number,
-  currency: string,
-): number {
-  const collateral: number = parseFloat(fromWei(c));
-  const startRate: number = parseFloat(fromWei(s));
-  const collateralCurrentValue =
-    currency === 'BTC' ? collateral * currentPrice : collateral;
-  const collateralStartValue =
-    currency === 'BTC'
-      ? collateral * startRate
-      : collateral * (currentPrice * startRate);
-  return collateralCurrentValue - collateralStartValue;
+  isLong: boolean,
+  collateral: string,
+  startRate: string,
+) {
+  if (isLong) {
+    return (currentPrice - startPrice) / parseFloat(weiTo18(startRate));
+  }
+  return (startPrice - currentPrice) * parseFloat(weiTo18(startRate));
 }
