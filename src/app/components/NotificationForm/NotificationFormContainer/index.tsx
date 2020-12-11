@@ -57,7 +57,7 @@ export function NotificationForm() {
 
   //SET VALUES IN UPDATE FORM
   useEffect(() => {
-    if (foundUser.email && foundUser.name) {
+    if (foundUser && foundUser.email && foundUser.name) {
       dispatch({ field: 'name', value: foundUser.name });
       dispatch({ field: 'email', value: foundUser.email });
       dispatch({ field: 'marketing', value: foundUser.marketing });
@@ -148,51 +148,47 @@ export function NotificationForm() {
       <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
-            foundUser.email
-              ? 'Update email settings'
-              : 'Get email notifications'
+            foundUser ? 'Update email settings' : 'Get email notifications'
           }`}
           onClick={() => setShowForm(true)}
         />
       </div>
-      {showForm && (
-        <CustomDialog
-          show={showForm}
-          title="Email Notifications"
-          onClose={() => resetForm()}
-          content={
-            <div>
-              {loading || response === 'pending' ? (
-                <div className="bp3-skeleton">&nbsp;</div>
-              ) : (
-                <div>
-                  {response !== 'success' && (
-                    <NotificationFormComponent
-                      name={name}
-                      email={email}
-                      marketing={state.marketing}
-                      response={response}
-                      onSubmit={addUser}
-                      onChange={onChange}
-                      formType={foundUser.email ? 'update' : 'signup'}
-                    />
-                  )}
-                  {response === 'success' && !foundUser.email && (
-                    <div>
-                      You will now receive email notifications about margin
-                      calls and liquidated positions.
-                    </div>
-                  )}
+      <CustomDialog
+        show={showForm}
+        title="Email Notifications"
+        onClose={() => resetForm()}
+        content={
+          <div>
+            {loading || response === 'pending' ? (
+              <div className="bp3-skeleton">&nbsp;</div>
+            ) : (
+              <div>
+                {response !== 'success' && (
+                  <NotificationFormComponent
+                    name={name}
+                    email={email}
+                    marketing={state.marketing}
+                    response={response}
+                    onSubmit={addUser}
+                    onChange={onChange}
+                    formType={foundUser ? 'update' : 'signup'}
+                  />
+                )}
+                {response === 'success' && !foundUser && (
+                  <div>
+                    You will now receive email notifications about margin calls
+                    and liquidated positions.
+                  </div>
+                )}
 
-                  {response === 'success' && foundUser.email && (
-                    <div>Your details have been updated.</div>
-                  )}
-                </div>
-              )}
-            </div>
-          }
-        />
-      )}
+                {response === 'success' && foundUser && (
+                  <div>Your details have been updated.</div>
+                )}
+              </div>
+            )}
+          </div>
+        }
+      />
     </>
   );
 }
