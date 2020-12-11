@@ -19,7 +19,6 @@ export function useLending_approveAndUnlend(
           asset,
           getLendingContract(asset).address,
           withdrawAmount,
-          // toWei('1000000', 'ether'),
         );
         if (tx.rejected) {
           return;

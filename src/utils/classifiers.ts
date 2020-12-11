@@ -80,6 +80,7 @@ export const liquidityPools = [
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
   [TxType.ADD_LIQUIDITY]: 275000,
+  [TxType.REMOVE_LIQUIDITY]: 450000,
   [TxType.BORROW]: 1300000,
   [TxType.CONVERT_BY_PATH]: 580000,
   [TxType.LEND]: 200000,

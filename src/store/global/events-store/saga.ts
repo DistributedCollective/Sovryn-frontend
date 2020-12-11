@@ -65,7 +65,7 @@ function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
     const proxy =
       state?.[payload.address]?.[payload.contractName]?.[payload.eventName];
     const result = yield call(
-      [eventReader, eventReader.getPastEventsInChunksPromise],
+      [eventReader, eventReader.getPastEvents],
       payload.contractName,
       payload.eventName,
       payload.filters,

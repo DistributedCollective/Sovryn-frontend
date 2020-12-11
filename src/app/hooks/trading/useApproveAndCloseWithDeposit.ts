@@ -28,7 +28,6 @@ export function useApproveAndCloseWithDeposit(
           borrowToken,
           getContract('sovrynProtocol').address,
           repayAmount,
-          // toWei('1000000', 'ether'),
         );
         if (tx.rejected) {
           return;
