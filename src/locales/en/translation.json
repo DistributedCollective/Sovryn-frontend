@@ -1,6 +1,9 @@
 {
   "common": {
-    "back": "Back"
+    "back": "Back",
+    "min": "min",
+    "max": "max",
+    "close": "Close"
   },
   "title": "Sovryn",
   "announcement": {
@@ -57,15 +60,17 @@
     }
   },
   "fastBtcForm": {
-    "title": "Fast-BTC Relay",
+    "title": "Top-Up",
     "history": {
       "title": "History",
       "empty": "History is empty.",
       "walletHistory": "Enter your RSK wallet address to see history.",
       "loading": "Loading..."
     },
+    "connectWallet": "To use Top-Up you need to connect your wallet with the dapp.",
     "connect": "Connect to your wallet or just enter wallet address above yourself.",
     "depositAdress": "BTC Deposit Address",
+    "depositAddressCopied": "Your BTC deposit address copied to clipboard",
     "toDepositWallet": "to deposit wallet",
     "placeholder": "Your RSK Wallet",
     "waitingForDeposit": "Waiting for deposit",
@@ -311,6 +316,39 @@
       }
     }
   },
+  "fastBTC": {
+    "screens": {
+      "1": {
+        "title": "You Are Connected!",
+        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
+        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
+        "createAddress": "Create Address"
+      },
+      "2": {
+        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
+        "depositRequirements": "Deposit requirements",
+        "fee": "Fee",
+        "feeExplainer": "Deducted from transaction amount",
+        "important": "Important",
+        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
+        "important2": "Please allow upto 15 mins for the transaction to process",
+        "contactUs": "For support please join us on",
+        "txDetected": "Transaction detected"
+      },
+      "3": {
+        "txDetails": "Transaction Details",
+        "txHash": "rBTC Tx hash",
+        "txId": " BTC Tx ID",
+        "from": "From wallet",
+        "to": "To wallet",
+        "amount": "Amount transacted",
+        "fee": "Fee",
+        "initiated": "Initiated",
+        "status": "Status",
+        "estimated": "Estimated Time"
+      }
+    }
+  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -325,6 +363,11 @@
     "pending_for_user": {
       "title": "Pending for user",
       "text": "Please confirm transaction in your wallet."
+    }
+  },
+  "topUpBtcDialog": {
+    "meta": {
+      "title": "Top-UP"
     }
   }
 }

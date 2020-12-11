@@ -2,11 +2,13 @@
 import { Nullable } from '../../../types';
 
 export interface FastBtcFormState {
+  dialogOpen: boolean;
   step: number;
   receiverAddress: string;
   isReceiverAddressValidating: boolean;
   isReceiverAddressValid: boolean;
   depositAddress: string;
+  generatingAddress: boolean;
   minDepositAmount: number;
   maxDepositAmount: number;
   isDepositLoading: boolean;
@@ -22,11 +24,13 @@ export type ContainerState = FastBtcFormState;
 export interface TransferTx {
   txHash: string;
   value: number;
+  status: string;
 }
 
 export interface DepositTx {
   txHash: string;
   value: number;
+  status: string;
 }
 
 export interface HistoryItem {
