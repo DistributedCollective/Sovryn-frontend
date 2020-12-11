@@ -3,27 +3,29 @@ import { TradingPair } from '../models/trading-pair';
 
 export enum TradingPairType {
   BTC_DOC = 'BTC_DOC',
+  BTC_USDT = 'BTC_USDT',
   BPRO_USDT = 'BPRO_USDT',
 }
 
 export class TradingPairDictionary {
+  public static longPositionTokens = [Asset.DOC, Asset.USDT];
   public static pairs: Map<TradingPairType, TradingPair> = new Map<
     TradingPairType,
     TradingPair
   >([
     [
-      TradingPairType.BTC_DOC,
+      TradingPairType.BTC_USDT,
       new TradingPair(
         'BTC',
         // asset
         Asset.BTC,
         'Bitfinex:BTCUSD',
         // asset for long position
-        Asset.DOC,
+        Asset.USDT,
         // asset for sort position
         Asset.BTC,
-        [Asset.BTC, Asset.DOC],
-        [Asset.BTC, Asset.DOC],
+        [Asset.BTC, Asset.USDT, Asset.DOC],
+        [Asset.BTC, Asset.USDT, Asset.DOC],
       ),
     ],
     [
@@ -37,8 +39,8 @@ export class TradingPairDictionary {
         Asset.USDT,
         // asset for sort position
         Asset.BPRO,
-        [Asset.USDT, Asset.BPRO],
-        [Asset.USDT, Asset.BPRO],
+        [Asset.USDT, Asset.BPRO, Asset.DOC],
+        [Asset.USDT, Asset.BPRO, Asset.DOC],
       ),
     ],
   ]);

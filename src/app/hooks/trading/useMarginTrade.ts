@@ -3,10 +3,9 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
+import { TxType } from 'store/global/transactions-store/types';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { TxType } from '../../../store/global/transactions-store/types';
-import { useEffect } from 'react';
 
 export function useMarginTrade(
   asset: Asset,
@@ -24,14 +23,6 @@ export function useMarginTrade(
     getLendingContractName(asset),
     'marginTrade',
   );
-
-  useEffect(() => {
-    console.log({
-      loanTokenSent,
-      collateralTokenSent,
-      collateralToken,
-    });
-  }, [loanTokenSent, collateralTokenSent, collateralToken]);
 
   return {
     trade: (nonce?: number, approveTx?: string | null) =>

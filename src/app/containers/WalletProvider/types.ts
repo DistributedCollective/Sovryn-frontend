@@ -1,5 +1,7 @@
 /* --- STATE --- */
 
+import { Asset } from '../../../types/asset';
+
 export interface WalletProviderState {
   address: string;
   chainId: number;
@@ -11,6 +13,7 @@ export interface WalletProviderState {
   // todo ?
   transactions: any;
   transactionStack: string[];
+  assetRates: CachedAssetRate[];
   // whitelisting
   whitelist: IWhitelist;
 }
@@ -23,4 +26,13 @@ export interface IWhitelist {
   loaded: boolean;
   whitelisted: boolean;
   isDialogOpen: boolean;
+}
+
+export interface CachedAssetRate {
+  source: Asset;
+  target: Asset;
+  value: {
+    precision: string;
+    rate: string;
+  };
 }

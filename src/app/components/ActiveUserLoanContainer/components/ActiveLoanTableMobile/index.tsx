@@ -41,7 +41,6 @@ export function ActiveLoanTableMobile(props: Props) {
     return (
       <React.Fragment key={item.id}>
         <div
-          key={item.id}
           className={`row mobile-row ${!expanded && 'opaque'}`}
           onClick={() => {
             props.setExpandedId(props.expandedId === item.id ? '' : item.id);

@@ -1,10 +1,13 @@
-import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
+import { weiToFixed, weiTo18 } from '../blockchain/math-helpers';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
 }
 
 export function numberToUSD(value: number, decimals: number) {
+  if (value === null) {
+    return null;
+  }
   return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -43,19 +46,32 @@ export function stringToPercent(value, decimals) {
   })} %`;
 }
 
+// export function calculateProfit(
+//   c: string,
+//   s: string,
+//   currentPrice: number,
+//   isLong: boolean,
+// ): number {
+//   const collateral: number = parseFloat(fromWei(c));
+//   const startRate: number = parseFloat(fromWei(s));
+//   const collateralCurrentValue = isLong
+//     ? collateral * currentPrice
+//     : collateral;
+//   const collateralStartValue = isLong
+//     ? collateral * startRate
+//     : collateral * (currentPrice * startRate);
+//   return collateralCurrentValue - collateralStartValue;
+// }
+
 export function calculateProfit(
-  c: string,
-  s: string,
+  startPrice: number,
   currentPrice: number,
   isLong: boolean,
-): number {
-  const collateral: number = parseFloat(fromWei(c));
-  const startRate: number = parseFloat(fromWei(s));
-  const collateralCurrentValue = isLong
-    ? collateral * currentPrice
-    : collateral;
-  const collateralStartValue = isLong
-    ? collateral * startRate
-    : collateral * (currentPrice * startRate);
-  return collateralCurrentValue - collateralStartValue;
+  collateral: string,
+  startRate: string,
+) {
+  if (isLong) {
+    return (currentPrice - startPrice) / parseFloat(weiTo18(startRate));
+  }
+  return (startPrice - currentPrice) * parseFloat(weiTo18(startRate));
 }

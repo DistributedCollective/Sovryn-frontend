@@ -27,11 +27,9 @@ import {
 } from 'utils/display-text/format';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import {
-  CachedAssetRate,
-  usePriceFeeds_tradingPairRates,
-} from '../../../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { usePriceFeeds_tradingPairRates } from '../../../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
 
 interface Props {
   data: any;
@@ -61,24 +59,28 @@ export function ActiveLoanTableContainer(props: Props) {
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);
       const loanAsset = assetByTokenAddress(item.loanToken);
+      const collateralAsset = assetByTokenAddress(item.collateralToken);
 
-      const tradingPair = TradingPairDictionary.getByLoanAsset(loanAsset);
-
-      const currentPrice = parseFloat(
-        fromWei(
-          getAssetPrice(
-            tradingPair.getAsset(),
-            tradingPair.getLongAsset(),
-            items,
-          ),
-        ),
+      const isLong = TradingPairDictionary.longPositionTokens.includes(
+        loanAsset,
       );
+      const startPrice = formatAsBTCPrice(item.startRate, isLong);
+      const currentRate = parseFloat(
+        fromWei(getAssetPrice(loanAsset, collateralAsset, items)),
+      );
+      const currentPrice = isLong ? 1 / currentRate : currentRate;
 
-      const isLong = loanAsset === tradingPair.getLongAsset();
+      const profit = calculateProfit(
+        startPrice,
+        currentPrice,
+        isLong,
+        item.collateral,
+        item.startRate,
+      );
 
       return {
         id: item.loanId,
-        pair: AssetsDictionary.get(tradingPair.getAsset()).symbol,
+        pair: AssetsDictionary.get(loanAsset).symbol,
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
         positionSize: formatAsNumber(item.collateral, 4),
@@ -93,7 +95,7 @@ export function ActiveLoanTableContainer(props: Props) {
           ((item.interestOwedPerDay * 365) / item.principal) *
           100
         ).toFixed(2),
-        startPrice: formatAsBTCPrice(item.startRate, isLong),
+        startPrice,
         startRate: item.startRate,
         endDate: new Date(Number(item.endTimestamp) * 1e3).toLocaleString(
           'en-GB',
@@ -102,12 +104,8 @@ export function ActiveLoanTableContainer(props: Props) {
           },
         ),
         leverage: leverageFromMargin(item.startMargin),
-        profit: calculateProfit(
-          item.collateral,
-          item.startRate,
-          currentPrice,
-          isLong,
-        ),
+        profit:
+          isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
         liquidationPrice: (
           <ActiveLoanLiquidation
             asset={loanAsset}
@@ -116,7 +114,7 @@ export function ActiveLoanTableContainer(props: Props) {
             isLong={isLong}
           />
         ),
-        currentPrice: currentPrice,
+        currentPrice,
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         mobileActions: (
           <div className="d-flex flex-row flex-nowrap justify-content-around">
