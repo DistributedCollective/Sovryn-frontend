@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FastBTCTutorialComponent } from '../component';
-import * as storage from 'utils/storage';
 import { useAccount, useIsConnected } from '../../../hooks/useAccount';
 
 export function FastBTCTutorialDialog() {
