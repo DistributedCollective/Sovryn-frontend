@@ -287,6 +287,15 @@
       "6": "Click Add Network",
       "7": "Engage Your Wallet!"
     },
+    "mobileSpeech": {
+      "1": "Go to Wallet Menu",
+      "2": "Select Settings",
+      "3": "Select Networks",
+      "4": "Click Add Network",
+      "5": "Input Network Settings",
+      "6": "Click Add",
+      "7": "Scan QR Code to Connect!"
+    },
     "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
     "input_settings": {
       "title": "RSK Network Settings",
@@ -313,6 +322,51 @@
       "3": {
         "title": "Scan QR Code",
         "banner": "For any assistance, reach out to the community"
+      },
+      "4": {
+        "title": "Connect With Mobile Wallet",
+        "banner": "For any assistance, reach out to the community"
+      }
+    }
+  },
+  "mobileNotReady": {
+    "submit": "Submit",
+    "p1": "The Sovryn user experience is not yet optimized for mobile.",
+    "p2": "Register your email to hear when our mobile version is ready!",
+    "p3": "Until then, why not try the desktop version?",
+    "errorText": "Error submitting form",
+    "success": "Success!",
+    "successText": "We will contact you as soon as Sovryn Mobile is live."
+  },
+  "fastBTC": {
+    "screens": {
+      "1": {
+        "title": "You Are Connected!",
+        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
+        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
+        "createAddress": "Create Address"
+      },
+      "2": {
+        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
+        "depositRequirements": "Deposit requirements",
+        "fee": "Fee",
+        "feeExplainer": "Deducted from transaction amount",
+        "important": "Important",
+        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
+        "important2": "Please allow upto 15 mins for the transaction to process",
+        "contactUs": "For support please join us on",
+        "txDetected": "Transaction detected"
+      },
+      "3": {
+        "txDetails": "Transaction Details",
+        "txHash": "Transaction hash",
+        "from": "From wallet",
+        "to": "To wallet",
+        "amount": "Amount transacted",
+        "fee": "Fee",
+        "initiated": "Initiated",
+        "status": "Status",
+        "estimated": "Estimated Time"
       }
     }
   },
