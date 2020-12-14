@@ -67,34 +67,33 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 2742633,
   },
-  // start non-mainnet yet //
   USDT_token: {
-    address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
+    address: '0xEf213441a85DF4d7acBdAe0Cf78004E1e486BB96',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
   USDT_lending: {
-    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    address: '0x849C47f9C259E9D62F289BF1b2729039698D8387',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
   USDT_amm: {
-    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
+    address: '0x448c2474b255576554EeD36c24430ccFac131cE3',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
   BPRO_token: {
-    address: '0x440cd83C160de5C96DDb20246815EA44C7Abbca8',
+    address: '0x440cd83c160de5c96ddb20246815ea44c7abbca8',
     abi: TestTokenABI,
     blockNumber: 1764667,
   },
   BPRO_lending: {
-    address: '0x6226b4B3F29Ecb5f9EEC3eC3391488173418dD5d',
+    address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
   BPRO_amm: {
-    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
+    address: '0x26463990196B74aD5644865E4d4567E4A411e065',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },

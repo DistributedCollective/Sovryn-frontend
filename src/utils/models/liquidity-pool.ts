@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from '../dictionaries/assets-dictionary';
 import { AssetDetails } from './asset-details';
+import { currentNetwork } from '../classifiers';
 
 export class LiquidityPool {
   private _assetDetails: AssetDetails;
@@ -29,7 +30,7 @@ export class LiquidityPool {
 
 export class LiquidityPoolSupplyAsset {
   private _assetDetails: AssetDetails;
-  constructor(private _asset: Asset, private _poolTokenAddress: string) {
+  constructor(private _asset: Asset, private _poolTokens: LiquidityPoolTokens) {
     this._assetDetails = AssetsDictionary.get(this._asset);
   }
   public getAsset() {
@@ -39,6 +40,16 @@ export class LiquidityPoolSupplyAsset {
     return this._assetDetails;
   }
   public getContractAddress() {
-    return this._poolTokenAddress;
+    if (this._poolTokens.hasOwnProperty(currentNetwork)) {
+      return this._poolTokens[currentNetwork];
+    }
+    throw new Error(
+      'Pool token is not defined for ' + this._asset + ' on ' + currentNetwork,
+    );
   }
+}
+
+export interface LiquidityPoolTokens {
+  mainnet: string;
+  testnet: string;
 }

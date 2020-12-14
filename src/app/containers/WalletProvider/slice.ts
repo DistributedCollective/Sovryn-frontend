@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState } from './types';
+import { CachedAssetRate, ContainerState } from './types';
 import { currentChainId } from '../../../utils/classifiers';
 
 // The initial state of the WalletConnector container
@@ -24,6 +24,7 @@ export const initialState: ContainerState = {
     whitelisted: false,
     isDialogOpen: false,
   },
+  assetRates: [],
 };
 
 const walletProviderSlice = createSlice({
@@ -97,6 +98,9 @@ const walletProviderSlice = createSlice({
     },
     whitelistDialog(state, { payload }: PayloadAction<boolean>) {
       state.whitelist.isDialogOpen = payload;
+    },
+    setPrices(state, { payload }: PayloadAction<CachedAssetRate[]>) {
+      state.assetRates = payload;
     },
   },
 });

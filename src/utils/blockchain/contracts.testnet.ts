@@ -63,7 +63,7 @@ export const contracts = {
     blockNumber: 1218721,
   },
   DOC_amm: {
-    address: '0x3ED5C55D08F75488736fb4A2e512698E71251cf0',
+    address: '0x497b0517dd24f66c456e93bc0adbb2a2bf159ec4',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },

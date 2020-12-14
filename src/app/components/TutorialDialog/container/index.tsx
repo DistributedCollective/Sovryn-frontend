@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { TutorialDialogComponent } from '../component';
+import { MobileNotReady } from '../mobileNotReady';
 import { currentChainId } from 'utils/classifiers';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import * as storage from 'utils/storage';
@@ -54,7 +55,7 @@ export function TutorialDialog() {
     } else {
       body.classList.remove('overflow-hidden');
     }
-  });
+  }, [show]);
 
   function handleClose() {
     const walletConectModal = document.getElementById('walletconnect-wrapper');
@@ -70,13 +71,18 @@ export function TutorialDialog() {
   return (
     <>
       {show && (
-        <div className="d-none d-md-block">
-          <TutorialDialogComponent
-            handleClose={handleClose}
-            onNetwork={onNetwork}
-            handleEngage={handleEngage}
-          />
-        </div>
+        <>
+          <div className="d-none d-md-block">
+            <TutorialDialogComponent
+              handleClose={handleClose}
+              onNetwork={onNetwork}
+              handleEngage={handleEngage}
+            />
+          </div>
+          <div className="d-block d-md-none">
+            <MobileNotReady />
+          </div>
+        </>
       )}
     </>
   );

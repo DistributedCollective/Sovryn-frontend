@@ -23,8 +23,8 @@ import {
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { TradeProfit } from '../../components/TradeProfit';
-import { useSelector } from 'react-redux';
-import { selectEventsState } from '../../../store/global/events-store/selectors';
+import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
+import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 type EventType = 'buy' | 'sell';
 
@@ -60,8 +60,9 @@ function normalizeEvent(event: EventData): CustomEvent {
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
     event.returnValues.collateralToken,
   ).asset;
-  const position =
-    loanToken === Asset.DOC ? TradingPosition.LONG : TradingPosition.SHORT;
+  const position = TradingPairDictionary.longPositionTokens.includes(loanToken)
+    ? TradingPosition.LONG
+    : TradingPosition.SHORT;
   const loanId = event.returnValues.loanId;
   switch (event.event) {
     default:
@@ -167,16 +168,12 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 export function TradingHistory() {
   const { t } = useTranslation();
   const account = useAccount();
-  const eventsState = useSelector(selectEventsState);
 
-  const tradeStates = eventsState[account]?.['sovrynProtocol']?.Trade || {
-    events: [],
-    loading: false,
-  };
-  const closeStates = eventsState[account]?.['sovrynProtocol']
-    ?.CloseWithSwap || { events: [], loading: false };
-
-  console.log('trades:', tradeStates.events);
+  const tradeStates = useGetContractPastEvents('sovrynProtocol', 'Trade');
+  const closeStates = useGetContractPastEvents(
+    'sovrynProtocol',
+    'CloseWithSwap',
+  );
 
   const loading = tradeStates.loading || closeStates.loading;
 
@@ -187,8 +184,6 @@ export function TradingHistory() {
       const mergedEvents = [...closeEvents, ...tradeEvents].sort(
         (a, b) => b.blockNumber - a.blockNumber,
       );
-
-      console.log('merged:', mergedEvents);
 
       const items: { [key: string]: CustomEvent[] } = {};
       mergedEvents.forEach(item => {
@@ -212,7 +207,6 @@ export function TradingHistory() {
         }
       });
 
-      console.log('close entries', closeEntries);
       setEvents(closeEntries);
     },
     [],
@@ -260,20 +254,23 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
     return props.items.map(item => {
       return {
         item: item,
-        icon:
-          item.loanToken === Asset.DOC ? (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleUp}
-              className="text-customTeal ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleDown}
-              className="text-Gold ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ),
+        icon: (
+          <>
+            {item.position === TradingPosition.LONG ? (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleUp}
+                className="text-customTeal ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleDown}
+                className="text-Gold ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            )}
+          </>
+        ),
         leverage: `${weiToFixed(item.leverage, 1)}x`,
         positionSize: (
           <Tooltip content={weiTo18(item.positionSize)}>
