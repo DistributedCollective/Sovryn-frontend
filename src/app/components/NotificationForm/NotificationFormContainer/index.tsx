@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
@@ -17,18 +17,13 @@ export function NotificationForm() {
 
   const walletAddress = useAccount();
   const emptyUser = {
+    user_address: '',
     email: '',
-    id: 0,
-    attributes: {
-      'DOUBLE_OPT-IN': '',
-      NAME: '',
-      WALLET_ADDRESS: '',
-    },
-    createdAt: '',
-    emailBlacklisted: false,
-    listIds: [],
-    modifiedAt: '',
-    smsBlacklisted: false,
+    name: '',
+    first_transaction: '',
+    marketing: true,
+    notifications: true,
+    referred_by: '',
   };
 
   const [response, setResponse] = useState('');
@@ -60,69 +55,44 @@ export function NotificationForm() {
     }
   };
 
-  //ADD USER
-  const addUser = e => {
-    e.preventDefault();
-    setResponse('pending');
-    const newUser = {
-      name: state.name,
-      email: state.email,
-      walletAddress: walletAddress,
-      doubleOptIn: false,
-      preferences: {
-        marketing: state.marketing,
-        notifications: true,
-      },
-    };
-    axios
-      .post(mailSrv + 'addUser', newUser)
-      .then(res => {
-        setResponse('success');
-      })
-      .catch(e => {
-        console.log('error on adding user');
-        console.log(e);
-        setResponse('error');
-      });
-  };
-
   //SET VALUES IN UPDATE FORM
   useEffect(() => {
-    if (foundUser.email && foundUser.attributes.NAME) {
-      dispatch({ field: 'name', value: foundUser.attributes.NAME });
+    if (foundUser && foundUser.email && foundUser.name) {
+      dispatch({ field: 'name', value: foundUser.name });
       dispatch({ field: 'email', value: foundUser.email });
+      dispatch({ field: 'marketing', value: foundUser.marketing });
     }
   }, [foundUser]);
 
-  //UPDATE USER
-  const updateUser = e => {
+  //UPDATE OR ADD USER
+  const addUser = (e, formType) => {
     e.preventDefault();
     setResponse('pending');
 
     const timestamp = new Date();
 
-    const updatedUser = {
-      name: foundUser.attributes.NAME,
-      newName: name !== foundUser.attributes.NAME ? name : null,
-      email: foundUser.email,
-      newEmail: email !== foundUser.email ? email : null,
+    const newUser = {
+      name: state.name,
+      email: state.email,
       walletAddress: walletAddress,
+      marketing: state.marketing,
+      notifications: true,
     };
 
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
+    const route = formType === 'signup' ? 'addUser' : 'updateUser';
 
     Sovryn.getWriteWeb3()
       .eth.personal.sign(message, walletAddress, '')
       .then(res =>
         axios
-          .post(mailSrv + 'updateUser', {
-            ...updatedUser,
+          .post(mailSrv + route, {
+            ...newUser,
             signedMessage: res,
             message: message,
           })
           .then(res => {
             setResponse('success');
-            console.log(res.data);
           })
           .catch(e => {
             setResponse('error');
@@ -131,8 +101,7 @@ export function NotificationForm() {
       );
   };
 
-  //GET USER
-  useEffect(() => {
+  const getUser = useCallback(() => {
     setLoading(true);
     if (walletAddress) {
       axios
@@ -140,7 +109,7 @@ export function NotificationForm() {
           walletAddress: walletAddress,
         })
         .then(res => {
-          setFoundUser(res.data);
+          setFoundUser(res.data[0]);
           setLoading(false);
         })
         .catch(e => {
@@ -149,31 +118,37 @@ export function NotificationForm() {
         });
     } else {
       setFoundUser({
+        user_address: '',
         email: '',
-        id: 0,
-        attributes: {
-          'DOUBLE_OPT-IN': '',
-          NAME: '',
-          WALLET_ADDRESS: '',
-        },
-        createdAt: '',
-        emailBlacklisted: false,
-        listIds: [],
-        modifiedAt: '',
-        smsBlacklisted: false,
+        name: '',
+        first_transaction: '',
+        marketing: true,
+        notifications: true,
+        referred_by: '',
       });
       setLoading(false);
     }
-  }, [walletAddress, mailSrv]);
+  }, [mailSrv, walletAddress]);
+
+  //GET USER
+  useEffect(() => {
+    getUser();
+  }, [walletAddress, mailSrv, getUser]);
+
+  function resetForm() {
+    setLoading(true);
+    setShowForm(false);
+    setResponse('');
+    getUser();
+    setLoading(false);
+  }
 
   return (
     <>
       <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
-            foundUser.email
-              ? 'Update email settings'
-              : 'Get email notifications'
+            foundUser ? 'Update email settings' : 'Get email notifications'
           }`}
           onClick={() => setShowForm(true)}
         />
@@ -181,14 +156,14 @@ export function NotificationForm() {
       <CustomDialog
         show={showForm}
         title="Email Notifications"
-        onClose={() => setShowForm(false)}
+        onClose={() => resetForm()}
         content={
           <div>
             {loading || response === 'pending' ? (
               <div className="bp3-skeleton">&nbsp;</div>
             ) : (
               <div>
-                {!foundUser.email && response !== 'success' && (
+                {response !== 'success' && (
                   <NotificationFormComponent
                     name={name}
                     email={email}
@@ -196,30 +171,17 @@ export function NotificationForm() {
                     response={response}
                     onSubmit={addUser}
                     onChange={onChange}
-                    formType="signup"
+                    formType={foundUser ? 'update' : 'signup'}
                   />
                 )}
-
-                {foundUser.email && response !== 'success' && (
-                  <NotificationFormComponent
-                    name={name}
-                    email={email}
-                    marketing={state.marketing}
-                    response={response}
-                    onSubmit={updateUser}
-                    onChange={onChange}
-                    formType="update"
-                  />
-                )}
-
-                {response === 'success' && !foundUser.email && (
+                {response === 'success' && !foundUser && (
                   <div>
-                    Check your inbox for an email from us, click the link, and
-                    you will be signed up for email notifications!
+                    You will now receive email notifications about margin calls
+                    and liquidated positions.
                   </div>
                 )}
 
-                {response === 'success' && foundUser.email && (
+                {response === 'success' && foundUser && (
                   <div>Your details have been updated.</div>
                 )}
               </div>
