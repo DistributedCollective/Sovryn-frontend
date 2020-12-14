@@ -4,6 +4,7 @@ import {
   Button as IconButton,
   Icon,
   Menu,
+  MenuDivider,
   MenuItem,
   Popover,
   Spinner,
@@ -17,13 +18,14 @@ import { Sovryn } from 'utils/sovryn';
 import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 type Props = {};
 
 const WalletConnectorContainer: React.FC<Props> = props => {
   const { connected, connecting, address } = useSelector(selectWalletProvider);
   const { t } = useTranslation();
+  const history = useHistory();
 
   const handleWalletConnection = useCallback(() => {
     Sovryn.connect()
@@ -65,22 +67,34 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               />
             </span>
           </div>
-          <StyledButton className="d-xl-none">
-            <Popover
-              content={
-                <Menu>
-                  <MenuItem icon="user" text={prettyTx(address)} />
-                  <MenuItem
-                    icon="log-out"
-                    text={t(translations.wallet.disconnect)}
-                    onClick={handleDisconnect}
-                  />
-                </Menu>
-              }
-            >
+          <Popover
+            content={
+              <Menu>
+                <MenuItem icon="user" text={prettyTx(address)} />
+                <MenuDivider />
+                <MenuItem
+                  icon="briefcase"
+                  text={t(translations.wallet.my_wallet)}
+                  onClick={() => history.push('/wallet')}
+                />
+                <MenuItem
+                  icon="people"
+                  text={t(translations.wallet.referrals)}
+                  onClick={() => history.push('/referrals')}
+                />
+                <MenuDivider />
+                <MenuItem
+                  icon="log-out"
+                  text={t(translations.wallet.disconnect)}
+                  onClick={handleDisconnect}
+                />
+              </Menu>
+            }
+          >
+            <StyledButton className="d-xl-none">
               <Icon icon="user" />
-            </Popover>
-          </StyledButton>
+            </StyledButton>
+          </Popover>
         </div>
       )}
       <NavLink
@@ -103,7 +117,7 @@ const StyledButton = styled.button.attrs(_ => ({
   color: var(--white);
   width: 48px;
   height: 48px;
-  text-align: right;
+  text-align: center;
   ${media.xl`
   text-align: inherit;
   background: #171717;

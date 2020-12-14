@@ -128,6 +128,13 @@
         <div class="sv-loading-text">is loading...</div>
       </div>
     </div>
+    <script type="text/javascript">
+      try {
+        window.ethereum.autoRefreshOnNetworkChange = false;
+      } catch (e) {
+        console.warn(e);
+      }
+    </script>
 
     <% if (process.env.REACT_APP_YBUG_ID) { %>
     <!-- Ybug code start (https://ybug.io) -->

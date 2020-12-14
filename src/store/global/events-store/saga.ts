@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { actions as walletActions } from 'app/containers/WalletProvider/slice';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -48,6 +49,7 @@ function* preloadUserEvents({ payload }: PayloadAction<string>) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function* preloadNewUserEvents() {
   const { address } = yield select(selectWalletProvider);
   if (!address) {
@@ -59,6 +61,7 @@ function* preloadNewUserEvents() {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
   try {
     const state = yield select(selectEventsState);
@@ -88,7 +91,7 @@ function* preloadUserEvent({ payload }: PayloadAction<LoadEventsParams>) {
 }
 
 export function* eventsStateSaga() {
-  yield takeLatest(walletActions.accountChanged.type, preloadUserEvents);
-  yield takeEvery(actions.loadEvents.type, preloadUserEvent);
-  yield takeEvery(walletActions.blockReceived.type, preloadNewUserEvents);
+  // yield takeLatest(walletActions.accountChanged.type, preloadUserEvents);
+  // yield takeEvery(actions.loadEvents.type, preloadUserEvent);
+  // yield takeEvery(walletActions.blockReceived.type, preloadNewUserEvents);
 }

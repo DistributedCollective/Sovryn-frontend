@@ -34,7 +34,6 @@ export class SovrynNetwork {
   private _providerOptions: IProviderOptions = {
     walletconnect: {
       display: {
-        // logo: 'data:image/gif;base64,INSERT_BASE64_STRING',
         name: 'Mobile',
         description: 'Scan qrcode with your mobile wallet',
       },

@@ -111,7 +111,9 @@
   "wallet": {
     "btn": "Connect Wallet",
     "connect_btn": "Engage wallet",
-    "disconnect": "Disconnect"
+    "disconnect": "Disconnect",
+    "my_wallet": "My Wallet",
+    "referrals": "Refer a friend"
   },
   "hintDialog": {
     "title": "Sovryn Tips"
