@@ -81,7 +81,9 @@ const walletProviderSlice = createSlice({
       console.error('block failed');
     },
     blockReceived(state, action: PayloadAction<any>) {
-      state.blockNumber = action.payload.number;
+      if (action.payload.number < state.blockNumber) {
+        state.blockNumber = action.payload.number;
+      }
     },
 
     processBlock(state, action: PayloadAction<any>) {},
