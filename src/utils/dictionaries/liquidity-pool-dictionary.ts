@@ -12,40 +12,40 @@ export class LiquidityPoolDictionary {
     [
       Asset.DOC,
       new LiquidityPool(Asset.DOC, [
-        new LiquidityPoolSupplyAsset(
-          Asset.DOC,
-          '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
-        ),
-        new LiquidityPoolSupplyAsset(
-          Asset.BTC,
-          '0x7F433CC76298bB5099c15C1C7C8f2e89A8370111',
-        ),
+        new LiquidityPoolSupplyAsset(Asset.DOC, {
+          mainnet: '0x2dc80332C19FBCd5169ab4a579d87eE006Cb72c0',
+          testnet: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.BTC, {
+          mainnet: '0x840437BdE7346EC13B5451417Df50586F4dAF836',
+          testnet: '0x7F433CC76298bB5099c15C1C7C8f2e89A8370111',
+        }),
       ]),
     ],
     [
       Asset.USDT,
       new LiquidityPool(Asset.USDT, [
-        new LiquidityPoolSupplyAsset(
-          Asset.USDT,
-          '0x7274305BB36d66F70cB8824621EC26d52ABe9069',
-        ),
-        new LiquidityPoolSupplyAsset(
-          Asset.BTC,
-          '0xfFBBF93Ecd27C8b500Bd35D554802F7F349A1E9B',
-        ),
+        new LiquidityPoolSupplyAsset(Asset.USDT, {
+          mainnet: '',
+          testnet: '0x7274305BB36d66F70cB8824621EC26d52ABe9069',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.BTC, {
+          mainnet: '',
+          testnet: '0xfFBBF93Ecd27C8b500Bd35D554802F7F349A1E9B',
+        }),
       ]),
     ],
     [
       Asset.BPRO,
       new LiquidityPool(Asset.BPRO, [
-        new LiquidityPoolSupplyAsset(
-          Asset.BPRO,
-          '0xdaf6FD8370f5245d98E829c766e008cd39E8F060',
-        ),
-        new LiquidityPoolSupplyAsset(
-          Asset.BTC,
-          '0x98e5F39D8C675972A66ea165040Cb81803c440A3',
-        ),
+        new LiquidityPoolSupplyAsset(Asset.BPRO, {
+          mainnet: '',
+          testnet: '0xdaf6FD8370f5245d98E829c766e008cd39E8F060',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.BTC, {
+          mainnet: '',
+          testnet: '0x98e5F39D8C675972A66ea165040Cb81803c440A3',
+        }),
       ]),
     ],
   ]);
