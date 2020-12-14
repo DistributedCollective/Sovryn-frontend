@@ -1,8 +1,8 @@
 import { toWei } from 'web3-utils';
-import { currentChainId } from '../classifiers';
+import { currentNetwork } from '../classifiers';
 
 class TransferApproveAmount {
-  private isUnlimited: boolean = currentChainId !== 31;
+  private isUnlimited: boolean = currentNetwork === 'mainnet';
   public set(unlimited: boolean): void {
     this.isUnlimited = unlimited;
   }
