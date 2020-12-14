@@ -77,9 +77,8 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  // todo add
   USDT_amm: {
-    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
+    address: '0x448c2474b255576554EeD36c24430ccFac131cE3',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
@@ -93,9 +92,8 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  // todo add
   BPRO_amm: {
-    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
+    address: '0x26463990196B74aD5644865E4d4567E4A411e065',
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },

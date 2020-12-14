@@ -26,11 +26,11 @@ export class LiquidityPoolDictionary {
       Asset.USDT,
       new LiquidityPool(Asset.USDT, [
         new LiquidityPoolSupplyAsset(Asset.USDT, {
-          mainnet: '',
+          mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
           testnet: '0x7274305BB36d66F70cB8824621EC26d52ABe9069',
         }),
         new LiquidityPoolSupplyAsset(Asset.BTC, {
-          mainnet: '',
+          mainnet: '0x9c4017D1C04cFa0F97FDc9505e33a0D8ac84817F',
           testnet: '0xfFBBF93Ecd27C8b500Bd35D554802F7F349A1E9B',
         }),
       ]),
@@ -39,11 +39,11 @@ export class LiquidityPoolDictionary {
       Asset.BPRO,
       new LiquidityPool(Asset.BPRO, [
         new LiquidityPoolSupplyAsset(Asset.BPRO, {
-          mainnet: '',
+          mainnet: '0x9CE25371426763025C04a9FCd581fbb9E4593475',
           testnet: '0xdaf6FD8370f5245d98E829c766e008cd39E8F060',
         }),
         new LiquidityPoolSupplyAsset(Asset.BTC, {
-          mainnet: '',
+          mainnet: '0x75e327A83aD2BFD53da12EB718fCCFC68Bc57535',
           testnet: '0x98e5F39D8C675972A66ea165040Cb81803c440A3',
         }),
       ]),
