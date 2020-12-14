@@ -151,9 +151,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   <td>{item.interestAPR} %</td>
                   <td>{numberToUSD(item.startPrice, 2)}</td>
                   <td
-                    className={`${
-                      item.marginDiff > 0 ? 'text-green' : 'text-red'
-                    }`}
+                    className={`${item.profit > 0 ? 'text-green' : 'text-red'}`}
                   >
                     {numberToUSD(item.profit, 4)}
                   </td>

@@ -1,24 +1,16 @@
 import { Asset } from 'types/asset';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-
-export interface CachedAssetRate {
-  source: Asset;
-  target: Asset;
-  value: {
-    precision: string;
-    rate: string;
-  };
-}
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { CachedAssetRate } from '../../containers/WalletProvider/types';
+import { actions } from 'app/containers/WalletProvider/slice';
 
 export function usePriceFeeds_tradingPairRates() {
-  const { syncBlockNumber } = useSelector(selectWalletProvider);
-
-  const [cache, setCache] = useState<CachedAssetRate[]>([]);
+  const { syncBlockNumber, assetRates } = useSelector(selectWalletProvider);
+  const dispatch = useDispatch();
 
   const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
     return contractReader.call('priceFeed', 'queryRate', [
@@ -28,23 +20,31 @@ export function usePriceFeeds_tradingPairRates() {
   }, []);
 
   const getRates = useCallback(async () => {
-    const pairs = TradingPairDictionary.list();
+    const assets = AssetsDictionary.list().map(item => item.asset);
     const items: CachedAssetRate[] = [];
-    for (let i = 0; i < pairs.length; i++) {
-      const pair = pairs[i];
-      const result = await getRate(pair.getAsset(), pair.getLongAsset());
-      items.push({
-        source: pair.getAsset(),
-        target: pair.getLongAsset(),
-        value: result as any,
-      });
+    for (let i = 0; i < assets.length; i++) {
+      const source = assets[i];
+      for (let l = 0; l < assets.length; l++) {
+        const target = assets[l];
+        if (target === source) {
+          continue;
+        }
+        const result = await getRate(source, target);
+        items.push({
+          source,
+          target,
+          value: result as any,
+        });
+      }
     }
     return items;
   }, [getRate]);
 
   useEffect(() => {
-    getRates().then(setCache).catch(console.error);
-  }, [getRates, syncBlockNumber]);
+    getRates()
+      .then(e => dispatch(actions.setPrices(JSON.parse(JSON.stringify(e)))))
+      .catch(console.error);
+  }, [dispatch, getRates, syncBlockNumber]);
 
-  return cache;
+  return assetRates;
 }

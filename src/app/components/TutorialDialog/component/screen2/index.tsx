@@ -13,7 +13,7 @@ import rightBox from 'assets/images/tutorial/right_box.svg';
 import badgerBody from 'assets/images/tutorial/badger_body.svg';
 import crater from 'assets/images/tutorial/crater.svg';
 import { Icon } from '@blueprintjs/core';
-import { useContent } from '../../../hooks/tutorial/useContent';
+import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 interface Props {
