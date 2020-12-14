@@ -4,8 +4,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
-import { Dialog } from '@blueprintjs/core';
+import React, { useEffect, useState } from 'react';
 import { ActiveLoan } from '../../hooks/trading/useGetActiveLoans';
 import { FormSelect } from '../../components/FormSelect';
 import { SendTxProgress } from '../../components/SendTxProgress';
@@ -15,7 +14,12 @@ import { useAccount } from '../../hooks/useAccount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { handleNumberInput } from '../../../utils/helpers';
+import { Dialog } from '../Dialog/Loadable';
+import { DummyField } from '../../components/DummyField';
+import { AmountField } from '../AmountField';
+import { DialogButton } from '../../components/DialogButton';
+import { AssetWalletBalance } from '../../components/AssetWalletBalance';
+import { Asset } from '../../../types/asset';
 
 interface Props {
   item: ActiveLoan;
@@ -38,11 +42,15 @@ export function CloseTradingPositionHandler(props: Props) {
 
   const [amount, setAmount] = useState<string>();
   const [isCollateral, setIsCollateral] = useState(false);
-  const [options] = useState(getOptions(props.item));
+  const [options, setOptions] = useState(getOptions(props.item));
 
   useEffect(() => {
     setAmount(weiTo18(props.item.collateral));
   }, [props.item.collateral]);
+
+  useEffect(() => {
+    setOptions(getOptions(props.item));
+  }, [props.item]);
 
   const weiAmount = useWeiAmount(amount);
 
@@ -63,44 +71,33 @@ export function CloseTradingPositionHandler(props: Props) {
   const withdrawAll = amount === weiTo18(props.item.collateral);
 
   return (
-    <Dialog
-      isOpen={props.showModal}
-      className="bg-component-bg p-3 border border-Red"
-    >
+    <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="container position-relative">
-        <div
-          className="position-absolute"
-          style={{ top: '0', right: '0', fontSize: '12px', cursor: 'pointer' }}
-          onClick={props.onCloseModal}
-        >
-          <u>Close</u> X
-        </div>
-
-        <div className="text-customTeal text-center mt-4 modal-title">
+        <h4 className="text-teal text-center mb-5 text-uppercase">
           {!!props.item.loanId ? 'Liquidate position' : 'Position liquidated'}
-        </div>
+        </h4>
 
         {!!props.item.loanId && (
           <>
-            <div className="d-flex flex-row mt-3">
-              <div className="">
-                <div className="data-label">Position Size</div>
+            <div className="row d-flex flex-row flex-nowrap align-items-center">
+              <div className="col-4 col-lg-4 flex-grow-0 text-muted">
+                Position size
               </div>
-              <div className="flex-grow-1 mx-2">
-                <div className="data-container">
-                  {weiTo18(props.item.collateral)}
-                </div>
-              </div>
-              <div className="data-container">
-                {symbolByTokenAddress(props.item.collateralToken)}
+              <div className="col flex-grow-1">
+                <DummyField>
+                  <span className="d-flex w-100 flex-row justify-content-between align-items-center">
+                    <span>{weiTo18(props.item.collateral)}</span>
+                    <span className="text-muted">
+                      {symbolByTokenAddress(props.item.collateralToken)}
+                    </span>
+                  </span>
+                </DummyField>
               </div>
             </div>
-            <div className="d-flex flex-row mt-3">
-              <div className="data-label">Withdraw in</div>
-              <div className="data-label flex-grow-1 mx-3">Withdraw amount</div>
-            </div>
-            <div className="d-flex flex-row mt-0 mb-2">
-              <div className="data-container py-0 d-flex align-items-center">
+
+            <div className="mt-3 text-muted">Withdraw in</div>
+            <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
+              <div className="col-4 col-lg-4 flex-grow-0">
                 <FormSelect
                   filterable={false}
                   items={options}
@@ -108,54 +105,28 @@ export function CloseTradingPositionHandler(props: Props) {
                   value={isCollateral}
                 />
               </div>
-              <div className="flex-grow-1 mx-2">
-                <div className="data-container">
-                  <input
-                    className="w-100"
-                    value={amount}
-                    onChange={e => setAmount(handleNumberInput(e))}
-                    placeholder="Enter amount"
-                  />
-                </div>
+              <div className="col flex-grow-1 flex-shrink-0">
+                <AmountField
+                  value={amount || ''}
+                  onChange={value => setAmount(value)}
+                  onMaxClicked={() => setAmount(weiTo18(props.item.collateral))}
+                />
               </div>
-              <div className="data-container">
-                {symbolByTokenAddress(props.item.collateralToken)}
-              </div>
-            </div>
-            <div className="row">
-              <button
-                className="btn btn-small text-sm btn-TabGrey ml-auto mr-3"
-                onClick={() => setAmount(weiTo18(props.item.collateral))}
-              >
-                MAX
-              </button>
             </div>
           </>
         )}
 
-        {/* To do */}
-        <div className="mb-4">
-          <SendTxProgress
-            status={rest.status}
-            txHash={rest.txHash}
-            loading={rest.loading}
-            type={'trade_close'}
-            displayAbsolute={false}
-          />
-        </div>
+        <SendTxProgress {...rest} displayAbsolute={false} />
 
         {!!props.item.loanId && (
-          <div className="row">
-            <div className="col-6" />
-            <div className="col-6">
-              <button
-                className="btn btn-customTeal text-white my-3 w-100 p-2 rounded"
-                disabled={rest.loading || !valid}
-                onClick={() => handleConfirmSwap()}
-              >
-                {withdrawAll ? 'Close Position' : 'Close Amount'}
-              </button>
-            </div>
+          <div className="mt-4 d-flex flex-row justify-content-between">
+            <AssetWalletBalance asset={Asset.BTC} />
+            <DialogButton
+              text={withdrawAll ? 'Close Position' : 'Close Amount'}
+              onClick={() => handleConfirmSwap()}
+              disabled={rest.loading || !valid}
+              loading={rest.loading}
+            />
           </div>
         )}
       </div>

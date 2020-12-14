@@ -5,8 +5,8 @@
  */
 import React from 'react';
 import { Asset } from 'types/asset';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-import { getLendingContractName } from '../../../utils/blockchain/contract-helpers';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { StatsRowData } from '../StatsRowData';
 
 interface Props {
@@ -20,7 +20,7 @@ export function StatsRow(props: Props) {
   return (
     <>
       <tr>
-        <td className="text-right">
+        <td className="text-left text-nowrap">
           <img
             className="d-inline"
             style={{ height: '40px' }}
@@ -30,49 +30,49 @@ export function StatsRow(props: Props) {
           <strong>{props.asset}</strong>
         </td>
 
-        <td className="text-right">
+        <td className="text-right text-nowrap">
           <StatsRowData
             contract={lendingContract}
             data="totalAssetSupply"
             displayType="normal"
-          />{' '}
-          <span className="text-lightGrey">{props.asset}</span>
+            prepend={props.asset}
+          />
         </td>
 
-        <td className="text-right">
+        <td className="text-right text-nowrap">
           <StatsRowData
             contract={lendingContract}
             data="totalAssetBorrow"
             displayType="normal"
-          />{' '}
-          <span className="text-lightGrey">{props.asset}</span>
+            prepend={props.asset}
+          />
         </td>
 
-        <td className="text-right">
+        <td className="text-right text-nowrap">
           <StatsRowData
             contract={lendingContract}
             data="marketLiquidity"
             displayType="normal"
-          />{' '}
-          <span className="text-lightGrey">{props.asset}</span>
+            prepend={props.asset}
+          />
         </td>
 
-        <td className="text-right">
+        <td className="text-right text-nowrap">
           <StatsRowData
             contract={lendingContract}
             data="supplyInterestRate"
             displayType="percentage"
+            prepend="%"
           />
-          <span className="text-lightGrey">%</span>
         </td>
 
-        <td className="text-right">
+        <td className="text-right text-nowrap">
           <StatsRowData
             contract={lendingContract}
             data="borrowInterestRate"
             displayType="percentage"
+            prepend="%"
           />
-          <span className="text-lightGrey">%</span>
         </td>
       </tr>
     </>

@@ -12,6 +12,8 @@ interface Props {
   txHash: string;
   startLength: number;
   endLength: number;
+  className: string;
+  realBtc?: boolean;
 }
 
 export function LinkToExplorer(props: Props) {
@@ -24,8 +26,15 @@ export function LinkToExplorer(props: Props) {
     return props.txHash;
   }, [props.txHash, props.startLength, props.endLength]);
 
+  const getUrl = useCallback(() => {
+    if (props.realBtc) {
+      return blockExplorers[`btc_${currentChainId}`];
+    }
+    return blockExplorers[currentChainId];
+  }, [props.realBtc]);
+
   const [txHash, setTxHash] = useState(handleTx());
-  const [url, setUrl] = useState(blockExplorers[currentChainId]);
+  const [url, setUrl] = useState(getUrl());
 
   const { chainId } = useSelector(selectWalletProvider);
 
@@ -34,12 +43,12 @@ export function LinkToExplorer(props: Props) {
   }, [handleTx, props.txHash, props.startLength, props.endLength]);
 
   useEffect(() => {
-    setUrl(blockExplorers[currentChainId]);
-  }, [chainId]);
+    setUrl(getUrl());
+  }, [chainId, getUrl]);
 
   return (
     <a
-      className="ml-1 text-white"
+      className={props.className}
       href={`${url}/tx/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
@@ -52,4 +61,5 @@ export function LinkToExplorer(props: Props) {
 LinkToExplorer.defaultProps = {
   startLength: 10,
   endLength: 4,
+  className: 'ml-1 text-white',
 };

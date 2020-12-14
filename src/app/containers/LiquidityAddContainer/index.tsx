@@ -4,128 +4,144 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
-import { Button, InputGroup, Text } from '@blueprintjs/core';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { bignumber } from 'mathjs';
+import { translations } from 'locales/i18n';
 import { FormSelect } from '../../components/FormSelect';
-import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useExpectedPoolTokens } from '../../hooks/amm/useExpectedPoolTokens';
 import { useApproveAndAddLiquidity } from '../../hooks/amm/useApproveAndAddLiquidity';
-import { LoadableValue } from '../../components/LoadableValue';
-import { liquidityPools } from '../../../utils/classifiers';
-import { handleNumberInput } from '../../../utils/helpers';
-import { useBalanceOf } from '../../hooks/erc20/useBalanceOf';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { FieldGroup } from '../../components/FieldGroup';
+import { AmountField } from '../AmountField';
+import { AssetWalletBalance } from '../../components/AssetWalletBalance';
+import { TradeButton } from '../../components/TradeButton';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
+import { useCanInteract } from '../../hooks/useCanInteract';
+import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { usePoolToken } from '../../hooks/amm/usePoolToken';
+import { ExpectedPoolTokens } from './ExpectedPoolTokens';
+
+const pools = LiquidityPoolDictionary.list();
+const poolList = pools.map(item => ({
+  key: item.getAsset(),
+  label: item.getAssetDetails().symbol,
+}));
 
 interface Props {}
 
 export function LiquidityAddContainer(props: Props) {
-  const tokens = liquidityPools.map(item => ({
-    key: item.source,
-    target: item.target,
-    label: item.label,
-  }));
+  const { t } = useTranslation();
+  const isConnected = useCanInteract();
 
+  const [pool, setPool] = useState(poolList[0].key);
+
+  const prepareTokens = useCallback(() => {
+    return LiquidityPoolDictionary.get(pool)
+      .getSupplyAssets()
+      .map(item => ({
+        key: item.getAssetDetails().asset,
+        label: item.getAssetDetails().symbol,
+      }));
+  }, [pool]);
+
+  const [tokens, setTokens] = useState(prepareTokens());
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
+
+  usePoolToken(pool, sourceToken);
+
   const [amount, setAmount] = useState('');
 
-  const balance = useBalanceOf(getTokenContractName(sourceToken));
+  const balance = useAssetBalanceOf(sourceToken);
   const weiAmount = useWeiAmount(amount);
 
-  const expectedPoolTokens = useExpectedPoolTokens(sourceToken, weiAmount);
-
-  const tx = useApproveAndAddLiquidity(sourceToken, weiAmount, '1');
+  const tx = useApproveAndAddLiquidity(pool, sourceToken, weiAmount, '1');
 
   const handleSupply = useCallback(() => {
     tx.deposit();
   }, [tx]);
 
   const handlePoolChange = useCallback(item => {
+    setPool(item.key);
+  }, []);
+
+  const handleTokenChange = useCallback(item => {
     setSourceToken(item.key);
   }, []);
 
+  useEffect(() => {
+    const _tokens = prepareTokens();
+    setTokens(_tokens);
+    if (!_tokens.find(i => i.key === sourceToken)) {
+      setSourceToken(_tokens[0].key);
+    }
+  }, [sourceToken, pool, prepareTokens]);
+
   const amountValid = () => {
-    return Number(weiAmount) > 0 && Number(weiAmount) <= Number(balance.value);
+    return (
+      bignumber(weiAmount).greaterThan(0) &&
+      bignumber(weiAmount).lessThanOrEqualTo(balance.value)
+    );
   };
 
+  const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
+
   return (
-    <div className="bg-secondary p-3">
-      <h3 className="mb-3">Add Liquidity</h3>
-      <div className="d-flex flex-row justify-content-between">
-        <div className="data-label">Amount</div>
-        <div className="flex-grow-1 mx-2 data-container">
-          <InputGroup
-            className="mb-0"
-            value={amount}
-            onChange={e => setAmount(handleNumberInput(e))}
-            placeholder="Enter amount"
-          />
-        </div>
-        <div className="data-container">
-          <FormSelect
-            filterable={false}
-            items={tokens}
-            onChange={handlePoolChange}
-            value={sourceToken}
-          />
-        </div>
-      </div>
-      <div className="d-flex flex-row justify-content-center">
-        {Number(weiAmount) > 0 &&
-          !balance.loading &&
-          Number(weiAmount) > Number(balance.value) && (
-            <div className="font-xs text-Gold">
-              Trade amount exceeds balance
-            </div>
-          )}
-      </div>
-      <div className="d-flex flex-row justify-content-between mt-3">
-        <div className="data-label">Balance</div>
-        <div className="flex-grow-1 data-container small mx-2">
-          <LoadableValue
-            loading={balance.loading}
-            value={<Text ellipsize>{weiTo18(balance.value)}</Text>}
-          />
-        </div>
-        <div className="small data-container">{sourceToken}</div>
-      </div>
-      <div className="border shadow my-3 p-3 bg-secondary">
+    <>
+      <div className="position-relative">
         <div className="row">
-          <div className="col">
-            <div className="font-weight-bold small">
-              <LoadableValue
-                loading={expectedPoolTokens.loading}
-                value={
-                  <Text ellipsize tagName="span">
-                    {weiTo4(expectedPoolTokens.value)}
-                  </Text>
-                }
-                tooltip={expectedPoolTokens.value}
+          <div className="col-lg-3 col-6">
+            <FieldGroup label={t(translations.liquidity.pool)}>
+              <FormSelect
+                onChange={handlePoolChange}
+                placeholder={t(translations.liquidity.poolSelect)}
+                value={pool}
+                items={poolList}
               />
-            </div>
-            <div className="small">Expected pool tokens</div>
+            </FieldGroup>
+          </div>
+          <div className="col-lg-3 col-6">
+            <FieldGroup label={t(translations.liquidity.currency)}>
+              <FormSelect
+                onChange={handleTokenChange}
+                placeholder={t(translations.liquidity.currencySelect)}
+                value={sourceToken}
+                items={tokens}
+              />
+            </FieldGroup>
+          </div>
+          <div className="col-lg-6 col-12">
+            <FieldGroup label={t(translations.liquidity.amount)}>
+              <AmountField
+                onChange={value => setAmount(value)}
+                onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+                value={amount}
+              />
+            </FieldGroup>
           </div>
         </div>
-      </div>
+        <ExpectedPoolTokens
+          pool={pool}
+          asset={sourceToken}
+          amount={weiAmount}
+        />
+        <div className="mt-3">
+          <SendTxProgress {...tx} displayAbsolute={false} />
+        </div>
 
-      <Button
-        text="Supply"
-        onClick={handleSupply}
-        loading={tx.loading}
-        disabled={tx.loading || !amountValid()}
-      />
-
-      {tx.type !== 'none' && (
-        <div className="mb-4">
-          <SendTxProgress
-            status={tx.status}
-            txHash={tx.txHash}
+        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+          <div className="mb-3 mb-lg-0">
+            <AssetWalletBalance asset={sourceToken} />
+          </div>
+          <TradeButton
+            text={t(translations.liquidity.supply)}
+            onClick={handleSupply}
             loading={tx.loading}
-            type={tx.type}
+            disabled={!isConnected || tx.loading || !amountValid()}
           />
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }

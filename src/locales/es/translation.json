@@ -1,0 +1,254 @@
+{
+  "title": "Sovryn",
+  "announcement": {
+    "message": "Como Sovryn se lanzó recientemente, actualmente hay un <0>límite de $21 </0>en todas las transacciones en la plataforma. Pronto aumentaremos este límite a $ 210. ¡Gracias por ser uno de los primeros en adoptar!"
+  },
+  "homePage": {
+    "title": "Página de inicio",
+    "meta": "Página de inicio de Sovryn",
+    "lend": "Prestar",
+    "trade": "Comercio"
+  },
+  "hintHowToConnect": {
+    "hintOne": "Antes de poder comerciar y prestar con Sovryn, debe conectarse a la red RSK.",
+    "hintTwo": "Obtenga instrucciones sobre cómo conectarse con <0>Metamask</0> o <1>Nifty</1> y luego conecte su billetera:"
+  },
+  "serviceWorkerToaster": {
+    "title": "Se actualizó la aplicación.",
+    "message": "Hay contenido nuevo disponible y se utilizará cuando todas las pestañas de esta página estén cerradas.",
+    "button": "Actualizar ahora"
+  },
+  "tradingActivity": {
+    "title": "Actividad comercial",
+    "walletNote": "Conecte su billetera primero!",
+    "tabs": {
+      "activeTrades": "Operaciones activas",
+      "tradingHistory": "Historial comercial"
+    }
+  },
+  "tradingPage": {
+    "meta": {
+      "title": "Comercio",
+      "description": "Comerciar con Sovryn."
+    },
+    "email": {
+      "optin": {
+        "title": "Correcto",
+        "text": "Ahora recibirá notificaciones por correo electrónico cuando sus posiciones estén a punto de liquidarse y si una posición ha sido liquidada. Puede optar por no recibirlas en cualquier momento"
+      },
+      "unsubscribe": {
+        "title": "Ya canceló su suscripción a las notificaciones por correo electrónico",
+        "text": "Ya no recibirá correos electrónicos sobre llamadas de margen o posiciones liquidadas. Puede volver a suscribirse a estas notificaciones en cualquier momento"
+      }
+    }
+  },
+  "tradingHistoryPage": {
+    "title": "Historial comercial",
+    "auth": "Por favor, conecte y autorice su billetera.",
+    "noClosedTrades": "No tiene operaciones cerradas."
+  },
+  "fastBtcPage": {
+    "meta": {
+      "title": "Fast-BTC",
+      "description": "Mueva su Bitcoin a la red RSK."
+    }
+  },
+  "fastBtcForm": {
+    "title": "Fast-BTC Relay",
+    "history": {
+      "title": "Historia",
+      "empty": "El historial está vacío.",
+      "walletHistory": "Ingrese la dirección de su billetera RSK para ver el historial.",
+      "loading": "Cargando ..."
+    },
+    "connect": "Conéctese a su billetera o simplemente ingrese la dirección de billetera encima de usted.",
+    "depositAdress": "Dirección de depósito BTC",
+    "toDepositWallet": "para depositar billetera",
+    "placeholder": "Su billetera RSK",
+    "waitingForDeposit": "Esperando depósito",
+    "exchanging": "Lo estamos intercambiando a rBTC ahora.",
+    "transfered": "se transfirió a su walllet RSK",
+    "swapAgain": "Cambiar de nuevo"
+  },
+  "tradeOrSwapTabs": {
+    "tabs": {
+      "trade": "Comercio",
+      "swap": "Intercambiar"
+    }
+  },
+  "marginTradeForm": {
+    "fields": {
+      "currency": "Moneda",
+      "currency_placeholder": "Elige moneda",
+      "amount": "Cantidad"
+    },
+    "buttons": {
+      "submit": "Comercio de lugar"
+    }
+  },
+  "swapTradeForm": {
+    "fields": {
+      "currency_placeholder": "Elige moneda",
+      "send": "Usted envía",
+      "receive": "Usted recibe"
+    },
+    "buttons": {
+      "submit": "Comercio de lugar"
+    }
+  },
+  "amountField": {
+    "placeholder": "Ingrese monto",
+    "btn_max": "Max"
+  },
+  "wallet": {
+    "btn": "Conectar billetera",
+    "connect_btn": "Engage billetera",
+    "disconnect": "Desconectar"
+  },
+  "hintDialog": {
+    "title": "Consejos Sovryn"
+  },
+  "footer": {
+    "title": "Desarrollado por <0>Bitcoin</0>"
+  },
+  "mainMenu": {
+    "trade": "Comercio",
+    "lend": "Prestar",
+    "fastBtc": "Fast-Btc",
+    "liquidity": "Liquidez",
+    "stats": "estadisticas",
+    "faqs": "FAQs"
+  },
+  "trandingPositionSelector": {
+    "long": "Largo",
+    "short": "Corto"
+  },
+  "assetWalletBalance": {
+    "accountBalance": "Saldo de la cuenta",
+    "suppliedBalance": "Saldo suministrado",
+    "connect": "Conectarse a la billetera"
+  },
+  "leverageSelector": {
+    "text": "Apalancamiento"
+  },
+  "activeLoan": {
+    "expandedRow": {
+      "leverage": "apalancamiento",
+      "startMargin": "Margen de inicio",
+      "mainenanceMargin": "Margen de mantenimiento",
+      "currentPrice": "Precio actual",
+      "liquidationPrice": "Precio de liquidación",
+      "renewalDate": "Fecha de renovación"
+    },
+    "table": {
+      "positionSize": "Tamaño de posición",
+      "profit": "Lucro",
+      "container": {
+        "topUp": "Recarga",
+        "close": "Cerrar"
+      }
+    }
+  },
+  "expandedRowMobile": {
+    "currentMargin": "Margen actual",
+    "interestAPR": "Intereses APR",
+    "startPrice": "Precio inicial",
+    "leverage": "Apalancamiento",
+    "startMargin": "Margen inicial",
+    "maintenanceMargin": "Margen de mantenimiento",
+    "currentPrice": "Precio actual",
+    "liquidationPrice": "Precio de liquidación",
+    "renewalDate": "Fecha de renovación"
+  },
+  "statsPage": {
+    "asset": "Activo",
+    "totalAssetSupplied": "Activo total suministrado",
+    "totalAssetBorrowed": "Activo total prestado",
+    "totalAvailable": "Total disponible",
+    "supplyAPR": "APR de suministro",
+    "borrowAPR": "Pedir prestado APR"
+  },
+  "pageNotFound": {
+    "title": "404 Página no encontrada",
+    "text": "Página no encontrada.",
+    "backHome": "Vete a casa"
+  },
+  "liquidity": {
+    "title": "Liquidez",
+    "meta": "Agregar liquidez",
+    "currency":"Moneda",
+    "currencySelect": "Seleccione el tipo de moneda",
+    "amount": "Ingrese monto",
+    "amountTarget": "Cantidad objetivo",
+    "token": "Tokens de grupo esperados",
+    "fee": "Cuota",
+    "supply": "Suministro",
+    "withdraw": "Retirar"
+  },
+  "modal": {
+    "close": "Cerrar"
+  },
+  "formSelect": {
+    "loading": "Cargando, espere.",
+    "noresults": "No hay resultados.",
+    "placeholder": "Seleccionar algo"
+  },
+  "hintHowToTopUp": {
+    "hintOne": "¡Estas conectado! Para comerciar y prestar con Sovryn, necesitará algo de Bitcoin en la plataforma RSK.",
+    "hintTwo": "Recarga tu billetera en",
+    "hintThree": "¡Y comienza!"
+  },
+  "notificationFromContainer": {
+    "want": "¿Quiere recibir notificaciones por correo electrónico sobre llamadas de margen y posiciones liquidadas?",
+    "update": "Actualice el nombre o la dirección de correo electrónico asociados con esta dirección de billetera.",
+    "recieve": "Me gustaría recibir correos electrónicos sobre actualizaciones y nuevas funciones de Sovryn"
+  },
+  "tradeDialog": {
+    "currency": "Moneda",
+    "amount": "Cantidad",
+    "placeTrade": "Comercio de lugar",
+    "enterTradeAmount": "Ingrese la cantidad comercial"
+  },
+  "whiteListedNotification": {
+    "text": "Actualmente, Sovryn está disponible solo para usuarios invitados y su billetera aún no está en la lista blanca. Todas las interacciones están deshabilitadas hasta que cambia a la billetera en la lista blanca o se incluye en la lista blanca para la actual."
+  },
+  "withdrawLentDialog": {
+    "withdraw": "Retirar",
+    "amount": "Cantidad a retirar"
+  },
+  "lend": {
+    "history": {
+      "title": "Historial de préstamos"
+    },
+    "currency": {
+      "lend": "Prestar",
+      "borrow": "Pedir prestado",
+      "lendArp": "Prestar APR",
+      "borrowArp": "Pedir prestado APR",
+      "chooseDays": "Choose days"
+     },
+     "container": {
+       "leftBtn": "Deposit",
+       "rightBtn": "Withdraw",
+       "amountName": "Cantidad del depósito",
+       "balance": "Equilibrar",
+       "profit": "Lucro",
+       "supply": "Suministro"
+     },
+     "borrowingContainer": {
+       "amount": "Importe a pedir prestado",
+       "token": "Token para colaborar",
+       "collateralAmount": "Importe de garantía",
+       "borrow": "Pedir prestado"
+     }
+  },
+  "activeUserBorrows": {
+    "text": "No tienes préstamos activos."
+  },
+  "topUpTradingPositionHandler": {
+    "title": "Posición de recarga",
+    "topUpAmount": "Cantidad de recarga",
+    "topUp": "Recarga",
+    "currency": "Moneda"
+  }
+}

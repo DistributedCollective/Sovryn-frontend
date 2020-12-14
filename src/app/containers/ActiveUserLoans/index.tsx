@@ -6,10 +6,13 @@
 import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { ActiveLoanTable } from 'app/components/ActiveLoanTable';
+import { ActiveLoanTableContainer } from 'app/components/ActiveUserLoanContainer/components/ActiveLoanTableContainer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { InfoBox } from '../../components/InfoBox';
 
-interface Props {}
+interface Props {
+  loanType: number;
+}
 
 export function ActiveUserLoans(props: Props) {
   const account = useAccount();
@@ -18,7 +21,7 @@ export function ActiveUserLoans(props: Props) {
     account,
     0,
     1000,
-    0,
+    props.loanType,
     false,
     false,
   );
@@ -29,13 +32,40 @@ export function ActiveUserLoans(props: Props) {
 
   if (!value.length && !loading) {
     return (
-      <div className="container" style={{ padding: '20px' }}>
-        You do not have any active trades.
-      </div>
+      <>
+        <div className="container" style={{ padding: '20px' }}>
+          You do not have any active trades.
+        </div>
+        <InfoBox
+          icon="info-sign"
+          content={
+            <>
+              Need help making a transaction? Read our guide on{' '}
+              <a
+                href="https://sovryn.app/blog/how-to-earn-and-leverage-bitcoin.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                how to trade and lend with Sovryn
+              </a>
+              .
+            </>
+          }
+          localStorageRef="txHelpInfoBox"
+        />
+      </>
     );
   }
 
   return (
-    <>{value.length && <ActiveLoanTable data={value} activeTrades={true} />}</>
+    <>
+      {value.length && (
+        <ActiveLoanTableContainer data={value} activeTrades={true} />
+      )}
+    </>
   );
 }
+
+ActiveUserLoans.defaultProps = {
+  loanType: 0,
+};

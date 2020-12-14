@@ -6,13 +6,10 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Footer } from '../Footer';
-import { Header } from '../Header';
 
 export function PageSkeleton() {
   return (
     <>
-      <Header />
       <div className="container py-3">
         <div className="row mb-3">
           <div className="col-4">
@@ -116,10 +113,47 @@ export function PageSkeleton() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
+
+interface Props {
+  lines: number;
+}
+export function ComponentSkeleton({ lines }: Props) {
+  return (
+    <div className="container">
+      {Array(lines).map((_, index) => (
+        <div className="row my-3" key={index}>
+          {index % 2 !== 0 && (
+            <>
+              <div className="col-4">
+                <Skeleton />
+              </div>
+              <div className="col-8">
+                <Skeleton />
+              </div>
+            </>
+          )}
+          {index % 2 === 0 && (
+            <>
+              <div className="col-3">
+                <Skeleton />
+              </div>
+              <div className="col-6">
+                <Skeleton />
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+ComponentSkeleton.defaultProps = {
+  lines: 1,
+};
 
 interface SkeletonProps {
   width?: string;

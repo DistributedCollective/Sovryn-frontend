@@ -1,23 +1,20 @@
-import { bignumber } from 'mathjs';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
-import { TransactionStatus } from 'types/transaction-status';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
-import { useTokenAllowance } from '../useTokenAllowanceForLending';
-import { useTokenApprove } from '../useTokenApproveForLending';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMarginTrade } from './useMarginTrade';
 import { useAccount } from '../useAccount';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
-// import { useLending_tokenPrice } from '../lending/useLending_tokenPrice';
-
-enum TxType {
-  NONE = 'none',
-  APPROVE = 'approve',
-  TRADE = 'trade',
-}
+import {
+  CheckAndApproveResult,
+  contractWriter,
+} from '../../../utils/sovryn/contract-writer';
+import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
+import { TradingPair } from '../../../utils/models/trading-pair';
+import { TradingPosition } from '../../../types/trading-position';
 
 export function useApproveAndTrade(
+  pair: TradingPair,
+  position: TradingPosition,
   lendingContract: Asset,
   token: Asset,
   leverage: number,
@@ -26,112 +23,70 @@ export function useApproveAndTrade(
   // loanTokenSent,
   // collateralTokenAddress,
 ) {
-  const getToken = useCallback(() => {
-    if (lendingContract === token) {
-      return AssetsDictionary.get(lendingContract).primaryCollateralAsset;
+  const getLendingToken = useCallback(() => {
+    if (
+      TradingPairDictionary.longPositionTokens.includes(lendingContract) &&
+      TradingPairDictionary.longPositionTokens.includes(token)
+    ) {
+      return token;
     }
-    return token;
+    return lendingContract;
   }, [lendingContract, token]);
 
+  const getToken = useCallback(() => {
+    if (getLendingToken() === token) {
+      return position === TradingPosition.LONG
+        ? pair.getShortAsset()
+        : pair.getLongAsset();
+    }
+    return token;
+  }, [getLendingToken, token, pair, position]);
+
   const account = useAccount();
-  const allowance = useTokenAllowance(
-    getToken(),
-    getLendingContract(lendingContract).address,
-  );
 
-  const {
-    approve,
-    txHash: approveTx,
-    status: approveStatus,
-    loading: approveLoading,
-  } = useTokenApprove(getToken(), getLendingContract(lendingContract).address);
+  useEffect(() => {
+    console.log('.'.repeat(25));
+    console.log('A: ', lendingContract, '<-', token);
+    console.log('B: ', getLendingToken(), '<-', getToken());
+    console.log(
+      'loanTokenSent',
+      getLendingToken() === token ? collateralTokenSent : '0',
+    );
+    console.log(
+      'collateralTokenSent',
+      getLendingToken() === token ? '0' : collateralTokenSent,
+    );
+  }, [collateralTokenSent, getLendingToken, getToken, lendingContract, token]);
 
-  const {
-    trade,
-    txHash: tradeTx,
-    status: tradeStatus,
-    loading: tradeLoading,
-  } = useMarginTrade(
-    lendingContract,
+  const { trade, ...rest } = useMarginTrade(
+    getLendingToken(),
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
     toWei(String(leverage - 1), 'ether'),
-    lendingContract === token ? collateralTokenSent : '0',
-    lendingContract === token ? '0' : collateralTokenSent,
+    getLendingToken() === token ? collateralTokenSent : '0',
+    // lendingContract === token ? collateralTokenSent : '0',
+    getLendingToken() === token ? '0' : collateralTokenSent,
+    // lendingContract === token ? '0' : collateralTokenSent,
     getToken(),
     account, // trader
     '0x',
     token === Asset.BTC ? collateralTokenSent : '0',
   );
 
-  const handleApprove = useCallback(
-    (weiAmount: string) => {
-      approve(weiAmount);
-    },
-    [approve],
-  );
-
-  const handleTrade = useCallback(() => {
-    if (!tradeLoading) {
-      trade();
-    }
-  }, [trade, tradeLoading]);
-
-  const handleTx = useCallback(() => {
-    if (
-      getToken() !== Asset.BTC &&
-      bignumber(collateralTokenSent).greaterThan(allowance.value)
-    ) {
-      handleApprove(toWei('1000000', 'ether'));
-    } else {
-      handleTrade();
-    }
-  }, [getToken, allowance, collateralTokenSent, handleApprove, handleTrade]);
-
-  const [txState, setTxState] = useState<{
-    type: TxType;
-    txHash: string;
-    status: TransactionStatus;
-    loading: boolean;
-  }>({
-    type: TxType.NONE,
-    txHash: null as any,
-    status: TransactionStatus.NONE,
-    loading: false,
-  });
-
-  useEffect(() => {
-    if (approveStatus === TransactionStatus.SUCCESS) {
-      handleTrade();
-    }
-    // eslint-disable-next-line
-  }, [approveStatus]);
-
-  useEffect(() => {
-    if (!tradeLoading && approveStatus !== TransactionStatus.NONE) {
-      setTxState({
-        type: TxType.APPROVE,
-        txHash: approveTx,
-        status: approveStatus,
-        loading: approveLoading,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [approveLoading, approveTx, approveStatus]);
-
-  useEffect(() => {
-    if (!approveLoading && tradeStatus !== TransactionStatus.NONE) {
-      setTxState({
-        type: TxType.TRADE,
-        txHash: tradeTx,
-        status: tradeStatus,
-        loading: tradeLoading,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tradeLoading, tradeTx, tradeStatus]);
-
   return {
-    trade: () => handleTx(),
-    ...txState,
+    trade: async () => {
+      let tx: CheckAndApproveResult = {};
+      if (token !== Asset.BTC) {
+        tx = await contractWriter.checkAndApprove(
+          token,
+          getLendingContract(getLendingToken()).address,
+          collateralTokenSent,
+        );
+        if (tx.rejected) {
+          return;
+        }
+      }
+      await trade(tx?.nonce, tx?.approveTx);
+    },
+    ...rest,
   };
 }

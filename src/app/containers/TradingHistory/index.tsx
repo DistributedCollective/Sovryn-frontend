@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSortBy, useTable } from 'react-table';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EventData } from 'web3-eth-contract';
+import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { eventReader } from '../../../utils/sovryn/event-reader';
 import { Asset } from '../../../types/asset';
-import { AssetsDictionary } from '../../../utils/blockchain/assets-dictionary';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { TradingPosition } from '../../../types/trading-position';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowAltCircleDown,
   faArrowAltCircleUp,
@@ -22,6 +23,8 @@ import {
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { TradeProfit } from '../../components/TradeProfit';
+import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
+import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 type EventType = 'buy' | 'sell';
 
@@ -57,8 +60,9 @@ function normalizeEvent(event: EventData): CustomEvent {
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
     event.returnValues.collateralToken,
   ).asset;
-  const position =
-    loanToken === Asset.DOC ? TradingPosition.LONG : TradingPosition.SHORT;
+  const position = TradingPairDictionary.longPositionTokens.includes(loanToken)
+    ? TradingPosition.LONG
+    : TradingPosition.SHORT;
   const loanId = event.returnValues.loanId;
   switch (event.event) {
     default:
@@ -93,6 +97,11 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   events = events.reverse();
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
+
+  if (!opens.length) {
+    return null;
+  }
+
   const positionSize = opens
     .reduce(
       (previous, current) => previous.add(current.positionSize),
@@ -157,11 +166,17 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 }
 
 export function TradingHistory() {
+  const { t } = useTranslation();
   const account = useAccount();
-  const closeRequest = useRef<any>(null);
-  const tradeRequest = useRef<any>(null);
 
-  const [loading, setLoading] = useState(false);
+  const tradeStates = useGetContractPastEvents('sovrynProtocol', 'Trade');
+  const closeStates = useGetContractPastEvents(
+    'sovrynProtocol',
+    'CloseWithSwap',
+  );
+
+  const loading = tradeStates.loading || closeStates.loading;
+
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
 
   const mergeEvents = useCallback(
@@ -182,7 +197,7 @@ export function TradingHistory() {
       const entries = Object.entries(items);
 
       const closeEntries: CalculatedEvent[] = [];
-      entries.forEach(([loanId, events]) => {
+      entries.forEach(([, /*loanId*/ events]) => {
         // exclude entries that does not have sell events
         if (events.filter(item => item.type === 'sell').length > 0) {
           const calculation = calculateProfits(events);
@@ -191,89 +206,35 @@ export function TradingHistory() {
           }
         }
       });
+
       setEvents(closeEntries);
-      setLoading(false);
     },
     [],
   );
 
-  const loadTradeEvents = useCallback(
-    (closeEvents: EventData[] = []) => {
-      if (tradeRequest.current) {
-        tradeRequest.current.cancel();
-        tradeRequest.current = null;
-      }
-      tradeRequest.current = eventReader.getPastEventsInChunks(
-        'sovrynProtocol',
-        'Trade',
-        {
-          user: account,
-        },
-      );
-      tradeRequest.current.promise
-        .then(loaded => {
-          console.log('loaded opens', loaded);
-          mergeEvents(closeEvents, loaded);
-        })
-        .catch(e => {
-          mergeEvents();
-          console.error(e);
-        });
-    },
-    [tradeRequest, account, mergeEvents],
-  );
-
-  const loadCloseWithSwapEvents = useCallback(() => {
-    if (closeRequest.current) {
-      closeRequest.current.cancel();
-      closeRequest.current = null;
-    }
-    closeRequest.current = eventReader.getPastEventsInChunks(
-      'sovrynProtocol',
-      'CloseWithSwap',
-      {
-        user: account,
-      },
-    );
-    closeRequest.current.promise
-      .then(loaded => {
-        console.log('loaded closes', loaded);
-        if (loaded.length) {
-          loadTradeEvents(loaded);
-        } else {
-          mergeEvents();
-        }
-      })
-      .catch(e => {
-        mergeEvents();
-        console.error(e);
-      });
-  }, [closeRequest, account, loadTradeEvents, mergeEvents]);
-
   useEffect(() => {
     if (account) {
-      setLoading(true);
-      loadCloseWithSwapEvents();
-      return () => {
-        if (closeRequest.current) {
-          closeRequest.current.cancel();
-          closeRequest.current = null;
-        }
-        if (tradeRequest.current) {
-          tradeRequest.current.cancel();
-          tradeRequest.current = null;
-        }
-      };
+      mergeEvents(closeStates.events, tradeStates.events);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [
+    account,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(tradeStates.events),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(closeStates.events),
+  ]);
 
   if (loading && !events.length) {
     return <SkeletonRow />;
   }
 
   if (!loading && !events.length) {
-    return <div className="p-3">You do not have any closed trades.</div>;
+    return (
+      <div className="p-3">
+        {t(translations.tradingHistoryPage.noClosedTrades)}
+      </div>
+    );
   }
 
   return (
@@ -293,20 +254,23 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
     return props.items.map(item => {
       return {
         item: item,
-        icon:
-          item.loanToken === Asset.DOC ? (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleUp}
-              className="text-customTeal ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleDown}
-              className="text-Gold ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ),
+        icon: (
+          <>
+            {item.position === TradingPosition.LONG ? (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleUp}
+                className="text-customTeal ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleDown}
+                className="text-Gold ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            )}
+          </>
+        ),
         leverage: `${weiToFixed(item.leverage, 1)}x`,
         positionSize: (
           <Tooltip content={weiTo18(item.positionSize)}>
@@ -368,32 +332,34 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <table {...getTableProps()} className="bp3-html-table table-dark">
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <td className="text-left" {...cell.getCellProps()}>
-                  {cell.render('Cell')}
-                </td>
+    <div className="bg-primary p-3 sovryn-border">
+      <table {...getTableProps()} className="sovryn-table">
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                </th>
               ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td className="text-left" {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }

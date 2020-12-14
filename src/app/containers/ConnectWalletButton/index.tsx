@@ -5,6 +5,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as blockies from 'blockies-ts';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { connectWalletButtonSaga } from './saga';
@@ -12,10 +13,12 @@ import { Button } from '@blueprintjs/core';
 import { Sovryn } from '../../../utils/sovryn';
 import { prettyTx } from '../../../utils/helpers';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { translations } from 'locales/i18n';
 
 export function ConnectWalletButton() {
   useInjectSaga({ key: 'connectWalletButton', saga: connectWalletButtonSaga });
 
+  const { t } = useTranslation();
   const connected = useIsConnected();
   const address = useAccount();
   const [imgSrc, setImgSrc] = useState<string>(null as any);
@@ -56,7 +59,7 @@ export function ConnectWalletButton() {
                 minimal
                 className="ml-3 text-white"
                 icon="log-out"
-                title="Disconnect"
+                title={t(translations.wallet.disconnect)}
                 onClick={handleDisconnect}
               />
             </div>
@@ -65,7 +68,7 @@ export function ConnectWalletButton() {
         {!connected && (
           <Button
             type="button"
-            text={'Connect Wallet'}
+            text={t(translations.wallet.btn)}
             icon="log-in"
             onClick={() => handleWalletConnection()}
           />

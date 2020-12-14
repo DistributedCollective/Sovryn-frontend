@@ -1,14 +1,17 @@
 @import '_custom-variables.scss';
 @import 'blueprint-variables';
 
+
 //@import "~sanitize.css/sanitize.css";
 @import '~normalize.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 @import '~@blueprintjs/core/src/blueprint';
 @import '~@blueprintjs/select/lib/css/blueprint-select.css';
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,500;1,600;1,700;1,800&display=swap');
-
 @import '~bootstrap/scss/bootstrap';
+@import 'new-design';
+@import 'wallet-tutorial';
+@import '_mobile-wallet-tutorial';
+@import 'fast-btc-tutorial';
 
 @import '_custom-styles.scss';

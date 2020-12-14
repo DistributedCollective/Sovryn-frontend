@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { media } from './media';
 
 export const GlobalStyle = createGlobalStyle`
   html,
@@ -10,15 +11,19 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 16px;
+    font-family: var(--primary-font);
+    font-size: 12px;
     background-color: var(--background);
     color: white;
+    ${media.lg`
+    font-size: 16px;
+    `}
   }
 
   #root {
     min-height: 100vh;
     min-width: 100vw;
+    overflow: auto;
   }
 
   p,
@@ -28,9 +33,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input, select {
-    font-family: inherit;
-    font-size: inherit;
-    background-color: var(--Field_bg);
+    font-family: var(--secondary-font);
+    font-size: 400;
+    background-color: var(--primary);
     color: var(--white);
     border: none;
     &::selection {
@@ -68,6 +73,13 @@ input[type=number] {
     letter-spacing: 2.92px;
     color: var(--Grey_text);
   }
+  a {
+    color: inherit;
+    font-weight: bold;
+    &:hover {
+      color: inherit;
+    }
+  }
   .font {
     &-xs {
       font-size: 12px;
@@ -102,64 +114,23 @@ input[type=number] {
     color: var(--Grey_text);
     font-size: 85%;
   }
-  table {
-    background-color: var(--component-bg);
-    color: white;
-    width: 100%;
-    border: 1px solid var(--component-bg);
-  }
-  tr:nth-child(even) {
-    background-color: var(--background)
-  }
-  .bp3-html-table {
-    width: 100%;
-    background-color: var(--component-bg);
-    thead th {
-        color: var(--Grey_text);
-        text-transform: uppercase;
-        border-bottom: 2px solid var(--background);
-        @media (max-width: 1200px) {
-          font-size: 80%;
-        }
-    }
-    tbody tr td {
-      color: white;
-      font-weight: 300;
-      padding: 10px 5px;
-      text-align: center;
-      @media (max-width: 1200px) {
-        font-size: 90%;
-      }
-    }
-  }
   .modal-title {
     font-size: 22px;
     font-weight: 300;
     letter-spacing: 0.49px;
     text-transform: capitalize;
   }
-  .bp3-input-group {
-    .bp3-input {
-      background-color: var(--Field_bg);
-      color: var(--white);
-      width: 100%;
-    }
-  }
-  .bp3-popover-wrapper {
-    .bp3-popover-target {
-      button {
-        width: 100%;
-        background-color: var(--Field_bg);
-        background-image: none;
-        color: white;
-        &:active, &:hover {
-          background-color: var(--Field_bg)
-        }
-      }
-    }
+  #WEB3_CONNECT_MODAL_ID > div {
+    z-index: 30;
   }
   :focus {
     outline: 0!important;
     outline-offset: 0;
+  }
+  .cursor-pointer {
+    cursor: pointer
+  }
+  .opaque {
+    opacity: 0.2
   }
 `;

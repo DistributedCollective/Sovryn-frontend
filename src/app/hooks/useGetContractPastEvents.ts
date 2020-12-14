@@ -1,80 +1,61 @@
-import { useCallback, useState } from 'react';
-import { EventData } from 'web3-eth-contract';
-import { Sovryn } from '../../utils/sovryn';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { EventData } from 'web3-eth-contract';
+import { ContractName } from '../../utils/types/contracts';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
-import { appContracts } from '../../utils/blockchain/app-contracts';
-import { toChunks } from '../../utils/helpers';
+import { eventReader } from '../../utils/sovryn/event-reader';
+import { getContract } from '../../utils/blockchain/contract-helpers';
+
+const filtersEventKeyMap = {
+  Mint: 'minter',
+  Burn: 'burner',
+  Trade: 'user',
+  Borrow: 'user',
+  CloseWithSwap: 'user',
+  CloseWithDeposit: 'user',
+};
 
 export function useGetContractPastEvents(
-  contractName: string,
+  contractName: ContractName,
   event: string = 'allEvents',
-  blockChunkSize: number = 50000,
+  filters: any = {},
 ) {
-  const { blockNumber } = useSelector(selectWalletProvider);
-
+  const { syncBlockNumber, address } = useSelector(selectWalletProvider);
+  const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<EventData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
 
-  const firstBlock = appContracts[contractName].blockNumber;
+  const getEvents = useCallback(async () => {
+    const fromBlock = getContract(contractName).blockNumber;
+    const toBlock = syncBlockNumber || 'latest';
+    return eventReader.getPastEvents(
+      contractName,
+      event,
+      { [filtersEventKeyMap[event]]: address, ...filters },
+      {
+        fromBlock,
+        toBlock,
+      },
+    );
+  }, [address, contractName, event, filters, syncBlockNumber]);
 
-  const loadEvents = useCallback(
-    async (
-      filter = undefined,
-      options = { fromBlock: firstBlock, toBlock: firstBlock + blockChunkSize },
-    ) => {
-      try {
-        return await Sovryn.contracts[contractName].getPastEvents(event, {
-          ...options,
-          ...{ filter },
-        });
-      } catch (e) {
-        return [];
-      }
-    },
-    [blockChunkSize, contractName, event, firstBlock],
-  );
-
-  const fetch = useCallback(
-    async (
-      filter = undefined,
-      options = { fromBlock: firstBlock, toBlock: 'latest' },
-    ) => {
-      setLoading(true);
-
-      const start = options.fromBlock || 0;
-      const end =
-        options?.toBlock === 'latest'
-          ? blockNumber
-          : options.toBlock || blockNumber;
-
-      const chunks = toChunks(start, end, blockChunkSize);
-
-      if (!chunks) {
+  useEffect(() => {
+    if (!address) {
+      setEvents([]);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    getEvents()
+      .then(result => {
+        setEvents(result);
+        setLoading(false);
+      })
+      .catch(_ => {
         setEvents([]);
         setLoading(false);
-        setError(null);
-        return;
-      }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contractName, event, address, syncBlockNumber]);
 
-      const _events: EventData[] = [];
-
-      for (let i = 0; i < chunks.length; i++) {
-        const [fromBlock, toBlock] = chunks[i];
-        const result = await loadEvents(filter, {
-          ...options,
-          fromBlock,
-          toBlock,
-        });
-        _events.push(...result);
-      }
-      setEvents(_events);
-      setLoading(false);
-      setError(null);
-    },
-    [blockChunkSize, blockNumber, firstBlock, loadEvents],
-  );
-
-  return { events, fetch: fetch, loading, error };
+  return { events, loading };
 }
