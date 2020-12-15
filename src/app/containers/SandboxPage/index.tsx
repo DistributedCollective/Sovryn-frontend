@@ -5,14 +5,19 @@
  */
 
 import React from 'react';
-import { TutorialDialog } from '../../components/TutorialDialog/container';
+import { startLedger } from '../../../utils/hw/ledger-provider';
+import { Button } from '@blueprintjs/core';
 
 interface Props {}
 
 export function SandboxPage(props: Props) {
+  const handleHardwareConnect = () => {
+    startLedger();
+  };
+
   return (
     <div className="bg-blue">
-      <TutorialDialog />
+      <Button text="Start" onClick={handleHardwareConnect} />
     </div>
   );
 }
