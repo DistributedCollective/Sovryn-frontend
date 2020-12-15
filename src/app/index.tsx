@@ -60,7 +60,10 @@ export function App() {
 
   useEffect(() => {
     // add white favicon for dark mode.
-    getFaviconEl().href = theme === 'dark' ? '/favicon.ico' : '/favicon.ico';
+    const fav = getFaviconEl();
+    fav.href = theme === 'dark' ? '/favicon-white.png' : '/favicon.png';
+    fav.type = 'image/png';
+    fav.sizes.add('48x48');
   }, [theme]);
 
   return (
