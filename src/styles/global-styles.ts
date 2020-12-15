@@ -22,7 +22,6 @@ export const GlobalStyle = createGlobalStyle`
 
   #root {
     min-height: 100vh;
-    min-width: 100vw;
     overflow: auto;
   }
 

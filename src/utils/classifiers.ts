@@ -85,3 +85,5 @@ export const gasLimit = {
   [TxType.CONVERT_BY_PATH]: 580000,
   [TxType.LEND]: 200000,
 };
+
+export const SHOW_MODAL = 'SHOW_MODAL';

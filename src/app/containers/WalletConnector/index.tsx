@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { NavLink } from 'react-router-dom';
 import {
   Button as IconButton,
   Icon,
@@ -9,27 +11,36 @@ import {
   Spinner,
 } from '@blueprintjs/core';
 import styled from 'styled-components';
-
-import '../LendBorrowSovryn/assets/index.scss';
-import { useSelector } from 'react-redux';
+import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { useSelector, useDispatch } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
+import { SHOW_MODAL } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { NavLink } from 'react-router-dom';
+import '../LendBorrowSovryn/assets/index.scss';
+import { useLocation } from 'react-router-dom';
 
 type Props = {};
 
 const WalletConnectorContainer: React.FC<Props> = props => {
   const { connected, connecting, address } = useSelector(selectWalletProvider);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleWalletConnection = useCallback(() => {
-    Sovryn.connect()
-      .then(() => {})
-      .catch(console.error);
-  }, []);
+    //don't show TutorialDialogModal if unsubscribe route
+    if (location.pathname === '/unsubscribe') {
+      Sovryn.connect()
+        .then(() => {})
+        .catch(console.error);
+    } else {
+      dispatch(actions.showModal(SHOW_MODAL));
+      reactLocalStorage.set('closedRskTutorial', 'false');
+    }
+  }, [dispatch, location.pathname]);
 
   const handleDisconnect = () => {
     Sovryn.disconnect().then(() => {});
