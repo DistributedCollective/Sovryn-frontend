@@ -16,6 +16,7 @@ import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 import { translations } from 'locales/i18n';
 import { actions } from 'app/containers/FastBtcForm/slice';
+import { LimitsNotification } from '../LimitsNotification/Loadable';
 
 export function Header() {
   const { t } = useTranslation();
@@ -67,11 +68,11 @@ export function Header() {
       <header>
         <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
           <div className="d-xl-none">
-            <button className="hamburger" type="button">
-              <Popover content={<Menu>{dropDownMenu}</Menu>}>
+            <Popover content={<Menu>{dropDownMenu}</Menu>}>
+              <button className="hamburger" type="button">
                 <Icon icon="menu" />
-              </Popover>
-            </button>
+              </button>
+            </Popover>
           </div>
           <div className="mr-3">
             <Link to="/">
@@ -108,6 +109,7 @@ export function Header() {
         </Container>
       </header>
       <WhitelistedNotification />
+      <LimitsNotification />
     </>
   );
 }

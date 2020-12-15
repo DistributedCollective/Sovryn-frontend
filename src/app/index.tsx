@@ -15,7 +15,6 @@ import { GlobalStyle } from 'styles/global-styles';
 import { TutorialDialogModal } from './containers/TutorialDialogModal/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { TradingHistoryPage } from './containers/TradingHistoryPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { currentNetwork } from '../utils/classifiers';
@@ -72,7 +71,6 @@ export function App() {
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
-          <Route exact path="/trading-history" component={TradingHistoryPage} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />

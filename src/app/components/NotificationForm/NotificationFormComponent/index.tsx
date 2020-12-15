@@ -17,7 +17,7 @@ interface Props {
   response: string;
   marketing: boolean;
   onChange: (e: any) => void;
-  onSubmit: (e: any) => void;
+  onSubmit: (e: any, formType) => void;
   formType: 'signup' | 'update';
 }
 
@@ -28,7 +28,7 @@ export function NotificationFormComponent(props: Props) {
     signup: {
       buttonText: 'submit',
       title: (
-        <p>
+        <p className="font-family-work-sans">
           <span className="mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>
@@ -77,30 +77,38 @@ export function NotificationFormComponent(props: Props) {
         </FormGroup>
       </div>
       <div className="row px-3">
-        <Checkbox
-          name="marketing"
-          checked={props.marketing}
-          onChange={props.onChange}
-          className="col-md-8 col-sm-12"
-          style={{ fontSize: '11px' }}
+        {props.formType === 'signup' && (
+          <Checkbox
+            name="marketing"
+            checked={props.marketing}
+            onChange={props.onChange}
+            className="col-md-8 col-sm-12"
+            style={{ fontSize: '11px' }}
+          >
+            {t(s.recieve)}
+          </Checkbox>
+        )}
+        <div
+          className={`${
+            props.formType === 'update'
+              ? 'float-right w-100'
+              : 'col-md-4 col-sm-12'
+          }`}
         >
-          {t(s.recieve)}
-        </Checkbox>
-        <div className="col-md-4 col-sm-12">
           <StyledButton
             className="sovryn-border float-right"
             type="submit"
-            onClick={props.onSubmit}
+            onClick={e => props.onSubmit(e, props.formType)}
             disabled={!props.email || !props.name}
           >
             {text[props.formType].buttonText}
           </StyledButton>
         </div>
-        <div className="row p-3">
-          {props.response !== 'success' && props.response && (
+        {props.response !== 'success' && props.response && (
+          <div className="row p-3">
             <p className="text-red">There was an error submitting your form</p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </form>
   );

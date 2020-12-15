@@ -72,7 +72,7 @@ class ContractWriter {
           txActions.openTransactionRequestDialog({
             type: TxType.APPROVE,
             asset,
-            amount: amounts[0],
+            amount: transferAmount.get(amounts[0]),
           }),
         );
         approveTx = await contractWriter

@@ -24,6 +24,7 @@ import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { TradeProfit } from '../../components/TradeProfit';
 import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
+import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 type EventType = 'buy' | 'sell';
 
@@ -59,8 +60,9 @@ function normalizeEvent(event: EventData): CustomEvent {
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
     event.returnValues.collateralToken,
   ).asset;
-  const position =
-    loanToken === Asset.DOC ? TradingPosition.LONG : TradingPosition.SHORT;
+  const position = TradingPairDictionary.longPositionTokens.includes(loanToken)
+    ? TradingPosition.LONG
+    : TradingPosition.SHORT;
   const loanId = event.returnValues.loanId;
   switch (event.event) {
     default:
@@ -252,20 +254,23 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
     return props.items.map(item => {
       return {
         item: item,
-        icon:
-          item.loanToken === Asset.DOC ? (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleUp}
-              className="text-customTeal ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faArrowAltCircleDown}
-              className="text-Gold ml-2"
-              style={{ fontSize: '20px' }}
-            />
-          ),
+        icon: (
+          <>
+            {item.position === TradingPosition.LONG ? (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleUp}
+                className="text-customTeal ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faArrowAltCircleDown}
+                className="text-Gold ml-2"
+                style={{ fontSize: '20px' }}
+              />
+            )}
+          </>
+        ),
         leverage: `${weiToFixed(item.leverage, 1)}x`,
         positionSize: (
           <Tooltip content={weiTo18(item.positionSize)}>

@@ -66,24 +66,32 @@ function* callCreateBlockChannels() {
 }
 
 function* processBlockHeader(event) {
-  const { address } = yield select(selectWalletProvider);
+  const { address, processedBlocks } = yield select(selectWalletProvider);
   const blockNumber = event.payload.number;
   const web3 = Sovryn.getWeb3();
 
   try {
-    const block = yield call(web3.eth.getBlock, blockNumber, true);
-    yield call(processBlock, { block, address });
+    const previousBlocks = Array(5)
+      .fill(blockNumber)
+      .map((number, index) => number - index);
+    const blocksToProcess = previousBlocks
+      .filter(x => !processedBlocks.includes(x))
+      .reverse();
+    for (const number of blocksToProcess) {
+      const block = yield call(web3.eth.getBlock, number, true);
+      yield call(processBlock, { block, address });
+    }
   } catch (error) {
     console.error('Error in block processing:');
     console.error(error);
-
-    // yield put({ type: 'BLOCK_FAILED', error });
   }
 }
 
 function* processBlock({ block, address }) {
   try {
     const transactionStack = yield select(selectTransactionStack);
+    const localTransactions = transactionStack.map(e => e.toLowerCase());
+    const user = address.toLowerCase();
 
     if (!block) {
       console.log('no block?');
@@ -97,9 +105,9 @@ function* processBlock({ block, address }) {
       for (let i = 0; i < txs.length; i++) {
         const from = (txs[i].from || '').toLowerCase();
         const to = (txs[i].to || '').toLowerCase();
-        const hash: string = txs[i].hash || '';
+        const hash: string = (txs[i].hash || '').toLowerCase();
 
-        if (transactionStack.includes(hash) && from === address.toLowerCase()) {
+        if (localTransactions.includes(hash) || from === user || to === user) {
           const receipt: TransactionReceipt = yield call(
             [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
             hash,
@@ -116,23 +124,21 @@ function* processBlock({ block, address }) {
         }
 
         const hasContract = Sovryn.contractList.find(contract => {
-          const address = contract.options.address.toLowerCase();
-          return address === from || address === to;
+          const contractAddress = contract.options.address.toLowerCase();
+          return contractAddress === from || contractAddress === to;
         });
 
         if (hasContract) {
           hasChanges = true;
         }
 
-        if (
-          address &&
-          (address.toLowerCase() === from || address.toLowerCase() === from)
-        ) {
+        if (user && (user === from || user === from)) {
           hasChanges = true;
         }
       }
     }
 
+    yield put(actions.blockProcessed(block.number));
     if (hasChanges) {
       yield put(actions.reSync(block.number));
     }

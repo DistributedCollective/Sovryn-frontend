@@ -17,9 +17,9 @@ import { prettyTx } from '../../../../../utils/helpers';
 import '../../assets/index.scss';
 import clsx from 'clsx';
 import { ComponentSkeleton } from 'app/components/PageSkeleton';
-import { DateFromBlock } from './DateFromBlock';
 import { selectLendBorrowSovryn } from '../../selectors';
 import { translations } from 'locales/i18n';
+import { DisplayDate } from '../../../../components/ActiveUserLoanContainer/components/DisplayDate';
 
 type Props = {};
 
@@ -120,7 +120,12 @@ const LendingHistory: React.FC<Props> = props => {
                             <span className="text-muted">{asset}</span>
                           </td>
                           <td>
-                            <DateFromBlock blockNumber={event.blockNumber} />
+                            <DisplayDate
+                              timestamp={String(
+                                new Date((event as any).eventDate).getTime() /
+                                  1000,
+                              )}
+                            />
                           </td>
                           <td>${weiToFixed(event.returnValues.price, 5)}</td>
                           <CopyToClipboard

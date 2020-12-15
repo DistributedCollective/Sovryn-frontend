@@ -18,7 +18,6 @@ export function EmailNotificationButton(props: Props) {
 
 const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'btn ml-3',
 }))`
   color: var(--white);
   background-color: var(--primary);
@@ -28,5 +27,10 @@ const StyledButton = styled.button.attrs(_ => ({
   font-size: 12px;
   :hover {
     color: var(--gold);
+  }
+  margin-left: 10px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 10px;
   }
 `;

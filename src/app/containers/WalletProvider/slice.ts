@@ -25,6 +25,7 @@ export const initialState: ContainerState = {
     isDialogOpen: false,
   },
   assetRates: [],
+  processedBlocks: [],
 };
 
 const walletProviderSlice = createSlice({
@@ -72,7 +73,9 @@ const walletProviderSlice = createSlice({
     },
 
     reSync(state, action: PayloadAction<number>) {
-      state.syncBlockNumber = action.payload;
+      if (action.payload > state.syncBlockNumber) {
+        state.syncBlockNumber = action.payload;
+      }
     },
 
     readerReady() {},
@@ -81,11 +84,18 @@ const walletProviderSlice = createSlice({
       console.error('block failed');
     },
     blockReceived(state, action: PayloadAction<any>) {
-      state.blockNumber = action.payload.number;
+      if (action.payload.number > state.blockNumber) {
+        state.blockNumber = action.payload.number;
+      }
     },
 
     processBlock(state, action: PayloadAction<any>) {},
-
+    blockProcessed(state, { payload }: PayloadAction<number>) {
+      if (state.processedBlocks.length > 30) {
+        state.processedBlocks.shift();
+      }
+      state.processedBlocks.push(payload);
+    },
     whitelistCheck(state) {
       state.whitelist.loading = true;
       state.whitelist.loaded = false;

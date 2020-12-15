@@ -1,4 +1,3 @@
-import { Asset } from '../types/asset';
 import { TxType } from '../store/global/transactions-store/types';
 
 export const chains = {
@@ -24,14 +23,14 @@ export const networkNames = {
 };
 
 export const rpcNodes = {
-  // 30: 'https://mainnet.sovryn.app/rpc',
-  30: 'https://mainnetbackup.sovryn.app/rpc',
+  30: 'https://mainnet.sovryn.app/rpc',
+  // 30: 'https://mainnetbackup.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const readNodes = {
-  // 30: 'wss://mainnet.sovryn.app/ws',
-  30: 'wss://mainnetbackup.sovryn.app/ws',
+  30: 'wss://mainnet.sovryn.app/ws',
+  // 30: 'wss://mainnetbackup.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
   // 30: 'https://public-node.rsk.co',
   // 31: 'https://public-node.testnet.rsk.co',
@@ -42,11 +41,6 @@ export const fastBtcApis = {
   31: 'https://testnet.sovryn.app/fastbtc',
 };
 
-// export const rpcNodesFallback = {
-//   30: 'https://public-node.rsk.co',
-//   31: 'https://public-node.testnet.rsk.co',
-// };
-
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/backendrpc',
@@ -54,36 +48,13 @@ export const databaseRpcNodes = {
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
-export const liquidityPools = [
-  {
-    source: Asset.BTC,
-    label: 'rBTC',
-    tokenLabel: 'rBTC',
-  },
-  {
-    source: Asset.DOC,
-    label: 'DoC',
-    tokenLabel: 'DoC',
-  },
-  {
-    source: Asset.USDT,
-    label: 'USDT',
-    tokenLabel: 'USDT',
-  },
-  {
-    source: Asset.BPRO,
-    label: 'BPro',
-    tokenLabel: 'BPro',
-  },
-];
-
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
-  [TxType.ADD_LIQUIDITY]: 275000,
-  [TxType.REMOVE_LIQUIDITY]: 450000,
-  [TxType.BORROW]: 1300000,
-  [TxType.CONVERT_BY_PATH]: 580000,
-  [TxType.LEND]: 200000,
+  [TxType.ADD_LIQUIDITY]: 350000,
+  [TxType.REMOVE_LIQUIDITY]: 550000,
+  [TxType.BORROW]: 1500000,
+  [TxType.CONVERT_BY_PATH]: 750000,
+  [TxType.LEND]: 300000,
 };
 
 export const SHOW_MODAL = 'SHOW_MODAL';

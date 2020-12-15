@@ -34,7 +34,6 @@ export class SovrynNetwork {
   private _providerOptions: IProviderOptions = {
     walletconnect: {
       display: {
-        // logo: 'data:image/gif;base64,INSERT_BASE64_STRING',
         name: 'Mobile',
         description: 'Scan qrcode with your mobile wallet',
       },
@@ -309,13 +308,13 @@ export class SovrynNetwork {
         provider.on('accountsChanged', async (accounts: string[]) => {
           this.store().dispatch(actions.accountChanged(accounts[0]));
         });
-        provider.on('chainChanged', async (chainId: number) => {
+        provider.on('chainChanged', async (chain: string) => {
+          const chainId = parseInt(chain);
           const networkId = await this._writeWeb3.eth.net.getId();
           await this.testChain(chainId);
           await this.initReadWeb3(chainId);
           this.store().dispatch(actions.chainChanged({ chainId, networkId }));
         });
-
         provider.on('networkChanged', async (networkId: number) => {
           const chainId = await (this._writeWeb3.eth as any).chainId();
           await this.testChain(chainId);

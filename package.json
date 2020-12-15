@@ -1,6 +1,6 @@
 {
   "name": "sovryn-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
@@ -183,8 +183,8 @@
     ]
   },
   "engines": {
-    "npm": ">=6.14.8",
-    "node": ">=12.19.1"
+    "npm": ">=6.14.0",
+    "node": ">=12.19.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
