@@ -26,7 +26,7 @@ export function useGetContractPastEvents(
 
   const getEvents = useCallback(async () => {
     const fromBlock = getContract(contractName).blockNumber;
-    const toBlock = syncBlockNumber || 'latest';
+    const toBlock = 'latest';
     return eventReader.getPastEvents(
       contractName,
       event,
@@ -36,7 +36,7 @@ export function useGetContractPastEvents(
         toBlock,
       },
     );
-  }, [address, contractName, event, filters, syncBlockNumber]);
+  }, [address, contractName, event, filters]);
 
   useEffect(() => {
     if (!address) {
