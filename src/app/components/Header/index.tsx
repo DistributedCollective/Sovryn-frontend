@@ -16,7 +16,6 @@ import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 import { translations } from 'locales/i18n';
 import { actions } from 'app/containers/FastBtcForm/slice';
-import { LimitsNotification } from '../LimitsNotification/Loadable';
 
 export function Header() {
   const { t } = useTranslation();
@@ -109,7 +108,6 @@ export function Header() {
         </Container>
       </header>
       <WhitelistedNotification />
-      <LimitsNotification />
     </>
   );
 }

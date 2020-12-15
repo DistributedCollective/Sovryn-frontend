@@ -7,7 +7,7 @@
   },
   "title": "Sovryn",
   "announcement": {
-    "message": "As Sovryn has only recently launched, there is currently a <0>$21 limit</0> on all transactions on the platform. We will be raising this limit to $210 soon. Thank you for being an early adopter!"
+    "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "homePage": {
     "title": "Home Page",
