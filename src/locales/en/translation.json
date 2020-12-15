@@ -311,11 +311,11 @@
     "screens": {
       "1": {
         "title": "Connect Your Wallet",
-        "banner": "Don't have a wallet? We recomend"
+        "banner": "For any assistance, reach out to the community"
       },
       "11": {
         "title": "Connect to the RSK Network",
-        "banner": "Don't have a wallet? We recomend"
+        "banner": "For any assistance, reach out to the community"
       },
       "2": {
         "title": "How to Connect to RSK Network",
