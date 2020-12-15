@@ -217,6 +217,9 @@
   "whiteListedNotification": {
     "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
   },
+  "limitsNotification": {
+    "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+  },
   "lend": {
     "history": {
       "title": "Lending history"
