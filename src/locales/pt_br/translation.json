@@ -111,8 +111,8 @@
   "wallet": {
     "btn": "Conectar carteira",
     "connect_btn": "Escolher carteira",
-    "disconnect": "Desconectar",
-    "my_wallet": "Carteira",
+    "disconnect": "Sair",
+    "my_wallet": "Minha carteira",
     "referrals": "Indique um amigo"
   },
   "hintDialog": {
@@ -216,6 +216,9 @@
   },
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
+  },
+  "limitsNotification": {
+    "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "lend": {
     "history": {
@@ -424,6 +427,12 @@
   "topUpBtcDialog": {
     "meta": {
       "title": "Top-UP"
+    }
+  },
+  "walletPage": {
+    "meta": {
+      "title": "Minha carteira",
+      "description": "Informações sobre a carteira conectada"
     }
   }
 }
