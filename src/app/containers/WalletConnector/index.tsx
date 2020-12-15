@@ -18,7 +18,7 @@ import { Sovryn } from 'utils/sovryn';
 import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 type Props = {};
 
