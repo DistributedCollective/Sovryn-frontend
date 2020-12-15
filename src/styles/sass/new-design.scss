@@ -37,6 +37,11 @@
 
   .nav-tabs {
     border-bottom: 0;
+    & a[id*="borrow-&-lend-tabs-tab-lend"], a[id*="borrow-&-lend-tabs-tab-borrow"] {
+      &:lang(pt_br) {
+        font-size: 12px;
+      }
+    }
     & .nav-item {
       font-size: 15px;
       color: $text-muted;
