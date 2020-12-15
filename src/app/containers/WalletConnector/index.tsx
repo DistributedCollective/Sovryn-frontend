@@ -97,12 +97,14 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           </Popover>
         </div>
       )}
-      <NavLink
-        to="/faqs"
+      <a
+        href="https://sovryn-1.gitbook.io/sovryn/"
+        target="_blank"
+        rel="noopener noreferrer"
         className="help flex-shrink-0 flex-grow-0 d-none d-xl-flex flex-row text-decoration-none justify-content-center align-items-center"
       >
         <span>?</span>
-      </NavLink>
+      </a>
     </div>
   );
 };
