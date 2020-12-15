@@ -66,18 +66,24 @@ function* callCreateBlockChannels() {
 }
 
 function* processBlockHeader(event) {
-  const { address } = yield select(selectWalletProvider);
+  const { address, processedBlocks } = yield select(selectWalletProvider);
   const blockNumber = event.payload.number;
   const web3 = Sovryn.getWeb3();
 
   try {
-    const block = yield call(web3.eth.getBlock, blockNumber, true);
-    yield call(processBlock, { block, address });
+    const previousBlocks = Array(5)
+      .fill(blockNumber)
+      .map((number, index) => number - index);
+    const blocksToProcess = previousBlocks
+      .filter(x => !processedBlocks.includes(x))
+      .reverse();
+    for (const number of blocksToProcess) {
+      const block = yield call(web3.eth.getBlock, number, true);
+      yield call(processBlock, { block, address });
+    }
   } catch (error) {
     console.error('Error in block processing:');
     console.error(error);
-
-    // yield put({ type: 'BLOCK_FAILED', error });
   }
 }
 
@@ -86,6 +92,8 @@ function* processBlock({ block, address }) {
     const transactionStack = yield select(selectTransactionStack);
     const localTransactions = transactionStack.map(e => e.toLowerCase());
     const user = address.toLowerCase();
+
+    console.log('block', block.number, address);
 
     if (!block) {
       console.log('no block?');
@@ -132,6 +140,7 @@ function* processBlock({ block, address }) {
       }
     }
 
+    yield put(actions.blockProcessed(block.number));
     if (hasChanges) {
       yield put(actions.reSync(block.number));
     }
