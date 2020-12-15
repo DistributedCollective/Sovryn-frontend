@@ -111,7 +111,7 @@
   "wallet": {
     "btn": "Conectar carteira",
     "connect_btn": "Escolher carteira",
-    "disconnect": "Desconectar"
+    "disconnect": "Desconectar",
     "my_wallet": "Carteira",
     "referrals": "Indique um amigo"
   },
@@ -427,4 +427,3 @@
     }
   }
 }
-
