@@ -93,8 +93,6 @@ function* processBlock({ block, address }) {
     const localTransactions = transactionStack.map(e => e.toLowerCase());
     const user = address.toLowerCase();
 
-    console.log('block', block.number, address);
-
     if (!block) {
       console.log('no block?');
       return;
