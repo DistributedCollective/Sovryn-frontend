@@ -62,7 +62,7 @@
   "fastBtcForm": {
     "title": "Top-Up",
     "history": {
-      "title": "History",
+      "title": "BTC Deposit History",
       "empty": "History is empty.",
       "walletHistory": "Enter your RSK wallet address to see history.",
       "loading": "Loading..."
@@ -427,6 +427,12 @@
   "topUpBtcDialog": {
     "meta": {
       "title": "Top-UP"
+    }
+  },
+  "walletPage": {
+    "meta": {
+      "title": "My Wallet",
+      "description": "Information about connected wallet"
     }
   }
 }

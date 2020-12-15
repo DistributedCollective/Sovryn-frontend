@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Button as IconButton,
   Icon,
   Menu,
   MenuDivider,
@@ -38,7 +37,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   };
 
   return (
-    <div className="d-flex flex-row">
+    <div className="d-flex flex-row align-items-center">
       {!connected && !address ? (
         <StyledButton
           onClick={handleWalletConnection}
@@ -55,18 +54,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           )}
         </StyledButton>
       ) : (
-        <div>
-          <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
-            <span className="d-flex flex-nowrap flex-row align-items-center">
-              <span>{prettyTx(address, 5, 3)}</span>
-              <IconButton
-                className="ml-1 icon-btn"
-                title={t(translations.wallet.disconnect)}
-                onClick={handleDisconnect}
-                icon="log-out"
-              />
-            </span>
-          </div>
+        <div className="d-flex align-items-center">
           <Popover
             content={
               <Menu>
@@ -91,9 +79,17 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               </Menu>
             }
           >
-            <StyledButton className="d-xl-none">
-              <Icon icon="user" />
-            </StyledButton>
+            <>
+              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
+                <span className="d-flex flex-nowrap flex-row align-items-center">
+                  <span>{prettyTx(address, 5, 3)}</span>
+                  <Icon icon="caret-down" className="ml-2" />
+                </span>
+              </div>
+              <StyledButton className="d-xl-none">
+                <Icon icon="user" />
+              </StyledButton>
+            </>
           </Popover>
         </div>
       )}
