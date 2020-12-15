@@ -67,24 +67,13 @@ export function TutorialDialogComponent(props) {
                 translations.rskConnectTutorial.screens[screen.toString()]
                   .banner,
               )}{' '}
-              {screen === 1 && (
-                <a
-                  href="https://metamask.io/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Metamask.io
-                </a>
-              )}
-              {screen !== 1 && (
-                <a
-                  href="https://discord.com/invite/J22WS6z"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  https://discord.com/invite/J22WS6z
-                </a>
-              )}
+              <a
+                href="https://discord.com/invite/J22WS6z"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://discord.com/invite/J22WS6z
+              </a>
             </p>
           </div>
           {/* <Screen3 /> */}
