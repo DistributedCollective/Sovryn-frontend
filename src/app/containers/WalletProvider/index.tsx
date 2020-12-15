@@ -22,6 +22,11 @@ import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
 import { TxRequestDialog } from './components/TxRequestDialog';
 import { FastBtcForm } from '../FastBtcForm/Loadable';
+import {
+  sliceKey as btcSlice,
+  reducer as btcReducer,
+} from '../FastBtcForm/slice';
+import { fastBtcFormSaga } from '../FastBtcForm/saga';
 
 interface Props {
   children: React.ReactNode;
@@ -36,6 +41,9 @@ export function WalletProvider(props: Props) {
 
   useInjectReducer({ key: transactionsSlice, reducer: transactionsReducer });
   useInjectSaga({ key: transactionsSlice, saga: transactionsStateSaga });
+
+  useInjectReducer({ key: btcSlice, reducer: btcReducer });
+  useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
 

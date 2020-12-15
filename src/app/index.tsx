@@ -24,6 +24,7 @@ import { EmailPage } from './containers/EmailPage';
 import { useEffect, useState } from 'react';
 
 import { TutorialDialog } from './components/TutorialDialog/container';
+import { WalletPage } from './containers/WalletPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -75,6 +76,7 @@ export function App() {
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />
+          <Route exact path="/wallet" component={WalletPage} />
           <Route
             exact
             path="/optin-success"
