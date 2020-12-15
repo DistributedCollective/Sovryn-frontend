@@ -1,7 +1,7 @@
 {
   "title": "Sovryn",
   "announcement": {
-    "message": "Como Sovryn se lanzó recientemente, actualmente hay un <0>límite de $21 </0>en todas las transacciones en la plataforma. Pronto aumentaremos este límite a $ 210. ¡Gracias por ser uno de los primeros en adoptar!"
+    "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "homePage": {
     "title": "Página de inicio",
@@ -176,7 +176,7 @@
   "liquidity": {
     "title": "Liquidez",
     "meta": "Agregar liquidez",
-    "currency":"Moneda",
+    "currency": "Moneda",
     "currencySelect": "Seleccione el tipo de moneda",
     "amount": "Ingrese monto",
     "amountTarget": "Cantidad objetivo",
@@ -226,21 +226,21 @@
       "lendArp": "Prestar APR",
       "borrowArp": "Pedir prestado APR",
       "chooseDays": "Choose days"
-     },
-     "container": {
-       "leftBtn": "Deposit",
-       "rightBtn": "Withdraw",
-       "amountName": "Cantidad del depósito",
-       "balance": "Equilibrar",
-       "profit": "Lucro",
-       "supply": "Suministro"
-     },
-     "borrowingContainer": {
-       "amount": "Importe a pedir prestado",
-       "token": "Token para colaborar",
-       "collateralAmount": "Importe de garantía",
-       "borrow": "Pedir prestado"
-     }
+    },
+    "container": {
+      "leftBtn": "Deposit",
+      "rightBtn": "Withdraw",
+      "amountName": "Cantidad del depósito",
+      "balance": "Equilibrar",
+      "profit": "Lucro",
+      "supply": "Suministro"
+    },
+    "borrowingContainer": {
+      "amount": "Importe a pedir prestado",
+      "token": "Token para colaborar",
+      "collateralAmount": "Importe de garantía",
+      "borrow": "Pedir prestado"
+    }
   },
   "activeUserBorrows": {
     "text": "No tienes préstamos activos."
