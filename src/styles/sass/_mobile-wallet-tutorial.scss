@@ -18,6 +18,9 @@
       transform: translate(-50%, -50%);
       @include fade-in(1s);
     }
+    .close-mobile {
+      top: 0% !important;
+    }
     [class^='title'] {
       color: var(--black);
       top: 6%;

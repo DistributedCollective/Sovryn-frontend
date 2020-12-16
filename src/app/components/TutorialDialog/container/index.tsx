@@ -80,7 +80,7 @@ export function TutorialDialog() {
             />
           </div>
           <div className="d-block d-md-none">
-            <MobileNotReady />
+            <MobileNotReady handleClose={handleClose} />
           </div>
         </>
       )}
