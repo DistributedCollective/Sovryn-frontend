@@ -37,11 +37,7 @@
 
   .nav-tabs {
     border-bottom: 0;
-    & a[id*="borrow-&-lend-tabs-tab-lend"], a[id*="borrow-&-lend-tabs-tab-borrow"] {
-      &:lang(pt_br) {
-        font-size: 12px;
-      }
-    }
+    flex-wrap: nowrap;
     & .nav-item {
       font-size: 15px;
       color: $text-muted;
@@ -64,6 +60,13 @@
         color: $white;
         border-color: $white;
         border-bottom: 1px solid $dark;
+      }
+      &:not(.active) {
+        flex: 1;
+        max-width: fit-content;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }
