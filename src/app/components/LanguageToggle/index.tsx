@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import i18next from 'i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
@@ -8,17 +8,9 @@ export function LanguageToggle() {
     i18next.language || reactLocalStorage.get('i18nextLng'),
   );
 
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      'lang',
-      i18next.language || reactLocalStorage.get('i18nextLng'),
-    );
-  }, []);
-
   const changeLanguage = lng => {
     i18next.changeLanguage(lng);
     reactLocalStorage.set('i18nextLng', lng);
-    document.documentElement.setAttribute('lang', lng);
     setCurrentLang(lng);
   };
 
