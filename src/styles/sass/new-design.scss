@@ -180,6 +180,7 @@ input {
   @extend .sovryn-border;
   @extend .bg-primary;
   @extend .p-3;
+  font-family: var(--secondary-font);
 }
 
 .bp3-popover {

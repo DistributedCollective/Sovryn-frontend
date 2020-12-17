@@ -36,7 +36,11 @@ export function TradingViewChart(props: ChartContainerProps) {
         container_id: 'trading-view-container',
         autosize: true,
         fullscreen: false,
-        studies_overrides: {},
+        studies_overrides: {
+          'volume.volume.color.0': '#fec006',
+          'volume.volume.color.1': '#3fcfb4',
+          'volume.volume.transparency': 75,
+        },
         disabled_features: [
           'left_toolbar',
           'header_compare',
@@ -56,8 +60,10 @@ export function TradingViewChart(props: ChartContainerProps) {
           'paneProperties.horzGridProperties.color': '#363c4e',
           'symbolWatermarkProperties.transparency': 200,
           'scalesProperties.textColor': '#AAA',
-          'mainSeriesProperties.candleStyle.wickUpColor': '#336854',
-          'mainSeriesProperties.candleStyle.wickDownColor': '#7f323f',
+          'mainSeriesProperties.candleStyle.wickUpColor': '#4ecdc4',
+          'mainSeriesProperties.candleStyle.upColor': '#4ecdc4',
+          'mainSeriesProperties.candleStyle.wickDownColor': '#fec006',
+          'mainSeriesProperties.candleStyle.downColor': '#fec006',
         },
       });
       setHasCharts(true);

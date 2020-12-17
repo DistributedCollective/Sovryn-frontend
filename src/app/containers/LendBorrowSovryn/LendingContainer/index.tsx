@@ -104,6 +104,11 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     dispatch(actions.changeLendAmount(amount));
   }, [amount, dispatch]);
 
+  // reset amount to if currency was changed
+  useEffect(() => {
+    setAmount('');
+  }, [currency]);
+
   return (
     <TabContainer
       onMaxChange={onMaxChange}
