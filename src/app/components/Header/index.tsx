@@ -32,7 +32,10 @@ export function Header() {
       onClick: () => dispatch(actions.showDialog(true)),
     },
     t(translations.mainMenu.stats),
-    t(translations.mainMenu.faqs),
+    {
+      to: 'https://sovryn-1.gitbook.io/sovryn/',
+      title: t(translations.mainMenu.faqs),
+    },
   ];
 
   const menuItems = pages.map((item, index) => {
@@ -49,6 +52,17 @@ export function Header() {
         title: item,
         exact: false,
       };
+    }
+
+    if (link.to.startsWith('http')) {
+      return (
+        <MenuItem
+          key={index}
+          text={link.title}
+          href={link.to}
+          target="_blank"
+        />
+      );
     }
 
     return (
