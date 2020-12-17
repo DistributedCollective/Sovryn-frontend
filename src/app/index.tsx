@@ -12,6 +12,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
+import { TutorialDialogModal } from './containers/TutorialDialogModal/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -21,10 +22,8 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
+import { WalletPage } from './containers/WalletPage';
 import { useEffect, useState } from 'react';
-
-import { TutorialDialog } from './components/TutorialDialog/container';
-import { WalletPage } from './containers/WalletPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -72,7 +71,7 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>
-        <TutorialDialog />
+        <TutorialDialogModal />
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />

@@ -5,14 +5,14 @@
  */
 
 import React from 'react';
-import { TutorialDialog } from '../../components/TutorialDialog/container';
+import { TutorialDialogModal } from '../../containers/TutorialDialogModal/Loadable';
 
 interface Props {}
 
 export function SandboxPage(props: Props) {
   return (
     <div className="bg-blue">
-      <TutorialDialog />
+      <TutorialDialogModal />
     </div>
   );
 }
