@@ -74,7 +74,6 @@ export function ActiveLoanTableContainer(props: Props) {
         currentPrice,
         isLong,
         item.collateral,
-        item.startRate,
       );
 
       return {

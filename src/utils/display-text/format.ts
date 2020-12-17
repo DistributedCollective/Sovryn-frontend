@@ -68,10 +68,10 @@ export function calculateProfit(
   currentPrice: number,
   isLong: boolean,
   collateral: string,
-  startRate: string,
 ) {
+  const positionSize = parseFloat(weiTo18(collateral));
   if (isLong) {
-    return (currentPrice - startPrice) / parseFloat(weiTo18(startRate));
+    return positionSize * currentPrice - positionSize * startPrice;
   }
-  return (startPrice - currentPrice) * parseFloat(weiTo18(startRate));
+  return positionSize * startPrice - positionSize * currentPrice;
 }

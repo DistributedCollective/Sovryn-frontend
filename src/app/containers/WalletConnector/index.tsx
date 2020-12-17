@@ -18,7 +18,7 @@ import { SHOW_MODAL } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import '../LendBorrowSovryn/assets/index.scss';
 
 type Props = {};
