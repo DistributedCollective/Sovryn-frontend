@@ -5,8 +5,6 @@ export interface FastBtcFormState {
   dialogOpen: boolean;
   step: number;
   receiverAddress: string;
-  isReceiverAddressValidating: boolean;
-  isReceiverAddressValid: boolean;
   depositAddress: string;
   generatingAddress: boolean;
   minDepositAmount: number;

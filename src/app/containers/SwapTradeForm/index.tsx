@@ -6,6 +6,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { Icon } from '@blueprintjs/core';
 import { FieldGroup } from '../../components/FieldGroup';
 import { FormSelect } from '../../components/FormSelect';
@@ -113,6 +114,19 @@ export function SwapTradeForm(props: Props) {
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
+
+  const { state } = useLocation();
+
+  useEffect(() => {
+    const params: any = (state as any)?.params;
+    if (params?.action && params?.action === 'swap' && params?.asset) {
+      const item = getOptions().find(item => item.key === params.asset);
+      if (item) {
+        setSourceToken(item.key);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, tokens]);
 
   return (
     <>

@@ -3,7 +3,7 @@
  * TradeOrSwapTabs
  *
  */
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from 'react-bootstrap';
 import { translations } from 'locales/i18n';
@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTradingPage } from '../../containers/TradingPage/selectors';
 import { actions } from 'app/containers/TradingPage/slice';
 import { TabType } from '../../containers/TradingPage/types';
+import { useLocation } from 'react-router-dom';
 
 const s = translations.tradeOrSwapTabs;
 
@@ -21,6 +22,7 @@ interface Props {}
 
 export function TradeOrSwapTabs(props: Props) {
   const { t } = useTranslation();
+  const { state } = useLocation();
 
   const dispatch = useDispatch();
   const trading = useSelector(selectTradingPage);
@@ -35,6 +37,17 @@ export function TradeOrSwapTabs(props: Props) {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    const params: any = (state as any)?.params;
+    if (params?.action) {
+      dispatch(
+        actions.changeTab(
+          params.action === 'swap' ? TabType.SWAP : TabType.TRADE,
+        ),
+      );
+    }
+  }, [dispatch, state]);
 
   return (
     <div className="sovryn-tabs">
