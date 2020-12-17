@@ -4,8 +4,7 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
@@ -116,49 +115,39 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
         currentPrice,
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
-        mobileActions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-around">
-            <Icon
-              icon="double-chevron-up"
-              className="text-green mr-1 rounded-circle border border-green p-1"
-              iconSize={16}
-              onClick={() => {
-                setPositionMarginModalOpen(true);
-                setSelectedItem(item);
-              }}
-            />
-            <Icon
-              icon="cross"
-              className="text-red ml-1 rounded-circle border border-red p-1"
-              iconSize={16}
-              onClick={() => {
-                setPositionCloseModalOpen(true);
-                setSelectedItem(item);
-              }}
-            />
-          </div>
-        ),
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-between">
+          <div className="d-flex flex-row flex-nowrap justify-content-end">
             <div className="mr-1">
-              <TopUpButton
-                onClick={() => {
-                  setPositionMarginModalOpen(true);
-                  setSelectedItem(item);
-                }}
+              <Tooltip
+                content={t(translations.activeLoan.table.container.topUp)}
               >
-                {t(translations.activeLoan.table.container.topUp)}
-              </TopUpButton>
+                <Icon
+                  icon="double-chevron-up"
+                  className="text-green mr-1 rounded-circle border border-green p-1"
+                  iconSize={20}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setPositionMarginModalOpen(true);
+                    setSelectedItem(item);
+                  }}
+                />
+              </Tooltip>
             </div>
-            <div className="ml-1">
-              <CloseButton
-                onClick={() => {
-                  setPositionCloseModalOpen(true);
-                  setSelectedItem(item);
-                }}
+            <div>
+              <Tooltip
+                content={t(translations.activeLoan.table.container.close)}
               >
-                {t(translations.activeLoan.table.container.close)}
-              </CloseButton>
+                <Icon
+                  icon="cross"
+                  className="text-red ml-1 rounded-circle border border-red p-1"
+                  iconSize={20}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setPositionCloseModalOpen(true);
+                    setSelectedItem(item);
+                  }}
+                />
+              </Tooltip>
             </div>
           </div>
         ),
@@ -211,21 +200,3 @@ export function ActiveLoanTableContainer(props: Props) {
     </>
   );
 }
-
-const TopUpButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--green);
-  width: 77px;
-  height: 32px;
-  color: var(--green);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;
-
-const CloseButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--red);
-  width: 77px;
-  height: 32px;
-  color: var(--red);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;
