@@ -46,32 +46,32 @@ export function stringToPercent(value, decimals) {
   })} %`;
 }
 
-// export function calculateProfit(
-//   c: string,
-//   s: string,
-//   currentPrice: number,
-//   isLong: boolean,
-// ): number {
-//   const collateral: number = parseFloat(fromWei(c));
-//   const startRate: number = parseFloat(fromWei(s));
-//   const collateralCurrentValue = isLong
-//     ? collateral * currentPrice
-//     : collateral;
-//   const collateralStartValue = isLong
-//     ? collateral * startRate
-//     : collateral * (currentPrice * startRate);
-//   return collateralCurrentValue - collateralStartValue;
-// }
-
 export function calculateProfit(
-  startPrice: number,
+  collateralStr: string,
+  startRateStr: string,
   currentPrice: number,
   isLong: boolean,
-  collateral: string,
-) {
-  const positionSize = parseFloat(weiTo18(collateral));
-  if (isLong) {
-    return positionSize * currentPrice - positionSize * startPrice;
-  }
-  return positionSize * startPrice - positionSize * currentPrice;
+): number {
+  const collateral: number = parseFloat(weiTo18(collateralStr));
+  const startRate: number = parseFloat(weiTo18(startRateStr));
+  const collateralCurrentValue = isLong
+    ? collateral * currentPrice
+    : collateral;
+  const collateralStartValue = isLong
+    ? collateral * startRate
+    : collateral * (currentPrice * startRate);
+  return collateralCurrentValue - collateralStartValue;
 }
+
+// export function calculateProfit(
+//   startPrice: number,
+//   currentPrice: number,
+//   isLong: boolean,
+//   collateral: string,
+// ) {
+//   const positionSize = parseFloat(weiTo18(collateral));
+//   if (isLong) {
+//     return positionSize * currentPrice - positionSize * startPrice;
+//   }
+//   return positionSize * startPrice - positionSize * currentPrice;
+// }

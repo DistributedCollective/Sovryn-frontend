@@ -70,15 +70,21 @@ export function ActiveLoanTableContainer(props: Props) {
       const currentPrice = isLong ? 1 / currentRate : currentRate;
 
       const profit = calculateProfit(
-        startPrice,
+        item.collateral,
+        item.startRate,
         currentPrice,
         isLong,
-        item.collateral,
       );
 
       return {
         id: item.loanId,
-        pair: AssetsDictionary.get(loanAsset).symbol,
+        pair: isLong
+          ? `${AssetsDictionary.get(collateralAsset).symbol} / ${
+              AssetsDictionary.get(loanAsset).symbol
+            }`
+          : `${AssetsDictionary.get(loanAsset).symbol} / ${
+              AssetsDictionary.get(collateralAsset).symbol
+            }`,
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
         positionSize: formatAsNumber(item.collateral, 4),
