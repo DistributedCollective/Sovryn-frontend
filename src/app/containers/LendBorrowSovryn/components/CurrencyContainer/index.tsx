@@ -33,7 +33,7 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
               <Nav.Link
                 key={info.getAsset()}
                 eventKey={info.getAsset()}
-                className="currency-row-link"
+                className="currency-row-link w-100"
               >
                 <CurrencyRow
                   lendingPool={info}

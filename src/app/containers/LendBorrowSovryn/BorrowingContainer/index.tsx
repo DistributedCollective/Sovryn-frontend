@@ -69,6 +69,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency]);
 
+  // reset amount to if currency was changed
+  useEffect(() => {
+    setAmount('');
+  }, [currency]);
+
   const tokenToBorrow = currency;
   const initialLoanDuration = 60 * 60 * 24 * borrowDays;
 
