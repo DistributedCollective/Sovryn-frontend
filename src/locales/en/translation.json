@@ -434,5 +434,38 @@
       "title": "My Wallet",
       "description": "Information about connected wallet"
     }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Wallet"
+    },
+    "tableHeaders": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "dollarBalance": "Dollar Balance",
+      "action": "Action"
+    },
+    "actions": {
+      "deposit": "Top-Up",
+      "swap": "Swap",
+      "trade": "Trade"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Top-Up History"
+    },
+    "tableHeaders": {
+      "time": "Date/Time",
+      "asset": "Asset",
+      "amount": "Amount",
+      "fee": "Fee",
+      "depositTx": "BTC Deposit ID",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transaction"
+    },
+    "emptyState": "History is empty.",
+    "walletHistory": "Wallet must be connected.",
+    "loading": "Loading..."
   }
 }
