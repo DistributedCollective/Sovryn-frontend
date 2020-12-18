@@ -55,7 +55,7 @@ export function ExpandedRowMobile(props) {
       </div>
       <div className="row mobile-expanded-row pb-3 border-bottom">
         <div className="col-8">{props.item.endDate}</div>
-        <div className="col-4">{props.item.mobileActions}</div>
+        <div className="col-4">{props.item.actions}</div>
       </div>
     </div>
   );

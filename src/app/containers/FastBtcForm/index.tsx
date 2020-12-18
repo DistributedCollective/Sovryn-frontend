@@ -10,12 +10,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Overlay, Classes, Button } from '@blueprintjs/core';
 import classNames from 'classnames';
 
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
-
-import { reducer, sliceKey, actions } from './slice';
 import { selectFastBtcForm } from './selectors';
-import { fastBtcFormSaga } from './saga';
 
 import './index.scss';
 
@@ -24,6 +20,7 @@ import logo from '../../../assets/images/sovryn-logo-white-inline.svg';
 import { Screen1 } from './components/screen1';
 import { Screen2 } from './components/screen2';
 import { Screen3 } from './components/screen3';
+import { actions } from './slice';
 
 interface Props {
   isOpen?: boolean;
@@ -34,9 +31,6 @@ interface Props {
 }
 
 export function FastBtcForm(props: Props) {
-  useInjectReducer({ key: sliceKey, reducer: reducer });
-  useInjectSaga({ key: sliceKey, saga: fastBtcFormSaga });
-
   const isConnected = useIsConnected();
   const state = useSelector(selectFastBtcForm);
   const dispatch = useDispatch();

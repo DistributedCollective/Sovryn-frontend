@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import {
-  Button as IconButton,
   Icon,
   Menu,
   MenuDivider,
@@ -10,15 +10,16 @@ import {
   Spinner,
 } from '@blueprintjs/core';
 import styled from 'styled-components';
-
-import '../LendBorrowSovryn/assets/index.scss';
-import { useSelector } from 'react-redux';
+import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { useSelector, useDispatch } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
+import { SHOW_MODAL } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import '../LendBorrowSovryn/assets/index.scss';
 
 type Props = {};
 
@@ -26,19 +27,27 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   const { connected, connecting, address } = useSelector(selectWalletProvider);
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleWalletConnection = useCallback(() => {
-    Sovryn.connect()
-      .then(() => {})
-      .catch(console.error);
-  }, []);
+    //don't show TutorialDialogModal if unsubscribe route
+    if (location.pathname === '/unsubscribe') {
+      Sovryn.connect()
+        .then(() => {})
+        .catch(console.error);
+    } else {
+      dispatch(actions.showModal(SHOW_MODAL));
+      reactLocalStorage.set('closedRskTutorial', 'false');
+    }
+  }, [dispatch, location.pathname]);
 
   const handleDisconnect = () => {
     Sovryn.disconnect().then(() => {});
   };
 
   return (
-    <div className="d-flex flex-row">
+    <div className="d-flex flex-row align-items-center">
       {!connected && !address ? (
         <StyledButton
           onClick={handleWalletConnection}
@@ -55,18 +64,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           )}
         </StyledButton>
       ) : (
-        <div>
-          <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
-            <span className="d-flex flex-nowrap flex-row align-items-center">
-              <span>{prettyTx(address, 5, 3)}</span>
-              <IconButton
-                className="ml-1 icon-btn"
-                title={t(translations.wallet.disconnect)}
-                onClick={handleDisconnect}
-                icon="log-out"
-              />
-            </span>
-          </div>
+        <div className="d-flex align-items-center">
           <Popover
             content={
               <Menu>
@@ -91,18 +89,28 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               </Menu>
             }
           >
-            <StyledButton className="d-xl-none">
-              <Icon icon="user" />
-            </StyledButton>
+            <>
+              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
+                <span className="d-flex flex-nowrap flex-row align-items-center">
+                  <span>{prettyTx(address, 5, 3)}</span>
+                  <Icon icon="caret-down" className="ml-2" />
+                </span>
+              </div>
+              <StyledButton className="d-xl-none">
+                <Icon icon="user" />
+              </StyledButton>
+            </>
           </Popover>
         </div>
       )}
-      <NavLink
-        to="/faqs"
+      <a
+        href="https://sovryn-1.gitbook.io/sovryn/"
+        target="_blank"
+        rel="noopener noreferrer"
         className="help flex-shrink-0 flex-grow-0 d-none d-xl-flex flex-row text-decoration-none justify-content-center align-items-center"
       >
         <span>?</span>
-      </NavLink>
+      </a>
     </div>
   );
 };

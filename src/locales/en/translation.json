@@ -5,9 +5,13 @@
     "max": "max",
     "close": "Close"
   },
+  "global": {
+    "liquidationPrice": "Liquidation Price",
+    "interestApr": "Interest APR"
+  },
   "title": "Sovryn",
   "announcement": {
-    "message": "As Sovryn has only recently launched, there is currently a <0>$21 limit</0> on all transactions on the platform. We will be raising this limit to $210 soon. Thank you for being an early adopter!"
+    "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "homePage": {
     "title": "Home Page",
@@ -62,7 +66,7 @@
   "fastBtcForm": {
     "title": "Top-Up",
     "history": {
-      "title": "History",
+      "title": "BTC Deposit History",
       "empty": "History is empty.",
       "walletHistory": "Enter your RSK wallet address to see history.",
       "loading": "Loading..."
@@ -217,6 +221,9 @@
   "whiteListedNotification": {
     "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
   },
+  "limitsNotification": {
+    "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+  },
   "lend": {
     "history": {
       "title": "Lending history"
@@ -311,11 +318,11 @@
     "screens": {
       "1": {
         "title": "Connect Your Wallet",
-        "banner": "Don't have a wallet? We recomend"
+        "banner": "For any assistance, reach out to the community"
       },
       "11": {
         "title": "Connect to the RSK Network",
-        "banner": "Don't have a wallet? We recomend"
+        "banner": "For any assistance, reach out to the community"
       },
       "2": {
         "title": "How to Connect to RSK Network",
@@ -339,38 +346,6 @@
     "errorText": "Error submitting form",
     "success": "Success!",
     "successText": "We will contact you as soon as Sovryn Mobile is live."
-  },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
-        "txHash": "Transaction hash",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
   },
   "fastBTC": {
     "screens": {
@@ -425,5 +400,67 @@
     "meta": {
       "title": "Top-UP"
     }
+  },
+  "walletPage": {
+    "meta": {
+      "title": "My Wallet",
+      "description": "Information about connected wallet"
+    }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Wallet"
+    },
+    "tableHeaders": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "dollarBalance": "Dollar Balance",
+      "action": "Action"
+    },
+    "actions": {
+      "deposit": "Top-Up",
+      "swap": "Swap",
+      "trade": "Trade"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Top-Up History"
+    },
+    "tableHeaders": {
+      "time": "Date/Time",
+      "asset": "Asset",
+      "amount": "Amount",
+      "fee": "Fee",
+      "depositTx": "BTC Deposit ID",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transaction"
+    },
+    "emptyState": "History is empty.",
+    "walletHistory": "Wallet must be connected.",
+    "loading": "Loading..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Deposit",
+      "redeem": "Redeem"
+    },
+    "amount": {
+      "deposit": "Amount to deposit",
+      "redeem": "Amount to redeem"
+    },
+    "tradeButtons": {
+      "deposit": "Deposit {{asset}}",
+      "redeem": "Redeem {{asset}}"
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Borrowed",
+      "collateralAmount": "Collateral",
+      "interestAPR": "Interest APR",
+      "endTimestamp": "Payback until"
+    },
+    "repayButton": "Repay"
   }
 }

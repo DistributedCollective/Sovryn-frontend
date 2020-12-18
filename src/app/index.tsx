@@ -12,6 +12,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
+import { TutorialDialogModal } from './containers/TutorialDialogModal/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -21,9 +22,8 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
+import { WalletPage } from './containers/WalletPage';
 import { useEffect, useState } from 'react';
-
-import { TutorialDialog } from './components/TutorialDialog/container';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -59,7 +59,10 @@ export function App() {
 
   useEffect(() => {
     // add white favicon for dark mode.
-    getFaviconEl().href = theme === 'dark' ? '/favicon.ico' : '/favicon.ico';
+    const fav = getFaviconEl();
+    fav.href = theme === 'dark' ? '/favicon-white.png' : '/favicon.png';
+    fav.type = 'image/png';
+    fav.sizes.add('48x48');
   }, [theme]);
 
   return (
@@ -68,13 +71,14 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>
-        <TutorialDialog />
+        <TutorialDialogModal />
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
           <Route exact path="/stats" component={StatsPage} />
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />
+          <Route exact path="/wallet" component={WalletPage} />
           <Route
             exact
             path="/optin-success"

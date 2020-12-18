@@ -315,7 +315,6 @@ export class SovrynNetwork {
           await this.initReadWeb3(chainId);
           this.store().dispatch(actions.chainChanged({ chainId, networkId }));
         });
-
         provider.on('networkChanged', async (networkId: number) => {
           const chainId = await (this._writeWeb3.eth as any).chainId();
           await this.testChain(chainId);

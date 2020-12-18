@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Nav, Tab } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { Tooltip, Text } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import '../../assets/index.scss';
 import clsx from 'clsx';
@@ -11,13 +12,13 @@ import { useLending_supplyInterestRate } from '../../../../hooks/lending/useLend
 import { bignumber } from 'mathjs';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_assetBalanceOf';
-import { Tooltip } from '@blueprintjs/core';
+import { ButtonType } from '../../types';
 
 type Props = {
   currency: Asset;
-  rightButton: string;
-  leftButton: string;
-  setCurrentButton: (current: string) => void;
+  rightButton: ButtonType;
+  leftButton: ButtonType;
+  setCurrentButton: (current: ButtonType) => void;
   setBorrowAmount?: (amount: string) => void;
 };
 
@@ -84,7 +85,7 @@ const ButtonGroup: React.FC<Props> = ({
       <div className="row">
         <Tab.Container id="button-group " defaultActiveKey={leftButton}>
           <Nav
-            onSelect={k => setKey(k as string)}
+            onSelect={k => setKey((k as unknown) as ButtonType)}
             className="deposit-button-group w-100"
             variant="pills"
           >
@@ -116,11 +117,13 @@ const ButtonGroup: React.FC<Props> = ({
         </Tab.Container>
       </div>
 
-      {key === 'Redeem' && (
+      {key === ButtonType.REDEEM && (
         <div className="container my-3">
           <div className="withdraw-content py-3 row">
             <div className="col-6">
-              <h4>{t(translations.lend.container.balance)}</h4>
+              <h4>
+                <Text ellipsize>{t(translations.lend.container.balance)}</Text>
+              </h4>
               <div>
                 <span className="text-muted">{currency} </span>
                 <strong>
@@ -134,7 +137,9 @@ const ButtonGroup: React.FC<Props> = ({
               </div>
             </div>
             <div className="col-6">
-              <h4>{t(translations.lend.container.profit)}</h4>
+              <h4>
+                <Text ellipsize>{t(translations.lend.container.profit)}</Text>
+              </h4>
               <div>
                 <span className="text-muted">{currency} </span>
                 <strong>

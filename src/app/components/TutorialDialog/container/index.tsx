@@ -22,6 +22,7 @@ export function TutorialDialog() {
     //   window.localStorage.getItem('connectedToRskBefore') === 'true',
     connected: useIsConnected(),
     closedBefore: storage.session.getItem('closedRskTutorial') === 'true',
+    onNetwork: onNetwork && storage.local.getItem('tutorial_active') !== 'true',
   };
 
   const handleWalletConnection = useCallback(() => {
@@ -80,7 +81,7 @@ export function TutorialDialog() {
             />
           </div>
           <div className="d-block d-md-none">
-            <MobileNotReady />
+            <MobileNotReady handleClose={handleClose} />
           </div>
         </>
       )}

@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { min } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -29,7 +31,6 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
-import { min } from 'mathjs';
 
 const s = translations.marginTradeForm;
 
@@ -41,8 +42,7 @@ export function MarginTradeForm(props: Props) {
 
   const pair = TradingPairDictionary.get(tradingPair);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [position, setPosition] = useState(TradingPosition.LONG);
   const [leverage, setLeverage] = useState(2);
@@ -88,6 +88,19 @@ export function MarginTradeForm(props: Props) {
     '1',
     maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
   );
+
+  const { state } = useLocation();
+
+  useEffect(() => {
+    const params: any = (state as any)?.params;
+    if (params?.action && params?.action === 'trade' && params?.asset) {
+      const item = options.find(item => item.key === params.asset);
+      if (item) {
+        setCollateral(item.key);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <>

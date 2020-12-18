@@ -8,8 +8,6 @@ export const initialState: ContainerState = {
   dialogOpen: false,
   step: 1,
   receiverAddress: '',
-  isReceiverAddressValidating: false,
-  isReceiverAddressValid: true,
   generatingAddress: false,
   depositAddress: '',
   minDepositAmount: 0,
@@ -31,12 +29,8 @@ const fastBtcFormSlice = createSlice({
     },
     changeReceiverAddress(state, { payload }: PayloadAction<string>) {
       state.receiverAddress = payload;
-      state.isReceiverAddressValidating = true;
       state.generatingAddress = true;
       state.isHistoryLoading = true;
-    },
-    changeReceiverAddressValidity(state, { payload }: PayloadAction<boolean>) {
-      state.isReceiverAddressValid = payload;
     },
     getDepositAddressSuccess(
       state,
@@ -46,12 +40,10 @@ const fastBtcFormSlice = createSlice({
     ) {
       state.receiverAddress = payload.web3adr;
       state.depositAddress = payload.btcadr;
-      state.isReceiverAddressValidating = false;
       state.generatingAddress = false;
     },
     getDepositAddressFailed(state) {
       state.depositAddress = '';
-      state.isReceiverAddressValidating = false;
       state.generatingAddress = false;
     },
     changeAmountInfo(

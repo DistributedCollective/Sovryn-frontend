@@ -37,6 +37,7 @@
 
   .nav-tabs {
     border-bottom: 0;
+    flex-wrap: nowrap;
     & .nav-item {
       font-size: 15px;
       color: $text-muted;
@@ -59,6 +60,13 @@
         color: $white;
         border-color: $white;
         border-bottom: 1px solid $dark;
+      }
+      &:not(.active) {
+        flex: 1;
+        max-width: fit-content;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -172,6 +180,7 @@ input {
   @extend .sovryn-border;
   @extend .bg-primary;
   @extend .p-3;
+  font-family: var(--secondary-font);
 }
 
 .bp3-popover {
