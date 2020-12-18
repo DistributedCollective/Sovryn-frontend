@@ -34,10 +34,6 @@ export function TopUpHistory() {
     }
   }, [account, isConnected, dispatch]);
 
-  useEffect(() => {
-    console.log(state.history);
-  }, [state.history]);
-
   return (
     <section>
       <div className="d-flex align-items-center justify-content-start mb-3">
@@ -144,33 +140,6 @@ export function TopUpHistory() {
                     />
                   )}
                 </td>
-                {/*<td>*/}
-                {/*  <div*/}
-                {/*    className="d-flex flex-row justify-content-between w-100"*/}
-                {/*  >*/}
-                {/*    <div className="d-flex flex-row align-items-center mr-3">*/}
-                {/*      <div className="mr-3">*/}
-                {/*        <Icon*/}
-                {/*          icon={*/}
-                {/*            item.type === 'deposit'*/}
-                {/*              ? 'chevron-right'*/}
-                {/*              : 'chevron-left'*/}
-                {/*          }*/}
-                {/*        />*/}
-                {/*      </div>*/}
-                {/*      <LinkToExplorer*/}
-                {/*        txHash={item.txHash}*/}
-                {/*        realBtc={item.type === 'deposit'}*/}
-                {/*      />*/}
-                {/*    </div>*/}
-                {/*    <div>*/}
-                {/*      {weiToFixed(item.valueBtc * 1e10, 4)}{' '}*/}
-                {/*      <span className="text-muted">*/}
-                {/*        {item.type === 'deposit' ? 'BTC' : 'rBTC'}*/}
-                {/*      </span>{' '}*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*</td>*/}
               </tr>
             ))}
           </tbody>

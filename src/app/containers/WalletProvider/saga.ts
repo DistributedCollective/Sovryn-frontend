@@ -19,6 +19,7 @@ import { TxStatus } from '../../../store/global/transactions-store/types';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
+    console.log('created block channel');
     const blockEvents = web3.eth
       .subscribe('newBlockHeaders', (error, result) => {
         if (error) {
@@ -32,6 +33,7 @@ function createBlockChannels({ web3 }) {
       })
       .on('data', blockHeader => {
         emit(actions.blockReceived(blockHeader));
+        console.log('block received', blockHeader.number);
         // emit({
         //   type: 'BLOCK_RECEIVED',
         //   blockHeader,
@@ -77,6 +79,11 @@ function* processBlockHeader(event) {
     const blocksToProcess = previousBlocks
       .filter(x => !processedBlocks.includes(x))
       .reverse();
+    console.log('parse blocks', {
+      previousBlocks,
+      blocksToProcess,
+      processedBlocks,
+    });
     for (const number of blocksToProcess) {
       const block = yield call(web3.eth.getBlock, number, true);
       yield call(processBlock, { block, address });
@@ -100,6 +107,13 @@ function* processBlock({ block, address }) {
 
     const txs = block.transactions;
     let hasChanges = false;
+
+    console.log(
+      'processing txes of block',
+      block.number,
+      txs,
+      localTransactions,
+    );
 
     if (txs.length > 0) {
       for (let i = 0; i < txs.length; i++) {

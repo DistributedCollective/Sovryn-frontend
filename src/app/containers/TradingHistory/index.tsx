@@ -147,7 +147,9 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
       .div(10 ** 36),
   );
 
-  if (events[0].collateralToken === Asset.DOC) {
+  if (
+    TradingPairDictionary.longPositionTokens.includes(events[0].collateralToken)
+  ) {
     profit = toWei(bignumber(profit).div(closePrice));
   }
 

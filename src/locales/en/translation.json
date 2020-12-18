@@ -5,6 +5,10 @@
     "max": "max",
     "close": "Close"
   },
+  "global": {
+    "liquidationPrice": "Liquidation Price",
+    "interestApr": "Interest APR"
+  },
   "title": "Sovryn",
   "announcement": {
     "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
@@ -435,5 +439,28 @@
     "emptyState": "History is empty.",
     "walletHistory": "Wallet must be connected.",
     "loading": "Loading..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Deposit",
+      "redeem": "Redeem"
+    },
+    "amount": {
+      "deposit": "Amount to deposit",
+      "redeem": "Amount to redeem"
+    },
+    "tradeButtons": {
+      "deposit": "Deposit {{asset}}",
+      "redeem": "Redeem {{asset}}"
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Borrowed",
+      "collateralAmount": "Collateral",
+      "interestAPR": "Interest APR",
+      "endTimestamp": "Payback until"
+    },
+    "repayButton": "Repay"
   }
 }
