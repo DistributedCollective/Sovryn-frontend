@@ -17,4 +17,11 @@ export enum TabType {
   BORROW = 'borrow',
 }
 
+export enum ButtonType {
+  DEPOSIT = 'deposit',
+  REDEEM = 'redeem',
+  BORROW = 'borrow',
+  REPAY = 'repay',
+}
+
 export type ContainerState = LendBorrowSovrynState;

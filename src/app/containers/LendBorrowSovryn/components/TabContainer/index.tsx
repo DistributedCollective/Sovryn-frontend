@@ -7,6 +7,9 @@ import AccountBalance from '../AccountBalance';
 
 import '../../assets/index.scss';
 import { SendTxResponse } from '../../../../hooks/useSendContractTx';
+import { ButtonType } from '../../types';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 type Props = {
   currency: Asset;
@@ -14,10 +17,10 @@ type Props = {
   loadingLimit: boolean;
   minValue?: string;
   amountValue: string;
-  leftButton: string;
-  rightButton: string;
+  leftButton: ButtonType;
+  rightButton: ButtonType;
   onChangeAmount: (e: string) => void;
-  onMaxChange: (button: string) => void;
+  onMaxChange: (button: ButtonType) => void;
   handleSubmit: () => void;
   handleSubmitWithdraw?: () => void;
   setBorrowAmount?: (amount: string) => void;
@@ -46,6 +49,7 @@ const TabContainer: React.FC<Props> = ({
   loadingLimit,
 }) => {
   const [currentButton, setCurrentButton] = useState(leftButton);
+  const { t } = useTranslation();
   return (
     <>
       <ButtonGroup
@@ -60,10 +64,8 @@ const TabContainer: React.FC<Props> = ({
         onChangeAmount={onChangeAmount}
         onMaxChange={() => onMaxChange(currentButton)}
         currency={currency}
-        amountName={
-          currentButton === 'Deposit' ? 'Deposit Amount' : 'Amount to redeem'
-        }
-        maxValue={currentButton === 'Deposit' ? maxValue : '0'}
+        amountName={t(translations.lendingPage.amount[currentButton])}
+        maxValue={currentButton === ButtonType.DEPOSIT ? maxValue : '0'}
         loadingLimit={loadingLimit}
       />
       <AccountBalance

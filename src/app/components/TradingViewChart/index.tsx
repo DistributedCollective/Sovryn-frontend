@@ -86,13 +86,6 @@ export function TradingViewChart(props: ChartContainerProps) {
           'mainSeriesProperties.areaStyle.color2': '#0098c4',
           'mainSeriesProperties.areaStyle.linecolor': '#4ecdc4',
           'mainSeriesProperties.areaStyle.transparency': 90,
-          'mainSeriesProperties.barStyle.wickUpColor': '#4ecdc4',
-          'mainSeriesProperties.barStyle.upColor': '#4ecdc4',
-          'mainSeriesProperties.barStyle.wickDownColor': '#fec006',
-          'mainSeriesProperties.barStyle.downColor': '#fec006',
-          'mainSeriesProperties.barStyle.borderColor': '#4ecdc4',
-          'mainSeriesProperties.barStyle.borderUpColor': '#4ecdc4',
-          'mainSeriesProperties.barStyle.borderDownColor': '#fec006',
         },
       });
       setHasCharts(true);

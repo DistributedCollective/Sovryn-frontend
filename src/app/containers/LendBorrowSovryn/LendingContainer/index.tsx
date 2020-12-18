@@ -19,6 +19,7 @@ import { actions } from '../slice';
 import '../assets/index.scss';
 import { SendTxResponse } from '../../../hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
+import { ButtonType } from '../types';
 
 type Props = {
   currency: Asset;
@@ -45,14 +46,14 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     loading: loadingLimit,
   } = useLending_transactionLimit(currency, currency);
 
-  const onMaxChange = (type: string) => {
+  const onMaxChange = (type: ButtonType) => {
     let amount = '0';
-    if (type === 'Deposit') {
+    if (type === ButtonType.DEPOSIT) {
       amount = userBalance;
       if (maxAmount !== '0') {
         amount = min(userBalance, maxAmount);
       }
-    } else if (type === 'Redeem') {
+    } else if (type === ButtonType.REDEEM) {
       amount = depositedBalance;
     }
     setAmount(weiTo18(amount));
@@ -115,8 +116,8 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
       txState={txState}
       isConnected={isConnected}
       valid={valid}
-      leftButton="Deposit"
-      rightButton="Redeem"
+      leftButton={ButtonType.DEPOSIT}
+      rightButton={ButtonType.REDEEM}
       amountValue={amount}
       onChangeAmount={onChangeAmount}
       handleSubmit={handleLendSubmit}

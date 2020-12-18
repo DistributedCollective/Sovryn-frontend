@@ -1,6 +1,5 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import Web3 from 'web3-utils';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useCloseWithSwap(
@@ -19,13 +18,7 @@ export function useCloseWithSwap(
   return {
     send: () =>
       send(
-        [
-          loanId,
-          receiver,
-          swapAmount,
-          Web3.toHex(returnTokenIsCollateral),
-          loanDataBytes,
-        ],
+        [loanId, receiver, swapAmount, returnTokenIsCollateral, loanDataBytes],
         { from: account },
         { type: TxType.CLOSE_WITH_SWAP },
       ),

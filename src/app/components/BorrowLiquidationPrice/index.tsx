@@ -12,6 +12,8 @@ import { useBorrowLiquidationPrice } from 'app/hooks/trading/useBorrowLiquidatio
 import { LoadableValue } from '../LoadableValue';
 import { FieldGroup } from '../FieldGroup';
 import { DummyField } from '../DummyField';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   asset: Asset;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 export function BorrowLiquidationPrice(props: Props) {
+  const { t } = useTranslation();
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
     props.asset,
     Asset.DOC,
@@ -32,7 +35,10 @@ export function BorrowLiquidationPrice(props: Props) {
     props.position,
   );
   return (
-    <FieldGroup label="Liquidation Price" labelColor={props.labelColor}>
+    <FieldGroup
+      label={t(translations.global.liquidationPrice)}
+      labelColor={props.labelColor}
+    >
       <DummyField>
         <LoadableValue
           value={

@@ -6,10 +6,13 @@ import { SendTxProgress } from 'app/components/SendTxProgress';
 import { TradeButton } from 'app/components/TradeButton';
 
 import '../../assets/index.scss';
+import { ButtonType } from '../../types';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 type Props = {
   currency: Asset;
-  title?: string;
+  title: ButtonType;
   isConnected: boolean;
   valid: boolean;
   txState: any;
@@ -28,6 +31,7 @@ const AccountBalance: React.FC<Props> = ({
   txState,
   title,
 }) => {
+  const { t } = useTranslation();
   return (
     <>
       <SendTxProgress
@@ -38,11 +42,13 @@ const AccountBalance: React.FC<Props> = ({
       <div className="account-balance-container position-relative">
         <AssetWalletBalance asset={currency} />
         <TradeButton
-          text={`${title} ${currency}`}
+          text={t(translations.lendingPage.tradeButtons[title], {
+            asset: currency,
+          })}
           onClick={
-            title === 'Redeem'
+            title === ButtonType.REDEEM
               ? handleSubmitWithdraw
-              : title === 'Repay'
+              : title === ButtonType.REPAY
               ? handleSubmitRepay
               : handleSubmit
           }
