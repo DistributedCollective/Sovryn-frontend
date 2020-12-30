@@ -59,7 +59,7 @@ export function MarginTradeForm(props: Props) {
   ).map(item => ({ key: item, label: AssetsDictionary.get(item).symbol }));
 
   const color =
-    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--gold)';
+    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--Muted_red)';
 
   useEffect(() => {
     setCollateral(pair.getCollateralForPosition(position)[0]);

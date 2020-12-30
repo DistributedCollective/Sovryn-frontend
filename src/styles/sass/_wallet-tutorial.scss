@@ -345,7 +345,7 @@ $scale: 0.8;
 
 .screen1 {
   .badger1 {
-    @include position(9%, 31%);
+    @include position(7%, 31%);
     @include size(211px, 323px);
     @include fade-in(2s);
   }
@@ -355,12 +355,10 @@ $scale: 0.8;
     @include fade-in(2s);
     transform: rotate(45deg);
   }
-  .browser-wallet *,
-  .mobile-wallet * {
+  .browser-wallet * {
     cursor: pointer;
   }
-  .browser-icon,
-  .mobile-icon {
+  .browser-icon {
     &:hover {
       -webkit-animation: swing 1.3s ease;
       animation: swing 1.3s ease;
@@ -368,10 +366,8 @@ $scale: 0.8;
       animation-iteration-count: infinite;
     }
   }
-  .hardware-wallet {
-    * {
+  .hardware-wallet *, .mobile-wallet .mobile-icon, .mobile-wallet * {
       opacity: 0.7;
-    }
   }
   .browser-icon {
     height: calc(131px * #{$scale});

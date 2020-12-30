@@ -122,7 +122,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                     {item.icon === 'SHORT' && (
                       <Icon
                         icon="circle-arrow-down"
-                        className="text-Gold mx-2"
+                        className="text-Muted_red mx-2"
                         iconSize={20}
                       />
                     )}{' '}

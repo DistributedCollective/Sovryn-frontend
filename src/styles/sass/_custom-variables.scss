@@ -7,6 +7,7 @@
   --Field_bg: #05182e;
   --Green: #00ce7d;
   --Red: #eb2106;
+  --Muted_red: #CD4E4E;
   --Grey_text: #586c86;
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
@@ -47,6 +48,7 @@ $white: $body-color;
 //$purple:  #6f42c1 !default;
 //$pink:    #e83e8c !default;
 $red:     #eb2106;
+$muted_red: #CD4E4E;
 //$orange:  #fd7e14 !default;
 //$yellow:  #ffc107 !default;
 $green:   #00ce7d;
@@ -70,7 +72,7 @@ $theme-colors: (
   'black': $black,
   'muted': $dark-gray,
   'long': $teal,
-  'short': #fec006,
+  'short': #CD4E4E,
   'dark-gray': $dark-gray,
   'light-gray': $light-gray,
   'teal': $teal,
@@ -88,7 +90,8 @@ $theme-colors: (
   'fieldBackground':  #05182e,
   'component-bg': #0b223b,
   'TabGrey': #213b58,
-  'Red': #eb2106
+  'Red': #eb2106,
+  'Muted_red': #CD4E4E,
 );
 
 
