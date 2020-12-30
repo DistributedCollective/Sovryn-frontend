@@ -46,7 +46,7 @@ export function Screen1(props: Props) {
             />
           </div>
           <div className="browser-wallet-text position-absolute">
-            <p>{t(translations.rskConnectTutorial.browser_wallet)}t</p>
+            <p>{t(translations.rskConnectTutorial.browser_wallet)}</p>
           </div>
         </div>
         <div className="mobile-wallet">
