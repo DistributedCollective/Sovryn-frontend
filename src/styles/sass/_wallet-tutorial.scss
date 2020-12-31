@@ -89,47 +89,47 @@ $scale: 0.8;
       @include fade-in(1.5s);
       // REFACTOR THIS TO A MIXIN
       &[class*='1'] {
-        @include armPosition(-20deg, 38deg)
+        @include armPosition(-20deg, 38deg);
       }
       &[class*='2'] {
-        @include armPosition(25deg, -15deg)
+        @include armPosition(25deg, -15deg);
       }
       &[class*='3'] {
-        @include armPosition(-18deg, -30deg)
+        @include armPosition(-18deg, -30deg);
       }
       &[class*='4'] {
-        @include armPosition(-23deg, 15deg)
+        @include armPosition(-23deg, 15deg);
       }
       &[class*='5'] {
-        @include armPosition(-35deg, -15deg)
+        @include armPosition(-35deg, -15deg);
       }
       &[class*='6'] {
-        @include armPosition(-30deg, -23deg)
+        @include armPosition(-30deg, -23deg);
       }
       &[class*='7'] {
-        @include armPosition(-100deg, -40deg)
+        @include armPosition(-100deg, -40deg);
       }
       &[class*='--qr'] {
         &[class*='1'] {
-          @include armPosition(50deg, -50deg)
+          @include armPosition(50deg, -50deg);
         }
         &[class*='2'] {
-          @include armPosition(-20deg, -30deg)
+          @include armPosition(-20deg, -30deg);
         }
         &[class*='3'] {
-          @include armPosition(-18deg, -30deg)
+          @include armPosition(-18deg, -30deg);
         }
         &[class*='4'] {
-          @include armPosition(-42deg, -2deg)
+          @include armPosition(-42deg, -2deg);
         }
         &[class*='5'] {
-          @include armPosition(-15deg, 18deg)
+          @include armPosition(-15deg, 18deg);
         }
         &[class*='6'] {
-          @include armPosition(-30deg, -23deg)
+          @include armPosition(-30deg, -23deg);
         }
         &[class*='7'] {
-          @include armPosition(-100deg, -40deg)
+          @include armPosition(-100deg, -40deg);
         }
       }
       .arm1 {
@@ -366,8 +366,29 @@ $scale: 0.8;
       animation-iteration-count: infinite;
     }
   }
-  .hardware-wallet *, .mobile-wallet .mobile-icon, .mobile-wallet * {
-      opacity: 0.7;
+  .hardware-wallet *,
+  .mobile-wallet * {
+    opacity: 0.7;
+  }
+  .mobile-wallet .coming-soon {
+    top: 5%;
+    left: 16%;
+    transform: scale(0.4);
+    z-index: 30;
+    opacity: 1;
+    img {
+      opacity: 1;
+    }
+  }
+  .hardware-wallet .coming-soon {
+    top: 5%;
+    left: 40%;
+    transform: scale(0.4);
+    z-index: 30;
+    opacity: 1;
+    img {
+      opacity: 1;
+    }
   }
   .browser-icon {
     height: calc(131px * #{$scale});
@@ -496,4 +517,3 @@ $scale: 0.8;
     }
   }
 }
-

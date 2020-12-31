@@ -26,9 +26,9 @@ import {
 } from 'utils/display-text/format';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { usePriceFeeds_tradingPairRates } from '../../../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
+import { usePriceFeeds_rateByPath } from '../../../../hooks/price-feeds/usePriceFeeds_rateByPath';
 
 interface Props {
   data: any;
@@ -50,7 +50,7 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
 
-  const items = usePriceFeeds_tradingPairRates();
+  const items = usePriceFeeds_rateByPath();
 
   const data = React.useMemo(() => {
     return props.data.map((item, i) => {

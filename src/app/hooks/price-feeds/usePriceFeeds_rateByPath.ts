@@ -8,17 +8,23 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { CachedAssetRate } from '../../containers/WalletProvider/types';
 import { actions } from 'app/containers/WalletProvider/slice';
 
-export function usePriceFeeds_tradingPairRates() {
+export function usePriceFeeds_rateByPath() {
   const { syncBlockNumber, assetRates } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
 
   const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
-    const output = await contractReader.call('priceFeed', 'queryRate', [
+    const path = await contractReader.call('swapNetwork', 'conversionPath', [
       getTokenContract(sourceAsset).address,
       getTokenContract(destAsset).address,
     ]);
-    console.log(output);
-    return output;
+    const rate = await contractReader.call('swapNetwork', 'rateByPath', [
+      path,
+      '1000000000000000000',
+    ]);
+    return {
+      precision: '1000000000000000000',
+      rate: rate,
+    };
   }, []);
 
   const getRates = useCallback(async () => {
