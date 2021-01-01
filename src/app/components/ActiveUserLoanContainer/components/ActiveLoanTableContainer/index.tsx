@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
-import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import {
@@ -23,6 +22,7 @@ import {
   stringToPercent,
   formatAsNumber,
   calculateProfit,
+  calculateLiquidation,
 } from 'utils/display-text/format';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
@@ -110,13 +110,11 @@ export function ActiveLoanTableContainer(props: Props) {
         leverage: leverageFromMargin(item.startMargin),
         profit:
           isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
-        liquidationPrice: (
-          <ActiveLoanLiquidation
-            asset={loanAsset}
-            item={item}
-            currentPrice={currentPrice}
-            isLong={isLong}
-          />
+        liquidationPrice: calculateLiquidation(
+          isLong,
+          leverageFromMargin(item.startMargin),
+          item.maintenanceMargin,
+          item.startRate,
         ),
         currentPrice,
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
