@@ -25,41 +25,28 @@
 
 $scale: 0.8;
 
-.wallet-tutorial {
+.sov-tutorial {
   &_container {
     z-index: 100;
-    background-color: rgba(23, 23, 23, 0.5);
     width: 100vw;
     height: 100vh;
+    background: rgba(72, 72, 72, 0.92);
     > div:first-of-type {
-      width: 800px;
-      //   height: #{'min(900px, 80vh)'};
-      &:not(.left) {
-        @include position(45%, 50%);
-        transform: translate(-50%, -50%);
-      }
-
-      transition: 1.5s ease-in-out;
-      &.left {
-        @include position(5%, 2%);
-      }
+      width: 1000px;
+      height: 500px;
+      background: black;
+      border-radius: 20px;
+      //   height: #{'min(900px, 80vh)'};      
+      @include position(20%, 20%);
     }
     .back {
       @include position(7%, 82%);
       z-index: 20;
     }
     .title {
-      color: var(--black);
-      @include position(8%, 2%);
       text-align: center;
-      width: 200px;
-      @include fade-in(2.5s);
-      h1 {
-        font-size: 20px;
-        font-family: 'Kalam';
-        font-weight: bolder;
-        transform: skewX(10deg);
-      }
+      margin-top: 40px;
+      font-size: 28px;
     }
     .title-text {
       position: absolute;
@@ -75,77 +62,9 @@ $scale: 0.8;
       transform: rotate(2deg);
       @include fade-in(1.5s);
     }
-    .badger-body {
-      @include position(17%, 25%);
-      @include size(375px, 286px);
-      @include fade-in(3s);
-    }
-    [class^='arm_'] {
-      @include position(39%, 42%);
-      z-index: 20;
-      transition: 0.9s;
-      transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      transform-origin: 45% 28%;
-      @include fade-in(1.5s);
-      // REFACTOR THIS TO A MIXIN
-      &[class*='1'] {
-        @include armPosition(-20deg, 38deg);
-      }
-      &[class*='2'] {
-        @include armPosition(25deg, -15deg);
-      }
-      &[class*='3'] {
-        @include armPosition(-18deg, -30deg);
-      }
-      &[class*='4'] {
-        @include armPosition(-23deg, 15deg);
-      }
-      &[class*='5'] {
-        @include armPosition(-35deg, -15deg);
-      }
-      &[class*='6'] {
-        @include armPosition(-30deg, -23deg);
-      }
-      &[class*='7'] {
-        @include armPosition(-100deg, -40deg);
-      }
-      &[class*='--qr'] {
-        &[class*='1'] {
-          @include armPosition(50deg, -50deg);
-        }
-        &[class*='2'] {
-          @include armPosition(-20deg, -30deg);
-        }
-        &[class*='3'] {
-          @include armPosition(-18deg, -30deg);
-        }
-        &[class*='4'] {
-          @include armPosition(-42deg, -2deg);
-        }
-        &[class*='5'] {
-          @include armPosition(-15deg, 18deg);
-        }
-        &[class*='6'] {
-          @include armPosition(-30deg, -23deg);
-        }
-        &[class*='7'] {
-          @include armPosition(-100deg, -40deg);
-        }
-      }
-      .arm1 {
-        @include size(142px, 134px);
-      }
-      .arm2 {
-        @include size(173px, 188px);
-        left: -71%;
-        margin-top: -10%;
-        transform-origin: 85% 65%;
-        transition: 0.9s;
-        transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      }
-    }
+
     .right-box {
-      color: var(--black);
+      color: var(--white);
       @include position(28%, 58%);
       width: 300px;
       font-size: 12px;
@@ -175,6 +94,7 @@ $scale: 0.8;
         width: calc(1 * 343px);
       }
     }
+
     .left-box {
       @include position(31%, 15%);
       @include fade-in(2s);
@@ -186,9 +106,10 @@ $scale: 0.8;
       }
       &_outline {
         @include position(27%, 8%);
-        height: calc(0.7 * 398px);
-        width: calc(0.7 * 364px);
-        transform: rotate(180deg);
+        width: 260px;
+        height: 280px;
+        border-radius: 10px;
+        background: #f4f4f4;
       }
     }
     // HERE!!!!
@@ -214,7 +135,7 @@ $scale: 0.8;
     .stepper {
       position: absolute;
       left: 12%;
-      top: 82%;
+      top: 86%;
       @include fade-in(1.5s);
       > .flex-row > * {
         cursor: pointer;
@@ -223,14 +144,14 @@ $scale: 0.8;
         height: calc(0.8 * 25px);
       }
       &_circle {
-        background-color: var(--black);
-        opacity: 0.25;
+        background-color: var(--white);
+        opacity: 0.5;
         height: 16px;
         width: 16px;
         margin: 0 2px;
         border-radius: 100%;
         &.active {
-          background-color: var(--black);
+          background-color: var(--white);
           opacity: 1;
         }
         &:first-of-type {
@@ -280,36 +201,17 @@ $scale: 0.8;
         width: 100%;
       }
     }
-    .banner {
-      background-color: black;
-      position: relative;
-      width: 98%;
-      margin-left: 2%;
-      transform: rotate(1deg);
-      margin-top: -2px;
-      @include fade-in(4s);
-      p {
-        text-align: center;
-        vertical-align: middle;
-        padding: 12px;
-        margin: 0;
-        font-size: 15px;
-        font-family: 'Kalam';
-        transform: skewX(10deg);
-        @include fade-in(4s);
-      }
-    }
     .speech {
       position: absolute;
       z-index: 20;
-      left: 47%;
-      top: 2%;
-      color: var(--black);
-      width: 200px;
+      left: 10%;
+      top: 20%;
+      color: var(--white);
       @include fade-in(3s);
       &.step1,
       &.step3,
-      &.step5 {
+      &.step5,
+      &.step7 {
         -webkit-animation: 1 grow 0.8s alternate ease-in-out;
         animation: grow 0.8s 1 alternate ease-in-out;
         p {
@@ -324,18 +226,6 @@ $scale: 0.8;
         p {
           @include fade-in(3s);
         }
-      }
-      img {
-        height: calc(200px * 0.7);
-        width: 100%;
-      }
-      p {
-        position: absolute;
-        left: 12%;
-        top: 12%;
-        padding: 10px;
-        text-align: center;
-        width: 150px;
       }
     }
   }

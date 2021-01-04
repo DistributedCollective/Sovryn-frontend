@@ -5,6 +5,7 @@ import { LendBorrowSovrynState } from 'app/containers/LendBorrowSovryn/types';
 import { EventsStoreState } from '../store/global/events-store/types';
 import { TransactionsStoreState } from '../store/global/transactions-store/types';
 import { TutorialDialogModalState } from 'app/containers/TutorialDialogModal/types';
+import { TutorialSOVModalState } from 'app/containers/TutorialSOVModal/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -19,5 +20,6 @@ export interface RootState {
   eventsState?: EventsStoreState;
   transactionsState?: TransactionsStoreState;
   tutorialDialogModal?: TutorialDialogModalState;
+  tutorialSOVModal?: TutorialSOVModalState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

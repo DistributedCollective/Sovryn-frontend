@@ -1,7 +1,6 @@
 @import '_custom-variables.scss';
 @import 'blueprint-variables';
 
-
 //@import "~sanitize.css/sanitize.css";
 @import '~normalize.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
@@ -12,6 +11,7 @@
 @import 'new-design';
 @import 'wallet-tutorial';
 @import '_mobile-wallet-tutorial';
+@import 'sov-tutorial';
 @import 'fast-btc-tutorial';
 
 @import '_custom-styles.scss';

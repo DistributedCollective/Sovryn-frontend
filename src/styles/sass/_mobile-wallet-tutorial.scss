@@ -142,7 +142,7 @@
 
     // Email Not Ready Component
     .mobile-not-ready-img * {
-      @include fade-in(2s)
+      @include fade-in(2s);
     }
     [class^='mobile-not-ready-text'] {
       color: var(--black);
@@ -157,7 +157,7 @@
       &[class*='--success'] {
         top: 70%;
         left: 11%;
-        @include fade-in(2s)
+        @include fade-in(2s);
       }
     }
     .email-form {

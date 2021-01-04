@@ -279,7 +279,7 @@
     "table": {},
     "no_items": "Seu histórico de empréstimos está vazio."
   },
-   "rskConnectTutorial": {
+  "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
     "mobile_wallet": "Mobile Wallet",
     "hardware_wallet": "Hardware Wallet",
