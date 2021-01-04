@@ -9,6 +9,8 @@
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.11",
+    "@ledgerhq/hw-app-eth": "5.37.0",
+    "@ledgerhq/hw-transport-u2f": "5.36.0-deprecated",
     "@ledgerhq/hw-transport-web-ble": "5.34.0",
     "@ledgerhq/hw-transport-webusb": "5.34.1",
     "@ledgerhq/web3-subprovider": "5.35.1",
@@ -77,6 +79,7 @@
     "file-loader": "4.3.0",
     "fontfaceobserver": "2.1.0",
     "fs-extra": "^8.1.0",
+    "hdkey": "2.0.1",
     "html-webpack-plugin": "4.0.0-beta.11",
     "husky": "4.2.3",
     "i18next": "19.3.4",
@@ -157,7 +160,7 @@
     "yarn": "1.22.10"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "cross-env HTTPS=true node scripts/start.js",
     "build": "node scripts/build.js",
     "build:testnet": "env-cmd -f .env.testnet yarn build",
     "test": "node scripts/test.js",

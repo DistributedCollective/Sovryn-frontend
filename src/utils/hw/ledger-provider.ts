@@ -1,43 +1,82 @@
-import Web3 from 'web3';
-import createLedgerSubprovider from '@ledgerhq/web3-subprovider';
-import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
-import ProviderEngine from 'web3-provider-engine';
-import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
-import { currentChainId, rpcNodes } from '../classifiers';
+import TransportU2F from '@ledgerhq/hw-transport-u2f';
+import TransportUSB from '@ledgerhq/hw-transport-webusb';
+import LedgerEth from '@ledgerhq/hw-app-eth';
+import { LedgerWallet } from './ledger';
+import { getDeterministicWallets } from './hardware-deter';
+import { Sovryn } from '../sovryn';
+import { weiTo4 } from '../blockchain/math-helpers';
+
+export interface ChainCodeResponse {
+  chainCode: string;
+  publicKey: string;
+}
+
+async function makeApp() {
+  const transport = await TransportUSB.isSupported()
+    .then(isSupported =>
+      isSupported ? TransportUSB.create() : TransportU2F.create(),
+    )
+    .catch(() => TransportU2F.create());
+
+  return new LedgerEth(transport);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function getChainCode(dpath: string) {
+  return makeApp()
+    .then(app => app.getAddress(dpath, false, true))
+    .then(res => {
+      return {
+        publicKey: res.publicKey,
+        chainCode: res.chainCode,
+      };
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+}
 
 export async function startLedger() {
   try {
-    const engine = new ProviderEngine();
-    const getTransport = () => TransportWebUSB.create();
-    // transport.setDebugMode(true);
-    console.log(getTransport);
-    const ledger = createLedgerSubprovider(getTransport, {
-      networkId: currentChainId,
-      paths: ["44'/137'/0'/0", "44'/37310'/0'/0"], // ledger live derivation path
-      // paths: ["44'/60'/x'/0/0", "44'/60'/0'/x"], // ledger live derivation path
-      askConfirm: false,
-      accountsLength: 5,
-      accountsOffset: 0,
+    const dPathValue = "44'/137'/0'/0";
+    // const dPathValue = "44'/37310'/0'/0";
+
+    const result = await LedgerWallet.getChainCode(dPathValue);
+
+    console.log('result', result);
+
+    const wallets = await getDeterministicWallets({
+      seed: undefined,
+      dPath: dPathValue,
+      publicKey: result.publicKey,
+      chainCode: result.chainCode,
+      limit: 10,
+      offset: 0,
     });
-    console.log(ledger);
-    engine.addProvider(ledger);
-    engine.addProvider(
-      new RpcSubprovider({ rpcUrl: rpcNodes[31], chainId: 31 }),
-    );
-    engine.start();
 
-    console.log(engine);
+    console.log('wallets: ', wallets);
 
-    const web3 = new Web3(engine);
+    if (wallets?.length) {
+      const wallet = new LedgerWallet(wallets[0].address, dPathValue, 0);
 
-    const accounts = await web3.eth.getAccounts();
-    console.log('accounts: ', accounts);
+      const balance1 = await Sovryn.getWeb3().eth.getBalance(
+        wallets[0].address,
+      );
+      const balance2 = await Sovryn.getWeb3().eth.getBalance(
+        wallets[1].address,
+      );
+      console.log(
+        'balance',
+        weiTo4(balance1),
+        weiTo4(balance2),
+        wallets[1].address,
+      );
 
-    const signed = await web3.eth.sign('0x0000', accounts[3], (e, o) => {
-      console.log(e, o);
-    });
-    console.log('signed?', signed);
-    return web3;
+      const dispaly = await wallet.displayAddress();
+      console.log(dispaly);
+      const eth = await wallet.signMessage('0x');
+      console.log('signed', eth);
+    }
   } catch (e) {
     console.error(e);
   }

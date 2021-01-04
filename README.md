@@ -20,6 +20,9 @@ Start app for development:
 yarn start
 ```
 
+A development server will be available on https://localhost:3000 If you're using Chrome, you will get a net::ERR_CERT_AUTHORITY_INVALID warning. To disable it you can your settings in chrome: chrome://flags/#allow-insecure-localhost
+
+
 Build for production:
 
 ```shell
