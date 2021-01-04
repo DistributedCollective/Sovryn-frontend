@@ -5,6 +5,7 @@ import { Toaster } from '@blueprintjs/core/lib/esm/components/toast/toaster';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 import { store } from 'store/store';
+import axios from 'axios';
 import {
   currentChainId,
   rpcNodes,
@@ -346,16 +347,28 @@ export class SovrynNetwork {
       await this.testChain(chainId);
 
       await this.initReadWeb3(chainId);
-
       this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       this.store().dispatch(actions.connected({ address }));
+      this.sendAddressToDatabase(address);
     } catch (e) {
       console.error('connect provider fails.');
       console.error(e);
       this.disconnect();
     }
   }
-
+  protected async sendAddressToDatabase(walletAddress) {
+    console.log('address is ', walletAddress);
+    await axios
+      .post(process.env.REACT_APP_MAIL_SRV + '/addVisit', {
+        walletAddress: walletAddress,
+      })
+      .then(() => {
+        console.log('request successful');
+      })
+      .catch(e => {
+        console.error('failed to send wallet address to database', e);
+      });
+  }
   protected async testChain(chainId: number) {
     if (chainId !== currentChainId) {
       this._toaster.show(
