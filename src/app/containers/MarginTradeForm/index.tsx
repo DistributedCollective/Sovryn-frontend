@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { min } from 'mathjs';
@@ -102,6 +102,17 @@ export function MarginTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  const getLendingToken = useCallback(() => {
+    const lendingContract = pair.getAssetForPosition(position);
+    if (
+      TradingPairDictionary.longPositionTokens.includes(lendingContract) &&
+      TradingPairDictionary.longPositionTokens.includes(collateral)
+    ) {
+      return collateral;
+    }
+    return lendingContract;
+  }, [pair, position, collateral]);
+
   return (
     <>
       <TradingPositionSelector
@@ -126,7 +137,7 @@ export function MarginTradeForm(props: Props) {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={pair.getAssetForPosition(position)}
+            asset={getLendingToken()}
             collateral={collateral}
             weiAmount={weiAmount}
             leverage={leverage}
