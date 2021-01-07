@@ -178,7 +178,7 @@
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
-    "totalAvailable": "Disponível",
+    "totalAvailable": "Disponíveis",
     "supplyAPR": "Juros anual (Emprestador)",
     "borrowAPR": "Juros anual (Tomador)"
   },
