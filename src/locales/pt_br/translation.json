@@ -175,7 +175,7 @@
     "renewalDate": "Data de renovação"
   },
   "statsPage": {
-    "asset": "Ativo",
+    "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponível",
@@ -464,4 +464,3 @@
     "repayButton": "Repay"
   }
 }
-
