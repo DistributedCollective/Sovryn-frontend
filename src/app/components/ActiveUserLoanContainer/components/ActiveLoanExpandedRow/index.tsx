@@ -36,7 +36,7 @@ export function ActiveLoanExpandedRow(props) {
         <td>{props.data.leverage}X</td>
         <td>{numberToPercent(props.data.startMargin, 2)}</td>
         <td>{props.data.maintenanceMargin}</td>
-        <td>{numberToUSD(props.data.currentPrice, 2)}</td>
+        <td>{props.data.currentPrice}</td>
         <td>{numberToUSD(props.data.liquidationPrice, 2)}</td>
         <td>{props.data.endDate}</td>
       </tr>

@@ -25,6 +25,7 @@ import { StyledAssetLogo } from './styled';
 import { useBorrowAssetPrice } from '../../hooks/trading/useBorrowAssetPrice';
 import { Asset } from '../../../types/asset';
 import { weiTo2 } from '../../../utils/blockchain/math-helpers';
+import { usePriceFeeds_rateByPath } from '../../hooks/price-feeds/usePriceFeeds_rateByPath';
 
 const Selector = Select.ofType<SelectItem>();
 

@@ -45,7 +45,7 @@ export function ExpandedRowMobile(props) {
         <div className="col-4" />
       </div>
       <div className="row mobile-expanded-row pb-2">
-        <div className="col-4">{numberToUSD(props.item.currentPrice, 2)}</div>
+        <div className="col-4">{props.item.currentPrice}</div>
         <div className="col-4">
           {numberToUSD(props.item.liquidationPrice, 2)}
         </div>

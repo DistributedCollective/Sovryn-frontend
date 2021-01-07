@@ -24,11 +24,14 @@ import {
   calculateProfit,
   calculateLiquidation,
 } from 'utils/display-text/format';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
+import { fromWei, toWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
 import { usePriceFeeds_rateByPath } from '../../../../hooks/price-feeds/usePriceFeeds_rateByPath';
+import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
+import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
+import { bignumber } from 'mathjs';
 
 interface Props {
   data: any;
@@ -67,14 +70,13 @@ export function ActiveLoanTableContainer(props: Props) {
       const currentRate = parseFloat(
         fromWei(getAssetPrice(loanAsset, collateralAsset, items)),
       );
-      const currentPrice = isLong ? 1 / currentRate : currentRate;
+      const currentPrice = isLong ? 1 / currentRate : currentRate; // todo remove
 
-      const profit = calculateProfit(
-        item.collateral,
-        item.startRate,
-        currentPrice,
-        isLong,
-      );
+      const leverage = leverageFromMargin(item.startMargin);
+      console.log('margin:', item.startMargin, 'leverage:', leverage);
+
+      const amount = bignumber(item.collateral).div(leverage).toFixed(0);
+     // const amount = item.collateral;
 
       return {
         id: item.loanId,
@@ -107,19 +109,36 @@ export function ActiveLoanTableContainer(props: Props) {
             timeZone: 'GMT',
           },
         ),
-        leverage: leverageFromMargin(item.startMargin),
-        profit:
-          isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
+        leverage,
+        // profit:
+        //   isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
+        profit: (
+          <CurrentPositionProfit
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            startRate={item.startRate}
+            isLong={isLong}
+          />
+        ),
         liquidationPrice: calculateLiquidation(
           isLong,
           leverageFromMargin(item.startMargin),
           item.maintenanceMargin,
           item.startRate,
         ),
-        currentPrice,
+        currentPrice: (
+          <CurrentPositionPrice
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            isLong={isLong}
+          />
+        ),
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
           <div className="d-flex flex-row flex-nowrap justify-content-end">
+            <div>{item.startRate}</div>
             <div className="mr-1">
               <Tooltip
                 content={t(translations.activeLoan.table.container.topUp)}

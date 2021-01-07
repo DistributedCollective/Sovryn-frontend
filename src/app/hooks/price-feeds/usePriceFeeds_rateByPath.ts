@@ -49,6 +49,9 @@ export function usePriceFeeds_rateByPath() {
         });
       }
     }
+
+    console.log('rates', items);
+
     return items;
   }, [getRate]);
 
