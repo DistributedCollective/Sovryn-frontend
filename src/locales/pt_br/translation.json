@@ -279,7 +279,7 @@
     "table": {},
     "no_items": "Seu histórico de empréstimos está vazio."
   },
-   "rskConnectTutorial": {
+  "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
     "mobile_wallet": "Mobile Wallet",
     "hardware_wallet": "Hardware Wallet",
@@ -413,7 +413,6 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar Tokens",
-        "description": "Confirme a transação na sua carteira para aprovar gastar {{amount}} {{asset}} neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }

@@ -10,7 +10,6 @@ import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
 import { getTokenContractName } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
-import { weiTo4 } from '../blockchain/math-helpers';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
 
@@ -65,7 +64,6 @@ class ContractWriter {
         'allowance',
         [address, spenderAddress],
       );
-      console.log('allowance: ', weiTo4(allowance));
       let approveTx: any = null;
       if (bignumber(allowance).lessThan(amounts[0])) {
         dispatch(
