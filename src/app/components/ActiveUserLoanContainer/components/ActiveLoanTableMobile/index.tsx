@@ -65,13 +65,7 @@ export function ActiveLoanTableMobile(props: Props) {
           <div className="col-4 d-flex align-items-center">
             {formatAsBTC(item.positionSize, item.currency)}
           </div>
-          <div
-            className={`col-3 d-flex align-items-center ${
-              item.profit > 0 ? 'text-green' : 'text-red'
-            }`}
-          >
-            {numberToUSD(item.profit, 2)}
-          </div>
+          <div className={`col-3 d-flex align-items-center`}>{item.profit}</div>
           <div
             className={`col-3 ${
               item.id === props.expandedId ? 'd-none' : 'd-block'

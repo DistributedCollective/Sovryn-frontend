@@ -150,11 +150,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   </td>
                   <td>{item.interestAPR} %</td>
                   <td>{numberToUSD(item.startPrice, 2)}</td>
-                  <td
-                    className={`${item.profit > 0 ? 'text-green' : 'text-red'}`}
-                  >
-                    {numberToUSD(item.profit, 4)}
-                  </td>
+                  <td>{item.profit}</td>
                   <td>{item.actions}</td>
                 </tr>
                 {props.expandedId === item.id && (
