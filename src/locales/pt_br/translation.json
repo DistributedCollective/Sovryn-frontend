@@ -4,6 +4,10 @@
     "min": "min",
     "max": "max",
     "close": "Fechar"
+   },
+  "global": {
+    "liquidationPrice": "Preço de liquidação",
+    "interestApr": "Juros anual"
   },
   "title": "Sovryn",
   "announcement": {
@@ -172,9 +176,9 @@
   },
   "statsPage": {
     "asset": "Ativo",
-    "totalAssetSupplied": "Total de ativos fornecidos",
-    "totalAssetBorrowed": "Total de ativos emprestados",
-    "totalAvailable": "Total disponível",
+    "totalAssetSupplied": "Fornecidos",
+    "totalAssetBorrowed": "Emprestados",
+    "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (Emprestador)",
     "borrowAPR": "Juros anual (Tomador)"
   },
@@ -364,38 +368,6 @@
       },
       "3": {
         "txDetails": "Transaction Details",
-        "txHash": "Transaction hash",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
-  },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
         "txHash": "rBTC Tx hash",
         "txId": " BTC Tx ID",
         "from": "From wallet",
@@ -413,6 +385,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar Tokens",
+        "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
@@ -433,5 +406,62 @@
       "title": "Minha carteira",
       "description": "Informações sobre a carteira conectada"
     }
+  },
+   "userAssets": {
+    "meta": {
+      "title": "Wallet"
+    },
+    "tableHeaders": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "dollarBalance": "Dollar Balance",
+      "action": "Action"
+    },
+    "actions": {
+      "deposit": "Top-Up",
+      "swap": "Swap",
+      "trade": "Trade"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Top-Up History"
+    },
+    "tableHeaders": {
+      "time": "Date/Time",
+      "asset": "Asset",
+      "amount": "Amount",
+      "fee": "Fee",
+      "depositTx": "BTC Deposit ID",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transaction"
+    },
+    "emptyState": "History is empty.",
+    "walletHistory": "Wallet must be connected.",
+    "loading": "Loading..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Depositar",
+      "redeem": "Resgatar"
+    },
+    "amount": {
+      "deposit": "Valor a ser depositado",
+      "redeem": "Valor a ser resgatado"
+    },
+    "tradeButtons": {
+      "deposit": "Depositar e emprestar {{asset}}",
+      "redeem": "Resgatar {{asset}}"
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Borrowed",
+      "collateralAmount": "Collateral",
+      "interestAPR": "Interest APR",
+      "endTimestamp": "Payback until"
+    },
+    "repayButton": "Repay"
   }
 }
+
