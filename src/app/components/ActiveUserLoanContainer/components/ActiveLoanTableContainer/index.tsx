@@ -16,19 +16,14 @@ import {
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
-import { Asset } from 'types/asset';
 import {
   formatAsBTCPrice,
   stringToPercent,
   formatAsNumber,
-  calculateProfit,
   calculateLiquidation,
 } from 'utils/display-text/format';
-import { fromWei, toWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
-import { usePriceFeeds_rateByPath } from '../../../../hooks/price-feeds/usePriceFeeds_rateByPath';
 import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
 import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
 import { bignumber } from 'mathjs';
@@ -36,13 +31,6 @@ import { bignumber } from 'mathjs';
 interface Props {
   data: any;
   activeTrades: boolean;
-}
-
-function getAssetPrice(source: Asset, target: Asset, items: CachedAssetRate[]) {
-  const item = items.find(
-    item => item.source === source && item.target === target,
-  );
-  return item?.value?.rate || '0';
 }
 
 export function ActiveLoanTableContainer(props: Props) {
@@ -53,10 +41,8 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
 
-  const items = usePriceFeeds_rateByPath();
-
   const data = React.useMemo(() => {
-    return props.data.map((item, i) => {
+    return props.data.map(item => {
       const currentMargin = formatAsNumber(item.currentMargin, 4);
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);
@@ -67,16 +53,9 @@ export function ActiveLoanTableContainer(props: Props) {
         loanAsset,
       );
       const startPrice = formatAsBTCPrice(item.startRate, isLong);
-      const currentRate = parseFloat(
-        fromWei(getAssetPrice(loanAsset, collateralAsset, items)),
-      );
-      const currentPrice = isLong ? 1 / currentRate : currentRate; // todo remove
-
       const leverage = leverageFromMargin(item.startMargin);
-      console.log('margin:', item.startMargin, 'leverage:', leverage);
 
       const amount = bignumber(item.collateral).div(leverage).toFixed(0);
-     // const amount = item.collateral;
 
       return {
         id: item.loanId,
@@ -90,9 +69,7 @@ export function ActiveLoanTableContainer(props: Props) {
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
         positionSize: formatAsNumber(item.collateral, 4),
-        positionInUSD: isLong
-          ? formatAsNumber(item.collateral, 4) * currentPrice
-          : formatAsNumber(item.collateral, 4),
+        positionInUSD: formatAsNumber(item.collateral, 4),
         positionCurrency: symbolByTokenAddress(item.collateralToken),
         currentMargin: currentMargin,
         startMargin: startMargin,
@@ -110,8 +87,6 @@ export function ActiveLoanTableContainer(props: Props) {
           },
         ),
         leverage,
-        // profit:
-        //   isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
         profit: (
           <CurrentPositionProfit
             source={loanAsset}
@@ -138,7 +113,6 @@ export function ActiveLoanTableContainer(props: Props) {
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
           <div className="d-flex flex-row flex-nowrap justify-content-end">
-            <div>{item.startRate}</div>
             <div className="mr-1">
               <Tooltip
                 content={t(translations.activeLoan.table.container.topUp)}
@@ -175,7 +149,7 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
       };
     });
-  }, [props.data, t, items]);
+  }, [props.data, t]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.
