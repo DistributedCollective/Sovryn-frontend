@@ -62,8 +62,6 @@ export function CloseTradingPositionHandler(props: Props) {
     '0x',
   );
 
-  console.log(isCollateral);
-
   const handleConfirmSwap = () => {
     send();
   };

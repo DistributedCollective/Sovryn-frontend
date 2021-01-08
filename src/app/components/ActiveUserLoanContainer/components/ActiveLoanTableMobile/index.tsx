@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
 import { Icon } from '@blueprintjs/core';
-import { formatAsBTC, numberToUSD } from 'utils/display-text/format';
+import { formatAsBTC } from 'utils/display-text/format';
 
 interface Props {
   data: Array<{

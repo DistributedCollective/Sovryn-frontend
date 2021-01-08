@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { bignumber, min } from 'mathjs';
+import { min } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -26,16 +26,12 @@ import { TradeButton } from '../../components/TradeButton';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
-import { toWei, weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
-import { DummyField } from '../../components/DummyField';
-import { LoadableValue } from '../../components/LoadableValue';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
-import { useCurrentPositionPrice } from '../../hooks/trading/useCurrentPositionPrice';
-import { Asset } from '../../../types/asset';
 
 const s = translations.marginTradeForm;
 
@@ -107,45 +103,12 @@ export function MarginTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const {
-    loanToken,
-    collateralToken,
-    useCollateralTokens,
-  } = useTrading_resolvePairTokens(
+  const { loanToken } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
     collateral,
   );
-
-  const priceAmount = useCollateralTokens
-    ? bignumber(weiAmount)
-        .mul(leverage - 1)
-        .toFixed()
-    : bignumber(weiAmount).mul(leverage).toFixed();
-
-  const { price, rate } = useCurrentPositionPrice(
-    // loanToken,
-    Asset.BTC,
-    Asset.USDT,
-    // collateralToken,
-    priceAmount,
-    position === TradingPosition.LONG,
-  );
-
-  const { price: priceb, rate: rateB } = useCurrentPositionPrice(
-    // loanToken,
-    Asset.USDT,
-    Asset.BTC,
-    // collateralToken,
-    priceAmount,
-    position === TradingPosition.LONG,
-  );
-
-  console.group('update');
-  console.log('A', price, rate);
-  console.log('B', priceb, rateB, 1 / rateB);
-  console.groupEnd();
 
   return (
     <>
@@ -177,35 +140,6 @@ export function MarginTradeForm(props: Props) {
             leverage={leverage}
             labelColor={color}
           />
-        </div>
-      </div>
-      <div className="row mt-3">
-        <div className="col-12">
-          <FieldGroup label="Start price" labelColor={color}>
-            <DummyField>
-              <LoadableValue
-                value={
-                  <>
-                    <span className="text-muted">$</span>
-                    {weiTo4(rate)}
-                    ---
-                    {useCollateralTokens ? 'yes' : 'no'}/
-                    {useCollateralTokens ? (
-                      <>
-                        {loanToken} -> {collateralToken}
-                      </>
-                    ) : (
-                      <>
-                        {collateralToken} -> {loanToken}
-                      </>
-                    )}
-                    ---{priceAmount}
-                  </>
-                }
-                loading={loading}
-              />
-            </DummyField>
-          </FieldGroup>
         </div>
       </div>
       <div className="position-relative">
