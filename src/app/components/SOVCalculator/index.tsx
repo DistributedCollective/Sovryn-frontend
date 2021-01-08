@@ -36,6 +36,7 @@ const StyledSOVWrapper = styled.div`
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 20px;
+    color: black;
   }
   .sov-res {
     text-align: center;

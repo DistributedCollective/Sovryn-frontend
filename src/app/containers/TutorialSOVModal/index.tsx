@@ -4,11 +4,8 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { useLocation } from 'react-router-dom';
 import { actions, reducer, sliceKey } from './slice';
-import { useIsConnected } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
-import { SHOW_MODAL } from 'utils/classifiers';
 import { currentChainId } from 'utils/classifiers';
 import { useInjectReducer } from 'utils/redux-injectors';
 import { selectTutorialSOVModal } from './selectors';
@@ -19,7 +16,6 @@ export function TutorialSOVModal() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   useInjectReducer({ key: sliceKey, reducer: reducer });
   const dispatch = useDispatch();
-  const location = useLocation();
   const state = useSelector(selectTutorialSOVModal);
   const onNetwork =
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;

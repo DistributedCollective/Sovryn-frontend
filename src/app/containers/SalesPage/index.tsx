@@ -1,72 +1,43 @@
 /**
  *
- * WalletPage
+ * SalesPage
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
-import GovernanceSVG from './governance.svg';
-import Sovmodel from './sovmodel.svg';
 import styled from 'styled-components';
-import { useIsConnected } from '../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
 import PageHeader from '../../components/PageHeader';
-import SalesContent from '../../components/SalesContent';
 
 import SalesButton from '../../components/SalesButton';
 
 import { TutorialSOVModal } from '../TutorialSOVModal/Loadable';
 import { useSelector, useDispatch } from 'react-redux';
-import { SHOW_MODAL } from 'utils/classifiers';
-import { actions } from 'app/containers/TutorialDialogModal/slice';
-import { reactLocalStorage } from 'reactjs-localstorage';
+import { actions as fActions } from '../../containers/FastBtcForm/slice';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
-const StyledContent = styled.div`
-  height: 600px;
-  background: rgba(0, 0, 0, 0.27);
-  max-width: 1200px;
-  margin: 40px auto;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  .content-header {
-    font-size: 28px;
-    text-align: center;
-  }
-  a {
-    margin-top: 110px;
-    color: var(--gold);
-    font-weight: normal;
-  }
-`;
+import { AboutSOV, SOVModel, SOVGovernance } from './Information';
+import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
 
-const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
-  border: 1px solid #707070;
-  background: #f4f4f4;
-  border-radius: 8px;
-  height: 40px;
-  width: 289px;
-  text-align: center;
-  color: black;
-  margin: 25px 0;
-`;
+import Screen1 from './screen1';
+import Screen2 from './screen2';
+import Screen3 from './screen3';
+import Screen4 from './screen4';
+import Screen5 from './screen5';
+import Screen6 from './screen6';
 
-const StyledContainer = styled.div`
-  background: #141414;
-  padding: 30px 100px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: 40px 0;
-`;
+import { useInjectReducer } from 'utils/redux-injectors';
+import {
+  actions,
+  sliceKey as salesSlice,
+  reducer as salesReducer,
+} from './slice';
+import { selectSalesPage } from './selectors';
 
 const InfoBar = styled.div`
   display: flex;
@@ -84,163 +55,36 @@ const InfoBar = styled.div`
   }
 `;
 
-function AboutSOV() {
-  return (
-    <StyledContainer>
-      <p className="font-size-xl">About SOV Token</p>
-      <div className="row">
-        {[1, 2, 3].map(i => (
-          <div className="col-md-4" key={i}>
-            <p>
-              SOV is issued off the rootstock (RSK) smart contract platform,
-              which operates on a Bitcoin sidechain. The token itself does not
-              grant governance rights, which departs from most DeFi protocols of
-              today. Instead, it gives the option for the token holder to stake,
-              which does come with governance benefits. The token itself is not
-              like an altcoin. It’s considered an equity asset, or a
-              decentralized share. Users never hold the token and SOV has no
-              utility. Instead it enables the lending of Bitcoin and other
-              tokenized assets. SOV distributions can go out to participants for
-              fee rebates, liquidity mining incentives, or referral programs. By
-              incentivizing in these ways, SOV allows each staker to hold
-              decentralized equity in the Sovryn Bitocracy.
-            </p>
-          </div>
-        ))}
-      </div>
-    </StyledContainer>
-  );
-}
-function SOVModel() {
-  return (
-    <StyledContainer>
-      <p className="font-size-xl">SOV Allocation Model</p>
-      <div className="row">
-        <div className="col-md-4">
-          <p>
-            SOV is issued off the rootstock (RSK) smart contract platform, which
-            operates on a Bitcoin sidechain. The token itself does not grant
-            governance rights, which departs from most DeFi protocols of today.
-            Instead, it gives the option for the token holder to stake, which
-            does come with governance benefits. The token itself is not like an
-            altcoin. It’s considered an equity asset, or a decentralized share.
-            Users never hold the token and SOV has no utility. Instead it
-            enables the lending of Bitcoin and other tokenized assets. SOV
-            distributions can go out to participants for fee rebates, liquidity
-            mining incentives, or referral programs. By incentivizing in these
-            ways, SOV allows each staker to hold decentralized equity in the
-            Sovryn Bitocracy.
-          </p>
-        </div>
-        <div className="col-md-4 d-flex">
-          <img src={Sovmodel} alt="" className="w-100 h-100" />
-        </div>
-
-        <div className="col-md-4">
-          <p>
-            SOV is issued off the rootstock (RSK) smart contract platform, which
-            operates on a Bitcoin sidechain. The token itself does not grant
-            governance rights, which departs from most DeFi protocols of today.
-            Instead, it gives the option for the token holder to stake, which
-            does come with governance benefits. The token itself is not like an
-            altcoin. It’s considered an equity asset, or a decentralized share.
-            Users never hold the token and SOV has no utility. Instead it
-            enables the lending of Bitcoin and other tokenized assets. SOV
-            distributions can go out to participants for fee rebates, liquidity
-            mining incentives, or referral programs. By incentivizing in these
-            ways, SOV allows each staker to hold decentralized equity in the
-            Sovryn Bitocracy.
-          </p>
-        </div>
-      </div>
-    </StyledContainer>
-  );
-}
-function SOVGovernance() {
-  return (
-    <StyledContainer>
-      <p className="font-size-xl">SOV Governance (Bitocracy)</p>
-      <div className="row">
-        <div className="col-md-4 d-flex">
-          <img src={GovernanceSVG} alt="" className="w-100 h-100" />
-        </div>
-        <div className="col-md-4">
-          <p>
-            SOV is issued off the rootstock (RSK) smart contract platform, which
-            operates on a Bitcoin sidechain. The token itself does not grant
-            governance rights, which departs from most DeFi protocols of today.
-            Instead, it gives the option for the token holder to stake, which
-            does come with governance benefits. The token itself is not like an
-            altcoin. It’s considered an equity asset, or a decentralized share.
-            Users never hold the token and SOV has no utility. Instead it
-            enables the lending of Bitcoin and other tokenized assets. SOV
-            distributions can go out to participants for fee rebates, liquidity
-            mining incentives, or referral programs. By incentivizing in these
-            ways, SOV allows each staker to hold decentralized equity in the
-            Sovryn Bitocracy.
-          </p>
-        </div>
-        <div className="col-md-4">
-          <p>
-            SOV is issued off the rootstock (RSK) smart contract platform, which
-            operates on a Bitcoin sidechain. The token itself does not grant
-            governance rights, which departs from most DeFi protocols of today.
-            Instead, it gives the option for the token holder to stake, which
-            does come with governance benefits. The token itself is not like an
-            altcoin. It’s considered an equity asset, or a decentralized share.
-            Users never hold the token and SOV has no utility. Instead it
-            enables the lending of Bitcoin and other tokenized assets. SOV
-            distributions can go out to participants for fee rebates, liquidity
-            mining incentives, or referral programs. By incentivizing in these
-            ways, SOV allows each staker to hold decentralized equity in the
-            Sovryn Bitocracy.
-          </p>
-        </div>
-      </div>
-    </StyledContainer>
-  );
-}
-function CodeConfirmation({ handleSubmit }) {
-  const [hasCode, setHasCode] = useState(true);
-
-  return hasCode ? (
-    <StyledContent>
-      <p className="content-header">
-        Please enter your code to gain access
-        <br /> to the SOV* Genesis Sale
-      </p>
-      <StyledInput placeholder="Enter code" name="code" />
-
-      <SalesButton text={'Submit Code'} onClick={() => handleSubmit()} />
-      <a href="#" onClick={() => setHasCode(false)}>
-        Don’t have a code? Click here to get one!
-      </a>
-    </StyledContent>
-  ) : (
-    <StyledContent>
-      <p className="content-header">
-        Please enter your email address
-        <br />
-        to register for an access code{' '}
-      </p>
-      <StyledInput placeholder="Enter email address" name="code" />
-      <SalesButton text={'Register'} onClick={() => {}} />
-    </StyledContent>
-  );
-}
-
 export function SalesPage() {
+  useInjectReducer({ key: salesSlice, reducer: salesReducer });
+
   const { t } = useTranslation();
   const isConnected = useIsConnected();
-  const [isOwned, setIsOwned] = useState(false);
-  const handleSubmit = () => {
-    setIsOwned(true);
-  };
-  const handleEngage = () => {
-    dispatch(actions.showModal(SHOW_MODAL))
-    reactLocalStorage.set('closedRskTutorial', 'false');
-  }
+  const account = useAccount();
   const dispatch = useDispatch();
+
+  const { value: maxPurchase } = useCacheCallWithValue(
+    'CrowdSale',
+    'getMaxPurchase',
+    '0',
+    account,
+  );
+  const state = useSelector(selectSalesPage);
+
+  useEffect(() => {
+    dispatch(actions.updateMaxDeposit(maxPurchase));
+  }, [maxPurchase]);
+
+  useEffect(() => {
+    if (isConnected && account) {
+      dispatch(fActions.changeReceiverAddress(account));
+    }
+  }, [account, isConnected, dispatch]);
+
+  useEffect(() => {
+    if (isConnected) dispatch(actions.changeStep(2));
+    else dispatch(actions.changeStep(1));
+  }, [isConnected]);
 
   return (
     <>
@@ -254,7 +98,10 @@ export function SalesPage() {
 
       <TutorialSOVModal />
       <Header />
-      <div className="container" style={{ maxWidth: '1700px' }}>
+      <div
+        className="container font-family-montserrat"
+        style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
+      >
         <PageHeader />
         <InfoBar>
           <div>
@@ -286,25 +133,13 @@ export function SalesPage() {
             <p>16.00 CET, 8th Jan</p>
           </div>
         </InfoBar>
-        {!isOwned ? (
-          !isConnected ? (
-            <StyledContent>
-              <p className="content-header">
-                Engage your wallet to participate in the
-                <br />
-                SOV Genesis Sale
-              </p>
-              <SalesButton
-                text={t(translations.wallet.connect_btn)}
-                onClick={handleEngage}
-              />
-            </StyledContent>
-          ) : (
-            <CodeConfirmation handleSubmit={handleSubmit} />
-          )
-        ) : (
-          <SalesContent />
-        )}
+        {state.step === 1 && <Screen1 />}
+        {state.step === 2 && <Screen2 />}
+        {state.step === 3 && <Screen3 />}
+        {state.step === 4 && <Screen4 />}
+        {state.step === 5 && <Screen5 />}
+        {state.step === 6 && <Screen6 />}
+
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />

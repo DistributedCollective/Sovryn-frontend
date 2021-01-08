@@ -15,6 +15,8 @@ import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
+import CrowdSaleAbi from './abi/CrowdSale.json';
+import CSOVTokenAbi from './abi/CSOVToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -95,6 +97,16 @@ export const contracts = {
   BPRO_amm: {
     address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
     abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  CrowdSale: {
+    address: '0x2c24C2b3cB859f904F482b84eBB5B4B2a37C727D',
+    abi: CrowdSaleAbi,
+    blockNumber: 1218833,
+  },
+  CSOVToken: {
+    address: '0xE7cfaebeE5f447b25BDdAdCf0B8b246cc7c2361a',
+    abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&

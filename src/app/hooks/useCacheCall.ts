@@ -40,6 +40,7 @@ export function useCacheCall(
       contractReader
         .call(contractName, methodName, args)
         .then(value => {
+          console.log(value, 'val');
           setState(prevState => ({
             ...prevState,
             value,

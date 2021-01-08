@@ -5,10 +5,17 @@ import { Icon } from '@blueprintjs/core';
 import { Tab } from '../../components/SalesTab';
 import SalesButton from '../../components/SalesButton';
 import styled, { css } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { actions } from '../TutorialSOVModal/slice';
+import { selectFastBtcForm } from '../../containers/FastBtcForm/selectors';
+import { useSelector } from 'react-redux';
+import { prettyTx } from 'utils/helpers';
+import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { actions as sActions } from '../SalesPage/slice';
+import { selectSalesPage } from '../SalesPage/selectors';
 
 interface StyledProps {
   background?: string;
@@ -46,6 +53,9 @@ const Wrapper = styled.div`
     padding: 20px;
     border-radius: 10px;
     justify-content: space-evenly;
+    span {
+      animation: rotateY 1.5s linear infinite;
+    }
   }
 `;
 
@@ -61,8 +71,10 @@ const WrapperContainer = styled.div`
     font-size: 18px;
   }
 `;
+
 function TransactionDetail() {
   const [activeTx, setActiveTx] = useState(true);
+  const state = useSelector(selectFastBtcForm);
 
   const dispatch = useDispatch();
   const handleSOVTutorial = useCallback(() => {
@@ -89,8 +101,10 @@ function TransactionDetail() {
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
-          <SalesButton text={'Connect SOV to your wallet'} 
-          onClick={handleSOVTutorial} />
+          <SalesButton
+            text={'Connect SOV to your wallet'}
+            onClick={handleSOVTutorial}
+          />
         </div>
         <div className="col-md-6 d-flex flex-column align-items-end">
           <div className="d-flex">
@@ -110,31 +124,37 @@ function TransactionDetail() {
               opacity={0.75}
               onClick={() => setActiveTx(false)}
             >
-              {'BTC > RBTC'}
+              {'RBTC > SOV'}
             </Tab>
           </div>
 
           <Wrapper background="#242424">
             {activeTx ? (
-              <WrapperContainer>
-                <p className="font-italic time font-weight-light">
-                  Processing approx. 15 minuets
-                </p>
-                <p className="text-center amount">0.18579 BTC</p>
-                <p className="text-center font-weight-light">≈ $2947.24</p>
-                <p className="text-center">
-                  Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
-                </p>
-                <p className="mb-2">From wallet:</p>
-                <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
-                <p className="mb-2">To wallet:</p>
-                <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
-                <p>
-                  Hash:{' '}
-                  <span className="font-weight-light">5043e06ba……65547033</span>
-                </p>
-                <a className="d-block text-center">View in Tracker </a>
-              </WrapperContainer>
+              state.depositTx && (
+                <WrapperContainer>
+                  <p className="font-italic time font-weight-light">
+                    Processing approx. 15 minuets
+                  </p>
+                  <p className="text-center amount">
+                    {state.depositTx.value} BTC
+                  </p>
+                  <p className="text-center font-weight-light">≈ $2947.24</p>
+                  <p className="text-center">
+                    Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
+                  </p>
+                  <p className="mb-2">From wallet:</p>
+                  <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
+                  <p className="mb-2">To wallet:</p>
+                  <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
+                  <p>
+                    Hash:{' '}
+                    <LinkToExplorer
+                      txHash={state.depositTx.txHash}
+                      realBtc={true}
+                    />
+                  </p>
+                </WrapperContainer>
+              )
             ) : (
               <WrapperContainer>
                 <p className="font-italic time font-weight-light">
@@ -189,8 +209,11 @@ const BTCAddClipboard = styled.span`
 
 export default function SendBTC({ setShowCalc }) {
   const [showTx, setShowTx] = useState(false);
+  const state = useSelector(selectFastBtcForm);
+  const { maxDeposit } = useSelector(selectSalesPage);
+  const dispatch = useDispatch();
 
-  return !showTx ? (
+  return state.step !== 3 ? (
     <div>
       <div>
         <p className="content-header">Send BTC to receive SOV</p>
@@ -198,9 +221,20 @@ export default function SendBTC({ setShowCalc }) {
           <div className="col-md-6">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
-              <li>MIN: 0.001 BTC</li>
-              <li>MAX: 0.1 BTC</li>
-              <a>Request higher limit</a>
+              <li>MIN: {trimZero(fromWei(maxDeposit / 2))} BTC</li>
+              <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
+              <a
+                className="d-block"
+                onClick={() => dispatch(sActions.changeStep(3))}
+              >
+                Input upgrade code
+              </a>
+              <a
+                className="d-block"
+                onClick={() => dispatch(sActions.changeStep(6))}
+              >
+                Request higher limit
+              </a>
             </div>
             <div>
               <p>Instructions: </p>
@@ -211,12 +245,15 @@ export default function SendBTC({ setShowCalc }) {
                   your assets will be lost permanently
                 </li>
                 <li>
-                  Please allow up to xx mins for the transaction to process
+                  Please allow up to 15 mins for the transaction to process
                 </li>
               </div>
 
               <p>
-                For support please join us on <a>discord.com/invite/J22WS6z</a>
+                For support please join us on{' '}
+                <a href="https://discord.com/invite/J22WS6z" target="_new">
+                  discord.com/invite/J22WS6z
+                </a>
               </p>
             </div>
             <SalesButton
@@ -229,7 +266,7 @@ export default function SendBTC({ setShowCalc }) {
               <p>Send BTC to this address:</p>
               <div className="row justify-content-center qr-wrapper">
                 <QRCode
-                  value={'0x3242348923892374823ae22879'}
+                  value={state.depositAddress}
                   renderAs="svg"
                   bgColor="var(--white)"
                   fgColor="var(--primary)"
@@ -238,11 +275,12 @@ export default function SendBTC({ setShowCalc }) {
                 />
               </div>
               <CopyToClipboard
-                text="https://public-node.rsk.co"
+                text={state.depositAddress}
                 onCopy={() => alert('Copied!')}
               >
                 <BTCAddClipboard className="cursor-pointer">
-                  1A1zP1eP5QGefi2.......mv7DivfNa <Icon icon="duplicate" />
+                  {prettyTx(state.depositAddress, 15, 10)}{' '}
+                  <Icon icon="duplicate" />
                 </BTCAddClipboard>
               </CopyToClipboard>
               <div className="show-tx" onClick={() => setShowTx(true)}>

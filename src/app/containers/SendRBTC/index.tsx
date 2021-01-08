@@ -4,6 +4,11 @@ import styled, { css } from 'styled-components';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
 import { Icon } from '@blueprintjs/core';
+import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
+import { useDispatch } from 'react-redux';
+import { actions as sActions } from '../SalesPage/slice';
+import { selectSalesPage } from '../SalesPage/selectors';
+import { useSelector } from 'react-redux';
 
 interface StyledProps {
   background?: string;
@@ -55,6 +60,7 @@ const Wrapper = styled.div`
     text-align: center;
     border-radius: 8px;
     padding: 10px;
+    color: black;
   }
   .sov-res {
     text-align: center;
@@ -137,13 +143,13 @@ function TransactionDetail() {
               {'BTC > RBTC'}
             </Tab>
             <Tab
-              text={'RBTC > SOV'}
+              text={'(r)BTC > SOV'}
               active={!activeTx}
               background="#242424"
               opacity={0.75}
               onClick={() => setActiveTx(false)}
             >
-              {'BTC > RBTC'}
+              {'(r)BTC > SOV'}
             </Tab>
           </div>
 
@@ -173,10 +179,10 @@ function TransactionDetail() {
                 <p className="font-italic time font-weight-light">
                   Processing approx. 5 minuets
                 </p>
-                <p className="text-center amount">0.18579 BTC</p>
+                <p className="text-center amount">0.18579 (r)BTC</p>
                 <p className="text-center font-weight-light">≈ $2947.24</p>
                 <p className="text-center">
-                  Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
+                  Fee:<span className="font-weight-light">0.000012 (r)BTC</span>{' '}
                 </p>
                 <p className="mb-2">From wallet:</p>
                 <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
@@ -198,42 +204,58 @@ function TransactionDetail() {
 
 export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
+  const dispatch = useDispatch();
+  const { maxDeposit } = useSelector(selectSalesPage);
 
   return !showTx ? (
     <div>
-      <p className="content-header">Buy SOV with RBTC</p>
+      <p className="content-header">Buy SOV with (r)BTC</p>
       <div className="row">
         <div className="col-md-6">
           <div className="mb-4">
             <p className="mb-2">Deposit limits:</p>
-            <li>MIN: 0.001 BTC</li>
-            <li>MAX: 0.1 BTC</li>
-            <a>Request higher limit</a>
+            <li>MIN: {trimZero(fromWei(maxDeposit / 2))} (r)BTC</li>
+            <li>MAX: {trimZero(fromWei(maxDeposit))} (r)BTC</li>
+            <a
+              className="d-block"
+              onClick={() => dispatch(sActions.changeStep(3))}
+            >
+              Input upgrade code
+            </a>
+            <a
+              className="d-block"
+              onClick={() => dispatch(sActions.changeStep(6))}
+            >
+              Request higher limit
+            </a>
           </div>
           <div>
             <p>Instructions: </p>
             <div>
-              <li>Buy SOV with RBTC in your engaged wallet</li>
-              <li>Please allow up to xx mins for the transaction to process</li>
+              <li>Buy SOV with (r)BTC in your engaged wallet</li>
+              <li>Please allow up to 5 mins for the transaction to process</li>
             </div>
 
             <p>
-              For support please join us on <a>discord.com/invite/J22WS6z</a>
+              For support please join us on{' '}
+              <a href="https://discord.com/invite/J22WS6z" target="_new">
+                discord.com/invite/J22WS6z
+              </a>
             </p>
           </div>
         </div>
         <div className="col-md-6 d-flex justify-content-end">
           <Wrapper className="d-flex flex-column">
-            <p className="mb-0">Send BTC:</p>
+            <p className="mb-0">Send (r)BTC:</p>
             <input
               className="rbtc-input"
               type="text"
               placeholder="0.00000000"
             />
             <p className="text-right font-sale-sm">
-              Available Balance: 0.529409276 RBTC
+              Available Balance: 0.529409276 (r)BTC
             </p>
-            <p className="gas-fee">Estimated Gas Fee*: ≈ 0.00 GWEI</p>
+            <p className="gas-fee">Estimated Gas Fee*: ≈ 0.00 (r)BTC</p>
             <p className="text-center">
               <Icon icon="arrow-down" iconSize={35} />
             </p>

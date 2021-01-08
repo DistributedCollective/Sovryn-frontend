@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Tab } from '../SalesTab';
+import { Tab } from 'app/components/SalesTab';
 
-import BTCLogo from '../../../assets/images/btc_logo.svg';
-import RBTCLogo from '../../../assets/images/rbtc_logo.svg';
+import BTCLogo from 'assets/images/btc_logo.svg';
+import RBTCLogo from 'assets/images/rbtc_logo.svg';
 
-import SendBTC from '../../containers/SendBTC';
-import SendRBTC from '../../containers/SendRBTC';
-import SOVCalculator from '../SOVCalculator';
+import SendBTC from 'app/containers/SendBTC';
+import SendRBTC from 'app/containers/SendRBTC';
+import SOVCalculator from 'app/components/SOVCalculator';
 
 const StyledContent = styled.div`
   height: 600px;
@@ -31,14 +31,14 @@ const StyledContent = styled.div`
       margin-top: 1em;
     }
     a {
-      color: var(--gold);
+      color: var(--gold) !important;
       font-weight: normal;
       font-size: 14px;
     }
   }
 `;
 
-export default function SalesContent() {
+export default function Screen4() {
   const [activeTrades, setActiveTrades] = useState(false);
   const [showCalc, setShowCalc] = useState(false);
 

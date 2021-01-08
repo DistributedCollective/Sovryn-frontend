@@ -1,5 +1,5 @@
 import { eventChannel } from 'redux-saga';
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import { take, call, put, select, takeLatest, fork, apply } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
@@ -8,31 +8,34 @@ import { actions as wActions } from 'app/containers/WalletProvider/slice';
 import { selectWalletProvider } from '../WalletProvider/selectors';
 import { Sovryn } from '../../../utils/sovryn';
 
-function* callCreateWebSocketChannel({ payload }: PayloadAction<string>) {
-  if (!payload) {
-    yield put(actions.getDepositAddressFailed());
-    return;
-  }
+function createSocketConnection() {
+  const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
+  const socket = io(`${origin}/`, {
+    reconnectionDelayMax: 10000,
+    path: pathname && pathname !== '/' ? pathname : '',
+  });
+  return socket;
+}
 
-  const blockChannel = yield call(createWebSocketChannel, payload);
-  try {
-    while (true) {
-      const event = yield take(blockChannel);
-      yield put(event);
-    }
-  } finally {
-    blockChannel.close();
+function* writeSocket(socket) {
+  while (true) {
+    const {payload} = yield take(actions.useCode.type);
+    const {address, code, name, email} = payload;
+    console.log(address)
+    socket.emit('useCode', address, code, {name, email}, (err, success) => {
+      if (!err) {
+          let ms = "Early access token minted successfully. Feel free to use https://sovryn.app";
+          console.log(success);
+          //todo: show explore with tx link (tx-hash in "success")             
+      } else {
+          console.log("Something's wrong. Please try again or contact the admin community@sovryn.app!", true);
+      }
+    });
   }
 }
 
-function createWebSocketChannel(receiverAddress) {
+function* createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
-    const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
-
-    const socket = io(`${origin}/`, {
-      reconnectionDelayMax: 10000,
-      path: pathname && pathname !== '/' ? pathname : '',
-    });
 
     console.log('sockets start', receiverAddress);
 
@@ -97,11 +100,34 @@ function* accountChanged() {
     }
   }
 }
+function* emitResponse(socket) {
+  yield apply(socket, socket.emit, ['message received']);
+}
+
+function* watchSocketChannel({ payload }: PayloadAction<string>) {
+  if (!payload) {
+    yield put(actions.getDepositAddressFailed());
+    return;
+  }
+  const socket = yield call(createSocketConnection);
+  yield fork(writeSocket, socket);  
+
+  const blockChannel = yield call(createWebSocketChannel, payload, socket);
+  try {
+    while (true) {
+      const event = yield take(blockChannel);
+      yield put(event);
+      yield fork(emitResponse, socket);
+    }
+  } finally {
+    blockChannel.close();
+  }
+}
 
 export function* fastBtcFormSaga() {
   yield takeLatest(
     actions.changeReceiverAddress.type,
-    callCreateWebSocketChannel,
+    watchSocketChannel,
   );
   yield takeLatest(wActions.disconnected.type, resetAddresses);
   yield takeLatest(wActions.accountChanged.type, accountChanged);
