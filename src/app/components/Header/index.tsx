@@ -13,9 +13,10 @@ import WalletConnector from '../../containers/WalletConnector';
 import styled from 'styled-components';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
-import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
+// import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 import { translations } from 'locales/i18n';
 import { actions } from 'app/containers/FastBtcForm/slice';
+import { MaintenanceModeNotification } from '../MaintenanceModeNotification/Loadable';
 
 export function Header() {
   const { t } = useTranslation();
@@ -121,7 +122,8 @@ export function Header() {
           </div>
         </Container>
       </header>
-      <WhitelistedNotification />
+      {/*<WhitelistedNotification />*/}
+      <MaintenanceModeNotification />
     </>
   );
 }
