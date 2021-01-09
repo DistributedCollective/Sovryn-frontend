@@ -15,6 +15,7 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   onClick: () => void;
+  hideIt?: boolean;
 }
 
 export function TradeButton(props: Props) {
@@ -22,6 +23,7 @@ export function TradeButton(props: Props) {
     <StyledButton
       type={props.type}
       disabled={props.disabled}
+      hideIt={props.hideIt}
       className="sovryn-border"
       textColor={props.textColor}
       onClick={() => props.onClick()}
@@ -46,6 +48,7 @@ TradeButton.defaultProps = {
 interface StyledButtonProps {
   textColor: string;
   disabled?: boolean;
+  hideIt?: boolean;
 }
 
 const StyledButton = styled.button`
@@ -65,6 +68,11 @@ const StyledButton = styled.button`
     css`
       cursor: not-allowed;
     `}
+    ${(props: StyledButtonProps) =>
+      props.hideIt &&
+      css`
+        opacity: 0.2;
+      `}
   ${media.lg`
   font-size: 14px
   `}

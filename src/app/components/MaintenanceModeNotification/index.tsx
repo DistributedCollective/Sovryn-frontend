@@ -16,13 +16,14 @@ export function MaintenanceModeNotification(props: Props) {
 
   return (
     <div className="container mt-6 mb-4">
-      <div className="bg-danger sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
+      <div className="bg-warning sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
         <div className="ml-3 mr-4">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
         <div>
-          New trades and top ups are disabled to allow time for the display
-          warnings and prevention systems to be improved.
+          We have temporarily put deposits and trading on hold. This will give
+          the team time to improve warnings if liquidity is low. Thank you all
+          for your feedback and helping improve the system!
         </div>
       </div>
     </div>

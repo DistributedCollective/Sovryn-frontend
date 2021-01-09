@@ -184,6 +184,7 @@ export function MarginTradeForm(props: Props) {
             text={t(s.buttons.submit)}
             onClick={() => trade()}
             disabled={!isConnected || loading || !valid}
+            hideIt
             textColor={color}
             loading={loading}
           />

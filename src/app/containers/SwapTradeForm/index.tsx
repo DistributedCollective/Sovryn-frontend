@@ -185,6 +185,7 @@ export function SwapTradeForm(props: Props) {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
+          hideIt
           disabled={
             !isConnected ||
             tx.loading ||

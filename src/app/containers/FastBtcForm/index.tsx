@@ -90,7 +90,7 @@ export function FastBtcForm(props: Props) {
               <h3 className="text-center mb-3">
                 {t(translations.fastBtcForm.title)}
               </h3>
-              {t(translations.fastBtcForm.connectWallet)}
+              {t(translations.fastBtcForm.disabledText)}
             </div>
           ) : (
             <>
