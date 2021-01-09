@@ -63,7 +63,13 @@ export default function Screen3() {
       />
 
       <SalesButton text={'Submit Code'} onClick={handleSubmit} />
-      <a href="javascript;" onClick={() => dispatch(actions.changeStep(6))}>
+      <a
+        href="/sales#"
+        onClick={e => {
+          e.preventDefault();
+          dispatch(actions.changeStep(6));
+        }}
+      >
         Don’t have a code? Click to learn more about SOVRYN
       </a>
     </StyledContent>

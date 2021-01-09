@@ -180,16 +180,22 @@ export default function SendRBTC() {
             <li>MIN: {trimZero(fromWei(maxDeposit / 2))} (r)BTC</li>
             <li>MAX: {trimZero(fromWei(maxDeposit))} (r)BTC</li>
             <a
-              href="javscript;"
+              href="/sales#"
               className="d-block"
-              onClick={() => dispatch(sActions.changeStep(3))}
+              onClick={e => {
+                e.preventDefault();
+                dispatch(sActions.changeStep(3));
+              }}
             >
               Input upgrade code
             </a>
             <a
-              href="javscript;"
+              href="/sales#"
               className="d-block"
-              onClick={() => dispatch(sActions.changeStep(6))}
+              onClick={e => {
+                e.preventDefault();
+                dispatch(sActions.changeStep(6));
+              }}
             >
               Request higher limit
             </a>

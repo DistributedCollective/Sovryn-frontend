@@ -100,7 +100,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   CrowdSale: {
-    address: '0x2c24C2b3cB859f904F482b84eBB5B4B2a37C727D',
+    address: '0x40CC7F9B96264B1aC6838Cc3afF3b517EEEE0480',
     abi: CrowdSaleAbi,
     blockNumber: 1218833,
   },

@@ -198,16 +198,22 @@ export default function SendBTC({ setShowCalc }) {
               <li>MIN: {trimZero(fromWei(maxDeposit / 2))} BTC</li>
               <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
               <a
-                href="javascript;"
+                href="/sales#"
                 className="d-block"
-                onClick={() => dispatch(sActions.changeStep(3))}
+                onClick={e => {
+                  e.preventDefault();
+                  dispatch(sActions.changeStep(3));
+                }}
               >
                 Input upgrade code
               </a>
               <a
-                href="javascript;"
+                href="/sales#"
                 className="d-block"
-                onClick={() => dispatch(sActions.changeStep(6))}
+                onClick={e => {
+                  e.preventDefault();
+                  dispatch(sActions.changeStep(6));
+                }}
               >
                 Request higher limit
               </a>
