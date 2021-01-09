@@ -21,7 +21,6 @@ import { DialogButton } from '../../components/DialogButton';
 import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
-import { useCanInteract } from '../../hooks/useCanInteract';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -32,7 +31,8 @@ interface Props {
 }
 
 export function TopUpTradingPositionHandler(props: Props) {
-  const canInteract = useCanInteract();
+  // const canInteract = useCanInteract();
+  const canInteract = false; // TODO: TEMP DISABLED
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );

@@ -21,10 +21,8 @@ export function MaintenanceModeNotification(props: Props) {
           <Icon icon="warning-sign" iconSize={26} />
         </div>
         <div>
-          Service is on maintenance mode! All smart-contract interactions are
-          disabled!
-          <br />
-          Will be back soon!
+          New trades and top ups are disabled to allow time for the display
+          warnings and prevention systems to be improved.
         </div>
       </div>
     </div>
