@@ -85,13 +85,13 @@
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Operar",
-      "swap": "Trocar moedas"
+      "swap": "Trocar ativos"
     }
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade"
     },
     "buttons": {
@@ -100,7 +100,7 @@
   },
   "swapTradeForm": {
     "fields": {
-      "currency_placeholder": "Escolha a moeda",
+      "currency_placeholder": "Escolha o ativo",
       "send": "Você envia",
       "receive": "Você recebe"
     },
@@ -190,8 +190,8 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "currency": "Moeda",
-    "currencySelect": "Selecionar moeda",
+    "currency": "Ativo",
+    "currencySelect": "Selecionar ativo",
     "poolSelect": "Select pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",
@@ -257,12 +257,12 @@
     "title": "Aumentar posição",
     "topUpAmount": "Aumentar quantidade",
     "topUp": "Aumentar",
-    "currency": "Moeda"
+    "currency": "Ativo"
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
       "fee": "Taxa"
