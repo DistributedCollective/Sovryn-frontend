@@ -55,14 +55,7 @@ export function Screen2({ state, dispatch }: Props) {
               }
             >
               <div className="d-flex flex-row flex-nowrap justify-content-between align-items-center">
-                <Text ellipsize>
-                  <div className="d-none d-md-block">
-                    {prettyTx(state.depositAddress, 16, 8)}
-                  </div>
-                  <div className="d-block d-md-none">
-                    {state.depositAddress}
-                  </div>
-                </Text>
+                <Text ellipsize>{prettyTx(state.depositAddress, 6, 4)}</Text>
                 <div className="ml-3">
                   <Icon icon="duplicate" />
                 </div>
