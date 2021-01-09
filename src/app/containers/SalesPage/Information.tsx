@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import GovernanceSVG from 'assets/images/governance.svg';
 import Sovmodel from 'assets/images/sovmodel.svg';
 
 const StyledContainer = styled.div`

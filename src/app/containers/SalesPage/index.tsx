@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
@@ -22,7 +22,6 @@ import { actions as fActions } from '../../containers/FastBtcForm/slice';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 import { AboutSOV, SOVModel, SOVGovernance } from './Information';
-import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
 
 import Screen1 from './screen1';
 import Screen2 from './screen2';
@@ -73,7 +72,7 @@ export function SalesPage() {
 
   useEffect(() => {
     dispatch(actions.updateMaxDeposit(maxPurchase));
-  }, [maxPurchase]);
+  }, [maxPurchase, dispatch]);
 
   useEffect(() => {
     if (isConnected && account) {
@@ -84,7 +83,7 @@ export function SalesPage() {
   useEffect(() => {
     if (isConnected) dispatch(actions.changeStep(2));
     else dispatch(actions.changeStep(1));
-  }, [isConnected]);
+  }, [isConnected, dispatch]);
 
   return (
     <>

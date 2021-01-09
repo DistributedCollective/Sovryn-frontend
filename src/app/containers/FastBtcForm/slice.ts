@@ -91,9 +91,10 @@ const fastBtcFormSlice = createSlice({
       state.receiverAddress = '';
       state.generatingAddress = false;
     },
-    useCode(state,{ payload }: PayloadAction<{address: string, code: string}>) {
-
-    }
+    useCode(
+      state,
+      { payload }: PayloadAction<{ address: string; code: string }>,
+    ) {},
   },
 });
 

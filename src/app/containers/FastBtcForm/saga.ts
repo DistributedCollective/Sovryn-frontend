@@ -1,5 +1,13 @@
 import { eventChannel } from 'redux-saga';
-import { take, call, put, select, takeLatest, fork, apply } from 'redux-saga/effects';
+import {
+  take,
+  call,
+  put,
+  select,
+  takeLatest,
+  fork,
+  apply,
+} from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
@@ -19,24 +27,25 @@ function createSocketConnection() {
 
 function* writeSocket(socket) {
   while (true) {
-    const {payload} = yield take(actions.useCode.type);
-    const {address, code, name, email} = payload;
-    console.log(address)
-    socket.emit('useCode', address, code, {name, email}, (err, success) => {
+    const { payload } = yield take(actions.useCode.type);
+    const { address, code, name, email } = payload;
+    console.log(address);
+    socket.emit('useCode', address, code, { name, email }, (err, success) => {
       if (!err) {
-          let ms = "Early access token minted successfully. Feel free to use https://sovryn.app";
-          console.log(success);
-          //todo: show explore with tx link (tx-hash in "success")             
+        console.log(success);
+        //todo: show explore with tx link (tx-hash in "success")
       } else {
-          console.log("Something's wrong. Please try again or contact the admin community@sovryn.app!", true);
+        console.log(
+          "Something's wrong. Please try again or contact the admin community@sovryn.app!",
+          true,
+        );
       }
     });
   }
 }
 
-function* createWebSocketChannel(receiverAddress, socket) {
+function createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
-
     console.log('sockets start', receiverAddress);
 
     if (receiverAddress) {
@@ -110,7 +119,7 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
     return;
   }
   const socket = yield call(createSocketConnection);
-  yield fork(writeSocket, socket);  
+  yield fork(writeSocket, socket);
 
   const blockChannel = yield call(createWebSocketChannel, payload, socket);
   try {
@@ -125,10 +134,7 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
 }
 
 export function* fastBtcFormSaga() {
-  yield takeLatest(
-    actions.changeReceiverAddress.type,
-    watchSocketChannel,
-  );
+  yield takeLatest(actions.changeReceiverAddress.type, watchSocketChannel);
   yield takeLatest(wActions.disconnected.type, resetAddresses);
   yield takeLatest(wActions.accountChanged.type, accountChanged);
 }

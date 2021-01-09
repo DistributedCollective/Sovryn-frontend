@@ -4,7 +4,6 @@ import SalesButton from '../../../components/SalesButton';
 import { useDispatch } from 'react-redux';
 
 import { actions } from '../slice';
-import { actions as fActions } from '../../FastBtcForm/slice';
 
 const StyledContent = styled.div`
   height: 600px;
@@ -80,10 +79,14 @@ const StyledButtonGroup = styled.div`
 export default function Screen6() {
   const dispatch = useDispatch();
   const [active, setActive] = useState(0);
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [note, setNote] = useState('');
 
   const submitCode = () => {
     dispatch(actions.changeStep(5));
-  }
+  };
 
   return (
     <StyledContent>
@@ -97,25 +100,28 @@ export default function Screen6() {
           <div className="form-group">
             <label htmlFor="address">Wallet to receive access</label>
             <StyledInput
-              placeholder="Enter email address"
-              name="code"
+              name="address"
               id="address"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
             />
           </div>
           <div className="form-group">
             <label htmlFor="email">Enter email</label>
             <StyledInput
-              placeholder="Enter email address"
-              name="code"
+              name="email"
               id="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
             <label htmlFor="username">Enter discord username (optional)</label>
             <StyledInput
-              placeholder="Enter email address"
-              name="code"
+              name="username"
               id="username"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             />
           </div>
         </div>
@@ -144,21 +150,23 @@ export default function Screen6() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="reason" className="ml-1">
+              <label htmlFor="note" className="ml-1">
                 In a few words please explain why you should be chosen to
                 receive a higher limit of SOV, and what interests you about
                 being vested in the SOVRYN system
               </label>
-              <StyledTextArea name="code" id="reason" />
+              <StyledTextArea
+                name="note"
+                id="note"
+                value={note}
+                onChange={e => setNote(e.target.value)}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <SalesButton
-        text={'Submit for Access'}
-        onClick={submitCode}
-      />
+      <SalesButton text={'Submit for Access'} onClick={submitCode} />
     </StyledContent>
   );
 }

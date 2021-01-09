@@ -45,9 +45,9 @@ export default function Screen3() {
   const dispatch = useDispatch();
   const account = useAccount();
   const handleSubmit = () => {
-    dispatch(fActions.useCode({address: account, code}));
-    dispatch(actions.changeStep(4))
-  }
+    dispatch(fActions.useCode({ address: account, code }));
+    dispatch(actions.changeStep(4));
+  };
 
   return (
     <StyledContent>
@@ -55,13 +55,15 @@ export default function Screen3() {
         Please enter your code to gain access
         <br /> to the SOV* Genesis Sale
       </p>
-      <StyledInput placeholder="Enter code" name="code" value={code} onChange={(e) => setCode(e.target.value)} />
-
-      <SalesButton
-        text={'Submit Code'}
-        onClick={handleSubmit}
+      <StyledInput
+        placeholder="Enter code"
+        name="code"
+        value={code}
+        onChange={e => setCode(e.target.value)}
       />
-      <a href="#" onClick={() => dispatch(actions.changeStep(6))}>
+
+      <SalesButton text={'Submit Code'} onClick={handleSubmit} />
+      <a href="javascript;" onClick={() => dispatch(actions.changeStep(6))}>
         Don’t have a code? Click to learn more about SOVRYN
       </a>
     </StyledContent>

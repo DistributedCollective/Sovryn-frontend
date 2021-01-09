@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Tab } from '../../components/SalesTab';
 import styled, { css } from 'styled-components';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
@@ -9,6 +8,10 @@ import { useDispatch } from 'react-redux';
 import { actions as sActions } from '../SalesPage/slice';
 import { selectSalesPage } from '../SalesPage/selectors';
 import { useSelector } from 'react-redux';
+import { Sovryn } from 'utils/sovryn';
+import { useAccount } from 'app/hooks/useAccount';
+import { useBalance } from 'app/hooks/useBalance';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 interface StyledProps {
   background?: string;
@@ -21,24 +24,12 @@ const Wrapper = styled.div`
     css`
       background: ${props.background};
     `}
-  border-radius: 0 0 10px 10px;
-  .qr-wrapper {
-    background: white;
-    border-radius: 10px;
-    margin: 0;
-    svg {
-      width: 180px;
-      height: 180px;
-    }
-    .btc-add-clipboard {
-      padding: 15px;
-      font-size: 14px;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      display: block;
-      border-radius: 5px;
-      background: #2d2d2d;
-    }
+  border-radius: 10px;
+  .header {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #383838;
   }
   .show-tx {
     display: flex;
@@ -70,21 +61,19 @@ const Wrapper = styled.div`
     font-size: 20px;
     margin: 10px 0 20px 0;
   }
-`;
-
-const WrapperContainer = styled.div`
-  padding: 20px 30px;
-  font-size: 14px;
-  color: #d9d9d9;
-  border-radius: 0 10px 10px 0;
-  .time {
-    font-size: 16px;
+  .content {
+    padding: 20px 30px;
+    font-size: 14px;
+    color: #d9d9d9;
+    border-radius: 0 10px 10px 0;
+    .time {
+      font-size: 16px;
+    }
+    .amount {
+      font-size: 18px;
+    }
   }
-  .amount {
-    font-size: 18px;
-  }
 `;
-
 const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
 }))`
@@ -108,8 +97,6 @@ const StyledButton = styled.button.attrs(_ => ({
 `;
 
 function TransactionDetail() {
-  const [activeTx, setActiveTx] = useState(true);
-
   return (
     <div>
       <p className="content-header">Transaction Details</p>
@@ -132,69 +119,26 @@ function TransactionDetail() {
           <SalesButton text={'Connect SOV to your wallet'} onClick={() => {}} />
         </div>
         <div className="col-md-6 d-flex flex-column align-items-end">
-          <div className="d-flex">
-            <Tab
-              text={'BTC > RBTC'}
-              active={activeTx}
-              background="#242424"
-              opacity={0.75}
-              onClick={() => setActiveTx(true)}
-            >
-              {'BTC > RBTC'}
-            </Tab>
-            <Tab
-              text={'(r)BTC > SOV'}
-              active={!activeTx}
-              background="#242424"
-              opacity={0.75}
-              onClick={() => setActiveTx(false)}
-            >
-              {'(r)BTC > SOV'}
-            </Tab>
-          </div>
-
           <Wrapper background="#242424">
-            {activeTx ? (
-              <WrapperContainer>
-                <p className="font-italic time font-weight-light">
-                  Processing approx. 15 minuets
-                </p>
-                <p className="text-center amount">0.18579 BTC</p>
-                <p className="text-center font-weight-light">≈ $2947.24</p>
-                <p className="text-center">
-                  Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
-                </p>
-                <p className="mb-2">From wallet:</p>
-                <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
-                <p className="mb-2">To wallet:</p>
-                <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
-                <p>
-                  Hash:{' '}
-                  <span className="font-weight-light">5043e06ba……65547033</span>
-                </p>
-                <a className="d-block text-center">View in Tracker </a>
-              </WrapperContainer>
-            ) : (
-              <WrapperContainer>
-                <p className="font-italic time font-weight-light">
-                  Processing approx. 5 minuets
-                </p>
-                <p className="text-center amount">0.18579 (r)BTC</p>
-                <p className="text-center font-weight-light">≈ $2947.24</p>
-                <p className="text-center">
-                  Fee:<span className="font-weight-light">0.000012 (r)BTC</span>{' '}
-                </p>
-                <p className="mb-2">From wallet:</p>
-                <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
-                <p className="mb-2">To wallet:</p>
-                <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
-                <p>
-                  Hash:{' '}
-                  <span className="font-weight-light">5043e06ba……65547033</span>
-                </p>
-                <a className="d-block text-center">View in Tracker </a>
-              </WrapperContainer>
-            )}
+            <div className="header">(r)BTC &gt; SOV</div>
+            <div className="content">
+              <p className="font-italic time font-weight-light">
+                Processing approx. 5 minuets
+              </p>
+              <p className="text-center amount">0.18579 (r)BTC</p>
+              <p className="text-center font-weight-light">≈ $2947.24</p>
+              <p className="text-center">
+                Fee:<span className="font-weight-light">0.000012 (r)BTC</span>{' '}
+              </p>
+              <p className="mb-2">From wallet:</p>
+              <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
+              <p className="mb-2">To wallet:</p>
+              <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
+              <p>
+                Hash:{' '}
+                <span className="font-weight-light">5043e06ba……65547033</span>
+              </p>
+            </div>
           </Wrapper>
         </div>
       </div>
@@ -206,6 +150,25 @@ export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
   const { maxDeposit } = useSelector(selectSalesPage);
+  const account = useAccount();
+  const { value: balance } = useBalance();
+
+  const [amount, setAmount] = useState('0');
+
+  const handleBuy = () => {
+    setShowTx(true);
+    console.log(Sovryn.contracts['CrowdSale'].methods.buy());
+    Sovryn.contracts['CrowdSale'].methods
+      .buy()
+      .send({ from: account, value: toWei(amount) })
+      .on('receipt', function (receipt) {
+        // receipt example
+        console.log(receipt);
+      })
+      .on('error', function (error, receipt) {
+        console.log(error);
+      });
+  };
 
   return !showTx ? (
     <div>
@@ -217,12 +180,14 @@ export default function SendRBTC() {
             <li>MIN: {trimZero(fromWei(maxDeposit / 2))} (r)BTC</li>
             <li>MAX: {trimZero(fromWei(maxDeposit))} (r)BTC</li>
             <a
+              href="javscript;"
               className="d-block"
               onClick={() => dispatch(sActions.changeStep(3))}
             >
               Input upgrade code
             </a>
             <a
+              href="javscript;"
               className="d-block"
               onClick={() => dispatch(sActions.changeStep(6))}
             >
@@ -251,9 +216,11 @@ export default function SendRBTC() {
               className="rbtc-input"
               type="text"
               placeholder="0.00000000"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
             />
             <p className="text-right font-sale-sm">
-              Available Balance: 0.529409276 (r)BTC
+              Available Balance: {trimZero(fromWei(balance))} (r)BTC
             </p>
             <p className="gas-fee">Estimated Gas Fee*: ≈ 0.00 (r)BTC</p>
             <p className="text-center">
@@ -262,7 +229,7 @@ export default function SendRBTC() {
             <p className="mb-0">Receive SOV:</p>
             <p className="sov-res">120,000.00 ≈ $1000.00</p>
 
-            <StyledButton onClick={() => setShowTx(true)}>BUY SOV</StyledButton>
+            <StyledButton onClick={handleBuy}>BUY SOV</StyledButton>
           </Wrapper>
         </div>
       </div>

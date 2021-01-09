@@ -6,7 +6,7 @@ import { translations } from 'locales/i18n';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { actions } from 'app/containers/TutorialDialogModal/slice';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const StyledContent = styled.div`
   height: 600px;

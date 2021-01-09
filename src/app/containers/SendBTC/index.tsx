@@ -28,7 +28,13 @@ const Wrapper = styled.div`
     css`
       background: ${props.background};
     `}
-  border-radius: 0 0 10px 10px;
+  border-radius: 10px;
+  .header {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #383838;
+  }
   .qr-wrapper {
     background: white;
     border-radius: 10px;
@@ -57,18 +63,17 @@ const Wrapper = styled.div`
       animation: rotateY 1.5s linear infinite;
     }
   }
-`;
-
-const WrapperContainer = styled.div`
-  padding: 20px 30px;
-  font-size: 14px;
-  color: #d9d9d9;
-  border-radius: 0 10px 10px 0;
-  .time {
-    font-size: 16px;
-  }
-  .amount {
-    font-size: 18px;
+  .content {
+    padding: 20px 30px;
+    font-size: 14px;
+    color: #d9d9d9;
+    border-radius: 0 10px 10px 0;
+    .time {
+      font-size: 16px;
+    }
+    .amount {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -117,50 +122,18 @@ function TransactionDetail() {
             >
               {'BTC > RBTC'}
             </Tab>
-            <Tab
-              text={'RBTC > SOV'}
-              active={!activeTx}
-              background="#242424"
-              opacity={0.75}
-              onClick={() => setActiveTx(false)}
-            >
-              {'RBTC > SOV'}
-            </Tab>
           </div>
 
           <Wrapper background="#242424">
-            {activeTx ? (
-              state.depositTx && (
-                <WrapperContainer>
-                  <p className="font-italic time font-weight-light">
-                    Processing approx. 15 minuets
-                  </p>
-                  <p className="text-center amount">
-                    {state.depositTx.value} BTC
-                  </p>
-                  <p className="text-center font-weight-light">≈ $2947.24</p>
-                  <p className="text-center">
-                    Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
-                  </p>
-                  <p className="mb-2">From wallet:</p>
-                  <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
-                  <p className="mb-2">To wallet:</p>
-                  <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
-                  <p>
-                    Hash:{' '}
-                    <LinkToExplorer
-                      txHash={state.depositTx.txHash}
-                      realBtc={true}
-                    />
-                  </p>
-                </WrapperContainer>
-              )
-            ) : (
-              <WrapperContainer>
+            <div className="header">BTC &gt; (r)BTC</div>
+            {state.depositTx && (
+              <div className="content">
                 <p className="font-italic time font-weight-light">
-                  Processing approx. 5 minuets
+                  Processing approx. 15 minuets
                 </p>
-                <p className="text-center amount">0.18579 BTC</p>
+                <p className="text-center amount">
+                  {state.depositTx.value} BTC
+                </p>
                 <p className="text-center font-weight-light">≈ $2947.24</p>
                 <p className="text-center">
                   Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
@@ -171,10 +144,12 @@ function TransactionDetail() {
                 <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
                 <p>
                   Hash:{' '}
-                  <span className="font-weight-light">5043e06ba……65547033</span>
+                  <LinkToExplorer
+                    txHash={state.depositTx.txHash}
+                    realBtc={true}
+                  />
                 </p>
-                <a className="d-block text-center">View in Tracker </a>
-              </WrapperContainer>
+              </div>
             )}
           </Wrapper>
         </div>
@@ -208,7 +183,6 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const [showTx, setShowTx] = useState(false);
   const state = useSelector(selectFastBtcForm);
   const { maxDeposit } = useSelector(selectSalesPage);
   const dispatch = useDispatch();
@@ -224,12 +198,14 @@ export default function SendBTC({ setShowCalc }) {
               <li>MIN: {trimZero(fromWei(maxDeposit / 2))} BTC</li>
               <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
               <a
+                href="javascript;"
                 className="d-block"
                 onClick={() => dispatch(sActions.changeStep(3))}
               >
                 Input upgrade code
               </a>
               <a
+                href="javascript;"
                 className="d-block"
                 onClick={() => dispatch(sActions.changeStep(6))}
               >
@@ -283,7 +259,7 @@ export default function SendBTC({ setShowCalc }) {
                   <Icon icon="duplicate" />
                 </BTCAddClipboard>
               </CopyToClipboard>
-              <div className="show-tx" onClick={() => setShowTx(true)}>
+              <div className="show-tx" onClick={() => {}}>
                 Waiting for transaction{' '}
                 <Icon className="d-flex align-items-center" icon="refresh" />
               </div>
