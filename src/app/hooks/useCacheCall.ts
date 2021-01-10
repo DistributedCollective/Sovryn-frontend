@@ -48,7 +48,6 @@ export function useCacheCall(
           }));
         })
         .catch(error => {
-          console.error('has error', contractName, methodName, args, error);
           // todo add logger?
           // silence...
           setState(prevState => ({
