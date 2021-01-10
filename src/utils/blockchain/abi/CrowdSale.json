@@ -99,7 +99,7 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address payable",
+        "internalType": "address",
         "name": "purchaser",
         "type": "address"
       },
@@ -400,7 +400,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amountBTC",
+        "name": "amountWei",
         "type": "uint256"
       }
     ],
@@ -412,7 +412,7 @@
   {
     "inputs": [
       {
-        "internalType": "address payable",
+        "internalType": "address",
         "name": "investor",
         "type": "address"
       }

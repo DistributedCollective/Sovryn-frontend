@@ -48,7 +48,7 @@ export function TutorialSOVModal() {
   }, [dispatch, handleWalletConnection]);
 
   useEffect(() => {
-    const shouldShow = Object.values(checks).every(check => check === false);
+    const shouldShow = Object.values(checks).every(check => !check);
     const body = document.getElementsByTagName('body')[0];
     if (shouldShow) {
       body.classList.add('overflow-hidden');

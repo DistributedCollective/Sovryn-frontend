@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { actions } from '../slice';
 import { actions as fActions } from '../../FastBtcForm/slice';
 import { useAccount } from 'app/hooks/useAccount';
+import { BackButton } from '../BackButton';
 
 const StyledContent = styled.div`
   height: 600px;
@@ -17,6 +18,7 @@ const StyledContent = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  position: relative;
   .content-header {
     font-size: 28px;
     text-align: center;
@@ -51,6 +53,9 @@ export default function Screen3() {
 
   return (
     <StyledContent>
+      <div className="d-flex flex-row">
+        <BackButton />
+      </div>
       <p className="content-header">
         Please enter your code to gain access
         <br /> to the SOV* Genesis Sale

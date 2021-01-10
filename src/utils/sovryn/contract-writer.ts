@@ -10,7 +10,6 @@ import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
 import { getTokenContractName } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
-import { weiTo4 } from '../blockchain/math-helpers';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
 
@@ -65,7 +64,6 @@ class ContractWriter {
         'allowance',
         [address, spenderAddress],
       );
-      console.log('allowance: ', weiTo4(allowance));
       let approveTx: any = null;
       if (bignumber(allowance).lessThan(amounts[0])) {
         dispatch(
@@ -139,6 +137,24 @@ class ContractWriter {
         .send(options)
         .once('transactionHash', tx => resolve(tx))
         .catch(e => reject(e));
+    });
+  }
+
+  public async estimateGas(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    options: TransactionConfig = {},
+  ): Promise<string | RevertInstructionError> {
+    if (!options.gasPrice) {
+      options.gasPrice = gas.get();
+    }
+    return new Promise<string | RevertInstructionError>((resolve, reject) => {
+      return this.sovryn.writeContracts[contractName].methods[methodName](
+        ...args,
+      )
+        .estimateGas(options)
+        .then(value => resolve(value));
     });
   }
 }

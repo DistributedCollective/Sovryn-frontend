@@ -38,7 +38,8 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app/',
-  31: 'https://testnet.sovryn.app/fastbtc',
+  31: 'http://sov2.battlemachine.io:3004/',
+  // 31: 'https://testnet.sovryn.app/fastbtc',
 };
 
 export const databaseRpcNodes = {

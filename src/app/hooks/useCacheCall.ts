@@ -40,7 +40,6 @@ export function useCacheCall(
       contractReader
         .call(contractName, methodName, args)
         .then(value => {
-          console.log(value, 'val');
           setState(prevState => ({
             ...prevState,
             value,
@@ -49,6 +48,7 @@ export function useCacheCall(
           }));
         })
         .catch(error => {
+          console.error('has error', contractName, methodName, args, error);
           // todo add logger?
           // silence...
           setState(prevState => ({

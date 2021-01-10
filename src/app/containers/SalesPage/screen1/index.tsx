@@ -18,6 +18,7 @@ const StyledContent = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  position: relative;
   .content-header {
     font-size: 28px;
     text-align: center;

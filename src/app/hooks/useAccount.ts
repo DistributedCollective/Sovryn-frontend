@@ -12,3 +12,8 @@ export function useIsConnected() {
   const { connected, chainId, address } = useSelector(selectWalletProvider);
   return connected && chainId === currentChainId && !!address;
 }
+
+export function useIsConnecting() {
+  const { connecting } = useSelector(selectWalletProvider);
+  return connecting;
+}

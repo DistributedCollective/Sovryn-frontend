@@ -9,7 +9,6 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
-import styled from 'styled-components/macro';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
 import PageHeader from '../../components/PageHeader';
@@ -37,22 +36,7 @@ import {
   reducer as salesReducer,
 } from './slice';
 import { selectSalesPage } from './selectors';
-
-const InfoBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #d9d9d9;
-  padding-top: 20px;
-  border-bottom: 1px solid #d9d9d9;
-  padding-bottom: 20px;
-  max-width: 1520px;
-  margin-left: auto;
-  margin-right: auto;
-  p:last-child {
-    font-size: 20px;
-    margin-bottom: 0;
-  }
-`;
+import { SaleInfoBar } from './SaleInfoBar';
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
@@ -102,36 +86,7 @@ export function SalesPage() {
         style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
       >
         <PageHeader />
-        <InfoBar>
-          <div>
-            <p>Total Supply:</p>
-            <p>21,000,000 SOV</p>
-          </div>
-          <div>
-            <p>Sales Allocation:</p>
-            <p>1,333,333 SOV</p>
-          </div>
-          <div>
-            <p>Allocation Remaining:</p>
-            <p>25% ≈ 333,333 SOV*</p>
-          </div>
-          <div>
-            <p>Price:</p>
-            <p>$0.75/SOV</p>
-          </div>
-          <div>
-            <p>Vesting:</p>
-            <p>6 Months</p>
-          </div>
-          <div>
-            <p>Accepted currencies:</p>
-            <p>BTC, RBTC</p>
-          </div>
-          <div>
-            <p>Token Sale End Time :</p>
-            <p>16.00 CET, 8th Jan</p>
-          </div>
-        </InfoBar>
+        <SaleInfoBar />
         {state.step === 1 && <Screen1 />}
         {state.step === 2 && <Screen2 />}
         {state.step === 3 && <Screen3 />}

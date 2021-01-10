@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
 import { Icon } from '@blueprintjs/core';
-import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
-import { useDispatch } from 'react-redux';
+import { fromWei, toWei, trimZero } from 'utils/blockchain/math-helpers';
+import { useDispatch, useSelector } from 'react-redux';
 import { actions as sActions } from '../SalesPage/slice';
 import { selectSalesPage } from '../SalesPage/selectors';
-import { useSelector } from 'react-redux';
-import { Sovryn } from 'utils/sovryn';
 import { useAccount } from 'app/hooks/useAccount';
 import { useBalance } from 'app/hooks/useBalance';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { useSaleCalculator } from '../SalesPage/hooks/useSaleCalculator';
+import { handleNumber } from '../../../utils/helpers';
+import { LoadableValue } from '../../components/LoadableValue';
+import {
+  numberToUSD,
+  toNumberFormat,
+  weiToNumberFormat,
+} from '../../../utils/display-text/format';
+import { contractWriter } from '../../../utils/sovryn/contract-writer';
+import {
+  SendTxResponse,
+  useSendContractTx,
+} from '../../hooks/useSendContractTx';
+import {
+  TxStatus,
+  TxType,
+} from '../../../store/global/transactions-store/types';
+import { bignumber } from 'mathjs';
+import { SendTxProgress } from '../../components/SendTxProgress';
+import { LinkToExplorer } from '../../components/LinkToExplorer';
 
 interface StyledProps {
   background?: string;
@@ -96,7 +113,14 @@ const StyledButton = styled.button.attrs(_ => ({
     `}
 `;
 
-function TransactionDetail() {
+interface DetailsProps {
+  tx: SendTxResponse;
+  estimatedFee: string;
+  btcAmount: string;
+  usdAmount: number;
+}
+
+function TransactionDetail(props: DetailsProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
@@ -123,20 +147,31 @@ function TransactionDetail() {
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
               <p className="font-italic time font-weight-light">
-                Processing approx. 5 minuets
+                Processing approx. 30 seconds
               </p>
-              <p className="text-center amount">0.18579 (r)BTC</p>
-              <p className="text-center font-weight-light">≈ $2947.24</p>
+              <p className="text-center amount">
+                {weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC
+              </p>
+              <p className="text-center font-weight-light">
+                ≈ {numberToUSD(props.usdAmount, 2)}
+              </p>
               <p className="text-center">
-                Fee:<span className="font-weight-light">0.000012 (r)BTC</span>{' '}
+                Fee:
+                <span className="font-weight-light">
+                  {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC
+                </span>{' '}
               </p>
-              <p className="mb-2">From wallet:</p>
-              <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
-              <p className="mb-2">To wallet:</p>
-              <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
+              {/*<p className="mb-2">From wallet:</p>*/}
+              {/*<p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>*/}
+              {/*<p className="mb-2">To wallet:</p>*/}
+              {/*<p className="font-weight-light">1A1zP1eP……v7DivfNa</p>*/}
+              <p className="mb-2">Status:</p>
+              <p className="font-weight-light">{props.tx.status}</p>
               <p>
                 Hash:{' '}
-                <span className="font-weight-light">5043e06ba……65547033</span>
+                <span className="font-weight-light">
+                  <LinkToExplorer txHash={props.tx.txHash} />
+                </span>
               </p>
             </div>
           </Wrapper>
@@ -153,22 +188,52 @@ export default function SendRBTC() {
   const account = useAccount();
   const { value: balance } = useBalance();
 
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('0.01000000');
+  const [gasEstimation, setGasEstimation] = useState('0');
+  const [gasLimit, setGasLimit] = useState(0);
+  const { sovToReceive, price, loading } = useSaleCalculator(amount);
+
+  useEffect(() => {
+    const estimate = async () => {
+      const _gasLimit = ((await contractWriter.estimateGas(
+        'CrowdSale',
+        'buy',
+        [],
+        { value: toWei(amount), from: account },
+      )) as unknown) as number;
+      setGasLimit(_gasLimit);
+      setGasEstimation(
+        bignumber(_gasLimit)
+          .mul(0.06)
+          .mul(10 ** 9)
+          .toFixed(),
+      );
+    };
+    estimate().catch();
+  }, [amount, account]);
+
+  const { send, ...tx } = useSendContractTx('CrowdSale', 'buy');
 
   const handleBuy = () => {
-    setShowTx(true);
-    console.log(Sovryn.contracts['CrowdSale'].methods.buy());
-    Sovryn.contracts['CrowdSale'].methods
-      .buy()
-      .send({ from: account, value: toWei(amount) })
-      .on('receipt', function (receipt) {
-        // receipt example
-        console.log(receipt);
-      })
-      .on('error', function (error, receipt) {
-        console.log(error);
-      });
+    send(
+      [],
+      {
+        value: toWei(amount),
+        from: account,
+        gas: gasLimit,
+        gasPrice: 0.06 * 10e8,
+      },
+      { type: TxType.SALE_BUY_SOV },
+    );
   };
+
+  useEffect(() => {
+    setShowTx(
+      [TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
+        tx.status,
+      ) && tx.txHash !== '',
+    );
+  }, [tx]);
 
   return !showTx ? (
     <div>
@@ -223,24 +288,42 @@ export default function SendRBTC() {
               type="text"
               placeholder="0.00000000"
               value={amount}
-              onChange={e => setAmount(e.target.value)}
+              onChange={e => setAmount(handleNumber(e.target.value))}
             />
             <p className="text-right font-sale-sm">
-              Available Balance: {trimZero(fromWei(balance))} (r)BTC
+              Available Balance: {weiToNumberFormat(balance, 8)} (r)BTC
             </p>
-            <p className="gas-fee">Estimated Gas Fee*: ≈ 0.00 (r)BTC</p>
+            <p className="gas-fee">
+              Estimated Gas Fee*: ≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC
+            </p>
             <p className="text-center">
               <Icon icon="arrow-down" iconSize={35} />
             </p>
             <p className="mb-0">Receive SOV:</p>
-            <p className="sov-res">120,000.00 ≈ $1000.00</p>
-
+            <LoadableValue
+              loading={loading}
+              value={
+                <p className="sov-res">
+                  {toNumberFormat(sovToReceive)} ≈ {numberToUSD(price, 2)}
+                </p>
+              }
+            />
+            <SendTxProgress
+              type={TxType.SALE_BUY_SOV}
+              {...tx}
+              displayAbsolute={false}
+            />
             <StyledButton onClick={handleBuy}>BUY SOV</StyledButton>
           </Wrapper>
         </div>
       </div>
     </div>
   ) : (
-    <TransactionDetail />
+    <TransactionDetail
+      tx={tx}
+      estimatedFee={gasEstimation}
+      btcAmount={amount}
+      usdAmount={price}
+    />
   );
 }

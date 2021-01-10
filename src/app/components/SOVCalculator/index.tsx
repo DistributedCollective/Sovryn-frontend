@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { Icon } from '@blueprintjs/core';
+import {
+  numberToUSD,
+  toNumberFormat,
+} from '../../../utils/display-text/format';
+import { useSaleCalculator } from '../../containers/SalesPage/hooks/useSaleCalculator';
+import { LoadableValue } from '../LoadableValue';
+import { handleNumber } from '../../../utils/helpers';
 
 const StyledSOVWrapper = styled.div`
   position: absolute;
@@ -48,6 +55,8 @@ const StyledSOVWrapper = styled.div`
   }
 `;
 export default function SOVCalculator({ setShowCalc }) {
+  const [amount, setAmount] = useState('0.05');
+  const { sovToReceive, price, loading } = useSaleCalculator(amount);
   return (
     <StyledSOVWrapper>
       <p className="content-header">Calculate how much SOV you receive</p>
@@ -56,12 +65,25 @@ export default function SOVCalculator({ setShowCalc }) {
       </p>
       <div className="content-box">
         <p className="mb-0">Send BTC:</p>
-        <input className="rbtc-input" type="text" placeholder="0.00000000" />
+        <input
+          className="rbtc-input"
+          type="text"
+          placeholder="0.00000000"
+          value={amount}
+          onChange={e => setAmount(handleNumber(e.currentTarget.value))}
+        />
         <p className="text-center">
           <Icon icon="arrow-down" iconSize={35} />
         </p>
         <p className="mb-0">Receive SOV:</p>
-        <p className="sov-res">120,000.00 ≈ $1000.00</p>
+        <LoadableValue
+          loading={loading}
+          value={
+            <p className="sov-res">
+              {toNumberFormat(sovToReceive)} ≈ {numberToUSD(price, 2)}
+            </p>
+          }
+        />
       </div>
     </StyledSOVWrapper>
   );

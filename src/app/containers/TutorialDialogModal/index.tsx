@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { useLocation } from 'react-router-dom';
 import { actions } from 'app/containers/TutorialDialogModal/slice';
-import { useIsConnected } from 'app/hooks/useAccount';
+import { useIsConnected, useIsConnecting } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { currentChainId } from 'utils/classifiers';
@@ -26,6 +26,7 @@ export function TutorialDialogModal() {
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
   const checks = {
+    connecting: useIsConnecting(),
     connected: useIsConnected(),
     route: location.pathname === '/unsubscribe',
     closedBefore: reactLocalStorage.get('closedRskTutorial') === 'true',
@@ -55,7 +56,7 @@ export function TutorialDialogModal() {
   }, [dispatch, handleWalletConnection]);
 
   useEffect(() => {
-    const shouldShow = Object.values(checks).every(check => check === false);
+    const shouldShow = Object.values(checks).every(check => !check);
     const body = document.getElementsByTagName('body')[0];
     if (shouldShow) {
       body.classList.add('overflow-hidden');

@@ -10,19 +10,20 @@ import SendRBTC from 'app/containers/SendRBTC';
 import SOVCalculator from 'app/components/SOVCalculator';
 
 const StyledContent = styled.div`
-  height: 600px;
+  min-height: 600px;
   background: rgba(0, 0, 0, 0.27);
   max-width: 1200px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  position: relative;
   .tab-content {
     background: black;
     position: relative;
     padding-left: 120px;
     padding-right: 120px;
-    height: 100%;
+    padding-bottom: 25px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     .content-header {
