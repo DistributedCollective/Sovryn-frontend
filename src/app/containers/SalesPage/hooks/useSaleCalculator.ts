@@ -26,8 +26,7 @@ export function useSaleCalculator(btcAmount: string) {
       Number(
         bignumber(btcRate.rate)
           .div(btcRate.precision)
-          .mul(rate)
-          .div(10 ** 8),
+          .mul(bignumber(1).div(rate)),
       ),
     );
   }, [btcRate, rate]);
@@ -36,8 +35,8 @@ export function useSaleCalculator(btcAmount: string) {
     setSovToReceive(
       Number(
         bignumber(weiAmount)
-          .div(10 ** 10)
-          .div(rate),
+          .mul(rate)
+          .div(10 ** 18),
       ),
     );
   }, [weiAmount, rate]);
@@ -48,6 +47,8 @@ export function useSaleCalculator(btcAmount: string) {
 
   return {
     price: totalPrice,
+    unitPrice: price,
+    rate,
     sovToReceive,
     loading: rateLoading || btcRateLoading,
   };

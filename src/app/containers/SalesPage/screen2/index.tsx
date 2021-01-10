@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import SalesButton from 'app/components/SalesButton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../slice';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
-import { LoadableValue } from '../../../components/LoadableValue';
-import { useAccount } from '../../../hooks/useAccount';
+import { selectSalesPage } from '../selectors';
+import { weiToNumberFormat } from '../../../../utils/display-text/format';
 
 const StyledContent = styled.div`
   height: 600px;
@@ -34,21 +33,14 @@ const StyledContent = styled.div`
 
 export default function Screen2() {
   const dispatch = useDispatch();
-  const { value, loading } = useCacheCallWithValue(
-    'CrowdSale',
-    'getMaxPurchase',
-    '0',
-    useAccount(),
-  );
-
+  const { maxDeposit } = useSelector(selectSalesPage);
   return (
     <StyledContent>
       <p className="content-header">Welcome to the SOV* Genesis Sale</p>
       <p className="text-center content">
         To thank you for supporting SOVRYN by being here from the start
         <br /> we have granted you access to <br />
-        purchase up to <LoadableValue loading={loading} value={value} /> BTC
-        worth of SOV
+        purchase up to {weiToNumberFormat(maxDeposit, 8)} BTC worth of SOV
       </p>
       <div className="d-flex flex-column justify-content-around b-group">
         <SalesButton
