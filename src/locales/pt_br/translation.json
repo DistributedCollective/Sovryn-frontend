@@ -32,7 +32,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Em andamento",
+      "activeTrades": "Ativas",
       "tradingHistory": "Concluídas"
     }
   },
@@ -251,7 +251,7 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo em andamento."
+    "text": "Você não tem nenhum empréstimo ativo."
   },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
@@ -274,7 +274,7 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Em andamento",
+      "active": "Ativas",
       "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
