@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Tab } from 'app/components/SalesTab';
 
 import BTCLogo from 'assets/images/btc_logo.svg';

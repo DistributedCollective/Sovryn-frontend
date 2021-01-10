@@ -6,7 +6,7 @@
 
 import React, { Suspense } from 'react';
 import { Dialog as BPDialog, Icon } from '@blueprintjs/core';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
 
 interface Props {

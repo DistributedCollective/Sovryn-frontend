@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
 import { Icon } from '@blueprintjs/core';

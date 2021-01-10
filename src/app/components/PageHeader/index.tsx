@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import LogoCircle from '../../../assets/images/logoCircle.svg';
 
 const StyledHeader = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import SalesButton from 'app/components/SalesButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
