@@ -192,7 +192,7 @@
     "pool": "Pool",
     "currency": "Ativo",
     "currencySelect": "Selecionar ativo",
-    "poolSelect": "Select pool",
+    "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
