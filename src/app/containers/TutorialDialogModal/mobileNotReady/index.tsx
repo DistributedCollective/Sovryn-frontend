@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import background from 'assets/images/tutorial/mobile-not-ready-bg.svg';
 import successBg from 'assets/images/tutorial/email_success_bg.svg';
-
+import close from 'assets/images/tutorial/close.svg';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
-export function MobileNotReady() {
+export function MobileNotReady(props) {
   const { t } = useTranslation();
   const s = translations.mobileNotReady;
   const [status, setStatus] = useState('');
@@ -54,6 +54,12 @@ export function MobileNotReady() {
         {status !== 'success' && (
           <>
             <div className="mobile-not-ready-img position-absolute">
+              <div
+                className="close position-absolute"
+                onClick={() => props.handleClose()}
+              >
+                <img src={close} alt="close" className="w-100 h-100" />
+              </div>
               <img src={background} alt="" className="h-100 w-100" />
               <div className="mobile-not-ready-text position-absolute">
                 <p>{t(s.p1)}</p>

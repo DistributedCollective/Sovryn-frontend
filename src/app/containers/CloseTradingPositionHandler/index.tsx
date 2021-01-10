@@ -41,7 +41,7 @@ export function CloseTradingPositionHandler(props: Props) {
   const receiver = useAccount();
 
   const [amount, setAmount] = useState<string>();
-  const [isCollateral, setIsCollateral] = useState(false);
+  const [isCollateral, setIsCollateral] = useState(true);
   const [options, setOptions] = useState(getOptions(props.item));
 
   useEffect(() => {
@@ -61,8 +61,6 @@ export function CloseTradingPositionHandler(props: Props) {
     isCollateral,
     '0x',
   );
-
-  console.log(isCollateral);
 
   const handleConfirmSwap = () => {
     send();

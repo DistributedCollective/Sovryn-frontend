@@ -5,6 +5,7 @@ import mobileIcon from 'assets/images/tutorial/mobile_icon.svg';
 import hardwareIcon from 'assets/images/tutorial/hardware_icon.svg';
 import badger1 from 'assets/images/tutorial/badger_1.svg';
 import planet from 'assets/images/tutorial/planet.svg';
+import comingSoon from 'assets/images/tutorial/coming_soon.svg';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
@@ -46,10 +47,10 @@ export function Screen1(props: Props) {
             />
           </div>
           <div className="browser-wallet-text position-absolute">
-            <p>{t(translations.rskConnectTutorial.browser_wallet)}t</p>
+            <p>{t(translations.rskConnectTutorial.browser_wallet)}</p>
           </div>
         </div>
-        <div className="mobile-wallet" onClick={() => props.handleClick(4)}>
+        <div className="mobile-wallet">
           <div className="rectangle2">
             <img src={rectangle} alt="" />
           </div>
@@ -59,6 +60,9 @@ export function Screen1(props: Props) {
               alt="browser wallet icon"
               className="h-100 w-100"
             />
+          </div>
+          <div className="coming-soon position-absolute">
+            <img src={comingSoon} alt="Coming Soon" className="h-100 w-100" />
           </div>
           <div className="mobile-wallet-text position-absolute">
             <p>{t(translations.rskConnectTutorial.mobile_wallet)}</p>
@@ -74,6 +78,9 @@ export function Screen1(props: Props) {
               alt="browser wallet icon"
               className="h-100 w-100"
             />
+          </div>
+          <div className="coming-soon position-absolute">
+            <img src={comingSoon} alt="Coming Soon" className="h-100 w-100" />
           </div>
           <div className="hardware-wallet-text position-absolute">
             <p>{t(translations.rskConnectTutorial.hardware_wallet)}</p>

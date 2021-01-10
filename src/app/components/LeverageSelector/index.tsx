@@ -32,7 +32,7 @@ export function LeverageSelector(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
-  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--gold)';
+  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--Muted_red)';
 
   const active = {
     color: color,

@@ -31,6 +31,7 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 
 const s = translations.marginTradeForm;
 
@@ -59,7 +60,7 @@ export function MarginTradeForm(props: Props) {
   ).map(item => ({ key: item, label: AssetsDictionary.get(item).symbol }));
 
   const color =
-    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--gold)';
+    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--Muted_red)';
 
   useEffect(() => {
     setCollateral(pair.getCollateralForPosition(position)[0]);
@@ -102,6 +103,13 @@ export function MarginTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  const { loanToken } = useTrading_resolvePairTokens(
+    pair,
+    position,
+    pair.getAssetForPosition(position),
+    collateral,
+  );
+
   return (
     <>
       <TradingPositionSelector
@@ -126,7 +134,7 @@ export function MarginTradeForm(props: Props) {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={pair.getAssetForPosition(position)}
+            asset={loanToken}
             collateral={collateral}
             weiAmount={weiAmount}
             leverage={leverage}
