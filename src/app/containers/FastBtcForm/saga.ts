@@ -59,6 +59,16 @@ function createWebSocketChannel(receiverAddress, socket) {
       });
       getHistory(receiverAddress);
     }
+    socket.emit('initAddress', receiverAddress, (err, res) => {
+      console.log('response');
+      console.log(res);
+
+      if (res && res.id) {
+        console.log(res);
+      } else {
+        console.log("Something's wrong. Please try again!");
+      }
+    });
 
     socket.emit('txAmount', info => {
       emit(actions.changeAmountInfo(info));
