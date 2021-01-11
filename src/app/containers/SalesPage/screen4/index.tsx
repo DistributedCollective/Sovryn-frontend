@@ -10,7 +10,6 @@ import SendRBTC from 'app/containers/SendRBTC';
 import SOVCalculator from 'app/components/SOVCalculator';
 
 const StyledContent = styled.div`
-  min-height: 600px;
   background: rgba(0, 0, 0, 0.27);
   max-width: 1200px;
   margin: 40px auto;

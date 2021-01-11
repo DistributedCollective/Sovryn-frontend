@@ -40,7 +40,8 @@ export default function Screen2() {
       <p className="text-center content">
         To thank you for supporting SOVRYN by being here from the start
         <br /> we have granted you access to <br />
-        purchase up to {weiToNumberFormat(maxDeposit, 8)} BTC worth of SOV
+        purchase up to <strong>{weiToNumberFormat(maxDeposit, 8)}</strong> BTC
+        worth of SOV
       </p>
       <div className="d-flex flex-column justify-content-around b-group">
         <SalesButton

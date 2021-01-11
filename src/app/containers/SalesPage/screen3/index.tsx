@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import SalesButton from '../../../components/SalesButton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { actions } from '../slice';
-import { actions as fActions } from '../../FastBtcForm/slice';
 import { useAccount } from 'app/hooks/useAccount';
 import BackButton from '../BackButton';
+import { selectSalesPage } from '../selectors';
+import Screen5 from '../screen5';
+import { LinkToExplorer } from '../../../components/LinkToExplorer';
 
 const StyledContent = styled.div`
   height: 600px;
@@ -42,14 +44,36 @@ const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
 `;
 
 export default function Screen3() {
+  const address = useAccount();
   const [code, setCode] = useState('');
 
   const dispatch = useDispatch();
-  const account = useAccount();
+
+  const { upgradeLoading, codeError, codeTx } = useSelector(selectSalesPage);
+
   const handleSubmit = () => {
-    dispatch(fActions.useCode({ address: account, code }));
-    dispatch(actions.changeStep(4));
+    dispatch(actions.useCode({ address, code }));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(actions.useCodeCleanup());
+    };
+  }, [dispatch]);
+
+  if (codeTx) {
+    return (
+      <Screen5
+        content={
+          <p className="content-header">
+            Your code was accepted and processed.
+            <br />
+            Tx: <LinkToExplorer txHash={codeTx} />
+          </p>
+        }
+      />
+    );
+  }
 
   return (
     <StyledContent>
@@ -60,14 +84,24 @@ export default function Screen3() {
         Please enter your code to gain access
         <br /> to the SOV* Genesis Sale
       </p>
+      {codeError && <div className="text-danger">{codeError}</div>}
+      {upgradeLoading && (
+        <div className="text-info">
+          Loading. This can take couple of minutes.
+        </div>
+      )}
       <StyledInput
         placeholder="Enter code"
         name="code"
         value={code}
         onChange={e => setCode(e.target.value)}
       />
-
-      <SalesButton text={'Submit Code'} onClick={handleSubmit} />
+      <SalesButton
+        text={'Submit Code'}
+        onClick={handleSubmit}
+        loading={upgradeLoading}
+        disabled={upgradeLoading || code.length < 6}
+      />
       <a
         href="/sales#"
         onClick={e => {

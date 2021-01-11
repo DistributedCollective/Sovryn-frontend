@@ -1,21 +1,20 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, Dispatch } from 'react';
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Icon } from '@blueprintjs/core';
-import { Tab } from '../../components/SalesTab';
 import SalesButton from '../../components/SalesButton';
 import styled, { css } from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { actions } from '../TutorialSOVModal/slice';
-import { selectFastBtcForm } from '../FastBtcForm/selectors';
 import { useSelector } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
-import { fromWei, trimZero } from 'utils/blockchain/math-helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { actions as sActions } from '../SalesPage/slice';
 import { selectSalesPage } from '../SalesPage/selectors';
+import { toaster } from '../../../utils/toaster';
+import { BtcDeposit } from '../SalesPage/types';
 
 interface StyledProps {
   background?: string;
@@ -77,16 +76,17 @@ const Wrapper = styled.div`
   }
 `;
 
-function TransactionDetail() {
-  const [activeTx, setActiveTx] = useState(true);
-  const state = useSelector(selectFastBtcForm);
+interface TxProps {
+  address: any;
+  deposit: BtcDeposit;
+  dispatch: Dispatch<any>;
+}
 
-  const dispatch = useDispatch();
+function TransactionDetail({ deposit, address, dispatch }: TxProps) {
   const handleSOVTutorial = useCallback(() => {
     dispatch(actions.showModal(SHOW_MODAL));
     reactLocalStorage.set('closedRskTutorial', 'false');
   }, [dispatch]);
-
   return (
     <div>
       <p className="content-header">Transaction Details</p>
@@ -112,42 +112,33 @@ function TransactionDetail() {
           />
         </div>
         <div className="col-md-6 d-flex flex-column align-items-end">
-          <div className="d-flex">
-            <Tab
-              text={'BTC > RBTC'}
-              active={activeTx}
-              background="#242424"
-              opacity={0.75}
-              onClick={() => setActiveTx(true)}
-            >
-              {'BTC > RBTC'}
-            </Tab>
-          </div>
-
+          {/*<div className="d-flex">*/}
+          {/*  <Tab*/}
+          {/*    text={'BTC > RBTC'}*/}
+          {/*    active={activeTx}*/}
+          {/*    background="#242424"*/}
+          {/*    opacity={0.75}*/}
+          {/*    onClick={() => setActiveTx(true)}*/}
+          {/*  >*/}
+          {/*    {'BTC > RBTC'}*/}
+          {/*  </Tab>*/}
+          {/*</div>*/}
           <Wrapper background="#242424">
             <div className="header">BTC &gt; (r)BTC</div>
-            {state.depositTx && (
+            {deposit && (
               <div className="content">
                 <p className="font-italic time font-weight-light">
                   Processing approx. 15 minuets
                 </p>
-                <p className="text-center amount">
-                  {state.depositTx.value} BTC
-                </p>
+                <p className="text-center amount">{deposit.value} BTC</p>
                 <p className="text-center font-weight-light">≈ $2947.24</p>
-                <p className="text-center">
-                  Fee:<span className="font-weight-light">0.000012 BTC</span>{' '}
-                </p>
-                <p className="mb-2">From wallet:</p>
-                <p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>
                 <p className="mb-2">To wallet:</p>
-                <p className="font-weight-light">1A1zP1eP……v7DivfNa</p>
+                <p className="font-weight-light">{prettyTx(address, 6, 4)}</p>
+                <p className="mb-2">Status:</p>
+                <p className="font-weight-light">{deposit.status}</p>
                 <p>
                   Hash:{' '}
-                  <LinkToExplorer
-                    txHash={state.depositTx.txHash}
-                    realBtc={true}
-                  />
+                  <LinkToExplorer txHash={deposit.txHash} realBtc={true} />
                 </p>
               </div>
             )}
@@ -183,11 +174,12 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const state = useSelector(selectFastBtcForm);
-  const { maxDeposit, minDeposit } = useSelector(selectSalesPage);
+  const { btcMin, btcMax, btcAddress, btcDeposit } = useSelector(
+    selectSalesPage,
+  );
   const dispatch = useDispatch();
 
-  return state.step !== 3 ? (
+  return btcDeposit === null ? (
     <div>
       <div>
         <p className="content-header">Send BTC to receive SOV</p>
@@ -195,8 +187,8 @@ export default function SendBTC({ setShowCalc }) {
           <div className="col-md-6">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
-              <li>MIN: {trimZero(fromWei(minDeposit))} BTC</li>
-              <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
+              <li>MIN: {btcMin} BTC</li>
+              <li>MAX: {btcMax} BTC</li>
               <a
                 href="/sales#"
                 className="d-block"
@@ -247,22 +239,32 @@ export default function SendBTC({ setShowCalc }) {
             <Wrapper>
               <p>Send BTC to this address:</p>
               <div className="row justify-content-center qr-wrapper">
-                <QRCode
-                  value={state.depositAddress}
-                  renderAs="svg"
-                  bgColor="var(--white)"
-                  fgColor="var(--primary)"
-                  includeMargin={true}
-                  className="rounded btc-address"
-                />
+                {btcAddress && (
+                  <QRCode
+                    value={btcAddress}
+                    renderAs="svg"
+                    bgColor="var(--white)"
+                    fgColor="var(--primary)"
+                    includeMargin={true}
+                    className="rounded btc-address"
+                  />
+                )}
               </div>
               <CopyToClipboard
-                text={state.depositAddress}
-                onCopy={() => alert('Copied!')}
+                text={btcAddress}
+                onCopy={() =>
+                  toaster.show({ message: 'Deposit address copied.' })
+                }
               >
                 <BTCAddClipboard className="cursor-pointer">
-                  {prettyTx(state.depositAddress, 15, 10)}{' '}
-                  <Icon icon="duplicate" />
+                  {btcAddress ? (
+                    <>
+                      {' '}
+                      {prettyTx(btcAddress, 6, 4)} <Icon icon="duplicate" />
+                    </>
+                  ) : (
+                    <>Generating address...</>
+                  )}
                 </BTCAddClipboard>
               </CopyToClipboard>
               <div className="show-tx" onClick={() => {}}>
@@ -275,6 +277,10 @@ export default function SendBTC({ setShowCalc }) {
       </div>
     </div>
   ) : (
-    <TransactionDetail />
+    <TransactionDetail
+      deposit={btcDeposit}
+      dispatch={dispatch}
+      address={btcAddress}
+    />
   );
 }

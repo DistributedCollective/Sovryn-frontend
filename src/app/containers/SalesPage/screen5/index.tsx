@@ -26,20 +26,31 @@ const StyledContent = styled.div`
   }
 `;
 
-export default function Screen5() {
+interface Props {
+  content?: React.ReactNode;
+  toStep?: number;
+}
+
+export default function Screen5(props: Props) {
   const dispatch = useDispatch();
   return (
     <StyledContent>
-      <p className="content-header">
-        Your request has been submitted
-        <br />
-        Please check your email and wait up to 24hrs{' '}
-      </p>
-
+      {props.content}
       <SalesButton
         text={'Continue to sale'}
-        onClick={() => dispatch(actions.changeStep(2))}
+        onClick={() => dispatch(actions.changeStep(props.toStep || 2))}
       />
     </StyledContent>
   );
 }
+
+Screen5.defaultProps = {
+  content: (
+    <p className="content-header">
+      Your request has been submitted
+      <br />
+      Please check your email and wait up to 24hrs{' '}
+    </p>
+  ),
+  toStep: 2,
+};

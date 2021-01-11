@@ -7,6 +7,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
 import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -16,8 +17,6 @@ import PageHeader from '../../components/PageHeader';
 import SalesButton from '../../components/SalesButton';
 
 import { TutorialSOVModal } from '../TutorialSOVModal/Loadable';
-import { useSelector, useDispatch } from 'react-redux';
-import { actions as fActions } from '../../containers/FastBtcForm/slice';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 import { AboutSOV, SOVModel, SOVGovernance } from './Information';
@@ -29,7 +28,7 @@ import Screen4 from './screen4';
 import Screen5 from './screen5';
 import Screen6 from './screen6';
 
-import { useInjectReducer } from 'utils/redux-injectors';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   actions,
   sliceKey as salesSlice,
@@ -37,9 +36,11 @@ import {
 } from './slice';
 import { selectSalesPage } from './selectors';
 import { SaleInfoBar } from './SaleInfoBar';
+import { salesPageSaga } from './saga';
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
+  useInjectSaga({ key: salesSlice, saga: salesPageSaga });
 
   const { t } = useTranslation();
   const isConnected = useIsConnected();
@@ -57,12 +58,6 @@ export function SalesPage() {
   useEffect(() => {
     dispatch(actions.updateMaxDeposit(maxPurchase));
   }, [maxPurchase, dispatch]);
-
-  useEffect(() => {
-    if (isConnected && account) {
-      dispatch(fActions.changeReceiverAddress(account));
-    }
-  }, [account, isConnected, dispatch]);
 
   useEffect(() => {
     if (isConnected) dispatch(actions.changeStep(2));

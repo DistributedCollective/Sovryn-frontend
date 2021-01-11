@@ -22,32 +22,15 @@ function createSocketConnection() {
     reconnectionDelayMax: 10000,
     path: pathname && pathname !== '/' ? pathname : '',
   });
-  return socket;
-}
-
-function* writeSocket(socket) {
-  while (true) {
-    const { payload } = yield take(actions.useCode.type);
-    const { address, code, name, email } = payload;
-    console.log(address);
-    socket.emit('useCode', address, code, { name, email }, (err, success) => {
-      if (!err) {
-        console.log('success', success);
-        //todo: show explore with tx link (tx-hash in "success")
-      } else {
-        console.log(
-          "Something's wrong. Please try again or contact the admin community@sovryn.app!",
-          true,
-        );
-      }
+  return new Promise(resolve => {
+    socket.on('connect', () => {
+      resolve(socket);
     });
-  }
+  });
 }
 
 function createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
-    console.log('sockets start', receiverAddress);
-
     if (receiverAddress) {
       // get deposit address
       socket.emit('getDepositAddress', receiverAddress, (err, res) => {
@@ -129,7 +112,6 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
     return;
   }
   const socket = yield call(createSocketConnection);
-  yield fork(writeSocket, socket);
 
   const blockChannel = yield call(createWebSocketChannel, payload, socket);
   try {
