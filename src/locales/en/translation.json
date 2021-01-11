@@ -409,7 +409,7 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Wallet"
+      "title": "Connected Wallet"
     },
     "tableHeaders": {
       "asset": "Asset",
