@@ -55,7 +55,7 @@ const StyledSOVWrapper = styled.div`
   }
 `;
 export default function SOVCalculator({ setShowCalc }) {
-  const [amount, setAmount] = useState('0.05');
+  const [amount, setAmount] = useState('0.015');
   const { sovToReceive, price, loading } = useSaleCalculator(amount);
   return (
     <StyledSOVWrapper>

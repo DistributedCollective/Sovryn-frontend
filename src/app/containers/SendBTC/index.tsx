@@ -184,7 +184,7 @@ const BTCAddClipboard = styled.span`
 
 export default function SendBTC({ setShowCalc }) {
   const state = useSelector(selectFastBtcForm);
-  const { maxDeposit } = useSelector(selectSalesPage);
+  const { maxDeposit, minDeposit } = useSelector(selectSalesPage);
   const dispatch = useDispatch();
 
   return state.step !== 3 ? (
@@ -195,7 +195,7 @@ export default function SendBTC({ setShowCalc }) {
           <div className="col-md-6">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
-              <li>MIN: {trimZero(fromWei(maxDeposit / 2))} BTC</li>
+              <li>MIN: {trimZero(fromWei(minDeposit))} BTC</li>
               <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
               <a
                 href="/sales#"

@@ -32,7 +32,7 @@ function* writeSocket(socket) {
     console.log(address);
     socket.emit('useCode', address, code, { name, email }, (err, success) => {
       if (!err) {
-        console.log(success);
+        console.log('success', success);
         //todo: show explore with tx link (tx-hash in "success")
       } else {
         console.log(

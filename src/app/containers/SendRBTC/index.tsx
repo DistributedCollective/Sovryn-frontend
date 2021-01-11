@@ -3,7 +3,12 @@ import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
 import { Icon } from '@blueprintjs/core';
-import { fromWei, toWei, trimZero } from 'utils/blockchain/math-helpers';
+import {
+  fromWei,
+  toWei,
+  trimZero,
+  weiToFixed,
+} from 'utils/blockchain/math-helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as sActions } from '../SalesPage/slice';
 import { selectSalesPage } from '../SalesPage/selectors';
@@ -26,9 +31,11 @@ import {
   TxStatus,
   TxType,
 } from '../../../store/global/transactions-store/types';
-import { bignumber } from 'mathjs';
+import { bignumber, min } from 'mathjs';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
+import { gas } from '../../../utils/blockchain/gas-price';
 
 interface StyledProps {
   background?: string;
@@ -111,6 +118,12 @@ const StyledButton = styled.button.attrs(_ => ({
       border: 1px solid #4ECDC4;
     }
     `}
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+      cursor: not-allowed;
+    `}
 `;
 
 interface DetailsProps {
@@ -184,14 +197,16 @@ function TransactionDetail(props: DetailsProps) {
 export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
-  const { maxDeposit } = useSelector(selectSalesPage);
+  const { maxDeposit, minDeposit } = useSelector(selectSalesPage);
   const account = useAccount();
   const { value: balance } = useBalance();
 
-  const [amount, setAmount] = useState('0.01000000');
+  const [amount, setAmount] = useState(weiToFixed(minDeposit, 8));
   const [gasEstimation, setGasEstimation] = useState('0');
   const [gasLimit, setGasLimit] = useState(0);
   const { sovToReceive, price, loading } = useSaleCalculator(amount);
+
+  const weiAmount = useWeiAmount(amount);
 
   useEffect(() => {
     const estimate = async () => {
@@ -202,12 +217,7 @@ export default function SendRBTC() {
         { value: toWei(amount), from: account },
       )) as unknown) as number;
       setGasLimit(_gasLimit);
-      setGasEstimation(
-        bignumber(_gasLimit)
-          .mul(0.06)
-          .mul(10 ** 9)
-          .toFixed(),
-      );
+      setGasEstimation(bignumber(_gasLimit).mul(gas.get()).toFixed());
     };
     estimate().catch();
   }, [amount, account]);
@@ -227,6 +237,11 @@ export default function SendRBTC() {
     );
   };
 
+  const addAllBalance = e => {
+    e && e.preventDefault && e.preventDefault();
+    setAmount(fromWei(min(maxDeposit, bignumber(balance).sub(gasEstimation))));
+  };
+
   useEffect(() => {
     setShowTx(
       [TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
@@ -235,6 +250,16 @@ export default function SendRBTC() {
     );
   }, [tx]);
 
+  const checks = {
+    limits:
+      bignumber(minDeposit).lessThanOrEqualTo(weiAmount) &&
+      bignumber(maxDeposit).greaterThanOrEqualTo(weiAmount),
+    balance: bignumber(balance)
+      .sub(gasEstimation)
+      .greaterThanOrEqualTo(weiAmount),
+  };
+  const canSubmit = Object.values(checks).every(check => check);
+
   return !showTx ? (
     <div>
       <p className="content-header">Buy SOV with (r)BTC</p>
@@ -242,7 +267,7 @@ export default function SendRBTC() {
         <div className="col-md-6">
           <div className="mb-4">
             <p className="mb-2">Deposit limits:</p>
-            <li>MIN: {trimZero(fromWei(maxDeposit / 2))} (r)BTC</li>
+            <li>MIN: {trimZero(fromWei(minDeposit))} (r)BTC</li>
             <li>MAX: {trimZero(fromWei(maxDeposit))} (r)BTC</li>
             <a
               href="/sales#"
@@ -291,7 +316,11 @@ export default function SendRBTC() {
               onChange={e => setAmount(handleNumber(e.target.value))}
             />
             <p className="text-right font-sale-sm">
-              Available Balance: {weiToNumberFormat(balance, 8)} (r)BTC
+              Available Balance:{' '}
+              <a href="/sales#" onClick={addAllBalance}>
+                {weiToNumberFormat(balance, 8)}
+              </a>{' '}
+              (r)BTC
             </p>
             <p className="gas-fee">
               Estimated Gas Fee*: ≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC
@@ -313,7 +342,9 @@ export default function SendRBTC() {
               {...tx}
               displayAbsolute={false}
             />
-            <StyledButton onClick={handleBuy}>BUY SOV</StyledButton>
+            <StyledButton onClick={handleBuy} disabled={!canSubmit}>
+              BUY SOV
+            </StyledButton>
           </Wrapper>
         </div>
       </div>

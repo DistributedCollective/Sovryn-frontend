@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { Text } from '@blueprintjs/core';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { LoadableValue } from '../../components/LoadableValue';
 import {
@@ -36,56 +37,90 @@ export function SaleInfoBar() {
 
   return (
     <InfoBar>
-      <div>
-        <p>Total Supply:</p>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Total Supply:
+        </Text>
         <LoadableValue
           loading={supplyLoading}
-          value={<p>{weiToNumberFormat(supply)} SOV</p>}
-        />
-      </div>
-      <div>
-        <p>Sales Allocation:</p>
-        <LoadableValue
-          loading={allocationLoading}
-          value={<p>{weiToNumberFormat(allocation)} SOV</p>}
-        />
-      </div>
-      <div>
-        <p>Allocation Remaining:</p>
-        <LoadableValue
-          loading={availableTokensLoading}
           value={
-            <p>
-              {remainingPercent}% ≈ {weiToNumberFormat(availableTokens)} SOV
-            </p>
+            <Text ellipsize tagName="p">
+              {weiToNumberFormat(supply)} SOV
+            </Text>
           }
         />
       </div>
-      <div>
-        <p>Price:</p>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Sales Allocation:
+        </Text>
+        <LoadableValue
+          loading={allocationLoading}
+          value={
+            <Text ellipsize tagName="p">
+              {weiToNumberFormat(allocation)} SOV
+            </Text>
+          }
+        />
+      </div>
+      <div className="col">
+        <Text ellipsize tagName="p" className="font-weight-bold text-gold">
+          Allocation Remaining:
+        </Text>
+        <LoadableValue
+          loading={availableTokensLoading}
+          value={
+            <Text ellipsize tagName="p" className="font-weight-bold text-gold">
+              {remainingPercent}% ≈ {weiToNumberFormat(availableTokens)} SOV
+            </Text>
+          }
+        />
+      </div>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Price:
+        </Text>
         <LoadableValue
           loading={btcRateLoading}
-          value={<p>{numberToUSD(unitPrice, 2)}/SOV</p>}
+          value={
+            <Text ellipsize tagName="p">
+              {numberToUSD(unitPrice, 2)}/SOV
+            </Text>
+          }
           tooltip={<>{rate} satoshi for 1 SOV</>}
         />
       </div>
-      <div>
-        <p>Vesting:</p>
-        <p>10 Months</p>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Vesting:
+        </Text>
+        <Text ellipsize tagName="p">
+          10 Months
+        </Text>
       </div>
-      <div>
-        <p>Accepted currencies:</p>
-        <p>BTC, RBTC</p>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Accepted currencies:
+        </Text>
+        <Text ellipsize tagName="p">
+          BTC, RBTC
+        </Text>
       </div>
-      <div>
-        <p>Token Sale End Time :</p>
-        <p>16.00 CET, 8th Jan</p>
+      <div className="col">
+        <Text ellipsize tagName="p">
+          Token Sale End Time :
+        </Text>
+        <Text ellipsize tagName="p">
+          16.00 CET, 8th Jan
+        </Text>
       </div>
     </InfoBar>
   );
 }
 
-const InfoBar = styled.div`
+const InfoBar = styled.div.attrs(() => ({
+  className: 'row',
+}))`
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #d9d9d9;
@@ -102,5 +137,11 @@ const InfoBar = styled.div`
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     text-align: center;
+    & .col {
+      & p:first-child {
+        margin-bottom: 5px;
+      }
+      margin-bottom: 25px;
+    }
   }
 `;
