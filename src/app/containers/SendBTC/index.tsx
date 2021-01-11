@@ -1,4 +1,4 @@
-import React, { useCallback, Dispatch } from 'react';
+import React, { useCallback, Dispatch, useState } from 'react';
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Icon } from '@blueprintjs/core';
@@ -15,6 +15,10 @@ import { actions as sActions } from '../SalesPage/slice';
 import { selectSalesPage } from '../SalesPage/selectors';
 import { toaster } from '../../../utils/toaster';
 import { BtcDeposit } from '../SalesPage/types';
+import { Tab } from '../../components/SalesTab';
+import { Nullable } from '../../../types';
+import { useSaleCalculator } from '../SalesPage/hooks/useSaleCalculator';
+import { numberToUSD } from '../../../utils/display-text/format';
 
 interface StyledProps {
   background?: string;
@@ -78,15 +82,23 @@ const Wrapper = styled.div`
 
 interface TxProps {
   address: any;
-  deposit: BtcDeposit;
+  deposit: Nullable<BtcDeposit>;
+  transfer: Nullable<BtcDeposit>;
   dispatch: Dispatch<any>;
 }
 
-function TransactionDetail({ deposit, address, dispatch }: TxProps) {
+function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
+  const [activeTx, setActiveTx] = useState(true);
   const handleSOVTutorial = useCallback(() => {
     dispatch(actions.showModal(SHOW_MODAL));
     reactLocalStorage.set('closedRskTutorial', 'false');
   }, [dispatch]);
+  const handleBack = e => {
+    e && e.preventDefault && e.preventDefault();
+    dispatch(sActions.changeStep(4));
+  };
+  const { price: depositPrice } = useSaleCalculator(deposit?.value || '0.01');
+  const { price: transferPrice } = useSaleCalculator(transfer?.value || '0.01');
   return (
     <div>
       <p className="content-header">Transaction Details</p>
@@ -110,37 +122,87 @@ function TransactionDetail({ deposit, address, dispatch }: TxProps) {
             text={'Connect SOV to your wallet'}
             onClick={handleSOVTutorial}
           />
+          <a href="/sales#" onClick={handleBack}>
+            Make another transaction?
+          </a>
         </div>
         <div className="col-md-6 d-flex flex-column align-items-end">
-          {/*<div className="d-flex">*/}
-          {/*  <Tab*/}
-          {/*    text={'BTC > RBTC'}*/}
-          {/*    active={activeTx}*/}
-          {/*    background="#242424"*/}
-          {/*    opacity={0.75}*/}
-          {/*    onClick={() => setActiveTx(true)}*/}
-          {/*  >*/}
-          {/*    {'BTC > RBTC'}*/}
-          {/*  </Tab>*/}
-          {/*</div>*/}
+          <div className="d-flex">
+            <Tab
+              text={'BTC > RBTC'}
+              active={activeTx}
+              background="#242424"
+              opacity={0.75}
+              onClick={() => setActiveTx(true)}
+            >
+              {'BTC > RBTC'}
+            </Tab>
+            <Tab
+              text={'RBTC > SOV'}
+              active={!activeTx}
+              background="#242424"
+              opacity={0.75}
+              onClick={() => setActiveTx(false)}
+            >
+              {'RBTC > SOV'}
+            </Tab>
+          </div>
           <Wrapper background="#242424">
-            <div className="header">BTC &gt; (r)BTC</div>
-            {deposit && (
-              <div className="content">
-                <p className="font-italic time font-weight-light">
-                  Processing approx. 15 minuets
-                </p>
-                <p className="text-center amount">{deposit.value} BTC</p>
-                <p className="text-center font-weight-light">≈ $2947.24</p>
-                <p className="mb-2">To wallet:</p>
-                <p className="font-weight-light">{prettyTx(address, 6, 4)}</p>
-                <p className="mb-2">Status:</p>
-                <p className="font-weight-light">{deposit.status}</p>
-                <p>
-                  Hash:{' '}
-                  <LinkToExplorer txHash={deposit.txHash} realBtc={true} />
-                </p>
-              </div>
+            {activeTx ? (
+              <>
+                <div className="header">BTC &gt; (r)BTC</div>
+                {deposit ? (
+                  <div className="content">
+                    <p className="font-italic time font-weight-light">
+                      Processing approx. 15 minuets
+                    </p>
+                    <p className="text-center amount">{deposit.value} BTC</p>
+                    <p className="text-center font-weight-light">
+                      ≈ {numberToUSD(depositPrice, 2)}
+                    </p>
+                    <p className="mb-2">To wallet:</p>
+                    <p className="font-weight-light">
+                      {prettyTx(address, 6, 4)}
+                    </p>
+                    <p className="mb-2">Status:</p>
+                    <p className="font-weight-light">{deposit.status}</p>
+                    <p>
+                      Hash:{' '}
+                      <LinkToExplorer txHash={deposit.txHash} realBtc={true} />
+                    </p>
+                  </div>
+                ) : (
+                  <div className="content">No deposit received.</div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="header">(r)BTC &gt; SOV</div>
+                {transfer ? (
+                  <div className="content">
+                    <p className="font-italic time font-weight-light">
+                      Processing approx. 2 minuets
+                    </p>
+                    <p className="text-center amount">
+                      {transfer.value} (r)BTC
+                    </p>
+                    <p className="text-center font-weight-light">
+                      ≈ {numberToUSD(transferPrice, 2)}
+                    </p>
+                    <p className="mb-2">To wallet:</p>
+                    <p className="font-weight-light">
+                      {prettyTx(address, 6, 4)}
+                    </p>
+                    <p className="mb-2">Status:</p>
+                    <p className="font-weight-light">{transfer.status}</p>
+                    <p>
+                      Hash: <LinkToExplorer txHash={transfer.txHash} />
+                    </p>
+                  </div>
+                ) : (
+                  <div className="content">No transfer received.</div>
+                )}
+              </>
             )}
           </Wrapper>
         </div>
@@ -174,12 +236,16 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const { btcMin, btcMax, btcAddress, btcDeposit } = useSelector(
-    selectSalesPage,
-  );
+  const {
+    btcMin,
+    btcMax,
+    btcAddress,
+    btcDeposit,
+    transferDeposit,
+  } = useSelector(selectSalesPage);
   const dispatch = useDispatch();
 
-  return btcDeposit === null ? (
+  return btcDeposit === null && transferDeposit === null ? (
     <div>
       <div>
         <p className="content-header">Send BTC to receive SOV</p>
@@ -279,6 +345,7 @@ export default function SendBTC({ setShowCalc }) {
   ) : (
     <TransactionDetail
       deposit={btcDeposit}
+      transfer={transferDeposit}
       dispatch={dispatch}
       address={btcAddress}
     />

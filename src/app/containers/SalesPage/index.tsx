@@ -82,13 +82,18 @@ export function SalesPage() {
       >
         <PageHeader />
         <SaleInfoBar />
-        {state.step === 1 && <Screen1 />}
-        {state.step === 2 && <Screen2 />}
-        {state.step === 3 && <Screen3 />}
-        {state.step === 4 && <Screen4 />}
-        {state.step === 5 && <Screen5 />}
-        {state.step === 6 && <Screen6 />}
-
+        {Number(state.maxDeposit) === 0 ? (
+          <Screen3 />
+        ) : (
+          <>
+            {state.step === 1 && <Screen1 />}
+            {state.step === 2 && <Screen2 />}
+            {state.step === 3 && <Screen3 />}
+            {state.step === 4 && <Screen4 />}
+            {state.step === 5 && <Screen5 />}
+            {state.step === 6 && <Screen6 />}
+          </>
+        )}
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />

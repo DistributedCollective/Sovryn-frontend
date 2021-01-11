@@ -15,6 +15,7 @@ export const initialState: ContainerState = {
   btcMin: 0,
   btcMax: 0,
   btcDeposit: null,
+  transferDeposit: null,
   codeTx: null,
   codeError: null,
 };
@@ -82,6 +83,9 @@ const SalesSlice = createSlice({
       state.btcMax = payload.max;
     },
     updateDepositTx(state, { payload }: PayloadAction<Nullable<BtcDeposit>>) {
+      state.btcDeposit = payload;
+    },
+    updateTransferTx(state, { payload }: PayloadAction<Nullable<BtcDeposit>>) {
       state.btcDeposit = payload;
     },
   },

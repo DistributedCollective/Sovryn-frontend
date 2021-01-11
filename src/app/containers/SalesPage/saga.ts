@@ -28,7 +28,6 @@ function createWebSocketChannel(receiverAddress, socket) {
     //
     // //mint nft
     // socket.on('useCode', (...args) => this.onUserUseCode.apply(this, [socket, ...args]));
-    // socket.on('joinWaitList', (...args) => this.onJoinWaitList.apply(this, [socket, ...args]));
 
     emit(actions.getBtcAddress());
     // get deposit address
@@ -47,9 +46,13 @@ function createWebSocketChannel(receiverAddress, socket) {
 
     // get deposit for event
     socket.on('depositTx', deposit => emit(actions.updateDepositTx(deposit)));
+    socket.on('transferTx', transfer =>
+      emit(actions.updateTransferTx(transfer)),
+    );
 
     return () => {
       socket.off('depositTx');
+      socket.off('transferTx');
       socket.disconnect();
     };
   });

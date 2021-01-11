@@ -11,6 +11,7 @@ export interface SalesPageState {
   btcMin: number;
   btcMax: number;
   btcDeposit: Nullable<BtcDeposit>;
+  transferDeposit: Nullable<BtcDeposit>;
   codeTx: Nullable<string>;
   codeError: Nullable<string>;
 }
