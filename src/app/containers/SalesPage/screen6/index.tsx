@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../../components/SalesButton';
 import { useDispatch } from 'react-redux';
+import BackButton from '../BackButton';
 
 import { actions } from '../slice';
 
@@ -91,6 +92,9 @@ export default function Screen6() {
 
   return (
     <StyledContent>
+      <div className="d-flex flex-row">
+        <BackButton />
+      </div>
       <p className="content-header">
         Please fill out this form to request access to the
         <br />

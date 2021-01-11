@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { actions } from '../slice';
 import { actions as fActions } from '../../FastBtcForm/slice';
 import { useAccount } from 'app/hooks/useAccount';
-import { BackButton } from '../BackButton';
+import BackButton from '../BackButton';
 
 const StyledContent = styled.div`
   height: 600px;

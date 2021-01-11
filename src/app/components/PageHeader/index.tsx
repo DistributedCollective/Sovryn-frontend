@@ -10,6 +10,12 @@ const StyledHeader = styled.div`
     margin-right: 25px;
   }
   margin-bottom: 0.6em;
+  @media only screen and (max-width: 600px) {
+    font-size: 30px;
+    img {
+      width: 30px;
+    }
+  }
 `;
 
 export default function PageHeader() {

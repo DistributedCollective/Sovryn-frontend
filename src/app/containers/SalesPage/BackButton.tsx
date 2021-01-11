@@ -8,12 +8,16 @@ interface Props {
   step?: number;
 }
 
-export function BackButton(props: Props) {
+export default function BackButton(props: Props) {
   const dispatch = useDispatch();
   return (
     <Button
       type="button"
       className="position-absolute"
+      style={{
+        left: '40px',
+        top: '30px',
+      }}
       onClick={() => dispatch(actions.changeStep(props.step || 2))}
       text={
         <>

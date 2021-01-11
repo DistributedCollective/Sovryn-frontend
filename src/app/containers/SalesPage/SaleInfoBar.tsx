@@ -99,4 +99,8 @@ const InfoBar = styled.div`
     font-size: 20px;
     margin-bottom: 0;
   }
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
+  }
 `;
