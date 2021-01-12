@@ -236,7 +236,7 @@
   },
   "lend": {
     "history": {
-      "title": "Histórico"
+      "title": "Histórico",
       "amount": "Valor do empréstimo",
       "date": "Data & hora",
       "price": "Preço",
