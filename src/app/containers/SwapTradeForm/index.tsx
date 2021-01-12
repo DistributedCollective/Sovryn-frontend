@@ -27,6 +27,7 @@ import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.swapTradeForm;
 
@@ -135,7 +136,9 @@ export function SwapTradeForm(props: Props) {
           <div className="col-8">
             <AmountField
               onChange={value => setAmount(value)}
-              onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+              onMaxClicked={() =>
+                setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
+              }
               value={amount}
             />
           </div>
