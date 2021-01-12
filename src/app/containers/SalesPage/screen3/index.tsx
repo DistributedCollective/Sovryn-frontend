@@ -9,6 +9,7 @@ import BackButton from '../BackButton';
 import { selectSalesPage } from '../selectors';
 import Screen5 from '../screen5';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -64,6 +65,17 @@ export default function Screen3(props: Props) {
       dispatch(actions.useCodeCleanup());
     };
   }, [dispatch]);
+
+  const { value: maxPurchase } = useCacheCallWithValue(
+    'CrowdSale',
+    'getMaxPurchase',
+    '0',
+    address,
+  );
+
+  useEffect(() => {
+    dispatch(actions.updateMaxDeposit(maxPurchase));
+  }, [maxPurchase, dispatch]);
 
   if (codeTx) {
     return (
