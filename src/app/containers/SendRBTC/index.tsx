@@ -86,15 +86,41 @@ const Wrapper = styled.div`
     margin: 10px 0 20px 0;
   }
   .content {
-    padding: 20px 30px;
+    padding: 20px 54px;
     font-size: 14px;
     color: #d9d9d9;
-    border-radius: 0 10px 10px 0;
     .time {
       font-size: 16px;
+      margin-bottom: 20px;
     }
     .amount {
-      font-size: 18px;
+      padding: 0 45px 0 50px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .amount-usd {
+      padding: 0 45px 0 50px;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .fee {
+      text-align: right;
+      padding-right: 30px;
+      font-size: 12px;
+      font-weight: 100;
+      margin-bottom: 50px;
+    }
+    .address, .hash {
+      font-weight: 100;
+      span {
+        width: 40px;
+        font-weight: 300;
+        margin-right: 10px;
+      }
+    }
+    .hash {
+      margin-bottom: 54px;
     }
   }
 `;
@@ -140,14 +166,14 @@ function TransactionDetail(props: DetailsProps) {
       <p className="content-header">Transaction Details</p>
       <div className="row no-gutters">
         <div className="col-md-6">
-          <div className="mb-2">
+          <div className="mb-4">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
             RBTC then automatically purchases the SOV and credits it to your
             wallet. You can easily view the details of each transaction and
             verify them with a block explorer.
           </div>
-          <div className="mb-2">
+          <div className="mb-4">
             You will be notified when your transaction has processed.
           </div>
           <div className="mb-5">
@@ -160,33 +186,23 @@ function TransactionDetail(props: DetailsProps) {
           <Wrapper background="#242424">
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
-              <p className="font-italic time font-weight-light">
-                Processing approx. 30 seconds
+              <p className="text-center font-italic time font-weight-light">
+                {props.tx.status}
               </p>
-              <p className="text-center amount">
-                {weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC
-              </p>
-              <p className="text-center font-weight-light">
+              <p className="text-left amount">{weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC</p>
+              <p className="text-left amount-usd ffont-weight-light">
                 ≈ {numberToUSD(props.usdAmount, 2)}
               </p>
-              <p className="text-center">
-                Fee:
-                <span className="font-weight-light">
-                  {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC
-                </span>{' '}
+              <p className="fee">Transaction Fee: {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC<br/>≈ 5.00 USD</p>
+              {/* <p className="address">
+                <span>To:</span>
+                {prettyTx(address, 6, 4)}
+              </p> */}
+              <p className="hash">
+                <span>Hash:</span>
+                {props.tx.txHash}
               </p>
-              {/*<p className="mb-2">From wallet:</p>*/}
-              {/*<p className="font-weight-light">3K6RWTPM……sXwLXnPM</p>*/}
-              {/*<p className="mb-2">To wallet:</p>*/}
-              {/*<p className="font-weight-light">1A1zP1eP……v7DivfNa</p>*/}
-              <p className="mb-2">Status:</p>
-              <p className="font-weight-light">{props.tx.status}</p>
-              <p>
-                Hash:{' '}
-                <span className="font-weight-light">
-                  <LinkToExplorer txHash={props.tx.txHash} />
-                </span>
-              </p>
+              <LinkToExplorer txHash={props.tx.txHash} text="View in Tracker" className="d-block text-center" />
             </div>
           </Wrapper>
         </div>
