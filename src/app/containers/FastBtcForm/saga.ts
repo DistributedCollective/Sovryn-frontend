@@ -42,7 +42,7 @@ function createWebSocketChannel(receiverAddress) {
         if (res && res.btcadr) {
           emit(actions.getDepositAddressSuccess(res));
         } else {
-          emit(actions.depositError(res.error));
+          emit(actions.depositError(err?.error));
         }
       });
       getHistory(receiverAddress);

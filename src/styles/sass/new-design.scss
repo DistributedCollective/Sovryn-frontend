@@ -82,17 +82,16 @@
   font-family: inherit;
   font-weight: inherit;
   color: var(--light-gray);
-  font-size: 12px;
-  letter-spacing: 0.07px;
-  text-transform: uppercase;
+  font-size: 16px;
+  padding: 0 15px;
 }
 
 .sovryn-table {
-  font-family: var(--secondary-font);
-  font-weight: 400;
+  font-family: $font-family-montserrat;
+  font-weight: 100;
   width: 100%;
+  font-size: 14px;
   &.sovryn-table-mobile {
-    font-size: 12px;
     @media(max-width: 335px) {
       font-size: 11px;
     }
@@ -102,14 +101,32 @@
   }
   thead tr, .table-header:not(.sub-header) {
     height: 40px;
-    border-bottom: 1px solid var(--light-gray);
+    // border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
   }
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        td {
+          background-color: #282828;
+          &:first-child {
+            border-radius: 6px 0 0 6px;
+          }
+          &:last-child {
+            border-radius: 0 6px 6px 0;
+          }
+        }
+      }
+    }
+  }
   tbody tr, div.mobile-row {
-    height: 60px;
-    border-top: 1px solid var(--white);
+    height: 80px;
+    td {
+      padding: 0 15px;
+    }
+    // border-top: 1px solid var(--white);
     &:first-of-type {
       border-top: none;
     }
@@ -230,7 +247,23 @@ input {
 }
 
 //new styles for Sovryn
-
+button.bp3-button.bp3-minimal {
+  border: 1px solid;
+  margin-left: 15px;
+  border-radius: 25px !important;
+  font-family: $font-family-montserrat;
+  font-weight: 100;
+  font-size: 14px;
+  text-transform: none;
+  padding: 8px 20px;
+  transition: background .3s;
+  &:hover {
+    background: rgba(254,192,4, 0.25) !important;
+  }
+  &:active, &:focus {
+    background: rgba(254,192,4, 0.5) !important;
+  }
+}
 .is-pointer {
   cursor: pointer;
 }
