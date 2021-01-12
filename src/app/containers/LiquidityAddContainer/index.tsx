@@ -22,6 +22,7 @@ import { useCanInteract } from '../../hooks/useCanInteract';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { ExpectedPoolTokens } from './ExpectedPoolTokens';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -115,7 +116,9 @@ export function LiquidityAddContainer(props: Props) {
             <FieldGroup label={t(translations.liquidity.amount)}>
               <AmountField
                 onChange={value => setAmount(value)}
-                onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+                onMaxClicked={() =>
+                  setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
+                }
                 value={amount}
               />
             </FieldGroup>
