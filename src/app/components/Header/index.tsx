@@ -5,11 +5,9 @@
  */
 import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { translations } from 'locales/i18n';
-import { actions } from 'app/containers/FastBtcForm/slice';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
@@ -21,7 +19,6 @@ import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 export function Header() {
   const { t } = useTranslation();
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const pages = [
     { to: '/', title: t(translations.mainMenu.trade), exact: true },
