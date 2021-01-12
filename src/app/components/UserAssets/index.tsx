@@ -8,10 +8,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { bignumber } from 'mathjs';
-import { Button, ButtonGroup, Text } from '@blueprintjs/core';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { prettyTx } from '../../../utils/helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
@@ -32,17 +31,7 @@ export function UserAssets() {
   const assets = AssetsDictionary.list();
 
   return (
-    <section>
-      <div className="d-flex align-items-center justify-content-start mb-3">
-        <h2 className="flex-shrink-0 flex-grow-0 mr-3">
-          {t(translations.userAssets.meta.title)}
-        </h2>
-        {connected && account && (
-          <div>
-            <Text ellipsize>{prettyTx(account)}</Text>
-          </div>
-        )}
-      </div>
+    <>
       <div className="sovryn-border sovryn-table p-3 mb-5">
         <table className="w-100">
           <thead>
@@ -84,7 +73,7 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-    </section>
+    </>
   );
 }
 

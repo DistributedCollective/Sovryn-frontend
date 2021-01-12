@@ -55,7 +55,14 @@
   "tradingHistoryPage": {
     "title": "Trading History",
     "auth": "Please connect and authorize your wallet.",
-    "noClosedTrades": "You do not have any closed trades."
+    "noClosedTrades": "You do not have any closed trades.",
+    "table": {
+      "positionSize": "Position Size",
+      "leverage": "Leverage",
+      "openPrice": "Open Price",
+      "closePrice": "Close Price",
+      "profit": "Profit"
+    }
   },
   "fastBtcPage": {
     "meta": {
@@ -156,7 +163,10 @@
     },
     "table": {
       "positionSize": "Position Size",
-      "profit": "Profit",
+      "profit": "Profit / Loss",
+      "currentMargin": "Current Margin",
+      "interestApr": "Interest APR",
+      "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
         "close": "Close"
@@ -226,7 +236,12 @@
   },
   "lend": {
     "history": {
-      "title": "Lending history"
+      "title": "Lending history",
+      "amount": "Lend Amount",
+      "date": "Date & time",
+      "price": "Price",
+      "transaction": "Transaction",
+      "emptyState": "History is empty."
     },
     "currency": {
       "lend": "Lend",
@@ -468,7 +483,7 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Wallet"
+      "title": "Connected Wallet"
     },
     "tableHeaders": {
       "asset": "Asset",
