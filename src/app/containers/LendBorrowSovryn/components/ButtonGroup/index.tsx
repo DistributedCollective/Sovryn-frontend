@@ -98,7 +98,7 @@ const ButtonGroup: React.FC<Props> = ({
                   key === rightButton && 'disabled',
                 )}
               >
-                {leftButton}
+                {t(translations.lendingPage.tabs[leftButton])}
               </Button>
             </Nav.Link>
             <Nav.Link eventKey={rightButton}>
@@ -110,7 +110,7 @@ const ButtonGroup: React.FC<Props> = ({
                   key === leftButton && 'disabled',
                 )}
               >
-                {rightButton}
+                {t(translations.lendingPage.tabs[rightButton])}
               </Button>
             </Nav.Link>
           </Nav>

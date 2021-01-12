@@ -39,8 +39,10 @@ const AccountBalance: React.FC<Props> = ({
         type={txState.type}
         displayAbsolute={false}
       />
-      <div className="account-balance-container position-relative">
-        <AssetWalletBalance asset={currency} />
+      <div className="account-balance-container position-relative d-flex flex-column flex-md-row justify-content-md-between">
+        <div className="mb-4 mb-md-0">
+          <AssetWalletBalance asset={currency} />
+        </div>
         <TradeButton
           text={t(translations.lendingPage.tradeButtons[title], {
             asset: currency,

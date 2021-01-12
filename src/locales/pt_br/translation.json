@@ -32,7 +32,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Em andamento",
+      "activeTrades": "Ativas",
       "tradingHistory": "Concluídas"
     }
   },
@@ -59,12 +59,12 @@
   },
   "fastBtcPage": {
     "meta": {
-      "title": "Fast-BTC",
+      "title": "Depositar-BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     }
   },
   "fastBtcForm": {
-    "title": "Fast-BTC Relay",
+    "title": "Depositar-BTC",
     "history": {
       "title": "Histórico",
       "empty": "Histórico vazio.",
@@ -85,13 +85,13 @@
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Operar",
-      "swap": "Trocar moedas"
+      "swap": "Trocar ativos"
     }
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade"
     },
     "buttons": {
@@ -100,7 +100,7 @@
   },
   "swapTradeForm": {
     "fields": {
-      "currency_placeholder": "Escolha a moeda",
+      "currency_placeholder": "Escolha o ativo",
       "send": "Você envia",
       "receive": "Você recebe"
     },
@@ -192,9 +192,9 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "currency": "Moeda",
-    "currencySelect": "Selecionar moeda",
-    "poolSelect": "Select pool",
+    "currency": "Ativo",
+    "currencySelect": "Selecionar ativo",
+    "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
@@ -246,25 +246,25 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "token": "Token a ser colaterizado",
+      "token": "Ativo a ser colaterizado",
       "collateralAmount": "Quantidade colaterizada",
       "borrow": "Tomar empréstimo",
       "chooseDays": "Choose days"
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo em andamento."
+    "text": "Você não tem nenhum empréstimo ativo."
   },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
     "topUpAmount": "Aumentar quantidade",
     "topUp": "Aumentar",
-    "currency": "Moeda"
+    "currency": "Ativo"
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
       "fee": "Taxa"
@@ -276,7 +276,7 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Em andamento",
+      "active": "Ativas",
       "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
@@ -369,16 +369,16 @@
         "txDetected": "Transaction detected"
       },
       "3": {
-        "txDetails": "Transaction Details",
+        "txDetails": "Detalhes da transação",
         "txHash": "rBTC Tx hash",
         "txId": " BTC Tx ID",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
+        "from": "Da carteira",
+        "to": "Para carteira",
+        "amount": "Valor transacionado",
+        "fee": "Taxa",
+        "initiated": "Iniciado",
         "status": "Status",
-        "estimated": "Estimated Time"
+        "estimated": "Tempo estimado"
       }
     }
   },
@@ -400,7 +400,7 @@
   },
   "topUpBtcDialog": {
     "meta": {
-      "title": "Top-UP"
+      "title": "Depositar"
     }
   },
   "walletPage": {
@@ -411,36 +411,36 @@
   },
    "userAssets": {
     "meta": {
-      "title": "Wallet"
+      "title": "Carteira"
     },
     "tableHeaders": {
-      "asset": "Asset",
-      "totalBalance": "Total Balance",
-      "dollarBalance": "Dollar Balance",
-      "action": "Action"
+      "asset": "Ativo",
+      "totalBalance": "Saldo total",
+      "dollarBalance": "Saldo em dólar",
+      "action": "Ação"
     },
     "actions": {
-      "deposit": "Top-Up",
-      "swap": "Swap",
-      "trade": "Trade"
+      "deposit": "Depositar",
+      "swap": "Trocar",
+      "trade": "Operar"
     }
   },
   "topUpHistory": {
     "meta": {
-      "title": "Top-Up History"
+      "title": "Histórico de depósitos"
     },
     "tableHeaders": {
-      "time": "Date/Time",
-      "asset": "Asset",
-      "amount": "Amount",
-      "fee": "Fee",
-      "depositTx": "BTC Deposit ID",
+      "time": "Data e hora",
+      "asset": "Ativo",
+      "amount": "Quantidade",
+      "fee": "Taxa",
+      "depositTx": "ID Depósito BTC",
       "transferTx": "RSK Relay Hash",
-      "txHash": "Transaction"
+      "txHash": "Transação"
     },
-    "emptyState": "History is empty.",
-    "walletHistory": "Wallet must be connected.",
-    "loading": "Loading..."
+    "emptyState": "Histórico vázio.",
+    "walletHistory": "A carteira precisa estar conectada.",
+    "loading": "Carregando..."
   },
   "lendingPage": {
     "tabs": {
@@ -453,16 +453,16 @@
     },
     "tradeButtons": {
       "deposit": "Depositar e emprestar {{asset}}",
-      "redeem": "Resgatar {{asset}}"
+      "redeem": "Resgatar empréstimo {{asset}}"
     }
   },
   "activeBorrowTable": {
     "headers": {
-      "borrowAmount": "Borrowed",
-      "collateralAmount": "Collateral",
-      "interestAPR": "Interest APR",
-      "endTimestamp": "Payback until"
+      "borrowAmount": "Emprestado",
+      "collateralAmount": "Colateral",
+      "interestAPR": "Juros anual",
+      "endTimestamp": "Quitar até"
     },
-    "repayButton": "Repay"
+    "repayButton": "Quitar"
   }
 }
