@@ -7,7 +7,7 @@ import BackButton from '../BackButton';
 import { actions } from '../slice';
 
 const StyledContent = styled.div`
-  height: 600px;
+  height: 620px;
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;

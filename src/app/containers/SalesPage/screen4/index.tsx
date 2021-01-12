@@ -13,12 +13,14 @@ const StyledContent = styled.div`
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;
+  height: 620px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
   .tab-content {
     background: black;
+    height: 100%;
     position: relative;
     padding-left: 120px;
     padding-right: 120px;

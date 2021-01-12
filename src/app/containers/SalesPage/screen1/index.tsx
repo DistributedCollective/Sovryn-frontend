@@ -9,7 +9,7 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { useDispatch } from 'react-redux';
 
 const StyledContent = styled.div`
-  height: 600px;
+  height: 620px;
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;

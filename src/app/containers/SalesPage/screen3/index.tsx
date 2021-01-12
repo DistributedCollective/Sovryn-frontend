@@ -11,7 +11,7 @@ import Screen5 from '../screen5';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 
 const StyledContent = styled.div`
-  height: 600px;
+  height: 620px;
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;
