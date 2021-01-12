@@ -24,7 +24,7 @@ const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
   className: 'btn',
 }))`
-  color: var(--white);
+  color: var(--light-gray);
   padding: 5px 10px;
   font-size: 12px;
   background: transparent;

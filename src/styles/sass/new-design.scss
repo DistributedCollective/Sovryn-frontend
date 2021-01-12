@@ -117,6 +117,9 @@
           &:last-child {
             border-radius: 0 6px 6px 0;
           }
+          &:only-child {
+            border-radius: 6px;
+          }
         }
       }
     }
@@ -125,6 +128,7 @@
     height: 80px;
     td {
       padding: 0 15px;
+      color: var(--light-gray);
     }
     // border-top: 1px solid var(--white);
     &:first-of-type {
@@ -317,8 +321,12 @@ header {
   text-transform: inherit;
   font-weight: 600;
   font-size: 1.75rem;
-  color: #D9D9D9;
+  color: var(--light-gray);
   margin: 0;
+  &.sov-title {
+    font-weight: 400;
+    font-size: 1rem;
+  }
 }
 .sov-table {
   position: absolute;

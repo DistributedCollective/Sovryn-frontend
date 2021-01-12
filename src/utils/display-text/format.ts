@@ -11,8 +11,9 @@ export function numberToUSD(value: number, decimals: number) {
   return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
+    currencyDisplay: 'code',
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: 0,
   });
 }
 
@@ -35,7 +36,7 @@ export function formatAsBTC(value, currency) {
   return `${value.toLocaleString('en', {
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
-  })} 
+  })}
         ${currency}`;
 }
 
