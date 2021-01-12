@@ -111,7 +111,8 @@ const Wrapper = styled.div`
       font-weight: 100;
       margin-bottom: 50px;
     }
-    .address, .hash {
+    .address,
+    .hash {
       font-weight: 100;
       span {
         width: 40px;
@@ -189,11 +190,17 @@ function TransactionDetail(props: DetailsProps) {
               <p className="text-center font-italic time font-weight-light">
                 {props.tx.status}
               </p>
-              <p className="text-left amount">{weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC</p>
+              <p className="text-left amount">
+                {weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC
+              </p>
               <p className="text-left amount-usd ffont-weight-light">
                 ≈ {numberToUSD(props.usdAmount, 2)}
               </p>
-              <p className="fee">Transaction Fee: {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC<br/>≈ 5.00 USD</p>
+              <p className="fee">
+                Transaction Fee: {weiToNumberFormat(props.estimatedFee, 8)}{' '}
+                (r)BTC
+                <br />≈ 5.00 USD
+              </p>
               {/* <p className="address">
                 <span>To:</span>
                 {prettyTx(address, 6, 4)}
@@ -202,7 +209,11 @@ function TransactionDetail(props: DetailsProps) {
                 <span>Hash:</span>
                 {props.tx.txHash}
               </p>
-              <LinkToExplorer txHash={props.tx.txHash} text="View in Tracker" className="d-block text-center" />
+              <LinkToExplorer
+                txHash={props.tx.txHash}
+                text="View in Tracker"
+                className="d-block text-center"
+              />
             </div>
           </Wrapper>
         </div>

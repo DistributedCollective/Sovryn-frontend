@@ -8,7 +8,7 @@ import { actions } from '../slice';
 
 const StyledContent = styled.div`
   height: 600px;
-  background: rgba(0, 0, 0, 0.27);
+  background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;
   border-radius: 20px;

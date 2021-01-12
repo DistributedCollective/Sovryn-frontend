@@ -130,9 +130,15 @@ const InfoBar = styled.div.attrs(() => ({
   max-width: 1520px;
   margin-left: auto;
   margin-right: auto;
-  p:last-child {
-    font-size: 20px;
-    margin-bottom: 0;
+  p {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    &:last-child {
+      font-size: 20px;
+      margin-bottom: 0;
+      font-weight: 400;
+    }
   }
   @media only screen and (max-width: 600px) {
     flex-direction: column;

@@ -30,7 +30,7 @@ const Wrapper = styled.div`
     props.background &&
     css`
       background: ${props.background};
-    `}    
+    `}
   border-radius: 0 0 10px 10px;
   .header {
     display: flex;
@@ -92,7 +92,8 @@ const Wrapper = styled.div`
       font-weight: 100;
       margin-bottom: 50px;
     }
-    .address, .hash {
+    .address,
+    .hash {
       font-weight: 100;
       span {
         width: 40px;
@@ -181,13 +182,16 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                 {deposit ? (
                   <div className="content">
                     <p className="text-center font-italic time font-weight-light">
-                    {deposit.status}
+                      {deposit.status}
                     </p>
                     <p className="text-left amount">{deposit.value} BTC</p>
                     <p className="text-left amount-usd ffont-weight-light">
                       ≈ {numberToUSD(depositPrice, 2)}
                     </p>
-                    <p className="fee">Transaction Fee: 0.006 BTC<br/>≈ 5.00 USD</p>
+                    <p className="fee">
+                      Transaction Fee: 0.006 BTC
+                      <br />≈ 5.00 USD
+                    </p>
                     <p className="address">
                       <span>To:</span>
                       {prettyTx(address, 6, 4)}
@@ -196,7 +200,12 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       <span>Hash:</span>
                       {prettyTx(deposit.txHash, 6, 4)}
                     </p>
-                    <LinkToExplorer txHash={deposit.txHash} text="View in Tracker" realBtc={true} className="d-block text-center" />
+                    <LinkToExplorer
+                      txHash={deposit.txHash}
+                      text="View in Tracker"
+                      realBtc={true}
+                      className="d-block text-center"
+                    />
                   </div>
                 ) : (
                   <div className="content">No deposit received.</div>
@@ -213,7 +222,10 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                     <p className="text-left amount-usd ffont-weight-light">
                       ≈ {numberToUSD(transferPrice, 2)}
                     </p>
-                    <p className="fee">Transaction Fee: 0.006 (r)BTC<br/>≈ 5.00 USD</p>
+                    <p className="fee">
+                      Transaction Fee: 0.006 (r)BTC
+                      <br />≈ 5.00 USD
+                    </p>
                     <p className="address">
                       <span>To:</span>
                       {prettyTx(address, 6, 4)}
@@ -222,7 +234,11 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       <span>Hash:</span>
                       {transfer.txHash}
                     </p>
-                    <LinkToExplorer txHash={transfer.txHash} text="View in Tracker" className="d-block text-center" />
+                    <LinkToExplorer
+                      txHash={transfer.txHash}
+                      text="View in Tracker"
+                      className="d-block text-center"
+                    />
                   </div>
                 ) : (
                   <div className="content">No deposit received.</div>
