@@ -18,6 +18,8 @@ export const initialState: ContainerState = {
   transferDeposit: null,
   codeTx: null,
   codeError: null,
+  requestAccessLoading: false,
+  requestAccessError: null,
 };
 
 const SalesSlice = createSlice({
@@ -64,6 +66,19 @@ const SalesSlice = createSlice({
       state.upgradeLoading = false;
       state.codeTx = null;
       state.codeError = null;
+    },
+    requestAccess(state, { payload }: PayloadAction<any>) {
+      state.requestAccessLoading = true;
+      state.requestAccessError = null;
+    },
+    requestAccessCompleted(state) {
+      state.requestAccessError = null;
+      state.requestAccessLoading = false;
+      state.step = 5;
+    },
+    requestAccessFailed(state, { payload }: PayloadAction<string>) {
+      state.requestAccessError = payload;
+      state.requestAccessLoading = false;
     },
     getBtcAddress(state) {
       state.btcAddressLoading = true;

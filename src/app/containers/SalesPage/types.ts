@@ -14,6 +14,8 @@ export interface SalesPageState {
   transferDeposit: Nullable<BtcDeposit>;
   codeTx: Nullable<string>;
   codeError: Nullable<string>;
+  requestAccessLoading: boolean;
+  requestAccessError: Nullable<string>;
 }
 
 export type ContainerState = SalesPageState;

@@ -84,6 +84,30 @@ function* useCode(socket) {
   }
 }
 
+const requestAccessRequest = (socket, body) =>
+  new Promise(resolve => {
+    socket.emit('requestAccess', body, (error, success) => {
+      resolve({ error: error?.error || null, success });
+    });
+  });
+
+function* requestAccess(socket) {
+  while (true) {
+    const { payload } = yield take(actions.requestAccess.type);
+    const { error, success } = yield call(
+      requestAccessRequest,
+      socket,
+      payload,
+    );
+    if (error) {
+      yield put(actions.requestAccessFailed(error));
+    }
+    if (success) {
+      yield put(actions.requestAccessCompleted());
+    }
+  }
+}
+
 function* emitResponse(socket) {
   yield apply(socket, socket.emit, ['message received']);
 }
@@ -94,6 +118,7 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
   }
   const socket = yield call(createSocketConnection);
   yield fork(useCode, socket);
+  yield fork(requestAccess, socket);
 
   const blockChannel = yield call(createWebSocketChannel, payload, socket);
   try {

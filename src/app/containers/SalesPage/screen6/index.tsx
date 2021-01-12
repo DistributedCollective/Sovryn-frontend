@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../../components/SalesButton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BackButton from '../BackButton';
 
 import { actions } from '../slice';
+import { selectSalesPage } from '../selectors';
+import { isAddress, validateEmail } from '../../../../utils/helpers';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -16,6 +18,7 @@ const StyledContent = styled.div`
   justify-content: center;
   flex-direction: column;
   position: relative;
+  padding: 40px 15px;
   .content-header {
     font-size: 28px;
     text-align: center;
@@ -79,15 +82,31 @@ const StyledButtonGroup = styled.div`
 
 export default function Screen6() {
   const dispatch = useDispatch();
-  const [active, setActive] = useState(0);
+  const [amount, setAmount] = useState('0.03');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [note, setNote] = useState('');
 
+  const { requestAccessLoading, requestAccessError } = useSelector(
+    selectSalesPage,
+  );
+
   const submitCode = () => {
-    dispatch(actions.changeStep(5));
+    dispatch(
+      actions.requestAccess({
+        address,
+        email,
+        discord: username,
+        amount,
+        comment: note,
+      }),
+    );
   };
+
+  const addressValid = isAddress(address);
+  const emailValid = validateEmail(email);
+  const valid = addressValid && !!address && !!email && emailValid;
 
   return (
     <StyledContent>
@@ -109,6 +128,11 @@ export default function Screen6() {
               value={address}
               onChange={e => setAddress(e.target.value)}
             />
+            {!!address && !addressValid && (
+              <small className="text-muted">
+                Enter valid RSK wallet address.
+              </small>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="email">Enter email</label>
@@ -118,6 +142,9 @@ export default function Screen6() {
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
+            {!!email && !emailValid && (
+              <small className="text-muted">Enter valid email address.</small>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="username">Enter discord username (optional)</label>
@@ -134,20 +161,20 @@ export default function Screen6() {
             <p>Select limit required</p>
             <div className="d-flex justify-content-between mb-5">
               <StyledButtonGroup
-                active={active === 1}
-                onClick={() => setActive(1)}
+                active={amount === '0.03'}
+                onClick={() => setAmount('0.03')}
               >
                 0.03BTC
               </StyledButtonGroup>
               <StyledButtonGroup
-                active={active === 2}
-                onClick={() => setActive(2)}
+                active={amount === '0.1'}
+                onClick={() => setAmount('0.1')}
               >
                 0.1BTC
               </StyledButtonGroup>
               <StyledButtonGroup
-                active={active === 3}
-                onClick={() => setActive(3)}
+                active={amount === '2.0'}
+                onClick={() => setAmount('2.0')}
               >
                 2.0BTC
               </StyledButtonGroup>
@@ -170,7 +197,16 @@ export default function Screen6() {
         </div>
       </div>
 
-      <SalesButton text={'Submit for Access'} onClick={submitCode} />
+      {requestAccessError && (
+        <div className="text-danger">{requestAccessError}</div>
+      )}
+
+      <SalesButton
+        text={'Submit for Access'}
+        onClick={submitCode}
+        loading={requestAccessLoading}
+        disabled={requestAccessLoading || !valid}
+      />
     </StyledContent>
   );
 }
