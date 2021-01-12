@@ -1,5 +1,8 @@
 import { utils } from '@rsksmart/rsk3';
+import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
+import { gas } from './blockchain/gas-price';
+import { Asset } from '../types/asset';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -97,4 +100,16 @@ export const toChunks = (from: number, to: number, size: number) => {
     array.push([end, end + reminder]);
   }
   return array;
+};
+
+export const maxMinusFee = (amount: any, asset: Asset = Asset.BTC) => {
+  if (asset !== Asset.BTC) return amount;
+  const gasPrice = gas.get();
+  const gasLimit = 2000000;
+  const fee = bignumber(gasPrice).mul(gasLimit);
+  const balance = bignumber(amount).sub(fee);
+  if (balance.lessThanOrEqualTo(0)) {
+    return '0';
+  }
+  return balance.toFixed(0);
 };

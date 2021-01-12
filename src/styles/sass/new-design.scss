@@ -271,3 +271,28 @@ header {
     border: none;
   }
 }
+
+.sov-table {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 40px;
+  .table {
+    margin: 0;
+    background: white;
+    tr {
+      height: auto;
+    }
+    td[rowspan="2"] {
+      text-align: center;
+    }
+    th,  td {
+      padding: 5px;
+      vertical-align: middle;
+      border: 1px solid black;
+      color: black;
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+}

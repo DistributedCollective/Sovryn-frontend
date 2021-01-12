@@ -32,6 +32,7 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.marginTradeForm;
 
@@ -170,7 +171,9 @@ export function MarginTradeForm(props: Props) {
             >
               <AmountField
                 onChange={value => setAmount(value)}
-                onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+                onMaxClicked={() =>
+                  setAmount(weiTo18(maxMinusFee(tokenBalance, collateral)))
+                }
                 value={amount}
               />
             </FieldGroup>
