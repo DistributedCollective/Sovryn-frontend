@@ -43,12 +43,12 @@ export const fastBtcApis = {
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/backendrpc',
+  31: 'https://testnet.sovryn.app/backend/rpc',
 };
 
 export const saleBackend = {
-  30: 'https://backend.sovryn.app/rpc',
-  31: 'http://sov2.battlemachine.io:3004',
+  30: 'https://backend.sovryn.app/genesis',
+  31: 'https://testnet.sovryn.app/genesis',
 };
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';

@@ -2,6 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState, DepositTx, TransferTx } from './types';
 import { toaster } from '../../../utils/toaster';
+import { Nullable } from 'types';
 
 // The initial state of the FastBtcForm container
 export const initialState: ContainerState = {
@@ -42,9 +43,19 @@ const fastBtcFormSlice = createSlice({
       state.depositAddress = payload.btcadr;
       state.generatingAddress = false;
     },
-    getDepositAddressFailed(state) {
+    getDepositAddressFailed(
+      state,
+      { payload }: PayloadAction<Nullable<string>>,
+    ) {
       state.depositAddress = '';
       state.generatingAddress = false;
+      if (payload) {
+        toaster.show({
+          intent: 'warning',
+          message: payload,
+          timeout: 0,
+        });
+      }
     },
     changeAmountInfo(
       state,

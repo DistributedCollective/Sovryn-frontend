@@ -1,13 +1,5 @@
 import { eventChannel } from 'redux-saga';
-import {
-  take,
-  call,
-  put,
-  select,
-  takeLatest,
-  fork,
-  apply,
-} from 'redux-saga/effects';
+import { take, call, put, select, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
@@ -37,7 +29,7 @@ function createWebSocketChannel(receiverAddress, socket) {
         if (res && res.btcadr) {
           emit(actions.getDepositAddressSuccess(res));
         } else {
-          emit(actions.depositError(res.error));
+          emit(actions.getDepositAddressFailed(err.error));
         }
       });
       getHistory(receiverAddress);
@@ -102,13 +94,10 @@ function* accountChanged() {
     }
   }
 }
-function* emitResponse(socket) {
-  yield apply(socket, socket.emit, ['message received']);
-}
 
 function* watchSocketChannel({ payload }: PayloadAction<string>) {
   if (!payload) {
-    yield put(actions.getDepositAddressFailed());
+    yield put(actions.getDepositAddressFailed(null));
     return;
   }
   const socket = yield call(createSocketConnection);
@@ -118,7 +107,6 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
     while (true) {
       const event = yield take(blockChannel);
       yield put(event);
-      yield fork(emitResponse, socket);
     }
   } finally {
     blockChannel.close();
