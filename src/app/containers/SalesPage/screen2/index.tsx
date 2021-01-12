@@ -10,7 +10,6 @@ import NFT1 from 'assets/images/NFT1.png';
 import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 
 const StyledContent = styled.div`
-  height: 620px;
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;
@@ -24,11 +23,6 @@ const StyledContent = styled.div`
     text-align: center;
     margin-top: 30px;
     margin-bottom: 45px;
-  }
-  .content {
-    width: 700px;
-    justify-content: space-between;
-    align-items: center;
   }
   .b-group {
     height: 240px;
@@ -97,22 +91,22 @@ export default function Screen2() {
   return (
     <StyledContent>
       <p className="content-header">Welcome to the SOV* Genesis Sale</p>
-      <div className="d-flex content">
+      <div className="d-flex flex-column flex-lg-row px-3 pb-5">
         <div className="left-box position-relative">
           <div className="grid-container">
             <span className="title">SOV Genesis Sale</span>
             <span className="limit">
               Purchase Limit: {trimZero(weiToNumberFormat(maxDeposit, 8))} BTC
             </span>
-            <div className="logo">
-              <img src={LogoDark} alt="logo" />
+            <div className="logo mw-100">
+              <img src={LogoDark} alt="logo" className="mw-100" />
             </div>
             <span className="tier">Community Tier</span>
             <span className="gen">SOV-GEN</span>
           </div>
           <img src={NFT1} alt="NFT1" />
         </div>
-        <div className="d-flex flex-column justify-content-around b-group">
+        <div className="d-flex flex-column justify-content-around b-group px-lg-5">
           <SalesButton
             text={'Continue to sale'}
             onClick={() => dispatch(actions.changeStep(4))}

@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { actions } from '../slice';
 
 const StyledContent = styled.div`
-  height: 620px;
   background: var(--sales-background);
   max-width: 1200px;
   margin: 40px auto;

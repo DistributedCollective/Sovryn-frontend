@@ -77,7 +77,7 @@ export function SalesPage() {
 
       <TutorialSOVModal />
       <Header />
-      <div
+      <main
         className="container font-family-montserrat"
         style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
       >
@@ -101,7 +101,7 @@ export function SalesPage() {
         <div className="footer d-flex justify-content-center mb-5">
           <SalesButton text="Read Our Whitepaper" onClick={() => {}} />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

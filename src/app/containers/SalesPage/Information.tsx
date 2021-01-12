@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Sovmodel from 'assets/images/sovmodel.svg';
 import Sovbitocracy from 'assets/images/sovbitocracy.svg';
+import { media } from '../../../styles/media';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.section`
   background: #141414;
-  padding: 30px 100px;
+  padding: 30px 15px;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -17,11 +18,17 @@ const StyledContainer = styled.div`
   }
   .header {
     font-weight: 300;
+    font-size: 24px;
+    text-transform: none;
+    ${media.lg`
+      font-size: 36px;
+    `}
   }
   .title {
     font-size: 18px;
     font-weight: 600;
     color: white;
+    text-transform: none;
   }
   .content {
     display: flex;
@@ -39,10 +46,10 @@ const StyledContainer = styled.div`
 export function AboutSOV() {
   return (
     <StyledContainer>
-      <p className="font-size-xl header">Use and Value Accrual of SOV</p>
+      <h2 className="header">Use and Value Accrual of SOV</h2>
       <div className="row">
-        <div className="col-md-4">
-          <p className="title">Bitocracy:</p>
+        <section className="col-md-4">
+          <h3 className="title">Bitocracy:</h3>
           <p>
             SOV staked in the Bitocracy system earns voting rights weighted by
             the length of staking time. Additionally, system revenues are
@@ -54,9 +61,9 @@ export function AboutSOV() {
             also delegate their vote to other participants to incentivize
             experts to specialise in Sovryn Bitocracy.
           </p>
-        </div>
-        <div className="col-md-4">
-          <p className="title">Risk Mitigation: </p>
+        </section>
+        <section className="col-md-4">
+          <h3 className="title">Risk Mitigation: </h3>
           <p>
             SOV provides risk coverage for the protocol by acting as a pool of
             staked value that can be burned, redistributed or inflated to
@@ -70,16 +77,16 @@ export function AboutSOV() {
             and SOV value is transferred from stakers to users to offset those
             losses.
           </p>
-        </div>
-        <div className="col-md-4">
-          <p className="title">Fee Collection:</p>
+        </section>
+        <section className="col-md-4">
+          <h3 className="title">Fee Collection:</h3>
           <p>
             The Sovryn DeFi platform is a revenue-generating business upheld by
             its governing SOV stakeholders. This includes fees from swapping,
             lending, borrowing, leveraging, and all future fees collected by new
             additional features introduced by Sovryn.
           </p>
-        </div>
+        </section>
       </div>
     </StyledContainer>
   );
@@ -87,57 +94,69 @@ export function AboutSOV() {
 export function SOVModel() {
   return (
     <StyledContainer>
-      <p className="font-size-xl header">SOV Allocation Model</p>
+      <h2 className="header">SOV Allocation Model</h2>
       <div className="row">
-        <div className="col-md-4">
-          <p className="title">
-            Early Funders: 16,920,000 SOV 10-24 month vesting
-          </p>
-          <p>
-            The early funders of Sovryn believe in the future success of Sovryn
-            as a revenue-generating business as well as the effectiveness of
-            Sovryn’s Bitocracy that supports the decentralized business model.
-            These early funders have acquired a long-term stake in SOV with a
-            view to participation in the Bitcoracy.
-          </p>
-          <p className="title">
-            Founders Fund: 25,000,000 SOV 3 year vesting with a 6 month cliff
-          </p>
-          <p>
-            The early funders of Sovryn believe in the future success of Sovryn
-            as a revenue-generating business as well as the effectiveness of
-            Sovryn’s Bitocracy that supports the decentralized business model.
-            These early funders have acquired a long-term stake in SOV with a
-            view to participation in the Bitcoracy.
-          </p>
-        </div>
-        <div className="col-md-4 d-flex">
+        <section className="col-md-4">
+          <section>
+            <h3 className="title">
+              Early Funders: 16,920,000 SOV 10-24 month vesting
+            </h3>
+            <p>
+              The early funders of Sovryn believe in the future success of
+              Sovryn as a revenue-generating business as well as the
+              effectiveness of Sovryn’s Bitocracy that supports the
+              decentralized business model. These early funders have acquired a
+              long-term stake in SOV with a view to participation in the
+              Bitcoracy.
+            </p>
+          </section>
+          <section>
+            <h3 className="title">
+              Founders Fund: 25,000,000 SOV 3 year vesting with a 6 month cliff
+            </h3>
+            <p>
+              The early funders of Sovryn believe in the future success of
+              Sovryn as a revenue-generating business as well as the
+              effectiveness of Sovryn’s Bitocracy that supports the
+              decentralized business model. These early funders have acquired a
+              long-term stake in SOV with a view to participation in the
+              Bitcoracy.
+            </p>
+          </section>
+        </section>
+        <div className="col-md-4 d-flex mb-4 mb-lg-0">
           <img src={Sovmodel} alt="" className="w-100 h-100" />
         </div>
 
         <div className="col-md-4">
-          <p className="title">Development Fund: 10,000,000 SOV</p>
-          <p>
-            The development pool will serve as a treasury for
-            development-related grants and bounties for the construction of new
-            features and rewarding new contributing builders. This will support
-            on-going security and maintenance, as well as R&D.
-          </p>
-          <p className="title">Ecosystem Fund: 5,000,000 SOV</p>
-          <p>
-            These tokens have been dedicated towards ecosystem initiatives,
-            including ecosystem-oriented bounty programs to engage the
-            community, or to execute partnerships with other DeFi on Bitcoin
-            organizations. With new product releases comes the need for
-            incentivizing the onboarding of new users to Sovryn.
-          </p>
-          <p className="title">Programmatic Sale: 5,000,000 SOV</p>
-          <p>
-            To further distribute SOV tokens and enfranchise interested users, a
-            programmatic sale will be held by the protocol. This will provide
-            opportunity for users to procure SOV tokens and participate as
-            Sovryn voters & stakeholders.
-          </p>
+          <section>
+            <h3 className="title">Development Fund: 10,000,000 SOV</h3>
+            <p>
+              The development pool will serve as a treasury for
+              development-related grants and bounties for the construction of
+              new features and rewarding new contributing builders. This will
+              support on-going security and maintenance, as well as R&D.
+            </p>
+          </section>
+          <section>
+            <h3 className="title">Ecosystem Fund: 5,000,000 SOV</h3>
+            <p>
+              These tokens have been dedicated towards ecosystem initiatives,
+              including ecosystem-oriented bounty programs to engage the
+              community, or to execute partnerships with other DeFi on Bitcoin
+              organizations. With new product releases comes the need for
+              incentivizing the onboarding of new users to Sovryn.
+            </p>
+          </section>
+          <section>
+            <h3 className="title">Programmatic Sale: 5,000,000 SOV</h3>
+            <p>
+              To further distribute SOV tokens and enfranchise interested users,
+              a programmatic sale will be held by the protocol. This will
+              provide opportunity for users to procure SOV tokens and
+              participate as Sovryn voters & stakeholders.
+            </p>
+          </section>
         </div>
       </div>
     </StyledContainer>
@@ -146,10 +165,10 @@ export function SOVModel() {
 export function SOVGovernance() {
   return (
     <StyledContainer>
-      <p className="font-size-xl header">SOV Bitocracy (Governance)</p>
+      <h2 className="header">SOV Bitocracy (Governance)</h2>
       <div className="row">
-        <div className="col-md-4">
-          <p className="title">Bitocracy:</p>
+        <section className="col-md-4">
+          <h3 className="title">Bitocracy:</h3>
           <p>
             The SOV Bitocracy is a distributed, pseudonymous governing body of
             stakeholders in the future of the Sovryn protocol and business
@@ -168,12 +187,12 @@ export function SOVGovernance() {
             to a specific stakeholder (without transferring their SOV tokens)
             through delegation
           </p>
-        </div>
-        <div className="col-md-4 d-flex">
+        </section>
+        <div className="col-md-4 d-flex mb-4 mb-lg-0">
           <img src={Sovbitocracy} alt="" className="w-100 h-100" />
         </div>
-        <div className="col-md-4">
-          <p className="title">Bitocracy Voting</p>
+        <section className="col-md-4">
+          <h3 className="title">Bitocracy Voting</h3>
           <div className="content">
             <span className="bullet">01.</span>
             <span className="text">User requests to makes a code proposal</span>
@@ -207,7 +226,7 @@ export function SOVGovernance() {
               At the allocated time the proposal executes on the SOVRYN protocol
             </span>
           </div>
-        </div>
+        </section>
       </div>
     </StyledContainer>
   );
