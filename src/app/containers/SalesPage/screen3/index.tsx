@@ -20,6 +20,7 @@ const StyledContent = styled.div`
   justify-content: center;
   flex-direction: column;
   position: relative;
+  padding: 40px 15px;
   .content-header {
     font-size: 28px;
     text-align: center;
@@ -42,7 +43,11 @@ const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
   margin: 25px 0;
 `;
 
-export default function Screen3() {
+interface Props {
+  hideBackButton?: boolean;
+}
+
+export default function Screen3(props: Props) {
   const address = useAccount();
   const [code, setCode] = useState('');
 
@@ -76,9 +81,11 @@ export default function Screen3() {
 
   return (
     <StyledContent>
-      <div className="d-flex flex-row">
-        <BackButton />
-      </div>
+      {!props.hideBackButton && (
+        <div className="d-flex flex-row">
+          <BackButton />
+        </div>
+      )}
       <p className="content-header">
         Please enter your code to gain access
         <br /> to the SOV* Genesis Sale

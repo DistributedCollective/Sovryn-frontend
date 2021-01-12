@@ -16,9 +16,6 @@ const StyledContainer = styled.section`
   @media screen and (min-width: 991px) {
     padding: 30px 70px;
   }
-  p {
-    font-weight: 100;
-  }
   .header {
     font-weight: 300;
     font-size: 24px;

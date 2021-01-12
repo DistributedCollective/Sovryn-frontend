@@ -91,7 +91,7 @@ export function SalesPage() {
         <PageHeader />
         <SaleInfoBar />
         {Number(state.maxDeposit) === 0 ? (
-          <Screen3 />
+          <Screen3 hideBackButton />
         ) : (
           <>
             {state.step === 1 && <Screen1 />}
