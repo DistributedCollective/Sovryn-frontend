@@ -27,11 +27,7 @@ export function Header() {
     { to: '/', title: t(translations.mainMenu.trade), exact: true },
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
-    {
-      to: '/',
-      title: t(translations.mainMenu.fastBtc),
-      onClick: () => dispatch(actions.showDialog(true)),
-    },
+    { to: '/wallet', title: t(translations.mainMenu.wallet) },
     t(translations.mainMenu.stats),
     {
       to: 'https://sovryn-1.gitbook.io/sovryn/',
@@ -101,18 +97,11 @@ export function Header() {
               <NavLink className="nav-item mr-4" to="/lend">
                 {t(translations.mainMenu.lend)}
               </NavLink>
-              <Link
-                to="/"
-                className="nav-item mr-4"
-                onClick={e => {
-                  e.preventDefault();
-                  dispatch(actions.showDialog(true));
-                }}
-              >
-                {t(translations.mainMenu.fastBtc)}
-              </Link>
               <NavLink className="nav-item mr-4" to="/liquidity">
                 {t(translations.mainMenu.liquidity)}
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/wallet">
+                {t(translations.mainMenu.wallet)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
