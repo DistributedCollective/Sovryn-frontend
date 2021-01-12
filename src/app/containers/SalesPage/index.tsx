@@ -65,6 +65,13 @@ export function SalesPage() {
     else dispatch(actions.changeStep(1));
   }, [isConnected, dispatch]);
 
+  useEffect(() => {
+    document.body.classList.add('genesis-sale-page');
+    return () => {
+      document.body.classList.remove('genesis-sale-page');
+    };
+  }, []);
+
   return (
     <div>
       <Helmet>
