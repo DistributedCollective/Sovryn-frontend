@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 import { media } from './media';
 
 export const GlobalStyle = createGlobalStyle`
@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: var(--primary-font);
     font-size: 12px;
     background-color: var(--background);
-    color: white;
+    color: #D9D9D9;
     ${media.lg`
     font-size: 16px;
     `}
@@ -82,6 +82,9 @@ input[type=number] {
   .font {
     &-xs {
       font-size: 12px;
+    }
+    &-sale-sm {
+      font-size: 14px;
     }
   }
   button {

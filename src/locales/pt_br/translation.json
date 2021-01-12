@@ -4,7 +4,7 @@
     "min": "min",
     "max": "max",
     "close": "Fechar"
-   },
+  },
   "global": {
     "liquidationPrice": "Preço de liquidação",
     "interestApr": "Juros anual"
@@ -407,7 +407,7 @@
       "description": "Informações sobre a carteira conectada"
     }
   },
-   "userAssets": {
+  "userAssets": {
     "meta": {
       "title": "Carteira"
     },
