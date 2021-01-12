@@ -8,7 +8,7 @@ const StyledButton = styled.button.attrs(_ => ({
   className: 'd-flex flex-row justify-content-center align-items-center',
 }))`
   border: 1px solid var(--gold);
-  background: none;
+  background: var(--gold5);
   border-radius: 8px;
   color: var(--gold);
   min-width: 48px;
@@ -20,9 +20,11 @@ const StyledButton = styled.button.attrs(_ => ({
     padding: 2px 20px;
     font-weight: 600;
   
-    &:hover, &:active, &:focus {
-      background: var(--gold) !important;
-      color: black !important;
+    &:hover, &:focus {
+      background: var(--gold25) !important;
+    }
+    &:active:hover {
+      background: var(--gold35) !important;
     }
     &:disabled {
       opacity: 0.5;

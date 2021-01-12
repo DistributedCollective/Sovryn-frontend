@@ -102,7 +102,7 @@ const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
 }))`
   border: none;
-  background: #4ecdc4;
+  background: rgb(78, 205, 196);
   color: white;
   height: 48px;
   text-align: center;
@@ -112,10 +112,11 @@ const StyledButton = styled.button.attrs(_ => ({
     border-radius: 8px;
     font-weight: 600;
   
-    &:hover, &:active, &:focus {
-      background: none !important;
-      color: #4ECDC4 !important;
-      border: 1px solid #4ECDC4;
+    &:hover, &:focus {
+      background: rgba(78, 205, 196, 0.75) !important;
+    }
+    &:active:hover {
+      background: rgb(78, 205, 196) !important;
     }
     `}
   ${props =>
@@ -307,7 +308,7 @@ export default function SendRBTC() {
         </div>
         <div className="col-md-6 d-flex justify-content-end">
           <Wrapper className="d-flex flex-column">
-            <p className="mb-0">Send (r)BTC:</p>
+            <p className="mb-1">Send (r)BTC:</p>
             <input
               className="rbtc-input"
               type="text"
@@ -315,7 +316,7 @@ export default function SendRBTC() {
               value={amount}
               onChange={e => setAmount(handleNumber(e.target.value))}
             />
-            <p className="text-right font-sale-sm">
+            <p className="text-center font-sale-sm mt-3">
               Available Balance:{' '}
               <a href="/sales#" onClick={addAllBalance}>
                 {weiToNumberFormat(balance, 8)}

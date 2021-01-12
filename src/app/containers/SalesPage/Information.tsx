@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Sovmodel from 'assets/images/sovmodel.svg';
+import Sovbitocracy from 'assets/images/sovbitocracy.svg';
 
 const StyledContainer = styled.div`
   background: #141414;
@@ -21,6 +22,17 @@ const StyledContainer = styled.div`
     font-size: 18px;
     font-weight: 600;
     color: white;
+  }
+  .content {
+    display: flex;
+    margin-bottom: 15px;
+    .bullet {
+      color: #f4f4f4;
+      margin-right: 15px;
+    }
+    .text {
+      color: #d9d9d9;
+    }
   }
 `;
 
@@ -136,26 +148,66 @@ export function SOVGovernance() {
     <StyledContainer>
       <p className="font-size-xl header">SOV Bitocracy (Governance)</p>
       <div className="row">
-        <div className="col-md-4 d-flex">
-          {/* <img src={GovernanceSVG} alt="" className="w-100 h-100" /> */}
-        </div>
         <div className="col-md-4">
           <p className="title">Bitocracy:</p>
           <p>
             The SOV Bitocracy is a distributed, pseudonymous governing body of
-            stakeholders in the future of the Sovryn protocol and business SOV
-            token holders can make executable proposals if they possess enough
-            voting power, vote on proposals during a predefined voting period
-            and in the end evaluate the outcome. If successful, the proposal
-            will be scheduled on the timelock contract. Only after sufficient
-            time has passed can it be executed. A minimum voting power of 1% of
-            SOV (1,000,000) is required for making a proposal as well as a
-            minimum quorum. In addition, SOV token holders can aggregate their
-            governing power to a specific stakeholder (without transferring
-            their SOV tokens) through delegation
+            stakeholders in the future of the Sovryn protocol and business
+            <br />
+            <br />
+            SOV token holders can make executable proposals if they possess
+            enough voting power, vote on proposals during a predefined voting
+            period and in the end evaluate the outcome. If successful, the
+            proposal will be scheduled on the timelock contract. Only after
+            sufficient time has passed can it be executed. A minimum voting
+            power of 1% of SOV (1,000,000) is required for making a proposal as
+            well as a minimum quorum.
+            <br />
+            <br />
+            In addition, SOV token holders can aggregate their governing power
+            to a specific stakeholder (without transferring their SOV tokens)
+            through delegation
           </p>
         </div>
-        <div className="col-md-4"></div>
+        <div className="col-md-4 d-flex">
+          <img src={Sovbitocracy} alt="" className="w-100 h-100" />
+        </div>
+        <div className="col-md-4">
+          <p className="title">Bitocracy Voting</p>
+          <div className="content">
+            <span className="bullet">01.</span>
+            <span className="text">User requests to makes a code proposal</span>
+          </div>
+          <div className="content">
+            <span className="bullet">02.</span>
+            <span className="text">
+              Governance contract checks the Staking contract to determine if
+              the user has enough voting power
+            </span>
+          </div>
+          <div className="content">
+            <span className="bullet">03.</span>
+            <span className="text">
+              If the user has the required amount of voting power then the
+              proposal is accepted by the Governance contract and all users with
+              voting power are able to vote.
+            </span>
+          </div>
+          <div className="content">
+            <span className="bullet">04.</span>
+            <span className="text">
+              Once the voting period is over and the proposal has been voted on,
+              it is directly scheduled for execution and sits in the Timelock
+              contract. The timelock setting decides on the waiting time.{' '}
+            </span>
+          </div>
+          <div className="content">
+            <span className="bullet">05.</span>
+            <span className="text">
+              At the allocated time the proposal executes on the SOVRYN protocol
+            </span>
+          </div>
+        </div>
       </div>
     </StyledContainer>
   );

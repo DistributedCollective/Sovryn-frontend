@@ -30,8 +30,8 @@ const Wrapper = styled.div`
     props.background &&
     css`
       background: ${props.background};
-    `}
-  border-radius: 10px;
+    `}    
+  border-radius: 0 0 10px 10px;
   .header {
     display: flex;
     justify-content: center;
@@ -70,7 +70,6 @@ const Wrapper = styled.div`
     padding: 20px 30px;
     font-size: 14px;
     color: #d9d9d9;
-    border-radius: 0 10px 10px 0;
     .time {
       font-size: 16px;
     }
@@ -133,6 +132,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               active={activeTx}
               background="#242424"
               opacity={0.75}
+              width={160}
               onClick={() => setActiveTx(true)}
             >
               {'BTC > RBTC'}
@@ -142,6 +142,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               active={!activeTx}
               background="#242424"
               opacity={0.75}
+              width={160}
               onClick={() => setActiveTx(false)}
             >
               {'RBTC > SOV'}
@@ -150,7 +151,6 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
           <Wrapper background="#242424">
             {activeTx ? (
               <>
-                <div className="header">BTC &gt; (r)BTC</div>
                 {deposit ? (
                   <div className="content">
                     <p className="font-italic time font-weight-light">
@@ -172,12 +172,28 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                     </p>
                   </div>
                 ) : (
-                  <div className="content">No deposit received.</div>
+                  // <div className="content">No deposit received.</div>
+                  <div className="content">
+                    <p className="font-italic time font-weight-light">
+                      Pending
+                    </p>
+                    <p className="text-center amount">0.18579 BTC</p>
+                    <p className="text-center font-weight-light">
+                      ≈ 2947.24 USD
+                    </p>
+                    <p className="mb-2">From</p>
+                    <p className="font-weight-light">
+                      1A1zP1eP……..v7DivfNa
+                    </p>
+                    <p>
+                      Hash:{' '}
+                      3sEB5Wv6……..02857295
+                    </p>
+                  </div>
                 )}
               </>
             ) : (
               <>
-                <div className="header">(r)BTC &gt; SOV</div>
                 {transfer ? (
                   <div className="content">
                     <p className="font-italic time font-weight-light">
@@ -200,7 +216,23 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                     </p>
                   </div>
                 ) : (
-                  <div className="content">No transfer received.</div>
+                  <div className="content">
+                    <p className="text-center font-italic time font-weight-light">
+                      Pending
+                    </p>
+                    <p className="text-center amount">0.18579 BTC</p>
+                    <p className="text-center font-weight-light">
+                      ≈ 2947.24 USD
+                    </p>
+                    <p>
+                      From:{' '}
+                      1A1zP1eP……..v7DivfNa
+                    </p>
+                    <p>
+                      Hash:{' '}
+                      3sEB5Wv6……..02857295
+                    </p>
+                  </div>
                 )}
               </>
             )}
@@ -245,7 +277,7 @@ export default function SendBTC({ setShowCalc }) {
   } = useSelector(selectSalesPage);
   const dispatch = useDispatch();
 
-  return btcDeposit === null && transferDeposit === null ? (
+  return !(btcDeposit === null && transferDeposit === null) ? (
     <div>
       <div>
         <p className="content-header">Send BTC to receive SOV</p>

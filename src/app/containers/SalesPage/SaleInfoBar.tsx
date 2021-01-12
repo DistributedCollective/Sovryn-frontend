@@ -52,7 +52,7 @@ export function SaleInfoBar() {
       </div>
       <div className="col">
         <Text ellipsize tagName="p">
-          Sales Allocation:
+          Sale Allocation:
         </Text>
         <LoadableValue
           loading={allocationLoading}

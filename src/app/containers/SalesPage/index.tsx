@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
+import 'styles/sass/_genesis-sale.scss';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -65,7 +66,7 @@ export function SalesPage() {
   }, [isConnected, dispatch]);
 
   return (
-    <>
+    <div>
       <Helmet>
         <title>{t(translations.salesPage.meta.title)}</title>
         <meta
@@ -101,6 +102,6 @@ export function SalesPage() {
           <SalesButton text="Read Our Whitepaper" onClick={() => {}} />
         </div>
       </div>
-    </>
+    </div>
   );
 }

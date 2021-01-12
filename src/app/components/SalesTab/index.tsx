@@ -9,6 +9,7 @@ interface Props {
   onClick: () => void;
   background?: string;
   opacity?: number;
+  width?: number;
 }
 
 export function Tab(props: Props) {
@@ -18,6 +19,7 @@ export function Tab(props: Props) {
       onClick={() => props.onClick()}
       opacity={props.opacity}
       background={props.background}
+      width={props.width}
     >
       {props.children}
     </StyledTab>
@@ -28,6 +30,7 @@ interface StyledProps {
   active: boolean;
   opacity?: number;
   background?: string;
+  width?: number;
 }
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
@@ -46,12 +49,25 @@ const StyledTab = styled.button.attrs(_ => ({
     css`
       opacity: ${props.opacity};
     `}
-  padding: 9px 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 15px;
   border-radius: 0;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-transform: none;
   font-size: 12px;
-  width: 160px;
+  width: 140px;
+  ${(props: StyledProps) =>
+    props.width &&
+    css`
+      width: ${props.width}px;
+    `}
+  height: 60px;
+  img {
+    margin-right: 10px;
+  }
   ${media.lg`font-size: 1rem;`}
   ${(props: StyledProps) =>
     props.active &&

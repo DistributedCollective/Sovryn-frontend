@@ -7,7 +7,7 @@
   --Field_bg: #05182e;
   --Green: #00ce7d;
   --Red: #eb2106;
-  --Muted_red: #CD4E4E;
+  --Muted_red: #cd4e4e;
   --Grey_text: #586c86;
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
@@ -21,7 +21,10 @@
   --red: #eb2106;
   --green: #00ce7d;
   --teal: #4ecdc4;
-  --gold: #fec006;
+  --gold: #fec004;
+  --gold5: rgba(254, 192, 4, 0.05);
+  --gold25: rgba(254, 192, 4, 0.25);
+  --gold35: rgba(254, 192, 4, 0.35);
   --primary: #171717;
   --secondary: #2d2d2d;
 
@@ -47,7 +50,7 @@ $white: $body-color;
 //$purple:  #6f42c1 !default;
 //$pink:    #e83e8c !default;
 $red: #eb2106;
-$muted_red: #CD4E4E;
+$muted_red: #cd4e4e;
 //$orange:  #fd7e14 !default;
 //$yellow:  #ffc107 !default;
 $green: #00ce7d;
@@ -69,7 +72,7 @@ $theme-colors: (
   'black': $black,
   'muted': $dark-gray,
   'long': $teal,
-  'short': #CD4E4E,
+  'short': #cd4e4e,
   'dark-gray': $dark-gray,
   'light-gray': $light-gray,
   'teal': $teal,
@@ -88,7 +91,7 @@ $theme-colors: (
   'component-bg': #0b223b,
   'TabGrey': #213b58,
   'Red': #eb2106,
-  'Muted_red': #CD4E4E,
+  'Muted_red': #cd4e4e,
 );
 
 $border-radius: 5px;

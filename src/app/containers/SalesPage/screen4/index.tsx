@@ -60,7 +60,7 @@ export default function Screen4() {
             active={!activeTrades}
             onClick={() => setActiveTrades(false)}
           >
-            <img src={RBTCLogo} alt="RBTC" /> RBTC
+            <img src={RBTCLogo} alt="RBTC" /> (r)BTC
           </Tab>
         </div>
       </div>
