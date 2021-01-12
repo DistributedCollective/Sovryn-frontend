@@ -8,14 +8,15 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
-import { Container } from 'react-bootstrap';
-import WalletConnector from '../../containers/WalletConnector';
-import styled from 'styled-components';
-import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
-import { media } from '../../../styles/media';
-import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 import { translations } from 'locales/i18n';
 import { actions } from 'app/containers/FastBtcForm/slice';
+import { Container } from 'react-bootstrap';
+import styled from 'styled-components';
+import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
+import WalletConnector from '../../containers/WalletConnector';
+import { LanguageToggle } from '../../components/LanguageToggle';
+import { media } from '../../../styles/media';
+import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 
 export function Header() {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ export function Header() {
       };
     }
 
-    if (link.to.startsWith('http')) {
+    if (link.to.startsWith('http' || 'https')) {
       return (
         <MenuItem
           key={index}
@@ -79,7 +80,7 @@ export function Header() {
   return (
     <>
       <header>
-        <Container className="d-flex justify-content-between align-items-center mt-4 mb-5">
+        <Container className="d-flex justify-content-between align-items-center mb-4 pt-2 pb-2">
           <div className="d-xl-none">
             <Popover content={<Menu>{dropDownMenu}</Menu>}>
               <button className="hamburger" type="button">
@@ -87,12 +88,12 @@ export function Header() {
               </button>
             </Popover>
           </div>
-          <div className="mr-3">
-            <Link to="/">
-              <StyledLogo src={logoSvg} />
-            </Link>
-          </div>
           <div className="d-xl-flex flex-row align-items-center">
+            <div className="mr-3">
+              <Link to="/">
+                <StyledLogo src={logoSvg} />
+              </Link>
+            </div>
             <div className="d-none d-xl-block">
               <NavLink className="nav-item mr-4" to="/" exact>
                 {t(translations.mainMenu.trade)}
@@ -116,8 +117,21 @@ export function Header() {
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
+              <a
+                href="https://sovryn-1.gitbook.io/sovryn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-item mr-4"
+              >
+                {t(translations.mainMenu.help)}
+              </a>
             </div>
-            <WalletConnector />
+          </div>
+          <div className="d-flex justify-content-start align-items-center">
+            <div className="mr-3">
+              <LanguageToggle />
+            </div>
+            <WalletConnector simpleView={false} />
           </div>
         </Container>
       </header>
@@ -129,12 +143,12 @@ export function Header() {
 const StyledLogo = styled.img.attrs(_ => ({
   alt: '',
 }))`
-  width: 114px;
-  height: 48px;
-  margin: 0 15px;
+  width: 130px;
+  height: 50px;
+  margin: 0 0 0 1rem;
   ${media.xl`
-  width: 138px;
-  height: 58px;
-  margin: 0 15px 0 0;
+    width: 284px;
+    height: 48px;
+    margin: 0;
   `}
 `;

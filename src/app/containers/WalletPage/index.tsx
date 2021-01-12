@@ -8,11 +8,10 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-import { Text } from '@blueprintjs/core';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { prettyTx } from '../../../utils/helpers';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
+import WalletConnector from '../../containers/WalletConnector';
 import { UserAssets } from '../../components/UserAssets';
 import { TopUpHistory } from '../../components/TopUpHistory';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
@@ -35,12 +34,12 @@ export function WalletPage() {
       <Header />
       <div className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
-          <h2 className="flex-shrink-0 flex-grow-0 mr-3">
+          <h2 className="flex-shrink-0 flex-grow-0 mb-3 ">
             {t(translations.userAssets.meta.title)}
           </h2>
           {connected && account && (
             <div className="w-100 text-center">
-              <Text ellipsize>{prettyTx(account)}</Text>
+              <WalletConnector simpleView={true} />
             </div>
           )}
         </div>
@@ -62,7 +61,7 @@ export function WalletPage() {
         </div>
 
         <div className="row">
-          <div className="col-12 mt-5">
+          <div className="col-12 mt-2">
             {activeAssets ? (
               <>
                 <UserAssets />

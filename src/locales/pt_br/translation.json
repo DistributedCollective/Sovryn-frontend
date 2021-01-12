@@ -131,7 +131,8 @@
     "fastBtc": "Fast-Btc",
     "liquidity": "Liquidez",
     "stats": "Dados",
-    "faqs": "FAQs"
+    "faqs": "FAQs",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "Comprado",

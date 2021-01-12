@@ -21,7 +21,9 @@ import { media } from '../../../styles/media';
 import { useHistory, useLocation } from 'react-router-dom';
 import '../LendBorrowSovryn/assets/index.scss';
 
-type Props = {};
+type Props = {
+  simpleView: boolean;
+};
 
 const WalletConnectorContainer: React.FC<Props> = props => {
   const { connected, connecting, address } = useSelector(selectWalletProvider);
@@ -29,6 +31,8 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
+  const simpleView = props.simpleView;
+  const simpleViewClass = simpleView ? 'simpleView' : '';
 
   const handleWalletConnection = useCallback(() => {
     //don't show TutorialDialogModal if unsubscribe route
@@ -47,7 +51,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   };
 
   return (
-    <div className="flex-row align-items-center d-none d-md-flex">
+    <div className="justify-content-center align-items-center d-none d-md-flex">
       {!connected && !address ? (
         <StyledButton
           onClick={handleWalletConnection}
@@ -64,7 +68,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           )}
         </StyledButton>
       ) : (
-        <div className="d-flex align-items-center">
+        <div className={simpleViewClass}>
           <Popover
             content={
               <Menu>
@@ -80,20 +84,26 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   text={t(translations.wallet.referrals)}
                   onClick={() => history.push('/referrals')}
                 />
-                <MenuDivider />
-                <MenuItem
-                  icon="log-out"
-                  text={t(translations.wallet.disconnect)}
-                  onClick={handleDisconnect}
-                />
               </Menu>
             }
           >
             <>
-              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex mr-3">
+              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex">
                 <span className="d-flex flex-nowrap flex-row align-items-center">
-                  <span>{prettyTx(address, 5, 3)}</span>
-                  <Icon icon="caret-down" className="ml-2" />
+                  <span>{prettyTx(address, 4, 4)}</span>
+                  {!simpleView && (
+                    <Icon
+                      icon="full-circle"
+                      iconSize={20}
+                      color="#4ECDC4"
+                      className="ml-2 is-pointer"
+                    />
+                  )}
+                  <Icon
+                    icon="log-out"
+                    className="logout"
+                    onClick={handleDisconnect}
+                  />
                 </span>
               </div>
               <StyledButton className="d-xl-none">
@@ -103,14 +113,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           </Popover>
         </div>
       )}
-      <a
-        href="https://sovryn-1.gitbook.io/sovryn/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="help flex-shrink-0 flex-grow-0 d-none d-xl-flex flex-row text-decoration-none justify-content-center align-items-center"
-      >
-        <span>?</span>
-      </a>
     </div>
   );
 };
@@ -127,26 +129,25 @@ const StyledButton = styled.button.attrs(_ => ({
   height: 48px;
   text-align: center;
   ${media.xl`
-  text-align: inherit;
-  background: #171717;
-  margin-right: 50px;
-  width: 125px;
-  height: 58px;
-  padding: 2px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  border-right: 5px solid #fff;
-  border-bottom: 5px solid #fff;
-  border-left: 1px solid #fff;
-  border-top: 1px solid #fff;
-
-  &:hover, &:active, &:focus {
-    background: none !important;
-    color: #fec006 !important;
-    border-right: 5px solid #fec006;
-    border-bottom: 5px solid #fec006;
-    border-left: 1px solid #fec006;
-    border-top: 1px solid #fec006;
-  }
+    border: 1px solid;
+    white-space: nowrap;
+    width: auto;
+    margin: 0;
+    height: 40px;
+    padding: 5px 26px;
+    font-weight: 100;
+    color: #FEC004;
+    font-size: 18px;
+    font-family: 'Montserrat';
+    letter-spacing: -1px;
+    text-transform: capitalize;
+    transition: all .3s;
+    border-radius: 10px;
+    &:hover {
+      background: rgba(254,192,4, 0.25) !important;
+    }
+    &:active, &:focus {
+      background: rgba(254,192,4, 0.5) !important;
+    }
   `}
 `;

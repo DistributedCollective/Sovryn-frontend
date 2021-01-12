@@ -125,7 +125,8 @@
     "fastBtc": "Recarga",
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
-    "faqs": "FAQ"
+    "faqs": "FAQ",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "En Largo",

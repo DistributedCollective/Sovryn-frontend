@@ -131,7 +131,8 @@
     "fastBtc": "Top-Up",
     "liquidity": "Market-making",
     "stats": "Stats",
-    "faqs": "FAQs"
+    "faqs": "FAQs",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "Long",

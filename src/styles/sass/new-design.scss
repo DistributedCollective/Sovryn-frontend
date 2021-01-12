@@ -1,8 +1,7 @@
+@import './custom-variables';
+
 .sovryn-border {
-  border-bottom: 5px;
-  border-right: 5px;
-  border-top: 1px;
-  border-left: 1px;
+  border: 1px;
   border-radius: 8px;
   border-style: solid;
   border-color: $white;
@@ -14,10 +13,10 @@
   border-top: 1px solid $white;
 }
 .sovryn-border-bottom {
-  border-bottom: 5px solid $white;
+  border-bottom: 1px solid $white;
 }
 .sovryn-border-right {
-  border-right: 5px solid $white;
+  border-right: 1px solid $white;
 }
 
 .sovryn-tabs {
@@ -70,30 +69,6 @@
       }
     }
   }
-
-  //.nav-tabs, .nav-tabs .nav-item.show .nav-link {
-  //  color: #f89b2b;
-  //  background: none !important;
-  //
-  //  &:hover, &:active, &:focus {
-  //    color: #495057;
-  //    background: none !important;
-  //  }
-  //}
-  //
-  //.nav-item:hover, .nav-item:active {
-  //  color: #f89b2b;
-  //}
-  //
-  //.nav-link.active {
-  //  color: #f89b2b;
-  //  background: none !important;
-  //  border-color: #dee2e6 #dee2e6 #dee2e6;
-  //}
-  //
-  //&:hover, &:active, &:focus {
-  //  background: none !important;
-  //}
 }
 
 .sovryn-tabs .custom-stats-tab {
@@ -254,8 +229,17 @@ input {
   @extend .font-family-work-sans;
 }
 
+//new styles for Sovryn
+
+.is-pointer {
+  cursor: pointer;
+}
 
 header {
+  background: black;
+  & > div:first-child {
+    min-height: 70px;
+  }
   .hamburger {
     width: 48px;
     height: 48px;
@@ -265,8 +249,44 @@ header {
     background: none;
     border: none;
   }
+  select {
+    font-size: 16px;
+    font-family: $font-family-montserrat;
+    font-weight: 100;
+    background-color: transparent;
+  }
 }
 
+.simpleView {
+  .engage-wallet {
+    height: 50px;
+    padding: 2px 0 2px 10px;
+    font-size: 22px;
+    span {
+      & > span:first-child {
+        min-width: 250px;
+      }
+    }
+    .logout {
+      height: 50px;
+      padding: 17px 12px;
+  }
+}
+}
+
+.sov-title {
+  font-family: $font-family-montserrat;
+  font-weight: 400;
+  font-size: 28px;
+}
+.container h2 {
+  font-family: $font-family-montserrat;
+  text-transform: inherit;
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: #D9D9D9;
+  margin: 0;
+}
 .sov-table {
   position: absolute;
   left: 20px;
@@ -277,17 +297,28 @@ header {
     background: white;
     tr {
       height: auto;
+      &:last-child {
+        td {
+          div {
+            text-align: center;
+            font-size: 9px;
+          }
+        }
+      }
     }
     td[rowspan="2"] {
       text-align: center;
+      width: 60px;
     }
     th,  td {
       padding: 5px;
       vertical-align: middle;
       border: 1px solid black;
-      color: black;
+      color: #707070;
+      font-family: $font-family-montserrat;
       font-size: 14px;
       line-height: 18px;
+      letter-spacing: 0;
     }
   }
 }
