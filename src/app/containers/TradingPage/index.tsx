@@ -24,7 +24,7 @@ import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { Announcement } from '../../components/Announcement';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-
+import { SaleBanner } from '../../components/SaleBanner';
 const s = translations.tradingPage;
 
 interface Props {}
@@ -54,6 +54,7 @@ export function TradingPage(props: Props) {
       <Header />
       <div className="container mt-5">
         <Announcement />
+        <SaleBanner />
         <div className="row">
           <div
             className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
