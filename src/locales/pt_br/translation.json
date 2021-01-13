@@ -121,7 +121,7 @@
   },
   "wallet": {
     "btn": "Conectar carteira",
-    "connect_btn": "Escolher carteira",
+    "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
     "my_wallet": "Minha carteira",
     "referrals": "Convide um amigo"
