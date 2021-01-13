@@ -135,12 +135,12 @@
   "mainMenu": {
     "trade": "Operar",
     "lend": "Empréstimos",
-    "fastBtc": "Fast-Btc",
-    "wallet": "My wallet",
+    "fastBtc": "Depositar-Btc",
+    "wallet": "Minha carteira",
     "liquidity": "Liquidez",
     "stats": "Dados",
     "faqs": "FAQs",
-    "help": "Help"
+    "help": "Ajuda"
   },
   "trandingPositionSelector": {
     "long": "Comprado",
