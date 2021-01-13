@@ -85,7 +85,7 @@ export function SaleBanner() {
           <div className="button-container">
             <a
               className="button button-nav button-black button-white button-container"
-              href=""
+              href="https://sovryn.app/"
             >
               <span className="button-text">Learn More</span>
             </a>
@@ -95,19 +95,27 @@ export function SaleBanner() {
             <div className="date-container">
               <div>
                 <p className="text-white p-remove-padding">Days</p>
-                <h3 className="text-white" id="days"></h3>
+                <h3 className="text-white" id="days">
+                  00
+                </h3>
               </div>
               <div>
                 <p className="text-white p-remove-padding">Hours</p>
-                <h3 className="text-white" id="hours"></h3>
+                <h3 className="text-white" id="hours">
+                  00
+                </h3>
               </div>
               <div>
                 <p className="text-white p-remove-padding">Mins</p>
-                <h3 className="text-white" id="mins"></h3>
+                <h3 className="text-white" id="mins">
+                  00
+                </h3>
               </div>
               <div>
                 <p className="text-white p-remove-padding">Secs</p>
-                <h3 className="text-white" id="secs"></h3>
+                <h3 className="text-white" id="secs">
+                  00
+                </h3>
               </div>
             </div>
           </div>
