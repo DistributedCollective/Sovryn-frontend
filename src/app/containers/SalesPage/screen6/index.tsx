@@ -6,7 +6,12 @@ import BackButton from '../BackButton';
 
 import { actions } from '../slice';
 import { selectSalesPage } from '../selectors';
-import { isAddress, validateEmail } from '../../../../utils/helpers';
+import {
+  isAddress,
+  toChecksumAddress,
+  validateEmail,
+} from '../../../../utils/helpers';
+import { useAccount } from '../../../hooks/useAccount';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -82,8 +87,9 @@ const StyledButtonGroup = styled.div`
 
 export default function Screen6() {
   const dispatch = useDispatch();
+  const account = useAccount();
   const [amount, setAmount] = useState('0.03');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(account);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [note, setNote] = useState('');
@@ -95,7 +101,7 @@ export default function Screen6() {
   const submitCode = () => {
     dispatch(
       actions.requestAccess({
-        address,
+        address: address.toLowerCase(),
         email,
         discord: username,
         amount,
@@ -104,7 +110,7 @@ export default function Screen6() {
     );
   };
 
-  const addressValid = isAddress(address);
+  const addressValid = isAddress(toChecksumAddress(address));
   const emailValid = validateEmail(email);
   const valid = addressValid && !!address && !!email && emailValid;
 
@@ -128,7 +134,7 @@ export default function Screen6() {
               value={address}
               onChange={e => setAddress(e.target.value)}
             />
-            {!!address && !addressValid && (
+            {address.length > 1 && !addressValid && (
               <small className="text-muted">
                 Enter valid RSK wallet address.
               </small>

@@ -21,15 +21,8 @@ function createSocketConnection() {
 
 function createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
-    // socket.on('getDepositAddress', (...args) => this.getDepositAddress.apply(this, [socket, ...args]));
-    // socket.on('getDepositHistory', (...args) => this.getDepositHistory.apply(this, [...args]));
-    // socket.on('txAmount', (...args) => this.getTxAmount.apply(this, [...args]));
-    // socket.on('getDeposits', (...args) => this.getDbDeposits.apply(this, [...args]));
-    //
-    // //mint nft
-    // socket.on('useCode', (...args) => this.onUserUseCode.apply(this, [socket, ...args]));
-
     emit(actions.getBtcAddress());
+
     // get deposit address
     socket.emit('getDepositAddress', receiverAddress, (err, res) => {
       if (res && res.btcadr) {

@@ -19,6 +19,7 @@ import { Tab } from '../../components/SalesTab';
 import { Nullable } from '../../../types';
 import { useSaleCalculator } from '../SalesPage/hooks/useSaleCalculator';
 import { numberToUSD } from '../../../utils/display-text/format';
+import { fromWei, trimZero } from '../../../utils/blockchain/math-helpers';
 
 interface StyledProps {
   background?: string;
@@ -278,11 +279,11 @@ const BTCAddClipboard = styled.span`
 
 export default function SendBTC({ setShowCalc }) {
   const {
-    btcMin,
-    btcMax,
     btcAddress,
     btcDeposit,
     transferDeposit,
+    maxDeposit,
+    minDeposit,
   } = useSelector(selectSalesPage);
   const dispatch = useDispatch();
 
@@ -294,8 +295,8 @@ export default function SendBTC({ setShowCalc }) {
           <div className="col-md-6">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
-              <li>MIN: {btcMin} BTC</li>
-              <li>MAX: {btcMax} BTC</li>
+              <li>MIN: {trimZero(fromWei(minDeposit))} BTC</li>
+              <li>MAX: {trimZero(fromWei(maxDeposit))} BTC</li>
               <a
                 href="/sales#"
                 className="d-block"

@@ -11,11 +11,6 @@ import { bignumber } from 'mathjs';
 import { useSaleCalculator } from './hooks/useSaleCalculator';
 
 export function SaleInfoBar() {
-  const { value: supply, loading: supplyLoading } = useCacheCallWithValue(
-    'CSOV_token',
-    'totalSupply',
-    '0',
-  );
   const {
     value: allocation,
     loading: allocationLoading,
@@ -41,14 +36,9 @@ export function SaleInfoBar() {
         <Text ellipsize tagName="p">
           Total Supply:
         </Text>
-        <LoadableValue
-          loading={supplyLoading}
-          value={
-            <Text ellipsize tagName="p">
-              {weiToNumberFormat(supply)} SOV
-            </Text>
-          }
-        />
+        <Text ellipsize tagName="p">
+          {weiToNumberFormat(100000000e18)} SOV
+        </Text>
       </div>
       <div className="col">
         <Text ellipsize tagName="p">
@@ -87,7 +77,7 @@ export function SaleInfoBar() {
               {numberToUSD(unitPrice, 2)}/SOV
             </Text>
           }
-          tooltip={<>{rate} satoshi for 1 SOV</>}
+          tooltip={<>{rate} SOV for 1 BTC</>}
         />
       </div>
       <div className="col">

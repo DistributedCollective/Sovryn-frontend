@@ -112,7 +112,7 @@ export function SalesPage() {
         <SOVModel />
         <SOVGovernance />
         <div className="footer d-flex justify-content-center mb-5">
-          <SalesButton text="Read Our Whitepaper" onClick={() => {}} />
+          <SalesButton text="Read Whitepaper" onClick={() => {}} />
         </div>
       </main>
     </div>
