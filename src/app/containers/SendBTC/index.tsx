@@ -5,9 +5,6 @@ import { Icon } from '@blueprintjs/core';
 import SalesButton from '../../components/SalesButton';
 import styled, { css } from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
-import { SHOW_MODAL } from 'utils/classifiers';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { actions } from '../TutorialSOVModal/slice';
 import { useSelector } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -65,10 +62,11 @@ const Wrapper = styled.div`
     justify-content: space-evenly;
     span {
       animation: rotateY 1.5s linear infinite;
+      animation-direction: reverse;
     }
   }
   .content {
-    padding: 20px 54px;
+    padding: 20px;
     font-size: 14px;
     color: #d9d9d9;
     .time {
@@ -76,29 +74,22 @@ const Wrapper = styled.div`
       margin-bottom: 20px;
     }
     .amount {
-      padding: 0 45px 0 50px;
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 3px;
     }
     .amount-usd {
-      padding: 0 45px 0 50px;
-      font-size: 14px;
+      font-size: 16px;
       margin-bottom: 24px;
     }
     .fee {
-      text-align: right;
-      padding-right: 30px;
-      font-size: 12px;
-      font-weight: 100;
+      font-size: 16px;
       margin-bottom: 50px;
     }
     .address,
     .hash {
-      font-weight: 100;
-      span {
+      strong {
         width: 40px;
-        font-weight: 300;
         margin-right: 10px;
       }
     }
@@ -118,8 +109,7 @@ interface TxProps {
 function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
   const [activeTx, setActiveTx] = useState(true);
   const handleSOVTutorial = useCallback(() => {
-    dispatch(actions.showModal(SHOW_MODAL));
-    reactLocalStorage.set('closedRskTutorial', 'false');
+    dispatch(sActions.showTokenTutorial(true));
   }, [dispatch]);
   const handleBack = e => {
     e && e.preventDefault && e.preventDefault();
@@ -183,22 +173,24 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                 {deposit ? (
                   <div className="content">
                     <p className="text-center font-italic time font-weight-light">
-                      {deposit.status}
+                      {deposit.status === 'pending' && (
+                        <>Processing approx. 15 minutes</>
+                      )}
+                      {deposit.status === 'confirmed' && (
+                        <>Confirmed! Converting rBTC to SOV.</>
+                      )}
+                      {deposit.status === 'failed' && <>Transaction failed!</>}
                     </p>
-                    <p className="text-left amount">{deposit.value} BTC</p>
-                    <p className="text-left amount-usd ffont-weight-light">
+                    <p className="amount">{deposit.value} BTC</p>
+                    <p className="amount-usd font-weight-light">
                       ≈ {numberToUSD(depositPrice, 2)}
                     </p>
-                    <p className="fee">
-                      Transaction Fee: 0.006 BTC
-                      <br />≈ 5.00 USD
-                    </p>
                     <p className="address">
-                      <span>To:</span>
+                      <strong>To:</strong>
                       {prettyTx(address, 6, 4)}
                     </p>
                     <p className="hash">
-                      <span>Hash:</span>
+                      <strong>Hash:</strong>
                       {prettyTx(deposit.txHash, 6, 4)}
                     </p>
                     <LinkToExplorer
@@ -217,22 +209,24 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                 {transfer ? (
                   <div className="content">
                     <p className="text-center font-italic time font-weight-light">
-                      {transfer.status}
+                      {transfer.status === 'pending' && (
+                        <>Processing approx. 2 minutes</>
+                      )}
+                      {transfer.status === 'confirmed' && (
+                        <>SOV is in your wallet now!</>
+                      )}
+                      {transfer.status === 'failed' && <>Transaction failed!</>}
                     </p>
-                    <p className="text-left amount">{transfer.value} (r)BTC</p>
-                    <p className="text-left amount-usd ffont-weight-light">
+                    <p className="amount">{transfer.value} (r)BTC</p>
+                    <p className="amount-usd font-weight-light">
                       ≈ {numberToUSD(transferPrice, 2)}
                     </p>
-                    <p className="fee">
-                      Transaction Fee: 0.006 (r)BTC
-                      <br />≈ 5.00 USD
-                    </p>
                     <p className="address">
-                      <span>To:</span>
+                      <strong>To:</strong>
                       {prettyTx(address, 6, 4)}
                     </p>
                     <p className="hash">
-                      <span>Hash:</span>
+                      <strong>Hash:</strong>
                       {transfer.txHash}
                     </p>
                     <LinkToExplorer

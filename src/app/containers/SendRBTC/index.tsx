@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
@@ -108,7 +108,7 @@ const Wrapper = styled.div`
     }
     .address,
     .hash {
-      span {
+      strong {
         width: 40px;
         margin-right: 10px;
       }
@@ -152,6 +152,7 @@ interface DetailsProps {
   estimatedFee: string;
   btcAmount: string;
   usdAmount: number;
+  dispatch: Dispatch<any>;
 }
 
 function TransactionDetail(props: DetailsProps) {
@@ -174,7 +175,10 @@ function TransactionDetail(props: DetailsProps) {
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
-          <SalesButton text={'Connect SOV to your wallet'} onClick={() => {}} />
+          <SalesButton
+            text={'Connect SOV to your wallet'}
+            onClick={() => props.dispatch(sActions.showTokenTutorial(true))}
+          />
         </div>
         <div className="col-md-6 d-flex flex-column align-items-end">
           <Wrapper background="#242424">
@@ -204,7 +208,7 @@ function TransactionDetail(props: DetailsProps) {
                 </p>
               </div>
               <p className="hash">
-                <span>Hash:</span>
+                <strong>Hash:</strong>
                 {prettyTx(props.tx.txHash)}
               </p>
               <LinkToExplorer
@@ -381,6 +385,7 @@ export default function SendRBTC() {
       estimatedFee={gasEstimation}
       btcAmount={amount}
       usdAmount={price}
+      dispatch={dispatch}
     />
   );
 }

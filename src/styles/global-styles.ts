@@ -15,6 +15,9 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 12px;
     background-color: var(--background);
     color: #D9D9D9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 0.45px;
     ${media.lg`
     font-size: 16px;
     `}
