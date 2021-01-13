@@ -55,7 +55,11 @@ export const handleNumber = (value, onlyPositive = true) => {
 };
 
 export const toChecksumAddress = (address: string) => {
-  return !!address ? utils.toChecksumAddress(address) : '';
+  try {
+    return !!address ? utils.toChecksumAddress(address) : '';
+  } catch (e) {
+    return address;
+  }
 };
 
 export const checkAddressChecksum = (address: string) => {
@@ -69,7 +73,7 @@ export const checkAddressChecksum = (address: string) => {
 
 export const isAddress = (address: string) => {
   try {
-    return utils.isAddress(address, currentChainId);
+    return utils.isAddress((address || '').toLowerCase(), currentChainId);
   } catch (e) {
     console.warn(e);
     return false;
