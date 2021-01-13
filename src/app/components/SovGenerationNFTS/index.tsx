@@ -22,31 +22,61 @@ export function SovGenerationNFTS() {
     '0',
     account,
   );
+  const { value: balanceCommunity } = useCacheCallWithValue(
+    'SovrynNFTCommunity',
+    'balanceOf',
+    '0',
+    account,
+  );
+  const { value: balanceHero } = useCacheCallWithValue(
+    'SovrynNFTHero',
+    'balanceOf',
+    '0',
+    account,
+  );
+  const { value: balanceSuperhero } = useCacheCallWithValue(
+    'SovrynNFTSuperhero',
+    'balanceOf',
+    '0',
+    account,
+  );
 
   const tier = trimZero(weiToNumberFormat(maxPurchase, 8));
   const [tierLabel, setTierLabel] = useState('');
   const [tierImage, setTierImage] = useState('');
+  const [nftBalance, setNftBalance] = useState('');
 
   useEffect(() => {
     switch (tier) {
       case '0.03':
         setTierLabel('Community');
         setTierImage(sov_1);
+        setNftBalance(balanceCommunity);
         break;
       case '0.1':
         setTierLabel('Hero');
         setTierImage(sov_2);
+        setNftBalance(balanceHero);
         break;
       case '2':
         setTierLabel('Superhero');
         setTierImage(sov_3);
+        setNftBalance(balanceSuperhero);
         break;
       default:
         setTierLabel('Community');
         setTierImage(sov_1);
+        setNftBalance(balanceCommunity);
         break;
     }
-  }, [tier, setTierLabel, setTierImage]);
+  }, [
+    tier,
+    setTierLabel,
+    setTierImage,
+    balanceCommunity,
+    balanceHero,
+    balanceSuperhero,
+  ]);
 
   return (
     <div className="sovryn-border p-3 mb-5 pb-5">
@@ -73,7 +103,9 @@ export function SovGenerationNFTS() {
                 </tr>
                 <tr>
                   <td>
-                    <b>Purchase Limit: {tier} BTC</b>
+                    <b>
+                      Purchase Limit: {tier} BTC ({nftBalance})
+                    </b>
                   </td>
                 </tr>
                 <tr>
