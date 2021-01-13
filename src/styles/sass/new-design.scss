@@ -4,17 +4,21 @@
   border: 1px;
   border-radius: 8px;
   border-style: solid;
-  border-color: $white;
+  border-color: var(--light-gray);
 }
+
 .sovryn-border-left {
   border-left: 1px solid $white;
 }
+
 .sovryn-border-top {
   border-top: 1px solid $white;
 }
+
 .sovryn-border-bottom {
   border-bottom: 1px solid $white;
 }
+
 .sovryn-border-right {
   border-right: 1px solid $white;
 }
@@ -37,6 +41,7 @@
   .nav-tabs {
     border-bottom: 0;
     flex-wrap: nowrap;
+
     & .nav-item {
       font-size: 15px;
       color: $text-muted;
@@ -60,6 +65,7 @@
         border-color: $white;
         border-bottom: 1px solid $dark;
       }
+
       &:not(.active) {
         flex: 1;
         max-width: fit-content;
@@ -72,7 +78,8 @@
 }
 
 .sovryn-tabs .custom-stats-tab {
-  border: none!important;
+  border: none !important;
+
   &.charts-active {
     color: var(--gold);
   }
@@ -91,32 +98,41 @@
   font-weight: 100;
   width: 100%;
   font-size: 14px;
+
   &.sovryn-table-mobile {
     @media(max-width: 335px) {
       font-size: 11px;
     }
   }
+
   .table-header div {
     @include table-header;
   }
-  thead tr, .table-header:not(.sub-header) {
+
+  thead tr,
+  .table-header:not(.sub-header) {
     height: 40px;
+
     // border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
   }
+
   tbody {
     tr {
       &:nth-child(odd) {
         td {
           background-color: #282828;
+
           &:first-child {
             border-radius: 6px 0 0 6px;
           }
+
           &:last-child {
             border-radius: 0 6px 6px 0;
           }
+
           &:only-child {
             border-radius: 6px;
           }
@@ -124,30 +140,39 @@
       }
     }
   }
-  tbody tr, div.mobile-row {
+
+  tbody tr,
+  div.mobile-row {
     height: 80px;
+
     td {
       padding: 0 15px;
       color: var(--light-gray);
     }
+
     // border-top: 1px solid var(--white);
     &:first-of-type {
       border-top: none;
     }
+
     &.table-header {
       height: 60%;
-      > td {
+
+      >td {
         @include table-header;
         padding-top: 20px;
       }
     }
   }
+
   .mobile-row {
     align-content: center;
   }
+
   .sub-header div {
     font-size: 8px;
   }
+
   &.sovryn-table-mobile {
     [class^='col'] {
       padding-left: 5px;
@@ -161,7 +186,9 @@ input {
   font-weight: 400;
 }
 
-.font-size-lg { font-size: 19px; }
+.font-size-lg {
+  font-size: 19px;
+}
 
 .font-family-work-sans {
   font-family: var(--secondary-font);
@@ -199,7 +226,8 @@ input {
     }
   }
 
-  &, &.bp3-tooltip {
+  &,
+  &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
       @extend .bg-primary;
@@ -217,9 +245,11 @@ input {
 
   & .bp3-menu {
     background-color: transparent;
+
     & .bp3-menu-item {
       color: var(--white);
       font-family: var(--secondary-font);
+
       &.bp3-active {
         background-color: var(--dark-gray);
       }
@@ -236,12 +266,13 @@ input {
 .bp3-drawer {
   background-color: var(--primary);
   color: var(--white);
-  width: 100%!important;
+  width: 100% !important;
   border-right: 5px solid var(--white);
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+
   @include media-breakpoint-up(md) {
-    width: 360px!important;
+    width: 360px !important;
   }
 }
 
@@ -261,22 +292,46 @@ button.bp3-button.bp3-minimal {
   text-transform: none;
   padding: 8px 20px;
   transition: background .3s;
+
   &:hover {
-    background: rgba(254,192,4, 0.25) !important;
+    background: rgba(254, 192, 4, 0.25) !important;
   }
-  &:active, &:focus {
-    background: rgba(254,192,4, 0.5) !important;
+
+  &:active,
+  &:focus {
+    background: rgba(254, 192, 4, 0.5) !important;
   }
 }
+
 .is-pointer {
   cursor: pointer;
 }
 
+.image-responsive {
+  max-width: 333px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.image-bordered:before {
+  content: '';
+  position: absolute;
+  background: white;
+  overflow: hidden;
+  left: -10px;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 16px;
+}
+
 header {
   background: black;
-  & > div:first-child {
+
+  &>div:first-child {
     min-height: 70px;
   }
+
   .hamburger {
     width: 48px;
     height: 48px;
@@ -286,6 +341,7 @@ header {
     background: none;
     border: none;
   }
+
   select {
     font-size: 16px;
     font-family: $font-family-montserrat;
@@ -299,16 +355,18 @@ header {
     height: 50px;
     padding: 2px 0 2px 10px;
     font-size: 22px;
+
     span {
-      & > span:first-child {
+      &>span:first-child {
         min-width: 250px;
       }
     }
+
     .logout {
       height: 50px;
       padding: 17px 12px;
+    }
   }
-}
 }
 
 .sov-title {
@@ -316,6 +374,7 @@ header {
   font-weight: 400;
   font-size: 28px;
 }
+
 .container h2 {
   font-family: $font-family-montserrat;
   text-transform: inherit;
@@ -323,21 +382,26 @@ header {
   font-size: 1.75rem;
   color: var(--light-gray);
   margin: 0;
+
   &.sov-title {
     font-weight: 400;
     font-size: 1rem;
   }
 }
+
 .sov-table {
   position: absolute;
   left: 20px;
   right: 20px;
   bottom: 40px;
+
   .table {
     margin: 0;
     background: white;
+
     tr {
       height: auto;
+
       &:last-child {
         td {
           div {
@@ -347,11 +411,14 @@ header {
         }
       }
     }
+
     td[rowspan="2"] {
       text-align: center;
       width: 60px;
     }
-    th,  td {
+
+    th,
+    td {
       padding: 5px;
       vertical-align: middle;
       border: 1px solid black;
