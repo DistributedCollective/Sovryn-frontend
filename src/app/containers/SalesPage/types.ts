@@ -16,6 +16,7 @@ export interface SalesPageState {
   codeError: Nullable<string>;
   requestAccessLoading: boolean;
   requestAccessError: Nullable<string>;
+  showTokenTutorial: boolean;
 }
 
 export type ContainerState = SalesPageState;

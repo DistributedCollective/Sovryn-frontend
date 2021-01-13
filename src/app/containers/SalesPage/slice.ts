@@ -20,6 +20,7 @@ export const initialState: ContainerState = {
   codeError: null,
   requestAccessLoading: false,
   requestAccessError: null,
+  showTokenTutorial: false,
 };
 
 const SalesSlice = createSlice({
@@ -102,6 +103,9 @@ const SalesSlice = createSlice({
     },
     updateTransferTx(state, { payload }: PayloadAction<Nullable<BtcDeposit>>) {
       state.btcDeposit = payload;
+    },
+    showTokenTutorial(state, { payload }: PayloadAction<boolean>) {
+      state.showTokenTutorial = payload;
     },
   },
 });

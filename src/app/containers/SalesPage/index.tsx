@@ -38,6 +38,7 @@ import {
 import { selectSalesPage } from './selectors';
 import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
+import { AddSoToNifty } from './AddSoToNifty';
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
@@ -115,6 +116,7 @@ export function SalesPage() {
           <SalesButton text="Read Whitepaper" onClick={() => {}} />
         </div>
       </main>
+      <AddSoToNifty />
     </div>
   );
 }
