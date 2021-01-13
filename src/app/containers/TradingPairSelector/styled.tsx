@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { media } from '../../../styles/media';
 
 export const StyledAssetLogo = styled.img.attrs(attrs => ({

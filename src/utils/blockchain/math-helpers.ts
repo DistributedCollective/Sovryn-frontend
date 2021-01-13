@@ -65,3 +65,7 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
 
   return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
 };
+
+export const trimZero = (amount: string) => {
+  return amount.replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1');
+};

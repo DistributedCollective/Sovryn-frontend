@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="650.666" height="545.555" viewBox="0 0 650.666 545.555">
+  <g id="SOV_ALL" data-name="SOV ALL" transform="translate(-635.003 -1770)">
+    <text id="Total_Supply_100_000_000_SOV" data-name="Total Supply
+100,000,000
+SOV" transform="translate(960 2026)" fill="#ededed" font-size="26" font-family="Helvetica-Light, Helvetica" font-weight="300" letter-spacing="-0.006em"><tspan x="-69.983" y="0">Total Supply</tspan><tspan x="-71.539" y="31">100,000,000</tspan><tspan x="-25.852" y="62">SOV</tspan></text>
+    <text id="CALLS" transform="translate(658 2021)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">25.0%</tspan></text>
+    <text id="CALLS-2" data-name="CALLS" transform="translate(1210 1792)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">10.0%</tspan></text>
+    <text id="CALLS-3" data-name="CALLS" transform="translate(658 2300)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">38.1%</tspan></text>
+    <text id="CALLS-4" data-name="CALLS" transform="translate(1220 2202)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">5.0%</tspan></text>
+    <text id="CALLS-5" data-name="CALLS" transform="translate(658 1792)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">16.9%</tspan></text>
+    <text id="CALLS-6" data-name="CALLS" transform="translate(1220 1997)" fill="#fff" font-size="21" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">5.0%</tspan></text>
+  </g>
+  <g id="Group_4083" data-name="Group 4083" transform="translate(-1083.098 4429.558) rotate(-115)">
+    <g id="Group_4083-2" data-name="Group 4083" transform="matrix(0.966, 0.259, -0.259, 0.966, 16806.568, 18514.502)">
+      <path id="Intersection_16" data-name="Intersection 16" d="M-20635.512-14146.276V-14305.6a159.424,159.424,0,0,1,138.205,79.778,158.765,158.765,0,0,1,21.4,79.549Z" transform="translate(3459 2732.641)" fill="#bababa" stroke="#e0e0e0" stroke-width="2"/>
+      <path id="Intersection_17" data-name="Intersection 17" d="M-20649.512-14252.634h149.939a149.437,149.437,0,0,1-74.771,130.006q-1.72.995-3.457,1.937Z" transform="translate(3473 2839)" fill="#868686" stroke="#e0e0e0" stroke-width="2"/>
+      <path id="Intersection_18" data-name="Intersection 18" d="M-20680.523-14127.386l17.012-139.124,66.855,123.6a138.779,138.779,0,0,1-65.971,16.675A139.716,139.716,0,0,1-20680.523-14127.386Z" transform="translate(3487 2852)" fill="#656565" stroke="#e0e0e0" stroke-width="2"/>
+      <path id="Intersection_19" data-name="Intersection 19" d="M-20732.625-14162.737l55.117-117.771-15.764,129.5A130.192,130.192,0,0,1-20732.625-14162.737Z" transform="translate(3501 2867)" fill="#414141" stroke="#e0e0e0" stroke-width="2"/>
+      <path id="Intersection_20" data-name="Intersection 20" d="M-20772.736-14206.734l81.229-87.775-51.1,108.783A118.974,118.974,0,0,1-20772.736-14206.734Z" transform="translate(3515 2881)" fill="#222" stroke="#e0e0e0" stroke-width="2"/>
+      <path id="Intersection_15" data-name="Intersection 15" d="M-20751.746-14068.262a169.5,169.5,0,0,1,62.041-231.537,168.77,168.77,0,0,1,85.016-22.738v169.668l-114.838,124.832A169.419,169.419,0,0,1-20751.746-14068.262Z" transform="translate(3428.178 2739.234)" fill="#eaeaea" stroke="#e0e0e0" stroke-width="2" opacity="0.999"/>
+    </g>
+    <g id="Ellipse_408" data-name="Ellipse 408" transform="translate(3052.079 3011.567) rotate(-30)" fill="#141414" stroke="#ededed" stroke-width="2">
+      <circle cx="90" cy="90" r="90" stroke="none"/>
+      <circle cx="90" cy="90" r="89" fill="none"/>
+    </g>
+  </g>
+  <path id="Path_2960" data-name="Path 2960" d="M-16064.849-12605.97h380.7l8.771,85.084" transform="translate(16065.997 12643)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <path id="Path_2963" data-name="Path 2963" d="M-15824.179-12605.969h-90.622l-83.208,179.346" transform="translate(16474.345 12643.195)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <path id="Path_2961" data-name="Path 2961" d="M-16043.5-12586.43h135.407l54.152-80.515" transform="translate(16043.997 12852.461)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <path id="Path_2962" data-name="Path 2962" d="M-16042.829-12561.484h265.933l45.862-93.178" transform="translate(16043.524 13106.539)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <path id="Path_2964" data-name="Path 2964" d="M-15868.758-12552.5h-90.066l-94.754-121.388" transform="translate(16518.356 12999.559)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <path id="Path_2965" data-name="Path 2965" d="M-15944.973-12586.43h-89.863l-85.462,44.161" transform="translate(16594.681 12827.93)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <text id="Total_Supply_100_000_000_SOV-2" data-name="Total Supply
+100,000,000
+SOV" transform="translate(334.997 247)" fill="#ededed" font-size="25" font-family="Helvetica-Light, Helvetica" font-weight="300" letter-spacing="-0.006em"><tspan x="-67.291" y="0">Total Supply</tspan><tspan x="-68.787" y="30">100,000,000</tspan><tspan x="-24.858" y="60">SOV</tspan></text>
+</svg>

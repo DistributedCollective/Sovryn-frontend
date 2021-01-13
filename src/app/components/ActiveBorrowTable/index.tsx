@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { actions } from 'app/containers/LendBorrowSovryn/slice';

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 

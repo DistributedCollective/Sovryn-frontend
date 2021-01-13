@@ -359,7 +359,7 @@ export class SovrynNetwork {
   protected async sendAddressToDatabase(walletAddress) {
     console.log('address is ', walletAddress);
     await axios
-      .post(process.env.REACT_APP_MAIL_SRV + 'addVisit', {
+      .post(process.env.REACT_APP_MAIL_SRV + '/addVisit', {
         walletAddress: walletAddress,
       })
       .then(() => {

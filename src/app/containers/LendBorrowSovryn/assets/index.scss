@@ -17,6 +17,7 @@
 
   &:hover,
   &:active {
+
     color: #fec006;
     text-decoration: none;
   }
@@ -59,7 +60,7 @@
   width: 100%;
   height: 100vh;
   overflow: auto;
-  background-image: url("img/bg@3x.png");
+  background-image: url('img/bg@3x.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 0 250%;
@@ -110,7 +111,6 @@
     font-size: 30px;
     font-weight: 300;
   }
-
 }
 
 .icon-btn {
@@ -119,10 +119,9 @@
   &:hover,
   &:active,
   &:focus {
-
     //background: rgba(236, 236, 236, 0.23) !important;
-    & .bp3-icon>svg:not([fill]) {
-      fill: #fec006
+    & .bp3-icon > svg:not([fill]) {
+      fill: #fec006;
     }
   }
 }
@@ -132,7 +131,6 @@
 }
 
 .tabs__green {
-
   .nav-tabs,
   .nav-tabs .nav-item.show .nav-link {
     color: #88c6a3 !important;
@@ -180,7 +178,6 @@
   &:active,
   &:focus {
     background: #171717 !important;
-
   }
 }
 
@@ -203,7 +200,6 @@
     background: #656565;
     border: 1px solid #656565;
   }
-
 }
 
 .withdraw-content {
@@ -218,7 +214,7 @@
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
   background: none;
 }
 
@@ -227,7 +223,7 @@
 }
 
 .nav-pills a {
-  color: #fff
+  color: #fff;
 }
 
 .lending-history-container {
@@ -281,11 +277,10 @@
         font-weight: 300;
         text-transform: uppercase;
         font-size: 12px;
-        color: #979797
+        color: #979797;
       }
     }
   }
-
 }
 
 .lending-history {

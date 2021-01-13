@@ -79,7 +79,6 @@
 
 .sovryn-tabs .custom-stats-tab {
   border: none !important;
-
   &.charts-active {
     color: var(--gold);
   }
@@ -100,7 +99,8 @@
   font-size: 14px;
 
   &.sovryn-table-mobile {
-    @media(max-width: 335px) {
+    font-size: 12px;
+    @media (max-width: 335px) {
       font-size: 11px;
     }
   }
@@ -108,7 +108,6 @@
   .table-header div {
     @include table-header;
   }
-
   thead tr,
   .table-header:not(.sub-header) {
     height: 40px;
@@ -118,7 +117,6 @@
       @include table-header;
     }
   }
-
   tbody {
     tr {
       &:nth-child(odd) {
@@ -150,7 +148,6 @@
       color: var(--light-gray);
     }
 
-    // border-top: 1px solid var(--white);
     &:first-of-type {
       border-top: none;
     }
@@ -190,6 +187,10 @@ input {
   font-size: 19px;
 }
 
+.font-size-xl {
+  font-size: 38px;
+}
+
 .font-family-work-sans {
   font-family: var(--secondary-font);
 }
@@ -197,7 +198,6 @@ input {
 .font-family-rowdies {
   font-family: var(--primary-font);
 }
-
 
 .bp3-dialog {
   @extend .sovryn-border;
@@ -255,7 +255,6 @@ input {
       }
     }
   }
-
 }
 
 .bp3-toast {
