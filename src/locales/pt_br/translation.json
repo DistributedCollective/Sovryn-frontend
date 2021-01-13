@@ -55,7 +55,7 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações concluídas."
+    "noClosedTrades": "Você não tem operações concluídas.",
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
