@@ -22,6 +22,7 @@ import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -54,19 +55,6 @@ export function TopUpTradingPositionHandler(props: Props) {
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
   const { t } = useTranslation();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const { sufficient, liquidity } = useCheckLiquidity(
-  //   weiAmount,
-  //   props.leverage,
-  //   props.position,
-  // );
-
-  // if maxAmount is 0 = unlimited
-  // const { value: maxAmount } = useLending_transactionLimit(
-  //   tokenDetails.asset,
-  //   tokenDetails.asset,
-  // );
-
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="container position-relative">
@@ -85,7 +73,9 @@ export function TopUpTradingPositionHandler(props: Props) {
               <AmountField
                 value={amount || ''}
                 onChange={value => setAmount(value)}
-                onMaxClicked={() => setAmount(weiTo18(balance))}
+                onMaxClicked={() =>
+                  setAmount(weiTo18(maxMinusFee(balance, tokenDetails.asset)))
+                }
               />
             </FieldGroup>
           </div>

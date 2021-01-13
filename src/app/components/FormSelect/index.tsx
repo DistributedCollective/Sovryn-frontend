@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import { Icon, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 

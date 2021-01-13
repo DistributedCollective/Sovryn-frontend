@@ -14,6 +14,7 @@ interface Props {
   endLength: number;
   className: string;
   realBtc?: boolean;
+  text?: string;
 }
 
 export function LinkToExplorer(props: Props) {
@@ -53,7 +54,7 @@ export function LinkToExplorer(props: Props) {
       target="_blank"
       rel="noreferrer noopener"
     >
-      {txHash}
+      {props.text ? props.text : txHash}
     </a>
   );
 }

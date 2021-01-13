@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse, Table } from 'react-bootstrap';
 import { EventData } from 'web3-eth-contract';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Tooltip } from '@blueprintjs/core';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +10,6 @@ import { useIsConnected } from '../../../../hooks/useAccount';
 import { getLendingContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
-import { prettyTx } from '../../../../../utils/helpers';
 
 import '../../assets/index.scss';
 import clsx from 'clsx';
@@ -20,6 +17,7 @@ import { ComponentSkeleton } from 'app/components/PageSkeleton';
 import { selectLendBorrowSovryn } from '../../selectors';
 import { translations } from 'locales/i18n';
 import { DisplayDate } from '../../../../components/ActiveUserLoanContainer/components/DisplayDate';
+import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 
 type Props = {};
 
@@ -68,12 +66,6 @@ const LendingHistory: React.FC<Props> = props => {
     return () => clearTimeout(time);
   }, [copied]);
 
-  const onCopied = (text: string) => {
-    if (text.length) {
-      setCopied(text);
-    }
-  };
-
   const loading = loadingBurn || loadingMint;
 
   return (
@@ -98,10 +90,10 @@ const LendingHistory: React.FC<Props> = props => {
                   <Table responsive="sm">
                     <thead>
                       <tr className="cell">
-                        <th>Lend amount</th>
-                        <th>Date &amp; time</th>
-                        <th>Price</th>
-                        <th>Transaction</th>
+                        <th>{t(translations.lend.history.amount)}</th>
+                        <th>{t(translations.lend.history.date)}</th>
+                        <th>{t(translations.lend.history.price)}</th>
+                        <th>{t(translations.lend.history.transaction)}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -128,16 +120,9 @@ const LendingHistory: React.FC<Props> = props => {
                             />
                           </td>
                           <td>${weiToFixed(event.returnValues.price, 5)}</td>
-                          <CopyToClipboard
-                            text={event.transactionHash}
-                            onCopy={() => onCopied(event.transactionHash)}
-                          >
-                            <td>
-                              <Tooltip content={<> {event.transactionHash}</>}>
-                                {prettyTx(event.transactionHash)}
-                              </Tooltip>
-                            </td>
-                          </CopyToClipboard>
+                          <td>
+                            <LinkToExplorer txHash={event.transactionHash} />
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -145,17 +130,14 @@ const LendingHistory: React.FC<Props> = props => {
                 </div>
               )}
               {events.length === 0 && !loading && (
-                <div className="empty-history">History is empty.</div>
+                <div className="empty-history">
+                  {t(translations.lend.history.emptyState)}
+                </div>
               )}
             </>
           )}
         </div>
       </Collapse>
-      {copied && (
-        <div className="alert-position alert alert-success">
-          Copied: {copied.slice(0, 14)}...
-        </div>
-      )}
     </div>
   );
 };

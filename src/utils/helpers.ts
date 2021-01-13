@@ -1,4 +1,8 @@
 import { utils } from '@rsksmart/rsk3';
+import { bignumber } from 'mathjs';
+import { currentChainId } from './classifiers';
+import { gas } from './blockchain/gas-price';
+import { Asset } from '../types/asset';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -51,7 +55,35 @@ export const handleNumber = (value, onlyPositive = true) => {
 };
 
 export const toChecksumAddress = (address: string) => {
-  return !!address ? utils.toChecksumAddress(address) : '';
+  try {
+    return !!address ? utils.toChecksumAddress(address) : '';
+  } catch (e) {
+    return address;
+  }
+};
+
+export const checkAddressChecksum = (address: string) => {
+  try {
+    return utils.checkAddressChecksum(address, currentChainId);
+  } catch (e) {
+    console.warn(e);
+    return false;
+  }
+};
+
+export const isAddress = (address: string) => {
+  try {
+    return utils.isAddress((address || '').toLowerCase(), currentChainId);
+  } catch (e) {
+    console.warn(e);
+    return false;
+  }
+};
+
+export const validateEmail = (email: string) => {
+  // eslint-disable-next-line no-useless-escape
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 };
 
 export const toChunks = (from: number, to: number, size: number) => {
@@ -72,4 +104,16 @@ export const toChunks = (from: number, to: number, size: number) => {
     array.push([end, end + reminder]);
   }
   return array;
+};
+
+export const maxMinusFee = (amount: any, asset: Asset = Asset.BTC) => {
+  if (asset !== Asset.BTC) return amount;
+  const gasPrice = gas.get();
+  const gasLimit = 2000000;
+  const fee = bignumber(gasPrice).mul(gasLimit);
+  const balance = bignumber(amount).sub(fee);
+  if (balance.lessThanOrEqualTo(0)) {
+    return '0';
+  }
+  return balance.toFixed(0);
 };

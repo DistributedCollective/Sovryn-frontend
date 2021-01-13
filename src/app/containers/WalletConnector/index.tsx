@@ -9,7 +9,7 @@ import {
   Popover,
   Spinner,
 } from '@blueprintjs/core';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { actions } from 'app/containers/TutorialDialogModal/slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { prettyTx } from 'utils/helpers';

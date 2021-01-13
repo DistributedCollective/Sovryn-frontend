@@ -1,4 +1,5 @@
 export enum Asset {
+  CSOV = 'CSOV',
   BTC = 'BTC',
   DOC = 'DOC',
   USDT = 'USDT',

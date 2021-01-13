@@ -139,6 +139,24 @@ class ContractWriter {
         .catch(e => reject(e));
     });
   }
+
+  public async estimateGas(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    options: TransactionConfig = {},
+  ): Promise<string | RevertInstructionError> {
+    if (!options.gasPrice) {
+      options.gasPrice = gas.get();
+    }
+    return new Promise<string | RevertInstructionError>((resolve, reject) => {
+      return this.sovryn.writeContracts[contractName].methods[methodName](
+        ...args,
+      )
+        .estimateGas(options)
+        .then(value => resolve(value));
+    });
+  }
 }
 
 export const contractWriter = new ContractWriter();

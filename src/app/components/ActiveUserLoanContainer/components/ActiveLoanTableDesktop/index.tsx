@@ -11,6 +11,8 @@ import {
   faLongArrowAltUp,
   faLongArrowAltDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 interface Props {
   data: any;
@@ -58,6 +60,7 @@ const useSortableData = (
 };
 
 export function ActiveLoanTableDesktop(props: Props) {
+  const { t } = useTranslation();
   const { items, requestSort, sortConfig } = useSortableData(props.data);
   function getIcons(name) {
     if (sortConfig.key !== name) {
@@ -76,19 +79,24 @@ export function ActiveLoanTableDesktop(props: Props) {
           <tr style={{ cursor: 'pointer' }}>
             <th onClick={() => requestSort('icon')}>{getIcons('icon')}</th>
             <th onClick={() => requestSort('positionInUSD')}>
-              Position Size {getIcons('positionInUSD')}
+              {t(translations.activeLoan.table.positionSize)}
+              {getIcons('positionInUSD')}
             </th>
             <th onClick={() => requestSort('currentMargin')}>
-              Current Margin {getIcons('currentMargin')}
+              {t(translations.activeLoan.table.currentMargin)}
+              {getIcons('currentMargin')}
             </th>
             <th onClick={() => requestSort('interestAPR')}>
-              Interest APR {getIcons('interestAPR')}
+              {t(translations.activeLoan.table.interestApr)}
+              {getIcons('interestAPR')}
             </th>
             <th onClick={() => requestSort('startMargin')}>
-              Start Price {getIcons('startMargin')}
+              {t(translations.activeLoan.table.startPrice)}
+              {getIcons('startMargin')}
             </th>
             <th onClick={() => requestSort('profit')}>
-              Profit / Loss {getIcons('profit')}
+              {t(translations.activeLoan.table.profit)}
+              {getIcons('profit')}
             </th>
             <th style={{ cursor: 'initial' }} />
           </tr>

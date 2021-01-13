@@ -1,7 +1,18 @@
-import { weiToFixed, weiTo18 } from '../blockchain/math-helpers';
+import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
+}
+
+export function weiToNumberFormat(value: any, decimals: number = 0) {
+  return toNumberFormat(Number(fromWei(value || '0')), decimals);
+}
+
+export function toNumberFormat(value: number, decimals: number = 0) {
+  return value.toLocaleString('en-US', {
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function numberToUSD(value: number, decimals: number) {

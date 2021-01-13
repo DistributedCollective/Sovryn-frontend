@@ -97,7 +97,7 @@
 }
 
 .sovryn-tabs .custom-stats-tab {
-  border: none!important;
+  border: none !important;
   &.charts-active {
     color: var(--gold);
   }
@@ -118,21 +118,23 @@
   width: 100%;
   &.sovryn-table-mobile {
     font-size: 12px;
-    @media(max-width: 335px) {
+    @media (max-width: 335px) {
       font-size: 11px;
     }
   }
   .table-header div {
     @include table-header;
   }
-  thead tr, .table-header:not(.sub-header) {
+  thead tr,
+  .table-header:not(.sub-header) {
     height: 40px;
     border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
   }
-  tbody tr, div.mobile-row {
+  tbody tr,
+  div.mobile-row {
     height: 60px;
     border-top: 1px solid var(--white);
     &:first-of-type {
@@ -165,7 +167,12 @@ input {
   font-weight: 400;
 }
 
-.font-size-lg { font-size: 19px; }
+.font-size-lg {
+  font-size: 19px;
+}
+.font-size-xl {
+  font-size: 38px;
+}
 
 .font-family-work-sans {
   font-family: var(--secondary-font);
@@ -174,7 +181,6 @@ input {
 .font-family-rowdies {
   font-family: var(--primary-font);
 }
-
 
 .bp3-dialog {
   @extend .sovryn-border;
@@ -203,7 +209,8 @@ input {
     }
   }
 
-  &, &.bp3-tooltip {
+  &,
+  &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
       @extend .bg-primary;
@@ -229,7 +236,6 @@ input {
       }
     }
   }
-
 }
 
 .bp3-toast {
@@ -240,12 +246,12 @@ input {
 .bp3-drawer {
   background-color: var(--primary);
   color: var(--white);
-  width: 100%!important;
+  width: 100% !important;
   border-right: 5px solid var(--white);
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   @include media-breakpoint-up(md) {
-    width: 360px!important;
+    width: 360px !important;
   }
 }
 
@@ -253,7 +259,6 @@ input {
   @extend .sovryn-border;
   @extend .font-family-work-sans;
 }
-
 
 header {
   .hamburger {

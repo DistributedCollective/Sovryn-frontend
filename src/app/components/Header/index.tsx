@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { Container } from 'react-bootstrap';
 import WalletConnector from '../../containers/WalletConnector';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';

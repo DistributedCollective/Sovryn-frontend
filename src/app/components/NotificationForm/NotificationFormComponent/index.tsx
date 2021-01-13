@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { media } from '../../../../styles/media';

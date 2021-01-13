@@ -55,7 +55,14 @@
   "tradingHistoryPage": {
     "title": "Trading History",
     "auth": "Please connect and authorize your wallet.",
-    "noClosedTrades": "You do not have any closed trades."
+    "noClosedTrades": "You do not have any closed trades.",
+    "table": {
+      "positionSize": "Position Size",
+      "leverage": "Leverage",
+      "openPrice": "Open Price",
+      "closePrice": "Close Price",
+      "profit": "Profit"
+    }
   },
   "fastBtcPage": {
     "meta": {
@@ -156,7 +163,10 @@
     },
     "table": {
       "positionSize": "Position Size",
-      "profit": "Profit",
+      "profit": "Profit / Loss",
+      "currentMargin": "Current Margin",
+      "interestApr": "Interest APR",
+      "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
         "close": "Close"
@@ -226,7 +236,12 @@
   },
   "lend": {
     "history": {
-      "title": "Lending history"
+      "title": "Lending history",
+      "amount": "Lend Amount",
+      "date": "Date & time",
+      "price": "Price",
+      "transaction": "Transaction",
+      "emptyState": "History is empty."
     },
     "currency": {
       "lend": "Lend",
@@ -338,6 +353,59 @@
       }
     }
   },
+  "SOVConnectTutorial": {
+    "browser_wallet": "Browser Wallet",
+    "mobile_wallet": "Mobile Wallet",
+    "hardware_wallet": "Hardware Wallet",
+    "speech": {
+      "1": "Open up your browser wallet",
+      "2": "Go to network dropdown",
+      "3": "Select custom RPC",
+      "4": "Input network details",
+      "5": "Click Save",
+      "6": "Click Add Network",
+      "7": "Engage Your Wallet!"
+    },
+    "mobileSpeech": {
+      "1": "Go to Wallet Menu",
+      "2": "Select Settings",
+      "3": "Select Networks",
+      "4": "Click Add Network",
+      "5": "Input Network Settings",
+      "6": "Click Add",
+      "7": "Scan QR Code to Connect!"
+    },
+    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
+    "input_settings": {
+      "title": "SOV TOKEN SETTINGS",
+      "token_address": "Token Contract Address",
+      "symbol": "Symbol",
+      "decimals": "Decimals"
+    },
+    "step": "Step",
+    "screens": {
+      "1": {
+        "title": "Connect Your Wallet",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "11": {
+        "title": "Connect to the RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "2": {
+        "title": "How to Connect to RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "3": {
+        "title": "Scan QR Code",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "4": {
+        "title": "How to connect SOV to your Metamask wallet",
+        "banner": "For any assistance, reach out to the community"
+      }
+    }
+  },
   "mobileNotReady": {
     "submit": "Submit",
     "p1": "The Sovryn user experience is not yet optimized for mobile.",
@@ -405,6 +473,12 @@
     "meta": {
       "title": "My Wallet",
       "description": "Information about connected wallet"
+    }
+  },
+  "salesPage": {
+    "meta": {
+      "title": "Presale",
+      "description": "SOV Presale Page"
     }
   },
   "userAssets": {

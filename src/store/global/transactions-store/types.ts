@@ -25,6 +25,7 @@ export enum TxType {
   DEPOSIT_COLLATERAL = 'deposit_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
   OTHER = 'other',
+  SALE_BUY_SOV = 'sale_buy_sov',
 }
 
 export enum TxStatus {
