@@ -15,7 +15,7 @@ import { selectSalesPage } from '../SalesPage/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { useBalance } from 'app/hooks/useBalance';
 import { useSaleCalculator } from '../SalesPage/hooks/useSaleCalculator';
-import { handleNumber } from '../../../utils/helpers';
+import { handleNumber, prettyTx } from '../../../utils/helpers';
 import { LoadableValue } from '../../components/LoadableValue';
 import {
   numberToUSD,
@@ -86,7 +86,7 @@ const Wrapper = styled.div`
     margin: 10px 0 20px 0;
   }
   .content {
-    padding: 20px 54px;
+    padding: 20px;
     font-size: 14px;
     color: #d9d9d9;
     .time {
@@ -94,29 +94,22 @@ const Wrapper = styled.div`
       margin-bottom: 20px;
     }
     .amount {
-      padding: 0 45px 0 50px;
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 3px;
     }
     .amount-usd {
-      padding: 0 45px 0 50px;
-      font-size: 14px;
+      font-size: 16px;
       margin-bottom: 24px;
     }
     .fee {
-      text-align: right;
-      padding-right: 30px;
-      font-size: 12px;
-      font-weight: 100;
+      font-size: 16px;
       margin-bottom: 50px;
     }
     .address,
     .hash {
-      font-weight: 100;
       span {
         width: 40px;
-        font-weight: 300;
         margin-right: 10px;
       }
     }
@@ -188,26 +181,31 @@ function TransactionDetail(props: DetailsProps) {
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
               <p className="text-center font-italic time font-weight-light">
-                {props.tx.status}
+                {props.tx.status === 'pending' && (
+                  <>Processing approx. 2 minutes</>
+                )}
+                {props.tx.status === 'confirmed' && (
+                  <>SOV is in your wallet now!</>
+                )}
+                {props.tx.status === 'failed' && <>Transaction failed!</>}
               </p>
-              <p className="text-left amount">
-                {weiToNumberFormat(toWei(props.btcAmount), 8)} (r)BTC
-              </p>
-              <p className="text-left amount-usd ffont-weight-light">
-                ≈ {numberToUSD(props.usdAmount, 2)}
-              </p>
-              <p className="fee">
-                Transaction Fee: {weiToNumberFormat(props.estimatedFee, 8)}{' '}
-                (r)BTC
-                <br />≈ 5.00 USD
-              </p>
-              {/* <p className="address">
-                <span>To:</span>
-                {prettyTx(address, 6, 4)}
-              </p> */}
+              <div className="mx-auto w-75">
+                <p className="amount">
+                  <strong>
+                    {weiToNumberFormat(toWei(props.btcAmount), 5)} (r)BTC
+                  </strong>
+                </p>
+                <p className="amount-usd font-weight-light">
+                  ≈ {numberToUSD(props.usdAmount, 2)}
+                </p>
+                <p className="fee">
+                  <strong>Fee:</strong>{' '}
+                  {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC
+                </p>
+              </div>
               <p className="hash">
                 <span>Hash:</span>
-                {props.tx.txHash}
+                {prettyTx(props.tx.txHash)}
               </p>
               <LinkToExplorer
                 txHash={props.tx.txHash}

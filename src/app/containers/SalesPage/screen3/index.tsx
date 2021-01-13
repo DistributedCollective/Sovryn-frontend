@@ -9,7 +9,7 @@ import BackButton from '../BackButton';
 import { selectSalesPage } from '../selectors';
 import Screen5 from '../screen5';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { contractReader } from '../../../../utils/sovryn/contract-reader';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -66,16 +66,15 @@ export default function Screen3(props: Props) {
     };
   }, [dispatch]);
 
-  const { value: maxPurchase } = useCacheCallWithValue(
-    'CrowdSale',
-    'getMaxPurchase',
-    '0',
-    address,
-  );
-
   useEffect(() => {
-    dispatch(actions.updateMaxDeposit(maxPurchase));
-  }, [maxPurchase, dispatch]);
+    if (codeTx) {
+      const getLimit = async () =>
+        await contractReader.call('CrowdSale', 'getMaxPurchase', [address]);
+      getLimit().then(limit =>
+        dispatch(actions.updateMaxDeposit(limit as any)),
+      );
+    }
+  }, [address, codeTx, dispatch]);
 
   if (codeTx) {
     return (
