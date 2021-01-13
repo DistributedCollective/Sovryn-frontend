@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/macro';
-import { Button, Classes, Overlay } from '@blueprintjs/core';
+import styled, { css } from 'styled-components/macro';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Classes, Icon, Overlay, Text } from '@blueprintjs/core';
 import { selectSalesPage } from '../selectors';
 import { actions } from '../slice';
 import { media } from 'styles/media';
@@ -13,6 +14,9 @@ import step4 from 'assets/images/genesis/tut_04.svg';
 import step5 from 'assets/images/genesis/tut_05.svg';
 import step6 from 'assets/images/genesis/tut_06.svg';
 import closeIcon from 'assets/images/genesis/close-24px.svg';
+import { getTokenContract } from '../../../../utils/blockchain/contract-helpers';
+import { Asset } from '../../../../types/asset';
+import { prettyTx } from '../../../../utils/helpers';
 
 interface IStep {
   title: string;
@@ -62,7 +66,7 @@ export function AddSoToNifty() {
             <Close onClick={() => dispatch(actions.showTokenTutorial(false))} />
             <Title>How to connect SOV to your Nifty wallet</Title>
             <div className="d-flex flex-row justify-content-between align-items-center">
-              <div>
+              <LeftBlock>
                 <p className="text-center mb-3">{steps[step].title}</p>
                 <div className="bg-white rounded p-4 text-center">
                   <img
@@ -71,26 +75,87 @@ export function AddSoToNifty() {
                     className="mx-auto"
                   />
                 </div>
-                <div className="d-flex flex-row justify-content-between align-items-center">
-                  <Button onClick={handleBack} minimal icon="caret-left" />
-                  {steps.map((_, i) => (
-                    <Button
-                      onClick={() => setStep(i)}
-                      minimal
-                      icon="circle"
-                      active={i === step}
+                <div className="d-flex flex-row justify-content-center align-items-center mt-3">
+                  <NavBtn onClick={handleBack}>
+                    <Icon
+                      icon="caret-left"
+                      iconSize={24}
+                      className="text-white"
                     />
+                  </NavBtn>
+                  {steps.map((_, i) => (
+                    <NavRound onClick={() => setStep(i)} active={i === step} />
                   ))}
-                  <Button onClick={handleNext} minimal icon="caret-right" />
+                  <NavBtn onClick={handleNext}>
+                    <Icon
+                      icon="caret-right"
+                      iconSize={24}
+                      className="text-white"
+                    />
+                  </NavBtn>
                 </div>
-              </div>
-              <div>
-                <div>SOV TOKEN SETTINGS</div>
-                <div>
-                  <div>Token Contract Address:</div>
-                  <div></div>
+              </LeftBlock>
+              <RightBlock>
+                <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
+                <Wrapper>
+                  <div className="row mb-3">
+                    <Text
+                      className="col-6 font-weight-bold"
+                      ellipsize
+                      tagName="div"
+                    >
+                      Contract Address:
+                    </Text>
+                    <div className="col-6">
+                      <CopyToClipboard
+                        text={getTokenContract(Asset.CSOV).address}
+                      >
+                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                          <Text ellipsize tagName="div">
+                            {prettyTx(getTokenContract(Asset.CSOV).address)}
+                          </Text>
+                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                            <Icon icon="duplicate" intent="warning" />
+                          </div>
+                        </div>
+                      </CopyToClipboard>
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <div className="col-6 font-weight-bold">Symbol:</div>
+                    <div className="col-6">
+                      <CopyToClipboard text="SOV">
+                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                          <div>SOV</div>
+                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                            <Icon icon="duplicate" intent="warning" />
+                          </div>
+                        </div>
+                      </CopyToClipboard>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-6 font-weight-bold">Decimals:</div>
+                    <div className="col-6">
+                      <CopyToClipboard text={18}>
+                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                          <div>18</div>
+                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                            <Icon icon="duplicate" intent="warning" />
+                          </div>
+                        </div>
+                      </CopyToClipboard>
+                    </div>
+                  </div>
+                </Wrapper>
+                <div className="w-full d-flex flex-row justify-content-center align-items-center">
+                  <CloseButton
+                    onClick={() => dispatch(actions.showTokenTutorial(false))}
+                  >
+                    Close
+                  </CloseButton>
                 </div>
-              </div>
+              </RightBlock>
             </div>
           </div>
         </StyledDialog>
@@ -98,6 +163,13 @@ export function AddSoToNifty() {
     </Overlay>
   );
 }
+
+const Wrapper = styled.div`
+  padding: 27px 5px;
+  border-top: 3px solid white;
+  border-bottom: 2px solid white;
+  margin: 17px 0;
+`;
 
 const StyledDialog = styled.div.attrs(_ => ({
   className: 'bp3-dialog',
@@ -138,10 +210,81 @@ const Close = styled.button.attrs(_ => ({
   padding: 0;
 `;
 
+const CloseButton = styled.button.attrs(_ => ({
+  type: 'button',
+}))`
+  background: none;
+  border: 1px solid var(--Gold);
+  color: var(--Gold);
+  border-radius: 10px;
+  padding: 14px 70px;
+  margin: 50px auto 0;
+  opacity: 0.2;
+  transition: opacity 0.5s;
+  will-change: opacity;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 const Title = styled.div`
   font-size: 28px;
   font-weight: 500;
   text-align: center;
   margin-bottom: 64px;
   margin-top: 40px;
+`;
+
+const SettingsTitle = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const LeftBlock = styled.div`
+  width: 100%;
+  max-width: 312px;
+  margin-right: 30px;
+`;
+
+const RightBlock = styled.div`
+  width: 100%;
+  ${media.lg`
+    width: 485px;
+  `}
+`;
+
+const NavRound = styled.button.attrs(_ => ({
+  type: 'button',
+  className: 'flex-grow-0 flex-shrink-0',
+}))`
+  border: none;
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #b1b1b1;
+  transition: background-color 0.5s;
+  will-change: background-color;
+  padding: 0;
+  &:hover {
+    background-color: #fff;
+  }
+  ${(props: { active?: boolean }) =>
+    props.active &&
+    css`
+      background-color: #ffff;
+    `}
+`;
+
+const NavBtn = styled.button.attrs(_ => ({
+  type: 'button',
+  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+}))`
+  border: none;
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: none;
 `;
