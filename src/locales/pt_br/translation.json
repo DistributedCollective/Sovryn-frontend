@@ -55,7 +55,14 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações concluídas."
+    "noClosedTrades": "Você não tem operações concluídas.",
+    "table": {
+      "positionSize": "Tamanho da posição",
+      "leverage": "Alavancagem",
+      "openPrice": "Preço de abertura",
+      "closePrice": "Preço de fechamento",
+      "profit": "Lucro"
+    }
   },
   "fastBtcPage": {
     "meta": {
@@ -114,7 +121,7 @@
   },
   "wallet": {
     "btn": "Conectar carteira",
-    "connect_btn": "Escolher carteira",
+    "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
     "my_wallet": "Minha carteira",
     "referrals": "Convide um amigo"
@@ -158,7 +165,10 @@
     },
     "table": {
       "positionSize": "Tamanho da posição",
-      "profit": "Lucro",
+      "profit": "Lucro / Perdas",
+      "currentMargin": "Margem atual",
+      "interestApr": "Juros anual",
+      "startPrice": "Preço inicial",
       "container": {
         "topUp": "Aumentar posição",
         "close": "Fechar posição"
@@ -228,7 +238,12 @@
   },
   "lend": {
     "history": {
-      "title": "Histórico"
+      "title": "Histórico",
+      "amount": "Valor do empréstimo",
+      "date": "Data & hora",
+      "price": "Preço",
+      "transaction": "Transação",
+      "emptyState": "Histórico vazio."
     },
     "currency": {
       "lend": "Emprestar",
