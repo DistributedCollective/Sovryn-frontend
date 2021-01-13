@@ -11,10 +11,12 @@ import sov_icon from '../../../assets/images/wallet/icon-sov.svg';
 export function SovGenerationNFTS() {
   return (
     <div className="sovryn-border p-3 mb-5 pb-5">
-      <p className="text-center">Sov Generation 01 NFT's</p>
+      <p className="text-center sov-title mb-5">SOV Generation 01 NFT's</p>
       <div className="d-md-flex align-items-center justify-content-center">
-        <div className="mr-md-3 mb-md-0 mb-sm-3 mb-3 position-relative">
-          <img className="w-100 h-100" src={sov_1} alt="" />
+        <div className="mr-md-5 mb-md-0 mb-sm-3 mb-3 position-relative">
+          <div className="image-bordered">
+            <img className="w-100 h-100 image-responsive" src={sov_1} alt="" />
+          </div>
           <div className="sov-table">
             <table className="table">
               <tbody>
@@ -27,12 +29,14 @@ export function SovGenerationNFTS() {
                   </td>
                 </tr>
                 <tr>
-                  <td>Purchase Limit: 0.03 BTC</td>
+                  <td>
+                    <b>Purchase Limit: 0.03 BTC</b>
+                  </td>
                 </tr>
                 <tr>
                   <td>Community Tier</td>
                   <td>
-                    <span>SOV-OG</span>
+                    <div>SOV-OG</div>
                   </td>
                 </tr>
               </tbody>
@@ -40,7 +44,9 @@ export function SovGenerationNFTS() {
           </div>
         </div>
         <div className="ml-md-3 position-relative">
-          <img className="w-100 h-100" src={sov_2} alt="" />
+          <div className="image-bordered">
+            <img className="w-100 h-100 image-responsive" src={sov_2} alt="" />
+          </div>
           <div className="sov-table">
             <table className="table">
               <tbody>
@@ -53,12 +59,14 @@ export function SovGenerationNFTS() {
                   </td>
                 </tr>
                 <tr>
-                  <td>Exclusive Access</td>
+                  <td>
+                    <b>Exclusive Access</b>
+                  </td>
                 </tr>
                 <tr>
                   <td>SOVRYN OG</td>
                   <td>
-                    <span>SOV-OG</span>
+                    <div>SOV-OG</div>
                   </td>
                 </tr>
               </tbody>

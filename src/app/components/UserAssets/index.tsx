@@ -107,7 +107,7 @@ function AssetRow({ item }: AssetProps) {
     <tr key={item.asset}>
       <td>
         <img
-          className="d-inline"
+          className="d-inline mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}

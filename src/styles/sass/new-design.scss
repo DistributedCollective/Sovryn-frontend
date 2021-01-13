@@ -1,23 +1,26 @@
+@import './custom-variables';
+
 .sovryn-border {
-  border-bottom: 5px;
-  border-right: 5px;
-  border-top: 1px;
-  border-left: 1px;
+  border: 1px;
   border-radius: 8px;
   border-style: solid;
-  border-color: $white;
+  border-color: var(--light-gray);
 }
+
 .sovryn-border-left {
   border-left: 1px solid $white;
 }
+
 .sovryn-border-top {
   border-top: 1px solid $white;
 }
+
 .sovryn-border-bottom {
-  border-bottom: 5px solid $white;
+  border-bottom: 1px solid $white;
 }
+
 .sovryn-border-right {
-  border-right: 5px solid $white;
+  border-right: 1px solid $white;
 }
 
 .sovryn-tabs {
@@ -38,6 +41,7 @@
   .nav-tabs {
     border-bottom: 0;
     flex-wrap: nowrap;
+
     & .nav-item {
       font-size: 15px;
       color: $text-muted;
@@ -61,6 +65,7 @@
         border-color: $white;
         border-bottom: 1px solid $dark;
       }
+
       &:not(.active) {
         flex: 1;
         max-width: fit-content;
@@ -70,30 +75,6 @@
       }
     }
   }
-
-  //.nav-tabs, .nav-tabs .nav-item.show .nav-link {
-  //  color: #f89b2b;
-  //  background: none !important;
-  //
-  //  &:hover, &:active, &:focus {
-  //    color: #495057;
-  //    background: none !important;
-  //  }
-  //}
-  //
-  //.nav-item:hover, .nav-item:active {
-  //  color: #f89b2b;
-  //}
-  //
-  //.nav-link.active {
-  //  color: #f89b2b;
-  //  background: none !important;
-  //  border-color: #dee2e6 #dee2e6 #dee2e6;
-  //}
-  //
-  //&:hover, &:active, &:focus {
-  //  background: none !important;
-  //}
 }
 
 .sovryn-tabs .custom-stats-tab {
@@ -107,53 +88,88 @@
   font-family: inherit;
   font-weight: inherit;
   color: var(--light-gray);
-  font-size: 12px;
-  letter-spacing: 0.07px;
-  text-transform: uppercase;
+  font-size: 16px;
+  padding: 0 15px;
 }
 
 .sovryn-table {
-  font-family: var(--secondary-font);
-  font-weight: 400;
+  font-family: $font-family-montserrat;
+  font-weight: 100;
   width: 100%;
+  font-size: 14px;
+
   &.sovryn-table-mobile {
     font-size: 12px;
     @media (max-width: 335px) {
       font-size: 11px;
     }
   }
+
   .table-header div {
     @include table-header;
   }
   thead tr,
   .table-header:not(.sub-header) {
     height: 40px;
-    border-bottom: 1px solid var(--light-gray);
+
+    // border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
   }
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        td {
+          background-color: #282828;
+
+          &:first-child {
+            border-radius: 6px 0 0 6px;
+          }
+
+          &:last-child {
+            border-radius: 0 6px 6px 0;
+          }
+
+          &:only-child {
+            border-radius: 6px;
+          }
+        }
+      }
+    }
+  }
+
   tbody tr,
   div.mobile-row {
-    height: 60px;
-    border-top: 1px solid var(--white);
+    height: 80px;
+
+    td {
+      padding: 0 15px;
+      color: var(--light-gray);
+    }
+
     &:first-of-type {
       border-top: none;
     }
+
     &.table-header {
       height: 60%;
-      > td {
+
+      >td {
         @include table-header;
         padding-top: 20px;
       }
     }
   }
+
   .mobile-row {
     align-content: center;
   }
+
   .sub-header div {
     font-size: 8px;
   }
+
   &.sovryn-table-mobile {
     [class^='col'] {
       padding-left: 5px;
@@ -170,6 +186,7 @@ input {
 .font-size-lg {
   font-size: 19px;
 }
+
 .font-size-xl {
   font-size: 38px;
 }
@@ -228,9 +245,11 @@ input {
 
   & .bp3-menu {
     background-color: transparent;
+
     & .bp3-menu-item {
       color: var(--white);
       font-family: var(--secondary-font);
+
       &.bp3-active {
         background-color: var(--dark-gray);
       }
@@ -250,6 +269,7 @@ input {
   border-right: 5px solid var(--white);
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+
   @include media-breakpoint-up(md) {
     width: 360px !important;
   }
@@ -260,7 +280,57 @@ input {
   @extend .font-family-work-sans;
 }
 
+//new styles for Sovryn
+button.bp3-button.bp3-minimal {
+  border: 1px solid;
+  margin-left: 15px;
+  border-radius: 25px !important;
+  font-family: $font-family-montserrat;
+  font-weight: 100;
+  font-size: 14px;
+  text-transform: none;
+  padding: 8px 20px;
+  transition: background .3s;
+
+  &:hover {
+    background: rgba(254, 192, 4, 0.25) !important;
+  }
+
+  &:active,
+  &:focus {
+    background: rgba(254, 192, 4, 0.5) !important;
+  }
+}
+
+.is-pointer {
+  cursor: pointer;
+}
+
+.image-responsive {
+  max-width: 333px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.image-bordered:before {
+  content: '';
+  position: absolute;
+  background: white;
+  overflow: hidden;
+  left: -10px;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 16px;
+}
+
 header {
+  background: black;
+
+  &>div:first-child {
+    min-height: 70px;
+  }
+
   .hamburger {
     width: 48px;
     height: 48px;
@@ -270,6 +340,52 @@ header {
     background: none;
     border: none;
   }
+
+  select {
+    font-size: 16px;
+    font-family: $font-family-montserrat;
+    font-weight: 100;
+    background-color: transparent;
+  }
+}
+
+.simpleView {
+  .engage-wallet {
+    height: 50px;
+    padding: 2px 0 2px 10px;
+    font-size: 22px;
+
+    span {
+      &>span:first-child {
+        min-width: 250px;
+      }
+    }
+
+    .logout {
+      height: 50px;
+      padding: 17px 12px;
+    }
+  }
+}
+
+.sov-title {
+  font-family: $font-family-montserrat;
+  font-weight: 400;
+  font-size: 28px;
+}
+
+.container h2 {
+  font-family: $font-family-montserrat;
+  text-transform: inherit;
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: var(--light-gray);
+  margin: 0;
+
+  &.sov-title {
+    font-weight: 400;
+    font-size: 1rem;
+  }
 }
 
 .sov-table {
@@ -277,22 +393,39 @@ header {
   left: 20px;
   right: 20px;
   bottom: 40px;
+
   .table {
     margin: 0;
     background: white;
+
     tr {
       height: auto;
+
+      &:last-child {
+        td {
+          div {
+            text-align: center;
+            font-size: 9px;
+          }
+        }
+      }
     }
+
     td[rowspan="2"] {
       text-align: center;
+      width: 60px;
     }
-    th,  td {
+
+    th,
+    td {
       padding: 5px;
       vertical-align: middle;
       border: 1px solid black;
-      color: black;
+      color: #707070;
+      font-family: $font-family-montserrat;
       font-size: 14px;
       line-height: 18px;
+      letter-spacing: 0;
     }
   }
 }

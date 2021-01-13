@@ -136,9 +136,11 @@
     "trade": "Trade",
     "lend": "Lend/Borrow",
     "fastBtc": "Top-Up",
+    "wallet": "My wallet",
     "liquidity": "Market-making",
     "stats": "Stats",
-    "faqs": "FAQs"
+    "faqs": "FAQs",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "Long",

@@ -123,9 +123,11 @@
     "trade": "Comercio",
     "lend": "Inversión/Préstamo",
     "fastBtc": "Recarga",
+    "wallet": "My wallet",
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
-    "faqs": "FAQ"
+    "faqs": "FAQ",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "En Largo",
