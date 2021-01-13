@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import './SaleBanner.scss';
 import { Button } from '@blueprintjs/core';
 import samurai from './assets/banner-samurai.svg';
+import { Link } from 'react-router-dom';
+
 export function SaleBanner() {
   useEffect(() => {
     var countDownDate = new Date('Jan 24, 2021 0:0:0').getTime();
@@ -59,7 +61,11 @@ export function SaleBanner() {
         titleElement.innerText = 'Token sale is live now!';
       }
     }, 1000);
-  });
+
+    return () => {
+      clearInterval(x);
+    };
+  }, []);
 
   const closeBanner = () => {
     let timerElement = document.getElementById(
@@ -83,12 +89,12 @@ export function SaleBanner() {
             </p>
           </div>
           <div className="button-container">
-            <a
+            <Link
               className="button button-nav button-black button-white button-container"
-              href="https://sovryn.app/"
+              to="/sales"
             >
               <span className="button-text">Learn More</span>
-            </a>
+            </Link>
           </div>
 
           <div className="timer-container" id="timer-container">
