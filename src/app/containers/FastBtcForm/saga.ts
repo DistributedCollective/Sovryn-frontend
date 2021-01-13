@@ -1,12 +1,10 @@
 import { eventChannel } from 'redux-saga';
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import { take, call, put, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
 import { actions } from './slice';
 import { actions as wActions } from 'app/containers/WalletProvider/slice';
-import { selectWalletProvider } from '../WalletProvider/selectors';
-import { Sovryn } from '../../../utils/sovryn';
 
 function createSocketConnection() {
   const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
@@ -81,20 +79,6 @@ function* resetAddresses() {
   yield put(actions.resetAddresses());
 }
 
-function* accountChanged() {
-  const { address } = yield select(selectWalletProvider);
-  if (address) {
-    const result = yield call(
-      // @ts-ignore
-      [Sovryn, Sovryn.getWeb3().eth.getBalance],
-      address,
-    );
-    if (result === '0') {
-      yield put(actions.showDialog(true));
-    }
-  }
-}
-
 function* watchSocketChannel({ payload }: PayloadAction<string>) {
   if (!payload) {
     yield put(actions.getDepositAddressFailed(null));
@@ -116,5 +100,4 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
 export function* fastBtcFormSaga() {
   yield takeLatest(actions.changeReceiverAddress.type, watchSocketChannel);
   yield takeLatest(wActions.disconnected.type, resetAddresses);
-  yield takeLatest(wActions.accountChanged.type, accountChanged);
 }
