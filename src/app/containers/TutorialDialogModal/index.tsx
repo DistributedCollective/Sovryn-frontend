@@ -4,9 +4,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { useLocation } from 'react-router-dom';
 import { actions } from 'app/containers/TutorialDialogModal/slice';
-import { useIsConnected, useIsConnecting } from 'app/hooks/useAccount';
 import { Sovryn } from 'utils/sovryn';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { currentChainId } from 'utils/classifiers';
@@ -19,18 +17,11 @@ import { MobileNotReady } from './mobileNotReady';
 export function TutorialDialogModal() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   useInjectReducer({ key: sliceKey, reducer: reducer });
-  const dispatch = useDispatch();
-  const location = useLocation();
   const state = useSelector(selectTutorialDialogModal);
+
+  const dispatch = useDispatch();
   const onNetwork =
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
-
-  const checks = {
-    connecting: useIsConnecting(),
-    connected: useIsConnected(),
-    route: location.pathname === '/unsubscribe',
-    closedBefore: reactLocalStorage.get('closedRskTutorial') === 'true',
-  };
 
   const handleWalletConnection = useCallback(() => {
     Sovryn.connect()
@@ -56,16 +47,15 @@ export function TutorialDialogModal() {
   }, [dispatch, handleWalletConnection]);
 
   useEffect(() => {
-    const shouldShow = Object.values(checks).every(check => !check);
     const body = document.getElementsByTagName('body')[0];
-    if (shouldShow) {
+    if (state.modalType) {
       body.classList.add('overflow-hidden');
       dispatch(actions.showModal(SHOW_MODAL));
     } else {
       body.classList.remove('overflow-hidden');
       dispatch(actions.hideModal());
     }
-  }, [checks, dispatch]);
+  }, [state.modalType, dispatch]);
 
   //On open, check TutorialModal state
   return (
