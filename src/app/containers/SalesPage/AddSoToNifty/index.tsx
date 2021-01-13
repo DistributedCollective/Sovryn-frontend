@@ -24,12 +24,12 @@ interface IStep {
 }
 
 const steps: IStep[] = [
-  { title: 'Step 01: In Nifty click "Tokens"', image: step1 },
-  { title: 'Step 02: In Nifty click "Tokens"', image: step2 },
-  { title: 'Step 03: In Nifty click "Tokens"', image: step3 },
-  { title: 'Step 04: In Nifty click "Tokens"', image: step4 },
-  { title: 'Step 05: In Nifty click "Tokens"', image: step5 },
-  { title: 'Step 06: In Nifty click "Tokens"', image: step6 },
+  { title: 'Step 01: In Nifty click “Tokens”', image: step1 },
+  { title: 'Step 02: Click “Add Token”', image: step2 },
+  { title: 'Step 03: Select “Custom”', image: step3 },
+  { title: 'Step 04: Enter SOV token settings', image: step4 },
+  { title: 'Step 05: Click “Add”', image: step5 },
+  { title: 'Step 06: SOV is successfully added ', image: step6 },
 ];
 
 export function AddSoToNifty() {
@@ -84,7 +84,11 @@ export function AddSoToNifty() {
                     />
                   </NavBtn>
                   {steps.map((_, i) => (
-                    <NavRound onClick={() => setStep(i)} active={i === step} />
+                    <NavRound
+                      onClick={() => setStep(i)}
+                      active={i === step}
+                      key={i}
+                    />
                   ))}
                   <NavBtn onClick={handleNext}>
                     <Icon
