@@ -15,8 +15,6 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
 import PageHeader from '../../components/PageHeader';
 
-// import SalesButton from '../../components/SalesButton';
-
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 import { AboutSOV, SOVModel, SOVGovernance } from './Information';
@@ -38,6 +36,8 @@ import { selectSalesPage } from './selectors';
 import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
+import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
+import { currentNetwork } from '../../../utils/classifiers';
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
@@ -54,11 +54,22 @@ export function SalesPage() {
     '0',
     account,
   );
+
+  const { value: minPurchase } = useCacheCallWithValue(
+    'CrowdSale',
+    'minPurchase',
+    '0',
+  );
+
   const state = useSelector(selectSalesPage);
 
   useEffect(() => {
     dispatch(actions.updateMaxDeposit(maxPurchase));
   }, [maxPurchase, dispatch]);
+
+  useEffect(() => {
+    dispatch(actions.updateMinDeposit(minPurchase));
+  }, [minPurchase, dispatch]);
 
   useEffect(() => {
     if (isConnected) dispatch(actions.changeStep(2));
@@ -87,7 +98,22 @@ export function SalesPage() {
         style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
       >
         <PageHeader />
+
         <SaleInfoBar />
+
+        {currentNetwork === 'testnet' && (
+          <div className="container mt-5 mb-4" style={{ maxWidth: '1200px' }}>
+            <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
+              <div className="ml-3 mr-4">
+                <Icon icon="warning-sign" iconSize={26} />
+              </div>
+              <div>
+                This is testnet, not the actual sale. Do not send real funds!
+              </div>
+            </div>
+          </div>
+        )}
+
         {!isConnected ? (
           <Screen1 />
         ) : (

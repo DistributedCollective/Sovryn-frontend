@@ -1,5 +1,4 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { bignumber } from 'mathjs';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { BtcDeposit, ContainerState } from './types';
 import { Nullable } from '../../../types';
@@ -32,7 +31,9 @@ const SalesSlice = createSlice({
     },
     updateMaxDeposit(state, { payload }: PayloadAction<number>) {
       state.maxDeposit = payload;
-      state.minDeposit = Number(bignumber(payload).div(2));
+    },
+    updateMinDeposit(state, { payload }: PayloadAction<number>) {
+      state.minDeposit = payload;
     },
     useCode(
       state,
