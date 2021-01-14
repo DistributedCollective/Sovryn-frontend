@@ -51,6 +51,11 @@ export const saleBackend = {
   31: 'https://testnet.sovryn.app/genesis',
 };
 
+export const backendUrl = {
+  30: 'https://backend.sovryn.app',
+  31: 'https://testnet.sovryn.app/backend',
+};
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const gasLimit = {

@@ -12,6 +12,7 @@ import {
   readNodes,
   currentNetwork,
   databaseRpcNodes,
+  backendUrl,
 } from '../classifiers';
 import { actions } from '../../app/containers/WalletProvider/slice';
 import { WalletProviderState } from '../../app/containers/WalletProvider/types';
@@ -359,7 +360,7 @@ export class SovrynNetwork {
   protected async sendAddressToDatabase(walletAddress) {
     console.log('address is ', walletAddress);
     await axios
-      .post(process.env.REACT_APP_MAIL_SRV + '/addVisit', {
+      .post(backendUrl[currentChainId] + '/addVisit', {
         walletAddress: walletAddress,
       })
       .then(() => {
