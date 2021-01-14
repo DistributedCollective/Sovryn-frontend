@@ -59,7 +59,7 @@
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
-      "openPrice": "Preço de abertura",
+      "openPrice": "Preço inicial",
       "closePrice": "Preço de fechamento",
       "profit": "Lucro"
     }
