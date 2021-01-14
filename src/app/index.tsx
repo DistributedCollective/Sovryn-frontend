@@ -72,7 +72,6 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>
-        <TutorialDialogModal />
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
@@ -93,6 +92,7 @@ export function App() {
           />
           <Route component={NotFoundPage} />
         </Switch>
+        <TutorialDialogModal />
       </WalletProvider>
       <GlobalStyle />
     </BrowserRouter>

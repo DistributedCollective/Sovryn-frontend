@@ -13,6 +13,7 @@ import { selectTutorialDialogModal } from './selectors';
 import { TutorialDialogComponent } from './component';
 import { reducer, sliceKey } from './slice';
 import { MobileNotReady } from './mobileNotReady';
+import { Classes, Overlay } from '@blueprintjs/core';
 
 export function TutorialDialogModal() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
@@ -59,9 +60,16 @@ export function TutorialDialogModal() {
 
   //On open, check TutorialModal state
   return (
-    <>
-      {state.modalType && (
-        <div>
+    <Overlay
+      isOpen={!!state.modalType}
+      onClose={() => dispatch(actions.hideModal())}
+      className={Classes.OVERLAY_SCROLL_CONTAINER}
+      hasBackdrop
+      canOutsideClickClose
+      canEscapeKeyClose
+    >
+      <div className="custom-dialog-container">
+        <div className="custom-dialog">
           <div className="d-none d-md-block">
             <TutorialDialogComponent
               handleClose={handleClose}
@@ -73,7 +81,7 @@ export function TutorialDialogModal() {
             <MobileNotReady handleClose={handleClose} />
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </Overlay>
   );
 }
