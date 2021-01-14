@@ -8,7 +8,8 @@ const StyledHeader = styled.div.attrs(_ => ({
     'd-flex flex-column flex-md-row align-items-center justify-content-center',
 }))`
   justify-content: center;
-  margin-bottom: 3em;
+  margin-bottom: 1.8em;
+  margin-top: 1.3rem;
   img {
     width: 30px;
     margin-bottom: 25px;
@@ -16,7 +17,7 @@ const StyledHeader = styled.div.attrs(_ => ({
   ${media.md`
   justify-content: center;
   img {
-    width: 60px;
+    width: 52px;
     margin-bottom: 0px;
     margin-right: 25px;
   }
@@ -25,9 +26,11 @@ const StyledHeader = styled.div.attrs(_ => ({
 
 const H1 = styled.h1`
   font-size: 24px;
-  font-family: 'Rowdies';
+  font-family: 'Montserrat';
   text-align: center;
-  letter-spacing: 3px;
+  font-weight: bold;
+  letter-spacing: 0.8rem !important;
+  margin: 0;
   ${media.md`font-size: 53px; text-align: left;`}
 `;
 

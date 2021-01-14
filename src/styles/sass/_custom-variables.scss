@@ -25,6 +25,7 @@
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
   --gold35: rgba(254, 192, 4, 0.35);
+  --gold50: rgba(254, 192, 4, 0.5);
   --primary: #171717;
   --secondary: #2d2d2d;
 
@@ -78,11 +79,11 @@ $theme-colors: (
   'dark-gray': $dark-gray,
   'light-gray': $light-gray,
   'teal': $teal,
-  'gold': #fec006,
+  'gold': #fec004,
   'red': #eb2106,
   'green': #00ce7d,
   'customOrange': #ff9931,
-  'Gold': #fec006,
+  'Gold': #fec004,
   'customTeal': #4ecdc4,
   'lightGrey': #a9bacd,
   'MediumGrey': #7b96b5,
@@ -98,7 +99,7 @@ $theme-colors: (
 
 $border-radius: 5px;
 $font-family-base: 'Rowdies', cursive;
-$font-family-montserrat: 'Montserrat';
+$font-family-montserrat: 'Montserrat', sans-serif;
 
 //$font-size-base: 18px;
 //$font-size-sm: 14px;

@@ -75,7 +75,7 @@ export function Header() {
   return (
     <>
       <header>
-        <Container className="d-flex justify-content-between align-items-center mb-4 pt-2 pb-2">
+        <Container className="d-flex justify-content-between align-items-center mb-3 pt-2 pb-2">
           <div className="d-xl-none">
             <Popover content={<Menu>{dropDownMenu}</Menu>}>
               <button className="hamburger" type="button">
