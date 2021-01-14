@@ -13,7 +13,7 @@ const StyledContainer = styled.section`
   flex-direction: column;
   margin: 40px 0;
   color: #f4f4f4;
-  font-weight: 300;
+  font-weight: 100;
   font-size: 16px;
   @media screen and (min-width: 991px) {
     padding: 36px 100px;
