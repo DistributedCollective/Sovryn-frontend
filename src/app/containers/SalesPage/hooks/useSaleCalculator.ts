@@ -8,6 +8,7 @@ import { bignumber } from 'mathjs';
 export function useSaleCalculator(btcAmount: string) {
   const weiAmount = useWeiAmount(btcAmount);
   const [price, setPrice] = useState(0);
+  const [priceBtc, setPriceBtc] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [sovToReceive, setSovToReceive] = useState(0);
 
@@ -29,6 +30,7 @@ export function useSaleCalculator(btcAmount: string) {
           .mul(bignumber(1).div(rate)),
       ),
     );
+    setPriceBtc(Number(bignumber(1).div(rate)));
   }, [btcRate, rate]);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export function useSaleCalculator(btcAmount: string) {
   return {
     price: totalPrice,
     unitPrice: price,
+    unitPriceBtc: priceBtc,
     rate,
     sovToReceive,
     loading: rateLoading || btcRateLoading,

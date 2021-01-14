@@ -13,10 +13,7 @@ export function TutorialDialogComponent(props) {
   const { t } = useTranslation();
   const [mouseLeave, setMouseLeave] = useState(false);
   const activeTutorial =
-    reactLocalStorage.get('tutorial_active') === 'true' &&
-    props.onNetwork === true
-      ? true
-      : false;
+    reactLocalStorage.get('tutorial_active') === 'true' && props.onNetwork;
   const [screen, setScreen] = useState(activeTutorial ? 2 : 1);
 
   function changeScreen(num) {
@@ -30,9 +27,8 @@ export function TutorialDialogComponent(props) {
   return (
     <>
       <div
-        className="wallet-tutorial_container position-absolute mx-auto"
+        className="wallet-tutorial_container"
         onMouseLeave={() => {
-          console.log('Mouse out');
           if (screen === 2) {
             setMouseLeave(true);
           } else {
@@ -75,7 +71,7 @@ export function TutorialDialogComponent(props) {
               </a>
             </p>
           </div>
-          {/* <Screen3 /> */}
+          {/*<Screen3 />*/}
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}

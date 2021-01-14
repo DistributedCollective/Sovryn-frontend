@@ -13,6 +13,7 @@ import { selectTutorialDialogModal } from './selectors';
 import { TutorialDialogComponent } from './component';
 import { reducer, sliceKey } from './slice';
 import { MobileNotReady } from './mobileNotReady';
+import { Classes, Overlay } from '@blueprintjs/core';
 
 export function TutorialDialogModal() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
@@ -23,12 +24,13 @@ export function TutorialDialogModal() {
   const onNetwork =
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
-  const handleWalletConnection = useCallback(() => {
-    Sovryn.connect()
-      .then(() => {})
-      .catch(err => {
-        console.error(err);
-      });
+  const handleWalletConnection = useCallback((wallet?: string) => {
+    console.log('engage', wallet);
+    if (wallet) {
+      Sovryn.connectTo(wallet).catch();
+    } else {
+      Sovryn.connect().catch();
+    }
   }, []);
 
   const handleClose = useCallback(() => {
@@ -40,14 +42,17 @@ export function TutorialDialogModal() {
     dispatch(actions.hideModal());
   }, [dispatch]);
 
-  const handleEngage = useCallback(() => {
-    reactLocalStorage.set('closedRskTutorial', 'true');
-    dispatch(actions.hideModal());
-    handleWalletConnection();
-  }, [dispatch, handleWalletConnection]);
+  const handleEngage = useCallback(
+    (wallet?: string) => {
+      reactLocalStorage.set('closedRskTutorial', 'true');
+      dispatch(actions.hideModal());
+      handleWalletConnection(wallet);
+    },
+    [dispatch, handleWalletConnection],
+  );
 
   useEffect(() => {
-    const body = document.getElementsByTagName('body')[0];
+    const body = document.body;
     if (state.modalType) {
       body.classList.add('overflow-hidden');
       dispatch(actions.showModal(SHOW_MODAL));
@@ -59,9 +64,16 @@ export function TutorialDialogModal() {
 
   //On open, check TutorialModal state
   return (
-    <>
-      {state.modalType && (
-        <div>
+    <Overlay
+      isOpen={!!state.modalType}
+      onClose={() => dispatch(actions.hideModal())}
+      className={Classes.OVERLAY_SCROLL_CONTAINER}
+      hasBackdrop
+      canOutsideClickClose
+      canEscapeKeyClose
+    >
+      <div className="custom-dialog-container">
+        <div className="custom-dialog">
           <div className="d-none d-md-block">
             <TutorialDialogComponent
               handleClose={handleClose}
@@ -73,7 +85,7 @@ export function TutorialDialogModal() {
             <MobileNotReady handleClose={handleClose} />
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </Overlay>
   );
 }

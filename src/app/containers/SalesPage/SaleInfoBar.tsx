@@ -4,7 +4,7 @@ import { Text } from '@blueprintjs/core';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { LoadableValue } from '../../components/LoadableValue';
 import {
-  numberToUSD,
+  toNumberFormat,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
@@ -19,6 +19,12 @@ export function SaleInfoBar() {
     value: availableTokens,
     loading: availableTokensLoading,
   } = useCacheCallWithValue('CrowdSale', 'availableTokens', '0');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { value: endTime, loading: loadingEndTime } = useCacheCallWithValue(
+    'CrowdSale',
+    'end',
+    '0',
+  );
 
   let remainingPercent = '100';
   if (allocation !== '0' && availableTokens !== '0') {
@@ -28,7 +34,9 @@ export function SaleInfoBar() {
       .toFixed(2);
   }
 
-  const { unitPrice, rate, loading: btcRateLoading } = useSaleCalculator('1');
+  const { unitPriceBtc, rate, loading: btcRateLoading } = useSaleCalculator(
+    '1',
+  );
 
   return (
     <InfoBar>
@@ -74,7 +82,7 @@ export function SaleInfoBar() {
           loading={btcRateLoading}
           value={
             <Text ellipsize tagName="p">
-              {numberToUSD(unitPrice, 2)}/SOV
+              {toNumberFormat(unitPriceBtc, 6)} BTC / SOV
             </Text>
           }
           tooltip={<>{rate} SOV for 1 BTC</>}
@@ -100,9 +108,14 @@ export function SaleInfoBar() {
         <Text ellipsize tagName="p">
           Token Sale End Time :
         </Text>
-        <Text ellipsize tagName="p">
-          16.00 CET, 8th Jan
-        </Text>
+        <LoadableValue
+          loading={loadingEndTime}
+          value={
+            <Text ellipsize tagName="p">
+              12.30 GTM, 15th Jan
+            </Text>
+          }
+        />
       </div>
     </InfoBar>
   );

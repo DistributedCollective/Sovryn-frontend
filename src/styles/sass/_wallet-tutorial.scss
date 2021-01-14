@@ -27,26 +27,9 @@ $scale: 0.8;
 
 .wallet-tutorial {
   &_container {
-    z-index: 100;
-    background-color: rgba(23, 23, 23, 0.5);
-    width: 100vw;
-    height: 100vh;
     > div:first-of-type {
       width: 800px;
-      //   height: #{'min(900px, 80vh)'};
-      &:not(.left) {
-        @include position(45%, 50%);
-        transform: translate(-50%, -50%);
-      }
-
-      transition: 1.5s ease-in-out;
-      &.left {
-        @include position(5%, 2%);
-      }
-    }
-    .back {
-      @include position(7%, 82%);
-      z-index: 20;
+      transform: translate(-50%, -50%);
     }
     .title {
       color: var(--black);
@@ -56,7 +39,7 @@ $scale: 0.8;
       @include fade-in(2.5s);
       h1 {
         font-size: 20px;
-        font-family: 'Kalam';
+        font-family: 'Kalam', sans-serif;
         font-weight: bolder;
         transform: skewX(10deg);
       }
@@ -519,6 +502,5 @@ $scale: 0.8;
 }
 
 .bp3-overlay-backdrop {
-  background: #484848;
-  opacity: 0.92;
+  background: rgba(72, 72, 72, 0.92);
 }

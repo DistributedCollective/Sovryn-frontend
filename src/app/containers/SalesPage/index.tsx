@@ -17,7 +17,6 @@ import PageHeader from '../../components/PageHeader';
 
 import SalesButton from '../../components/SalesButton';
 
-import { TutorialSOVModal } from '../TutorialSOVModal/Loadable';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
 import { AboutSOV, SOVModel, SOVGovernance } from './Information';
@@ -82,8 +81,6 @@ export function SalesPage() {
           content={t(translations.salesPage.meta.description)}
         />
       </Helmet>
-
-      <TutorialSOVModal />
       <Header />
       <main
         className="container font-family-montserrat"

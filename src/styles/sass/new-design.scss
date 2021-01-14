@@ -430,3 +430,49 @@ header {
     }
   }
 }
+
+
+.custom-dialog-container{
+  opacity:1;
+  transform:scale(1);
+  align-items:center;
+  display:flex;
+  justify-content:center;
+  min-height:100%;
+  pointer-events:none;
+  user-select:none;
+  width:100%;
+  position: fixed;
+  z-index: 20;
+}
+.bp3-overlay-inline .bp3-overlay-content, .bp3-overlay-scroll-container .custom-dialog-container {
+  position: absolute;
+}
+.custom-dialog-container>.custom-dialog {
+  pointer-events: all;
+  user-select: text;
+}
+.custom-dialog-container.bp3-overlay-appear>.custom-dialog,
+.custom-dialog-container.bp3-overlay-enter>.custom-dialog{
+  opacity:0;
+  transform:scale(.5);
+}
+.custom-dialog-container.bp3-overlay-appear-active>.custom-dialog,
+.custom-dialog-container.bp3-overlay-enter-active>.custom-dialog{
+  opacity:1;
+  transform:scale(1);
+  transition-duration:.3s;
+  transition-property:opacity,transform,-webkit-transform;
+  transition-timing-function:cubic-bezier(.54,1.12,.38,1.11);
+}
+.custom-dialog-container.bp3-overlay-exit>.custom-dialog{
+  opacity:1;
+  transform:scale(1)
+}
+.custom-dialog-container.bp3-overlay-exit-active>.custom-dialog{
+  opacity:0;
+  transform:scale(.5);
+  transition-duration:.3s;
+  transition-property:opacity,transform,-webkit-transform;
+  transition-timing-function:cubic-bezier(.54,1.12,.38,1.11)
+}

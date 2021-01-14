@@ -12,15 +12,15 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   handleClick: (num: Number) => void;
   onNetwork: boolean;
-  handleEngage: () => void;
+  handleEngage: (wallet?: string) => void;
 }
 
 export function Screen1(props: Props) {
   const { t } = useTranslation();
 
   function handleBrowserClick() {
-    if (props.onNetwork === true) {
-      props.handleEngage();
+    if (props.onNetwork) {
+      props.handleEngage('injected');
     } else {
       props.handleClick(2);
     }
