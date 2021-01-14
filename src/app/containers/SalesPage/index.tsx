@@ -109,9 +109,9 @@ export function SalesPage() {
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />
-        <div className="footer d-flex justify-content-center mb-5">
+        {/*<div className="footer d-flex justify-content-center mb-5">
           <SalesButton text="Read Whitepaper" onClick={() => {}} />
-        </div>
+            </div>*/}
       </main>
       <AddSoToNifty />
     </div>
