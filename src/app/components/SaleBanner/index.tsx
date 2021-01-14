@@ -6,21 +6,21 @@ import { Link } from 'react-router-dom';
 
 export function SaleBanner() {
   useEffect(() => {
-    var countDownDate = new Date('Jan 24, 2021 0:0:0').getTime();
-    var x = setInterval(function () {
-      var now = new Date().getTime();
-      var distance = countDownDate - now;
+    const countDownDate = new Date('Jan 15, 2021 12:30:00+0').getTime();
+    const x = setInterval(function () {
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
       let sdays,
         shours,
         smins,
         ssecs = '';
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       if (days <= 9) {
         sdays = `0${days}`;
       } else {
         sdays = `${days}`;
       }
-      var hours = Math.floor(
+      const hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       );
       if (hours <= 9) {
@@ -28,7 +28,7 @@ export function SaleBanner() {
       } else {
         shours = `${hours}`;
       }
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       if (minutes <= 9) {
         smins = `0${minutes}`;
       } else {
@@ -84,9 +84,7 @@ export function SaleBanner() {
             The Countdown has begun!
           </h2>
           <div className="sub-info-container">
-            <p className="sub-info-text black-font">
-              SOV Token Sale <br /> 8th January
-            </p>
+            <p className="sub-info-text black-font">SOV Token Sale</p>
           </div>
           <div className="button-container">
             <Link
