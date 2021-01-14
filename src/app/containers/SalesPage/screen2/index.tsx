@@ -4,7 +4,8 @@ import SalesButton from 'app/components/SalesButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../slice';
 import { selectSalesPage } from '../selectors';
-import { weiToNumberFormat } from '../../../../utils/display-text/format';
+import { media } from 'styles/media';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { trimZero } from 'utils/blockchain/math-helpers';
 import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
@@ -29,8 +30,15 @@ const StyledContent = styled.div`
     margin-bottom: 45px;
   }
   .b-group {
-    height: 250px;
+    height: 100%;
+    width: 100%;
     justify-content: space-around;
+    button {
+      margin: 15px 0;
+    }
+    ${media.xl`
+      max-width: 250px;
+    `}
   }
 `;
 
@@ -65,8 +73,8 @@ export default function Screen2() {
   return (
     <StyledContent>
       <p className="content-header">Welcome to the SOV* Genesis Sale</p>
-      <div className="d-flex flex-column flex-lg-row px-3 pb-5">
-        <div className="left-box position-relative">
+      <div className="d-flex flex-column align-items-center flex-lg-row px-3 pb-5">
+        <div className="left-box position-relative mr-lg-5">
           <div className="mb-3 mr-2 ml-2 position-relative d-inline-block">
             <div className="image-bordered">
               <img
@@ -102,7 +110,7 @@ export default function Screen2() {
             </div>
           </div>
         </div>
-        <div className="d-flex flex-column justify-content-around b-group px-lg-5">
+        <div className="d-flex flex-column justify-content-around b-group px-xl-5">
           <SalesButton
             text={'Continue to sale'}
             onClick={() => dispatch(actions.changeStep(4))}

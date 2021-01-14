@@ -14,17 +14,19 @@ const StyledButton = styled.button.attrs(_ => ({
   min-width: 48px;
   height: 48px;
   text-align: center;
+  text-transform: inherit;
+  transition: background 0.3s;
   ${media.xl`
-    min-width: 208px;
+    min-width: 240px;
     height: 50px;
     padding: 2px 20px;
-    font-weight: 600;
-  
+    font-weight: 400;
+
     &:hover, &:focus {
       background: var(--gold25) !important;
     }
     &:active:hover {
-      background: var(--gold35) !important;
+      background: var(--gold50) !important;
     }
     &:disabled {
       opacity: 0.5;
