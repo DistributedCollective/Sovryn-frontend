@@ -8,6 +8,7 @@ import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { trimZero } from 'utils/blockchain/math-helpers';
 import NFT1 from 'assets/images/NFT1.png';
 import LogoDark from 'assets/images/sovryn-logo-dark.svg';
+import { currentNetwork } from '../../../../utils/classifiers';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -107,11 +108,12 @@ export default function Screen2() {
           <img src={NFT1} alt="NFT1" />
         </div>
         <div className="d-flex flex-column justify-content-around b-group px-lg-5">
-          <SalesButton
-            text={'Continue to sale'}
-            onClick={() => dispatch(actions.changeStep(4))}
-          />
-
+          {currentNetwork === 'testnet' && (
+            <SalesButton
+              text={'Continue to sale'}
+              onClick={() => dispatch(actions.changeStep(4))}
+            />
+          )}
           <SalesButton
             text={'Input upgrade code'}
             onClick={() => dispatch(actions.changeStep(3))}
