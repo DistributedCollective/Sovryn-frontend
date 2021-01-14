@@ -15,7 +15,7 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
 import PageHeader from '../../components/PageHeader';
 
-import SalesButton from '../../components/SalesButton';
+// import SalesButton from '../../components/SalesButton';
 
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
