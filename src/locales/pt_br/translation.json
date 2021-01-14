@@ -59,7 +59,7 @@
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
-      "openPrice": "Preço de abertura",
+      "openPrice": "Preço inicial",
       "closePrice": "Preço de fechamento",
       "profit": "Lucro"
     }
@@ -156,7 +156,7 @@
   },
   "activeLoan": {
     "expandedRow": {
-      "leverage": "alavancagem",
+      "leverage": "Alavancagem",
       "startMargin": "Margem inicial",
       "mainenanceMargin": "Margem de manutenção",
       "currentPrice": "Preço atual",
@@ -165,7 +165,7 @@
     },
     "table": {
       "positionSize": "Tamanho da posição",
-      "profit": "Lucro / Perdas",
+      "profit": "Lucro / Prejuízo",
       "currentMargin": "Margem atual",
       "interestApr": "Juros anual",
       "startPrice": "Preço inicial",
