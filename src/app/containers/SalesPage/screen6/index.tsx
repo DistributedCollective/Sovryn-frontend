@@ -49,8 +49,9 @@ const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
   border-radius: 8px;
   height: 40px;
   width: 289px;
-  text-align: center;
+  text-align: left;
   color: black;
+  padding: 0 10px;
 `;
 
 const StyledTextArea = styled.textarea`

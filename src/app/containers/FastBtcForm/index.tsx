@@ -46,7 +46,7 @@ export function FastBtcForm(props: Props) {
   }, [address, state.receiverAddress, dispatch]);
 
   useEffect(() => {
-    if (state.depositAddress && state.step === 1) {
+    if (!!state.depositAddress && state.step === 1) {
       dispatch(actions.changeStep(2));
     }
   }, [state.depositAddress, state.step, dispatch]);
