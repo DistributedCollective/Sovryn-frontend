@@ -105,7 +105,7 @@ export function SovGenerationNFTS() {
             )
           );
         })}
-        <div className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block">
+        {/* <div className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block">
           <div className="image-bordered">
             <img className="w-100 h-100 image-responsive" src={sov_2} alt="" />
           </div>
@@ -134,7 +134,7 @@ export function SovGenerationNFTS() {
               </tbody>
             </table>
           </div>
-        </div>
+      </div>*/}
       </div>
     </div>
   );
