@@ -29,7 +29,6 @@ export function TutorialDialogComponent(props) {
       <div
         className="wallet-tutorial_container"
         onMouseLeave={() => {
-          console.log('Mouse out');
           if (screen === 2) {
             setMouseLeave(true);
           } else {
@@ -72,7 +71,7 @@ export function TutorialDialogComponent(props) {
               </a>
             </p>
           </div>
-          {/* <Screen3 /> */}
+          {/*<Screen3 />*/}
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}

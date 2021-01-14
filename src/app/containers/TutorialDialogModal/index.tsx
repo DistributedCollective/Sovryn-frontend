@@ -24,12 +24,13 @@ export function TutorialDialogModal() {
   const onNetwork =
     window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
-  const handleWalletConnection = useCallback(() => {
-    Sovryn.connect()
-      .then(() => {})
-      .catch(err => {
-        console.error(err);
-      });
+  const handleWalletConnection = useCallback((wallet?: string) => {
+    console.log('engage', wallet);
+    if (wallet) {
+      Sovryn.connectTo(wallet).catch();
+    } else {
+      Sovryn.connect().catch();
+    }
   }, []);
 
   const handleClose = useCallback(() => {
@@ -41,14 +42,17 @@ export function TutorialDialogModal() {
     dispatch(actions.hideModal());
   }, [dispatch]);
 
-  const handleEngage = useCallback(() => {
-    reactLocalStorage.set('closedRskTutorial', 'true');
-    dispatch(actions.hideModal());
-    handleWalletConnection();
-  }, [dispatch, handleWalletConnection]);
+  const handleEngage = useCallback(
+    (wallet?: string) => {
+      reactLocalStorage.set('closedRskTutorial', 'true');
+      dispatch(actions.hideModal());
+      handleWalletConnection(wallet);
+    },
+    [dispatch, handleWalletConnection],
+  );
 
   useEffect(() => {
-    const body = document.getElementsByTagName('body')[0];
+    const body = document.body;
     if (state.modalType) {
       body.classList.add('overflow-hidden');
       dispatch(actions.showModal(SHOW_MODAL));
