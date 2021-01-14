@@ -16,6 +16,7 @@ import { UserAssets } from '../../components/UserAssets';
 import { TopUpHistory } from '../../components/TopUpHistory';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 
 export function WalletPage() {
   const { t } = useTranslation();
@@ -59,19 +60,28 @@ export function WalletPage() {
             />
           </div>
         </div>
-
-        <div className="row">
-          <div className="col-12 mt-2">
-            {activeAssets ? (
-              <>
-                <UserAssets />
-                <TopUpHistory />
-              </>
-            ) : (
-              <SovGenerationNFTS />
-            )}
+        {connected && account ? (
+          <div className="row">
+            <div className="col-12 mt-2">
+              {activeAssets ? (
+                <>
+                  <UserAssets />
+                  <TopUpHistory />
+                </>
+              ) : (
+                <SovGenerationNFTS />
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="row">
+            <div className="col-12 mt-2">
+              <SkeletonRow
+                loadingText={t(translations.topUpHistory.walletHistory)}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>
