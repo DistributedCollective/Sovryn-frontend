@@ -5,30 +5,44 @@ import Sovbitocracy from 'assets/images/sovbitocracy.svg';
 import { media } from '../../../styles/media';
 
 const StyledContainer = styled.section`
-  background: #141414;
-  padding: 30px 15px;
+  background: #101010;
+  padding: 36px 15px;
   border-radius: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
   margin: 40px 0;
   color: #f4f4f4;
+  font-weight: 300;
+  font-size: 16px;
   @media screen and (min-width: 991px) {
-    padding: 30px 70px;
+    padding: 36px 100px;
   }
-  .header {
-    font-weight: 300;
+  .header,
+  h2 {
+    font-weight: 700;
     font-size: 24px;
     text-transform: none;
+    margin-bottom: 49px;
     ${media.lg`
-      font-size: 36px;
+      font-size: 38px;
     `}
   }
-  .title {
+  .title,
+  h3 {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
     color: white;
     text-transform: none;
+    margin-bottom: 10px;
+  }
+  .sub-title,
+  h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-transform: none;
+    margin-bottom: 10px;
   }
   .content {
     display: flex;
@@ -41,6 +55,19 @@ const StyledContainer = styled.section`
       color: #d9d9d9;
     }
   }
+  .px-big {
+    padding-right: 45px;
+    padding-left: 45px;
+    &:first-of-type {
+      padding-left: 15px;
+    }
+    &:last-of-type {
+      padding-right: 15px;
+    }
+  }
+  .allocation-image {
+    width: 630px;
+  }
 `;
 
 export function AboutSOV() {
@@ -48,7 +75,7 @@ export function AboutSOV() {
     <StyledContainer>
       <h2 className="header">Use and Value Accrual of SOV</h2>
       <div className="row">
-        <section className="col-md-4">
+        <section className="col-md-4 px-big">
           <h3 className="title">Bitocracy:</h3>
           <p>
             SOV staked in the Bitocracy system earns voting rights weighted by
@@ -62,7 +89,7 @@ export function AboutSOV() {
             experts to specialise in Sovryn Bitocracy.
           </p>
         </section>
-        <section className="col-md-4">
+        <section className="col-md-4 px-big">
           <h3 className="title">Risk Mitigation: </h3>
           <p>
             SOV provides risk coverage for the protocol by acting as a pool of
@@ -78,7 +105,7 @@ export function AboutSOV() {
             losses.
           </p>
         </section>
-        <section className="col-md-4">
+        <section className="col-md-4 px-big">
           <h3 className="title">Fee Collection:</h3>
           <p>
             The Sovryn DeFi platform is a revenue-generating business upheld by
@@ -91,16 +118,28 @@ export function AboutSOV() {
     </StyledContainer>
   );
 }
+
 export function SOVModel() {
   return (
     <StyledContainer>
       <h2 className="header">SOV Allocation Model</h2>
       <div className="row">
-        <section className="col-md-4">
-          <section>
-            <h3 className="title">
-              Early Funders: 16,920,000 SOV 10-24 month vesting
-            </h3>
+        <section className="col-md-3">
+          <section className="mb-5">
+            <h3 className="title">Early Funders: 16,920,000</h3>
+            <h4>SOV 10-24 month vesting</h4>
+            <p>
+              The early funders of Sovryn believe in the future success of
+              Sovryn as a revenue-generating business as well as the
+              effectiveness of Sovryn’s Bitocracy that supports the
+              decentralized business model. These early funders have acquired a
+              long-term stake in SOV with a view to participation in the
+              Bitcoracy.
+            </p>
+          </section>
+          <section className="mb-5">
+            <h3 className="title">Founders Fund: 25,000,000 SOV</h3>
+            <h4>3 year vesting with a 6 month cliff</h4>
             <p>
               The early funders of Sovryn believe in the future success of
               Sovryn as a revenue-generating business as well as the
@@ -111,25 +150,27 @@ export function SOVModel() {
             </p>
           </section>
           <section>
-            <h3 className="title">
-              Founders Fund: 25,000,000 SOV 3 year vesting with a 6 month cliff
-            </h3>
+            <h3 className="title">Adoption Fund: 38,080,000 SOV</h3>
             <p>
-              The early funders of Sovryn believe in the future success of
-              Sovryn as a revenue-generating business as well as the
-              effectiveness of Sovryn’s Bitocracy that supports the
-              decentralized business model. These early funders have acquired a
-              long-term stake in SOV with a view to participation in the
-              Bitcoracy.
+              The heart of Sovryn is in the users who employ the product for the
+              utilization of their funds. SOV will be distributed to users and
+              contributors of the system via rebates, referral fees and
+              liquidity mining. Tokens distributed via liquidity mining will be
+              the incentivization vehicle for bringing new users and funds to
+              Sovryn across multiple DeFi ecosystems. With the release of new
+              products, the adoption can be used to reward the first users and
+              testers to ensure their optimization and success.
             </p>
           </section>
         </section>
-        <div className="col-md-4 d-flex mb-4 mb-lg-0">
-          <img src={Sovmodel} alt="" className="w-100 h-100" />
+        <div className="col-md-6 d-flex mb-4 mb-lg-0">
+          <div className="pb-5 mb-5 mx-auto">
+            <img src={Sovmodel} alt="" className="w-100 h-100" />
+          </div>
         </div>
 
-        <div className="col-md-4">
-          <section>
+        <div className="col-md-3">
+          <section className="mb-5">
             <h3 className="title">Development Fund: 10,000,000 SOV</h3>
             <p>
               The development pool will serve as a treasury for
@@ -138,7 +179,7 @@ export function SOVModel() {
               support on-going security and maintenance, as well as R&D.
             </p>
           </section>
-          <section>
+          <section className="mb-5">
             <h3 className="title">Ecosystem Fund: 5,000,000 SOV</h3>
             <p>
               These tokens have been dedicated towards ecosystem initiatives,
@@ -148,7 +189,7 @@ export function SOVModel() {
               incentivizing the onboarding of new users to Sovryn.
             </p>
           </section>
-          <section>
+          <section className="pt-3">
             <h3 className="title">Programmatic Sale: 5,000,000 SOV</h3>
             <p>
               To further distribute SOV tokens and enfranchise interested users,
@@ -167,7 +208,7 @@ export function SOVGovernance() {
     <StyledContainer>
       <h2 className="header">SOV Bitocracy (Governance)</h2>
       <div className="row">
-        <section className="col-md-4">
+        <section className="col-md-3">
           <h3 className="title">Bitocracy:</h3>
           <p>
             The SOV Bitocracy is a distributed, pseudonymous governing body of
@@ -188,10 +229,12 @@ export function SOVGovernance() {
             through delegation
           </p>
         </section>
-        <div className="col-md-4 d-flex mb-4 mb-lg-0">
-          <img src={Sovbitocracy} alt="" className="w-100 h-100" />
+        <div className="col-md-6 d-flex mb-4 mb-lg-0">
+          <div className="px-5 mx-auto">
+            <img src={Sovbitocracy} alt="" className="w-100 h-100 " />
+          </div>
         </div>
-        <section className="col-md-4">
+        <section className="col-md-3">
           <h3 className="title">Bitocracy Voting</h3>
           <div className="content">
             <span className="bullet">01.</span>
