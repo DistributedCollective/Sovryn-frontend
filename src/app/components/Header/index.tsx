@@ -14,7 +14,7 @@ import WalletConnector from '../../containers/WalletConnector';
 import styled from 'styled-components/macro';
 
 import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
-import { LanguageToggle } from '../../components/LanguageToggle';
+import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 
