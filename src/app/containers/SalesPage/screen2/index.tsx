@@ -108,15 +108,14 @@ export default function Screen2() {
           <img src={NFT1} alt="NFT1" />
         </div>
         <div className="d-flex flex-column justify-content-around b-group px-lg-5">
-          {/*<SalesButton*/}
-          {/*  text={'Continue to sale'}*/}
-          {/*  onClick={() => dispatch(actions.changeStep(4))}*/}
-          {/*/>*/}
+          <SalesButton
+            text={'Continue to sale'}
+            onClick={() => dispatch(actions.changeStep(4))}
+          />
           <SalesButton
             text={'Input upgrade code'}
             onClick={() => dispatch(actions.changeStep(3))}
           />
-
           <SalesButton
             text={'Request higher limit'}
             onClick={() => dispatch(actions.changeStep(6))}
