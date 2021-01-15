@@ -158,7 +158,7 @@
     "expandedRow": {
       "leverage": "leverage",
       "startMargin": "Start Margin",
-      "mainenanceMargin": "Mainenance Margin",
+      "mainenanceMargin": "Maintenance Margin",
       "currentPrice": "Current Price",
       "liquidationPrice": "Liquidation Price",
       "renewalDate": "Renewal Date"
