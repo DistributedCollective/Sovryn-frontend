@@ -14,6 +14,7 @@ import { contractReader } from '../../../../utils/sovryn/contract-reader';
 const StyledContent = styled.div`
   background: var(--sales-background);
   max-width: 1235px;
+  min-height: 620px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
@@ -108,11 +109,11 @@ export default function Screen3(props: Props) {
           <BackButton />
         </div>
       )}
-      <p className="content-header">Welcome to the SOV Genesis Sale</p>
+      <p className="content-header">Welcome to the SOV* Genesis Sale</p>
       <p className="content-title">
         Please enter your code to gain access
         <br />
-        to the SOV Genesis sale
+        to the SOV* Genesis sale
       </p>
       {codeError && <div className="text-danger">{codeError}</div>}
       {upgradeLoading && (

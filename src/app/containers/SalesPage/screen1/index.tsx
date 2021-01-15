@@ -43,7 +43,7 @@ export default function Screen1() {
       <p className="content-header">
         Engage your wallet to participate in the
         <br />
-        SOV Genesis Sale
+        SOV* Genesis Sale
       </p>
       <SalesButton
         text={t(translations.wallet.connect_btn)}
