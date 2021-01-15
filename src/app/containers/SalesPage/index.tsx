@@ -55,6 +55,13 @@ export function SalesPage() {
     account,
   );
 
+  const { value: totalDeposits } = useCacheCallWithValue(
+    'CrowdSale',
+    'InvestorTotalDeposits',
+    '0',
+    account,
+  );
+
   const { value: minPurchase } = useCacheCallWithValue(
     'CrowdSale',
     'minPurchase',
@@ -70,6 +77,10 @@ export function SalesPage() {
   useEffect(() => {
     dispatch(actions.updateMinDeposit(minPurchase));
   }, [minPurchase, dispatch]);
+
+  useEffect(() => {
+    dispatch(actions.updateTotalDeposits(totalDeposits));
+  }, [totalDeposits, dispatch]);
 
   useEffect(() => {
     if (isConnected) dispatch(actions.changeStep(2));

@@ -3,15 +3,9 @@ import styled, { css } from 'styled-components/macro';
 import SalesButton from '../../components/SalesButton';
 import { media } from '../../../styles/media';
 import { Icon } from '@blueprintjs/core';
-import {
-  fromWei,
-  toWei,
-  trimZero,
-  weiToFixed,
-} from 'utils/blockchain/math-helpers';
-import { useDispatch, useSelector } from 'react-redux';
+import { fromWei, toWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { useDispatch } from 'react-redux';
 import { actions as sActions } from '../SalesPage/slice';
-import { selectSalesPage } from '../SalesPage/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { useBalance } from 'app/hooks/useBalance';
 import { useSaleCalculator } from '../SalesPage/hooks/useSaleCalculator';
@@ -36,6 +30,7 @@ import { SendTxProgress } from '../../components/SendTxProgress';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { gas } from '../../../utils/blockchain/gas-price';
+import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
 
 interface StyledProps {
   background?: string;
@@ -227,7 +222,7 @@ function TransactionDetail(props: DetailsProps) {
 export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
-  const { maxDeposit, minDeposit } = useSelector(selectSalesPage);
+  const { minDeposit, maxDeposit } = useSaleLimits();
   const account = useAccount();
   const { value: balance } = useBalance();
 
@@ -269,7 +264,11 @@ export default function SendRBTC() {
 
   const addAllBalance = e => {
     e && e.preventDefault && e.preventDefault();
-    setAmount(fromWei(min(maxDeposit, bignumber(balance).sub(gasEstimation))));
+    let _balance = bignumber(balance).sub(gasEstimation);
+    if (_balance.lessThanOrEqualTo(0)) {
+      _balance = bignumber(0);
+    }
+    setAmount(fromWei(min(bignumber(maxDeposit), _balance)));
   };
 
   useEffect(() => {
@@ -297,8 +296,8 @@ export default function SendRBTC() {
         <div className="col-md-6">
           <div className="mb-4">
             <p className="mb-2">Deposit limits:</p>
-            <li>MIN: {trimZero(fromWei(minDeposit))} (r)BTC</li>
-            <li>MAX: {trimZero(fromWei(maxDeposit))} (r)BTC</li>
+            <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
+            <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
             <a
               href="/sales#"
               className="d-block"

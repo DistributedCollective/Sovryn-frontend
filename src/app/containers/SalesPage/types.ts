@@ -5,6 +5,7 @@ export interface SalesPageState {
   step: number;
   maxDeposit: number;
   minDeposit: number;
+  totalDeposits: number;
   upgradeLoading: boolean;
   btcAddressLoading: boolean;
   btcAddress: Nullable<string>;

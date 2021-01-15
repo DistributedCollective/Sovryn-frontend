@@ -8,6 +8,7 @@ export const initialState: ContainerState = {
   step: 1,
   maxDeposit: 0,
   minDeposit: 0,
+  totalDeposits: 0,
   upgradeLoading: false,
   btcAddressLoading: true,
   btcAddress: null,
@@ -34,6 +35,9 @@ const SalesSlice = createSlice({
     },
     updateMinDeposit(state, { payload }: PayloadAction<number>) {
       state.minDeposit = payload;
+    },
+    updateTotalDeposits(state, { payload }: PayloadAction<number>) {
+      state.totalDeposits = payload;
     },
     useCode(
       state,
