@@ -11,8 +11,7 @@ import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
 import sov_3 from 'assets/images/wallet/sov_3.jpg';
-
-// import { currentNetwork } from '../../../../utils/classifiers';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -70,6 +69,31 @@ export default function Screen2() {
     }
   }, [maxDepositFormatted, setTierLabel, setTierImage]);
 
+  const { value: isStopSale } = useCacheCallWithValue(
+    'CrowdSale',
+    'isStopSale',
+    false,
+  );
+
+  const { value: end } = useCacheCallWithValue('CrowdSale', 'end', '0');
+
+  const { value: availableTokens } = useCacheCallWithValue(
+    'CrowdSale',
+    'availableTokens',
+    '0',
+  );
+
+  const [isSaleOpen, setIsSaleOpen] = useState(false);
+
+  useEffect(() => {
+    setIsSaleOpen(
+      !isStopSale &&
+        Number(end) > 0 &&
+        Date.now() < Number(end) * 10e3 &&
+        Number(availableTokens) > 0,
+    );
+  }, [isStopSale, end, availableTokens]);
+
   return (
     <StyledContent>
       <p className="content-header">Welcome to the SOV* Genesis Sale</p>
@@ -113,6 +137,7 @@ export default function Screen2() {
         <div className="d-flex flex-column justify-content-around b-group px-xl-5">
           <SalesButton
             text={'Continue to sale'}
+            disabled={!isSaleOpen}
             onClick={() => dispatch(actions.changeStep(4))}
           />
           <SalesButton
