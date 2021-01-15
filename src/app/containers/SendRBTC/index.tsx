@@ -38,12 +38,16 @@ interface StyledProps {
 
 const Wrapper = styled.div`
   width: 320px;
+  margin-right: 10px;
   ${(props: StyledProps) =>
     props.background &&
     css`
       background: ${props.background};
     `}
   border-radius: 10px;
+  .rbtc-text {
+    font-size: 18px;
+  }
   .header {
     display: flex;
     justify-content: center;
@@ -60,10 +64,17 @@ const Wrapper = styled.div`
   .gas-fee {
     border-bottom: 1px solid grey;
     border-top: 1px solid grey;
-    padding: 1em 0;
+    padding: 0.9em 0 0.7rem;
     justify-content: center;
     text-align: center;
     font-size: 14px;
+    margin-top: 6px;
+    font-family: 'Work Sans';
+    letter-spacing: 0;
+    font-weight: 300;
+    span {
+      padding-left: 10px;
+    }
   }
   .rbtc-input {
     background: white;
@@ -71,14 +82,36 @@ const Wrapper = styled.div`
     border-radius: 8px;
     padding: 10px;
     color: black;
+    height: 50px;
+    font-size: 22px;
+    font-family: 'Work Sans';
+    font-weight: 300;
+    margin-bottom: 4px;
   }
   .sov-res {
     text-align: center;
     background: #707070;
     border-radius: 8px;
-    padding: 10px;
+    padding: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
+    font-weight: 600;
     margin: 10px 0 20px 0;
+    span {
+      font-size: 14px;
+      font-weight: 100;
+      padding-left: 6px;
+    }
+  }
+  .font-sale-sm {
+    font-size: 14px;
+    font-weight: 100;
+    a {
+      color: white !important;
+      font-weight: 100 !important;
+    }
   }
   .content {
     padding: 20px;
@@ -117,21 +150,25 @@ const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
 }))`
   border: none;
-  background: rgb(78, 205, 196);
+  background: #4ecdc4;
   color: white;
   height: 48px;
   text-align: center;
+  font-size: 24px;
+  letter-spacing: 0;
+  font-family: 'Work Sans';
+  transition: background 0.3s;
   ${media.xl`
-    height: 50px;
+    height: 60px;
     padding: 2px 20px;
     border-radius: 8px;
     font-weight: 600;
-  
+
     &:hover, &:focus {
-      background: rgba(78, 205, 196, 0.75) !important;
+      background: rgba(78, 205, 196, 0.9) !important;
     }
     &:active:hover {
-      background: rgb(78, 205, 196) !important;
+      background: #4ECDC4 !important;
     }
     `}
   ${props =>
@@ -292,12 +329,14 @@ export default function SendRBTC() {
   return !showTx ? (
     <div>
       <p className="content-header">Buy SOV with (r)BTC</p>
-      <div className="row">
-        <div className="col-md-6">
+      <div className="row justify-content-around">
+        <div className="col-md-5">
           <div className="mb-4">
             <p className="mb-2">Deposit limits:</p>
-            <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
-            <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
+            <ul>
+              <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
+              <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
+            </ul>
             <a
               href="/sales#"
               className="d-block"
@@ -322,11 +361,19 @@ export default function SendRBTC() {
           <div>
             <p>Instructions: </p>
             <div>
-              <li>Buy SOV with (r)BTC in your engaged wallet</li>
-              <li>Please allow up to 5 mins for the transaction to process</li>
+              <ul>
+                <li className="mb-2">
+                  <span>Buy SOV with (r)BTC in your engaged wallet</span>
+                </li>
+                <li className="mb-4">
+                  <span>
+                    Please allow up to 5 mins for the transaction to process
+                  </span>
+                </li>
+              </ul>
             </div>
 
-            <p>
+            <p className="support-text mt-1">
               For support please join us on{' '}
               <a href="https://discord.com/invite/J22WS6z" target="_new">
                 discord.com/invite/J22WS6z
@@ -334,9 +381,9 @@ export default function SendRBTC() {
             </p>
           </div>
         </div>
-        <div className="col-md-6 d-flex justify-content-end">
+        <div className="col-md-4 d-flex justify-content-end">
           <Wrapper className="d-flex flex-column">
-            <p className="mb-1">Send (r)BTC:</p>
+            <p className="mb-2 rbtc-text">Send (r)BTC:</p>
             <input
               className="rbtc-input"
               type="text"
@@ -344,7 +391,7 @@ export default function SendRBTC() {
               value={amount}
               onChange={e => setAmount(handleNumber(e.target.value))}
             />
-            <p className="text-center font-sale-sm mt-3">
+            <p className="text-center font-sale-sm mt-2">
               Available Balance:{' '}
               <a href="/sales#" onClick={addAllBalance}>
                 {weiToNumberFormat(balance, 8)}
@@ -352,17 +399,19 @@ export default function SendRBTC() {
               (r)BTC
             </p>
             <p className="gas-fee">
-              Estimated Gas Fee*: ≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC
+              Estimated Gas Fee*:{' '}
+              <span>≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC</span>
             </p>
-            <p className="text-center">
+            <p className="text-center mt-1 mb-2">
               <Icon icon="arrow-down" iconSize={35} />
             </p>
-            <p className="mb-0">Receive SOV:</p>
+            <p className="mb-0 rbtc-text">Receive SOV:</p>
             <LoadableValue
               loading={loading}
               value={
-                <p className="sov-res">
-                  {toNumberFormat(sovToReceive)} ≈ {numberToUSD(price, 2)}
+                <p className="sov-res mb-4">
+                  {toNumberFormat(sovToReceive)}{' '}
+                  <span>≈ {numberToUSD(price, 2)}</span>
                 </p>
               }
             />
@@ -371,7 +420,11 @@ export default function SendRBTC() {
               {...tx}
               displayAbsolute={false}
             />
-            <StyledButton onClick={handleBuy} disabled={!canSubmit}>
+            <StyledButton
+              className="mt-1"
+              onClick={handleBuy}
+              disabled={!canSubmit}
+            >
               BUY SOV
             </StyledButton>
           </Wrapper>
