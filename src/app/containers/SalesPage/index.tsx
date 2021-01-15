@@ -38,6 +38,7 @@ import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
+import EnterCodeLanding from './EnterCodeLanding';
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
@@ -130,7 +131,7 @@ export function SalesPage() {
         ) : (
           <>
             {Number(state.maxDeposit) === 0 ? (
-              <Screen3 hideBackButton />
+              <EnterCodeLanding />
             ) : (
               <>
                 {state.step === 1 && <Screen1 />}
