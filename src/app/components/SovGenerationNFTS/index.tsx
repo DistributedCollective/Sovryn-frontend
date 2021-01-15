@@ -61,47 +61,45 @@ export function SovGenerationNFTS() {
         {tiers.map((item, index) => {
           return (
             item.balance !== '0' && (
-              <>
-                <div
-                  key={index}
-                  className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block"
-                >
-                  <div className="image-bordered">
-                    <img
-                      className="w-100 h-100 image-responsive"
-                      src={item.image}
-                      alt=""
-                    />
-                  </div>
-                  <div className="sov-table">
-                    <table className="table">
-                      <tbody>
-                        <tr>
-                          <td>
-                            <b>SOV Genesis Sale</b>
-                          </td>
-                          <td rowSpan={2}>
-                            <img src={sov_icon} alt="icon" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>
-                              Purchase Limit: {item.max} BTC ({item.balance})
-                            </b>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>{item.title} Tier</td>
-                          <td>
-                            <div>SOV-OG</div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+              <div
+                key={index}
+                className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block"
+              >
+                <div className="image-bordered">
+                  <img
+                    className="w-100 h-100 image-responsive"
+                    src={item.image}
+                    alt=""
+                  />
                 </div>
-              </>
+                <div className="sov-table">
+                  <table className="table">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <b>SOV Genesis Sale</b>
+                        </td>
+                        <td rowSpan={2}>
+                          <img src={sov_icon} alt="icon" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <b>
+                            Purchase Limit: {item.max} BTC ({item.balance})
+                          </b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{item.title} Tier</td>
+                        <td>
+                          <div>SOV-OG</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             )
           );
         })}

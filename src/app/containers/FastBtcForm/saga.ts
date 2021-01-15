@@ -22,14 +22,14 @@ function createSocketConnection() {
 function createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
     if (receiverAddress) {
-      // get deposit address
-      socket.emit('getDepositAddress', receiverAddress, (err, res) => {
-        if (res && res.btcadr) {
-          emit(actions.getDepositAddressSuccess(res));
-        } else {
-          emit(actions.getDepositAddressFailed(err.error));
-        }
-      });
+      //   // get deposit address
+      //   socket.emit('getDepositAddress', receiverAddress, (err, res) => {
+      //     if (res && res.btcadr) {
+      //       emit(actions.getDepositAddressSuccess(res));
+      //     } else {
+      //       emit(actions.getDepositAddressFailed(err.error));
+      //     }
+      //   });
       getHistory(receiverAddress);
     }
     socket.emit('initAddress', receiverAddress, (err, res) => {
@@ -75,10 +75,12 @@ function createWebSocketChannel(receiverAddress, socket) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function* resetAddresses() {
   yield put(actions.resetAddresses());
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function* watchSocketChannel({ payload }: PayloadAction<string>) {
   if (!payload) {
     yield put(actions.getDepositAddressFailed(null));
