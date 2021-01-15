@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { bignumber } from 'mathjs';
 import { Button, ButtonGroup } from '@blueprintjs/core';
 import { translations } from '../../../locales/i18n';
@@ -21,7 +21,7 @@ import { Asset } from '../../../types/asset';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { Skeleton } from '../PageSkeleton';
 import { numberToUSD } from '../../../utils/display-text/format';
-import { actions } from 'app/containers/FastBtcForm/slice';
+// import { actions } from 'app/containers/FastBtcForm/slice';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -85,13 +85,13 @@ function AssetRow({ item }: AssetProps) {
   const { t } = useTranslation();
   const tokens = useAssetBalanceOf(item.asset);
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
 
   const [dollarValue, setDollarValue] = useState('0');
 
   useEffect(() => {
-    if (item.asset === Asset.USDT) {
+    if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       setDollarValue(tokens.value);
     } else {
       setDollarValue(
@@ -128,14 +128,14 @@ function AssetRow({ item }: AssetProps) {
       </td>
       <td className="text-right d-none d-md-table-cell">
         <ButtonGroup>
-          {item.asset === Asset.BTC && (
-            <Button
-              minimal
-              text={t(translations.userAssets.actions.deposit)}
-              className="text-gold"
-              onClick={() => dispatch(actions.showDialog(true))}
-            />
-          )}
+          {/*{item.asset === Asset.BTC && (*/}
+          {/*  <Button*/}
+          {/*    minimal*/}
+          {/*    text={t(translations.userAssets.actions.deposit)}*/}
+          {/*    className="text-gold"*/}
+          {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
+          {/*  />*/}
+          {/*)}*/}
           <Button
             minimal
             text={t(translations.userAssets.actions.trade)}
