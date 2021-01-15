@@ -16,6 +16,7 @@ import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 const StyledContent = styled.div`
   background: var(--sales-background);
   max-width: 1235px;
+  min-height: 620px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;

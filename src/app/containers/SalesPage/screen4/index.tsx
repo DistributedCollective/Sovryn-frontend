@@ -19,6 +19,7 @@ const StyledContent = styled.div`
   position: relative;
   .tab-content {
     background: black;
+    min-height: 560px;
     height: 100%;
     position: relative;
     padding-left: 15px;

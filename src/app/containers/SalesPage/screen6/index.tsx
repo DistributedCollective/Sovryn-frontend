@@ -16,6 +16,7 @@ import { useAccount } from '../../../hooks/useAccount';
 const StyledContent = styled.div`
   background: var(--sales-background);
   max-width: 1200px;
+  min-height: 620px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
@@ -123,7 +124,7 @@ export default function Screen6() {
       <p className="content-header">
         Please fill out this form to request access to the
         <br />
-        SOV Genesis sale{' '}
+        SOV* Genesis sale{' '}
       </p>
       <div className="row">
         <div className="col-md-6 d-flex flex-column align-items-center">

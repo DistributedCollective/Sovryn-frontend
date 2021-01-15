@@ -85,9 +85,7 @@ export function SovGenerationNFTS() {
                       </tr>
                       <tr>
                         <td>
-                          <b>
-                            Purchase Limit: {item.max} BTC ({item.balance})
-                          </b>
+                          <b>Purchase Limit: {item.max} BTC</b>
                         </td>
                       </tr>
                       <tr>
