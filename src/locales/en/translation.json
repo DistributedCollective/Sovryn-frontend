@@ -464,6 +464,26 @@
     "pending_for_user": {
       "title": "Pending for user",
       "text": "Please confirm transaction in your wallet."
+    },
+    "pending": {
+      "title": "Transaction pending",
+      "text": "Your transaction is being processed."
+    },
+    "confirmed": {
+      "title": "Transaction confirmed!",
+      "text": "Your transaction was confirmed in the blockchain."
+    },
+    "failed": {
+      "title": "Transaction failed!",
+      "text": "Transaction was reverted by contract."
+    },
+    "denied": {
+      "title": "Rejected!",
+      "text": "User denied transaction."
+    },
+    "texts": {
+      "transaction": "Transaction",
+      "closeButton": "Close"
     }
   },
   "topUpBtcDialog": {
