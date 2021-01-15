@@ -9,8 +9,10 @@ import samurai from './assets/banner-samurai.svg';
 import { useSaleEndTime } from '../../containers/SalesPage/hooks/useSaleEndTime';
 import { currentNetwork } from '../../../utils/classifiers';
 
-const startDate = moment('2021-01-19 17:00+0').utc().toDate();
-// const startDate: Date = null as any;
+const startDate =
+  currentNetwork === 'mainnet'
+    ? moment('2021-01-19 17:00+0').utc().toDate()
+    : (null as any);
 
 export function SaleBanner() {
   const [show, setShow] = useState(true);
