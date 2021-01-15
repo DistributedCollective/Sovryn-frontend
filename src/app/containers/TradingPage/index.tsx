@@ -7,7 +7,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -24,6 +24,7 @@ import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 import { SaleBanner } from '../../components/SaleBanner';
+import { currentNetwork } from '../../../utils/classifiers';
 const s = translations.tradingPage;
 
 interface Props {}
@@ -32,12 +33,7 @@ export function TradingPage(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: tradingPageSaga });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const tradingPage = useSelector(selectTradingPage);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch();
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
   const symbol = TradingPairDictionary.get(
@@ -52,7 +48,7 @@ export function TradingPage(props: Props) {
       </Helmet>
       <Header />
       <div className="container mt-5">
-        <SaleBanner />
+        {currentNetwork === 'testnet' && <SaleBanner />}
         <div className="row">
           <div
             className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
