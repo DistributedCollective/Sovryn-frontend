@@ -147,7 +147,9 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
       .div(10 ** 36),
   );
 
-  if (events[0].collateralToken === Asset.DOC) {
+  if (
+    TradingPairDictionary.longPositionTokens.includes(events[0].collateralToken)
+  ) {
     profit = toWei(bignumber(profit).div(closePrice));
   }
 
@@ -245,6 +247,7 @@ export function TradingHistory() {
 }
 
 function HistoryTable(props: { items: CalculatedEvent[] }) {
+  const { t } = useTranslation();
   const prettyPrice = useCallback(
     amount => `$ ${parseFloat(weiTo2(amount)).toLocaleString('en')}`,
     [],
@@ -300,27 +303,27 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
         accessor: 'icon',
       },
       {
-        Header: 'Position Size',
+        Header: t(translations.tradingHistoryPage.table.positionSize),
         accessor: 'positionSize',
       },
       {
-        Header: 'Leverage',
+        Header: t(translations.tradingHistoryPage.table.leverage),
         accessor: 'leverage',
       },
       {
-        Header: 'Open Price',
+        Header: t(translations.tradingHistoryPage.table.openPrice),
         accessor: 'entryPrice',
       },
       {
-        Header: 'Close Price',
+        Header: t(translations.tradingHistoryPage.table.closePrice),
         accessor: 'closePrice',
       },
       {
-        Header: 'Profit',
+        Header: t(translations.tradingHistoryPage.table.profit),
         accessor: 'profit',
       },
     ],
-    [],
+    [t],
   );
 
   const {

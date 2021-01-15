@@ -6,6 +6,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { Icon } from '@blueprintjs/core';
 import { FieldGroup } from '../../components/FieldGroup';
 import { FormSelect } from '../../components/FormSelect';
@@ -26,6 +27,7 @@ import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.swapTradeForm;
 
@@ -114,6 +116,19 @@ export function SwapTradeForm(props: Props) {
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
 
+  const { state } = useLocation();
+
+  useEffect(() => {
+    const params: any = (state as any)?.params;
+    if (params?.action && params?.action === 'swap' && params?.asset) {
+      const item = getOptions().find(item => item.key === params.asset);
+      if (item) {
+        setSourceToken(item.key);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, tokens]);
+
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
@@ -121,7 +136,9 @@ export function SwapTradeForm(props: Props) {
           <div className="col-8">
             <AmountField
               onChange={value => setAmount(value)}
-              onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+              onMaxClicked={() =>
+                setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
+              }
               value={amount}
             />
           </div>

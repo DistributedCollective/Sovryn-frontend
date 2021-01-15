@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@blueprintjs/core';
 import { LinkToExplorer } from '../LinkToExplorer';
 import { TradingPosition } from '../../../types/trading-position';
-import { TopUpHint } from '../TopUpHint';
 import {
   Transaction,
   TxStatus,
@@ -26,90 +25,6 @@ interface Props {
   position: string;
   displayAbsolute: boolean;
 }
-
-const typeClassifiers = {
-  pending_for_user: {
-    title: {
-      default: 'Waiting for user',
-    },
-    description: {
-      default: 'Please confirm transaction in your wallet',
-    },
-  },
-  pending: {
-    title: {
-      default: 'Transaction pending',
-      approve: 'Approving',
-      trade: 'Trade in Progress',
-      lend: 'Lending in Progress',
-      top_up: 'Top Up in Progress',
-      trade_close: 'Closing Position',
-      withdraw: 'Withdrawal in Progress',
-    },
-    description: {
-      default: 'Your transaction is being processed.',
-      trade: <TopUpHint />,
-    },
-  },
-  confirmed: {
-    title: {
-      default: 'Transaction confirmed!',
-      approve: 'Approved successfully!',
-      trade: 'Trade was successful!',
-      lend: 'Lending was successful!',
-      top_up: 'Top Up Successful!',
-      trade_close: 'Position Closed!',
-      withdraw: 'Withdrawal was successful!',
-    },
-    description: {
-      default: 'Your transaction was confirmed in the blockchain.',
-    },
-  },
-  failed: {
-    title: {
-      default: 'Transaction failed!',
-      approve: 'Failed to approve!',
-      trade: 'Trade failed!',
-      lend: 'Lending failed!',
-      top_up: 'Top Up failed!',
-      trade_close: 'Failed to close position!',
-      withdraw: 'Withdraw failed!',
-    },
-    description: {
-      default: 'Transaction was reverted by contract.',
-    },
-  },
-  denied: {
-    title: {
-      default: 'Rejected.',
-    },
-    description: {
-      default: 'User denied transaction',
-    },
-  },
-};
-
-const getTitle = (status: TxStatus | string, type: TxType = TxType.NONE) => {
-  if (typeClassifiers.hasOwnProperty(status)) {
-    if (typeClassifiers[status].title.hasOwnProperty(type)) {
-      return typeClassifiers[status].title[type];
-    }
-    return typeClassifiers[status].title.default;
-  }
-  return '!!! No title';
-};
-const getDescription = (
-  status: TxStatus | string,
-  type: TxType = TxType.NONE,
-) => {
-  if (typeClassifiers.hasOwnProperty(status)) {
-    if (typeClassifiers[status].description.hasOwnProperty(type)) {
-      return typeClassifiers[status].description[type];
-    }
-    return typeClassifiers[status].description.default;
-  }
-  return '!!! No description';
-};
 
 const getIcon = (status: TxStatus) => {
   switch (status) {
@@ -137,27 +52,29 @@ export function SendTxProgress(props: Props) {
   useEffect(() => {
     if (props.txHash && transactions.hasOwnProperty(props.txHash)) {
       setTx(transactions[props.txHash]);
-      // if (
-      //   transactions[props.txHash].approveTransactionHash &&
-      //   transactions.hasOwnProperty(
-      //     transactions[props.txHash].approveTransactionHash as string,
-      //   )
-      // ) {
-      //   setApproveTx(
-      //     transactions[
-      //       transactions[props.txHash].approveTransactionHash as string
-      //     ],
-      //   );
-      // } else {
-      //   setApproveTx(undefined);
-      // }
     } else {
       setTx(undefined);
-      // setApproveTx(undefined);
     }
   }, [props.txHash, transactions]);
 
   const closeWindow = () => setDisplay(false);
+
+  const getTitle = (status: TxStatus | string, type: TxType = TxType.NONE) => {
+    if (translations.sendTxProgress.hasOwnProperty(status)) {
+      return t(translations.sendTxProgress[status].title);
+    }
+    return '!!! No title';
+  };
+
+  const getDescription = (
+    status: TxStatus | string,
+    type: TxType = TxType.NONE,
+  ) => {
+    if (translations.sendTxProgress.hasOwnProperty(status)) {
+      return t(translations.sendTxProgress[status].text);
+    }
+    return '!!! No description';
+  };
 
   let color = props.position === TradingPosition.LONG ? 'teal' : 'gold';
 
@@ -178,7 +95,7 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`bg-white text-black p-4 rounded d-flex flex-row justify-content-between ${
+      className={`bg-white text-black p-4 rounded d-flex flex-row justify-content-between font-family-work-sans ${
         props.displayAbsolute ? 'position-absolute p-4' : 'my-3 px-3 py-2'
       }`}
       style={{
@@ -217,7 +134,7 @@ export function SendTxProgress(props: Props) {
               {t(translations.sendTxProgress.pending_for_user.title)}
             </div>
             <div className="font-weight-light">
-              {t(translations.sendTxProgress.pending_for_user.title)}
+              {t(translations.sendTxProgress.pending_for_user.text)}
             </div>
           </div>
         </>
@@ -242,7 +159,7 @@ export function SendTxProgress(props: Props) {
                 }}
                 onClick={closeWindow}
               >
-                <u>Close</u> X
+                <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
               </div>
             )}
             <div
@@ -256,7 +173,7 @@ export function SendTxProgress(props: Props) {
                 <>
                   {subText && <p className="mb-1">{subText}</p>}
                   <p className="m-0">
-                    Transaction:{' '}
+                    {t(translations.sendTxProgress.texts.transaction)}:{' '}
                     {tx?.approveTransactionHash && (
                       <>
                         <LinkToExplorer
@@ -298,7 +215,7 @@ export function SendTxProgress(props: Props) {
               }}
               onClick={closeWindow}
             >
-              <u>Close</u> X
+              <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
             <div
               className="text-uppercase font-weight-bold"

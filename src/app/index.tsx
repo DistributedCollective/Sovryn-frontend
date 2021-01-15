@@ -6,12 +6,13 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
+import { TutorialDialogModal } from './containers/TutorialDialogModal/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -21,10 +22,8 @@ import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { useEffect, useState } from 'react';
-
-import { TutorialDialog } from './components/TutorialDialog/container';
-import { WalletPage } from './containers/WalletPage/Loadable';
+import { WalletPage } from './containers/WalletPage';
+import { SalesPage } from './containers/SalesPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -72,7 +71,6 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       <WalletProvider>
-        <TutorialDialog />
         <Switch>
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
@@ -80,6 +78,7 @@ export function App() {
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />
           <Route exact path="/wallet" component={WalletPage} />
+          <Route exact path="/sales" component={SalesPage} />
           <Route
             exact
             path="/optin-success"
@@ -92,6 +91,7 @@ export function App() {
           />
           <Route component={NotFoundPage} />
         </Switch>
+        <TutorialDialogModal />
       </WalletProvider>
       <GlobalStyle />
     </BrowserRouter>

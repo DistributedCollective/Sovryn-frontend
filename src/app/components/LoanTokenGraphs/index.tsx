@@ -20,6 +20,8 @@ import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { databaseRpcNodes } from '../../../utils/classifiers';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
+import { translations } from '../../../locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface DataItem {
   date: Date;
@@ -86,6 +88,7 @@ interface BarsProps {
 }
 
 function BarsGraph({ width, asset, data }: BarsProps) {
+  const { t } = useTranslation();
   const [activeStep, setActiveStap] = useState<number>(null as any);
 
   const height = 115;
@@ -175,8 +178,8 @@ function BarsGraph({ width, asset, data }: BarsProps) {
     setActiveStap(null as any);
   }, [hideTooltip]);
 
-  // @ts-ignore
-  // @ts-ignore
+  const interestAPRText: string = t(translations.global.interestApr);
+
   return width < 10 ? null : (
     <div
       className="position-relative"
@@ -212,7 +215,7 @@ function BarsGraph({ width, asset, data }: BarsProps) {
         </Group>
         <Group top={33} left={xSupplyScale.bandwidth() / 2}>
           <Text verticalAnchor="start" fill="#f89b2b" fontSize={10}>
-            % Interest APR
+            {interestAPRText}
           </Text>
         </Group>
         <Group top={50} left={xSupplyScale.bandwidth() / 2}>

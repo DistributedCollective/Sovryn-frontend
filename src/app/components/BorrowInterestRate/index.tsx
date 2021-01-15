@@ -12,6 +12,8 @@ import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { LoadableValue } from '../LoadableValue';
 import { FieldGroup } from '../FieldGroup';
 import { DummyField } from '../DummyField';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   asset: Asset;
@@ -22,6 +24,7 @@ interface Props {
 }
 
 export function BorrowInterestRate(props: Props) {
+  const { t } = useTranslation();
   const { value: result } = usePriceFeeds_QueryRate(
     props.collateral,
     props.asset,
@@ -63,7 +66,10 @@ export function BorrowInterestRate(props: Props) {
   );
 
   return (
-    <FieldGroup label="Interest APR" labelColor={props.labelColor}>
+    <FieldGroup
+      label={t(translations.global.interestApr)}
+      labelColor={props.labelColor}
+    >
       <DummyField>
         <LoadableValue
           value={

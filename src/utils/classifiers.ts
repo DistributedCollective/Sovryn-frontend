@@ -43,7 +43,17 @@ export const fastBtcApis = {
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/backendrpc',
+  31: 'https://testnet.sovryn.app/backend/rpc',
+};
+
+export const saleBackend = {
+  30: 'https://backend.sovryn.app/genesis',
+  31: 'https://testnet.sovryn.app/genesis',
+};
+
+export const backendUrl = {
+  30: 'https://backend.sovryn.app',
+  31: 'https://testnet.sovryn.app/backend',
 };
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
@@ -56,3 +66,5 @@ export const gasLimit = {
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
 };
+
+export const SHOW_MODAL = 'SHOW_MODAL';

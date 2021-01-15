@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 import { media } from './media';
 
 export const GlobalStyle = createGlobalStyle`
@@ -14,7 +14,10 @@ export const GlobalStyle = createGlobalStyle`
     font-family: var(--primary-font);
     font-size: 12px;
     background-color: var(--background);
-    color: white;
+    color: #D9D9D9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 0.45px;
     ${media.lg`
     font-size: 16px;
     `}
@@ -22,7 +25,6 @@ export const GlobalStyle = createGlobalStyle`
 
   #root {
     min-height: 100vh;
-    min-width: 100vw;
     overflow: auto;
   }
 
@@ -83,6 +85,9 @@ input[type=number] {
   .font {
     &-xs {
       font-size: 12px;
+    }
+    &-sale-sm {
+      font-size: 14px;
     }
   }
   button {

@@ -45,8 +45,10 @@ export function ExpandedRowMobile(props) {
         <div className="col-4" />
       </div>
       <div className="row mobile-expanded-row pb-2">
-        <div className="col-4">{numberToUSD(props.item.currentPrice, 2)}</div>
-        <div className="col-4">{props.item.liquidationPrice}</div>
+        <div className="col-4">{props.item.currentPrice}</div>
+        <div className="col-4">
+          {numberToUSD(props.item.liquidationPrice, 2)}
+        </div>
         <div className="col-4" />
       </div>
       <div className="row table-header sub-header">
@@ -55,7 +57,7 @@ export function ExpandedRowMobile(props) {
       </div>
       <div className="row mobile-expanded-row pb-3 border-bottom">
         <div className="col-8">{props.item.endDate}</div>
-        <div className="col-4">{props.item.mobileActions}</div>
+        <div className="col-4">{props.item.actions}</div>
       </div>
     </div>
   );

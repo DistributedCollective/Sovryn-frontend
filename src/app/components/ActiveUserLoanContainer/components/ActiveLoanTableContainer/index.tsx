@@ -4,13 +4,11 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
-import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import {
@@ -18,29 +16,21 @@ import {
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
-import { Asset } from 'types/asset';
 import {
   formatAsBTCPrice,
   stringToPercent,
   formatAsNumber,
-  calculateProfit,
+  calculateLiquidation,
 } from 'utils/display-text/format';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { usePriceFeeds_tradingPairRates } from '../../../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
+import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
+import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
+import { bignumber } from 'mathjs';
 
 interface Props {
   data: any;
   activeTrades: boolean;
-}
-
-function getAssetPrice(source: Asset, target: Asset, items: CachedAssetRate[]) {
-  const item = items.find(
-    item => item.source === source && item.target === target,
-  );
-  return item?.value?.rate || '0';
 }
 
 export function ActiveLoanTableContainer(props: Props) {
@@ -51,10 +41,8 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
 
-  const items = usePriceFeeds_tradingPairRates();
-
   const data = React.useMemo(() => {
-    return props.data.map((item, i) => {
+    return props.data.map(item => {
       const currentMargin = formatAsNumber(item.currentMargin, 4);
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);
@@ -65,28 +53,23 @@ export function ActiveLoanTableContainer(props: Props) {
         loanAsset,
       );
       const startPrice = formatAsBTCPrice(item.startRate, isLong);
-      const currentRate = parseFloat(
-        fromWei(getAssetPrice(loanAsset, collateralAsset, items)),
-      );
-      const currentPrice = isLong ? 1 / currentRate : currentRate;
+      const leverage = leverageFromMargin(item.startMargin);
 
-      const profit = calculateProfit(
-        startPrice,
-        currentPrice,
-        isLong,
-        item.collateral,
-        item.startRate,
-      );
+      const amount = bignumber(item.collateral).div(leverage).toFixed(0);
 
       return {
         id: item.loanId,
-        pair: AssetsDictionary.get(loanAsset).symbol,
+        pair: isLong
+          ? `${AssetsDictionary.get(collateralAsset).symbol} / ${
+              AssetsDictionary.get(loanAsset).symbol
+            }`
+          : `${AssetsDictionary.get(loanAsset).symbol} / ${
+              AssetsDictionary.get(collateralAsset).symbol
+            }`,
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
         positionSize: formatAsNumber(item.collateral, 4),
-        positionInUSD: isLong
-          ? formatAsNumber(item.collateral, 4) * currentPrice
-          : formatAsNumber(item.collateral, 4),
+        positionInUSD: formatAsNumber(item.collateral, 4),
         positionCurrency: symbolByTokenAddress(item.collateralToken),
         currentMargin: currentMargin,
         startMargin: startMargin,
@@ -103,68 +86,70 @@ export function ActiveLoanTableContainer(props: Props) {
             timeZone: 'GMT',
           },
         ),
-        leverage: leverageFromMargin(item.startMargin),
-        profit:
-          isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
-        liquidationPrice: (
-          <ActiveLoanLiquidation
-            asset={loanAsset}
-            item={item}
-            currentPrice={currentPrice}
+        leverage,
+        profit: (
+          <CurrentPositionProfit
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            startRate={item.startRate}
             isLong={isLong}
           />
         ),
-        currentPrice,
-        maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
-        mobileActions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-around">
-            <Icon
-              icon="double-chevron-up"
-              className="text-green mr-1 rounded-circle border border-green p-1"
-              iconSize={16}
-              onClick={() => {
-                setPositionMarginModalOpen(true);
-                setSelectedItem(item);
-              }}
-            />
-            <Icon
-              icon="cross"
-              className="text-red ml-1 rounded-circle border border-red p-1"
-              iconSize={16}
-              onClick={() => {
-                setPositionCloseModalOpen(true);
-                setSelectedItem(item);
-              }}
-            />
-          </div>
+        liquidationPrice: calculateLiquidation(
+          isLong,
+          leverageFromMargin(item.startMargin),
+          item.maintenanceMargin,
+          item.startRate,
         ),
+        currentPrice: (
+          <CurrentPositionPrice
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            isLong={isLong}
+          />
+        ),
+        maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-between">
+          <div className="d-flex flex-row flex-nowrap justify-content-end">
             <div className="mr-1">
-              <TopUpButton
-                onClick={() => {
-                  setPositionMarginModalOpen(true);
-                  setSelectedItem(item);
-                }}
+              <Tooltip
+                content={t(translations.activeLoan.table.container.topUp)}
               >
-                {t(translations.activeLoan.table.container.topUp)}
-              </TopUpButton>
+                <Icon
+                  icon="double-chevron-up"
+                  className="text-green mr-1 rounded-circle border border-green p-1"
+                  iconSize={20}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setPositionMarginModalOpen(true);
+                    setSelectedItem(item);
+                  }}
+                />
+              </Tooltip>
             </div>
-            <div className="ml-1">
-              <CloseButton
-                onClick={() => {
-                  setPositionCloseModalOpen(true);
-                  setSelectedItem(item);
-                }}
+            <div>
+              <Tooltip
+                content={t(translations.activeLoan.table.container.close)}
               >
-                {t(translations.activeLoan.table.container.close)}
-              </CloseButton>
+                <Icon
+                  icon="cross"
+                  className="text-red ml-1 rounded-circle border border-red p-1"
+                  iconSize={20}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setPositionCloseModalOpen(true);
+                    setSelectedItem(item);
+                  }}
+                />
+              </Tooltip>
             </div>
           </div>
         ),
       };
     });
-  }, [props.data, t, items]);
+  }, [props.data, t]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.
@@ -211,21 +196,3 @@ export function ActiveLoanTableContainer(props: Props) {
     </>
   );
 }
-
-const TopUpButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--green);
-  width: 77px;
-  height: 32px;
-  color: var(--green);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;
-
-const CloseButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--red);
-  width: 77px;
-  height: 32px;
-  color: var(--red);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;

@@ -5,6 +5,10 @@
     "max": "max",
     "close": "Fechar"
   },
+  "global": {
+    "liquidationPrice": "Preço de liquidação",
+    "interestApr": "Juros anual"
+  },
   "title": "Sovryn",
   "announcement": {
     "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
@@ -28,7 +32,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Em andamento",
+      "activeTrades": "Ativas",
       "tradingHistory": "Concluídas"
     }
   },
@@ -51,16 +55,23 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações concluídas."
+    "noClosedTrades": "Você não tem operações concluídas.",
+    "table": {
+      "positionSize": "Tamanho da posição",
+      "leverage": "Alavancagem",
+      "openPrice": "Preço inicial",
+      "closePrice": "Preço de fechamento",
+      "profit": "Lucro / Prejuízo"
+    }
   },
   "fastBtcPage": {
     "meta": {
-      "title": "Fast-BTC",
+      "title": "Depositar-BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     }
   },
   "fastBtcForm": {
-    "title": "Fast-BTC Relay",
+    "title": "Depositar-BTC",
     "history": {
       "title": "Histórico",
       "empty": "Histórico vazio.",
@@ -81,13 +92,13 @@
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Operar",
-      "swap": "Trocar moedas"
+      "swap": "Trocar ativos"
     }
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade"
     },
     "buttons": {
@@ -96,7 +107,7 @@
   },
   "swapTradeForm": {
     "fields": {
-      "currency_placeholder": "Escolha a moeda",
+      "currency_placeholder": "Escolha o ativo",
       "send": "Você envia",
       "receive": "Você recebe"
     },
@@ -110,10 +121,10 @@
   },
   "wallet": {
     "btn": "Conectar carteira",
-    "connect_btn": "Escolher carteira",
-    "disconnect": "Desconectar",
-    "my_wallet": "Carteira",
-    "referrals": "Indique um amigo"
+    "connect_btn": "Conectar carteira",
+    "disconnect": "Sair",
+    "my_wallet": "Minha carteira",
+    "referrals": "Convide um amigo"
   },
   "hintDialog": {
     "title": "Dicas Sovryn"
@@ -124,10 +135,12 @@
   "mainMenu": {
     "trade": "Operar",
     "lend": "Empréstimos",
-    "fastBtc": "Fast-Btc",
+    "fastBtc": "Depositar-Btc",
+    "wallet": "Minha carteira",
     "liquidity": "Liquidez",
     "stats": "Dados",
-    "faqs": "FAQs"
+    "faqs": "FAQs",
+    "help": "Ajuda"
   },
   "trandingPositionSelector": {
     "long": "Comprado",
@@ -143,7 +156,7 @@
   },
   "activeLoan": {
     "expandedRow": {
-      "leverage": "alavancagem",
+      "leverage": "Alavancagem",
       "startMargin": "Margem inicial",
       "mainenanceMargin": "Margem de manutenção",
       "currentPrice": "Preço atual",
@@ -152,7 +165,10 @@
     },
     "table": {
       "positionSize": "Tamanho da posição",
-      "profit": "Lucro",
+      "profit": "Lucro / Prejuízo",
+      "currentMargin": "Margem atual",
+      "interestApr": "Juros anual",
+      "startPrice": "Preço inicial",
       "container": {
         "topUp": "Aumentar posição",
         "close": "Fechar posição"
@@ -171,10 +187,10 @@
     "renewalDate": "Data de renovação"
   },
   "statsPage": {
-    "asset": "Ativo",
-    "totalAssetSupplied": "Total de ativos fornecidos",
-    "totalAssetBorrowed": "Total de ativos emprestados",
-    "totalAvailable": "Total disponível",
+    "asset": "Ativos",
+    "totalAssetSupplied": "Fornecidos",
+    "totalAssetBorrowed": "Emprestados",
+    "totalAvailable": "Disponíveis",
     "supplyAPR": "Juros anual (Emprestador)",
     "borrowAPR": "Juros anual (Tomador)"
   },
@@ -186,9 +202,9 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "currency": "Moeda",
-    "currencySelect": "Selecionar moeda",
-    "poolSelect": "Select pool",
+    "currency": "Ativo",
+    "currencySelect": "Selecionar ativo",
+    "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
@@ -217,9 +233,17 @@
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
   },
+  "limitsNotification": {
+    "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+  },
   "lend": {
     "history": {
-      "title": "Histórico"
+      "title": "Histórico",
+      "amount": "Valor do empréstimo",
+      "date": "Data & hora",
+      "price": "Preço",
+      "transaction": "Transação",
+      "emptyState": "Histórico vazio."
     },
     "currency": {
       "lend": "Emprestar",
@@ -237,25 +261,25 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "token": "Token a ser colaterizado",
+      "token": "Ativo a ser colaterizado",
       "collateralAmount": "Quantidade colaterizada",
       "borrow": "Tomar empréstimo",
       "chooseDays": "Choose days"
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo em andamento."
+    "text": "Você não tem nenhum empréstimo ativo."
   },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
     "topUpAmount": "Aumentar quantidade",
     "topUp": "Aumentar",
-    "currency": "Moeda"
+    "currency": "Ativo"
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Moeda",
-      "currency_placeholder": "Escolha a moeda",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
       "fee": "Taxa"
@@ -267,7 +291,7 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Em andamento",
+      "active": "Ativas",
       "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
@@ -276,7 +300,7 @@
     "table": {},
     "no_items": "Seu histórico de empréstimos está vazio."
   },
-   "rskConnectTutorial": {
+  "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
     "mobile_wallet": "Mobile Wallet",
     "hardware_wallet": "Hardware Wallet",
@@ -360,48 +384,16 @@
         "txDetected": "Transaction detected"
       },
       "3": {
-        "txDetails": "Transaction Details",
-        "txHash": "Transaction hash",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
-  },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
+        "txDetails": "Detalhes da transação",
         "txHash": "rBTC Tx hash",
         "txId": " BTC Tx ID",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
+        "from": "Da carteira",
+        "to": "Para carteira",
+        "amount": "Valor transacionado",
+        "fee": "Taxa",
+        "initiated": "Iniciado",
         "status": "Status",
-        "estimated": "Estimated Time"
+        "estimated": "Tempo estimado"
       }
     }
   },
@@ -410,7 +402,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar Tokens",
-        "description": "Confirme a transação na sua carteira para aprovar gastar {{amount}} {{asset}} neste contrato inteligente.",
+        "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
@@ -423,7 +415,69 @@
   },
   "topUpBtcDialog": {
     "meta": {
-      "title": "Top-UP"
+      "title": "Depositar"
     }
+  },
+  "walletPage": {
+    "meta": {
+      "title": "Minha carteira",
+      "description": "Informações sobre a carteira conectada"
+    }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Carteira"
+    },
+    "tableHeaders": {
+      "asset": "Ativo",
+      "totalBalance": "Saldo total",
+      "dollarBalance": "Saldo em dólar",
+      "action": "Ação"
+    },
+    "actions": {
+      "deposit": "Depositar",
+      "swap": "Trocar",
+      "trade": "Operar"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Histórico de depósitos"
+    },
+    "tableHeaders": {
+      "time": "Data e hora",
+      "asset": "Ativo",
+      "amount": "Quantidade",
+      "fee": "Taxa",
+      "depositTx": "ID Depósito BTC",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transação"
+    },
+    "emptyState": "Histórico vázio.",
+    "walletHistory": "A carteira precisa estar conectada.",
+    "loading": "Carregando..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Depositar",
+      "redeem": "Resgatar"
+    },
+    "amount": {
+      "deposit": "Valor a ser depositado",
+      "redeem": "Valor a ser resgatado"
+    },
+    "tradeButtons": {
+      "deposit": "Depositar e emprestar {{asset}}",
+      "redeem": "Resgatar empréstimo {{asset}}"
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Emprestado",
+      "collateralAmount": "Colateral",
+      "interestAPR": "Juros anual",
+      "endTimestamp": "Quitar até"
+    },
+    "repayButton": "Quitar"
   }
 }

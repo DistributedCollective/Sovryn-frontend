@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { actions } from 'app/containers/LendBorrowSovryn/slice';
@@ -11,6 +11,8 @@ import { InterestAPR } from '../ActiveUserLoanContainer/components/InterestAPR';
 import { DisplayDate } from '../ActiveUserLoanContainer/components/DisplayDate';
 import { BorrowAmount } from './BorrowAmount';
 import { CollateralAmount } from './CollateralAmount';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   data: any;
@@ -18,27 +20,31 @@ interface Props {
 
 export function ActiveBorrowTable(props: Props) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Borrowed',
+        Header: t(translations.activeBorrowTable.headers.borrowAmount),
         accessor: 'borrowAmount',
         sortType: 'alphanumeric',
+        headerProps: {
+          className: 'test',
+        },
         sortable: true,
       },
       {
-        Header: 'Collateral',
+        Header: t(translations.activeBorrowTable.headers.collateralAmount),
         accessor: 'collateralAmount',
         sortType: 'alphanumeric',
         sortable: true,
       },
       {
-        Header: 'Interest APR',
+        Header: t(translations.activeBorrowTable.headers.interestAPR),
         accessor: 'interestAPR',
         sortable: true,
       },
       {
-        Header: 'Payback until',
+        Header: t(translations.activeBorrowTable.headers.endTimestamp),
         accessor: 'endTimestamp',
         sortable: true,
       },
@@ -47,7 +53,7 @@ export function ActiveBorrowTable(props: Props) {
         accessor: 'actions',
       },
     ],
-    [],
+    [t],
   );
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -83,14 +89,14 @@ export function ActiveBorrowTable(props: Props) {
               <StyledRepayButton
                 onClick={() => dispatch(actions.openRepayModal(item.loanId))}
               >
-                Repay
+                {t(translations.activeBorrowTable.repayButton)}
               </StyledRepayButton>
             </div>
           </div>
         ),
       };
     });
-  }, [props.data, dispatch]);
+  }, [props.data, dispatch, t]);
   const {
     getTableProps,
     getTableBodyProps,
@@ -99,7 +105,7 @@ export function ActiveBorrowTable(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border p-3">
+    <div className="bg-primary sovryn-border p-3 table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

@@ -5,6 +5,10 @@
     "max": "max",
     "close": "Close"
   },
+  "global": {
+    "liquidationPrice": "Liquidation Price",
+    "interestApr": "Interest APR"
+  },
   "title": "Sovryn",
   "announcement": {
     "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
@@ -51,7 +55,14 @@
   "tradingHistoryPage": {
     "title": "Trading History",
     "auth": "Please connect and authorize your wallet.",
-    "noClosedTrades": "You do not have any closed trades."
+    "noClosedTrades": "You do not have any closed trades.",
+    "table": {
+      "positionSize": "Position Size",
+      "leverage": "Leverage",
+      "openPrice": "Open Price",
+      "closePrice": "Close Price",
+      "profit": "Profit"
+    }
   },
   "fastBtcPage": {
     "meta": {
@@ -125,9 +136,11 @@
     "trade": "Trade",
     "lend": "Lend/Borrow",
     "fastBtc": "Top-Up",
+    "wallet": "My wallet",
     "liquidity": "Market-making",
     "stats": "Stats",
-    "faqs": "FAQs"
+    "faqs": "FAQs",
+    "help": "Help"
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -145,14 +158,17 @@
     "expandedRow": {
       "leverage": "leverage",
       "startMargin": "Start Margin",
-      "mainenanceMargin": "Mainenance Margin",
+      "mainenanceMargin": "Maintenance Margin",
       "currentPrice": "Current Price",
       "liquidationPrice": "Liquidation Price",
       "renewalDate": "Renewal Date"
     },
     "table": {
       "positionSize": "Position Size",
-      "profit": "Profit",
+      "profit": "Profit / Loss",
+      "currentMargin": "Current Margin",
+      "interestApr": "Interest APR",
+      "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
         "close": "Close"
@@ -222,7 +238,12 @@
   },
   "lend": {
     "history": {
-      "title": "Lending history"
+      "title": "Lending history",
+      "amount": "Lend Amount",
+      "date": "Date & time",
+      "price": "Price",
+      "transaction": "Transaction",
+      "emptyState": "History is empty."
     },
     "currency": {
       "lend": "Lend",
@@ -334,6 +355,59 @@
       }
     }
   },
+  "SOVConnectTutorial": {
+    "browser_wallet": "Browser Wallet",
+    "mobile_wallet": "Mobile Wallet",
+    "hardware_wallet": "Hardware Wallet",
+    "speech": {
+      "1": "Open up your browser wallet",
+      "2": "Go to network dropdown",
+      "3": "Select custom RPC",
+      "4": "Input network details",
+      "5": "Click Save",
+      "6": "Click Add Network",
+      "7": "Engage Your Wallet!"
+    },
+    "mobileSpeech": {
+      "1": "Go to Wallet Menu",
+      "2": "Select Settings",
+      "3": "Select Networks",
+      "4": "Click Add Network",
+      "5": "Input Network Settings",
+      "6": "Click Add",
+      "7": "Scan QR Code to Connect!"
+    },
+    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
+    "input_settings": {
+      "title": "SOV TOKEN SETTINGS",
+      "token_address": "Token Contract Address",
+      "symbol": "Symbol",
+      "decimals": "Decimals"
+    },
+    "step": "Step",
+    "screens": {
+      "1": {
+        "title": "Connect Your Wallet",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "11": {
+        "title": "Connect to the RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "2": {
+        "title": "How to Connect to RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "3": {
+        "title": "Scan QR Code",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "4": {
+        "title": "How to connect SOV to your Metamask wallet",
+        "banner": "For any assistance, reach out to the community"
+      }
+    }
+  },
   "mobileNotReady": {
     "submit": "Submit",
     "p1": "The Sovryn user experience is not yet optimized for mobile.",
@@ -342,38 +416,6 @@
     "errorText": "Error submitting form",
     "success": "Success!",
     "successText": "We will contact you as soon as Sovryn Mobile is live."
-  },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
-        "txHash": "Transaction hash",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
   },
   "fastBTC": {
     "screens": {
@@ -413,7 +455,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Approve Tokens",
-        "description": "Confirm transaction in your wallet to approve {{amount}} {{asset}} spending in this smart-contract.",
+        "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
         "error": "Approve request failed:"
       }
     }
@@ -422,6 +464,26 @@
     "pending_for_user": {
       "title": "Pending for user",
       "text": "Please confirm transaction in your wallet."
+    },
+    "pending": {
+      "title": "Transaction pending",
+      "text": "Your transaction is being processed."
+    },
+    "confirmed": {
+      "title": "Transaction confirmed!",
+      "text": "Your transaction was confirmed in the blockchain."
+    },
+    "failed": {
+      "title": "Transaction failed!",
+      "text": "Transaction was reverted by contract."
+    },
+    "denied": {
+      "title": "Rejected!",
+      "text": "User denied transaction."
+    },
+    "texts": {
+      "transaction": "Transaction",
+      "closeButton": "Close"
     }
   },
   "topUpBtcDialog": {
@@ -434,5 +496,67 @@
       "title": "My Wallet",
       "description": "Information about connected wallet"
     }
+  },
+  "salesPage": {
+    "meta": {
+      "title": "Presale",
+      "description": "SOV Presale Page"
+    }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Connected Wallet"
+    },
+    "tableHeaders": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "dollarBalance": "Dollar Balance",
+      "action": "Action"
+    },
+    "actions": {
+      "deposit": "Top-Up",
+      "swap": "Swap",
+      "trade": "Trade"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Top-Up History"
+    },
+    "tableHeaders": {
+      "time": "Date/Time",
+      "asset": "Asset",
+      "amount": "Amount",
+      "fee": "Fee",
+      "depositTx": "BTC Deposit ID",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transaction"
+    },
+    "emptyState": "History is empty.",
+    "walletHistory": "Wallet must be connected.",
+    "loading": "Loading..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Deposit",
+      "redeem": "Redeem"
+    },
+    "amount": {
+      "deposit": "Amount to deposit",
+      "redeem": "Amount to redeem"
+    },
+    "tradeButtons": {
+      "deposit": "Deposit {{asset}}",
+      "redeem": "Redeem {{asset}}"
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Borrowed",
+      "collateralAmount": "Collateral",
+      "interestAPR": "Interest APR",
+      "endTimestamp": "Payback until"
+    },
+    "repayButton": "Repay"
   }
 }

@@ -11,9 +11,10 @@ import { NotificationFormComponent } from '../NotificationFormComponent';
 import { EmailNotificationButton } from '../EmailNotificationButton';
 import { CustomDialog } from '../../CustomDialog';
 import { Sovryn } from '../../../../utils/sovryn';
+import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 
 export function NotificationForm() {
-  const mailSrv = process.env.REACT_APP_MAIL_SRV;
+  const mailSrv = backendUrl[currentChainId];
 
   const walletAddress = useAccount();
   const emptyUser = {
@@ -80,7 +81,7 @@ export function NotificationForm() {
     };
 
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
-    const route = formType === 'signup' ? 'addUser' : 'updateUser';
+    const route = formType === 'signup' ? '/addUser' : '/updateUser';
 
     Sovryn.getWriteWeb3()
       .eth.personal.sign(message, walletAddress, '')
@@ -105,7 +106,7 @@ export function NotificationForm() {
     setLoading(true);
     if (walletAddress) {
       axios
-        .post(mailSrv + 'getUser', {
+        .post(mailSrv + '/getUser', {
           walletAddress: walletAddress,
         })
         .then(res => {

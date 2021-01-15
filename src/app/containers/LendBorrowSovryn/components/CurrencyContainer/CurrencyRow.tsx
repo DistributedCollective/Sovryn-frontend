@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import clsx from 'clsx';
 import { Text } from '@blueprintjs/core';
 
@@ -31,16 +31,16 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border px-3 py-1 py-lg-2 currency-container font-family-work-sans mb-3 text-muted',
+        'sovryn-border py-1 py-lg-2 currency-container font-family-work-sans mb-3 text-muted',
         active && 'currency-container__active',
       )}
     >
-      <div className="d-flex flex-row justify-content-start align-items-center currency currency-title w-lg-50 mb-3 mb-lg-0">
+      <div className="d-flex flex-row justify-content-start align-items-center currency currency-title w-lg-50 mb-3 mb-lg-0 px-3">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />
         <h3 className="m-0 font-family-rowdies">{lendingPool.getName()}</h3>
       </div>
-      <div className="d-flex currency w-lg-50">
-        <div className="mr-3 w-50">
+      <div className="d-flex currency pt-0 w-lg-50 pt-lg-3">
+        <div className="w-50 px-3">
           <Text ellipsize className="text-muted">
             {t(translations.lend.currency.lendArp)}:
           </Text>
@@ -49,7 +49,7 @@ const CurrencyRow: React.FC<Props> = ({
             weiAmount={lendingAmount}
           />
         </div>
-        <div className="w-50">
+        <div className="w-50 px-3">
           <Text ellipsize className="text-muted">
             {t(translations.lend.currency.borrowArp)}:
           </Text>

@@ -13,7 +13,7 @@ export function usePriceFeeds_tradingPairRates() {
   const dispatch = useDispatch();
 
   const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
-    return contractReader.call('priceFeed', 'queryRate', [
+    return await contractReader.call('priceFeed', 'queryRate', [
       getTokenContract(sourceAsset).address,
       getTokenContract(destAsset).address,
     ]);
@@ -26,15 +26,23 @@ export function usePriceFeeds_tradingPairRates() {
       const source = assets[i];
       for (let l = 0; l < assets.length; l++) {
         const target = assets[l];
-        if (target === source) {
+        if (
+          target === source ||
+          target === Asset.CSOV || // todo: remove when oracle will have price
+          source === Asset.CSOV
+        ) {
           continue;
         }
-        const result = await getRate(source, target);
-        items.push({
-          source,
-          target,
-          value: result as any,
-        });
+        try {
+          const result = await getRate(source, target);
+          items.push({
+            source,
+            target,
+            value: result as any,
+          });
+        } catch (e) {
+          console.error(`Failed to retrieve rate of ${source} - ${target}`, e);
+        }
       }
     }
     return items;

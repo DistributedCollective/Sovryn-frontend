@@ -2,14 +2,13 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState, DepositTx, TransferTx } from './types';
 import { toaster } from '../../../utils/toaster';
+import { Nullable } from 'types';
 
 // The initial state of the FastBtcForm container
 export const initialState: ContainerState = {
   dialogOpen: false,
   step: 1,
   receiverAddress: '',
-  isReceiverAddressValidating: false,
-  isReceiverAddressValid: true,
   generatingAddress: false,
   depositAddress: '',
   minDepositAmount: 0,
@@ -31,12 +30,8 @@ const fastBtcFormSlice = createSlice({
     },
     changeReceiverAddress(state, { payload }: PayloadAction<string>) {
       state.receiverAddress = payload;
-      state.isReceiverAddressValidating = true;
       state.generatingAddress = true;
       state.isHistoryLoading = true;
-    },
-    changeReceiverAddressValidity(state, { payload }: PayloadAction<boolean>) {
-      state.isReceiverAddressValid = payload;
     },
     getDepositAddressSuccess(
       state,
@@ -46,13 +41,21 @@ const fastBtcFormSlice = createSlice({
     ) {
       state.receiverAddress = payload.web3adr;
       state.depositAddress = payload.btcadr;
-      state.isReceiverAddressValidating = false;
       state.generatingAddress = false;
     },
-    getDepositAddressFailed(state) {
+    getDepositAddressFailed(
+      state,
+      { payload }: PayloadAction<Nullable<string>>,
+    ) {
       state.depositAddress = '';
-      state.isReceiverAddressValidating = false;
       state.generatingAddress = false;
+      if (payload) {
+        toaster.show({
+          intent: 'warning',
+          message: payload,
+          timeout: 0,
+        });
+      }
     },
     changeAmountInfo(
       state,
@@ -99,6 +102,10 @@ const fastBtcFormSlice = createSlice({
       state.receiverAddress = '';
       state.generatingAddress = false;
     },
+    useCode(
+      state,
+      { payload }: PayloadAction<{ address: string; code: string }>,
+    ) {},
   },
 });
 

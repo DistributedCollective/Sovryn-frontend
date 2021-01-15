@@ -18,6 +18,9 @@
       transform: translate(-50%, -50%);
       @include fade-in(1s);
     }
+    .close-mobile {
+      top: 0% !important;
+    }
     [class^='title'] {
       color: var(--black);
       top: 6%;
@@ -139,7 +142,7 @@
 
     // Email Not Ready Component
     .mobile-not-ready-img * {
-      @include fade-in(2s)
+      @include fade-in(2s);
     }
     [class^='mobile-not-ready-text'] {
       color: var(--black);
@@ -154,8 +157,14 @@
       &[class*='--success'] {
         top: 70%;
         left: 11%;
-        @include fade-in(2s)
+        @include fade-in(2s);
       }
+    }
+    .close {
+      top: 0;
+      transform: scale(1.5);
+      color: black;
+      opacity: 1;
     }
     .email-form {
       left: 16%;

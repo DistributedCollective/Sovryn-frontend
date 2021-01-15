@@ -1,0 +1,392 @@
+@import './_animations';
+
+@mixin fade-in($speed) {
+  animation: fadeIn ease $speed;
+  -webkit-animation: fadeIn ease $speed;
+  -moz-animation: fadeIn ease $speed;
+}
+
+@mixin position($top, $left) {
+  top: $top;
+  left: $left;
+}
+
+@mixin size($height, $width) {
+  height: calc(0.8 * #{$height});
+  width: calc(0.8 * #{$width});
+}
+
+@mixin armPosition($bicep, $forearm) {
+  transform: rotate($bicep);
+  .arm2 {
+    transform: rotate($forearm);
+  }
+}
+
+$scale: 0.8;
+
+.sov-tutorial {
+  &_container {
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(72, 72, 72, 0.92);
+    > div:first-of-type {
+      width: 1000px;
+      height: 500px;
+      background: black;
+      border-radius: 20px;
+      //   height: #{'min(900px, 80vh)'};
+      @include position(20%, 20%);
+    }
+    .back {
+      @include position(7%, 82%);
+      z-index: 20;
+    }
+    .title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 28px;
+    }
+    .title-text {
+      position: absolute;
+      color: var(--black);
+      @include position(8%, 75%);
+      width: 180px;
+      font-weight: 900;
+      @include fade-in(3s);
+    }
+    .crater {
+      @include position(65%, 53%);
+      @include size(168px, 474px);
+      transform: rotate(2deg);
+      @include fade-in(1.5s);
+    }
+
+    .right-box {
+      color: var(--white);
+      @include position(28%, 58%);
+      width: 300px;
+      font-size: 12px;
+      @include fade-in(1.5s);
+      p {
+        font-size: larger;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .row {
+        line-height: 1;
+        padding: 6px 0px;
+        > .col-5 {
+          font-weight: bold;
+        }
+        > .col-7 {
+          margin-left: -15px;
+        }
+        [class^='col'] {
+          padding: 0;
+        }
+      }
+      &_outline {
+        transform: rotate(180deg);
+        @include position(24%, 54%);
+        height: calc(1 * 239px);
+        width: calc(1 * 343px);
+      }
+    }
+
+    .left-box {
+      @include position(31%, 15%);
+      @include fade-in(2s);
+      img {
+        height: calc(320px * 0.75);
+      }
+      &.browser {
+        @include position(33%, 8.5%);
+      }
+      &_outline {
+        @include position(27%, 8%);
+        width: 260px;
+        height: 280px;
+        border-radius: 10px;
+        background: #f4f4f4;
+      }
+    }
+    // HERE!!!!
+    .step-box {
+      position: absolute;
+      left: 5%;
+      top: 24%;
+      height: calc(0.7 * 76px);
+      width: calc(0.7 * 153px);
+      @include fade-in(2.5s);
+      img {
+        height: 100%;
+        width: 100%;
+      }
+      p {
+        color: var(--black);
+        position: absolute;
+        left: 12%;
+        top: 20%;
+        font-size: larger;
+      }
+    }
+    .stepper {
+      position: absolute;
+      left: 12%;
+      top: 86%;
+      @include fade-in(1.5s);
+      > .flex-row > * {
+        cursor: pointer;
+      }
+      img {
+        height: calc(0.8 * 25px);
+      }
+      &_circle {
+        background-color: var(--white);
+        opacity: 0.5;
+        height: 16px;
+        width: 16px;
+        margin: 0 2px;
+        border-radius: 100%;
+        &.active {
+          background-color: var(--white);
+          opacity: 1;
+        }
+        &:first-of-type {
+          margin-left: 8px;
+        }
+        &:last-of-type {
+          margin-right: 8px;
+        }
+      }
+    }
+    .scan-qr-button {
+      @include position(75%, 70%);
+      height: calc(0.8 * 49px);
+      cursor: pointer;
+      &.active {
+        -webkit-animation: infinite bounce 1s linear;
+        animation: bounce 1s infinite linear;
+      }
+    }
+    .engage {
+      position: absolute;
+      left: 70%;
+      top: 75%;
+      opacity: 0.5;
+      height: calc(0.8 * 49px);
+      // @include fade-in(0.8s);
+      &.active {
+        opacity: 1;
+        cursor: pointer;
+        -webkit-animation: infinite bounce 1s linear;
+        animation: bounce 1s infinite linear;
+      }
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .close {
+      position: absolute;
+      z-index: 200;
+      cursor: pointer;
+      left: 92%;
+      top: 6%;
+      height: calc(0.8 * 45px);
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .speech {
+      position: absolute;
+      z-index: 20;
+      left: 10%;
+      top: 20%;
+      color: var(--white);
+      @include fade-in(3s);
+      &.step1,
+      &.step3,
+      &.step5,
+      &.step7 {
+        -webkit-animation: 1 grow 0.8s alternate ease-in-out;
+        animation: grow 0.8s 1 alternate ease-in-out;
+        p {
+          @include fade-in(3s);
+        }
+      }
+      &.step2,
+      &.step4,
+      &.step6 {
+        -webkit-animation: 1 bob 0.8s alternate ease-in-out;
+        animation: bob 0.8s 1 alternate ease-in-out;
+        p {
+          @include fade-in(3s);
+        }
+      }
+    }
+  }
+}
+
+// SCREEN 1
+
+.screen1 {
+  .badger1 {
+    @include position(9%, 31%);
+    @include size(211px, 323px);
+    @include fade-in(2s);
+  }
+  .planet {
+    @include position(11%, 70%);
+    @include size(115px, 221px);
+    @include fade-in(2s);
+    transform: rotate(45deg);
+  }
+  .browser-wallet *,
+  .mobile-wallet * {
+    cursor: pointer;
+  }
+  .browser-icon,
+  .mobile-icon {
+    &:hover {
+      -webkit-animation: swing 1.3s ease;
+      animation: swing 1.3s ease;
+      -webkit-animation-iteration-count: infinite;
+      animation-iteration-count: infinite;
+    }
+  }
+  .hardware-wallet {
+    * {
+      opacity: 0.7;
+    }
+  }
+  .browser-icon {
+    height: calc(131px * #{$scale});
+    width: calc(205px * #{$scale});
+    top: 44%;
+    left: 7%;
+    z-index: 25;
+  }
+  .mobile-icon {
+    height: calc(149px * #{$scale});
+    width: calc(134px * #{$scale});
+    top: 44%;
+    left: 43%;
+    z-index: 25;
+  }
+  .hardware-icon {
+    height: calc(142px * #{$scale});
+    width: calc(158px * #{$scale});
+    top: 44%;
+    left: 73%;
+    z-index: 25;
+  }
+  [class*='wallet-text'] {
+    color: var(--black);
+    top: 73%;
+    width: 160px;
+    text-align: center;
+    @include fade-in(2s);
+  }
+  .browser-wallet-text {
+    left: 8%;
+  }
+  .mobile-wallet-text {
+    left: 40%;
+  }
+  .hardware-wallet-text {
+    left: 71%;
+  }
+  [class^='rectangle'] {
+    position: absolute;
+    height: calc(328px * #{$scale});
+    width: calc(251px * #{$scale});
+    top: 35%;
+    transform: rotate(180deg);
+    img {
+      height: 100%;
+      width: 100%;
+    }
+    &[class$='1'] {
+      left: 6%;
+    }
+    &[class$='2'] {
+      left: 37%;
+    }
+    &[class$='3'] {
+      left: 68%;
+    }
+  }
+}
+
+//Screen 3
+.badger-qr {
+  // @include size(484px, 277px);
+  width: 277px;
+  height: 484px;
+  @include position(1%, 35%);
+  @include fade-in(3s);
+  transform: scale(1);
+}
+.speech-qr {
+  color: black;
+  @include position(27%, 70%);
+  width: 250px;
+}
+.speech2 {
+  width: 304px;
+  height: 111px;
+  transform: rotateY(180deg);
+  background-image: url('../../assets/images/tutorial/speech2.svg');
+  background-repeat: no-repeat;
+  transform: scale(-1, -1);
+  @include position(18%, 65%);
+  img {
+    transform: rotateX(180deg);
+  }
+}
+
+//WALLET CONNECT
+@media (min-width: 768px) {
+  #walletconnect-wrapper {
+    z-index: 100;
+    display: none;
+    &.showWalletConnect {
+      display: flex !important;
+    }
+    #walletconnect-qrcode-modal.walletconnect-qrcode__base {
+      background: rgba(37, 41, 46, 0) !important;
+      position: relative !important;
+      width: 400px;
+      height: 500px;
+      .walletconnect-modal__base {
+        transform: translateY(0) !important;
+        width: 180px !important;
+        height: 180px !important;
+        padding: 0 !important;
+        position: absolute !important;
+        margin: 0 auto;
+        left: 35%;
+        top: 22%;
+        box-shadow: none !important;
+      }
+      #walletconnect-qrcode-text {
+        display: none;
+      }
+      .walletconnect-modal__footer {
+        display: none;
+      }
+    }
+    #walletconnect-qrcode-modal > div > div:nth-child(2) {
+      margin-top: 12px;
+    }
+    #walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
+      p {
+        display: none;
+      }
+    }
+  }
+}

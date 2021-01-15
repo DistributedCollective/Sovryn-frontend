@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { min } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -29,7 +31,8 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
-import { min } from 'mathjs';
+import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
+import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.marginTradeForm;
 
@@ -41,8 +44,7 @@ export function MarginTradeForm(props: Props) {
 
   const pair = TradingPairDictionary.get(tradingPair);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [position, setPosition] = useState(TradingPosition.LONG);
   const [leverage, setLeverage] = useState(2);
@@ -59,7 +61,7 @@ export function MarginTradeForm(props: Props) {
   ).map(item => ({ key: item, label: AssetsDictionary.get(item).symbol }));
 
   const color =
-    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--gold)';
+    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--Muted_red)';
 
   useEffect(() => {
     setCollateral(pair.getCollateralForPosition(position)[0]);
@@ -89,6 +91,26 @@ export function MarginTradeForm(props: Props) {
     maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
   );
 
+  const { state } = useLocation();
+
+  useEffect(() => {
+    const params: any = (state as any)?.params;
+    if (params?.action && params?.action === 'trade' && params?.asset) {
+      const item = options.find(item => item.key === params.asset);
+      if (item) {
+        setCollateral(item.key);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  const { loanToken } = useTrading_resolvePairTokens(
+    pair,
+    position,
+    pair.getAssetForPosition(position),
+    collateral,
+  );
+
   return (
     <>
       <TradingPositionSelector
@@ -113,7 +135,7 @@ export function MarginTradeForm(props: Props) {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={pair.getAssetForPosition(position)}
+            asset={loanToken}
             collateral={collateral}
             weiAmount={weiAmount}
             leverage={leverage}
@@ -149,7 +171,9 @@ export function MarginTradeForm(props: Props) {
             >
               <AmountField
                 onChange={value => setAmount(value)}
-                onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+                onMaxClicked={() =>
+                  setAmount(weiTo18(maxMinusFee(tokenBalance, collateral)))
+                }
                 value={amount}
               />
             </FieldGroup>

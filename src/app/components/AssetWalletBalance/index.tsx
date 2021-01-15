@@ -38,7 +38,11 @@ export function AssetWalletBalance(props: Props) {
         <div className="d-flex flex-row justify-content-start align-items-center">
           <span className="text-muted">{props.asset}</span>
           <span className="text-white font-weight-bold ml-2">
-            <LoadableValue value={weiToFixed(value, 4)} loading={loading} />
+            <LoadableValue
+              value={weiToFixed(value, 4)}
+              loading={loading}
+              tooltip={<>{value}</>}
+            />
           </span>
         </div>
       )}
