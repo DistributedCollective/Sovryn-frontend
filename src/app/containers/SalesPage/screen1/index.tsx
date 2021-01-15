@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 const StyledContent = styled.div`
   height: 620px;
   background: var(--sales-background);
-  max-width: 1200px;
+  max-width: 1235px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
