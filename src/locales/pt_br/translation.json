@@ -61,7 +61,7 @@
       "leverage": "Alavancagem",
       "openPrice": "Preço inicial",
       "closePrice": "Preço de fechamento",
-      "profit": "Lucro"
+      "profit": "Lucro / Prejuízo"
     }
   },
   "fastBtcPage": {
