@@ -14,6 +14,8 @@ interface Props {
   onClose: () => void;
   isCloseButtonShown?: boolean;
   children: React.ReactNode;
+  canEscapeKeyClose?: boolean;
+  canOutsideClickClose?: boolean;
 }
 
 export function Dialog(props: Props) {
@@ -21,7 +23,8 @@ export function Dialog(props: Props) {
     <BPDialog
       isOpen={props.isOpen}
       onClose={() => props.onClose()}
-      // className="bg-primary sovryn-border p-3"
+      canEscapeKeyClose={props.canEscapeKeyClose}
+      canOutsideClickClose={props.canOutsideClickClose}
     >
       {props.isCloseButtonShown && (
         <div className="mb-3 text-right">
