@@ -83,7 +83,7 @@ export default function Screen2() {
 
   return (
     <StyledContent>
-      <p className="content-header">Welcome to the SOV Genesis Sale</p>
+      <p className="content-header">Welcome to the SOV* Genesis Sale</p>
       <div className="d-flex flex-column align-items-center flex-lg-row px-3 pb-5">
         <div className="left-box position-relative mr-lg-5">
           <div className="mb-3 mr-2 ml-2 position-relative d-inline-block">
