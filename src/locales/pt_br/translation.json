@@ -411,6 +411,26 @@
     "pending_for_user": {
       "title": "Pendente para o usuário",
       "text": "Por favor, confirme a transação na sua carteira."
+    },
+     "pending": {
+      "title": "Transação pendente",
+      "text": "Sua transação está sendo processada."
+    },
+    "confirmed": {
+      "title": "Transação confirmada!",
+      "text": "Sua transação foi confirmada na blockchain."
+    },
+    "failed": {
+      "title": "Transação falhou!",
+      "text": "Transação revertida pelo contrato."
+    },
+    "denied": {
+      "title": "Rejeitada!",
+      "text": "Transação negada pelo usuário."
+    },
+    "texts": {
+      "transaction": "Transação",
+      "closeButton": "Fechar"
     }
   },
   "topUpBtcDialog": {

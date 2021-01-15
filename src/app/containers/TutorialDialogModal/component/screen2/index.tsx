@@ -20,14 +20,14 @@ interface Props {
   onNetwork: boolean;
   mouseLeave: boolean;
   activeTutorial: boolean;
-  handleEngage: () => void;
+  handleEngage: (wallet?: string) => void;
 }
 
 export function Screen2(props: Props) {
   const { t } = useTranslation();
   const content = useContent();
   const [cycle, setCycle] = useState(false);
-  const [step, setStep] = useState(props.activeTutorial === true ? 7 : 1);
+  const [step, setStep] = useState(props.activeTutorial ? 7 : 1);
   const [speechText, setSpeechText] = useState(
     props.activeTutorial ? content[7].speech : content[1].speech,
   );
@@ -55,7 +55,7 @@ export function Screen2(props: Props) {
   }, [props.onNetwork]);
 
   useEffect(() => {
-    if (props.mouseLeave === true) {
+    if (props.mouseLeave) {
       setCycle(true);
     }
   }, [props.mouseLeave]);
@@ -109,10 +109,7 @@ export function Screen2(props: Props) {
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
               <div className="col-7">
-                <CopyToClipboard
-                  text="https://public-node.rsk.co"
-                  onCopy={() => alert('Copied!')}
-                >
+                <CopyToClipboard text="https://public-node.rsk.co">
                   <span className="cursor-pointer">
                     https://public-node.rsk.co <Icon icon="duplicate" />
                   </span>
@@ -136,10 +133,7 @@ export function Screen2(props: Props) {
                 {t(translations.rskConnectTutorial.input_settings.explorer_url)}
               </div>
               <div className="col-7">
-                <CopyToClipboard
-                  text="https://public-node.rsk.co"
-                  onCopy={() => alert('Copied!')}
-                >
+                <CopyToClipboard text="https://explorer.rsk.co">
                   <span className="cursor-pointer">
                     https://explorer.rsk.co <Icon icon="duplicate" />
                   </span>
@@ -165,31 +159,31 @@ export function Screen2(props: Props) {
           <div
             className={`stepper_circle ${step === 1 && 'active'}`}
             onClick={() => stepChange(1)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 2 && 'active'}`}
             onClick={() => stepChange(2)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 3 && 'active'}`}
             onClick={() => stepChange(3)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 4 && 'active'}`}
             onClick={() => stepChange(4)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 5 && 'active'}`}
             onClick={() => stepChange(5)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 6 && 'active'}`}
             onClick={() => stepChange(6)}
-          ></div>
+          />
           <div
             className={`stepper_circle ${step === 7 && 'active'}`}
             onClick={() => stepChange(7)}
-          ></div>
+          />
           <img
             src={rightArrow}
             alt="right arrow"
@@ -199,7 +193,7 @@ export function Screen2(props: Props) {
       </div>
       <div
         className={`engage ${props.onNetwork && 'active'}`}
-        onClick={props.handleEngage}
+        onClick={() => props.handleEngage('injected')}
       >
         <img src={engage} alt="engage button" />
       </div>

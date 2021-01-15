@@ -101,27 +101,27 @@ export const contracts = {
     blockNumber: 1218833,
   },
   CrowdSale: {
-    address: '0x3c886dC89808dF2FFEd295c8d0AE6Bdb4fE38CC5',
+    address: '0xc581Df6C10be94BFF4f045eB29645FE1d2140129',
     abi: CrowdSaleAbi,
     blockNumber: 1218833,
   },
   SovrynNFTCommunity: {
-    address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
+    address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
     abi: SovrynNFTAbi,
     blockNumber: 1218834,
   },
   SovrynNFTHero: {
-    address: '0x420fECFda0975c49Fd0026f076B302064ED9C6Ff',
+    address: '0x7806d3fedf9c9741041f5d70af5adf326705b03d',
     abi: SovrynNFTAbi,
     blockNumber: 1218835,
   },
   SovrynNFTSuperhero: {
-    address: '0x78c0D49d003bf0A88EA6dF729B7a2AD133B9Ae25',
+    address: '0xd9bbcd6e0ab105c83e2b5be0bbb9bb90ef963de7',
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
   CSOV_token: {
-    address: '0x75bbf7f4d77777730eE35b94881B898113a93124',
+    address: '0xf846C2aD889D8578E17f1098cFa3122c3C901F8E',
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
