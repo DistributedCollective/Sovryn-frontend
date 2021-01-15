@@ -13,7 +13,7 @@ import { contractReader } from '../../../../utils/sovryn/contract-reader';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
-  max-width: 1200px;
+  max-width: 1235px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
@@ -21,10 +21,19 @@ const StyledContent = styled.div`
   justify-content: center;
   flex-direction: column;
   position: relative;
-  padding: 40px 15px;
+  padding: 47px 15px;
   .content-header {
     font-size: 28px;
     text-align: center;
+  }
+  .content-title {
+    margin-top: 38px;
+    font-size: 20px;
+    line-height: 34px;
+    font-family: 'Montserrat';
+    text-align: center;
+    font-weight: 100;
+    margin-bottom: 38px;
   }
   a {
     margin-top: 110px;
@@ -34,14 +43,16 @@ const StyledContent = styled.div`
 `;
 
 const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
-  border: 1px solid #707070;
   background: #f4f4f4;
   border-radius: 8px;
   height: 40px;
   width: 289px;
   text-align: center;
   color: black;
-  margin: 25px 0;
+  margin: 25px 0 30px;
+  font-size: 14px;
+  font-family: 'Work Sans';
+  font-weight: 100;
 `;
 
 interface Props {
@@ -97,9 +108,11 @@ export default function Screen3(props: Props) {
           <BackButton />
         </div>
       )}
-      <p className="content-header">
+      <p className="content-header">Welcome to the SOV Genesis Sale</p>
+      <p className="content-title">
         Please enter your code to gain access
-        <br /> to the SOV* Genesis Sale
+        <br />
+        to the SOV Genesis sale
       </p>
       {codeError && <div className="text-danger">{codeError}</div>}
       {upgradeLoading && (
@@ -126,7 +139,7 @@ export default function Screen3(props: Props) {
           dispatch(actions.changeStep(6));
         }}
       >
-        Don’t have a code? Click to learn more about SOVRYN
+        Don’t have a code?
       </a>
     </StyledContent>
   );

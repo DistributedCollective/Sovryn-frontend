@@ -9,18 +9,22 @@ const StyledButton = styled.button.attrs(_ => ({
 }))`
   border: 1px solid var(--gold);
   background: var(--gold5);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--gold);
   min-width: 48px;
   height: 48px;
+  font-family: 'Montserrat';
+  font-weight: 300;
+  letter-spacing: 0px;
+  font-size: 18px;
   text-align: center;
   text-transform: inherit;
   transition: background 0.3s;
+  padding: 0 4.2%;
   ${media.xl`
     min-width: 240px;
     height: 50px;
-    padding: 2px 20px;
-    font-weight: 400;
+    padding: 2px 20px 2px 20px;
 
     &:hover, &:focus {
       background: var(--gold25) !important;
