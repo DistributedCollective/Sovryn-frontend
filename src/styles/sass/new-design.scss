@@ -281,7 +281,7 @@ input {
 }
 
 //new styles for Sovryn
-button.bp3-button.bp3-minimal {
+button.button-round {
   border: 1px solid;
   margin-left: 15px;
   border-radius: 25px !important;
@@ -308,7 +308,7 @@ button.bp3-button.bp3-minimal {
 
 .image-responsive {
   max-width: 333px;
-  border-radius: 12px;
+  border-radius: 6px;
   position: relative;
 }
 
@@ -392,7 +392,7 @@ header {
   position: absolute;
   left: 20px;
   right: 20px;
-  bottom: 40px;
+  bottom: 30px;
 
   .table {
     margin: 0;

@@ -13,15 +13,15 @@ export default function BackButton(props: Props) {
   return (
     <Button
       type="button"
-      className="position-absolute"
+      className="position-absolute flat-icon"
       style={{
-        left: '40px',
-        top: '30px',
+        left: '30px',
+        top: '20px',
       }}
       onClick={() => dispatch(actions.changeStep(props.step || 2))}
       text={
         <>
-          <Icon icon="caret-left" iconSize={24} className="text-white" />
+          <Icon icon="chevron-left" iconSize={55} className="text-white" />
         </>
       }
       minimal

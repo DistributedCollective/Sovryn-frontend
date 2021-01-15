@@ -139,7 +139,7 @@ function AssetRow({ item }: AssetProps) {
           <Button
             minimal
             text={t(translations.userAssets.actions.trade)}
-            className="text-gold"
+            className="text-gold button-round"
             onClick={() =>
               history.push('/', {
                 params: { asset: item.asset, action: 'trade' },
@@ -149,7 +149,7 @@ function AssetRow({ item }: AssetProps) {
           <Button
             minimal
             text={t(translations.userAssets.actions.swap)}
-            className="text-gold"
+            className="text-gold button-round"
             onClick={() =>
               history.push('/', {
                 params: { asset: item.asset, action: 'swap' },
