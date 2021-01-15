@@ -1,7 +1,7 @@
 // TUTORIALDIALOG CONTAINER
 // Logic for if dialog should render
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { actions } from 'app/containers/TutorialDialogModal/slice';
@@ -19,13 +19,26 @@ export function TutorialDialogModal() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   useInjectReducer({ key: sliceKey, reducer: reducer });
   const state = useSelector(selectTutorialDialogModal);
+  const [onNetwork, setOnNetwork] = useState(false);
+
+  useEffect(() => {
+    setOnNetwork(
+      window?.ethereum &&
+        parseInt(window?.ethereum?.chainId) === currentChainId,
+    );
+
+    try {
+      window?.ethereum?.on('chainChanged', chain => {
+        setOnNetwork(parseInt(chain) === currentChainId);
+      });
+    } catch (e) {
+      window?.ethereum?.off('chainChanged');
+    }
+  }, []);
 
   const dispatch = useDispatch();
-  const onNetwork =
-    window.ethereum && parseInt(window.ethereum.chainId) === currentChainId;
 
   const handleWalletConnection = useCallback((wallet?: string) => {
-    console.log('engage', wallet);
     if (wallet) {
       Sovryn.connectTo(wallet).catch();
     } else {

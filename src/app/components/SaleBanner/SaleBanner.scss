@@ -51,6 +51,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 250px;
 }
 .picture-container {
   display: none;
@@ -95,10 +96,8 @@
   }
   .timer-container {
     position: absolute;
-    right: 0;
-    top: 0;
-    padding-right: 50px;
-    padding-top: 55px;
+    right: 50px;
+    top: 55px;
   }
   .date-container {
     height: 90px;
