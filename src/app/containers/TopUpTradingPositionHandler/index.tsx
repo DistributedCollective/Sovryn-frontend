@@ -20,7 +20,7 @@ import { Dialog } from '../Dialog/Loadable';
 import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
-import { useCanInteract } from '../../hooks/useCanInteract';
+// import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { TradeButton } from '../../components/TradeButton';
 
