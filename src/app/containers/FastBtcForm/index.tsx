@@ -32,6 +32,7 @@ interface Props {
 
 export function FastBtcForm(props: Props) {
   const isConnected = useIsConnected();
+  const canInteract = false; // TODO: TEMP DISABLED
   const state = useSelector(selectFastBtcForm);
   const dispatch = useDispatch();
 
@@ -84,28 +85,39 @@ export function FastBtcForm(props: Props) {
             onClick={() => dispatch(actions.showDialog(false))}
           />
 
-          {isConnected ? (
-            <>
-              <div className="logo text-center mt-2 mb-3">
-                <img src={logo} alt="" />
-              </div>
-              {state.step === 1 && (
-                <Screen1 state={state} dispatch={dispatch} />
-              )}
-              {state.step === 2 && (
-                <Screen2 state={state} dispatch={dispatch} />
-              )}
-              {state.step === 3 && (
-                <Screen3 state={state} dispatch={dispatch} />
-              )}
-            </>
-          ) : (
+          {!canInteract ? (
             <div className="mt-3 mb-4">
               <h3 className="text-center mb-3">
                 {t(translations.fastBtcForm.title)}
               </h3>
-              {t(translations.fastBtcForm.connectWallet)}
+              {t(translations.fastBtcForm.disabledText)}
             </div>
+          ) : (
+            <>
+              {isConnected ? (
+                <>
+                  <div className="logo text-center mt-2 mb-3">
+                    <img src={logo} alt="" />
+                  </div>
+                  {state.step === 1 && (
+                    <Screen1 state={state} dispatch={dispatch} />
+                  )}
+                  {state.step === 2 && (
+                    <Screen2 state={state} dispatch={dispatch} />
+                  )}
+                  {state.step === 3 && (
+                    <Screen3 state={state} dispatch={dispatch} />
+                  )}
+                </>
+              ) : (
+                <div className="mt-3 mb-4">
+                  <h3 className="text-center mb-3">
+                    {t(translations.fastBtcForm.title)}
+                  </h3>
+                  {t(translations.fastBtcForm.connectWallet)}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

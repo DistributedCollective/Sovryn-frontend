@@ -29,7 +29,6 @@ import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
@@ -39,7 +38,8 @@ const s = translations.marginTradeForm;
 interface Props {}
 
 export function MarginTradeForm(props: Props) {
-  const isConnected = useCanInteract();
+  // const isConnected = useCanInteract();
+  const isConnected = false; // TODO: TEMP DISABLED
   const { tradingPair } = useSelector(selectTradingPage);
 
   const pair = TradingPairDictionary.get(tradingPair);
@@ -187,6 +187,7 @@ export function MarginTradeForm(props: Props) {
             text={t(s.buttons.submit)}
             onClick={() => trade()}
             disabled={!isConnected || loading || !valid}
+            hideIt
             textColor={color}
             loading={loading}
           />

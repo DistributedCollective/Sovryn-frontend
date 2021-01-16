@@ -17,12 +17,12 @@ import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Dialog } from '../Dialog/Loadable';
-import { DialogButton } from '../../components/DialogButton';
 import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
+import { TradeButton } from '../../components/TradeButton';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -33,7 +33,8 @@ interface Props {
 }
 
 export function TopUpTradingPositionHandler(props: Props) {
-  const canInteract = useCanInteract();
+  // const canInteract = useCanInteract();
+  const canInteract = false; // TODO: TEMP DISABLED
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );
@@ -85,8 +86,9 @@ export function TopUpTradingPositionHandler(props: Props) {
 
         <div className="mt-4 d-flex flex-row justify-content-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
-          <DialogButton
+          <TradeButton
             text={t(s.topUp)}
+            hideIt
             onClick={() => handleConfirm()}
             disabled={rest.loading || !valid || !canInteract}
             loading={rest.loading}
