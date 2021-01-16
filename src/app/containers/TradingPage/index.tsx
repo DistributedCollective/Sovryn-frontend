@@ -25,6 +25,7 @@ import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 import { SaleBanner } from '../../components/SaleBanner';
 import { currentNetwork } from '../../../utils/classifiers';
+import { MaintenanceModeNotification } from '../../components/MaintenanceModeNotification';
 const s = translations.tradingPage;
 
 interface Props {}
@@ -49,6 +50,7 @@ export function TradingPage(props: Props) {
       <Header />
       <div className="container mt-5">
         {currentNetwork === 'testnet' && <SaleBanner />}
+        <MaintenanceModeNotification />
         <div className="row">
           <div
             className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
