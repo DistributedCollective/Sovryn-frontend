@@ -405,7 +405,7 @@
     "txRequestDialog": {
       "closeButton": "Ok",
       "approve": {
-        "title": "Aprovar ativos",
+        "title": "Aprovar gastos",
         "description": "Confirme a transação na sua carteira para aprovar gastos do ativo neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
