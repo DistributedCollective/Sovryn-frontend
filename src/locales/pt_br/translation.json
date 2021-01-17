@@ -473,8 +473,8 @@
       "asset": "Ativo",
       "amount": "Quantidade",
       "fee": "Taxa",
-      "depositTx": "ID Depósito BTC",
-      "transferTx": "RSK Relay Hash",
+      "depositTx": "ID depósito BTC",
+      "transferTx": "ID recebimento RBTC ",
       "txHash": "Transação"
     },
     "emptyState": "Histórico vázio.",
