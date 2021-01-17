@@ -26,6 +26,10 @@ yarn build
 
 ## Contributing
 
+<a href="https://github.com/DistributedCollective/Sovryn-frontend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DistributedCollective/Sovryn-frontend" />
+</a>
+
 ### Bug Reports
 
 To encourage active collaboration, Sovryn strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
