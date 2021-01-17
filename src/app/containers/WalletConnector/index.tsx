@@ -10,7 +10,7 @@ import {
   Spinner,
 } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
-import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { prettyTx } from 'utils/helpers';
 import { Sovryn } from 'utils/sovryn';
@@ -35,7 +35,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   const simpleViewClass = simpleView ? 'simpleView' : '';
 
   const handleWalletConnection = useCallback(() => {
-    //don't show TutorialDialogModal if unsubscribe route
+    //don't show EngageWalletDialog if unsubscribe route
     if (location.pathname === '/unsubscribe') {
       Sovryn.connect()
         .then(() => {})

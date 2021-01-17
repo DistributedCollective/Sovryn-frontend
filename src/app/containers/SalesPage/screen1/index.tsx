@@ -4,14 +4,14 @@ import SalesButton from 'app/components/SalesButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { SHOW_MODAL } from 'utils/classifiers';
-import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { useDispatch } from 'react-redux';
 
 const StyledContent = styled.div`
   height: 620px;
   background: var(--sales-background);
-  max-width: 1200px;
+  max-width: 1235px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
@@ -43,7 +43,7 @@ export default function Screen1() {
       <p className="content-header">
         Engage your wallet to participate in the
         <br />
-        SOV Genesis Sale
+        SOV* Genesis Sale
       </p>
       <SalesButton
         text={t(translations.wallet.connect_btn)}

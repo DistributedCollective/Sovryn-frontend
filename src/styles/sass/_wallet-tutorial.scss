@@ -27,6 +27,14 @@ $scale: 0.8;
 
 .wallet-tutorial {
   &_container {
+
+
+    .back {
+      z-index: 20;
+      bottom: -50px;
+      right: 0;
+    }
+
     > div:first-of-type {
       width: 800px;
       transform: translate(-50%, -50%);
@@ -327,6 +335,70 @@ $scale: 0.8;
 // SCREEN 1
 
 .screen1 {
+
+  .wallet-holder {
+    position: absolute;
+    top: 180px;
+    left: 20px;
+    right: 20px;
+
+    & .wallet-block {
+      width: 200px;
+      height: 260px;
+      background: url('../../assets/images/tutorial/screen1_rectangle.svg') center center no-repeat;
+      background-size: 200px 260px;
+      padding: 20px;
+      margin: 0 20px;
+      display: block;
+      cursor: pointer;
+      flex-shrink: 0;
+      flex-grow: 0;
+      position: relative;
+
+      & .wallet-icon {
+        width: 130px;
+        height: 130px;
+        background: center center no-repeat;
+        background-size: 100% 100%;
+        transition: transform 0.3s;
+        margin-bottom: 30px;
+      }
+
+      &:hover {
+        & .wallet-icon {
+          transform: scale(1.2);
+        }
+        text-decoration: none;
+      }
+
+      & .wallet-title {
+        color: var(--black);
+        font-size: 16px;
+        text-align: center;
+        line-height: 23px;
+        font-weight: 300;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        .wallet-title, .wallet-icon {
+          opacity: 0.5;
+        }
+      }
+
+      & .coming-soon {
+        position: absolute;
+        top: -25%;
+        left: -25%;
+        z-index: 30;
+        background: url('../../assets/images/tutorial/coming_soon.svg') center center no-repeat;
+        background-size: 100% 100%;
+        width: 160px;
+        height: 160px;
+      }
+    }
+  }
+
   .badger1 {
     @include position(7%, 31%);
     @include size(211px, 323px);
@@ -456,48 +528,6 @@ $scale: 0.8;
   @include position(18%, 65%);
   img {
     transform: rotateX(180deg);
-  }
-}
-
-//WALLET CONNECT
-@media (min-width: 768px) {
-  #walletconnect-wrapper {
-    z-index: 100;
-    display: none;
-    &.showWalletConnect {
-      display: flex !important;
-    }
-    #walletconnect-qrcode-modal.walletconnect-qrcode__base {
-      background: rgba(37, 41, 46, 0) !important;
-      position: relative !important;
-      width: 400px;
-      height: 500px;
-      .walletconnect-modal__base {
-        transform: translateY(0) !important;
-        width: 180px !important;
-        height: 180px !important;
-        padding: 0 !important;
-        position: absolute !important;
-        margin: 0 auto;
-        left: 35%;
-        top: 22%;
-        box-shadow: none !important;
-      }
-      #walletconnect-qrcode-text {
-        display: none;
-      }
-      .walletconnect-modal__footer {
-        display: none;
-      }
-    }
-    #walletconnect-qrcode-modal > div > div:nth-child(2) {
-      margin-top: 12px;
-    }
-    #walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
-      p {
-        display: none;
-      }
-    }
   }
 }
 

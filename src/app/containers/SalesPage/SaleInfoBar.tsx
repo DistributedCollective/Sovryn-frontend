@@ -9,6 +9,7 @@ import {
 } from '../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { useSaleCalculator } from './hooks/useSaleCalculator';
+import { useSaleEndTime } from './hooks/useSaleEndTime';
 
 export function SaleInfoBar() {
   const {
@@ -19,12 +20,6 @@ export function SaleInfoBar() {
     value: availableTokens,
     loading: availableTokensLoading,
   } = useCacheCallWithValue('CrowdSale', 'availableTokens', '0');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { value: endTime, loading: loadingEndTime } = useCacheCallWithValue(
-    'CrowdSale',
-    'end',
-    '0',
-  );
 
   let remainingPercent = '100';
   if (allocation !== '0' && availableTokens !== '0') {
@@ -37,6 +32,8 @@ export function SaleInfoBar() {
   const { unitPriceBtc, rate, loading: btcRateLoading } = useSaleCalculator(
     '1',
   );
+
+  const { dateString, loading: loadingEndTime } = useSaleEndTime();
 
   return (
     <>
@@ -117,7 +114,7 @@ export function SaleInfoBar() {
             loading={loadingEndTime}
             value={
               <Text ellipsize tagName="p">
-                12.30 GTM, 15th Jan
+                {dateString}
               </Text>
             }
           />

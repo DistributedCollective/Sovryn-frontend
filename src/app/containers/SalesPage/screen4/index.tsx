@@ -11,18 +11,22 @@ import SOVCalculator from 'app/components/SOVCalculator';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
-  max-width: 1200px;
+  max-width: 1235px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
+  .tab-item button {
+    font-size: 20px;
+  }
   .tab-content {
     background: black;
+    min-height: 560px;
     height: 100%;
     position: relative;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
     padding-bottom: 25px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -30,11 +34,30 @@ const StyledContent = styled.div`
       font-size: 28px;
       text-align: center;
       margin-top: 1em;
+      margin-bottom: 1.4rem;
+    }
+    .support-text {
+      font-size: 14px;
+      margin-top: 30px;
     }
     a {
-      color: var(--gold) !important;
+      color: var(--gold);
       font-weight: normal;
       font-size: 14px;
+    }
+    p {
+      margin-bottom: 0.4rem;
+    }
+    ul {
+      padding: 0 18px;
+      margin: 0 0 3px 0;
+      li {
+        font-size: 16px;
+        font-weight: 300;
+        span {
+          font-size: 14px;
+        }
+      }
     }
   }
 `;
@@ -46,7 +69,7 @@ export default function Screen4() {
   return (
     <StyledContent>
       <div className="d-flex flex-row">
-        <div>
+        <div className="tab-item">
           <Tab
             text={'BTC'}
             active={activeTrades}
@@ -55,7 +78,7 @@ export default function Screen4() {
             <img src={BTCLogo} alt="BTC" /> BTC
           </Tab>
         </div>
-        <div>
+        <div className="tab-item">
           <Tab
             text={'RBTC'}
             active={!activeTrades}

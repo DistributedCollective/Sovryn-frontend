@@ -8,6 +8,7 @@ import { Screen1 } from './screen1';
 import { Screen2 } from './screen2';
 import { Screen3 } from './screen3';
 import { Screen4 } from './screen4';
+import { BrowserWallets } from './BrowserWallets';
 
 export function TutorialDialogComponent(props) {
   const { t } = useTranslation();
@@ -71,7 +72,6 @@ export function TutorialDialogComponent(props) {
               </a>
             </p>
           </div>
-          {/*<Screen3 />*/}
           {screen === 1 && (
             <Screen1
               handleClick={changeScreen}
@@ -89,6 +89,13 @@ export function TutorialDialogComponent(props) {
           )}
           {screen === 3 && <Screen3 />}
           {screen === 4 && <Screen4 handleClick={changeScreen} />}
+          {screen === 5 && (
+            <BrowserWallets
+              handleClick={changeScreen}
+              onNetwork={props.onNetwork}
+              handleEngage={props.handleEngage}
+            />
+          )}
         </div>
       </div>
     </>

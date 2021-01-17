@@ -5,14 +5,14 @@
  */
 
 import React from 'react';
-import { TutorialDialogModal } from '../../containers/TutorialDialogModal/Loadable';
+import { EngageWalletDialog } from '../EngageWalletDialog/Loadable';
 
 interface Props {}
 
 export function SandboxPage(props: Props) {
   return (
     <div className="bg-blue">
-      <TutorialDialogModal />
+      <EngageWalletDialog />
     </div>
   );
 }

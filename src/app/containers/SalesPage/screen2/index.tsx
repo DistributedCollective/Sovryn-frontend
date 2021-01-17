@@ -11,11 +11,12 @@ import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
 import sov_3 from 'assets/images/wallet/sov_3.jpg';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { useSaleIsOpen } from '../hooks/useSaleIsOpen';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
   max-width: 1235px;
+  min-height: 620px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
@@ -78,34 +79,11 @@ export default function Screen2() {
     }
   }, [maxDepositFormatted, setTierLabel, setTierImage]);
 
-  const { value: isStopSale } = useCacheCallWithValue(
-    'CrowdSale',
-    'isStopSale',
-    false,
-  );
-
-  const { value: end } = useCacheCallWithValue('CrowdSale', 'end', '0');
-
-  const { value: availableTokens } = useCacheCallWithValue(
-    'CrowdSale',
-    'availableTokens',
-    '0',
-  );
-
-  const [isSaleOpen, setIsSaleOpen] = useState(false);
-
-  useEffect(() => {
-    setIsSaleOpen(
-      !isStopSale &&
-        Number(end) > 0 &&
-        Date.now() < Number(end) * 10e3 &&
-        Number(availableTokens) > 0,
-    );
-  }, [isStopSale, end, availableTokens]);
+  const isSaleOpen = useSaleIsOpen();
 
   return (
     <StyledContent>
-      <p className="content-header">Welcome to the SOV Genesis Sale</p>
+      <p className="content-header">Welcome to the SOV* Genesis Sale</p>
       <div className="d-flex flex-column align-items-center flex-lg-row px-3 pb-5">
         <div className="left-box position-relative mr-lg-5">
           <div className="mb-3 mr-2 ml-2 position-relative d-inline-block">

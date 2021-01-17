@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { actions } from '../slice';
 import { useAccount } from 'app/hooks/useAccount';
-import BackButton from '../BackButton';
 import { selectSalesPage } from '../selectors';
 import Screen5 from '../screen5';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -26,6 +25,7 @@ const StyledContent = styled.div`
   .content-header {
     font-size: 28px;
     text-align: center;
+    margin-bottom: 80px;
   }
   .content-title {
     margin-top: 38px;
@@ -60,7 +60,7 @@ interface Props {
   hideBackButton?: boolean;
 }
 
-export default function Screen3(props: Props) {
+export default function EnterCodeLanding(props: Props) {
   const address = useAccount();
   const [code, setCode] = useState('');
 
@@ -104,44 +104,62 @@ export default function Screen3(props: Props) {
 
   return (
     <StyledContent>
-      {!props.hideBackButton && (
-        <div className="d-flex flex-row">
-          <BackButton />
-        </div>
-      )}
       <p className="content-header">Welcome to the SOV* Genesis Sale</p>
-      <p className="content-title">
-        Please enter your code to gain access
-        <br />
-        to the SOV* Genesis sale
-      </p>
-      {codeError && <div className="text-danger">{codeError}</div>}
-      {upgradeLoading && (
-        <div className="text-info">
-          Loading. This can take couple of minutes.
+      <div className="d-flex flex-row justify-content-center">
+        <div style={{ width: 417 }} className="mr-5">
+          <p>
+            The Genesis sale is whitelisted for our early adopters. All users of
+            the SOVRYN system before 8th January 2021 have been airdropped their
+            exclusive access NFT’s.
+          </p>
+          <p>
+            If you believe that you are missing your NFT, please reach out via{' '}
+            <a href="mailto:community@sovryn.app?subject=Missing%20NFT">
+              email here
+            </a>
+            .
+          </p>
+          <p>
+            If you didn’t make the cutoff all is not lost! The SOVRYN public
+            sale will be announced in the next couple of weeks. In the meantime
+            you can{' '}
+            <a
+              href="https://sovryn.app/blog/the-sovryn-genesis-sale-extending-the-bitocracy-to-early-sovryn-users.html"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              learn more about SOV token here
+            </a>
+            .
+          </p>
         </div>
-      )}
-      <StyledInput
-        placeholder="Enter code"
-        name="code"
-        value={code}
-        onChange={e => setCode(e.target.value)}
-      />
-      <SalesButton
-        text={'Submit Code'}
-        onClick={handleSubmit}
-        loading={upgradeLoading}
-        disabled={upgradeLoading || code.length < 6}
-      />
-      <a
-        href="/sales#"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(actions.changeStep(6));
-        }}
-      >
-        Don’t have a code?
-      </a>
+        <div
+          style={{ width: 300 }}
+          className="d-flex flex-fill flex-column align-items-center justify-content-center ml-5"
+        >
+          <p className="content-title my-0">Enter access code to continue</p>
+          {codeError && (
+            <div className="text-danger text-center">{codeError}</div>
+          )}
+          {upgradeLoading && (
+            <div className="text-info text-center">
+              Loading. This can take couple of minutes.
+            </div>
+          )}
+          <StyledInput
+            placeholder="Enter code"
+            name="code"
+            value={code}
+            onChange={e => setCode(e.target.value)}
+          />
+          <SalesButton
+            text={'Submit Code'}
+            onClick={handleSubmit}
+            loading={upgradeLoading}
+            disabled={upgradeLoading || code.length < 6}
+          />
+        </div>
+      </div>
     </StyledContent>
   );
 }
