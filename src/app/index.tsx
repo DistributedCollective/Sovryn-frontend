@@ -12,7 +12,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
-import { TutorialDialogModal } from './containers/EngageWalletDialog/Loadable';
+import { EngageWalletDialog } from './containers/EngageWalletDialog/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -92,7 +92,7 @@ export function App() {
           />
           <Route component={NotFoundPage} />
         </Switch>
-        <TutorialDialogModal />
+        <EngageWalletDialog />
       </WalletProvider>
       <GlobalStyle />
     </BrowserRouter>

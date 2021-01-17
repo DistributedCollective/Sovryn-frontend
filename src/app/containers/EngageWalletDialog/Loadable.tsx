@@ -6,7 +6,7 @@
 
 import { lazyLoad } from 'utils/loadable';
 
-export const TutorialDialogModal = lazyLoad(
+export const EngageWalletDialog = lazyLoad(
   () => import('./index'),
   module => module.EngageWalletDialog,
 );
