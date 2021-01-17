@@ -406,7 +406,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar gastos",
-        "description": "Confirme a transação na sua carteira para aprovar gastos do ativo neste contrato inteligente.",
+        "description": "Confirme a transação na sua carteira para aprovar gastos de ativos neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
