@@ -4,7 +4,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { Sovryn } from 'utils/sovryn';
 import { SHOW_MODAL } from 'utils/classifiers';
 import { currentChainId } from 'utils/classifiers';
@@ -15,7 +15,7 @@ import { reducer, sliceKey } from './slice';
 import { MobileNotReady } from './mobileNotReady';
 import { Classes, Overlay } from '@blueprintjs/core';
 
-export function TutorialDialogModal() {
+export function EngageWalletDialog() {
   //Check if previously connected, currently connected to RSK, currently wallet is connected, closed before
   useInjectReducer({ key: sliceKey, reducer: reducer });
   const state = useSelector(selectTutorialDialogModal);

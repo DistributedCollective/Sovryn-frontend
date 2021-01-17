@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { TutorialDialogModal } from '../../containers/TutorialDialogModal/Loadable';
+import { TutorialDialogModal } from '../EngageWalletDialog/Loadable';
 
 interface Props {}
 

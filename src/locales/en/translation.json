@@ -303,6 +303,8 @@
   "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
     "mobile_wallet": "Mobile Wallet",
+    "mobile_wallet_alert_line1": "Make sure to use mobile wallet that supports RSK wallet. We suggest RWallet or Defiant.",
+    "mobile_wallet_alert_line2": "MetaMask has issues with calculating gas price for RSK network - always review if it's not to large before approving transaction!",
     "hardware_wallet": "Hardware Wallet",
     "speech": {
       "1": "Open up your browser wallet",
@@ -351,6 +353,10 @@
       },
       "4": {
         "title": "Connect With Mobile Wallet",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "5": {
+        "title": "Choose Your Wallet",
         "banner": "For any assistance, reach out to the community"
       }
     }
