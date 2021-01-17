@@ -12,7 +12,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
-import { TutorialDialogModal } from './containers/TutorialDialogModal/Loadable';
+import { TutorialDialogModal } from './containers/EngageWalletDialog/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
