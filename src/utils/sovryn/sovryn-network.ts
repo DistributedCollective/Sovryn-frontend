@@ -358,7 +358,6 @@ export class SovrynNetwork {
     }
   }
   protected async sendAddressToDatabase(walletAddress) {
-    console.log('address is ', walletAddress);
     await axios
       .post(backendUrl[currentChainId] + '/addVisit', {
         walletAddress: walletAddress,

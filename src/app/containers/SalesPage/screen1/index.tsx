@@ -4,7 +4,7 @@ import SalesButton from 'app/components/SalesButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { SHOW_MODAL } from 'utils/classifiers';
-import { actions } from 'app/containers/TutorialDialogModal/slice';
+import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { useDispatch } from 'react-redux';
 
