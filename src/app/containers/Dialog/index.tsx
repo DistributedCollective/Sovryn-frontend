@@ -16,6 +16,7 @@ interface Props {
   children: React.ReactNode;
   canEscapeKeyClose?: boolean;
   canOutsideClickClose?: boolean;
+  className?: string;
 }
 
 export function Dialog(props: Props) {
@@ -25,6 +26,7 @@ export function Dialog(props: Props) {
       onClose={() => props.onClose()}
       canEscapeKeyClose={props.canEscapeKeyClose}
       canOutsideClickClose={props.canOutsideClickClose}
+      className={props.className}
     >
       {props.isCloseButtonShown && (
         <div className="mb-3 text-right">
