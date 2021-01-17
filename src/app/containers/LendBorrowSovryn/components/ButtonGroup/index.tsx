@@ -120,9 +120,11 @@ const ButtonGroup: React.FC<Props> = ({
       {key === ButtonType.REDEEM && (
         <div className="container my-3">
           <div className="withdraw-content py-3 row">
-            <div className="col-6">
-              <h4>
-                <Text ellipsize>{t(translations.lend.container.balance)}</Text>
+            <div className="col-6 d-flex flex-column">
+              <h4 className="flex-grow-1">
+                <Text className="text-break">
+                  {t(translations.lend.container.balance)}
+                </Text>
               </h4>
               <div>
                 <span className="text-muted">{currency} </span>
@@ -136,9 +138,11 @@ const ButtonGroup: React.FC<Props> = ({
                 </strong>
               </div>
             </div>
-            <div className="col-6">
-              <h4>
-                <Text ellipsize>{t(translations.lend.container.profit)}</Text>
+            <div className="col-6 d-flex flex-column">
+              <h4 className="flex-grow-1">
+                <Text className="text-break">
+                  {t(translations.lend.container.profit)}
+                </Text>
               </h4>
               <div>
                 <span className="text-muted">{currency} </span>
