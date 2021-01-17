@@ -131,7 +131,7 @@
   },
   "footer": {
     "title": "Distribuído por <0>Bitcoin</0>",
-    "notice_1": "Somente você controla e tem acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+    "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja o <0>tutorial</0> e aprenda a usar a SOVRYN."
@@ -405,8 +405,8 @@
     "txRequestDialog": {
       "closeButton": "Ok",
       "approve": {
-        "title": "Aprovar Tokens",
-        "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
+        "title": "Aprovar ativos",
+        "description": "Confirme a transação na sua carteira para aprovar gastos do ativo neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
