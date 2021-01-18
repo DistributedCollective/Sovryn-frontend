@@ -114,7 +114,7 @@ export function SalesPage() {
         <SaleInfoBar />
 
         {currentNetwork === 'testnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1200px' }}>
+          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
             <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
               <div className="ml-3 mr-4">
                 <Icon icon="warning-sign" iconSize={26} />
