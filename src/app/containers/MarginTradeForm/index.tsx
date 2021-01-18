@@ -37,9 +37,7 @@ import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 
 const s = translations.marginTradeForm;
 
-interface Props {}
-
-export function MarginTradeForm(props: Props) {
+export function MarginTradeForm() {
   const isConnected = useCanInteract();
   const { tradingPair } = useSelector(selectTradingPage);
 
@@ -114,7 +112,7 @@ export function MarginTradeForm(props: Props) {
     collateral,
   );
 
-  const test = useTrading_testRates(loanToken, collateralToken, weiAmount);
+  const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
 
   return (
     <>
@@ -191,21 +189,16 @@ export function MarginTradeForm(props: Props) {
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => trade()}
-            disabled={!isConnected || loading || !valid}
+            disabled={!isConnected || loading || !valid || diff > 5}
             textColor={color}
             loading={loading}
             tooltip={
-              test.diff > 5 ? (
+              diff > 5 ? (
                 <>
-                  <p className="mb-1">Liquidity is too low for swapping.</p>
-                  <p className="mb-0">
-                    Try another pair or wait for arbiters to re-balance.
-                  </p>
-                  <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
+                  <p className="mb-1">{t(s.liquidity.line_1)}</p>
+                  <p className="mb-0">{t(s.liquidity.line_2)}</p>
                 </>
-              ) : (
-                <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
-              )
+              ) : undefined
             }
           />
         </div>
