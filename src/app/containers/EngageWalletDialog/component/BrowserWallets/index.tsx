@@ -88,17 +88,6 @@ export function BrowserWallets(props: Props) {
           <img src={planet} alt="" className="h-100 w-100" />
         </div>
         <div className="wallet-holder d-flex flex-row justify-content-center align-items-center">
-          <div
-            className="wallet-block d-flex justify-content-center align-items-center flex-column"
-            onClick={handlePortisClick}
-          >
-            <div
-              className="wallet-icon"
-              style={{ backgroundImage: `url(${portisIcon})` }}
-            />
-            <div className="wallet-title">Portis</div>
-          </div>
-
           {detectInjectableWallet() !== 'none' ? (
             <>
               <div
@@ -111,35 +100,48 @@ export function BrowserWallets(props: Props) {
                 />
                 <div className="wallet-title">{getWalletTitle()}</div>
               </div>
-              <div style={{ width: 200 }} />
             </>
           ) : (
-            <>
-              <a
-                href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="wallet-block d-flex justify-content-center align-items-center flex-column"
-              >
-                <div
-                  className="wallet-icon"
-                  style={{ backgroundImage: `url(${liqualityIcon})` }}
-                />
-                <div className="wallet-title">Get Liquality Wallet</div>
-              </a>
-              <a
-                href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="wallet-block d-flex justify-content-center align-items-center flex-column"
-              >
-                <div
-                  className="wallet-icon"
-                  style={{ backgroundImage: `url(${niftyIcon})` }}
-                />
-                <div className="wallet-title">Get Nifty Wallet</div>
-              </a>
-            </>
+            <a
+              href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                className="wallet-icon"
+                style={{ backgroundImage: `url(${liqualityIcon})` }}
+              />
+              <div className="wallet-title">Get Liquality Wallet</div>
+            </a>
+          )}
+
+          <div
+            className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            onClick={handlePortisClick}
+          >
+            <div
+              className="wallet-icon"
+              style={{ backgroundImage: `url(${portisIcon})` }}
+            />
+            <div className="wallet-title">Portis</div>
+          </div>
+
+          {detectInjectableWallet() === 'none' ? (
+            <a
+              href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            >
+              <div
+                className="wallet-icon"
+                style={{ backgroundImage: `url(${niftyIcon})` }}
+              />
+              <div className="wallet-title">Get Nifty Wallet</div>
+            </a>
+          ) : (
+            <div style={{ width: 200 }} />
           )}
         </div>
       </div>

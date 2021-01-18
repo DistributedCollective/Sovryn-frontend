@@ -103,6 +103,10 @@
     },
     "buttons": {
       "submit": "Place Trade"
+    },
+    "liquidity": {
+      "line_1": "Liquidity is too low for swapping.",
+      "line_2": "Try another pair or wait for arbiters to re-balance."
     }
   },
   "swapTradeForm": {
@@ -589,5 +593,18 @@
       "amountToReceive": "You will receive"
     },
     "button": "Repay"
+  },
+  "closeTradingPositionHandler": {
+    "title": "Liquidate position",
+    "titleDone": "Position liquidated",
+    "positionSize": "Position size",
+    "withdrawIn": "Withdraw in",
+    "returnAmount": "Return amount",
+    "closePosition": "Close Position",
+    "closeAmount": "Close Amount",
+    "liquidity": {
+      "line_1": "Liquidity is too low for closing position.",
+      "line_2": "Try another return asset or wait for arbiters to re-balance."
+    }
   }
 }
