@@ -107,7 +107,7 @@ export function SalesPage() {
       <Header />
       <main
         className="container font-family-montserrat"
-        style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
+        style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
         <PageHeader />
 
