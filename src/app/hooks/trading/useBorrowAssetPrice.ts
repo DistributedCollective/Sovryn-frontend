@@ -1,17 +1,10 @@
 import { Asset } from 'types/asset';
-import { useCacheCallWithValue } from '../useCacheCallWithValue';
-import { getTokenContract } from '../../../utils/blockchain/contract-helpers';
+import { usePriceFeeds_QueryRate } from '../price-feeds/useQueryRate';
 
 export function useBorrowAssetPrice(sourceAsset: Asset, destAsset: Asset) {
-  const result = useCacheCallWithValue(
-    'priceFeed',
-    'queryRate',
-    '0',
-    getTokenContract(sourceAsset).address,
-    getTokenContract(destAsset).address,
-  );
+  const { value, ...result } = usePriceFeeds_QueryRate(sourceAsset, destAsset);
   return {
     ...result,
-    value: result.value?.rate || '0',
+    value: value?.rate || '0',
   };
 }
