@@ -11,23 +11,26 @@ import {
   toChecksumAddress,
   validateEmail,
 } from '../../../../utils/helpers';
+import { media } from 'styles/media';
 import { useAccount } from '../../../hooks/useAccount';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
-  max-width: 1200px;
+  max-width: 1235px;
   min-height: 620px;
   margin: 40px auto;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   flex-direction: column;
   position: relative;
-  padding: 40px 15px;
+  padding: 36px 15px;
   .content-header {
     font-size: 28px;
     text-align: center;
+    margin-bottom: 3.5rem;
+    margin-top: 3rem;
   }
   a {
     margin-top: 110px;
@@ -37,9 +40,12 @@ const StyledContent = styled.div`
   .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;
+    margin-bottom: 36px;
+    min-width: 296px;
     label {
       font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 17px;
     }
   }
 `;
@@ -49,10 +55,13 @@ const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
   background: #f4f4f4;
   border-radius: 8px;
   height: 40px;
-  width: 289px;
+  width: 100%;
   text-align: left;
   color: black;
   padding: 0 10px;
+  ${media.xl`
+    max-width: 296px;
+  `}
 `;
 
 const StyledTextArea = styled.textarea`
@@ -62,28 +71,56 @@ const StyledTextArea = styled.textarea`
   height: 100px;
   color: black;
   padding: 10px;
+  margin-top: 2px;
 `;
 
 interface StyledProps {
   active: boolean;
 }
 const StyledButtonGroup = styled.div`
-  background: rgba(254, 192, 4, 0.05);
-  color: var(--gold);
-  min-width: 120px;
-  height: 48px;
-  line-height: 48px;
-  padding: 0 20px;
-  border-radius: 8px;
-  font-weight: 600;
   border: 1px solid var(--gold);
+  background: var(--gold5);
+  border-radius: 10px;
+  color: var(--gold);
+  min-width: 48px;
+  height: 48px;
+  font-family: 'Montserrat';
+  font-weight: 300;
+  letter-spacing: 0px;
+  font-size: 18px;
   text-align: center;
+  text-transform: inherit;
+  transition: background 0.3s;
+  padding: 0 4.2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  ${media.xl`
+    max-width: 130px;
+    width: 100%;
+    height: 50px;
+    padding: 2px 20px 2px 20px;
+
+    &:hover, &:focus {
+      &:not([disabled]) {
+        background: var(--gold25) !important;
+      }
+    }
+    &:active:hover {
+      &:not([disabled]) {
+        background: var(--gold50) !important;
+      }
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    `}
   ${(props: StyledProps) =>
     props.active &&
     css`
-      background: var(--gold) !important;
-      color: black !important;
+      background: var(--gold50) !important;
     `}
 `;
 
@@ -121,53 +158,57 @@ export default function Screen6() {
       <div className="d-flex flex-row">
         <BackButton />
       </div>
-      <p className="content-header">
+      <p className="content-header mt-lg-0 mt-sm-5">
         Please fill out this form to request access to the
         <br />
         SOV* Genesis sale{' '}
       </p>
-      <div className="row">
-        <div className="col-md-6 d-flex flex-column align-items-center">
-          <div className="form-group">
-            <label htmlFor="address">Wallet to receive access</label>
-            <StyledInput
-              name="address"
-              id="address"
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-            />
-            {address.length > 1 && !addressValid && (
-              <small className="text-muted">
-                Enter valid RSK wallet address.
-              </small>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Enter email</label>
-            <StyledInput
-              name="email"
-              id="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-            {!!email && !emailValid && (
-              <small className="text-muted">Enter valid email address.</small>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="username">Enter discord username (optional)</label>
-            <StyledInput
-              name="username"
-              id="username"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-            />
+      <div className="row mb-4">
+        <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
+          <div className="pl-lg-1">
+            <div className="form-group">
+              <label htmlFor="address">Wallet to receive access</label>
+              <StyledInput
+                name="address"
+                id="address"
+                value={address}
+                onChange={e => setAddress(e.target.value)}
+              />
+              {address.length > 1 && !addressValid && (
+                <small className="text-muted">
+                  Enter valid RSK wallet address.
+                </small>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Enter email</label>
+              <StyledInput
+                name="email"
+                id="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              {!!email && !emailValid && (
+                <small className="text-muted">Enter valid email address.</small>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="username">
+                Enter discord username (optional)
+              </label>
+              <StyledInput
+                name="username"
+                id="username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <div className="col-md-6">
-          <div style={{ paddingRight: '150px' }}>
-            <p>Select limit required</p>
-            <div className="d-flex justify-content-between mb-5">
+        <div className="col-lg-5 col-md-12 pr-lg-5">
+          <div>
+            <p className="mb-2">Select limit required</p>
+            <div className="d-flex justify-content-between mb-4">
               <StyledButtonGroup
                 active={amount === '0.03'}
                 onClick={() => setAmount('0.03')}
