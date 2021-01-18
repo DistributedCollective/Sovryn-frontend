@@ -30,6 +30,14 @@ const StyledContent = styled.div`
     padding-bottom: 25px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    @media (max-width: 991px) {
+      font-size: 16px;
+    }
+    @media (max-width: 640px) {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
     .content-header {
       font-size: 28px;
       text-align: center;
@@ -42,14 +50,14 @@ const StyledContent = styled.div`
     }
     a {
       color: var(--gold);
-      font-weight: normal;
+      font-weight: 100;
       font-size: 14px;
     }
     p {
       margin-bottom: 0.4rem;
     }
     ul {
-      padding: 0 18px;
+      padding: 0 0 0 18px;
       margin: 0 0 3px 0;
       li {
         font-size: 16px;
