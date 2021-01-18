@@ -28,7 +28,6 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
-import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 
 const s = translations.swapTradeForm;
 
@@ -135,8 +134,6 @@ export function SwapTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, tokens]);
 
-  const test = useTrading_testRates(sourceToken, targetToken, weiAmount);
-
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
@@ -204,19 +201,6 @@ export function SwapTradeForm(props: Props) {
           }
           loading={tx.loading}
           textColor={color}
-          tooltip={
-            test.diff > 5 ? (
-              <>
-                <p className="mb-1">Liquidity is too low for swapping.</p>
-                <p className="mb-0">
-                  Try another pair or wait for arbiters to re-balance.
-                </p>
-                <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
-              </>
-            ) : (
-              <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
-            )
-          }
         />
       </div>
     </>
