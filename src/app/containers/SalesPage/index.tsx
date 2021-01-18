@@ -49,21 +49,21 @@ export function SalesPage() {
   const account = useAccount();
   const dispatch = useDispatch();
 
-  const { value: maxPurchase } = useCacheCallWithValue(
+  const { value: maxPurchase } = useCacheCallWithValue<number>(
     'CrowdSale',
     'getMaxPurchase',
     '0',
     account,
   );
 
-  const { value: totalDeposits } = useCacheCallWithValue(
+  const { value: totalDeposits } = useCacheCallWithValue<number>(
     'CrowdSale',
     'InvestorTotalDeposits',
     '0',
     account,
   );
 
-  const { value: minPurchase } = useCacheCallWithValue(
+  const { value: minPurchase } = useCacheCallWithValue<number>(
     'CrowdSale',
     'minPurchase',
     '0',

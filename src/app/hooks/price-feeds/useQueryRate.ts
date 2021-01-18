@@ -6,7 +6,7 @@ export function usePriceFeeds_QueryRate(
   collateralToken: Asset,
   loanToken: Asset,
 ) {
-  return useCacheCallWithValue(
+  return useCacheCallWithValue<{ rate: string; precision: string }>(
     'priceFeed',
     'queryRate',
     {

@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { ContractName } from 'utils/types/contracts';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { Nullable } from '../../types';
 
-interface CacheCallResponse {
-  value: string | null;
+interface CacheCallResponse<T = string> {
+  value: Nullable<T>;
   loading: boolean;
   error: string | null;
 }
@@ -20,11 +21,11 @@ interface CacheCallResponse {
  * @param methodName
  * @param args
  */
-export function useCacheCall(
+export function useCacheCall<T = any>(
   contractName: ContractName,
   methodName: string,
   ...args: any
-): CacheCallResponse {
+): CacheCallResponse<T> {
   const { syncBlockNumber } = useSelector(selectWalletProvider);
 
   const [state, setState] = useState<any>({

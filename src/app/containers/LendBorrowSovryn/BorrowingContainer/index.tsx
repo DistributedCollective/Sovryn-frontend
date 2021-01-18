@@ -121,7 +121,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const valid = useIsAmountWithinLimits(
     collateralTokenSent,
     '1',
-    maxAmount !== '0' ? min(maxAmount, tokenBalance) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(maxAmount), bignumber(tokenBalance))
+      : tokenBalance,
   );
 
   const popoverContent = (
