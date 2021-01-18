@@ -9,6 +9,7 @@ import '../../assets/index.scss';
 import { ButtonType } from '../../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { weiTo4 } from '../../../../../utils/blockchain/math-helpers';
 
 type Props = {
   currency: Asset;
@@ -19,6 +20,8 @@ type Props = {
   handleSubmit: () => void;
   handleSubmitWithdraw?: () => void;
   handleSubmitRepay?: () => void;
+  canRedeem?: boolean;
+  maxRedeem?: string;
 };
 
 const AccountBalance: React.FC<Props> = ({
@@ -30,8 +33,11 @@ const AccountBalance: React.FC<Props> = ({
   valid,
   txState,
   title,
+  canRedeem,
+  maxRedeem,
 }) => {
   const { t } = useTranslation();
+  const noRedeem = title === ButtonType.REDEEM && !canRedeem;
   return (
     <>
       <SendTxProgress
@@ -54,8 +60,28 @@ const AccountBalance: React.FC<Props> = ({
               ? handleSubmitRepay
               : handleSubmit
           }
-          disabled={txState.loading || !isConnected || !valid}
+          disabled={txState.loading || !isConnected || !valid || noRedeem}
           loading={txState.loading}
+          tooltip={
+            noRedeem ? (
+              <>
+                <p className="mb-1">
+                  {t(translations.lendingPage.liquidity.redeem.line_1, {
+                    currency,
+                  })}
+                </p>
+                <p>
+                  {t(translations.lendingPage.liquidity.redeem.line_2, {
+                    currency,
+                    amount: weiTo4(maxRedeem),
+                  })}
+                </p>
+                <p className="mb-0">
+                  {t(translations.lendingPage.liquidity.redeem.line_3)}
+                </p>
+              </>
+            ) : undefined
+          }
         />
       </div>
     </>

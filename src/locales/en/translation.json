@@ -558,6 +558,18 @@
     "tradeButtons": {
       "deposit": "Deposit {{asset}}",
       "redeem": "Redeem {{asset}}"
+    },
+    "liquidity": {
+      "redeem": {
+        "line_1": "There is not enough {{currency}} in lending pool.",
+        "line_2": "Currently pool has only {{amount}} {{currency}} available.",
+        "line_3": "Pool will increase once users will repay their loans."
+      },
+      "borrow": {
+        "line_1": "There is not enough {{currency}} in lending pool to borrow.",
+        "line_2": "Currently pool has only {{amount}} {{currency}} available.",
+        "line_3": "Pool will increase once users will repay their loans."
+      }
     }
   },
   "activeBorrowTable": {
@@ -568,5 +580,14 @@
       "endTimestamp": "Payback until"
     },
     "repayButton": "Repay"
+  },
+  "repayPositionForm": {
+    "title": "Repay Loan",
+    "labels": {
+      "borrowedAmount": "Borrowed amount",
+      "amountToRepay": "{{currency}} amount to repay",
+      "amountToReceive": "You will receive"
+    },
+    "button": "Repay"
   }
 }

@@ -16,7 +16,6 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { contractWriter } from '../../../utils/sovryn/contract-writer';
 import {
   SendTxResponse,
   useSendContractTx,
@@ -256,6 +255,9 @@ function TransactionDetail(props: DetailsProps) {
   );
 }
 
+const gasLimit = 260000;
+const gasEstimation = bignumber(gasLimit).mul(gas.get()).toFixed();
+
 export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
@@ -264,25 +266,9 @@ export default function SendRBTC() {
   const { value: balance } = useBalance();
 
   const [amount, setAmount] = useState(weiToFixed(minDeposit, 8));
-  const [gasEstimation, setGasEstimation] = useState('0');
-  const [gasLimit, setGasLimit] = useState(0);
   const { sovToReceive, price, loading } = useSaleCalculator(amount);
 
   const weiAmount = useWeiAmount(amount);
-
-  useEffect(() => {
-    const estimate = async () => {
-      const _gasLimit = ((await contractWriter.estimateGas(
-        'CrowdSale',
-        'buy',
-        [],
-        { value: toWei(amount), from: account },
-      )) as unknown) as number;
-      setGasLimit(_gasLimit);
-      setGasEstimation(bignumber(_gasLimit).mul(gas.get()).toFixed());
-    };
-    estimate().catch();
-  }, [amount, account]);
 
   const { send, ...tx } = useSendContractTx('CrowdSale', 'buy');
 
