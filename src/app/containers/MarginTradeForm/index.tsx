@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { min } from 'mathjs';
+import { min, bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -33,6 +33,7 @@ import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
+import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 
 const s = translations.marginTradeForm;
 
@@ -88,7 +89,9 @@ export function MarginTradeForm(props: Props) {
   const valid = useIsAmountWithinLimits(
     weiAmount,
     '1',
-    maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(tokenBalance), bignumber(maxAmount))
+      : tokenBalance,
   );
 
   const { state } = useLocation();
@@ -104,12 +107,14 @@ export function MarginTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const { loanToken } = useTrading_resolvePairTokens(
+  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
     collateral,
   );
+
+  const test = useTrading_testRates(loanToken, collateralToken, weiAmount);
 
   return (
     <>
@@ -189,6 +194,19 @@ export function MarginTradeForm(props: Props) {
             disabled={!isConnected || loading || !valid}
             textColor={color}
             loading={loading}
+            tooltip={
+              test.diff > 5 ? (
+                <>
+                  <p className="mb-1">Liquidity is too low for swapping.</p>
+                  <p className="mb-0">
+                    Try another pair or wait for arbiters to re-balance.
+                  </p>
+                  <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
+                </>
+              ) : (
+                <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
+              )
+            }
           />
         </div>
         <div className="text-white">

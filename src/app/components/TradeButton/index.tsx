@@ -29,7 +29,7 @@ export function TradeButton(props: Props) {
 
   return (
     <ConditionalWrapper
-      condition={!!props.disabled && !!props.tooltip}
+      condition={!!props.tooltip}
       wrapper={children => (
         <Tooltip content={props.tooltip} {...props.tooltipProps}>
           {children}

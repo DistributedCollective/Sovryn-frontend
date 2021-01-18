@@ -28,6 +28,7 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
+import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 
 const s = translations.swapTradeForm;
 
@@ -38,6 +39,11 @@ function tokenAddress(asset: Asset) {
 interface Props {}
 
 const color = 'var(--teal)';
+
+interface Option {
+  key: Asset;
+  label: string;
+}
 
 export function SwapTradeForm(props: Props) {
   const { t } = useTranslation();
@@ -51,14 +57,14 @@ export function SwapTradeForm(props: Props) {
 
   const weiAmount = useWeiAmount(amount);
 
-  const { value: tokens } = useCacheCallWithValue(
+  const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
     [],
   );
 
   const getOptions = useCallback(() => {
-    return tokens
+    return (tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         if (!asset) {
@@ -69,7 +75,7 @@ export function SwapTradeForm(props: Props) {
           label: asset.symbol,
         };
       })
-      .filter(item => item !== null);
+      .filter(item => item !== null) as unknown) as Option[];
   }, [tokens]);
 
   useEffect(() => {
@@ -128,6 +134,8 @@ export function SwapTradeForm(props: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, tokens]);
+
+  const test = useTrading_testRates(sourceToken, targetToken, weiAmount);
 
   return (
     <>
@@ -196,6 +204,19 @@ export function SwapTradeForm(props: Props) {
           }
           loading={tx.loading}
           textColor={color}
+          tooltip={
+            test.diff > 5 ? (
+              <>
+                <p className="mb-1">Liquidity is too low for swapping.</p>
+                <p className="mb-0">
+                  Try another pair or wait for arbiters to re-balance.
+                </p>
+                <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
+              </>
+            ) : (
+              <p className="mt-3 text-warning">{JSON.stringify(test)}</p>
+            )
+          }
         />
       </div>
     </>

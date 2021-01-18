@@ -1,14 +1,21 @@
 import { useCacheCall } from './useCacheCall';
 import { useEffect, useState } from 'react';
 import { ContractName } from '../../utils/types/contracts';
+import { Nullable } from '../../types';
 
-export function useCacheCallWithValue(
+interface Response<T = string> {
+  value: T;
+  loading: boolean;
+  error: Nullable<string>;
+}
+
+export function useCacheCallWithValue<T = string>(
   contractName: ContractName,
   methodName: string,
-  defaultValue: string | any = '0',
+  defaultValue: T | string | any = '0',
   ...args: any
-) {
-  const { value, loading, error } = useCacheCall(
+): Response<T> {
+  const { value, loading, error } = useCacheCall<T>(
     contractName,
     methodName,
     ...args,

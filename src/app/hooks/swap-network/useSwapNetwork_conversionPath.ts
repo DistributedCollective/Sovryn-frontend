@@ -4,7 +4,7 @@ export function useSwapNetwork_conversionPath(
   sourceToken: string,
   targetToken: string,
 ) {
-  return useCacheCallWithValue(
+  return useCacheCallWithValue<string[]>(
     'swapNetwork',
     'conversionPath',
     [],
