@@ -1,6 +1,10 @@
 import { bignumber } from 'mathjs';
 import { Unit } from 'web3-utils';
 
+export const normalizeWei = (amount: string) => {
+  return roundToSmaller(amount, 0);
+};
+
 export const weiToFixed = (amount: any, decimals: number = 0): string => {
   return roundToSmaller(bignumber(fromWei(amount, 'ether')), decimals);
 };
