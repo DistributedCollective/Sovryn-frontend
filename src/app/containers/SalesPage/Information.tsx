@@ -6,8 +6,9 @@ import { media } from '../../../styles/media';
 
 const StyledContainer = styled.section`
   background: #101010;
-  padding: 36px 15px;
-  border-radius: 20px;
+  padding: 40px;
+  border-radius: 40px;
+  min-height: 530px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -15,8 +16,12 @@ const StyledContainer = styled.section`
   color: #f4f4f4;
   font-weight: 100;
   font-size: 16px;
-  @media screen and (min-width: 991px) {
-    padding: 36px 100px;
+  @media screen and (min-width: 1280px) {
+    padding: 40px 120px;
+  }
+  p {
+    line-height: 21px;
+    letter-spacing: 0.2px;
   }
   .header,
   h2 {
@@ -34,12 +39,12 @@ const StyledContainer = styled.section`
     font-weight: 500;
     color: white;
     text-transform: none;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   .sub-title,
   h4 {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
     color: white;
     text-transform: none;
     margin-bottom: 10px;
@@ -55,14 +60,57 @@ const StyledContainer = styled.section`
       color: #d9d9d9;
     }
   }
+  .col {
+    @media (max-width: 767px) {
+      flex-basis: 100%;
+    }
+  }
   .px-big {
-    padding-right: 45px;
-    padding-left: 45px;
+    padding-right: 3rem;
+    padding-left: 1.6rem;
+    @media (max-width: 767px) {
+      padding: 0 15px;
+    }
     &:first-of-type {
-      padding-left: 15px;
+      padding-left: 1rem;
+      @media (max-width: 767px) {
+        padding: 0 15px;
+      }
     }
     &:last-of-type {
-      padding-right: 15px;
+      padding-right: 0;
+      padding-left: 4.5rem;
+      @media (max-width: 767px) {
+        padding: 0 15px;
+      }
+    }
+    &.column-left {
+      max-width: 420px;
+      padding: 0;
+      @media (max-width: 767px) {
+        padding: 0 15px;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+    &.column-center {
+      padding: 0;
+      @media (max-width: 767px) {
+        padding: 0 15px;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+    &.column-right {
+      padding: 0 0 0 10px;
+      max-width: 420px;
+      margin-top: 1.4rem;
+      @media (max-width: 767px) {
+        padding: 0 15px;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 0;
+      }
     }
   }
   .allocation-image {
@@ -124,10 +172,10 @@ export function SOVModel() {
     <StyledContainer>
       <h2 className="header">SOV Allocation Model</h2>
       <div className="row">
-        <section className="col-md-3">
-          <section className="mb-5">
-            <h3 className="title">Early Funders: 16,920,000</h3>
-            <h4>SOV 10-24 month vesting</h4>
+        <section className="col column-left px-big">
+          <section className="mb-lg-5">
+            <h3 className="title">Early Funders: 16,920,000 SOV</h3>
+            <h4>10-24 month vesting</h4>
             <p>
               The early funders of Sovryn believe in the future success of
               Sovryn as a revenue-generating business as well as the
@@ -137,7 +185,7 @@ export function SOVModel() {
               Bitcoracy.
             </p>
           </section>
-          <section className="mb-5">
+          <section className="mb-lg-5">
             <h3 className="title">Founders Fund: 25,000,000 SOV</h3>
             <h4>3 year vesting with a 6 month cliff</h4>
             <p>
@@ -163,14 +211,14 @@ export function SOVModel() {
             </p>
           </section>
         </section>
-        <div className="col-md-6 d-flex mb-4 mb-lg-0">
-          <div className="pb-5 mb-5 mx-auto">
+        <div className="col column-center px-big d-flex mt-4 mb-4 mb-lg-0">
+          <div className="pb-4 mb-5 mx-auto">
             <img src={Sovmodel} alt="" className="w-100 h-100" />
           </div>
         </div>
 
-        <div className="col-md-3">
-          <section className="mb-5">
+        <div className="col column-right px-big">
+          <section className="mb-lg-5">
             <h3 className="title">Development Fund: 10,000,000 SOV</h3>
             <p>
               The development pool will serve as a treasury for
@@ -179,7 +227,7 @@ export function SOVModel() {
               support on-going security and maintenance, as well as R&D.
             </p>
           </section>
-          <section className="mb-5">
+          <section className="mb-lg-5">
             <h3 className="title">Ecosystem Fund: 5,000,000 SOV</h3>
             <p>
               These tokens have been dedicated towards ecosystem initiatives,
@@ -189,7 +237,7 @@ export function SOVModel() {
               incentivizing the onboarding of new users to Sovryn.
             </p>
           </section>
-          <section className="pt-3">
+          <section className="pt-lg-3">
             <h3 className="title">Programmatic Sale: 5,000,000 SOV</h3>
             <p>
               To further distribute SOV tokens and enfranchise interested users,
@@ -208,7 +256,7 @@ export function SOVGovernance() {
     <StyledContainer>
       <h2 className="header">SOV Bitocracy (Governance)</h2>
       <div className="row">
-        <section className="col-md-3">
+        <section className="col column-left p-lg-0">
           <h3 className="title">Bitocracy:</h3>
           <p>
             The SOV Bitocracy is a distributed, pseudonymous governing body of
@@ -229,12 +277,12 @@ export function SOVGovernance() {
             through delegation
           </p>
         </section>
-        <div className="col-md-6 d-flex mb-4 mb-lg-0">
-          <div className="px-5 mx-auto">
-            <img src={Sovbitocracy} alt="" className="w-100 h-100 " />
+        <div className="col-md-5 column-center d-flex mb-4 mb-lg-0">
+          <div className="p-lg-0 mx-auto">
+            <img src={Sovbitocracy} alt="" className="w-100 h-100 ml-lg-5" />
           </div>
         </div>
-        <section className="col-md-3">
+        <section className="col column-right pl-lg-5">
           <h3 className="title">Bitocracy Voting</h3>
           <div className="content">
             <span className="bullet">01.</span>
