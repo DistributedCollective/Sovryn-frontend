@@ -26,7 +26,6 @@ const StyledButton = styled.button.attrs(_ => ({
     min-width: 240px;
     height: 50px;
     padding: 2px 20px 2px 20px;
-    margin-left: 0;
 
     &:hover, &:focus {
       &:not([disabled]) {
