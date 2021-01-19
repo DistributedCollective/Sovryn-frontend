@@ -531,7 +531,7 @@
   },
   "closeTradingPositionHandler": {
     "title": "Liquidar posição",
-    "titleDone": "Posição liquiada",
+    "titleDone": "Posição liquidada",
     "positionSize": "Tamanho da posição",
     "withdrawIn": "Resgatar em",
     "returnAmount": "Valor devolvido",
