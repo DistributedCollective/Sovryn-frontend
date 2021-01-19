@@ -23,6 +23,9 @@ const StyledContent = styled.div`
     font-size: 28px;
     text-align: center;
   }
+  button {
+    margin: 0 auto;
+  }
   a {
     margin-top: 110px;
     color: var(--gold);

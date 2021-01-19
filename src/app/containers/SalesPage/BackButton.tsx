@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
-import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { useDispatch } from 'react-redux';
 import { actions } from './slice';
+import iconBack from 'assets/images/genesis/arrow_back.svg';
 
 interface Props {
   step?: number;
@@ -21,7 +21,7 @@ export default function BackButton(props: Props) {
       onClick={() => dispatch(actions.changeStep(props.step || 2))}
       text={
         <>
-          <Icon icon="chevron-left" iconSize={55} className="text-white" />
+          <img src={iconBack} alt="back" />
         </>
       }
       minimal
