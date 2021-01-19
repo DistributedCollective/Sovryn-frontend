@@ -30,6 +30,7 @@ import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { gas } from '../../../utils/blockchain/gas-price';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
+import { useSaleIsOpen } from '../SalesPage/hooks/useSaleIsOpen';
 
 interface StyledProps {
   background?: string;
@@ -267,6 +268,7 @@ export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
   const { minDeposit, maxDeposit } = useSaleLimits();
+  const isSaleOpen = useSaleIsOpen();
   const account = useAccount();
   const { value: balance } = useBalance();
 
@@ -414,7 +416,7 @@ export default function SendRBTC() {
             <StyledButton
               className="mt-1"
               onClick={handleBuy}
-              disabled={!canSubmit}
+              disabled={!canSubmit || !isSaleOpen.open}
             >
               BUY SOV
             </StyledButton>

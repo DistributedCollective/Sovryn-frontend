@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
-export function useSaleIsOpen() {
+interface Response {
+  open: boolean;
+  ended: boolean;
+}
+
+export function useSaleIsOpen(): Response {
   const { value: isStopSale } = useCacheCallWithValue(
     'CrowdSale',
     'isStopSale',
@@ -17,15 +22,18 @@ export function useSaleIsOpen() {
   );
 
   const [isSaleOpen, setIsSaleOpen] = useState(false);
+  const [ended, setEnded] = useState(false);
 
   useEffect(() => {
-    setIsSaleOpen(
-      !isStopSale &&
-        Number(end) > 0 &&
-        Date.now() < Number(end) * 10e3 &&
-        Number(availableTokens) > 0,
-    );
+    const _ended =
+      (Number(end) > 0 && Date.now() >= Number(end) * 1e3) ||
+      (Number(end) > 0 && Number(availableTokens) <= 0);
+    setEnded(_ended);
+    setIsSaleOpen(!isStopSale && !_ended && Number(availableTokens) > 0);
   }, [isStopSale, end, availableTokens]);
 
-  return isSaleOpen;
+  return {
+    open: isSaleOpen,
+    ended,
+  };
 }

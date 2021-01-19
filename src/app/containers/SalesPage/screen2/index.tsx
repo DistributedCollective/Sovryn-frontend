@@ -121,10 +121,13 @@ export default function Screen2() {
             </div>
           </div>
         </div>
-        <div className="d-flex flex-column justify-content-around b-group">
+        <div className="d-flex flex-column flex-shrink-0 justify-content-around b-group">
+          {isSaleOpen.ended && (
+            <p className="text-center w-100">Sale already ended.</p>
+          )}
           <SalesButton
             text={'Continue to sale'}
-            disabled={!isSaleOpen}
+            disabled={!isSaleOpen.open}
             onClick={() => dispatch(actions.changeStep(4))}
           />
           <SalesButton
