@@ -295,7 +295,7 @@ export default function SendBTC({ setShowCalc }) {
       <div>
         <p className="content-header">Send BTC to receive SOV</p>
         <div className="row justify-content-around">
-          <div className="col-md-5 mb-4">
+          <div className="col-md-5 mb-1">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
               <ul>
