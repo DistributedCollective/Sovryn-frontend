@@ -84,7 +84,7 @@ export function SaleInfoBar() {
             loading={btcRateLoading}
             value={
               <Text ellipsize tagName="p">
-                {toNumberFormat(unitPriceBtc, 6)} BTC / SOV
+                {toNumberFormat(unitPriceBtc * 1e8)} SATS / SOV
               </Text>
             }
             tooltip={<>{rate} SOV for 1 BTC</>}
