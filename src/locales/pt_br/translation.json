@@ -521,7 +521,7 @@
     "repayButton": "Quitar"
   },
   "repayPositionForm": {
-    "title": "Quita empréstimo",
+    "title": "Quitar empréstimo",
     "labels": {
       "borrowedAmount": "Valor do empréstimo",
       "amountToRepay": "{{currency}} Valor a ser quitado",
@@ -543,4 +543,3 @@
     }
   }
 }
-
