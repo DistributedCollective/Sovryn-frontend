@@ -89,16 +89,8 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           >
             <>
               <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex">
-                <span className="d-flex flex-nowrap flex-row align-items-center">
+                <span className="d-flex flex-nowrap flex-row align-items-center w-100 justify-content-between">
                   <span>{prettyTx(address, 4, 4)}</span>
-                  {!simpleView && (
-                    <Icon
-                      icon="full-circle"
-                      iconSize={20}
-                      color="#4ECDC4"
-                      className="ml-2 is-pointer"
-                    />
-                  )}
                   <Icon
                     icon="log-out"
                     className="logout"
