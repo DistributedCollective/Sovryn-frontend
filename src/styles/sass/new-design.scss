@@ -89,7 +89,8 @@
   font-weight: inherit;
   color: var(--light-gray);
   font-size: 16px;
-  padding: 0 15px;
+  padding: 0 22px;
+  height: 45px;
 }
 
 .sovryn-table {
@@ -111,8 +112,6 @@
   thead tr,
   .table-header:not(.sub-header) {
     height: 40px;
-
-    // border-bottom: 1px solid var(--light-gray);
     th {
       @include table-header;
     }
@@ -144,7 +143,7 @@
     height: 80px;
 
     td {
-      padding: 0 15px;
+      padding: 0 30px;
       color: var(--light-gray);
     }
 
