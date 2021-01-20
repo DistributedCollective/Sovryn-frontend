@@ -10,7 +10,6 @@ import { Nullable } from 'types';
 import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { isMobile } from '../../../utils/helpers';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
 
@@ -23,7 +22,6 @@ interface Props {
   filterable: boolean;
   placeholder: string;
   onChange: (customer: SelectItem) => void;
-  inputFocus?: boolean;
 }
 
 export function FormSelect(props: Props) {
@@ -46,7 +44,6 @@ export function FormSelect(props: Props) {
     <Selector
       className="w-100"
       items={props.items}
-      inputProps={{ autoFocus: props.inputFocus || !isMobile() }}
       noResults={
         <MenuItem
           disabled={true}

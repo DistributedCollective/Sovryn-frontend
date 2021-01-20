@@ -25,7 +25,6 @@ import { StyledAssetLogo } from './styled';
 import { useBorrowAssetPrice } from '../../hooks/trading/useBorrowAssetPrice';
 import { Asset } from '../../../types/asset';
 import { weiTo2 } from '../../../utils/blockchain/math-helpers';
-import { isMobile } from '../../../utils/helpers';
 
 const Selector = Select.ofType<SelectItem>();
 
@@ -75,7 +74,6 @@ export function TradingPairSelector(props: Props) {
   return (
     <Selector
       items={options}
-      inputProps={{ autoFocus: !isMobile() }}
       noResults={<MenuItem disabled={true} text="No results." />}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
