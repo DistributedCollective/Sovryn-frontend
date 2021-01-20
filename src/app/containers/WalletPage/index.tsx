@@ -35,7 +35,7 @@ export function WalletPage() {
       <Header />
       <div className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
-          <h2 className="flex-shrink-0 flex-grow-0 mb-3 ">
+          <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
           {connected && account && (
@@ -45,14 +45,14 @@ export function WalletPage() {
           )}
         </div>
         <div className="d-flex flex-row align-items-center justify-content-start">
-          <div className="mr-3">
+          <div className="mr-2 ml-2">
             <Tab
               text="My assets"
               active={activeAssets}
               onClick={() => setActiveAssets(true)}
             />
           </div>
-          <div className="mr-3">
+          <div>
             <Tab
               text="NFTS"
               active={!activeAssets}
