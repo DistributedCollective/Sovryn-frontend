@@ -27,7 +27,7 @@ export function Header() {
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
-    { to: '/stats', title: t(translations.mainMenu.stats) },
+    t(translations.mainMenu.stats),
     {
       to: 'https://sovryn-1.gitbook.io/sovryn/',
       title: t(translations.mainMenu.faqs),
@@ -41,6 +41,14 @@ export function Header() {
       exact: boolean;
       onClick?: () => void;
     } = item as any;
+
+    if (typeof item === 'string') {
+      link = {
+        to: `/${item.toLowerCase()}`,
+        title: item,
+        exact: false,
+      };
+    }
 
     if (link.to.startsWith('http')) {
       return (
