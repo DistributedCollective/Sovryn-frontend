@@ -36,6 +36,7 @@ import { selectSalesPage } from './selectors';
 import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
+import { AddSoToMetamask } from './AddToMetamask';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import EnterCodeLanding from './EnterCodeLanding';
@@ -94,6 +95,16 @@ export function SalesPage() {
       document.body.classList.remove('genesis-sale-page');
     };
   }, []);
+
+  function detectInjectableWallet() {
+    if (window.ethereum.isNiftyWallet) {
+      return 'nifty';
+    }
+    if (window.ethereum.isMetaMask) {
+      return 'metamask';
+    }
+    return 'unknown';
+  }
 
   return (
     <div>
@@ -155,7 +166,8 @@ export function SalesPage() {
           <SalesButton text="Read Whitepaper" onClick={() => {}} />
             </div>*/}
       </main>
-      <AddSoToNifty />
+      {detectInjectableWallet() === 'nifty' && <AddSoToNifty />}
+      {detectInjectableWallet() === 'metamask' && <AddSoToMetamask />}
     </div>
   );
 }
