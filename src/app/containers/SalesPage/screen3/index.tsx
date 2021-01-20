@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../slice';
 import { useAccount } from 'app/hooks/useAccount';
 import BackButton from '../BackButton';
+import Loader from '../loader';
 import { selectSalesPage } from '../selectors';
 import Screen5 from '../screen5';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -103,45 +104,54 @@ export default function Screen3(props: Props) {
   }
 
   return (
-    <StyledContent>
-      {!props.hideBackButton && (
-        <div className="d-flex flex-row">
-          <BackButton />
-        </div>
+    <>
+      {!upgradeLoading ? (
+        <StyledContent>
+          {!props.hideBackButton && (
+            <div className="d-flex flex-row">
+              <BackButton />
+            </div>
+          )}
+          <p className="content-header">Welcome to the SOV* Genesis Sale</p>
+          <p className="content-title">
+            Please enter your code to gain access
+            <br />
+            to the SOV* Genesis sale
+          </p>
+          {codeError && <div className="text-danger">{codeError}</div>}
+          <StyledInput
+            placeholder="Enter code"
+            name="code"
+            value={code}
+            onChange={e => setCode(e.target.value)}
+          />
+          <SalesButton
+            text={'Submit Code'}
+            onClick={handleSubmit}
+            loading={upgradeLoading}
+            disabled={upgradeLoading || code.length < 6}
+          />
+          <a
+            href="/sales#"
+            onClick={e => {
+              e.preventDefault();
+              dispatch(actions.changeStep(6));
+            }}
+          >
+            Don’t have a code?
+          </a>
+        </StyledContent>
+      ) : (
+        <Loader
+          content={
+            <p className="content-header">
+              Your code is currently processing
+              <br />
+              It can take a couple of mins to mint your token
+            </p>
+          }
+        />
       )}
-      <p className="content-header">Welcome to the SOV* Genesis Sale</p>
-      <p className="content-title">
-        Please enter your code to gain access
-        <br />
-        to the SOV* Genesis sale
-      </p>
-      {codeError && <div className="text-danger">{codeError}</div>}
-      {upgradeLoading && (
-        <div className="text-info">
-          Loading. This can take couple of minutes.
-        </div>
-      )}
-      <StyledInput
-        placeholder="Enter code"
-        name="code"
-        value={code}
-        onChange={e => setCode(e.target.value)}
-      />
-      <SalesButton
-        text={'Submit Code'}
-        onClick={handleSubmit}
-        loading={upgradeLoading}
-        disabled={upgradeLoading || code.length < 6}
-      />
-      <a
-        href="/sales#"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(actions.changeStep(6));
-        }}
-      >
-        Don’t have a code?
-      </a>
-    </StyledContent>
+    </>
   );
 }
