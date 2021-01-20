@@ -117,3 +117,9 @@ export const maxMinusFee = (amount: any, asset: Asset = Asset.BTC) => {
   }
   return balance.toFixed(0);
 };
+
+export const isMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+};
