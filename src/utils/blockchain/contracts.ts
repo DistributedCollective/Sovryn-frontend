@@ -101,7 +101,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   CrowdSale: {
-    address: '0xc581Df6C10be94BFF4f045eB29645FE1d2140129',
+    address: '0xd42070b07D4EAbb801d76c6929f21749647275Ec',
     abi: CrowdSaleAbi,
     blockNumber: 1218833,
   },
@@ -121,7 +121,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   CSOV_token: {
-    address: '0xf846C2aD889D8578E17f1098cFa3122c3C901F8E',
+    address: '0x0106F2fFBF6A4f5DEcE323d20E16E2037E732790',
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
