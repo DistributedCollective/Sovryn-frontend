@@ -33,8 +33,7 @@ interface Props {
 }
 
 export function TopUpTradingPositionHandler(props: Props) {
-  // const canInteract = useCanInteract();
-  const canInteract = false; // TODO: TEMP DISABLED
+  const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item.collateralToken,
   );
