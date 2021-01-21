@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-import { media } from '../../../styles/media';
 
 interface Props {
   text: string;
@@ -26,7 +25,6 @@ const StyledTab = styled.button.attrs(_ => ({
 }))`
   color: var(--light-gray);
   padding: 5px 10px;
-  font-size: 12px;
   background: transparent;
   font-size: 18px;
   font-weight: 100;
@@ -35,7 +33,6 @@ const StyledTab = styled.button.attrs(_ => ({
   &:hover {
     color: var(--LightGrey);
   }
-  ${media.lg`font-size: 1rem;`}
   ${(props: StyledProps) =>
     props.active &&
     css`

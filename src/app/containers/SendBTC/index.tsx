@@ -20,6 +20,7 @@ import {
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
+import { TradeButton } from '../../components/TradeButton';
 
 interface StyledProps {
   background?: string;
@@ -284,11 +285,18 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const { btcAddress, btcDeposit, transferDeposit } = useSelector(
-    selectSalesPage,
-  );
+  const {
+    btcAddress,
+    btcAddressLoading,
+    btcDeposit,
+    transferDeposit,
+  } = useSelector(selectSalesPage);
   const { minDeposit, maxDeposit } = useSaleLimits();
   const dispatch = useDispatch();
+
+  const generateAddress = () => {
+    dispatch(sActions.getBtcAddress());
+  };
 
   return btcDeposit === null && transferDeposit === null ? (
     <div>
@@ -367,28 +375,44 @@ export default function SendBTC({ setShowCalc }) {
                   />
                 )}
               </div>
-              <CopyToClipboard
-                text={btcAddress}
-                onCopy={() =>
-                  toaster.show({ message: 'Deposit address copied.' })
-                }
-              >
-                <BTCAddClipboard className="cursor-pointer">
-                  {btcAddress ? (
-                    <>
-                      {' '}
-                      {prettyTx(btcAddress, 6, 4)}{' '}
-                      <Icon icon="duplicate" color="#FEC004" />
-                    </>
-                  ) : (
-                    <>Generating address...</>
-                  )}
-                </BTCAddClipboard>
-              </CopyToClipboard>
-              <div className="show-tx" onClick={() => {}}>
-                Waiting for transaction{' '}
-                <Icon className="d-flex align-items-center" icon="refresh" />
-              </div>
+              {btcAddress ? (
+                <>
+                  <CopyToClipboard
+                    text={btcAddress}
+                    onCopy={() =>
+                      toaster.show({ message: 'Deposit address copied.' })
+                    }
+                  >
+                    <BTCAddClipboard className="cursor-pointer">
+                      {btcAddress ? (
+                        <>
+                          {' '}
+                          {prettyTx(btcAddress, 6, 4)}{' '}
+                          <Icon icon="duplicate" color="#FEC004" />
+                        </>
+                      ) : (
+                        <>Generating address...</>
+                      )}
+                    </BTCAddClipboard>
+                  </CopyToClipboard>
+                  <div className="show-tx" onClick={() => {}}>
+                    Waiting for transaction{' '}
+                    <Icon
+                      className="d-flex align-items-center"
+                      icon="refresh"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="mt-5">
+                  <TradeButton
+                    text="Generate deposit address"
+                    onClick={generateAddress}
+                    loading={btcAddressLoading}
+                    disabled={btcAddressLoading}
+                  />
+                </div>
+              )}
             </Wrapper>
           </div>
         </div>

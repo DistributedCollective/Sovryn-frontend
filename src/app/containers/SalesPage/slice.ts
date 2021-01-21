@@ -10,7 +10,7 @@ export const initialState: ContainerState = {
   minDeposit: 0,
   totalDeposits: 0,
   upgradeLoading: false,
-  btcAddressLoading: true,
+  btcAddressLoading: false,
   btcAddress: null,
   btcMin: 0,
   btcMax: 0,
@@ -112,6 +112,7 @@ const SalesSlice = createSlice({
     showTokenTutorial(state, { payload }: PayloadAction<boolean>) {
       state.showTokenTutorial = payload;
     },
+    connectChannel() {},
   },
 });
 

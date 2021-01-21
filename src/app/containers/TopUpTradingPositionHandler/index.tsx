@@ -35,7 +35,7 @@ interface Props {
 export function TopUpTradingPositionHandler(props: Props) {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
-    props.item.collateralToken,
+    props.item?.collateralToken || '',
   );
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);

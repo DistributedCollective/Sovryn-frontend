@@ -12,7 +12,7 @@ import { currentNetwork } from '../../../utils/classifiers';
 
 const startDate =
   currentNetwork === 'mainnet'
-    ? moment('2021-01-19 17:00+0').utc().toDate()
+    ? moment('2021-01-25 17:00+00000', 'YYYY-MM-DD HH:mmZZ').utc().toDate()
     : (null as any);
 
 export function SaleBanner() {

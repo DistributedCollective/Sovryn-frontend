@@ -32,7 +32,7 @@ export function UserAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table p-3 mb-5">
+      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
         <table className="w-100">
           <thead>
             <tr>
