@@ -5,8 +5,9 @@
  */
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import { Spinner, Text } from '@blueprintjs/core';
+import { Spinner, Text, Tooltip } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
+import { ConditionalWrapper } from '../ConditionalWrapper';
 
 interface Props {
   text: React.ReactNode;
@@ -15,28 +16,46 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   onClick: () => void;
+  tooltip?: string | JSX.Element;
+  tooltipProps?: any;
   hideIt?: boolean;
 }
 
 export function TradeButton(props: Props) {
+  const handleClick = () => {
+    if (!props.disabled) {
+      props.onClick();
+    }
+  };
+
   return (
-    <StyledButton
-      type={props.type}
-      disabled={props.disabled}
-      hideIt={props.hideIt}
-      className="sovryn-border"
-      textColor={props.textColor}
-      onClick={() => props.onClick()}
+    <ConditionalWrapper
+      condition={!!props.tooltip}
+      wrapper={children => (
+        <Tooltip content={props.tooltip} {...props.tooltipProps}>
+          {children}
+        </Tooltip>
+      )}
     >
-      <Text
-        ellipsize
-        className="d-flex flex-row align-items-center justify-content-center"
-        tagName="span"
+      <StyledButton
+        as={props.disabled && props.tooltip ? 'a' : undefined}
+        type={props.type}
+        disabled={props.disabled}
+        hideIt={props.hideIt}
+        className="sovryn-border flex-grow-0 flex-shrink-0 font-family-montserrat font-weight-bold"
+        textColor={props.textColor}
+        onClick={handleClick}
       >
-        {props.loading && <Spinner className="mr-1" size={17} />}
-        {props.text}
-      </Text>
-    </StyledButton>
+        <Text
+          ellipsize
+          className="d-flex flex-row align-items-center justify-content-center"
+          tagName="span"
+        >
+          {props.loading && <Spinner className="mr-1" size={17} />}
+          {props.text}
+        </Text>
+      </StyledButton>
+    </ConditionalWrapper>
   );
 }
 TradeButton.defaultProps = {
@@ -57,6 +76,12 @@ const StyledButton = styled.button`
   border-radius: 20px;
   padding: 11px 22px;
   font-size: 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  &:hover {
+    text-decoration: none;
+  }
   &:hover:not(:disabled) {
     color: var(--white);
   }
@@ -66,7 +91,10 @@ const StyledButton = styled.button`
   ${(props: StyledButtonProps) =>
     props.disabled &&
     css`
-      cursor: not-allowed;
+      cursor: not-allowed !important;
+      & span {
+        opacity: 0.7;
+      }
     `}
     ${(props: StyledButtonProps) =>
       props.hideIt &&

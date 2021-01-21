@@ -16,7 +16,6 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { contractWriter } from '../../../utils/sovryn/contract-writer';
 import {
   SendTxResponse,
   useSendContractTx,
@@ -31,20 +30,26 @@ import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { gas } from '../../../utils/blockchain/gas-price';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
+import { useSaleIsOpen } from '../SalesPage/hooks/useSaleIsOpen';
 
 interface StyledProps {
   background?: string;
 }
 
 const Wrapper = styled.div`
-  width: 320px;
+  width: 100%;
   margin-right: 10px;
+  margin-top: 4rem;
   ${(props: StyledProps) =>
     props.background &&
     css`
       background: ${props.background};
     `}
   border-radius: 10px;
+  ${media.md`
+    max-width: 320px;
+    margin-top: 0;
+  `}
   .rbtc-text {
     font-size: 18px;
   }
@@ -170,7 +175,7 @@ const StyledButton = styled.button.attrs(_ => ({
     &:active:hover {
       background: #4ECDC4 !important;
     }
-    `}
+  `}
   ${props =>
     props.disabled &&
     css`
@@ -191,8 +196,8 @@ function TransactionDetail(props: DetailsProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
-      <div className="row no-gutters">
-        <div className="col-md-6">
+      <div className="row justify-content-around">
+        <div className="col-lg-5 col-md-6">
           <div className="mb-4">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
@@ -212,8 +217,8 @@ function TransactionDetail(props: DetailsProps) {
             onClick={() => props.dispatch(sActions.showTokenTutorial(true))}
           />
         </div>
-        <div className="col-md-6 d-flex flex-column align-items-end">
-          <Wrapper background="#242424">
+        <div className="col-lg-4 col-md-5 d-flex justify-content-end">
+          <Wrapper background="#383838">
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
               <p className="text-center font-italic time font-weight-light">
@@ -239,7 +244,7 @@ function TransactionDetail(props: DetailsProps) {
                   {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC
                 </p>
               </div>
-              <p className="hash">
+              <p className="hash mx-auto w-75">
                 <strong>Hash:</strong>
                 {prettyTx(props.tx.txHash)}
               </p>
@@ -256,33 +261,21 @@ function TransactionDetail(props: DetailsProps) {
   );
 }
 
+const gasLimit = 260000;
+const gasEstimation = bignumber(gasLimit).mul(gas.get()).toFixed();
+
 export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
   const { minDeposit, maxDeposit } = useSaleLimits();
+  const isSaleOpen = useSaleIsOpen();
   const account = useAccount();
   const { value: balance } = useBalance();
 
   const [amount, setAmount] = useState(weiToFixed(minDeposit, 8));
-  const [gasEstimation, setGasEstimation] = useState('0');
-  const [gasLimit, setGasLimit] = useState(0);
   const { sovToReceive, price, loading } = useSaleCalculator(amount);
 
   const weiAmount = useWeiAmount(amount);
-
-  useEffect(() => {
-    const estimate = async () => {
-      const _gasLimit = ((await contractWriter.estimateGas(
-        'CrowdSale',
-        'buy',
-        [],
-        { value: toWei(amount), from: account },
-      )) as unknown) as number;
-      setGasLimit(_gasLimit);
-      setGasEstimation(bignumber(_gasLimit).mul(gas.get()).toFixed());
-    };
-    estimate().catch();
-  }, [amount, account]);
 
   const { send, ...tx } = useSendContractTx('CrowdSale', 'buy');
 
@@ -423,7 +416,7 @@ export default function SendRBTC() {
             <StyledButton
               className="mt-1"
               onClick={handleBuy}
-              disabled={!canSubmit}
+              disabled={!canSubmit || !isSaleOpen.open}
             >
               BUY SOV
             </StyledButton>

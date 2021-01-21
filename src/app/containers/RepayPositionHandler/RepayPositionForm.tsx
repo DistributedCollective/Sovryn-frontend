@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { min, bignumber } from 'mathjs';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
@@ -17,17 +17,28 @@ import { TradeButton } from '../../components/TradeButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
+import {
+  normalizeWei,
+  weiTo18,
+  weiTo4,
+} from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';
 import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAndCloseWithDeposit';
+import { LoadableValue } from '../../components/LoadableValue';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   loan: ActiveLoan;
 }
 
 export function RepayPositionForm({ loan }: Props) {
+  const { t } = useTranslation();
   const canInteract = useIsConnected();
   const { asset } = AssetsDictionary.getByTokenContractAddress(loan.loanToken);
+  const { asset: collateralAsset } = AssetsDictionary.getByTokenContractAddress(
+    loan.collateralToken,
+  );
 
   const { value: balance } = useAssetBalanceOf(asset);
 
@@ -47,28 +58,63 @@ export function RepayPositionForm({ loan }: Props) {
     receiver,
     weiAmount,
   );
-  const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    '1',
+    min(bignumber(balance), bignumber(loan.principal)),
+  );
 
   const onMaxClicked = () => {
     setAmount(getMax());
   };
 
+  const [receiveAmount, setReceiveAmount] = useState('0');
+
+  useEffect(() => {
+    if (bignumber(weiAmount).greaterThanOrEqualTo(loan.principal)) {
+      setReceiveAmount(loan.collateral);
+    } else {
+      setReceiveAmount(
+        bignumber(loan.collateral).mul(weiAmount).div(loan.principal).toFixed(),
+      );
+    }
+  }, [weiAmount, loan.collateral, loan.principal]);
+
   return (
     <div className="container position-relative">
-      <h4 className="text-teal text-center mb-3 text-uppercase">Repay loan</h4>
+      <h4 className="text-teal text-center mb-3 text-uppercase">
+        {t(translations.repayPositionForm.title)}
+      </h4>
 
-      <FieldGroup label="Borrowed Amount">
+      <FieldGroup
+        label={t(translations.repayPositionForm.labels.borrowedAmount)}
+      >
         <DummyField>
-          {weiTo4(loan.principal)} <span className="text-muted">{asset}</span>
+          {weiTo18(loan.principal)}&nbsp;
+          <span className="text-muted"> {asset}</span>
         </DummyField>
       </FieldGroup>
 
-      <FieldGroup label="Amount to repay">
+      <FieldGroup
+        label={t(translations.repayPositionForm.labels.amountToRepay, {
+          currency: asset,
+        })}
+      >
         <AmountField
           value={amount || ''}
           onChange={value => setAmount(value)}
           onMaxClicked={onMaxClicked}
         />
+        <small className="text-muted">
+          {t(translations.repayPositionForm.labels.amountToReceive)}
+          {': '}
+          <LoadableValue
+            loading={false}
+            value={weiTo4(receiveAmount)}
+            tooltip={<>{normalizeWei(receiveAmount)}</>}
+          />{' '}
+          {collateralAsset}
+        </small>
       </FieldGroup>
 
       <SendTxProgress displayAbsolute={false} {...closeTx} />
@@ -78,7 +124,7 @@ export function RepayPositionForm({ loan }: Props) {
           <AssetWalletBalance asset={asset} />
         </div>
         <TradeButton
-          text="Repay"
+          text={t(translations.repayPositionForm.button)}
           loading={closeTx.loading}
           disabled={closeTx.loading || !valid || !canInteract}
           onClick={() => send()}

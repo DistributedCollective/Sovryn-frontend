@@ -26,7 +26,7 @@ export function Screen3() {
         <div className="badger-qr position-absolute">
           <img src={badgerQr} alt="" className="h-100 w-100" />
         </div>
-        <div className="speech2 position-absolute"></div>
+        <div className="speech2 position-absolute" />
         <p className="speech-qr position-absolute">
           {t(translations.rskConnectTutorial.speech_qr_code)}
         </p>

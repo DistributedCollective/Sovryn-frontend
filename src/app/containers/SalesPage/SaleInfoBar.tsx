@@ -84,7 +84,7 @@ export function SaleInfoBar() {
             loading={btcRateLoading}
             value={
               <Text ellipsize tagName="p">
-                {toNumberFormat(unitPriceBtc, 6)} BTC / SOV
+                {toNumberFormat(unitPriceBtc * 1e8)} SATS / SOV
               </Text>
             }
             tooltip={<>{rate} SOV for 1 BTC</>}
@@ -161,22 +161,30 @@ const InfoBar = styled.div.attrs(() => ({
   margin-left: auto;
   margin-right: auto;
   p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     margin-bottom: 5px;
+    @media (min-width: 1500px) {
+      font-size: 16px;
+    }
     &:last-child {
-      font-size: 20px;
+      font-size: 16px;
       margin-bottom: 0;
       font-weight: 400;
+      @media (min-width: 1500px) {
+        font-size: 20px;
+      }
     }
   }
   .col {
     padding: 0 7px;
+    @media (max-width: 1280px) {
+      flex-basis: 33%;
+    }
   }
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-    text-align: center;
+  @media only screen and (max-width: 640px) {
     & .col {
+      flex-basis: 50%;
       & p:first-child {
         margin-bottom: 5px;
       }

@@ -114,7 +114,10 @@ export default function EnterCodeLanding(props: Props) {
           </p>
           <p>
             If you believe that you are missing your NFT, please reach out via{' '}
-            <a href="mailto:community@sovryn.app?subject=Missing%20NFT">email here</a>.
+            <a href="mailto:community@sovryn.app?subject=Missing%20NFT">
+              email here
+            </a>
+            .
           </p>
           <p>
             If you didn’t make the cutoff all is not lost! The SOVRYN public

@@ -103,6 +103,10 @@
     },
     "buttons": {
       "submit": "Realizar operação"
+    },
+    "liquidity": {
+      "line_1": "Liquidez muito baixa para trocas.",
+      "line_2": "Try another pair or wait for arbiters to re-balance."
     }
   },
   "swapTradeForm": {
@@ -130,7 +134,11 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Distribuído por <0>Bitcoin</0>"
+    "title": "Fornecido por <0>Bitcoin</0>",
+    "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+    "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
+    "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
+    "notice_4": "Se você é um usuário novato, veja o <0>tutorial</0> e aprenda a usar a SOVRYN."
   },
   "mainMenu": {
     "trade": "Operar",
@@ -401,8 +409,8 @@
     "txRequestDialog": {
       "closeButton": "Ok",
       "approve": {
-        "title": "Aprovar Tokens",
-        "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
+        "title": "Aprovar gastos",
+        "description": "Confirme a transação na sua carteira para aprovar gastos de ativos neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
@@ -469,8 +477,8 @@
       "asset": "Ativo",
       "amount": "Quantidade",
       "fee": "Taxa",
-      "depositTx": "ID Depósito BTC",
-      "transferTx": "RSK Relay Hash",
+      "depositTx": "ID depósito BTC",
+      "transferTx": "ID recebimento RBTC ",
       "txHash": "Transação"
     },
     "emptyState": "Histórico vázio.",
@@ -489,15 +497,49 @@
     "tradeButtons": {
       "deposit": "Depositar e emprestar {{asset}}",
       "redeem": "Resgatar empréstimo {{asset}}"
+  },
+  "liquidity": {
+      "redeem": {
+        "line_1": "Não há {{currency}} suficiente no pool de empréstimo.",
+        "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
+        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+      },
+      "borrow": {
+        "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
+        "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
+        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+        }
     }
   },
   "activeBorrowTable": {
     "headers": {
-      "borrowAmount": "Emprestado",
+      "borrowAmount": "Valor do empréstimo",
       "collateralAmount": "Colateral",
       "interestAPR": "Juros anual",
       "endTimestamp": "Quitar até"
     },
     "repayButton": "Quitar"
+  },
+  "repayPositionForm": {
+    "title": "Quitar empréstimo",
+    "labels": {
+      "borrowedAmount": "Valor do empréstimo",
+      "amountToRepay": "{{currency}} Valor a ser quitado",
+      "amountToReceive": "Você irá receber"
+    },
+    "button": "Quitar"
+  },
+  "closeTradingPositionHandler": {
+    "title": "Liquidar posição",
+    "titleDone": "Posição liquidada",
+    "positionSize": "Tamanho da posição",
+    "withdrawIn": "Resgatar em",
+    "returnAmount": "Valor devolvido",
+    "closePosition": "Fechar posição",
+    "closeAmount": "Valor de fechamento",
+    "liquidity": {
+      "line_1": "Liquidez muito baixa para fechar a posição.",
+      "line_2": "Try another return asset or wait for arbiters to re-balance."
+    }
   }
 }

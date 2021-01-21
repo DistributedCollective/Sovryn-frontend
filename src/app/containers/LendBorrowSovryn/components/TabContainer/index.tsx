@@ -10,6 +10,8 @@ import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { ButtonType } from '../../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { useLending_testAvailableSupply } from '../../../../hooks/lending/useLending_testAvailableSupply';
 
 type Props = {
   currency: Asset;
@@ -50,6 +52,10 @@ const TabContainer: React.FC<Props> = ({
 }) => {
   const [currentButton, setCurrentButton] = useState(leftButton);
   const { t } = useTranslation();
+  const { isSufficient, availableAmount } = useLending_testAvailableSupply(
+    currency,
+    useWeiAmount(amountValue),
+  );
   return (
     <>
       <ButtonGroup
@@ -77,6 +83,8 @@ const TabContainer: React.FC<Props> = ({
         handleSubmitWithdraw={handleSubmitWithdraw}
         handleSubmitRepay={handleSubmitRepay}
         currency={currency}
+        canRedeem={isSufficient}
+        maxRedeem={availableAmount}
       />
     </>
   );

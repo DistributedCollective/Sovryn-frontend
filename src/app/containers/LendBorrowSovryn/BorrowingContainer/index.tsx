@@ -29,6 +29,7 @@ import { actions } from '../slice';
 import { useCanInteract } from '../../../hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
 import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
+import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
 
 type Props = {
   currency: Asset;
@@ -120,7 +121,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const valid = useIsAmountWithinLimits(
     collateralTokenSent,
     '1',
-    maxAmount !== '0' ? min(maxAmount, tokenBalance) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(maxAmount), bignumber(tokenBalance))
+      : tokenBalance,
   );
 
   const popoverContent = (
@@ -142,6 +145,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   useEffect(() => {
     dispatch(actions.changeBorrowAmount(amount));
   }, [amount, dispatch]);
+
+  const { isSufficient, availableAmount } = useLending_testAvailableSupply(
+    currency,
+    borrowAmount,
+  );
 
   return (
     <>
@@ -207,8 +215,30 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         <TradeButton
           text={t(translations.lend.borrowingContainer.borrow) + ` ${currency}`}
           onClick={handleSubmitBorrow}
-          disabled={!valid || !isConnected || txStateBorrow.loading}
+          disabled={
+            !valid || !isConnected || txStateBorrow.loading || !isSufficient
+          }
           loading={txStateBorrow.loading}
+          tooltip={
+            !isSufficient ? (
+              <>
+                <p className="mb-1">
+                  {t(translations.lendingPage.liquidity.borrow.line_1, {
+                    currency,
+                  })}
+                </p>
+                <p>
+                  {t(translations.lendingPage.liquidity.borrow.line_2, {
+                    currency,
+                    amount: weiTo4(availableAmount),
+                  })}
+                </p>
+                <p className="mb-0">
+                  {t(translations.lendingPage.liquidity.borrow.line_3)}
+                </p>
+              </>
+            ) : undefined
+          }
         />
       </div>
     </>

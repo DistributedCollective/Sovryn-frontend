@@ -476,3 +476,12 @@ header {
   transition-property:opacity,transform,-webkit-transform;
   transition-timing-function:cubic-bezier(.54,1.12,.38,1.11)
 }
+
+.fw-900 {
+  width: 900px;
+}
+
+.mfw-600 {
+  width: 100%;
+  max-width: 614px;
+}

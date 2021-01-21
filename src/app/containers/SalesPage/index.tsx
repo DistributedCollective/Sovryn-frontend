@@ -36,6 +36,7 @@ import { selectSalesPage } from './selectors';
 import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
+import { AddSoToMetamask } from './AddToMetamask';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import EnterCodeLanding from './EnterCodeLanding';
@@ -49,21 +50,21 @@ export function SalesPage() {
   const account = useAccount();
   const dispatch = useDispatch();
 
-  const { value: maxPurchase } = useCacheCallWithValue(
+  const { value: maxPurchase } = useCacheCallWithValue<number>(
     'CrowdSale',
     'getMaxPurchase',
     '0',
     account,
   );
 
-  const { value: totalDeposits } = useCacheCallWithValue(
+  const { value: totalDeposits } = useCacheCallWithValue<number>(
     'CrowdSale',
     'InvestorTotalDeposits',
     '0',
     account,
   );
 
-  const { value: minPurchase } = useCacheCallWithValue(
+  const { value: minPurchase } = useCacheCallWithValue<number>(
     'CrowdSale',
     'minPurchase',
     '0',
@@ -95,6 +96,16 @@ export function SalesPage() {
     };
   }, []);
 
+  function detectInjectableWallet() {
+    if (window.ethereum.isNiftyWallet) {
+      return 'nifty';
+    }
+    if (window.ethereum.isMetaMask) {
+      return 'metamask';
+    }
+    return 'unknown';
+  }
+
   return (
     <div>
       <Helmet>
@@ -107,14 +118,14 @@ export function SalesPage() {
       <Header />
       <main
         className="container font-family-montserrat"
-        style={{ maxWidth: '1700px', letterSpacing: 'normal' }}
+        style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
         <PageHeader />
 
         <SaleInfoBar />
 
         {currentNetwork === 'testnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1200px' }}>
+          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
             <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
               <div className="ml-3 mr-4">
                 <Icon icon="warning-sign" iconSize={26} />
@@ -155,7 +166,8 @@ export function SalesPage() {
           <SalesButton text="Read Whitepaper" onClick={() => {}} />
             </div>*/}
       </main>
-      <AddSoToNifty />
+      {detectInjectableWallet() === 'nifty' && <AddSoToNifty />}
+      {detectInjectableWallet() === 'metamask' && <AddSoToMetamask />}
     </div>
   );
 }

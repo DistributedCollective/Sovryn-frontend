@@ -33,6 +33,12 @@ const Wrapper = styled.div`
       background: ${props.background};
     `}
   border-radius: 0 0 10px 10px;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+  .btc-text {
+    font-size: 18px;
+  }
   .header {
     display: flex;
     justify-content: center;
@@ -44,8 +50,8 @@ const Wrapper = styled.div`
     border-radius: 10px;
     margin: 0;
     svg {
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
     }
     .btc-add-clipboard {
       padding: 15px;
@@ -258,9 +264,9 @@ const BTCAddClipboard = styled.span`
   display: block;
   border-radius: 5px;
   position: relative;
-  background: #2d2d2d;
+  background: #383838;
   .bp3-icon {
-    background: #575757;
+    background: #686868;
     position: absolute;
     top: 0;
     right: 0;
@@ -271,6 +277,9 @@ const BTCAddClipboard = styled.span`
     align-items: center;
     justify-content: center;
     border-radius: 0 5px 5px 0;
+    @media (max-width: 640px) {
+      left: auto;
+    }
   }
 `;
 
@@ -285,12 +294,14 @@ export default function SendBTC({ setShowCalc }) {
     <div>
       <div>
         <p className="content-header">Send BTC to receive SOV</p>
-        <div className="row no-gutters">
-          <div className="col-md-6">
+        <div className="row justify-content-around">
+          <div className="col-md-5 mb-1">
             <div className="mb-4">
               <p className="mb-2">Deposit limits:</p>
-              <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
-              <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
+              <ul>
+                <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
+                <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
+              </ul>
               <a
                 href="/sales#"
                 className="d-block"
@@ -312,23 +323,27 @@ export default function SendBTC({ setShowCalc }) {
                 Request higher limit
               </a>
             </div>
-            <div>
+            <div className="mb-4">
               <p>Instructions: </p>
               <div>
-                <li>Send BTC to receive SOV in your engaged wallet</li>
-                <li>
-                  Do not send anything other than BTC to this address otherwise
-                  your assets will be lost permanently
-                </li>
-                <li>
-                  Please allow up to 15 mins for the transaction to process
-                </li>
+                <ul>
+                  <li className="mb-2">
+                    Send BTC to receive SOV in your engaged wallet
+                  </li>
+                  <li className="mb-2">
+                    Do not send anything other than BTC to this address
+                    otherwise your assets will be lost permanently
+                  </li>
+                  <li className="mb-2">
+                    Please allow up to 15 mins for the transaction to process
+                  </li>
+                </ul>
               </div>
 
               <p>
                 For support please join us on{' '}
-                <a href="https://discord.com/invite/J22WS6z" target="_new">
-                  discord.com/invite/J22WS6z
+                <a href="https://discord.gg/dAbhsk4C" target="_new">
+                  https://discord.gg/dAbhsk4C
                 </a>
               </p>
             </div>
@@ -337,9 +352,9 @@ export default function SendBTC({ setShowCalc }) {
               onClick={() => setShowCalc(true)}
             />
           </div>
-          <div className="col-md-6 d-flex justify-content-end">
+          <div className="col-md-4 d-flex justify-content-center">
             <Wrapper>
-              <p>Send BTC to this address:</p>
+              <p className="mb-2 btc-text">Send BTC to this address:</p>
               <div className="row justify-content-center qr-wrapper">
                 {btcAddress && (
                   <QRCode
@@ -362,7 +377,8 @@ export default function SendBTC({ setShowCalc }) {
                   {btcAddress ? (
                     <>
                       {' '}
-                      {prettyTx(btcAddress, 6, 4)} <Icon icon="duplicate" />
+                      {prettyTx(btcAddress, 6, 4)}{' '}
+                      <Icon icon="duplicate" color="#FEC004" />
                     </>
                   ) : (
                     <>Generating address...</>

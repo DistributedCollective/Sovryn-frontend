@@ -157,7 +157,7 @@ function* walletDisconnected() {
   yield put(actions.accountChanged(''));
 }
 
-function* accountChangedSaga({ payload }: PayloadAction<{ address: string }>) {
+function* accountChangedSaga({ payload }: PayloadAction<string>) {
   const state = yield select(selectWalletProvider);
   if (state.whitelist.enabled) {
     yield put(actions.whitelistCheck());

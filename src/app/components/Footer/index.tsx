@@ -17,13 +17,51 @@ export function Footer() {
   return (
     <footer className="mt-3">
       <div className="container py-3">
-        <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey">
-          <h6>
+        <div className="d-flex flex-column justify-content-center align-items-start text-lightGrey font-family-montserrat">
+          <h6 className="font-weight-normal mb-4">
             <Trans
               i18nKey={translations.footer.title}
               components={[<strong></strong>]}
             />
           </h6>
+          <div className="font-weight-light">
+            <p>
+              <Trans i18nKey={translations.footer.notice_1} />
+            </p>
+            <p>
+              <Trans i18nKey={translations.footer.notice_2} />
+            </p>
+            <p>
+              <Trans
+                i18nKey={translations.footer.notice_3}
+                components={[
+                  <a
+                    href="https://sovryn-1.gitbook.io/sovryn/"
+                    className="font-weight-light text-gold"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            </p>
+            <p>
+              <Trans
+                i18nKey={translations.footer.notice_4}
+                components={[
+                  <a
+                    href="https://sovryn-1.gitbook.io/sovryn/"
+                    className="font-weight-light text-gold"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            </p>
+          </div>
         </div>
         {hasMatomo && (
           <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">

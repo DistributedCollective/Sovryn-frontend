@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import { Button } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import moment from 'moment';
 
 import './SaleBanner.scss';
@@ -85,13 +86,15 @@ export function SaleBanner() {
           </div>
           <div className="close-button-container">
             <Button
-              icon="cross"
               minimal
+              color="black"
               className="float-right"
               onClick={() => {
                 closeBanner();
               }}
-            />
+            >
+              <Icon icon="cross" iconSize={30} />
+            </Button>
           </div>
         </div>
       </div>
@@ -148,13 +151,15 @@ export function SaleBanner() {
         </div>
         <div className="close-button-container">
           <Button
-            icon="cross"
             minimal
+            color="black"
             className="float-right"
             onClick={() => {
               closeBanner();
             }}
-          />
+          >
+            <Icon icon="cross" color="black" iconSize={24} />
+          </Button>
         </div>
       </div>
     </div>

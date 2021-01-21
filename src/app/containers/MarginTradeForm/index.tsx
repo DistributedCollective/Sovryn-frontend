@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { min } from 'mathjs';
+import { min, bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -29,17 +29,16 @@ import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
+import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 
 const s = translations.marginTradeForm;
 
-interface Props {}
-
-export function MarginTradeForm(props: Props) {
-  // const isConnected = useCanInteract();
-  const isConnected = false; // TODO: TEMP DISABLED
+export function MarginTradeForm() {
+  const isConnected = useCanInteract();
   const { tradingPair } = useSelector(selectTradingPage);
 
   const pair = TradingPairDictionary.get(tradingPair);
@@ -88,7 +87,9 @@ export function MarginTradeForm(props: Props) {
   const valid = useIsAmountWithinLimits(
     weiAmount,
     '1',
-    maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(tokenBalance), bignumber(maxAmount))
+      : tokenBalance,
   );
 
   const { state } = useLocation();
@@ -104,12 +105,14 @@ export function MarginTradeForm(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const { loanToken } = useTrading_resolvePairTokens(
+  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
     collateral,
   );
+
+  const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
 
   return (
     <>
@@ -186,10 +189,17 @@ export function MarginTradeForm(props: Props) {
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => trade()}
-            disabled={!isConnected || loading || !valid}
-            hideIt
+            disabled={!isConnected || loading || !valid || diff > 5}
             textColor={color}
             loading={loading}
+            tooltip={
+              diff > 5 ? (
+                <>
+                  <p className="mb-1">{t(s.liquidity.line_1)}</p>
+                  <p className="mb-0">{t(s.liquidity.line_2)}</p>
+                </>
+              ) : undefined
+            }
           />
         </div>
         <div className="text-white">

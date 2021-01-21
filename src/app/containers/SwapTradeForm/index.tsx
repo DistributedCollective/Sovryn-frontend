@@ -39,6 +39,11 @@ interface Props {}
 
 const color = 'var(--teal)';
 
+interface Option {
+  key: Asset;
+  label: string;
+}
+
 export function SwapTradeForm(props: Props) {
   const { t } = useTranslation();
   // const isConnected = useCanInteract();
@@ -52,14 +57,14 @@ export function SwapTradeForm(props: Props) {
 
   const weiAmount = useWeiAmount(amount);
 
-  const { value: tokens } = useCacheCallWithValue(
+  const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
     [],
   );
 
   const getOptions = useCallback(() => {
-    return tokens
+    return (tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         if (!asset) {
@@ -70,7 +75,7 @@ export function SwapTradeForm(props: Props) {
           label: asset.symbol,
         };
       })
-      .filter(item => item !== null);
+      .filter(item => item !== null) as unknown) as Option[];
   }, [tokens]);
 
   useEffect(() => {

@@ -31,6 +31,9 @@ export function useSaleEndTime() {
       const mm = moment(Number(endTime) * 1e3).utc();
       setEndDate(mm.toDate());
       setEndDateString(mm.format(DATE_FORMAT));
+    } else {
+      setEndDate(null as any);
+      setEndDateString('-');
     }
   }, [endTime]);
 
