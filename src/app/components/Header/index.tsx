@@ -6,14 +6,14 @@
 import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import logoSvg from 'assets/images/sovryn-logo-white.svg';
-import { translations } from 'locales/i18n';
 import { Container } from 'react-bootstrap';
+import styled from 'styled-components/macro';
+import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
+
+import { translations } from 'locales/i18n';
+import logoSvg from 'assets/images/sovryn-logo-white.svg';
 
 import WalletConnector from '../../containers/WalletConnector';
-import styled from 'styled-components/macro';
-
-import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
 import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';

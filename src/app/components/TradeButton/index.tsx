@@ -18,6 +18,7 @@ interface Props {
   onClick: () => void;
   tooltip?: string | JSX.Element;
   tooltipProps?: any;
+  hideIt?: boolean;
 }
 
 export function TradeButton(props: Props) {
@@ -40,6 +41,7 @@ export function TradeButton(props: Props) {
         as={props.disabled && props.tooltip ? 'a' : undefined}
         type={props.type}
         disabled={props.disabled}
+        hideIt={props.hideIt}
         className="sovryn-border flex-grow-0 flex-shrink-0 font-family-montserrat font-weight-bold"
         textColor={props.textColor}
         onClick={handleClick}
@@ -65,6 +67,7 @@ TradeButton.defaultProps = {
 interface StyledButtonProps {
   textColor: string;
   disabled?: boolean;
+  hideIt?: boolean;
 }
 
 const StyledButton = styled.button`
@@ -93,6 +96,11 @@ const StyledButton = styled.button`
         opacity: 0.7;
       }
     `}
+    ${(props: StyledButtonProps) =>
+      props.hideIt &&
+      css`
+        opacity: 0.2;
+      `}
   ${media.lg`
   font-size: 14px
   `}

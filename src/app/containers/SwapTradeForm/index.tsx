@@ -26,7 +26,7 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-import { useCanInteract } from '../../hooks/useCanInteract';
+// import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 
 const s = translations.swapTradeForm;
@@ -46,7 +46,8 @@ interface Option {
 
 export function SwapTradeForm(props: Props) {
   const { t } = useTranslation();
-  const isConnected = useCanInteract();
+  // const isConnected = useCanInteract();
+  const isConnected = false; // TODO: TEMP DISABLED
 
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.DOC);
@@ -192,6 +193,7 @@ export function SwapTradeForm(props: Props) {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
+          hideIt
           disabled={
             !isConnected ||
             tx.loading ||
