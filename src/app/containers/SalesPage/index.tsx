@@ -96,6 +96,10 @@ export function SalesPage() {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(actions.connectChannel());
+  }, [dispatch]);
+
   function detectInjectableWallet() {
     if (window.ethereum.isNiftyWallet) {
       return 'nifty';
