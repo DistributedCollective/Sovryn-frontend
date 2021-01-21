@@ -47,7 +47,7 @@ export const databaseRpcNodes = {
 };
 
 export const saleBackend = {
-  30: 'https://backend.sovryn.app/genesis',
+  30: 'https://fastbtc.sovryn.app/genesis',
   31: 'https://testnet.sovryn.app/genesis',
 };
 
