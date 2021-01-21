@@ -10,8 +10,9 @@ export function useSaleEndTime() {
   const [endDate, setEndDate] = useState(
     moment(
       currentNetwork === 'testnet'
-        ? '2021-01-15 15:30+0'
-        : '2021-01-21 15:30+0',
+        ? '2021-01-31 15:30+00000'
+        : '2021-01-31 15:30+00000',
+      'YYYY-MM-DD HH:mmZZ',
     )
       .utc(false)
       .toDate(),
