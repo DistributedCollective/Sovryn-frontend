@@ -71,7 +71,7 @@ export function SaleBanner() {
             <div className="button-container">
               <Link
                 className="button button-nav button-black button-white button-container"
-                to="/sales"
+                to="/genesis"
               >
                 <span className="button-text text-nowrap">Learn More</span>
               </Link>
@@ -130,7 +130,7 @@ export function SaleBanner() {
           <div className="button-container">
             <Link
               className="button button-nav button-black button-white button-container"
-              to="/sales"
+              to="/genesis"
             >
               <span className="button-text text-nowrap">Learn More</span>
             </Link>

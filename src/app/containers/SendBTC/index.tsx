@@ -150,7 +150,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
             text={'Connect SOV to your wallet'}
             onClick={handleSOVTutorial}
           />
-          <a href="/sales#" onClick={handleBack}>
+          <a href="/genesis#" onClick={handleBack}>
             Make another transaction?
           </a>
         </div>
@@ -311,7 +311,7 @@ export default function SendBTC({ setShowCalc }) {
                 <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
               </ul>
               <a
-                href="/sales#"
+                href="/genesis#"
                 className="d-block"
                 onClick={e => {
                   e.preventDefault();
@@ -321,7 +321,7 @@ export default function SendBTC({ setShowCalc }) {
                 Input upgrade code
               </a>
               <a
-                href="/sales#"
+                href="/genesis#"
                 className="d-block"
                 onClick={e => {
                   e.preventDefault();

@@ -331,7 +331,7 @@ export default function SendRBTC() {
               <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
             </ul>
             <a
-              href="/sales#"
+              href="/genesis#"
               className="d-block"
               onClick={e => {
                 e.preventDefault();
@@ -341,7 +341,7 @@ export default function SendRBTC() {
               Input upgrade code
             </a>
             <a
-              href="/sales#"
+              href="/genesis#"
               className="d-block"
               onClick={e => {
                 e.preventDefault();
@@ -386,7 +386,7 @@ export default function SendRBTC() {
             />
             <p className="text-center font-sale-sm mt-2">
               Available Balance:{' '}
-              <a href="/sales#" onClick={addAllBalance}>
+              <a href="/genesis#" onClick={addAllBalance}>
                 {weiToNumberFormat(balance, 8)}
               </a>{' '}
               (r)BTC
