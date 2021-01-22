@@ -321,7 +321,7 @@ export default function SendRBTC() {
 
   return !showTx ? (
     <div>
-      <p className="content-header">Buy SOV with (r)BTC</p>
+      <p className="content-header">Pre-order SOV with (r)BTC</p>
       <div className="row justify-content-around">
         <div className="col-md-5">
           <div className="mb-4">
@@ -356,11 +356,11 @@ export default function SendRBTC() {
             <div>
               <ul>
                 <li className="mb-2">
-                  <span>Buy SOV with (r)BTC in your engaged wallet</span>
+                  <span>Pre-order SOV with (r)BTC in your engaged wallet</span>
                 </li>
                 <li className="mb-4">
                   <span>
-                    Please allow up to 5 mins for the transaction to process
+                    Please allow up to xx mins for the transaction to process
                   </span>
                 </li>
               </ul>
@@ -418,7 +418,7 @@ export default function SendRBTC() {
               onClick={handleBuy}
               disabled={!canSubmit || !isSaleOpen.open}
             >
-              BUY SOV
+              RESERVE SOV
             </StyledButton>
           </Wrapper>
         </div>

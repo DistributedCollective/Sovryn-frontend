@@ -87,8 +87,8 @@ function GeneralAlert() {
           could cause a potential loss of funds.
         </p>
         <p>
-          Particularly please be sure to check all transaction fee prices before
-          proceeding as third party wallets may automatically present high fees.
+          Make sure to check all transaction fee prices before proceeding as
+          third party wallets may automatically present high fees.
         </p>
         <p>
           Please visit our{' '}
