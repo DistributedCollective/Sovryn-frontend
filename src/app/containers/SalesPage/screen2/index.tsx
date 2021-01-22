@@ -135,7 +135,7 @@ export default function Screen2() {
                 </div>
                 <SalesButton
                   text={'Continue to sale'}
-                  // disabled={!isSaleOpen.open}
+                  disabled={!isSaleOpen.open}
                   onClick={() => setShowInfo(!showInfo)}
                 />
                 <SalesButton
