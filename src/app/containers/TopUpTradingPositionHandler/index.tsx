@@ -23,6 +23,10 @@ import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { TradeButton } from '../../components/TradeButton';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -87,10 +91,17 @@ export function TopUpTradingPositionHandler(props: Props) {
           <AssetWalletBalance asset={tokenDetails.asset} />
           <TradeButton
             text={t(s.topUp)}
-            hideIt
+            hideIt={disableNewTrades}
             onClick={() => handleConfirm()}
-            disabled={rest.loading || !valid || !canInteract}
+            disabled={
+              disableNewTrades || rest.loading || !valid || !canInteract
+            }
             loading={rest.loading}
+            tooltip={
+              disableNewTrades ? (
+                <div className="mw-tooltip">{disableNewTradesText}</div>
+              ) : undefined
+            }
           />
         </div>
       </div>

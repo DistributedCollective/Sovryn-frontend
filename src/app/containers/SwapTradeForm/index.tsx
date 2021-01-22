@@ -26,16 +26,18 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-// import { useCanInteract } from '../../hooks/useCanInteract';
+import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.swapTradeForm;
 
 function tokenAddress(asset: Asset) {
   return AssetsDictionary.get(asset).getTokenContractAddress();
 }
-
-interface Props {}
 
 const color = 'var(--teal)';
 
@@ -44,10 +46,9 @@ interface Option {
   label: string;
 }
 
-export function SwapTradeForm(props: Props) {
+export function SwapTradeForm() {
   const { t } = useTranslation();
-  // const isConnected = useCanInteract();
-  const isConnected = false; // TODO: TEMP DISABLED
+  const isConnected = useCanInteract();
 
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.DOC);
@@ -193,8 +194,9 @@ export function SwapTradeForm(props: Props) {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
-          hideIt
+          hideIt={disableNewTrades}
           disabled={
+            disableNewTrades ||
             !isConnected ||
             tx.loading ||
             amount <= '0' ||
@@ -203,6 +205,11 @@ export function SwapTradeForm(props: Props) {
           }
           loading={tx.loading}
           textColor={color}
+          tooltip={
+            disableNewTrades ? (
+              <div className="mw-tooltip">{disableNewTradesText}</div>
+            ) : undefined
+          }
         />
       </div>
     </>

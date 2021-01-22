@@ -117,3 +117,13 @@ export const maxMinusFee = (amount: any, asset: Asset = Asset.BTC) => {
   }
   return balance.toFixed(0);
 };
+
+/**
+ * Returns true if value is one of true, 1, on or yes.
+ * All other values considered as false
+ * @param value
+ */
+export function isChecked(value: any) {
+  value = String(value || false).toLowerCase();
+  return ['true', '1', 'on', 'yes'].includes(value);
+}
