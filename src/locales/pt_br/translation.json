@@ -87,7 +87,8 @@
     "waitingForDeposit": "Aguardando depósito",
     "exchanging": "Nós estamos trocando seu BTC para rBTC.",
     "transfered": "foi transferido para sua carteira RSK",
-    "swapAgain": "Realizar nova troca"
+    "swapAgain": "Realizar nova troca",
+    "disabledText": "Top-up deposits have been temporarily disabled. We ask that you not send funds until re-enabled. Thank you!"
   },
   "tradeOrSwapTabs": {
     "tabs": {
@@ -106,7 +107,7 @@
     },
     "liquidity": {
       "line_1": "Liquidez muito baixa para trocas.",
-      "line_2": "Try another pair or wait for arbiters to re-balance."
+      "line_2": "Tente com outro par de ativos ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   },
   "swapTradeForm": {
@@ -311,6 +312,8 @@
   "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
     "mobile_wallet": "Mobile Wallet",
+    "mobile_wallet_alert_line1": "Make sure to use mobile wallet that supports RSK wallet. We suggest RWallet or Defiant.",
+    "mobile_wallet_alert_line2": "MetaMask has issues with calculating gas price for RSK network - always review if it's not to large before approving transaction!",
     "hardware_wallet": "Hardware Wallet",
     "speech": {
       "1": "Open up your browser wallet",
@@ -359,6 +362,63 @@
       },
       "4": {
         "title": "Connect With Mobile Wallet",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "5": {
+        "title": "Choose Your Wallet",
+        "banner": "For any assistance, reach out to the community"
+      }
+    }
+  },
+   "SOVConnectTutorial": {
+    "browser_wallet": "Browser Wallet",
+    "mobile_wallet": "Mobile Wallet",
+    "hardware_wallet": "Hardware Wallet",
+    "speech": {
+      "1": "Open up your browser wallet",
+      "2": "Go to network dropdown",
+      "3": "Select custom RPC",
+      "4": "Input network details",
+      "5": "Click Save",
+      "6": "Click Add Network",
+      "7": "Engage Your Wallet!"
+    },
+    "mobileSpeech": {
+      "1": "Go to Wallet Menu",
+      "2": "Select Settings",
+      "3": "Select Networks",
+      "4": "Click Add Network",
+      "5": "Input Network Settings",
+      "6": "Click Add",
+      "7": "Scan QR Code to Connect!"
+    },
+    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
+    "input_settings": {
+      "title": "SOV TOKEN SETTINGS",
+      "token_address": "Token Contract Address",
+      "symbol": "Symbol",
+      "decimals": "Decimals"
+    },
+    "step": "Step",
+    "screens": {
+      "1": {
+        "title": "Connect Your Wallet",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "11": {
+        "title": "Connect to the RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "2": {
+        "title": "How to Connect to RSK Network",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "3": {
+        "title": "Scan QR Code",
+        "banner": "For any assistance, reach out to the community"
+      },
+      "4": {
+        "title": "How to connect SOV to your Metamask wallet",
         "banner": "For any assistance, reach out to the community"
       }
     }
@@ -452,6 +512,12 @@
       "description": "Informações sobre a carteira conectada"
     }
   },
+  "salesPage": {
+    "meta": {
+      "title": "Presale",
+      "description": "SOV Presale Page"
+    }
+  },
   "userAssets": {
     "meta": {
       "title": "Carteira"
@@ -539,7 +605,7 @@
     "closeAmount": "Valor de fechamento",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
-      "line_2": "Try another return asset or wait for arbiters to re-balance."
+      "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   }
 }
