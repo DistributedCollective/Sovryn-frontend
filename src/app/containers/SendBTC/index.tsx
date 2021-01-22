@@ -405,7 +405,7 @@ export default function SendBTC({ setShowCalc }) {
                 </>
               ) : (
                 <div className="mt-5">
-                  <TradeButton
+                  <SalesButton
                     text="Generate deposit address"
                     onClick={generateAddress}
                     loading={btcAddressLoading}
