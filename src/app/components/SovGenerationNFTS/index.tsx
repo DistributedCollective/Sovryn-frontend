@@ -77,7 +77,7 @@ export function SovGenerationNFTS() {
                     <tbody>
                       <tr>
                         <td>
-                          <b>SOV Genesis Sale</b>
+                          <b>SOV Genesis Pre-Order</b>
                         </td>
                         <td rowSpan={2}>
                           <img src={sov_icon} alt="icon" />

@@ -164,7 +164,7 @@ export default function Screen6() {
           <p className="content-header mt-lg-0 mt-sm-5">
             Please fill out this form to request access to the
             <br />
-            SOV* Genesis sale{' '}
+            SOV* Genesis Pre-Order{' '}
           </p>
           <div className="row mb-4">
             <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
