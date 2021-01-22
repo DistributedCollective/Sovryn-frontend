@@ -20,7 +20,6 @@ import {
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
-import { TradeButton } from '../../components/TradeButton';
 
 interface StyledProps {
   background?: string;
@@ -405,7 +404,7 @@ export default function SendBTC({ setShowCalc }) {
                 </>
               ) : (
                 <div className="mt-5">
-                  <TradeButton
+                  <SalesButton
                     text="Generate deposit address"
                     onClick={generateAddress}
                     loading={btcAddressLoading}
