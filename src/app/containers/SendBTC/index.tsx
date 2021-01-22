@@ -20,7 +20,6 @@ import {
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
-import { TradeButton } from '../../components/TradeButton';
 
 interface StyledProps {
   background?: string;
