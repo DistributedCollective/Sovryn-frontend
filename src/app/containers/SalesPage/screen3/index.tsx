@@ -132,7 +132,7 @@ export default function Screen3(props: Props) {
             disabled={upgradeLoading || code.length < 6}
           />
           <a
-            href="/sales#"
+            href="/genesis#"
             onClick={e => {
               e.preventDefault();
               dispatch(actions.changeStep(6));
