@@ -301,7 +301,7 @@ export default function SendBTC({ setShowCalc }) {
   return btcDeposit === null && transferDeposit === null ? (
     <div>
       <div>
-        <p className="content-header">Send BTC to receive SOV</p>
+        <p className="content-header">Send BTC to pre-order SOV</p>
         <div className="row justify-content-around">
           <div className="col-md-5 mb-1">
             <div className="mb-4">
@@ -336,22 +336,22 @@ export default function SendBTC({ setShowCalc }) {
               <div>
                 <ul>
                   <li className="mb-2">
-                    Send BTC to receive SOV in your engaged wallet
+                    Send BTC to pre-order SOV in your engaged wallet
                   </li>
                   <li className="mb-2">
                     Do not send anything other than BTC to this address
                     otherwise your assets will be lost permanently
                   </li>
                   <li className="mb-2">
-                    Please allow up to 15 mins for the transaction to process
+                    Please allow up to xx mins for the transaction to process
                   </li>
                 </ul>
               </div>
 
               <p>
                 For support please join us on{' '}
-                <a href="https://discord.gg/dAbhsk4C" target="_new">
-                  https://discord.gg/dAbhsk4C
+                <a href="https://discord.com/invite/J22WS6z" target="_new">
+                  https://discord.com/invite/J22WS6z
                 </a>
               </p>
             </div>

@@ -24,6 +24,7 @@ const StyledContent = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
+  padding: 0 20px 20px;
   .content-header {
     font-size: 28px;
     text-align: center;
@@ -38,7 +39,7 @@ const StyledContent = styled.div`
     }
   }
   .right-box {
-    margin-left: 0px;
+    margin: 0 auto;
     max-width: 333px;
     width: 100%;
   }
@@ -65,11 +66,15 @@ const StyledContent = styled.div`
     button {
       margin: 30px 0;
       padding: 10px 0;
+      width: 100%;
     }
     ${media.xl`
       max-width: 527px;
       padding: 0 10px;
       margin-bottom: 1rem;
+      button {
+        width: auto;
+      }
     `}
   }
 `;
