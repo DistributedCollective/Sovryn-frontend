@@ -343,7 +343,7 @@ export default function SendBTC({ setShowCalc }) {
                     otherwise your assets will be lost permanently
                   </li>
                   <li className="mb-2">
-                    Please allow up to xx mins for the transaction to process
+                    Please allow 5 to 60 mins for the transaction to process
                   </li>
                 </ul>
               </div>
