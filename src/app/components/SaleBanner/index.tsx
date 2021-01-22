@@ -63,10 +63,10 @@ export function SaleBanner() {
         <div className="banner py-3">
           <div className="info-container">
             <h2 className="text-uppercase title-container black-font">
-              <>SOV* Genesis Sale</>
+              <>SOV* Genesis Pre-Order</>
             </h2>
             <div className="sub-info-container">
-              <p className="sub-info-text black-font">SOV Token Sale</p>
+              <p className="sub-info-text black-font">SOV Token Pre-Order</p>
             </div>
             <div className="button-container">
               <Link
@@ -107,25 +107,25 @@ export function SaleBanner() {
         <div className="info-container">
           <h2 className="text-uppercase title-container black-font">
             {loading ? (
-              <>SOV* Genesis Sale</>
+              <>SOV* Genesis Pre-Order</>
             ) : (
               <>
                 {endDate > now ? (
                   <>
-                    {endDate >= now && <>Sale has begun!</>}
-                    {endDate < now && <>Sale ended!</>}
+                    {endDate >= now && <>Pre-Order has begun!</>}
+                    {endDate < now && <>Pre-Order ended!</>}
                   </>
                 ) : (
                   <>
                     {startDate > now && <>Count Down has begun</>}
-                    {startDate < now && <>SOV* Genesis Sale</>}
+                    {startDate < now && <>SOV* Genesis Pre-Order</>}
                   </>
                 )}
               </>
             )}
           </h2>
           <div className="sub-info-container">
-            <p className="sub-info-text black-font">SOV Token Sale</p>
+            <p className="sub-info-text black-font">SOV Token Pre-Order</p>
           </div>
           <div className="button-container">
             <Link
