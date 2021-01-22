@@ -34,6 +34,10 @@ import { useLending_transactionLimit } from '../../hooks/lending/useLending_tran
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.marginTradeForm;
 
@@ -189,11 +193,16 @@ export function MarginTradeForm() {
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => trade()}
-            disabled={!isConnected || loading || !valid || diff > 5}
+            hideIt={disableNewTrades}
+            disabled={
+              !isConnected || loading || !valid || diff > 5 || disableNewTrades
+            }
             textColor={color}
             loading={loading}
             tooltip={
-              diff > 5 ? (
+              disableNewTrades ? (
+                <div className="mw-tooltip">{disableNewTradesText}</div>
+              ) : diff > 5 ? (
                 <>
                   <p className="mb-1">{t(s.liquidity.line_1)}</p>
                   <p className="mb-0">{t(s.liquidity.line_2)}</p>

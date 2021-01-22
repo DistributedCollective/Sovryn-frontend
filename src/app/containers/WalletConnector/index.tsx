@@ -88,7 +88,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             }
           >
             <>
-              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex">
+              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex cursor-pointer">
                 <span className="d-flex flex-nowrap flex-row align-items-center w-100 justify-content-between">
                   <span>{prettyTx(address, 4, 4)}</span>
                   <Icon

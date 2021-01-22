@@ -41,6 +41,16 @@ import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import EnterCodeLanding from './EnterCodeLanding';
 
+function detectInjectableWallet() {
+  if (window.ethereum.isNiftyWallet) {
+    return 'nifty';
+  }
+  if (window.ethereum.isMetaMask) {
+    return 'metamask';
+  }
+  return 'unknown';
+}
+
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
   useInjectSaga({ key: salesSlice, saga: salesPageSaga });
@@ -100,16 +110,6 @@ export function SalesPage() {
     dispatch(actions.connectChannel());
   }, [dispatch]);
 
-  function detectInjectableWallet() {
-    if (window.ethereum.isNiftyWallet) {
-      return 'nifty';
-    }
-    if (window.ethereum.isMetaMask) {
-      return 'metamask';
-    }
-    return 'unknown';
-  }
-
   return (
     <div>
       <Helmet>
@@ -140,25 +140,20 @@ export function SalesPage() {
             </div>
           </div>
         )}
-
-        {currentNetwork === 'testnet' && (
+        {!isConnected ? (
+          <Screen1 />
+        ) : (
           <>
-            {!isConnected ? (
-              <Screen1 />
+            {Number(state.maxDeposit) === 0 ? (
+              <EnterCodeLanding />
             ) : (
               <>
-                {Number(state.maxDeposit) === 0 ? (
-                  <EnterCodeLanding />
-                ) : (
-                  <>
-                    {state.step === 1 && <Screen1 />}
-                    {state.step === 2 && <Screen2 />}
-                    {state.step === 3 && <Screen3 />}
-                    {state.step === 4 && <Screen4 />}
-                    {state.step === 5 && <Screen5 />}
-                    {state.step === 6 && <Screen6 />}
-                  </>
-                )}
+                {state.step === 1 && <Screen1 />}
+                {state.step === 2 && <Screen2 />}
+                {state.step === 3 && <Screen3 />}
+                {state.step === 4 && <Screen4 />}
+                {state.step === 5 && <Screen5 />}
+                {state.step === 6 && <Screen6 />}
               </>
             )}
           </>
