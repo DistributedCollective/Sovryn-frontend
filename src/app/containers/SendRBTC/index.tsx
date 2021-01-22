@@ -360,7 +360,7 @@ export default function SendRBTC() {
                 </li>
                 <li className="mb-4">
                   <span>
-                    Please allow up to xx mins for the transaction to process
+                    Please allow 5 to 60 mins for the transaction to process
                   </span>
                 </li>
               </ul>

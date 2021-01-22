@@ -168,7 +168,7 @@ export default function Screen2() {
                       <tbody>
                         <tr>
                           <td>
-                            <b>SOV Genesis Sale</b>
+                            <b>SOV Genesis Pre-Order</b>
                           </td>
                           <td rowSpan={2}>
                             <img src={LogoDark} alt="logo" />
