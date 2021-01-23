@@ -249,7 +249,7 @@
     "history": {
       "title": "Histórico",
       "amount": "Valor do empréstimo",
-      "date": "Data & hora",
+      "date": "Data e hora",
       "price": "Preço",
       "transaction": "Transação",
       "emptyState": "Histórico vazio."
