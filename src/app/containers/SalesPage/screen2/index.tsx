@@ -7,7 +7,6 @@ import { selectSalesPage } from '../selectors';
 import { media } from 'styles/media';
 import { Checkbox } from '@blueprintjs/core';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { trimZero } from 'utils/blockchain/math-helpers';
 import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
