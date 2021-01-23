@@ -390,7 +390,7 @@
       "4": "Clique em adicionar rede",
       "5": "Input Network Settings",
       "6": "Clique em adicionar",
-      "7": "Scan QR Code to Connect!"
+      "7": "Ler código QR para conectar!"
     },
     "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
     "input_settings": {
