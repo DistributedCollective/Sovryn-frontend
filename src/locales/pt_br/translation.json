@@ -373,7 +373,7 @@
    "SOVConnectTutorial": {
     "browser_wallet": "Carteira de navegador",
     "mobile_wallet": "Carteira de celular",
-    "hardware_wallet": "Hardware Wallet",
+    "hardware_wallet": "Carteira física",
     "speech": {
       "1": "Open up your browser wallet",
       "2": "Go to network dropdown",
