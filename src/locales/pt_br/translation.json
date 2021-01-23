@@ -88,7 +88,7 @@
     "exchanging": "Nós estamos trocando seu BTC para rBTC.",
     "transfered": "foi transferido para sua carteira RSK",
     "swapAgain": "Realizar nova troca",
-    "disabledText": "Top-up deposits have been temporarily disabled. We ask that you not send funds until re-enabled. Thank you!"
+    "disabledText": "Os depósitos foram temporariamente desativados. Pedimos que você não envie fundos até que seja reativado. Obrigado!"
   },
   "tradeOrSwapTabs": {
     "tabs": {
