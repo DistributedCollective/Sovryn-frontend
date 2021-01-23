@@ -372,7 +372,7 @@
   },
    "SOVConnectTutorial": {
     "browser_wallet": "Carteira de navegador",
-    "mobile_wallet": "Mobile Wallet",
+    "mobile_wallet": "Carteira de celular",
     "hardware_wallet": "Hardware Wallet",
     "speech": {
       "1": "Open up your browser wallet",
