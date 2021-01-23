@@ -87,7 +87,7 @@
     "waitingForDeposit": "Aguardando depósito",
     "exchanging": "Nós estamos trocando seu BTC para rBTC.",
     "transfered": "foi transferido para sua carteira RSK",
-    "swapAgain": "Realizar nova troca",
+    "swapAgain": "Realizar outra troca",
     "disabledText": "Os depósitos foram temporariamente desativados. Pedimos que você não envie fundos até que seja reativado. Obrigado!"
   },
   "tradeOrSwapTabs": {
