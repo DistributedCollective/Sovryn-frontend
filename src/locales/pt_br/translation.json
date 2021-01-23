@@ -397,7 +397,7 @@
       "title": "CONFIGURAÇÕES DO ATIVO SOV",
       "token_address": "Endereço do contrato do ativo",
       "symbol": "Símbolo",
-      "decimals": "Decimals"
+      "decimals": "Decimais"
     },
     "step": "Step",
     "screens": {
