@@ -375,7 +375,7 @@
     "mobile_wallet": "Carteira de celular",
     "hardware_wallet": "Carteira física",
     "speech": {
-      "1": "Open up your browser wallet",
+      "1": "Abra sua carteira de navegador",
       "2": "Go to network dropdown",
       "3": "Select custom RPC",
       "4": "Input network details",
