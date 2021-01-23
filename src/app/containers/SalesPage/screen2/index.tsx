@@ -82,7 +82,9 @@ const StyledContent = styled.div`
 export default function Screen2() {
   const dispatch = useDispatch();
   const { maxDeposit } = useSelector(selectSalesPage);
-  const maxDepositFormatted = trimZero(weiToNumberFormat(maxDeposit, 8));
+  const maxDepositFormatted = Number(weiToNumberFormat(maxDeposit, 3)).toFixed(
+    2,
+  );
   const [tierLabel, setTierLabel] = useState('');
   const [tierImage, setTierImage] = useState('');
   const [checked, setChecked] = useState(false);
@@ -94,11 +96,11 @@ export default function Screen2() {
         setTierLabel('Community');
         setTierImage(sov_1);
         break;
-      case '0.1':
+      case '0.10':
         setTierLabel('Hero');
         setTierImage(sov_2);
         break;
-      case '2':
+      case '2.00':
         setTierLabel('Superhero');
         setTierImage(sov_3);
         break;
