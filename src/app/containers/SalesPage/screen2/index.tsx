@@ -7,7 +7,6 @@ import { selectSalesPage } from '../selectors';
 import { media } from 'styles/media';
 import { Checkbox } from '@blueprintjs/core';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { trimZero } from 'utils/blockchain/math-helpers';
 import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
@@ -82,7 +81,9 @@ const StyledContent = styled.div`
 export default function Screen2() {
   const dispatch = useDispatch();
   const { maxDeposit } = useSelector(selectSalesPage);
-  const maxDepositFormatted = trimZero(weiToNumberFormat(maxDeposit, 8));
+  const maxDepositFormatted = Number(weiToNumberFormat(maxDeposit, 3)).toFixed(
+    2,
+  );
   const [tierLabel, setTierLabel] = useState('');
   const [tierImage, setTierImage] = useState('');
   const [checked, setChecked] = useState(false);
@@ -94,11 +95,11 @@ export default function Screen2() {
         setTierLabel('Community');
         setTierImage(sov_1);
         break;
-      case '0.1':
+      case '0.10':
         setTierLabel('Hero');
         setTierImage(sov_2);
         break;
-      case '2':
+      case '2.00':
         setTierLabel('Superhero');
         setTierImage(sov_3);
         break;
