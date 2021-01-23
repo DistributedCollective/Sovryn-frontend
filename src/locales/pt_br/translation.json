@@ -396,7 +396,7 @@
     "input_settings": {
       "title": "CONFIGURAÇÕES DO ATIVO SOV",
       "token_address": "Endereço do contrato do ativo",
-      "symbol": "Symbol",
+      "symbol": "Símbolo",
       "decimals": "Decimals"
     },
     "step": "Step",
