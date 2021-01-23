@@ -371,7 +371,7 @@
     }
   },
    "SOVConnectTutorial": {
-    "browser_wallet": "Browser Wallet",
+    "browser_wallet": "Carteira de navegador",
     "mobile_wallet": "Mobile Wallet",
     "hardware_wallet": "Hardware Wallet",
     "speech": {
