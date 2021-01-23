@@ -392,7 +392,7 @@
       "6": "Clique em adicionar",
       "7": "Ler código QR para conectar!"
     },
-    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
+    "speech_qr_code": "Ler código QR com uma carteira compatível com a função wallet-connect",
     "input_settings": {
       "title": "SOV TOKEN SETTINGS",
       "token_address": "Token Contract Address",
