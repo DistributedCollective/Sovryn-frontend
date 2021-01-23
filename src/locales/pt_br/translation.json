@@ -395,7 +395,7 @@
     "speech_qr_code": "Ler código QR com uma carteira compatível com a função wallet-connect",
     "input_settings": {
       "title": "CONFIGURAÇÕES DO ATIVO SOV",
-      "token_address": "Token Contract Address",
+      "token_address": "Endereço do contrato do ativo",
       "symbol": "Symbol",
       "decimals": "Decimals"
     },
