@@ -270,7 +270,7 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "tokenAssetCollateral": "Ativo e quantidade a ser colaterizada",
+      "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
       "borrow": "Tomar empréstimo",
       "chooseDays": "Quantidade de dias"
     }
