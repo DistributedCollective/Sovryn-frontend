@@ -139,7 +139,9 @@
     </div>
     <script type="text/javascript">
       try {
-        window.ethereum.autoRefreshOnNetworkChange = false;
+        if (window.ethereum) {
+          window.ethereum.autoRefreshOnNetworkChange = false;
+        }
       } catch (e) {
         console.warn(e);
       }
