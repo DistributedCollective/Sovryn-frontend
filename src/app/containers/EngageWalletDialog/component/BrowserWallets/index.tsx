@@ -19,15 +19,15 @@ function detectInjectableWallet() {
     return 'none';
   }
 
-  if (window.ethereum.isLiquality) {
+  if (window.ethereum?.isLiquality) {
     return 'liquality';
   }
 
-  if (window.ethereum.isNiftyWallet) {
+  if (window.ethereum?.isNiftyWallet) {
     return 'nifty';
   }
 
-  if (window.ethereum.isMetaMask) {
+  if (window.ethereum?.isMetaMask) {
     return 'metamask';
   }
 

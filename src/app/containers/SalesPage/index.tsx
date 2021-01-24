@@ -43,10 +43,10 @@ import EnterCodeLanding from './EnterCodeLanding';
 import { StyledButton } from '../../components/SalesButton';
 
 function detectInjectableWallet() {
-  if (window.ethereum.isNiftyWallet) {
+  if (window.ethereum?.isNiftyWallet) {
     return 'nifty';
   }
-  if (window.ethereum.isMetaMask) {
+  if (window.ethereum?.isMetaMask) {
     return 'metamask';
   }
   return 'unknown';
