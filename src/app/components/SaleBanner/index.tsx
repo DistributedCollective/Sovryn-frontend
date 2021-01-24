@@ -8,12 +8,10 @@ import moment from 'moment';
 import './SaleBanner.scss';
 import samurai from './assets/banner-samurai.svg';
 import { useSaleEndTime } from '../../containers/SalesPage/hooks/useSaleEndTime';
-import { currentNetwork } from '../../../utils/classifiers';
 
-const startDate =
-  currentNetwork === 'mainnet'
-    ? moment('2021-01-25 17:00+00000', 'YYYY-MM-DD HH:mmZZ').utc().toDate()
-    : (null as any);
+const startDate: Date = moment('2021-01-25 14:00+00000', 'YYYY-MM-DD HH:mmZZ')
+  .utc()
+  .toDate();
 
 export function SaleBanner() {
   const [show, setShow] = useState(true);
@@ -54,51 +52,6 @@ export function SaleBanner() {
 
   if (!show) {
     return null;
-  }
-
-  //todo: temp only, until date is not decided
-  if (currentNetwork === 'mainnet') {
-    return (
-      <div className="banner-container">
-        <div className="banner py-3">
-          <div className="info-container">
-            <h2 className="text-uppercase title-container black-font">
-              <>SOV* Genesis Pre-Order</>
-            </h2>
-            <div className="sub-info-container">
-              <p className="sub-info-text black-font">SOV Token Pre-Order</p>
-            </div>
-            <div className="button-container">
-              <Link
-                className="button button-nav button-black button-white button-container"
-                to="/genesis"
-              >
-                <span className="button-text text-nowrap">Learn More</span>
-              </Link>
-            </div>
-          </div>
-          <div className="picture-container">
-            <img
-              className="banner-samurai"
-              src={samurai}
-              alt="banner-samurai"
-            />
-          </div>
-          <div className="close-button-container">
-            <Button
-              minimal
-              color="black"
-              className="float-right"
-              onClick={() => {
-                closeBanner();
-              }}
-            >
-              <Icon icon="cross" iconSize={30} />
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   return (
