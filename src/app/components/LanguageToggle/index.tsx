@@ -28,6 +28,7 @@ export function LanguageToggle() {
       }}
       value={currentLang}
       items={options.map(item => ({ key: item.value, label: item.lang }))}
+      innerClasses=""
     />
   );
 }
