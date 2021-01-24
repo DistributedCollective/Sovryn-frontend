@@ -270,8 +270,7 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "token": "Ativo a ser colaterizado",
-      "collateralAmount": "Quantidade colaterizada",
+      "tokenAssetCollateral": "Ativo a ser colaterizado e valor",
       "borrow": "Tomar empréstimo",
       "chooseDays": "Quantidade de dias"
     }
@@ -370,7 +369,7 @@
       }
     }
   },
-   "SOVConnectTutorial": {
+  "SOVConnectTutorial": {
     "browser_wallet": "Carteira de navegador",
     "mobile_wallet": "Carteira de celular",
     "hardware_wallet": "Carteira física",
@@ -480,7 +479,7 @@
       "title": "Pendente para o usuário",
       "text": "Por favor, confirme a transação na sua carteira."
     },
-     "pending": {
+    "pending": {
       "title": "Transação pendente",
       "text": "Sua transação está sendo processada."
     },
@@ -563,8 +562,8 @@
     "tradeButtons": {
       "deposit": "Depositar e emprestar {{asset}}",
       "redeem": "Resgatar empréstimo {{asset}}"
-  },
-  "liquidity": {
+    },
+    "liquidity": {
       "redeem": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimo.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
@@ -574,7 +573,7 @@
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
         "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
-        }
+      }
     }
   },
   "activeBorrowTable": {

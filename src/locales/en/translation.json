@@ -270,8 +270,7 @@
     },
     "borrowingContainer": {
       "amount": "Amount to borrow",
-      "token": "Token to collarate",
-      "collateralAmount": "Collateral amount",
+      "tokenAssetCollateral": "Asset to collateralize and amount",
       "borrow": "Borrow",
       "chooseDays": "Choose days"
     }
