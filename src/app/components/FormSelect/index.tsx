@@ -48,7 +48,9 @@ export function FormSelect(props: Props) {
     <Selector
       className={`w-100 ${props.outerClasses || ''}`}
       items={props.items}
-      inputProps={{ autoFocus: props.inputFocus || !isMobile() }}
+      inputProps={
+        isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
+      }
       noResults={
         <MenuItem
           disabled={true}

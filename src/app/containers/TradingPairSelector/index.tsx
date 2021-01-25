@@ -75,7 +75,7 @@ export function TradingPairSelector(props: Props) {
   return (
     <Selector
       items={options}
-      inputProps={{ autoFocus: !isMobile() }}
+      inputProps={isMobile() ? { autoFocus: false } : undefined}
       noResults={<MenuItem disabled={true} text="No results." />}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
