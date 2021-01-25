@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import SalesButton from '../../../components/SalesButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { Slider } from '@blueprintjs/core';
+import { Asset } from 'types/asset';
+import { validateEmail } from 'utils/helpers';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { weiTo2 } from 'utils/blockchain/math-helpers';
+import { media } from 'styles/media';
 import { actions } from '../slice';
 import { selectSalesPage } from '../selectors';
 import Loader from '../loader';
-import { validateEmail } from 'utils/helpers';
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { Asset } from 'types/asset';
 import { selectTradingPage } from '../../TradingPage/selectors';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import SalesButton from '../../../components/SalesButton';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -54,7 +55,7 @@ const StyledContent = styled.div`
   }
   .bp3-slider {
     margin: 0 4.2rem;
-    max-width: 300px;
+    max-width: calc(100% - 170px);
     &-handle {
       background-color: white;
       border-radius: 50%;
@@ -94,7 +95,7 @@ const StyledContent = styled.div`
     background: #f4f4f4;
     border-radius: 8px;
     height: 50px;
-    width: 289px;
+    width: 100%;
     text-align: center;
     color: black;
     font-size: 18px;
@@ -105,7 +106,10 @@ const StyledContent = styled.div`
     align-items: center;
     margin-bottom: 25px;
     font-weight: 500;
-    cursor: default;
+    cursor: text;
+    & > *:not(.bp3-divider) {
+      margin-right: 0;
+    }
     span {
       font-size: 14px;
       font-weight: 100;
@@ -123,18 +127,57 @@ const StyledContent = styled.div`
       line-height: 17px;
     }
   }
+  ${media.xl`
+    .sliderAmount {
+      width: 289px;
+      input {
+        width: 289px;
+      }
+    }
+    .bp3-slider {
+      max-width: 300px;
+    }
+  `}
 `;
 
 const StyledInput = styled.input.attrs(_ => ({ type: 'text' }))`
   background: #f4f4f4;
   border-radius: 8px;
-  height: 40px;
-  width: 289px;
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-size: 18px;
+  line-height: 20px;
+  font-family: 'Work Sans';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  outline-style: none;
+  box-shadow: none;
+  &:focus {
+    box-shadow: none;
+    border-radius: 8px;
+  }
+  ${media.xl`
+    width: 289px;
+  `}
+`;
+
+const StyledInputNumber = styled.input.attrs(_ => ({ type: 'number' }))`
+  background: #f4f4f4;
+  border-radius: 8px;
+  height: 50px;
+  width: 100%;
   text-align: center;
   color: black;
   font-size: 14px;
   font-family: 'Work Sans';
   font-weight: 100;
+  ${media.xl`
+    width: 289px;
+  `}
 `;
 
 interface Props {
@@ -145,6 +188,7 @@ export default function GetAccess(props: Props) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [enterCount, setEnterCount] = useState(false);
   const emailValid = validateEmail(email);
   const valid = !!email && emailValid;
   const [amount, setAmount] = useState<number>(0);
@@ -157,6 +201,15 @@ export default function GetAccess(props: Props) {
   const { value: price } = useCachedAssetPrice(pair.getAsset(), Asset.DOC);
   const usdPrice = weiTo2(Number(price) * amount);
 
+  const maxAmount = 100;
+  const searchInput = useRef(null as any);
+
+  useEffect(() => {
+    if (enterCount) {
+      searchInput.current.focus();
+    }
+  }, [enterCount]);
+
   const handleSubmit = () => {
     dispatch(
       actions.requestAccess({
@@ -168,7 +221,20 @@ export default function GetAccess(props: Props) {
   };
 
   const getChangeHandler = () => {
-    return (value: number) => setAmount(value);
+    return (value: number) => {
+      if (value > maxAmount) {
+        setAmount(maxAmount);
+      } else {
+        setAmount(value);
+      }
+    };
+  };
+  const setInputAmount = (val: number) => {
+    if (val > maxAmount) {
+      setAmount(maxAmount);
+    } else {
+      setAmount(val);
+    }
   };
 
   const renderBTCLabel = val => {
@@ -228,17 +294,37 @@ export default function GetAccess(props: Props) {
                   <label htmlFor="amount">
                     Please enter amount you wish to purchase (optional)
                   </label>
-
-                  <div className="sliderAmount">
-                    {amount} <span>≈ ${usdPrice}</span>
-                  </div>
+                  {enterCount ? (
+                    <StyledInputNumber
+                      ref={searchInput}
+                      value={amount}
+                      id="amount"
+                      pattern="^-?[0-9]{0,2}\d*\.?\d*$"
+                      max={maxAmount}
+                      placeholder="Enter a number..."
+                      min={0}
+                      onBlur={() => setEnterCount(false)}
+                      className="sliderAmount"
+                      onChange={e => setInputAmount(Number(e.target.value))}
+                    />
+                  ) : (
+                    <div
+                      className="sliderAmount"
+                      onClick={() => {
+                        setEnterCount(true);
+                      }}
+                    >
+                      {amount} <span>≈ ${usdPrice}</span>
+                    </div>
+                  )}
                   <Slider
                     min={0}
-                    max={100}
+                    max={maxAmount}
                     stepSize={0.5}
                     labelRenderer={renderBTCLabel}
-                    labelStepSize={100}
+                    labelStepSize={maxAmount}
                     value={amount}
+                    onRelease={() => setEnterCount(false)}
                     onChange={getChangeHandler()}
                   />
                   <p className="text-small mt-3">

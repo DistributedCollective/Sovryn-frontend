@@ -22,6 +22,10 @@ export const StyledButton = styled.button.attrs(_ => ({
   transition: background 0.3s;
   padding: 0 4.2%;
   margin: 0 auto;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   &:hover {
     text-decoration: none;
     color: var(--gold);
@@ -40,10 +44,6 @@ export const StyledButton = styled.button.attrs(_ => ({
       &:not([disabled]) {
         background: var(--gold50) !important;
       }
-    }
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
     `}
 `;
