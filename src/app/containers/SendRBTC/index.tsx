@@ -27,10 +27,8 @@ import {
 import { bignumber, min } from 'mathjs';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { gas } from '../../../utils/blockchain/gas-price';
 import { useSaleLimits } from '../SalesPage/hooks/useSaleLimits';
-import { useSaleIsOpen } from '../SalesPage/hooks/useSaleIsOpen';
 
 interface StyledProps {
   background?: string;
@@ -268,14 +266,11 @@ export default function SendRBTC() {
   const [showTx, setShowTx] = useState(false);
   const dispatch = useDispatch();
   const { minDeposit, maxDeposit } = useSaleLimits();
-  const isSaleOpen = useSaleIsOpen();
   const account = useAccount();
   const { value: balance } = useBalance();
 
   const [amount, setAmount] = useState(weiToFixed(minDeposit, 8));
   const { sovToReceive, price, loading } = useSaleCalculator(amount);
-
-  const weiAmount = useWeiAmount(amount);
 
   const { send, ...tx } = useSendContractTx('CrowdSale', 'buy');
 
@@ -308,16 +303,6 @@ export default function SendRBTC() {
       ) && tx.txHash !== '',
     );
   }, [tx]);
-
-  const checks = {
-    limits:
-      bignumber(minDeposit).lessThanOrEqualTo(weiAmount) &&
-      bignumber(maxDeposit).greaterThanOrEqualTo(weiAmount),
-    balance: bignumber(balance)
-      .sub(gasEstimation)
-      .greaterThanOrEqualTo(weiAmount),
-  };
-  const canSubmit = Object.values(checks).every(check => check);
 
   return !showTx ? (
     <div>
@@ -413,11 +398,8 @@ export default function SendRBTC() {
               {...tx}
               displayAbsolute={false}
             />
-            <StyledButton
-              className="mt-1"
-              onClick={handleBuy}
-              disabled={!canSubmit || !isSaleOpen.open}
-            >
+            <p className="mb-2 rbtc-text">SOLD OUT!</p>
+            <StyledButton className="mt-1" onClick={handleBuy} disabled={true}>
               RESERVE SOV
             </StyledButton>
           </Wrapper>

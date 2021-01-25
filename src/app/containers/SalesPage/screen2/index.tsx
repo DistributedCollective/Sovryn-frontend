@@ -11,7 +11,6 @@ import LogoDark from 'assets/images/sovryn-logo-dark.svg';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
 import sov_3 from 'assets/images/wallet/sov_3.jpg';
-import { useSaleIsOpen } from '../hooks/useSaleIsOpen';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -110,8 +109,6 @@ export default function Screen2() {
     }
   }, [maxDepositFormatted, setTierLabel, setTierImage]);
 
-  const isSaleOpen = useSaleIsOpen();
-
   return (
     <StyledContent>
       {!showInfo ? (
@@ -122,9 +119,7 @@ export default function Screen2() {
           <div className="row">
             <div className="col-lg-7 col-md-12">
               <div className="b-group left-box">
-                {isSaleOpen.ended && (
-                  <p className="text-center w-100">Sale already ended.</p>
-                )}
+                <p className="text-center w-100">SOLD OUT!</p>
 
                 <div className="mb-5">
                   <p>
@@ -141,7 +136,7 @@ export default function Screen2() {
                 </div>
                 <SalesButton
                   text={'Continue to sale'}
-                  disabled={!isSaleOpen.open}
+                  disabled={true}
                   onClick={() => setShowInfo(!showInfo)}
                 />
                 <SalesButton
