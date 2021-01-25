@@ -38,6 +38,8 @@ import {
   disableNewTrades,
   disableNewTradesText,
 } from '../../../utils/classifiers';
+import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
+import { PricePrediction } from './PricePrediction';
 
 const s = translations.marginTradeForm;
 
@@ -109,7 +111,11 @@ export function MarginTradeForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
+  const {
+    loanToken,
+    collateralToken,
+    useLoanTokens,
+  } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
@@ -117,6 +123,11 @@ export function MarginTradeForm() {
   );
 
   const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
+
+  const {
+    value: interestValue,
+    loading: interestLoading,
+  } = useBorrowInterestRate(loanToken, collateral, leverage, weiAmount);
 
   return (
     <>
@@ -142,14 +153,21 @@ export function MarginTradeForm() {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={loanToken}
-            collateral={collateral}
-            weiAmount={weiAmount}
-            leverage={leverage}
+            value={interestValue}
+            loading={interestLoading}
             labelColor={color}
           />
         </div>
       </div>
+      <PricePrediction
+        position={position}
+        loanToken={loanToken}
+        collateralToken={collateralToken}
+        useLoanTokens={useLoanTokens}
+        interest={interestValue}
+        leverage={leverage}
+        weiAmount={weiAmount}
+      />
       <div className="position-relative">
         <div className="row">
           <div className="col-6 pr-1">
