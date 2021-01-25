@@ -39,8 +39,8 @@ import { AddSoToNifty } from './AddSoToNifty';
 import { AddSoToMetamask } from './AddToMetamask';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
-import EnterCodeLanding from './EnterCodeLanding';
 import { StyledButton } from '../../components/SalesButton';
+import GetAccess from './GetAccess';
 
 function detectInjectableWallet() {
   if (window.ethereum?.isNiftyWallet) {
@@ -146,7 +146,7 @@ export function SalesPage() {
         ) : (
           <>
             {Number(state.maxDeposit) === 0 ? (
-              <EnterCodeLanding />
+              <GetAccess />
             ) : (
               <>
                 {state.step === 1 && <Screen1 />}
