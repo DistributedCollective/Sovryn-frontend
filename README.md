@@ -62,6 +62,10 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 If you are unsure if your feature qualifies as a major or minor, please ask Victor Creed in the #sorcery channel of the Sovryn Discord server.
 
+### Working With UI
+
+All UI designs used for this repository should be available publically in [Google Drive folder as Adobe XD files](https://drive.google.com/drive/folders/1e_VljWpANJe0o4VmIkKU5Ewo56l9iMaM?usp=sharing)
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within DApp, please send an e-mail to Victor Creed via creed-victor@protonmail.com. All security vulnerabilities will be promptly addressed.
