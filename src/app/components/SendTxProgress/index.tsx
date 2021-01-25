@@ -150,18 +150,16 @@ export function SendTxProgress(props: Props) {
             />
           </div>
           <div className="flex-grow-1">
-            {props.displayAbsolute && (
-              <div
-                className="position-relative float-right"
-                style={{
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                }}
-                onClick={closeWindow}
-              >
-                <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
-              </div>
-            )}
+            <div
+              className="position-relative float-right"
+              style={{
+                fontSize: '12px',
+                cursor: 'pointer',
+              }}
+              onClick={closeWindow}
+            >
+              <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
+            </div>
             <div
               className="text-uppercase font-weight-bold"
               style={{ color: `var(--${color})` }}

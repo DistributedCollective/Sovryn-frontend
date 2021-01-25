@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { media } from '../../../styles/media';
 import { Spinner } from '@blueprintjs/core';
 
-const StyledButton = styled.button.attrs(_ => ({
+export const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
   className: 'd-flex flex-row justify-content-center align-items-center',
 }))`
@@ -22,6 +22,10 @@ const StyledButton = styled.button.attrs(_ => ({
   transition: background 0.3s;
   padding: 0 4.2%;
   margin: 0 auto;
+  &:hover {
+    text-decoration: none;
+    color: var(--gold);
+  }
   ${media.xl`
     min-width: 240px;
     height: 50px;

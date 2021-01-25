@@ -138,4 +138,10 @@ input[type=number] {
   .opaque {
     opacity: 0.2
   }
+  
+  .mw-tooltip {
+    max-width: 250px;
+    ${media.lg`max-width: 600px;`}
+  }
+  
 `;

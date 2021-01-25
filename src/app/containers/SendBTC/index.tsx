@@ -149,7 +149,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
             text={'Connect SOV to your wallet'}
             onClick={handleSOVTutorial}
           />
-          <a href="/sales#" onClick={handleBack}>
+          <a href="/genesis#" onClick={handleBack}>
             Make another transaction?
           </a>
         </div>
@@ -284,16 +284,23 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const { btcAddress, btcDeposit, transferDeposit } = useSelector(
-    selectSalesPage,
-  );
+  const {
+    btcAddress,
+    btcAddressLoading,
+    btcDeposit,
+    transferDeposit,
+  } = useSelector(selectSalesPage);
   const { minDeposit, maxDeposit } = useSaleLimits();
   const dispatch = useDispatch();
+
+  const generateAddress = () => {
+    dispatch(sActions.getBtcAddress());
+  };
 
   return btcDeposit === null && transferDeposit === null ? (
     <div>
       <div>
-        <p className="content-header">Send BTC to receive SOV</p>
+        <p className="content-header">Send BTC to pre-order SOV</p>
         <div className="row justify-content-around">
           <div className="col-md-5 mb-1">
             <div className="mb-4">
@@ -303,7 +310,7 @@ export default function SendBTC({ setShowCalc }) {
                 <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
               </ul>
               <a
-                href="/sales#"
+                href="/genesis#"
                 className="d-block"
                 onClick={e => {
                   e.preventDefault();
@@ -313,7 +320,7 @@ export default function SendBTC({ setShowCalc }) {
                 Input upgrade code
               </a>
               <a
-                href="/sales#"
+                href="/genesis#"
                 className="d-block"
                 onClick={e => {
                   e.preventDefault();
@@ -328,22 +335,22 @@ export default function SendBTC({ setShowCalc }) {
               <div>
                 <ul>
                   <li className="mb-2">
-                    Send BTC to receive SOV in your engaged wallet
+                    Send BTC to pre-order SOV in your engaged wallet
                   </li>
                   <li className="mb-2">
                     Do not send anything other than BTC to this address
                     otherwise your assets will be lost permanently
                   </li>
                   <li className="mb-2">
-                    Please allow up to 15 mins for the transaction to process
+                    Please allow 5 to 60 mins for the transaction to process
                   </li>
                 </ul>
               </div>
 
               <p>
                 For support please join us on{' '}
-                <a href="https://discord.gg/dAbhsk4C" target="_new">
-                  https://discord.gg/dAbhsk4C
+                <a href="https://discord.com/invite/J22WS6z" target="_new">
+                  https://discord.com/invite/J22WS6z
                 </a>
               </p>
             </div>
@@ -367,28 +374,44 @@ export default function SendBTC({ setShowCalc }) {
                   />
                 )}
               </div>
-              <CopyToClipboard
-                text={btcAddress}
-                onCopy={() =>
-                  toaster.show({ message: 'Deposit address copied.' })
-                }
-              >
-                <BTCAddClipboard className="cursor-pointer">
-                  {btcAddress ? (
-                    <>
-                      {' '}
-                      {prettyTx(btcAddress, 6, 4)}{' '}
-                      <Icon icon="duplicate" color="#FEC004" />
-                    </>
-                  ) : (
-                    <>Generating address...</>
-                  )}
-                </BTCAddClipboard>
-              </CopyToClipboard>
-              <div className="show-tx" onClick={() => {}}>
-                Waiting for transaction{' '}
-                <Icon className="d-flex align-items-center" icon="refresh" />
-              </div>
+              {btcAddress ? (
+                <>
+                  <CopyToClipboard
+                    text={btcAddress}
+                    onCopy={() =>
+                      toaster.show({ message: 'Deposit address copied.' })
+                    }
+                  >
+                    <BTCAddClipboard className="cursor-pointer">
+                      {btcAddress ? (
+                        <>
+                          {' '}
+                          {prettyTx(btcAddress, 6, 4)}{' '}
+                          <Icon icon="duplicate" color="#FEC004" />
+                        </>
+                      ) : (
+                        <>Generating address...</>
+                      )}
+                    </BTCAddClipboard>
+                  </CopyToClipboard>
+                  <div className="show-tx" onClick={() => {}}>
+                    Waiting for transaction{' '}
+                    <Icon
+                      className="d-flex align-items-center"
+                      icon="refresh"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="mt-5">
+                  <SalesButton
+                    text="Generate deposit address"
+                    onClick={generateAddress}
+                    loading={btcAddressLoading}
+                    disabled={btcAddressLoading}
+                  />
+                </div>
+              )}
             </Wrapper>
           </div>
         </div>

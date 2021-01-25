@@ -87,7 +87,8 @@
     "waitingForDeposit": "Waiting for deposit",
     "exchanging": "We are exchanging to rBTC it now.",
     "transfered": "was transfered to your RSK walllet",
-    "swapAgain": "Swap again"
+    "swapAgain": "Swap again",
+    "disabledText": "Top-up deposits have been temporarily disabled. We ask that you not send funds until re-enabled. Thank you!"
   },
   "tradeOrSwapTabs": {
     "tabs": {

@@ -87,7 +87,8 @@
     "waitingForDeposit": "Aguardando depósito",
     "exchanging": "Nós estamos trocando seu BTC para rBTC.",
     "transfered": "foi transferido para sua carteira RSK",
-    "swapAgain": "Realizar nova troca"
+    "swapAgain": "Realizar outra troca",
+    "disabledText": "Os depósitos foram temporariamente desativados. Pedimos que você não envie fundos até que seja reativado. Obrigado!"
   },
   "tradeOrSwapTabs": {
     "tabs": {
@@ -106,7 +107,7 @@
     },
     "liquidity": {
       "line_1": "Liquidez muito baixa para trocas.",
-      "line_2": "Try another pair or wait for arbiters to re-balance."
+      "line_2": "Tente com outro par de ativos ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   },
   "swapTradeForm": {
@@ -242,13 +243,13 @@
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
   },
   "limitsNotification": {
-    "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+    "text": "A Sovryn acaba de aumentar os limites de transação (viva!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
     "history": {
       "title": "Histórico",
       "amount": "Valor do empréstimo",
-      "date": "Data & hora",
+      "date": "Data e hora",
       "price": "Preço",
       "transaction": "Transação",
       "emptyState": "Histórico vazio."
@@ -272,7 +273,7 @@
       "token": "Ativo a ser colaterizado",
       "collateralAmount": "Quantidade colaterizada",
       "borrow": "Tomar empréstimo",
-      "chooseDays": "Choose days"
+      "chooseDays": "Quantidade de dias"
     }
   },
   "activeUserBorrows": {
@@ -309,68 +310,127 @@
     "no_items": "Seu histórico de empréstimos está vazio."
   },
   "rskConnectTutorial": {
-    "browser_wallet": "Browser Wallet",
-    "mobile_wallet": "Mobile Wallet",
-    "hardware_wallet": "Hardware Wallet",
+    "browser_wallet": "Carteira de navegador",
+    "mobile_wallet": "Carteira de celular",
+    "mobile_wallet_alert_line1": "Certifique-se de usar uma carteira compatível com a rede RSK. Sugerimos a RWallet ou a Defiant.",
+    "mobile_wallet_alert_line2": "A MetaMask tem problemas com o cálculo das taxas de transação quando usada com a rede RSK - sempre revise se não está pagando muito antes de aprovar a transação!",
+    "hardware_wallet": "Carteira física",
     "speech": {
-      "1": "Open up your browser wallet",
-      "2": "Go to network dropdown",
-      "3": "Select custom RPC",
-      "4": "Input network details",
-      "5": "Click Save",
-      "6": "Click Add Network",
-      "7": "Engage Your Wallet!"
+      "1": "Abra sua carteira de navegador",
+      "2": "Vá para o menu rede",
+      "3": "Selecione RPC personalizado",
+      "4": "Insira os detalhes da rede",
+      "5": "Clique em salvar",
+      "6": "Clique em adicionar rede",
+      "7": "Conecte sua carteira!"
     },
     "mobileSpeech": {
-      "1": "Go to Wallet Menu",
-      "2": "Select Settings",
-      "3": "Select Networks",
-      "4": "Click Add Network",
-      "5": "Input Network Settings",
-      "6": "Click Add",
-      "7": "Scan QR Code to Connect!"
+      "1": "Vá para o menu da carteira ",
+      "2": "Selecione configurações",
+      "3": "Selecione redes",
+      "4": "Clique em adicionar rede",
+      "5": "Insira as configurações de rede",
+      "6": "Clique em adicionar",
+      "7": "Leia o código QR para conectar!"
     },
-    "speech_qr_code": "Scan QR code with a wallet-connect compatible wallet",
+    "speech_qr_code": "Leia o código QR com uma carteira compatível com a função wallet-connect",
     "input_settings": {
-      "title": "RSK Network Settings",
-      "network": "Network Name",
-      "new_RPC": "New RPC URL",
+      "title": "Configurações de rede RSK",
+      "network": "Nome da rede",
+      "new_RPC": "Nova URL RPC",
       "chain_Id": "Chain ID",
-      "symbol": "Symbol",
+      "symbol": "Símbolo",
       "explorer_url": "Block Explorer URL"
     },
-    "step": "Step",
+    "step": "Passo",
     "screens": {
       "1": {
-        "title": "Connect Your Wallet",
-        "banner": "Don't have a wallet? We recomend"
+        "title": "Conecte sua carteira",
+        "banner": "Ainda não tem uma carteira? Nós recomendamos"
       },
       "11": {
-        "title": "Connect to the RSK Network",
-        "banner": "Don't have a wallet? We recomend"
+        "title": "Conecte na rede RSK",
+        "banner": "Ainda não tem uma carteira? Nós recomendamos"
       },
       "2": {
-        "title": "How to Connect to RSK Network",
-        "banner": "For any assistance, reach out to the community"
+        "title": "Como se conectar à rede RSK",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
       },
       "3": {
-        "title": "Scan QR Code",
-        "banner": "For any assistance, reach out to the community"
+        "title": "Leia o código QR",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
       },
       "4": {
-        "title": "Connect With Mobile Wallet",
-        "banner": "For any assistance, reach out to the community"
+        "title": "Conecte com uma carteira de celular",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      },
+      "5": {
+        "title": "Escolha sua carteira",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      }
+    }
+  },
+  "SOVConnectTutorial": {
+    "browser_wallet": "Carteira de navegador",
+    "mobile_wallet": "Carteira de celular",
+    "hardware_wallet": "Carteira física",
+    "speech": {
+      "1": "Abra sua carteira de navegador",
+      "2": "Vá para o menu rede",
+      "3": "Selecione RPC personalizado",
+      "4": "Insira os detalhes da rede",
+      "5": "Clique em salvar",
+      "6": "Clique em adicionar rede",
+      "7": "Conecte sua carteira!"
+    },
+    "mobileSpeech": {
+      "1": "Vá para o menu da carteira",
+      "2": "Selecione configurações",
+      "3": "Selecione redes",
+      "4": "Clique em adicionar rede",
+      "5": "Insira as configurações da rede",
+      "6": "Clique em adicionar",
+      "7": "Leia o código QR para conectar!"
+    },
+    "speech_qr_code": "Leia o código QR com uma carteira compatível com a função wallet-connect",
+    "input_settings": {
+      "title": "CONFIGURAÇÕES DO ATIVO SOV",
+      "token_address": "Endereço do contrato do ativo",
+      "symbol": "Símbolo",
+      "decimals": "Decimais"
+    },
+    "step": "Passo",
+    "screens": {
+      "1": {
+        "title": "Conecte sua carteira",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      },
+      "11": {
+        "title": "Conecte na rede RSK",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      },
+      "2": {
+        "title": "Como se conectar à rede RSK",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      },
+      "3": {
+        "title": "Leia o código QR",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
+      },
+      "4": {
+        "title": "Como conectar SOV à sua carteira Metamask",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
       }
     }
   },
   "mobileNotReady": {
-    "submit": "Submit",
-    "p1": "The Sovryn user experience is not yet optimized for mobile.",
-    "p2": "Register your email to hear when our mobile version is ready!",
-    "p3": "Until then, why not try the desktop version?",
-    "errorText": "Error submitting form",
-    "success": "Success!",
-    "successText": "We will contact you as soon as Sovryn Mobile is live."
+    "submit": "Enviar",
+    "p1": "A Sovryn ainda não foi otimizada para celular.",
+    "p2": "Cadastre seu e-mail para saber quando a versão otimizada para celular estará disponível!",
+    "p3": "Até lá, por que não tentar a versão para navegadores?",
+    "errorText": "Erro ao enviar formulário",
+    "success": "Sucesso!",
+    "successText": "Entraremos em contato assim que a Sovryn estiver otimizada para celulares."
   },
   "fastBTC": {
     "screens": {
@@ -420,7 +480,7 @@
       "title": "Pendente para o usuário",
       "text": "Por favor, confirme a transação na sua carteira."
     },
-     "pending": {
+    "pending": {
       "title": "Transação pendente",
       "text": "Sua transação está sendo processada."
     },
@@ -450,6 +510,12 @@
     "meta": {
       "title": "Minha carteira",
       "description": "Informações sobre a carteira conectada"
+    }
+  },
+  "salesPage": {
+    "meta": {
+      "title": "Pré-venda",
+      "description": "Página de pré-venda SOV"
     }
   },
   "userAssets": {
@@ -497,8 +563,8 @@
     "tradeButtons": {
       "deposit": "Depositar e emprestar {{asset}}",
       "redeem": "Resgatar empréstimo {{asset}}"
-  },
-  "liquidity": {
+    },
+    "liquidity": {
       "redeem": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimo.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
@@ -508,7 +574,7 @@
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
         "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
-        }
+      }
     }
   },
   "activeBorrowTable": {
@@ -539,7 +605,7 @@
     "closeAmount": "Valor de fechamento",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
-      "line_2": "Try another return asset or wait for arbiters to re-balance."
+      "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   }
 }

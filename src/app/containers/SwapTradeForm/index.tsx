@@ -28,14 +28,16 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.swapTradeForm;
 
 function tokenAddress(asset: Asset) {
   return AssetsDictionary.get(asset).getTokenContractAddress();
 }
-
-interface Props {}
 
 const color = 'var(--teal)';
 
@@ -44,7 +46,7 @@ interface Option {
   label: string;
 }
 
-export function SwapTradeForm(props: Props) {
+export function SwapTradeForm() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
 
@@ -192,7 +194,9 @@ export function SwapTradeForm(props: Props) {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
+          hideIt={disableNewTrades}
           disabled={
+            disableNewTrades ||
             !isConnected ||
             tx.loading ||
             amount <= '0' ||
@@ -201,6 +205,11 @@ export function SwapTradeForm(props: Props) {
           }
           loading={tx.loading}
           textColor={color}
+          tooltip={
+            disableNewTrades ? (
+              <div className="mw-tooltip">{disableNewTradesText}</div>
+            ) : undefined
+          }
         />
       </div>
     </>

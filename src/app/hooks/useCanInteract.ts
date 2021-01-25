@@ -26,7 +26,6 @@ export function useCanInteract() {
       );
     }
   }, [tx, account]);
-
   return (
     ((isConnected && !whitelist.enabled) ||
       (isConnected && whitelist.loaded && whitelist.whitelisted)) &&

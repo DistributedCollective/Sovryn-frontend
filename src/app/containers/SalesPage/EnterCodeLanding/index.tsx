@@ -104,13 +104,13 @@ export default function EnterCodeLanding(props: Props) {
 
   return (
     <StyledContent>
-      <p className="content-header">Welcome to the SOV* Genesis Sale</p>
+      <p className="content-header">Welcome to the SOV* Genesis Pre-Order</p>
       <div className="d-flex flex-row justify-content-center">
         <div style={{ width: 417 }} className="mr-5">
           <p>
-            The Genesis sale is whitelisted for our early adopters. All users of
-            the SOVRYN system before 8th January 2021 have been airdropped their
-            exclusive access NFT’s.
+            The Genesis Pre-Order is whitelisted for our early adopters. All
+            users of the SOVRYN system before 8th January 2021 have been
+            airdropped their exclusive access NFT’s.
           </p>
           <p>
             If you believe that you are missing your NFT, please reach out via{' '}

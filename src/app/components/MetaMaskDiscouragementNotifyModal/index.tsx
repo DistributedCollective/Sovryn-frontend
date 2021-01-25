@@ -4,12 +4,11 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@blueprintjs/core';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
-import { TradeButton } from '../TradeButton';
 import logo from './logo.svg';
+import SalesButton from '../SalesButton';
 
 interface Props {}
 
@@ -20,9 +19,6 @@ const testForMetaMask = () => {
 };
 
 export function MetaMaskDiscouragementNotifyModal(props: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
-
   const [show, setShow] = useState(!local.getItem(SESSION_KEY));
   const [checked, setChecked] = useState(false);
 
@@ -62,11 +58,10 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
           label="I have read and understand that I am responsible for my own Sovrynity"
         />
         <div className="mt-4">
-          <TradeButton
+          <SalesButton
             text="I Understand"
-            disabled={!checked}
             onClick={handleClose}
-            textColor="var(--teal)"
+            disabled={!checked}
           />
         </div>
       </div>
@@ -87,8 +82,8 @@ function GeneralAlert() {
           could cause a potential loss of funds.
         </p>
         <p>
-          Particularly please be sure to check all transaction fee prices before
-          proceeding as third party wallets may automatically present high fees.
+          Make sure to check all transaction fee prices before proceeding as
+          third party wallets may automatically present high fees.
         </p>
         <p>
           Please visit our{' '}

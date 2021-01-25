@@ -38,7 +38,7 @@ export default function PageHeader() {
   return (
     <StyledHeader>
       <img src={LogoCircle} alt="SOV" />
-      <H1>SOV* GENESIS SALE</H1>
+      <H1>SOV GENESIS PRE-ORDER</H1>
     </StyledHeader>
   );
 }

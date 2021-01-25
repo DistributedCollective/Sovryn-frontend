@@ -112,11 +112,13 @@ export default function Screen3(props: Props) {
               <BackButton />
             </div>
           )}
-          <p className="content-header">Welcome to the SOV* Genesis Sale</p>
+          <p className="content-header">
+            Welcome to the SOV* Genesis Pre-Order
+          </p>
           <p className="content-title">
             Please enter your code to gain access
             <br />
-            to the SOV* Genesis sale
+            to the SOV* Genesis Pre-Order
           </p>
           {codeError && <div className="text-danger">{codeError}</div>}
           <StyledInput
@@ -132,7 +134,7 @@ export default function Screen3(props: Props) {
             disabled={upgradeLoading || code.length < 6}
           />
           <a
-            href="/sales#"
+            href="/genesis#"
             onClick={e => {
               e.preventDefault();
               dispatch(actions.changeStep(6));

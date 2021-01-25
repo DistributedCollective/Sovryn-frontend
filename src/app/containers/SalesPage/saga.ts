@@ -1,10 +1,10 @@
 import { eventChannel } from 'redux-saga';
-import { take, call, put, takeLatest, fork, apply } from 'redux-saga/effects';
-import { PayloadAction } from '@reduxjs/toolkit';
+import { take, call, put, takeLatest, fork, select } from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { currentChainId, saleBackend } from 'utils/classifiers';
 import { actions } from './slice';
-import { actions as wActions } from 'app/containers/WalletProvider/slice';
+import { selectWalletProvider } from '../WalletProvider/selectors';
+import { toaster } from '../../../utils/toaster';
 
 function createSocketConnection() {
   const { origin, pathname } = new URL(saleBackend[currentChainId]);
@@ -19,19 +19,8 @@ function createSocketConnection() {
   });
 }
 
-function createWebSocketChannel(receiverAddress, socket) {
+function createWebSocketChannel(socket) {
   return eventChannel(emit => {
-    emit(actions.getBtcAddress());
-
-    // get deposit address
-    socket.emit('getDepositAddress', receiverAddress, (err, res) => {
-      if (res && res.btcadr) {
-        emit(actions.getBtcAddressCompleted(res.btcadr));
-      } else {
-        emit(actions.getBtcAddressCompleted(null));
-      }
-    });
-
     // get min/max limits for btc deposit
     socket.emit('txAmount', limits =>
       emit(actions.updateMaxBtcDeposit(limits)),
@@ -77,6 +66,31 @@ function* useCode(socket) {
   }
 }
 
+const getBtcAddressRequest = (socket, address) =>
+  new Promise(resolve => {
+    socket.emit('getDepositAddress', address, (err, res) => {
+      resolve({ err, res });
+    });
+  });
+
+function* getBtcAddress(socket) {
+  while (true) {
+    yield take(actions.getBtcAddress.type);
+    const { address } = yield select(selectWalletProvider);
+    const { res } = yield call(getBtcAddressRequest, socket, address);
+    if (res && res.btcadr) {
+      yield put(actions.getBtcAddressCompleted(res.btcadr));
+    } else {
+      yield put(actions.getBtcAddressCompleted(null));
+      toaster.show({
+        intent: 'danger',
+        message:
+          'Failed to create address. Please try again or contact support if issue persists.',
+      });
+    }
+  }
+}
+
 const requestAccessRequest = (socket, body) =>
   new Promise(resolve => {
     socket.emit('requestAccess', body, (error, success) => {
@@ -101,24 +115,22 @@ function* requestAccess(socket) {
   }
 }
 
-function* emitResponse(socket) {
-  yield apply(socket, socket.emit, ['message received']);
-}
+// function* emitResponse(socket) {
+//   yield apply(socket, socket.emit, ['message received']);
+// }
 
-function* watchSocketChannel({ payload }: PayloadAction<string>) {
-  if (!payload) {
-    return;
-  }
+function* watchSocketChannel() {
   const socket = yield call(createSocketConnection);
   yield fork(useCode, socket);
   yield fork(requestAccess, socket);
+  yield fork(getBtcAddress, socket);
 
-  const blockChannel = yield call(createWebSocketChannel, payload, socket);
+  const blockChannel = yield call(createWebSocketChannel, socket);
   try {
     while (true) {
       const event = yield take(blockChannel);
       yield put(event);
-      yield fork(emitResponse, socket);
+      // yield fork(emitResponse, socket);
     }
   } finally {
     blockChannel.close();
@@ -126,5 +138,5 @@ function* watchSocketChannel({ payload }: PayloadAction<string>) {
 }
 
 export function* salesPageSaga() {
-  yield takeLatest(wActions.accountChanged.type, watchSocketChannel);
+  yield takeLatest(actions.connectChannel.type, watchSocketChannel);
 }

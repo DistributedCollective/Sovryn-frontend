@@ -17,12 +17,16 @@ import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { useApproveAndAddMargin } from '../../hooks/trading/useApproveAndAndMargin';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Dialog } from '../Dialog/Loadable';
-import { DialogButton } from '../../components/DialogButton';
 import { AmountField } from '../AmountField';
 import { DummyField } from '../../components/DummyField';
 import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
+import { TradeButton } from '../../components/TradeButton';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -35,7 +39,7 @@ interface Props {
 export function TopUpTradingPositionHandler(props: Props) {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
-    props.item.collateralToken,
+    props.item?.collateralToken || '',
   );
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
@@ -85,11 +89,19 @@ export function TopUpTradingPositionHandler(props: Props) {
 
         <div className="mt-4 d-flex flex-row justify-content-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
-          <DialogButton
+          <TradeButton
             text={t(s.topUp)}
+            hideIt={disableNewTrades}
             onClick={() => handleConfirm()}
-            disabled={rest.loading || !valid || !canInteract}
+            disabled={
+              disableNewTrades || rest.loading || !valid || !canInteract
+            }
             loading={rest.loading}
+            tooltip={
+              disableNewTrades ? (
+                <div className="mw-tooltip">{disableNewTradesText}</div>
+              ) : undefined
+            }
           />
         </div>
       </div>

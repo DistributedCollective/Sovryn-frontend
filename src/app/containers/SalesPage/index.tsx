@@ -40,6 +40,17 @@ import { AddSoToMetamask } from './AddToMetamask';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import EnterCodeLanding from './EnterCodeLanding';
+import { StyledButton } from '../../components/SalesButton';
+
+function detectInjectableWallet() {
+  if (window.ethereum?.isNiftyWallet) {
+    return 'nifty';
+  }
+  if (window.ethereum?.isMetaMask) {
+    return 'metamask';
+  }
+  return 'unknown';
+}
 
 export function SalesPage() {
   useInjectReducer({ key: salesSlice, reducer: salesReducer });
@@ -96,15 +107,9 @@ export function SalesPage() {
     };
   }, []);
 
-  function detectInjectableWallet() {
-    if (window.ethereum.isNiftyWallet) {
-      return 'nifty';
-    }
-    if (window.ethereum.isMetaMask) {
-      return 'metamask';
-    }
-    return 'unknown';
-  }
+  useEffect(() => {
+    dispatch(actions.connectChannel());
+  }, [dispatch]);
 
   return (
     <div>
@@ -136,25 +141,20 @@ export function SalesPage() {
             </div>
           </div>
         )}
-
-        {currentNetwork === 'testnet' && (
+        {!isConnected ? (
+          <Screen1 />
+        ) : (
           <>
-            {!isConnected ? (
-              <Screen1 />
+            {Number(state.maxDeposit) === 0 ? (
+              <EnterCodeLanding />
             ) : (
               <>
-                {Number(state.maxDeposit) === 0 ? (
-                  <EnterCodeLanding />
-                ) : (
-                  <>
-                    {state.step === 1 && <Screen1 />}
-                    {state.step === 2 && <Screen2 />}
-                    {state.step === 3 && <Screen3 />}
-                    {state.step === 4 && <Screen4 />}
-                    {state.step === 5 && <Screen5 />}
-                    {state.step === 6 && <Screen6 />}
-                  </>
-                )}
+                {state.step === 1 && <Screen1 />}
+                {state.step === 2 && <Screen2 />}
+                {state.step === 3 && <Screen3 />}
+                {state.step === 4 && <Screen4 />}
+                {state.step === 5 && <Screen5 />}
+                {state.step === 6 && <Screen6 />}
               </>
             )}
           </>
@@ -162,9 +162,18 @@ export function SalesPage() {
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />
-        {/*<div className="footer d-flex justify-content-center mb-5">
-          <SalesButton text="Read Whitepaper" onClick={() => {}} />
-            </div>*/}
+        {
+          <div className="footer d-flex justify-content-center mb-5">
+            <StyledButton
+              as="a"
+              href="https://docsend.com/view/mbhvi379crhagtwp"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Read Blackpaper
+            </StyledButton>
+          </div>
+        }
       </main>
       {detectInjectableWallet() === 'nifty' && <AddSoToNifty />}
       {detectInjectableWallet() === 'metamask' && <AddSoToMetamask />}
