@@ -127,3 +127,9 @@ export function isChecked(value: any) {
   value = String(value || false).toLowerCase();
   return ['true', '1', 'on', 'yes'].includes(value);
 }
+
+export const isMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+};
