@@ -252,107 +252,109 @@ export default function GetAccess(props: Props) {
           }
         />
       ) : (
-        <StyledContent>
-          <p className="content-header">
-            You are not eligible to participate in the Genesis Sale
-          </p>
-          <p className="text-center mb-5">
-            Register for priority access for the upcoming public sale
-          </p>
+        <>
+          <hr style={{ borderColor: '#d9d9d9' }} />
+          <StyledContent>
+            <p className="content-header">Genesis Pre-Order has sold out!</p>
+            <p className="text-center mb-5">
+              Register for whitelist access to the upcoming SOV token public
+              sale
+            </p>
 
-          <div className="row mb-4 mt-5">
-            <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-              <div className="pl-lg-1">
-                <div className="form-group">
-                  <label htmlFor="email">Enter email</label>
-                  <StyledInput
-                    name="email"
-                    id="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                  />
-                  {!!email && !emailValid && (
-                    <small className="text-muted">
-                      Enter valid email address.
-                    </small>
-                  )}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="username">Pseudonym</label>
-                  <StyledInput
-                    name="username"
-                    id="username"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-5 col-md-12 pr-lg-5">
-              <div>
-                <div className="form-group">
-                  <label htmlFor="amount">
-                    Please enter amount you wish to purchase (optional)
-                  </label>
-                  {enterCount ? (
-                    <StyledInputNumber
-                      ref={searchInput}
-                      value={amount}
-                      id="amount"
-                      pattern="^-?[0-9]{0,2}\d*\.?\d*$"
-                      max={maxAmount}
-                      placeholder="Enter a number..."
-                      min={0}
-                      onBlur={() => setEnterCount(false)}
-                      className="sliderAmount"
-                      onChange={e => setInputAmount(Number(e.target.value))}
+            <div className="row mb-4 mt-5">
+              <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
+                <div className="pl-lg-1">
+                  <div className="form-group">
+                    <label htmlFor="username">Enter pseudonym</label>
+                    <StyledInput
+                      name="username"
+                      id="username"
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
                     />
-                  ) : (
-                    <div
-                      className="sliderAmount"
-                      onClick={() => {
-                        setEnterCount(true);
-                      }}
-                    >
-                      {amount} <span>≈ ${usdPrice}</span>
-                    </div>
-                  )}
-                  <Slider
-                    min={0}
-                    max={maxAmount}
-                    stepSize={0.5}
-                    labelRenderer={renderBTCLabel}
-                    labelStepSize={maxAmount}
-                    value={amount}
-                    onRelease={() => setEnterCount(false)}
-                    onChange={getChangeHandler()}
-                  />
-                  <p className="text-small mt-3">
-                    Sharing with us your intended contribution is optional. It
-                    does not constrain you to actually participate but it helps
-                    us to better understand our community.
-                  </p>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Enter email</label>
+                    <StyledInput
+                      name="email"
+                      id="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                    {!!email && !emailValid && (
+                      <small className="text-muted">
+                        Enter valid email address.
+                      </small>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12">
-              <p className="text-center text-small-bottom mt-0 mb-3">
-                By joining the waitlist you agree to receive the latest news
-                about the SOV ecosystem
-              </p>
+              <div className="col-lg-5 col-md-12 pr-lg-5">
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="amount">
+                      Please enter amount you wish to purchase (optional)
+                    </label>
+                    {enterCount ? (
+                      <StyledInputNumber
+                        ref={searchInput}
+                        value={amount}
+                        id="amount"
+                        pattern="^-?[0-9]{0,2}\d*\.?\d*$"
+                        max={maxAmount}
+                        placeholder="Enter a number..."
+                        min={0}
+                        onBlur={() => setEnterCount(false)}
+                        className="sliderAmount"
+                        onChange={e => setInputAmount(Number(e.target.value))}
+                      />
+                    ) : (
+                      <div
+                        className="sliderAmount"
+                        onClick={() => {
+                          setEnterCount(true);
+                        }}
+                      >
+                        {amount} <span>≈ ${usdPrice}</span>
+                      </div>
+                    )}
+                    <Slider
+                      min={0}
+                      max={maxAmount}
+                      stepSize={0.5}
+                      labelRenderer={renderBTCLabel}
+                      labelStepSize={maxAmount}
+                      value={amount}
+                      onRelease={() => setEnterCount(false)}
+                      onChange={getChangeHandler()}
+                    />
+                    <p className="text-small mt-3">
+                      Sharing with us your intended contribution is optional. It
+                      does not constrain you to actually participate but it
+                      helps us to better understand our community.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12">
+                <p className="text-center text-small-bottom mt-0 mb-3">
+                  By joining the waitlist you agree to receive the latest news
+                  about the SOV ecosystem
+                </p>
 
-              {requestAccessError && (
-                <div className="text-danger">{requestAccessError}</div>
-              )}
-              <SalesButton
-                text={'Submit'}
-                onClick={handleSubmit}
-                loading={requestAccessLoading}
-                disabled={requestAccessLoading || !valid}
-              />
+                {requestAccessError && (
+                  <div className="text-danger">{requestAccessError}</div>
+                )}
+                <SalesButton
+                  text={'Register for whitelist'}
+                  onClick={handleSubmit}
+                  loading={requestAccessLoading}
+                  disabled={requestAccessLoading || !valid}
+                />
+              </div>
             </div>
-          </div>
-        </StyledContent>
+          </StyledContent>
+        </>
       )}
     </>
   );
