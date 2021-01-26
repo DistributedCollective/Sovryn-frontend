@@ -40,6 +40,7 @@ import {
 } from '../../../utils/classifiers';
 import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
 import { PricePrediction } from './PricePrediction';
+import { DummyField } from '../../components/DummyField';
 
 const s = translations.marginTradeForm;
 
@@ -159,15 +160,22 @@ export function MarginTradeForm() {
           />
         </div>
       </div>
-      <PricePrediction
-        position={position}
-        loanToken={loanToken}
-        collateralToken={collateralToken}
-        useLoanTokens={useLoanTokens}
-        interest={interestValue}
-        leverage={leverage}
-        weiAmount={weiAmount}
-      />
+      <div className="row">
+        <div className="col">
+          <FieldGroup label={t(s.fields.startPrice)} labelColor={color}>
+            <DummyField>
+              <PricePrediction
+                position={position}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                leverage={leverage}
+                weiAmount={weiAmount}
+              />
+            </DummyField>
+          </FieldGroup>
+        </div>
+      </div>
       <div className="position-relative">
         <div className="row">
           <div className="col-6 pr-1">
