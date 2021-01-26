@@ -127,7 +127,7 @@ export function SalesPage() {
       >
         {Number(state.maxDeposit) === 0 ? (
           <>
-            <PageHeader content={<>SOV PUBLIC SALE WHITELIST</>} />
+            <PageHeader content={<>SOV PUBLIC PRE-SALE WHITELIST</>} />
             <GetAccess />
           </>
         ) : (
