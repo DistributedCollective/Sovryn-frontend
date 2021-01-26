@@ -1,10 +1,16 @@
+import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
-import { toWei } from 'web3-utils';
+
+interface MarginDetails {
+  principal: string;
+  collateral: string;
+  interestRate: string;
+}
 
 export function useGetEstimatedMarginDetails(
   loanContract: Asset,
@@ -13,7 +19,7 @@ export function useGetEstimatedMarginDetails(
   collateralTokenSent: string,
   collateralToken: Asset,
 ) {
-  return useCacheCallWithValue(
+  return useCacheCallWithValue<MarginDetails>(
     getLendingContractName(loanContract),
     'getEstimatedMarginDetails',
     {

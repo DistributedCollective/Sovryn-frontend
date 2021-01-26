@@ -38,6 +38,9 @@ import {
   disableNewTrades,
   disableNewTradesText,
 } from '../../../utils/classifiers';
+import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
+import { PricePrediction } from './PricePrediction';
+import { DummyField } from '../../components/DummyField';
 
 const s = translations.marginTradeForm;
 
@@ -109,7 +112,11 @@ export function MarginTradeForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
+  const {
+    loanToken,
+    collateralToken,
+    useLoanTokens,
+  } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
@@ -117,6 +124,11 @@ export function MarginTradeForm() {
   );
 
   const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
+
+  const {
+    value: interestValue,
+    loading: interestLoading,
+  } = useBorrowInterestRate(loanToken, collateral, leverage, weiAmount);
 
   return (
     <>
@@ -142,12 +154,26 @@ export function MarginTradeForm() {
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={loanToken}
-            collateral={collateral}
-            weiAmount={weiAmount}
-            leverage={leverage}
+            value={interestValue}
+            loading={interestLoading}
             labelColor={color}
           />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <FieldGroup label={t(s.fields.startPrice)} labelColor={color}>
+            <DummyField>
+              <PricePrediction
+                position={position}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                leverage={leverage}
+                weiAmount={weiAmount}
+              />
+            </DummyField>
+          </FieldGroup>
         </div>
       </div>
       <div className="position-relative">
