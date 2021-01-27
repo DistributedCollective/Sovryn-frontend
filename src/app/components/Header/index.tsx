@@ -3,7 +3,7 @@
  * Header
  *
  */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
@@ -143,6 +143,18 @@ export function Header() {
       />
     );
   });
+
+  useEffect(() => {
+    const body = document.body;
+    if (open) {
+      body.classList.add('overflow-hidden');
+    } else {
+      body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      body.classList.remove('overflow-hidden');
+    };
+  }, [open]);
 
   return (
     <>
