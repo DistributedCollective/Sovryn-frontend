@@ -100,7 +100,8 @@
     "fields": {
       "currency": "Ativo",
       "currency_placeholder": "Escolha o ativo",
-      "amount": "Quantidade"
+      "amount": "Quantidade",
+      "startPrice": "Preço inicial"
     },
     "buttons": {
       "submit": "Realizar operação"
