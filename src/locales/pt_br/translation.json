@@ -149,7 +149,8 @@
     "liquidity": "Liquidez",
     "stats": "Dados",
     "faqs": "FAQs",
-    "help": "Ajuda"
+    "help": "Ajuda",
+    "referral": "Referral"
   },
   "trandingPositionSelector": {
     "long": "Comprado",

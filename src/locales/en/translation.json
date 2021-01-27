@@ -150,7 +150,8 @@
     "liquidity": "Market-making",
     "stats": "Stats",
     "faqs": "FAQs",
-    "help": "Help"
+    "help": "Help",
+    "referral": "Referral"
   },
   "trandingPositionSelector": {
     "long": "Long",

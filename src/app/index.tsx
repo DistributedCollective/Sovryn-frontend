@@ -24,6 +24,7 @@ import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
 import { SalesPage } from './containers/SalesPage';
+import { ReferralPage } from './containers/ReferralPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -79,6 +80,7 @@ export function App() {
           <Route exact path="/sandbox" component={SandboxPage} />
           <Route exact path="/wallet" component={WalletPage} />
           <Route exact path="/genesis" component={SalesPage} />
+          <Route exact path="/referral" component={ReferralPage} />
           <Route
             exact
             path="/optin-success"

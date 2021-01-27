@@ -127,7 +127,8 @@
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
     "faqs": "FAQ",
-    "help": "Help"
+    "help": "Help",
+    "referral": "Referral"
   },
   "trandingPositionSelector": {
     "long": "En Largo",

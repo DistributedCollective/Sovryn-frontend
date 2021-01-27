@@ -28,6 +28,7 @@ export function Header() {
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
+    { to: '/referral', title: t(translations.mainMenu.referral) },
     {
       to: 'https://sovryn-1.gitbook.io/sovryn/',
       title: t(translations.mainMenu.faqs),
@@ -96,6 +97,9 @@ export function Header() {
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/referral">
+                {t(translations.mainMenu.referral)}
               </NavLink>
               <a
                 href="https://sovryn-1.gitbook.io/sovryn/"
