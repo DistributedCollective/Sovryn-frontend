@@ -424,8 +424,8 @@
   },
   "mobileNotReady": {
     "submit": "Enviar",
-    "p1": "A Sovryn ainda não foi otimizada para celular.",
-    "p2": "Cadastre seu e-mail para saber quando a versão otimizada para celular estará disponível!",
+    "p1": "A Sovryn ainda não foi otimizada para celulares.",
+    "p2": "Cadastre seu e-mail para ser notificado do lançamento da versão otimizada para celulares!",
     "p3": "Até lá, por que não tentar a versão para navegadores?",
     "errorText": "Erro ao enviar formulário",
     "success": "Sucesso!",
