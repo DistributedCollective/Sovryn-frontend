@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import 'styles/sass/_genesis-sale.scss';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -25,21 +25,11 @@ import {
   sliceKey as salesSlice,
   reducer as salesReducer,
 } from './slice';
-import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
 import { AddSoToMetamask } from './AddToMetamask';
-import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
-import { currentNetwork } from '../../../utils/classifiers';
 import { StyledButton } from '../../components/SalesButton';
 import GetAccess from './GetAccess';
-import Screen1 from './screen1';
-import Screen2 from './screen2';
-import Screen3 from './screen3';
-import Screen4 from './screen4';
-import Screen5 from './screen5';
-import Screen6 from './screen6';
-import { selectSalesPage } from './selectors';
 
 function detectInjectableWallet() {
   if (window.ethereum?.isNiftyWallet) {
@@ -108,8 +98,6 @@ export function SalesPage() {
     dispatch(actions.connectChannel());
   }, [dispatch]);
 
-  const state = useSelector(selectSalesPage);
-
   return (
     <div>
       <Helmet>
@@ -124,51 +112,10 @@ export function SalesPage() {
         className="container font-family-montserrat"
         style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
-        {Number(state.maxDeposit) === 0 ? (
-          <>
-            <PageHeader content={<>SOV PUBLIC PRE-SALE WHITELIST</>} />
-            <GetAccess />
-          </>
-        ) : (
-          <>
-            <PageHeader content={<>SOV GENESIS PRE-ORDER</>} />
-            <SaleInfoBar />
-
-            {currentNetwork === 'testnet' && (
-              <div
-                className="container mt-5 mb-4"
-                style={{ maxWidth: '1260px' }}
-              >
-                <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-                  <div className="ml-3 mr-4">
-                    <Icon icon="warning-sign" iconSize={26} />
-                  </div>
-                  <div>
-                    This is testnet, not the actual sale. Do not send real
-                    funds!
-                  </div>
-                </div>
-              </div>
-            )}
-            {!isConnected ? (
-              <Screen1 />
-            ) : (
-              <>
-                {Number(state.maxDeposit) !== 0 && (
-                  <>
-                    {state.step === 1 && <Screen1 />}
-                    {state.step === 2 && <Screen2 />}
-                    {state.step === 3 && <Screen3 />}
-                    {state.step === 4 && <Screen4 />}
-                    {state.step === 5 && <Screen5 />}
-                    {state.step === 6 && <Screen6 />}
-                  </>
-                )}
-              </>
-            )}
-          </>
-        )}
-
+        <>
+          <PageHeader content={<>SOV PUBLIC PRE-SALE WHITELIST</>} />
+          <GetAccess />
+        </>
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />
