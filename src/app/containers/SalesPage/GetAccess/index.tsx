@@ -353,7 +353,7 @@ export default function GetAccess(props: Props) {
                       news about the SOV ecosystem
                     </p>
                     {response === 'error' && (
-                      <div className="text-danger text-center">
+                      <div className="text-danger text-center mb-2">
                         An error has occurred
                       </div>
                     )}
@@ -370,15 +370,14 @@ export default function GetAccess(props: Props) {
             {response === 'success' && (
               <div>
                 <p className="content-header">
-                  Congratulations you are on the waitlist!
+                  Please confirm the email we just sent
                 </p>
                 <p className="text-center mb-5">
-                  We will email you with instructions of how to participate
-                  prior to the launch
-                </p>
-                <p className="text-center mb-5">
-                  In the meantime why not learn about all things SOVRYN by
-                  reading our Blackpaper
+                  To be registered you need to confirm the email we just sent
+                  you
+                  <br />
+                  If you do not see the email, please check your spam folder and
+                  register us as not spam!
                 </p>
 
                 <div className="row mb-4 mt-5 justify-content-center">
