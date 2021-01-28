@@ -299,6 +299,10 @@ button.button-round {
   &:focus {
     background: rgba(254, 192, 4, 0.5) !important;
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .is-pointer {

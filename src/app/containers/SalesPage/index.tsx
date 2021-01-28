@@ -25,13 +25,11 @@ import {
   sliceKey as salesSlice,
   reducer as salesReducer,
 } from './slice';
-import { SaleInfoBar } from './SaleInfoBar';
 import { salesPageSaga } from './saga';
 import { AddSoToNifty } from './AddSoToNifty';
 import { AddSoToMetamask } from './AddToMetamask';
-import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
-import { currentNetwork } from '../../../utils/classifiers';
 import { StyledButton } from '../../components/SalesButton';
+import GetAccess from './GetAccess';
 
 function detectInjectableWallet() {
   if (window.ethereum?.isNiftyWallet) {
@@ -114,36 +112,10 @@ export function SalesPage() {
         className="container font-family-montserrat"
         style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
-        <PageHeader />
-
-        <SaleInfoBar />
-
-        {currentNetwork === 'testnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
-            <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-              <div className="ml-3 mr-4">
-                <Icon icon="warning-sign" iconSize={26} />
-              </div>
-              <div>
-                This is testnet, not the actual sale. Do not send real funds!
-              </div>
-            </div>
-          </div>
-        )}
-
-        {currentNetwork === 'mainnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
-            <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-              <div className="ml-3 mr-4">
-                <Icon icon="warning-sign" iconSize={26} />
-              </div>
-              <div>
-                Pre-order is over, all allocated cSOV tokens was purchased!
-              </div>
-            </div>
-          </div>
-        )}
-
+        <>
+          <PageHeader content={<>SOV PUBLIC PRE-SALE WHITELIST</>} />
+          <GetAccess />
+        </>
         <AboutSOV />
         <SOVModel />
         <SOVGovernance />

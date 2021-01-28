@@ -1,14 +1,7 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import {
-  Icon,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  Popover,
-  Spinner,
-} from '@blueprintjs/core';
+import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
 import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -72,8 +65,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             content={
               <Menu>
-                <MenuItem icon="user" text={prettyTx(address)} />
-                <MenuDivider />
                 <MenuItem
                   icon="briefcase"
                   text={t(translations.wallet.my_wallet)}
@@ -82,7 +73,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                 <MenuItem
                   icon="people"
                   text={t(translations.wallet.referrals)}
-                  onClick={() => history.push('/referrals')}
+                  onClick={() => history.push('/referral')}
                 />
               </Menu>
             }
