@@ -20,7 +20,11 @@ import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { Asset } from '../../../types/asset';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { Skeleton } from '../PageSkeleton';
-import { numberToUSD } from '../../../utils/display-text/format';
+import {
+  numberToUSD,
+  weiToNumberFormat,
+} from '../../../utils/display-text/format';
+
 // import { actions } from 'app/containers/FastBtcForm/slice';
 
 export function UserAssets() {
@@ -116,7 +120,7 @@ function AssetRow({ item }: AssetProps) {
       </td>
       <td className="text-right">
         <LoadableValue
-          value={weiToFixed(tokens.value, 4)}
+          value={weiToNumberFormat(tokens.value, 4)}
           loading={tokens.loading}
         />
       </td>
@@ -136,26 +140,37 @@ function AssetRow({ item }: AssetProps) {
           {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
           {/*  />*/}
           {/*)}*/}
-          <Button
-            minimal
-            text={t(translations.userAssets.actions.trade)}
-            className="text-gold button-round"
-            onClick={() =>
-              history.push('/', {
-                params: { asset: item.asset, action: 'trade' },
-              })
-            }
-          />
-          <Button
-            minimal
-            text={t(translations.userAssets.actions.swap)}
-            className="text-gold button-round"
-            onClick={() =>
-              history.push('/', {
-                params: { asset: item.asset, action: 'swap' },
-              })
-            }
-          />
+          {item.asset !== Asset.CSOV ? (
+            <>
+              <Button
+                minimal
+                text={t(translations.userAssets.actions.trade)}
+                className="text-gold button-round"
+                onClick={() =>
+                  history.push('/', {
+                    params: { asset: item.asset, action: 'trade' },
+                  })
+                }
+              />
+              <Button
+                minimal
+                text={t(translations.userAssets.actions.swap)}
+                className="text-gold button-round"
+                onClick={() =>
+                  history.push('/', {
+                    params: { asset: item.asset, action: 'swap' },
+                  })
+                }
+              />
+            </>
+          ) : (
+            <Button
+              minimal
+              text={t(translations.userAssets.actions.claimSov)}
+              disabled
+              className="text-gold button-round"
+            />
+          )}
         </ButtonGroup>
       </td>
     </tr>
