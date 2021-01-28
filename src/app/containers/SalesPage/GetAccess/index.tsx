@@ -374,8 +374,10 @@ export default function GetAccess(props: Props) {
                 </p>
                 <p className="text-center mb-5">
                   To be registered you need to confirm the email we just sent
-                  you If you do not see the email, please check your spam folder
-                  and register us as not spam!
+                  you
+                  <br />
+                  If you do not see the email, please check your spam folder and
+                  register us as not spam!
                 </p>
 
                 <div className="row mb-4 mt-5 justify-content-center">
