@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import 'styles/sass/_genesis-sale.scss';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -33,6 +33,13 @@ import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import { StyledButton } from '../../components/SalesButton';
 import GetAccess from './GetAccess';
+import Screen1 from './screen1';
+import Screen2 from './screen2';
+import Screen3 from './screen3';
+import Screen4 from './screen4';
+import Screen5 from './screen5';
+import Screen6 from './screen6';
+import { selectSalesPage } from './selectors';
 
 function detectInjectableWallet() {
   if (window.ethereum?.isNiftyWallet) {
@@ -100,6 +107,8 @@ export function SalesPage() {
   useEffect(() => {
     dispatch(actions.connectChannel());
   }, [dispatch]);
+
+  const state = useSelector(selectSalesPage);
 
   return (
     <div>
