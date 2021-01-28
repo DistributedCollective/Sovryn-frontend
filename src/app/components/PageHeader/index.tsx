@@ -34,11 +34,15 @@ const H1 = styled.h1`
   ${media.md`font-size: 53px; text-align: left;`}
 `;
 
-export default function PageHeader() {
+interface Props {
+  content?: React.ReactNode;
+}
+
+export default function PageHeader(props: Props) {
   return (
     <StyledHeader>
       <img src={LogoCircle} alt="SOV" />
-      <H1>SOV GENESIS PRE-ORDER</H1>
+      <H1>{props.content}</H1>
     </StyledHeader>
   );
 }

@@ -32,6 +32,7 @@ import { AddSoToMetamask } from './AddToMetamask';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { currentNetwork } from '../../../utils/classifiers';
 import { StyledButton } from '../../components/SalesButton';
+import GetAccess from './GetAccess';
 
 function detectInjectableWallet() {
   if (window.ethereum?.isNiftyWallet) {
@@ -114,34 +115,49 @@ export function SalesPage() {
         className="container font-family-montserrat"
         style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
-        <PageHeader />
+        {Number(state.maxDeposit) === 0 ? (
+          <>
+            <PageHeader content={<>SOV PUBLIC PRE-SALE WHITELIST</>} />
+            <GetAccess />
+          </>
+        ) : (
+          <>
+            <PageHeader content={<>SOV GENESIS PRE-ORDER</>} />
+            <SaleInfoBar />
 
-        <SaleInfoBar />
-
-        {currentNetwork === 'testnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
-            <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-              <div className="ml-3 mr-4">
-                <Icon icon="warning-sign" iconSize={26} />
+            {currentNetwork === 'testnet' && (
+              <div
+                className="container mt-5 mb-4"
+                style={{ maxWidth: '1260px' }}
+              >
+                <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
+                  <div className="ml-3 mr-4">
+                    <Icon icon="warning-sign" iconSize={26} />
+                  </div>
+                  <div>
+                    This is testnet, not the actual sale. Do not send real
+                    funds!
+                  </div>
+                </div>
               </div>
-              <div>
-                This is testnet, not the actual sale. Do not send real funds!
-              </div>
-            </div>
-          </div>
-        )}
-
-        {currentNetwork === 'mainnet' && (
-          <div className="container mt-5 mb-4" style={{ maxWidth: '1260px' }}>
-            <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-              <div className="ml-3 mr-4">
-                <Icon icon="warning-sign" iconSize={26} />
-              </div>
-              <div>
-                Pre-order is over, all allocated cSOV tokens was purchased!
-              </div>
-            </div>
-          </div>
+            )}
+            {!isConnected ? (
+              <Screen1 />
+            ) : (
+              <>
+                {Number(state.maxDeposit) !== 0 && (
+                  <>
+                    {state.step === 1 && <Screen1 />}
+                    {state.step === 2 && <Screen2 />}
+                    {state.step === 3 && <Screen3 />}
+                    {state.step === 4 && <Screen4 />}
+                    {state.step === 5 && <Screen5 />}
+                    {state.step === 6 && <Screen6 />}
+                  </>
+                )}
+              </>
+            )}
+          </>
         )}
 
         <AboutSOV />

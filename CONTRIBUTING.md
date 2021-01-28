@@ -1,29 +1,3 @@
-# Sovryn DApp
-
----
-
-## Install & Start
-
-Make sure you use at least 10 version of node.js.
-
-Install packages:
-
-```shell
-yarn
-```
-
-Start app for development:
-
-```shell
-yarn start
-```
-
-Build for production:
-
-```shell
-yarn build
-```
-
 ## Contributing
 
 <a href="https://github.com/DistributedCollective/Sovryn-frontend/graphs/contributors">
@@ -69,11 +43,3 @@ All UI designs used for this repository should be available publically in [Googl
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within DApp, please send an e-mail to Victor Creed via creed-victor@protonmail.com. All security vulnerabilities will be promptly addressed.
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Licence
-
-The Sovryn DApp is open-sourced software licensed under the [MIT license](LICENSE).

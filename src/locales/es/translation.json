@@ -237,8 +237,7 @@
     },
     "borrowingContainer": {
       "amount": "Cantidad del Préstamo",
-      "token": "Token de Garantía",
-      "collateralAmount": "Cantidad de Colateral",
+      "tokenAssetCollateral": "Activo a colateralizar y cantidad",
       "borrow": "Préstamo",
       "chooseDays": "Elegir Días"
     }

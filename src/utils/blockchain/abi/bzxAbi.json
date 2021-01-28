@@ -3393,5 +3393,36 @@
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "sourceToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "destToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "sourceTokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "getSwapExpectedReturn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

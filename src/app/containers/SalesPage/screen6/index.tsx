@@ -97,6 +97,10 @@ const StyledButtonGroup = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   ${media.xl`
     max-width: 130px;
     width: 100%;
@@ -112,10 +116,6 @@ const StyledButtonGroup = styled.div`
       &:not([disabled]) {
         background: var(--gold50) !important;
       }
-    }
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
     `}
   ${(props: StyledProps) =>

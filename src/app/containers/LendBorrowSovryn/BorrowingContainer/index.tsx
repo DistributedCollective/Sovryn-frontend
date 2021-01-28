@@ -179,32 +179,37 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             </Popover>
           </div>
         )}
-        <div className="col-4">
-          <FieldGroup label={t(translations.lend.borrowingContainer.token)}>
-            <FormSelect
-              onChange={item => setTokenToCollarate(item.key)}
-              value={tokenToCollarate}
-              items={collaterals}
-            />
-          </FieldGroup>
-        </div>
-        <div className="col-8">
-          <FieldGroup
-            label={
-              <>
-                {t(translations.lend.borrowingContainer.collateralAmount)}{' '}
-                {maxAmount !== '0' && !loadingLimit && (
-                  <span className="text-muted">
-                    (Max: {weiTo4(maxAmount)} {tokenToCollarate})
-                  </span>
-                )}
-              </>
-            }
-          >
-            <DummyField>
-              {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
-            </DummyField>
-          </FieldGroup>
+        <div className="col-12">
+          <div className="row">
+            <div className="col-12 text-muted">
+              {
+                <>
+                  {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
+                  {maxAmount !== '0' && !loadingLimit && (
+                    <span className="text-muted">
+                      (Max: {weiTo4(maxAmount)} {tokenToCollarate})
+                    </span>
+                  )}
+                </>
+              }
+            </div>
+            <div className="col-4">
+              <FieldGroup label="">
+                <FormSelect
+                  onChange={item => setTokenToCollarate(item.key)}
+                  value={tokenToCollarate}
+                  items={collaterals}
+                />
+              </FieldGroup>
+            </div>
+            <div className="col-8">
+              <FieldGroup label="">
+                <DummyField>
+                  {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
+                </DummyField>
+              </FieldGroup>
+            </div>
+          </div>
         </div>
       </div>
       <SendTxProgress {...txStateBorrow} displayAbsolute={false} />
