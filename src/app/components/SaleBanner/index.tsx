@@ -1,53 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Countdown from 'react-countdown';
 import { Button } from '@blueprintjs/core';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
-import moment from 'moment';
 
 import './SaleBanner.scss';
 import samurai from './assets/banner-samurai.svg';
-import { useSaleEndTime } from '../../containers/SalesPage/hooks/useSaleEndTime';
-
-const startDate: Date = moment('2021-01-25 14:00+00000', 'YYYY-MM-DD HH:mmZZ')
-  .utc()
-  .toDate();
 
 export function SaleBanner() {
   const [show, setShow] = useState(true);
-  const { date: endDate, now, loading } = useSaleEndTime();
 
   const closeBanner = () => {
     setShow(false);
-  };
-
-  const countDown = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) {
-      return <></>;
-    } else {
-      return (
-        <div className="timer-container">
-          <div className="date-container">
-            <div>
-              <p className="text-white p-remove-padding">Days</p>
-              <h3 className="text-white">{days}</h3>
-            </div>
-            <div>
-              <p className="text-white p-remove-padding">Hours</p>
-              <h3 className="text-white">{hours}</h3>
-            </div>
-            <div>
-              <p className="text-white p-remove-padding">Mins</p>
-              <h3 className="text-white">{minutes}</h3>
-            </div>
-            <div>
-              <p className="text-white p-remove-padding">Secs</p>
-              <h3 className="text-white">{seconds}</h3>
-            </div>
-          </div>
-        </div>
-      );
-    }
   };
 
   if (!show) {
@@ -59,26 +22,10 @@ export function SaleBanner() {
       <div className="banner py-3">
         <div className="info-container">
           <h2 className="text-uppercase title-container black-font">
-            {loading ? (
-              <>SOV* Genesis Pre-Order</>
-            ) : (
-              <>
-                {endDate > now ? (
-                  <>
-                    {endDate >= now && <>Pre-Order has begun!</>}
-                    {endDate < now && <>Pre-Order ended!</>}
-                  </>
-                ) : (
-                  <>
-                    {startDate > now && <>Count Down has begun</>}
-                    {startDate < now && <>SOV* Genesis Pre-Order</>}
-                  </>
-                )}
-              </>
-            )}
+            <>SOV* Genesis Pre-Order is Over!</>
           </h2>
           <div className="sub-info-container">
-            <p className="sub-info-text black-font">SOV Token Pre-Order</p>
+            <p className="sub-info-text black-font">Sold out!</p>
           </div>
           <div className="button-container">
             <Link
@@ -88,16 +35,6 @@ export function SaleBanner() {
               <span className="button-text text-nowrap">Learn More</span>
             </Link>
           </div>
-          {!loading && (
-            <>
-              {endDate > now && (
-                <Countdown renderer={countDown} date={endDate} />
-              )}
-              {startDate && startDate > now && (
-                <Countdown renderer={countDown} date={startDate} />
-              )}
-            </>
-          )}
         </div>
         <div className="picture-container">
           <img className="banner-samurai" src={samurai} alt="banner-samurai" />
