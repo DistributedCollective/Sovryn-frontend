@@ -531,7 +531,8 @@
     "actions": {
       "deposit": "Top-Up",
       "swap": "Swap",
-      "trade": "Trade"
+      "trade": "Trade",
+      "claimSov": "Claim SOV"
     }
   },
   "topUpHistory": {

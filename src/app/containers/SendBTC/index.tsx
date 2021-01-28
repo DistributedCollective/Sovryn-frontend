@@ -284,18 +284,11 @@ const BTCAddClipboard = styled.span`
 `;
 
 export default function SendBTC({ setShowCalc }) {
-  const {
-    btcAddress,
-    btcAddressLoading,
-    btcDeposit,
-    transferDeposit,
-  } = useSelector(selectSalesPage);
+  const { btcAddress, btcDeposit, transferDeposit } = useSelector(
+    selectSalesPage,
+  );
   const { minDeposit, maxDeposit } = useSaleLimits();
   const dispatch = useDispatch();
-
-  const generateAddress = () => {
-    dispatch(sActions.getBtcAddress());
-  };
 
   return btcDeposit === null && transferDeposit === null ? (
     <div>
@@ -404,11 +397,12 @@ export default function SendBTC({ setShowCalc }) {
                 </>
               ) : (
                 <div className="mt-5">
+                  <p className="mb-2 rbtc-text">SOLD OUT!</p>
                   <SalesButton
                     text="Generate deposit address"
-                    onClick={generateAddress}
-                    loading={btcAddressLoading}
-                    disabled={btcAddressLoading}
+                    onClick={() => {}}
+                    loading={false}
+                    disabled={true}
                   />
                 </div>
               )}
