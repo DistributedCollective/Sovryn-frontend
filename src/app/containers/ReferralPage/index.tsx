@@ -8,10 +8,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import { Checkbox, Icon } from '@blueprintjs/core';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 import { toaster } from 'utils/toaster';
+import { useIsConnected } from 'app/hooks/useAccount';
 // import { Sovryn } from 'utils/sovryn';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { validateEmail } from 'utils/helpers';
@@ -113,7 +115,6 @@ export function ReferralPage() {
   const [status, setStatus] = useState(false);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
   const [clicks, setClicks] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
   const [referralLink, setReferralLink] = useState('');
@@ -121,7 +122,9 @@ export function ReferralPage() {
   const emailValid = validateEmail(email);
   const valid = !!email && emailValid;
   const address = useAccount();
+  const connected = useIsConnected();
   const referralSrv = backendUrl[currentChainId];
+  const activeRefferal = reactLocalStorage.get('referralCode');
 
   const createInviteLink = useCallback(() => {
     setLoading(true);
@@ -133,13 +136,17 @@ export function ReferralPage() {
       .then(res => {
         setLoading(false);
         setReferralLink(res.data.url);
-        setCode(res.data.code);
         setUsersCount(res.data.users);
         setClicks(res.data.clicks);
+        setStatus(false);
+        reactLocalStorage.set('referralCode', true);
       })
       .catch(e => {
-        console.log(e);
+        if (e.response) {
+          toaster.show({ message: e.response.data.error, intent: 'danger' });
+        }
         setLoading(false);
+        reactLocalStorage.set('referralCode', false);
       });
   }, [referralSrv, email, address]);
 
@@ -148,21 +155,30 @@ export function ReferralPage() {
     axios
       .get(referralSrv + '/referral?address=' + address)
       .then(res => {
+        reactLocalStorage.set('referralCode', true);
         setLoading(false);
         setReferralLink(res.data.url);
-        setCode(res.data.code);
         setUsersCount(res.data.users);
         setClicks(res.data.clicks);
+        setStatus(false);
       })
       .catch(e => {
-        console.log(e);
+        if (e.response) {
+          toaster.show({ message: e.response.data.error, intent: 'danger' });
+        }
         setLoading(false);
+        reactLocalStorage.set('referralCode', false);
       });
   }, [referralSrv, address]);
 
   useEffect(() => {
-    getLinkData();
-  }, [referralSrv, getLinkData, address]);
+    setLoading(false);
+    if (connected) {
+      getLinkData();
+    } else {
+      reactLocalStorage.set('referralCode', false);
+    }
+  }, [referralSrv, getLinkData, address, connected, activeRefferal]);
 
   return (
     <>
@@ -172,12 +188,86 @@ export function ReferralPage() {
       </Helmet>
       <Header />
       <StyledContent>
-        {loading}
+        {loading && <p>Loading</p>}
         <p className="content-header">
           Tell your friends about Sovryn and get a coin!
         </p>
-        {!status ? (
-          <form id="referrer-form" method="POST" action="#">
+
+        {/* show referral info */}
+        {activeRefferal === 'true' && connected && (
+          <div className="referral-wrap">
+            <div className="d-flex justify-content-center">
+              <div className="ml-3 mr-3">
+                <div className="text-cetner referral-count">{usersCount}</div>
+                <p>Your referrals</p>
+              </div>
+              <div className="ml-3 mr-3">
+                <div className="text-cetner referral-count">{clicks}</div>
+                <p>Link Clicks</p>
+              </div>
+            </div>
+
+            <p className="referral-invite">
+              Invite you friends with your unique referral link
+            </p>
+            <CopyToClipboard
+              text={referralLink}
+              onCopy={() => toaster.show({ message: 'Link address copied.' })}
+            >
+              <div className="cursor-pointer referral-link">
+                {referralLink}
+                <Icon icon="duplicate" color="#FEC004" />
+              </div>
+            </CopyToClipboard>
+          </div>
+        )}
+
+        {/* check refferal status */}
+        {status && (
+          <form method="GET" action="#">
+            <div>
+              <div className="mb-3">
+                <label htmlFor="email">Enter Email</label>
+                <StyledInput
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+                {!!email && !emailValid && (
+                  <small className="text-muted">
+                    Enter valid email address.
+                  </small>
+                )}
+              </div>
+              <div className="d-flex flex-column align-items-center justify-content-center mt-5">
+                <div className="mt-4">
+                  <SalesButton
+                    text={'Check status'}
+                    disabled={!valid}
+                    onClick={getLinkData}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="d-flex align-items-center justify-content-center mt-4">
+              <a
+                href="#!"
+                onClick={() => {
+                  setStatus(false);
+                  setEmail('');
+                }}
+                className="fererrer-link-status"
+              >
+                Back
+              </a>
+            </div>
+          </form>
+        )}
+
+        {/* become a refferal */}
+        {!status && activeRefferal === 'false' && (
+          <form method="POST" action="#">
             <div>
               <div className="mb-3">
                 <label htmlFor="name">Enter Username</label>
@@ -230,68 +320,7 @@ export function ReferralPage() {
               </a>
             </div>
           </form>
-        ) : (
-          <form id="referrer-form" method="GET" action="#">
-            <div>
-              <div className="mb-3">
-                <label htmlFor="email">Enter Email</label>
-                <StyledInput
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                />
-                {!!email && !emailValid && (
-                  <small className="text-muted">
-                    Enter valid email address.
-                  </small>
-                )}
-              </div>
-              <div className="d-flex flex-column align-items-center justify-content-center mt-5">
-                <div className="mt-4">
-                  <SalesButton
-                    text={'Check status'}
-                    disabled={!valid}
-                    onClick={getLinkData}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="d-flex align-items-center justify-content-center mt-4">
-              <a
-                href="#!"
-                onClick={() => {
-                  setStatus(false);
-                  setEmail('');
-                }}
-                className="fererrer-link-status"
-              >
-                Back
-              </a>
-            </div>
-          </form>
         )}
-
-        <div className="referral-wrap">
-          <div className="text-cetner referral-count">{usersCount}</div>
-          <p>Your referrals</p>
-          <div className="text-cetner referral-count">{clicks}</div>
-          <p>Link Clicks</p>
-          <div className="text-cetner referral-count">{code}</div>
-          <p>Your promo</p>
-          <p className="referral-invite">
-            Invite you friends with your unique referral link
-          </p>
-          <CopyToClipboard
-            text={referralLink}
-            onCopy={() => toaster.show({ message: 'Link address copied.' })}
-          >
-            <div className="cursor-pointer referral-link">
-              {referralLink}
-              <Icon icon="duplicate" color="#FEC004" />
-            </div>
-          </CopyToClipboard>
-        </div>
       </StyledContent>
       <Footer />
     </>

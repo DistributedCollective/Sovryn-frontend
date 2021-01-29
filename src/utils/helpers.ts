@@ -133,3 +133,9 @@ export const isMobile = () => {
     navigator.userAgent,
   );
 };
+
+export const getParameterFromUrl = (url, parm) => {
+  var re = new RegExp('.*[?&]' + parm + '=([^&]+)(&|$)');
+  var match = url.match(re);
+  return match ? match[1] : '';
+};

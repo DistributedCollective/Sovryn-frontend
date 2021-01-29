@@ -4,15 +4,18 @@
  *
  */
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components/macro';
 import { MenuItem } from '@blueprintjs/core';
-
+import axios from 'axios';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import { getParameterFromUrl } from 'utils/helpers';
+import { toaster } from 'utils/toaster';
 import { translations } from 'locales/i18n';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
-
+import { useAccount } from '../../hooks/useAccount';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
@@ -23,7 +26,6 @@ export function Header() {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
-
   const StyledMenu = styled.nav.attrs(_ => ({ open: open }))`
     display: flex;
     flex-direction: column;
@@ -111,7 +113,6 @@ export function Header() {
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
-    { to: '/referral', title: t(translations.mainMenu.referral) },
     {
       to: 'https://sovryn-1.gitbook.io/sovryn/',
       title: t(translations.mainMenu.faqs),
@@ -144,6 +145,37 @@ export function Header() {
       />
     );
   });
+
+  const location = useLocation();
+  const address = useAccount();
+
+  useEffect(() => {
+    // check url for promocode
+    const referralSrv = backendUrl[currentChainId];
+    const code = getParameterFromUrl(location.search, 'invitedBy');
+
+    if (location.search) {
+      axios
+        .put(referralSrv + '/referral', {
+          code: code,
+          address: address,
+        })
+        .then(res => {
+          toaster.show({
+            message: 'Promo code accepted successfully',
+            intent: 'success',
+          });
+        })
+        .catch(e => {
+          if (e.response) {
+            toaster.show({
+              message: e.response.data.error,
+              intent: 'danger',
+            });
+          }
+        });
+    }
+  }, [address, location.search]);
 
   useEffect(() => {
     const body = document.body;
@@ -188,9 +220,6 @@ export function Header() {
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
-              </NavLink>
-              <NavLink className="nav-item mr-4" to="/referral">
-                {t(translations.mainMenu.referral)}
               </NavLink>
               <a
                 href="https://sovryn-1.gitbook.io/sovryn/"
