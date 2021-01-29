@@ -1,18 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Slider } from '@blueprintjs/core';
 import { Asset } from 'types/asset';
+import axios from 'axios';
 import { validateEmail } from 'utils/helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 import { media } from 'styles/media';
-import { actions } from '../slice';
 import { selectSalesPage } from '../selectors';
 import Loader from '../loader';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { selectTradingPage } from '../../TradingPage/selectors';
 import SalesButton from '../../../components/SalesButton';
+import { StyledButton } from '../../../components/SalesButton';
 
 const StyledContent = styled.div`
   background: var(--sales-background);
@@ -185,40 +187,43 @@ interface Props {
 }
 
 export default function GetAccess(props: Props) {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [response, setResponse] = useState('');
   const [enterCount, setEnterCount] = useState(false);
   const emailValid = validateEmail(email);
   const valid = !!email && emailValid;
   const [amount, setAmount] = useState<number>(0);
   const { tradingPair } = useSelector(selectTradingPage);
-  const { requestAccessLoading, requestAccessError } = useSelector(
-    selectSalesPage,
-  );
-
+  const { requestAccessLoading } = useSelector(selectSalesPage);
   const pair = TradingPairDictionary.get(tradingPair);
   const { value: price } = useCachedAssetPrice(pair.getAsset(), Asset.DOC);
   const usdPrice = weiTo2(Number(price) * amount);
-
   const maxAmount = 100;
   const searchInput = useRef(null as any);
+  const referralSrv = backendUrl[currentChainId];
+
+  const addtoWhitelist = useCallback(() => {
+    setResponse('pending');
+    axios
+      .post(referralSrv + '/join-waitlist', {
+        email: email,
+        discord: username,
+        amount: amount,
+      })
+      .then(res => {
+        setResponse('success');
+      })
+      .catch(error => {
+        setResponse('error');
+      });
+  }, [referralSrv, email, username, amount]);
 
   useEffect(() => {
     if (enterCount) {
       searchInput.current.focus();
     }
   }, [enterCount]);
-
-  const handleSubmit = () => {
-    dispatch(
-      actions.requestAccess({
-        email,
-        discord: username,
-        amount,
-      }),
-    );
-  };
 
   const getChangeHandler = () => {
     return (value: number) => {
@@ -243,7 +248,7 @@ export default function GetAccess(props: Props) {
 
   return (
     <>
-      {requestAccessLoading ? (
+      {response === 'pending' ? (
         <Loader
           content={
             <p className="content-header">
@@ -255,104 +260,140 @@ export default function GetAccess(props: Props) {
         <>
           <hr style={{ borderColor: '#d9d9d9' }} />
           <StyledContent>
-            <p className="content-header">Genesis Pre-Order has sold out!</p>
-            <p className="text-center mb-5">
-              Register for whitelist access to the upcoming SOV token public
-              sale
-            </p>
-
-            <div className="row mb-4 mt-5">
-              <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-                <div className="pl-lg-1">
-                  <div className="form-group">
-                    <label htmlFor="username">Enter pseudonym</label>
-                    <StyledInput
-                      name="username"
-                      id="username"
-                      value={username}
-                      onChange={e => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email">Enter email</label>
-                    <StyledInput
-                      name="email"
-                      id="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                    />
-                    {!!email && !emailValid && (
-                      <small className="text-muted">
-                        Enter valid email address.
-                      </small>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-5 col-md-12 pr-lg-5">
-                <div>
-                  <div className="form-group">
-                    <label htmlFor="amount">
-                      Please enter amount you wish to purchase (optional)
-                    </label>
-                    {enterCount ? (
-                      <StyledInputNumber
-                        ref={searchInput}
-                        value={amount}
-                        id="amount"
-                        pattern="^-?[0-9]{0,2}\d*\.?\d*$"
-                        max={maxAmount}
-                        placeholder="Enter a number..."
-                        min={0}
-                        onBlur={() => setEnterCount(false)}
-                        className="sliderAmount"
-                        onChange={e => setInputAmount(Number(e.target.value))}
-                      />
-                    ) : (
-                      <div
-                        className="sliderAmount"
-                        onClick={() => {
-                          setEnterCount(true);
-                        }}
-                      >
-                        {amount} <span>≈ ${usdPrice}</span>
-                      </div>
-                    )}
-                    <Slider
-                      min={0}
-                      max={maxAmount}
-                      stepSize={0.5}
-                      labelRenderer={renderBTCLabel}
-                      labelStepSize={maxAmount}
-                      value={amount}
-                      onRelease={() => setEnterCount(false)}
-                      onChange={getChangeHandler()}
-                    />
-                    <p className="text-small mt-3">
-                      Sharing with us your intended contribution is optional. It
-                      does not constrain you to actually participate but it
-                      helps us to better understand our community.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12">
-                <p className="text-center text-small-bottom mt-0 mb-3">
-                  By joining the waitlist you agree to receive the latest news
-                  about the SOV ecosystem
+            {response !== 'success' && (
+              <div>
+                <p className="content-header">
+                  Genesis Pre-Sale sold out in Minutes!
+                </p>
+                <p className="text-center mb-5">
+                  Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                {requestAccessError && (
-                  <div className="text-danger">{requestAccessError}</div>
-                )}
-                <SalesButton
-                  text={'Register for whitelist'}
-                  onClick={handleSubmit}
-                  loading={requestAccessLoading}
-                  disabled={requestAccessLoading || !valid}
-                />
+                <div className="row mb-4 mt-5">
+                  <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
+                    <div className="pl-lg-1">
+                      <div className="form-group">
+                        <label htmlFor="username">Enter pseudonym</label>
+                        <StyledInput
+                          name="username"
+                          id="username"
+                          value={username}
+                          onChange={e => setUsername(e.target.value)}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="email">Enter email</label>
+                        <StyledInput
+                          name="email"
+                          id="email"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                        />
+                        {!!email && !emailValid && (
+                          <small className="text-muted">
+                            Enter valid email address.
+                          </small>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-5 col-md-12 pr-lg-5">
+                    <div>
+                      <div className="form-group">
+                        <label htmlFor="amount">
+                          Please enter amount you wish to purchase (optional)
+                        </label>
+                        {enterCount ? (
+                          <StyledInputNumber
+                            ref={searchInput}
+                            value={amount}
+                            id="amount"
+                            pattern="^-?[0-9]{0,2}\d*\.?\d*$"
+                            max={maxAmount}
+                            placeholder="Enter a number..."
+                            min={0}
+                            onBlur={() => setEnterCount(false)}
+                            className="sliderAmount"
+                            onChange={e =>
+                              setInputAmount(Number(e.target.value))
+                            }
+                          />
+                        ) : (
+                          <div
+                            className="sliderAmount"
+                            onClick={() => {
+                              setEnterCount(true);
+                            }}
+                          >
+                            {amount} <span>≈ ${usdPrice}</span>
+                          </div>
+                        )}
+                        <Slider
+                          min={0}
+                          max={maxAmount}
+                          stepSize={0.5}
+                          labelRenderer={renderBTCLabel}
+                          labelStepSize={maxAmount}
+                          value={amount}
+                          onRelease={() => setEnterCount(false)}
+                          onChange={getChangeHandler()}
+                        />
+                        <p className="text-small mt-3">
+                          Sharing with us your intended contribution is
+                          optional. It does not constrain you to actually
+                          participate but it helps us to better understand our
+                          community.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <p className="text-center text-small-bottom mt-0 mb-3">
+                      By joining the waitlist you agree to receive the latest
+                      news about the SOV ecosystem
+                    </p>
+                    {response === 'error' && (
+                      <div className="text-danger text-center mb-2">
+                        An error has occurred
+                      </div>
+                    )}
+                    <SalesButton
+                      text={'Join waitlist'}
+                      onClick={addtoWhitelist}
+                      loading={requestAccessLoading}
+                      disabled={requestAccessLoading || !valid}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+            {response === 'success' && (
+              <div>
+                <p className="content-header">
+                  Please confirm the email we just sent
+                </p>
+                <p className="text-center mb-5">
+                  To be registered you need to confirm the email we just sent
+                  you
+                  <br />
+                  If you do not see the email, please check your spam folder and
+                  register us as not spam!
+                </p>
+
+                <div className="row mb-4 mt-5 justify-content-center">
+                  <div className="col-6">
+                    <StyledButton
+                      as="a"
+                      href="https://docsend.com/view/mbhvi379crhagtwp"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      Read Blackpaper
+                    </StyledButton>
+                  </div>
+                </div>
+              </div>
+            )}
           </StyledContent>
         </>
       )}

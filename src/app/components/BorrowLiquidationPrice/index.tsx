@@ -3,7 +3,7 @@
  * BorrowLiquidationPrice
  *
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Asset } from 'types/asset';
 import { TradingPosition } from 'types/trading-position';
 import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
@@ -20,6 +20,7 @@ interface Props {
   leverage: number;
   position: TradingPosition;
   labelColor: string;
+  onPriceChange?: (value: string) => void;
 }
 
 export function BorrowLiquidationPrice(props: Props) {
@@ -34,6 +35,14 @@ export function BorrowLiquidationPrice(props: Props) {
     props.leverage,
     props.position,
   );
+
+  useEffect(() => {
+    if (props.onPriceChange) {
+      props.onPriceChange(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.onPriceChange, value]);
+
   return (
     <FieldGroup
       label={t(translations.global.liquidationPrice)}
