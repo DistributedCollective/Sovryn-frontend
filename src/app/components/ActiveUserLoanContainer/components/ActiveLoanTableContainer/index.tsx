@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
+import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
@@ -17,16 +18,15 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import {
-  formatAsBTCPrice,
-  stringToPercent,
-  formatAsNumber,
   calculateLiquidation,
+  formatAsBTCPrice,
+  formatAsNumber,
+  stringToPercent,
 } from 'utils/display-text/format';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
 import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
-import { bignumber } from 'mathjs';
 
 interface Props {
   data: any;
@@ -68,7 +68,7 @@ export function ActiveLoanTableContainer(props: Props) {
             }`,
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
-        positionSize: formatAsNumber(item.collateral, 4),
+        positionSize: item.collateral,
         positionInUSD: formatAsNumber(item.collateral, 4),
         positionCurrency: symbolByTokenAddress(item.collateralToken),
         currentMargin: currentMargin,
@@ -92,7 +92,7 @@ export function ActiveLoanTableContainer(props: Props) {
             source={loanAsset}
             destination={collateralAsset}
             amount={amount}
-            startRate={item.startRate}
+            startPrice={startPrice}
             isLong={isLong}
           />
         ),
