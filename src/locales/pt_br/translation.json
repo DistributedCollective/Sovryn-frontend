@@ -59,7 +59,7 @@
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
-      "openPrice": "Preço inicial",
+      "openPrice": "Preço de entrada",
       "closePrice": "Preço de fechamento",
       "profit": "Lucro / Prejuízo"
     }
@@ -101,7 +101,7 @@
       "currency": "Ativo",
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
-      "startPrice": "Preço inicial"
+      "startPrice": "Preço de entrada"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -178,7 +178,7 @@
       "profit": "Lucro / Prejuízo",
       "currentMargin": "Margem atual",
       "interestApr": "Juros anual",
-      "startPrice": "Preço inicial",
+      "startPrice": "Preço de entrada",
       "container": {
         "topUp": "Aumentar posição",
         "close": "Fechar posição"
@@ -188,7 +188,7 @@
   "expandedRowMobile": {
     "currentMargin": "Margem atual",
     "interestAPR": "Juros anual",
-    "startPrice": "Preço inicial",
+    "startPrice": "Preço de entrada",
     "leverage": "Alavancagem",
     "startMargin": "Margem inicial",
     "maintenanceMargin": "Margem de manutenção",
@@ -606,6 +606,27 @@
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
       "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
+    }
+  },
+  "tradeConfirmationDialog": {
+    "main": {
+      "positionSize": "Posição",
+      "positionLeverge": "Alavancagem",
+      "maintenanceMargin": "Margem de manutenção",
+      "estimatedLiquidationPrice": "Preço de liquidação aproximado",
+      "gasPriceNote": "Verifique se a taxa não excede 0.06 GWEI",
+      "positionEntryPrice": "Preço de entrada aproximado",
+      "entryPriceNote": "O preço é fornecido pelo nosso AMM e, como tal, está sujeito a flutuações.",
+      "tradeButtonLong": "Confirmar",
+      "tradeButtonShort": "Confirmar"
+    },
+    "positions": {
+      "long": "Comprado",
+      "short": "Vendido"
+    },
+    "tx": {
+      "pendingForUserTitle": "Revisão da transação",
+      "pendingForUserText": "Revise e confirme a transação em sua carteira"
     }
   }
 }
