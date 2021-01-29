@@ -39,8 +39,7 @@ import {
   disableNewTradesText,
 } from '../../../utils/classifiers';
 import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
-import { PricePrediction } from './PricePrediction';
-import { DummyField } from '../../components/DummyField';
+import { TradeConfirmationDialog } from './TradeConfirmationDialog';
 
 const s = translations.marginTradeForm;
 
@@ -73,7 +72,7 @@ export function MarginTradeForm() {
     setCollateral(pair.getCollateralForPosition(position)[0]);
   }, [position, pair]);
 
-  const { trade, loading, txHash, status } = useApproveAndTrade(
+  const { trade, ...tx } = useApproveAndTrade(
     pair,
     position,
     pair.getAssetForPosition(position),
@@ -112,11 +111,7 @@ export function MarginTradeForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const {
-    loanToken,
-    collateralToken,
-    useLoanTokens,
-  } = useTrading_resolvePairTokens(
+  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
     pair,
     position,
     pair.getAssetForPosition(position),
@@ -129,6 +124,15 @@ export function MarginTradeForm() {
     value: interestValue,
     loading: interestLoading,
   } = useBorrowInterestRate(loanToken, collateral, leverage, weiAmount);
+
+  const [liqPrice, setLiqPrice] = useState('0');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleDialog = async (success: boolean) => {
+    setDialogOpen(false);
+    if (success) {
+      await trade();
+    }
+  };
 
   return (
     <>
@@ -150,6 +154,7 @@ export function MarginTradeForm() {
             leverage={leverage}
             position={position}
             labelColor={color}
+            onPriceChange={value => setLiqPrice(value)}
           />
         </div>
         <div className="col-6 pl-1">
@@ -158,22 +163,6 @@ export function MarginTradeForm() {
             loading={interestLoading}
             labelColor={color}
           />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <FieldGroup label={t(s.fields.startPrice)} labelColor={color}>
-            <DummyField>
-              <PricePrediction
-                position={position}
-                loanToken={loanToken}
-                collateralToken={collateralToken}
-                useLoanTokens={useLoanTokens}
-                leverage={leverage}
-                weiAmount={weiAmount}
-              />
-            </DummyField>
-          </FieldGroup>
         </div>
       </div>
       <div className="position-relative">
@@ -218,13 +207,17 @@ export function MarginTradeForm() {
           </div>
           <TradeButton
             text={t(s.buttons.submit)}
-            onClick={() => trade()}
+            onClick={() => setDialogOpen(true)}
             hideIt={disableNewTrades}
             disabled={
-              !isConnected || loading || !valid || diff > 5 || disableNewTrades
+              !isConnected ||
+              tx.loading ||
+              !valid ||
+              diff > 5 ||
+              disableNewTrades
             }
             textColor={color}
-            loading={loading}
+            loading={tx.loading}
             tooltip={
               disableNewTrades ? (
                 <div className="mw-tooltip">{disableNewTradesText}</div>
@@ -239,13 +232,23 @@ export function MarginTradeForm() {
         </div>
         <div className="text-white">
           <SendTxProgress
-            status={status}
-            txHash={txHash}
-            loading={loading}
+            status={tx.status}
+            txHash={tx.txHash}
+            loading={tx.loading}
             position={position}
           />
         </div>
       </div>
+      <TradeConfirmationDialog
+        isOpen={dialogOpen}
+        onClose={handleDialog}
+        pair={pair}
+        collateral={collateral}
+        weiAmount={weiAmount}
+        position={position}
+        leverage={leverage}
+        liquidationPrice={liqPrice}
+      />
     </>
   );
 }

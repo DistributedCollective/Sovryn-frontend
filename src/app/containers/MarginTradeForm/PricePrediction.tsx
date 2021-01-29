@@ -49,12 +49,7 @@ export function PricePrediction({
   return (
     <LoadableValue
       loading={loading}
-      value={
-        <>
-          <span className="text-muted">$</span>
-          {toNumberFormat(price, 2)}
-        </>
-      }
+      value={<>{toNumberFormat(price, 2)} USD*</>}
     />
   );
 }
