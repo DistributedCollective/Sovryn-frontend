@@ -626,7 +626,7 @@
     },
     "tx": {
       "pendingForUserTitle": "Revisão da transação",
-      "pendingForUserText": "Revise e confirme a transação em sua carteira"
+      "pendingForUserText": "Revise e confirme a transação na sua carteira"
     }
   }
 }
