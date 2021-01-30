@@ -306,7 +306,14 @@
     "walletNote": "Primeiro conecte sua carteira!"
   },
   "borrowHistory": {
-    "table": {},
+    "table": {
+      "headers": {
+        "borrowAmount": "Borrowed",
+        "collateralAmount": "Collateral",
+        "interestAPR": "Interest APR",
+        "timestamp": "Date"
+      }
+    },
     "no_items": "Seu histórico de empréstimos está vazio."
   },
   "rskConnectTutorial": {
