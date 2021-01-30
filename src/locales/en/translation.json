@@ -655,5 +655,43 @@
       "pendingForUserTitle": "Review Transaction",
       "pendingForUserText": "Review and confirm transaction in your wallet"
     }
+  },
+  "notifyDialog": {
+    "heading": "Caution… No Really",
+    "acceptTerms": "I have read and understand that I am responsible for my own Sovrynity",
+    "salesBtn": "I Understand",
+    "generalAlert": {
+      "p1": "SOVRYN is a decentralized bitcoin trading and lending platform, the first of it kind!",
+      "p2": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
+      "p3": "Make sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
+      "p4_1": "Please visit our ",
+      "p4_2": "FAQ",
+      "p4_3": " if you have any questions.",
+      "p5_1": "If you’re new to DeFi, here is the ",
+      "p5_2": "tutorial",
+      "p5_3": " on how to use SOVRYN."
+    },
+    "metamaskAlert": {
+      "p1": "We noticed you have MetaMask installed.",
+      "p2_1": "There are known issues when using MetaMask with SOVRYN. We suggest using a browser wallet like ",
+      "p2_2": "Liquality Wallet",
+      "p2_3": " or ",
+      "p2_4": "Nifty Wallet",
+      "p2_5": ". If you wish to continue with MetaMask please be aware of the following known errors:",
+      "knownErrors": {
+        "defaultGasPrice": {
+          "title": "High default gas price",
+          "description": "set your gas price manually to 0.06 GWEI"
+        },
+        "checksum": {
+          "title": "ETH checksum instead of RSK checksum",
+          "description": "use lower case addresses as receiver for manual transactions"
+        },
+        "price": {
+          "title": "Shows price as ETH instead of (r)BTC",
+          "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
+        }
+      }
+    }
   }
 }
