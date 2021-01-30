@@ -216,7 +216,20 @@
     "emailSettingsBtn_update": "Update email settings",
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
-      "title": "Email Notifications"
+      "title": "Email Notifications",
+      "form": {
+        "name": {
+          "label": "Name / Pseudonym",
+          "info": "(required)",
+          "placeholder": "name / pseudonym"
+        },
+        "email": {
+          "label": "Email Address",
+          "info": "(required)",
+          "placeholder": "email@email.com"
+        }
+      },
+      "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
     "updated_success_user": "Your details have been updated."
