@@ -238,7 +238,14 @@
   "notificationFromContainer": {
     "want": "Want to receive email notifications about margin calls and liquidated positions?",
     "update": "Update the name or email address associated with this wallet address.",
-    "recieve": "I would like to receive emails about updates and new features from Sovryn"
+    "recieve": "I would like to receive emails about updates and new features from Sovryn",
+    "emailSettingsBtn_update": "Update email settings",
+    "emailSettingsBtn_get": "Get email notifications",
+    "dialog": {
+      "title": "Email Notifications"
+    },
+    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
+    "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
     "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
@@ -278,6 +285,14 @@
   },
   "activeUserBorrows": {
     "text": "You do not have any active loans."
+  },
+  "activeUserLoans": {
+    "text": "You do not have any active trades.",
+    "info": {
+      "line_1": "Need help making a transaction? Read our guide on ",
+      "line_2": " how to trade and lend with Sovryn",
+      "line_3": "."
+    }
   },
   "topUpTradingPositionHandler": {
     "title": "Top Up position",
@@ -517,6 +532,10 @@
     "meta": {
       "title": "My Wallet",
       "description": "Information about connected wallet"
+    },
+    "tabs": {
+      "userAssets": "My assets",
+      "userNFTS": "NFTS"
     }
   },
   "salesPage": {

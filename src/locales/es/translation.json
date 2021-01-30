@@ -212,7 +212,14 @@
   "notificationFromContainer": {
     "want": "¿Deseas recibir notificaciones por correo sobre alertas de tus posiciones de margen y posiciones liquidadas?",
     "update": "Actualiza el nombre o la dirección de correo asociados con esta dirección de cartera.",
-    "recieve": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn"
+    "recieve": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
+    "emailSettingsBtn_update": "Update email settings",
+    "emailSettingsBtn_get": "Get email notifications",
+    "dialog": {
+      "title": "Email Notifications"
+    },
+    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
+    "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
     "text": "Actualmente Sovryn esta disponible solo para usuarios invitados y tu cartera no está en la lista de invitados. Todo intercambio estará deshabilitado hasta que conmutes a una cartera invitada o tu cartera actual reciba un token de invitación."
@@ -244,6 +251,14 @@
   },
   "activeUserBorrows": {
     "text": "No posees créditos activos."
+  },
+  "activeUserLoans": {
+    "text": "You do not have any active trades.",
+    "info": {
+      "line_1": "Need help making a transaction? Read our guide on ",
+      "line_2": " how to trade and lend with Sovryn",
+      "line_3": "."
+    }
   },
   "topUpTradingPositionHandler": {
     "title": "Recargar Posición",
@@ -398,6 +413,16 @@
   "topUpBtcDialog": {
     "meta": {
       "title": "Re-Carga"
+    }
+  },
+  "walletPage": {
+    "meta": {
+      "title": "My Wallet",
+      "description": "Information about connected wallet"
+    },
+    "tabs": {
+      "userAssets": "My assets",
+      "userNFTS": "NFTS"
     }
   }
 }

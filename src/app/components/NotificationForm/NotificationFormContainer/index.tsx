@@ -6,6 +6,8 @@
 
 import React, { useReducer, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../locales/i18n';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
 import { EmailNotificationButton } from '../EmailNotificationButton';
@@ -14,6 +16,7 @@ import { Sovryn } from '../../../../utils/sovryn';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 
 export function NotificationForm() {
+  const { t } = useTranslation();
   const mailSrv = backendUrl[currentChainId];
 
   const walletAddress = useAccount();
@@ -149,14 +152,19 @@ export function NotificationForm() {
       <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
-            foundUser ? 'Update email settings' : 'Get email notifications'
+            foundUser
+              ? t(
+                  translations.notificationFromContainer
+                    .emailSettingsBtn_update,
+                )
+              : t(translations.notificationFromContainer.emailSettingsBtn_get)
           }`}
           onClick={() => setShowForm(true)}
         />
       </div>
       <CustomDialog
         show={showForm}
-        title="Email Notifications"
+        title={t(translations.notificationFromContainer.dialog.title)}
         onClose={() => resetForm()}
         content={
           <div>
@@ -177,13 +185,17 @@ export function NotificationForm() {
                 )}
                 {response === 'success' && !foundUser && (
                   <div>
-                    You will now receive email notifications about margin calls
-                    and liquidated positions.
+                    {t(translations.notificationFromContainer.updated_success)}
                   </div>
                 )}
 
                 {response === 'success' && foundUser && (
-                  <div>Your details have been updated.</div>
+                  <div>
+                    {t(
+                      translations.notificationFromContainer
+                        .updated_success_user,
+                    )}
+                  </div>
                 )}
               </div>
             )}

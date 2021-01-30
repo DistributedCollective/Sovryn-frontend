@@ -238,7 +238,14 @@
   "notificationFromContainer": {
     "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
     "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
-    "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn"
+    "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
+    "emailSettingsBtn_update": "Update email settings",
+    "emailSettingsBtn_get": "Get email notifications",
+    "dialog": {
+      "title": "Email Notifications"
+    },
+    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
+    "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
@@ -278,6 +285,14 @@
   },
   "activeUserBorrows": {
     "text": "Você não tem nenhum empréstimo ativo."
+  },
+  "activeUserLoans": {
+    "text": "You do not have any active trades.",
+    "info": {
+      "line_1": "Need help making a transaction? Read our guide on ",
+      "line_2": " how to trade and lend with Sovryn",
+      "line_3": "."
+    }
   },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
@@ -517,6 +532,10 @@
     "meta": {
       "title": "Minha carteira",
       "description": "Informações sobre a carteira conectada"
+    },
+    "tabs": {
+      "userAssets": "My assets",
+      "userNFTS": "NFTS"
     }
   },
   "salesPage": {
