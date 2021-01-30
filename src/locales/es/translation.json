@@ -209,7 +209,7 @@
     "hintTwo": "Recarga tu cartera con",
     "hintThree": "¡y empieza!"
   },
-  "notificationFromContainer": {
+  "notificationFormContainer": {
     "want": "¿Deseas recibir notificaciones por correo sobre alertas de tus posiciones de margen y posiciones liquidadas?",
     "update": "Actualiza el nombre o la dirección de correo asociados con esta dirección de cartera.",
     "recieve": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",

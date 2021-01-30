@@ -23,7 +23,7 @@ interface Props {
 
 export function NotificationFormComponent(props: Props) {
   const { t } = useTranslation();
-  const s = translations.notificationFromContainer;
+  const s = translations.notificationFormContainer;
   const text = {
     signup: {
       buttonText: 'submit',

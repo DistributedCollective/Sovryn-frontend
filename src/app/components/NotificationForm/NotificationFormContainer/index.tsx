@@ -154,17 +154,17 @@ export function NotificationForm() {
           text={`${
             foundUser
               ? t(
-                  translations.notificationFromContainer
+                  translations.notificationFormContainer
                     .emailSettingsBtn_update,
                 )
-              : t(translations.notificationFromContainer.emailSettingsBtn_get)
+              : t(translations.notificationFormContainer.emailSettingsBtn_get)
           }`}
           onClick={() => setShowForm(true)}
         />
       </div>
       <CustomDialog
         show={showForm}
-        title={t(translations.notificationFromContainer.dialog.title)}
+        title={t(translations.notificationFormContainer.dialog.title)}
         onClose={() => resetForm()}
         content={
           <div>
@@ -185,14 +185,14 @@ export function NotificationForm() {
                 )}
                 {response === 'success' && !foundUser && (
                   <div>
-                    {t(translations.notificationFromContainer.updated_success)}
+                    {t(translations.notificationFormContainer.updated_success)}
                   </div>
                 )}
 
                 {response === 'success' && foundUser && (
                   <div>
                     {t(
-                      translations.notificationFromContainer
+                      translations.notificationFormContainer
                         .updated_success_user,
                     )}
                   </div>

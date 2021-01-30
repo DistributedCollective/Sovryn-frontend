@@ -235,7 +235,7 @@
     "hintTwo": "Top up your wallet at",
     "hintThree": "and get started!"
   },
-  "notificationFromContainer": {
+  "notificationFormContainer": {
     "want": "Want to receive email notifications about margin calls and liquidated positions?",
     "update": "Update the name or email address associated with this wallet address.",
     "recieve": "I would like to receive emails about updates and new features from Sovryn",
