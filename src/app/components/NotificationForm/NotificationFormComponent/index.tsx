@@ -85,7 +85,7 @@ export function NotificationFormComponent(props: Props) {
             className="col-md-8 col-sm-12"
             style={{ fontSize: '11px' }}
           >
-            {t(s.recieve)}
+            {t(s.receive)}
           </Checkbox>
         )}
         <div

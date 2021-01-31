@@ -238,7 +238,7 @@
   "notificationFormContainer": {
     "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
     "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
-    "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
+    "receive": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
     "emailSettingsBtn_update": "Configurações de e-mail",
     "emailSettingsBtn_get": "Receba notificações por e-mail",
     "dialog": {
