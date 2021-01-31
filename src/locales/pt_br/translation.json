@@ -700,7 +700,7 @@
           "description": "use endereços em letras minúsculas para receber transações"
         },
         "price": {
-          "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC ",
+          "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC",
           "description": "atulamente sugerimos você verificar o saldo dos seus ativos na aba minha carteira da Sovryn."
         }
       }
