@@ -690,7 +690,7 @@
       "p2_3": " ou a ",
       "p2_4": "Carteira Nifty",
       "p2_5": ". Se você pretende continuar usando a MetaMask, esteja ciente do seguintes problemas:",
-      "knownErrors": 
+      "knownErrors": {
         "defaultGasPrice": {
           "title": "A taxa padrão usada é muito alta",
           "description": "defina a taxa manualmente para 0.06 GWEI"
