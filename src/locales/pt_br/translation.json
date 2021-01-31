@@ -256,7 +256,7 @@
         }
       },
       "wantBtn": "enviar",
-      "updateBtn": "update",
+      "updateBtn": "atualizar",
       "error": "Ocorreu um erro ao enviar os dados"
     },
     "updated_success": "Você será notificado por e-mail sobre chamadas de margem e posições liquidadas.",
