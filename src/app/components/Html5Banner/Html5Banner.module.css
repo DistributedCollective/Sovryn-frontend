@@ -1,0 +1,29 @@
+.iframe {
+  border: 0;
+  position: absolute;
+  z-index: 1;
+}
+.banner {
+  width: 100%;
+  height: 90px;
+}
+
+.link {
+  position: absolute;
+  display: block;
+  z-index: 2;
+}
+
+@media screen and (min-width: 992px) {
+  .banner { width: 960px; }
+}
+
+@media screen and (min-width: 1200px) {
+  .banner { width: 1140px; }
+}
+
+@media screen and (min-width: 1470px) {
+  .dXxlBlock { display: block!important; }
+  .dXxlNone { display: none!important; }
+  .banner { width: 1440px; }
+}
