@@ -701,7 +701,7 @@
         },
         "price": {
           "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC ",
-          "description": "atulamente sugerimos você verificar o saldo dos seus ativos na seção minha carteira da Sovryn."
+          "description": "atulamente sugerimos você verificar o saldo dos seus ativos na aba minha carteira da Sovryn."
         }
       }
     }
