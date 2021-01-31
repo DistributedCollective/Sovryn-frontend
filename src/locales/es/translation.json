@@ -229,6 +229,8 @@
           "placeholder": "email@email.com"
         }
       },
+      "wantBtn": "submit",
+      "updateBtn": "update",
       "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
