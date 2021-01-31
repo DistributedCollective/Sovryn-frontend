@@ -23,7 +23,7 @@ interface Props {
 
 export function NotificationFormComponent(props: Props) {
   const { t } = useTranslation();
-  const s = translations.notificationFromContainer;
+  const s = translations.notificationFormContainer;
   const text = {
     signup: {
       buttonText: 'submit',
@@ -47,9 +47,9 @@ export function NotificationFormComponent(props: Props) {
       {text[props.formType].title}
       <div className="row">
         <FormGroup
-          label="Name / Pseudonym"
+          label={t(s.dialog.form.name.label)}
           labelFor="text-input"
-          labelInfo="(required)"
+          labelInfo={t(s.dialog.form.name.info)}
           className="col-md-6 col-sm-12"
         >
           <InputGroup
@@ -57,13 +57,13 @@ export function NotificationFormComponent(props: Props) {
             name="name"
             value={props.name}
             onChange={props.onChange}
-            placeholder="name / pseudonym"
+            placeholder={t(s.dialog.form.name.placeholder)}
           />
         </FormGroup>
         <FormGroup
-          label="Email Address"
+          label={t(s.dialog.form.email.label)}
           labelFor="email-input"
-          labelInfo="(required)"
+          labelInfo={t(s.dialog.form.email.info)}
           className="col-md-6 col-sm-12"
         >
           <InputGroup
@@ -72,7 +72,7 @@ export function NotificationFormComponent(props: Props) {
             name="email"
             value={props.email}
             onChange={props.onChange}
-            placeholder="email@email.com"
+            placeholder={t(s.dialog.form.email.placeholder)}
           />
         </FormGroup>
       </div>
@@ -106,7 +106,7 @@ export function NotificationFormComponent(props: Props) {
         </div>
         {props.response !== 'success' && props.response && (
           <div className="row p-3">
-            <p className="text-red">There was an error submitting your form</p>
+            <p className="text-red">{t(s.dialog.error)}</p>
           </div>
         )}
       </div>
