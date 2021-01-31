@@ -255,7 +255,7 @@
           "placeholder": "email@email.com"
         }
       },
-      "wantBtn": "submit",
+      "wantBtn": "enviar",
       "updateBtn": "update",
       "error": "Ocorreu um erro ao enviar os dados"
     },
