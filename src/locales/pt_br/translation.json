@@ -32,8 +32,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
-      "tradingHistory": "Concluídas"
+      "activeTrades": "Abertas",
+      "tradingHistory": "Fechadas"
     }
   },
   "tradingPage": {
@@ -55,7 +55,7 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações concluídas.",
+    "noClosedTrades": "Você não tem operações fechadas.",
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
