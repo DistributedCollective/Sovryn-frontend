@@ -239,26 +239,26 @@
     "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
     "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
     "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
-    "emailSettingsBtn_update": "Update email settings",
-    "emailSettingsBtn_get": "Get email notifications",
+    "emailSettingsBtn_update": "Configurações de e-mail",
+    "emailSettingsBtn_get": "Receba notificações por e-mail",
     "dialog": {
-      "title": "Email Notifications",
+      "title": "Notificações de e-mail",
       "form": {
         "name": {
-          "label": "Name / Pseudonym",
-          "info": "(required)",
-          "placeholder": "name / pseudonym"
+          "label": "Nome / Apelido",
+          "info": "(obrigatório)",
+          "placeholder": "nome / apelido"
         },
         "email": {
-          "label": "Email Address",
-          "info": "(required)",
+          "label": "Endereço de e-mail",
+          "info": "(obrigatório)",
           "placeholder": "email@email.com"
         }
       },
-      "error": "There was an error submitting your form"
+      "error": "Ocorreu um erro ao enviar os dados"
     },
-    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
-    "updated_success_user": "Your details have been updated."
+    "updated_success": "Você será notificado por e-mail sobre chamadas de margem e posições liquidadas.",
+    "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
@@ -300,10 +300,10 @@
     "text": "Você não tem nenhum empréstimo ativo."
   },
   "activeUserLoans": {
-    "text": "You do not have any active trades.",
+    "text": "Você não tem nenhuma operação de compra ou venda ativa.",
     "info": {
-      "line_1": "Need help making a transaction? Read our guide on ",
-      "line_2": " how to trade and lend with Sovryn",
+      "line_1": "Precisa de ajuda? Leia nosso guia ",
+      "line_2": " de como usar a Sovryn",
       "line_3": "."
     }
   },
@@ -336,10 +336,10 @@
   "borrowHistory": {
     "table": {
       "headers": {
-        "borrowAmount": "Borrowed",
-        "collateralAmount": "Collateral",
-        "interestAPR": "Interest APR",
-        "timestamp": "Date"
+        "borrowAmount": "Valor do empréstimo",
+        "collateralAmount": "Colateral",
+        "interestAPR": "Juros anual",
+        "timestamp": "Data"
       }
     },
     "no_items": "Seu histórico de empréstimos está vazio."
@@ -547,7 +547,7 @@
       "description": "Informações sobre a carteira conectada"
     },
     "tabs": {
-      "userAssets": "My assets",
+      "userAssets": "Meus ativos",
       "userNFTS": "NFTS"
     }
   },
@@ -669,39 +669,39 @@
     }
   },
   "notifyDialog": {
-    "heading": "Caution… No Really",
-    "acceptTerms": "I have read and understand that I am responsible for my own Sovrynity",
-    "salesBtn": "I Understand",
+    "heading": "Cuidado",
+    "acceptTerms": "Eu li e compreendi que somente eu tenho responsabilidade pelos meus atos",
+    "salesBtn": "Eu entendo",
     "generalAlert": {
-      "p1": "SOVRYN is a decentralized bitcoin trading and lending platform, the first of it kind!",
-      "p2": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
-      "p3": "Make sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
-      "p4_1": "Please visit our ",
+      "p1": "A SOVRYN é uma plataforma descentralizada de negociação e empréstimo de bitcoins, a primeira desse tipo!",
+      "p2": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+      "p3": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
+      "p4_1": "Visite nosso ",
       "p4_2": "FAQ",
-      "p4_3": " if you have any questions.",
-      "p5_1": "If you’re new to DeFi, here is the ",
+      "p4_3": " se tiver dúvidas.",
+      "p5_1": "Se você é um usuário novato, veja o ",
       "p5_2": "tutorial",
-      "p5_3": " on how to use SOVRYN."
+      "p5_3": " e aprenda a usar a SOVRYN."
     },
     "metamaskAlert": {
-      "p1": "We noticed you have MetaMask installed.",
-      "p2_1": "There are known issues when using MetaMask with SOVRYN. We suggest using a browser wallet like ",
-      "p2_2": "Liquality Wallet",
-      "p2_3": " or ",
-      "p2_4": "Nifty Wallet",
-      "p2_5": ". If you wish to continue with MetaMask please be aware of the following known errors:",
-      "knownErrors": {
+      "p1": "Verificamos que você tem a MetaMask instalada.",
+      "p2_1": "Existem problemas conhecidos ao usar a MetaMask com a SOVRYN. Sugerimos usar uma carteira de navegador como a ",
+      "p2_2": "Carteira Liquality",
+      "p2_3": " ou a ",
+      "p2_4": "Carteira Nifty",
+      "p2_5": ". Se você pretende continuar usando a MetaMask, esteja ciente do seguintes problemas:",
+      "knownErrors": 
         "defaultGasPrice": {
-          "title": "High default gas price",
-          "description": "set your gas price manually to 0.06 GWEI"
+          "title": "A taxa padrão usada é muito alta",
+          "description": "defina a taxa manualmente para 0.06 GWEI"
         },
         "checksum": {
-          "title": "ETH checksum instead of RSK checksum",
-          "description": "use lower case addresses as receiver for manual transactions"
+          "title": "ETH checksum ao invés do RSK checksum",
+          "description": "use endereços em letras minúsculas para receber transações"
         },
         "price": {
-          "title": "Shows price as ETH instead of (r)BTC",
-          "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
+          "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC ",
+          "description": "atulamente sugerimos você verificar o saldo dos seus ativos na seção minha carteira da Sovryn."
         }
       }
     }
