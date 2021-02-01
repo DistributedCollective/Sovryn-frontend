@@ -62,6 +62,7 @@
     letter-spacing: 0;
     padding: 15px;
     transition: opacity 0.3s;
+    background: #4ECDC4;
 }
 .button:hover {
     opacity: 0.9;

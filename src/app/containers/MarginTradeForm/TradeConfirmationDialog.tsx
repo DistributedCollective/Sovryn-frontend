@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTranslation } from 'react-i18next';
@@ -10,16 +10,58 @@ import { PricePrediction } from './PricePrediction';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import styles from './TradeConfirmationDialog.module.css';
 import { Classes, Overlay } from '@blueprintjs/core';
+import {
+  ResetTxResponseInterface,
+  SendTxResponse,
+} from '../../hooks/useSendContractTx';
+import { TxStatus } from '../../../store/global/transactions-store/types';
 
 interface Props {
   isOpen: boolean;
-  onClose: (success: boolean) => void;
+  onClose: () => void;
+  onConfirm: () => void;
   weiAmount: string;
   position: TradingPosition;
   leverage: number;
   liquidationPrice: string;
   pair: TradingPair;
   collateral: Asset;
+  tx: ResetTxResponseInterface;
+}
+
+interface Props2 {
+  tx: SendTxResponse;
+  onClose: () => void;
+}
+
+function TxStatusRenderer({ tx }: Props2) {
+  switch (tx.status) {
+    default:
+      return (<>
+        <button
+          className={classNames(
+            'd-flex flex-row align-items-center justify-content-center',
+            styles.button,
+            props.position === TradingPosition.SHORT
+              ? styles.button_short
+              : styles.button_long,
+          )}
+          onClick={() => props.onConfirm()}
+        >
+                  <span>
+                    {t(
+                      translations.tradeConfirmationDialog.main[
+                        props.position === TradingPosition.SHORT
+                          ? 'tradeButtonShort'
+                          : 'tradeButtonLong'
+                        ],
+                    )}
+                  </span>
+        </button>
+      </>);
+    case TxStatus.PENDING_FOR_USER:
+      return (<></>);
+  }
 }
 
 export function TradeConfirmationDialog(props: Props) {
@@ -36,10 +78,15 @@ export function TradeConfirmationDialog(props: Props) {
     props.collateral,
   );
 
+  const closing = useCallback(() => {
+    props.tx.reset();
+  }, [props]);
+
   return (
     <Overlay
       isOpen={props.isOpen}
-      onClose={() => props.onClose(false)}
+      onClose={() => props.onClose()}
+      onClosing={closing}
       className={Classes.OVERLAY_SCROLL_CONTAINER}
       hasBackdrop
       canOutsideClickClose
@@ -51,7 +98,7 @@ export function TradeConfirmationDialog(props: Props) {
             <button
               type="button"
               className={styles.close}
-              onClick={() => props.onClose(false)}
+              onClick={() => props.onClose()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -118,48 +165,55 @@ export function TradeConfirmationDialog(props: Props) {
               {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
             </div>
 
-            <div className={styles.entryPrice}>
-              <div>
-                {t(
-                  translations.tradeConfirmationDialog.main.positionEntryPrice,
-                )}
-              </div>
-              <div className={styles.entryPrice__value}>
-                <PricePrediction
-                  position={props.position}
-                  leverage={props.leverage}
-                  loanToken={loanToken}
-                  collateralToken={collateralToken}
-                  useLoanTokens={useLoanTokens}
-                  weiAmount={props.weiAmount}
-                />
-              </div>
-            </div>
+            {props.tx.status === TxStatus.NONE ? (
+              <>
+                <div className={styles.entryPrice}>
+                  <div>
+                    {t(
+                      translations.tradeConfirmationDialog.main
+                        .positionEntryPrice,
+                    )}
+                  </div>
+                  <div className={styles.entryPrice__value}>
+                    <PricePrediction
+                      position={props.position}
+                      leverage={props.leverage}
+                      loanToken={loanToken}
+                      collateralToken={collateralToken}
+                      useLoanTokens={useLoanTokens}
+                      weiAmount={props.weiAmount}
+                    />
+                  </div>
+                </div>
 
-            <div className={styles.entryPriceNote}>
-              {t(translations.tradeConfirmationDialog.main.entryPriceNote)}
-            </div>
+                <div className={styles.entryPriceNote}>
+                  {t(translations.tradeConfirmationDialog.main.entryPriceNote)}
+                </div>
 
-            <button
-              className={classNames(
-                'd-flex flex-row align-items-center justify-content-center',
-                styles.button,
-                props.position === TradingPosition.SHORT
-                  ? styles.button_short
-                  : styles.button_long,
-              )}
-              onClick={() => props.onClose(true)}
-            >
-              <span>
-                {t(
-                  translations.tradeConfirmationDialog.main[
+                <button
+                  className={classNames(
+                    'd-flex flex-row align-items-center justify-content-center',
+                    styles.button,
                     props.position === TradingPosition.SHORT
-                      ? 'tradeButtonShort'
-                      : 'tradeButtonLong'
-                  ],
-                )}
-              </span>
-            </button>
+                      ? styles.button_short
+                      : styles.button_long,
+                  )}
+                  onClick={() => props.onConfirm()}
+                >
+                  <span>
+                    {t(
+                      translations.tradeConfirmationDialog.main[
+                        props.position === TradingPosition.SHORT
+                          ? 'tradeButtonShort'
+                          : 'tradeButtonLong'
+                      ],
+                    )}
+                  </span>
+                </button>
+              </>
+            ) : (
+              <TxStatusRenderer tx={props.tx} onClose={() => props.onClose()} />
+            )}
           </div>
         </div>
       </div>
