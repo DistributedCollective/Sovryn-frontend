@@ -26,7 +26,7 @@ export function NotificationFormComponent(props: Props) {
   const s = translations.notificationFormContainer;
   const text = {
     signup: {
-      buttonText: 'submit',
+      buttonText: t(s.dialog.wantBtn),
       title: (
         <p className="font-family-work-sans">
           <span className="mr-2">
@@ -37,7 +37,7 @@ export function NotificationFormComponent(props: Props) {
       ),
     },
     update: {
-      buttonText: 'update',
+      buttonText: t(s.dialog.updateBtn),
       title: <p>{t(s.update)}</p>,
     },
   };
@@ -85,7 +85,7 @@ export function NotificationFormComponent(props: Props) {
             className="col-md-8 col-sm-12"
             style={{ fontSize: '11px' }}
           >
-            {t(s.recieve)}
+            {t(s.receive)}
           </Checkbox>
         )}
         <div

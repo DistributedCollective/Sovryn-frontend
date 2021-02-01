@@ -238,7 +238,7 @@
   "notificationFormContainer": {
     "want": "Want to receive email notifications about margin calls and liquidated positions?",
     "update": "Update the name or email address associated with this wallet address.",
-    "recieve": "I would like to receive emails about updates and new features from Sovryn",
+    "receive": "I would like to receive emails about updates and new features from Sovryn",
     "emailSettingsBtn_update": "Update email settings",
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
@@ -255,6 +255,8 @@
           "placeholder": "email@email.com"
         }
       },
+      "wantBtn": "submit",
+      "updateBtn": "update",
       "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",

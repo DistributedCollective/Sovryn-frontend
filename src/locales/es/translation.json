@@ -212,7 +212,7 @@
   "notificationFormContainer": {
     "want": "¿Deseas recibir notificaciones por correo sobre alertas de tus posiciones de margen y posiciones liquidadas?",
     "update": "Actualiza el nombre o la dirección de correo asociados con esta dirección de cartera.",
-    "recieve": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
+    "receive": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
     "emailSettingsBtn_update": "Update email settings",
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
@@ -229,6 +229,8 @@
           "placeholder": "email@email.com"
         }
       },
+      "wantBtn": "submit",
+      "updateBtn": "update",
       "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
