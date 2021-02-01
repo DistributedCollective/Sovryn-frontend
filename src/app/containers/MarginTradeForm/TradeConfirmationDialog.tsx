@@ -9,12 +9,13 @@ import { Asset } from '../../../types/asset';
 import { PricePrediction } from './PricePrediction';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import styles from './TradeConfirmationDialog.module.css';
-import { Classes, Overlay } from '@blueprintjs/core';
+import { Classes, Icon, Overlay } from '@blueprintjs/core';
 import {
   ResetTxResponseInterface,
   SendTxResponse,
 } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
+import { LinkToExplorer } from '../../components/LinkToExplorer';
 
 interface Props {
   isOpen: boolean;
@@ -34,33 +35,143 @@ interface Props2 {
   onClose: () => void;
 }
 
-function TxStatusRenderer({ tx }: Props2) {
+function CloseButton({
+  onClose,
+  title,
+}: {
+  onClose: () => void;
+  title: string;
+}) {
+  return (
+    <button
+      className={classNames(
+        'd-flex flex-row align-items-center justify-content-center',
+        styles.button,
+      )}
+      onClick={() => onClose()}
+    >
+      <span>{title}</span>
+    </button>
+  );
+}
+
+function TxStatusRenderer({ tx, onClose }: Props2) {
+  const { t } = useTranslation();
   switch (tx.status) {
     default:
-      return (<>
-        <button
-          className={classNames(
-            'd-flex flex-row align-items-center justify-content-center',
-            styles.button,
-            props.position === TradingPosition.SHORT
-              ? styles.button_short
-              : styles.button_long,
-          )}
-          onClick={() => props.onConfirm()}
-        >
-                  <span>
-                    {t(
-                      translations.tradeConfirmationDialog.main[
-                        props.position === TradingPosition.SHORT
-                          ? 'tradeButtonShort'
-                          : 'tradeButtonLong'
-                        ],
-                    )}
-                  </span>
-        </button>
-      </>);
+      return (
+        <>
+          <CloseButton onClose={onClose} title="Close Dialog" />
+        </>
+      );
     case TxStatus.PENDING_FOR_USER:
-      return (<></>);
+      return (
+        <>
+          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
+            <div className="mr-3">
+              <Icon icon="time" iconSize={27} />
+            </div>
+            <div>
+              <div className={styles.txTitle}>
+                {t(translations.sendTxProgress.pending_for_user.title)}
+              </div>
+              <div className={styles.txText}>
+                {t(translations.sendTxProgress.pending_for_user.text)}
+              </div>
+              <div className="font-weight-bold text-center mt-4">
+                {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
+              </div>
+            </div>
+          </div>
+          <CloseButton onClose={onClose} title="Close Dialog" />
+        </>
+      );
+    case TxStatus.PENDING:
+      return (
+        <>
+          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
+            <div className="mr-3">
+              <Icon icon="time" iconSize={27} />
+            </div>
+            <div>
+              <div className={styles.txTitle}>
+                {t(translations.sendTxProgress.pending.title)}
+              </div>
+              <div className={styles.txText}>
+                {t(translations.sendTxProgress.pending.text)}
+              </div>
+              {tx.txHash && (
+                <div className={classNames(styles.txHash, 'text-center')}>
+                  <LinkToExplorer txHash={tx.txHash} />
+                </div>
+              )}
+            </div>
+          </div>
+          <CloseButton onClose={onClose} title="Close Dialog" />
+        </>
+      );
+    case TxStatus.CONFIRMED:
+      return (
+        <>
+          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
+            <div className="mr-3">
+              <Icon
+                icon="tick"
+                iconSize={27}
+                style={{ color: `var(--teal)` }}
+              />
+            </div>
+            <div>
+              <div className={styles.txTitle}>
+                {t(translations.sendTxProgress.confirmed.title)}
+              </div>
+              <div className={styles.txText}>
+                {t(translations.sendTxProgress.confirmed.text)}
+              </div>
+              {tx.txHash && (
+                <div className={classNames(styles.txHash, 'text-center')}>
+                  <LinkToExplorer txHash={tx.txHash} />
+                </div>
+              )}
+            </div>
+          </div>
+          <CloseButton onClose={onClose} title="Close Dialog" />
+        </>
+      );
+    case TxStatus.FAILED:
+      return (
+        <>
+          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
+            <div className="mr-3">
+              <Icon
+                icon="error"
+                iconSize={27}
+                style={{ color: `var(--Muted_red)` }}
+              />
+            </div>
+            <div>
+              <div className={styles.txTitle}>
+                {t(
+                  translations.sendTxProgress[tx.txHash ? 'failed' : 'denied']
+                    .title,
+                )}
+              </div>
+              <div className={styles.txText}>
+                {t(
+                  translations.sendTxProgress[tx.txHash ? 'failed' : 'denied']
+                    .text,
+                )}
+              </div>
+              {tx.txHash && (
+                <div className={classNames(styles.txHash, 'text-center')}>
+                  <LinkToExplorer txHash={tx.txHash} />
+                </div>
+              )}
+            </div>
+          </div>
+          <CloseButton onClose={onClose} title="Close Dialog" />
+        </>
+      );
   }
 }
 
@@ -161,12 +272,11 @@ export function TradeConfirmationDialog(props: Props) {
               </div>
             </section>
 
-            <div className={styles.gasNote}>
-              {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
-            </div>
-
             {props.tx.status === TxStatus.NONE ? (
               <>
+                <div className={styles.gasNote}>
+                  {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
+                </div>
                 <div className={styles.entryPrice}>
                   <div>
                     {t(
@@ -212,7 +322,12 @@ export function TradeConfirmationDialog(props: Props) {
                 </button>
               </>
             ) : (
-              <TxStatusRenderer tx={props.tx} onClose={() => props.onClose()} />
+              <div className="mt-5">
+                <TxStatusRenderer
+                  tx={props.tx}
+                  onClose={() => props.onClose()}
+                />
+              </div>
             )}
           </div>
         </div>

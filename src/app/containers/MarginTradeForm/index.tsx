@@ -23,7 +23,6 @@ import { FormSelect } from '../../components/FormSelect';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { TradeButton } from '../../components/TradeButton';
-import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
@@ -222,14 +221,6 @@ export function MarginTradeForm() {
                 </>
               ) : undefined
             }
-          />
-        </div>
-        <div className="text-white">
-          <SendTxProgress
-            status={tx.status}
-            txHash={tx.txHash}
-            loading={tx.loading}
-            position={position}
           />
         </div>
       </div>
