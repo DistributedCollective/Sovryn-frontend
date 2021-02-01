@@ -23,7 +23,6 @@ import { FormSelect } from '../../components/FormSelect';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { TradeButton } from '../../components/TradeButton';
-import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
@@ -127,12 +126,6 @@ export function MarginTradeForm() {
 
   const [liqPrice, setLiqPrice] = useState('0');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleDialog = async (success: boolean) => {
-    setDialogOpen(false);
-    if (success) {
-      await trade();
-    }
-  };
 
   return (
     <>
@@ -230,24 +223,18 @@ export function MarginTradeForm() {
             }
           />
         </div>
-        <div className="text-white">
-          <SendTxProgress
-            status={tx.status}
-            txHash={tx.txHash}
-            loading={tx.loading}
-            position={position}
-          />
-        </div>
       </div>
       <TradeConfirmationDialog
         isOpen={dialogOpen}
-        onClose={handleDialog}
+        onClose={() => setDialogOpen(false)}
+        onConfirm={() => trade()}
         pair={pair}
         collateral={collateral}
         weiAmount={weiAmount}
         position={position}
         leverage={leverage}
         liquidationPrice={liqPrice}
+        tx={tx}
       />
     </>
   );
