@@ -665,7 +665,7 @@
       "entryPriceNote": "O preço é fornecido pelo nosso AMM e, como tal, está sujeito a flutuações.",
       "tradeButtonLong": "Confirmar",
       "tradeButtonShort": "Confirmar",
-      "closeBtn": "Close Dialog"
+      "closeBtn": "Fechar janela"
     },
     "positions": {
       "long": "Comprado",
