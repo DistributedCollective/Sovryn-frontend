@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import i18next from 'i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { FormSelect } from '../../components/FormSelect';
 
 export function LanguageToggle() {
   const [currentLang, setCurrentLang] = useState(
@@ -21,17 +22,13 @@ export function LanguageToggle() {
   ];
 
   return (
-    <select
-      value={currentLang}
-      onChange={e => {
-        changeLanguage(e.target.value);
+    <FormSelect
+      onChange={value => {
+        changeLanguage(value.key);
       }}
-    >
-      {options.map((x, y) => (
-        <option value={x.value} key={y}>
-          {x.lang}
-        </option>
-      ))}
-    </select>
+      value={currentLang}
+      items={options.map(item => ({ key: item.value, label: item.lang }))}
+      innerClasses=""
+    />
   );
 }

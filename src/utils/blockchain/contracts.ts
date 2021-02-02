@@ -15,6 +15,9 @@ import TestTokenABI from './abi/abiTestToken.json';
 import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
+import CrowdSaleAbi from './abi/CrowdSale.json';
+import SovrynNFTAbi from './abi/SovrynNFT.json';
+import CSOVTokenAbi from './abi/CSOVToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -97,6 +100,32 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  CrowdSale: {
+    address: '0xd42070b07D4EAbb801d76c6929f21749647275Ec',
+    abi: CrowdSaleAbi,
+    blockNumber: 1218833,
+  },
+  SovrynNFTCommunity: {
+    address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
+    abi: SovrynNFTAbi,
+    blockNumber: 1218834,
+  },
+  SovrynNFTHero: {
+    address: '0x7806d3fedf9c9741041f5d70af5adf326705b03d',
+    abi: SovrynNFTAbi,
+    blockNumber: 1218835,
+  },
+  SovrynNFTSuperhero: {
+    address: '0xd9bbcd6e0ab105c83e2b5be0bbb9bb90ef963de7',
+    abi: SovrynNFTAbi,
+    blockNumber: 1218836,
+  },
+  CSOV_token: {
+    address: '0x0106F2fFBF6A4f5DEcE323d20E16E2037E732790',
+    abi: CSOVTokenAbi,
+    blockNumber: 1218833,
+  },
+
   // end non-mainnet //
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {

@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { min } from 'mathjs';
+import { min, bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -23,7 +23,6 @@ import { FormSelect } from '../../components/FormSelect';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { TradeButton } from '../../components/TradeButton';
-import { SendTxProgress } from '../../components/SendTxProgress';
 import { useApproveAndTrade } from '../../hooks/trading/useApproveAndTrade';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { weiTo18, weiTo4 } from '../../../utils/blockchain/math-helpers';
@@ -31,12 +30,19 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../hooks/lending/useLending_transactionLimit';
+import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
+import { maxMinusFee } from '../../../utils/helpers';
+import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
+import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
+import { TradeConfirmationDialog } from './TradeConfirmationDialog';
 
 const s = translations.marginTradeForm;
 
-interface Props {}
-
-export function MarginTradeForm(props: Props) {
+export function MarginTradeForm() {
   const isConnected = useCanInteract();
   const { tradingPair } = useSelector(selectTradingPage);
 
@@ -59,13 +65,13 @@ export function MarginTradeForm(props: Props) {
   ).map(item => ({ key: item, label: AssetsDictionary.get(item).symbol }));
 
   const color =
-    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--gold)';
+    position === TradingPosition.LONG ? 'var(--teal)' : 'var(--Muted_red)';
 
   useEffect(() => {
     setCollateral(pair.getCollateralForPosition(position)[0]);
   }, [position, pair]);
 
-  const { trade, loading, txHash, status } = useApproveAndTrade(
+  const { trade, ...tx } = useApproveAndTrade(
     pair,
     position,
     pair.getAssetForPosition(position),
@@ -86,7 +92,9 @@ export function MarginTradeForm(props: Props) {
   const valid = useIsAmountWithinLimits(
     weiAmount,
     '1',
-    maxAmount !== '0' ? min(tokenBalance, maxAmount) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(tokenBalance), bignumber(maxAmount))
+      : tokenBalance,
   );
 
   const { state } = useLocation();
@@ -101,6 +109,23 @@ export function MarginTradeForm(props: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
+
+  const { loanToken, collateralToken } = useTrading_resolvePairTokens(
+    pair,
+    position,
+    pair.getAssetForPosition(position),
+    collateral,
+  );
+
+  const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
+
+  const {
+    value: interestValue,
+    loading: interestLoading,
+  } = useBorrowInterestRate(loanToken, collateral, leverage, weiAmount);
+
+  const [liqPrice, setLiqPrice] = useState('0');
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <>
@@ -122,14 +147,13 @@ export function MarginTradeForm(props: Props) {
             leverage={leverage}
             position={position}
             labelColor={color}
+            onPriceChange={value => setLiqPrice(value)}
           />
         </div>
         <div className="col-6 pl-1">
           <BorrowInterestRate
-            asset={pair.getAssetForPosition(position)}
-            collateral={collateral}
-            weiAmount={weiAmount}
-            leverage={leverage}
+            value={interestValue}
+            loading={interestLoading}
             labelColor={color}
           />
         </div>
@@ -162,7 +186,9 @@ export function MarginTradeForm(props: Props) {
             >
               <AmountField
                 onChange={value => setAmount(value)}
-                onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+                onMaxClicked={() =>
+                  setAmount(weiTo18(maxMinusFee(tokenBalance, collateral)))
+                }
                 value={amount}
               />
             </FieldGroup>
@@ -174,21 +200,42 @@ export function MarginTradeForm(props: Props) {
           </div>
           <TradeButton
             text={t(s.buttons.submit)}
-            onClick={() => trade()}
-            disabled={!isConnected || loading || !valid}
+            onClick={() => setDialogOpen(true)}
+            hideIt={disableNewTrades}
+            disabled={
+              !isConnected ||
+              tx.loading ||
+              !valid ||
+              diff > 5 ||
+              disableNewTrades
+            }
             textColor={color}
-            loading={loading}
-          />
-        </div>
-        <div className="text-white">
-          <SendTxProgress
-            status={status}
-            txHash={txHash}
-            loading={loading}
-            position={position}
+            loading={tx.loading}
+            tooltip={
+              disableNewTrades ? (
+                <div className="mw-tooltip">{disableNewTradesText}</div>
+              ) : diff > 5 ? (
+                <>
+                  <p className="mb-1">{t(s.liquidity.line_1)}</p>
+                  <p className="mb-0">{t(s.liquidity.line_2)}</p>
+                </>
+              ) : undefined
+            }
           />
         </div>
       </div>
+      <TradeConfirmationDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onConfirm={() => trade()}
+        pair={pair}
+        collateral={collateral}
+        weiAmount={weiAmount}
+        position={position}
+        leverage={leverage}
+        liquidationPrice={liqPrice}
+        tx={tx}
+      />
     </>
   );
 }

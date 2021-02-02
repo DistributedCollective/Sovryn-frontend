@@ -1,6 +1,10 @@
 import { bignumber } from 'mathjs';
 import { Unit } from 'web3-utils';
 
+export const normalizeWei = (amount: string) => {
+  return roundToSmaller(amount, 0);
+};
+
 export const weiToFixed = (amount: any, decimals: number = 0): string => {
   return roundToSmaller(bignumber(fromWei(amount, 'ether')), decimals);
 };
@@ -64,4 +68,8 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
   }
 
   return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
+};
+
+export const trimZero = (amount: string) => {
+  return amount.replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1');
 };

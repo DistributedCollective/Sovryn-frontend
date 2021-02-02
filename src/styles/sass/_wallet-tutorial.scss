@@ -27,26 +27,17 @@ $scale: 0.8;
 
 .wallet-tutorial {
   &_container {
-    z-index: 100;
-    background-color: rgba(23, 23, 23, 0.5);
-    width: 100vw;
-    height: 100vh;
+
+
+    .back {
+      z-index: 20;
+      bottom: -50px;
+      right: 0;
+    }
+
     > div:first-of-type {
       width: 800px;
-      //   height: #{'min(900px, 80vh)'};
-      &:not(.left) {
-        @include position(45%, 50%);
-        transform: translate(-50%, -50%);
-      }
-
-      transition: 1.5s ease-in-out;
-      &.left {
-        @include position(5%, 2%);
-      }
-    }
-    .back {
-      @include position(7%, 82%);
-      z-index: 20;
+      transform: translate(-50%, -50%);
     }
     .title {
       color: var(--black);
@@ -56,7 +47,7 @@ $scale: 0.8;
       @include fade-in(2.5s);
       h1 {
         font-size: 20px;
-        font-family: 'Kalam';
+        font-family: 'Kalam', sans-serif;
         font-weight: bolder;
         transform: skewX(10deg);
       }
@@ -89,47 +80,47 @@ $scale: 0.8;
       @include fade-in(1.5s);
       // REFACTOR THIS TO A MIXIN
       &[class*='1'] {
-        @include armPosition(-20deg, 38deg)
+        @include armPosition(-20deg, 38deg);
       }
       &[class*='2'] {
-        @include armPosition(25deg, -15deg)
+        @include armPosition(25deg, -15deg);
       }
       &[class*='3'] {
-        @include armPosition(-18deg, -30deg)
+        @include armPosition(-18deg, -30deg);
       }
       &[class*='4'] {
-        @include armPosition(-23deg, 15deg)
+        @include armPosition(-23deg, 15deg);
       }
       &[class*='5'] {
-        @include armPosition(-35deg, -15deg)
+        @include armPosition(-35deg, -15deg);
       }
       &[class*='6'] {
-        @include armPosition(-30deg, -23deg)
+        @include armPosition(-30deg, -23deg);
       }
       &[class*='7'] {
-        @include armPosition(-100deg, -40deg)
+        @include armPosition(-100deg, -40deg);
       }
       &[class*='--qr'] {
         &[class*='1'] {
-          @include armPosition(50deg, -50deg)
+          @include armPosition(50deg, -50deg);
         }
         &[class*='2'] {
-          @include armPosition(-20deg, -30deg)
+          @include armPosition(-20deg, -30deg);
         }
         &[class*='3'] {
-          @include armPosition(-18deg, -30deg)
+          @include armPosition(-18deg, -30deg);
         }
         &[class*='4'] {
-          @include armPosition(-42deg, -2deg)
+          @include armPosition(-42deg, -2deg);
         }
         &[class*='5'] {
-          @include armPosition(-15deg, 18deg)
+          @include armPosition(-15deg, 18deg);
         }
         &[class*='6'] {
-          @include armPosition(-30deg, -23deg)
+          @include armPosition(-30deg, -23deg);
         }
         &[class*='7'] {
-          @include armPosition(-100deg, -40deg)
+          @include armPosition(-100deg, -40deg);
         }
       }
       .arm1 {
@@ -344,8 +335,72 @@ $scale: 0.8;
 // SCREEN 1
 
 .screen1 {
+
+  .wallet-holder {
+    position: absolute;
+    top: 180px;
+    left: 20px;
+    right: 20px;
+
+    & .wallet-block {
+      width: 200px;
+      height: 260px;
+      background: url('../../assets/images/tutorial/screen1_rectangle.svg') center center no-repeat;
+      background-size: 200px 260px;
+      padding: 20px;
+      margin: 0 20px;
+      display: block;
+      cursor: pointer;
+      flex-shrink: 0;
+      flex-grow: 0;
+      position: relative;
+
+      & .wallet-icon {
+        width: 130px;
+        height: 130px;
+        background: center center no-repeat;
+        background-size: 100% 100%;
+        transition: transform 0.3s;
+        margin-bottom: 30px;
+      }
+
+      &:hover {
+        & .wallet-icon {
+          transform: scale(1.2);
+        }
+        text-decoration: none;
+      }
+
+      & .wallet-title {
+        color: var(--black);
+        font-size: 16px;
+        text-align: center;
+        line-height: 23px;
+        font-weight: 300;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        .wallet-title, .wallet-icon {
+          opacity: 0.5;
+        }
+      }
+
+      & .coming-soon {
+        position: absolute;
+        top: -25%;
+        left: -25%;
+        z-index: 30;
+        background: url('../../assets/images/tutorial/coming_soon.svg') center center no-repeat;
+        background-size: 100% 100%;
+        width: 160px;
+        height: 160px;
+      }
+    }
+  }
+
   .badger1 {
-    @include position(9%, 31%);
+    @include position(7%, 31%);
     @include size(211px, 323px);
     @include fade-in(2s);
   }
@@ -355,12 +410,10 @@ $scale: 0.8;
     @include fade-in(2s);
     transform: rotate(45deg);
   }
-  .browser-wallet *,
-  .mobile-wallet * {
+  .browser-wallet * {
     cursor: pointer;
   }
-  .browser-icon,
-  .mobile-icon {
+  .browser-icon {
     &:hover {
       -webkit-animation: swing 1.3s ease;
       animation: swing 1.3s ease;
@@ -368,9 +421,28 @@ $scale: 0.8;
       animation-iteration-count: infinite;
     }
   }
-  .hardware-wallet {
-    * {
-      opacity: 0.7;
+  .hardware-wallet *,
+  .mobile-wallet * {
+    opacity: 0.7;
+  }
+  .mobile-wallet .coming-soon {
+    top: 5%;
+    left: 15%;
+    transform: scale(0.4);
+    z-index: 30;
+    opacity: 1;
+    img {
+      opacity: 1;
+    }
+  }
+  .hardware-wallet .coming-soon {
+    top: 5%;
+    left: 46%;
+    transform: scale(0.4);
+    z-index: 30;
+    opacity: 1;
+    img {
+      opacity: 1;
     }
   }
   .browser-icon {
@@ -459,45 +531,6 @@ $scale: 0.8;
   }
 }
 
-//WALLET CONNECT
-@media (min-width: 768px) {
-  #walletconnect-wrapper {
-    z-index: 100;
-    display: none;
-    &.showWalletConnect {
-      display: flex !important;
-    }
-    #walletconnect-qrcode-modal.walletconnect-qrcode__base {
-      background: rgba(37, 41, 46, 0) !important;
-      position: relative !important;
-      width: 400px;
-      height: 500px;
-      .walletconnect-modal__base {
-        transform: translateY(0) !important;
-        width: 180px !important;
-        height: 180px !important;
-        padding: 0 !important;
-        position: absolute !important;
-        margin: 0 auto;
-        left: 35%;
-        top: 22%;
-        box-shadow: none !important;
-      }
-      #walletconnect-qrcode-text {
-        display: none;
-      }
-      .walletconnect-modal__footer {
-        display: none;
-      }
-    }
-    #walletconnect-qrcode-modal > div > div:nth-child(2) {
-      margin-top: 12px;
-    }
-    #walletconnect-qrcode-modal > div > div.walletconnect-modal__header {
-      p {
-        display: none;
-      }
-    }
-  }
+.bp3-overlay-backdrop {
+  background: rgba(72, 72, 72, 0.92);
 }
-

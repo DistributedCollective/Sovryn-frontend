@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 import { media } from './media';
 
 export const GlobalStyle = createGlobalStyle`
@@ -14,7 +14,10 @@ export const GlobalStyle = createGlobalStyle`
     font-family: var(--primary-font);
     font-size: 12px;
     background-color: var(--background);
-    color: white;
+    color: #D9D9D9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 0.45px;
     ${media.lg`
     font-size: 16px;
     `}
@@ -83,6 +86,9 @@ input[type=number] {
     &-xs {
       font-size: 12px;
     }
+    &-sale-sm {
+      font-size: 14px;
+    }
   }
   button {
     text-transform: uppercase;
@@ -132,4 +138,10 @@ input[type=number] {
   .opaque {
     opacity: 0.2
   }
+  
+  .mw-tooltip {
+    max-width: 250px;
+    ${media.lg`max-width: 600px;`}
+  }
+  
 `;

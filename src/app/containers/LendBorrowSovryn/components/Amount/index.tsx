@@ -29,7 +29,7 @@ const Amount: React.FC<Props> = ({
   loadingLimit,
 }) => {
   return (
-    <div className="d-flex flex-row justify-content-between mb-3">
+    <div className="d-flex flex-row justify-content-between">
       <div className="d-flex flex-grow-1 flex-column">
         <FieldGroup
           label={

@@ -27,6 +27,11 @@ import { SendTxProgress } from '../../components/SendTxProgress';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
+import { maxMinusFee } from '../../../utils/helpers';
+import {
+  disableNewTrades,
+  disableNewTradesText,
+} from '../../../utils/classifiers';
 
 const s = translations.swapTradeForm;
 
@@ -34,11 +39,14 @@ function tokenAddress(asset: Asset) {
   return AssetsDictionary.get(asset).getTokenContractAddress();
 }
 
-interface Props {}
-
 const color = 'var(--teal)';
 
-export function SwapTradeForm(props: Props) {
+interface Option {
+  key: Asset;
+  label: string;
+}
+
+export function SwapTradeForm() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
 
@@ -50,14 +58,14 @@ export function SwapTradeForm(props: Props) {
 
   const weiAmount = useWeiAmount(amount);
 
-  const { value: tokens } = useCacheCallWithValue(
+  const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
     [],
   );
 
   const getOptions = useCallback(() => {
-    return tokens
+    return (tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         if (!asset) {
@@ -68,7 +76,7 @@ export function SwapTradeForm(props: Props) {
           label: asset.symbol,
         };
       })
-      .filter(item => item !== null);
+      .filter(item => item !== null) as unknown) as Option[];
   }, [tokens]);
 
   useEffect(() => {
@@ -135,7 +143,9 @@ export function SwapTradeForm(props: Props) {
           <div className="col-8">
             <AmountField
               onChange={value => setAmount(value)}
-              onMaxClicked={() => setAmount(weiTo18(tokenBalance))}
+              onMaxClicked={() =>
+                setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
+              }
               value={amount}
             />
           </div>
@@ -184,7 +194,9 @@ export function SwapTradeForm(props: Props) {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
+          hideIt={disableNewTrades}
           disabled={
+            disableNewTrades ||
             !isConnected ||
             tx.loading ||
             amount <= '0' ||
@@ -193,6 +205,11 @@ export function SwapTradeForm(props: Props) {
           }
           loading={tx.loading}
           textColor={color}
+          tooltip={
+            disableNewTrades ? (
+              <div className="mw-tooltip">{disableNewTradesText}</div>
+            ) : undefined
+          }
         />
       </div>
     </>

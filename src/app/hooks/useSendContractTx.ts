@@ -32,7 +32,11 @@ export interface SendTxResponse {
   loading: boolean;
 }
 
-export interface SendTxResponseInterface extends SendTxResponse {
+export interface ResetTxResponseInterface extends SendTxResponse {
+  reset: () => void;
+}
+
+export interface SendTxResponseInterface extends ResetTxResponseInterface {
   send: (
     args: any[],
     config?: TransactionConfig,
@@ -100,6 +104,10 @@ export function useSendContractTx(
     [account, contractName, methodName, dispatch],
   );
 
+  const reset = useCallback(() => {
+    setTxId(TxStatus.NONE);
+  }, []);
+
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {
       setTx(transactions[txId]);
@@ -110,6 +118,7 @@ export function useSendContractTx(
 
   return {
     send,
+    reset,
     txData: tx || null,
     txHash: tx?.transactionHash || '',
     status: tx ? tx.status : txId,

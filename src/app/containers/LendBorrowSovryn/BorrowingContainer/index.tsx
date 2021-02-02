@@ -29,6 +29,7 @@ import { actions } from '../slice';
 import { useCanInteract } from '../../../hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
 import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
+import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
 
 type Props = {
   currency: Asset;
@@ -120,7 +121,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const valid = useIsAmountWithinLimits(
     collateralTokenSent,
     '1',
-    maxAmount !== '0' ? min(maxAmount, tokenBalance) : tokenBalance,
+    maxAmount !== '0'
+      ? min(bignumber(maxAmount), bignumber(tokenBalance))
+      : tokenBalance,
   );
 
   const popoverContent = (
@@ -142,6 +145,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   useEffect(() => {
     dispatch(actions.changeBorrowAmount(amount));
   }, [amount, dispatch]);
+
+  const { isSufficient, availableAmount } = useLending_testAvailableSupply(
+    currency,
+    borrowAmount,
+  );
 
   return (
     <>
@@ -171,32 +179,37 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             </Popover>
           </div>
         )}
-        <div className="col-4">
-          <FieldGroup label={t(translations.lend.borrowingContainer.token)}>
-            <FormSelect
-              onChange={item => setTokenToCollarate(item.key)}
-              value={tokenToCollarate}
-              items={collaterals}
-            />
-          </FieldGroup>
-        </div>
-        <div className="col-8">
-          <FieldGroup
-            label={
-              <>
-                {t(translations.lend.borrowingContainer.collateralAmount)}{' '}
-                {maxAmount !== '0' && !loadingLimit && (
-                  <span className="text-muted">
-                    (Max: {weiTo4(maxAmount)} {tokenToCollarate})
-                  </span>
-                )}
-              </>
-            }
-          >
-            <DummyField>
-              {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
-            </DummyField>
-          </FieldGroup>
+        <div className="col-12">
+          <div className="row">
+            <div className="col-12 text-muted">
+              {
+                <>
+                  {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
+                  {maxAmount !== '0' && !loadingLimit && (
+                    <span className="text-muted">
+                      (Max: {weiTo4(maxAmount)} {tokenToCollarate})
+                    </span>
+                  )}
+                </>
+              }
+            </div>
+            <div className="col-4">
+              <FieldGroup label="">
+                <FormSelect
+                  onChange={item => setTokenToCollarate(item.key)}
+                  value={tokenToCollarate}
+                  items={collaterals}
+                />
+              </FieldGroup>
+            </div>
+            <div className="col-8">
+              <FieldGroup label="">
+                <DummyField>
+                  {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
+                </DummyField>
+              </FieldGroup>
+            </div>
+          </div>
         </div>
       </div>
       <SendTxProgress {...txStateBorrow} displayAbsolute={false} />
@@ -207,8 +220,30 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         <TradeButton
           text={t(translations.lend.borrowingContainer.borrow) + ` ${currency}`}
           onClick={handleSubmitBorrow}
-          disabled={!valid || !isConnected || txStateBorrow.loading}
+          disabled={
+            !valid || !isConnected || txStateBorrow.loading || !isSufficient
+          }
           loading={txStateBorrow.loading}
+          tooltip={
+            !isSufficient ? (
+              <>
+                <p className="mb-1">
+                  {t(translations.lendingPage.liquidity.borrow.line_1, {
+                    currency,
+                  })}
+                </p>
+                <p>
+                  {t(translations.lendingPage.liquidity.borrow.line_2, {
+                    currency,
+                    amount: weiTo4(availableAmount),
+                  })}
+                </p>
+                <p className="mb-0">
+                  {t(translations.lendingPage.liquidity.borrow.line_3)}
+                </p>
+              </>
+            ) : undefined
+          }
         />
       </div>
     </>

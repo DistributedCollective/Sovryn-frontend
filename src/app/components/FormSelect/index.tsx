@@ -7,9 +7,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import { Icon, MenuItem, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { isMobile } from '../../../utils/helpers';
 
 export type SelectItem = { key: any; label: any; [key: string]: any };
 
@@ -21,7 +22,10 @@ interface Props {
   loading: boolean;
   filterable: boolean;
   placeholder: string;
+  outerClasses?: string;
+  innerClasses?: string;
   onChange: (customer: SelectItem) => void;
+  inputFocus?: boolean;
 }
 
 export function FormSelect(props: Props) {
@@ -42,8 +46,11 @@ export function FormSelect(props: Props) {
 
   return (
     <Selector
-      className="w-100"
+      className={`w-100 ${props.outerClasses || ''}`}
       items={props.items}
+      inputProps={
+        isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
+      }
       noResults={
         <MenuItem
           disabled={true}
@@ -64,7 +71,7 @@ export function FormSelect(props: Props) {
         targetTagName: 'div',
       }}
     >
-      <StyledSelection active={!!selected}>
+      <StyledSelection active={!!selected} className={props.innerClasses}>
         <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
         <Icon icon="caret-down" />
       </StyledSelection>
@@ -76,15 +83,18 @@ FormSelect.defaultProps = {
   loading: false,
   filterable: true,
   placeholder: 'Select something',
+  innerClasses: 'border rounded',
 };
 
 interface StyledProps {
   active: boolean;
+  className?: string;
 }
 const StyledSelection = styled.button.attrs(_ => ({
   type: 'button',
-  className:
-    'border rounded px-2 py-2 d-flex flex-row justify-content-between w-100 align-items-center',
+  className: `px-2 py-2 d-flex flex-row justify-content-between w-100 align-items-center ${
+    _.className || ''
+  }`,
 }))`
   height: 48px;
   background-color: transparent;
@@ -95,6 +105,12 @@ const StyledSelection = styled.button.attrs(_ => ({
   letter-spacing: 0;
   text-transform: none;
   font-weight: normal;
+
+  /* reset border styles to suppress browser applied css */
+  border-width: 0px;
+  border-style: none;
+  border-color: none;
+  border-image: none;
 `;
 
 export const renderItem: ItemRenderer<SelectItem> = (

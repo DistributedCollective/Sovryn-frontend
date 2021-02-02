@@ -6,14 +6,18 @@
 
 import React, { useReducer, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../locales/i18n';
 import { useAccount } from '../../../hooks/useAccount';
 import { NotificationFormComponent } from '../NotificationFormComponent';
 import { EmailNotificationButton } from '../EmailNotificationButton';
 import { CustomDialog } from '../../CustomDialog';
 import { Sovryn } from '../../../../utils/sovryn';
+import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 
 export function NotificationForm() {
-  const mailSrv = process.env.REACT_APP_MAIL_SRV;
+  const { t } = useTranslation();
+  const mailSrv = backendUrl[currentChainId];
 
   const walletAddress = useAccount();
   const emptyUser = {
@@ -80,7 +84,7 @@ export function NotificationForm() {
     };
 
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
-    const route = formType === 'signup' ? 'addUser' : 'updateUser';
+    const route = formType === 'signup' ? '/addUser' : '/updateUser';
 
     Sovryn.getWriteWeb3()
       .eth.personal.sign(message, walletAddress, '')
@@ -105,7 +109,7 @@ export function NotificationForm() {
     setLoading(true);
     if (walletAddress) {
       axios
-        .post(mailSrv + 'getUser', {
+        .post(mailSrv + '/getUser', {
           walletAddress: walletAddress,
         })
         .then(res => {
@@ -148,14 +152,19 @@ export function NotificationForm() {
       <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
-            foundUser ? 'Update email settings' : 'Get email notifications'
+            foundUser
+              ? t(
+                  translations.notificationFormContainer
+                    .emailSettingsBtn_update,
+                )
+              : t(translations.notificationFormContainer.emailSettingsBtn_get)
           }`}
           onClick={() => setShowForm(true)}
         />
       </div>
       <CustomDialog
         show={showForm}
-        title="Email Notifications"
+        title={t(translations.notificationFormContainer.dialog.title)}
         onClose={() => resetForm()}
         content={
           <div>
@@ -176,13 +185,17 @@ export function NotificationForm() {
                 )}
                 {response === 'success' && !foundUser && (
                   <div>
-                    You will now receive email notifications about margin calls
-                    and liquidated positions.
+                    {t(translations.notificationFormContainer.updated_success)}
                   </div>
                 )}
 
                 {response === 'success' && foundUser && (
-                  <div>Your details have been updated.</div>
+                  <div>
+                    {t(
+                      translations.notificationFormContainer
+                        .updated_success_user,
+                    )}
+                  </div>
                 )}
               </div>
             )}

@@ -31,24 +31,24 @@ export function BorrowHistory(props: Props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Borrowed',
+        Header: t(translations.borrowHistory.table.headers.borrowAmount),
         accessor: 'borrowAmount',
         sortType: 'alphanumeric',
         sortable: true,
       },
       {
-        Header: 'Collateral',
+        Header: t(translations.borrowHistory.table.headers.collateralAmount),
         accessor: 'collateralAmount',
         sortType: 'alphanumeric',
         sortable: true,
       },
       {
-        Header: 'Interest APR',
+        Header: t(translations.borrowHistory.table.headers.interestAPR),
         accessor: 'interestAPR',
         sortable: true,
       },
       {
-        Header: 'Date',
+        Header: t(translations.borrowHistory.table.headers.timestamp),
         accessor: 'timestamp',
         sortable: true,
       },
@@ -57,7 +57,7 @@ export function BorrowHistory(props: Props) {
         accessor: 'actions',
       },
     ],
-    [],
+    [t],
   );
   const data = React.useMemo(() => {
     return events.map(item => {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { min } from 'mathjs';
+import { min, bignumber } from 'mathjs';
 
 import { Asset } from 'types/asset';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
@@ -20,6 +20,7 @@ import '../assets/index.scss';
 import { SendTxResponse } from '../../../hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { ButtonType } from '../types';
+import { maxMinusFee } from '../../../../utils/helpers';
 
 type Props = {
   currency: Asset;
@@ -49,9 +50,9 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   const onMaxChange = (type: ButtonType) => {
     let amount = '0';
     if (type === ButtonType.DEPOSIT) {
-      amount = userBalance;
+      amount = maxMinusFee(userBalance, currency);
       if (maxAmount !== '0') {
-        amount = min(userBalance, maxAmount);
+        amount = min(maxMinusFee(userBalance, currency), bignumber(maxAmount));
       }
     } else if (type === ButtonType.REDEEM) {
       amount = depositedBalance;

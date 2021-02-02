@@ -6,10 +6,10 @@
 import React, { useEffect, useState } from 'react';
 import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
+import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
 import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
-import { ActiveLoanLiquidation } from '../ActiveLoanLiquidation';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import {
@@ -17,29 +17,20 @@ import {
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
-import { Asset } from 'types/asset';
 import {
+  calculateLiquidation,
   formatAsBTCPrice,
-  stringToPercent,
   formatAsNumber,
-  calculateProfit,
+  stringToPercent,
 } from 'utils/display-text/format';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { usePriceFeeds_tradingPairRates } from '../../../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { CachedAssetRate } from '../../../../containers/WalletProvider/types';
+import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
+import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
 
 interface Props {
   data: any;
   activeTrades: boolean;
-}
-
-function getAssetPrice(source: Asset, target: Asset, items: CachedAssetRate[]) {
-  const item = items.find(
-    item => item.source === source && item.target === target,
-  );
-  return item?.value?.rate || '0';
 }
 
 export function ActiveLoanTableContainer(props: Props) {
@@ -50,10 +41,8 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
 
-  const items = usePriceFeeds_tradingPairRates();
-
   const data = React.useMemo(() => {
-    return props.data.map((item, i) => {
+    return props.data.map(item => {
       const currentMargin = formatAsNumber(item.currentMargin, 4);
       const startMargin = formatAsNumber(item.startMargin, 4);
       const currency = symbolByTokenAddress(item.collateralToken);
@@ -64,17 +53,9 @@ export function ActiveLoanTableContainer(props: Props) {
         loanAsset,
       );
       const startPrice = formatAsBTCPrice(item.startRate, isLong);
-      const currentRate = parseFloat(
-        fromWei(getAssetPrice(loanAsset, collateralAsset, items)),
-      );
-      const currentPrice = isLong ? 1 / currentRate : currentRate;
+      const leverage = leverageFromMargin(item.startMargin);
 
-      const profit = calculateProfit(
-        item.collateral,
-        item.startRate,
-        currentPrice,
-        isLong,
-      );
+      const amount = bignumber(item.collateral).div(leverage).toFixed(0);
 
       return {
         id: item.loanId,
@@ -87,10 +68,8 @@ export function ActiveLoanTableContainer(props: Props) {
             }`,
         currency: currency,
         icon: isLong ? 'LONG' : 'SHORT',
-        positionSize: formatAsNumber(item.collateral, 4),
-        positionInUSD: isLong
-          ? formatAsNumber(item.collateral, 4) * currentPrice
-          : formatAsNumber(item.collateral, 4),
+        positionSize: item.collateral,
+        positionInUSD: formatAsNumber(item.collateral, 4),
         positionCurrency: symbolByTokenAddress(item.collateralToken),
         currentMargin: currentMargin,
         startMargin: startMargin,
@@ -107,18 +86,30 @@ export function ActiveLoanTableContainer(props: Props) {
             timeZone: 'GMT',
           },
         ),
-        leverage: leverageFromMargin(item.startMargin),
-        profit:
-          isNaN(profit) || !isFinite(profit) || !currentPrice ? null : profit,
-        liquidationPrice: (
-          <ActiveLoanLiquidation
-            asset={loanAsset}
-            item={item}
-            currentPrice={currentPrice}
+        leverage,
+        profit: (
+          <CurrentPositionProfit
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            startPrice={startPrice}
             isLong={isLong}
           />
         ),
-        currentPrice,
+        liquidationPrice: calculateLiquidation(
+          isLong,
+          leverageFromMargin(item.startMargin),
+          item.maintenanceMargin,
+          item.startRate,
+        ),
+        currentPrice: (
+          <CurrentPositionPrice
+            source={loanAsset}
+            destination={collateralAsset}
+            amount={amount}
+            isLong={isLong}
+          />
+        ),
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
           <div className="d-flex flex-row flex-nowrap justify-content-end">
@@ -158,7 +149,7 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
       };
     });
-  }, [props.data, t, items]);
+  }, [props.data, t]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.

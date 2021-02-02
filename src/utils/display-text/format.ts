@@ -1,7 +1,18 @@
-import { weiToFixed, weiTo18 } from '../blockchain/math-helpers';
+import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
+}
+
+export function weiToNumberFormat(value: any, decimals: number = 0) {
+  return toNumberFormat(Number(fromWei(value || '0')), decimals);
+}
+
+export function toNumberFormat(value: number, decimals: number = 0) {
+  return value.toLocaleString('en-US', {
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function numberToUSD(value: number, decimals: number) {
@@ -11,8 +22,9 @@ export function numberToUSD(value: number, decimals: number) {
   return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
+    currencyDisplay: 'code',
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: 0,
   });
 }
 
@@ -35,7 +47,7 @@ export function formatAsBTC(value, currency) {
   return `${value.toLocaleString('en', {
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
-  })} 
+  })}
         ${currency}`;
 }
 
@@ -46,21 +58,42 @@ export function stringToPercent(value, decimals) {
   })} %`;
 }
 
+export function calculateLiquidation(
+  isLong: boolean,
+  leverage: number,
+  maintenanceStr: string,
+  startRateStr: string,
+): number {
+  const startRate: number = isLong
+    ? parseFloat(weiTo18(startRateStr))
+    : 1 / parseFloat(weiTo18(startRateStr));
+  const maintenanceMargin: number =
+    parseFloat(weiToFixed(maintenanceStr, 4)) / 100;
+
+  const liquidationPriceLong: number =
+    (startRate * leverage) / (leverage + 1 - maintenanceMargin * leverage);
+  const liquidationPriceShort: number =
+    (startRate * leverage) / (leverage - 1 + maintenanceMargin * leverage);
+
+  return isLong ? liquidationPriceLong : liquidationPriceShort;
+}
+
 export function calculateProfit(
   collateralStr: string,
   startRateStr: string,
-  currentPrice: number,
+  currentPriceBTC: number,
   isLong: boolean,
 ): number {
-  const collateral: number = parseFloat(weiTo18(collateralStr));
-  const startRate: number = parseFloat(weiTo18(startRateStr));
-  const collateralCurrentValue = isLong
-    ? collateral * currentPrice
-    : collateral;
-  const collateralStartValue = isLong
-    ? collateral * startRate
-    : collateral * (currentPrice * startRate);
-  return collateralCurrentValue - collateralStartValue;
+  const positionSize: number = parseFloat(weiTo18(collateralStr));
+  const startPrice: number = parseFloat(weiTo18(startRateStr));
+  const currentPriceUSD: number = 1 / currentPriceBTC;
+
+  const profitLong = positionSize * currentPriceBTC - positionSize * startPrice;
+  const profitShort =
+    (positionSize * currentPriceUSD - positionSize * startPrice) *
+    currentPriceBTC;
+
+  return isLong ? profitLong : profitShort;
 }
 
 // export function calculateProfit(

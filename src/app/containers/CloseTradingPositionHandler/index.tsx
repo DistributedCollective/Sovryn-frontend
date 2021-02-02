@@ -12,14 +12,20 @@ import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCloseWithSwap } from '../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../hooks/useAccount';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
-import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
+import {
+  assetByTokenAddress,
+  symbolByTokenAddress,
+} from '../../../utils/blockchain/contract-helpers';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
 import { Dialog } from '../Dialog/Loadable';
 import { DummyField } from '../../components/DummyField';
 import { AmountField } from '../AmountField';
-import { DialogButton } from '../../components/DialogButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { Asset } from '../../../types/asset';
+import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
+import { TradeButton } from '../../components/TradeButton';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   item: ActiveLoan;
@@ -41,7 +47,7 @@ export function CloseTradingPositionHandler(props: Props) {
   const receiver = useAccount();
 
   const [amount, setAmount] = useState<string>();
-  const [isCollateral, setIsCollateral] = useState(false);
+  const [isCollateral, setIsCollateral] = useState(true);
   const [options, setOptions] = useState(getOptions(props.item));
 
   useEffect(() => {
@@ -62,8 +68,6 @@ export function CloseTradingPositionHandler(props: Props) {
     '0x',
   );
 
-  console.log(isCollateral);
-
   const handleConfirmSwap = () => {
     send();
   };
@@ -72,18 +76,31 @@ export function CloseTradingPositionHandler(props: Props) {
 
   const withdrawAll = amount === weiTo18(props.item.collateral);
 
+  const { t } = useTranslation();
+  const test = useTrading_testRates(
+    assetByTokenAddress(
+      isCollateral ? props.item.loanToken : props.item.collateralToken,
+    ),
+    assetByTokenAddress(
+      isCollateral ? props.item.collateralToken : props.item.loanToken,
+    ),
+    weiAmount,
+  );
+
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="container position-relative">
         <h4 className="text-teal text-center mb-5 text-uppercase">
-          {!!props.item.loanId ? 'Liquidate position' : 'Position liquidated'}
+          {!!props.item.loanId
+            ? t(translations.closeTradingPositionHandler.title)
+            : t(translations.closeTradingPositionHandler.titleDone)}
         </h4>
 
         {!!props.item.loanId && (
           <>
             <div className="row d-flex flex-row flex-nowrap align-items-center">
               <div className="col-4 col-lg-4 flex-grow-0 text-muted">
-                Position size
+                {t(translations.closeTradingPositionHandler.positionSize)}
               </div>
               <div className="col flex-grow-1">
                 <DummyField>
@@ -97,7 +114,9 @@ export function CloseTradingPositionHandler(props: Props) {
               </div>
             </div>
 
-            <div className="mt-3 text-muted">Withdraw in</div>
+            <div className="mt-3 text-muted">
+              {t(translations.closeTradingPositionHandler.withdrawIn)}
+            </div>
             <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
               <div className="col-4 col-lg-4 flex-grow-0">
                 <FormSelect
@@ -123,11 +142,33 @@ export function CloseTradingPositionHandler(props: Props) {
         {!!props.item.loanId && (
           <div className="mt-4 d-flex flex-row justify-content-between">
             <AssetWalletBalance asset={Asset.BTC} />
-            <DialogButton
-              text={withdrawAll ? 'Close Position' : 'Close Amount'}
+            <TradeButton
+              text={
+                withdrawAll
+                  ? t(translations.closeTradingPositionHandler.closePosition)
+                  : t(translations.closeTradingPositionHandler.closeAmount)
+              }
               onClick={() => handleConfirmSwap()}
               disabled={rest.loading || !valid}
               loading={rest.loading}
+              tooltip={
+                test.diff > 5 ? (
+                  <>
+                    <p className="mb-1">
+                      {t(
+                        translations.closeTradingPositionHandler.liquidity
+                          .line_1,
+                      )}
+                    </p>
+                    <p className="mb-0">
+                      {t(
+                        translations.closeTradingPositionHandler.liquidity
+                          .line_2,
+                      )}
+                    </p>
+                  </>
+                ) : undefined
+              }
             />
           </div>
         )}

@@ -6,12 +6,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { bignumber } from 'mathjs';
-import { Button, ButtonGroup, Text } from '@blueprintjs/core';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { prettyTx } from '../../../utils/helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
@@ -21,8 +20,12 @@ import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { Asset } from '../../../types/asset';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { Skeleton } from '../PageSkeleton';
-import { numberToUSD } from '../../../utils/display-text/format';
-import { actions } from 'app/containers/FastBtcForm/slice';
+import {
+  numberToUSD,
+  weiToNumberFormat,
+} from '../../../utils/display-text/format';
+
+// import { actions } from 'app/containers/FastBtcForm/slice';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -32,18 +35,8 @@ export function UserAssets() {
   const assets = AssetsDictionary.list();
 
   return (
-    <section>
-      <div className="d-flex align-items-center justify-content-start mb-3">
-        <h2 className="flex-shrink-0 flex-grow-0 mr-3">
-          {t(translations.userAssets.meta.title)}
-        </h2>
-        {connected && account && (
-          <div>
-            <Text ellipsize>{prettyTx(account)}</Text>
-          </div>
-        )}
-      </div>
-      <div className="sovryn-border sovryn-table p-3 mb-5">
+    <>
+      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
         <table className="w-100">
           <thead>
             <tr>
@@ -84,7 +77,7 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-    </section>
+    </>
   );
 }
 
@@ -96,13 +89,13 @@ function AssetRow({ item }: AssetProps) {
   const { t } = useTranslation();
   const tokens = useAssetBalanceOf(item.asset);
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
 
   const [dollarValue, setDollarValue] = useState('0');
 
   useEffect(() => {
-    if (item.asset === Asset.USDT) {
+    if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       setDollarValue(tokens.value);
     } else {
       setDollarValue(
@@ -118,7 +111,7 @@ function AssetRow({ item }: AssetProps) {
     <tr key={item.asset}>
       <td>
         <img
-          className="d-inline"
+          className="d-inline mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}
@@ -127,7 +120,7 @@ function AssetRow({ item }: AssetProps) {
       </td>
       <td className="text-right">
         <LoadableValue
-          value={weiToFixed(tokens.value, 4)}
+          value={weiToNumberFormat(tokens.value, 4)}
           loading={tokens.loading}
         />
       </td>
@@ -139,34 +132,45 @@ function AssetRow({ item }: AssetProps) {
       </td>
       <td className="text-right d-none d-md-table-cell">
         <ButtonGroup>
-          {item.asset === Asset.BTC && (
+          {/*{item.asset === Asset.BTC && (*/}
+          {/*  <Button*/}
+          {/*    minimal*/}
+          {/*    text={t(translations.userAssets.actions.deposit)}*/}
+          {/*    className="text-gold"*/}
+          {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
+          {/*  />*/}
+          {/*)}*/}
+          {item.asset !== Asset.CSOV ? (
+            <>
+              <Button
+                minimal
+                text={t(translations.userAssets.actions.trade)}
+                className="text-gold button-round"
+                onClick={() =>
+                  history.push('/', {
+                    params: { asset: item.asset, action: 'trade' },
+                  })
+                }
+              />
+              <Button
+                minimal
+                text={t(translations.userAssets.actions.swap)}
+                className="text-gold button-round"
+                onClick={() =>
+                  history.push('/', {
+                    params: { asset: item.asset, action: 'swap' },
+                  })
+                }
+              />
+            </>
+          ) : (
             <Button
               minimal
-              text={t(translations.userAssets.actions.deposit)}
-              className="text-gold"
-              onClick={() => dispatch(actions.showDialog(true))}
+              text={t(translations.userAssets.actions.claimSov)}
+              disabled
+              className="text-gold button-round"
             />
           )}
-          <Button
-            minimal
-            text={t(translations.userAssets.actions.trade)}
-            className="text-gold"
-            onClick={() =>
-              history.push('/', {
-                params: { asset: item.asset, action: 'trade' },
-              })
-            }
-          />
-          <Button
-            minimal
-            text={t(translations.userAssets.actions.swap)}
-            className="text-gold"
-            onClick={() =>
-              history.push('/', {
-                params: { asset: item.asset, action: 'swap' },
-              })
-            }
-          />
         </ButtonGroup>
       </td>
     </tr>

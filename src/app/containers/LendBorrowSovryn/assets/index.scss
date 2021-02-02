@@ -1,10 +1,23 @@
+@import '../../../../styles/sass/custom-variables';
+
 .nav-item {
   text-transform: uppercase;
-  color: #656565;
-  font-weight: 600;
+  color: white;
+  font-weight: 100;
+  font-family: $font-family-montserrat;
 
+  &.active {
+    font-weight: 600;
+    text-decoration: none;
 
-  &:hover, &:active, &.active {
+    &:hover {
+      color: white;
+    }
+  }
+
+  &:hover,
+  &:active {
+
     color: #fec006;
     text-decoration: none;
   }
@@ -15,41 +28,29 @@
 }
 
 .engage-wallet {
-  background: #171717;
-  width: 125px;
-  height: 58px;
-  padding: 2px 20px;
+  background: #383838;
+  height: 40px;
+  padding: 0 0 0 2rem;
   border-radius: 8px;
-  font-weight: 600;
-  border-right: 5px solid #fff;
-  border-bottom: 5px solid #fff;
-  border-left: 1px solid #fff;
-  border-top: 1px solid #fff;
+  font-weight: 100;
+  font-size: 14px;
+  font-family: 'Work Sans', sans-serif;
+  min-width: 165px;
+  letter-spacing: 0;
 
-  &:hover, &:active, &:focus {
-    background: none !important;
-    color: #fec006 !important;
-    border-right: 5px solid #fec006;
-    border-bottom: 5px solid #fec006;
-    border-left: 1px solid #fec006;
-    border-top: 1px solid #fec006;
-  }
-}
+  .logout {
+    height: 40px;
+    padding: 12px 12px;
+    background: #686868;
+    cursor: pointer;
+    transition: background .3s;
+    color: #FEC004;
+    border-radius: 0 8px 8px 0;
+    margin-left: .7rem;
 
-.help {
-  color: #656565;
-  font-weight: 600;
-  font-size: 22px;
-  width: 58px;
-  height: 58px;
-  border: 2px solid #656565;
-  border-radius: 100%;
-  background: none;
-
-  &:hover, &:active, &:focus {
-    background: none !important;
-    border-color: #fec006 !important;
-    color: #fec006 !important;
+    &:hover {
+      background: rgba(0, 0, 0, 0.36);
+    }
   }
 }
 
@@ -59,31 +60,26 @@
   width: 100%;
   height: 100vh;
   overflow: auto;
-  background-image: url("img/bg@3x.png");
+  background-image: url('img/bg@3x.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 0 250%;
 }
+
 .currency-row-link {
   margin: 0;
   padding: 0;
 }
+
 .currency-container {
   border-color: var(--gray);
   will-change: border-color, height;
   transition: border-color 0.3s, height 0.3s;
+
   &__active {
     border-color: var(--white);
-    color: var(--white)!important;
+    color: var(--white) !important;
   }
-  //
-  //& h3 {
-  //  font-size: 30px;
-  //  font-weight: 600;
-  //  text-transform: uppercase;
-  //  margin: 0 0 0 18px;
-  //  padding: 0;
-  //}
 }
 
 .currency {
@@ -98,11 +94,11 @@
     padding: 0;
   }
 
-  & > span {
+  &>span {
     font-size: 14px;
   }
 
-  & > div {
+  &>div {
     width: max-content;
     justify-content: space-around;
     display: flex;
@@ -115,16 +111,17 @@
     font-size: 30px;
     font-weight: 300;
   }
-
 }
 
 .icon-btn {
   background: none !important;
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     //background: rgba(236, 236, 236, 0.23) !important;
     & .bp3-icon > svg:not([fill]) {
-      fill: #fec006
+      fill: #fec006;
     }
   }
 }
@@ -134,11 +131,13 @@
 }
 
 .tabs__green {
-  .nav-tabs, .nav-tabs .nav-item.show .nav-link {
+  .nav-tabs,
+  .nav-tabs .nav-item.show .nav-link {
     color: #88c6a3 !important;
   }
 
-  .nav-item:hover, .nav-item:active {
+  .nav-item:hover,
+  .nav-item:active {
     color: #88c6a3 !important;
   }
 
@@ -151,17 +150,21 @@
   background: none !important;
   font-size: 22px;
 
-  .nav-tabs, .nav-tabs .nav-item.show .nav-link {
+  .nav-tabs,
+  .nav-tabs .nav-item.show .nav-link {
     color: #f89b2b;
     background: #171717 !important;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       color: #495057;
       background: #171717 !important;
     }
   }
 
-  .nav-item:hover, .nav-item:active {
+  .nav-item:hover,
+  .nav-item:active {
     color: #f89b2b;
   }
 
@@ -171,9 +174,10 @@
     border-color: #dee2e6 #dee2e6 #dee2e6;
   }
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background: #171717 !important;
-
   }
 }
 
@@ -186,6 +190,7 @@
     width: 100%;
     font-weight: 700;
     font-size: 12px;
+
     @media screen and (min-width: 900px) {
       font-size: 22px;
     }
@@ -195,7 +200,6 @@
     background: #656565;
     border: 1px solid #656565;
   }
-
 }
 
 .withdraw-content {
@@ -209,7 +213,8 @@
   }
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   background: none;
 }
 
@@ -218,7 +223,7 @@
 }
 
 .nav-pills a {
-  color: #fff
+  color: #fff;
 }
 
 .lending-history-container {
@@ -268,15 +273,14 @@
     }
 
     & .cell {
-      & > th {
+      &>th {
         font-weight: 300;
         text-transform: uppercase;
         font-size: 12px;
-        color: #979797
+        color: #979797;
       }
     }
   }
-
 }
 
 .lending-history {
@@ -309,10 +313,6 @@
 }
 
 .account-balance-container {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
   & .account-balance {
     & p {
       font-size: 14px;
@@ -327,8 +327,8 @@
 .bp3-popover-borrow {
   padding: 20px;
   text-align: center;
+
   .bp3-numeric-input {
     margin: 10px 0;
   }
 }
-

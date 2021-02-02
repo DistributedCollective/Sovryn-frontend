@@ -31,7 +31,9 @@ export function TokenWalletBalance(props: Props) {
 
   return (
     <div>
-      <div className="font-weight-bold text-muted mb-2">{t(translations.assetWalletBalance.accountBalance)}</div>
+      <div className="font-weight-bold text-muted mb-2">
+        {t(translations.assetWalletBalance.accountBalance)}
+      </div>
       {!connected && <span>{t(translations.assetWalletBalance.connect)}</span>}
       {connected && (
         <div className="d-flex flex-row justify-content-start align-items-center">

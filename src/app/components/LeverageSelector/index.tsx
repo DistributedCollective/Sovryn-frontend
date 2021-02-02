@@ -5,7 +5,7 @@
  */
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components/macro';
 import { translations } from 'locales/i18n';
 
 interface Props {
@@ -32,7 +32,7 @@ export function LeverageSelector(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
-  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--gold)';
+  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--Muted_red)';
 
   const active = {
     color: color,
@@ -48,10 +48,10 @@ export function LeverageSelector(props: Props) {
 
   return (
     <div className="row d-flex flex-column flex-lg-row align-items-lg-center">
-      <div className="col-12 col-lg-3 font-weight-bold font-size-lg mb-3 mb-lg-0">
+      <div className="col-12 col-lg-4 font-weight-bold font-size-lg mb-3 mb-lg-0">
         <LeverageText>{t(translations.leverageSelector.text)}</LeverageText>
       </div>
-      <div className="col-12 col-lg-9">
+      <div className="col-12 col-lg-8">
         <div className="d-inline-flex justify-content-between align-items-start w-100">
           {items.map(item => (
             <ThemeProvider

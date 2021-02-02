@@ -9,7 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ExpandedRowMobile } from '../ExpandedRowMobile';
 import { Icon } from '@blueprintjs/core';
-import { formatAsBTC, numberToUSD } from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { LoadableValue } from '../../../LoadableValue';
 
 interface Props {
   data: Array<{
@@ -63,15 +64,17 @@ export function ActiveLoanTableMobile(props: Props) {
             )}
           </div>
           <div className="col-4 d-flex align-items-center">
-            {formatAsBTC(item.positionSize, item.currency)}
+            <LoadableValue
+              loading={false}
+              value={
+                <>
+                  {weiToNumberFormat(item.positionSize, 4)} {item.currency}
+                </>
+              }
+              tooltip={item.positionSize}
+            />
           </div>
-          <div
-            className={`col-3 d-flex align-items-center ${
-              item.profit > 0 ? 'text-green' : 'text-red'
-            }`}
-          >
-            {numberToUSD(item.profit, 2)}
-          </div>
+          <div className={`col-3 d-flex align-items-center`}>{item.profit}</div>
           <div
             className={`col-3 ${
               item.id === props.expandedId ? 'd-none' : 'd-block'

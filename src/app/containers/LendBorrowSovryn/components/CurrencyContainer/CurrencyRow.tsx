@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import clsx from 'clsx';
 import { Text } from '@blueprintjs/core';
 
@@ -41,7 +41,7 @@ const CurrencyRow: React.FC<Props> = ({
       </div>
       <div className="d-flex currency pt-0 w-lg-50 pt-lg-3">
         <div className="w-50 px-3">
-          <Text ellipsize className="text-muted">
+          <Text className="text-muted">
             {t(translations.lend.currency.lendArp)}:
           </Text>
           <NextSupplyInterestRate
@@ -50,7 +50,7 @@ const CurrencyRow: React.FC<Props> = ({
           />
         </div>
         <div className="w-50 px-3">
-          <Text ellipsize className="text-muted">
+          <Text className="text-muted">
             {t(translations.lend.currency.borrowArp)}:
           </Text>
           <NextBorrowInterestRate

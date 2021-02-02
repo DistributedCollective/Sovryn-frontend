@@ -1,7 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-import { media } from '../../../styles/media';
 
 interface Props {
   text: string;
@@ -24,18 +23,22 @@ const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
   className: 'btn',
 }))`
-  color: var(--primary);
-  background-color: var(--light-gray);
-  padding: 9px 11px;
-  border-radius: 8px;
-  font-size: 12px;
-  ${media.lg`font-size: 1rem;`}
+  color: var(--light-gray);
+  padding: 5px 10px;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 100;
+  font-family: Montserrat;
+  text-transform: none;
+  &:hover {
+    color: var(--LightGrey);
+  }
   ${(props: StyledProps) =>
     props.active &&
     css`
-      background-color: var(--white);
+      font-weight: 400;
       &:hover {
-        color: var(--primary);
+        color: var(--white);
       }
     `}
 `;

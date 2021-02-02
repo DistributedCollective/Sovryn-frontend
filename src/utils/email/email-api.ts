@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { Sovryn } from '../../utils/sovryn';
+import { Sovryn } from '../sovryn';
+import { backendUrl, currentChainId } from '../classifiers';
 
-const mailSrv = process.env.REACT_APP_MAIL_SRV;
+const mailSrv = backendUrl[currentChainId];
 
 //ADD USER
 export function createUser(newUser): string | void {
   axios
-    .post(mailSrv + 'addUser', newUser)
+    .post(mailSrv + '/addUser', newUser)
     .then(res => {
       console.log('data: ' + res.data);
       return 'success';
@@ -35,7 +36,7 @@ export function updateUser(
     .eth.personal.sign(message, walletAddress, '')
     .then(res =>
       axios
-        .post(mailSrv + 'updateUser', {
+        .post(mailSrv + '/updateUser', {
           ...updatedUser,
           signedMessage: res,
           message: message,
@@ -54,7 +55,7 @@ export function updateUser(
 //GET USER
 export function getUser(walletAddress, getUserSuccess, getUserError) {
   axios
-    .post(mailSrv + 'getUser', {
+    .post(mailSrv + '/getUser', {
       walletAddress: walletAddress,
     })
     .then(res => {
