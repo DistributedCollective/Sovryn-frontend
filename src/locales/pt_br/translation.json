@@ -64,7 +64,7 @@
       "profit": "Lucro / Prejuízo",
       "profitLabels": {
         "up": "Lucro de ",
-        "down": "Down by ",
+        "down": "Prejuízo de ",
         "noChange": "Sem mudança"
       }
     }
