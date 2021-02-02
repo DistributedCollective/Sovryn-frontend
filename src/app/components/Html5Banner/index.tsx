@@ -16,6 +16,33 @@ export function Html5Banner(props: Props) {
       className={classNames('mx-auto my-5 position-relative', styles.banner)}
     >
       <iframe
+        src="/banners/index290x90.html"
+        className={classNames(
+          styles.iframe,
+          styles.banner,
+          'd-none d-xs-block d-sm-none',
+        )}
+        title="Sale"
+      />
+      <iframe
+        src="/banners/index540x90.html"
+        className={classNames(
+          styles.iframe,
+          styles.banner,
+          'd-none d-sm-block d-md-none',
+        )}
+        title="Sale"
+      />
+      <iframe
+        src="/banners/index720x90.html"
+        className={classNames(
+          styles.iframe,
+          styles.banner,
+          'd-none d-md-block d-lg-none',
+        )}
+        title="Sale"
+      />
+      <iframe
         src="/banners/index960x90.html"
         className={classNames(
           styles.iframe,
