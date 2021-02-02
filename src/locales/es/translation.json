@@ -51,7 +51,19 @@
   "tradingHistoryPage": {
     "title": "Historial de Comercio",
     "auth": "Por Favor, Conecta y Autoriza tu Cartera.",
-    "noClosedTrades": "No posees ningún comercio cerrado."
+    "noClosedTrades": "No posees ningún comercio cerrado.",
+    "table": {
+      "positionSize": "Position Size",
+      "leverage": "Leverage",
+      "openPrice": "Open Price",
+      "closePrice": "Close Price",
+      "profit": "Profit",
+      "profitLabels": {
+        "up": "Up by ",
+        "down": "Down by ",
+        "noChange": "No change"
+      }
+    }
   },
   "fastBtcPage": {
     "meta": {

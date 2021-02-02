@@ -61,7 +61,12 @@
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "profitLabels": {
+        "up": "Up by ",
+        "down": "Down by ",
+        "noChange": "No change"
+      }
     }
   },
   "fastBtcPage": {
