@@ -63,7 +63,7 @@
       "closePrice": "Preço de fechamento",
       "profit": "Lucro / Prejuízo",
       "profitLabels": {
-        "up": "Up by ",
+        "up": "Lucro de ",
         "down": "Down by ",
         "noChange": "Sem mudança"
       }
