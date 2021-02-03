@@ -665,7 +665,8 @@
       "positionEntryPrice": "Approx. Position Entry Price",
       "entryPriceNote": "The price is taken from our AMM and as such is subject to flunctuations.",
       "tradeButtonLong": "Place Long",
-      "tradeButtonShort": "Place Short"
+      "tradeButtonShort": "Place Short",
+      "closeBtn": "Close Dialog"
     },
     "positions": {
       "long": "Long",

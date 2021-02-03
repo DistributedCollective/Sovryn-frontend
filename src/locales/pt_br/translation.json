@@ -664,7 +664,8 @@
       "positionEntryPrice": "Preço de entrada aproximado",
       "entryPriceNote": "O preço é fornecido pelo nosso AMM e, como tal, está sujeito a flutuações.",
       "tradeButtonLong": "Confirmar",
-      "tradeButtonShort": "Confirmar"
+      "tradeButtonShort": "Confirmar",
+      "closeBtn": "Fechar janela"
     },
     "positions": {
       "long": "Comprado",

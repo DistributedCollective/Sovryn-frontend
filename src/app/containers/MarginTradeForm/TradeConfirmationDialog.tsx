@@ -61,7 +61,10 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     default:
       return (
         <>
-          <CloseButton onClose={onClose} title="Close Dialog" />
+          <CloseButton
+            onClose={onClose}
+            title={t(translations.tradeConfirmationDialog.main.closeBtn)}
+          />
         </>
       );
     case TxStatus.PENDING_FOR_USER:
@@ -83,7 +86,10 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               </div>
             </div>
           </div>
-          <CloseButton onClose={onClose} title="Close Dialog" />
+          <CloseButton
+            onClose={onClose}
+            title={t(translations.tradeConfirmationDialog.main.closeBtn)}
+          />
         </>
       );
     case TxStatus.PENDING:
@@ -107,7 +113,10 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               )}
             </div>
           </div>
-          <CloseButton onClose={onClose} title="Close Dialog" />
+          <CloseButton
+            onClose={onClose}
+            title={t(translations.tradeConfirmationDialog.main.closeBtn)}
+          />
         </>
       );
     case TxStatus.CONFIRMED:
@@ -135,7 +144,10 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               )}
             </div>
           </div>
-          <CloseButton onClose={onClose} title="Close Dialog" />
+          <CloseButton
+            onClose={onClose}
+            title={t(translations.tradeConfirmationDialog.main.closeBtn)}
+          />
         </>
       );
     case TxStatus.FAILED:
@@ -169,7 +181,10 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               )}
             </div>
           </div>
-          <CloseButton onClose={onClose} title="Close Dialog" />
+          <CloseButton
+            onClose={onClose}
+            title={t(translations.tradeConfirmationDialog.main.closeBtn)}
+          />
         </>
       );
   }
