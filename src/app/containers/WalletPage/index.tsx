@@ -47,14 +47,14 @@ export function WalletPage() {
         <div className="d-flex flex-row align-items-center justify-content-start">
           <div className="mr-2 ml-2">
             <Tab
-              text="My assets"
+              text={t(translations.walletPage.tabs.userAssets)}
               active={activeAssets}
               onClick={() => setActiveAssets(true)}
             />
           </div>
           <div>
             <Tab
-              text="NFTS"
+              text={t(translations.walletPage.tabs.userNFTS)}
               active={!activeAssets}
               onClick={() => setActiveAssets(false)}
             />

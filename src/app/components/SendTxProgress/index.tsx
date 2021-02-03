@@ -47,6 +47,7 @@ export function SendTxProgress(props: Props) {
 
   useEffect(() => {
     props.status === TxStatus.PENDING_FOR_USER && setDisplay(true);
+    props.status === TxStatus.NONE && setDisplay(false);
   }, [props.status]);
 
   useEffect(() => {

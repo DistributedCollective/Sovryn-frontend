@@ -32,8 +32,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
-      "tradingHistory": "Concluídas"
+      "activeTrades": "Abertas",
+      "tradingHistory": "Fechadas"
     }
   },
   "tradingPage": {
@@ -55,13 +55,18 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações concluídas.",
+    "noClosedTrades": "Você não tem operações fechadas.",
     "table": {
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
-      "openPrice": "Preço inicial",
+      "openPrice": "Preço de entrada",
       "closePrice": "Preço de fechamento",
-      "profit": "Lucro / Prejuízo"
+      "profit": "Lucro / Prejuízo",
+      "profitLabels": {
+        "up": "Lucro de ",
+        "down": "Prejuízo de ",
+        "noChange": "Sem mudança"
+      }
     }
   },
   "fastBtcPage": {
@@ -101,7 +106,7 @@
       "currency": "Ativo",
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
-      "startPrice": "Preço inicial"
+      "startPrice": "Preço de entrada"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -178,7 +183,7 @@
       "profit": "Lucro / Prejuízo",
       "currentMargin": "Margem atual",
       "interestApr": "Juros anual",
-      "startPrice": "Preço inicial",
+      "startPrice": "Preço de entrada",
       "container": {
         "topUp": "Aumentar posição",
         "close": "Fechar posição"
@@ -188,7 +193,7 @@
   "expandedRowMobile": {
     "currentMargin": "Margem atual",
     "interestAPR": "Juros anual",
-    "startPrice": "Preço inicial",
+    "startPrice": "Preço de entrada",
     "leverage": "Alavancagem",
     "startMargin": "Margem inicial",
     "maintenanceMargin": "Margem de manutenção",
@@ -235,10 +240,32 @@
     "hintTwo": "Carregue sua carteira na",
     "hintThree": "e comece a usar!"
   },
-  "notificationFromContainer": {
+  "notificationFormContainer": {
     "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
     "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
-    "recieve": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn"
+    "receive": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
+    "emailSettingsBtn_update": "Configurações de e-mail",
+    "emailSettingsBtn_get": "Receba notificações por e-mail",
+    "dialog": {
+      "title": "Notificações de e-mail",
+      "form": {
+        "name": {
+          "label": "Nome / Apelido",
+          "info": "(obrigatório)",
+          "placeholder": "nome / apelido"
+        },
+        "email": {
+          "label": "Endereço de e-mail",
+          "info": "(obrigatório)",
+          "placeholder": "email@email.com"
+        }
+      },
+      "wantBtn": "enviar",
+      "updateBtn": "atualizar",
+      "error": "Ocorreu um erro ao enviar os dados"
+    },
+    "updated_success": "Você será notificado por e-mail sobre chamadas de margem e posições liquidadas.",
+    "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
     "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
@@ -279,6 +306,14 @@
   "activeUserBorrows": {
     "text": "Você não tem nenhum empréstimo ativo."
   },
+  "activeUserLoans": {
+    "text": "Você não tem nenhuma operação de compra ou venda aberta.",
+    "info": {
+      "line_1": "Precisa de ajuda? Leia nosso guia ",
+      "line_2": " de como usar a Sovryn",
+      "line_3": "."
+    }
+  },
   "topUpTradingPositionHandler": {
     "title": "Aumentar posição",
     "topUpAmount": "Aumentar quantidade",
@@ -306,7 +341,14 @@
     "walletNote": "Primeiro conecte sua carteira!"
   },
   "borrowHistory": {
-    "table": {},
+    "table": {
+      "headers": {
+        "borrowAmount": "Valor do empréstimo",
+        "collateralAmount": "Colateral",
+        "interestAPR": "Juros anual",
+        "timestamp": "Data"
+      }
+    },
     "no_items": "Seu histórico de empréstimos está vazio."
   },
   "rskConnectTutorial": {
@@ -510,6 +552,10 @@
     "meta": {
       "title": "Minha carteira",
       "description": "Informações sobre a carteira conectada"
+    },
+    "tabs": {
+      "userAssets": "Meus ativos",
+      "userNFTS": "NFTS"
     }
   },
   "salesPage": {
@@ -606,6 +652,66 @@
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
       "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
+    }
+  },
+  "tradeConfirmationDialog": {
+    "main": {
+      "positionSize": "Posição",
+      "positionLeverge": "Alavancagem",
+      "maintenanceMargin": "Margem de manutenção",
+      "estimatedLiquidationPrice": "Preço de liquidação aproximado",
+      "gasPriceNote": "Verifique se a taxa não excede 0.06 GWEI",
+      "positionEntryPrice": "Preço de entrada aproximado",
+      "entryPriceNote": "O preço é fornecido pelo nosso AMM e, como tal, está sujeito a flutuações.",
+      "tradeButtonLong": "Confirmar",
+      "tradeButtonShort": "Confirmar",
+      "closeBtn": "Fechar janela"
+    },
+    "positions": {
+      "long": "Comprado",
+      "short": "Vendido"
+    },
+    "tx": {
+      "pendingForUserTitle": "Revisão da transação",
+      "pendingForUserText": "Revise e confirme a transação na sua carteira"
+    }
+  },
+  "notifyDialog": {
+    "heading": "Cuidado",
+    "acceptTerms": "Eu li e compreendi que somente eu tenho responsabilidade pelos meus atos",
+    "salesBtn": "Eu entendo",
+    "generalAlert": {
+      "p1": "A SOVRYN é uma plataforma descentralizada de negociação e empréstimo de bitcoins, a primeira desse tipo!",
+      "p2": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+      "p3": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
+      "p4_1": "Visite nosso ",
+      "p4_2": "FAQ",
+      "p4_3": " se tiver dúvidas.",
+      "p5_1": "Se você é um usuário novato, veja o ",
+      "p5_2": "tutorial",
+      "p5_3": " e aprenda a usar a SOVRYN."
+    },
+    "metamaskAlert": {
+      "p1": "Verificamos que você tem a MetaMask instalada.",
+      "p2_1": "Existem problemas conhecidos ao usar a MetaMask com a SOVRYN. Sugerimos usar uma carteira de navegador como a ",
+      "p2_2": "Carteira Liquality",
+      "p2_3": " ou a ",
+      "p2_4": "Carteira Nifty",
+      "p2_5": ". Se você pretende continuar usando a MetaMask, esteja ciente do seguintes problemas:",
+      "knownErrors": {
+        "defaultGasPrice": {
+          "title": "A taxa padrão usada é muito alta",
+          "description": "defina a taxa manualmente para 0.06 GWEI"
+        },
+        "checksum": {
+          "title": "ETH checksum ao invés do RSK checksum",
+          "description": "use endereços em letras minúsculas para receber transações"
+        },
+        "price": {
+          "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC",
+          "description": "atulamente sugerimos você verificar o saldo dos seus ativos na aba minha carteira da Sovryn."
+        }
+      }
     }
   }
 }
