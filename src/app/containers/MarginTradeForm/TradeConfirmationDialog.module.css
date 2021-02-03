@@ -44,6 +44,7 @@
     font-weight: 400;
     line-height: 20px;
     margin-bottom: 25px;
+    text-align: center;
 }
 
 .button {
@@ -53,7 +54,6 @@
     margin: 0 auto;
     text-transform: uppercase;
     color: #ffffff;
-    border: 0;
     border-radius: 10px;
     font-size: 23px;
     font-weight: 700;
@@ -61,6 +61,8 @@
     letter-spacing: 0;
     padding: 15px;
     transition: opacity 0.3s;
+    background: transparent;
+    border: 1px solid #ffffff;
 }
 .button:hover {
     opacity: 0.9;
@@ -72,9 +74,11 @@
 
 .button_long {
     background-color: #4ECDC4;
+    border: 0;
 }
 .button_short {
     background-color: #cd4e4e;
+    border: 0;
 }
 
 .container {
@@ -113,3 +117,4 @@
     margin-bottom: 15px;
     text-align: center;
 }
+.txHash {}

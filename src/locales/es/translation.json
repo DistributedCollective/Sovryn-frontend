@@ -51,7 +51,19 @@
   "tradingHistoryPage": {
     "title": "Historial de Comercio",
     "auth": "Por Favor, Conecta y Autoriza tu Cartera.",
-    "noClosedTrades": "No posees ningún comercio cerrado."
+    "noClosedTrades": "No posees ningún comercio cerrado.",
+    "table": {
+      "positionSize": "Position Size",
+      "leverage": "Leverage",
+      "openPrice": "Open Price",
+      "closePrice": "Close Price",
+      "profit": "Profit",
+      "profitLabels": {
+        "up": "Up by ",
+        "down": "Down by ",
+        "noChange": "No change"
+      }
+    }
   },
   "fastBtcPage": {
     "meta": {
@@ -212,7 +224,7 @@
   "notificationFormContainer": {
     "want": "¿Deseas recibir notificaciones por correo sobre alertas de tus posiciones de margen y posiciones liquidadas?",
     "update": "Actualiza el nombre o la dirección de correo asociados con esta dirección de cartera.",
-    "recieve": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
+    "receive": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
     "emailSettingsBtn_update": "Update email settings",
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
@@ -229,6 +241,8 @@
           "placeholder": "email@email.com"
         }
       },
+      "wantBtn": "submit",
+      "updateBtn": "update",
       "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
@@ -436,6 +450,126 @@
     "tabs": {
       "userAssets": "My assets",
       "userNFTS": "NFTS"
+    }
+  },
+
+  "salesPage": {
+    "meta": {
+      "title": "Presale",
+      "description": "SOV Presale Page"
+    }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Connected Wallet"
+    },
+    "tableHeaders": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "dollarBalance": "Dollar Balance",
+      "action": "Action"
+    },
+    "actions": {
+      "deposit": "Top-Up",
+      "swap": "Swap",
+      "trade": "Trade",
+      "claimSov": "Claim SOV"
+    }
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Top-Up History"
+    },
+    "tableHeaders": {
+      "time": "Date/Time",
+      "asset": "Asset",
+      "amount": "Amount",
+      "fee": "Fee",
+      "depositTx": "BTC Deposit ID",
+      "transferTx": "RSK Relay Hash",
+      "txHash": "Transaction"
+    },
+    "emptyState": "History is empty.",
+    "walletHistory": "Wallet must be connected.",
+    "loading": "Loading..."
+  },
+  "lendingPage": {
+    "tabs": {
+      "deposit": "Deposit",
+      "redeem": "Redeem"
+    },
+    "amount": {
+      "deposit": "Amount to deposit",
+      "redeem": "Amount to redeem"
+    },
+    "tradeButtons": {
+      "deposit": "Deposit {{asset}}",
+      "redeem": "Redeem {{asset}}"
+    },
+    "liquidity": {
+      "redeem": {
+        "line_1": "There is not enough {{currency}} in lending pool.",
+        "line_2": "Currently pool has only {{amount}} {{currency}} available.",
+        "line_3": "Pool will increase once users will repay their loans."
+      },
+      "borrow": {
+        "line_1": "There is not enough {{currency}} in lending pool to borrow.",
+        "line_2": "Currently pool has only {{amount}} {{currency}} available.",
+        "line_3": "Pool will increase once users will repay their loans."
+      }
+    }
+  },
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Borrowed",
+      "collateralAmount": "Collateral",
+      "interestAPR": "Interest APR",
+      "endTimestamp": "Payback until"
+    },
+    "repayButton": "Repay"
+  },
+  "repayPositionForm": {
+    "title": "Repay Loan",
+    "labels": {
+      "borrowedAmount": "Borrowed amount",
+      "amountToRepay": "{{currency}} amount to repay",
+      "amountToReceive": "You will receive"
+    },
+    "button": "Repay"
+  },
+  "closeTradingPositionHandler": {
+    "title": "Liquidate position",
+    "titleDone": "Position liquidated",
+    "positionSize": "Position size",
+    "withdrawIn": "Withdraw in",
+    "returnAmount": "Return amount",
+    "closePosition": "Close Position",
+    "closeAmount": "Close Amount",
+    "liquidity": {
+      "line_1": "Liquidity is too low for closing position.",
+      "line_2": "Try another return asset or wait for arbiters to re-balance."
+    }
+  },
+  "tradeConfirmationDialog": {
+    "main": {
+      "positionSize": "Position Size",
+      "positionLeverge": "Position Leverage",
+      "maintenanceMargin": "Maintenance Margin",
+      "estimatedLiquidationPrice": "Est. Liquidation Price",
+      "gasPriceNote": "Make sure gas price does not exceed 0.06 GWEI",
+      "positionEntryPrice": "Approx. Position Entry Price",
+      "entryPriceNote": "The price is taken from our AMM and as such is subject to flunctuations.",
+      "tradeButtonLong": "Place Long",
+      "tradeButtonShort": "Place Short",
+      "closeBtn": "Close Dialog"
+    },
+    "positions": {
+      "long": "Long",
+      "short": "Short"
+    },
+    "tx": {
+      "pendingForUserTitle": "Review Transaction",
+      "pendingForUserText": "Review and confirm transaction in your wallet"
     }
   },
   "notifyDialog": {

@@ -61,7 +61,12 @@
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "profitLabels": {
+        "up": "Up by ",
+        "down": "Down by ",
+        "noChange": "No change"
+      }
     }
   },
   "fastBtcPage": {
@@ -238,7 +243,7 @@
   "notificationFormContainer": {
     "want": "Want to receive email notifications about margin calls and liquidated positions?",
     "update": "Update the name or email address associated with this wallet address.",
-    "recieve": "I would like to receive emails about updates and new features from Sovryn",
+    "receive": "I would like to receive emails about updates and new features from Sovryn",
     "emailSettingsBtn_update": "Update email settings",
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
@@ -255,6 +260,8 @@
           "placeholder": "email@email.com"
         }
       },
+      "wantBtn": "submit",
+      "updateBtn": "update",
       "error": "There was an error submitting your form"
     },
     "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
@@ -658,7 +665,8 @@
       "positionEntryPrice": "Approx. Position Entry Price",
       "entryPriceNote": "The price is taken from our AMM and as such is subject to flunctuations.",
       "tradeButtonLong": "Place Long",
-      "tradeButtonShort": "Place Short"
+      "tradeButtonShort": "Place Short",
+      "closeBtn": "Close Dialog"
     },
     "positions": {
       "long": "Long",

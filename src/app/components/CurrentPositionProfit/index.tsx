@@ -4,6 +4,8 @@
  *
  */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
@@ -19,6 +21,7 @@ interface Props {
 }
 
 export function CurrentPositionProfit(props: Props) {
+  const { t } = useTranslation();
   const { loading, price } = useCurrentPositionPrice(
     props.destination,
     props.source,
@@ -41,7 +44,7 @@ export function CurrentPositionProfit(props: Props) {
     if (diff > 0) {
       return (
         <>
-          Up by{' '}
+          {t(translations.tradingHistoryPage.table.profitLabels.up)}
           <span className="text-green">{toNumberFormat(diff * 100, 2)}</span>%
         </>
       );
@@ -49,7 +52,7 @@ export function CurrentPositionProfit(props: Props) {
     if (diff < 0) {
       return (
         <>
-          Down by{' '}
+          {t(translations.tradingHistoryPage.table.profitLabels.down)}
           <span className="text-red">
             {toNumberFormat(Math.abs(diff * 100), 2)}
           </span>
@@ -57,7 +60,9 @@ export function CurrentPositionProfit(props: Props) {
         </>
       );
     }
-    return <>No change</>;
+    return (
+      <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>
+    );
   }
   return (
     <>
