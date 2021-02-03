@@ -24,6 +24,7 @@ import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
+import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 
 // import { actions } from 'app/containers/FastBtcForm/slice';
 
@@ -164,12 +165,7 @@ function AssetRow({ item }: AssetProps) {
               />
             </>
           ) : (
-            <Button
-              minimal
-              text={t(translations.userAssets.actions.claimSov)}
-              disabled
-              className="text-gold button-round"
-            />
+            <CSovActions amount={tokens.value} />
           )}
         </ButtonGroup>
       </td>
