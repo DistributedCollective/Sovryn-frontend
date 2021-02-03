@@ -137,7 +137,7 @@ export function LiquidityRemoveContainer(props: Props) {
                     {weiTo4(targetValue[0])} {sourceToken}
                   </Text>
                 }
-                tooltip={targetValue[0]}
+                tooltip={weiTo18(targetValue[0])}
               />
             </div>
             <div className="small">
@@ -153,7 +153,7 @@ export function LiquidityRemoveContainer(props: Props) {
                     {weiTo4(targetValue[1])} {sourceToken}
                   </Text>
                 }
-                tooltip={targetValue[1]}
+                tooltip={weiTo18(targetValue[1])}
               />
             </div>
             <div className="small">{t(translations.liquidity.fee)}</div>
