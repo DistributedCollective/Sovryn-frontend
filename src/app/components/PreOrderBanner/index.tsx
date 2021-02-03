@@ -4,15 +4,19 @@
  *
  */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styles from './index.module.css';
 
 export function PreOrderBanner() {
   return (
     <div className="row mb-5">
-      <Link to="/genesis" className={styles.banner}>
+      <a
+        href="https://token.sovryn.app"
+        className={styles.banner}
+        rel="noreferrer noopener"
+        target="_blank"
+      >
         <span className="sr-only">Join Wait-list</span>
-      </Link>
+      </a>
     </div>
   );
 }
