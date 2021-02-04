@@ -17,11 +17,7 @@ import { TradeButton } from '../../components/TradeButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-import {
-  normalizeWei,
-  weiTo18,
-  weiTo4,
-} from '../../../utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';
 import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAndCloseWithDeposit';
 import { LoadableValue } from '../../components/LoadableValue';
@@ -111,7 +107,7 @@ export function RepayPositionForm({ loan }: Props) {
           <LoadableValue
             loading={false}
             value={weiTo4(receiveAmount)}
-            tooltip={<>{normalizeWei(receiveAmount)}</>}
+            tooltip={<>{weiTo18(receiveAmount)}</>}
           />{' '}
           {collateralAsset}
         </small>

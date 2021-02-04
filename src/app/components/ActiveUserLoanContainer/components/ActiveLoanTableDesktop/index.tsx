@@ -11,6 +11,7 @@ import {
   faLongArrowAltUp,
   faLongArrowAltDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { LoadableValue } from '../../../LoadableValue';
@@ -146,7 +147,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                           {item.currency}
                         </>
                       }
-                      tooltip={item.positionSize}
+                      tooltip={weiTo18(item.positionSize)}
                     />
                   </td>
                   <td>
