@@ -24,6 +24,7 @@ import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
 import { SalesPage } from './containers/SalesPage';
+import { MarginTradePage } from './containers/MarginTradePage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -72,6 +73,7 @@ export function App() {
       </Helmet>
       <WalletProvider>
         <Switch>
+          <Route exact path="/trade" component={MarginTradePage} />
           <Route exact path="/" component={TradingPage} />
           <Route exact path="/lend" component={LendBorrowSovryn} />
           <Route exact path="/stats" component={StatsPage} />

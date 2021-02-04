@@ -16,7 +16,7 @@ export class TradingPairDictionary {
     [
       TradingPairType.BTC_USDT,
       new TradingPair(
-        'BTC',
+        'BTCUSD',
         // asset
         Asset.BTC,
         'Bitfinex:BTCUSD',
@@ -31,7 +31,7 @@ export class TradingPairDictionary {
     [
       TradingPairType.BPRO_USDT,
       new TradingPair(
-        'BPRO',
+        'BPROUSD',
         // asset
         Asset.BPRO,
         'Bitfinex:BTCUSD',

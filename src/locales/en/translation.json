@@ -714,5 +714,24 @@
         }
       }
     }
+  },
+  "marginTradePage": {
+    "meta": {
+      "title": "Margin Trade",
+      "description": "Trade with margin"
+    },
+    "tradeForm": {
+      "labels": {
+        "pair": "Pair:",
+        "asset": "Asset:",
+        "leverage": "Leverage:"
+      }
+    }
+  },
+  "form": {
+    "select": {
+      "noResults": "No results",
+      "placeholder": "Select item"
+    }
   }
 }
