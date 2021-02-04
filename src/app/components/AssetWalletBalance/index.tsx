@@ -6,7 +6,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Asset } from 'types/asset';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
@@ -41,7 +41,7 @@ export function AssetWalletBalance(props: Props) {
             <LoadableValue
               value={weiToFixed(value, 4)}
               loading={loading}
-              tooltip={<>{value}</>}
+              tooltip={<>{weiTo18(value)}</>}
             />
           </span>
         </div>
