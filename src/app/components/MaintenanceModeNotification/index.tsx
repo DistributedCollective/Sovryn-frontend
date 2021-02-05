@@ -20,11 +20,7 @@ export function MaintenanceModeNotification(props: Props) {
         <div className="ml-3 mr-4">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
-        <div>
-          We have temporarily put deposits and trading on hold. This will give
-          the team time to improve warnings if liquidity is low. Thank you all
-          for your feedback and helping improve the system!
-        </div>
+        <div>Platform is under maintenance. Some features may be disabled.</div>
       </div>
     </div>
   );
