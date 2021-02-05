@@ -125,6 +125,11 @@ export const contracts = {
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
+  CSOV2_token: {
+    address: '0x1dA260149ffee6fD4443590ee58F65b8dC2106B9',
+    abi: CSOVTokenAbi,
+    blockNumber: 1218833,
+  },
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {
       whitelistToken: {
