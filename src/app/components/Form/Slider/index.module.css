@@ -1,0 +1,11 @@
+.slider {
+
+}
+
+.slider > .bp3-slider-track, .slider .bp3-slider-progress {
+    height: 20px;
+}
+
+.slider .bp3-slider-axis {
+    padding-top: 20px;
+}
