@@ -13,7 +13,6 @@ import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
-import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { LoadableValue } from '../LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
@@ -24,8 +23,9 @@ import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-
-// import { actions } from 'app/containers/FastBtcForm/slice';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { Sovryn } from '../../../utils/sovryn';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -87,25 +87,56 @@ interface AssetProps {
 
 function AssetRow({ item }: AssetProps) {
   const { t } = useTranslation();
-  const tokens = useAssetBalanceOf(item.asset);
+  const account = useAccount();
+  const [loading, setLoading] = useState(true);
+  const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
-  // const dispatch = useDispatch();
   const history = useHistory();
 
   const [dollarValue, setDollarValue] = useState('0');
 
   useEffect(() => {
+    const get = async () => {
+      setLoading(true);
+      let tokenA: string = '0';
+      if (item.asset === Asset.BTC) {
+        tokenA = await Sovryn.getWeb3().eth.getBalance(account);
+      } else {
+        tokenA = await contractReader.call(
+          getTokenContractName(item.asset),
+          'balanceOf',
+          [account],
+        );
+      }
+
+      let tokenB: string = '0';
+      if (item.asset === Asset.CSOV) {
+        tokenB = await contractReader.call('CSOV2_token', 'balanceOf', [
+          account,
+        ]);
+      }
+      setTokens(
+        bignumber(tokenA)
+          .add(tokenB || '0')
+          .toFixed(0),
+      );
+      setLoading(false);
+    };
+    get().catch();
+  }, [item.asset, account]);
+
+  useEffect(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
-      setDollarValue(tokens.value);
+      setDollarValue(tokens);
     } else {
       setDollarValue(
-        bignumber(tokens.value)
+        bignumber(tokens)
           .mul(dollars.value)
           .div(10 ** item.decimals)
           .toFixed(0),
       );
     }
-  }, [dollars.value, tokens.value, item.asset, item.decimals]);
+  }, [dollars.value, tokens, item.asset, item.decimals]);
 
   return (
     <tr key={item.asset}>
@@ -119,10 +150,7 @@ function AssetRow({ item }: AssetProps) {
         {item.symbol}
       </td>
       <td className="text-right">
-        <LoadableValue
-          value={weiToNumberFormat(tokens.value, 4)}
-          loading={tokens.loading}
-        />
+        <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
       <td className="text-right d-none d-md-table-cell">
         <LoadableValue
