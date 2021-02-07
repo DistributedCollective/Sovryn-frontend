@@ -36,6 +36,11 @@ export const rpcNodes = {
   31: 'https://testnet2.sovryn.app/rpc',
 };
 
+export const rpcWalletURLs = {
+  30: 'https://public-node.rsk.co',
+  31: 'https://public-node.testnet.rsk.co',
+};
+
 export const readNodes = {
   30: 'wss://mainnet2.sovryn.app/ws',
   31: 'wss://testnet2.sovryn.app/ws',
