@@ -15,6 +15,12 @@ import crater from 'assets/images/tutorial/crater.svg';
 import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import {
+  blockExplorers,
+  currentChainId,
+  networkNames,
+  rpcWalletURLs,
+} from '../../../../../utils/classifiers';
 
 interface Props {
   onNetwork: boolean;
@@ -102,16 +108,16 @@ export function Screen2(props: Props) {
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.network)}
               </div>
-              <div className="col-7">RSK Mainnet</div>
+              <div className="col-7">{networkNames[currentChainId]}</div>
             </div>
             <div className="row">
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
               <div className="col-7">
-                <CopyToClipboard text="https://public-node.rsk.co">
+                <CopyToClipboard text={rpcWalletURLs[currentChainId]}>
                   <span className="cursor-pointer">
-                    https://public-node.rsk.co <Icon icon="duplicate" />
+                    {rpcWalletURLs[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
@@ -120,7 +126,7 @@ export function Screen2(props: Props) {
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.chain_Id)}
               </div>
-              <div className="col-7">30</div>
+              <div className="col-7">{currentChainId}</div>
             </div>
             <div className="row">
               <div className="col-5">
@@ -133,9 +139,9 @@ export function Screen2(props: Props) {
                 {t(translations.rskConnectTutorial.input_settings.explorer_url)}
               </div>
               <div className="col-7">
-                <CopyToClipboard text="https://explorer.rsk.co">
+                <CopyToClipboard text={blockExplorers[currentChainId]}>
                   <span className="cursor-pointer">
-                    https://explorer.rsk.co <Icon icon="duplicate" />
+                    {blockExplorers[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
