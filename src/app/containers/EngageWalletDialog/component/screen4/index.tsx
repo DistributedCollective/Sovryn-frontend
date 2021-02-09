@@ -19,7 +19,7 @@ import {
   blockExplorers,
   currentChainId,
   networkNames,
-  rpcWalletURLs,
+  rpcNodes,
 } from '../../../../../utils/classifiers';
 
 export function Screen4(props) {
@@ -83,11 +83,11 @@ export function Screen4(props) {
               </div>
               <div className="col-7">
                 <CopyToClipboard
-                  text={rpcWalletURLs[currentChainId]}
+                  text={rpcNodes[currentChainId]}
                   onCopy={() => alert('Copied!')}
                 >
                   <span className="cursor-pointer">
-                    {rpcWalletURLs[currentChainId]} <Icon icon="duplicate" />
+                    {rpcNodes[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
