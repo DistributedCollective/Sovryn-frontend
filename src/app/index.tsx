@@ -23,7 +23,6 @@ import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
-import { SalesPage } from './containers/SalesPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
