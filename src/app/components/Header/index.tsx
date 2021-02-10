@@ -37,6 +37,8 @@ export function Header() {
     top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
+    overflow-y: auto;
     transition: transform 0.3s ease-in-out;
     z-index: 9;
     width: 100%;
@@ -147,6 +149,7 @@ export function Header() {
   useEffect(() => {
     const body = document.body;
     if (open) {
+      window.scrollTo(0, 0);
       body.classList.add('overflow-hidden');
     } else {
       body.classList.remove('overflow-hidden');
