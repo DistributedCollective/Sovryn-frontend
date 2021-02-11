@@ -155,6 +155,7 @@ export function SwapTradeForm() {
               placeholder={t(s.fields.currency_placeholder)}
               value={sourceToken}
               items={sourceOptions}
+              isItemDisabled={targetToken}
             />
           </div>
         </div>
@@ -180,6 +181,7 @@ export function SwapTradeForm() {
               placeholder={t(s.fields.currency_placeholder)}
               value={targetToken}
               items={targetOptions}
+              isItemDisabled={sourceToken}
             />
           </div>
         </div>
