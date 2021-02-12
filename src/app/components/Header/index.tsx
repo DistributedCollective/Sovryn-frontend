@@ -148,14 +148,18 @@ export function Header() {
 
   useEffect(() => {
     const body = document.body;
+    const root = document.getElementById('root');
     if (open) {
       window.scrollTo(0, 0);
       body.classList.add('overflow-hidden');
+      root?.classList.add('openedMenu');
     } else {
       body.classList.remove('overflow-hidden');
+      root?.classList.remove('openedMenu');
     }
     return () => {
       body.classList.remove('overflow-hidden');
+      root?.classList.remove('openedMenu');
     };
   }, [open]);
 
