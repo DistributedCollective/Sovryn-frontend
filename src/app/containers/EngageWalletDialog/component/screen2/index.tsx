@@ -19,7 +19,7 @@ import {
   blockExplorers,
   currentChainId,
   networkNames,
-  rpcWalletURLs,
+  rpcNodes,
 } from '../../../../../utils/classifiers';
 
 interface Props {
@@ -115,9 +115,9 @@ export function Screen2(props: Props) {
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
               <div className="col-7">
-                <CopyToClipboard text={rpcWalletURLs[currentChainId]}>
+                <CopyToClipboard text={rpcNodes[currentChainId]}>
                   <span className="cursor-pointer">
-                    {rpcWalletURLs[currentChainId]} <Icon icon="duplicate" />
+                    {rpcNodes[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
