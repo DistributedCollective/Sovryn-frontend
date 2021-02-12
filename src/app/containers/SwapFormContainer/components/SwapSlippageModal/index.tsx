@@ -13,9 +13,7 @@ interface Props {
 }
 
 export function SwapSlippageModal(props: Props) {
-  const closing = useCallback(() => {
-    // props.tx.reset();
-  }, [props]);
+  const closing = useCallback(() => {}, []);
 
   return (
     <Overlay

@@ -104,10 +104,7 @@ export function SwapFormContainer() {
     tokenAddress(targetToken),
   );
 
-  const { value: rateByPath, loading } = useSwapNetwork_rateByPath(
-    path,
-    weiAmount,
-  );
+  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
 
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
     path,
