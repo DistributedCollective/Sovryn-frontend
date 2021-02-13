@@ -64,15 +64,18 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="text-center small text-lightGrey">
-          <a
-            href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {commitHash}
-          </a>
-        </div>
+        {commitHash && (
+          <div className="text-center small text-lightGrey">
+            build{' '}
+            <a
+              href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {commitHash.substr(0, 7)}
+            </a>
+          </div>
+        )}
         {hasMatomo && (
           <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
             <iframe
