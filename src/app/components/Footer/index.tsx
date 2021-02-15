@@ -67,7 +67,7 @@ export function Footer() {
           </div>
         </div>
         {commitHash && (
-          <div className="small text-whitefont-family-montserrat">
+          <div className="small text-white font-family-montserrat">
             {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
