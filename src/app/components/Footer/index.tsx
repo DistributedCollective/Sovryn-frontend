@@ -6,8 +6,10 @@
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function Footer() {
+  const { t } = useTranslation();
   const [hasMatomo, setHasMatomo] = useState(false);
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
@@ -65,12 +67,13 @@ export function Footer() {
           </div>
         </div>
         {commitHash && (
-          <div className="text-center small text-lightGrey">
-            build{' '}
+          <div className="small text-whitefont-family-montserrat">
+            {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="font-weight-normal"
             >
               {commitHash.substr(0, 7)}
             </a>
