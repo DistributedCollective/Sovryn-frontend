@@ -71,6 +71,8 @@ export const gasLimit = {
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
   [TxType.SALE_BUY_SOV]: 260000,
+  [TxType.SOV_REIMBURSE]: 100000,
+  [TxType.SOV_CONVERT]: 2700000,
 };
 
 export const SHOW_MODAL = 'SHOW_MODAL';

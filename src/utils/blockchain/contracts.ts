@@ -18,6 +18,7 @@ import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingRegistryAbi from './abi/VestingRegistry.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -120,12 +121,21 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vestingRegistry: {
+    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
+    abi: VestingRegistryAbi,
+    blockNumber: 1218836,
+  },
   CSOV_token: {
     address: '0x0106F2fFBF6A4f5DEcE323d20E16E2037E732790',
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
-
+  CSOV2_token: {
+    address: '0x7f7Dcf9DF951C4A332740e9a125720DA242A34ff',
+    abi: CSOVTokenAbi,
+    blockNumber: 1218833,
+  },
   // end non-mainnet //
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {

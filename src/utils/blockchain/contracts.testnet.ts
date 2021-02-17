@@ -18,6 +18,7 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingRegistryAbi from './abi/VestingRegistry.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -120,7 +121,17 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vestingRegistry: {
+    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    abi: VestingRegistryAbi,
+    blockNumber: 1218836,
+  },
   CSOV_token: {
+    address: '0x75bbf7f4d77777730eE35b94881B898113a93124',
+    abi: CSOVTokenAbi,
+    blockNumber: 1218833,
+  },
+  CSOV2_token: {
     address: '0x1dA260149ffee6fD4443590ee58F65b8dC2106B9',
     abi: CSOVTokenAbi,
     blockNumber: 1218833,

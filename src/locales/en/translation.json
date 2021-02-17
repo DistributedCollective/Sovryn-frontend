@@ -579,7 +579,8 @@
       "deposit": "Top-Up",
       "swap": "Swap",
       "trade": "Trade",
-      "claimSov": "Claim SOV"
+      "claimSov": "Claim SOV",
+      "redeemRBTC": "Redeem rBTC"
     }
   },
   "topUpHistory": {
