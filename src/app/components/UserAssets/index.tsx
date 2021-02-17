@@ -26,6 +26,7 @@ import {
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
+import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -192,12 +193,7 @@ function AssetRow({ item }: AssetProps) {
               />
             </>
           ) : (
-            <Button
-              minimal
-              text={t(translations.userAssets.actions.claimSov)}
-              disabled
-              className="text-gold button-round"
-            />
+            <CSovActions amount={tokens} />
           )}
         </ButtonGroup>
       </td>
