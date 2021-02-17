@@ -13,6 +13,7 @@ import { TxType } from '../../../../store/global/transactions-store/types';
 import { SendTxProgress } from '../../../components/SendTxProgress';
 import { useAccount } from '../../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { gasLimit } from '../../../../utils/classifiers';
 
 interface Props {
   isOpen: boolean;
@@ -33,7 +34,11 @@ export function RedeemDialog(props: Props) {
   );
   const { send, ...tx } = useSendContractTx('vestingRegistry', 'reImburse');
   const handleSubmit = () =>
-    send([], { from: account }, { type: TxType.SOV_REIMBURSE });
+    send(
+      [],
+      { from: account, gas: gasLimit[TxType.SOV_REIMBURSE] },
+      { type: TxType.SOV_REIMBURSE },
+    );
 
   return (
     <>

@@ -12,6 +12,7 @@ import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 import { useSendContractTx } from '../../../hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { SendTxProgress } from '../../../components/SendTxProgress';
+import { gasLimit } from '../../../../utils/classifiers';
 
 interface Props {
   isOpen: boolean;
@@ -32,7 +33,11 @@ export function ClaimDialog(props: Props) {
     'exchangeAllCSOV',
   );
   const handleSubmit = () =>
-    send([], { from: account }, { type: TxType.SOV_REIMBURSE });
+    send(
+      [],
+      { from: account, gas: gasLimit[TxType.SOV_CONVERT] },
+      { type: TxType.SOV_CONVERT },
+    );
   return (
     <>
       <Overlay
@@ -108,7 +113,7 @@ export function ClaimDialog(props: Props) {
                   onClick={handleSubmit}
                   className="mr-3 w-100"
                   loading={tx.loading || loading}
-                  disabled={tx.loading || loading || processed}
+                  // disabled={tx.loading || loading || processed}
                 />
                 <Button
                   text="Cancel"
