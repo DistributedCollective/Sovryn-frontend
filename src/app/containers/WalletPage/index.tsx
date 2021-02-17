@@ -33,7 +33,7 @@ export function WalletPage() {
         />
       </Helmet>
       <Header />
-      <div className="container">
+      <div className="container" style={{ maxWidth: 1200 }}>
         <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
           <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
             {t(translations.userAssets.meta.title)}
