@@ -23,7 +23,6 @@ import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
-import { SalesPage } from './containers/SalesPage';
 import { MarginTradePage } from './containers/MarginTradePage/Loadable';
 
 const title =
@@ -80,7 +79,6 @@ export function App() {
           <Route exact path="/liquidity" component={LiquidityPage} />
           <Route exact path="/sandbox" component={SandboxPage} />
           <Route exact path="/wallet" component={WalletPage} />
-          <Route exact path="/genesis" component={SalesPage} />
           <Route
             exact
             path="/optin-success"

@@ -4,6 +4,7 @@
  *
  */
 import React from 'react';
+import classNames from 'classnames';
 import styles from './index.module.css';
 
 export function PreOrderBanner() {
@@ -11,7 +12,7 @@ export function PreOrderBanner() {
     <div className="row mb-5">
       <a
         href="https://token.sovryn.app"
-        className={styles.banner}
+        className={classNames(styles.banner, styles.windows)}
         rel="noreferrer noopener"
         target="_blank"
       >

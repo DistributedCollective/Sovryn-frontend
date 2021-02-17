@@ -26,6 +26,7 @@ interface Props {
   innerClasses?: string;
   onChange: (customer: SelectItem) => void;
   inputFocus?: boolean;
+  isItemDisabled?: string;
 }
 
 export function FormSelect(props: Props) {
@@ -39,6 +40,13 @@ export function FormSelect(props: Props) {
   const [selected, setSelected] = useState<SelectItem | undefined>(
     getSelected(),
   );
+
+  const isItemDisabled = (item: SelectItem) => {
+    if (props.isItemDisabled === item.key) {
+      return true;
+    }
+    return false;
+  };
 
   useEffect(() => {
     setSelected(getSelected());
@@ -64,6 +72,7 @@ export function FormSelect(props: Props) {
       filterable={props.filterable}
       itemRenderer={renderItem}
       itemPredicate={filterItem}
+      itemDisabled={isItemDisabled}
       onItemSelect={onItemSelect}
       itemsEqual={areOptionsEqual}
       activeItem={selected}

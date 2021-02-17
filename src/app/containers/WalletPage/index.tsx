@@ -13,7 +13,6 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import WalletConnector from '../../containers/WalletConnector';
 import { UserAssets } from '../../components/UserAssets';
-import { TopUpHistory } from '../../components/TopUpHistory';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
@@ -66,7 +65,7 @@ export function WalletPage() {
               {activeAssets ? (
                 <>
                   <UserAssets />
-                  <TopUpHistory />
+                  {/*<TopUpHistory />*/}
                 </>
               ) : (
                 <SovGenerationNFTS />

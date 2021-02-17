@@ -15,6 +15,12 @@ import scanQR from 'assets/images/tutorial/scanQr.svg';
 import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import {
+  blockExplorers,
+  currentChainId,
+  networkNames,
+  rpcNodes,
+} from '../../../../../utils/classifiers';
 
 export function Screen4(props) {
   const { t } = useTranslation();
@@ -69,7 +75,7 @@ export function Screen4(props) {
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.network)}
               </div>
-              <div className="col-7">RSK Mainnet</div>
+              <div className="col-7">{networkNames[currentChainId]}</div>
             </div>
             <div className="row">
               <div className="col-5">
@@ -77,11 +83,11 @@ export function Screen4(props) {
               </div>
               <div className="col-7">
                 <CopyToClipboard
-                  text="https://public-node.rsk.co"
+                  text={rpcNodes[currentChainId]}
                   onCopy={() => alert('Copied!')}
                 >
                   <span className="cursor-pointer">
-                    https://public-node.rsk.co <Icon icon="duplicate" />
+                    {rpcNodes[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
@@ -90,7 +96,7 @@ export function Screen4(props) {
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.chain_Id)}
               </div>
-              <div className="col-7">30</div>
+              <div className="col-7">{currentChainId}</div>
             </div>
             <div className="row">
               <div className="col-5">
@@ -108,7 +114,7 @@ export function Screen4(props) {
                   onCopy={() => alert('Copied!')}
                 >
                   <span className="cursor-pointer">
-                    https://explorer.rsk.co <Icon icon="duplicate" />
+                    {blockExplorers[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
