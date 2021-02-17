@@ -32,8 +32,8 @@ export const networkNames = {
 };
 
 export const rpcNodes = {
-  30: 'https://mainnet2.sovryn.app/rpc',
-  31: 'https://testnet2.sovryn.app/rpc',
+  30: 'https://mainnet.sovryn.app/rpc',
+  31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const readNodes = {

@@ -26,6 +26,11 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     min-height: 100vh;
     overflow: auto;
+    &.openedMenu {
+      overflow: hidden;
+      height: 0;
+      min-height: 0;
+    }
   }
 
   p,
@@ -138,10 +143,10 @@ input[type=number] {
   .opaque {
     opacity: 0.2
   }
-  
+
   .mw-tooltip {
     max-width: 250px;
     ${media.lg`max-width: 600px;`}
   }
-  
+
 `;

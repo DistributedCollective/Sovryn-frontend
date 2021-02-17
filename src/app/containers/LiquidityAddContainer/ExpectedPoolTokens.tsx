@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@blueprintjs/core';
 import { LoadableValue } from '../../components/LoadableValue';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { translations } from '../../../locales/i18n';
 import { useExpectedPoolTokens } from '../../hooks/amm/useExpectedPoolTokens';
 import { Asset } from '../../../types/asset';
@@ -28,7 +28,7 @@ export function ExpectedPoolTokens({ pool, asset, amount }: Props) {
                   {weiTo4(expectedPoolTokens.value)}
                 </Text>
               }
-              tooltip={expectedPoolTokens.value}
+              tooltip={weiTo18(expectedPoolTokens.value)}
             />
           </div>
           <div className="small">{t(translations.liquidity.token)}</div>
