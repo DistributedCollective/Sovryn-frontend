@@ -1,0 +1,5 @@
+@layer components {
+    .btn {
+        @apply px-5 py-2 text-2xl;
+    }
+}
