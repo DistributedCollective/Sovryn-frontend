@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { ClaimDialog } from './ClaimDialiog';
-import { RedeemDialog } from './RedeemDialiog';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { useAccount } from '../../../hooks/useAccount';
+// import { RedeemDialog } from './RedeemDialiog';
 
 export enum DialogType {
   NONE,
@@ -18,6 +20,14 @@ interface Props {
 export function CSovActions(props: Props) {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState(DialogType.NONE);
+
+  const { value: processed, loading } = useCacheCallWithValue<boolean>(
+    'vestingRegistry',
+    'processedList',
+    false,
+    useAccount(),
+  );
+
   return (
     <>
       <Button
@@ -25,23 +35,25 @@ export function CSovActions(props: Props) {
         text={t(translations.userAssets.actions.claimSov)}
         className="text-gold button-round"
         onClick={() => setDialog(DialogType.CLAIM)}
+        disabled={processed}
+        loading={loading}
       />
-      <Button
-        minimal
-        text={t(translations.userAssets.actions.redeemRBTC)}
-        className="text-gold button-round"
-        onClick={() => setDialog(DialogType.REDEEM)}
-      />
+      {/*<Button*/}
+      {/*  minimal*/}
+      {/*  text={t(translations.userAssets.actions.redeemRBTC)}*/}
+      {/*  className="text-gold button-round"*/}
+      {/*  onClick={() => setDialog(DialogType.REDEEM)}*/}
+      {/*/>*/}
       <ClaimDialog
         isOpen={dialog === DialogType.CLAIM}
         onClose={() => setDialog(DialogType.NONE)}
         amount={props.amount}
       />
-      <RedeemDialog
-        isOpen={dialog === DialogType.REDEEM}
-        onClose={() => setDialog(DialogType.NONE)}
-        amount={props.amount}
-      />
+      {/*<RedeemDialog*/}
+      {/*  isOpen={dialog === DialogType.REDEEM}*/}
+      {/*  onClose={() => setDialog(DialogType.NONE)}*/}
+      {/*  amount={props.amount}*/}
+      {/*/>*/}
     </>
   );
 }

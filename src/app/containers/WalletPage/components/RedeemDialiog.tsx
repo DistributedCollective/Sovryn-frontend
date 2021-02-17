@@ -8,6 +8,11 @@ import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';
 import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { Button } from '../../../components/Button';
+import { useSendContractTx } from '../../../hooks/useSendContractTx';
+import { TxType } from '../../../../store/global/transactions-store/types';
+import { SendTxProgress } from '../../../components/SendTxProgress';
+import { useAccount } from '../../../hooks/useAccount';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 
 interface Props {
   isOpen: boolean;
@@ -19,6 +24,17 @@ export function RedeemDialog(props: Props) {
   const btcAmount = bignumber(props.amount)
     .mul(1 / 40000)
     .toFixed(0);
+  const account = useAccount();
+  const { value: processed, loading } = useCacheCallWithValue<boolean>(
+    'vestingRegistry',
+    'processedList',
+    false,
+    account,
+  );
+  const { send, ...tx } = useSendContractTx('vestingRegistry', 'reImburse');
+  const handleSubmit = () =>
+    send([], { from: account }, { type: TxType.SOV_REIMBURSE });
+
   return (
     <>
       <Overlay
@@ -38,7 +54,7 @@ export function RedeemDialog(props: Props) {
                   <DummyField>
                     <div className="w-100 d-flex justify-content-between align-items-center position-relative">
                       <div className="w-100 flex-grow-1 text-center">
-                        {weiToNumberFormat(props.amount)}
+                        {weiToNumberFormat(props.amount, 2)}
                       </div>
                       <div
                         className={classNames(
@@ -70,18 +86,31 @@ export function RedeemDialog(props: Props) {
                           styles.right,
                         )}
                       >
-                        SOV
+                        (r)BTC
                       </div>
                     </div>
                   </DummyField>
                 </FieldGroup>
-                <div className={styles.txFee}>Tx Fee: 0.0006 (r)BTC</div>
+                <div className={styles.txFee}>Tx Fee: 0.000004 (r)BTC</div>
+
+                {processed && (
+                  <p className={styles.txFee}>Already processed!</p>
+                )}
               </div>
+
+              <SendTxProgress
+                {...tx}
+                type={TxType.SOV_REIMBURSE}
+                displayAbsolute={false}
+              />
+
               <div className="d-flex flex-row justify-content-between align-items-center">
                 <Button
                   text="Confirm"
-                  onClick={() => {}}
+                  onClick={handleSubmit}
                   className="mr-3 w-100"
+                  loading={tx.loading || loading}
+                  disabled={tx.loading || loading || processed}
                 />
                 <Button
                   text="Cancel"

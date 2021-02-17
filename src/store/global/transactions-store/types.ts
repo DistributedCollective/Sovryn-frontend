@@ -26,6 +26,8 @@ export enum TxType {
   CONVERT_BY_PATH = 'convert_by_path', // swap
   OTHER = 'other',
   SALE_BUY_SOV = 'sale_buy_sov',
+  SOV_REIMBURSE = 'sov_reimburse',
+  SOV_CONVERT = 'sov_convert',
 }
 
 export enum TxStatus {

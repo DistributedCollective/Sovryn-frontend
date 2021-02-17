@@ -18,6 +18,7 @@ import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingRegistryAbi from './abi/VestingRegistry.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -118,6 +119,11 @@ export const contracts = {
   SovrynNFTSuperhero: {
     address: '0xd9bbcd6e0ab105c83e2b5be0bbb9bb90ef963de7',
     abi: SovrynNFTAbi,
+    blockNumber: 1218836,
+  },
+  vestingRegistry: {
+    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
+    abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
   CSOV_token: {
