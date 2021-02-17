@@ -4,7 +4,10 @@
  *
  */
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 import { Checkbox } from '@blueprintjs/core';
+import styled from 'styled-components/macro';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import logo from './logo.svg';
@@ -19,6 +22,7 @@ const testForMetaMask = () => {
 };
 
 export function MetaMaskDiscouragementNotifyModal(props: Props) {
+  const { t } = useTranslation();
   const [show, setShow] = useState(!local.getItem(SESSION_KEY));
   const [checked, setChecked] = useState(false);
 
@@ -46,7 +50,7 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
           className="font-weight-bold text-center mb-4"
           style={{ fontSize: '25px' }}
         >
-          Caution… No Really
+          {t(translations.notifyDialog.heading)}
         </div>
         {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />}
       </div>
@@ -55,11 +59,11 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
         <Checkbox
           checked={checked}
           onChange={() => setChecked(!checked)}
-          label="I have read and understand that I am responsible for my own Sovrynity"
+          label={t(translations.notifyDialog.acceptTerms)}
         />
         <div className="mt-4">
           <SalesButton
-            text="I Understand"
+            text={t(translations.notifyDialog.salesBtn)}
             onClick={handleClose}
             disabled={!checked}
           />
@@ -70,44 +74,38 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
 }
 
 function GeneralAlert() {
+  const { t } = useTranslation();
   return (
     <>
       <p className="font-weight-bold">
-        SOVRYN is a decentralized bitcoin trading and lending platform, the
-        first of it kind!
+        {t(translations.notifyDialog.generalAlert.p1)}
       </p>
       <div className="px-3 text-left">
+        <p>{t(translations.notifyDialog.generalAlert.p2)}</p>
+        <p>{t(translations.notifyDialog.generalAlert.p3)}</p>
         <p>
-          Only you control and have access to your wealth, any actions you take
-          could cause a potential loss of funds.
-        </p>
-        <p>
-          Make sure to check all transaction fee prices before proceeding as
-          third party wallets may automatically present high fees.
-        </p>
-        <p>
-          Please visit our{' '}
+          {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
-            FAQ
-          </a>{' '}
-          if you have any questions.
+            {t(translations.notifyDialog.generalAlert.p4_2)}
+          </a>
+          {t(translations.notifyDialog.generalAlert.p4_3)}
         </p>
         <p>
-          If you’re new to DeFi, here is the{' '}
+          {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
-            tutorial
-          </a>{' '}
-          on how to use SOVRYN.
+            {t(translations.notifyDialog.generalAlert.p5_2)}
+          </a>
+          {t(translations.notifyDialog.generalAlert.p5_3)}
         </p>
       </div>
     </>
@@ -115,54 +113,84 @@ function GeneralAlert() {
 }
 
 function MetaMaskAlert() {
+  const { t } = useTranslation();
+
+  const StyledList = styled.ul`
+    padding-inline-start: 0px; //reset default browser list style
+    margin-left: 1rem;
+  `;
+
   return (
     <>
       <p className="font-weight-bold">
-        We noticed you have MetaMask installed.
+        {t(translations.notifyDialog.metamaskAlert.p1)}
       </p>
       <div className="px-3 text-left">
         <p>
-          There are known issues when using MetaMask with SOVRYN. We suggest
-          using a browser wallet like{' '}
+          {t(translations.notifyDialog.metamaskAlert.p2_1)}
           <a
             href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
-            Liquality Wallet
-          </a>{' '}
-          or{' '}
+            {t(translations.notifyDialog.metamaskAlert.p2_2)}
+          </a>
+          {t(translations.notifyDialog.metamaskAlert.p2_3)}
           <a
             href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
-            Nifty Wallet
+            {t(translations.notifyDialog.metamaskAlert.p2_4)}
           </a>
-          . If you wish to continue with MetaMask please be aware of the
-          following know errors:
+          {t(translations.notifyDialog.metamaskAlert.p2_5)}
         </p>
 
-        <p className="font-weight-bold mb-1">• High default gas price</p>
-        <p>&nbsp;&nbsp;set your gas price manually to 0.06 GWEI</p>
-
-        <p className="font-weight-bold mb-1">
-          • ETH checksum ETH instead of RSK checksume
-        </p>
-        <p>
-          &nbsp;&nbsp;use lower case addresses as receiver for manual
-          transactionsI
-        </p>
-
-        <p className="font-weight-bold mb-1">
-          • Shows price as ETH instead of (r)BTC
-        </p>
-        <p>
-          &nbsp;&nbsp;currently we suggest checking your token balances in the
-          SOVRYN My Wallet section.
-        </p>
+        <StyledList>
+          <li className="mb-3">
+            <div className="font-weight-bold mb-1">
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors
+                  .defaultGasPrice.title,
+              )}
+            </div>
+            <div>
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors
+                  .defaultGasPrice.description,
+              )}
+            </div>
+          </li>
+          <li className="mb-3">
+            <div className="font-weight-bold mb-1">
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors.checksum
+                  .title,
+              )}
+            </div>
+            <div>
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors.checksum
+                  .description,
+              )}
+            </div>
+          </li>
+          <li className="mb-3">
+            <div className="font-weight-bold mb-1">
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors.price.title,
+              )}
+            </div>
+            <div>
+              {t(
+                translations.notifyDialog.metamaskAlert.knownErrors.price
+                  .description,
+              )}
+            </div>
+          </li>
+        </StyledList>
       </div>
     </>
   );

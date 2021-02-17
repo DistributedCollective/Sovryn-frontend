@@ -3,9 +3,9 @@ import { ActiveLoanExpandedRow } from '../ActiveLoanExpandedRow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Icon } from '@blueprintjs/core';
 import {
-  formatAsBTC,
   numberToUSD,
   numberToPercent,
+  weiToNumberFormat,
 } from 'utils/display-text/format';
 import {
   faLongArrowAltUp,
@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { LoadableValue } from '../../../LoadableValue';
 
 interface Props {
   data: any;
@@ -136,7 +137,18 @@ export function ActiveLoanTableDesktop(props: Props) {
                     )}{' '}
                     {item.pair}
                   </td>
-                  <td>{formatAsBTC(item.positionSize, item.currency)}</td>
+                  <td>
+                    <LoadableValue
+                      loading={false}
+                      value={
+                        <>
+                          {weiToNumberFormat(item.positionSize, 4)}{' '}
+                          {item.currency}
+                        </>
+                      }
+                      tooltip={item.positionSize}
+                    />
+                  </td>
                   <td>
                     {numberToPercent(item.currentMargin, 2)}
                     <small

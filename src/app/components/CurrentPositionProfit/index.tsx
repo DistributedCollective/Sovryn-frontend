@@ -4,60 +4,84 @@
  *
  */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
-import { formatAsBTCPrice, numberToUSD } from 'utils/display-text/format';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
+import { bignumber } from 'mathjs';
 
 interface Props {
   source: Asset;
   destination: Asset;
   amount: string;
-  startRate: string;
+  startPrice: number;
   isLong: boolean;
 }
 
 export function CurrentPositionProfit(props: Props) {
+  const { t } = useTranslation();
   const { loading, price } = useCurrentPositionPrice(
     props.destination,
     props.source,
     props.amount,
     props.isLong,
   );
-  const startPrice = formatAsBTCPrice(props.startRate, props.isLong);
-  const positionSize = parseFloat(weiTo18(props.amount));
-  let profit = 0;
+  let profit = '0';
 
+  let diff = 1;
   if (props.isLong) {
-    profit = (price - startPrice) * positionSize;
+    diff = (price - props.startPrice) / price;
+    // profit = (price - props.startPrice) * positionSize;
+    profit = bignumber(props.amount).mul(diff).toFixed(0);
   } else {
-    profit = (startPrice - price) / positionSize;
+    diff = (props.startPrice - price) / props.startPrice;
+    profit = bignumber(props.amount).mul(diff).toFixed(0);
   }
 
-  // const positionSize: number = parseFloat(weiTo18(collateralStr));
-  // const startPrice: number = parseFloat(weiTo18(startRateStr));
-  // const currentPriceUSD: number = 1 / currentPriceBTC;
-  //
-  // const profitLong = positionSize * currentPriceBTC - positionSize * startPrice;
-  // const profitShort =
-  //   (positionSize * currentPriceUSD - positionSize * startPrice) *
-  //   currentPriceBTC;
-
-  // const profit = calculateProfit(
-  //   props.amount,
-  //   props.startRate,
-  //   price,
-  //   props.isLong,
-  // );
+  function Change() {
+    if (diff > 0) {
+      return (
+        <>
+          {t(translations.tradingHistoryPage.table.profitLabels.up)}
+          <span className="text-green">{toNumberFormat(diff * 100, 2)}</span>%
+        </>
+      );
+    }
+    if (diff < 0) {
+      return (
+        <>
+          {t(translations.tradingHistoryPage.table.profitLabels.down)}
+          <span className="text-red">
+            {toNumberFormat(Math.abs(diff * 100), 2)}
+          </span>
+          %
+        </>
+      );
+    }
+    return (
+      <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>
+    );
+  }
   return (
-    <LoadableValue
-      loading={loading}
-      value={
-        <span className={profit < 0 ? 'text-red' : 'text-green'}>
-          {numberToUSD(profit, 4)}
-        </span>
-      }
-    />
+    <>
+      <LoadableValue
+        loading={loading}
+        value={
+          <>
+            <span className={diff < 0 ? 'text-red' : 'text-green'}>
+              {weiToNumberFormat(profit, 8)}
+            </span>{' '}
+            {props.destination}
+          </>
+        }
+        tooltip={
+          <>
+            <Change />
+          </>
+        }
+      />
+    </>
   );
 }

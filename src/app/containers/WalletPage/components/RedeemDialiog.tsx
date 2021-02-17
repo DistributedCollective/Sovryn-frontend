@@ -78,12 +78,16 @@ export function RedeemDialog(props: Props) {
                 <div className={styles.txFee}>Tx Fee: 0.0006 (r)BTC</div>
               </div>
               <div className="d-flex flex-row justify-content-between align-items-center">
-                <Button text="Confirm" onClick={() => {}} className="mr-3" />
+                <Button
+                  text="Confirm"
+                  onClick={() => {}}
+                  className="mr-3 w-100"
+                />
                 <Button
                   text="Cancel"
                   inverted
                   onClick={() => props.onClose()}
-                  className="ml-3"
+                  className="ml-3 w-100"
                 />
               </div>
             </div>

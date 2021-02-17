@@ -61,7 +61,12 @@
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "profitLabels": {
+        "up": "Up by ",
+        "down": "Down by ",
+        "noChange": "No change"
+      }
     }
   },
   "fastBtcPage": {
@@ -235,10 +240,32 @@
     "hintTwo": "Top up your wallet at",
     "hintThree": "and get started!"
   },
-  "notificationFromContainer": {
+  "notificationFormContainer": {
     "want": "Want to receive email notifications about margin calls and liquidated positions?",
     "update": "Update the name or email address associated with this wallet address.",
-    "recieve": "I would like to receive emails about updates and new features from Sovryn"
+    "receive": "I would like to receive emails about updates and new features from Sovryn",
+    "emailSettingsBtn_update": "Update email settings",
+    "emailSettingsBtn_get": "Get email notifications",
+    "dialog": {
+      "title": "Email Notifications",
+      "form": {
+        "name": {
+          "label": "Name / Pseudonym",
+          "info": "(required)",
+          "placeholder": "name / pseudonym"
+        },
+        "email": {
+          "label": "Email Address",
+          "info": "(required)",
+          "placeholder": "email@email.com"
+        }
+      },
+      "wantBtn": "submit",
+      "updateBtn": "update",
+      "error": "There was an error submitting your form"
+    },
+    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
+    "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
     "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
@@ -279,6 +306,14 @@
   "activeUserBorrows": {
     "text": "You do not have any active loans."
   },
+  "activeUserLoans": {
+    "text": "You do not have any active trades.",
+    "info": {
+      "line_1": "Need help making a transaction? Read our guide on ",
+      "line_2": " how to trade and lend with Sovryn",
+      "line_3": "."
+    }
+  },
   "topUpTradingPositionHandler": {
     "title": "Top Up position",
     "topUpAmount": "Top Up Amount",
@@ -306,7 +341,14 @@
     "walletNote": "Connect your wallet first!"
   },
   "borrowHistory": {
-    "table": {},
+    "table": {
+      "headers": {
+        "borrowAmount": "Borrowed",
+        "collateralAmount": "Collateral",
+        "interestAPR": "Interest APR",
+        "timestamp": "Date"
+      }
+    },
     "no_items": "Your borrow history is empty."
   },
   "rskConnectTutorial": {
@@ -510,6 +552,10 @@
     "meta": {
       "title": "My Wallet",
       "description": "Information about connected wallet"
+    },
+    "tabs": {
+      "userAssets": "My assets",
+      "userNFTS": "NFTS"
     }
   },
   "salesPage": {
@@ -608,6 +654,66 @@
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
       "line_2": "Try another return asset or wait for arbiters to re-balance."
+    }
+  },
+  "tradeConfirmationDialog": {
+    "main": {
+      "positionSize": "Position Size",
+      "positionLeverge": "Position Leverage",
+      "maintenanceMargin": "Maintenance Margin",
+      "estimatedLiquidationPrice": "Est. Liquidation Price",
+      "gasPriceNote": "Make sure gas price does not exceed 0.06 GWEI",
+      "positionEntryPrice": "Approx. Position Entry Price",
+      "entryPriceNote": "The price is taken from our AMM and as such is subject to flunctuations.",
+      "tradeButtonLong": "Place Long",
+      "tradeButtonShort": "Place Short",
+      "closeBtn": "Close Dialog"
+    },
+    "positions": {
+      "long": "Long",
+      "short": "Short"
+    },
+    "tx": {
+      "pendingForUserTitle": "Review Transaction",
+      "pendingForUserText": "Review and confirm transaction in your wallet"
+    }
+  },
+  "notifyDialog": {
+    "heading": "Caution… No Really",
+    "acceptTerms": "I have read and understand that I am responsible for my own Sovrynity",
+    "salesBtn": "I Understand",
+    "generalAlert": {
+      "p1": "SOVRYN is a decentralized bitcoin trading and lending platform, the first of it kind!",
+      "p2": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
+      "p3": "Make sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
+      "p4_1": "Please visit our ",
+      "p4_2": "FAQ",
+      "p4_3": " if you have any questions.",
+      "p5_1": "If you’re new to DeFi, here is the ",
+      "p5_2": "tutorial",
+      "p5_3": " on how to use SOVRYN."
+    },
+    "metamaskAlert": {
+      "p1": "We noticed you have MetaMask installed.",
+      "p2_1": "There are known issues when using MetaMask with SOVRYN. We suggest using a browser wallet like ",
+      "p2_2": "Liquality Wallet",
+      "p2_3": " or ",
+      "p2_4": "Nifty Wallet",
+      "p2_5": ". If you wish to continue with MetaMask please be aware of the following known errors:",
+      "knownErrors": {
+        "defaultGasPrice": {
+          "title": "High default gas price",
+          "description": "set your gas price manually to 0.06 GWEI"
+        },
+        "checksum": {
+          "title": "ETH checksum instead of RSK checksum",
+          "description": "use lower case addresses as receiver for manual transactions"
+        },
+        "price": {
+          "title": "Shows price as ETH instead of (r)BTC",
+          "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
+        }
+      }
     }
   }
 }
