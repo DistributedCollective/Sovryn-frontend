@@ -30,20 +30,28 @@ export function CSovActions(props: Props) {
 
   return (
     <>
-      <Button
-        minimal
-        text={t(translations.userAssets.actions.claimSov)}
-        className="text-gold button-round"
-        onClick={() => setDialog(DialogType.CLAIM)}
-        disabled={processed}
-        loading={loading}
-      />
-      {/*<Button*/}
-      {/*  minimal*/}
-      {/*  text={t(translations.userAssets.actions.redeemRBTC)}*/}
-      {/*  className="text-gold button-round"*/}
-      {/*  onClick={() => setDialog(DialogType.REDEEM)}*/}
-      {/*/>*/}
+      {processed ? (
+        <p className="text-gold my-0" style={{ opacity: 0.3 }}>
+          Already Claimed.
+        </p>
+      ) : (
+        <>
+          <Button
+            minimal
+            text={t(translations.userAssets.actions.claimSov)}
+            className="text-gold button-round"
+            onClick={() => setDialog(DialogType.CLAIM)}
+            disabled={processed}
+            loading={loading}
+          />
+          {/*<Button*/}
+          {/*  minimal*/}
+          {/*  text={t(translations.userAssets.actions.redeemRBTC)}*/}
+          {/*  className="text-gold button-round"*/}
+          {/*  onClick={() => setDialog(DialogType.REDEEM)}*/}
+          {/*/>*/}
+        </>
+      )}
       <ClaimDialog
         isOpen={dialog === DialogType.CLAIM}
         onClose={() => setDialog(DialogType.NONE)}

@@ -16,10 +16,11 @@ import { UserAssets } from '../../components/UserAssets';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 
 export function WalletPage() {
   const { t } = useTranslation();
-  const [activeAssets, setActiveAssets] = useState(true);
+  const [activeAssets, setActiveAssets] = useState(0);
   const connected = useIsConnected();
   const account = useAccount();
   return (
@@ -47,29 +48,31 @@ export function WalletPage() {
           <div className="mr-2 ml-2">
             <Tab
               text={t(translations.walletPage.tabs.userAssets)}
-              active={activeAssets}
-              onClick={() => setActiveAssets(true)}
+              active={activeAssets === 0}
+              onClick={() => setActiveAssets(0)}
+            />
+          </div>
+          <div className="mr-2 ml-2">
+            <Tab
+              text={t(translations.walletPage.tabs.vestedAssets)}
+              active={activeAssets === 1}
+              onClick={() => setActiveAssets(1)}
             />
           </div>
           <div>
             <Tab
               text={t(translations.walletPage.tabs.userNFTS)}
-              active={!activeAssets}
-              onClick={() => setActiveAssets(false)}
+              active={activeAssets === 2}
+              onClick={() => setActiveAssets(2)}
             />
           </div>
         </div>
         {connected && account ? (
           <div className="row">
             <div className="col-12 mt-2">
-              {activeAssets ? (
-                <>
-                  <UserAssets />
-                  {/*<TopUpHistory />*/}
-                </>
-              ) : (
-                <SovGenerationNFTS />
-              )}
+              {activeAssets === 0 && <UserAssets />}
+              {activeAssets === 1 && <VestedAssets />}
+              {activeAssets === 2 && <SovGenerationNFTS />}
             </div>
           </div>
         ) : (
