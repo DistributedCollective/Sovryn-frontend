@@ -556,6 +556,7 @@
     },
     "tabs": {
       "userAssets": "My assets",
+      "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
     }
   },
@@ -573,6 +574,7 @@
       "asset": "Asset",
       "totalBalance": "Total Balance",
       "dollarBalance": "Dollar Balance",
+      "lockedAmount": "Locked Amount",
       "action": "Action"
     },
     "actions": {
