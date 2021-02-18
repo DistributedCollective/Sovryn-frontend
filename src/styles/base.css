@@ -1,7 +1,17 @@
 @layer base {
     body {
-        @apply bg-black text-white;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        @apply tw-bg-dark tw-text-white tw-font-body;
+    }
+
+    * {
+        @apply tw-font-body;
+    }
+
+    a, a:visited {
+        @apply tw-text-primary tw-no-underline tw-underline;
+    }
+
+    a:hover, a:active {
+        @apply tw-text-primary tw-underline;
     }
 }

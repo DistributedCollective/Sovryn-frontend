@@ -180,26 +180,26 @@ export function Header() {
               </Link>
             </div>
             <div className="d-none d-xl-block">
-              <NavLink className="nav-item mr-4" to="/" exact>
+              <NavLink className="tw-header-link" to="/" exact>
                 {t(translations.mainMenu.trade)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/lend">
+              <NavLink className="tw-header-link" to="/lend">
                 {t(translations.mainMenu.lend)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/liquidity">
+              <NavLink className="tw-header-link" to="/liquidity">
                 {t(translations.mainMenu.liquidity)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/wallet">
+              <NavLink className="tw-header-link" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/stats">
+              <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
               <a
                 href="https://sovryn-1.gitbook.io/sovryn/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nav-item mr-4"
+                className="tw-header-link"
               >
                 {t(translations.mainMenu.help)}
               </a>

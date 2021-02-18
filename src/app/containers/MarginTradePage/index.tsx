@@ -17,12 +17,7 @@ import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
 import { Header } from '../../components/Header';
-import { PreOrderBanner } from '../../components/PreOrderBanner';
 import { TradingViewChart } from '../../components/TradingViewChart';
-import { TabType } from '../TradingPage/types';
-import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
-import { TradingActivity } from '../TradingActivity/Loadable';
 import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
@@ -55,7 +50,7 @@ export function MarginTradePage(props: Props) {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5">
+      <div className="tw-container tw-mt-9">
         <div className="d-flex flex-column align-items-center flex-lg-row justify-content-lg-between">
           <div
             className={classNames(
@@ -65,9 +60,7 @@ export function MarginTradePage(props: Props) {
           >
             <TradingViewChart symbol={pair.getChartSymbol()} />
           </div>
-          <div className={styles.formWrapper}>
-            <TradeForm />
-          </div>
+          <TradeForm />
         </div>
       </div>
       <Footer />

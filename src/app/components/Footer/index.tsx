@@ -40,7 +40,6 @@ export function Footer() {
                 components={[
                   <a
                     href="https://sovryn-1.gitbook.io/sovryn/"
-                    className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -55,7 +54,6 @@ export function Footer() {
                 components={[
                   <a
                     href="https://sovryn-1.gitbook.io/sovryn/"
-                    className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -73,7 +71,7 @@ export function Footer() {
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-weight-normal"
+              className="font-weight-normal text-white"
             >
               {commitHash.substr(0, 7)}
             </a>

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Slider as BPSlider } from '@blueprintjs/core';
-import classNames from 'classnames';
-import styles from './index.module.css';
+import { Slider as BPSlider } from '@blueprintjs/core/lib/esm/components/slider/slider';
+import cn from 'classnames';
 
 type LabelRendererFn = (value: number, opts?) => string | JSX.Element;
 
@@ -18,6 +17,8 @@ interface Props {
 
 export function Slider({ className, ...props }: Props) {
   return (
-    <BPSlider {...props} className={classNames(styles.slider, className)} />
+    <div className={cn('tw-slider', className)}>
+      <BPSlider {...props} />
+    </div>
   );
 }

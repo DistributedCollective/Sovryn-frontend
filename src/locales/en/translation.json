@@ -728,7 +728,12 @@
       "labels": {
         "pair": "Pair:",
         "asset": "Asset:",
-        "leverage": "Leverage:"
+        "leverage": "Leverage:",
+        "amount": "Amount:"
+      },
+      "buttons": {
+        "long": "Long",
+        "short": "Short"
       }
     }
   },
