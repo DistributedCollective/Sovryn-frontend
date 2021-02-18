@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import styles from './dialog.module.css';
@@ -10,7 +10,10 @@ import { Button } from '../../../components/Button';
 import { useAccount } from '../../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 import { useSendContractTx } from '../../../hooks/useSendContractTx';
-import { TxType } from '../../../../store/global/transactions-store/types';
+import {
+  TxStatus,
+  TxType,
+} from '../../../../store/global/transactions-store/types';
 import { SendTxProgress } from '../../../components/SendTxProgress';
 import { gasLimit } from '../../../../utils/classifiers';
 
@@ -32,12 +35,13 @@ export function ClaimDialog(props: Props) {
     'vestingRegistry',
     'exchangeAllCSOV',
   );
-  const handleSubmit = () =>
+  const handleSubmit = useCallback(() => {
     send(
       [],
       { from: account, gas: gasLimit[TxType.SOV_CONVERT] },
       { type: TxType.SOV_CONVERT },
     );
+  }, [account, send]);
   return (
     <>
       <Overlay
@@ -95,7 +99,7 @@ export function ClaimDialog(props: Props) {
                   </DummyField>
                 </FieldGroup>
 
-                <div className={styles.txFee}>Tx Fee: 0.000004 (r)BTC</div>
+                <div className={styles.txFee}>Tx Fee: 0.00016 (r)BTC</div>
                 {processed && (
                   <p className={styles.txFee}>Already processed!</p>
                 )}
@@ -110,10 +114,17 @@ export function ClaimDialog(props: Props) {
               <div className="d-flex flex-row justify-content-between align-items-center">
                 <Button
                   text="Confirm"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                   className="mr-3 w-100"
                   loading={tx.loading || loading}
-                  // disabled={tx.loading || loading || processed}
+                  disabled={
+                    tx.loading ||
+                    [TxStatus.PENDING_FOR_USER, TxStatus.PENDING].includes(
+                      tx.status,
+                    ) ||
+                    loading ||
+                    processed
+                  }
                 />
                 <Button
                   text="Cancel"

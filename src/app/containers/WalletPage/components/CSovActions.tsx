@@ -30,7 +30,7 @@ export function CSovActions(props: Props) {
 
   return (
     <>
-      {processed ? (
+      {!processed ? (
         <p className="text-gold my-0" style={{ opacity: 0.3 }}>
           Already Claimed.
         </p>
@@ -41,7 +41,7 @@ export function CSovActions(props: Props) {
             text={t(translations.userAssets.actions.claimSov)}
             className="text-gold button-round"
             onClick={() => setDialog(DialogType.CLAIM)}
-            disabled={processed}
+            disabled={processed || parseInt(props.amount) === 0}
             loading={loading}
           />
           {/*<Button*/}
