@@ -7244,6 +7244,11 @@ eth-tx-summary@^3.1.2:
     ethereumjs-vm "^2.6.0"
     through2 "^2.0.3"
 
+ethereum-blockies@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ethereum-blockies/-/ethereum-blockies-0.1.0.tgz#8d528286ab3bac035760bc0e3bb4d0a581f9ca6f"
+  integrity sha1-jVKChqs7rANXYLwOO7TQpYH5ym8=
+
 ethereum-bloom-filters@^1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/ethereum-bloom-filters/-/ethereum-bloom-filters-1.0.7.tgz#b7b80735e385dbb7f944ce6b4533e24511306060"

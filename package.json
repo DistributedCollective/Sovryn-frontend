@@ -71,6 +71,7 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eth-block-tracker-es5": "2.3.2",
+    "ethereum-blockies": "0.1.0",
     "file-loader": "4.3.0",
     "fontfaceobserver": "2.1.0",
     "fs-extra": "^8.1.0",
