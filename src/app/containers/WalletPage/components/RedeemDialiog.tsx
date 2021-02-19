@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
@@ -9,7 +9,10 @@ import { DummyField } from '../../../components/DummyField';
 import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { Button } from '../../../components/Button';
 import { useSendContractTx } from '../../../hooks/useSendContractTx';
-import { TxType } from '../../../../store/global/transactions-store/types';
+import {
+  TxStatus,
+  TxType,
+} from '../../../../store/global/transactions-store/types';
 import { SendTxProgress } from '../../../components/SendTxProgress';
 import { useAccount } from '../../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
@@ -33,13 +36,13 @@ export function RedeemDialog(props: Props) {
     account,
   );
   const { send, ...tx } = useSendContractTx('vestingRegistry', 'reImburse');
-  const handleSubmit = () =>
+  const handleSubmit = useCallback(() => {
     send(
       [],
       { from: account, gas: gasLimit[TxType.SOV_REIMBURSE] },
       { type: TxType.SOV_REIMBURSE },
     );
-
+  }, [account, send]);
   return (
     <>
       <Overlay
@@ -112,10 +115,17 @@ export function RedeemDialog(props: Props) {
               <div className="d-flex flex-row justify-content-between align-items-center">
                 <Button
                   text="Confirm"
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                   className="mr-3 w-100"
                   loading={tx.loading || loading}
-                  disabled={tx.loading || loading || processed}
+                  disabled={
+                    tx.loading ||
+                    [TxStatus.PENDING_FOR_USER, TxStatus.PENDING].includes(
+                      tx.status,
+                    ) ||
+                    loading ||
+                    processed
+                  }
                 />
                 <Button
                   text="Cancel"
