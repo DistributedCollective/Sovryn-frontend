@@ -44,17 +44,19 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     Sovryn.disconnect().then(() => {});
   };
 
-  const walletAddrBlockieImg = blockies
-    .create({
-      // All options are optional
-      seed: address, // seed used to generate icon data, default: random
-      color: '#dfe', // to manually specify the icon color, default: random
-      bgcolor: '#aaa', // choose a different background color, default: random
-      size: 8, // width/height of the icon in blocks, default: 8
-      scale: 3, // width/height of each block in pixels, default: 4
-      spotcolor: '#000', // each pixel has a 13% chance of being of a third color,
-    })
-    .toDataURL();
+  const getWalletAddrBlockieImg = (): string => {
+    return blockies
+      .create({
+        // All options are optional
+        seed: address, // seed used to generate icon data, default: random
+        color: '#dfe', // to manually specify the icon color, default: random
+        bgcolor: '#aaa', // choose a different background color, default: random
+        size: 8, // width/height of the icon in blocks, default: 8
+        scale: 3, // width/height of each block in pixels, default: 4
+        spotcolor: '#000', // each pixel has a 13% chance of being of a third color,
+      })
+      .toDataURL();
+  };
 
   return (
     <div className="justify-content-center align-items-center d-none d-md-flex">
@@ -98,7 +100,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   <span className="pl-2">
                     <img
                       className="rounded-circle"
-                      src={walletAddrBlockieImg}
+                      src={getWalletAddrBlockieImg()}
                       alt="wallet address"
                     />
                   </span>
