@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import classNames from 'classnames';
 import { Select as BP_Select } from '@blueprintjs/select';
-import { Icon, MenuItem, Text } from '@blueprintjs/core';
+import { MenuItem, Text } from '@blueprintjs/core';
+import { isMobile } from 'utils/helpers';
+import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
-import { isMobile } from '../../../../utils/helpers';
-import { translations } from '../../../../locales/i18n';
 import { areOptionsEqual, filterItem, renderItem } from './renderers';
 import styles from './index.module.css';
 

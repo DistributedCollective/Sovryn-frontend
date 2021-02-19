@@ -240,7 +240,7 @@
       "^.+\\.module\\.(css|sass|scss)$"
     ],
     "modulePaths": [
-      "/Users/rytis/Projects/sovryn/sovryn-app/src"
+      "src"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",

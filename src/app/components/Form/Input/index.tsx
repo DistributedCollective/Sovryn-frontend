@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
 import cn from 'classnames';
-import { handleNumber } from '../../../../utils/helpers';
+import { handleNumber } from 'utils/helpers';
 
 type InputType = 'text' | 'email' | 'password' | 'number';
 
 interface InputProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   appendElem?: React.ReactNode;
   type?: InputType;
   className?: string;
   inputClassName?: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   placeholder?: string;
   min?: number;
   max?: number;
@@ -28,10 +28,12 @@ export function Input({
 }: InputProps) {
   const handleChange = useCallback(
     (newValue: string) => {
-      if (props.type === 'number') {
-        onChange(handleNumber(newValue, true));
-      } else {
-        onChange(newValue);
+      if (onChange) {
+        if (props.type === 'number') {
+          onChange(handleNumber(newValue, true));
+        } else {
+          onChange(newValue);
+        }
       }
     },
     [props.type, onChange],
@@ -39,7 +41,7 @@ export function Input({
   return (
     <div
       className={cn('tw-input-wrapper', className, {
-        readonly: props.readonly,
+        readonly: props.readOnly,
       })}
     >
       <input
@@ -52,3 +54,7 @@ export function Input({
     </div>
   );
 }
+
+Input.defaultProps = {
+  inputClassName: 'tw-text-left',
+};

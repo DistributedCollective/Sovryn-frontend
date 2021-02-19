@@ -2,7 +2,6 @@ import React from 'react';
 import { Input } from '../Input';
 import { Asset } from '../../../../types/asset';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
-import { useTokenBalanceOf } from '../../../hooks/useTokenBalanceOf';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
@@ -16,7 +15,7 @@ interface Props {
 
 export function AmountInput(props: Props) {
   return (
-    <div>
+    <>
       <Input
         value={props.value}
         onChange={props.onChange}
@@ -25,11 +24,12 @@ export function AmountInput(props: Props) {
         appendElem={
           props.asset ? AssetsDictionary.get(props.asset)?.symbol : null
         }
+        {...props}
       />
       {props.asset && (
         <AmountSelector asset={props.asset} onChange={props.onChange} />
       )}
-    </div>
+    </>
   );
 }
 

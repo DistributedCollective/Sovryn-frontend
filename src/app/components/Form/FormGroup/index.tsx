@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { makeId } from '../../../../utils/helpers';
+import { makeId } from 'utils/helpers';
 
 interface FormGroupProps {
   label?: React.ReactNode;
-  error?: React.ReactNode;
+  describe?: React.ReactNode;
+  describeClassName?: string;
   id?: string;
   children: React.ReactNode;
   className?: string;
 }
 
-export function FormGroup({ children, className, ...props }: FormGroupProps) {
+export function FormGroup({
+  children,
+  describe,
+  className,
+  ...props
+}: FormGroupProps) {
   const [id, setId] = useState<string>(props.id || makeId());
 
   useEffect(() => {
@@ -20,14 +26,22 @@ export function FormGroup({ children, className, ...props }: FormGroupProps) {
   return (
     <div className={cn('tw-mb-4', className)}>
       {props.label && (
-        <label htmlFor={id} className="tw-block tw-mb-2 tw-text-white">
+        <label
+          htmlFor={id}
+          className="tw-block tw-mb-2 tw-text-white tw-font-medium tw-text-base"
+        >
           {props.label}
         </label>
       )}
       <PassPropsToChildren id={id}>{children}</PassPropsToChildren>
-      {props.error && (
-        <div className="tw-text-red tw-mt-2 tw-text-xs tw-font-light">
-          {props.error}
+      {describe && (
+        <div
+          className={cn(
+            'tw-mt-2 tw-text-xs tw-font-normal',
+            props.describeClassName,
+          )}
+        >
+          {describe}
         </div>
       )}
     </div>

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Select } from '../../../../components/Form/Select';
-import { TradingPairDictionary, TradingPairType } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Option, Options } from '../../../../components/Form/Select/types';
+import { Select } from 'form/Select';
+import {
+  TradingPairDictionary,
+  TradingPairType,
+} from '../../../../../utils/dictionaries/trading-pair-dictionary';
+import { Option, Options } from 'form/Select/types';
 import { Text } from '@blueprintjs/core';
 import { Asset } from '../../../../../types/asset';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
-import { TradeButton } from '../../../../components/Form/TradeButton';
-import { FormGroup } from '../../../../components/Form/FormGroup';
-import { AmountInput } from '../../../../components/Form/AmountInput';
+import { TradeButton } from 'form/TradeButton';
+import { FormGroup } from 'form/FormGroup';
+import { AmountInput } from 'form/AmountInput';
 import { AssetWalletBalance } from '../../../../components/AssetWalletBalance';
 
 const pairs: Options<TradingPairType> = TradingPairDictionary.entries().map(
@@ -20,7 +23,9 @@ const pairs: Options<TradingPairType> = TradingPairDictionary.entries().map(
 export function TradeForm() {
   const { t } = useTranslation();
   const [value, setValue] = useState<TradingPairType>(TradingPairType.BTC_USDT);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [collateral, setCollateral] = useState<Asset>(Asset.BTC);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [position, setPosition] = useState<TradingPosition>(
     TradingPosition.LONG,
   );
