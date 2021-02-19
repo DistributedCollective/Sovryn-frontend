@@ -21,7 +21,6 @@ export function Button({ text, inverted, loading, ...props }: Props) {
         styles.button,
         props.className,
         inverted && styles.inverted,
-        props.disabled && styles.disabled,
       )}
     >
       {text}
