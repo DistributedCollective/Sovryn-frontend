@@ -556,6 +556,7 @@
     },
     "tabs": {
       "userAssets": "Meus ativos",
+      "vestedAssets": "Ativos adquiridos",
       "userNFTS": "NFTS"
     }
   },
@@ -573,12 +574,15 @@
       "asset": "Ativo",
       "totalBalance": "Saldo total",
       "dollarBalance": "Saldo em dólar",
+      "lockedAmount": "Quantidade bloqueada",
       "action": "Ação"
     },
     "actions": {
       "deposit": "Depositar",
       "swap": "Trocar",
-      "trade": "Operar"
+      "trade": "Operar",
+      "claimSov": "Receber SOV",
+      "redeemRBTC": "Resgatar rBTC"
     }
   },
   "topUpHistory": {
