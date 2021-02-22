@@ -574,6 +574,7 @@
       "asset": "Ativo",
       "totalBalance": "Saldo total",
       "dollarBalance": "Saldo em dólar",
+      "lockedAmount": "Quantidade bloqueada",
       "action": "Ação"
     },
     "actions": {
