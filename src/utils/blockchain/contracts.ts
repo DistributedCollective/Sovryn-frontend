@@ -147,6 +147,10 @@ export const contracts = {
     address: '0x7f7Dcf9DF951C4A332740e9a125720DA242A34ff', // todo
     abi: OriginClaimAbi,
   },
+  SOV_token: {
+    address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
+    abi: TestTokenABI,
+  },
   // end non-mainnet //
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {
