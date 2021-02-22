@@ -15,7 +15,7 @@ export function OriginClaimBanner() {
   const [isOpen, setOpen] = useState(false);
   return (
     <>
-      {Number(value) && (
+      {Number(value) !== 0 && (
         <Div>
           <div className="d-flex flex-row justify-content-between align-items-center">
             <div>
