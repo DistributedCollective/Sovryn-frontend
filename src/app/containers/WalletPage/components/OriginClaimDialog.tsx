@@ -26,22 +26,16 @@ interface Props {
 export function OriginClaimDialog(props: Props) {
   const account = useAccount();
 
-  // todo retrieve real btc amount
-  const btcAmount = 0.1e8;
-  const sovAmount = bignumber(btcAmount).div(10000).toString();
-
-  // todo: change with real contracts when ready
-  const { value: processed, loading } = useCacheCallWithValue<boolean>(
-    'vestingRegistry',
-    'processedList',
-    false,
+  const { value: sovAmount, loading } = useCacheCallWithValue<string>(
+    'OriginInvestorsClaim',
+    'investorsAmountsList',
+    '0',
     account,
   );
-  // todo: change with real contracts when rady
-  const { send, ...tx } = useSendContractTx(
-    'vestingRegistry',
-    'exchangeAllCSOV',
-  );
+
+  const btcAmount = bignumber(sovAmount).div(1e18).mul(10000).toString();
+
+  const { send, ...tx } = useSendContractTx('OriginInvestorsClaim', 'claim');
   const handleSubmit = useCallback(() => {
     send([], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
   }, [account, send]);
@@ -87,9 +81,9 @@ export function OriginClaimDialog(props: Props) {
                     </svg>
                   </div>
 
-                  <p className="text-center mb-4">
-                    Please check your email for confirmation
-                  </p>
+                  {/*<p className="text-center mb-4">*/}
+                  {/*  Please check your email for confirmation*/}
+                  {/*</p>*/}
                   <p className="text-center">
                     You will now be able to see your vested SOV
                     <br />
@@ -126,7 +120,7 @@ export function OriginClaimDialog(props: Props) {
                       <DummyField>
                         <div className="w-100 d-flex justify-content-between align-items-center position-relative">
                           <div className="w-100 flex-grow-1 text-center">
-                            {toNumberFormat(btcAmount / 1e8, 5)}
+                            {toNumberFormat(Number(btcAmount) / 1e8, 5)}
                           </div>
                           <div
                             className={classNames(
@@ -187,7 +181,7 @@ export function OriginClaimDialog(props: Props) {
                           tx.status,
                         ) ||
                         loading ||
-                        processed
+                        !Number(sovAmount)
                       }
                     />
                     <Button

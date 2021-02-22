@@ -142,6 +142,10 @@ export const contracts = {
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
+  OriginInvestorsClaim: {
+    address: '0x7f7Dcf9DF951C4A332740e9a125720DA242A34ff', // todo
+    abi: CrowdSaleAbi, // todo
+  },
   // end non-mainnet //
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
     process.env.REACT_APP_WHITELIST === 'true' && {

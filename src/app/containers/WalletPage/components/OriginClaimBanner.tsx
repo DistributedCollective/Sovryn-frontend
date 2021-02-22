@@ -2,22 +2,32 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { media } from '../../../../styles/media';
 import { OriginClaimDialog } from './OriginClaimDialog';
+import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
+import { useAccount } from '../../../hooks/useAccount';
 
 export function OriginClaimBanner() {
+  const { value } = useCacheCallWithValue<string>(
+    'OriginInvestorsClaim',
+    'investorsAmountsList',
+    '0',
+    useAccount(),
+  );
   const [isOpen, setOpen] = useState(false);
   return (
     <>
-      <Div>
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <div>
-            Your SOV is ready to claim, once you have claimed you will be
-            automatically whitelisted for trading
+      {Number(value) && (
+        <Div>
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <div>
+              Your SOV is ready to claim, once you have claimed you will be
+              automatically whitelisted for trading
+            </div>
+            <div>
+              <Button onClick={() => setOpen(open => !open)}>Redeem SOV</Button>
+            </div>
           </div>
-          <div>
-            <Button onClick={() => setOpen(open => !open)}>Redeem SOV</Button>
-          </div>
-        </div>
-      </Div>
+        </Div>
+      )}
       <OriginClaimDialog isOpen={isOpen} onClose={() => setOpen(false)} />
     </>
   );
