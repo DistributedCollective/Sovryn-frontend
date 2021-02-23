@@ -15,7 +15,10 @@ import {
   TxType,
 } from '../../../../store/global/transactions-store/types';
 import { SendTxProgress } from '../../../components/SendTxProgress';
-import { toNumberFormat } from '../../../../utils/display-text/format';
+import {
+  toNumberFormat,
+  weiToNumberFormat,
+} from '../../../../utils/display-text/format';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 import { InputField } from '../../../components/InputField';
 import { contractReader } from '../../../../utils/sovryn/contract-reader';
@@ -80,8 +83,8 @@ export function OriginClaimDialog(props: Props) {
 
   const { send, ...tx } = useSendContractTx('OriginInvestorsClaim', 'claim');
   const handleSubmit = useCallback(() => {
-    send([], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
-  }, [account, send]);
+    send([address], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
+  }, [account, address, send]);
 
   const handleClosing = useCallback(() => {
     if (tx.status === TxStatus.CONFIRMED) {
@@ -189,7 +192,7 @@ export function OriginClaimDialog(props: Props) {
                       <DummyField>
                         <div className="w-100 d-flex justify-content-between align-items-center position-relative">
                           <div className="w-100 flex-grow-1 text-center">
-                            {toNumberFormat(Number(sovAmount), 2)}
+                            {weiToNumberFormat(sovAmount, 2)}
                           </div>
                           <div
                             className={classNames(
@@ -239,7 +242,7 @@ export function OriginClaimDialog(props: Props) {
                         !Number(sovAmount) ||
                         loadingCheck ||
                         has ||
-                        isAddress(address.toLowerCase())
+                        !isAddress(address.toLowerCase())
                       }
                     />
                     <Button

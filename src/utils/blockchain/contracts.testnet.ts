@@ -124,7 +124,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   vestingRegistry: {
-    address: '0x84d2A40cC594f55935CbD41123a4BDc7F0199Ed4', // todo change back
+    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
@@ -144,12 +144,11 @@ export const contracts = {
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
-    address: '0x4F3326c64253f6a818a40bA2158e7D0318A3401F', // todo
+    address: '0x7E588a04AdBF744e3A6e0605C1a5D1FcDE3B2F61', // todo
     abi: OriginClaimAbi,
   },
   SOV_token: {
-    address: '0x0Ee58a21D67078A4838af4399e2962634Ebd6a66', // todo
-    // address: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
+    address: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
     abi: TestTokenABI,
   },
   ...(process.env.REACT_APP_WHITELIST_TOKEN &&
