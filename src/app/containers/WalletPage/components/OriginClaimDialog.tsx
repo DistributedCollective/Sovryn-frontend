@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
@@ -20,55 +20,14 @@ import {
   weiToNumberFormat,
 } from '../../../../utils/display-text/format';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
-import { InputField } from '../../../components/InputField';
-import { contractReader } from '../../../../utils/sovryn/contract-reader';
-import { isAddress } from '../../../../utils/helpers';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-function useHasGenesisTokens(address: string) {
-  const [has, setHas] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const run = async () => {
-      const csov1 = await contractReader.call('CSOV_token', 'balanceOf', [
-        address.toLowerCase(),
-      ]);
-
-      if (csov1 !== '0') {
-        return true;
-      }
-
-      const csov2 = await contractReader.call('CSOV2_token', 'balanceOf', [
-        address.toLowerCase(),
-      ]);
-
-      return csov2 !== '0';
-    };
-    if (address && address.length === 42) {
-      run()
-        .then(e => {
-          setHas(e);
-          setLoading(false);
-        })
-        .catch(e => {
-          setLoading(false);
-          setHas(true);
-        });
-    }
-  }, [address]);
-
-  return { has, loading };
-}
-
 export function OriginClaimDialog(props: Props) {
   const account = useAccount();
-
-  const [address, setAddress] = useState('');
 
   const { value: sovAmount, loading } = useCacheCallWithValue<string>(
     'OriginInvestorsClaim',
@@ -77,14 +36,12 @@ export function OriginClaimDialog(props: Props) {
     account,
   );
 
-  const { has, loading: loadingCheck } = useHasGenesisTokens(address);
-
   const btcAmount = bignumber(sovAmount).div(1e18).mul(10000).toString();
 
   const { send, ...tx } = useSendContractTx('OriginInvestorsClaim', 'claim');
   const handleSubmit = useCallback(() => {
-    send([address], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
-  }, [account, address, send]);
+    send([], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
+  }, [account, send]);
 
   const handleClosing = useCallback(() => {
     if (tx.status === TxStatus.CONFIRMED) {
@@ -205,19 +162,6 @@ export function OriginClaimDialog(props: Props) {
                         </div>
                       </DummyField>
                     </FieldGroup>
-
-                    <FieldGroup label={`RSK wallet address to own tokens`}>
-                      <InputField
-                        value={address}
-                        onChange={e => setAddress(e.currentTarget.value)}
-                      />
-                      {has && !loadingCheck && (
-                        <p className="text-red mt-2">
-                          Please select another RSK wallet to hold SOV tokens.
-                        </p>
-                      )}
-                    </FieldGroup>
-
                     <div className={styles.txFee}>Tx Fee: 0.00016 (r)BTC</div>
                   </div>
 
@@ -239,10 +183,7 @@ export function OriginClaimDialog(props: Props) {
                           tx.status,
                         ) ||
                         loading ||
-                        !Number(sovAmount) ||
-                        loadingCheck ||
-                        has ||
-                        !isAddress(address.toLowerCase())
+                        !Number(sovAmount)
                       }
                     />
                     <Button
