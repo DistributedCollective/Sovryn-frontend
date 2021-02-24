@@ -66,12 +66,6 @@
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
@@ -79,6 +73,25 @@
       }
     ],
     "name": "ClaimVested",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "qty",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "InvestorsAmountsListInitialized",
     "type": "event"
   },
   {
@@ -202,13 +215,7 @@
   },
   {
     "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "name": "claim",
     "outputs": [],
     "payable": false,
@@ -245,6 +252,21 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "investorsQty",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -323,14 +345,18 @@
         "internalType": "uint256[]",
         "name": "claimAmounts",
         "type": "uint256[]"
-      },
-      {
-        "internalType": "address",
-        "name": "allowanceFrom",
-        "type": "address"
       }
     ],
     "name": "setInvestorsAmountsList",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "setInvestorsAmountsListIntilized",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

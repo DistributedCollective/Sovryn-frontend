@@ -128,6 +128,11 @@ export const contracts = {
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
+  vestingRegistryOrigin: {
+    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B', // todo
+    abi: VestingRegistryAbi,
+    blockNumber: 1218836,
+  },
   staking: {
     address: '0x5684a06CaB22Db16d901fEe2A5C081b4C91eA40e',
     abi: StakingAbi,
