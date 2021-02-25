@@ -690,7 +690,10 @@ header {
             }
           }
           .transaction-hash {
-            color: #fec004;
+            min-width: 160px;
+            a {
+              color: #fec004 !important;
+            }
           }
 
           .transaction-send-asset__image,
@@ -711,10 +714,6 @@ header {
             display: flex;
             align-items: center;
             justify-content: center;
-          }
-
-          .transaction-hash {
-            min-width: 105px;
           }
         }
         // table pagination

@@ -9,7 +9,7 @@ import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
 import { useAccount } from 'app/hooks/useAccount';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { weiTo2, weiTo18 } from 'utils/blockchain/math-helpers';
-import { prettyTx } from 'utils/helpers';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Asset } from '../../../types/asset';
 import { weiToNumberFormat } from 'utils/display-text/format';
 
@@ -221,7 +221,9 @@ export function SwapHistoryTable({ title }: Props) {
       render: (hash: string) => {
         return (
           <div className="transaction-hash">
-            <Tooltip content={hash}>{prettyTx(hash || '', 4, 5)}</Tooltip>
+            <Tooltip content={hash}>
+              <LinkToExplorer txHash={hash} />
+            </Tooltip>
           </div>
         );
       },
