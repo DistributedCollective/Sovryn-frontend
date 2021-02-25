@@ -87,11 +87,11 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "totalAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
-    "name": "InvestorsAmountsListInitialized",
+    "name": "InvestorsAmountsListAppended",
     "type": "event"
   },
   {
@@ -110,7 +110,7 @@
         "type": "uint256"
       }
     ],
-    "name": "InvestorsAmountsListSet",
+    "name": "InvestorsAmountsListInitialized",
     "type": "event"
   },
   {
@@ -196,6 +196,26 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "investors",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "claimAmounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "appendInvestorsAmountsList",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -335,28 +355,8 @@
   },
   {
     "constant": false,
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "investors",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "claimAmounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "setInvestorsAmountsList",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
     "inputs": [],
-    "name": "setInvestorsAmountsListIntilized",
+    "name": "setInvestorsAmountsListInitialized",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
