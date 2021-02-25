@@ -134,7 +134,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   staking: {
-    address: '0xa341c700fE314332bA866c62c59e1EE6233B992F', // todo
+    address: '0x3f844a66D746bB8dD8290325a18413a91cacF9b5', // todo
     abi: StakingAbi,
     blockNumber: 1218836,
   },
