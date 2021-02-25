@@ -600,6 +600,33 @@ header {
       }
       &__content {
         margin-top: 24px;
+        .ant-table-content {
+          background: #161616;
+        }
+        .ant-select {
+          &-selector {
+            background: #161616;
+            border-color: #1f1f1f;
+            color: #e9eae9;
+          }
+          &-arrow {
+            color: #e9eae9;
+          }
+          &-dropdown {
+            background: #161616;
+            color: #e9eae9;
+            border: 1px solid #686868 !important;
+          }
+          &-item-option {
+            background: #161616;
+            color: #e9eae9;
+            &:hover,
+            &-selected {
+              background: #1f1f1f;
+              color: #ffffff;
+            }
+          }
+        }
         // table
         table {
           background: #161616 !important;

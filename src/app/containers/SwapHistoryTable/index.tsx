@@ -4,8 +4,9 @@ import { EventData } from 'web3-eth-contract';
 import moment from 'moment';
 import { Tooltip } from '@blueprintjs/core';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
-import { useBorrowAssetPrice } from '../../hooks/trading/useBorrowAssetPrice';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { useBorrowAssetPrice } from 'app/hooks/trading/useBorrowAssetPrice';
+import { useAccount } from 'app/hooks/useAccount';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { weiTo2, weiTo18 } from 'utils/blockchain/math-helpers';
 import { prettyTx } from 'utils/helpers';
@@ -47,11 +48,15 @@ const assetsList = AssetsDictionary.list();
 
 export function SwapHistoryTable({ title }: Props) {
   const [pagination, setPagination] = useState(defaultPagination);
+  const address = useAccount();
 
-  const swapStates = useGetContractPastEvents('swapNetwork', 'Conversion');
+  const swapStates = useGetContractPastEvents('swapNetwork', 'Conversion', {
+    _trader: address,
+  });
 
   const formatTransactions = (states): TableDataSourceProps[] => {
-    const events: EventData[] = states.events.slice(0, 100);
+    if (address.length === 0) return [];
+    const events: EventData[] = states.events;
 
     return events.map((row: any, index: number) => {
       const returnValues: EventReturnValuesProps = row.returnValues;
@@ -69,8 +74,6 @@ export function SwapHistoryTable({ title }: Props) {
         sendAmount: _fromAmount,
         receiveAsset: toAsset,
         receiveAmount: _toAmount,
-        transactionFee: '0',
-        status: 'pending',
         hash: row.transactionHash,
       };
     });
@@ -128,7 +131,7 @@ export function SwapHistoryTable({ title }: Props) {
       dataIndex: 'sendAmount',
       key: 'sendAmount',
       sorter: (a, b) => (Number(a.sendAmount) <= Number(b.sendAmount) ? -1 : 1),
-      width: '15%',
+      width: '20%',
       render: (sendAmount: string, row: TableDataSourceProps) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { value: price } = useBorrowAssetPrice(
@@ -182,7 +185,7 @@ export function SwapHistoryTable({ title }: Props) {
       key: 'receiveAmount',
       sorter: (a, b) =>
         Number(a.receiveAmount) <= Number(b.receiveAmount) ? -1 : 1,
-      width: '15%',
+      width: '20%',
       render: (receiveAmount: number, row: TableDataSourceProps) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { value: price } = useBorrowAssetPrice(
@@ -210,41 +213,15 @@ export function SwapHistoryTable({ title }: Props) {
       },
     },
     {
-      title: 'Transaction Fee',
-      dataIndex: 'transactionFee',
-      key: 'transactionFee',
-      sorter: (a, b) =>
-        Number(a.transactionFee) <= Number(b.transactionFee) ? -1 : 1,
+      title: 'Transaction Hash',
+      dataIndex: 'hash',
+      key: 'hash',
+      sorter: (a, b) => (a.hash.toLowerCase() <= b.hash.toLowerCase() ? -1 : 1),
       width: '15%',
-      render: (transactionFee: number, row: TableDataSourceProps) => {
+      render: (hash: string) => {
         return (
-          <div className="transaction-fee-amount">
-            <div className="transaction-fee-amount__origin">
-              {`${transactionFee} ${row.sendAsset}`}
-            </div>
-            <div className="transaction-fee-amount__usd">
-              {`≈ ${transactionFee} USD`}
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      sorter: (a, b) =>
-        a.status.toLowerCase() <= b.status.toLowerCase() ? -1 : 1,
-      width: '10%',
-      render: (status: string, row: TableDataSourceProps) => {
-        return (
-          <div>
-            <div className="transaction-status">{status}</div>
-            <div className="transaction-hash">
-              <Tooltip content={row.hash}>
-                {prettyTx(row.hash || '', 4, 5)}
-              </Tooltip>
-            </div>
+          <div className="transaction-hash">
+            <Tooltip content={hash}>{prettyTx(hash || '', 4, 5)}</Tooltip>
           </div>
         );
       },
