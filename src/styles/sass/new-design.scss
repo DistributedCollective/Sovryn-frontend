@@ -584,6 +584,7 @@ header {
       margin-top: 17px;
       font-size: 20px;
       font-weight: bold;
+      padding: 0;
     }
   }
 
@@ -603,6 +604,19 @@ header {
         table {
           background: #161616 !important;
           font-size: 12px;
+
+          .ant-table-placeholder {
+            > td {
+              div {
+                color: #e9eae9 !important;
+              }
+            }
+            &:hover {
+              > td {
+                background: #161616 !important;
+              }
+            }
+          }
 
           tr {
             height: 80px;
@@ -670,6 +684,10 @@ header {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+
+          .transaction-hash {
+            min-width: 105px;
           }
         }
         // table pagination
