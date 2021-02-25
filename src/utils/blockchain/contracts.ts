@@ -147,4 +147,8 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 3100260,
   },
+  NFT_tier1: {
+    address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
+    abi: tokenAbi,
+  },
 };
