@@ -10,12 +10,12 @@ import {
 import { PayloadAction } from '@reduxjs/toolkit';
 import { TransactionReceipt } from 'web3-core';
 import { Sovryn } from 'utils/sovryn';
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
 import { selectTransactionStack } from '../../../store/global/transactions-store/selectors';
 import { actions as txActions } from '../../../store/global/transactions-store/slice';
 import { TxStatus } from '../../../store/global/transactions-store/types';
+import { whitelist } from '../../../utils/whitelist';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -167,13 +167,8 @@ function* accountChangedSaga({ payload }: PayloadAction<string>) {
 function* whitelistCheckSaga() {
   const state = yield select(selectWalletProvider);
   try {
-    const result = yield call(
-      [contractReader, contractReader.call],
-      'whitelistToken' as any,
-      'balanceOf',
-      [state.address],
-    );
-    yield put(actions.whitelistChecked(result > 0));
+    const result = yield call([whitelist, whitelist.test], state.address);
+    yield put(actions.whitelistChecked(result));
   } catch (e) {
     yield put(actions.whitelistChecked(false));
   }

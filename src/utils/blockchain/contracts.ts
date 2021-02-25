@@ -142,13 +142,9 @@ export const contracts = {
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
-  // end non-mainnet //
-  ...(process.env.REACT_APP_WHITELIST_TOKEN &&
-    process.env.REACT_APP_WHITELIST === 'true' && {
-      whitelistToken: {
-        address: process.env.REACT_APP_WHITELIST_TOKEN,
-        abi: tokenAbi,
-        blockNumber: 1218844,
-      },
-    }),
+  SOV_token: {
+    address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
+    abi: tokenAbi,
+    blockNumber: 3100260,
+  },
 };
