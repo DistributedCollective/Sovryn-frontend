@@ -11,7 +11,7 @@
   },
   "title": "Sovryn",
   "announcement": {
-    "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+    "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, entretanto, uma vez que os limites foram removidos, a liquidez no sistema pode estar inicialmente baixa."
   },
   "homePage": {
     "title": "Página inicial",
@@ -269,7 +269,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
+    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está liberada. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (viva!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
