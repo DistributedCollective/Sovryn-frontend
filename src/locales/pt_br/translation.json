@@ -134,7 +134,7 @@
     "btn": "Conectar carteira",
     "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
-    "my_wallet": "Minha carteira",
+    "my_wallet": "Portfólio",
     "referrals": "Convide um amigo"
   },
   "hintDialog": {
@@ -152,7 +152,7 @@
     "trade": "Operar",
     "lend": "Empréstimos",
     "fastBtc": "Depositar-Btc",
-    "wallet": "Minha carteira",
+    "wallet": "Portfólio",
     "liquidity": "Liquidez",
     "stats": "Dados",
     "faqs": "FAQs",
@@ -551,7 +551,7 @@
   },
   "walletPage": {
     "meta": {
-      "title": "Minha carteira",
+      "title": "Portfólio",
       "description": "Informações sobre a carteira conectada"
     },
     "tabs": {
