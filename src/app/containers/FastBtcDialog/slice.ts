@@ -11,6 +11,11 @@ export const initialState: ContainerState = {
   deposit: {
     loading: false,
     address: '',
+    receiver: '',
+  },
+  history: {
+    loading: false,
+    items: [],
   },
   depositTx: {
     txHash: '',
@@ -40,15 +45,20 @@ const fastBtcDialogSlice = createSlice({
     generateDepositAddress(state) {
       state.deposit.loading = true;
     },
-    generateDepositAddressSuccess(state, { payload }: PayloadAction<string>) {
+    generateDepositAddressSuccess(
+      state,
+      { payload }: PayloadAction<{ btcadr: string; web3adr: string }>,
+    ) {
       state.step = Step.WALLET;
       state.deposit.loading = false;
-      state.deposit.address = payload;
+      state.deposit.address = payload.btcadr;
+      state.deposit.receiver = payload.web3adr;
     },
     generateDepositAddressFailed(state, { payload }: PayloadAction<string>) {
       toastError(payload, 'fast-btc');
       state.deposit.loading = false;
       state.deposit.address = '';
+      state.deposit.receiver = '';
     },
     // get amount limits
     changeAmountInfo(
@@ -66,6 +76,19 @@ const fastBtcDialogSlice = createSlice({
       state.transferTx = payload;
       state.step = Step.TRANSACTION;
       state.txId = TxId.TRANSFER;
+    },
+    // get history
+    getHistory(state, { payload }: PayloadAction<string>) {
+      state.history.loading = true;
+    },
+    getHistorySuccess(state, { payload }: PayloadAction<any[]>) {
+      state.history.items = payload;
+      state.history.loading = false;
+    },
+    getHistoryFailed(state, { payload }: PayloadAction<string>) {
+      toastError(payload, 'fast-btc');
+      state.history.items = [];
+      state.history.loading = false;
     },
   },
 });

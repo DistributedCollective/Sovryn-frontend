@@ -7,6 +7,7 @@ export interface FastBtcDialogState {
   depositTx: TxState;
   transferTx: TxState;
   limits: Limits;
+  history: TxHistory;
 }
 
 export type ContainerState = FastBtcDialogState;
@@ -25,6 +26,7 @@ export enum TxId {
 export interface DepositState {
   loading: boolean;
   address: string;
+  receiver: string;
 }
 
 export interface TxState {
@@ -36,4 +38,20 @@ export interface TxState {
 export interface Limits {
   min: number;
   max: number;
+}
+
+export interface TxHistory {
+  items: HistoryItem[];
+  loading: boolean;
+}
+
+export interface HistoryItem {
+  id: number;
+  dateAdded: string;
+  btcadr: string;
+  web3adr: string;
+  status: string;
+  txHash: string;
+  type: string;
+  valueBtc: number;
 }

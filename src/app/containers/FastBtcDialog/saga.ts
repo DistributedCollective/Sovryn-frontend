@@ -49,7 +49,26 @@ function* generateDepositAddress(socket) {
     if (res && res.btcadr) {
       yield put(actions.generateDepositAddressSuccess(res));
     } else {
-      yield put(actions.generateDepositAddressFailed(err));
+      yield put(actions.generateDepositAddressFailed(err?.error));
+    }
+  }
+}
+
+const getDepositHistoryRequest = (socket, address) =>
+  new Promise(resolve => {
+    socket.emit('getDepositHistory', address, res => {
+      resolve(res);
+    });
+  });
+
+function* getDepositHistory(socket) {
+  while (true) {
+    const { payload: address } = yield take(actions.getHistory.type);
+    const res = yield call(getDepositHistoryRequest, socket, address);
+    if (res?.error) {
+      yield put(actions.getHistoryFailed(res?.error));
+    } else {
+      yield put(actions.getHistorySuccess(res));
     }
   }
 }
@@ -57,6 +76,7 @@ function* generateDepositAddress(socket) {
 function* watchSocketChannel() {
   const socket = yield call(createSocketConnection);
   yield fork(generateDepositAddress, socket);
+  yield fork(getDepositHistory, socket);
 
   const blockChannel = yield call(createWebSocketChannel, socket);
   try {
