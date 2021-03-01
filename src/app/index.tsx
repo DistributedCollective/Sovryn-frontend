@@ -23,6 +23,8 @@ import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
+import { useMaintenance } from './hooks/useMaintenance';
+import { MaintenancePage } from './containers/MaintenancePage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -44,6 +46,9 @@ function resolveColorScheme() {
 
 export function App() {
   const [theme, setTheme] = useState(resolveColorScheme());
+  const { checkMaintenance } = useMaintenance();
+  const siteLocked = checkMaintenance('full');
+
   useEffect(() => {
     try {
       window
@@ -69,28 +74,32 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      <WalletProvider>
-        <Switch>
-          <Route exact path="/" component={TradingPage} />
-          <Route exact path="/lend" component={LendBorrowSovryn} />
-          <Route exact path="/stats" component={StatsPage} />
-          <Route exact path="/liquidity" component={LiquidityPage} />
-          <Route exact path="/sandbox" component={SandboxPage} />
-          <Route exact path="/wallet" component={WalletPage} />
-          <Route
-            exact
-            path="/optin-success"
-            render={props => <EmailPage {...props} type="OPTIN" />}
-          />
-          <Route
-            exact
-            path="/unsubscribe"
-            render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
-        <EngageWalletDialog />
-      </WalletProvider>
+      {siteLocked?.maintenance_active ? (
+        <MaintenancePage message={siteLocked?.message} />
+      ) : (
+        <WalletProvider>
+          <Switch>
+            <Route exact path="/" component={TradingPage} />
+            <Route exact path="/lend" component={LendBorrowSovryn} />
+            <Route exact path="/stats" component={StatsPage} />
+            <Route exact path="/liquidity" component={LiquidityPage} />
+            <Route exact path="/sandbox" component={SandboxPage} />
+            <Route exact path="/wallet" component={WalletPage} />
+            <Route
+              exact
+              path="/optin-success"
+              render={props => <EmailPage {...props} type="OPTIN" />}
+            />
+            <Route
+              exact
+              path="/unsubscribe"
+              render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+          <EngageWalletDialog />
+        </WalletProvider>
+      )}
       <GlobalStyle />
     </BrowserRouter>
   );

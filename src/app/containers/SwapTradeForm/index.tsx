@@ -28,10 +28,7 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.swapTradeForm;
 
@@ -63,6 +60,9 @@ export function SwapTradeForm() {
     'getConvertibleTokens',
     [],
   );
+
+  const { checkMaintenance } = useMaintenance();
+  const swapsLocked = checkMaintenance('openTradesSwaps');
 
   const getOptions = useCallback(() => {
     return (tokens
@@ -196,9 +196,9 @@ export function SwapTradeForm() {
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
-          hideIt={disableNewTrades}
+          hideIt={swapsLocked?.maintenance_active}
           disabled={
-            disableNewTrades ||
+            swapsLocked?.maintenance_active ||
             !isConnected ||
             tx.loading ||
             amount <= '0' ||
@@ -208,8 +208,8 @@ export function SwapTradeForm() {
           loading={tx.loading}
           textColor={color}
           tooltip={
-            disableNewTrades ? (
-              <div className="mw-tooltip">{disableNewTradesText}</div>
+            swapsLocked?.maintenance_active ? (
+              <div className="mw-tooltip">{swapsLocked?.message}</div>
             ) : undefined
           }
         />

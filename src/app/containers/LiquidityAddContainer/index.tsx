@@ -23,6 +23,7 @@ import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-p
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { ExpectedPoolTokens } from './ExpectedPoolTokens';
 import { maxMinusFee } from '../../../utils/helpers';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -58,6 +59,9 @@ export function LiquidityAddContainer(props: Props) {
   const weiAmount = useWeiAmount(amount);
 
   const tx = useApproveAndAddLiquidity(pool, sourceToken, weiAmount, '1');
+
+  const { checkMaintenance } = useMaintenance();
+  const liquidityLocked = checkMaintenance('changeLiquidity');
 
   const handleSupply = useCallback(() => {
     tx.deposit();
@@ -141,7 +145,17 @@ export function LiquidityAddContainer(props: Props) {
             text={t(translations.liquidity.supply)}
             onClick={handleSupply}
             loading={tx.loading}
-            disabled={!isConnected || tx.loading || !amountValid()}
+            disabled={
+              !isConnected ||
+              tx.loading ||
+              !amountValid() ||
+              liquidityLocked?.maintenance_active
+            }
+            tooltip={
+              liquidityLocked?.maintenance_active ? (
+                <div className="mw-tooltip">{liquidityLocked?.message}</div>
+              ) : undefined
+            }
           />
         </div>
       </div>
