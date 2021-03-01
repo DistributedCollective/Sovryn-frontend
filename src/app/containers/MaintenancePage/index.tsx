@@ -21,7 +21,10 @@ export function MaintenancePage(props: Props) {
     >
       <div className="text-center">
         <StyledLogo src={logoSvg} />
-        <div className="font-size-lg">{props.message}</div>
+        <div className="font-size-lg">
+          {props.message ||
+            'Sovryn is under maintenance, please try again later'}
+        </div>
       </div>
     </div>
   );
