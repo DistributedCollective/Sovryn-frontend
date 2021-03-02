@@ -6,7 +6,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Container } from 'react-bootstrap';
 import styled from 'styled-components/macro';
 import { MenuItem } from '@blueprintjs/core';
 
@@ -166,20 +165,20 @@ export function Header() {
   return (
     <>
       <header>
-        <Container className="d-flex justify-content-between align-items-center mb-3 pt-2 pb-2">
-          <div className="d-xl-none">
+        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-mb-4 tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+          <div className="xl:tw-hidden">
             <div ref={node}>
               <Burger open={open} setOpen={setOpen} />
               <Menu open={open} setOpen={setOpen} />
             </div>
           </div>
-          <div className="d-xl-flex flex-row align-items-center">
-            <div className="mr-3">
+          <div className="xl:tw-flex tw-flex-row tw-items-center">
+            <div className="tw-mr-3">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="d-none d-xl-block">
+            <div className="tw-hidden xl:tw-block">
               <NavLink className="tw-header-link" to="/" exact>
                 {t(translations.mainMenu.trade)}
               </NavLink>
@@ -205,13 +204,13 @@ export function Header() {
               </a>
             </div>
           </div>
-          <div className="d-flex justify-content-start align-items-center">
-            <div className="mr-3">
+          <div className="tw-flex tw-justify-start tw-items-center">
+            <div className="tw-mr-3">
               <LanguageToggle />
             </div>
             <WalletConnector simpleView={false} />
           </div>
-        </Container>
+        </div>
       </header>
       <WhitelistedNotification />
     </>

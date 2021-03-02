@@ -59,19 +59,19 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   };
 
   return (
-    <div className="justify-content-center align-items-center d-none d-md-flex">
+    <div className="tw-justify-center tw-items-center tw-hidden md:tw-flex">
       {!connected && !address ? (
         <StyledButton
           onClick={handleWalletConnection}
-          className="d-flex justify-content-center align-items-center"
+          className="tw-flex tw-justify-center tw-items-center"
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
             <>
-              <span className="d-none d-xl-inline">
+              <span className="tw-hidden xl:tw-inline">
                 {t(translations.wallet.connect_btn)}
               </span>
-              <Icon icon="log-in" className="d-xl-none" />
+              <Icon icon="log-in" className="xl:tw-none" />
             </>
           )}
         </StyledButton>
@@ -94,12 +94,12 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             }
           >
             <>
-              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex cursor-pointer">
-                <span className="d-flex flex-nowrap flex-row align-items-center w-100 justify-content-between">
+              <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
+                <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-100 tw-justify-between">
                   <span>{prettyTx(address, 4, 4)}</span>
                   <span className="pl-2">
                     <img
-                      className="rounded-circle"
+                      className="tw-rounded-full"
                       src={getWalletAddrBlockieImg()}
                       alt="wallet address"
                     />
@@ -111,7 +111,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   />
                 </span>
               </div>
-              <StyledButton className="d-xl-none">
+              <StyledButton className="xl:tw-hidden">
                 <Icon icon="user" />
               </StyledButton>
             </>
