@@ -36,7 +36,7 @@ export function ActiveUserLoans(props: Props) {
   if (!value.length && !loading) {
     return (
       <>
-        <div className="container" style={{ padding: '20px' }}>
+        <div className="tw-container tw-mx-auto" style={{ padding: '20px' }}>
           {t(translations.activeUserLoans.text)}
         </div>
         <InfoBox

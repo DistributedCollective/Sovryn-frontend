@@ -18,23 +18,23 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="mt-3">
-      <div className="container py-3">
-        <div className="d-flex flex-column justify-content-center align-items-start text-lightGrey font-family-montserrat">
-          <h6 className="font-weight-normal mb-4">
+    <footer className="tw-mt-3">
+      <div className="tw-container tw-py-3 tw-mx-auto tw-px-4">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start text-lightGrey font-family-montserrat">
+          <h6 className="tw-font-normal tw-mb-4">
             <Trans
               i18nKey={translations.footer.title}
               components={[<strong></strong>]}
             />
           </h6>
-          <div className="font-weight-light">
-            <p>
+          <div className="tw-font-light">
+            <p className="tw-mb-4">
               <Trans i18nKey={translations.footer.notice_1} />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans i18nKey={translations.footer.notice_2} />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans
                 i18nKey={translations.footer.notice_3}
                 components={[
@@ -48,7 +48,7 @@ export function Footer() {
                 ]}
               />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans
                 i18nKey={translations.footer.notice_4}
                 components={[
@@ -65,20 +65,20 @@ export function Footer() {
           </div>
         </div>
         {commitHash && (
-          <div className="small text-white font-family-montserrat">
+          <div className="small tw-text-white font-family-montserrat tw-font-montserrat">
             {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-weight-normal text-white"
+              className="tw-font-normal tw-text-white"
             >
               {commitHash.substr(0, 7)}
             </a>
           </div>
         )}
         {hasMatomo && (
-          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center text-lightGrey tw-mt-5">
             <iframe
               title="MatomoOptout"
               style={{ width: '100%', border: 'none', marginLeft: '-5px' }}

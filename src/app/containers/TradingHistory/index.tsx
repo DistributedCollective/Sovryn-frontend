@@ -335,7 +335,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <div className="bg-primary p-3 sovryn-border">
+    <div className="bg-primary tw-p-6 sovryn-border">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -354,7 +354,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => (
-                  <td className="text-left" {...cell.getCellProps()}>
+                  <td className="tw-text-left" {...cell.getCellProps()}>
                     {cell.render('Cell')}
                   </td>
                 ))}

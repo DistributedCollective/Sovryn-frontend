@@ -86,18 +86,18 @@ export function TradingPairSelector(props: Props) {
         targetTagName: 'div',
       }}
     >
-      <button className="w-100 sovryn-border bg-dark text-white mb-4 d-flex flex-row justify-content-between align-items-center p-0">
-        <span className="px-3 pr-4 d-flex flex-row align-items-center justify-content-between flex-shrink-0 flex-grow-1">
+      <button className="sovryn-border tw-w-full bg-dark tw-text-white tw-mb-4 tw-flex tw-flex-row tw-justify-between tw-items-center tw-p-0">
+        <span className="tw-px-3 tw-pr-4 tw-flex tw-flex-row tw-items-center tw-justify-between tw-flex-shrink-0 tw-flex-grow">
           {selected ? (
             <>
-              <span className="d-flex flex-row justify-content-start align-items-center flex-shrink-0 flex-grow-1">
+              <span className="tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-shrink-0 tw-flex-grow">
                 <StyledAssetLogo src={pair.getAssetDetails().logoSvg} />
                 <Text ellipsize>{pair.getName()}</Text>
               </span>
               <Text
                 ellipsize
                 className={[
-                  'flex-shrink-1 flex-grow-0',
+                  'tw-flex-shrink tw-flex-grow-0',
                   loading ? 'bp3-skeleton' : '',
                 ].join(' ')}
               >
@@ -108,7 +108,7 @@ export function TradingPairSelector(props: Props) {
             <Text ellipsize>Select trade pair</Text>
           )}
         </span>
-        <span className="sovryn-border-left px-2 py-3 px-lg-4">
+        <span className="sovryn-border-left tw-px-2 tw-py-3 lg:tw-px-4">
           <Icon icon="caret-down" />
         </span>
       </button>
