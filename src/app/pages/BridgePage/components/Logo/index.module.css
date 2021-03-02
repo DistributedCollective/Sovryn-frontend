@@ -1,0 +1,10 @@
+.logo {
+    width: 165px;
+    height: 70px;
+    background: url(../../assets/logo.svg) center center no-repeat;
+    background-size: 165px 70px;
+}
+
+.title {
+    width: 170px;
+}

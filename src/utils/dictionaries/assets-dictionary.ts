@@ -7,23 +7,46 @@ import bproIcon from 'assets/images/tokens/bpro.svg';
 import sovIcon from 'assets/images/tokens/sov.svg';
 
 import { AssetDetails } from '../models/asset-details';
+import { Chain } from '../../types/chain';
+import { currentChainId } from '../classifiers';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
     [
-      [Asset.BTC, new AssetDetails(Asset.BTC, 'rBTC', 'Bitcoin', 18, rbtcIcon)],
+      [
+        Asset.BTC,
+        new AssetDetails(Asset.BTC, 'rBTC', 'Bitcoin', 18, rbtcIcon, [
+          Chain.RSK,
+          Chain.RSK_TESTNET,
+        ]),
+      ],
       [
         Asset.DOC,
-        new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),
+        new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon, [
+          Chain.RSK,
+          Chain.RSK_TESTNET,
+        ]),
       ],
-      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
+      [
+        Asset.USDT,
+        new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon, [
+          Chain.RSK,
+          Chain.RSK_TESTNET,
+        ]),
+      ],
       [
         Asset.BPRO,
-        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
+        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon, [
+          Chain.RSK,
+          Chain.RSK_TESTNET,
+        ]),
       ],
       [
         Asset.CSOV,
-        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
+        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon, [
+          Chain.RSK,
+          Chain.RSK_TESTNET,
+        ]),
       ],
     ],
   );
@@ -47,14 +70,26 @@ export class AssetsDictionary {
   }
 
   public static list(): Array<AssetDetails> {
-    return Array.from(this.assets.values());
+    return this.listForChain(currentChainId);
   }
 
   public static assetList(): Array<Asset> {
-    return Array.from(this.assets.keys());
+    return this.listAssetsForChain(currentChainId);
   }
 
   public static find(assets: Array<Asset>): Array<AssetDetails> {
     return assets.map(asset => this.get(asset));
+  }
+
+  public static listForChain(chainId: Chain) {
+    return Array.from(this.assets.values()).filter(item =>
+      item.chainIds.includes(chainId),
+    );
+  }
+
+  public static listAssetsForChain(chainId: Chain) {
+    return Array.from(this.assets.values())
+      .filter(item => item.chainIds.includes(chainId))
+      .map(item => item.asset);
   }
 }

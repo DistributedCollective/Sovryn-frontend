@@ -2,6 +2,8 @@ import { TxType } from '../store/global/transactions-store/types';
 import { isChecked } from './helpers';
 
 export const chains = {
+  eth: 1,
+  eth_kovan: 42,
   mainnet: 30,
   testnet: 31,
 };

@@ -742,5 +742,12 @@
       "noResults": "No results",
       "placeholder": "Select item"
     }
+  },
+  "bridgePage": {
+    "title": "Homecoming Bridge",
+    "fields": {
+      "sendAsset": "Send Asset:",
+      "sendAssetPlaceholder": "Select Asset"
+    }
   }
 }
