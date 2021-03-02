@@ -31,16 +31,16 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border py-1 py-lg-2 currency-container font-family-work-sans mb-3 text-muted',
+        'sovryn-border tw-py-1 lg:tw-py-2 currency-container font-family-work-sans mb-3 text-muted',
         active && 'currency-container__active',
       )}
     >
-      <div className="d-flex flex-row justify-content-start align-items-center currency currency-title w-lg-50 mb-3 mb-lg-0 px-3">
+      <div className="tw-flex tw-flex- tw-justify-start tw-items-center currency currency-title lg:tw-w-6/12 tw-mb-3 lg:tw-mb-0 tw-px-3">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />
-        <h3 className="m-0 font-family-rowdies">{lendingPool.getName()}</h3>
+        <h3 className="tw-m-0 font-family-rowdies">{lendingPool.getName()}</h3>
       </div>
-      <div className="d-flex currency pt-0 w-lg-50 pt-lg-3">
-        <div className="w-50 px-3">
+      <div className="tw-flex currency tw-pt-0 lg:tw-w-6/12 lg:tw-pt-3">
+        <div className="tw-w-6/12 tw-px-3">
           <Text className="text-muted">
             {t(translations.lend.currency.lendArp)}:
           </Text>
@@ -49,7 +49,7 @@ const CurrencyRow: React.FC<Props> = ({
             weiAmount={lendingAmount}
           />
         </div>
-        <div className="w-50 px-3">
+        <div className="tw-w-6/12 tw-px-3">
           <Text className="text-muted">
             {t(translations.lend.currency.borrowArp)}:
           </Text>
@@ -60,7 +60,7 @@ const CurrencyRow: React.FC<Props> = ({
         </div>
       </div>
       {active && (
-        <div className="mt-3">
+        <div className="tw-mt-3">
           <LoanTokenGraphs lendingPool={lendingPool} />
         </div>
       )}
