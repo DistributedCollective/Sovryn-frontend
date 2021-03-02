@@ -154,15 +154,11 @@ export const contracts = {
   },
   SOV_token: {
     address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
-    abi: TestTokenABI,
+    abi: tokenAbi,
+    blockNumber: 3100260,
   },
-  // end non-mainnet //
-  ...(process.env.REACT_APP_WHITELIST_TOKEN &&
-    process.env.REACT_APP_WHITELIST === 'true' && {
-      whitelistToken: {
-        address: process.env.REACT_APP_WHITELIST_TOKEN,
-        abi: tokenAbi,
-        blockNumber: 1218844,
-      },
-    }),
+  NFT_tier1: {
+    address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
+    abi: tokenAbi,
+  },
 };
