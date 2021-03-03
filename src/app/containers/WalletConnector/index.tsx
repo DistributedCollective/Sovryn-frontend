@@ -99,7 +99,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   <span>{prettyTx(address, 4, 4)}</span>
                   <span className="pl-2">
                     <img
-                      className="tw-rounded-full-full"
+                      className="tw-rounded-full"
                       src={getWalletAddrBlockieImg()}
                       alt="wallet address"
                     />

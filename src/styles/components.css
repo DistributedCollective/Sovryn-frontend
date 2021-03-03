@@ -30,7 +30,7 @@
     @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
     @apply tw-text-primary tw-uppercase tw-text-xl tw-font-black tw-leading-none tw-font-body;
     @apply tw-px-4 tw-py-2;
-    @apply tw-border tw-rounded-full-lg;
+    @apply tw-border lg:tw-rounded-full;
     @apply tw-transition;
     @apply tw-bg-primary tw-bg-opacity-5;
     @apply hover:tw-bg-opacity-25;
@@ -84,7 +84,7 @@
     @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
     @apply tw-text-primary tw-text-lg tw-font-medium tw-leading-none tw-font-body;
     @apply tw-px-4 tw-py-2;
-    @apply tw-border tw-rounded-full-full;
+    @apply tw-border tw-rounded-full;
     @apply tw-transition;
     @apply tw-bg-primary tw-bg-opacity-5;
     @apply tw-normal-case;
@@ -116,7 +116,7 @@
     @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
     @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
     @apply tw-px-4 tw-py-2;
-    @apply tw-border-0 tw-rounded-full-lg;
+    @apply tw-border-0 lg:tw-rounded-full;
     @apply tw-transition;
     @apply hover:tw-bg-opacity-75;
   }
@@ -157,7 +157,7 @@
 
   .tw-slider .bp3-slider-track {
     height: 0.75rem;
-    @apply tw-rounded-full-lg;
+    @apply lg:tw-rounded-full;
   }
 
   .tw-slider .bp3-slider-progress {
@@ -171,7 +171,7 @@
   }
 
   .tw-slider .bp3-slider-handle {
-    @apply tw-rounded-full-full tw-w-6 tw-h-6;
+    @apply tw-rounded-full tw-w-6 tw-h-6;
   }
 
   .tw-slider .bp3-slider-axis {
