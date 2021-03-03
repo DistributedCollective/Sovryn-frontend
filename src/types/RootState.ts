@@ -6,6 +6,7 @@ import { EventsStoreState } from '../store/global/events-store/types';
 import { TransactionsStoreState } from '../store/global/transactions-store/types';
 import { TutorialDialogModalState } from 'app/containers/EngageWalletDialog/types';
 import { SalesPageState } from 'app/containers/SalesPage/types';
+import { FastBtcDialogState } from 'app/containers/FastBtcDialog/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -21,5 +22,6 @@ export interface RootState {
   transactionsState?: TransactionsStoreState;
   tutorialDialogModal?: TutorialDialogModalState;
   salesPage?: SalesPageState;
+  fastBtcDialog?: FastBtcDialogState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

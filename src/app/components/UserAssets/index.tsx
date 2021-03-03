@@ -27,6 +27,7 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
 import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
+import { FastBtcDialog } from '../../containers/FastBtcDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -34,6 +35,8 @@ export function UserAssets() {
   const connected = useIsConnected();
   const account = useAccount();
   const assets = AssetsDictionary.list();
+
+  const [fastBtc, setFastBtc] = useState(false);
 
   return (
     <>
@@ -74,19 +77,27 @@ export function UserAssets() {
             )}
             {connected &&
               account &&
-              assets.map(item => <AssetRow key={item.asset} item={item} />)}
+              assets.map(item => (
+                <AssetRow
+                  key={item.asset}
+                  item={item}
+                  onFastBtc={() => setFastBtc(true)}
+                />
+              ))}
           </tbody>
         </table>
       </div>
+      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
     </>
   );
 }
 
 interface AssetProps {
   item: AssetDetails;
+  onFastBtc: () => void;
 }
 
-function AssetRow({ item }: AssetProps) {
+function AssetRow({ item, onFastBtc }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -161,14 +172,14 @@ function AssetRow({ item }: AssetProps) {
       </td>
       <td className="text-right d-none d-md-table-cell">
         <ButtonGroup>
-          {/*{item.asset === Asset.BTC && (*/}
-          {/*  <Button*/}
-          {/*    minimal*/}
-          {/*    text={t(translations.userAssets.actions.deposit)}*/}
-          {/*    className="text-gold"*/}
-          {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {item.asset === Asset.BTC && (
+            <Button
+              minimal
+              text={t(translations.userAssets.actions.deposit)}
+              className="text-gold button-round"
+              onClick={() => onFastBtc()}
+            />
+          )}
           {item.asset !== Asset.CSOV ? (
             <>
               <Button

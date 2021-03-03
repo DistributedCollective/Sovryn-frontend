@@ -17,6 +17,7 @@ import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
+import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();
@@ -84,6 +85,11 @@ export function WalletPage() {
             </div>
           </div>
         )}
+      </div>
+      <div className="container mt-5">
+        <div className="w-100">
+          <TopUpHistory />
+        </div>
       </div>
       <Footer />
     </>
