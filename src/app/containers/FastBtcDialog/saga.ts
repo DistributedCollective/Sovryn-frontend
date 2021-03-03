@@ -1,9 +1,10 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, put, takeLatest, fork, select } from 'redux-saga/effects';
 import io from 'socket.io-client';
-import { actions } from './slice';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
+import { actions } from './slice';
 import { selectWalletProvider } from '../WalletProvider/selectors';
+import { actions as wActions } from '../WalletProvider/slice';
 
 function createSocketConnection() {
   const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
@@ -90,6 +91,12 @@ function* watchSocketChannel() {
   }
 }
 
+function* resetData() {
+  yield put(actions.reset());
+}
+
 export function* fastBtcDialogSaga() {
   yield takeLatest(actions.init.type, watchSocketChannel);
+  yield takeLatest(wActions.accountChanged.type, watchSocketChannel);
+  yield takeLatest(wActions.accountChanged.type, resetData);
 }

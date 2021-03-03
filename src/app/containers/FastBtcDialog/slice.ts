@@ -37,9 +37,20 @@ const fastBtcDialogSlice = createSlice({
   name: 'fastBtcDialog',
   initialState,
   reducers: {
-    init(state) {},
+    init(state) {
+      state.ready = false;
+    },
     ready(state) {
       state.ready = true;
+    },
+    reset(state) {
+      state.deposit.address = '';
+      state.deposit.receiver = '';
+      state.deposit.loading = false;
+      state.step = Step.MAIN;
+      state.txId = TxId.DEPOSIT;
+      state.history.loading = false;
+      state.history.items = [];
     },
     // generate deposit address
     generateDepositAddress(state) {

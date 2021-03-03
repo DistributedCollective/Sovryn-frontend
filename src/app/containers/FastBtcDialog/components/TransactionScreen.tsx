@@ -30,7 +30,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
       <div className={styles.subtitle}>
         <i>
           {t(translations.fastBtcDialog.transaction.status, {
-            status: `${step}/2 ${tx.status}`,
+            status: `${step}/2 ${tx.status || 'sent'}`,
           })}
         </i>
       </div>
