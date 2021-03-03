@@ -32,7 +32,7 @@ export function TradeProfit(props: Props) {
         weiTo4(props.profit),
       ).toLocaleString('en')}`}</div>
       <div
-        className="d-inline ml-2 mr-2"
+        className="d-inline tw-ml-2 mr-2"
         style={{
           fontSize: '12px',
           color: Number(change) > 0 ? 'Green' : 'Red',

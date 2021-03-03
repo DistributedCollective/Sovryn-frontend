@@ -1,17 +1,19 @@
 @layer base {
-    body {
-        @apply tw-bg-dark tw-text-white tw-font-body;
-    }
+  body {
+    @apply tw-bg-dark tw-text-white tw-font-body;
+  }
 
-    * {
-        @apply tw-font-body;
-    }
+  * {
+    @apply tw-font-body;
+  }
 
-    a, a:visited {
-        @apply tw-text-primary tw-no-underline tw-underline;
-    }
+  a,
+  a:visited {
+    @apply tw-text-primary tw-no-underline tw-underline;
+  }
 
-    a:hover, a:active {
-        @apply tw-text-primary tw-underline;
-    }
+  a:hover,
+  a:active {
+    @apply tw-text-primary tw-underline;
+  }
 }

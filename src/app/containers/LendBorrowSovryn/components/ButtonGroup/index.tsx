@@ -86,7 +86,7 @@ const ButtonGroup: React.FC<Props> = ({
         <Tab.Container id="button-group " defaultActiveKey={leftButton}>
           <Nav
             onSelect={k => setKey((k as unknown) as ButtonType)}
-            className="deposit-button-group w-100"
+            className="deposit-button-group tw-w-full"
             variant="pills"
           >
             <Nav.Link eventKey={leftButton}>

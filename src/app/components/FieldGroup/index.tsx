@@ -15,8 +15,8 @@ interface Props {
 
 export function FieldGroup(props: Props) {
   return (
-    <Div className="mb-3">
-      <Label className="mb-2" color={props.labelColor}>
+    <Div className="tw-mb-3">
+      <Label className="tw-mb-2" color={props.labelColor}>
         {props.label}
       </Label>
       <Content>{props.children}</Content>

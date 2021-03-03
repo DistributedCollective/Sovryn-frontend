@@ -109,7 +109,7 @@ export function SalesPage() {
       </Helmet>
       <Header />
       <main
-        className="container font-family-montserrat"
+        className="tw-container tw-mx-auto tw-px-4 font-family-montserrat"
         style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
         <>
@@ -120,7 +120,7 @@ export function SalesPage() {
         <SOVModel />
         <SOVGovernance />
         {
-          <div className="footer d-flex justify-content-center mb-5">
+          <div className="footer tw-flex tw-justify-center tw-mb-5">
             <StyledButton
               as="a"
               href="https://docsend.com/view/mbhvi379crhagtwp"

@@ -112,14 +112,14 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-end">
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-end">
             <div className="mr-1">
               <Tooltip
                 content={t(translations.activeLoan.table.container.topUp)}
               >
                 <Icon
                   icon="double-chevron-up"
-                  className="text-green mr-1 rounded-circle border border-green p-1"
+                  className="text-green mr-1 tw-rounded-full-circle border border-green p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
@@ -135,7 +135,7 @@ export function ActiveLoanTableContainer(props: Props) {
               >
                 <Icon
                   icon="cross"
-                  className="text-red ml-1 rounded-circle border border-red p-1"
+                  className="text-red ml-1 tw-rounded-full-circle border border-red p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();

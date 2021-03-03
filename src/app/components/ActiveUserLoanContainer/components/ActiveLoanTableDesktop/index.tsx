@@ -68,14 +68,14 @@ export function ActiveLoanTableDesktop(props: Props) {
     if (sortConfig.key !== name) {
       return <Icon icon="double-caret-vertical" iconSize={15} />;
     } else if (sortConfig.direction === 'ascending') {
-      return <Icon icon="sort-asc" iconSize={15} className="text-white" />;
+      return <Icon icon="sort-asc" iconSize={15} className="tw-text-white" />;
     } else {
-      return <Icon icon="sort-desc" iconSize={15} className="text-white" />;
+      return <Icon icon="sort-desc" iconSize={15} className="tw-text-white" />;
     }
   }
 
   return (
-    <div className="bg-primary sovryn-border p-3 d-none d-md-block">
+    <div className="bg-primary sovryn-border p-3 tw-hidden md:tw-block">
       <table className="sovryn-table">
         <thead>
           <tr style={{ cursor: 'pointer' }}>
@@ -117,7 +117,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                       props.setExpandedId('');
                     }
                   }}
-                  className={`cursor-pointer ${
+                  className={`tw-cursor-pointer ${
                     props.expandedId && !expanded && 'opaque'
                   }`}
                 >
@@ -153,7 +153,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                   <td>
                     {numberToPercent(item.currentMargin, 2)}
                     <small
-                      className={`d-md-inline d-sm-block ml-2 mr-2 ${
+                      className={`d-md-inline d-sm-block tw-ml-2 mr-2 ${
                         item.marginDiff > 0 ? 'text-green' : 'text-red'
                       }`}
                     >
@@ -176,7 +176,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                 </tr>
                 {props.expandedId === item.id && (
                   <ActiveLoanExpandedRow
-                    className="d-none d-md-block"
+                    className="tw-hidden md:tw-block"
                     data={item}
                     key={props.expandedId}
                     handleClick={() => props.setExpandedId('')}

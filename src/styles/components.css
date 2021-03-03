@@ -1,191 +1,196 @@
-@import "tailwindcss/components/index.css";
+@import 'tailwindcss/components/index.css';
 
 @layer components {
-    .tw-link {
-        @apply tw-text-primary tw-no-underline;
-    }
+  .tw-link {
+    @apply tw-text-primary tw-no-underline;
+  }
 
-    .tw-link:hover {
-        @apply tw-text-primary tw-underline;
-    }
+  .tw-link:hover {
+    @apply tw-text-primary tw-underline;
+  }
 
-    .tw-header-link, .tw-header-link:visited {
-        @apply tw-font-body tw-uppercase tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-font-medium tw-transition tw-mx-6;
-    }
+  .tw-header-link,
+  .tw-header-link:visited {
+    @apply tw-font-body tw-uppercase tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-font-medium tw-transition tw-mx-6;
+  }
 
-    .tw-header-link:hover, .tw-header-link:active {
-        @apply tw-text-secondary tw-no-underline;
-    }
+  .tw-header-link:hover,
+  .tw-header-link:active {
+    @apply tw-text-secondary tw-no-underline;
+  }
 
-    .tw-header-link.active {
-        @apply tw-text-white tw-font-black tw-no-underline;
-    }
+  .tw-header-link.active {
+    @apply tw-text-white tw-font-black tw-no-underline;
+  }
 
-    /* form button styles */
-    .tw-btn {
-        height: 3rem;
-        letter-spacing: 0.1rem;
-        @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
-        @apply tw-text-primary tw-uppercase tw-text-xl tw-font-black tw-leading-none tw-font-body;
-        @apply tw-px-4 tw-py-2;
-        @apply tw-border tw-rounded-lg;
-        @apply tw-transition;
-        @apply tw-bg-primary tw-bg-opacity-5;
-        @apply hover:tw-bg-opacity-25;
-    }
+  /* form button styles */
+  .tw-btn {
+    height: 3rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-primary tw-uppercase tw-text-xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-px-4 tw-py-2;
+    @apply tw-border tw-rounded-full-lg;
+    @apply tw-transition;
+    @apply tw-bg-primary tw-bg-opacity-5;
+    @apply hover:tw-bg-opacity-25;
+  }
 
-    .tw-btn:disabled {
-        @apply tw-opacity-25 tw-bg-opacity-25 tw-cursor-not-allowed;
-    }
+  .tw-btn:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-25 tw-cursor-not-allowed;
+  }
 
-    .tw-btn.loading, .tw-btn.loading:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
-    }
+  .tw-btn.loading,
+  .tw-btn.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
+  }
 
-    .tw-btn .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.primary');
-    }
+  .tw-btn .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.primary');
+  }
 
-    .tw-btn .bp3-spinner .bp3-spinner-track {
-        stroke: rgba(255, 255, 255, 0.2);
-    }
+  .tw-btn .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
 
-    /* inverted btn styles */
-    .tw-btn-inverted {
-        @apply tw-btn;
-        @apply tw-text-black tw-bg-opacity-100;
-        @apply hover:tw-bg-opacity-75;
-    }
+  /* inverted btn styles */
+  .tw-btn-inverted {
+    @apply tw-btn;
+    @apply tw-text-black tw-bg-opacity-100;
+    @apply hover:tw-bg-opacity-75;
+  }
 
-    .tw-btn-inverted:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-not-allowed;
-    }
+  .tw-btn-inverted:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-not-allowed;
+  }
 
-    .tw-btn-inverted.loading, .tw-btn-inverted.loading:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-wait;
-    }
+  .tw-btn-inverted.loading,
+  .tw-btn-inverted.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-wait;
+  }
 
-    .tw-btn-inverted .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.black');
-    }
+  .tw-btn-inverted .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.black');
+  }
 
-    .tw-btn-inverted .bp3-spinner .bp3-spinner-track {
-        stroke: rgba(0, 0, 0, 0.1);
-    }
+  .tw-btn-inverted .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(0, 0, 0, 0.1);
+  }
 
-    /* action btn styles */
-    .tw-btn-action {
-        height: 3rem;
-        letter-spacing: 0.1rem;
-        @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
-        @apply tw-text-primary tw-text-lg tw-font-medium tw-leading-none tw-font-body;
-        @apply tw-px-4 tw-py-2;
-        @apply tw-border tw-rounded-full;
-        @apply tw-transition;
-        @apply tw-bg-primary tw-bg-opacity-5;
-        @apply tw-normal-case;
-        @apply hover:tw-bg-opacity-25;
-    }
+  /* action btn styles */
+  .tw-btn-action {
+    height: 3rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-primary tw-text-lg tw-font-medium tw-leading-none tw-font-body;
+    @apply tw-px-4 tw-py-2;
+    @apply tw-border tw-rounded-full-full;
+    @apply tw-transition;
+    @apply tw-bg-primary tw-bg-opacity-5;
+    @apply tw-normal-case;
+    @apply hover:tw-bg-opacity-25;
+  }
 
-    .tw-btn-action:disabled {
-        @apply tw-opacity-25 tw-bg-opacity-25 tw-cursor-not-allowed;
-    }
+  .tw-btn-action:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-25 tw-cursor-not-allowed;
+  }
 
-    .tw-btn-action.loading, .tw-btn-action.loading:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
-    }
+  .tw-btn-action.loading,
+  .tw-btn-action.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
+  }
 
-    .tw-btn-action .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.primary');
-    }
+  .tw-btn-action .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.primary');
+  }
 
-    .tw-btn-action .bp3-spinner .bp3-spinner-track {
-        stroke: rgba(255, 255, 255, 0.2);
-    }
+  .tw-btn-action .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
 
-    /* trading button styles */
-    .tw-btn-trade {
-        width: 100%;
-        height: 3.75rem;
-        letter-spacing: 0.1rem;
-        @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
-        @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
-        @apply tw-px-4 tw-py-2;
-        @apply tw-border-0 tw-rounded-lg;
-        @apply tw-transition;
-        @apply hover:tw-bg-opacity-75;
-    }
+  /* trading button styles */
+  .tw-btn-trade {
+    width: 100%;
+    height: 3.75rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-px-4 tw-py-2;
+    @apply tw-border-0 tw-rounded-full-lg;
+    @apply tw-transition;
+    @apply hover:tw-bg-opacity-75;
+  }
 
-    .tw-btn-trade:disabled {
-        @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
-    }
+  .tw-btn-trade:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
 
-    .tw-btn-trade.loading, .tw-btn-trade.loading:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
-    }
+  .tw-btn-trade.loading,
+  .tw-btn-trade.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
+  }
 
-    .tw-btn-trade .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.white');
-    }
+  .tw-btn-trade .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.white');
+  }
 
-    .tw-btn-trade .bp3-spinner .bp3-spinner-track {
-        stroke: rgba(255, 255, 255, 0.2);
-    }
+  .tw-btn-trade .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
 
-    .tw-btn-loader__spinner {
-        @apply tw-block tw-overflow-hidden tw-text-left;
-        transition: width 150ms, opacity 100ms;
-        opacity: 0;
-        width: 0;
-    }
+  .tw-btn-loader__spinner {
+    @apply tw-block tw-overflow-hidden tw-text-left;
+    transition: width 150ms, opacity 100ms;
+    opacity: 0;
+    width: 0;
+  }
 
-    .tw-btn-loader__spinner.active {
-        width: 2rem;
-        opacity: 100;
-    }
+  .tw-btn-loader__spinner.active {
+    width: 2rem;
+    opacity: 100;
+  }
 
-    /* Slider */
-    .tw-slider {
-        height: 3rem;
-    }
+  /* Slider */
+  .tw-slider {
+    height: 3rem;
+  }
 
-    .tw-slider .bp3-slider-track {
-        height: 0.75rem;
-        @apply tw-rounded-lg;
-    }
+  .tw-slider .bp3-slider-track {
+    height: 0.75rem;
+    @apply tw-rounded-full-lg;
+  }
 
-    .tw-slider .bp3-slider-progress {
-        height: 0.75rem;
-        /* todo change color with correct tailwinds definition */
-        background-color: #707070;
-    }
+  .tw-slider .bp3-slider-progress {
+    height: 0.75rem;
+    /* todo change color with correct tailwinds definition */
+    background-color: #707070;
+  }
 
-    .tw-slider .bp3-slider-progress.bp3-intent-primary {
-        background-color: theme('colors.secondary');
-    }
+  .tw-slider .bp3-slider-progress.bp3-intent-primary {
+    background-color: theme('colors.secondary');
+  }
 
-    .tw-slider .bp3-slider-handle {
-        @apply tw-rounded-full tw-w-6 tw-h-6;
-    }
+  .tw-slider .bp3-slider-handle {
+    @apply tw-rounded-full-full tw-w-6 tw-h-6;
+  }
 
-    .tw-slider .bp3-slider-axis {
-        position: relative;
-        width: calc(100% - 0.75rem);
-        @apply tw-mx-auto;
-    }
+  .tw-slider .bp3-slider-axis {
+    position: relative;
+    width: calc(100% - 0.75rem);
+    @apply tw-mx-auto;
+  }
 
-    .tw-slider .bp3-slider-label {
-        @apply tw-font-bold tw-font-body tw-text-white;
-        top: 0.75rem;
-    }
+  .tw-slider .bp3-slider-label {
+    @apply tw-font-bold tw-font-body tw-text-white;
+    top: 0.75rem;
+  }
 
-    .tw-slider .bp3-slider-handle .bp3-slider-label {
-        display: none;
-    }
+  .tw-slider .bp3-slider-handle .bp3-slider-label {
+    display: none;
+  }
 
-    .tw-trading-form-card {
-        max-width: 452px;
-        width: 100%;
-    }
-
+  .tw-trading-form-card {
+    max-width: 452px;
+    width: 100%;
+  }
 }

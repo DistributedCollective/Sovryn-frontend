@@ -31,7 +31,7 @@ export function CSovActions(props: Props) {
   return (
     <>
       {processed ? (
-        <p className="text-gold my-0" style={{ opacity: 0.3 }}>
+        <p className="text-gold tw-my-0" style={{ opacity: 0.3 }}>
           Already Claimed.
         </p>
       ) : (

@@ -21,13 +21,13 @@ export function BorrowActivity(props: Props) {
   const [activeBorrows, setActiveBorrows] = useState(true);
   return (
     <div>
-      <div className="mt-5 mb-4 d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
-        <h3 className="mt-0 mb-3 mb-md-0 text-white">
+      <div className="tw-mt-5 tw-mb-4 tw-flex tw-flex-col flex-md-row md:tw-justify-between align-items-md-center">
+        <h3 className="tw-mt-0 tw-mb-3 mb-md-0 tw-text-white">
           {t(translations.borrowActivity.title)}
         </h3>
 
-        <div className="d-flex flex-row align-items-center justify-content-start justify-content-md-end">
-          <div className="mr-3">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start justify-content-md-end">
+          <div className="tw-mr-3">
             <Tab
               text={t(translations.borrowActivity.tabs.active)}
               active={activeBorrows}

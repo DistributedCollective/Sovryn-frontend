@@ -84,7 +84,7 @@ export function ActiveBorrowTable(props: Props) {
         ),
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-between">
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
             <div className="mr-1">
               <StyledRepayButton
                 onClick={() => dispatch(actions.openRepayModal(item.loanId))}
@@ -120,13 +120,13 @@ export function ActiveBorrowTable(props: Props) {
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           )

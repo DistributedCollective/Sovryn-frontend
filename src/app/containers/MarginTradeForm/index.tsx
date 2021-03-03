@@ -140,8 +140,8 @@ export function MarginTradeForm() {
         onChange={value => setLeverage(value)}
         position={position}
       />
-      <div className="row mt-3">
-        <div className="col-6 pr-1">
+      <div className="row tw-mt-3">
+        <div className="col-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
             leverage={leverage}
@@ -150,7 +150,7 @@ export function MarginTradeForm() {
             onPriceChange={value => setLiqPrice(value)}
           />
         </div>
-        <div className="col-6 pl-1">
+        <div className="col-6 tw-pl-1">
           <BorrowInterestRate
             value={interestValue}
             loading={interestLoading}
@@ -158,9 +158,9 @@ export function MarginTradeForm() {
           />
         </div>
       </div>
-      <div className="position-relative">
+      <div className="tw-relative">
         <div className="row">
-          <div className="col-6 pr-1">
+          <div className="col-6 tw-pr-1">
             <FieldGroup label={t(s.fields.currency)} labelColor={color}>
               <FormSelect
                 onChange={value => setCollateral(value.key)}
@@ -170,7 +170,7 @@ export function MarginTradeForm() {
               />
             </FieldGroup>
           </div>
-          <div className="col-6 pl-1">
+          <div className="col-6 tw-pl-1">
             <FieldGroup
               label={
                 <>
@@ -194,8 +194,8 @@ export function MarginTradeForm() {
             </FieldGroup>
           </div>
         </div>
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-          <div className="mb-3 mb-lg-0">
+        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+          <div className="tw-mb-3 lg:tw-mb-0">
             <AssetWalletBalance asset={collateral} />
           </div>
           <TradeButton
@@ -216,8 +216,8 @@ export function MarginTradeForm() {
                 <div className="mw-tooltip">{disableNewTradesText}</div>
               ) : diff > 5 ? (
                 <>
-                  <p className="mb-1">{t(s.liquidity.line_1)}</p>
-                  <p className="mb-0">{t(s.liquidity.line_2)}</p>
+                  <p className="tw-mb-1">{t(s.liquidity.line_1)}</p>
+                  <p className="tw-mb-0">{t(s.liquidity.line_2)}</p>
                 </>
               ) : undefined
             }

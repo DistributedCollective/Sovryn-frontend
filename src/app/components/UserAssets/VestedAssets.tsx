@@ -26,8 +26,8 @@ export function VestedAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 tw-mb-5">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
@@ -36,7 +36,7 @@ export function VestedAssets() {
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-5">
             {!connected && (
               <>
                 <tr>

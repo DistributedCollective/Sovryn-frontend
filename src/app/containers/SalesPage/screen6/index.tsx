@@ -158,7 +158,7 @@ export default function Screen6() {
     <>
       {!requestAccessLoading ? (
         <StyledContent>
-          <div className="d-flex flex-row">
+          <div className="tw-flex tw-flex-row">
             <BackButton />
           </div>
           <p className="content-header mt-lg-0 mt-sm-5">
@@ -166,9 +166,9 @@ export default function Screen6() {
             <br />
             SOV* Genesis Pre-Order{' '}
           </p>
-          <div className="row mb-4">
-            <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-              <div className="pl-lg-1">
+          <div className="row tw-mb-4">
+            <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
+              <div className="lg:tw-pl-1">
                 <div className="form-group">
                   <label htmlFor="address">Wallet to receive access</label>
                   <StyledInput
@@ -210,10 +210,10 @@ export default function Screen6() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-5 col-md-12 pr-lg-5">
+            <div className="col-lg-5 col-md-12 lg:tw-5">
               <div>
-                <p className="mb-2">Select limit required</p>
-                <div className="d-flex justify-content-between mb-4">
+                <p className="tw-mb-2">Select limit required</p>
+                <div className="tw-flex tw-justify-between tw-mb-4">
                   <StyledButtonGroup
                     active={amount === '0.03'}
                     onClick={() => setAmount('0.03')}

@@ -45,7 +45,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
 
   return (
     <Selector
-      className={classNames('w-100', props.className)}
+      className={classNames('tw-w-full', props.className)}
       items={props.options as any}
       inputProps={
         isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
@@ -70,7 +70,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
           props.innerClasses,
         )}
       >
-        <div className="flex-grow-1 flex-shrink-1 w-100">
+        <div className="flex-grow-1 flex-shrink-1 tw-w-full">
           {selected ? (
             <>{(props as any).valueRenderer(selected)}</>
           ) : (
@@ -78,7 +78,10 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
           )}
         </div>
         <div
-          className={classNames('flex-grow-0 flex-shrink-0', styles.arrowDown)}
+          className={classNames(
+            'tw-flex-grow-0 tw-flex-shrink-0',
+            styles.arrowDown,
+          )}
         />
       </div>
     </Selector>

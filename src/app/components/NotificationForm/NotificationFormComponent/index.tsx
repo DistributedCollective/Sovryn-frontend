@@ -91,7 +91,7 @@ export function NotificationFormComponent(props: Props) {
         <div
           className={`${
             props.formType === 'update'
-              ? 'float-right w-100'
+              ? 'float-right tw-w-full'
               : 'col-md-4 col-sm-12'
           }`}
         >

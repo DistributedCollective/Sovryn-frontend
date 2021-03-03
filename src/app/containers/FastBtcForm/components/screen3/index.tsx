@@ -23,46 +23,46 @@ export function Screen3({ state, dispatch }: Props) {
 
   return (
     <>
-      <div className="text-center">
+      <div className="tw-text-center">
         {!state.depositTx && !state.depositTx && <Spinner size={18} />}
-        <div className="d-flex flex-column justify-content-center align-items-center">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-center">
           {state.depositTx && (
-            <div className="d-flex flex-row justify-content-center align-items-center">
+            <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
               {t(s.txId)}:{' '}
               <LinkToExplorer txHash={state.depositTx.txHash} realBtc={true} />
             </div>
           )}
           {state.transferTx && (
-            <div className="d-flex flex-row justify-content-center align-items-center">
+            <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
               {t(s.txHash)}: <LinkToExplorer txHash={state.transferTx.txHash} />
             </div>
           )}
         </div>
-        <div className="d-flex flex-row justify-content-center align-items-center text-muted mt-2">
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center text-muted tw-mt-2">
           <small>{state.transferTx?.txHash ? '2' : '1'}/2</small>
         </div>
       </div>
       {state.depositTx && (
         <>
-          <div className="mt-3">
-            <div className="font-weight-bold text-muted">{t(s.amount)}</div>
+          <div className="tw-mt-3">
+            <div className="tw-font-bold text-muted">{t(s.amount)}</div>
             <div>{state.depositTx?.value} BTC</div>
           </div>
-          <div className="mt-3">
-            <div className="font-weight-bold text-muted">{t(s.status)}</div>
+          <div className="tw-mt-3">
+            <div className="tw-font-bold text-muted">{t(s.status)}</div>
             <div>{state.depositTx?.status}</div>
           </div>
         </>
       )}
       {state.transferTx && (
         <>
-          <div className="mt-3">
-            <div className="font-weight-bold text-muted">{t(s.amount)}</div>
+          <div className="tw-mt-3">
+            <div className="tw-font-bold text-muted">{t(s.amount)}</div>
             <div>{state.transferTx?.value} rBTC</div>
           </div>
         </>
       )}
-      <div className="mt-3 text-center">
+      <div className="tw-mt-3 tw-text-center">
         <TradeButton
           text={t(translations.common.close)}
           onClick={handleClose}

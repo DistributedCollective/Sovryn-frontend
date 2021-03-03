@@ -96,8 +96,8 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`bg-white text-black p-4 rounded d-flex flex-row justify-content-between font-family-work-sans ${
-        props.displayAbsolute ? 'position-absolute p-4' : 'my-3 px-3 py-2'
+      className={`tw-bg-white text-black tw-p-4 tw-rounded-full tw-flex tw-flex-row tw-justify-between font-family-work-sans ${
+        props.displayAbsolute ? 'tw-absolute tw-p-4' : 'my-3 px-3 py-2'
       }`}
       style={{
         top: '0',
@@ -108,7 +108,7 @@ export function SendTxProgress(props: Props) {
     >
       {!tx && props.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 flex-shrink-1 tw-mr-3">
             <Icon
               icon="time"
               iconSize={17}
@@ -118,7 +118,7 @@ export function SendTxProgress(props: Props) {
           <div className="flex-grow-1">
             {props.displayAbsolute && (
               <div
-                className="position-relative float-right"
+                className="tw-relative float-right"
                 style={{
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -129,7 +129,7 @@ export function SendTxProgress(props: Props) {
               </div>
             )}
             <div
-              className="text-uppercase font-weight-bold"
+              className="text-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {t(translations.sendTxProgress.pending_for_user.title)}
@@ -143,7 +143,7 @@ export function SendTxProgress(props: Props) {
 
       {tx && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 flex-shrink-1 tw-mr-3">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
@@ -152,7 +152,7 @@ export function SendTxProgress(props: Props) {
           </div>
           <div className="flex-grow-1">
             <div
-              className="position-relative float-right"
+              className="tw-relative float-right"
               style={{
                 fontSize: '12px',
                 cursor: 'pointer',
@@ -162,7 +162,7 @@ export function SendTxProgress(props: Props) {
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
             <div
-              className="text-uppercase font-weight-bold"
+              className="text-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {mainText}
@@ -170,7 +170,7 @@ export function SendTxProgress(props: Props) {
             <div className="font-weight-light">
               {tx?.transactionHash ? (
                 <>
-                  {subText && <p className="mb-1">{subText}</p>}
+                  {subText && <p className="tw-mb-1">{subText}</p>}
                   <p className="m-0">
                     {t(translations.sendTxProgress.texts.transaction)}:{' '}
                     {tx?.approveTransactionHash && (
@@ -198,7 +198,7 @@ export function SendTxProgress(props: Props) {
 
       {!tx && props.status === TxStatus.FAILED && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 flex-shrink-1 tw-mr-3">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
@@ -207,7 +207,7 @@ export function SendTxProgress(props: Props) {
           </div>
           <div className="flex-grow-1">
             <div
-              className="position-relative float-right"
+              className="tw-relative float-right"
               style={{
                 fontSize: '12px',
                 cursor: 'pointer',
@@ -217,7 +217,7 @@ export function SendTxProgress(props: Props) {
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
             <div
-              className="text-uppercase font-weight-bold"
+              className="text-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {mainText}

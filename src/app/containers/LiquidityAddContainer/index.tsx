@@ -90,7 +90,7 @@ export function LiquidityAddContainer(props: Props) {
 
   return (
     <>
-      <div className="position-relative">
+      <div className="tw-relative">
         <div className="row">
           <div className="col-lg-3 col-6">
             <FieldGroup label={t(translations.liquidity.pool)}>
@@ -129,12 +129,12 @@ export function LiquidityAddContainer(props: Props) {
           asset={sourceToken}
           amount={weiAmount}
         />
-        <div className="mt-3">
+        <div className="tw-mt-3">
           <SendTxProgress {...tx} displayAbsolute={false} />
         </div>
 
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-          <div className="mb-3 mb-lg-0">
+        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+          <div className="tw-mb-3 lg:tw-mb-0">
             <AssetWalletBalance asset={sourceToken} />
           </div>
           <TradeButton

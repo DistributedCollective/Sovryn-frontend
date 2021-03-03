@@ -11,7 +11,7 @@ export function EmailNotificationButton(props: Props) {
   return (
     <StyledButton onClick={props.onClick}>
       <Icon icon="envelope" iconSize={16} className="mr-2" />
-      <span className="text-white">{props.text}</span>
+      <span className="tw-text-white">{props.text}</span>
     </StyledButton>
   );
 }

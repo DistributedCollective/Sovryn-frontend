@@ -10,8 +10,8 @@ import styled from 'styled-components/macro';
 export function PageSkeleton() {
   return (
     <>
-      <div className="container py-3">
-        <div className="row mb-3">
+      <div className="tw-container tw-mx-auto tw-px-4 py-3">
+        <div className="row tw-mb-3">
           <div className="col-4">
             <Skeleton />
           </div>
@@ -22,7 +22,7 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="row mb-3">
+        <div className="row tw-mb-3">
           <div className="col-2">
             <Skeleton />
           </div>
@@ -36,12 +36,12 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="row mb-3">
+        <div className="row tw-mb-3">
           <div className="col-6 col-lg-4">
             <Skeleton height="100%" />
           </div>
           <div className="col-6 col-lg-8">
-            <div className="row mb-3">
+            <div className="row tw-mb-3">
               <div className="col-2">
                 <Skeleton />
               </div>
@@ -55,7 +55,7 @@ export function PageSkeleton() {
                 <Skeleton />
               </div>
             </div>
-            <div className="row mb-3">
+            <div className="row tw-mb-3">
               <div className="col-2">
                 <Skeleton />
               </div>
@@ -69,7 +69,7 @@ export function PageSkeleton() {
                 <Skeleton />
               </div>
             </div>
-            <div className="row mb-3">
+            <div className="row tw-mb-3">
               <div className="col-2">
                 <Skeleton />
               </div>
@@ -99,7 +99,7 @@ export function PageSkeleton() {
             </div>
           </div>
         </div>
-        <div className="row mb-3">
+        <div className="row tw-mb-3">
           <div className="col-4">
             <Skeleton />
           </div>
@@ -107,7 +107,7 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="row mb-3">
+        <div className="row tw-mb-3">
           <div className="col-6">
             <Skeleton />
           </div>
@@ -122,7 +122,7 @@ interface Props {
 }
 export function ComponentSkeleton({ lines }: Props) {
   return (
-    <div className="container">
+    <div className="tw-container tw-mx-auto tw-px-4">
       {Array(lines).map((_, index) => (
         <div className="row my-3" key={index}>
           {index % 2 !== 0 && (

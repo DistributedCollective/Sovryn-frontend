@@ -265,13 +265,13 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Genesis Pre-Sale sold out in Minutes!
                 </p>
-                <p className="text-center mb-5">
+                <p className="tw-text-center tw-mb-5">
                   Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                <div className="row mb-4 mt-5">
-                  <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-                    <div className="pl-lg-1">
+                <div className="row tw-mb-4 tw-mt-5">
+                  <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
+                    <div className="lg:tw-pl-1">
                       <div className="form-group">
                         <label htmlFor="username">Enter pseudonym</label>
                         <StyledInput
@@ -297,7 +297,7 @@ export default function GetAccess(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-5 col-md-12 pr-lg-5">
+                  <div className="col-lg-5 col-md-12 lg:tw-5">
                     <div>
                       <div className="form-group">
                         <label htmlFor="amount">
@@ -338,7 +338,7 @@ export default function GetAccess(props: Props) {
                           onRelease={() => setEnterCount(false)}
                           onChange={getChangeHandler()}
                         />
-                        <p className="text-small mt-3">
+                        <p className="text-small tw-mt-3">
                           Sharing with us your intended contribution is
                           optional. It does not constrain you to actually
                           participate but it helps us to better understand our
@@ -348,12 +348,12 @@ export default function GetAccess(props: Props) {
                     </div>
                   </div>
                   <div className="col-12">
-                    <p className="text-center text-small-bottom mt-0 mb-3">
+                    <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-3">
                       By joining the waitlist you agree to receive the latest
                       news about the SOV ecosystem
                     </p>
                     {response === 'error' && (
-                      <div className="text-danger text-center mb-2">
+                      <div className="text-danger tw-text-center tw-mb-2">
                         An error has occurred
                       </div>
                     )}
@@ -372,7 +372,7 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Please confirm the email we just sent
                 </p>
-                <p className="text-center mb-5">
+                <p className="tw-text-center tw-mb-5">
                   To be registered you need to confirm the email we just sent
                   you
                   <br />
@@ -380,7 +380,7 @@ export default function GetAccess(props: Props) {
                   register us as not spam!
                 </p>
 
-                <div className="row mb-4 mt-5 justify-content-center">
+                <div className="row tw-mb-4 tw-mt-5 tw-justify-center">
                   <div className="col-6">
                     <StyledButton
                       as="a"

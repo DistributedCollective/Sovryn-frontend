@@ -36,38 +36,38 @@ export function TopUpHistory() {
 
   return (
     <section>
-      <div className="d-flex align-items-center justify-content-start mb-3">
-        <h2 className="flex-shrink-0 flex-grow-0 sov-title">
+      <div className="tw-flex tw-items-center tw-justify-start tw-mb-3">
+        <h2 className="tw-flex-shrink-0 tw-flex-grow-0 sov-title">
           {t(translations.topUpHistory.meta.title)}
         </h2>
       </div>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table p-3 tw-mb-5">
+        <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="text-left d-none d-md-table-cell">
+              <th className="text-left tw-hidden d-md-table-cell">
                 {t(translations.topUpHistory.tableHeaders.time)}
               </th>
-              <th className="text-left d-none d-md-table-cell">
+              <th className="text-left tw-hidden d-md-table-cell">
                 {t(translations.topUpHistory.tableHeaders.asset)}
               </th>
               <th className="text-right">
                 {t(translations.topUpHistory.tableHeaders.amount)}
               </th>
               <th className="text-right">
-                <span className="d-none d-md-inline">
+                <span className="tw-hidden d-md-inline">
                   {t(translations.topUpHistory.tableHeaders.depositTx)}
                 </span>
-                <span className="d-inline d-md-none">
+                <span className="d-inline md:tw-hidden">
                   {t(translations.topUpHistory.tableHeaders.txHash)}
                 </span>
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="text-right tw-hidden d-md-table-cell">
                 {t(translations.topUpHistory.tableHeaders.transferTx)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-5">
             {!state.history.length && !state.isHistoryLoading && (
               <tr>
                 <td colSpan={99}>{t(translations.topUpHistory.emptyState)}</td>
@@ -88,14 +88,14 @@ export function TopUpHistory() {
             )}
             {state.history.map(item => (
               <tr key={item.txHash}>
-                <td className="text-left d-none d-md-table-cell">
+                <td className="text-left tw-hidden d-md-table-cell">
                   <DisplayDate
                     timestamp={(
                       new Date(item.dateAdded).getTime() / 1000
                     ).toString()}
                   />
                 </td>
-                <td className="text-left d-none d-md-table-cell">
+                <td className="text-left tw-hidden d-md-table-cell">
                   <img
                     className="d-inline"
                     style={{ height: '40px' }}
@@ -105,19 +105,19 @@ export function TopUpHistory() {
                   {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                 </td>
                 <td>
-                  <div className="d-flex flex-nowrap text-right justify-content-end">
+                  <div className="tw-flex tw-flex-nowrap text-right tw-justify-end">
                     <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
                     <small className="text-muted">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
                   </div>
-                  <div className="d-flex flex-nowrap mt-1 text-right justify-content-end">
+                  <div className="tw-flex tw-flex-nowrap mt-1 text-right tw-justify-end">
                     <small>{numberToUSD(item.valueUsd, 4)}</small>
                   </div>
                 </td>
                 <td
                   className={`text-right ${
-                    item.type !== 'deposit' && 'd-none d-md-table-cell'
+                    item.type !== 'deposit' && 'tw-hidden d-md-table-cell'
                   }`}
                 >
                   {item.type === 'deposit' && (
@@ -130,7 +130,7 @@ export function TopUpHistory() {
                 </td>
                 <td
                   className={`text-right ${
-                    item.type !== 'transfer' && 'd-none d-md-table-cell'
+                    item.type !== 'transfer' && 'tw-hidden d-md-table-cell'
                   }`}
                 >
                   {item.type === 'transfer' && (

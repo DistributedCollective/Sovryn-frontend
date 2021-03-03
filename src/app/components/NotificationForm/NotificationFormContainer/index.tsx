@@ -149,7 +149,7 @@ export function NotificationForm() {
 
   return (
     <>
-      <div className={`d-none ${!loading && walletAddress && 'd-inline'}`}>
+      <div className={`tw-hidden ${!loading && walletAddress && 'd-inline'}`}>
         <EmailNotificationButton
           text={`${
             foundUser

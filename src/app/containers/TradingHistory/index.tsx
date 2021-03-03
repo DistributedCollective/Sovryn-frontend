@@ -262,13 +262,13 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             {item.position === TradingPosition.LONG ? (
               <FontAwesomeIcon
                 icon={faArrowAltCircleUp}
-                className="text-customTeal ml-2"
+                className="text-customTeal tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faArrowAltCircleDown}
-                className="text-Gold ml-2"
+                className="text-Gold tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             )}

@@ -3,7 +3,7 @@ import { media } from '../../../styles/media';
 
 export const StyledAssetLogo = styled.img.attrs(attrs => ({
   alt: 'Asset type',
-  className: 'mr-3',
+  className: 'tw-mr-3',
 }))`
   width: 24px;
   height: 24px;

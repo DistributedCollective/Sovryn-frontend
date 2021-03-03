@@ -20,9 +20,9 @@ export function StatsPage() {
     <>
       <Header />
       <main>
-        <div className="container mt-5">
-          <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
-            <table className="w-100">
+        <div className="tw-container tw-mx-auto tw-px-4 tw-mt-5">
+          <div className="sovryn-border sovryn-table p-3 tw-mt-5 tw-mb-5">
+            <table className="tw-w-full">
               <thead>
                 <tr>
                   <th>{t(translations.statsPage.asset)}</th>
@@ -43,7 +43,7 @@ export function StatsPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="mt-5">
+              <tbody className="tw-mt-5">
                 {assets.map(asset => (
                   <StatsRow asset={asset} key={asset} />
                 ))}

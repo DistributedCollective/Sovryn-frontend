@@ -213,8 +213,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         </div>
       </div>
       <SendTxProgress {...txStateBorrow} displayAbsolute={false} />
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-3 lg:tw-mb-0">
           <AssetWalletBalance asset={tokenToCollarate} />
         </div>
         <TradeButton
@@ -227,7 +227,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           tooltip={
             !isSufficient ? (
               <>
-                <p className="mb-1">
+                <p className="tw-mb-1">
                   {t(translations.lendingPage.liquidity.borrow.line_1, {
                     currency,
                   })}
@@ -238,7 +238,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                     amount: weiTo4(availableAmount),
                   })}
                 </p>
-                <p className="mb-0">
+                <p className="tw-mb-0">
                   {t(translations.lendingPage.liquidity.borrow.line_3)}
                 </p>
               </>

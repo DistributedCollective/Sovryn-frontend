@@ -108,7 +108,7 @@ export default function Screen3(props: Props) {
       {!upgradeLoading ? (
         <StyledContent>
           {!props.hideBackButton && (
-            <div className="d-flex flex-row">
+            <div className="tw-flex tw-flex-row">
               <BackButton />
             </div>
           )}

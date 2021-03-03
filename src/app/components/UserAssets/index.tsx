@@ -37,23 +37,23 @@ export function UserAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 tw-mb-5">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
               <th className="text-right">
                 {t(translations.userAssets.tableHeaders.totalBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="text-right tw-hidden d-md-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="text-right tw-hidden d-md-table-cell">
                 {t(translations.userAssets.tableHeaders.action)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-5">
             {!connected && (
               <>
                 <tr>
@@ -63,10 +63,10 @@ export function UserAssets() {
                   <td>
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden d-md-table-cell">
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden d-md-table-cell">
                     <Skeleton />
                   </td>
                 </tr>
@@ -153,13 +153,13 @@ function AssetRow({ item }: AssetProps) {
       <td className="text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="text-right tw-hidden d-md-table-cell">
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
           loading={dollars.loading}
         />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="text-right tw-hidden d-md-table-cell">
         <ButtonGroup>
           {/*{item.asset === Asset.BTC && (*/}
           {/*  <Button*/}

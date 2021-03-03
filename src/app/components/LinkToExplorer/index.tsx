@@ -62,5 +62,5 @@ export function LinkToExplorer(props: Props) {
 LinkToExplorer.defaultProps = {
   startLength: 10,
   endLength: 4,
-  className: 'ml-1 text-white',
+  className: 'ml-1 tw-text-white',
 };

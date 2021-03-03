@@ -47,7 +47,7 @@ export function ActiveLoanTableMobile(props: Props) {
             props.setExpandedId(props.expandedId === item.id ? '' : item.id);
           }}
         >
-          <div className="col-2 d-flex align-items-center">
+          <div className="col-2 tw-flex tw-items-center">
             {item.icon === 'LONG' && (
               <Icon
                 icon="circle-arrow-up"
@@ -58,12 +58,12 @@ export function ActiveLoanTableMobile(props: Props) {
             {item.icon === 'SHORT' && (
               <Icon
                 icon="circle-arrow-down"
-                className="text-Gold ml-2"
+                className="text-Gold tw-ml-2"
                 iconSize={20}
               />
             )}
           </div>
-          <div className="col-4 d-flex align-items-center">
+          <div className="col-4 tw-flex tw-items-center">
             <LoadableValue
               loading={false}
               value={
@@ -74,10 +74,10 @@ export function ActiveLoanTableMobile(props: Props) {
               tooltip={item.positionSize}
             />
           </div>
-          <div className={`col-3 d-flex align-items-center`}>{item.profit}</div>
+          <div className={`col-3 tw-flex tw-items-center`}>{item.profit}</div>
           <div
             className={`col-3 ${
-              item.id === props.expandedId ? 'd-none' : 'd-block'
+              item.id === props.expandedId ? 'tw-hidden' : 'tw-block'
             }`}
           >
             {item.actions}
@@ -95,7 +95,7 @@ export function ActiveLoanTableMobile(props: Props) {
   });
 
   return (
-    <div className="bg-primary sovryn-border p-3 d-block d-md-none">
+    <div className="bg-primary sovryn-border p-3 tw-block md:tw-hidden">
       <div className="sovryn-table sovryn-table-mobile p-3">
         <div className="row table-header">
           <div className="col-2" />

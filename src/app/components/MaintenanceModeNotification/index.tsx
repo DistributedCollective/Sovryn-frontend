@@ -15,8 +15,8 @@ export function MaintenanceModeNotification(props: Props) {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className="container mt-6 mb-4">
-      <div className="bg-warning text-dark sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
+    <div className="tw-container tw-mx-auto tw-px-4 mt-6 tw-mb-4">
+      <div className="bg-warning text-dark sovryn-border tw-rounded-full p-3 tw-flex tw-flex-row tw-justify-start tw-items-center">
         <div className="ml-3 mr-4">
           <Icon icon="warning-sign" iconSize={26} />
         </div>

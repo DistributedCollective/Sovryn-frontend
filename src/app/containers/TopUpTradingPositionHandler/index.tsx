@@ -61,18 +61,18 @@ export function TopUpTradingPositionHandler(props: Props) {
 
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-      <div className="container position-relative">
-        <h4 className="text-teal text-center mb-5 text-uppercase">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
+        <h4 className="text-teal tw-text-center tw-mb-5 text-uppercase">
           {t(s.title)}
         </h4>
 
-        <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
-          <div className="col-4 col-lg-4 flex-grow-0">
+        <div className="row mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+          <div className="col-4 col-lg-4 tw-flex-grow-0">
             <FieldGroup label={t(s.currency)}>
               <DummyField>{tokenDetails.asset}</DummyField>
             </FieldGroup>
           </div>
-          <div className="col flex-grow-1 flex-shrink-0">
+          <div className="col flex-grow-1 tw-flex-shrink-0">
             <FieldGroup label={t(s.topUpAmount)}>
               <AmountField
                 value={amount || ''}
@@ -87,7 +87,7 @@ export function TopUpTradingPositionHandler(props: Props) {
 
         <SendTxProgress {...rest} displayAbsolute={false} />
 
-        <div className="mt-4 d-flex flex-row justify-content-between">
+        <div className="tw-mt-4 tw-flex tw-flex-row tw-justify-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
           <TradeButton
             text={t(s.topUp)}

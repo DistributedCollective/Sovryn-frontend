@@ -211,9 +211,9 @@ export function SOVModel() {
             </p>
           </section>
         </section>
-        <div className="col column-center px-big d-flex mt-4 mb-4 mb-lg-0">
-          <div className="pb-4 mb-5 mx-auto">
-            <img src={Sovmodel} alt="" className="w-100 h-100" />
+        <div className="col column-center px-big tw-flex tw-mt-4 tw-mb-4 lg:tw-mb-0">
+          <div className="pb-4 tw-mb-5 tw-mx-auto">
+            <img src={Sovmodel} alt="" className="tw-w-full tw-h-full" />
           </div>
         </div>
 
@@ -256,7 +256,7 @@ export function SOVGovernance() {
     <StyledContainer>
       <h2 className="header">SOV Bitocracy (Governance)</h2>
       <div className="row">
-        <section className="col column-left p-lg-0">
+        <section className="col column-left lg:tw-p-0">
           <h3 className="title">Bitocracy:</h3>
           <p>
             The SOV Bitocracy is a distributed, pseudonymous governing body of
@@ -277,12 +277,16 @@ export function SOVGovernance() {
             through delegation
           </p>
         </section>
-        <div className="col-md-5 column-center d-flex mb-4 mb-lg-0">
-          <div className="p-lg-0 mx-auto">
-            <img src={Sovbitocracy} alt="" className="w-100 h-100 ml-lg-5" />
+        <div className="col-md-5 column-center tw-flex tw-mb-4 lg:tw-mb-0">
+          <div className="lg:tw-p-0 tw-mx-auto">
+            <img
+              src={Sovbitocracy}
+              alt=""
+              className="tw-w-full tw-h-full lg:tw-ml-5"
+            />
           </div>
         </div>
-        <section className="col column-right pl-lg-5">
+        <section className="col column-right lg:tw-pl-5">
           <h3 className="title">Bitocracy Voting</h3>
           <div className="content">
             <span className="bullet">01.</span>

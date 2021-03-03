@@ -76,7 +76,7 @@ export default function Screen4() {
 
   return (
     <StyledContent>
-      <div className="d-flex flex-row">
+      <div className="tw-flex tw-flex-row">
         <div className="tab-item">
           <Tab
             text={'BTC'}

@@ -62,25 +62,25 @@ export function AddSoToMetamask() {
     >
       <div className={Classes.DIALOG_CONTAINER}>
         <StyledDialog>
-          <div className="w-100">
+          <div className="tw-w-full">
             <Close onClick={() => dispatch(actions.showTokenTutorial(false))} />
             <Title>How to connect SOV to your Metamask wallet</Title>
-            <div className="d-flex flex-row justify-content-between align-items-center">
+            <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
               <LeftBlock>
-                <p className="text-center mb-3">{steps[step].title}</p>
-                <div className="bg-white rounded p-4 text-center">
+                <p className="tw-text-center tw-mb-3">{steps[step].title}</p>
+                <div className="tw-bg-white tw-rounded-full tw-p-4 tw-text-center">
                   <img
                     src={steps[step].image}
                     alt={steps[step].title}
-                    className="mx-auto"
+                    className="tw-mx-auto"
                   />
                 </div>
-                <div className="d-flex flex-row justify-content-center align-items-center mt-3">
+                <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-3">
                   <NavBtn onClick={handleBack}>
                     <Icon
                       icon="caret-left"
                       iconSize={24}
-                      className="text-white"
+                      className="tw-text-white"
                     />
                   </NavBtn>
                   {steps.map((_, i) => (
@@ -94,7 +94,7 @@ export function AddSoToMetamask() {
                     <Icon
                       icon="caret-right"
                       iconSize={24}
-                      className="text-white"
+                      className="tw-text-white"
                     />
                   </NavBtn>
                 </div>
@@ -102,9 +102,9 @@ export function AddSoToMetamask() {
               <RightBlock>
                 <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
                 <Wrapper>
-                  <div className="row mb-3">
+                  <div className="row tw-mb-3">
                     <Text
-                      className="col-6 font-weight-bold"
+                      className="col-6 tw-font-bold"
                       ellipsize
                       tagName="div"
                     >
@@ -114,24 +114,24 @@ export function AddSoToMetamask() {
                       <CopyToClipboard
                         text={getTokenContract(Asset.CSOV).address}
                       >
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
                           <Text ellipsize tagName="div">
                             {prettyTx(getTokenContract(Asset.CSOV).address)}
                           </Text>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-6 font-weight-bold">Symbol:</div>
+                  <div className="row tw-mb-3">
+                    <div className="col-6 tw-font-bold">Symbol:</div>
                     <div className="col-6">
                       <CopyToClipboard text="SOV">
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
                           <div>SOV</div>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
@@ -139,12 +139,12 @@ export function AddSoToMetamask() {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-6 font-weight-bold">Decimals:</div>
+                    <div className="col-6 tw-font-bold">Decimals:</div>
                     <div className="col-6">
                       <CopyToClipboard text={18}>
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
                           <div>18</div>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
@@ -152,7 +152,7 @@ export function AddSoToMetamask() {
                     </div>
                   </div>
                 </Wrapper>
-                <div className="w-full d-flex flex-row justify-content-center align-items-center">
+                <div className="tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center">
                   <CloseButton
                     onClick={() => dispatch(actions.showTokenTutorial(false))}
                   >
@@ -260,7 +260,7 @@ const RightBlock = styled.div`
 
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0',
 }))`
   border: none;
   margin: 0 5px;
@@ -283,7 +283,7 @@ const NavRound = styled.button.attrs(_ => ({
 
 const NavBtn = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
 }))`
   border: none;
   margin: 0 5px;

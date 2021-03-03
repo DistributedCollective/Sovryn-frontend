@@ -14,7 +14,7 @@ export function InputField(props: Props) {
   return (
     <>
       <StyledWrapper invalid={props.invalid!}>
-        <div className="d-flex align-items-center flex-grow-1">
+        <div className="tw-flex tw-items-center flex-grow-1">
           <StyledInput
             type={props.type}
             value={props.value}
@@ -38,7 +38,8 @@ interface Wrapper {
 }
 
 const StyledWrapper = styled.label.attrs(_ => ({
-  className: 'd-flex flex-row w-100 border rounded px-2 py-1 m-0',
+  className:
+    'tw-flex tw-flex-row tw-w-full border tw-rounded-full px-2 py-1 m-0',
 }))`
   height: 48px;
   transition: 0.3s border-color;

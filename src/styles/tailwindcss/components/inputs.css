@@ -1,22 +1,23 @@
 @layer components {
-    .tw-input-wrapper {
-        height: 2.5rem;
-        @apply tw-bg-white tw-px-5 tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-lg;
-        @apply tw-font-semibold tw-font-body tw-text-black;
-    }
+  .tw-input-wrapper {
+    height: 2.5rem;
+    @apply tw-bg-white tw-px-5 tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-full-lg;
+    @apply tw-font-semibold tw-font-body tw-text-black;
+  }
 
-    .tw-input {
-        @apply tw-w-full tw-bg-transparent tw-text-black;
-        @apply tw-font-semibold tw-font-body;
-    }
+  .tw-input {
+    @apply tw-w-full tw-bg-transparent tw-text-black;
+    @apply tw-font-semibold tw-font-body;
+  }
 
-    .tw-input-append {}
+  .tw-input-append {
+  }
 
-    .tw-input-wrapper.readonly {
-        @apply tw-bg-transparent tw-text-white tw-border tw-border-white;
-    }
+  .tw-input-wrapper.readonly {
+    @apply tw-bg-transparent tw-text-white tw-border tw-border-white;
+  }
 
-    .tw-input-wrapper.readonly .tw-input {
-        @apply tw-text-white;
-    }
+  .tw-input-wrapper.readonly .tw-input {
+    @apply tw-text-white;
+  }
 }

@@ -66,11 +66,7 @@ export function SaleInfoBar() {
           <LoadableValue
             loading={availableTokensLoading}
             value={
-              <Text
-                ellipsize
-                tagName="p"
-                className="font-weight-bold text-gold"
-              >
+              <Text ellipsize tagName="p" className="tw-font-bold text-gold">
                 {remainingPercent}% ≈ {weiToNumberFormat(availableTokens)} SOV
               </Text>
             }
