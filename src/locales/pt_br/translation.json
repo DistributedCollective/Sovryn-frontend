@@ -718,5 +718,35 @@
         }
       }
     }
+  },
+  "fastBtcDialog": {
+    "title": "Depositar BTC",
+    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
+    "limits": {
+      "title": "Limites:",
+      "min": "Mínimo: {{amount}} BTC",
+      "max": "Máximo: {{amount}} BTC"
+    },
+    "instructions": {
+      "title": "Instruções:",
+      "point1": "Não deposite nenhum ativo que não seja BTC",
+      "point2": "Não envie mais BTC do que o limite máximo",
+      "point3": "Aguarde 15 minutos para que a transação seja processada"
+    },
+    "qr": {
+      "title": "Envie BTC para este endereço:"
+    },
+    "transaction": {
+      "title": "Detalhes da transação",
+      "status": "Status {{status}}",
+      "from": "De:",
+      "to": "Para:",
+      "fee": "Taxa:",
+      "hash": "Hash:",
+      "close": "Fechar"
+    }
+  },
+  "onCopy": {
+    "address": "O endereço foi copiado para a área de transferência."
   }
 }
