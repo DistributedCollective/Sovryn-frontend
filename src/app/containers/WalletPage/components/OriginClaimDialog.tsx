@@ -21,6 +21,8 @@ import {
 } from '../../../../utils/display-text/format';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 
+const pricePerSov = 9736;
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -36,7 +38,7 @@ export function OriginClaimDialog(props: Props) {
     account,
   );
 
-  const btcAmount = bignumber(sovAmount).div(1e18).mul(10000).toString();
+  const btcAmount = bignumber(sovAmount).div(1e18).mul(pricePerSov).toString();
 
   const { send, ...tx } = useSendContractTx('OriginInvestorsClaim', 'claim');
   const handleSubmit = useCallback(() => {
@@ -144,7 +146,9 @@ export function OriginClaimDialog(props: Props) {
                       />
                     </div>
                     <FieldGroup
-                      label={`SOV claimed at ${toNumberFormat(10000)} sats.`}
+                      label={`SOV claimed at ${toNumberFormat(
+                        pricePerSov,
+                      )} sats.`}
                     >
                       <DummyField>
                         <div className="w-100 d-flex justify-content-between align-items-center position-relative">
@@ -162,7 +166,7 @@ export function OriginClaimDialog(props: Props) {
                         </div>
                       </DummyField>
                     </FieldGroup>
-                    <div className={styles.txFee}>Tx Fee: 0.00016 (r)BTC</div>
+                    <div className={styles.txFee}>Tx Fee: 0.0001 (r)BTC</div>
                   </div>
 
                   <SendTxProgress
