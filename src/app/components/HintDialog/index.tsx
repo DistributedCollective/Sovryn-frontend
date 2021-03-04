@@ -26,7 +26,7 @@ export function HintDialog() {
   }, [connected, loading, value]);
 
   return (
-    <Dialog isOpen={show} className="p-3">
+    <Dialog isOpen={show} className="tw-p-3">
       <div className="tw-container tw-mx-auto tw-px-4">
         <div className="tw-flex tw-justify-between tw-mb-3">
           <h3 className="text-teal">{t(translations.hintDialog.title)}</h3>

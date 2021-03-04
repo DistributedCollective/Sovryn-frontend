@@ -70,7 +70,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
           props.innerClasses,
         )}
       >
-        <div className="flex-grow-1 flex-shrink-1 tw-w-full">
+        <div className="tw-flex-grow tw-flex-shrink tw-w-full">
           {selected ? (
             <>{(props as any).valueRenderer(selected)}</>
           ) : (

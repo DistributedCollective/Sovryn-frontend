@@ -114,7 +114,7 @@ export function AddSoToNifty() {
                       <CopyToClipboard
                         text={getTokenContract(Asset.CSOV).address}
                       >
-                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <Text ellipsize tagName="div">
                             {prettyTx(getTokenContract(Asset.CSOV).address)}
                           </Text>
@@ -129,7 +129,7 @@ export function AddSoToNifty() {
                     <div className="col-6 tw-font-bold">Symbol:</div>
                     <div className="col-6">
                       <CopyToClipboard text="SOV">
-                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>SOV</div>
                           <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
@@ -142,7 +142,7 @@ export function AddSoToNifty() {
                     <div className="col-6 tw-font-bold">Decimals:</div>
                     <div className="col-6">
                       <CopyToClipboard text={18}>
-                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>18</div>
                           <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />

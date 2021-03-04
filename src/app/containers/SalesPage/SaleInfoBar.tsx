@@ -118,7 +118,7 @@ export function SaleInfoBar() {
       </InfoBar>
       <InfoBarTip>
         <div className="col-12">
-          <p className="text-right">
+          <p className="tw-text-right">
             *(contributor) SOV can be exchanged 1:1 for staked SOV after
             bitocracy launch
           </p>

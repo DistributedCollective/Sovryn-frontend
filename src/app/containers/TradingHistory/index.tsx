@@ -233,7 +233,7 @@ export function TradingHistory() {
 
   if (!loading && !events.length) {
     return (
-      <div className="p-3">
+      <div className="tw-p-3">
         {t(translations.tradingHistoryPage.noClosedTrades)}
       </div>
     );

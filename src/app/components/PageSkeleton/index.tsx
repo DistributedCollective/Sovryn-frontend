@@ -10,7 +10,7 @@ import styled from 'styled-components/macro';
 export function PageSkeleton() {
   return (
     <>
-      <div className="tw-container tw-mx-auto tw-px-4 py-3">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-py-3">
         <div className="row tw-mb-3">
           <div className="col-4">
             <Skeleton />
@@ -124,7 +124,7 @@ export function ComponentSkeleton({ lines }: Props) {
   return (
     <div className="tw-container tw-mx-auto tw-px-4">
       {Array(lines).map((_, index) => (
-        <div className="row my-3" key={index}>
+        <div className="row tw-my-3" key={index}>
           {index % 2 !== 0 && (
             <>
               <div className="col-4">

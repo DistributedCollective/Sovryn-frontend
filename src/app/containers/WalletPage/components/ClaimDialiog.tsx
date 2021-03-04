@@ -60,12 +60,12 @@ export function ClaimDialog(props: Props) {
                 <FieldGroup label="Genesis Pre-order allocation:">
                   <DummyField>
                     <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
-                      <div className="tw-w-full flex-grow-1 tw-text-center">
+                      <div className="tw-w-full tw-flex-grow tw-text-center">
                         {weiToNumberFormat(props.amount, 2)}
                       </div>
                       <div
                         className={classNames(
-                          'flex-shrink-1 tw-flex-grow-0 tw-absolute',
+                          'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                           styles.right,
                         )}
                       >
@@ -84,12 +84,12 @@ export function ClaimDialog(props: Props) {
                 <FieldGroup label="Receive 10 month staked SOV:">
                   <DummyField>
                     <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
-                      <div className="tw-w-full flex-grow-1 tw-text-center">
+                      <div className="tw-w-full tw-flex-grow tw-text-center">
                         {weiToNumberFormat(props.amount, 2)}
                       </div>
                       <div
                         className={classNames(
-                          'flex-shrink-1 tw-flex-grow-0 tw-absolute',
+                          'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                           styles.right,
                         )}
                       >
@@ -130,7 +130,7 @@ export function ClaimDialog(props: Props) {
                   text="Cancel"
                   inverted
                   onClick={() => props.onClose()}
-                  className="ml-3 tw-w-full"
+                  className="tw-ml-3 tw-w-full"
                 />
               </div>
             </div>

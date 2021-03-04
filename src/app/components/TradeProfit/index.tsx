@@ -28,17 +28,17 @@ export function TradeProfit(props: Props) {
   }
   return (
     <>
-      <div className="d-inline">{`$ ${parseFloat(
+      <div className="tw-inline">{`$ ${parseFloat(
         weiTo4(props.profit),
       ).toLocaleString('en')}`}</div>
       <div
-        className="d-inline tw-ml-2 mr-2"
+        className="tw-inline tw-ml-2 tw-mr-2"
         style={{
           fontSize: '12px',
           color: Number(change) > 0 ? 'Green' : 'Red',
         }}
       >
-        <div className="d-inline">
+        <div className="tw-inline">
           <FontAwesomeIcon
             icon={Number(change) > 0 ? faLongArrowAltUp : faLongArrowAltDown}
           />

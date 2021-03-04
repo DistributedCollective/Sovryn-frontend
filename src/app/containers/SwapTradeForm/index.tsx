@@ -161,7 +161,7 @@ export function SwapTradeForm() {
         </div>
       </FieldGroup>
 
-      <div className="tw-flex tw-justify-center tw-items-center py-2">
+      <div className="tw-flex tw-justify-center tw-items-center tw-py-2">
         <Icon icon="arrow-down" />
       </div>
 

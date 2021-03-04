@@ -70,7 +70,7 @@ const StyledContent = styled.div`
         margin: 0;
         display: flex;
         width: auto;
-        flex-wrap: nowrap;
+        tw-flex-wrap: nowrap;
         justify-content: center;
         margin-left: 0.5rem;
       }

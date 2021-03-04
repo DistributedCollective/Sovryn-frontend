@@ -44,7 +44,7 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
       canEscapeKeyClose={false}
       className="fw-900 tw-p-4"
     >
-      <div className="font-family-montserrat font-weight-light tw-text-center mfw-600 tw-mx-auto">
+      <div className="font-family-montserrat tw-font-light tw-text-center mfw-600 tw-mx-auto">
         <img src={logo} alt="MetaMask" className="tw-mb-3" />
         <div
           className="tw-font-bold tw-text-center tw-mb-4"
@@ -80,14 +80,14 @@ function GeneralAlert() {
       <p className="tw-font-bold">
         {t(translations.notifyDialog.generalAlert.p1)}
       </p>
-      <div className="px-3 text-left">
+      <div className="tw-px-3 tw-text-left">
         <p>{t(translations.notifyDialog.generalAlert.p2)}</p>
         <p>{t(translations.notifyDialog.generalAlert.p3)}</p>
         <p>
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
-            className="font-weight-light text-gold"
+            className="tw-font-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -99,7 +99,7 @@ function GeneralAlert() {
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
-            className="font-weight-light text-gold"
+            className="tw-font-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -125,12 +125,12 @@ function MetaMaskAlert() {
       <p className="tw-font-bold">
         {t(translations.notifyDialog.metamaskAlert.p1)}
       </p>
-      <div className="px-3 text-left">
+      <div className="tw-px-3 tw-text-left">
         <p>
           {t(translations.notifyDialog.metamaskAlert.p2_1)}
           <a
             href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
-            className="font-weight-light text-gold"
+            className="tw-font-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -139,7 +139,7 @@ function MetaMaskAlert() {
           {t(translations.notifyDialog.metamaskAlert.p2_3)}
           <a
             href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
-            className="font-weight-light text-gold"
+            className="tw-font-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >

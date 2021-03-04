@@ -14,7 +14,7 @@ export function ActiveLoanExpandedRow(props) {
 
   return (
     <>
-      <tr className="table-header border-0" onClick={props.handleClick}>
+      <tr className="table-header tw-border-0" onClick={props.handleClick}>
         <td></td>
         <td>{t(translations.activeLoan.expandedRow.leverage)}</td>
         <td>{t(translations.activeLoan.expandedRow.startMargin)}</td>

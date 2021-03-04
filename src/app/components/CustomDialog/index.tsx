@@ -16,7 +16,7 @@ interface Props {
 
 export function CustomDialog(props: Props) {
   return (
-    <Dialog isOpen={props.show} className="bg-secondary p-3">
+    <Dialog isOpen={props.show} className="bg-secondary tw-p-3">
       <div className="tw-container tw-mx-auto tw-px-4">
         <div className="tw-flex tw-justify-between tw-mb-3">
           <h4>{props.title}</h4>

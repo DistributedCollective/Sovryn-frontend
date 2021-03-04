@@ -51,7 +51,7 @@ export function TradeButton(props: Props) {
           className="tw-flex tw-flex-row tw-items-center tw-justify-center"
           tagName="span"
         >
-          {props.loading && <Spinner className="mr-1" size={17} />}
+          {props.loading && <Spinner className="tw-mr-1" size={17} />}
           {props.text}
         </Text>
       </StyledButton>

@@ -29,7 +29,7 @@ export function NotificationFormComponent(props: Props) {
       buttonText: t(s.dialog.wantBtn),
       title: (
         <p className="font-family-work-sans">
-          <span className="mr-2">
+          <span className="tw-mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>
           {t(s.want)}
@@ -76,7 +76,7 @@ export function NotificationFormComponent(props: Props) {
           />
         </FormGroup>
       </div>
-      <div className="row px-3">
+      <div className="row tw-px-3">
         {props.formType === 'signup' && (
           <Checkbox
             name="marketing"
@@ -91,12 +91,12 @@ export function NotificationFormComponent(props: Props) {
         <div
           className={`${
             props.formType === 'update'
-              ? 'float-right tw-w-full'
+              ? 'tw-float-right tw-w-full'
               : 'col-md-4 col-sm-12'
           }`}
         >
           <StyledButton
-            className="sovryn-border float-right"
+            className="sovryn-border tw-float-right"
             type="submit"
             onClick={e => props.onSubmit(e, props.formType)}
             disabled={!props.email || !props.name}
@@ -105,8 +105,8 @@ export function NotificationFormComponent(props: Props) {
           </StyledButton>
         </div>
         {props.response !== 'success' && props.response && (
-          <div className="row p-3">
-            <p className="text-red">{t(s.dialog.error)}</p>
+          <div className="row tw-p-3">
+            <p className="tw-text-red-500">{t(s.dialog.error)}</p>
           </div>
         )}
       </div>

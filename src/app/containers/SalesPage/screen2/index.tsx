@@ -151,7 +151,7 @@ export default function Screen2() {
             </div>
             <div className="col-lg-5 col-md-12">
               <div className="right-box tw-relative lg:tw-ml-5">
-                <div className="tw-mb-3 mr-2 tw-ml-2 tw-relative d-inline-block">
+                <div className="tw-mb-3 tw-mr-2 tw-ml-2 tw-relative tw-inline-block">
                   <div className="image-bordered">
                     <img
                       className="tw-w-full tw-h-full image-responsive"

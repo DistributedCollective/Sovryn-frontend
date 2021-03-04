@@ -55,7 +55,7 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
                     { asset, amount: weiTo4(amount) },
                   )}
                 </p>
-                <div className="tw-text-center my-2">
+                <div className="tw-text-center tw-my-2">
                   <Spinner size={28} />
                 </div>
               </>

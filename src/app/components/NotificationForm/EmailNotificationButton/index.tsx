@@ -10,7 +10,7 @@ interface Props {
 export function EmailNotificationButton(props: Props) {
   return (
     <StyledButton onClick={props.onClick}>
-      <Icon icon="envelope" iconSize={16} className="mr-2" />
+      <Icon icon="envelope" iconSize={16} className="tw-mr-2" />
       <span className="tw-text-white">{props.text}</span>
     </StyledButton>
   );

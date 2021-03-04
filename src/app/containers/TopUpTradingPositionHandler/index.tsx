@@ -62,17 +62,17 @@ export function TopUpTradingPositionHandler(props: Props) {
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
-        <h4 className="text-teal tw-text-center tw-mb-5 text-uppercase">
+        <h4 className="text-teal tw-text-center tw-mb-5 tw-uppercase">
           {t(s.title)}
         </h4>
 
-        <div className="row mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+        <div className="row tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
           <div className="col-4 col-lg-4 tw-flex-grow-0">
             <FieldGroup label={t(s.currency)}>
               <DummyField>{tokenDetails.asset}</DummyField>
             </FieldGroup>
           </div>
-          <div className="col flex-grow-1 tw-flex-shrink-0">
+          <div className="col tw-flex-grow tw-flex-shrink-0">
             <FieldGroup label={t(s.topUpAmount)}>
               <AmountField
                 value={amount || ''}

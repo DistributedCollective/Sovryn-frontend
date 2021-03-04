@@ -78,7 +78,7 @@ export function RepayPositionForm({ loan }: Props) {
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
-      <h4 className="text-teal tw-text-center tw-mb-3 text-uppercase">
+      <h4 className="text-teal tw-text-center tw-mb-3 tw-uppercase">
         {t(translations.repayPositionForm.title)}
       </h4>
 

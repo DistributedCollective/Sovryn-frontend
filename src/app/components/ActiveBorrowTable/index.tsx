@@ -85,7 +85,7 @@ export function ActiveBorrowTable(props: Props) {
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
           <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
-            <div className="mr-1">
+            <div className="tw-mr-1">
               <StyledRepayButton
                 onClick={() => dispatch(actions.openRepayModal(item.loanId))}
               >
@@ -105,7 +105,7 @@ export function ActiveBorrowTable(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border p-3 table-responsive">
+    <div className="bg-primary sovryn-border tw-p-3 table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

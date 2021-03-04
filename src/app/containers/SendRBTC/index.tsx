@@ -219,7 +219,7 @@ function TransactionDetail(props: DetailsProps) {
           <Wrapper background="#383838">
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
-              <p className="tw-text-center font-italic time font-weight-light">
+              <p className="tw-text-center tw-italic time tw-font-light">
                 {props.tx.status === 'pending' && (
                   <>Processing approx. 2 minutes</>
                 )}
@@ -234,7 +234,7 @@ function TransactionDetail(props: DetailsProps) {
                     {weiToNumberFormat(toWei(props.btcAmount), 5)} (r)BTC
                   </strong>
                 </p>
-                <p className="amount-usd font-weight-light">
+                <p className="amount-usd tw-font-light">
                   ≈ {numberToUSD(props.usdAmount, 2)}
                 </p>
                 <p className="fee">
@@ -351,7 +351,7 @@ export default function SendRBTC() {
               </ul>
             </div>
 
-            <p className="support-text mt-1">
+            <p className="support-text tw-mt-1">
               For support please join us on{' '}
               <a href="https://discord.com/invite/J22WS6z" target="_new">
                 discord.com/invite/J22WS6z
@@ -369,7 +369,7 @@ export default function SendRBTC() {
               value={amount}
               onChange={e => setAmount(handleNumber(e.target.value))}
             />
-            <p className="tw-text-center font-sale-sm mt-2">
+            <p className="tw-text-center font-sale-sm tw-mt-2">
               Available Balance:{' '}
               <a href="/genesis#" onClick={addAllBalance}>
                 {weiToNumberFormat(balance, 8)}
@@ -380,7 +380,7 @@ export default function SendRBTC() {
               Estimated Gas Fee*:{' '}
               <span>≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC</span>
             </p>
-            <p className="tw-text-center mt-1 tw-mb-2">
+            <p className="tw-text-center tw-mt-1 tw-mb-2">
               <Icon icon="arrow-down" iconSize={35} />
             </p>
             <p className="tw-mb-0 rbtc-text">Receive SOV:</p>
@@ -399,7 +399,11 @@ export default function SendRBTC() {
               displayAbsolute={false}
             />
             <p className="tw-mb-2 rbtc-text">SOLD OUT!</p>
-            <StyledButton className="mt-1" onClick={handleBuy} disabled={true}>
+            <StyledButton
+              className="tw-mt-1"
+              onClick={handleBuy}
+              disabled={true}
+            >
               RESERVE SOV
             </StyledButton>
           </Wrapper>

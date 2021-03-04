@@ -75,7 +75,7 @@ export function ActiveLoanTableDesktop(props: Props) {
   }
 
   return (
-    <div className="bg-primary sovryn-border p-3 tw-hidden md:tw-block">
+    <div className="bg-primary sovryn-border tw-p-3 tw-hidden md:tw-block">
       <table className="sovryn-table">
         <thead>
           <tr style={{ cursor: 'pointer' }}>
@@ -125,14 +125,14 @@ export function ActiveLoanTableDesktop(props: Props) {
                     {item.icon === 'LONG' && (
                       <Icon
                         icon="circle-arrow-up"
-                        className="text-customTeal mx-2"
+                        className="text-customTeal tw-mx-2"
                         iconSize={20}
                       />
                     )}
                     {item.icon === 'SHORT' && (
                       <Icon
                         icon="circle-arrow-down"
-                        className="text-Gold mx-2"
+                        className="text-Gold tw-mx-2"
                         iconSize={20}
                       />
                     )}{' '}
@@ -153,11 +153,13 @@ export function ActiveLoanTableDesktop(props: Props) {
                   <td>
                     {numberToPercent(item.currentMargin, 2)}
                     <small
-                      className={`d-md-inline d-sm-block tw-ml-2 mr-2 ${
-                        item.marginDiff > 0 ? 'text-green' : 'text-red'
+                      className={`md:tw-inline sm:tw-block tw-ml-2 tw-mr-2 ${
+                        item.marginDiff > 0
+                          ? 'tw-text-green-500'
+                          : 'tw-text-red-500'
                       }`}
                     >
-                      <div className="d-inline">
+                      <div className="tw-inline">
                         <FontAwesomeIcon
                           icon={
                             item.marginDiff > 0

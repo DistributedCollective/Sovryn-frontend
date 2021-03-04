@@ -61,12 +61,12 @@ export function RedeemDialog(props: Props) {
                 <FieldGroup label="Genesis Pre-order allocation:">
                   <DummyField>
                     <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
-                      <div className="tw-w-full flex-grow-1 tw-text-center">
+                      <div className="tw-w-full tw-flex-grow tw-text-center">
                         {weiToNumberFormat(props.amount, 2)}
                       </div>
                       <div
                         className={classNames(
-                          'flex-shrink-1 tw-flex-grow-0 tw-absolute',
+                          'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                           styles.right,
                         )}
                       >
@@ -85,12 +85,12 @@ export function RedeemDialog(props: Props) {
                 <FieldGroup label="Sovryn My Wallet:">
                   <DummyField>
                     <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
-                      <div className="tw-w-full flex-grow-1 tw-text-center">
+                      <div className="tw-w-full tw-flex-grow tw-text-center">
                         {weiToNumberFormat(btcAmount, 8)}
                       </div>
                       <div
                         className={classNames(
-                          'flex-shrink-1 tw-flex-grow-0 tw-absolute',
+                          'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                           styles.right,
                         )}
                       >
@@ -131,7 +131,7 @@ export function RedeemDialog(props: Props) {
                   text="Cancel"
                   inverted
                   onClick={() => props.onClose()}
-                  className="ml-3 tw-w-full"
+                  className="tw-ml-3 tw-w-full"
                 />
               </div>
             </div>

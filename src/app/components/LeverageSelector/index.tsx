@@ -52,7 +52,7 @@ export function LeverageSelector(props: Props) {
         <LeverageText>{t(translations.leverageSelector.text)}</LeverageText>
       </div>
       <div className="col-12 col-lg-8">
-        <div className="d-inline-flex tw-justify-between tw-items-start tw-w-full">
+        <div className="tw-inline-flex tw-justify-between tw-items-start tw-w-full">
           {items.map(item => (
             <ThemeProvider
               theme={props.value === item ? active : inactive}

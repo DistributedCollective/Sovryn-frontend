@@ -51,7 +51,7 @@ export function ActiveLoanTableMobile(props: Props) {
             {item.icon === 'LONG' && (
               <Icon
                 icon="circle-arrow-up"
-                className="text-customTeal mx-2"
+                className="text-customTeal tw-mx-2"
                 iconSize={20}
               />
             )}
@@ -95,8 +95,8 @@ export function ActiveLoanTableMobile(props: Props) {
   });
 
   return (
-    <div className="bg-primary sovryn-border p-3 tw-block md:tw-hidden">
-      <div className="sovryn-table sovryn-table-mobile p-3">
+    <div className="bg-primary sovryn-border tw-p-3 tw-block md:tw-hidden">
+      <div className="sovryn-table sovryn-table-mobile tw-p-3">
         <div className="row table-header">
           <div className="col-2" />
           <div className="col-4">

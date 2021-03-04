@@ -153,7 +153,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
             Make another transaction?
           </a>
         </div>
-        <div className="col-md-6 tw-flex tw-flex-col align-items-end">
+        <div className="col-md-6 tw-flex tw-flex-col tw-items-end">
           <div className="tw-flex">
             <Tab
               text={'BTC > (r)BTC'}
@@ -181,7 +181,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               <>
                 {deposit ? (
                   <div className="content">
-                    <p className="tw-text-center font-italic time font-weight-light">
+                    <p className="tw-text-center tw-italic time tw-font-light">
                       {deposit.status === 'pending' && (
                         <>Processing approx. 15 minutes</>
                       )}
@@ -191,7 +191,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       {deposit.status === 'failed' && <>Transaction failed!</>}
                     </p>
                     <p className="amount">{deposit.value} BTC</p>
-                    <p className="amount-usd font-weight-light">
+                    <p className="amount-usd tw-font-light">
                       ≈ {numberToUSD(depositPrice, 2)}
                     </p>
                     <p className="address">
@@ -217,7 +217,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               <>
                 {transfer ? (
                   <div className="content">
-                    <p className="tw-text-center font-italic time font-weight-light">
+                    <p className="tw-text-center tw-italic time tw-font-light">
                       {transfer.status === 'pending' && (
                         <>Processing approx. 2 minutes</>
                       )}
@@ -227,7 +227,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       {transfer.status === 'failed' && <>Transaction failed!</>}
                     </p>
                     <p className="amount">{transfer.value} (r)BTC</p>
-                    <p className="amount-usd font-weight-light">
+                    <p className="amount-usd tw-font-light">
                       ≈ {numberToUSD(transferPrice, 2)}
                     </p>
                     <p className="address">

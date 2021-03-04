@@ -235,7 +235,7 @@ export default function Screen6() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="note" className="ml-1">
+                  <label htmlFor="note" className="tw-ml-1">
                     In a few words please explain why you should be chosen to
                     receive a higher limit of SOV, and what interests you about
                     being vested in the SOVRYN system

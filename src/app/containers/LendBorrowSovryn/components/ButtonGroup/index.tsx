@@ -139,7 +139,7 @@ const ButtonGroup: React.FC<Props> = ({
               </div>
             </div>
             <div className="tw-flex tw-flex-col">
-              <h4 className="flex-grow-1">
+              <h4 className="tw-flex-grow">
                 <Text className="text-break">
                   {t(translations.lend.container.profit)}
                 </Text>
