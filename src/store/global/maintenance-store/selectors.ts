@@ -10,3 +10,13 @@ export const selectMaintenanceState = createSelector(
   [selectDomain],
   maintenanceState => maintenanceState,
 );
+
+export const selectMaintenance = createSelector(
+  [selectDomain],
+  state => state.states,
+);
+
+export const selectLoading = createSelector(
+  [selectDomain],
+  state => state.loading,
+);
