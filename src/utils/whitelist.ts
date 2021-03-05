@@ -1,7 +1,7 @@
 import { currentChainId, backendUrl, ethGenesisAddress } from './classifiers';
 import { contractReader } from './sovryn/contract-reader';
 
-const sovLimit = 100;
+const sovLimit = 1;
 
 class Whitelist {
   public async test(address: string) {
@@ -84,18 +84,17 @@ class Whitelist {
       if (staked >= sovLimit) return true;
     }
 
-    // todo enable it after new vesting registry is available
-    // const vesting3 = await contractReader.call(
-    //   'vestingRegistry2',
-    //   'getTeamVesting',
-    //   [address],
-    // );
-    // if (vesting3 !== ethGenesisAddress) {
-    //   const staked = await contractReader
-    //     .call('staking', 'balanceOf', [vesting3])
-    //     .then(e => Number(e) / 1e18);
-    //   if (staked >= sovLimit) return true;
-    // }
+    const vesting3 = await contractReader.call(
+      'vestingRegistryOrigin',
+      'getVesting',
+      [address],
+    );
+    if (vesting3 !== ethGenesisAddress) {
+      const staked = await contractReader
+        .call('staking', 'balanceOf', [vesting3])
+        .then(e => Number(e) / 1e18);
+      if (staked >= sovLimit) return true;
+    }
 
     return false;
   }
