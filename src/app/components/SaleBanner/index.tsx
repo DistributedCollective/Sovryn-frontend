@@ -19,7 +19,7 @@ export function SaleBanner() {
 
   return (
     <div className="banner-container">
-      <div className="banner tw-py-3">
+      <div className="banner tw-py-4">
         <div className="info-container">
           <h2 className="tw-uppercase title-container black-font">
             <>SOV* Genesis Pre-Order is Over!</>

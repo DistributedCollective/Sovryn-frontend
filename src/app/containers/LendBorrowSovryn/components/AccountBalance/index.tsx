@@ -46,7 +46,7 @@ const AccountBalance: React.FC<Props> = ({
         displayAbsolute={false}
       />
       <div className="account-balance-container tw-relative tw-flex tw-flex-col flex-md-row md:tw-justify-between">
-        <div className="tw-mb-4 md:tw-mb-0">
+        <div className="tw-mb-6 md:tw-mb-0">
           <AssetWalletBalance asset={currency} />
         </div>
         <TradeButton

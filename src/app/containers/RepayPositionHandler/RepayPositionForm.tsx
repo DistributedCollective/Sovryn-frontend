@@ -78,7 +78,7 @@ export function RepayPositionForm({ loan }: Props) {
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
-      <h4 className="text-teal tw-text-center tw-mb-3 tw-uppercase">
+      <h4 className="text-teal tw-text-center tw-mb-4 tw-uppercase">
         {t(translations.repayPositionForm.title)}
       </h4>
 
@@ -116,7 +116,7 @@ export function RepayPositionForm({ loan }: Props) {
       <SendTxProgress displayAbsolute={false} {...closeTx} />
 
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
-        <div className="tw-mb-3 lg:tw-mb-0">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={asset} />
         </div>
         <TradeButton

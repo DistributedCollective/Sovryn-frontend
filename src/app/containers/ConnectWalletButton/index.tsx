@@ -47,17 +47,17 @@ export function ConnectWalletButton() {
   }, [address]);
 
   return (
-    <div className="tw-flex tw-flex-row tw-justify-end tw-mb-3">
+    <div className="tw-flex tw-flex-row tw-justify-end tw-mb-4">
       <div>
         {connected && (
           <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-            {imgSrc && <img src={imgSrc} alt={address} className="tw-mr-3" />}
+            {imgSrc && <img src={imgSrc} alt={address} className="tw-mr-4" />}
             <div className="tw-flex tw-flex-row tw-justify-between">
               <strong>{prettyTx(address)}</strong>
               <Button
                 small
                 minimal
-                className="tw-ml-3 tw-text-white"
+                className="tw-ml-4 tw-text-white"
                 icon="log-out"
                 title={t(translations.wallet.disconnect)}
                 onClick={handleDisconnect}

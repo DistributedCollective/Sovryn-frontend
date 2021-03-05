@@ -41,7 +41,7 @@ export function MobileNotReady(props) {
           placeholder="Your email"
         />
         <br />
-        <button className="tw-px-3 tw-py-1" onClick={submit}>
+        <button className="tw-px-4 tw-py-1" onClick={submit}>
           {t(s.submit)}
         </button>
       </div>

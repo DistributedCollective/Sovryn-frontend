@@ -36,12 +36,12 @@ export function TopUpHistory() {
 
   return (
     <section>
-      <div className="tw-flex tw-items-center tw-justify-start tw-mb-3">
+      <div className="tw-flex tw-items-center tw-justify-start tw-mb-4">
         <h2 className="tw-flex-shrink-0 tw-flex-grow-0 sov-title">
           {t(translations.topUpHistory.meta.title)}
         </h2>
       </div>
-      <div className="sovryn-table tw-p-3 tw-mb-5">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
         <table className="tw-w-full">
           <thead>
             <tr>
@@ -67,7 +67,7 @@ export function TopUpHistory() {
               </th>
             </tr>
           </thead>
-          <tbody className="tw-mt-5">
+          <tbody className="tw-mt-12">
             {!state.history.length && !state.isHistoryLoading && (
               <tr>
                 <td colSpan={99}>{t(translations.topUpHistory.emptyState)}</td>

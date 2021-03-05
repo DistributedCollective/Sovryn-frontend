@@ -140,7 +140,7 @@ export function MarginTradeForm() {
         onChange={value => setLeverage(value)}
         position={position}
       />
-      <div className="row tw-mt-3">
+      <div className="row tw-mt-4">
         <div className="col-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
@@ -195,7 +195,7 @@ export function MarginTradeForm() {
           </div>
         </div>
         <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
-          <div className="tw-mb-3 lg:tw-mb-0">
+          <div className="tw-mb-4 lg:tw-mb-0">
             <AssetWalletBalance asset={collateral} />
           </div>
           <TradeButton

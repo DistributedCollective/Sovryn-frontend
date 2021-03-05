@@ -116,7 +116,7 @@ export function RedeemDialog(props: Props) {
                 <Button
                   text="Confirm"
                   onClick={() => handleSubmit()}
-                  className="tw-mr-3 tw-w-full"
+                  className="tw-mr-4 tw-w-full"
                   loading={tx.loading || loading}
                   disabled={
                     tx.loading ||
@@ -131,7 +131,7 @@ export function RedeemDialog(props: Props) {
                   text="Cancel"
                   inverted
                   onClick={() => props.onClose()}
-                  className="tw-ml-3 tw-w-full"
+                  className="tw-ml-4 tw-w-full"
                 />
               </div>
             </div>

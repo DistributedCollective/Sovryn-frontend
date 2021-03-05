@@ -265,11 +265,11 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Genesis Pre-Sale sold out in Minutes!
                 </p>
-                <p className="tw-text-center tw-mb-5">
+                <p className="tw-text-center tw-mb-12">
                   Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                <div className="row tw-mb-4 tw-mt-5">
+                <div className="row tw-mb-6 tw-mt-12">
                   <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
                     <div className="lg:tw-pl-1">
                       <div className="form-group">
@@ -338,7 +338,7 @@ export default function GetAccess(props: Props) {
                           onRelease={() => setEnterCount(false)}
                           onChange={getChangeHandler()}
                         />
-                        <p className="text-small tw-mt-3">
+                        <p className="text-small tw-mt-4">
                           Sharing with us your intended contribution is
                           optional. It does not constrain you to actually
                           participate but it helps us to better understand our
@@ -348,7 +348,7 @@ export default function GetAccess(props: Props) {
                     </div>
                   </div>
                   <div className="col-12">
-                    <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-3">
+                    <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-4">
                       By joining the waitlist you agree to receive the latest
                       news about the SOV ecosystem
                     </p>
@@ -372,7 +372,7 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Please confirm the email we just sent
                 </p>
-                <p className="tw-text-center tw-mb-5">
+                <p className="tw-text-center tw-mb-12">
                   To be registered you need to confirm the email we just sent
                   you
                   <br />
@@ -380,7 +380,7 @@ export default function GetAccess(props: Props) {
                   register us as not spam!
                 </p>
 
-                <div className="row tw-mb-4 tw-mt-5 tw-justify-center">
+                <div className="row tw-mb-6 tw-mt-12 tw-justify-center">
                   <div className="col-6">
                     <StyledButton
                       as="a"

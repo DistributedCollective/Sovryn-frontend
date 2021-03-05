@@ -120,7 +120,7 @@ export function SalesPage() {
         <SOVModel />
         <SOVGovernance />
         {
-          <div className="footer tw-flex tw-justify-center tw-mb-5">
+          <div className="footer tw-flex tw-justify-center tw-mb-12">
             <StyledButton
               as="a"
               href="https://docsend.com/view/mbhvi379crhagtwp"

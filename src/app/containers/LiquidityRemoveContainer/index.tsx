@@ -126,7 +126,7 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <div className="border tw-my-3 tw-p-3 tw-bg-white tw-text-black">
+      <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
         <div className="row">
           <div className="col">
             <div className="tw-font-bold small">
@@ -161,12 +161,12 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <div className="tw-mt-3">
+      <div className="tw-mt-4">
         <SendTxProgress {...tx} displayAbsolute={false} />
       </div>
 
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
-        <div className="tw-mb-3 lg:tw-mb-0">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <div>
             <div className="tw-font-bold text-muted tw-mb-2">
               {t(translations.assetWalletBalance.suppliedBalance)}

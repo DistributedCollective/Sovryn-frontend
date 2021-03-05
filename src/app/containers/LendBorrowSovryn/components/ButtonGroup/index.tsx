@@ -118,8 +118,8 @@ const ButtonGroup: React.FC<Props> = ({
       </div>
 
       {key === ButtonType.REDEEM && (
-        <div className="tw-container tw-mx-auto tw-px-4 tw-my-3">
-          <div className="withdraw-content tw-py-3 tw-grid tw-grid-cols-2 tw-gap-8">
+        <div className="tw-container tw-mx-auto tw-px-4 tw-my-4">
+          <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8">
             <div className="tw-flex tw-flex-col">
               <h4 className="tw-flex-grow">
                 <Text className="tw-break-normal">

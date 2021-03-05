@@ -26,7 +26,7 @@ export function Screen2({ state, dispatch }: Props) {
 
   return (
     <>
-      <p className="tw-pt-3 tw-text-center">{t(s.p1)}</p>
+      <p className="tw-pt-4 tw-text-center">{t(s.p1)}</p>
       <div className="row">
         <div className="col-12 col-sm-6">
           <div className="qr-code tw-w-full">
@@ -41,7 +41,7 @@ export function Screen2({ state, dispatch }: Props) {
               />
             </div>
           </div>
-          <div className="btcAddress--screen2 bg-secondary tw-py-1 tw-px-3 tw-mt-3 tw-mx-4 tw-rounded-full tw-cursor-pointer">
+          <div className="btcAddress--screen2 bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded-full tw-cursor-pointer">
             <CopyToClipboard
               text={state.depositAddress}
               onCopy={() =>
@@ -56,14 +56,14 @@ export function Screen2({ state, dispatch }: Props) {
             >
               <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between tw-items-center">
                 <Text ellipsize>{prettyTx(state.depositAddress, 6, 4)}</Text>
-                <div className="tw-ml-3">
+                <div className="tw-ml-4">
                   <Icon icon="duplicate" />
                 </div>
               </div>
             </CopyToClipboard>
           </div>
         </div>
-        <div className="col-12 tw-mt-4 col-sm-6 md:tw-mt-0">
+        <div className="col-12 tw-mt-6 col-sm-6 md:tw-mt-0">
           <div className="tw-mb-2">
             <strong className="tw-mb-2 tw-block">
               <u>{t(s.depositRequirements)}:</u>
@@ -108,7 +108,7 @@ export function Screen2({ state, dispatch }: Props) {
         <div className="sovryn-border small tw-p-2 tw-flex tw-flex-row tw-justify-between tw-items-center">
           {t(s.txDetected)}
           <div
-            className={`tw-ml-3 circle circle-${
+            className={`tw-ml-4 circle circle-${
               state.depositTx?.txHash ? 'green' : 'red'
             }`}
           />

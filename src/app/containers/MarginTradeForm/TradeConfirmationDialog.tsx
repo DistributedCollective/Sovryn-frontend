@@ -70,8 +70,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.PENDING_FOR_USER:
       return (
         <>
-          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-5 tw-px-4">
-            <div className="tw-mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon icon="time" iconSize={27} />
             </div>
             <div>
@@ -81,7 +81,7 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               <div className={styles.txText}>
                 {t(translations.sendTxProgress.pending_for_user.text)}
               </div>
-              <div className="tw-font-bold tw-text-center tw-mt-4">
+              <div className="tw-font-bold tw-text-center tw-mt-6">
                 {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
               </div>
             </div>
@@ -95,8 +95,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.PENDING:
       return (
         <>
-          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-5 tw-px-4">
-            <div className="tw-mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon icon="time" iconSize={27} />
             </div>
             <div>
@@ -122,8 +122,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.CONFIRMED:
       return (
         <>
-          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-5 tw-px-4">
-            <div className="tw-mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon
                 icon="tick"
                 iconSize={27}
@@ -153,8 +153,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.FAILED:
       return (
         <>
-          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-5 tw-px-4">
-            <div className="tw-mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon
                 icon="error"
                 iconSize={27}
@@ -337,7 +337,7 @@ export function TradeConfirmationDialog(props: Props) {
                 </button>
               </>
             ) : (
-              <div className="tw-mt-5">
+              <div className="tw-mt-12">
                 <TxStatusRenderer
                   tx={props.tx}
                   onClose={() => props.onClose()}

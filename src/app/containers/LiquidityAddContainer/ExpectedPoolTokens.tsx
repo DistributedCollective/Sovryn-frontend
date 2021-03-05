@@ -17,7 +17,7 @@ export function ExpectedPoolTokens({ pool, asset, amount }: Props) {
   const { t } = useTranslation();
   const expectedPoolTokens = useExpectedPoolTokens(pool, asset, amount);
   return (
-    <div className="border shadow tw-my-3 tw-p-3 tw-bg-white tw-text-black">
+    <div className="border shadow tw-my-4 tw-p-4 tw-bg-white tw-text-black">
       <div className="row">
         <div className="col">
           <div className="tw-font-bold small">

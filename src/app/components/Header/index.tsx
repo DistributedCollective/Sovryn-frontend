@@ -165,7 +165,7 @@ export function Header() {
   return (
     <>
       <header>
-        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-mb-4 tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-mb-6 tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
           <div className="xl:tw-hidden">
             <div ref={node}>
               <Burger open={open} setOpen={setOpen} />
@@ -173,7 +173,7 @@ export function Header() {
             </div>
           </div>
           <div className="xl:tw-flex tw-flex-row tw-items-center">
-            <div className="tw-mr-3">
+            <div className="tw-mr-4">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
@@ -205,7 +205,7 @@ export function Header() {
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
-            <div className="tw-mr-3">
+            <div className="tw-mr-4">
               <LanguageToggle />
             </div>
             <WalletConnector simpleView={false} />

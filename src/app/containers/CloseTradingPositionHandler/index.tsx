@@ -90,7 +90,7 @@ export function CloseTradingPositionHandler(props: Props) {
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="tw-container tw-mx-auto tw-px-4  tw-relative">
-        <h4 className="text-teal tw-text-center tw-mb-5 tw-uppercase">
+        <h4 className="text-teal tw-text-center tw-mb-12 tw-uppercase">
           {!!props.item.loanId
             ? t(translations.closeTradingPositionHandler.title)
             : t(translations.closeTradingPositionHandler.titleDone)}
@@ -114,7 +114,7 @@ export function CloseTradingPositionHandler(props: Props) {
               </div>
             </div>
 
-            <div className="tw-mt-3 text-muted">
+            <div className="tw-mt-4 text-muted">
               {t(translations.closeTradingPositionHandler.withdrawIn)}
             </div>
             <div className="row tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
@@ -140,7 +140,7 @@ export function CloseTradingPositionHandler(props: Props) {
         <SendTxProgress {...rest} displayAbsolute={false} />
 
         {!!props.item.loanId && (
-          <div className="tw-mt-4 tw-flex tw-flex-row tw-justify-between">
+          <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
             <AssetWalletBalance asset={Asset.BTC} />
             <TradeButton
               text={

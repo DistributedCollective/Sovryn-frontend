@@ -37,7 +37,7 @@ export function WalletPage() {
         className="tw-container tw-mx-auto tw-px-4"
         style={{ maxWidth: 1200 }}
       >
-        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-3">
+        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-4">
           <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>

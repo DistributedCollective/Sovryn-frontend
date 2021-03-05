@@ -214,7 +214,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
       </div>
       <SendTxProgress {...txStateBorrow} displayAbsolute={false} />
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
-        <div className="tw-mb-3 lg:tw-mb-0">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={tokenToCollarate} />
         </div>
         <TradeButton

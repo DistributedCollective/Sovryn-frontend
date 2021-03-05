@@ -57,7 +57,7 @@ function AmountSelector(props: AmountSelectorProps) {
     console.log(balance, percent);
   };
   return (
-    <div className="tw-mt-4 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary lg:tw-rounded-full tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-6 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary lg:tw-rounded-full tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

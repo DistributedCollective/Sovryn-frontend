@@ -26,7 +26,7 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
       >
         {type === TxType.APPROVE && (
           <section className="tw-flex tw-flex-col tw-items-center tw-justify-center">
-            <header className="tw-mb-3">
+            <header className="tw-mb-4">
               <h3>
                 {t(translations.walletProvider.txRequestDialog.approve.title)}
               </h3>

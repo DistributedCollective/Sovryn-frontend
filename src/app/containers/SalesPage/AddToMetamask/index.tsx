@@ -67,15 +67,15 @@ export function AddSoToMetamask() {
             <Title>How to connect SOV to your Metamask wallet</Title>
             <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
               <LeftBlock>
-                <p className="tw-text-center tw-mb-3">{steps[step].title}</p>
-                <div className="tw-bg-white tw-rounded-full tw-p-4 tw-text-center">
+                <p className="tw-text-center tw-mb-4">{steps[step].title}</p>
+                <div className="tw-bg-white tw-rounded-full tw-p-6 tw-text-center">
                   <img
                     src={steps[step].image}
                     alt={steps[step].title}
                     className="tw-mx-auto"
                   />
                 </div>
-                <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-3">
+                <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-4">
                   <NavBtn onClick={handleBack}>
                     <Icon
                       icon="caret-left"
@@ -102,7 +102,7 @@ export function AddSoToMetamask() {
               <RightBlock>
                 <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
                 <Wrapper>
-                  <div className="row tw-mb-3">
+                  <div className="row tw-mb-4">
                     <Text
                       className="col-6 tw-font-bold"
                       ellipsize
@@ -125,7 +125,7 @@ export function AddSoToMetamask() {
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row tw-mb-3">
+                  <div className="row tw-mb-4">
                     <div className="col-6 tw-font-bold">Symbol:</div>
                     <div className="col-6">
                       <CopyToClipboard text="SOV">

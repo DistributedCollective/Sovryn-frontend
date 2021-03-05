@@ -20,7 +20,7 @@ interface Props {
 export function TradingPositionSelector(props: Props) {
   const { t } = useTranslation();
   return (
-    <div className="row tw-mb-3">
+    <div className="row tw-mb-4">
       <div className="col-6 tw-pr-1">
         <Tab
           type={TradingPosition.LONG}
@@ -67,7 +67,7 @@ function Tab(props: TabProps) {
   return (
     <button
       type="button"
-      className={`tw-w-full btn tw-px-1 lg:tw-px-3 tw-py-2 text-dark tw-font-bold tw-uppercase tw-flex tw-flex-row tw-items-center tw-justify-center ${classes}`}
+      className={`tw-w-full btn tw-px-1 lg:tw-px-4 tw-py-2 text-dark tw-font-bold tw-uppercase tw-flex tw-flex-row tw-items-center tw-justify-center ${classes}`}
       onClick={() => props.onClick(props.type)}
     >
       <FontAwesomeIcon icon={icon} className="tw-mr-1 mr-lg-3" />

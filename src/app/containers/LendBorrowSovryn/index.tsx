@@ -37,12 +37,12 @@ const LendBorrowSovryn: React.FC<Props> = props => {
               setState={asset => dispatch(actions.changeAsset(asset))}
             />
           </div>
-          <div className="tw-mt-3 lg:tw-mt-0">
+          <div className="tw-mt-4 lg:tw-mt-0">
             <CurrencyDetails />
           </div>
         </div>
       </main>
-      <Container className="tw-mt-4">
+      <Container className="tw-mt-6">
         {state.tab === TabType.LEND && <LendingHistory />}
         {state.tab === TabType.BORROW && <BorrowActivity />}
         <RepayPositionHandler />

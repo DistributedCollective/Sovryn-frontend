@@ -41,8 +41,8 @@ export function EmailPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      <div className="tw-container tw-mx-auto tw-px-4 tw-my-5 tw-py-5">
-        <h1 className="tw-mb-3">{text[props.type].title}</h1>
+      <div className="tw-container tw-mx-auto tw-px-4 tw-my-12 tw-py-12">
+        <h1 className="tw-mb-4">{text[props.type].title}</h1>
         <p>{text[props.type].subText}</p>
       </div>
       <Footer />

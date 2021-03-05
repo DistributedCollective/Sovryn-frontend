@@ -83,8 +83,8 @@ export function FastBtcForm(props: Props) {
           />
 
           {!canInteract ? (
-            <div className="tw-mt-3 tw-mb-4">
-              <h3 className="tw-text-center tw-mb-3">
+            <div className="tw-mt-4 tw-mb-6">
+              <h3 className="tw-text-center tw-mb-4">
                 {t(translations.fastBtcForm.title)}
               </h3>
               {t(translations.fastBtcForm.disabledText)}
@@ -93,7 +93,7 @@ export function FastBtcForm(props: Props) {
             <>
               {isConnected ? (
                 <>
-                  <div className="logo tw-text-center tw-mt-2 tw-mb-3">
+                  <div className="logo tw-text-center tw-mt-2 tw-mb-4">
                     <img src={logo} alt="" />
                   </div>
                   {state.step === 1 && (
@@ -107,8 +107,8 @@ export function FastBtcForm(props: Props) {
                   )}
                 </>
               ) : (
-                <div className="tw-mt-3 tw-mb-4">
-                  <h3 className="tw-text-center tw-mb-3">
+                <div className="tw-mt-4 tw-mb-6">
+                  <h3 className="tw-text-center tw-mb-4">
                     {t(translations.fastBtcForm.title)}
                   </h3>
                   {t(translations.fastBtcForm.connectWallet)}

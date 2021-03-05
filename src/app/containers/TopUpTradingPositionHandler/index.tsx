@@ -62,7 +62,7 @@ export function TopUpTradingPositionHandler(props: Props) {
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
-        <h4 className="text-teal tw-text-center tw-mb-5 tw-uppercase">
+        <h4 className="text-teal tw-text-center tw-mb-12 tw-uppercase">
           {t(s.title)}
         </h4>
 
@@ -87,7 +87,7 @@ export function TopUpTradingPositionHandler(props: Props) {
 
         <SendTxProgress {...rest} displayAbsolute={false} />
 
-        <div className="tw-mt-4 tw-flex tw-flex-row tw-justify-between">
+        <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
           <TradeButton
             text={t(s.topUp)}

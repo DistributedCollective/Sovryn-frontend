@@ -24,7 +24,7 @@ export function FormGroup({
   }, [props.id]);
 
   return (
-    <div className={cn('tw-mb-4', className)}>
+    <div className={cn('tw-mb-6', className)}>
       {props.label && (
         <label
           htmlFor={id}

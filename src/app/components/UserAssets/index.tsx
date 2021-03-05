@@ -37,7 +37,7 @@ export function UserAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-3 tw-pr-3 tw-pl-3 tw-mb-5">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
         <table className="tw-w-full">
           <thead>
             <tr>
@@ -53,7 +53,7 @@ export function UserAssets() {
               </th>
             </tr>
           </thead>
-          <tbody className="tw-mt-5">
+          <tbody className="tw-mt-12">
             {!connected && (
               <>
                 <tr>

@@ -106,7 +106,7 @@ export default function EnterCodeLanding(props: Props) {
     <StyledContent>
       <p className="content-header">Welcome to the SOV* Genesis Pre-Order</p>
       <div className="tw-flex tw-flex-row tw-justify-center">
-        <div style={{ width: 417 }} className="tw-mr-5">
+        <div style={{ width: 417 }} className="tw-mr-12">
           <p>
             The Genesis Pre-Order is whitelisted for our early adopters. All
             users of the SOVRYN system before 8th January 2021 have been
@@ -135,7 +135,7 @@ export default function EnterCodeLanding(props: Props) {
         </div>
         <div
           style={{ width: 300 }}
-          className="tw-flex flex-fill tw-flex-col tw-items-center tw-justify-center tw-ml-5"
+          className="tw-flex flex-fill tw-flex-col tw-items-center tw-justify-center tw-ml-12"
         >
           <p className="content-title tw-my-0">Enter access code to continue</p>
           {codeError && (

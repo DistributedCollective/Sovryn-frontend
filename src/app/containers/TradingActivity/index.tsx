@@ -23,7 +23,7 @@ export function TradingActivity() {
         </h3>
 
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-start md:tw-justify-end">
-          <div className="tw-mr-3">
+          <div className="tw-mr-4">
             <Tab
               text={t(s.tabs.activeTrades)}
               active={activeTrades}

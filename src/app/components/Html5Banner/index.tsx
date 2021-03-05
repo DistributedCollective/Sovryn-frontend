@@ -13,7 +13,7 @@ interface Props {}
 export function Html5Banner(props: Props) {
   return (
     <div
-      className={classNames('tw-mx-auto tw-my-5 tw-relative', styles.banner)}
+      className={classNames('tw-mx-auto tw-my-12 tw-relative', styles.banner)}
     >
       <iframe
         src="/banners/index290x90.html"

@@ -131,17 +131,17 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
       <p className="content-header">Transaction Details</p>
       <div className="row no-gutters">
         <div className="col-md-6">
-          <div className="tw-mb-4">
+          <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
             RBTC then automatically purchases the SOV and credits it to your
             wallet. You can easily view the details of each transaction and
             verify them with a block explorer.
           </div>
-          <div className="tw-mb-4">
+          <div className="tw-mb-6">
             You will be notified when your transaction has processed.
           </div>
-          <div className="tw-mb-5">
+          <div className="tw-mb-12">
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
@@ -296,7 +296,7 @@ export default function SendBTC({ setShowCalc }) {
         <p className="content-header">Send BTC to pre-order SOV</p>
         <div className="row tw-justify-around">
           <div className="col-md-5 tw-mb-1">
-            <div className="tw-mb-4">
+            <div className="tw-mb-6">
               <p className="tw-mb-2">Deposit limits:</p>
               <ul>
                 <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
@@ -323,7 +323,7 @@ export default function SendBTC({ setShowCalc }) {
                 Request higher limit
               </a>
             </div>
-            <div className="tw-mb-4">
+            <div className="tw-mb-6">
               <p>Instructions: </p>
               <div>
                 <ul>
@@ -393,7 +393,7 @@ export default function SendBTC({ setShowCalc }) {
                   </div>
                 </>
               ) : (
-                <div className="tw-mt-5">
+                <div className="tw-mt-12">
                   <p className="tw-mb-2 rbtc-text">SOLD OUT!</p>
                   <SalesButton
                     text="Generate deposit address"

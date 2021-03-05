@@ -196,17 +196,17 @@ function TransactionDetail(props: DetailsProps) {
       <p className="content-header">Transaction Details</p>
       <div className="row tw-justify-around">
         <div className="col-lg-5 col-md-6">
-          <div className="tw-mb-4">
+          <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
             RBTC then automatically purchases the SOV and credits it to your
             wallet. You can easily view the details of each transaction and
             verify them with a block explorer.
           </div>
-          <div className="tw-mb-4">
+          <div className="tw-mb-6">
             You will be notified when your transaction has processed.
           </div>
-          <div className="tw-mb-5">
+          <div className="tw-mb-12">
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
@@ -309,7 +309,7 @@ export default function SendRBTC() {
       <p className="content-header">Pre-order SOV with (r)BTC</p>
       <div className="row tw-justify-around">
         <div className="col-md-5">
-          <div className="tw-mb-4">
+          <div className="tw-mb-6">
             <p className="tw-mb-2">Deposit limits:</p>
             <ul>
               <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
@@ -343,7 +343,7 @@ export default function SendRBTC() {
                 <li className="tw-mb-2">
                   <span>Pre-order SOV with (r)BTC in your engaged wallet</span>
                 </li>
-                <li className="tw-mb-4">
+                <li className="tw-mb-6">
                   <span>
                     Please allow 5 to 60 mins for the transaction to process
                   </span>
@@ -387,7 +387,7 @@ export default function SendRBTC() {
             <LoadableValue
               loading={loading}
               value={
-                <p className="sov-res tw-mb-4">
+                <p className="sov-res tw-mb-6">
                   {toNumberFormat(sovToReceive)}{' '}
                   <span>≈ {numberToUSD(price, 2)}</span>
                 </p>

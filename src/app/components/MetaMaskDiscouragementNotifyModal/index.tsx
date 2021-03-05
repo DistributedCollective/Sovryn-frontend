@@ -42,12 +42,12 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
       canOutsideClickClose={false}
       isCloseButtonShown={false}
       canEscapeKeyClose={false}
-      className="fw-900 tw-p-4"
+      className="fw-900 tw-p-6"
     >
       <div className="font-family-montserrat tw-font-light tw-text-center mfw-600 tw-mx-auto">
-        <img src={logo} alt="MetaMask" className="tw-mb-3" />
+        <img src={logo} alt="MetaMask" className="tw-mb-4" />
         <div
-          className="tw-font-bold tw-text-center tw-mb-4"
+          className="tw-font-bold tw-text-center tw-mb-6"
           style={{ fontSize: '25px' }}
         >
           {t(translations.notifyDialog.heading)}
@@ -55,13 +55,13 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
         {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />}
       </div>
 
-      <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-5 tw-mb-4">
+      <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-12 tw-mb-6">
         <Checkbox
           checked={checked}
           onChange={() => setChecked(!checked)}
           label={t(translations.notifyDialog.acceptTerms)}
         />
-        <div className="tw-mt-4">
+        <div className="tw-mt-6">
           <SalesButton
             text={t(translations.notifyDialog.salesBtn)}
             onClick={handleClose}
@@ -80,7 +80,7 @@ function GeneralAlert() {
       <p className="tw-font-bold">
         {t(translations.notifyDialog.generalAlert.p1)}
       </p>
-      <div className="tw-px-3 tw-text-left">
+      <div className="tw-px-4 tw-text-left">
         <p>{t(translations.notifyDialog.generalAlert.p2)}</p>
         <p>{t(translations.notifyDialog.generalAlert.p3)}</p>
         <p>
@@ -125,7 +125,7 @@ function MetaMaskAlert() {
       <p className="tw-font-bold">
         {t(translations.notifyDialog.metamaskAlert.p1)}
       </p>
-      <div className="tw-px-3 tw-text-left">
+      <div className="tw-px-4 tw-text-left">
         <p>
           {t(translations.notifyDialog.metamaskAlert.p2_1)}
           <a
@@ -149,7 +149,7 @@ function MetaMaskAlert() {
         </p>
 
         <StyledList>
-          <li className="tw-mb-3">
+          <li className="tw-mb-4">
             <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors
@@ -163,7 +163,7 @@ function MetaMaskAlert() {
               )}
             </div>
           </li>
-          <li className="tw-mb-3">
+          <li className="tw-mb-4">
             <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors.checksum
@@ -177,7 +177,7 @@ function MetaMaskAlert() {
               )}
             </div>
           </li>
-          <li className="tw-mb-3">
+          <li className="tw-mb-4">
             <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors.price.title,

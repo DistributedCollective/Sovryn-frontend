@@ -44,11 +44,11 @@ export function Screen3({ state, dispatch }: Props) {
       </div>
       {state.depositTx && (
         <>
-          <div className="tw-mt-3">
+          <div className="tw-mt-4">
             <div className="tw-font-bold text-muted">{t(s.amount)}</div>
             <div>{state.depositTx?.value} BTC</div>
           </div>
-          <div className="tw-mt-3">
+          <div className="tw-mt-4">
             <div className="tw-font-bold text-muted">{t(s.status)}</div>
             <div>{state.depositTx?.status}</div>
           </div>
@@ -56,13 +56,13 @@ export function Screen3({ state, dispatch }: Props) {
       )}
       {state.transferTx && (
         <>
-          <div className="tw-mt-3">
+          <div className="tw-mt-4">
             <div className="tw-font-bold text-muted">{t(s.amount)}</div>
             <div>{state.transferTx?.value} rBTC</div>
           </div>
         </>
       )}
-      <div className="tw-mt-3 tw-text-center">
+      <div className="tw-mt-4 tw-text-center">
         <TradeButton
           text={t(translations.common.close)}
           onClick={handleClose}

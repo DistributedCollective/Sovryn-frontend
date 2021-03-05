@@ -55,7 +55,7 @@ export function ExpandedRowMobile(props) {
         <div className="col-8">{t(s.renewalDate)}</div>
         <div className="col-4" />
       </div>
-      <div className="row mobile-expanded-row tw-pb-3 tw-border-b">
+      <div className="row mobile-expanded-row tw-pb-4 tw-border-b">
         <div className="col-8">{props.item.endDate}</div>
         <div className="col-4">{props.item.actions}</div>
       </div>

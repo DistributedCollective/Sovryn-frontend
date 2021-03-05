@@ -29,7 +29,7 @@ export function Dialog(props: Props) {
       className={props.className}
     >
       {props.isCloseButtonShown && (
-        <div className="tw-mb-3 tw-text-right">
+        <div className="tw-mb-4 tw-text-right">
           <StyledClose onClick={() => props.onClose()}>
             <Icon icon="cross" />
           </StyledClose>

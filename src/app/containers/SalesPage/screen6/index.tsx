@@ -166,7 +166,7 @@ export default function Screen6() {
             <br />
             SOV* Genesis Pre-Order{' '}
           </p>
-          <div className="row tw-mb-4">
+          <div className="row tw-mb-6">
             <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
               <div className="lg:tw-pl-1">
                 <div className="form-group">
@@ -213,7 +213,7 @@ export default function Screen6() {
             <div className="col-lg-5 col-md-12 lg:tw-5">
               <div>
                 <p className="tw-mb-2">Select limit required</p>
-                <div className="tw-flex tw-justify-between tw-mb-4">
+                <div className="tw-flex tw-justify-between tw-mb-6">
                   <StyledButtonGroup
                     active={amount === '0.03'}
                     onClick={() => setAmount('0.03')}

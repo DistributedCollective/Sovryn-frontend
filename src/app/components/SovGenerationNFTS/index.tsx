@@ -55,8 +55,8 @@ export function SovGenerationNFTS() {
   ];
 
   return (
-    <div className="sovryn-border tw-p-3 tw-mb-5 pb-5">
-      <p className="tw-text-center sov-title tw-mb-5">
+    <div className="sovryn-border tw-p-4 tw-mb-12 pb-5">
+      <p className="tw-text-center sov-title tw-mb-12">
         SOV Generation 01 NFT's
       </p>
       <div className="lg:tw-flex tw-text-center tw-items-center tw-justify-center">
@@ -65,7 +65,7 @@ export function SovGenerationNFTS() {
             item.balance !== '0' && (
               <div
                 key={index}
-                className="mr-md-5 mb-sm-5 tw-mb-5 tw-ml-3 tw-mr-3 tw-relative tw-inline-block"
+                className="mr-md-5 mb-sm-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block"
               >
                 <div className="image-bordered">
                   <img
@@ -103,7 +103,7 @@ export function SovGenerationNFTS() {
             )
           );
         })}
-        {/* <div className="mr-md-5 mb-sm-5 tw-mb-5 tw-ml-3 tw-mr-3 tw-relative tw-inline-block">
+        {/* <div className="mr-md-5 mb-sm-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
           <div className="image-bordered">
             <img className="tw-w-full tw-h-full image-responsive" src={sov_2} alt="" />
           </div>

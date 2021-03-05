@@ -211,8 +211,8 @@ export function SOVModel() {
             </p>
           </section>
         </section>
-        <div className="col column-center px-big tw-flex tw-mt-4 tw-mb-4 lg:tw-mb-0">
-          <div className="pb-4 tw-mb-5 tw-mx-auto">
+        <div className="col column-center px-big tw-flex tw-mt-6 tw-mb-6 lg:tw-mb-0">
+          <div className="pb-4 tw-mb-12 tw-mx-auto">
             <img src={Sovmodel} alt="" className="tw-w-full tw-h-full" />
           </div>
         </div>
@@ -277,16 +277,16 @@ export function SOVGovernance() {
             through delegation
           </p>
         </section>
-        <div className="col-md-5 column-center tw-flex tw-mb-4 lg:tw-mb-0">
+        <div className="col-md-5 column-center tw-flex tw-mb-6 lg:tw-mb-0">
           <div className="lg:tw-p-0 tw-mx-auto">
             <img
               src={Sovbitocracy}
               alt=""
-              className="tw-w-full tw-h-full lg:tw-ml-5"
+              className="tw-w-full tw-h-full lg:tw-ml-12"
             />
           </div>
         </div>
-        <section className="col column-right lg:tw-pl-5">
+        <section className="col column-right lg:tw-pl-12">
           <h3 className="title">Bitocracy Voting</h3>
           <div className="content">
             <span className="bullet">01.</span>

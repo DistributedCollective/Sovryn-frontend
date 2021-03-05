@@ -1,7 +1,7 @@
 @layer components {
   .tw-input-wrapper {
     height: 2.5rem;
-    @apply tw-bg-white tw-px-5 tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 lg:tw-rounded-full;
+    @apply tw-bg-white tw-px-12 tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 lg:tw-rounded-full;
     @apply tw-font-semibold tw-font-body tw-text-black;
   }
 

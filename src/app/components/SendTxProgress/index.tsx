@@ -96,8 +96,8 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`tw-bg-white tw-text-black tw-p-4 tw-rounded-full tw-flex tw-flex-row tw-justify-between font-family-work-sans ${
-        props.displayAbsolute ? 'tw-absolute tw-p-4' : 'tw-my-3 tw-px-3 tw-py-2'
+      className={`tw-bg-white tw-text-black tw-p-6 tw-rounded-full tw-flex tw-flex-row tw-justify-between font-family-work-sans ${
+        props.displayAbsolute ? 'tw-absolute tw-p-6' : 'tw-my-4 tw-px-4 tw-py-2'
       }`}
       style={{
         top: '0',
@@ -108,7 +108,7 @@ export function SendTxProgress(props: Props) {
     >
       {!tx && props.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon="time"
               iconSize={17}
@@ -143,7 +143,7 @@ export function SendTxProgress(props: Props) {
 
       {tx && (
         <>
-          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
@@ -198,7 +198,7 @@ export function SendTxProgress(props: Props) {
 
       {!tx && props.status === TxStatus.FAILED && (
         <>
-          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
