@@ -130,7 +130,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   vestingRegistryOrigin: {
-    address: '0x35366CB7B2f74Da946bb8248fD966b3eCA598E25', // todo
+    address: '0x310006E356b0818C3Eaf86a9B2f13013d4691a1c',
     abi: VestingRegistryOriginAbi,
     blockNumber: 1218836,
   },
@@ -150,7 +150,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
-    address: '0x419476Ab9Aca36634288626EBb99Fe822ad78Ab1', // todo
+    address: '0xfc6594B5f59027228cfBe007C2fD52f2e6c6915C',
     abi: OriginClaimAbi,
   },
   SOV_token: {
