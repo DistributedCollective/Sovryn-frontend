@@ -42,8 +42,10 @@ export function OriginClaimDialog(props: Props) {
 
   const { send, ...tx } = useSendContractTx('OriginInvestorsClaim', 'claim');
   const handleSubmit = useCallback(() => {
-    send([], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
-  }, [account, send]);
+    if (!tx.loading) {
+      send([], { from: account }, { type: TxType.SOV_ORIGIN_CLAIM });
+    }
+  }, [account, send, tx]);
 
   const handleClosing = useCallback(() => {
     if (tx.status === TxStatus.CONFIRMED) {
