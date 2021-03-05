@@ -11,7 +11,7 @@
   },
   "title": "Sovryn",
   "announcement": {
-    "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+    "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "homePage": {
     "title": "Página inicial",
@@ -134,7 +134,7 @@
     "btn": "Conectar carteira",
     "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
-    "my_wallet": "Minha carteira",
+    "my_wallet": "Portfólio",
     "referrals": "Convide um amigo"
   },
   "hintDialog": {
@@ -152,7 +152,7 @@
     "trade": "Operar",
     "lend": "Empréstimos",
     "fastBtc": "Depositar-Btc",
-    "wallet": "Minha carteira",
+    "wallet": "Portfólio",
     "liquidity": "Liquidez",
     "stats": "Dados",
     "faqs": "FAQs",
@@ -269,10 +269,10 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está na lista de permissões. Todas as interações estão desativadas até que o endereço da sua carteira esteja liberado."
+    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está liberada. Todas as interações na Sovryn estão desativadas até que o endereço da sua carteira esteja liberado."
   },
   "limitsNotification": {
-    "text": "A Sovryn acaba de aumentar os limites de transação (viva!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
+    "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
     "history": {
@@ -551,11 +551,12 @@
   },
   "walletPage": {
     "meta": {
-      "title": "Minha carteira",
+      "title": "Portfólio",
       "description": "Informações sobre a carteira conectada"
     },
     "tabs": {
       "userAssets": "Meus ativos",
+      "vestedAssets": "Ativos adquiridos",
       "userNFTS": "NFTS"
     }
   },
@@ -573,12 +574,15 @@
       "asset": "Ativo",
       "totalBalance": "Saldo total",
       "dollarBalance": "Saldo em dólar",
+      "lockedAmount": "Quantidade bloqueada",
       "action": "Ação"
     },
     "actions": {
       "deposit": "Depositar",
       "swap": "Trocar",
-      "trade": "Operar"
+      "trade": "Operar",
+      "claimSov": "Receber SOV",
+      "redeemRBTC": "Resgatar rBTC"
     }
   },
   "topUpHistory": {
