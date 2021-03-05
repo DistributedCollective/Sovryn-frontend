@@ -1,0 +1,26 @@
+/** */
+.qrCodeWrapper {
+
+}
+
+.qrCodeTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.qrCodeContainer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.addressWrapper {
+    background-color: #222222;
+    padding: 12px 20px;
+    border: 1px solid #575757;
+    border-radius: 8px;
+    cursor: pointer;
+}
