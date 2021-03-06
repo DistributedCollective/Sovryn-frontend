@@ -35,6 +35,11 @@ class Whitelist {
   public async getContracts(address: string) {
     address = address.toLowerCase();
 
+    const nft = await contractReader
+      .call('NFT_tier1', 'balanceOf', [address])
+      .then(e => Number(e));
+    if (nft) return true;
+
     const sov = await contractReader
       .call('SOV_token', 'balanceOf', [address])
       .then(e => Number(e) / 1e18);
