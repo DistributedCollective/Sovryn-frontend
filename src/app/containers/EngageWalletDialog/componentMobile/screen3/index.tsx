@@ -149,7 +149,7 @@ export function Screen3(props) {
           </div>
         </div>
         <a href={deepLinks[props.wallet]}>
-          <div className="open-wallet tw-absolute tw-rounded-full tw-py-4 tw-px-12">
+          <div className="open-wallet tw-absolute tw-rounded tw-py-4 tw-px-12">
             <p className="tw-m-0">Open {props.wallet}</p>
           </div>
         </a>

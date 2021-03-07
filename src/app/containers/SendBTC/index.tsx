@@ -363,7 +363,7 @@ export default function SendBTC({ setShowCalc }) {
                     bgColor="var(--white)"
                     fgColor="var(--primary)"
                     includeMargin={true}
-                    className="tw-rounded-full btc-address"
+                    className="tw-rounded btc-address"
                   />
                 )}
               </div>

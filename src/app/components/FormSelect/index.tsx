@@ -92,7 +92,7 @@ FormSelect.defaultProps = {
   loading: false,
   filterable: true,
   placeholder: 'Select something',
-  innerClasses: 'border tw-rounded-full',
+  innerClasses: 'border tw-rounded',
 };
 
 interface StyledProps {

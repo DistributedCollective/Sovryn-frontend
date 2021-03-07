@@ -35,12 +35,12 @@ const CurrencyRow: React.FC<Props> = ({
         active && 'currency-container__active',
       )}
     >
-      <div className="tw-flex tw-flex- tw-justify-start tw-items-center currency currency-title lg:tw-w-6/12 tw-mb-4 lg:tw-mb-0 tw-px-4">
+      <div className="tw-flex tw-flex- tw-justify-start tw-items-center currency currency-title lg:tw-w-3/6 tw-mb-4 lg:tw-mb-0 tw-px-4">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />
         <h3 className="tw-m-0 font-family-rowdies">{lendingPool.getName()}</h3>
       </div>
-      <div className="tw-flex currency tw-pt-0 lg:tw-w-6/12 lg:tw-pt-4">
-        <div className="tw-w-6/12 tw-px-4">
+      <div className="tw-flex currency tw-pt-0 lg:tw-w-3/6 lg:tw-pt-4">
+        <div className="tw-w-3/6 tw-px-4">
           <Text className="text-muted">
             {t(translations.lend.currency.lendArp)}:
           </Text>
@@ -49,7 +49,7 @@ const CurrencyRow: React.FC<Props> = ({
             weiAmount={lendingAmount}
           />
         </div>
-        <div className="tw-w-6/12 tw-px-4">
+        <div className="tw-w-3/6 tw-px-4">
           <Text className="text-muted">
             {t(translations.lend.currency.borrowArp)}:
           </Text>

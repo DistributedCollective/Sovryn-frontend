@@ -37,11 +37,11 @@ export function Screen2({ state, dispatch }: Props) {
                 bgColor="var(--white)"
                 fgColor="var(--primary)"
                 includeMargin={true}
-                className="tw-rounded-full tw-w-3/4 tw-h-3/4"
+                className="tw-rounded tw-w-3/4 tw-h-3/4"
               />
             </div>
           </div>
-          <div className="btcAddress--screen2 bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded-full tw-cursor-pointer">
+          <div className="btcAddress--screen2 bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer">
             <CopyToClipboard
               text={state.depositAddress}
               onCopy={() =>

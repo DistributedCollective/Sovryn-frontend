@@ -39,7 +39,7 @@ interface Wrapper {
 
 const StyledWrapper = styled.label.attrs(_ => ({
   className:
-    'tw-flex tw-flex-row tw-w-full tw-border tw-rounded-full tw-px-2 tw-py-1 tw-m-0',
+    'tw-flex tw-flex-row tw-w-full tw-border tw-rounded tw-px-2 tw-py-1 tw-m-0',
 }))`
   height: 48px;
   transition: 0.3s border-color;

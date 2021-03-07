@@ -135,7 +135,7 @@ export function ActiveLoanTableContainer(props: Props) {
               >
                 <Icon
                   icon="cross"
-                  className="tw-text-red-500 tw-ml-1 tw-rounded-full tw-border tw-border-red-500 tw-p-1"
+                  className="tw-text-red-500 tw-ml-1 tw-rounded tw-border tw-border-red-500 tw-p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();

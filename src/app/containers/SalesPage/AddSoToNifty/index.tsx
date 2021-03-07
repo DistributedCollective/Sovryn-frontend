@@ -68,7 +68,7 @@ export function AddSoToNifty() {
             <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
               <LeftBlock>
                 <p className="tw-text-center tw-mb-4">{steps[step].title}</p>
-                <div className="tw-bg-white tw-rounded-full tw-p-6 tw-text-center">
+                <div className="tw-bg-white tw-rounded tw-p-6 tw-text-center">
                   <img
                     src={steps[step].image}
                     alt={steps[step].title}
