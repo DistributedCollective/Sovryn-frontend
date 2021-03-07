@@ -129,8 +129,8 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
-      <div className="row no-gutters">
-        <div className="col-md-6">
+      <div className="tw-grid tw-grid-cols-12 no-gutters">
+        <div className="md:tw-col-span-6">
           <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
@@ -153,7 +153,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
             Make another transaction?
           </a>
         </div>
-        <div className="col-md-6 tw-flex tw-flex-col tw-items-end">
+        <div className="md:tw-col-span-6 tw-flex tw-flex-col tw-items-end">
           <div className="tw-flex">
             <Tab
               text={'BTC > (r)BTC'}
@@ -294,8 +294,8 @@ export default function SendBTC({ setShowCalc }) {
     <div>
       <div>
         <p className="content-header">Send BTC to pre-order SOV</p>
-        <div className="row tw-justify-around">
-          <div className="col-md-5 tw-mb-1">
+        <div className="tw-grid tw-grid-cols-12 tw-justify-around">
+          <div className="md:tw-col-span-5 tw-mb-1">
             <div className="tw-mb-6">
               <p className="tw-mb-2">Deposit limits:</p>
               <ul>
@@ -352,10 +352,10 @@ export default function SendBTC({ setShowCalc }) {
               onClick={() => setShowCalc(true)}
             />
           </div>
-          <div className="col-md-4 tw-flex tw-justify-center">
+          <div className="md:tw-col-span-4 tw-flex tw-justify-center">
             <Wrapper>
               <p className="tw-mb-2 btc-text">Send BTC to this address:</p>
-              <div className="row tw-justify-center qr-wrapper">
+              <div className="tw-grid tw-grid-cols-12 tw-justify-center qr-wrapper">
                 {btcAddress && (
                   <QRCode
                     value={btcAddress}

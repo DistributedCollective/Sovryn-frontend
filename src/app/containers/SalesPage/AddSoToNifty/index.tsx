@@ -102,15 +102,15 @@ export function AddSoToNifty() {
               <RightBlock>
                 <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
                 <Wrapper>
-                  <div className="row tw-mb-4">
+                  <div className="tw-grid tw-grid-cols-12 tw-mb-4">
                     <Text
-                      className="col-6 tw-font-bold"
+                      className="tw-col-span-6 tw-font-bold"
                       ellipsize
                       tagName="div"
                     >
                       Contract Address:
                     </Text>
-                    <div className="col-6">
+                    <div className="tw-col-span-6">
                       <CopyToClipboard
                         text={getTokenContract(Asset.CSOV).address}
                       >
@@ -125,9 +125,9 @@ export function AddSoToNifty() {
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row tw-mb-4">
-                    <div className="col-6 tw-font-bold">Symbol:</div>
-                    <div className="col-6">
+                  <div className="tw-grid tw-grid-cols-12 tw-mb-4">
+                    <div className="tw-col-span-6 tw-font-bold">Symbol:</div>
+                    <div className="tw-col-span-6">
                       <CopyToClipboard text="SOV">
                         <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>SOV</div>
@@ -138,9 +138,9 @@ export function AddSoToNifty() {
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-6 tw-font-bold">Decimals:</div>
-                    <div className="col-6">
+                  <div className="tw-grid tw-grid-cols-12">
+                    <div className="tw-col-span-6 tw-font-bold">Decimals:</div>
+                    <div className="tw-col-span-6">
                       <CopyToClipboard text={18}>
                         <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>18</div>

@@ -161,13 +161,13 @@ export default function Screen6() {
           <div className="tw-flex tw-flex-row">
             <BackButton />
           </div>
-          <p className="content-header mt-lg-0 mt-sm-5">
+          <p className="content-header lg:tw-mt-0 sm:tw-mt-5">
             Please fill out this form to request access to the
             <br />
             SOV* Genesis Pre-Order{' '}
           </p>
-          <div className="row tw-mb-6">
-            <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
+          <div className="tw-grid tw-grid-cols-12 tw-mb-6">
+            <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
               <div className="lg:tw-pl-1">
                 <div className="form-group">
                   <label htmlFor="address">Wallet to receive access</label>
@@ -210,7 +210,7 @@ export default function Screen6() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-5 col-md-12 lg:tw-5">
+            <div className="lg:tw-col-span-5 md:tw-col-span-12 lg:tw-5">
               <div>
                 <p className="tw-mb-2">Select limit required</p>
                 <div className="tw-flex tw-justify-between tw-mb-6">

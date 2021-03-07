@@ -65,7 +65,7 @@ export function SovGenerationNFTS() {
             item.balance !== '0' && (
               <div
                 key={index}
-                className="mr-md-5 mb-sm-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block"
+                className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block"
               >
                 <div className="image-bordered">
                   <img
@@ -103,7 +103,7 @@ export function SovGenerationNFTS() {
             )
           );
         })}
-        {/* <div className="mr-md-5 mb-sm-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
+        {/* <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
           <div className="image-bordered">
             <img className="tw-w-full tw-h-full image-responsive" src={sov_2} alt="" />
           </div>

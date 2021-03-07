@@ -47,11 +47,11 @@ export function LeverageSelector(props: Props) {
   };
 
   return (
-    <div className="row tw-flex tw-flex-col lg:tw-flex-row lg:tw-items-center">
-      <div className="col-12 col-lg-4 tw-font-bold font-size-lg tw-mb-4 lg:tw-mb-0">
+    <div className="tw-grid tw-grid-cols-12 tw-flex tw-flex-col lg:tw-flex-row lg:tw-items-center">
+      <div className="tw-col-span-12 lg:tw-col-span-4 tw-font-bold font-size-lg tw-mb-4 lg:tw-mb-0">
         <LeverageText>{t(translations.leverageSelector.text)}</LeverageText>
       </div>
-      <div className="col-12 col-lg-8">
+      <div className="tw-col-span-12 lg:tw-col-span-8">
         <div className="tw-inline-flex tw-justify-between tw-items-start tw-w-full">
           {items.map(item => (
             <ThemeProvider

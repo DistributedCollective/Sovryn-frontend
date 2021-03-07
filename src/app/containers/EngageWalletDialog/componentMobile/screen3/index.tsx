@@ -92,22 +92,22 @@ export function Screen3(props) {
           </div>
         </div>
         <div className="settings tw-absolute">
-          <div className="row">
-            <div className="tw-text-center col-12">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-text-center tw-col-span-12">
               {t(translations.rskConnectTutorial.input_settings.title)}
             </div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.network)}:
             </div>
-            <div className="col-8">RSK Mainnet</div>
+            <div className="tw-col-span-8">RSK Mainnet</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.new_RPC)}:
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8">
               <CopyToClipboard
                 text="https://public-node.rsk.co"
                 onCopy={() => alert('Copied!')}
@@ -119,23 +119,23 @@ export function Screen3(props) {
               </CopyToClipboard>
             </div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.chain_Id)}:
             </div>
-            <div className="col-8">30</div>
+            <div className="tw-col-span-8">30</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.symbol)}:
             </div>
-            <div className="col-8">RBTC</div>
+            <div className="tw-col-span-8">RBTC</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.explorer_url)}:
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8">
               <CopyToClipboard
                 text="https://public-node.rsk.co"
                 onCopy={() => alert('Copied!')}

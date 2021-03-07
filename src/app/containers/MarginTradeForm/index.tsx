@@ -140,8 +140,8 @@ export function MarginTradeForm() {
         onChange={value => setLeverage(value)}
         position={position}
       />
-      <div className="row tw-mt-4">
-        <div className="col-6 tw-pr-1">
+      <div className="tw-grid tw-grid-cols-12 tw-mt-4">
+        <div className="tw-col-span-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
             leverage={leverage}
@@ -150,7 +150,7 @@ export function MarginTradeForm() {
             onPriceChange={value => setLiqPrice(value)}
           />
         </div>
-        <div className="col-6 tw-pl-1">
+        <div className="tw-col-span-6 tw-pl-1">
           <BorrowInterestRate
             value={interestValue}
             loading={interestLoading}
@@ -159,8 +159,8 @@ export function MarginTradeForm() {
         </div>
       </div>
       <div className="tw-relative">
-        <div className="row">
-          <div className="col-6 tw-pr-1">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-6 tw-pr-1">
             <FieldGroup label={t(s.fields.currency)} labelColor={color}>
               <FormSelect
                 onChange={value => setCollateral(value.key)}
@@ -170,7 +170,7 @@ export function MarginTradeForm() {
               />
             </FieldGroup>
           </div>
-          <div className="col-6 tw-pl-1">
+          <div className="tw-col-span-6 tw-pl-1">
             <FieldGroup
               label={
                 <>

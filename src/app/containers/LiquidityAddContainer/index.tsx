@@ -91,8 +91,8 @@ export function LiquidityAddContainer(props: Props) {
   return (
     <>
       <div className="tw-relative">
-        <div className="row">
-          <div className="col-lg-3 col-6">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="lg:tw-col-span-3 tw-col-span-6">
             <FieldGroup label={t(translations.liquidity.pool)}>
               <FormSelect
                 onChange={handlePoolChange}
@@ -102,7 +102,7 @@ export function LiquidityAddContainer(props: Props) {
               />
             </FieldGroup>
           </div>
-          <div className="col-lg-3 col-6">
+          <div className="lg:tw-col-span-3 tw-col-span-6">
             <FieldGroup label={t(translations.liquidity.currency)}>
               <FormSelect
                 onChange={handleTokenChange}
@@ -112,7 +112,7 @@ export function LiquidityAddContainer(props: Props) {
               />
             </FieldGroup>
           </div>
-          <div className="col-lg-6 col-12">
+          <div className="lg:tw-col-span-6 tw-col-span-12">
             <FieldGroup label={t(translations.liquidity.amount)}>
               <AmountField
                 onChange={value => setAmount(value)}

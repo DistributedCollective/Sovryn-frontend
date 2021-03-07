@@ -98,11 +98,11 @@ export function CloseTradingPositionHandler(props: Props) {
 
         {!!props.item.loanId && (
           <>
-            <div className="row tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
-              <div className="col-4 tw-flex-grow-0 text-muted">
+            <div className="tw-grid tw-grid-cols-12 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+              <div className="tw-col-span-4 tw-flex-grow-0 text-muted">
                 {t(translations.closeTradingPositionHandler.positionSize)}
               </div>
-              <div className="col tw-flex-grow">
+              <div className="tw-col-span tw-flex-grow">
                 <DummyField>
                   <span className="tw-flex tw-w-full tw-flex-row tw-justify-between tw-items-center">
                     <span>{weiTo18(props.item.collateral)}</span>
@@ -117,8 +117,8 @@ export function CloseTradingPositionHandler(props: Props) {
             <div className="tw-mt-4 text-muted">
               {t(translations.closeTradingPositionHandler.withdrawIn)}
             </div>
-            <div className="row tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
-              <div className="col-4 tw-flex-grow-0">
+            <div className="tw-grid tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+              <div className="tw-col-span-4 tw-flex-grow-0">
                 <FormSelect
                   filterable={false}
                   items={options}
@@ -126,7 +126,7 @@ export function CloseTradingPositionHandler(props: Props) {
                   value={isCollateral}
                 />
               </div>
-              <div className="col tw-flex-grow tw-flex-shrink-0">
+              <div className="tw-col-span tw-flex-grow tw-flex-shrink-0">
                 <AmountField
                   value={amount || ''}
                   onChange={value => setAmount(value)}

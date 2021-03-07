@@ -99,22 +99,24 @@ export function Screen2(props: Props) {
       <div className="right-box tw-absolute">
         <div>
           <div>
-            <div className="row">
+            <div className="tw-grid tw-grid-cols-12">
               <p className="tw-text-center tw-mx-auto">
                 {t(translations.rskConnectTutorial.input_settings.title)}
               </p>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.network)}
               </div>
-              <div className="col-7">{networkNames[currentChainId]}</div>
+              <div className="tw-col-span-7">
+                {networkNames[currentChainId]}
+              </div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
-              <div className="col-7">
+              <div className="tw-col-span-7">
                 <CopyToClipboard text={rpcNodes[currentChainId]}>
                   <span className="tw-cursor-pointer">
                     {rpcNodes[currentChainId]} <Icon icon="duplicate" />
@@ -122,23 +124,23 @@ export function Screen2(props: Props) {
                 </CopyToClipboard>
               </div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.chain_Id)}
               </div>
-              <div className="col-7">{currentChainId}</div>
+              <div className="tw-col-span-7">{currentChainId}</div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.symbol)}
               </div>
-              <div className="col-7">RBTC</div>
+              <div className="tw-col-span-7">RBTC</div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.explorer_url)}
               </div>
-              <div className="col-7">
+              <div className="tw-col-span-7">
                 <CopyToClipboard text={blockExplorers[currentChainId]}>
                   <span className="tw-cursor-pointer">
                     {blockExplorers[currentChainId]} <Icon icon="duplicate" />

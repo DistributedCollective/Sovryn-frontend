@@ -38,7 +38,7 @@ export function SaleInfoBar() {
   return (
     <>
       <InfoBar>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Total Supply:
           </Text>
@@ -46,7 +46,7 @@ export function SaleInfoBar() {
             {weiToNumberFormat(100000000e18)} SOV
           </Text>
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Sale Allocation:
           </Text>
@@ -59,7 +59,7 @@ export function SaleInfoBar() {
             }
           />
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p" className="text-gold">
             Allocation Remaining:
           </Text>
@@ -72,7 +72,7 @@ export function SaleInfoBar() {
             }
           />
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Price:
           </Text>
@@ -86,7 +86,7 @@ export function SaleInfoBar() {
             tooltip={<>{rate} SOV for 1 BTC</>}
           />
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Vesting:
           </Text>
@@ -94,7 +94,7 @@ export function SaleInfoBar() {
             10 Months
           </Text>
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Accepted currencies:
           </Text>
@@ -102,7 +102,7 @@ export function SaleInfoBar() {
             BTC, RBTC
           </Text>
         </div>
-        <div className="col">
+        <div className="tw-col-span-12">
           <Text ellipsize tagName="p">
             Token Sale End Time :
           </Text>
@@ -117,7 +117,7 @@ export function SaleInfoBar() {
         </div>
       </InfoBar>
       <InfoBarTip>
-        <div className="col-12">
+        <div className="tw-col-span-12">
           <p className="tw-text-right">
             *(contributor) SOV can be exchanged 1:1 for staked SOV after
             bitocracy launch

@@ -33,7 +33,11 @@ export function Screen1(props) {
   ];
 
   const logos = wallets.map(item => (
-    <div className="wallet-icon col-4" key={item.name} onClick={item.click}>
+    <div
+      className="wallet-icon tw-col-span-4"
+      key={item.name}
+      onClick={item.click}
+    >
       <img src={item.logo} alt={item.name} />
       <p className="tw-text-center">{item.name}</p>
     </div>

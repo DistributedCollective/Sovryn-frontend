@@ -164,9 +164,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           }
         />
       </FieldGroup>
-      <div className="row">
+      <div className="tw-grid tw-grid-cols-12">
         {isShowedBorrowDays && (
-          <div className="col-12">
+          <div className="tw-col-span-12">
             Borrow for {}
             <Popover
               content={popoverContent}
@@ -179,9 +179,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             </Popover>
           </div>
         )}
-        <div className="col-12">
-          <div className="row">
-            <div className="col-12 text-muted">
+        <div className="tw-col-span-12">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-12 text-muted">
               {
                 <>
                   {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
@@ -193,7 +193,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                 </>
               }
             </div>
-            <div className="col-4">
+            <div className="tw-col-span-4">
               <FieldGroup label="">
                 <FormSelect
                   onChange={item => setTokenToCollarate(item.key)}
@@ -202,7 +202,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                 />
               </FieldGroup>
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8">
               <FieldGroup label="">
                 <DummyField>
                   {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}

@@ -116,8 +116,8 @@ export default function Screen2() {
           <p className="content-header">
             Welcome to the SOV* Genesis Pre-order
           </p>
-          <div className="row">
-            <div className="col-lg-7 col-md-12">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="lg:tw-col-span-7 md:tw-col-span-12">
               <div className="b-group left-box">
                 <p className="tw-text-center tw-w-full">SOLD OUT!</p>
 
@@ -149,7 +149,7 @@ export default function Screen2() {
                 />
               </div>
             </div>
-            <div className="col-lg-5 col-md-12">
+            <div className="lg:tw-col-span-5 md:tw-col-span-12">
               <div className="right-box tw-relative lg:tw-ml-12">
                 <div className="tw-mb-4 tw-mr-2 tw-ml-2 tw-relative tw-inline-block">
                   <div className="image-bordered">

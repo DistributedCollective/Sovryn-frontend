@@ -27,8 +27,8 @@ export function Screen2({ state, dispatch }: Props) {
   return (
     <>
       <p className="tw-pt-4 tw-text-center">{t(s.p1)}</p>
-      <div className="row">
-        <div className="col-12 col-sm-6">
+      <div className="tw-grid tw-grid-cols-12">
+        <div className="tw-col-span-12 sm:tw-col-span-6">
           <div className="qr-code tw-w-full">
             <div className="tw-text-center">
               <QRCode
@@ -63,7 +63,7 @@ export function Screen2({ state, dispatch }: Props) {
             </CopyToClipboard>
           </div>
         </div>
-        <div className="col-12 tw-mt-6 col-sm-6 md:tw-mt-0">
+        <div className="tw-col-span-12 tw-mt-6 sm:tw-col-span-6 md:tw-mt-0">
           <div className="tw-mb-2">
             <strong className="tw-mb-2 tw-block">
               <u>{t(s.depositRequirements)}:</u>

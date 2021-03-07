@@ -252,36 +252,36 @@ export function TradeConfirmationDialog(props: Props) {
             </h2>
 
             <section className={styles.summary}>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionSize)}
                 </div>
-                <div className="col-6">
+                <div className="tw-col-span-6">
                   {weiToNumberFormat(props.weiAmount, 8)} {props.collateral}
                 </div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionLeverge)}
                 </div>
-                <div className="col-6">{props.leverage}x</div>
+                <div className="tw-col-span-6">{props.leverage}x</div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main.maintenanceMargin,
                   )}
                 </div>
-                <div className="col-6">15%</div>
+                <div className="tw-col-span-6">15%</div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main
                       .estimatedLiquidationPrice,
                   )}
                 </div>
-                <div className="col-6">
+                <div className="tw-col-span-6">
                   {weiToNumberFormat(props.liquidationPrice, 2)} USD
                 </div>
               </div>

@@ -20,7 +20,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'tw-hidden d-xs-block d-sm-none',
+          'tw-hidden xs:tw-block sm:tw-hidden',
         )}
         title="Sale"
       />
@@ -38,7 +38,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'tw-hidden md:tw-block d-lg-none',
+          'tw-hidden md:tw-block lg:tw-hidden',
         )}
         title="Sale"
       />
@@ -47,7 +47,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'tw-hidden d-lg-block d-xl-none',
+          'tw-hidden lg:tw-block xl:tw-hidden',
         )}
         title="Sale"
       />
@@ -56,7 +56,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'tw-hidden d-xl-block',
+          'tw-hidden xl:tw-block',
           styles.dXxlNone,
         )}
         title="Sale"

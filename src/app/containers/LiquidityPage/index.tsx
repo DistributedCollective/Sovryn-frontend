@@ -32,8 +32,8 @@ export function LiquidityPage(props: Props) {
       </Helmet>
       <Header />
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
-        <div className="row">
-          <div className="col-12 col-lg-6 lg:tw-order-0 lg:tw-pr-12">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-12 lg:tw-col-span-6 lg:tw-order-0 lg:tw-pr-12">
             <div className="sovryn-tabs">
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab

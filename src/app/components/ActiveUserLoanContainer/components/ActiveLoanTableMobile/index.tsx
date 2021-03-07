@@ -42,12 +42,14 @@ export function ActiveLoanTableMobile(props: Props) {
     return (
       <React.Fragment key={item.id}>
         <div
-          className={`row mobile-row ${!expanded && 'opaque'}`}
+          className={`tw-grid tw-grid-cols-12 mobile-row ${
+            !expanded && 'opaque'
+          }`}
           onClick={() => {
             props.setExpandedId(props.expandedId === item.id ? '' : item.id);
           }}
         >
-          <div className="col-2 tw-flex tw-items-center">
+          <div className="tw-col-span-2 tw-flex tw-items-center">
             {item.icon === 'LONG' && (
               <Icon
                 icon="circle-arrow-up"
@@ -63,7 +65,7 @@ export function ActiveLoanTableMobile(props: Props) {
               />
             )}
           </div>
-          <div className="col-4 tw-flex tw-items-center">
+          <div className="tw-col-span-4 tw-flex tw-items-center">
             <LoadableValue
               loading={false}
               value={
@@ -74,9 +76,11 @@ export function ActiveLoanTableMobile(props: Props) {
               tooltip={item.positionSize}
             />
           </div>
-          <div className={`col-3 tw-flex tw-items-center`}>{item.profit}</div>
+          <div className={`tw-col-span-3 tw-flex tw-items-center`}>
+            {item.profit}
+          </div>
           <div
-            className={`col-3 ${
+            className={`tw-col-span-3 ${
               item.id === props.expandedId ? 'tw-hidden' : 'tw-block'
             }`}
           >
@@ -97,13 +101,15 @@ export function ActiveLoanTableMobile(props: Props) {
   return (
     <div className="bg-primary sovryn-border tw-p-4 tw-block md:tw-hidden">
       <div className="sovryn-table sovryn-table-mobile tw-p-4">
-        <div className="row table-header">
-          <div className="col-2" />
-          <div className="col-4">
+        <div className="tw-grid tw-grid-cols-12 table-header">
+          <div className="tw-col-span-2" />
+          <div className="tw-col-span-4">
             {t(translations.activeLoan.table.positionSize)}
           </div>
-          <div className="col-3">{t(translations.activeLoan.table.profit)}</div>
-          <div className="col-3" />
+          <div className="tw-col-span-3">
+            {t(translations.activeLoan.table.profit)}
+          </div>
+          <div className="tw-col-span-3" />
         </div>
         {rows}
       </div>

@@ -269,8 +269,8 @@ export default function GetAccess(props: Props) {
                   Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                <div className="row tw-mb-6 tw-mt-12">
-                  <div className="col-lg-6 col-md-12 lg:tw-flex flex-lg-column tw-items-center">
+                <div className="tw-grid tw-grid-cols-12 tw-mb-6 tw-mt-12">
+                  <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
                     <div className="lg:tw-pl-1">
                       <div className="form-group">
                         <label htmlFor="username">Enter pseudonym</label>
@@ -297,7 +297,7 @@ export default function GetAccess(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-5 col-md-12 lg:tw-5">
+                  <div className="lg:tw-col-span-5 md:tw-col-span-12 lg:tw-5">
                     <div>
                       <div className="form-group">
                         <label htmlFor="amount">
@@ -347,7 +347,7 @@ export default function GetAccess(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12">
+                  <div className="tw-col-span-12">
                     <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-4">
                       By joining the waitlist you agree to receive the latest
                       news about the SOV ecosystem
@@ -380,8 +380,8 @@ export default function GetAccess(props: Props) {
                   register us as not spam!
                 </p>
 
-                <div className="row tw-mb-6 tw-mt-12 tw-justify-center">
-                  <div className="col-6">
+                <div className="tw-grid tw-grid-cols-12 tw-mb-6 tw-mt-12 tw-justify-center">
+                  <div className="tw-col-span-6">
                     <StyledButton
                       as="a"
                       href="https://docsend.com/view/mbhvi379crhagtwp"

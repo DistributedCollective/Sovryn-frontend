@@ -139,8 +139,8 @@ export function SwapTradeForm() {
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <AmountField
               onChange={value => setAmount(value)}
               onMaxClicked={() =>
@@ -149,7 +149,7 @@ export function SwapTradeForm() {
               value={amount}
             />
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setSourceToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}
@@ -166,8 +166,8 @@ export function SwapTradeForm() {
       </div>
 
       <FieldGroup label={t(s.fields.receive)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <DummyField>
               <LoadableValue
                 value={<>{weiToFixed(rateByPath, 8)}</>}
@@ -175,7 +175,7 @@ export function SwapTradeForm() {
               />
             </DummyField>
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setTargetToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}

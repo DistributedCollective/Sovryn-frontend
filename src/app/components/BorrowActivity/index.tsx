@@ -21,12 +21,12 @@ export function BorrowActivity(props: Props) {
   const [activeBorrows, setActiveBorrows] = useState(true);
   return (
     <div>
-      <div className="tw-mt-12 tw-mb-6 tw-flex tw-flex-col flex-md-row md:tw-justify-between md:tw-items-center">
+      <div className="tw-mt-12 tw-mb-6 tw-flex tw-flex-col md:flex-row md:tw-justify-between md:tw-items-center">
         <h3 className="tw-mt-0 tw-mb-4 md:tw-mb-0 tw-text-white">
           {t(translations.borrowActivity.title)}
         </h3>
 
-        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start justify-content-md-end">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start md:justify-content-end">
           <div className="tw-mr-4">
             <Tab
               text={t(translations.borrowActivity.tabs.active)}
@@ -43,8 +43,8 @@ export function BorrowActivity(props: Props) {
           </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col-12">
+      <div className="tw-grid tw-grid-cols-12">
+        <div className="tw-col-span-12">
           {!isConnected ? (
             <SkeletonRow
               loadingText={t(translations.borrowActivity.walletNote)}

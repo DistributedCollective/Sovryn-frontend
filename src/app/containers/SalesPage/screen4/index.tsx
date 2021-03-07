@@ -97,7 +97,7 @@ export default function Screen4() {
         </div>
       </div>
       <div className="tab-content">
-        <div className="col-12">
+        <div className="tw-col-span-12">
           {activeTrades ? <SendBTC setShowCalc={setShowCalc} /> : <SendRBTC />}
         </div>
         {showCalc && <SOVCalculator setShowCalc={setShowCalc} />}

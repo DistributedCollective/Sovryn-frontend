@@ -71,16 +71,16 @@ export function WalletPage() {
           </div>
         </div>
         {connected && account ? (
-          <div className="row">
-            <div className="col-12 tw-mt-2">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-12 tw-mt-2">
               {activeAssets === 0 && <UserAssets />}
               {activeAssets === 1 && <VestedAssets />}
               {activeAssets === 2 && <SovGenerationNFTS />}
             </div>
           </div>
         ) : (
-          <div className="row">
-            <div className="col-12 tw-mt-2">
+          <div className="tw-grid tw-grid-cols-12">
+            <div className="tw-col-span-12 tw-mt-2">
               <SkeletonRow
                 loadingText={t(translations.topUpHistory.walletHistory)}
               />

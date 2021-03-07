@@ -94,8 +94,8 @@ export function LiquidityRemoveContainer(props: Props) {
 
   return (
     <>
-      <div className="row">
-        <div className="col-lg-3 col-6">
+      <div className="tw-grid tw-grid-cols-12">
+        <div className="lg:tw-col-span-3 tw-col-span-6">
           <FieldGroup label={t(translations.liquidity.pool)}>
             <FormSelect
               onChange={handlePoolChange}
@@ -105,7 +105,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="col-lg-3 col-6">
+        <div className="lg:tw-col-span-3 tw-col-span-6">
           <FieldGroup label={t(translations.liquidity.currency)}>
             <FormSelect
               onChange={handleTokenChange}
@@ -115,7 +115,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="col-lg-6 col-12">
+        <div className="lg:tw-col-span-6 tw-col-span-12">
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}
@@ -127,8 +127,8 @@ export function LiquidityRemoveContainer(props: Props) {
       </div>
 
       <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
-        <div className="row">
-          <div className="col">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-12">
             <div className="tw-font-bold small">
               <LoadableValue
                 loading={targetLoading}
@@ -144,7 +144,7 @@ export function LiquidityRemoveContainer(props: Props) {
               {t(translations.liquidity.amountTarget)}
             </div>
           </div>
-          <div className="col">
+          <div className="tw-col-span-12">
             <div className="tw-font-bold small">
               <LoadableValue
                 loading={targetLoading}
