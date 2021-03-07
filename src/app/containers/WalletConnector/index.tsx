@@ -97,7 +97,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between">
                   <span>{prettyTx(address, 4, 4)}</span>
-                  <span className="pl-2">
+                  <span className="tw-pl-2">
                     <img
                       className="tw-rounded"
                       src={getWalletAddrBlockieImg()}

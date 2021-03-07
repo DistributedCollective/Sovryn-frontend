@@ -20,7 +20,7 @@ export function ExpandedRowMobile(props) {
         <div className="tw-col-span-4">{t(s.interestAPR)}</div>
         <div className="tw-col-span-4">{t(s.startPrice)}</div>
       </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row pb-2">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row tw-pb-2">
         <div className="tw-col-span-4">
           {numberToPercent(props.item.currentMargin, 2)}
         </div>
@@ -34,7 +34,7 @@ export function ExpandedRowMobile(props) {
         <div className="tw-col-span-4">{t(s.startMargin)}</div>
         <div className="tw-col-span-4">{t(s.maintenanceMargin)}</div>
       </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row pb-2">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row tw-pb-2">
         <div className="tw-col-span-4">{props.item.leverage}X</div>
         <div className="tw-col-span-4">
           {numberToPercent(props.item.startMargin, 2)}
@@ -46,7 +46,7 @@ export function ExpandedRowMobile(props) {
         <div className="tw-col-span-4">{t(s.liquidationPrice)}</div>
         <div className="tw-col-span-4" />
       </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row pb-2">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 mobile-expanded-row tw-pb-2">
         <div className="tw-col-span-4">{props.item.currentPrice}</div>
         <div className="tw-col-span-4">
           {numberToUSD(props.item.liquidationPrice, 2)}

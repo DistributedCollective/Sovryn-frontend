@@ -139,7 +139,7 @@ export function SwapTradeForm() {
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
-        <div className="tw-grid tw-gap-8 tw--mx-4tw-grid-cols-12">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
           <div className="tw-col-span-8">
             <AmountField
               onChange={value => setAmount(value)}
@@ -166,7 +166,7 @@ export function SwapTradeForm() {
       </div>
 
       <FieldGroup label={t(s.fields.receive)} labelColor={color}>
-        <div className="tw-grid tw-gap-8 tw--mx-4tw-grid-cols-12">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
           <div className="tw-col-span-8">
             <DummyField>
               <LoadableValue

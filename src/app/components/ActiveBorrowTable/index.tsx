@@ -115,7 +115,7 @@ export function ActiveBorrowTable(props: Props) {
                   <Text ellipsize tagName="span">
                     {column.render('Header')}
                     {column.sortable && (
-                      <span className="mx-1">
+                      <span className="tw-mx-1">
                         {column.isSorted ? (
                           column.isSortedDesc ? (
                             <Icon

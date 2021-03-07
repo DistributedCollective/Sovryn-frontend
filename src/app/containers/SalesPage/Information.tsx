@@ -212,7 +212,7 @@ export function SOVModel() {
           </section>
         </section>
         <div className="tw-col-span column-center px-big tw-flex tw-mt-6 tw-mb-6 lg:tw-mb-0">
-          <div className="pb-4 tw-mb-12 tw-mx-auto">
+          <div className="tw-pb-4 tw-mb-12 tw-mx-auto">
             <img src={Sovmodel} alt="" className="tw-w-full tw-h-full" />
           </div>
         </div>
