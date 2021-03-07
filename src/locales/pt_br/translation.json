@@ -736,6 +736,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
+    "button": "Gerar endereço",
     "transaction": {
       "title": "Detalhes da transação",
       "status": "Status {{status}}",
