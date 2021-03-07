@@ -105,7 +105,7 @@ export function TradingViewChart(props: ChartContainerProps) {
     >
       {!hasCharts && (
         <>
-          <div className="tw-grid tw-grid-cols-7 tw-h-full tw-flex tw-content-end">
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-7 tw-h-full tw-flex tw-content-end">
             <div className="tw-flex tw-flex-col tw-justify-end tw-align-end tw-h-full tw-w-full">
               <Skeleton height="50%" />
             </div>

@@ -7,7 +7,7 @@ interface Props {
 export function SkeletonRow(props: Props) {
   return (
     <div className="tw-relative">
-      <div className="tw-grid tw-grid-cols-4 tw-mt-0 tw-gap-8">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-4 tw-mt-0">
         <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
@@ -18,7 +18,7 @@ export function SkeletonRow(props: Props) {
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
       </div>
-      <div className="tw-grid tw-grid-cols-6 tw-mt-6 tw-gap-8">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-6 tw-mt-6">
         <div className="tw-col-span-3">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>

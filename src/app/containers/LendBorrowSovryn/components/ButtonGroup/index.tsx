@@ -82,7 +82,7 @@ const ButtonGroup: React.FC<Props> = ({
 
   return (
     <>
-      <div className="tw-grid tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
         <Tab.Container id="button-group " defaultActiveKey={leftButton}>
           <Nav
             onSelect={k => setKey((k as unknown) as ButtonType)}
@@ -119,7 +119,7 @@ const ButtonGroup: React.FC<Props> = ({
 
       {key === ButtonType.REDEEM && (
         <div className="tw-container tw-mx-auto tw-px-4 tw-my-4">
-          <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8">
+          <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8 tw--mx-4">
             <div className="tw-flex tw-flex-col">
               <h4 className="tw-flex-grow">
                 <Text className="tw-break-normal">

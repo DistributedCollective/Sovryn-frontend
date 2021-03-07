@@ -269,7 +269,7 @@ export default function GetAccess(props: Props) {
                   Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                <div className="tw-grid tw-grid-cols-12 tw-mb-6 tw-mt-12">
+                <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-mb-6 tw-mt-12">
                   <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
                     <div className="lg:tw-pl-1">
                       <div className="form-group">
@@ -380,7 +380,7 @@ export default function GetAccess(props: Props) {
                   register us as not spam!
                 </p>
 
-                <div className="tw-grid tw-grid-cols-12 tw-mb-6 tw-mt-12 tw-justify-center">
+                <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-mb-6 tw-mt-12 tw-justify-center">
                   <div className="tw-col-span-6">
                     <StyledButton
                       as="a"

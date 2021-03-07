@@ -20,7 +20,7 @@ interface Props {
 export function TradingPositionSelector(props: Props) {
   const { t } = useTranslation();
   return (
-    <div className="tw-grid tw-grid-cols-12 tw-mb-4">
+    <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
       <div className="tw-col-span-6 tw-pr-1">
         <Tab
           type={TradingPosition.LONG}

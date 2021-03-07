@@ -98,7 +98,7 @@ export function CloseTradingPositionHandler(props: Props) {
 
         {!!props.item.loanId && (
           <>
-            <div className="tw-grid tw-grid-cols-12 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+            <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
               <div className="tw-col-span-4 tw-flex-grow-0 text-muted">
                 {t(translations.closeTradingPositionHandler.positionSize)}
               </div>
@@ -117,7 +117,7 @@ export function CloseTradingPositionHandler(props: Props) {
             <div className="tw-mt-4 text-muted">
               {t(translations.closeTradingPositionHandler.withdrawIn)}
             </div>
-            <div className="tw-grid tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+            <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
               <div className="tw-col-span-4 tw-flex-grow-0">
                 <FormSelect
                   filterable={false}

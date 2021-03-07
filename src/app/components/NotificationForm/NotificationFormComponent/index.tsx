@@ -45,7 +45,7 @@ export function NotificationFormComponent(props: Props) {
   return (
     <form>
       {text[props.formType].title}
-      <div className="tw-grid tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
         <FormGroup
           label={t(s.dialog.form.name.label)}
           labelFor="text-input"
@@ -76,7 +76,7 @@ export function NotificationFormComponent(props: Props) {
           />
         </FormGroup>
       </div>
-      <div className="tw-grid tw-grid-cols-12 tw-px-4">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-px-4">
         {props.formType === 'signup' && (
           <Checkbox
             name="marketing"
@@ -105,7 +105,7 @@ export function NotificationFormComponent(props: Props) {
           </StyledButton>
         </div>
         {props.response !== 'success' && props.response && (
-          <div className="tw-grid tw-grid-cols-12 tw-p-4">
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-p-4">
             <p className="tw-text-red-500">{t(s.dialog.error)}</p>
           </div>
         )}

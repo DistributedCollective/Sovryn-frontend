@@ -39,7 +39,7 @@ export function TradingActivity() {
           </div>
         </div>
       </div>
-      <div className="tw-grid tw-grid-cols-1">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-1">
         {!isConnected ? (
           <SkeletonRow loadingText={t(s.walletNote)} />
         ) : activeTrades ? (

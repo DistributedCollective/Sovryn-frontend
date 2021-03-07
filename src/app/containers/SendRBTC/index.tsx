@@ -194,7 +194,7 @@ function TransactionDetail(props: DetailsProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
-      <div className="tw-grid tw-grid-cols-12 tw-justify-around">
+      <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-justify-around">
         <div className="lg:tw-col-span-5 md:tw-col-span-6">
           <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
@@ -307,7 +307,7 @@ export default function SendRBTC() {
   return !showTx ? (
     <div>
       <p className="content-header">Pre-order SOV with (r)BTC</p>
-      <div className="tw-grid tw-grid-cols-12 tw-justify-around">
+      <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12 tw-justify-around">
         <div className="md:tw-col-span-5">
           <div className="tw-mb-6">
             <p className="tw-mb-2">Deposit limits:</p>

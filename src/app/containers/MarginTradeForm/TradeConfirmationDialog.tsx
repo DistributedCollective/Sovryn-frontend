@@ -252,7 +252,7 @@ export function TradeConfirmationDialog(props: Props) {
             </h2>
 
             <section className={styles.summary}>
-              <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
                 <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionSize)}
                 </div>
@@ -260,13 +260,13 @@ export function TradeConfirmationDialog(props: Props) {
                   {weiToNumberFormat(props.weiAmount, 8)} {props.collateral}
                 </div>
               </div>
-              <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
                 <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionLeverge)}
                 </div>
                 <div className="tw-col-span-6">{props.leverage}x</div>
               </div>
-              <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
                 <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main.maintenanceMargin,
@@ -274,7 +274,7 @@ export function TradeConfirmationDialog(props: Props) {
                 </div>
                 <div className="tw-col-span-6">15%</div>
               </div>
-              <div className="tw-grid tw-grid-cols-12">
+              <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
                 <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main

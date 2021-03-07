@@ -166,7 +166,7 @@ export default function Screen6() {
             <br />
             SOV* Genesis Pre-Order{' '}
           </p>
-          <div className="tw-grid tw-grid-cols-12 tw-mb-6">
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-6">
             <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
               <div className="lg:tw-pl-1">
                 <div className="form-group">

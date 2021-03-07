@@ -21,7 +21,7 @@ export function BorrowActivity(props: Props) {
   const [activeBorrows, setActiveBorrows] = useState(true);
   return (
     <div>
-      <div className="tw-mt-12 tw-mb-6 tw-flex tw-flex-col md:flex-row md:tw-justify-between md:tw-items-center">
+      <div className="tw-mt-12 tw-mb-6 tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between md:tw-items-center">
         <h3 className="tw-mt-0 tw-mb-4 md:tw-mb-0 tw-text-white">
           {t(translations.borrowActivity.title)}
         </h3>
@@ -43,7 +43,7 @@ export function BorrowActivity(props: Props) {
           </div>
         </div>
       </div>
-      <div className="tw-grid tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12">
         <div className="tw-col-span-12">
           {!isConnected ? (
             <SkeletonRow

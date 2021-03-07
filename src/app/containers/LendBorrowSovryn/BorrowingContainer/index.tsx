@@ -164,7 +164,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           }
         />
       </FieldGroup>
-      <div className="tw-grid tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
         {isShowedBorrowDays && (
           <div className="tw-col-span-12">
             Borrow for {}
@@ -180,7 +180,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           </div>
         )}
         <div className="tw-col-span-12">
-          <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
             <div className="tw-col-span-12 text-muted">
               {
                 <>
