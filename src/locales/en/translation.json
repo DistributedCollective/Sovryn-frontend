@@ -145,7 +145,7 @@
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
-    "notice_4": "If you’re new to DeFi, here is the <0>tutorial</0> on how to use SOVRYN.",
+    "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
     "buildID": "Build ID"
   },
   "mainMenu": {
@@ -578,7 +578,7 @@
       "action": "Action"
     },
     "actions": {
-      "deposit": "Top-Up",
+      "deposit": "FastBTC",
       "swap": "Swap",
       "trade": "Trade",
       "claimSov": "Claim SOV",
@@ -718,5 +718,35 @@
         }
       }
     }
+  },
+  "fastBtcDialog": {
+    "title": "Top Up FastBTC",
+    "subtitle": "Deposit BTC to receive rBTC in your wallet",
+    "limits": {
+      "title": "Deposit limits:",
+      "min": "MIN: {{amount}} BTC",
+      "max": "MAX: {{amount}} BTC"
+    },
+    "instructions": {
+      "title": "Instructions:",
+      "point1": "Do not deposit anything other than BTC",
+      "point2": "Do not send more BTC than the MAX limit",
+      "point3": "Allow  15 mins for the transaction to process"
+    },
+    "qr": {
+      "title": "Send BTC to this address:"
+    },
+    "transaction": {
+      "title": "Transaction Details",
+      "status": "Status {{status}}",
+      "from": "From:",
+      "to": "To:",
+      "fee": "Tx Fee:",
+      "hash": "Tx Hash:",
+      "close": "Close"
+    }
+  },
+  "onCopy": {
+    "address": "Address was copied to clipboard."
   }
 }

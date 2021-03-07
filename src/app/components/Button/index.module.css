@@ -28,3 +28,8 @@
 .button.inverted:active {
     background: rgba(254, 192, 4, 0.5);
 }
+
+.button.disabled, .button:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}

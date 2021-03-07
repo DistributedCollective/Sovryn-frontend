@@ -134,7 +134,7 @@
     "semver": "6.3.0",
     "serve": "11.3.0",
     "shelljs": "0.8.3",
-    "socket.io-client": "2.3.1",
+    "socket.io-client": "3.1.2",
     "source-map-explorer": "2.5.0",
     "storage-factory": "0.1.1",
     "style-loader": "0.23.1",

@@ -39,7 +39,7 @@ export function Footer() {
                 i18nKey={translations.footer.notice_3}
                 components={[
                   <a
-                    href="https://sovryn-1.gitbook.io/sovryn/"
+                    href="https://wiki.sovryn.app/en/getting-started/faq-general"
                     className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"
@@ -54,7 +54,7 @@ export function Footer() {
                 i18nKey={translations.footer.notice_4}
                 components={[
                   <a
-                    href="https://sovryn-1.gitbook.io/sovryn/"
+                    href="https://wiki.sovryn.app/en/home"
                     className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"

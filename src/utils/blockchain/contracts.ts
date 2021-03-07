@@ -19,7 +19,9 @@ import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
+import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
+import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -127,6 +129,11 @@ export const contracts = {
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
+  vestingRegistryOrigin: {
+    address: '0x0a9bDbf5e104a30fb4c99f6812FB85B60Fd8D372',
+    abi: VestingRegistryOriginAbi,
+    blockNumber: 1218836,
+  },
   staking: {
     address: '0x5684a06CaB22Db16d901fEe2A5C081b4C91eA40e',
     abi: StakingAbi,
@@ -142,9 +149,17 @@ export const contracts = {
     abi: CSOVTokenAbi,
     blockNumber: 1218833,
   },
+  OriginInvestorsClaim: {
+    address: '0xE0f5BF8d0C58d9c8A078DB75A9D379E6CDF3149E',
+    abi: OriginClaimAbi,
+  },
   SOV_token: {
     address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
     abi: tokenAbi,
     blockNumber: 3100260,
+  },
+  NFT_tier1: {
+    address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
+    abi: tokenAbi,
   },
 };
