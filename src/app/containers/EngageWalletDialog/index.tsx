@@ -94,7 +94,7 @@ export function EngageWalletDialog() {
               handleEngage={handleEngage}
             />
           </div>
-          <div className="tw-block md:tw-none">
+          <div className="tw-block md:tw-hidden">
             <MobileNotReady handleClose={handleClose} />
           </div>
         </div>

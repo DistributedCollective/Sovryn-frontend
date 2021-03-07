@@ -27,7 +27,7 @@ export function Screen2({ state, dispatch }: Props) {
   return (
     <>
       <p className="tw-pt-4 tw-text-center">{t(s.p1)}</p>
-      <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
         <div className="tw-col-span-12 sm:tw-col-span-6">
           <div className="qr-code tw-w-full">
             <div className="tw-text-center">

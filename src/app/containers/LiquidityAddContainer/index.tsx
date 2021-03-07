@@ -91,7 +91,7 @@ export function LiquidityAddContainer(props: Props) {
   return (
     <>
       <div className="tw-relative">
-        <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-12">
+        <div className="tw-grid tw-gap-8 tw--mx-4tw-grid-cols-12">
           <div className="lg:tw-col-span-3 tw-col-span-6">
             <FieldGroup label={t(translations.liquidity.pool)}>
               <FormSelect

@@ -102,7 +102,7 @@ export function AddSoToNifty() {
               <RightBlock>
                 <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
                 <Wrapper>
-                  <div className="tw-grid tw-gap-8 tw--mx-4 tw--m-4 tw-grid-cols-12 tw-mb-4">
+                  <div className="tw-grid tw-gap-8 tw--mx-4  tw-grid-cols-12 tw-mb-4">
                     <Text
                       className="tw-col-span-6 tw-font-bold"
                       ellipsize
@@ -125,7 +125,7 @@ export function AddSoToNifty() {
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="tw-grid tw-gap-8 tw--mx-4 tw--m-4 tw-grid-cols-12 tw-mb-4">
+                  <div className="tw-grid tw-gap-8 tw--mx-4  tw-grid-cols-12 tw-mb-4">
                     <div className="tw-col-span-6 tw-font-bold">Symbol:</div>
                     <div className="tw-col-span-6">
                       <CopyToClipboard text="SOV">
@@ -138,7 +138,7 @@ export function AddSoToNifty() {
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="tw-grid tw-gap-8 tw--mx-4 tw--m-4 tw-grid-cols-12">
+                  <div className="tw-grid tw-gap-8 tw--mx-4  tw-grid-cols-12">
                     <div className="tw-col-span-6 tw-font-bold">Decimals:</div>
                     <div className="tw-col-span-6">
                       <CopyToClipboard text={18}>

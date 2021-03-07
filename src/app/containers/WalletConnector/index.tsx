@@ -71,7 +71,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               <span className="tw-hidden xl:tw-inline">
                 {t(translations.wallet.connect_btn)}
               </span>
-              <Icon icon="log-in" className="xl:tw-none" />
+              <Icon icon="log-in" className="xl:tw-hidden" />
             </>
           )}
         </StyledButton>

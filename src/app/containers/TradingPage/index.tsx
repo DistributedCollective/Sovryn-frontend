@@ -46,7 +46,7 @@ export function TradingPage(props: Props) {
       </Helmet>
       <Header />
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
-        <div className="tw-grid lg:tw-gap-8 tw--mx-44 tw-grid-cols-1 lg:tw-grid-cols-2">
+        <div className="tw-grid lg:tw-gap-8 tw--mx-4tw-grid-cols-1 lg:tw-grid-cols-2">
           <div
             className={`tw-mb-12 lg:tw-mb-0 lg:tw-order-1 tw-hidden ${
               tradingPage.isMobileStatsOpen && `tw-block`
@@ -59,7 +59,7 @@ export function TradingPage(props: Props) {
             <TradeOrSwapTabs />
           </div>
         </div>
-        <div className="tw-grid tw-gap-8 tw--mx-44 tw-grid-cols-1">
+        <div className="tw-grid tw-gap-8 tw--mx-4tw-grid-cols-1">
           <TradingActivity />
         </div>
       </div>
