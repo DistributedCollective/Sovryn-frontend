@@ -43,7 +43,7 @@ export function BorrowActivity(props: Props) {
           </div>
         </div>
       </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <div className="tw-col-span-12">
           {!isConnected ? (
             <SkeletonRow

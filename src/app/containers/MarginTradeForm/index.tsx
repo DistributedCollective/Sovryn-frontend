@@ -140,7 +140,7 @@ export function MarginTradeForm() {
         onChange={value => setLeverage(value)}
         position={position}
       />
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mt-4">
+      <div className="tw-grid tw-grid-cols-12 tw-mt-4">
         <div className="tw-col-span-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
@@ -159,7 +159,7 @@ export function MarginTradeForm() {
         </div>
       </div>
       <div className="tw-relative">
-        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+        <div className="tw-grid tw-grid-cols-12">
           <div className="tw-col-span-6 tw-pr-1">
             <FieldGroup label={t(s.fields.currency)} labelColor={color}>
               <FormSelect

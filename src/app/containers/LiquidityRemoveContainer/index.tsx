@@ -94,8 +94,8 @@ export function LiquidityRemoveContainer(props: Props) {
 
   return (
     <>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
-        <div className="lg:tw-col-span-3 tw-col-span-6">
+      <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+        <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
           <FieldGroup label={t(translations.liquidity.pool)}>
             <FormSelect
               onChange={handlePoolChange}
@@ -105,7 +105,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="lg:tw-col-span-3 tw-col-span-6">
+        <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
           <FieldGroup label={t(translations.liquidity.currency)}>
             <FormSelect
               onChange={handleTokenChange}
@@ -115,7 +115,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="lg:tw-col-span-6 tw-col-span-12">
+        <div className="lg:tw-col-span-6 tw-col-span-12 tw-px-4">
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}
@@ -127,7 +127,7 @@ export function LiquidityRemoveContainer(props: Props) {
       </div>
 
       <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
-        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
           <div className="tw-col-span-12">
             <div className="tw-font-bold small">
               <LoadableValue

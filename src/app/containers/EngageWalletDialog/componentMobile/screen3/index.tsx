@@ -92,18 +92,18 @@ export function Screen3(props) {
           </div>
         </div>
         <div className="settings tw-absolute">
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-text-center tw-col-span-12">
               {t(translations.rskConnectTutorial.input_settings.title)}
             </div>
           </div>
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.network)}:
             </div>
             <div className="tw-col-span-8">RSK Mainnet</div>
           </div>
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.new_RPC)}:
             </div>
@@ -119,19 +119,19 @@ export function Screen3(props) {
               </CopyToClipboard>
             </div>
           </div>
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.chain_Id)}:
             </div>
             <div className="tw-col-span-8">30</div>
           </div>
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.symbol)}:
             </div>
             <div className="tw-col-span-8">RBTC</div>
           </div>
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.explorer_url)}:
             </div>

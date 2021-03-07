@@ -42,7 +42,7 @@ export function ActiveLoanTableMobile(props: Props) {
     return (
       <React.Fragment key={item.id}>
         <div
-          className={`tw-grid tw-grid-cols-12 tw-gap-8 tw--mx-4 mobile-row ${
+          className={`tw-grid tw-grid-cols-12 tw-gap-8 mobile-row ${
             !expanded && 'opaque'
           }`}
           onClick={() => {

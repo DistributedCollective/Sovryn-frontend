@@ -66,7 +66,7 @@ export function TopUpTradingPositionHandler(props: Props) {
           {t(s.title)}
         </h4>
 
-        <div className="tw-grid tw-gap-8 tw--mx-4  tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
           <div className="tw-col-span-4 lg:tw-col-span-4 tw-flex-grow-0">
             <FieldGroup label={t(s.currency)}>
               <DummyField>{tokenDetails.asset}</DummyField>

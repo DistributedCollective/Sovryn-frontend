@@ -18,7 +18,7 @@ export function ExpectedPoolTokens({ pool, asset, amount }: Props) {
   const expectedPoolTokens = useExpectedPoolTokens(pool, asset, amount);
   return (
     <div className="border shadow tw-my-4 tw-p-4 tw-bg-white tw-text-black">
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <div className="tw-col-span-12">
           <div className="tw-font-bold small">
             <LoadableValue

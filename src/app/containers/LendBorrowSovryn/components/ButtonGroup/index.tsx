@@ -82,8 +82,8 @@ const ButtonGroup: React.FC<Props> = ({
 
   return (
     <>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
-        <Tab.Container id="button-group " defaultActiveKey={leftButton}>
+      <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+        <Tab.Container id="button-group" defaultActiveKey={leftButton}>
           <Nav
             onSelect={k => setKey((k as unknown) as ButtonType)}
             className="tw-col-span-12 deposit-button-group tw-w-full"

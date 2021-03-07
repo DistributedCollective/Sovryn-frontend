@@ -164,7 +164,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           }
         />
       </FieldGroup>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-grid-cols-12">
         {isShowedBorrowDays && (
           <div className="tw-col-span-12">
             Borrow for {}
@@ -180,8 +180,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           </div>
         )}
         <div className="tw-col-span-12">
-          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
-            <div className="tw-col-span-12 text-muted">
+          <div className="tw-grid tw-grid-cols-12 tw--mx-4">
+            <div className="tw-col-span-12 text-muted tw-px-4">
               {
                 <>
                   {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
@@ -193,7 +193,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                 </>
               }
             </div>
-            <div className="tw-col-span-4">
+            <div className="tw-col-span-4 tw-px-4">
               <FieldGroup label="">
                 <FormSelect
                   onChange={item => setTokenToCollarate(item.key)}
@@ -202,7 +202,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                 />
               </FieldGroup>
             </div>
-            <div className="tw-col-span-8">
+            <div className="tw-col-span-8 tw-px-4">
               <FieldGroup label="">
                 <DummyField>
                   {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}

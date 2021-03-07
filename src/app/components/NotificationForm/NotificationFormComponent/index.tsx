@@ -45,7 +45,7 @@ export function NotificationFormComponent(props: Props) {
   return (
     <form>
       {text[props.formType].title}
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <FormGroup
           label={t(s.dialog.form.name.label)}
           labelFor="text-input"

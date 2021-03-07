@@ -122,7 +122,7 @@ export function AboutSOV() {
   return (
     <StyledContainer>
       <h2 className="header">Use and Value Accrual of SOV</h2>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <section className="md:tw-col-span-4 px-big">
           <h3 className="title">Bitocracy:</h3>
           <p>
@@ -171,7 +171,7 @@ export function SOVModel() {
   return (
     <StyledContainer>
       <h2 className="header">SOV Allocation Model</h2>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <section className="tw-col-span column-left px-big">
           <section className="lg:tw-mb-5">
             <h3 className="title">Early Funders: 16,920,000 SOV</h3>
@@ -255,7 +255,7 @@ export function SOVGovernance() {
   return (
     <StyledContainer>
       <h2 className="header">SOV Bitocracy (Governance)</h2>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <section className="tw-col-span column-left lg:tw-p-0">
           <h3 className="title">Bitocracy:</h3>
           <p>
