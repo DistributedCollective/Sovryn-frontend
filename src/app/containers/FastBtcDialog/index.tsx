@@ -3,20 +3,23 @@
  * FastBtcDialog
  *
  */
-
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { actions, reducer, sliceKey } from './slice';
 import { selectFastBtcDialog } from './selectors';
 import { fastBtcDialogSaga } from './saga';
-import styles from './index.module.css';
 import { Step } from './types';
 import { MainScreen } from './components/MainScreen';
 import { TransactionScreen } from './components/TransactionScreen';
+
+import styles from './index.module.css';
+import './_overlayfix.scss';
 
 interface Props {
   isOpen: boolean;
@@ -46,7 +49,6 @@ export function FastBtcDialog(props: Props) {
       onClosing={() => handleClosing()}
       className={Classes.OVERLAY_SCROLL_CONTAINER}
       hasBackdrop
-      canOutsideClickClose
       canEscapeKeyClose
     >
       <div className="custom-dialog-container">
@@ -57,16 +59,21 @@ export function FastBtcDialog(props: Props) {
           )}
         >
           <div className={styles.container}>
-            {[Step.MAIN, Step.WALLET].includes(state.step) && (
-              <MainScreen state={state} dispatch={dispatch} />
-            )}
-            {state.step === Step.TRANSACTION && (
-              <TransactionScreen
-                state={state}
-                dispatch={dispatch}
-                onClose={() => props.onClose()}
-              />
-            )}
+            <div className={styles.close} onClick={() => props.onClose()}>
+              <FontAwesomeIcon icon={faTimes} />
+            </div>
+            <div className={styles.innerContainer}>
+              {[Step.MAIN, Step.WALLET].includes(state.step) && (
+                <MainScreen state={state} dispatch={dispatch} />
+              )}
+              {state.step === Step.TRANSACTION && (
+                <TransactionScreen
+                  state={state}
+                  dispatch={dispatch}
+                  onClose={() => props.onClose()}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
