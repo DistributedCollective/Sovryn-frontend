@@ -114,7 +114,7 @@ export function Header() {
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
-      to: 'https://sovryn-1.gitbook.io/sovryn/',
+      to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.faqs),
     },
   ];
