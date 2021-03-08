@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useLending_testAvailableSupply } from '../../../../hooks/lending/useLending_testAvailableSupply';
+import { useMaintenance } from '../../../../hooks/useMaintenance';
 
 type Props = {
   currency: Asset;
@@ -56,6 +57,14 @@ const TabContainer: React.FC<Props> = ({
     currency,
     useWeiAmount(amountValue),
   );
+  const { checkMaintenance } = useMaintenance();
+  const depositLocked = checkMaintenance('openLoansBorrows');
+  const redeemLocked = checkMaintenance('closeLoansBorrows');
+  const depositDisabled =
+    currentButton === ButtonType.DEPOSIT && depositLocked?.maintenance_active;
+  const redeemDisabled =
+    currentButton === ButtonType.REDEEM && redeemLocked?.maintenance_active;
+
   return (
     <>
       <ButtonGroup
@@ -85,6 +94,14 @@ const TabContainer: React.FC<Props> = ({
         currency={currency}
         canRedeem={isSufficient}
         maxRedeem={availableAmount}
+        disabled={depositDisabled || redeemDisabled}
+        disabledMsg={
+          depositDisabled
+            ? depositLocked?.message
+            : redeemDisabled
+            ? redeemLocked?.message
+            : undefined
+        }
       />
     </>
   );

@@ -30,6 +30,7 @@ import { useCanInteract } from '../../../hooks/useCanInteract';
 import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
 import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
 import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
+import { useMaintenance } from '../../../hooks/useMaintenance';
 
 type Props = {
   currency: Asset;
@@ -44,6 +45,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
   const { t } = useTranslation();
+  const { checkMaintenance } = useMaintenance();
+  const borrowLocked = checkMaintenance('openLoansBorrows');
 
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
@@ -221,7 +224,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           text={t(translations.lend.borrowingContainer.borrow) + ` ${currency}`}
           onClick={handleSubmitBorrow}
           disabled={
-            !valid || !isConnected || txStateBorrow.loading || !isSufficient
+            !valid ||
+            !isConnected ||
+            txStateBorrow.loading ||
+            !isSufficient ||
+            borrowLocked?.maintenance_active
           }
           loading={txStateBorrow.loading}
           tooltip={
@@ -242,6 +249,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                   {t(translations.lendingPage.liquidity.borrow.line_3)}
                 </p>
               </>
+            ) : borrowLocked?.maintenance_active ? (
+              borrowLocked?.message
             ) : undefined
           }
         />
