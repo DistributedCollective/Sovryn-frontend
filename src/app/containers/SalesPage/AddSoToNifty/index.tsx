@@ -234,7 +234,7 @@ const CloseButton = styled.button.attrs(_ => ({
 const Title = styled.div`
   font-size: 28px;
   font-weight: 500;
-  text-align: center;
+  tw-text-align: center;
   margin-bottom: 64px;
   margin-top: 40px;
 `;
@@ -242,7 +242,7 @@ const Title = styled.div`
 const SettingsTitle = styled.div`
   font-size: 18px;
   font-weight: 600;
-  text-align: center;
+  tw-text-align: center;
 `;
 
 const LeftBlock = styled.div`

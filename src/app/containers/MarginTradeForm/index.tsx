@@ -176,7 +176,7 @@ export function MarginTradeForm() {
                 <>
                   {t(s.fields.amount)}{' '}
                   {maxAmount !== '0' && !loadingLimit && (
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       (Max: {weiTo4(maxAmount)} {collateral})
                     </span>
                   )}

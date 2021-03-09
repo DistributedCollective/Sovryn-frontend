@@ -16,4 +16,19 @@
   a:active {
     @apply tw-text-primary tw-underline;
   }
+
+  .tw-bg-primary {
+    background: #171717 !important;
+  }
+  .tw-bg-dark {
+    background: #171717 !important;
+  }
+  .tw-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .tw-text-muted {
+    color: #656565;
+  }
 }

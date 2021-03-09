@@ -100,7 +100,7 @@ export function TradingViewChart(props: ChartContainerProps) {
   return (
     <div
       id={'trading-view-container'}
-      className={'tw-w-full tw-h-full bg-primary'}
+      className={'tw-w-full tw-h-full tw-bg-primary'}
       style={{ minHeight: 320 }}
     >
       {!hasCharts && (

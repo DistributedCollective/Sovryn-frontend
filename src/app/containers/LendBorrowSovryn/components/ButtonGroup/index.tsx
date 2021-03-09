@@ -127,7 +127,7 @@ const ButtonGroup: React.FC<Props> = ({
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="tw-text-muted">{currency} </span>
                 <strong>
                   <Tooltip
                     position="top"
@@ -140,12 +140,12 @@ const ButtonGroup: React.FC<Props> = ({
             </div>
             <div className="tw-flex tw-flex-col">
               <h4 className="tw-flex-grow">
-                <Text className="text-break">
+                <Text className="tw-text-break">
                   {t(translations.lend.container.profit)}
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="tw-text-muted">{currency} </span>
                 <strong>
                   <Tooltip
                     position="top"

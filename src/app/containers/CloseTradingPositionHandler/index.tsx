@@ -90,7 +90,7 @@ export function CloseTradingPositionHandler(props: Props) {
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="tw-container tw-mx-auto tw-px-4  tw-relative">
-        <h4 className="text-teal tw-text-center tw-mb-12 tw-uppercase">
+        <h4 className="tw-text-teal tw-text-center tw-mb-12 tw-uppercase">
           {!!props.item.loanId
             ? t(translations.closeTradingPositionHandler.title)
             : t(translations.closeTradingPositionHandler.titleDone)}
@@ -99,14 +99,14 @@ export function CloseTradingPositionHandler(props: Props) {
         {!!props.item.loanId && (
           <>
             <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
-              <div className="tw-col-span-4 tw-flex-grow-0 text-muted">
+              <div className="tw-col-span-4 tw-flex-grow-0 tw-text-muted">
                 {t(translations.closeTradingPositionHandler.positionSize)}
               </div>
               <div className="tw-col-span tw-flex-grow">
                 <DummyField>
                   <span className="tw-flex tw-w-full tw-flex-row tw-justify-between tw-items-center">
                     <span>{weiTo18(props.item.collateral)}</span>
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       {symbolByTokenAddress(props.item.collateralToken)}
                     </span>
                   </span>
@@ -114,7 +114,7 @@ export function CloseTradingPositionHandler(props: Props) {
               </div>
             </div>
 
-            <div className="tw-mt-4 text-muted">
+            <div className="tw-mt-4 tw-text-muted">
               {t(translations.closeTradingPositionHandler.withdrawIn)}
             </div>
             <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">

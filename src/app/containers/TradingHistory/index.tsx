@@ -262,13 +262,13 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             {item.position === TradingPosition.LONG ? (
               <FontAwesomeIcon
                 icon={faArrowAltCircleUp}
-                className="text-customTeal tw-ml-2"
+                className="tw-text-customTeal tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faArrowAltCircleDown}
-                className="text-Gold tw-ml-2"
+                className="tw-text-Gold tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             )}
@@ -335,7 +335,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <div className="bg-primary tw-p-6 sovryn-border">
+    <div className="tw-bg-primary tw-p-6 sovryn-border">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

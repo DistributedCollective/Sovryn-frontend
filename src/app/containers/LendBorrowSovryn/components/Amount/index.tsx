@@ -36,7 +36,7 @@ const Amount: React.FC<Props> = ({
             <>
               {amountName}{' '}
               {maxValue !== '0' && !loadingLimit && (
-                <span className="text-muted">
+                <span className="tw-text-muted">
                   (Max: {weiTo4(maxValue)} {currency})
                 </span>
               )}

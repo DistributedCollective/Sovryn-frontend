@@ -168,7 +168,7 @@ export function LiquidityRemoveContainer(props: Props) {
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
         <div className="tw-mb-4 lg:tw-mb-0">
           <div>
-            <div className="tw-font-bold text-muted tw-mb-2">
+            <div className="tw-font-bold tw-text-muted tw-mb-2">
               {t(translations.assetWalletBalance.suppliedBalance)}
             </div>
             {!isConnected && (
@@ -176,7 +176,7 @@ export function LiquidityRemoveContainer(props: Props) {
             )}
             {isConnected && (
               <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-                <span className="text-muted">{sourceToken}</span>
+                <span className="tw-text-muted">{sourceToken}</span>
                 <span className="tw-text-white tw-font-bold tw-ml-2">
                   <LoadableValue
                     value={weiToFixed(balance.value, 4)}

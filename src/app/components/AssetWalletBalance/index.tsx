@@ -30,13 +30,13 @@ export function AssetWalletBalance(props: Props) {
 
   return (
     <div>
-      <div className="tw-font-bold text-muted tw-mb-2">
+      <div className="tw-font-bold tw-text-muted tw-mb-2">
         {t(translations.assetWalletBalance.accountBalance)}
       </div>
       {!connected && <span>{t(translations.assetWalletBalance.connect)}</span>}
       {connected && (
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-          <span className="text-muted">{props.asset}</span>
+          <span className="tw-text-muted">{props.asset}</span>
           <span className="tw-text-white tw-font-bold tw-ml-2">
             <LoadableValue
               value={weiToFixed(value, 4)}

@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer className="tw-mt-4">
       <div className="tw-container tw-py-4 tw-mx-auto tw-px-4">
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start text-lightGrey">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-lightGrey">
           <h6 className="tw-font-normal tw-text-base tw-mb-6">
             <Trans
               i18nKey={translations.footer.title}
@@ -78,7 +78,7 @@ export function Footer() {
           </div>
         )}
         {hasMatomo && (
-          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center text-lightGrey tw-mt-12">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-text-lightGrey tw-mt-12">
             <iframe
               title="MatomoOptout"
               style={{ width: '100%', border: 'none', marginLeft: '-5px' }}

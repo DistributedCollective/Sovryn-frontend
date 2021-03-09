@@ -290,7 +290,7 @@ export default function GetAccess(props: Props) {
                           onChange={e => setEmail(e.target.value)}
                         />
                         {!!email && !emailValid && (
-                          <small className="text-muted">
+                          <small className="tw-text-muted">
                             Enter valid email address.
                           </small>
                         )}
@@ -338,7 +338,7 @@ export default function GetAccess(props: Props) {
                           onRelease={() => setEnterCount(false)}
                           onChange={getChangeHandler()}
                         />
-                        <p className="text-small tw-mt-4">
+                        <p className="tw-text-small tw-mt-4">
                           Sharing with us your intended contribution is
                           optional. It does not constrain you to actually
                           participate but it helps us to better understand our
@@ -348,12 +348,12 @@ export default function GetAccess(props: Props) {
                     </div>
                   </div>
                   <div className="tw-col-span-12">
-                    <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-4">
+                    <p className="tw-text-center tw-text-small-bottom tw-mt-0 tw-mb-4">
                       By joining the waitlist you agree to receive the latest
                       news about the SOV ecosystem
                     </p>
                     {response === 'error' && (
-                      <div className="text-danger tw-text-center tw-mb-2">
+                      <div className="tw-text-danger tw-text-center tw-mb-2">
                         An error has occurred
                       </div>
                     )}

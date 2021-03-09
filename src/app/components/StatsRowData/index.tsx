@@ -28,7 +28,7 @@ export function StatsRowData(props: Props) {
       return (
         <>
           {' '}
-          <span className="text-lightGrey">{props.prepend}</span>
+          <span className="tw-text-lightGrey">{props.prepend}</span>
         </>
       );
     }

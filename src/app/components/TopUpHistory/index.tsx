@@ -107,7 +107,7 @@ export function TopUpHistory() {
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
                     <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
                   </div>
@@ -124,7 +124,7 @@ export function TopUpHistory() {
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
-                      className="text-gold"
+                      className="tw-text-gold"
                     />
                   )}
                 </td>
@@ -136,7 +136,7 @@ export function TopUpHistory() {
                   {item.type === 'transfer' && (
                     <LinkToExplorer
                       txHash={item.txHash}
-                      className="text-gold"
+                      className="tw-text-gold"
                     />
                   )}
                 </td>

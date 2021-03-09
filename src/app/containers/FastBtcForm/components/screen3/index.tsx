@@ -38,18 +38,18 @@ export function Screen3({ state, dispatch }: Props) {
             </div>
           )}
         </div>
-        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center text-muted tw-mt-2">
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-text-muted tw-mt-2">
           <small>{state.transferTx?.txHash ? '2' : '1'}/2</small>
         </div>
       </div>
       {state.depositTx && (
         <>
           <div className="tw-mt-4">
-            <div className="tw-font-bold text-muted">{t(s.amount)}</div>
+            <div className="tw-font-bold tw-text-muted">{t(s.amount)}</div>
             <div>{state.depositTx?.value} BTC</div>
           </div>
           <div className="tw-mt-4">
-            <div className="tw-font-bold text-muted">{t(s.status)}</div>
+            <div className="tw-font-bold tw-text-muted">{t(s.status)}</div>
             <div>{state.depositTx?.status}</div>
           </div>
         </>
@@ -57,7 +57,7 @@ export function Screen3({ state, dispatch }: Props) {
       {state.transferTx && (
         <>
           <div className="tw-mt-4">
-            <div className="tw-font-bold text-muted">{t(s.amount)}</div>
+            <div className="tw-font-bold tw-text-muted">{t(s.amount)}</div>
             <div>{state.transferTx?.value} rBTC</div>
           </div>
         </>

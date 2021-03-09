@@ -67,7 +67,7 @@ function Tab(props: TabProps) {
   return (
     <button
       type="button"
-      className={`tw-w-full btn tw-px-1 lg:tw-px-4 tw-py-2 text-dark tw-font-bold tw-uppercase tw-flex tw-flex-row tw-items-center tw-justify-center ${classes}`}
+      className={`tw-w-full btn tw-px-1 lg:tw-px-4 tw-py-2 tw-text-dark tw-font-bold tw-uppercase tw-flex tw-flex-row tw-items-center tw-justify-center ${classes}`}
       onClick={() => props.onClick(props.type)}
     >
       <FontAwesomeIcon icon={icon} className="tw-mr-1 lg:tw-mr-3" />

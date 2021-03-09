@@ -24,7 +24,7 @@ export function NextSupplyInterestRate(props: Props) {
     <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
       <h2 className="tw-flex tw-flex-row">
         {weiToFixed(value, 2)}
-        <span className="text-muted">%</span>
+        <span className="tw-text-muted">%</span>
       </h2>
     </Tooltip>
   );

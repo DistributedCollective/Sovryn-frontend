@@ -165,7 +165,7 @@ function AssetRow({ item }: AssetProps) {
           {/*  <Button*/}
           {/*    minimal*/}
           {/*    text={t(translations.userAssets.actions.deposit)}*/}
-          {/*    className="text-gold"*/}
+          {/*    className="tw-text-gold"*/}
           {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
           {/*  />*/}
           {/*)}*/}
@@ -174,7 +174,7 @@ function AssetRow({ item }: AssetProps) {
               <Button
                 minimal
                 text={t(translations.userAssets.actions.trade)}
-                className="text-gold button-round"
+                className="tw-text-gold button-round"
                 onClick={() =>
                   history.push('/', {
                     params: { asset: item.asset, action: 'trade' },
@@ -184,7 +184,7 @@ function AssetRow({ item }: AssetProps) {
               <Button
                 minimal
                 text={t(translations.userAssets.actions.swap)}
-                className="text-gold button-round"
+                className="tw-text-gold button-round"
                 onClick={() =>
                   history.push('/', {
                     params: { asset: item.asset, action: 'swap' },

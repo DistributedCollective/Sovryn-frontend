@@ -75,7 +75,7 @@ export function ActiveLoanTableDesktop(props: Props) {
   }
 
   return (
-    <div className="bg-primary sovryn-border tw-p-4 tw-hidden md:tw-block">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-hidden md:tw-block">
       <table className="sovryn-table">
         <thead>
           <tr style={{ cursor: 'pointer' }}>
@@ -125,14 +125,14 @@ export function ActiveLoanTableDesktop(props: Props) {
                     {item.icon === 'LONG' && (
                       <Icon
                         icon="circle-arrow-up"
-                        className="text-customTeal tw-mx-2"
+                        className="tw-text-customTeal tw-mx-2"
                         iconSize={20}
                       />
                     )}
                     {item.icon === 'SHORT' && (
                       <Icon
                         icon="circle-arrow-down"
-                        className="text-Gold tw-mx-2"
+                        className="tw-text-Gold tw-mx-2"
                         iconSize={20}
                       />
                     )}{' '}

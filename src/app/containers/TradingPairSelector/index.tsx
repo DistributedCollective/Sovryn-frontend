@@ -86,7 +86,7 @@ export function TradingPairSelector(props: Props) {
         targetTagName: 'div',
       }}
     >
-      <button className="sovryn-border tw-w-full bg-dark tw-text-white tw-mb-6 tw-flex tw-flex-row tw-justify-between tw-items-center tw-p-0">
+      <button className="sovryn-border tw-w-full tw-bg-dark tw-text-white tw-mb-6 tw-flex tw-flex-row tw-justify-between tw-items-center tw-p-0">
         <span className="tw-px-4 tw-pr-6 tw-flex tw-flex-row tw-items-center tw-justify-between tw-flex-shrink-0 tw-flex-grow">
           {selected ? (
             <>
@@ -101,7 +101,7 @@ export function TradingPairSelector(props: Props) {
                   loading ? 'bp3-skeleton' : '',
                 ].join(' ')}
               >
-                <span className="text-muted">$</span> {weiTo2(price)}
+                <span className="tw-text-muted">$</span> {weiTo2(price)}
               </Text>
             </>
           ) : (

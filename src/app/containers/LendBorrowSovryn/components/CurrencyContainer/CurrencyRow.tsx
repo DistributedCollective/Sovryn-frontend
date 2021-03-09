@@ -31,7 +31,7 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border tw-py-1 lg:tw-py-2 currency-container tw-mb-4 text-muted',
+        'sovryn-border tw-py-1 lg:tw-py-2 currency-container tw-mb-4 tw-text-muted',
         active && 'currency-container__active',
       )}
     >
@@ -41,7 +41,7 @@ const CurrencyRow: React.FC<Props> = ({
       </div>
       <div className="tw-flex currency tw-pt-0 lg:tw-w-3/6 lg:tw-pt-4">
         <div className="tw-w-3/6 tw-px-4">
-          <Text className="text-muted">
+          <Text className="tw-text-muted">
             {t(translations.lend.currency.lendArp)}:
           </Text>
           <NextSupplyInterestRate
@@ -50,7 +50,7 @@ const CurrencyRow: React.FC<Props> = ({
           />
         </div>
         <div className="tw-w-3/6 tw-px-4">
-          <Text className="text-muted">
+          <Text className="tw-text-muted">
             {t(translations.lend.currency.borrowArp)}:
           </Text>
           <NextBorrowInterestRate

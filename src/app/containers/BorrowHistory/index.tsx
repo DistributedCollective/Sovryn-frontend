@@ -99,7 +99,7 @@ export function BorrowHistory(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border tw-p-4 table-responsive">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -142,7 +142,7 @@ export function BorrowHistory(props: Props) {
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td className="align-middle" {...cell.getCellProps()}>
+                    <td className="tw-align-middle" {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   );

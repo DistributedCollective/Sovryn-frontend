@@ -87,7 +87,7 @@ function GeneralAlert() {
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
-            className="tw-font-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -99,7 +99,7 @@ function GeneralAlert() {
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://sovryn-1.gitbook.io/sovryn/"
-            className="tw-font-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -130,7 +130,7 @@ function MetaMaskAlert() {
           {t(translations.notifyDialog.metamaskAlert.p2_1)}
           <a
             href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
-            className="tw-font-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -139,7 +139,7 @@ function MetaMaskAlert() {
           {t(translations.notifyDialog.metamaskAlert.p2_3)}
           <a
             href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
-            className="tw-font-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >

@@ -181,12 +181,12 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         )}
         <div className="tw-col-span-12">
           <div className="tw-grid tw-grid-cols-12 tw--mx-4">
-            <div className="tw-col-span-12 text-muted tw-px-4">
+            <div className="tw-col-span-12 tw-text-muted tw-px-4">
               {
                 <>
                   {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
                   {maxAmount !== '0' && !loadingLimit && (
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       (Max: {weiTo4(maxAmount)} {tokenToCollarate})
                     </span>
                   )}

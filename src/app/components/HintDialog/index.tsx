@@ -29,7 +29,7 @@ export function HintDialog() {
     <Dialog isOpen={show} className="tw-p-4">
       <div className="tw-container tw-mx-auto tw-px-4">
         <div className="tw-flex tw-justify-between tw-mb-4">
-          <h3 className="text-teal">{t(translations.hintDialog.title)}</h3>
+          <h3 className="tw-text-teal">{t(translations.hintDialog.title)}</h3>
           <Button
             icon="cross"
             style={{ marginRight: '-10px', marginTop: '-10px' }}

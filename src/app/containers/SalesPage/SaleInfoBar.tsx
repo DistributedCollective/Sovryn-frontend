@@ -60,13 +60,13 @@ export function SaleInfoBar() {
           />
         </div>
         <div className="tw-col-span-12">
-          <Text ellipsize tagName="p" className="text-gold">
+          <Text ellipsize tagName="p" className="tw-text-gold">
             Allocation Remaining:
           </Text>
           <LoadableValue
             loading={availableTokensLoading}
             value={
-              <Text ellipsize tagName="p" className="tw-font-bold text-gold">
+              <Text ellipsize tagName="p" className="tw-font-bold tw-text-gold">
                 {remainingPercent}% ≈ {weiToNumberFormat(availableTokens)} SOV
               </Text>
             }

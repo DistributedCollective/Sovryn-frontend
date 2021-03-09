@@ -178,7 +178,7 @@ export default function Screen6() {
                     onChange={e => setAddress(e.target.value)}
                   />
                   {address.length > 1 && !addressValid && (
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       Enter valid RSK wallet address.
                     </small>
                   )}
@@ -192,7 +192,7 @@ export default function Screen6() {
                     onChange={e => setEmail(e.target.value)}
                   />
                   {!!email && !emailValid && (
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       Enter valid email address.
                     </small>
                   )}
@@ -252,7 +252,7 @@ export default function Screen6() {
           </div>
 
           {requestAccessError && (
-            <div className="text-danger">{requestAccessError}</div>
+            <div className="tw-text-danger">{requestAccessError}</div>
           )}
 
           <SalesButton

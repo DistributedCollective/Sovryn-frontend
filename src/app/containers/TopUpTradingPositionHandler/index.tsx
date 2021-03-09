@@ -62,7 +62,7 @@ export function TopUpTradingPositionHandler(props: Props) {
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
       <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
-        <h4 className="text-teal tw-text-center tw-mb-12 tw-uppercase">
+        <h4 className="tw-text-teal tw-text-center tw-mb-12 tw-uppercase">
           {t(s.title)}
         </h4>
 

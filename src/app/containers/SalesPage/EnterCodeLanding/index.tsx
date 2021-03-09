@@ -139,10 +139,10 @@ export default function EnterCodeLanding(props: Props) {
         >
           <p className="content-title tw-my-0">Enter access code to continue</p>
           {codeError && (
-            <div className="text-danger tw-text-center">{codeError}</div>
+            <div className="tw-text-danger tw-text-center">{codeError}</div>
           )}
           {upgradeLoading && (
-            <div className="text-info tw-text-center">
+            <div className="tw-text-info tw-text-center">
               Loading. This can take couple of minutes.
             </div>
           )}
