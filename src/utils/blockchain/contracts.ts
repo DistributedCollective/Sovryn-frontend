@@ -124,6 +124,11 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  SovrynNFTBday: {
+    address: '0x8ffB12De9e7602843e4792DB0bC2863e9d137d06',
+    abi: SovrynNFTAbi,
+    blockNumber: 1218836,
+  },
   vestingRegistry: {
     address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
     abi: VestingRegistryAbi,

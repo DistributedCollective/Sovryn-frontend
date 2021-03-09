@@ -13,8 +13,6 @@ import sov_icon from 'assets/images/wallet/icon-sov.svg';
 import { useAccount } from '../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 
-const bdnft = '0x65299adDc002Dd792797288ee6599772d20970Da'.toLowerCase();
-
 export function SovGenerationNFTS() {
   const account = useAccount();
   const { value: balanceCommunity } = useCacheCallWithValue(
@@ -31,6 +29,12 @@ export function SovGenerationNFTS() {
   );
   const { value: balanceSuperhero } = useCacheCallWithValue(
     'SovrynNFTSuperhero',
+    'balanceOf',
+    '0',
+    account,
+  );
+  const { value: balanceBday } = useCacheCallWithValue(
+    'SovrynNFTBday',
     'balanceOf',
     '0',
     account,
@@ -61,7 +65,7 @@ export function SovGenerationNFTS() {
     <div className="sovryn-border p-3 mb-5 pb-5">
       <p className="text-center sov-title mb-5">SOV Generation 01 NFT's</p>
       <div className="d-lg-flex text-center align-items-center justify-content-center">
-        {account.toLowerCase() === bdnft && (
+        {balanceBday !== '0' && (
           <div className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block">
             <div className="image-bordered">
               <img
