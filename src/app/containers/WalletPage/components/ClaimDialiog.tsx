@@ -53,7 +53,7 @@ export function ClaimDialog(props: Props) {
         canEscapeKeyClose
       >
         <div className="custom-dialog-container">
-          <div className="custom-dialog font-family-montserrat">
+          <div className="custom-dialog">
             <div className={styles.container}>
               <div className={styles.wrapper}>
                 <h2 className={styles.title}>Convert CSOV to SOV</h2>

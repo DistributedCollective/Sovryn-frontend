@@ -28,7 +28,7 @@ export function NotificationFormComponent(props: Props) {
     signup: {
       buttonText: t(s.dialog.wantBtn),
       title: (
-        <p className="font-family-work-sans">
+        <p>
           <span className="tw-mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>

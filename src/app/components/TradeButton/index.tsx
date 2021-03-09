@@ -42,7 +42,7 @@ export function TradeButton(props: Props) {
         type={props.type}
         disabled={props.disabled}
         hideIt={props.hideIt}
-        className="sovryn-border tw-flex-grow-0 tw-flex-shrink-0 font-family-montserrat tw-font-bold"
+        className="sovryn-border tw-flex-grow-0 tw-flex-shrink-0 tw-font-bold"
         textColor={props.textColor}
         onClick={handleClick}
       >

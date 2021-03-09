@@ -109,7 +109,7 @@ export function SalesPage() {
       </Helmet>
       <Header />
       <main
-        className="tw-container tw-mx-auto tw-px-4 font-family-montserrat"
+        className="tw-container tw-mx-auto tw-px-4"
         style={{ maxWidth: '1730px', letterSpacing: 'normal' }}
       >
         <>

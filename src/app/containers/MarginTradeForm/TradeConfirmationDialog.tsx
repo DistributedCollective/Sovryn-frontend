@@ -219,7 +219,7 @@ export function TradeConfirmationDialog(props: Props) {
       canEscapeKeyClose
     >
       <div className="custom-dialog-container">
-        <div className="custom-dialog font-family-montserrat">
+        <div className="custom-dialog">
           <div className={styles.container}>
             <button
               type="button"

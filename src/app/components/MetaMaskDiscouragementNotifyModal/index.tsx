@@ -44,7 +44,7 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
       canEscapeKeyClose={false}
       className="fw-900 tw-p-6"
     >
-      <div className="font-family-montserrat tw-font-light tw-text-center mfw-600 tw-mx-auto">
+      <div className="tw-font-light tw-text-center mfw-600 tw-mx-auto">
         <img src={logo} alt="MetaMask" className="tw-mb-4" />
         <div
           className="tw-font-bold tw-text-center tw-mb-6"

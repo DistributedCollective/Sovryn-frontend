@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer className="tw-mt-4">
       <div className="tw-container tw-py-4 tw-mx-auto tw-px-4">
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start text-lightGrey font-family-montserrat">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start text-lightGrey">
           <h6 className="tw-font-normal tw-text-base tw-mb-6">
             <Trans
               i18nKey={translations.footer.title}
@@ -65,7 +65,7 @@ export function Footer() {
           </div>
         </div>
         {commitHash && (
-          <div className="small tw-text-white font-family-montserrat tw-font-montserrat">
+          <div className="small tw-text-white">
             {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
