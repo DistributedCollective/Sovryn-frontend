@@ -21,11 +21,11 @@ export function SaleBanner() {
     <div className="banner-container">
       <div className="banner tw-py-4">
         <div className="info-container">
-          <h2 className="tw-uppercase title-container black-font">
+          <h2 className="tw-uppercase title-container tw-black-font">
             <>SOV* Genesis Pre-Order is Over!</>
           </h2>
           <div className="sub-info-container">
-            <p className="sub-info-text black-font">Sold out!</p>
+            <p className="sub-info-text tw-black-font">Sold out!</p>
           </div>
           <div className="button-container">
             <Link

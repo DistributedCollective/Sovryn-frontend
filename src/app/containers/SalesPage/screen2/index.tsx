@@ -154,7 +154,7 @@ export default function Screen2() {
                 <div className="tw-mb-4 tw-mr-2 tw-ml-2 tw-relative tw-inline-block">
                   <div className="image-bordered">
                     <img
-                      className="tw-w-full tw-h-full image-responsive"
+                      className="tw-w-full tw-h-full tw-image-responsive"
                       src={tierImage}
                       alt="bg"
                     />

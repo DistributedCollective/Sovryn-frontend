@@ -108,7 +108,7 @@ export function Screen2({ state, dispatch }: Props) {
         <div className="sovryn-border small tw-p-2 tw-flex tw-flex-row tw-justify-between tw-items-center">
           {t(s.txDetected)}
           <div
-            className={`tw-ml-4 circle circle-${
+            className={`tw-ml-4 tw-circle tw-circle-${
               state.depositTx?.txHash ? 'green' : 'red'
             }`}
           />

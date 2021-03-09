@@ -92,6 +92,7 @@ module.exports = {
       'TabGrey': '#213b58',
       'Red': '#eb2106',
       'Muted_red': '#cd4e4e',
+      'info': '#17a2b8'
     },
     extend: {},
   },
