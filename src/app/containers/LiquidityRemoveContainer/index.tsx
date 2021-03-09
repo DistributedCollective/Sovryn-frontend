@@ -22,6 +22,7 @@ import { AmountField } from '../AmountField';
 import { TradeButton } from '../../components/TradeButton';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 import { useIsConnected } from '../../hooks/useAccount';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -67,6 +68,9 @@ export function LiquidityRemoveContainer(props: Props) {
     weiAmount,
     '1',
   );
+
+  const { checkMaintenance } = useMaintenance();
+  const liquidityLocked = checkMaintenance('changeLiquidity');
 
   const handleWithdraw = useCallback(() => {
     tx.withdraw();
@@ -191,7 +195,17 @@ export function LiquidityRemoveContainer(props: Props) {
           text={t(translations.liquidity.withdraw)}
           onClick={handleWithdraw}
           loading={tx.loading}
-          disabled={!isConnected || tx.loading || !amountValid()}
+          disabled={
+            !isConnected ||
+            tx.loading ||
+            !amountValid() ||
+            liquidityLocked?.maintenance_active
+          }
+          tooltip={
+            liquidityLocked?.maintenance_active ? (
+              <div className="mw-tooltip">{liquidityLocked?.message}</div>
+            ) : undefined
+          }
         />
       </div>
     </>

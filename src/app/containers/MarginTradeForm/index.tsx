@@ -33,12 +33,9 @@ import { useLending_transactionLimit } from '../../hooks/lending/useLending_tran
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
 import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
 import { TradeConfirmationDialog } from './TradeConfirmationDialog';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.marginTradeForm;
 
@@ -49,6 +46,9 @@ export function MarginTradeForm() {
   const pair = TradingPairDictionary.get(tradingPair);
 
   const { t } = useTranslation();
+
+  const { checkMaintenance } = useMaintenance();
+  const tradesLocked = checkMaintenance('openTradesSwaps');
 
   const [position, setPosition] = useState(TradingPosition.LONG);
   const [leverage, setLeverage] = useState(2);
@@ -201,19 +201,19 @@ export function MarginTradeForm() {
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => setDialogOpen(true)}
-            hideIt={disableNewTrades}
+            hideIt={tradesLocked?.maintenance_active}
             disabled={
               !isConnected ||
               tx.loading ||
               !valid ||
               diff > 5 ||
-              disableNewTrades
+              tradesLocked?.maintenance_active
             }
             textColor={color}
             loading={tx.loading}
             tooltip={
-              disableNewTrades ? (
-                <div className="mw-tooltip">{disableNewTradesText}</div>
+              tradesLocked?.maintenance_active ? (
+                <div className="mw-tooltip">{tradesLocked?.message}</div>
               ) : diff > 5 ? (
                 <>
                   <p className="mb-1">{t(s.liquidity.line_1)}</p>

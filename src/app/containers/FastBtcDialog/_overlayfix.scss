@@ -1,0 +1,7 @@
+// fix for blueprint overlay covering scrollbar - https://github.com/palantir/blueprint/issues/1008
+.bp3-overlay-backdrop {
+  display: none;
+}
+.bp3-overlay-open {
+  background-color: rgba(16, 22, 26, 0.7);
+}
