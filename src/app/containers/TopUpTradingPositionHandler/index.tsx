@@ -23,10 +23,7 @@ import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { TradeButton } from '../../components/TradeButton';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -51,6 +48,8 @@ export function TopUpTradingPositionHandler(props: Props) {
     props.item.loanId,
     weiAmount,
   );
+  const { checkMaintenance } = useMaintenance();
+  const topupLocked = checkMaintenance('openTradesSwaps');
 
   const handleConfirm = () => {
     send();
@@ -91,15 +90,18 @@ export function TopUpTradingPositionHandler(props: Props) {
           <AssetWalletBalance asset={tokenDetails.asset} />
           <TradeButton
             text={t(s.topUp)}
-            hideIt={disableNewTrades}
+            hideIt={topupLocked?.maintenance_active}
             onClick={() => handleConfirm()}
             disabled={
-              disableNewTrades || rest.loading || !valid || !canInteract
+              topupLocked?.maintenance_active ||
+              rest.loading ||
+              !valid ||
+              !canInteract
             }
             loading={rest.loading}
             tooltip={
-              disableNewTrades ? (
-                <div className="mw-tooltip">{disableNewTradesText}</div>
+              topupLocked?.maintenance_active ? (
+                <div className="mw-tooltip">{topupLocked?.message}</div>
               ) : undefined
             }
           />

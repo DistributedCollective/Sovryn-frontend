@@ -1,5 +1,4 @@
 import { TxType } from '../store/global/transactions-store/types';
-import { isChecked } from './helpers';
 
 export const chains = {
   mainnet: 30,
@@ -10,14 +9,6 @@ export const currentNetwork =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
 
 export const currentChainId = chains[currentNetwork];
-
-export const disableNewTrades = isChecked(
-  process.env.REACT_APP_DISABLE_NEW_TRADES,
-);
-
-export const disableNewTradesText = `We have temporarily put deposits and trading on hold. This will give
-          the team time to improve warnings if liquidity is low. Thank you all
-          for your feedback and helping improve the system!`;
 
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
@@ -37,8 +28,8 @@ export const rpcNodes = {
 };
 
 export const readNodes = {
-  30: 'wss://mainnet2.sovryn.app/ws',
-  31: 'wss://testnet2.sovryn.app/ws',
+  30: 'wss://mainnet.sovryn.app/ws',
+  31: 'wss://testnet.sovryn.app/ws',
 };
 
 export const fastBtcApis = {

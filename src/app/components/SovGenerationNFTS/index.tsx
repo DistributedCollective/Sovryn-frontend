@@ -8,6 +8,7 @@ import React from 'react';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
 import sov_3 from 'assets/images/wallet/sov_3.jpg';
+import bfntImg from 'assets/images/wallet/bnft.png';
 import sov_icon from 'assets/images/wallet/icon-sov.svg';
 import { useAccount } from '../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -28,6 +29,12 @@ export function SovGenerationNFTS() {
   );
   const { value: balanceSuperhero } = useCacheCallWithValue(
     'SovrynNFTSuperhero',
+    'balanceOf',
+    '0',
+    account,
+  );
+  const { value: balanceBday } = useCacheCallWithValue(
+    'SovrynNFTBday',
     'balanceOf',
     '0',
     account,
@@ -60,6 +67,18 @@ export function SovGenerationNFTS() {
         SOV Generation 01 NFT's
       </p>
       <div className="lg:tw-flex tw-text-center tw-items-center tw-justify-center">
+        {balanceBday !== '0' && (
+          <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
+            <div className="image-bordered">
+              <img
+                className="tw-w-full tw-h-full tw-image-responsive"
+                src={bfntImg}
+                alt="Staying Sovryn for 10 halvings"
+              />
+            </div>
+          </div>
+        )}
+
         {tiers.map((item, index) => {
           return (
             item.balance !== '0' && (

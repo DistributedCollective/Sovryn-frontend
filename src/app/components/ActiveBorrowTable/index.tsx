@@ -13,6 +13,8 @@ import { BorrowAmount } from './BorrowAmount';
 import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { useMaintenance } from '../../hooks/useMaintenance';
+import styles from './ActiveBorrowTable.module.css';
 
 interface Props {
   data: any;
@@ -21,6 +23,9 @@ interface Props {
 export function ActiveBorrowTable(props: Props) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { checkMaintenance } = useMaintenance();
+  const repayLocked = checkMaintenance('closeLoansBorrows');
+
   const columns = React.useMemo(
     () => [
       {
@@ -85,7 +90,11 @@ export function ActiveBorrowTable(props: Props) {
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
           <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
-            <div className="tw-mr-1">
+            <div
+              className={`tw-mr-1 ${
+                repayLocked?.maintenance_active ? styles.disabled : ''
+              }`}
+            >
               <StyledRepayButton
                 onClick={() => dispatch(actions.openRepayModal(item.loanId))}
               >
@@ -96,6 +105,7 @@ export function ActiveBorrowTable(props: Props) {
         ),
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data, dispatch, t]);
   const {
     getTableProps,

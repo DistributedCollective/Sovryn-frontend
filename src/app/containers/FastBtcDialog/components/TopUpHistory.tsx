@@ -5,34 +5,46 @@
  */
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFastBtcForm } from '../../containers/FastBtcForm/selectors';
-import { actions } from '../../containers/FastBtcForm/slice';
-import { SkeletonRow } from '../Skeleton/SkeletonRow';
-import { LinkToExplorer } from '../LinkToExplorer';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { Asset } from '../../../types/asset';
-import { DisplayDate } from '../ActiveUserLoanContainer/components/DisplayDate';
-import { numberToUSD } from '../../../utils/display-text/format';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { selectFastBtcDialog } from '../selectors';
+import { useAccount, useIsConnected } from '../../../hooks/useAccount';
+import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
+import { Asset } from '../../../../types/asset';
+import { translations } from '../../../../locales/i18n';
+import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
+import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
+
+import { weiToFixed } from '../../../../utils/blockchain/math-helpers';
+import { actions } from '../slice';
 
 export function TopUpHistory() {
   const { t } = useTranslation();
 
   const isConnected = useIsConnected();
   const account = useAccount();
-  const state = useSelector(selectFastBtcForm);
+  const state = useSelector(selectFastBtcDialog);
   const dispatch = useDispatch();
 
   const asset = AssetsDictionary.get(Asset.BTC);
 
   useEffect(() => {
     if (isConnected && account) {
-      dispatch(actions.changeReceiverAddress(account));
+      dispatch(actions.init());
     }
   }, [account, isConnected, dispatch]);
+
+  useEffect(() => {
+    if (state.ready && account) {
+      dispatch(actions.getHistory(account));
+
+      const timer = setInterval(() => {
+        dispatch(actions.getHistory(account));
+      }, 15e3);
+
+      return () => clearInterval(timer);
+    }
+  }, [state.ready, account, dispatch]);
 
   return (
     <section>
@@ -68,12 +80,12 @@ export function TopUpHistory() {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {!state.history.length && !state.isHistoryLoading && (
+            {!state.history.items.length && !state.history.items && (
               <tr>
                 <td colSpan={99}>{t(translations.topUpHistory.emptyState)}</td>
               </tr>
             )}
-            {state.isHistoryLoading && !state.history.length && (
+            {state.history.loading && !state.history.items.length && (
               <tr>
                 <td colSpan={99}>
                   <SkeletonRow
@@ -86,7 +98,7 @@ export function TopUpHistory() {
                 </td>
               </tr>
             )}
-            {state.history.map(item => (
+            {state.history.items.map(item => (
               <tr key={item.txHash}>
                 <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <DisplayDate
@@ -110,9 +122,6 @@ export function TopUpHistory() {
                     <small className="tw-text-muted">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
-                  </div>
-                  <div className="tw-flex tw-flex-nowrap tw-mt-1 tw-text-right tw-justify-end">
-                    <small>{numberToUSD(item.valueUsd, 4)}</small>
                   </div>
                 </td>
                 <td

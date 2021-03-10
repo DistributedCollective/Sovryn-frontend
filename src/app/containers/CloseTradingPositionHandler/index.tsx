@@ -26,6 +26,7 @@ import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 import { TradeButton } from '../../components/TradeButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 interface Props {
   item: ActiveLoan;
@@ -86,6 +87,9 @@ export function CloseTradingPositionHandler(props: Props) {
     ),
     weiAmount,
   );
+
+  const { checkMaintenance } = useMaintenance();
+  const closeTradesLocked = checkMaintenance('closeTradesSwaps');
 
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -149,10 +153,14 @@ export function CloseTradingPositionHandler(props: Props) {
                   : t(translations.closeTradingPositionHandler.closeAmount)
               }
               onClick={() => handleConfirmSwap()}
-              disabled={rest.loading || !valid}
+              disabled={
+                rest.loading || !valid || closeTradesLocked?.maintenance_active
+              }
               loading={rest.loading}
               tooltip={
-                test.diff > 5 ? (
+                closeTradesLocked?.maintenance_active ? (
+                  closeTradesLocked?.message
+                ) : test.diff > 5 ? (
                   <>
                     <p className="tw-mb-1">
                       {t(

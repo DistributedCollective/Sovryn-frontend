@@ -22,6 +22,8 @@ type Props = {
   handleSubmitRepay?: () => void;
   canRedeem?: boolean;
   maxRedeem?: string;
+  disabled?: boolean;
+  disabledMsg?: string;
 };
 
 const AccountBalance: React.FC<Props> = ({
@@ -35,6 +37,8 @@ const AccountBalance: React.FC<Props> = ({
   title,
   canRedeem,
   maxRedeem,
+  disabled,
+  disabledMsg,
 }) => {
   const { t } = useTranslation();
   const noRedeem = title === ButtonType.REDEEM && !canRedeem;
@@ -60,7 +64,9 @@ const AccountBalance: React.FC<Props> = ({
               ? handleSubmitRepay
               : handleSubmit
           }
-          disabled={txState.loading || !isConnected || !valid || noRedeem}
+          disabled={
+            txState.loading || !isConnected || !valid || noRedeem || disabled
+          }
           loading={txState.loading}
           tooltip={
             noRedeem ? (
@@ -80,6 +86,8 @@ const AccountBalance: React.FC<Props> = ({
                   {t(translations.lendingPage.liquidity.redeem.line_3)}
                 </p>
               </>
+            ) : disabledMsg ? (
+              disabledMsg
             ) : undefined
           }
         />
