@@ -1,6 +1,6 @@
 module.exports = {
   prefix: 'tw-',
-  purge: ['./src/components/**/*.{ts,tsx}', './src/containers/**/*.{ts,tsx}'],
+  purge: ['./src/app/components/**/*.{ts,tsx}', './src/app/containers/**/*.{ts,tsx}'],
   future: {
     purgeLayersByDefault: true,
   },
