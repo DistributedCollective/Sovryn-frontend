@@ -1,9 +1,9 @@
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { MenuItem, Text } from '@blueprintjs/core';
 import React from 'react';
-import { SelectItem } from '../../FormSelect';
+import { Option } from 'form/Select/types';
 
-export const renderItem: ItemRenderer<SelectItem> = (
+export const renderItem: ItemRenderer<Option> = (
   item,
   { handleClick, modifiers, query },
 ) => {
@@ -23,7 +23,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
   );
 };
 
-export const filterItem: ItemPredicate<SelectItem> = (
+export const filterItem: ItemPredicate<Option> = (
   query,
   item,
   _index,
@@ -39,7 +39,7 @@ export const filterItem: ItemPredicate<SelectItem> = (
   }
 };
 
-export function areOptionsEqual(optionA: SelectItem, optionB: SelectItem) {
+export function areOptionsEqual(optionA: Option, optionB: Option) {
   return (
     optionA.key &&
     optionB.key &&
