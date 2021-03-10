@@ -312,12 +312,14 @@ export class SovrynNetwork {
         });
         provider.on('chainChanged', async (chain: string) => {
           const chainId = parseInt(chain);
+          await this.testChain(chainId);
           const networkId = await this._writeWeb3.eth.net.getId();
           await this.initReadWeb3(chainId);
           this.store().dispatch(actions.chainChanged({ chainId, networkId }));
         });
         provider.on('networkChanged', async (networkId: number) => {
           const chainId = await (this._writeWeb3.eth as any).chainId();
+          await this.testChain(chainId);
           await this.initReadWeb3(chainId);
           this.store().dispatch(actions.chainChanged({ chainId, networkId }));
         });
@@ -343,6 +345,8 @@ export class SovrynNetwork {
 
       this._provider = provider;
 
+      await this.testChain(chainId);
+
       await this.initReadWeb3(chainId);
       this.store().dispatch(actions.chainChanged({ chainId, networkId }));
       this.store().dispatch(actions.connected({ address }));
@@ -364,5 +368,21 @@ export class SovrynNetwork {
       .catch(e => {
         console.error('failed to send wallet address to database', e);
       });
+  }
+  protected async testChain(chainId: number) {
+    if (chainId !== currentChainId) {
+      this._toaster.show(
+        {
+          intent: 'danger',
+          message: `Please switch to RSK ${currentNetwork}.`,
+        },
+        'network',
+      );
+      await this.disconnect();
+      return Promise.reject('Unsupported network');
+    }
+
+    // localStorage.setItem('connectedToRskBefore', 'true');
+    return Promise.resolve();
   }
 }

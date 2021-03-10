@@ -1,6 +1,5 @@
 import { AbiItem } from 'web3-utils';
 import { Asset } from 'types/asset';
-import { Chain } from 'types/chain';
 import { ContractName } from '../types/contracts';
 import { appContracts } from '../blockchain/app-contracts';
 
@@ -19,7 +18,6 @@ export class AssetDetails {
     public name: string,
     public decimals: number,
     public logoSvg: string,
-    public chainIds: Chain[],
   ) {
     this.tokenContract = appContracts[this.getTokenContractName()];
     this.lendingContract = appContracts[this.getLendingContractName()];

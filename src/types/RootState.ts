@@ -7,7 +7,6 @@ import { TransactionsStoreState } from '../store/global/transactions-store/types
 import { TutorialDialogModalState } from 'app/containers/EngageWalletDialog/types';
 import { SalesPageState } from 'app/containers/SalesPage/types';
 import { MarginTradePageState } from 'app/containers/MarginTradePage/types';
-import { BridgePageState } from 'app/pages/BridgePage/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -24,6 +23,5 @@ export interface RootState {
   tutorialDialogModal?: TutorialDialogModalState;
   salesPage?: SalesPageState;
   marginTradePage?: MarginTradePageState;
-  bridgePage?: BridgePageState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }
