@@ -4,7 +4,7 @@ import { Asset } from 'types/asset';
 import { Select } from 'form/Select';
 import { Option } from 'form/Select/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { renderItem } from 'form/AssetSelect/renderers';
+import { renderItem, valueRenderer } from 'form/AssetSelect/renderers';
 
 interface Props {
   value: Nullable<Asset> | undefined;
@@ -28,6 +28,7 @@ export function AssetSelect(props: Props) {
       }
       options={options as any}
       itemRenderer={renderItem}
+      valueRenderer={valueRenderer}
     />
   );
 }

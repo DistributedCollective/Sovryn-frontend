@@ -18,11 +18,28 @@ export const renderItem: ItemRenderer<Option> = (
       key={item.key}
       onClick={handleClick}
       text={
-        <Text ellipsize tagName="div" className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+        <Text
+          ellipsize
+          tagName="div"
+          className="tw-flex tw-flex-row tw-items-center tw-justify-start"
+        >
           <img src={item.data} className="tw-w-6 tw-mr-2" alt={item.label} />
           {highlightText(item.label || item.key, query)}
         </Text>
       }
     />
+  );
+};
+
+export const valueRenderer = (item: Option) => {
+  return (
+    <Text
+      ellipsize
+      tagName="div"
+      className="flex flex-row items-center justify-start"
+    >
+      <img src={item.data} className="w-6 mr-2" alt={item.label} />
+      {item.label || item.key}
+    </Text>
   );
 };
