@@ -45,7 +45,7 @@ function CloseButton({
   return (
     <button
       className={classNames(
-        'd-flex flex-row align-items-center justify-content-center',
+        'tw-flex tw-flex-row tw-items-center tw-justify-center',
         styles.button,
       )}
       onClick={() => onClose()}
@@ -70,8 +70,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.PENDING_FOR_USER:
       return (
         <>
-          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
-            <div className="mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon icon="time" iconSize={27} />
             </div>
             <div>
@@ -81,7 +81,7 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
               <div className={styles.txText}>
                 {t(translations.sendTxProgress.pending_for_user.text)}
               </div>
-              <div className="font-weight-bold text-center mt-4">
+              <div className="tw-font-bold tw-text-center tw-mt-6">
                 {t(translations.tradeConfirmationDialog.main.gasPriceNote)}
               </div>
             </div>
@@ -95,8 +95,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.PENDING:
       return (
         <>
-          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
-            <div className="mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon icon="time" iconSize={27} />
             </div>
             <div>
@@ -107,7 +107,7 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
                 {t(translations.sendTxProgress.pending.text)}
               </div>
               {tx.txHash && (
-                <div className={classNames(styles.txHash, 'text-center')}>
+                <div className={classNames(styles.txHash, 'tw-text-center')}>
                   <LinkToExplorer txHash={tx.txHash} />
                 </div>
               )}
@@ -122,8 +122,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.CONFIRMED:
       return (
         <>
-          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
-            <div className="mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon
                 icon="tick"
                 iconSize={27}
@@ -138,7 +138,7 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
                 {t(translations.sendTxProgress.confirmed.text)}
               </div>
               {tx.txHash && (
-                <div className={classNames(styles.txHash, 'text-center')}>
+                <div className={classNames(styles.txHash, 'tw-text-center')}>
                   <LinkToExplorer txHash={tx.txHash} />
                 </div>
               )}
@@ -153,8 +153,8 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
     case TxStatus.FAILED:
       return (
         <>
-          <div className="d-flex flex-column justify-content-start align-items-center mb-5 px-4">
-            <div className="mr-3">
+          <div className="tw-flex tw-flex-col tw-justify-start tw-items-center tw-mb-12 tw-px-6">
+            <div className="tw-mr-4">
               <Icon
                 icon="error"
                 iconSize={27}
@@ -175,7 +175,7 @@ function TxStatusRenderer({ tx, onClose }: Props2) {
                 )}
               </div>
               {tx.txHash && (
-                <div className={classNames(styles.txHash, 'text-center')}>
+                <div className={classNames(styles.txHash, 'tw-text-center')}>
                   <LinkToExplorer txHash={tx.txHash} />
                 </div>
               )}
@@ -219,7 +219,7 @@ export function TradeConfirmationDialog(props: Props) {
       canEscapeKeyClose
     >
       <div className="custom-dialog-container">
-        <div className="custom-dialog font-family-montserrat">
+        <div className="custom-dialog">
           <div className={styles.container}>
             <button
               type="button"
@@ -252,36 +252,36 @@ export function TradeConfirmationDialog(props: Props) {
             </h2>
 
             <section className={styles.summary}>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionSize)}
                 </div>
-                <div className="col-6">
+                <div className="tw-col-span-6">
                   {weiToNumberFormat(props.weiAmount, 8)} {props.collateral}
                 </div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(translations.tradeConfirmationDialog.main.positionLeverge)}
                 </div>
-                <div className="col-6">{props.leverage}x</div>
+                <div className="tw-col-span-6">{props.leverage}x</div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main.maintenanceMargin,
                   )}
                 </div>
-                <div className="col-6">15%</div>
+                <div className="tw-col-span-6">15%</div>
               </div>
-              <div className="row">
-                <div className="col-6">
+              <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+                <div className="tw-col-span-6">
                   {t(
                     translations.tradeConfirmationDialog.main
                       .estimatedLiquidationPrice,
                   )}
                 </div>
-                <div className="col-6">
+                <div className="tw-col-span-6">
                   {weiToNumberFormat(props.liquidationPrice, 2)} USD
                 </div>
               </div>
@@ -317,7 +317,7 @@ export function TradeConfirmationDialog(props: Props) {
 
                 <button
                   className={classNames(
-                    'd-flex flex-row align-items-center justify-content-center',
+                    'tw-flex tw-flex-row tw-items-center tw-justify-center',
                     styles.button,
                     props.position === TradingPosition.SHORT
                       ? styles.button_short
@@ -337,7 +337,7 @@ export function TradeConfirmationDialog(props: Props) {
                 </button>
               </>
             ) : (
-              <div className="mt-5">
+              <div className="tw-mt-12">
                 <TxStatusRenderer
                   tx={props.tx}
                   onClose={() => props.onClose()}

@@ -158,17 +158,17 @@ export default function Screen6() {
     <>
       {!requestAccessLoading ? (
         <StyledContent>
-          <div className="d-flex flex-row">
+          <div className="tw-flex tw-flex-row">
             <BackButton />
           </div>
-          <p className="content-header mt-lg-0 mt-sm-5">
+          <p className="content-header lg:tw-mt-0 sm:tw-mt-5">
             Please fill out this form to request access to the
             <br />
             SOV* Genesis Pre-Order{' '}
           </p>
-          <div className="row mb-4">
-            <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-              <div className="pl-lg-1">
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-6">
+            <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
+              <div className="lg:tw-pl-1">
                 <div className="form-group">
                   <label htmlFor="address">Wallet to receive access</label>
                   <StyledInput
@@ -178,7 +178,7 @@ export default function Screen6() {
                     onChange={e => setAddress(e.target.value)}
                   />
                   {address.length > 1 && !addressValid && (
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       Enter valid RSK wallet address.
                     </small>
                   )}
@@ -192,7 +192,7 @@ export default function Screen6() {
                     onChange={e => setEmail(e.target.value)}
                   />
                   {!!email && !emailValid && (
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       Enter valid email address.
                     </small>
                   )}
@@ -210,10 +210,10 @@ export default function Screen6() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-5 col-md-12 pr-lg-5">
+            <div className="lg:tw-col-span-5 md:tw-col-span-12 lg:tw-5">
               <div>
-                <p className="mb-2">Select limit required</p>
-                <div className="d-flex justify-content-between mb-4">
+                <p className="tw-mb-2">Select limit required</p>
+                <div className="tw-flex tw-justify-between tw-mb-6">
                   <StyledButtonGroup
                     active={amount === '0.03'}
                     onClick={() => setAmount('0.03')}
@@ -235,7 +235,7 @@ export default function Screen6() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="note" className="ml-1">
+                  <label htmlFor="note" className="tw-ml-1">
                     In a few words please explain why you should be chosen to
                     receive a higher limit of SOV, and what interests you about
                     being vested in the SOVRYN system
@@ -252,7 +252,7 @@ export default function Screen6() {
           </div>
 
           {requestAccessError && (
-            <div className="text-danger">{requestAccessError}</div>
+            <div className="tw-text-danger">{requestAccessError}</div>
           )}
 
           <SalesButton

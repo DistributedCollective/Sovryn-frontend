@@ -31,7 +31,7 @@ export function CSovActions(props: Props) {
   return (
     <>
       {processed ? (
-        <p className="text-gold my-0" style={{ opacity: 0.3 }}>
+        <p className="tw-text-gold tw-my-0" style={{ opacity: 0.3 }}>
           Already Claimed.
         </p>
       ) : (
@@ -39,7 +39,7 @@ export function CSovActions(props: Props) {
           <Button
             minimal
             text={t(translations.userAssets.actions.claimSov)}
-            className="text-gold button-round"
+            className="tw-gold tw-button-round"
             onClick={() => setDialog(DialogType.CLAIM)}
             disabled={processed || parseInt(props.amount) === 0}
             loading={loading}
@@ -47,7 +47,7 @@ export function CSovActions(props: Props) {
           {/*<Button*/}
           {/*  minimal*/}
           {/*  text={t(translations.userAssets.actions.redeemRBTC)}*/}
-          {/*  className="text-gold button-round"*/}
+          {/*  className="text-gold tw-button-round"*/}
           {/*  onClick={() => setDialog(DialogType.REDEEM)}*/}
           {/*/>*/}
         </>

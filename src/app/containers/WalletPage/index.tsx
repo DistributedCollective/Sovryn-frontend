@@ -33,26 +33,29 @@ export function WalletPage() {
         />
       </Helmet>
       <Header />
-      <div className="container" style={{ maxWidth: 1200 }}>
-        <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
-          <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
+      <div
+        className="tw-container tw-mx-auto tw-px-4"
+        style={{ maxWidth: 1200 }}
+      >
+        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-4">
+          <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
           {connected && account && (
-            <div className="w-100 text-center">
+            <div className="tw-w-full tw-text-center">
               <WalletConnector simpleView={true} />
             </div>
           )}
         </div>
-        <div className="d-flex flex-row align-items-center justify-content-start">
-          <div className="mr-2 ml-2">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+          <div className="tw-mr-2 tw-ml-2">
             <Tab
               text={t(translations.walletPage.tabs.userAssets)}
               active={activeAssets === 0}
               onClick={() => setActiveAssets(0)}
             />
           </div>
-          <div className="mr-2 ml-2">
+          <div className="tw-mr-2 tw-ml-2">
             <Tab
               text={t(translations.walletPage.tabs.vestedAssets)}
               active={activeAssets === 1}
@@ -68,16 +71,16 @@ export function WalletPage() {
           </div>
         </div>
         {connected && account ? (
-          <div className="row">
-            <div className="col-12 mt-2">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-12 tw-mt-2">
               {activeAssets === 0 && <UserAssets />}
               {activeAssets === 1 && <VestedAssets />}
               {activeAssets === 2 && <SovGenerationNFTS />}
             </div>
           </div>
         ) : (
-          <div className="row">
-            <div className="col-12 mt-2">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-12 tw-mt-2">
               <SkeletonRow
                 loadingText={t(translations.topUpHistory.walletHistory)}
               />

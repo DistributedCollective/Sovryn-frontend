@@ -37,23 +37,23 @@ export function UserAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.totalBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.action)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {!connected && (
               <>
                 <tr>
@@ -63,10 +63,10 @@ export function UserAssets() {
                   <td>
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden md:tw-table-cell">
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden md:tw-table-cell">
                     <Skeleton />
                   </td>
                 </tr>
@@ -143,29 +143,29 @@ function AssetRow({ item }: AssetProps) {
     <tr key={item.asset}>
       <td>
         <img
-          className="d-inline mr-2"
+          className="tw-inline tw-mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}
         />{' '}
         {item.symbol}
       </td>
-      <td className="text-right">
+      <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
           loading={dollars.loading}
         />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="tw-text-right tw-hidden md:tw-table-cell">
         <ButtonGroup>
           {/*{item.asset === Asset.BTC && (*/}
           {/*  <Button*/}
           {/*    minimal*/}
           {/*    text={t(translations.userAssets.actions.deposit)}*/}
-          {/*    className="text-gold"*/}
+          {/*    className="tw-text-gold"*/}
           {/*    onClick={() => dispatch(actions.showDialog(true))}*/}
           {/*  />*/}
           {/*)}*/}
@@ -174,7 +174,7 @@ function AssetRow({ item }: AssetProps) {
               <Button
                 minimal
                 text={t(translations.userAssets.actions.trade)}
-                className="text-gold button-round"
+                className="tw-text-gold tw-button-round"
                 onClick={() =>
                   history.push('/', {
                     params: { asset: item.asset, action: 'trade' },
@@ -184,7 +184,7 @@ function AssetRow({ item }: AssetProps) {
               <Button
                 minimal
                 text={t(translations.userAssets.actions.swap)}
-                className="text-gold button-round"
+                className="tw-text-gold tw-button-round"
                 onClick={() =>
                   history.push('/', {
                     params: { asset: item.asset, action: 'swap' },

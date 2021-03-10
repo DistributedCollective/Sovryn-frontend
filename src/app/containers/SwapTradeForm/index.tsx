@@ -139,8 +139,8 @@ export function SwapTradeForm() {
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <AmountField
               onChange={value => setAmount(value)}
               onMaxClicked={() =>
@@ -149,7 +149,7 @@ export function SwapTradeForm() {
               value={amount}
             />
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setSourceToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}
@@ -161,13 +161,13 @@ export function SwapTradeForm() {
         </div>
       </FieldGroup>
 
-      <div className="d-flex justify-content-center align-items-center py-2">
+      <div className="tw-flex tw-justify-center tw-items-center tw-py-2">
         <Icon icon="arrow-down" />
       </div>
 
       <FieldGroup label={t(s.fields.receive)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <DummyField>
               <LoadableValue
                 value={<>{weiToFixed(rateByPath, 8)}</>}
@@ -175,7 +175,7 @@ export function SwapTradeForm() {
               />
             </DummyField>
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setTargetToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}
@@ -189,8 +189,8 @@ export function SwapTradeForm() {
 
       <SendTxProgress {...tx} displayAbsolute={false} />
 
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={sourceToken} />
         </div>
         <TradeButton

@@ -33,7 +33,7 @@ export function MobileNotReady(props) {
       });
 
     return (
-      <div className="email-form position-absolute">
+      <div className="email-form tw-absolute">
         <input
           style={{ fontSize: '2em', padding: 5 }}
           ref={node => (email = node)}
@@ -41,7 +41,7 @@ export function MobileNotReady(props) {
           placeholder="Your email"
         />
         <br />
-        <button className="px-3 py-1" onClick={submit}>
+        <button className="tw-px-4 tw-py-1" onClick={submit}>
           {t(s.submit)}
         </button>
       </div>
@@ -50,18 +50,18 @@ export function MobileNotReady(props) {
 
   return (
     <>
-      <div className="wallet-tutorial-mobile_container position-absolute mx-auto">
+      <div className="wallet-tutorial-mobile_container tw-absolute tw-mx-auto">
         {status !== 'success' && (
           <>
-            <div className="mobile-not-ready-img position-absolute">
+            <div className="mobile-not-ready-img tw-absolute">
               <div
-                className="close position-absolute"
+                className="close tw-absolute"
                 onClick={() => props.handleClose()}
               >
-                <img src={close} alt="close" className="w-100 h-100" />
+                <img src={close} alt="close" className="tw-w-full tw-h-full" />
               </div>
-              <img src={background} alt="" className="h-100 w-100" />
-              <div className="mobile-not-ready-text position-absolute">
+              <img src={background} alt="" className="tw-h-full tw-w-full" />
+              <div className="mobile-not-ready-text tw-absolute">
                 <p>{t(s.p1)}</p>
 
                 <p>{t(s.p2)}</p>
@@ -77,7 +77,7 @@ export function MobileNotReady(props) {
                   />
                 )}
               />
-              <div className="mobile-not-ready-text2 position-absolute">
+              <div className="mobile-not-ready-text2 tw-absolute">
                 {status === 'sending' && <p>Sending...</p>}
                 {status === 'error' && !message.includes('already') && (
                   <p style={{ color: 'var(--red)' }}>{t(s.errorText)}</p>
@@ -90,9 +90,9 @@ export function MobileNotReady(props) {
 
         {status === 'success' && (
           <>
-            <div className="email-success position-absolute">
-              <img className="h-100 w-100" src={successBg} alt="" />
-              <div className="mobile-not-ready-text--success position-absolute">
+            <div className="email-success tw-absolute">
+              <img className="tw-h-full tw-w-full" src={successBg} alt="" />
+              <div className="mobile-not-ready-text--success tw-absolute">
                 <p>{t(s.success)}</p>
 
                 <p>{t(s.successText)}</p>

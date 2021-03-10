@@ -22,10 +22,10 @@ export function ServiceWorkerToaster(props: Props) {
           intent: 'primary',
           message: (
             <>
-              <p className="mb-0">
+              <p className="tw-mb-0">
                 <strong>{t(translations.serviceWorkerToaster.title)}</strong>
               </p>
-              <p className="mb-0">
+              <p className="tw-mb-0">
                 {t(translations.serviceWorkerToaster.message)}
               </p>
             </>

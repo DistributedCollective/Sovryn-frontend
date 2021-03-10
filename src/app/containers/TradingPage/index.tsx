@@ -45,24 +45,22 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      <div className="container mt-5">
-        <div className="row">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
+        <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div
-            className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
-              tradingPage.isMobileStatsOpen && `d-block`
-            } d-lg-block`}
+            className={`tw-mb-12 lg:tw-mb-0 lg:tw-order-1 tw-hidden ${
+              tradingPage.isMobileStatsOpen && `tw-block`
+            } lg:tw-block`}
           >
             <TradingViewChart symbol={symbol} />
           </div>
-          <div className="col-12 col-lg-6 order-lg-0">
+          <div className="lg:tw-order-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}
             <TradeOrSwapTabs />
           </div>
         </div>
-        <div className="row">
-          <div className="col">
-            <TradingActivity />
-          </div>
+        <div className="tw-grid tw-gap-8 tw-grid-cols-1">
+          <TradingActivity />
         </div>
       </div>
       <Footer />

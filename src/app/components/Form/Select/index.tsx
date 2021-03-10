@@ -65,15 +65,9 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
       onItemSelect={onItemSelect}
       itemsEqual={areOptionsEqual as any}
     >
-      <div
-        className={classNames(
-          'tw-font-montserrat',
-          styles.wrapperContainer,
-          props.innerClasses,
-        )}
-      >
+      <div className={classNames(styles.wrapperContainer, props.innerClasses)}>
         <div
-          className={classNames('tw-flex-grow-1 tw-flex-shrink-1 tw-w-full', {
+          className={classNames('tw-flex-grow tw-flex-shrink tw-w-full', {
             'tw-text-center': !selected,
           })}
         >

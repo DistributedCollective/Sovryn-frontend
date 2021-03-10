@@ -29,14 +29,14 @@ const Amount: React.FC<Props> = ({
   loadingLimit,
 }) => {
   return (
-    <div className="d-flex flex-row justify-content-between">
-      <div className="d-flex flex-grow-1 flex-column">
+    <div className="tw-flex tw-flex-row tw-justify-between">
+      <div className="tw-flex tw-flex-grow tw-flex-col">
         <FieldGroup
           label={
             <>
               {amountName}{' '}
               {maxValue !== '0' && !loadingLimit && (
-                <span className="text-muted">
+                <span className="tw-text-muted">
                   (Max: {weiTo4(maxValue)} {currency})
                 </span>
               )}

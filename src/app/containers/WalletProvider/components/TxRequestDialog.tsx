@@ -25,8 +25,8 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
         isCloseButtonShown={false}
       >
         {type === TxType.APPROVE && (
-          <section className="d-flex flex-column align-items-center justify-content-center">
-            <header className="mb-3">
+          <section className="tw-flex tw-flex-col tw-items-center tw-justify-center">
+            <header className="tw-mb-4">
               <h3>
                 {t(translations.walletProvider.txRequestDialog.approve.title)}
               </h3>
@@ -55,7 +55,7 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
                     { asset, amount: weiTo4(amount) },
                   )}
                 </p>
-                <div className="text-center my-2">
+                <div className="tw-text-center tw-my-2">
                   <Spinner size={28} />
                 </div>
               </>

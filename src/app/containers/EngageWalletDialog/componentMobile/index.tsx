@@ -9,7 +9,7 @@ export function TutorialDialogMobileComponent(props) {
 
   return (
     <>
-      <div className="wallet-tutorial-mobile_container position-absolute mx-auto">
+      <div className="wallet-tutorial-mobile_container tw-absolute tw-mx-auto">
         {screen === 1 && (
           <Screen1
             handleClose={props.handleClose}

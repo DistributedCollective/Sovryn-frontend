@@ -37,19 +37,19 @@ export function TutorialDialogComponent(props) {
           }
         }}
       >
-        <div className={`${screen === 2 && 'left'} position-absolute`}>
-          <div className="background position-relative w-100">
-            <img src={background} alt="" className="w-100 h-100" />
+        <div className={`${screen === 2 && 'left'} tw-absolute`}>
+          <div className="background tw-relative tw-w-full">
+            <img src={background} alt="" className="tw-w-full tw-h-full" />
           </div>
           <div className="close" onClick={props.handleClose}>
             <img src={close} alt="close" />
           </div>
           {screen !== 1 && (
-            <div className="back position-absolute" onClick={() => back()}>
+            <div className="back tw-absolute" onClick={() => back()}>
               <button>{t(translations.common.back)}</button>
             </div>
           )}
-          <div className="title position-absolute">
+          <div className="title tw-absolute">
             <h1>
               {t(
                 translations.rskConnectTutorial.screens[screen.toString()]

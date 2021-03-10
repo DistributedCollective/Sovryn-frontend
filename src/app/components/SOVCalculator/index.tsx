@@ -64,7 +64,7 @@ export default function SOVCalculator({ setShowCalc }) {
         <Icon icon="cross" iconSize={35} color="white" />
       </p>
       <div className="content-box">
-        <p className="mb-0">Send BTC:</p>
+        <p className="tw-mb-0">Send BTC:</p>
         <input
           className="rbtc-input"
           type="text"
@@ -72,10 +72,10 @@ export default function SOVCalculator({ setShowCalc }) {
           value={amount}
           onChange={e => setAmount(handleNumber(e.currentTarget.value))}
         />
-        <p className="text-center">
+        <p className="tw-text-center">
           <Icon icon="arrow-down" iconSize={35} />
         </p>
-        <p className="mb-0">Receive SOV:</p>
+        <p className="tw-mb-0">Receive SOV:</p>
         <LoadableValue
           loading={loading}
           value={

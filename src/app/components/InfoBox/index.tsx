@@ -21,16 +21,16 @@ export function InfoBox(props: Props) {
   }
 
   return (
-    <div className={`my-3 d-none ${show && 'd-block'}`}>
-      <div className="p-3 sovryn-border">
+    <div className={`tw-my-4 tw-hidden ${show && 'tw-block'}`}>
+      <div className="tw-p-4 sovryn-border">
         <Button
           icon="cross"
           onClick={() => closeInfoBox()}
           minimal
-          className="float-right"
+          className="tw-float-right"
         />
-        <p className="pt-3">
-          <Icon icon="info-sign" className="mr-2" />
+        <p className="tw-py-4">
+          <Icon icon="info-sign" className="tw-mr-6" />
           {props.content}
         </p>
       </div>

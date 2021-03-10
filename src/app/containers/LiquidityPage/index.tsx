@@ -31,9 +31,9 @@ export function LiquidityPage(props: Props) {
         <meta name="description" content={t(translations.liquidity.meta)} />
       </Helmet>
       <Header />
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-12 lg:tw-col-span-6 lg:tw-order-0 lg:tw-pr-12">
             <div className="sovryn-tabs">
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab

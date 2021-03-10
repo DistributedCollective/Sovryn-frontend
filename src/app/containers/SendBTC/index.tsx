@@ -129,19 +129,19 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
-      <div className="row no-gutters">
-        <div className="col-md-6">
-          <div className="mb-4">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 no-gutters">
+        <div className="md:tw-col-span-6">
+          <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
             RBTC then automatically purchases the SOV and credits it to your
             wallet. You can easily view the details of each transaction and
             verify them with a block explorer.
           </div>
-          <div className="mb-4">
+          <div className="tw-mb-6">
             You will be notified when your transaction has processed.
           </div>
-          <div className="mb-5">
+          <div className="tw-mb-12">
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
@@ -153,8 +153,8 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
             Make another transaction?
           </a>
         </div>
-        <div className="col-md-6 d-flex flex-column align-items-end">
-          <div className="d-flex">
+        <div className="md:tw-col-span-6 tw-flex tw-flex-col tw-items-end">
+          <div className="tw-flex">
             <Tab
               text={'BTC > (r)BTC'}
               active={activeTx}
@@ -181,7 +181,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               <>
                 {deposit ? (
                   <div className="content">
-                    <p className="text-center font-italic time font-weight-light">
+                    <p className="tw-text-center tw-italic time tw-font-light">
                       {deposit.status === 'pending' && (
                         <>Processing approx. 15 minutes</>
                       )}
@@ -191,7 +191,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       {deposit.status === 'failed' && <>Transaction failed!</>}
                     </p>
                     <p className="amount">{deposit.value} BTC</p>
-                    <p className="amount-usd font-weight-light">
+                    <p className="amount-usd tw-font-light">
                       ≈ {numberToUSD(depositPrice, 2)}
                     </p>
                     <p className="address">
@@ -206,7 +206,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       txHash={deposit.txHash}
                       text="View in Tracker"
                       realBtc={true}
-                      className="d-block text-center"
+                      className="tw-block tw-text-center"
                     />
                   </div>
                 ) : (
@@ -217,7 +217,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
               <>
                 {transfer ? (
                   <div className="content">
-                    <p className="text-center font-italic time font-weight-light">
+                    <p className="tw-text-center tw-italic time tw-font-light">
                       {transfer.status === 'pending' && (
                         <>Processing approx. 2 minutes</>
                       )}
@@ -227,7 +227,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                       {transfer.status === 'failed' && <>Transaction failed!</>}
                     </p>
                     <p className="amount">{transfer.value} (r)BTC</p>
-                    <p className="amount-usd font-weight-light">
+                    <p className="amount-usd tw-font-light">
                       ≈ {numberToUSD(transferPrice, 2)}
                     </p>
                     <p className="address">
@@ -241,7 +241,7 @@ function TransactionDetail({ deposit, transfer, address, dispatch }: TxProps) {
                     <LinkToExplorer
                       txHash={transfer.txHash}
                       text="View in Tracker"
-                      className="d-block text-center"
+                      className="tw-block tw-text-center"
                     />
                   </div>
                 ) : (
@@ -294,17 +294,17 @@ export default function SendBTC({ setShowCalc }) {
     <div>
       <div>
         <p className="content-header">Send BTC to pre-order SOV</p>
-        <div className="row justify-content-around">
-          <div className="col-md-5 mb-1">
-            <div className="mb-4">
-              <p className="mb-2">Deposit limits:</p>
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-justify-around">
+          <div className="md:tw-col-span-5 tw-mb-1">
+            <div className="tw-mb-6">
+              <p className="tw-mb-2">Deposit limits:</p>
               <ul>
                 <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
                 <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
               </ul>
               <a
                 href="/genesis#"
-                className="d-block"
+                className="tw-block"
                 onClick={e => {
                   e.preventDefault();
                   dispatch(sActions.changeStep(3));
@@ -314,7 +314,7 @@ export default function SendBTC({ setShowCalc }) {
               </a>
               <a
                 href="/genesis#"
-                className="d-block"
+                className="tw-block"
                 onClick={e => {
                   e.preventDefault();
                   dispatch(sActions.changeStep(6));
@@ -323,18 +323,18 @@ export default function SendBTC({ setShowCalc }) {
                 Request higher limit
               </a>
             </div>
-            <div className="mb-4">
+            <div className="tw-mb-6">
               <p>Instructions: </p>
               <div>
                 <ul>
-                  <li className="mb-2">
+                  <li className="tw-mb-2">
                     Send BTC to pre-order SOV in your engaged wallet
                   </li>
-                  <li className="mb-2">
+                  <li className="tw-mb-2">
                     Do not send anything other than BTC to this address
                     otherwise your assets will be lost permanently
                   </li>
-                  <li className="mb-2">
+                  <li className="tw-mb-2">
                     Please allow 5 to 60 mins for the transaction to process
                   </li>
                 </ul>
@@ -352,10 +352,10 @@ export default function SendBTC({ setShowCalc }) {
               onClick={() => setShowCalc(true)}
             />
           </div>
-          <div className="col-md-4 d-flex justify-content-center">
+          <div className="md:tw-col-span-4 tw-flex tw-justify-center">
             <Wrapper>
-              <p className="mb-2 btc-text">Send BTC to this address:</p>
-              <div className="row justify-content-center qr-wrapper">
+              <p className="tw-mb-2 btc-text">Send BTC to this address:</p>
+              <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-justify-center qr-wrapper">
                 {btcAddress && (
                   <QRCode
                     value={btcAddress}
@@ -363,7 +363,7 @@ export default function SendBTC({ setShowCalc }) {
                     bgColor="var(--white)"
                     fgColor="var(--primary)"
                     includeMargin={true}
-                    className="rounded btc-address"
+                    className="tw-rounded btc-address"
                   />
                 )}
               </div>
@@ -375,7 +375,7 @@ export default function SendBTC({ setShowCalc }) {
                       toaster.show({ message: 'Deposit address copied.' })
                     }
                   >
-                    <BTCAddClipboard className="cursor-pointer">
+                    <BTCAddClipboard className="tw-cursor-pointer">
                       {btcAddress ? (
                         <>
                           {' '}
@@ -389,15 +389,12 @@ export default function SendBTC({ setShowCalc }) {
                   </CopyToClipboard>
                   <div className="show-tx" onClick={() => {}}>
                     Waiting for transaction{' '}
-                    <Icon
-                      className="d-flex align-items-center"
-                      icon="refresh"
-                    />
+                    <Icon className="tw-flex tw-items-center" icon="refresh" />
                   </div>
                 </>
               ) : (
-                <div className="mt-5">
-                  <p className="mb-2 rbtc-text">SOLD OUT!</p>
+                <div className="tw-mt-12">
+                  <p className="tw-mb-2 rbtc-text">SOLD OUT!</p>
                   <SalesButton
                     text="Generate deposit address"
                     onClick={() => {}}

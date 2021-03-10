@@ -55,19 +55,21 @@ export function SovGenerationNFTS() {
   ];
 
   return (
-    <div className="sovryn-border p-3 mb-5 pb-5">
-      <p className="text-center sov-title mb-5">SOV Generation 01 NFT's</p>
-      <div className="d-lg-flex text-center align-items-center justify-content-center">
+    <div className="sovryn-border tw-p-4 tw-mb-12 pb-5">
+      <p className="tw-text-center sov-title tw-mb-12">
+        SOV Generation 01 NFT's
+      </p>
+      <div className="lg:tw-flex tw-text-center tw-items-center tw-justify-center">
         {tiers.map((item, index) => {
           return (
             item.balance !== '0' && (
               <div
                 key={index}
-                className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block"
+                className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block"
               >
                 <div className="image-bordered">
                   <img
-                    className="w-100 h-100 image-responsive"
+                    className="tw-w-full tw-h-full tw-image-responsive"
                     src={item.image}
                     alt=""
                   />
@@ -101,9 +103,9 @@ export function SovGenerationNFTS() {
             )
           );
         })}
-        {/* <div className="mr-md-5 mb-sm-5 mb-5 ml-3 mr-3 position-relative d-inline-block">
+        {/* <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
           <div className="image-bordered">
-            <img className="w-100 h-100 image-responsive" src={sov_2} alt="" />
+            <img className="tw-w-full tw-h-full tw-image-responsive" src={sov_2} alt="" />
           </div>
           <div className="sov-table">
             <table className="table">

@@ -20,30 +20,30 @@ export function StatsPage() {
     <>
       <Header />
       <main>
-        <div className="container mt-5">
-          <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
-            <table className="w-100">
+        <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
+          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
+            <table className="tw-w-full">
               <thead>
                 <tr>
                   <th>{t(translations.statsPage.asset)}</th>
-                  <th className="text-right">
+                  <th className="tw-text-right">
                     {t(translations.statsPage.totalAssetSupplied)}
                   </th>
-                  <th className="text-right">
+                  <th className="tw-text-right">
                     {t(translations.statsPage.totalAssetBorrowed)}
                   </th>
-                  <th className="text-right">
+                  <th className="tw-text-right">
                     {t(translations.statsPage.totalAvailable)}
                   </th>
-                  <th className="text-right">
+                  <th className="tw-text-right">
                     {t(translations.statsPage.supplyAPR)}
                   </th>
-                  <th className="text-right">
+                  <th className="tw-text-right">
                     {t(translations.statsPage.borrowAPR)}
                   </th>
                 </tr>
               </thead>
-              <tbody className="mt-5">
+              <tbody className="tw-mt-12">
                 {assets.map(asset => (
                   <StatsRow asset={asset} key={asset} />
                 ))}

@@ -38,7 +38,7 @@ export function TradeForm() {
   };
 
   return (
-    <div className="tw-trading-form-card tw-bg-black tw-rounded-lg tw-p-5">
+    <div className="tw-trading-form-card tw-bg-black lg:tw-rounded tw-p-12">
       <div className="lg:tw-px-8">
         <FormGroup
           label={t(translations.marginTradePage.tradeForm.labels.pair)}
@@ -48,7 +48,7 @@ export function TradeForm() {
             options={pairs as any}
             onChange={change}
             valueRenderer={(item: Option) => (
-              <Text ellipsize className="text-center">
+              <Text ellipsize className="tw-text-center">
                 {item.label}
               </Text>
             )}

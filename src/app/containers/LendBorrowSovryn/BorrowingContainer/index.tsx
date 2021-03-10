@@ -164,9 +164,9 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           }
         />
       </FieldGroup>
-      <div className="row">
+      <div className="tw-grid tw-grid-cols-12">
         {isShowedBorrowDays && (
-          <div className="col-12">
+          <div className="tw-col-span-12">
             Borrow for {}
             <Popover
               content={popoverContent}
@@ -179,21 +179,21 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             </Popover>
           </div>
         )}
-        <div className="col-12">
-          <div className="row">
-            <div className="col-12 text-muted">
+        <div className="tw-col-span-12">
+          <div className="tw-grid tw-grid-cols-12 tw--mx-4">
+            <div className="tw-col-span-12 tw-text-muted tw-px-4">
               {
                 <>
                   {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
                   {maxAmount !== '0' && !loadingLimit && (
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       (Max: {weiTo4(maxAmount)} {tokenToCollarate})
                     </span>
                   )}
                 </>
               }
             </div>
-            <div className="col-4">
+            <div className="tw-col-span-4 tw-px-4">
               <FieldGroup label="">
                 <FormSelect
                   onChange={item => setTokenToCollarate(item.key)}
@@ -202,7 +202,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                 />
               </FieldGroup>
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8 tw-px-4">
               <FieldGroup label="">
                 <DummyField>
                   {weiToFixed(collateralTokenSent, 6)} {tokenToCollarate}
@@ -213,8 +213,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
         </div>
       </div>
       <SendTxProgress {...txStateBorrow} displayAbsolute={false} />
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={tokenToCollarate} />
         </div>
         <TradeButton
@@ -227,7 +227,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
           tooltip={
             !isSufficient ? (
               <>
-                <p className="mb-1">
+                <p className="tw-mb-1">
                   {t(translations.lendingPage.liquidity.borrow.line_1, {
                     currency,
                   })}
@@ -238,7 +238,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                     amount: weiTo4(availableAmount),
                   })}
                 </p>
-                <p className="mb-0">
+                <p className="tw-mb-0">
                   {t(translations.lendingPage.liquidity.borrow.line_3)}
                 </p>
               </>

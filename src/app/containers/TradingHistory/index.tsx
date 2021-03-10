@@ -233,7 +233,7 @@ export function TradingHistory() {
 
   if (!loading && !events.length) {
     return (
-      <div className="p-3">
+      <div className="tw-p-4">
         {t(translations.tradingHistoryPage.noClosedTrades)}
       </div>
     );
@@ -262,13 +262,13 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             {item.position === TradingPosition.LONG ? (
               <FontAwesomeIcon
                 icon={faArrowAltCircleUp}
-                className="text-customTeal ml-2"
+                className="tw-text-customTeal tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faArrowAltCircleDown}
-                className="text-Gold ml-2"
+                className="tw-text-Gold tw-ml-2"
                 style={{ fontSize: '20px' }}
               />
             )}
@@ -335,7 +335,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <div className="bg-primary p-3 sovryn-border">
+    <div className="tw-bg-primary tw-p-6 sovryn-border">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -354,7 +354,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => (
-                  <td className="text-left" {...cell.getCellProps()}>
+                  <td className="tw-text-left" {...cell.getCellProps()}>
                     {cell.render('Cell')}
                   </td>
                 ))}

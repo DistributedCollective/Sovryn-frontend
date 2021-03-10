@@ -87,7 +87,7 @@ interface Props {
 export default function Loader(props: Props) {
   return (
     <StyledContent>
-      <div className="d-flex flex-row">
+      <div className="tw-flex tw-flex-row">
         <BackButton />
       </div>
       {props.content}

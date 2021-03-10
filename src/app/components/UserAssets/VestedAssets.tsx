@@ -26,17 +26,17 @@ export function VestedAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.lockedAmount)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {!connected && (
               <>
                 <tr>
@@ -67,14 +67,14 @@ function AssetRow({ item }: AssetProps) {
     <tr key={item.asset}>
       <td>
         <img
-          className="d-inline mr-2"
+          className="tw-inline tw-mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}
         />{' '}
         SOV
       </td>
-      <td className="text-right">
+      <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(value, 4)} loading={loading} />
       </td>
     </tr>

@@ -50,11 +50,11 @@ export function MarginTradePage(props: Props) {
         />
       </Helmet>
       <Header />
-      <div className="tw-container tw-mt-9">
-        <div className="d-flex flex-column align-items-center flex-lg-row justify-content-lg-between">
+      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
+        <div className="tw-flex tw-flex-col tw-items-center lg:tw-flex-row lg:tw-justify-between">
           <div
             className={classNames(
-              'flex-shrink-1 flex-grow-1 pr-lg-3',
+              'tw-flex-shrink tw-flex-grow lg:tw-pr-4',
               styles.chartWrapper,
             )}
           >

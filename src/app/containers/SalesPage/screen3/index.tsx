@@ -108,7 +108,7 @@ export default function Screen3(props: Props) {
       {!upgradeLoading ? (
         <StyledContent>
           {!props.hideBackButton && (
-            <div className="d-flex flex-row">
+            <div className="tw-flex tw-flex-row">
               <BackButton />
             </div>
           )}
@@ -120,7 +120,7 @@ export default function Screen3(props: Props) {
             <br />
             to the SOV* Genesis Pre-Order
           </p>
-          {codeError && <div className="text-danger">{codeError}</div>}
+          {codeError && <div className="tw-text-danger">{codeError}</div>}
           <StyledInput
             placeholder="Enter code"
             name="code"
