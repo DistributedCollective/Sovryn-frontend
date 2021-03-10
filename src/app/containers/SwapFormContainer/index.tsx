@@ -21,7 +21,6 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
-import { disableNewTrades } from '../../../utils/classifiers';
 import { SwapSlippageModal } from './components/SwapSlippageModal';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountField } from './components/SwapAmountField';
@@ -225,7 +224,6 @@ export function SwapFormContainer() {
             type="button"
             className="swap-btn"
             disabled={
-              disableNewTrades ||
               !isConnected ||
               tx.loading ||
               amount <= '0' ||
