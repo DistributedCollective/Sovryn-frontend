@@ -17,11 +17,7 @@ import { TradeButton } from '../../components/TradeButton';
 import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
-import {
-  normalizeWei,
-  weiTo18,
-  weiTo4,
-} from '../../../utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { DummyField } from '../../components/DummyField';
 import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAndCloseWithDeposit';
 import { LoadableValue } from '../../components/LoadableValue';
@@ -81,8 +77,8 @@ export function RepayPositionForm({ loan }: Props) {
   }, [weiAmount, loan.collateral, loan.principal]);
 
   return (
-    <div className="container position-relative">
-      <h4 className="text-teal text-center mb-3 text-uppercase">
+    <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
+      <h4 className="tw-text-teal tw-text-center tw-mb-4 tw-uppercase">
         {t(translations.repayPositionForm.title)}
       </h4>
 
@@ -91,7 +87,7 @@ export function RepayPositionForm({ loan }: Props) {
       >
         <DummyField>
           {weiTo18(loan.principal)}&nbsp;
-          <span className="text-muted"> {asset}</span>
+          <span className="tw-text-muted"> {asset}</span>
         </DummyField>
       </FieldGroup>
 
@@ -105,13 +101,13 @@ export function RepayPositionForm({ loan }: Props) {
           onChange={value => setAmount(value)}
           onMaxClicked={onMaxClicked}
         />
-        <small className="text-muted">
+        <small className="tw-text-muted">
           {t(translations.repayPositionForm.labels.amountToReceive)}
           {': '}
           <LoadableValue
             loading={false}
             value={weiTo4(receiveAmount)}
-            tooltip={<>{normalizeWei(receiveAmount)}</>}
+            tooltip={<>{weiTo18(receiveAmount)}</>}
           />{' '}
           {collateralAsset}
         </small>
@@ -119,8 +115,8 @@ export function RepayPositionForm({ loan }: Props) {
 
       <SendTxProgress displayAbsolute={false} {...closeTx} />
 
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb=lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={asset} />
         </div>
         <TradeButton

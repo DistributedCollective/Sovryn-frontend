@@ -68,17 +68,14 @@ export function FastBtcForm(props: Props) {
         <div
           className={classNames(
             Classes.DIALOG,
-            'position-relative',
+            'tw-relative',
             state.step === 2 ? 'top-up-dialog__extend' : '',
           )}
           style={props.style}
         >
           <Button
             aria-label="Close"
-            className={classNames(
-              Classes.DIALOG_CLOSE_BUTTON,
-              'position-absolute',
-            )}
+            className={classNames(Classes.DIALOG_CLOSE_BUTTON, 'tw-absolute')}
             style={{ top: 0, right: 0 }}
             icon={<Icon icon="cross" iconSize={Icon.SIZE_LARGE} />}
             minimal={true}
@@ -86,8 +83,8 @@ export function FastBtcForm(props: Props) {
           />
 
           {!canInteract ? (
-            <div className="mt-3 mb-4">
-              <h3 className="text-center mb-3">
+            <div className="tw-mt-4 tw-mb-6">
+              <h3 className="tw-text-center tw-mb-4">
                 {t(translations.fastBtcForm.title)}
               </h3>
               {t(translations.fastBtcForm.disabledText)}
@@ -96,7 +93,7 @@ export function FastBtcForm(props: Props) {
             <>
               {isConnected ? (
                 <>
-                  <div className="logo text-center mt-2 mb-3">
+                  <div className="logo tw-text-center tw-mt-2 tw-mb-4">
                     <img src={logo} alt="" />
                   </div>
                   {state.step === 1 && (
@@ -110,8 +107,8 @@ export function FastBtcForm(props: Props) {
                   )}
                 </>
               ) : (
-                <div className="mt-3 mb-4">
-                  <h3 className="text-center mb-3">
+                <div className="tw-mt-4 tw-mb-6">
+                  <h3 className="tw-text-center tw-mb-4">
                     {t(translations.fastBtcForm.title)}
                   </h3>
                   {t(translations.fastBtcForm.connectWallet)}

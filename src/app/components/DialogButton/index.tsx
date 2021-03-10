@@ -29,10 +29,10 @@ export function DialogButton(props: Props) {
     >
       <Text
         ellipsize
-        className="d-flex flex-row align-items-center"
+        className="tw-flex tw-flex-row tw-items-center"
         tagName="span"
       >
-        {props.loading && <Spinner className="mr-1" size={17} />}
+        {props.loading && <Spinner className="tw-mr-1" size={17} />}
         {props.text}
       </Text>
     </StyledButton>

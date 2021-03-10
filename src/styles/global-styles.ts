@@ -26,6 +26,11 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     min-height: 100vh;
     overflow: auto;
+    &.openedMenu {
+      overflow: hidden;
+      height: 0;
+      min-height: 0;
+    }
   }
 
   p,
@@ -75,13 +80,6 @@ input[type=number] {
     letter-spacing: 2.92px;
     color: var(--Grey_text);
   }
-  a {
-    color: inherit;
-    font-weight: bold;
-    &:hover {
-      color: inherit;
-    }
-  }
   .font {
     &-xs {
       font-size: 12px;
@@ -111,7 +109,7 @@ input[type=number] {
       border: 1px solid var(--Grey_text);
     }
   }
-  .w-100-input{
+  .tw-w-full-input{
     width: 100%;
   }
   .data-label {
@@ -132,16 +130,16 @@ input[type=number] {
     outline: 0!important;
     outline-offset: 0;
   }
-  .cursor-pointer {
+  .tw-cursor-pointer {
     cursor: pointer
   }
   .opaque {
     opacity: 0.2
   }
-  
+
   .mw-tooltip {
     max-width: 250px;
     ${media.lg`max-width: 600px;`}
   }
-  
+
 `;

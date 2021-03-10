@@ -13,7 +13,7 @@ export default function BackButton(props: Props) {
   return (
     <Button
       type="button"
-      className="position-absolute flat-icon"
+      className="tw-absolute flat-icon"
       style={{
         left: '30px',
         top: '20px',

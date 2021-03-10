@@ -22,6 +22,7 @@ import { AmountField } from '../AmountField';
 import { TradeButton } from '../../components/TradeButton';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 import { useIsConnected } from '../../hooks/useAccount';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -68,6 +69,9 @@ export function LiquidityRemoveContainer(props: Props) {
     '1',
   );
 
+  const { checkMaintenance } = useMaintenance();
+  const liquidityLocked = checkMaintenance('changeLiquidity');
+
   const handleWithdraw = useCallback(() => {
     tx.withdraw();
   }, [tx]);
@@ -94,8 +98,8 @@ export function LiquidityRemoveContainer(props: Props) {
 
   return (
     <>
-      <div className="row">
-        <div className="col-lg-3 col-6">
+      <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+        <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
           <FieldGroup label={t(translations.liquidity.pool)}>
             <FormSelect
               onChange={handlePoolChange}
@@ -105,7 +109,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="col-lg-3 col-6">
+        <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
           <FieldGroup label={t(translations.liquidity.currency)}>
             <FormSelect
               onChange={handleTokenChange}
@@ -115,7 +119,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="col-lg-6 col-12">
+        <div className="lg:tw-col-span-6 tw-col-span-12 tw-px-4">
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}
@@ -126,10 +130,10 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <div className="border my-3 p-3 bg-white text-black">
-        <div className="row">
-          <div className="col">
-            <div className="font-weight-bold small">
+      <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-12">
+            <div className="tw-font-bold small">
               <LoadableValue
                 loading={targetLoading}
                 value={
@@ -137,15 +141,15 @@ export function LiquidityRemoveContainer(props: Props) {
                     {weiTo4(targetValue[0])} {sourceToken}
                   </Text>
                 }
-                tooltip={targetValue[0]}
+                tooltip={weiTo18(targetValue[0])}
               />
             </div>
             <div className="small">
               {t(translations.liquidity.amountTarget)}
             </div>
           </div>
-          <div className="col">
-            <div className="font-weight-bold small">
+          <div className="tw-col-span-12">
+            <div className="tw-font-bold small">
               <LoadableValue
                 loading={targetLoading}
                 value={
@@ -153,7 +157,7 @@ export function LiquidityRemoveContainer(props: Props) {
                     {weiTo4(targetValue[1])} {sourceToken}
                   </Text>
                 }
-                tooltip={targetValue[1]}
+                tooltip={weiTo18(targetValue[1])}
               />
             </div>
             <div className="small">{t(translations.liquidity.fee)}</div>
@@ -161,23 +165,23 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <div className="mt-3">
+      <div className="tw-mt-4">
         <SendTxProgress {...tx} displayAbsolute={false} />
       </div>
 
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <div>
-            <div className="font-weight-bold text-muted mb-2">
+            <div className="tw-font-bold tw-text-muted tw-mb-2">
               {t(translations.assetWalletBalance.suppliedBalance)}
             </div>
             {!isConnected && (
               <span>{t(translations.assetWalletBalance.accountBalance)}</span>
             )}
             {isConnected && (
-              <div className="d-flex flex-row justify-content-start align-items-center">
-                <span className="text-muted">{sourceToken}</span>
-                <span className="text-white font-weight-bold ml-2">
+              <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
+                <span className="tw-text-muted">{sourceToken}</span>
+                <span className="tw-text-white tw-font-bold tw-ml-2">
                   <LoadableValue
                     value={weiToFixed(balance.value, 4)}
                     loading={balance.loading}
@@ -191,7 +195,17 @@ export function LiquidityRemoveContainer(props: Props) {
           text={t(translations.liquidity.withdraw)}
           onClick={handleWithdraw}
           loading={tx.loading}
-          disabled={!isConnected || tx.loading || !amountValid()}
+          disabled={
+            !isConnected ||
+            tx.loading ||
+            !amountValid() ||
+            liquidityLocked?.maintenance_active
+          }
+          tooltip={
+            liquidityLocked?.maintenance_active ? (
+              <div className="mw-tooltip">{liquidityLocked?.message}</div>
+            ) : undefined
+          }
         />
       </div>
     </>

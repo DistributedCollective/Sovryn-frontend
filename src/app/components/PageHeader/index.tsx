@@ -5,7 +5,7 @@ import { media } from '../../../styles/media';
 
 const StyledHeader = styled.div.attrs(_ => ({
   className:
-    'd-flex flex-column flex-md-row align-items-center justify-content-center',
+    'tw-flex tw-flex-col md:tw-flex-row tw-items-center tw-justify-center',
 }))`
   justify-content: center;
   margin-bottom: 1.8em;

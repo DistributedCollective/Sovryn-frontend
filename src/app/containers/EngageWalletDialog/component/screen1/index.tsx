@@ -31,16 +31,16 @@ export function Screen1(props: Props) {
   return (
     <>
       <div className="screen1">
-        <div className="badger1 position-absolute">
-          <img src={badger1} alt="" className="h-100 w-100" />
+        <div className="badger1 tw-absolute">
+          <img src={badger1} alt="" className="tw-h-full tw-w-full" />
         </div>
-        <div className="planet position-absolute">
-          <img src={planet} alt="" className="h-100 w-100" />
+        <div className="planet tw-absolute">
+          <img src={planet} alt="" className="tw-h-full tw-w-full" />
         </div>
 
-        <div className="wallet-holder d-flex flex-row justify-content-center align-items-center">
+        <div className="wallet-holder tw-flex tw-flex-row tw-justify-center tw-items-center">
           <div
-            className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
             onClick={handleBrowserClick}
           >
             <div
@@ -53,7 +53,7 @@ export function Screen1(props: Props) {
           </div>
 
           <div
-            className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
             onClick={() => setMobileAlert(true)}
           >
             <div
@@ -65,7 +65,7 @@ export function Screen1(props: Props) {
             </div>
           </div>
 
-          <div className="wallet-block disabled d-flex justify-content-center align-items-center flex-column">
+          <div className="wallet-block disabled tw-flex tw-justify-center tw-items-center tw-flex-col">
             <div className="coming-soon" />
             <div
               className="wallet-icon"
@@ -83,10 +83,10 @@ export function Screen1(props: Props) {
         isOpen={mobileAlert}
         onClose={handleMobileWalletClick}
       >
-        <p className="mt-2 mb-0">
+        <p className="tw-mt-2 tw-mb-0">
           {t(translations.rskConnectTutorial.mobile_wallet_alert_line1)}
         </p>
-        <p className="mt-2 mb-0 font-weight-bold">
+        <p className="tw-mt-2 tw-mb-0 tw-font-bold">
           {t(translations.rskConnectTutorial.mobile_wallet_alert_line2)}
         </p>
       </Alert>

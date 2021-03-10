@@ -76,7 +76,7 @@ export default function Screen4() {
 
   return (
     <StyledContent>
-      <div className="d-flex flex-row">
+      <div className="tw-flex tw-flex-row">
         <div className="tab-item">
           <Tab
             text={'BTC'}
@@ -97,7 +97,7 @@ export default function Screen4() {
         </div>
       </div>
       <div className="tab-content">
-        <div className="col-12">
+        <div className="tw-col-span-12">
           {activeTrades ? <SendBTC setShowCalc={setShowCalc} /> : <SendRBTC />}
         </div>
         {showCalc && <SOVCalculator setShowCalc={setShowCalc} />}

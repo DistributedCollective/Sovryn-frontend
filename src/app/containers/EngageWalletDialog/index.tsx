@@ -49,7 +49,7 @@ export function EngageWalletDialog() {
   const handleClose = useCallback(() => {
     const walletConectModal = document.getElementById('walletconnect-wrapper');
     walletConectModal?.classList.remove('showWalletConnect');
-    walletConectModal?.classList.add('d-none');
+    walletConectModal?.classList.add('tw-hidden');
     reactLocalStorage.set('tutorial_active', 'false');
     reactLocalStorage.set('closedRskTutorial', 'true');
     dispatch(actions.hideModal());
@@ -87,14 +87,14 @@ export function EngageWalletDialog() {
     >
       <div className="custom-dialog-container">
         <div className="custom-dialog">
-          <div className="d-none d-md-block">
+          <div className="tw-hidden md:tw-block">
             <TutorialDialogComponent
               handleClose={handleClose}
               onNetwork={onNetwork}
               handleEngage={handleEngage}
             />
           </div>
-          <div className="d-block d-md-none">
+          <div className="tw-block md:tw-hidden">
             <MobileNotReady handleClose={handleClose} />
           </div>
         </div>

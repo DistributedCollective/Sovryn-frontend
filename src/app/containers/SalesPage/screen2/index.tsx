@@ -116,12 +116,12 @@ export default function Screen2() {
           <p className="content-header">
             Welcome to the SOV* Genesis Pre-order
           </p>
-          <div className="row">
-            <div className="col-lg-7 col-md-12">
+          <div className="tw-grid tw-gap-8  tw-grid-cols-12">
+            <div className="lg:tw-col-span-7 md:tw-col-span-12">
               <div className="b-group left-box">
-                <p className="text-center w-100">SOLD OUT!</p>
+                <p className="tw-text-center tw-w-full">SOLD OUT!</p>
 
-                <div className="mb-5">
+                <div className="tw-mb-12">
                   <p>
                     To provide the early community with an opportunity to have a
                     stake in Sovryn Bitcocracy, Sovryn has created the SOV
@@ -149,12 +149,12 @@ export default function Screen2() {
                 />
               </div>
             </div>
-            <div className="col-lg-5 col-md-12">
-              <div className="right-box position-relative ml-lg-5">
-                <div className="mb-3 mr-2 ml-2 position-relative d-inline-block">
+            <div className="lg:tw-col-span-5 md:tw-col-span-12">
+              <div className="right-box tw-relative lg:tw-ml-12">
+                <div className="tw-mb-4 tw-mr-2 tw-ml-2 tw-relative tw-inline-block">
                   <div className="image-bordered">
                     <img
-                      className="w-100 h-100 image-responsive"
+                      className="tw-w-full tw-h-full tw-image-responsive"
                       src={tierImage}
                       alt="bg"
                     />
@@ -196,7 +196,7 @@ export default function Screen2() {
             <br />
             Process and Terms.
           </p>
-          <div className="d-md-flex align-items-start justify-content-around mb-4 w-100">
+          <div className="d-mtw-flex tw-items-start tw-justify-around tw-mb-6 tw-w-full">
             <ul className="w-30">
               <li>
                 Welcome to the SOV pre-order sale. In anticipation of the SOV
@@ -236,13 +236,13 @@ export default function Screen2() {
               </li>
             </ul>
           </div>
-          <div className="d-flex flex-column align-items-center justify-content-center mb-4">
+          <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mb-6">
             <Checkbox
               checked={checked}
               onChange={() => setChecked(!checked)}
               label="I have read and understand that I am responsible for my own Sovrynity"
             />
-            <div className="mt-4">
+            <div className="tw-mt-6">
               <SalesButton
                 text={'I Understand'}
                 disabled={!checked}

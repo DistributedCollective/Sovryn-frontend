@@ -15,6 +15,12 @@ import crater from 'assets/images/tutorial/crater.svg';
 import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import {
+  blockExplorers,
+  currentChainId,
+  networkNames,
+  rpcNodes,
+} from '../../../../../utils/classifiers';
 
 interface Props {
   onNetwork: boolean;
@@ -62,80 +68,82 @@ export function Screen2(props: Props) {
 
   return (
     <>
-      <div className="crater position-absolute">
-        <img src={crater} alt="" className="w-100 h-100" />
+      <div className="crater tw-absolute">
+        <img src={crater} alt="" className="tw-w-full tw-h-full" />
       </div>
-      <div className={`arm_${step} position-absolute`}>
-        <div className="arm1 position-absolute">
-          <img src={arm1} alt="" className="h-100 w-100" />
+      <div className={`arm_${step} tw-absolute`}>
+        <div className="arm1 tw-absolute">
+          <img src={arm1} alt="" className="tw-h-full tw-w-full" />
         </div>
-        <div className="arm2 position-relative">
-          <img src={arm2} alt="" className="h-100 w-100" />
+        <div className="arm2 tw-relative">
+          <img src={arm2} alt="" className="tw-h-full tw-w-full" />
         </div>
       </div>
-      <div className="badger-body position-absolute">
-        <img src={badgerBody} alt="" className="h-100 w-100" />
+      <div className="badger-body tw-absolute">
+        <img src={badgerBody} alt="" className="tw-h-full tw-w-full" />
       </div>
       <div className={`speech step${step}`}>
         <img src={speechBubble} alt="" />
         <p>{speechText}</p>
       </div>
 
-      <div className="left-box_outline position-absolute">
-        <img src={leftBox} alt="" className="h-100 w-100" />
+      <div className="left-box_outline tw-absolute">
+        <img src={leftBox} alt="" className="tw-h-full tw-w-full" />
       </div>
-      <div className={`left-box position-absolute ${step === 1 && 'browser'}`}>
+      <div className={`left-box tw-absolute ${step === 1 && 'browser'}`}>
         <img src={content[step].leftImage} alt="" />
       </div>
-      <div className="right-box_outline position-absolute">
-        <img src={rightBox} alt="" className="h-100 w-100" />
+      <div className="right-box_outline tw-absolute">
+        <img src={rightBox} alt="" className="tw-h-full tw-w-full" />
       </div>
-      <div className="right-box position-absolute">
+      <div className="right-box tw-absolute">
         <div>
           <div>
-            <div className="row">
-              <p className="text-center mx-auto">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <p className="tw-text-center tw-mx-auto">
                 {t(translations.rskConnectTutorial.input_settings.title)}
               </p>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.network)}
               </div>
-              <div className="col-7">RSK Mainnet</div>
+              <div className="tw-col-span-7">
+                {networkNames[currentChainId]}
+              </div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
-              <div className="col-7">
-                <CopyToClipboard text="https://public-node.rsk.co">
-                  <span className="cursor-pointer">
-                    https://public-node.rsk.co <Icon icon="duplicate" />
+              <div className="tw-col-span-7">
+                <CopyToClipboard text={rpcNodes[currentChainId]}>
+                  <span className="tw-cursor-pointer">
+                    {rpcNodes[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.chain_Id)}
               </div>
-              <div className="col-7">30</div>
+              <div className="tw-col-span-7">{currentChainId}</div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.symbol)}
               </div>
-              <div className="col-7">RBTC</div>
+              <div className="tw-col-span-7">RBTC</div>
             </div>
-            <div className="row">
-              <div className="col-5">
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-5">
                 {t(translations.rskConnectTutorial.input_settings.explorer_url)}
               </div>
-              <div className="col-7">
-                <CopyToClipboard text="https://explorer.rsk.co">
-                  <span className="cursor-pointer">
-                    https://explorer.rsk.co <Icon icon="duplicate" />
+              <div className="tw-col-span-7">
+                <CopyToClipboard text={blockExplorers[currentChainId]}>
+                  <span className="tw-cursor-pointer">
+                    {blockExplorers[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
@@ -150,7 +158,7 @@ export function Screen2(props: Props) {
         </p>
       </div>
       <div className="stepper">
-        <div className="d-flex flex-row">
+        <div className="tw-flex tw-flex-row">
           <img
             src={leftArrow}
             alt="left arrow"

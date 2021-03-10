@@ -33,12 +33,9 @@ import { useLending_transactionLimit } from '../../hooks/lending/useLending_tran
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
 import { useBorrowInterestRate } from '../../hooks/trading/useBorrowInterestRate';
 import { TradeConfirmationDialog } from './TradeConfirmationDialog';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.marginTradeForm;
 
@@ -49,6 +46,9 @@ export function MarginTradeForm() {
   const pair = TradingPairDictionary.get(tradingPair);
 
   const { t } = useTranslation();
+
+  const { checkMaintenance } = useMaintenance();
+  const tradesLocked = checkMaintenance('openTradesSwaps');
 
   const [position, setPosition] = useState(TradingPosition.LONG);
   const [leverage, setLeverage] = useState(2);
@@ -140,8 +140,8 @@ export function MarginTradeForm() {
         onChange={value => setLeverage(value)}
         position={position}
       />
-      <div className="row mt-3">
-        <div className="col-6 pr-1">
+      <div className="tw-grid tw-grid-cols-12 tw-mt-4">
+        <div className="tw-col-span-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
             leverage={leverage}
@@ -150,7 +150,7 @@ export function MarginTradeForm() {
             onPriceChange={value => setLiqPrice(value)}
           />
         </div>
-        <div className="col-6 pl-1">
+        <div className="tw-col-span-6 tw-pl-1">
           <BorrowInterestRate
             value={interestValue}
             loading={interestLoading}
@@ -158,9 +158,9 @@ export function MarginTradeForm() {
           />
         </div>
       </div>
-      <div className="position-relative">
-        <div className="row">
-          <div className="col-6 pr-1">
+      <div className="tw-relative">
+        <div className="tw-grid tw-grid-cols-12">
+          <div className="tw-col-span-6 tw-pr-1">
             <FieldGroup label={t(s.fields.currency)} labelColor={color}>
               <FormSelect
                 onChange={value => setCollateral(value.key)}
@@ -170,13 +170,13 @@ export function MarginTradeForm() {
               />
             </FieldGroup>
           </div>
-          <div className="col-6 pl-1">
+          <div className="tw-col-span-6 tw-pl-1">
             <FieldGroup
               label={
                 <>
                   {t(s.fields.amount)}{' '}
                   {maxAmount !== '0' && !loadingLimit && (
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       (Max: {weiTo4(maxAmount)} {collateral})
                     </span>
                   )}
@@ -194,30 +194,30 @@ export function MarginTradeForm() {
             </FieldGroup>
           </div>
         </div>
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-          <div className="mb-3 mb-lg-0">
+        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+          <div className="tw-mb-4 lg:tw-mb-0">
             <AssetWalletBalance asset={collateral} />
           </div>
           <TradeButton
             text={t(s.buttons.submit)}
             onClick={() => setDialogOpen(true)}
-            hideIt={disableNewTrades}
+            hideIt={tradesLocked?.maintenance_active}
             disabled={
               !isConnected ||
               tx.loading ||
               !valid ||
               diff > 5 ||
-              disableNewTrades
+              tradesLocked?.maintenance_active
             }
             textColor={color}
             loading={tx.loading}
             tooltip={
-              disableNewTrades ? (
-                <div className="mw-tooltip">{disableNewTradesText}</div>
+              tradesLocked?.maintenance_active ? (
+                <div className="mw-tooltip">{tradesLocked?.message}</div>
               ) : diff > 5 ? (
                 <>
-                  <p className="mb-1">{t(s.liquidity.line_1)}</p>
-                  <p className="mb-0">{t(s.liquidity.line_2)}</p>
+                  <p className="tw-mb-1">{t(s.liquidity.line_1)}</p>
+                  <p className="tw-mb-0">{t(s.liquidity.line_2)}</p>
                 </>
               ) : undefined
             }

@@ -23,10 +23,7 @@ import { FieldGroup } from '../../components/FieldGroup';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { TradeButton } from '../../components/TradeButton';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.topUpTradingPositionHandler;
 
@@ -51,6 +48,8 @@ export function TopUpTradingPositionHandler(props: Props) {
     props.item.loanId,
     weiAmount,
   );
+  const { checkMaintenance } = useMaintenance();
+  const topupLocked = checkMaintenance('openTradesSwaps');
 
   const handleConfirm = () => {
     send();
@@ -61,18 +60,18 @@ export function TopUpTradingPositionHandler(props: Props) {
 
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-      <div className="container position-relative">
-        <h4 className="text-teal text-center mb-5 text-uppercase">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
+        <h4 className="tw-text-teal tw-text-center tw-mb-12 tw-uppercase">
           {t(s.title)}
         </h4>
 
-        <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
-          <div className="col-4 col-lg-4 flex-grow-0">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+          <div className="tw-col-span-4 lg:tw-col-span-4 tw-flex-grow-0">
             <FieldGroup label={t(s.currency)}>
               <DummyField>{tokenDetails.asset}</DummyField>
             </FieldGroup>
           </div>
-          <div className="col flex-grow-1 flex-shrink-0">
+          <div className="tw-col-span tw-flex-grow tw-flex-shrink-0">
             <FieldGroup label={t(s.topUpAmount)}>
               <AmountField
                 value={amount || ''}
@@ -87,19 +86,22 @@ export function TopUpTradingPositionHandler(props: Props) {
 
         <SendTxProgress {...rest} displayAbsolute={false} />
 
-        <div className="mt-4 d-flex flex-row justify-content-between">
+        <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
           <AssetWalletBalance asset={tokenDetails.asset} />
           <TradeButton
             text={t(s.topUp)}
-            hideIt={disableNewTrades}
+            hideIt={topupLocked?.maintenance_active}
             onClick={() => handleConfirm()}
             disabled={
-              disableNewTrades || rest.loading || !valid || !canInteract
+              topupLocked?.maintenance_active ||
+              rest.loading ||
+              !valid ||
+              !canInteract
             }
             loading={rest.loading}
             tooltip={
-              disableNewTrades ? (
-                <div className="mw-tooltip">{disableNewTradesText}</div>
+              topupLocked?.maintenance_active ? (
+                <div className="mw-tooltip">{topupLocked?.message}</div>
               ) : undefined
             }
           />

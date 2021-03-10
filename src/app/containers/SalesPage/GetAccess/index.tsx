@@ -70,7 +70,7 @@ const StyledContent = styled.div`
         margin: 0;
         display: flex;
         width: auto;
-        flex-wrap: nowrap;
+        tw-flex-wrap: nowrap;
         justify-content: center;
         margin-left: 0.5rem;
       }
@@ -265,13 +265,13 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Genesis Pre-Sale sold out in Minutes!
                 </p>
-                <p className="text-center mb-5">
+                <p className="tw-text-center tw-mb-12">
                   Register for secure your place in the Origin Pre-Sale
                 </p>
 
-                <div className="row mb-4 mt-5">
-                  <div className="col-lg-6 col-md-12 d-lg-flex flex-lg-column align-items-center">
-                    <div className="pl-lg-1">
+                <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-6 tw-mt-12">
+                  <div className="lg:tw-col-span-6 md:tw-col-span-12 lg:tw-flex lg:flex-column tw-items-center">
+                    <div className="lg:tw-pl-1">
                       <div className="form-group">
                         <label htmlFor="username">Enter pseudonym</label>
                         <StyledInput
@@ -290,14 +290,14 @@ export default function GetAccess(props: Props) {
                           onChange={e => setEmail(e.target.value)}
                         />
                         {!!email && !emailValid && (
-                          <small className="text-muted">
+                          <small className="tw-text-muted">
                             Enter valid email address.
                           </small>
                         )}
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-5 col-md-12 pr-lg-5">
+                  <div className="lg:tw-col-span-5 md:tw-col-span-12 lg:tw-5">
                     <div>
                       <div className="form-group">
                         <label htmlFor="amount">
@@ -338,7 +338,7 @@ export default function GetAccess(props: Props) {
                           onRelease={() => setEnterCount(false)}
                           onChange={getChangeHandler()}
                         />
-                        <p className="text-small mt-3">
+                        <p className="text-small tw-mt-4">
                           Sharing with us your intended contribution is
                           optional. It does not constrain you to actually
                           participate but it helps us to better understand our
@@ -347,13 +347,13 @@ export default function GetAccess(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12">
-                    <p className="text-center text-small-bottom mt-0 mb-3">
+                  <div className="tw-col-span-12">
+                    <p className="tw-text-center text-small-bottom tw-mt-0 tw-mb-4">
                       By joining the waitlist you agree to receive the latest
                       news about the SOV ecosystem
                     </p>
                     {response === 'error' && (
-                      <div className="text-danger text-center mb-2">
+                      <div className="tw-text-danger tw-text-center tw-mb-2">
                         An error has occurred
                       </div>
                     )}
@@ -372,7 +372,7 @@ export default function GetAccess(props: Props) {
                 <p className="content-header">
                   Please confirm the email we just sent
                 </p>
-                <p className="text-center mb-5">
+                <p className="tw-text-center tw-mb-12">
                   To be registered you need to confirm the email we just sent
                   you
                   <br />
@@ -380,8 +380,8 @@ export default function GetAccess(props: Props) {
                   register us as not spam!
                 </p>
 
-                <div className="row mb-4 mt-5 justify-content-center">
-                  <div className="col-6">
+                <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-6 tw-mt-12 tw-justify-center">
+                  <div className="tw-col-span-6">
                     <StyledButton
                       as="a"
                       href="https://docsend.com/view/mbhvi379crhagtwp"

@@ -33,23 +33,27 @@ export function Screen1(props) {
   ];
 
   const logos = wallets.map(item => (
-    <div className="wallet-icon col-4" key={item.name} onClick={item.click}>
+    <div
+      className="wallet-icon tw-col-span-4"
+      key={item.name}
+      onClick={item.click}
+    >
       <img src={item.logo} alt={item.name} />
-      <p className="text-center">{item.name}</p>
+      <p className="tw-text-center">{item.name}</p>
     </div>
   ));
 
   return (
     <>
-      <div className="position-absolute screen1">
-        <img className="w-100 h-100" src={screen1Container} alt="" />
-        <div className="title1 position-absolute">
+      <div className="tw-absolute screen1">
+        <img className="tw-w-full tw-h-full" src={screen1Container} alt="" />
+        <div className="title1 tw-absolute">
           <p>Select YOUR WALLET</p>
         </div>
-        <div className="close position-absolute" onClick={props.handleClose}>
-          <img className="w-100 h-100" src={close} alt="close" />
+        <div className="close tw-absolute" onClick={props.handleClose}>
+          <img className="tw-w-full tw-h-full" src={close} alt="close" />
         </div>
-        <div className="logo-grid d-flex position-absolute">{logos}</div>
+        <div className="logo-grid tw-flex tw-absolute">{logos}</div>
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import { Spinner } from '@blueprintjs/core';
 
 export const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'd-flex flex-row justify-content-center align-items-center',
+  className: 'tw-flex tw-flex-row tw-justify-center tw-items-center',
 }))`
   border: 1px solid var(--gold);
   background: var(--gold5);
@@ -64,7 +64,7 @@ export default function SalesButton({
   return (
     <StyledButton onClick={() => onClick()} disabled={disabled}>
       {text}
-      {loading && <Spinner size={18} className="ml-2" />}
+      {loading && <Spinner size={18} className="tw-ml-2" />}
     </StyledButton>
   );
 }

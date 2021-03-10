@@ -194,19 +194,19 @@ function TransactionDetail(props: DetailsProps) {
   return (
     <div>
       <p className="content-header">Transaction Details</p>
-      <div className="row justify-content-around">
-        <div className="col-lg-5 col-md-6">
-          <div className="mb-4">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-justify-around">
+        <div className="lg:tw-col-span-5 md:tw-col-span-6">
+          <div className="tw-mb-6">
             Your purchase of SOV is made up of 2 transactions. First it is sent
             to the address, where it is instantly converted to RBTC for you. The
             RBTC then automatically purchases the SOV and credits it to your
             wallet. You can easily view the details of each transaction and
             verify them with a block explorer.
           </div>
-          <div className="mb-4">
+          <div className="tw-mb-6">
             You will be notified when your transaction has processed.
           </div>
-          <div className="mb-5">
+          <div className="tw-mb-12">
             While you wait for your transaction to process, we suggest that you
             add SOV token to your wallet. Click to follow our simple tutorial.
           </div>
@@ -215,11 +215,11 @@ function TransactionDetail(props: DetailsProps) {
             onClick={() => props.dispatch(sActions.showTokenTutorial(true))}
           />
         </div>
-        <div className="col-lg-4 col-md-5 d-flex justify-content-end">
+        <div className="lg:tw-col-span-4 md:tw-col-span-5 tw-flex tw-justify-end">
           <Wrapper background="#383838">
             <div className="header">(r)BTC &gt; SOV</div>
             <div className="content">
-              <p className="text-center font-italic time font-weight-light">
+              <p className="tw-text-center tw-italic time tw-font-light">
                 {props.tx.status === 'pending' && (
                   <>Processing approx. 2 minutes</>
                 )}
@@ -228,13 +228,13 @@ function TransactionDetail(props: DetailsProps) {
                 )}
                 {props.tx.status === 'failed' && <>Transaction failed!</>}
               </p>
-              <div className="mx-auto w-75">
+              <div className="tw-mx-auto tw-w-3/4">
                 <p className="amount">
                   <strong>
                     {weiToNumberFormat(toWei(props.btcAmount), 5)} (r)BTC
                   </strong>
                 </p>
-                <p className="amount-usd font-weight-light">
+                <p className="amount-usd tw-font-light">
                   ≈ {numberToUSD(props.usdAmount, 2)}
                 </p>
                 <p className="fee">
@@ -242,14 +242,14 @@ function TransactionDetail(props: DetailsProps) {
                   {weiToNumberFormat(props.estimatedFee, 8)} (r)BTC
                 </p>
               </div>
-              <p className="hash mx-auto w-75">
+              <p className="hash tw-mx-auto tw-w-3/4">
                 <strong>Hash:</strong>
                 {prettyTx(props.tx.txHash)}
               </p>
               <LinkToExplorer
                 txHash={props.tx.txHash}
                 text="View in Tracker"
-                className="d-block text-center"
+                className="tw-block tw-text-center"
               />
             </div>
           </Wrapper>
@@ -307,17 +307,17 @@ export default function SendRBTC() {
   return !showTx ? (
     <div>
       <p className="content-header">Pre-order SOV with (r)BTC</p>
-      <div className="row justify-content-around">
-        <div className="col-md-5">
-          <div className="mb-4">
-            <p className="mb-2">Deposit limits:</p>
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-justify-around">
+        <div className="md:tw-col-span-5">
+          <div className="tw-mb-6">
+            <p className="tw-mb-2">Deposit limits:</p>
             <ul>
               <li>MIN: {weiToNumberFormat(minDeposit, 8)} BTC</li>
               <li>MAX: {weiToNumberFormat(maxDeposit, 8)} BTC</li>
             </ul>
             <a
               href="/genesis#"
-              className="d-block"
+              className="tw-block"
               onClick={e => {
                 e.preventDefault();
                 dispatch(sActions.changeStep(3));
@@ -327,7 +327,7 @@ export default function SendRBTC() {
             </a>
             <a
               href="/genesis#"
-              className="d-block"
+              className="tw-block"
               onClick={e => {
                 e.preventDefault();
                 dispatch(sActions.changeStep(6));
@@ -340,10 +340,10 @@ export default function SendRBTC() {
             <p>Instructions: </p>
             <div>
               <ul>
-                <li className="mb-2">
+                <li className="tw-mb-2">
                   <span>Pre-order SOV with (r)BTC in your engaged wallet</span>
                 </li>
-                <li className="mb-4">
+                <li className="tw-mb-6">
                   <span>
                     Please allow 5 to 60 mins for the transaction to process
                   </span>
@@ -351,7 +351,7 @@ export default function SendRBTC() {
               </ul>
             </div>
 
-            <p className="support-text mt-1">
+            <p className="support-text tw-mt-1">
               For support please join us on{' '}
               <a href="https://discord.com/invite/J22WS6z" target="_new">
                 discord.com/invite/J22WS6z
@@ -359,9 +359,9 @@ export default function SendRBTC() {
             </p>
           </div>
         </div>
-        <div className="col-md-4 d-flex justify-content-end">
-          <Wrapper className="d-flex flex-column">
-            <p className="mb-2 rbtc-text">Send (r)BTC:</p>
+        <div className="md:tw-col-span-4 tw-flex tw-justify-end">
+          <Wrapper className="tw-flex tw-flex-col">
+            <p className="tw-mb-2 rbtc-text">Send (r)BTC:</p>
             <input
               className="rbtc-input"
               type="text"
@@ -369,7 +369,7 @@ export default function SendRBTC() {
               value={amount}
               onChange={e => setAmount(handleNumber(e.target.value))}
             />
-            <p className="text-center font-sale-sm mt-2">
+            <p className="tw-text-center font-sale-sm tw-mt-2">
               Available Balance:{' '}
               <a href="/genesis#" onClick={addAllBalance}>
                 {weiToNumberFormat(balance, 8)}
@@ -380,14 +380,14 @@ export default function SendRBTC() {
               Estimated Gas Fee*:{' '}
               <span>≈ {weiToNumberFormat(gasEstimation, 8)} (r)BTC</span>
             </p>
-            <p className="text-center mt-1 mb-2">
+            <p className="tw-text-center tw-mt-1 tw-mb-2">
               <Icon icon="arrow-down" iconSize={35} />
             </p>
-            <p className="mb-0 rbtc-text">Receive SOV:</p>
+            <p className="tw-mb-0 rbtc-text">Receive SOV:</p>
             <LoadableValue
               loading={loading}
               value={
-                <p className="sov-res mb-4">
+                <p className="sov-res tw-mb-6">
                   {toNumberFormat(sovToReceive)}{' '}
                   <span>≈ {numberToUSD(price, 2)}</span>
                 </p>
@@ -398,8 +398,12 @@ export default function SendRBTC() {
               {...tx}
               displayAbsolute={false}
             />
-            <p className="mb-2 rbtc-text">SOLD OUT!</p>
-            <StyledButton className="mt-1" onClick={handleBuy} disabled={true}>
+            <p className="tw-mb-2 rbtc-text">SOLD OUT!</p>
+            <StyledButton
+              className="tw-mt-1"
+              onClick={handleBuy}
+              disabled={true}
+            >
               RESERVE SOV
             </StyledButton>
           </Wrapper>

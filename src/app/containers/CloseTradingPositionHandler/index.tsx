@@ -26,6 +26,7 @@ import { useTrading_testRates } from '../../hooks/trading/useTrading_testRates';
 import { TradeButton } from '../../components/TradeButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 interface Props {
   item: ActiveLoan;
@@ -87,10 +88,13 @@ export function CloseTradingPositionHandler(props: Props) {
     weiAmount,
   );
 
+  const { checkMaintenance } = useMaintenance();
+  const closeTradesLocked = checkMaintenance('closeTradesSwaps');
+
   return (
     <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-      <div className="container position-relative">
-        <h4 className="text-teal text-center mb-5 text-uppercase">
+      <div className="tw-container tw-mx-auto tw-px-4  tw-relative">
+        <h4 className="tw-text-teal tw-text-center tw-mb-12 tw-uppercase">
           {!!props.item.loanId
             ? t(translations.closeTradingPositionHandler.title)
             : t(translations.closeTradingPositionHandler.titleDone)}
@@ -98,15 +102,15 @@ export function CloseTradingPositionHandler(props: Props) {
 
         {!!props.item.loanId && (
           <>
-            <div className="row d-flex flex-row flex-nowrap align-items-center">
-              <div className="col-4 col-lg-4 flex-grow-0 text-muted">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+              <div className="tw-col-span-4 tw-flex-grow-0 tw-text-muted">
                 {t(translations.closeTradingPositionHandler.positionSize)}
               </div>
-              <div className="col flex-grow-1">
+              <div className="tw-col-span tw-flex-grow">
                 <DummyField>
-                  <span className="d-flex w-100 flex-row justify-content-between align-items-center">
+                  <span className="tw-flex tw-w-full tw-flex-row tw-justify-between tw-items-center">
                     <span>{weiTo18(props.item.collateral)}</span>
-                    <span className="text-muted">
+                    <span className="tw-text-muted">
                       {symbolByTokenAddress(props.item.collateralToken)}
                     </span>
                   </span>
@@ -114,11 +118,11 @@ export function CloseTradingPositionHandler(props: Props) {
               </div>
             </div>
 
-            <div className="mt-3 text-muted">
+            <div className="tw-mt-4 tw-text-muted">
               {t(translations.closeTradingPositionHandler.withdrawIn)}
             </div>
-            <div className="row mt-1 d-flex flex-row flex-nowrap align-items-center">
-              <div className="col-4 col-lg-4 flex-grow-0">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mt-1 tw-flex tw-flex-row tw-flex-nowrap tw-items-center">
+              <div className="tw-col-span-4 tw-flex-grow-0">
                 <FormSelect
                   filterable={false}
                   items={options}
@@ -126,7 +130,7 @@ export function CloseTradingPositionHandler(props: Props) {
                   value={isCollateral}
                 />
               </div>
-              <div className="col flex-grow-1 flex-shrink-0">
+              <div className="tw-col-span tw-flex-grow tw-flex-shrink-0">
                 <AmountField
                   value={amount || ''}
                   onChange={value => setAmount(value)}
@@ -140,7 +144,7 @@ export function CloseTradingPositionHandler(props: Props) {
         <SendTxProgress {...rest} displayAbsolute={false} />
 
         {!!props.item.loanId && (
-          <div className="mt-4 d-flex flex-row justify-content-between">
+          <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
             <AssetWalletBalance asset={Asset.BTC} />
             <TradeButton
               text={
@@ -149,18 +153,22 @@ export function CloseTradingPositionHandler(props: Props) {
                   : t(translations.closeTradingPositionHandler.closeAmount)
               }
               onClick={() => handleConfirmSwap()}
-              disabled={rest.loading || !valid}
+              disabled={
+                rest.loading || !valid || closeTradesLocked?.maintenance_active
+              }
               loading={rest.loading}
               tooltip={
-                test.diff > 5 ? (
+                closeTradesLocked?.maintenance_active ? (
+                  closeTradesLocked?.message
+                ) : test.diff > 5 ? (
                   <>
-                    <p className="mb-1">
+                    <p className="tw-mb-1">
                       {t(
                         translations.closeTradingPositionHandler.liquidity
                           .line_1,
                       )}
                     </p>
-                    <p className="mb-0">
+                    <p className="tw-mb-0">
                       {t(
                         translations.closeTradingPositionHandler.liquidity
                           .line_2,

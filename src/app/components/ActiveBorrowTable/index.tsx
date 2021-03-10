@@ -13,6 +13,8 @@ import { BorrowAmount } from './BorrowAmount';
 import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { useMaintenance } from '../../hooks/useMaintenance';
+import styles from './ActiveBorrowTable.module.css';
 
 interface Props {
   data: any;
@@ -21,6 +23,9 @@ interface Props {
 export function ActiveBorrowTable(props: Props) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { checkMaintenance } = useMaintenance();
+  const repayLocked = checkMaintenance('closeLoansBorrows');
+
   const columns = React.useMemo(
     () => [
       {
@@ -84,8 +89,12 @@ export function ActiveBorrowTable(props: Props) {
         ),
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-between">
-            <div className="mr-1">
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
+            <div
+              className={`tw-mr-1 ${
+                repayLocked?.maintenance_active ? styles.disabled : ''
+              }`}
+            >
               <StyledRepayButton
                 onClick={() => dispatch(actions.openRepayModal(item.loanId))}
               >
@@ -96,6 +105,7 @@ export function ActiveBorrowTable(props: Props) {
         ),
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data, dispatch, t]);
   const {
     getTableProps,
@@ -105,7 +115,7 @@ export function ActiveBorrowTable(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border p-3 table-responsive">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -115,18 +125,18 @@ export function ActiveBorrowTable(props: Props) {
                   <Text ellipsize tagName="span">
                     {column.render('Header')}
                     {column.sortable && (
-                      <span className="mx-1">
+                      <span className="tw-mx-1">
                         {column.isSorted ? (
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           )
@@ -148,7 +158,7 @@ export function ActiveBorrowTable(props: Props) {
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td className="align-middle" {...cell.getCellProps()}>
+                    <td className="tw-align-middle" {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   );

@@ -11,6 +11,7 @@ import {
   faLongArrowAltUp,
   faLongArrowAltDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { LoadableValue } from '../../../LoadableValue';
@@ -67,14 +68,14 @@ export function ActiveLoanTableDesktop(props: Props) {
     if (sortConfig.key !== name) {
       return <Icon icon="double-caret-vertical" iconSize={15} />;
     } else if (sortConfig.direction === 'ascending') {
-      return <Icon icon="sort-asc" iconSize={15} className="text-white" />;
+      return <Icon icon="sort-asc" iconSize={15} className="tw-text-white" />;
     } else {
-      return <Icon icon="sort-desc" iconSize={15} className="text-white" />;
+      return <Icon icon="sort-desc" iconSize={15} className="tw-text-white" />;
     }
   }
 
   return (
-    <div className="bg-primary sovryn-border p-3 d-none d-md-block">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-hidden md:tw-block">
       <table className="sovryn-table">
         <thead>
           <tr style={{ cursor: 'pointer' }}>
@@ -116,7 +117,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                       props.setExpandedId('');
                     }
                   }}
-                  className={`cursor-pointer ${
+                  className={`tw-cursor-pointer ${
                     props.expandedId && !expanded && 'opaque'
                   }`}
                 >
@@ -124,14 +125,14 @@ export function ActiveLoanTableDesktop(props: Props) {
                     {item.icon === 'LONG' && (
                       <Icon
                         icon="circle-arrow-up"
-                        className="text-customTeal mx-2"
+                        className="tw-text-customTeal tw-mx-2"
                         iconSize={20}
                       />
                     )}
                     {item.icon === 'SHORT' && (
                       <Icon
                         icon="circle-arrow-down"
-                        className="text-Gold mx-2"
+                        className="tw-text-Gold tw-mx-2"
                         iconSize={20}
                       />
                     )}{' '}
@@ -146,17 +147,19 @@ export function ActiveLoanTableDesktop(props: Props) {
                           {item.currency}
                         </>
                       }
-                      tooltip={item.positionSize}
+                      tooltip={weiTo18(item.positionSize)}
                     />
                   </td>
                   <td>
                     {numberToPercent(item.currentMargin, 2)}
                     <small
-                      className={`d-md-inline d-sm-block ml-2 mr-2 ${
-                        item.marginDiff > 0 ? 'text-green' : 'text-red'
+                      className={`md:tw-inline sm:tw-block tw-ml-2 tw-mr-2 ${
+                        item.marginDiff > 0
+                          ? 'tw-text-green-500'
+                          : 'tw-text-red-500'
                       }`}
                     >
-                      <div className="d-inline">
+                      <div className="tw-inline">
                         <FontAwesomeIcon
                           icon={
                             item.marginDiff > 0
@@ -175,7 +178,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                 </tr>
                 {props.expandedId === item.id && (
                   <ActiveLoanExpandedRow
-                    className="d-none d-md-block"
+                    className="tw-hidden md:tw-block"
                     data={item}
                     key={props.expandedId}
                     handleClick={() => props.setExpandedId('')}

@@ -145,7 +145,8 @@
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
-    "notice_4": "If you’re new to DeFi, here is the <0>tutorial</0> on how to use SOVRYN."
+    "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "buildID": "Build ID"
   },
   "mainMenu": {
     "trade": "Trade",
@@ -559,6 +560,7 @@
     },
     "tabs": {
       "userAssets": "My assets",
+      "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
     }
   },
@@ -576,13 +578,15 @@
       "asset": "Asset",
       "totalBalance": "Total Balance",
       "dollarBalance": "Dollar Balance",
+      "lockedAmount": "Locked Amount",
       "action": "Action"
     },
     "actions": {
-      "deposit": "Top-Up",
+      "deposit": "FastBTC",
       "swap": "Swap",
       "trade": "Trade",
-      "claimSov": "Claim SOV"
+      "claimSov": "Claim SOV",
+      "redeemRBTC": "Redeem rBTC"
     }
   },
   "topUpHistory": {
@@ -669,7 +673,8 @@
       "positionEntryPrice": "Approx. Position Entry Price",
       "entryPriceNote": "The price is taken from our AMM and as such is subject to flunctuations.",
       "tradeButtonLong": "Place Long",
-      "tradeButtonShort": "Place Short"
+      "tradeButtonShort": "Place Short",
+      "closeBtn": "Close Dialog"
     },
     "positions": {
       "long": "Long",
@@ -716,6 +721,61 @@
           "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
         }
       }
+    }
+  },
+  "fastBtcDialog": {
+    "title": "Top Up FastBTC",
+    "subtitle": "Deposit BTC to receive rBTC in your wallet",
+    "limits": {
+      "title": "Deposit limits:",
+      "min": "MIN: {{amount}} BTC",
+      "max": "MAX: {{amount}} BTC"
+    },
+    "instructions": {
+      "title": "Instructions:",
+      "point1": "Do not deposit anything other than BTC",
+      "point2": "Do not send more BTC than the MAX limit",
+      "point3": "Allow  15 mins for the transaction to process"
+    },
+    "qr": {
+      "title": "Send BTC to this address:"
+    },
+    "button": "Generate deposit address",
+    "transaction": {
+      "title": "Transaction Details",
+      "status": "Status {{status}}",
+      "from": "From:",
+      "to": "To:",
+      "fee": "Tx Fee:",
+      "hash": "Tx Hash:",
+      "close": "Close"
+    }
+  },
+  "onCopy": {
+    "address": "Address was copied to clipboard."
+  },
+  "marginTradePage": {
+    "meta": {
+      "title": "Margin Trade",
+      "description": "Trade with margin"
+    },
+    "tradeForm": {
+      "labels": {
+        "pair": "Pair:",
+        "asset": "Asset:",
+        "leverage": "Leverage:",
+        "amount": "Amount:"
+      },
+      "buttons": {
+        "long": "Long",
+        "short": "Short"
+      }
+    }
+  },
+  "form": {
+    "select": {
+      "noResults": "No results",
+      "placeholder": "Select item"
     }
   }
 }

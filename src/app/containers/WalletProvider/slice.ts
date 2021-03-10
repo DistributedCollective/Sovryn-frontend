@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
+import { currentChainId } from 'utils/classifiers';
 import { CachedAssetRate, ContainerState } from './types';
-import { currentChainId } from '../../../utils/classifiers';
 
 // The initial state of the WalletConnector container
 export const initialState: ContainerState = {
@@ -16,9 +16,7 @@ export const initialState: ContainerState = {
   transactions: {},
   transactionStack: [],
   whitelist: {
-    enabled:
-      !!process.env.REACT_APP_WHITELIST_TOKEN &&
-      process.env.REACT_APP_WHITELIST === 'true',
+    enabled: process.env.REACT_APP_WHITELIST === 'true',
     loading: false,
     loaded: false,
     whitelisted: false,

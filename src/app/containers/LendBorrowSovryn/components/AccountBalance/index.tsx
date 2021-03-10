@@ -22,6 +22,8 @@ type Props = {
   handleSubmitRepay?: () => void;
   canRedeem?: boolean;
   maxRedeem?: string;
+  disabled?: boolean;
+  disabledMsg?: string;
 };
 
 const AccountBalance: React.FC<Props> = ({
@@ -35,6 +37,8 @@ const AccountBalance: React.FC<Props> = ({
   title,
   canRedeem,
   maxRedeem,
+  disabled,
+  disabledMsg,
 }) => {
   const { t } = useTranslation();
   const noRedeem = title === ButtonType.REDEEM && !canRedeem;
@@ -45,8 +49,8 @@ const AccountBalance: React.FC<Props> = ({
         type={txState.type}
         displayAbsolute={false}
       />
-      <div className="account-balance-container position-relative d-flex flex-column flex-md-row justify-content-md-between">
-        <div className="mb-4 mb-md-0">
+      <div className="account-balance-container tw-relative tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between">
+        <div className="tw-mb-6 md:tw-mb-0">
           <AssetWalletBalance asset={currency} />
         </div>
         <TradeButton
@@ -60,12 +64,14 @@ const AccountBalance: React.FC<Props> = ({
               ? handleSubmitRepay
               : handleSubmit
           }
-          disabled={txState.loading || !isConnected || !valid || noRedeem}
+          disabled={
+            txState.loading || !isConnected || !valid || noRedeem || disabled
+          }
           loading={txState.loading}
           tooltip={
             noRedeem ? (
               <>
-                <p className="mb-1">
+                <p className="tw-mb-1">
                   {t(translations.lendingPage.liquidity.redeem.line_1, {
                     currency,
                   })}
@@ -76,10 +82,12 @@ const AccountBalance: React.FC<Props> = ({
                     amount: weiTo4(maxRedeem),
                   })}
                 </p>
-                <p className="mb-0">
+                <p className="tw-mb-0">
                   {t(translations.lendingPage.liquidity.redeem.line_3)}
                 </p>
               </>
+            ) : disabledMsg ? (
+              disabledMsg
             ) : undefined
           }
         />

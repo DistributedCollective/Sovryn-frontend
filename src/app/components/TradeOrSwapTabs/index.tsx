@@ -72,7 +72,7 @@ export function TradeOrSwapTabs(props: Props) {
         <Tab
           title={<Icon icon="chart" />}
           tabClassName={[
-            'custom-stats-tab d-lg-none',
+            'custom-stats-tab lg:tw-hidden',
             trading.isMobileStatsOpen ? 'charts-active' : '',
           ].join(' ')}
           eventKey={'charts'}

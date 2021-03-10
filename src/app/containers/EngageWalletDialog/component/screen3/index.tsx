@@ -23,11 +23,11 @@ export function Screen3() {
   return (
     <>
       <div>
-        <div className="badger-qr position-absolute">
-          <img src={badgerQr} alt="" className="h-100 w-100" />
+        <div className="badger-qr tw-absolute">
+          <img src={badgerQr} alt="" className="tw-h-full tw-w-full" />
         </div>
-        <div className="speech2 position-absolute" />
-        <p className="speech-qr position-absolute">
+        <div className="speech2 tw-absolute" />
+        <p className="speech-qr tw-absolute">
           {t(translations.rskConnectTutorial.speech_qr_code)}
         </p>
       </div>

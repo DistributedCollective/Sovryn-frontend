@@ -24,6 +24,7 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -53,6 +54,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const gitRevisionPlugin = new GitRevisionPlugin();
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -95,21 +98,25 @@ module.exports = function (webpackEnv) {
         options: {
           // Necessary for external CSS imports to work
           // https://github.com/facebook/create-react-app/issues/2677
-          ident: 'postcss',
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 3,
-            }),
-            // Adds PostCSS Normalize as the reset css with default options,
-            // so that it honors browserslist config in package.json
-            // which in turn let's users customize the target behavior as per their needs.
-            postcssNormalize(),
-          ],
           sourceMap: isEnvProduction && shouldUseSourceMap,
+          postcssOptions: {
+            ident: 'postcss',
+            plugins: [
+              require('tailwindcss'),
+              require('autoprefixer'),
+              require('postcss-flexbugs-fixes'),
+              require('postcss-preset-env')({
+                autoprefixer: {
+                  flexbox: 'no-2009',
+                },
+                stage: 3,
+              }),
+              // Adds PostCSS Normalize as the reset css with default options,
+              // so that it honors browserslist config in package.json
+              // which in turn let's users customize the target behavior as per their needs.
+              postcssNormalize(),
+            ],
+          },
         },
       },
     ].filter(Boolean);
@@ -674,6 +681,11 @@ module.exports = function (webpackEnv) {
         new SriPlugin({
           hashFuncNames: ['sha256', 'sha384'],
         }),
+      new webpack.DefinePlugin({
+        'process.env.REACT_APP_GIT_COMMIT_ID': JSON.stringify(
+          gitRevisionPlugin.commithash(),
+        ),
+      }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.

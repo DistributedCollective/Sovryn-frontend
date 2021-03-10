@@ -32,31 +32,28 @@ export function Screen3(props) {
 
   return (
     <>
-      <div className="position-absolute screen3">
-        <img className="w-100 h-100" src={screen3Container} alt="" />
-        <div className="title position-absolute">
+      <div className="tw-absolute screen3">
+        <img className="tw-w-full tw-h-full" src={screen3Container} alt="" />
+        <div className="title tw-absolute">
           <p>Connecting to the RSK Network</p>
         </div>
-        <div
-          className="close--3 position-absolute"
-          onClick={() => props.handleClose}
-        >
-          <img className="w-100 h-100" src={close} alt="close" />
+        <div className="close--3 tw-absolute" onClick={() => props.handleClose}>
+          <img className="tw-w-full tw-h-full" src={close} alt="close" />
         </div>
-        <div className={`step-image position-absolute`}>
+        <div className={`step-image tw-absolute`}>
           <img
             src={content[step].mobileWalletImage}
             alt=""
-            className="h-100 w-100"
+            className="tw-h-full tw-w-full"
           />
         </div>
-        <div className="step-description position-absolute">
+        <div className="step-description tw-absolute">
           <p>
             Step: 0{step} - {speechText}
           </p>
         </div>
-        <div className="stepper position-absolute">
-          <div className="d-flex flex-row">
+        <div className="stepper tw-absolute">
+          <div className="tw-flex tw-flex-row">
             <img
               src={leftArrow}
               alt="left arrow"
@@ -94,56 +91,56 @@ export function Screen3(props) {
             />
           </div>
         </div>
-        <div className="settings position-absolute">
-          <div className="row">
-            <div className="text-center col-12">
+        <div className="settings tw-absolute">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-text-center tw-col-span-12">
               {t(translations.rskConnectTutorial.input_settings.title)}
             </div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.network)}:
             </div>
-            <div className="col-8">RSK Mainnet</div>
+            <div className="tw-col-span-8">RSK Mainnet</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.new_RPC)}:
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8">
               <CopyToClipboard
                 text="https://public-node.rsk.co"
                 onCopy={() => alert('Copied!')}
               >
-                <span className="cursor-pointer">
+                <span className="tw-cursor-pointer">
                   https://public-node.rsk.co{' '}
                   <Icon icon="duplicate" iconSize={10} />
                 </span>
               </CopyToClipboard>
             </div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.chain_Id)}:
             </div>
-            <div className="col-8">30</div>
+            <div className="tw-col-span-8">30</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.symbol)}:
             </div>
-            <div className="col-8">RBTC</div>
+            <div className="tw-col-span-8">RBTC</div>
           </div>
-          <div className="row">
-            <div className="col-4">
+          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+            <div className="tw-col-span-4">
               {t(translations.rskConnectTutorial.input_settings.explorer_url)}:
             </div>
-            <div className="col-8">
+            <div className="tw-col-span-8">
               <CopyToClipboard
                 text="https://public-node.rsk.co"
                 onCopy={() => alert('Copied!')}
               >
-                <span className="cursor-pointer">
+                <span className="tw-cursor-pointer">
                   https://explorer.rsk.co{' '}
                   <Icon icon="duplicate" iconSize={10} />
                 </span>
@@ -152,8 +149,8 @@ export function Screen3(props) {
           </div>
         </div>
         <a href={deepLinks[props.wallet]}>
-          <div className="open-wallet position-absolute rounded py-3 px-5">
-            <p className="m-0">Open {props.wallet}</p>
+          <div className="open-wallet tw-absolute tw-rounded tw-py-4 tw-px-12">
+            <p className="tw-m-0">Open {props.wallet}</p>
           </div>
         </a>
       </div>

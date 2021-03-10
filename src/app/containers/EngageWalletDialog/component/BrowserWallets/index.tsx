@@ -81,17 +81,17 @@ export function BrowserWallets(props: Props) {
   return (
     <>
       <div className="screen1">
-        <div className="badger1 position-absolute">
-          <img src={badger1} alt="" className="h-100 w-100" />
+        <div className="badger1 tw-absolute">
+          <img src={badger1} alt="" className="tw-h-full tw-w-full" />
         </div>
-        <div className="planet position-absolute">
-          <img src={planet} alt="" className="h-100 w-100" />
+        <div className="planet tw-absolute">
+          <img src={planet} alt="" className="tw-h-full tw-w-full" />
         </div>
-        <div className="wallet-holder d-flex flex-row justify-content-center align-items-center">
+        <div className="wallet-holder tw-flex tw-flex-row tw-justify-center tw-items-center">
           {detectInjectableWallet() !== 'none' ? (
             <>
               <div
-                className="wallet-block d-flex justify-content-center align-items-center flex-column"
+                className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
                 onClick={handleBrowserClick}
               >
                 <div
@@ -106,7 +106,7 @@ export function BrowserWallets(props: Props) {
               href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
               target="_blank"
               rel="noreferrer noopener"
-              className="wallet-block d-flex justify-content-center align-items-center flex-column"
+              className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
             >
               <div
                 className="wallet-icon"
@@ -117,7 +117,7 @@ export function BrowserWallets(props: Props) {
           )}
 
           <div
-            className="wallet-block d-flex justify-content-center align-items-center flex-column"
+            className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
             onClick={handlePortisClick}
           >
             <div
@@ -132,7 +132,7 @@ export function BrowserWallets(props: Props) {
               href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
               target="_blank"
               rel="noreferrer noopener"
-              className="wallet-block d-flex justify-content-center align-items-center flex-column"
+              className="wallet-block tw-flex tw-justify-center tw-items-center tw-flex-col"
             >
               <div
                 className="wallet-icon"

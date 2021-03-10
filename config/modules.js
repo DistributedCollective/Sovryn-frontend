@@ -62,17 +62,31 @@ function getAdditionalModulePaths(options = {}) {
 function getWebpackAliases(options = {}) {
   const baseUrl = options.baseUrl;
 
+  const tsPaths = Object.fromEntries(
+    Object.entries(options.paths || {}).map(([key, values]) => {
+      return [
+        key.replace('/*', ''),
+        path.resolve(baseUrl, values[0]).replace('/*', '/'),
+      ];
+    }),
+  );
+
   if (!baseUrl) {
-    return {};
+    return tsPaths;
   }
 
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
   if (path.relative(paths.appPath, baseUrlResolved) === '') {
-    return {
-      src: paths.appSrc,
-    };
+    return Object.assign(
+      {
+        src: paths.appSrc,
+      },
+      tsPaths,
+    );
   }
+
+  return tsPaths;
 }
 
 /**

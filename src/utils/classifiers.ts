@@ -1,5 +1,4 @@
 import { TxType } from '../store/global/transactions-store/types';
-import { isChecked } from './helpers';
 
 export const chains = {
   mainnet: 30,
@@ -10,14 +9,6 @@ export const currentNetwork =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
 
 export const currentChainId = chains[currentNetwork];
-
-export const disableNewTrades = isChecked(
-  process.env.REACT_APP_DISABLE_NEW_TRADES,
-);
-
-export const disableNewTradesText = `We have temporarily put deposits and trading on hold. This will give
-          the team time to improve warnings if liquidity is low. Thank you all
-          for your feedback and helping improve the system!`;
 
 export const blockExplorers = {
   30: 'https://explorer.rsk.co',
@@ -33,16 +24,12 @@ export const networkNames = {
 
 export const rpcNodes = {
   30: 'https://mainnet.sovryn.app/rpc',
-  // 30: 'https://mainnetbackup.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const readNodes = {
   30: 'wss://mainnet.sovryn.app/ws',
-  // 30: 'wss://mainnetbackup.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
-  // 30: 'https://public-node.rsk.co',
-  // 31: 'https://public-node.testnet.rsk.co',
 };
 
 export const fastBtcApis = {
@@ -75,6 +62,8 @@ export const gasLimit = {
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
   [TxType.SALE_BUY_SOV]: 260000,
+  [TxType.SOV_REIMBURSE]: 100000,
+  [TxType.SOV_CONVERT]: 2700000,
 };
 
 export const SHOW_MODAL = 'SHOW_MODAL';

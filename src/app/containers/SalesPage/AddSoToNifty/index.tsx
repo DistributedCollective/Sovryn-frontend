@@ -62,25 +62,25 @@ export function AddSoToNifty() {
     >
       <div className={Classes.DIALOG_CONTAINER}>
         <StyledDialog>
-          <div className="w-100">
+          <div className="tw-w-full">
             <Close onClick={() => dispatch(actions.showTokenTutorial(false))} />
             <Title>How to connect SOV to your Nifty wallet</Title>
-            <div className="d-flex flex-row justify-content-between align-items-center">
+            <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
               <LeftBlock>
-                <p className="text-center mb-3">{steps[step].title}</p>
-                <div className="bg-white rounded p-4 text-center">
+                <p className="tw-text-center tw-mb-4">{steps[step].title}</p>
+                <div className="tw-bg-white tw-rounded tw-p-6 tw-text-center">
                   <img
                     src={steps[step].image}
                     alt={steps[step].title}
-                    className="mx-auto"
+                    className="tw-mx-auto"
                   />
                 </div>
-                <div className="d-flex flex-row justify-content-center align-items-center mt-3">
+                <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-4">
                   <NavBtn onClick={handleBack}>
                     <Icon
                       icon="caret-left"
                       iconSize={24}
-                      className="text-white"
+                      className="tw-text-white"
                     />
                   </NavBtn>
                   {steps.map((_, i) => (
@@ -94,7 +94,7 @@ export function AddSoToNifty() {
                     <Icon
                       icon="caret-right"
                       iconSize={24}
-                      className="text-white"
+                      className="tw-text-white"
                     />
                   </NavBtn>
                 </div>
@@ -102,49 +102,49 @@ export function AddSoToNifty() {
               <RightBlock>
                 <SettingsTitle>SOV TOKEN SETTINGS</SettingsTitle>
                 <Wrapper>
-                  <div className="row mb-3">
+                  <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
                     <Text
-                      className="col-6 font-weight-bold"
+                      className="tw-col-span-6 tw-font-bold"
                       ellipsize
                       tagName="div"
                     >
                       Contract Address:
                     </Text>
-                    <div className="col-6">
+                    <div className="tw-col-span-6">
                       <CopyToClipboard
                         text={getTokenContract(Asset.CSOV).address}
                       >
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <Text ellipsize tagName="div">
                             {prettyTx(getTokenContract(Asset.CSOV).address)}
                           </Text>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-6 font-weight-bold">Symbol:</div>
-                    <div className="col-6">
+                  <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+                    <div className="tw-col-span-6 tw-font-bold">Symbol:</div>
+                    <div className="tw-col-span-6">
                       <CopyToClipboard text="SOV">
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>SOV</div>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
                       </CopyToClipboard>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-6 font-weight-bold">Decimals:</div>
-                    <div className="col-6">
+                  <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+                    <div className="tw-col-span-6 tw-font-bold">Decimals:</div>
+                    <div className="tw-col-span-6">
                       <CopyToClipboard text={18}>
-                        <div className="d-flex flex-row justify-content-between align-items-center cursor-pointer font-weight-light">
+                        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-cursor-pointer tw-font-light">
                           <div>18</div>
-                          <div className="flex-shrink-0 flex-grow-0 ml-2">
+                          <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-2">
                             <Icon icon="duplicate" intent="warning" />
                           </div>
                         </div>
@@ -152,7 +152,7 @@ export function AddSoToNifty() {
                     </div>
                   </div>
                 </Wrapper>
-                <div className="w-full d-flex flex-row justify-content-center align-items-center">
+                <div className="tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center">
                   <CloseButton
                     onClick={() => dispatch(actions.showTokenTutorial(false))}
                   >
@@ -234,7 +234,7 @@ const CloseButton = styled.button.attrs(_ => ({
 const Title = styled.div`
   font-size: 28px;
   font-weight: 500;
-  text-align: center;
+  tw-text-align: center;
   margin-bottom: 64px;
   margin-top: 40px;
 `;
@@ -242,7 +242,7 @@ const Title = styled.div`
 const SettingsTitle = styled.div`
   font-size: 18px;
   font-weight: 600;
-  text-align: center;
+  tw-text-align: center;
 `;
 
 const LeftBlock = styled.div`
@@ -260,7 +260,7 @@ const RightBlock = styled.div`
 
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0',
 }))`
   border: none;
   margin: 0 5px;
@@ -283,7 +283,7 @@ const NavRound = styled.button.attrs(_ => ({
 
 const NavBtn = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
 }))`
   border: none;
   margin: 0 5px;

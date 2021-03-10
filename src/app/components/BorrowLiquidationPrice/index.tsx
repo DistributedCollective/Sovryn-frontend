@@ -52,7 +52,7 @@ export function BorrowLiquidationPrice(props: Props) {
         <LoadableValue
           value={
             <>
-              <span className="text-muted">$ </span>
+              <span className="tw-text-muted">$ </span>
               {weiToFixed(value, 2)}
             </>
           }

@@ -27,6 +27,8 @@ import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
 import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
+import { useMaintenance } from '../../../../hooks/useMaintenance';
+import styles from './ActiveLoanTableContainer.module.css';
 
 interface Props {
   data: any;
@@ -40,6 +42,9 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedItem, setExpandedItem] = useState('');
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
+  const { checkMaintenance } = useMaintenance();
+  const openTradesLocked = checkMaintenance('openTradesSwaps');
+  const closeTradesLocked = checkMaintenance('closeTradesSwaps');
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -112,35 +117,55 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-end">
-            <div className="mr-1">
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-end">
+            <div
+              className={`tw-mr-1 ${
+                openTradesLocked?.maintenance_active ? styles.disabled : ''
+              }`}
+            >
               <Tooltip
-                content={t(translations.activeLoan.table.container.topUp)}
+                content={
+                  openTradesLocked?.maintenance_active
+                    ? openTradesLocked?.message
+                    : t(translations.activeLoan.table.container.topUp)
+                }
               >
                 <Icon
                   icon="double-chevron-up"
-                  className="text-green mr-1 rounded-circle border border-green p-1"
+                  className="tw-text-green-500 tw-mr-1 tw-rounded-full tw-border tw-border-green-500 tw-p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
-                    setPositionMarginModalOpen(true);
-                    setSelectedItem(item);
+                    if (!openTradesLocked?.maintenance_active) {
+                      setPositionMarginModalOpen(true);
+                      setSelectedItem(item);
+                    }
                   }}
                 />
               </Tooltip>
             </div>
-            <div>
+            <div
+              className={`${
+                closeTradesLocked?.maintenance_active ? styles.disabled : ''
+              }`}
+            >
               <Tooltip
-                content={t(translations.activeLoan.table.container.close)}
+                content={
+                  closeTradesLocked?.maintenance_active
+                    ? closeTradesLocked?.message
+                    : t(translations.activeLoan.table.container.close)
+                }
               >
                 <Icon
                   icon="cross"
-                  className="text-red ml-1 rounded-circle border border-red p-1"
+                  className="tw-text-red-500 tw-ml-1 tw-rounded tw-border tw-border-red-500 tw-p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
-                    setPositionCloseModalOpen(true);
-                    setSelectedItem(item);
+                    if (!closeTradesLocked?.maintenance_active) {
+                      setPositionCloseModalOpen(true);
+                      setSelectedItem(item);
+                    }
                   }}
                 />
               </Tooltip>
@@ -149,6 +174,7 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data, t]);
 
   useEffect(() => {

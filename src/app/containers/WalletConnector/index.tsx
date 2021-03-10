@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
+import blockies from 'ethereum-blockies';
 import styled from 'styled-components/macro';
 import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -43,20 +44,34 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     Sovryn.disconnect().then(() => {});
   };
 
+  const getWalletAddrBlockieImg = (): string => {
+    return blockies
+      .create({
+        // All options are optional
+        seed: address, // seed used to generate icon data, default: random
+        color: '#dfe', // to manually specify the icon color, default: random
+        bgcolor: '#aaa', // choose a different background color, default: random
+        size: 8, // width/height of the icon in blocks, default: 8
+        scale: 3, // width/height of each block in pixels, default: 4
+        spotcolor: '#000', // each pixel has a 13% chance of being of a third color,
+      })
+      .toDataURL();
+  };
+
   return (
-    <div className="justify-content-center align-items-center d-none d-md-flex">
+    <div className="tw-justify-center tw-items-center tw-hidden md:tw-flex">
       {!connected && !address ? (
         <StyledButton
           onClick={handleWalletConnection}
-          className="d-flex justify-content-center align-items-center"
+          className="tw-flex tw-justify-center tw-items-center"
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
             <>
-              <span className="d-none d-xl-inline">
+              <span className="tw-hidden xl:tw-inline">
                 {t(translations.wallet.connect_btn)}
               </span>
-              <Icon icon="log-in" className="d-xl-none" />
+              <Icon icon="log-in" className="xl:tw-hidden" />
             </>
           )}
         </StyledButton>
@@ -79,9 +94,16 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             }
           >
             <>
-              <div className="engage-wallet w-auto justify-content-center align-items-center d-none d-xl-flex cursor-pointer">
-                <span className="d-flex flex-nowrap flex-row align-items-center w-100 justify-content-between">
+              <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
+                <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between">
                   <span>{prettyTx(address, 4, 4)}</span>
+                  <span className="tw-pl-2">
+                    <img
+                      className="tw-rounded"
+                      src={getWalletAddrBlockieImg()}
+                      alt="wallet address"
+                    />
+                  </span>
                   <Icon
                     icon="log-out"
                     className="logout"
@@ -89,7 +111,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   />
                 </span>
               </div>
-              <StyledButton className="d-xl-none">
+              <StyledButton className="xl:tw-hidden">
                 <Icon icon="user" />
               </StyledButton>
             </>

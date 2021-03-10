@@ -28,10 +28,7 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
-import {
-  disableNewTrades,
-  disableNewTradesText,
-} from '../../../utils/classifiers';
+import { useMaintenance } from '../../hooks/useMaintenance';
 
 const s = translations.swapTradeForm;
 
@@ -63,6 +60,9 @@ export function SwapTradeForm() {
     'getConvertibleTokens',
     [],
   );
+
+  const { checkMaintenance } = useMaintenance();
+  const swapsLocked = checkMaintenance('openTradesSwaps');
 
   const getOptions = useCallback(() => {
     return (tokens
@@ -139,8 +139,8 @@ export function SwapTradeForm() {
   return (
     <>
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <AmountField
               onChange={value => setAmount(value)}
               onMaxClicked={() =>
@@ -149,24 +149,25 @@ export function SwapTradeForm() {
               value={amount}
             />
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setSourceToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}
               value={sourceToken}
               items={sourceOptions}
+              isItemDisabled={targetToken}
             />
           </div>
         </div>
       </FieldGroup>
 
-      <div className="d-flex justify-content-center align-items-center py-2">
+      <div className="tw-flex tw-justify-center tw-items-center tw-py-2">
         <Icon icon="arrow-down" />
       </div>
 
       <FieldGroup label={t(s.fields.receive)} labelColor={color}>
-        <div className="row">
-          <div className="col-8">
+        <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+          <div className="tw-col-span-8">
             <DummyField>
               <LoadableValue
                 value={<>{weiToFixed(rateByPath, 8)}</>}
@@ -174,12 +175,13 @@ export function SwapTradeForm() {
               />
             </DummyField>
           </div>
-          <div className="col-4">
+          <div className="tw-col-span-4">
             <FormSelect
               onChange={value => setTargetToken(value.key)}
               placeholder={t(s.fields.currency_placeholder)}
               value={targetToken}
               items={targetOptions}
+              isItemDisabled={sourceToken}
             />
           </div>
         </div>
@@ -187,16 +189,16 @@ export function SwapTradeForm() {
 
       <SendTxProgress {...tx} displayAbsolute={false} />
 
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <AssetWalletBalance asset={sourceToken} />
         </div>
         <TradeButton
           text={t(s.buttons.submit)}
           onClick={() => send()}
-          hideIt={disableNewTrades}
+          hideIt={swapsLocked?.maintenance_active}
           disabled={
-            disableNewTrades ||
+            swapsLocked?.maintenance_active ||
             !isConnected ||
             tx.loading ||
             amount <= '0' ||
@@ -206,8 +208,8 @@ export function SwapTradeForm() {
           loading={tx.loading}
           textColor={color}
           tooltip={
-            disableNewTrades ? (
-              <div className="mw-tooltip">{disableNewTradesText}</div>
+            swapsLocked?.maintenance_active ? (
+              <div className="mw-tooltip">{swapsLocked?.message}</div>
             ) : undefined
           }
         />

@@ -1,0 +1,55 @@
+.banner {
+  width: 100%;
+  height: 90px;
+  background: url("./assets/290x90.svg") center center no-repeat;
+  background-size: 290px 90px;
+  margin: 0 auto;
+}
+
+.banner.windows {
+  background-image: url("./assets/290x90.png");
+}
+
+@media screen and (min-width: 576px) {
+  .banner {
+    width: 540px;
+    background-image: url("./assets/540x90.svg");
+    background-size: 540px 90px;
+  }
+  .banner.windows {
+    background-image: url("./assets/540x90.png");
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .banner {
+    width: 720px;
+    background-image: url("./assets/720x90.svg");
+    background-size: 720px 90px;
+  }
+  .banner.windows {
+    background-image: url("./assets/720x90.png");
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .banner {
+    width: 960px;
+    background-image: url("./assets/960x90.svg");
+    background-size: 960px 90px;
+  }
+  .banner.windows {
+    background-image: url("./assets/960x90.png");
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .banner {
+    width: 1140px;
+    background-image: url("./assets/1140x90.svg");
+    background-size: 1140px 90px;
+  }
+  .banner.windows {
+    background-image: url("./assets/1140x90.png");
+  }
+}
