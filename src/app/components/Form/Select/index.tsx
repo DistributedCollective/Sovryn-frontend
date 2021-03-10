@@ -8,6 +8,7 @@ import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
 import { areOptionsEqual, filterItem, renderItem } from './renderers';
 import styles from './index.module.css';
+import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
 
 interface Props<K = string, V = string, P = any> {
   value: K;
@@ -20,6 +21,7 @@ interface Props<K = string, V = string, P = any> {
   className?: string;
   innerClasses?: string;
   valueRenderer?: (item: Option<K, V, P>) => JSX.Element;
+  itemRenderer: ItemRenderer<Option<K, V, P>>;
 }
 
 const Selector = BP_Select.ofType<Option>();
@@ -58,13 +60,17 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
       noResults={
         <MenuItem disabled text={t(translations.form.select.noResults)} />
       }
-      itemRenderer={renderItem}
+      itemRenderer={props.itemRenderer as any}
       itemPredicate={filterItem}
       onItemSelect={onItemSelect}
-      itemsEqual={areOptionsEqual}
+      itemsEqual={areOptionsEqual as any}
     >
       <div className={classNames(styles.wrapperContainer, props.innerClasses)}>
-        <div className="tw-flex-grow tw-flex-shrink tw-w-full">
+        <div
+          className={classNames('tw-flex-grow tw-flex-shrink tw-w-full', {
+            'tw-text-center': !selected,
+          })}
+        >
           {selected ? (
             <>{(props as any).valueRenderer(selected)}</>
           ) : (
@@ -86,4 +92,5 @@ Select.defaultProps = {
   placeholder: <Trans i18nKey={translations.form.select.placeholder} />,
   innerClasses: styles.wrapper,
   valueRenderer: (item: Option) => <Text ellipsize>{item.label}</Text>,
+  itemRenderer: renderItem,
 };

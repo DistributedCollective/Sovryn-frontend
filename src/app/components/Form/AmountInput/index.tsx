@@ -1,9 +1,9 @@
 import React from 'react';
+import { bignumber } from 'mathjs';
 import { Input } from '../Input';
 import { Asset } from '../../../../types/asset';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { bignumber } from 'mathjs';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 
 interface Props {
