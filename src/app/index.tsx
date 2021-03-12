@@ -16,6 +16,7 @@ import { EngageWalletDialog } from './containers/EngageWalletDialog/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
+import { SwapPage } from './containers/SwapPage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { currentNetwork } from '../utils/classifiers';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
@@ -85,6 +86,7 @@ export function App() {
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
+            <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route

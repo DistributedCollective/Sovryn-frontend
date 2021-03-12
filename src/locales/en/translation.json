@@ -214,6 +214,10 @@
     "text": "Page not found.",
     "backHome": "Go home"
   },
+  "swap": {
+    "title": "Swap",
+    "meta": "Swap"
+  },
   "liquidity": {
     "title": "Liquidity",
     "meta": "Add liquidity",
