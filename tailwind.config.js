@@ -27,8 +27,10 @@ module.exports = {
       // new
       primary: '#fec004',
       secondary: '#2274A5',
-      gray1: '#333333',
-      gray2: '#191919',
+      gray: {
+        1: '#333333',
+        2: '#191919',
+      },
       white: '#E9EAE9',
       black: '#000000',
 
