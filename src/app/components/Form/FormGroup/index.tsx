@@ -24,15 +24,15 @@ export function FormGroup({
   }, [props.id]);
 
   return (
-    <div className={cn('tw-from-group', className)}>
+    <div className={cn('tw-form-group', className)}>
       {props.label && (
-        <label htmlFor={id} className="tw-from-group-label">
+        <label htmlFor={id} className="tw-form-group-label">
           {props.label}
         </label>
       )}
       <PassPropsToChildren id={id}>{children}</PassPropsToChildren>
       {describe && (
-        <div className={cn('tw-from-group-describe', props.describeClassName)}>
+        <div className={cn('tw-form-group-describe', props.describeClassName)}>
           {describe}
         </div>
       )}
@@ -55,5 +55,5 @@ function PassPropsToChildren({
     return child;
   });
 
-  return <div className="tw-from-group-content">{childrenWithProps}</div>;
+  return <div className="tw-form-group-content">{childrenWithProps}</div>;
 }
