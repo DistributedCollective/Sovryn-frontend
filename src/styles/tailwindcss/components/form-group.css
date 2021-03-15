@@ -1,19 +1,19 @@
 @layer components {
-  .tw-from-group {
+  .tw-form-group {
   }
 
-  .tw-from-group-label {
+  .tw-form-group-label {
     @apply tw-text-white tw-font-medium tw-text-base;
     @apply tw-block;
   }
 
-  .tw-from-group-content {
+  .tw-form-group-content {
     @apply tw-text-white tw-font-medium tw-text-base;
     @apply tw-my-2.5;
     @apply tw-block;    
   }
 
-  .tw-from-group-describe {
+  .tw-form-group-describe {
     @apply tw-text-white tw-text-xs tw-font-normal;
     @apply tw-block;
   }
