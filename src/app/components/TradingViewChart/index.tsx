@@ -4,106 +4,133 @@
  *
  */
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Chart from 'kaktana-react-lightweight-charts';
 import { Skeleton } from '../PageSkeleton';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 
 enum Theme {
   LIGHT = 'Light',
   DARK = 'Dark',
 }
 
+enum ChartType {
+  LINE = 'line',
+  CANDLE = 'candle',
+}
+
 export interface ChartContainerProps {
+  rate: number;
   symbol: string;
+  type: ChartType;
   theme: Theme;
 }
 
+interface ChartData {
+  data: any[];
+}
+
 export function TradingViewChart(props: ChartContainerProps) {
-  const [hasCharts, setHasCharts] = useState(true);
+  const threeMonths = 7257600000; //3 months in ms
+  const initData: ChartData[] = [{ data: [] }];
+  const [hasCharts, setHasCharts] = useState<boolean>(false);
+  const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
+  const [lastTime, setLastTime] = useState<number>(
+    new Date().getTime() - threeMonths,
+  );
+
+  const resetChart = () => {
+    setHasCharts(false);
+    setChartData(initData.slice());
+    setLastTime(new Date().getTime() - threeMonths);
+  };
+
+  const seriesProps = {
+    candlestickSeries: props.type === ChartType.CANDLE ? chartData : undefined,
+    lineSeries: props.type === ChartType.LINE ? chartData : undefined,
+  };
 
   useEffect(() => {
-    try {
-      // @ts-ignore
-      const widget = new TradingView.widget({
-        width: 980,
-        height: 610,
-        symbol: props.symbol.toLowerCase(),
-        interval: '30' as any,
-        timezone: 'Etc/UTC',
-        // theme: 'Dark',
-        locale: 'en',
-        toolbar_bg: '#171717',
-        enable_publishing: false,
-        allow_symbol_change: true,
-        container_id: 'trading-view-container',
-        autosize: true,
-        fullscreen: false,
-        studies_overrides: {
-          'volume.volume.color.0': '#fec006',
-          'volume.volume.color.1': '#3fcfb4',
-          'volume.volume.transparency': 75,
-        },
-        disabled_features: [
-          'left_toolbar',
-          'header_compare',
-          'header_undo_redo',
-          'header_saveload',
-          'header_settings',
-          'header_screenshot',
-          'use_localstorage_for_settings',
-          'header_fullscreen_button',
-          'go_to_date',
-        ],
-        // enabled_features: ['study_templates'],
-        loading_screen: { backgroundColor: '#171717' },
-        overrides: {
-          'paneProperties.background': '#171717',
-          'paneProperties.vertGridProperties.color': '#363c4e',
-          'paneProperties.horzGridProperties.color': '#363c4e',
-          'symbolWatermarkProperties.transparency': 200,
-          'scalesProperties.textColor': '#AAA',
-          // 'mainSeriesProperties.candleStyle.wickUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.candleStyle.upColor': '#4ecdc4',
-          // 'mainSeriesProperties.candleStyle.wickDownColor': '#fec006',
-          // 'mainSeriesProperties.candleStyle.downColor': '#fec006',
-          // 'mainSeriesProperties.candleStyle.borderColor': '#4ecdc4',
-          // 'mainSeriesProperties.candleStyle.borderUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.candleStyle.borderDownColor': '#fec006',
-          // 'mainSeriesProperties.hollowCandleStyle.wickUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.hollowCandleStyle.upColor': '#4ecdc4',
-          // 'mainSeriesProperties.hollowCandleStyle.wickDownColor': '#fec006',
-          // 'mainSeriesProperties.hollowCandleStyle.downColor': '#fec006',
-          // 'mainSeriesProperties.hollowCandleStyle.borderColor': '#4ecdc4',
-          // 'mainSeriesProperties.hollowCandleStyle.borderUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.hollowCandleStyle.borderDownColor': '#fec006',
-          // 'mainSeriesProperties.haStyle.wickUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.haStyle.upColor': '#4ecdc4',
-          // 'mainSeriesProperties.haStyle.wickDownColor': '#fec006',
-          // 'mainSeriesProperties.haStyle.downColor': '#fec006',
-          // 'mainSeriesProperties.haStyle.borderColor': '#4ecdc4',
-          // 'mainSeriesProperties.haStyle.borderUpColor': '#4ecdc4',
-          // 'mainSeriesProperties.haStyle.borderDownColor': '#fec006',
-          // 'mainSeriesProperties.lineStyle.color': '#4ecdc4',
-          // 'mainSeriesProperties.areaStyle.color1': '#4ecdc4',
-          // 'mainSeriesProperties.areaStyle.color2': '#0098c4',
-          // 'mainSeriesProperties.areaStyle.linecolor': '#4ecdc4',
-          'mainSeriesProperties.areaStyle.transparency': 90,
-        },
-      });
-      setHasCharts(true);
-      return () => {
-        widget.remove();
-      };
-    } catch (e) {
-      setHasCharts(false);
+    function getData() {
+      axios
+        .post(backendUrl[currentChainId] + '/price', {
+          type: props.type,
+          symbol: props.symbol,
+          startTime: lastTime,
+        })
+        .then(response => {
+          //console.log(response);
+          if (response.data && response.data.series) {
+            let newSeries: Array<any> = [];
+            if (chartData[0].data.length > 0) {
+              // remove old datums, starting at the one with same time as first new one that was received
+              newSeries = chartData[0].data.slice();
+              const firstVal = response.data.series[0];
+              const len = newSeries.length - 1;
+              let i = -1;
+              for (let x = len; x >= 0; x--)
+                if (newSeries[x].time === firstVal.time) {
+                  i = x;
+                  break;
+                }
+              if (i > -1) newSeries = newSeries.slice(0, i);
+            }
+            newSeries = newSeries.concat(response.data.series);
+            // console.log(newSeries);
+            setChartData([{ data: newSeries }]);
+            const latest = newSeries[newSeries.length - 1];
+            setLastTime(latest.time * 1e3); // datum time is in seconds, lastTime is ms
+            console.log(latest.time, latest.close);
+            setHasCharts(true);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          setHasCharts(false);
+        });
     }
-  }, [props.symbol]);
+
+    getData();
+    const interval = setInterval(() => getData(), props.rate * 1e3);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastTime]);
+
+  useEffect(() => {
+    resetChart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.symbol, props.rate, props.type]);
 
   return (
-    <div
-      id={'trading-view-container'}
-      className={'w-100 h-100 bg-primary'}
-      style={{ minHeight: 320 }}
-    >
-      {!hasCharts && (
+    <div className="w-100 h-100 bg-primary" style={{ minHeight: 500 }}>
+      {hasCharts ? (
+        <Chart
+          options={{
+            alignLabels: true,
+            timeScale: {
+              rightOffset: 12,
+              barSpacing: 3,
+              shiftVisibleRangeOnNewBar: true,
+              rightBarStaysOnScroll: true,
+              borderVisible: false,
+              borderColor: '#fff000',
+              visible: true,
+              timeVisible: true,
+              secondsVisible: true,
+            },
+            localization: {
+              locale: 'en-US',
+            },
+          }}
+          legend={props.symbol}
+          darkTheme={props.theme === Theme.DARK}
+          autoWidth
+          autoHeight
+          {...seriesProps}
+        />
+      ) : (
         <>
           <div className="row h-100 d-flex align-content-end">
             <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
@@ -135,5 +162,7 @@ export function TradingViewChart(props: ChartContainerProps) {
 }
 
 TradingViewChart.defaultProps = {
+  rate: 15,
+  type: ChartType.CANDLE,
   theme: Theme.DARK,
 };
