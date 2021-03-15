@@ -1,0 +1,20 @@
+@layer components {
+  .tw-from-group {
+  }
+
+  .tw-from-group-label {
+    @apply tw-text-white tw-font-medium tw-text-base;
+    @apply tw-block;
+  }
+
+  .tw-from-group-content {
+    @apply tw-text-white tw-font-medium tw-text-base;
+    @apply tw-my-2.5;
+    @apply tw-block;    
+  }
+
+  .tw-from-group-describe {
+    @apply tw-text-white tw-text-xs tw-font-normal;
+    @apply tw-block;
+  }
+}
