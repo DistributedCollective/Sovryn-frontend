@@ -1,0 +1,38 @@
+@layer components {
+  .tw-qrcode-container {
+    @apply tw-w-min;
+    @apply tw-mx-auto;
+  }
+  .tw-qrcode-label {
+    @apply tw-mb-2.5;
+    @apply tw-font-medium tw-text-base tw-text-white;
+  }
+  .tw-qrcode-wrapper {
+    border-radius: 10px;
+    @apply tw-h-full tw-bg-white tw-text-center;
+  }
+  .tw-qrcode-wrapper svg {
+    border-radius: 10px;
+    @apply tw-w-full tw-h-full tw-py-6 tw-px-20;
+  }
+  .tw-qrcode-wrapper path:first-child {
+    @apply tw-fill-current tw-text-white;
+  }
+  .tw-qrcode-wrapper path:nth-child(2) {
+    @apply tw-fill-current tw-text-black;
+  }
+
+  .tw-qrcode-clipboard {
+    @apply tw-mt-5;
+  }
+  .tw-qrcode-clipboard .tw-qrcode-address-wrapper {
+    @apply tw-cursor-pointer;
+    @apply tw-py-3 tw-px-5;
+    @apply tw-rounded-lg;
+    @apply tw-border tw-border-dark-1 tw-border-solid;
+    @apply tw-bg-gray-2;
+  }
+  .tw-qrcode-clipboard .tw-qrcode-address-wrapper svg path:nth-child(2) {
+    @apply tw-fill-current tw-text-secondary;
+  }
+}
