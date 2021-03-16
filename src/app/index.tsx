@@ -85,6 +85,7 @@ export function App() {
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/buy" component={WalletPage} />
             <Route
               exact
               path="/optin-success"

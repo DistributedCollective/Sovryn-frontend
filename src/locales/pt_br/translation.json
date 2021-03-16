@@ -153,6 +153,7 @@
     "lend": "Empréstimos",
     "fastBtc": "Depositar-Btc",
     "wallet": "Portfólio",
+    "buy": "Comprar BTC",
     "liquidity": "Liquidez",
     "stats": "Dados",
     "faqs": "FAQs",
@@ -558,6 +559,12 @@
       "userAssets": "Meus ativos",
       "vestedAssets": "Ativos adquiridos",
       "userNFTS": "NFTS"
+    }
+  },
+  "buyBTCPage": {
+    "meta": {
+      "title": "Compra Bitcoin",
+      "description": "Compra BTC com fiat"
     }
   },
   "salesPage": {

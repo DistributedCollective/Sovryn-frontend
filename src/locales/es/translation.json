@@ -141,6 +141,7 @@
     "lend": "Inversión/Préstamo",
     "fastBtc": "Recarga",
     "wallet": "My wallet",
+    "buy": "Comprar BTC",
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
     "faqs": "FAQ",
@@ -457,7 +458,12 @@
       "userNFTS": "NFTS"
     }
   },
-
+  "buyBTCPage": {
+    "meta": {
+      "title": "Compra Bitcoin",
+      "description": "Compra BTC con fíat"
+    }
+  },
   "salesPage": {
     "meta": {
       "title": "Presale",
