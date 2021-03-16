@@ -53,10 +53,11 @@ export function TradingViewChart(props: ChartContainerProps) {
   useEffect(() => {
     function getData() {
       axios
-        .post(backendUrl[currentChainId] + '/price', {
-          type: props.type,
-          symbol: props.symbol,
-          startTime: lastTime,
+        .get(`${backendUrl[currentChainId]}/datafeed/price/${props.symbol}`, {
+          params: {
+            type: props.type,
+            startTime: lastTime,
+          },
         })
         .then(response => {
           //console.log(response);
