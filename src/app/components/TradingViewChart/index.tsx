@@ -5,7 +5,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Chart from 'kaktana-react-lightweight-charts';
+import Chart from 'utils/kaktana-react-lightweight-charts/Chart';
 import { Skeleton } from '../PageSkeleton';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
@@ -110,12 +110,11 @@ export function TradingViewChart(props: ChartContainerProps) {
           options={{
             alignLabels: true,
             timeScale: {
-              rightOffset: 12,
+              rightOffset: 5,
               barSpacing: 3,
               shiftVisibleRangeOnNewBar: true,
               rightBarStaysOnScroll: true,
               borderVisible: false,
-              borderColor: '#fff000',
               visible: true,
               timeVisible: true,
               secondsVisible: true,
