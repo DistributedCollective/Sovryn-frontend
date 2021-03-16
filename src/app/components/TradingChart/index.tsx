@@ -1,6 +1,6 @@
 /**
  *
- * TradingViewChart
+ * TradingChart
  *
  */
 import React, { useEffect, useState } from 'react';
@@ -26,11 +26,17 @@ export interface ChartContainerProps {
   theme: Theme;
 }
 
+// detailed description of series options https://github.com/kaktana/kaktana-react-lightweight-charts#seriesobject
 interface ChartData {
   data: any[];
+  options?: any;
+  markers?: any;
+  priceLines?: any;
+  legend?: string;
+  linearInterpolation?: number;
 }
 
-export function TradingViewChart(props: ChartContainerProps) {
+export function TradingChart(props: ChartContainerProps) {
   const threeMonths = 7257600000; //3 months in ms
   const initData: ChartData[] = [{ data: [] }];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
@@ -161,7 +167,7 @@ export function TradingViewChart(props: ChartContainerProps) {
   );
 }
 
-TradingViewChart.defaultProps = {
+TradingChart.defaultProps = {
   rate: 15,
   type: ChartType.CANDLE,
   theme: Theme.DARK,
