@@ -309,12 +309,6 @@ class Chart extends React.Component {
                 ? 'rgba(0, 150, 136, 0.8)'
                 : 'rgba(255,82,82, 0.8)';
             price = `O: ${price.open}, H: ${price.high}, L: ${price.low}, C: ${price.close}`;
-          } else {
-            color =
-              price.open < price.close
-                ? 'rgba(0, 150, 136, 0.8)'
-                : 'rgba(255,82,82, 0.8)';
-            price = price.value;
           }
           const stamp = new Date(param.time * 1e3);
           // prettier-ignore
