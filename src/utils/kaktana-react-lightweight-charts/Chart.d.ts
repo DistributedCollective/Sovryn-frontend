@@ -22,6 +22,7 @@ interface Props {
   onCrosshairMove?: MouseEventHandler;
   onTimeRangeMove?: TimeRangeChangeEventHandler;
   darkTheme?: boolean;
+  className?: string;
 }
 
 export default class Chart extends React.Component<Props> {}

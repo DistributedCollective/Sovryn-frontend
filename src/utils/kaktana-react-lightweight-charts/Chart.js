@@ -1,4 +1,4 @@
-// Code adapted  from https://github.com/Kaktana/kaktana-react-lightweight-charts to use v3.3.0 of lightweight-charts, as the project is longer maintained.
+// Code adapted from https://github.com/Kaktana/kaktana-react-lightweight-charts to use v3.3.0 of lightweight-charts, as the project is longer maintained.
 // kaktana-react-lightweight-charts is released under MIT license. You are free to use, modify and distribute this software, as long as the copyright header is left intact.
 import React from 'react';
 import equal from 'fast-deep-equal';
@@ -24,7 +24,7 @@ const colors = [
 
 const darkTheme = {
   layout: {
-    backgroundColor: '#131722',
+    backgroundColor: '#171717',
     lineColor: '#2B2B43',
     textColor: '#D9D9D9',
   },
@@ -35,6 +35,9 @@ const darkTheme = {
     horzLines: {
       color: '#363c4e',
     },
+  },
+  styles: {
+    border: '1px solid #ffffff',
   },
 };
 
@@ -52,6 +55,9 @@ const lightTheme = {
       color: '#e1ecf2',
     },
   },
+  styles: {
+    border: '1px solid #000000',
+  },
 };
 
 class Chart extends React.Component {
@@ -59,6 +65,7 @@ class Chart extends React.Component {
     super(props);
     this.chartDiv = React.createRef();
     this.legendDiv = React.createRef();
+    this.legendDivLabel = null;
     this.chart = null;
     this.series = [];
     this.legends = [];
@@ -93,6 +100,7 @@ class Chart extends React.Component {
         [
           prevProps.options,
           prevProps.darkTheme,
+          prevProps.className,
           prevProps.candlestickSeries,
           prevProps.lineSeries,
           prevProps.areaSeries,
@@ -102,6 +110,7 @@ class Chart extends React.Component {
         [
           this.props.options,
           this.props.darkTheme,
+          this.props.className,
           this.props.candlestickSeries,
           this.props.lineSeries,
           this.props.areaSeries,
@@ -153,7 +162,8 @@ class Chart extends React.Component {
     if (serie.markers) series.setMarkers(serie.markers);
     if (serie.priceLines)
       serie.priceLines.forEach(line => series.createPriceLine(line));
-    if (serie.legend) this.addLegend(series, color, serie.legend);
+    if (serie.legend !== null && typeof serie.legend !== 'undefined')
+      this.addLegend(series, color, serie.legend);
     return series;
   };
 
@@ -256,6 +266,19 @@ class Chart extends React.Component {
       ...props.options,
     });
     chart.applyOptions(options);
+    if (this.chartDiv.current) {
+      let cDiv = this.chartDiv.current.getElementsByClassName(
+        'tv-lightweight-charts',
+      );
+      if (cDiv && cDiv.length > 0) {
+        let styleOpts = this.props.darkTheme
+          ? darkTheme.styles
+          : lightTheme.styles;
+        for (let key in styleOpts) {
+          if (cDiv[0]) cDiv[0].style[key] = styleOpts[key];
+        }
+      }
+    }
     if (this.legendDiv.current) this.legendDiv.current.innerHTML = '';
     this.legends = [];
     if (this.props.legend) this.handleMainLegend();
@@ -274,8 +297,8 @@ class Chart extends React.Component {
   };
 
   handleLegends = param => {
-    let div = this.legendDiv.current;
-    if (param.time && div && this.legends.length) {
+    let div = this.legendDivLabel;
+    if (param.time && div && this.legends) {
       div.innerHTML = '';
       this.legends.forEach(({ series, color, title }) => {
         let price = param.seriesPrices.get(series);
@@ -286,11 +309,22 @@ class Chart extends React.Component {
                 ? 'rgba(0, 150, 136, 0.8)'
                 : 'rgba(255,82,82, 0.8)';
             price = `O: ${price.open}, H: ${price.high}, L: ${price.low}, C: ${price.close}`;
+          } else {
+            color =
+              price.open < price.close
+                ? 'rgba(0, 150, 136, 0.8)'
+                : 'rgba(255,82,82, 0.8)';
+            price = price.value;
           }
+          const stamp = new Date(param.time * 1e3);
+          // prettier-ignore
+          const dateStamp = `${stamp.getFullYear()}-${stamp.getUTCMonth()+1}-${stamp.getUTCDate()}`;
           let row = document.createElement('div');
-          row.innerText = title + ' ';
+          row.style.fontSize = 'smaller';
+          row.innerText = `${title} ${dateStamp} `;
           let priceElem = document.createElement('span');
           priceElem.style.color = color;
+          priceElem.style.fontSize = 'smaller';
           priceElem.innerText = ' ' + price;
           row.appendChild(priceElem);
           div.appendChild(row);
@@ -304,6 +338,9 @@ class Chart extends React.Component {
       let row = document.createElement('div');
       row.innerText = this.props.legend;
       this.legendDiv.current.appendChild(row);
+      this.legendDivLabel = document.createElement('div');
+      this.legendDiv.current.appendChild(row);
+      this.legendDiv.current.appendChild(this.legendDivLabel);
     }
   };
 
@@ -313,7 +350,13 @@ class Chart extends React.Component {
       : lightTheme.layout.textColor;
 
     return (
-      <div ref={this.chartDiv} style={{ position: 'relative' }}>
+      <div
+        ref={this.chartDiv}
+        style={{
+          position: 'relative',
+        }}
+        className={this.props.className}
+      >
         <div
           ref={this.legendDiv}
           style={{

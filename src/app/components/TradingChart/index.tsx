@@ -9,12 +9,12 @@ import Chart from 'utils/kaktana-react-lightweight-charts/Chart';
 import { Skeleton } from '../PageSkeleton';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
-enum Theme {
+export enum Theme {
   LIGHT = 'Light',
   DARK = 'Dark',
 }
 
-enum ChartType {
+export enum ChartType {
   LINE = 'line',
   CANDLE = 'candle',
 }
@@ -38,7 +38,7 @@ interface ChartData {
 
 export function TradingChart(props: ChartContainerProps) {
   const threeMonths = 7257600000; //3 months in ms
-  const initData: ChartData[] = [{ data: [] }];
+  const initData: ChartData[] = [{ data: [], legend: '' }];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
   const [lastTime, setLastTime] = useState<number>(
@@ -67,7 +67,11 @@ export function TradingChart(props: ChartContainerProps) {
         })
         .then(response => {
           //console.log(response);
-          if (response.data && response.data.series) {
+          if (
+            response.data &&
+            response.data.series &&
+            response.data.series.length > 0
+          ) {
             let newSeries: Array<any> = [];
             if (chartData[0].data.length > 0) {
               // remove old datums, starting at the one with same time as first new one that was received
@@ -84,10 +88,10 @@ export function TradingChart(props: ChartContainerProps) {
             }
             newSeries = newSeries.concat(response.data.series);
             // console.log(newSeries);
-            setChartData([{ data: newSeries }]);
+            setChartData([{ data: newSeries, legend: '' }]);
             const latest = newSeries[newSeries.length - 1];
             setLastTime(latest.time * 1e3); // datum time is in seconds, lastTime is ms
-            console.log(latest.time, latest.close);
+            // console.log(latest.time, latest.close);
             setHasCharts(true);
           }
         })
