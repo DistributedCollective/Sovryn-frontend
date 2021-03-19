@@ -17,7 +17,6 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === 'development',
   require(resolveApp('package.json')).homepage,
   process.env.PUBLIC_URL,
-  process.env.TRANSAK_API_KEY,
 );
 
 const moduleFileExtensions = [
