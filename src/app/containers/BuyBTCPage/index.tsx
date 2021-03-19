@@ -8,7 +8,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { useIsConnected } from '../../hooks/useAccount';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { OpenTransak } from './components/transak';
@@ -16,7 +16,6 @@ import { OpenTransak } from './components/transak';
 export function BuyBTCPage() {
   const { t } = useTranslation();
   const connected = useIsConnected();
-  const account = useAccount();
   return (
     <>
       <Helmet>
@@ -34,9 +33,9 @@ export function BuyBTCPage() {
             {t(translations.buyBTCPage.meta.title)}
           </h2>
         </div>
-          <div className="row">
-            <div className="col-12 mt-2">{connected && <OpenTransak />}</div>
-          </div>
+        <div className="row">
+          <div className="col-12 mt-2">{connected && <OpenTransak />}</div>
+        </div>
         )
       </div>
       <Footer />
