@@ -4,7 +4,7 @@ import transakSDK from '@transak/transak-sdk';
 let transak = new transakSDK({
   apiKey: process.env.REACT_APP_TRANSAK_API_KEY, // Your API Key
   environment: 'STAGING', // STAGING/PRODUCTION
-  defaultCryptoCurrency: 'ETH',
+  defaultCryptoCurrency: 'BTC',
   walletAddress: '', // Your customer's wallet address
   themeColor: '000000', // App theme color
   fiatCurrency: '', // INR/GBP
