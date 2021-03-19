@@ -123,7 +123,8 @@
       "receive": "You receive"
     },
     "buttons": {
-      "submit": "Place Trade"
+      "submit": "Place Trade",
+      "switchAssets": "Switch Assets"
     }
   },
   "amountField": {
