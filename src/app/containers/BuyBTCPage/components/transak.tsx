@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import transakSDK from '@transak/transak-sdk';
 
 let transak = new transakSDK({
@@ -31,5 +31,5 @@ export function OpenTransak() {
     });
   }, []);
 
-  return true;
+  return <></>;
 }

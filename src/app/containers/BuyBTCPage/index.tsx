@@ -11,7 +11,7 @@ import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { OpenTransak } from '../../../utils/transak/transak';
+import { OpenTransak } from './components/transak';
 
 export function BuyBTCPage() {
   const { t } = useTranslation();
