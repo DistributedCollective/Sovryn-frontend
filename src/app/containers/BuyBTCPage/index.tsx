@@ -11,7 +11,7 @@ import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { openTransak } from '../../../utils/transak/transak';
+import { OpenTransak } from '../../../utils/transak/transak';
 
 export function BuyBTCPage() {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ export function BuyBTCPage() {
         </div>
         {connected && account ? (
           <div className="row">
-            <div className="col-12 mt-2">{openTransak()}</div>
+            <div className="col-12 mt-2">{OpenTransak()}</div>
           </div>
         ) : (
           <div className="row">

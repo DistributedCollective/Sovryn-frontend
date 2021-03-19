@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import transakSDK from '@transak/transak-sdk';
 
 let transak = new transakSDK({
@@ -14,19 +15,21 @@ let transak = new transakSDK({
   widgetWidth: '450px',
 });
 
-export function openTransak() {
-  transak.init();
+export function OpenTransak() {
+  useEffect(() => {
+    transak.init();
 
-  // To get all the events
-  transak.on(transak.ALL_EVENTS, data => {
-    console.log(data);
-  });
+    // To get all the events
+    transak.on(transak.ALL_EVENTS, data => {
+      console.log(data);
+    });
 
-  // This will trigger when the user marks payment is made.
-  transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
-    console.log(orderData);
-    transak.close();
-  });
+    // This will trigger when the user marks payment is made.
+    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
+      console.log(orderData);
+      transak.close();
+    });
+  }, []);
 
   return true;
 }
