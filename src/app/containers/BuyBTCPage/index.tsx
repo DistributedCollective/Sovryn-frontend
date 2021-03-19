@@ -34,15 +34,10 @@ export function BuyBTCPage() {
             {t(translations.buyBTCPage.meta.title)}
           </h2>
         </div>
-        {connected && account ? (
           <div className="row">
-            <div className="col-12 mt-2">{OpenTransak()}</div>
+            <div className="col-12 mt-2">{connected && <OpenTransak />}</div>
           </div>
-        ) : (
-          <div className="row">
-            <div className="col-12 mt-2"></div>
-          </div>
-        )}
+        )
       </div>
       <Footer />
     </>
