@@ -19,7 +19,7 @@ export class TradingPairDictionary {
         'BTC',
         // asset
         Asset.BTC,
-        'Bitfinex:BTCUSD',
+        'BTC:USDT',
         // asset for long position
         Asset.USDT,
         // asset for sort position
@@ -34,7 +34,7 @@ export class TradingPairDictionary {
         'BPRO',
         // asset
         Asset.BPRO,
-        'Bitfinex:BTCUSD',
+        'BPRO:USDT',
         // asset for long position
         Asset.USDT,
         // asset for sort position
