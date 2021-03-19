@@ -36,7 +36,6 @@ export function BuyBTCPage() {
         <div className="row">
           <div className="col-12 mt-2">{connected && <OpenTransak />}</div>
         </div>
-        )
       </div>
       <Footer />
     </>
