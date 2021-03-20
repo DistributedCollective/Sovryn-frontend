@@ -744,7 +744,10 @@
       "to": "Para:",
       "fee": "Taxa:",
       "hash": "Hash:",
-      "close": "Fechar"
+      "close": "FECHAR",
+      "pending": "pendente",
+      "confirmed": "confirmada",
+      "sent": "enviada"
     }
   },
   "onCopy": {
