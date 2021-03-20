@@ -745,7 +745,10 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "Close"
+      "close": "CLOSE",
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "sent": "sent"
     }
   },
   "onCopy": {
