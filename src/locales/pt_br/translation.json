@@ -150,7 +150,7 @@
   },
   "mainMenu": {
     "trade": "Operar",
-    "lend": "Empréstimos",
+    "lend": "Loans",
     "fastBtc": "Depositar-Btc",
     "wallet": "Portfólio",
     "liquidity": "Liquidez",

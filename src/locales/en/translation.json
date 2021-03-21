@@ -151,7 +151,7 @@
   },
   "mainMenu": {
     "trade": "Trade",
-    "lend": "Lend/Borrow",
+    "lend": "Loans",
     "fastBtc": "Top-Up",
     "wallet": "My wallet",
     "liquidity": "Market-making",
