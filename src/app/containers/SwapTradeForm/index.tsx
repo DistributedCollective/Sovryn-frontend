@@ -29,6 +29,7 @@ import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useMaintenance } from '../../hooks/useMaintenance';
+import { Arbitrage } from './components/arbitrage';
 
 const s = translations.swapTradeForm;
 
@@ -138,6 +139,7 @@ export function SwapTradeForm() {
 
   return (
     <>
+      <Arbitrage />
       <FieldGroup label={t(s.fields.send)} labelColor={color}>
         <div className="row">
           <div className="col-8">

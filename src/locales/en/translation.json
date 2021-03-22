@@ -3,7 +3,8 @@
     "back": "Back",
     "min": "min",
     "max": "max",
-    "close": "Close"
+    "close": "Close",
+    "for": "for"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -124,6 +125,10 @@
     },
     "buttons": {
       "submit": "Place Trade"
+    },
+    "arbitrage": {
+      "best_rate": "Get the best rate by swapping up to",
+      "for": "for up to"
     }
   },
   "amountField": {
