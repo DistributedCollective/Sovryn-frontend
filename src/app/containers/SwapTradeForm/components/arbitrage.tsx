@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Popover, Icon } from '@blueprintjs/core';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { usePriceFeeds_QueryRate } from '../../../hooks/price-feeds/useQueryRate';
+import { Asset } from 'types/asset';
 
 const s = translations.swapTradeForm;
 
@@ -19,19 +21,20 @@ export function Arbitrage() {
       rateToBalance: { amount: 0, from: '', to: '', rate: 0 },
     },
   });
+  const { value } = usePriceFeeds_QueryRate(Asset.BTC, Asset.USDT);
 
   useEffect(() => {
-    axios.get(api + 'amm/arbitrage').then(res => setData(res.data));
+    axios
+      .get(api + '/amm/arbitrage')
+      .then(res => setData(res.data))
+      .catch(e => console.log(e));
   }, [api]);
 
-  function calculateEarn(isNegative, oracleRate, fromAmount, toAmount) {
-    const rate = parseFloat(weiToFixed(oracleRate, 8));
-    console.log(rate);
+  function calculateEarn(isNegative, fromAmount, toAmount) {
+    const rate = parseFloat(weiToFixed(value.rate, 8));
     const oraclePrice = isNegative
       ? (1 / rate) * fromAmount
       : rate * fromAmount;
-    console.log(fromAmount);
-    console.log(oraclePrice);
     return (toAmount - oraclePrice).toFixed(4);
   }
 
@@ -41,7 +44,6 @@ export function Arbitrage() {
   const toToken = symbolByTokenAddress(data.USDT.rateToBalance.to);
   const earn = calculateEarn(
     data.USDT.negativeDelta,
-    data.USDT.oracleRate,
     data.USDT.rateToBalance.amount,
     data.USDT.rateToBalance.rate,
   );
