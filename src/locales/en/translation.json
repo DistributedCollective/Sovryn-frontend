@@ -124,7 +124,8 @@
       "receive": "You receive"
     },
     "buttons": {
-      "submit": "Place Trade"
+      "submit": "Place Trade",
+      "switchAssets": "Switch Assets"
     },
     "arbitrage": {
       "best_rate": "Make an instant profit by swapping up to",
@@ -157,7 +158,7 @@
   },
   "mainMenu": {
     "trade": "Trade",
-    "lend": "Lend/Borrow",
+    "lend": "Loans",
     "fastBtc": "Top-Up",
     "wallet": "My wallet",
     "liquidity": "Market-making",
@@ -751,7 +752,10 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "Close"
+      "close": "CLOSE",
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "sent": "sent"
     }
   },
   "onCopy": {
