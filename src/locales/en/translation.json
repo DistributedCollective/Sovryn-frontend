@@ -127,8 +127,10 @@
       "submit": "Place Trade"
     },
     "arbitrage": {
-      "best_rate": "Get the best rate by swapping up to",
-      "for": "for up to"
+      "best_rate": "Make an instant profit by swapping up to",
+      "for": "for up to",
+      "popover_p1": "Currently on Sovryn, you can trade {{fromAmount}} {{fromToken}} for {{toAmount}} {{toToken}}. This is {{earn}} {{toToken}} more than the market price (free money!).",
+      "popover_p2": "This arbitrage is an opportunity for our users to make extra money selling their {{fromToken}}, and helps to keep our AMM (automated market maker) in balance."
     }
   },
   "amountField": {
