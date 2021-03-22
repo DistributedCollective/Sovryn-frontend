@@ -32,8 +32,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Abertas",
-      "tradingHistory": "Fechadas"
+      "activeTrades": "Ativas",
+      "tradingHistory": "Concluídas"
     }
   },
   "tradingPage": {
@@ -744,7 +744,10 @@
       "to": "Para:",
       "fee": "Taxa:",
       "hash": "Hash:",
-      "close": "Fechar"
+      "close": "FECHAR",
+      "pending": "pendente",
+      "confirmed": "confirmada",
+      "sent": "enviada"
     }
   },
   "onCopy": {

@@ -7,7 +7,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Tooltip } from '@blueprintjs/core';
 import { FieldGroup } from '../../components/FieldGroup';
 import { FormSelect } from '../../components/FormSelect';
 import { AmountField } from '../AmountField';
@@ -49,8 +49,8 @@ export function SwapTradeForm() {
   const isConnected = useCanInteract();
 
   const [amount, setAmount] = useState('');
-  const [sourceToken, setSourceToken] = useState(Asset.DOC);
-  const [targetToken, setTargetToken] = useState(Asset.BTC);
+  const [sourceToken, setSourceToken] = useState(Asset.BTC);
+  const [targetToken, setTargetToken] = useState(Asset.DOC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
 
@@ -123,7 +123,6 @@ export function SwapTradeForm() {
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
-
   const { state } = useLocation();
 
   useEffect(() => {
@@ -163,8 +162,28 @@ export function SwapTradeForm() {
         </div>
       </FieldGroup>
 
-      <div className="d-flex justify-content-center align-items-center py-2">
-        <Icon icon="arrow-down" />
+      <div className="row">
+        <div className="col-8">
+          <div className="d-flex h-100 w-100 justify-content-center align-items-center">
+            <Icon icon="arrow-down" />
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="d-flex h-100 w-100 justify-content-center align-items-center">
+            <div
+              className="cursor-pointer p-1"
+              onClick={e => {
+                setTargetToken(sourceToken);
+                setSourceToken(targetToken);
+                setAmount('0');
+              }}
+            >
+              <Tooltip content={t(s.buttons.switchAssets)}>
+                <Icon icon="double-caret-vertical" />
+              </Tooltip>
+            </div>
+          </div>
+        </div>
       </div>
 
       <FieldGroup label={t(s.fields.receive)} labelColor={color}>
