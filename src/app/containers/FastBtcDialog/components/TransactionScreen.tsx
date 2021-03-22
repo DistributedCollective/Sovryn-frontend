@@ -30,7 +30,10 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
       <div className={styles.subtitle}>
         <i>
           {t(translations.fastBtcDialog.transaction.status, {
-            status: `${step}/2 ${tx.status || 'sent'}`,
+            status: `${step}/2 ${
+              t(translations.fastBtcDialog.transaction[tx.status]) ||
+              t(translations.fastBtcDialog.transaction.sent)
+            }`,
           })}
         </i>
       </div>
@@ -96,7 +99,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
             <Button
               minimal
               className="text-gold button-round font-size-lg mx-auto"
-              text="CLOSE"
+              text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />
           </div>

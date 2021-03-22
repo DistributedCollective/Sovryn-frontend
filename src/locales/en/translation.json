@@ -123,7 +123,8 @@
       "receive": "You receive"
     },
     "buttons": {
-      "submit": "Place Trade"
+      "submit": "Place Trade",
+      "switchAssets": "Switch Assets"
     }
   },
   "amountField": {
@@ -150,7 +151,7 @@
   },
   "mainMenu": {
     "trade": "Trade",
-    "lend": "Lend/Borrow",
+    "lend": "Loans",
     "fastBtc": "Top-Up",
     "wallet": "My wallet",
     "liquidity": "Market-making",
@@ -744,7 +745,10 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "Close"
+      "close": "CLOSE",
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "sent": "sent"
     }
   },
   "onCopy": {
