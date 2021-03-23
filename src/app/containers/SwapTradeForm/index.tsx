@@ -49,7 +49,7 @@ export function SwapTradeForm() {
   const isConnected = useCanInteract();
 
   const [amount, setAmount] = useState('');
-  const [sourceToken, setSourceToken] = useState(Asset.BTC);
+  const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.DOC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);

@@ -21,7 +21,7 @@ export function Arbitrage() {
       rateToBalance: { amount: 0, from: '', to: '', rate: 0 },
     },
   });
-  const { value } = usePriceFeeds_QueryRate(Asset.BTC, Asset.USDT);
+  const { value } = usePriceFeeds_QueryRate(Asset.RBTC, Asset.USDT);
 
   useEffect(() => {
     axios

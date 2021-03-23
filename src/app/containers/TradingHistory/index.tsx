@@ -123,7 +123,7 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     .toString();
 
   const prettyPrice = amount => {
-    return events[0].loanToken === Asset.BTC
+    return events[0].loanToken === Asset.RBTC
       ? amount
       : toWei(
           bignumber(1)
