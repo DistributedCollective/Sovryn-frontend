@@ -23,7 +23,6 @@ import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
-import { BuyBTCPage } from './containers/BuyBTCPage';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
 
@@ -86,7 +85,6 @@ export function App() {
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
-            <Route exact path="/buy" component={BuyBTCPage} />
             <Route
               exact
               path="/optin-success"

@@ -17,6 +17,7 @@ import { fastBtcDialogSaga } from './saga';
 import { Step } from './types';
 import { MainScreen } from './components/MainScreen';
 import { TransactionScreen } from './components/TransactionScreen';
+//import { OpenTransak } from './components/transak';
 
 import styles from './index.module.css';
 import './_overlayfix.scss';

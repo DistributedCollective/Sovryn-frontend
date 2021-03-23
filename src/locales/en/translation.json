@@ -153,7 +153,6 @@
     "lend": "Lend/Borrow",
     "fastBtc": "Top-Up",
     "wallet": "My wallet",
-    "buy": "Buy BTC",
     "liquidity": "Market-making",
     "stats": "Stats",
     "faqs": "FAQs",
@@ -559,12 +558,6 @@
       "userAssets": "My assets",
       "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
-    }
-  },
-  "buyBTCPage": {
-    "meta": {
-      "title": "Buy Bitcoin",
-      "description": "Buy BTC with fiat"
     }
   },
   "salesPage": {

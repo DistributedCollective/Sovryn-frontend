@@ -112,7 +112,6 @@ export function Header() {
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
-    { to: '/buy', title: t(translations.mainMenu.buy) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
@@ -192,9 +191,6 @@ export function Header() {
               </NavLink>
               <NavLink className="nav-item mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
-              </NavLink>
-              <NavLink className="nav-item mr-4" to="/buy">
-                {t(translations.mainMenu.buy)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
