@@ -721,7 +721,7 @@
   },
   "fastBtcDialog": {
     "title": "Receber rBTC",
-    "subtitle": "Deposite BTC ou fiat para receber rBTC na sua carteira",
+    "subtitle": "Deposite BTC ou dinheiro para receber rBTC na sua carteira",
     "limits": {
       "title": "Limites:",
       "min": "Mínimo: {{amount}} BTC",
