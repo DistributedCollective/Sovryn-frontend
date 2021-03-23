@@ -37,6 +37,10 @@
     width: 230px;
 }
 
+.marginBottom {
+    margin-bottom: 20px;
+}
+
 .arrowDown {
     width: 30px;
     margin: 25px auto;
