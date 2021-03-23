@@ -511,3 +511,11 @@ header {
   max-width: 614px;
 }
 
+.btn-trading[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #656565 !important;
+  &:hover {
+    background: #656565 !important;
+  }
+}

@@ -6,6 +6,7 @@
 
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
+import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import tokenAbi from './abi/abiTestToken.json';
@@ -163,6 +164,16 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 1606431,
   },
+  SOV_amm: {
+    address: '0x38729759415b27F70D5ca91CE357c45214B95Cf4',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
+  // SOV_lending: {
+  //   address: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902', // todo
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1218742,
+  // },
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
     abi: tokenAbi,

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
@@ -23,6 +23,9 @@ import { TradeButton } from '../../components/TradeButton';
 import { useApproveAndRemoveLiquidity } from '../../hooks/amm/useApproveAndRemoveLiquidity';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useMaintenance } from '../../hooks/useMaintenance';
+import { getPoolTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { RemovePoolV1 } from './RemovePoolV1';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -36,6 +39,10 @@ export function LiquidityRemoveContainer(props: Props) {
   const { t } = useTranslation();
   const isConnected = useIsConnected();
   const [pool, setPool] = useState(poolList[0].key);
+
+  const poolData = useMemo(() => {
+    return LiquidityPoolDictionary.get(pool);
+  }, [pool]);
 
   const prepareTokens = useCallback(() => {
     return LiquidityPoolDictionary.get(pool)
@@ -96,6 +103,12 @@ export function LiquidityRemoveContainer(props: Props) {
     return Number(weiAmount) > 0 && Number(weiAmount) <= Number(balance.value);
   };
 
+  const symbol = useCacheCallWithValue(
+    getPoolTokenContractName(pool, sourceToken),
+    'symbol',
+    sourceToken,
+  );
+
   return (
     <>
       <div className="row">
@@ -109,17 +122,23 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        <div className="col-lg-3 col-6">
-          <FieldGroup label={t(translations.liquidity.currency)}>
-            <FormSelect
-              onChange={handleTokenChange}
-              placeholder={t(translations.liquidity.currencySelect)}
-              value={sourceToken}
-              items={tokens}
-            />
-          </FieldGroup>
-        </div>
-        <div className="col-lg-6 col-12">
+        {poolData.getVersion() === 2 && (
+          <div className="col-lg-3 col-6">
+            <FieldGroup label={t(translations.liquidity.currency)}>
+              <FormSelect
+                onChange={handleTokenChange}
+                placeholder={t(translations.liquidity.currencySelect)}
+                value={sourceToken}
+                items={tokens}
+              />
+            </FieldGroup>
+          </div>
+        )}
+        <div
+          className={`${
+            poolData.getVersion() === 1 ? 'col-lg-9' : 'col-lg-6'
+          } col-12`}
+        >
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
               onChange={value => setAmount(value)}
@@ -130,84 +149,97 @@ export function LiquidityRemoveContainer(props: Props) {
         </div>
       </div>
 
-      <div className="border my-3 p-3 bg-white text-black">
-        <div className="row">
-          <div className="col">
-            <div className="font-weight-bold small">
-              <LoadableValue
-                loading={targetLoading}
-                value={
-                  <Text ellipsize>
-                    {weiTo4(targetValue[0])} {sourceToken}
-                  </Text>
-                }
-                tooltip={weiTo18(targetValue[0])}
-              />
-            </div>
-            <div className="small">
-              {t(translations.liquidity.amountTarget)}
-            </div>
-          </div>
-          <div className="col">
-            <div className="font-weight-bold small">
-              <LoadableValue
-                loading={targetLoading}
-                value={
-                  <Text ellipsize>
-                    {weiTo4(targetValue[1])} {sourceToken}
-                  </Text>
-                }
-                tooltip={weiTo18(targetValue[1])}
-              />
-            </div>
-            <div className="small">{t(translations.liquidity.fee)}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <SendTxProgress {...tx} displayAbsolute={false} />
-      </div>
-
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
-          <div>
-            <div className="font-weight-bold text-muted mb-2">
-              {t(translations.assetWalletBalance.suppliedBalance)}
-            </div>
-            {!isConnected && (
-              <span>{t(translations.assetWalletBalance.accountBalance)}</span>
-            )}
-            {isConnected && (
-              <div className="d-flex flex-row justify-content-start align-items-center">
-                <span className="text-muted">{sourceToken}</span>
-                <span className="text-white font-weight-bold ml-2">
-                  <LoadableValue
-                    value={weiToFixed(balance.value, 4)}
-                    loading={balance.loading}
-                  />
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-        <TradeButton
-          text={t(translations.liquidity.withdraw)}
-          onClick={handleWithdraw}
-          loading={tx.loading}
-          disabled={
-            !isConnected ||
-            tx.loading ||
-            !amountValid() ||
-            liquidityLocked?.maintenance_active
-          }
-          tooltip={
-            liquidityLocked?.maintenance_active ? (
-              <div className="mw-tooltip">{liquidityLocked?.message}</div>
-            ) : undefined
-          }
+      {poolData.getVersion() === 1 ? (
+        <RemovePoolV1
+          poolData={poolData}
+          value={amount}
+          balance={balance}
+          symbol={symbol.value}
         />
-      </div>
+      ) : (
+        <>
+          <div className="border my-3 p-3 bg-white text-black">
+            <div className="row">
+              <div className="col">
+                <div className="font-weight-bold small">
+                  <LoadableValue
+                    loading={targetLoading}
+                    value={
+                      <Text ellipsize>
+                        {weiTo4(targetValue[0])} {sourceToken}
+                      </Text>
+                    }
+                    tooltip={weiTo18(targetValue[0])}
+                  />
+                </div>
+                <div className="small">
+                  {t(translations.liquidity.amountTarget)}
+                </div>
+              </div>
+              <div className="col">
+                <div className="font-weight-bold small">
+                  <LoadableValue
+                    loading={targetLoading}
+                    value={
+                      <Text ellipsize>
+                        {weiTo4(targetValue[1])} {sourceToken}
+                      </Text>
+                    }
+                    tooltip={weiTo18(targetValue[1])}
+                  />
+                </div>
+                <div className="small">{t(translations.liquidity.fee)}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <SendTxProgress {...tx} displayAbsolute={false} />
+          </div>
+
+          <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+            <div className="mb-3 mb-lg-0">
+              <div>
+                <div className="font-weight-bold text-muted mb-2">
+                  {t(translations.assetWalletBalance.suppliedBalance)}
+                </div>
+                {!isConnected && (
+                  <span>
+                    {t(translations.assetWalletBalance.accountBalance)}
+                  </span>
+                )}
+                {isConnected && (
+                  <div className="d-flex flex-row justify-content-start align-items-center">
+                    <span className="text-muted">{symbol.value}</span>
+                    <span className="text-white font-weight-bold ml-2">
+                      <LoadableValue
+                        value={weiToFixed(balance.value, 4)}
+                        loading={balance.loading}
+                      />
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <TradeButton
+              text={t(translations.liquidity.withdraw)}
+              onClick={handleWithdraw}
+              loading={tx.loading}
+              disabled={
+                !isConnected ||
+                tx.loading ||
+                !amountValid() ||
+                liquidityLocked?.maintenance_active
+              }
+              tooltip={
+                liquidityLocked?.maintenance_active ? (
+                  <div className="mw-tooltip">{liquidityLocked?.message}</div>
+                ) : undefined
+              }
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }

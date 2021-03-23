@@ -234,7 +234,10 @@
     "token": "Expected pool tokens",
     "fee": "fee",
     "supply": "Supply",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "v1": {
+      "balance": "Available balance"
+    }
   },
   "modal": {
     "close": "Close"

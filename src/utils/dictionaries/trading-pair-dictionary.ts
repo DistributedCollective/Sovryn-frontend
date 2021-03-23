@@ -5,6 +5,7 @@ export enum TradingPairType {
   BTC_DOC = 'BTC_DOC',
   BTC_USDT = 'BTC_USDT',
   BPRO_USDT = 'BPRO_USDT',
+  BTC_SOV = 'BTC_SOV',
 }
 
 export class TradingPairDictionary {
@@ -16,13 +17,13 @@ export class TradingPairDictionary {
     [
       TradingPairType.BTC_USDT,
       new TradingPair(
-        'BTC',
+        'RBTC/USDT',
         // asset
         Asset.BTC,
         'BTC:USDT',
         // asset for long position
         Asset.USDT,
-        // asset for sort position
+        // asset for short position
         Asset.BTC,
         [Asset.BTC, Asset.USDT, Asset.DOC],
         [Asset.BTC, Asset.USDT, Asset.DOC],
@@ -31,18 +32,33 @@ export class TradingPairDictionary {
     [
       TradingPairType.BPRO_USDT,
       new TradingPair(
-        'BPRO',
+        'BPRO/USDT',
         // asset
         Asset.BPRO,
         'BPRO:USDT',
         // asset for long position
         Asset.USDT,
-        // asset for sort position
+        // asset for short position
         Asset.BPRO,
         [Asset.USDT, Asset.BPRO, Asset.DOC],
         [Asset.USDT, Asset.BPRO, Asset.DOC],
       ),
     ],
+    // [
+    //   TradingPairType.BTC_SOV,
+    //   new TradingPair(
+    //     'RBTC/SOV',
+    //     // asset
+    //     Asset.BTC,
+    //     'BTC:SOV',
+    //     // asset for long position
+    //     Asset.SOV,
+    //     // asset for short position
+    //     Asset.BTC, // no shorting for SOV
+    //     [Asset.BTC, Asset.SOV],
+    //     [],
+    //   ),
+    // ],
   ]);
 
   public static get(pair: TradingPairType): TradingPair {

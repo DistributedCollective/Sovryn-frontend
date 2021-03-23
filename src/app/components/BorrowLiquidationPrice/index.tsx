@@ -14,9 +14,11 @@ import { FieldGroup } from '../FieldGroup';
 import { DummyField } from '../DummyField';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { bignumber } from 'mathjs';
 
 interface Props {
   asset: Asset;
+  assetLong: Asset;
   leverage: number;
   position: TradingPosition;
   labelColor: string;
@@ -27,11 +29,24 @@ export function BorrowLiquidationPrice(props: Props) {
   const { t } = useTranslation();
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
     props.asset,
-    Asset.DOC,
+    props.assetLong,
   );
+
+  const {
+    value: longToUsd,
+    loading: loadingLongToUsdPrice,
+  } = useBorrowAssetPrice(props.assetLong, Asset.USDT);
+
+  console.log(props.asset, props.assetLong, {
+    price,
+    loadingPrice,
+    longToUsd,
+    loadingLongToUsdPrice,
+  });
+
   const { value, loading: loadingLiq } = useBorrowLiquidationPrice(
     props.asset,
-    price,
+    bignumber(price).mul(bignumber(longToUsd).div(1e18)).toFixed(0),
     props.leverage,
     props.position,
   );
@@ -56,7 +71,7 @@ export function BorrowLiquidationPrice(props: Props) {
               {weiToFixed(value, 2)}
             </>
           }
-          loading={loadingPrice || loadingLiq}
+          loading={loadingPrice || loadingLiq || loadingLongToUsdPrice}
         />
       </DummyField>
     </FieldGroup>

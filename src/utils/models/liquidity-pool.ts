@@ -3,8 +3,11 @@ import { AssetsDictionary } from '../dictionaries/assets-dictionary';
 import { AssetDetails } from './asset-details';
 import { currentNetwork } from '../classifiers';
 
+type PoolVersion = 2 | 1;
+
 export class LiquidityPool {
   private _assetDetails: AssetDetails;
+  private _version: PoolVersion = 2;
   constructor(
     private _poolAsset: Asset,
     private _supplyAssets: LiquidityPoolSupplyAsset[] = [],
@@ -26,6 +29,13 @@ export class LiquidityPool {
   public getPoolAsset(asset: Asset) {
     return this._supplyAssets.find(item => item.getAsset() === asset);
   }
+  public setVersion(version: PoolVersion) {
+    this._version = version;
+    return this;
+  }
+  public getVersion() {
+    return this._version;
+  }
 }
 
 export class LiquidityPoolSupplyAsset {
@@ -39,7 +49,7 @@ export class LiquidityPoolSupplyAsset {
   public getAssetDetails() {
     return this._assetDetails;
   }
-  public getContractAddress() {
+  public getContractAddress(): string {
     if (this._poolTokens.hasOwnProperty(currentNetwork)) {
       return this._poolTokens[currentNetwork];
     }
