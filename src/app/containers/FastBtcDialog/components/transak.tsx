@@ -39,7 +39,7 @@ export function OpenTransak({ address, onClose }: Props) {
       console.log('Set FastBTCDialog back to MAIN');
       onClose();
     });
-  }, [address, onClose]);
+  }, [address, onClose]); // eslint-disable-line no-eval
 
   return <></>;
 }
