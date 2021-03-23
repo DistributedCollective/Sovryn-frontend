@@ -720,8 +720,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Obtém rBTC",
-    "subtitle": "Deposite BTC ou fiat para receber rBTC na sua carteira",
+    "title": "Receber rBTC",
+    "subtitle": "Deposite BTC ou dinheiro para receber rBTC na sua carteira",
     "limits": {
       "title": "Limites:",
       "min": "Mínimo: {{amount}} BTC",
@@ -740,8 +740,8 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Obtém rBTC com BTC",
-    "buttonFiat": "Obtém rBTC com fiat",
+    "buttonBTC": "Enviar BTC para receber rBTC",
+    "buttonFiat": "Comprar rBTC usando dinheiro",
     "transaction": {
       "title": "Detalhes da transação",
       "status": "Status {{status}}",
