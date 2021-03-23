@@ -612,6 +612,38 @@
           "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
         }
       }
+    },
+    "fastBtcDialog": {
+      "title": "Obtén rBTC",
+      "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
+      "limits": {
+        "title": "Límites:",
+        "min": "Mínimo: {{amount}} BTC",
+        "max": "Máximo: {{amount}} BTC"
+      },
+      "instructions": {
+        "title": "Instrucciones:",
+        "point1": "No deposites ningún activo que no sea BTC",
+        "point2": "No envíes más BTC del límite máximo",
+        "point3": "Espera 15 minutos para que la transacción sea procesada"
+      },
+      "qr": {
+        "title": "Envía BTC a esta dirección:"
+      },
+      "buttonBTC": "Obtén rBTC con BTC",
+      "buttonFiat": "Obtén rBTC con fiat",
+      "transaction": {
+        "title": "Detalles de la transacción",
+        "status": "Status {{status}}",
+        "from": "De:",
+        "to": "Para:",
+        "fee": "Comisión:",
+        "hash": "Hash:",
+        "close": "Cerrar"
+      }
+    },
+    "onCopy": {
+      "address": "La dirección se ha copiado en el portapapeles"
     }
   }
 }

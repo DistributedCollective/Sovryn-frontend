@@ -4,8 +4,10 @@ import { FastBtcDialogState, Step } from '../types';
 import { actions } from '../slice';
 import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
-import { AddressButton } from './AddressButton';
+import { BTCButton } from './BTCButton';
+import { FiatButton } from './FiatButton';
 import { AddressQrCode } from '../../../components/Form/AddressQrCode';
+import { OpenTransak } from './transak';
 import { toNumberFormat } from '../../../../utils/display-text/format';
 
 interface MainScreenProps {
@@ -52,13 +54,29 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       {state.step === Step.WALLET && (
         <AddressQrCode address={state.deposit.address} />
       )}
-      {state.step === Step.MAIN && (
-        <AddressButton
-          loading={state.deposit.loading}
-          ready={state.ready}
-          onClick={() => dispatch(actions.generateDepositAddress())}
-        />
+      {state.step === Step.FIAT && (
+        <OpenTransak address={state.deposit.address} />
       )}
+      <div className={styles.buttons}>
+        {state.step === Step.MAIN && (
+          <BTCButton
+            loading={state.deposit.loading}
+            ready={state.ready}
+            onClick={() => dispatch(actions.generateDepositAddress())}
+          />
+        )}
+        {state.step === Step.MAIN && (
+          <FiatButton
+            loading={state.deposit.loading}
+            ready={state.ready}
+            onClick={() =>
+              dispatch(
+                actions.generateDepositAddress() && actions.openFiatOnRamp(),
+              )
+            }
+          />
+        )}
+      </div>
     </>
   );
 }

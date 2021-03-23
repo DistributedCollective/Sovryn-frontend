@@ -17,7 +17,6 @@ import { fastBtcDialogSaga } from './saga';
 import { Step } from './types';
 import { MainScreen } from './components/MainScreen';
 import { TransactionScreen } from './components/TransactionScreen';
-//import { OpenTransak } from './components/transak';
 
 import styles from './index.module.css';
 import './_overlayfix.scss';
@@ -64,7 +63,7 @@ export function FastBtcDialog(props: Props) {
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <div className={styles.innerContainer}>
-              {[Step.MAIN, Step.WALLET].includes(state.step) && (
+              {[Step.MAIN, Step.WALLET, Step.FIAT].includes(state.step) && (
                 <MainScreen state={state} dispatch={dispatch} />
               )}
               {state.step === Step.TRANSACTION && (

@@ -720,8 +720,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Top Up FastBTC",
-    "subtitle": "Deposit BTC to receive rBTC in your wallet",
+    "title": "Get rBTC",
+    "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
     "limits": {
       "title": "Deposit limits:",
       "min": "MIN: {{amount}} BTC",
@@ -736,7 +736,8 @@
     "qr": {
       "title": "Send BTC to this address:"
     },
-    "button": "Generate deposit address",
+    "buttonBTC": "Get rBTC with BTC",
+    "buttonFiat": "Get rBTC with fiat",
     "transaction": {
       "title": "Transaction Details",
       "status": "Status {{status}}",

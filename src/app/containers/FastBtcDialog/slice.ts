@@ -52,6 +52,9 @@ const fastBtcDialogSlice = createSlice({
       state.history.loading = false;
       state.history.items = [];
     },
+    openFiatOnRamp(state) {
+      state.step = Step.FIAT;
+    },
     // generate deposit address
     generateDepositAddress(state) {
       state.deposit.loading = true;

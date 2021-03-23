@@ -69,6 +69,11 @@
   font-weight: 300;
 }
 
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .arrowDown {
   width: 30px;
   margin: 25px auto;
