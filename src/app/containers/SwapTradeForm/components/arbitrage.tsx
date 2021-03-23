@@ -32,7 +32,7 @@ export function Arbitrage() {
     if (
       (data.USDT.rateToBalance.earn > 0.001 &&
         symbolByTokenAddress(data.USDT.rateToBalance.to) === 'BTC') ||
-      (data.USDT.rateToBalance.earn > 1 &&
+      (data.USDT.rateToBalance.earn > 10 &&
         symbolByTokenAddress(data.USDT.rateToBalance.to) === 'USDT')
     ) {
       setShow(true);
