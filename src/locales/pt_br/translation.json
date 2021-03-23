@@ -720,7 +720,7 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Obtém rBTC",
+    "title": "Receber rBTC",
     "subtitle": "Deposite BTC ou fiat para receber rBTC na sua carteira",
     "limits": {
       "title": "Limites:",
