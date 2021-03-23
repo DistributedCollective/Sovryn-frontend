@@ -1,10 +1,9 @@
 import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FastBtcDialogState, Step } from '../types';
+import { FastBtcDialogState } from '../types';
 import { translations } from 'locales/i18n';
 import { actions } from '../slice';
 import styles from './transaction.module.css';
-import { prettyTx } from '../../../../utils/helpers';
 import { FiatButton } from './FiatButton';
 
 interface Props {
@@ -18,9 +17,15 @@ export function FiatDialogScreen({ address, dispatch }: Props) {
   return (
     <>
       <div className={styles.txData && styles.marginBottom}>
-        <div className="px-1">
+        <div className={styles.instructionsTitle}>
+          {t(translations.fastBtcDialog.fiatDialog.title)}
+        </div>
+        <div className={styles.marginTop}>
+          {t(translations.fastBtcDialog.fiatDialog.explanation)}
+        </div>
+        <div className={styles.marginTop}>
           <div>
-            <strong>{t(translations.fastBtcDialog.transaction.to)}</strong>{' '}
+            <strong>{t(translations.fastBtcDialog.transaction.address)}</strong>{' '}
             {address}
           </div>
         </div>

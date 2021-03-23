@@ -627,6 +627,10 @@
         "point2": "No envíes más BTC del límite máximo",
         "point3": "Espera 15 minutos para que la transacción sea procesada"
       },
+      "fiatDialog": {
+        "title": "Comprar rBTC con fiat",
+        "explanation": "Haciendo clic en el botón de abajo, accederás a una rampa de pago en fiat. Asegúrate de que la dirección de BTC a la que estás enviando tus fondos es la misma que ésta. FastBTC hará la conversión a rBTC por ti en segundo plano, así que no necesitas hacer nada más. Ten en cuenta el límite de 0,01"
+      },
       "qr": {
         "title": "Envía BTC a esta dirección:"
       },
@@ -639,7 +643,8 @@
         "to": "Para:",
         "fee": "Comisión:",
         "hash": "Hash:",
-        "close": "Cerrar"
+        "close": "Cerrar",
+        "address": "Dirección:"
       }
     },
     "onCopy": {

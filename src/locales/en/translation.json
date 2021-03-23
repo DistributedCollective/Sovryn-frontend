@@ -733,6 +733,10 @@
       "point2": "Do not send more BTC than the MAX limit",
       "point3": "Allow  15 mins for the transaction to process"
     },
+    "fiatDialog": {
+      "title": "Buy rBTC with fiat:",
+      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the 0.01 limit"
+    },
     "qr": {
       "title": "Send BTC to this address:"
     },
@@ -745,7 +749,8 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "Close"
+      "close": "Close",
+      "address": "Address"
     }
   },
   "onCopy": {
