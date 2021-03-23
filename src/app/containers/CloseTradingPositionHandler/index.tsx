@@ -154,7 +154,10 @@ export function CloseTradingPositionHandler(props: Props) {
               }
               onClick={() => handleConfirmSwap()}
               disabled={
-                rest.loading || !valid || closeTradesLocked?.maintenance_active
+                rest.loading ||
+                !valid ||
+                closeTradesLocked?.maintenance_active ||
+                test.diff > 5
               }
               loading={rest.loading}
               tooltip={
