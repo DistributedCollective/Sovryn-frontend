@@ -105,7 +105,6 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
-  const whitelisted = useIsWhitelisted();
 
   const [dollarValue, setDollarValue] = useState('0');
 
@@ -179,7 +178,6 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
               minimal
               text={t(translations.userAssets.actions.deposit)}
               className="text-gold button-round"
-              disabled={!whitelisted}
               onClick={() => onFastBtc()}
             />
           )}
