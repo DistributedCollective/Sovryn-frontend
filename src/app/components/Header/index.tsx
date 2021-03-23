@@ -133,6 +133,7 @@ export function Header() {
           text={link.title}
           href={link.to}
           target="_blank"
+          rel="noreferrer noopener"
         />
       );
     }
@@ -196,7 +197,7 @@ export function Header() {
                 {t(translations.mainMenu.stats)}
               </NavLink>
               <a
-                href="https://sovryn-1.gitbook.io/sovryn/"
+                href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="nav-item mr-4"

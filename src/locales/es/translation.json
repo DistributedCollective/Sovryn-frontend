@@ -138,7 +138,7 @@
   },
   "mainMenu": {
     "trade": "Comercio",
-    "lend": "Inversión/Préstamo",
+    "lend": "Loans",
     "fastBtc": "Recarga",
     "wallet": "My wallet",
     "liquidity": "Mercados-Líquidos",

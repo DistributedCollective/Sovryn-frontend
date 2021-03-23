@@ -121,8 +121,8 @@ export function TradingChart(props: ChartContainerProps) {
           options={{
             alignLabels: true,
             timeScale: {
-              rightOffset: 5,
-              barSpacing: 3,
+              rightOffset: 3,
+              barSpacing: 7,
               shiftVisibleRangeOnNewBar: true,
               rightBarStaysOnScroll: true,
               borderVisible: false,
