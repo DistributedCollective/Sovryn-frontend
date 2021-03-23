@@ -16,6 +16,7 @@ export enum Step {
   FIAT,
   MAIN,
   WALLET,
+  TRANSAK,
   TRANSACTION,
 }
 

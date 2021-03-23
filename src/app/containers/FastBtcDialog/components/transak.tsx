@@ -36,10 +36,10 @@ export function OpenTransak({ address, onClose }: Props) {
     });
 
     transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
-      console.log("Set FastBTCDialog back to MAIN");
+      console.log('Set FastBTCDialog back to MAIN');
       onClose();
     });
-  }, []);
+  }, [address, onClose]);
 
   return <></>;
 }
