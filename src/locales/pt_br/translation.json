@@ -124,7 +124,7 @@
       "receive": "Você recebe"
     },
     "buttons": {
-      "submit": "Realizar troca"
+      "submit": "Realizar troca",
       "switchAssets": "Alternar ativos"
    },
     "arbitrage": {
