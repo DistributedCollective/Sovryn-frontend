@@ -55,7 +55,10 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
         <AddressQrCode address={state.deposit.address} />
       )}
       {state.step === Step.FIAT && (
-        <OpenTransak address={state.deposit.address} />
+        <OpenTransak
+          address={state.deposit.address}
+          onClose={() => dispatch(actions.reset())}
+        />
       )}
       <div className={styles.buttons}>
         {state.step === Step.MAIN && (
