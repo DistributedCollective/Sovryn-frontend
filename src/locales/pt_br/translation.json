@@ -3,7 +3,8 @@
     "back": "Voltar",
     "min": "min",
     "max": "max",
-    "close": "Fechar"
+    "close": "Fechar",
+    "for": "por"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -32,8 +33,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Abertas",
-      "tradingHistory": "Fechadas"
+      "activeTrades": "Ativas",
+      "tradingHistory": "Concluídas"
     }
   },
   "tradingPage": {
@@ -123,7 +124,14 @@
       "receive": "Você recebe"
     },
     "buttons": {
-      "submit": "Realizar troca"
+      "submit": "Realizar troca",
+      "switchAssets": "Alternar ativos"
+   },
+    "arbitrage": {
+      "best_rate": "Oportunidade de lucro rápido trocando até ",
+      "for": "por até",
+      "popover_p1": "Atualmente na Sovryn, você pode trocar {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. Isso é {{earn}} {{toToken}} mais do que o preço de mercado (dinheiro de graça!).",
+      "popover_p2": "Essa arbitragem é uma oportunidade para nossos usuários ganharem dinheiro extra vendendo seus {{fromToken}}, e ajuda a manter o sistema em equilíbrio."
     }
   },
   "amountField": {

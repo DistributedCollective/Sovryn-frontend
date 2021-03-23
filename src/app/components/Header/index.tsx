@@ -133,6 +133,7 @@ export function Header() {
           text={link.title}
           href={link.to}
           target="_blank"
+          rel="noreferrer noopener"
         />
       );
     }
