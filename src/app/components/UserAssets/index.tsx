@@ -28,7 +28,6 @@ import { getTokenContractName } from '../../../utils/blockchain/contract-helpers
 import { Sovryn } from '../../../utils/sovryn';
 import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
-import { useIsWhitelisted } from '../../hooks/whitelist/useIsWhitelisted';
 
 export function UserAssets() {
   const { t } = useTranslation();
