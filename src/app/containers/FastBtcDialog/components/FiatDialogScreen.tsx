@@ -16,14 +16,14 @@ export function FiatDialogScreen({ address, dispatch }: Props) {
   const { t } = useTranslation();
   return (
     <>
-      <div className={styles.txData && styles.marginBottom}>
+      <div className={styles.txData && 'mb-2'}>
         <div className={styles.instructionsTitle}>
           {t(translations.fastBtcDialog.fiatDialog.title)}
         </div>
-        <div className={styles.marginTop}>
+        <div className="mt-2">
           {t(translations.fastBtcDialog.fiatDialog.explanation)}
         </div>
-        <div className={styles.marginTop}>
+        <div className="mt-2">
           <div>
             <strong>{t(translations.fastBtcDialog.transaction.address)}</strong>{' '}
             {address}
