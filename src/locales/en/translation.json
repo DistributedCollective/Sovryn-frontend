@@ -758,7 +758,7 @@
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
       "close": "Close",
-      "address": "Address"
+      "address": "Address",
       "pending": "pending",
       "confirmed": "confirmed",
       "sent": "sent"

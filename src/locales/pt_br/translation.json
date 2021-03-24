@@ -126,7 +126,7 @@
     "buttons": {
       "submit": "Realizar troca",
       "switchAssets": "Alternar ativos"
-   },
+    },
     "arbitrage": {
       "best_rate": "Oportunidade de lucro rápido trocando até ",
       "for": "por até",
@@ -758,7 +758,7 @@
       "fee": "Taxa:",
       "hash": "Hash:",
       "close": "Fechar",
-      "address": "Endereço:"
+      "address": "Endereço:",
       "pending": "pendente",
       "confirmed": "confirmada",
       "sent": "enviada"
