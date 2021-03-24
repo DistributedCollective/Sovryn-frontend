@@ -33,7 +33,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           })}
           <br />•{' '}
           {t(translations.fastBtcDialog.limits.max, {
-            amount: toNumberFormat(state.limits.max, 4),
+            amount: toNumberFormat(state.limits.max, 2),
           })}
         </div>
       </div>
