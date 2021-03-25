@@ -30,7 +30,7 @@ export function FiatDialogScreen({ address, dispatch }: Props) {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mt-4">
         <FiatButton
           loading={false}
           ready={true}
