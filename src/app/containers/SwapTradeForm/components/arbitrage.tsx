@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import { Asset } from '../../../../types/asset';
 import axios from 'axios';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';
@@ -31,9 +32,9 @@ export function Arbitrage() {
     // Only show component if you can earn > 0.001 BTC or > 1 USDT
     if (
       (data.USDT.rateToBalance.earn > 0.001 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'BTC') ||
+        symbolByTokenAddress(data.USDT.rateToBalance.to) === Asset.RBTC) ||
       (data.USDT.rateToBalance.earn > 10 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'USDT')
+        symbolByTokenAddress(data.USDT.rateToBalance.to) === Asset.USDT)
     ) {
       setShow(true);
     }
