@@ -6,7 +6,6 @@ import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
 import { AddressButton } from './AddressButton';
 import { AddressQrCode } from '../../../components/Form/AddressQrCode';
-import { toNumberFormat } from '../../../../utils/display-text/format';
 
 interface MainScreenProps {
   state: FastBtcDialogState;
