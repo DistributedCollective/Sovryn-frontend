@@ -732,8 +732,9 @@
     "subtitle": "Deposite BTC para receber rBTC na sua carteira",
     "limits": {
       "title": "Limites:",
-      "min": "Mínimo: {{amount}} BTC",
-      "max": "Máximo: {{amount}} BTC"
+      "min": "Mínimo: {{amount}}",
+      "max": "Máximo: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instruções:",

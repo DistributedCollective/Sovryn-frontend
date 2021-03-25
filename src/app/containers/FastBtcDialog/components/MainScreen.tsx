@@ -6,7 +6,6 @@ import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
 import { AddressButton } from './AddressButton';
 import { AddressQrCode } from '../../../components/Form/AddressQrCode';
-import { toNumberFormat } from '../../../../utils/display-text/format';
 
 interface MainScreenProps {
   state: FastBtcDialogState;
@@ -27,14 +26,22 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           {t(translations.fastBtcDialog.limits.title)}
         </div>
         <div className={styles.limitsValue}>
-          •{' '}
-          {t(translations.fastBtcDialog.limits.min, {
-            amount: toNumberFormat(state.limits.min, 4),
-          })}
-          <br />•{' '}
-          {t(translations.fastBtcDialog.limits.max, {
-            amount: toNumberFormat(state.limits.max, 4),
-          })}
+          <div>
+            •{' '}
+            {t(translations.fastBtcDialog.limits.min, {
+              amount: parseFloat(state.limits.min.toFixed(4)),
+            })}{' '}
+          </div>
+          <div> {t(translations.fastBtcDialog.limits.btc)} </div>
+        </div>
+        <div className={styles.limitsValue}>
+          <div>
+            •{' '}
+            {t(translations.fastBtcDialog.limits.max, {
+              amount: parseFloat(state.limits.max.toFixed(4)),
+            })}{' '}
+          </div>
+          <div>{t(translations.fastBtcDialog.limits.btc)} </div>
         </div>
       </div>
 
