@@ -732,8 +732,9 @@
     "subtitle": "Deposit BTC to receive rBTC in your wallet",
     "limits": {
       "title": "Deposit limits:",
-      "min": "MIN: {{amount}} BTC",
-      "max": "MAX: {{amount}} BTC"
+      "min": "MIN: {{amount}}",
+      "max": "MAX: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instructions:",
