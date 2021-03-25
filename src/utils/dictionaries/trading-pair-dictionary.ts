@@ -19,7 +19,7 @@ export class TradingPairDictionary {
         'RBTC',
         // asset
         Asset.RBTC,
-        'BTC:USDT',
+        'RBTC:USDT',
         // asset for long position
         Asset.USDT,
         // asset for sort position
