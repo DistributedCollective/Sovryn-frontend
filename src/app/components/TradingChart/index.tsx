@@ -86,12 +86,24 @@ export function TradingChart(props: ChartContainerProps) {
                 }
               if (i > -1) newSeries = newSeries.slice(0, i);
             }
-            newSeries = newSeries.concat(response.data.series);
-            // console.log(newSeries);
-            setChartData([{ data: newSeries, legend: '' }]);
+            newSeries = newSeries
+              .concat(response.data.series)
+              .map(({ open, close, high, low, time }) => ({
+                open: open || 0,
+                close: close || 0,
+                high: high || 0,
+                low: low || 0,
+                time: time || 0,
+              }))
+              .sort((a, b) => a.time - b.time);
+            setChartData([
+              {
+                data: newSeries,
+                legend: '',
+              },
+            ]);
             const latest = newSeries[newSeries.length - 1];
             setLastTime(latest.time * 1e3); // datum time is in seconds, lastTime is ms
-            // console.log(latest.time, latest.close);
             setHasCharts(true);
           }
         })
@@ -102,9 +114,12 @@ export function TradingChart(props: ChartContainerProps) {
     }
 
     getData();
-    const interval = setInterval(() => getData(), props.rate * 1e3);
+    // const interval = setInterval(() => {
+    //   console.log('get new data');
+    //   getData();
+    // }, props.rate * 1e3);
     return () => {
-      clearInterval(interval);
+      // clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
