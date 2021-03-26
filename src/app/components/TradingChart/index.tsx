@@ -66,7 +66,6 @@ export function TradingChart(props: ChartContainerProps) {
           },
         })
         .then(response => {
-          //console.log(response);
           if (
             response.data &&
             response.data.series &&
@@ -114,12 +113,12 @@ export function TradingChart(props: ChartContainerProps) {
     }
 
     getData();
-    // const interval = setInterval(() => {
-    //   console.log('get new data');
-    //   getData();
-    // }, props.rate * 1e3);
+
+    const interval = setInterval(() => {
+      getData();
+    }, props.rate * 1e3);
     return () => {
-      // clearInterval(interval);
+      clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
