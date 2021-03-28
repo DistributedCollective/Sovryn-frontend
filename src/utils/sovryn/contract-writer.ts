@@ -12,6 +12,7 @@ import { getTokenContractName } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
+import { AbiItem } from 'web3-utils';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -134,6 +135,26 @@ class ContractWriter {
       return this.sovryn.writeContracts[contractName].methods[methodName](
         ...args,
       )
+        .send(options)
+        .once('transactionHash', tx => resolve(tx))
+        .catch(e => reject(e));
+    });
+  }
+
+  public async sendByAddress(
+    address: string,
+    abi: AbiItem,
+    methodName: string,
+    args: Array<any>,
+    options: TransactionConfig = {},
+  ): Promise<string | RevertInstructionError> {
+    if (!options.gasPrice) {
+      options.gasPrice = gas.get();
+    }
+    return new Promise<string | RevertInstructionError>((resolve, reject) => {
+      const Contract = this.sovryn.getWriteWeb3().eth.Contract;
+      const contract = new Contract(abi, address);
+      return contract.methods[methodName](...args)
         .send(options)
         .once('transactionHash', tx => resolve(tx))
         .catch(e => reject(e));
