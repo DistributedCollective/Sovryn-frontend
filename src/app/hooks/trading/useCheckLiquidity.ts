@@ -10,7 +10,7 @@ export function useCheckLiquidity(
   position: string,
 ) {
   const [borrowedAmount, setBorrowedAmount] = useState(0);
-  const [contract, setContract] = useState(getLendingContractName(Asset.BTC));
+  const [contract, setContract] = useState(getLendingContractName(Asset.RBTC));
 
   useEffect(() => {
     setBorrowedAmount((leverage - 1) * parseFloat(amount));
@@ -19,7 +19,7 @@ export function useCheckLiquidity(
   useEffect(() => {
     setContract(
       position === 'LONG'
-        ? getLendingContractName(Asset.BTC)
+        ? getLendingContractName(Asset.RBTC)
         : getLendingContractName(Asset.DOC),
     );
   }, [position]);

@@ -16,7 +16,7 @@ export function useRemoveLiquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    asset === Asset.BTC ? 'BTCWrapperProxy' : getAmmContractName(pool),
+    asset === Asset.RBTC ? 'BTCWrapperProxy' : getAmmContractName(pool),
     'removeLiquidity',
   );
 
@@ -24,7 +24,9 @@ export function useRemoveLiquidity(
     withdraw: (nonce?: number, approveTx?: string | null) =>
       send(
         [
-          asset === Asset.BTC ? getAmmContract(pool).address : poolTokenAddress,
+          asset === Asset.RBTC
+            ? getAmmContract(pool).address
+            : poolTokenAddress,
           amount,
           minReturn,
         ],

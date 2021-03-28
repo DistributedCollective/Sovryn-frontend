@@ -21,7 +21,7 @@ export function useApproveAndAddLiquidity(
   return {
     deposit: async () => {
       let tx: CheckAndApproveResult = {};
-      if (asset !== Asset.BTC) {
+      if (asset !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
           asset,
           getAmmContract(pool).address,

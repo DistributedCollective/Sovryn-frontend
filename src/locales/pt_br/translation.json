@@ -564,7 +564,7 @@
     },
     "tabs": {
       "userAssets": "Meus ativos",
-      "vestedAssets": "Ativos adquiridos",
+      "vestedAssets": "Ativos reservados",
       "userNFTS": "NFTS"
     }
   },
@@ -732,8 +732,9 @@
     "subtitle": "Deposite BTC ou dinheiro para receber rBTC na sua carteira",
     "limits": {
       "title": "Limites:",
-      "min": "Mínimo: {{amount}} BTC",
-      "max": "Máximo: {{amount}} BTC"
+      "min": "Mínimo: {{amount}}",
+      "max": "Máximo: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instruções:",

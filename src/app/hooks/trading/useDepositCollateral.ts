@@ -21,7 +21,7 @@ export function useDepositCollateral(
         [loanId, depositAmount],
         {
           from: account,
-          value: collateralToken === Asset.BTC ? depositAmount : toWei('0'),
+          value: collateralToken === Asset.RBTC ? depositAmount : toWei('0'),
           nonce,
         },
         { approveTransactionHash: approveTx, type: TxType.DEPOSIT_COLLATERAL },
