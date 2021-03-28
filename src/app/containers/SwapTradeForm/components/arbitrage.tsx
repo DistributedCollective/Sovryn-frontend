@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
-import { Asset } from '../../../../types/asset';
 import axios from 'axios';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';
@@ -29,12 +28,12 @@ export function Arbitrage() {
   }, [api]);
 
   useEffect(() => {
-    // Only show component if you can earn > 0.001 BTC or > 1 USDT
+    // Only show component if you can earn > 0.001 BTC or > 1 USDT. 'BTC' and 'USDT' need to match token names on backend
     if (
       (data.USDT.rateToBalance.earn > 0.001 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === Asset.RBTC) ||
+        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'BTC') ||
       (data.USDT.rateToBalance.earn > 10 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === Asset.USDT)
+        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'USDT')
     ) {
       setShow(true);
     }
