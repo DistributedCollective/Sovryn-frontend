@@ -17,3 +17,8 @@ export function useIsConnecting() {
   const { connecting } = useSelector(selectWalletProvider);
   return connecting;
 }
+
+export function useBlockSync() {
+  const { syncBlockNumber, blockNumber } = useSelector(selectWalletProvider);
+  return syncBlockNumber || blockNumber;
+}

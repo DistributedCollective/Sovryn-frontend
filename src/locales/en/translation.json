@@ -4,7 +4,10 @@
     "min": "min",
     "max": "max",
     "close": "Close",
-    "for": "for"
+    "for": "for",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "fee": "Tx Fee: {{amount}} (r)BTC"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -590,7 +593,8 @@
       "swap": "Swap",
       "trade": "Trade",
       "claimSov": "Claim SOV",
-      "redeemRBTC": "Redeem rBTC"
+      "redeemRBTC": "Redeem rBTC",
+      "withdraw": "Withdraw"
     }
   },
   "topUpHistory": {
@@ -761,5 +765,12 @@
   },
   "onCopy": {
     "address": "Address was copied to clipboard."
+  },
+  "vestingDialog": {
+    "title": "Withdraw Vesting",
+    "subtitle": "This transaction requires rBTC for gas.",
+    "amount": "Amount to Withdraw:",
+    "receiver": "Receive SOV to:",
+    "calculating": "Calculating..."
   }
 }
