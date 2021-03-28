@@ -15,6 +15,7 @@ import scanQR from 'assets/images/tutorial/scanQr.svg';
 import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Asset } from '../../../../../types/asset';
 import {
   blockExplorers,
   currentChainId,
@@ -102,7 +103,7 @@ export function Screen4(props) {
               <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.symbol)}
               </div>
-              <div className="col-7">RBTC</div>
+              <div className="col-7">{Asset.RBTC}</div>
             </div>
             <div className="row">
               <div className="col-5">

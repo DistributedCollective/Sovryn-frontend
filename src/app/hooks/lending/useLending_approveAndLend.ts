@@ -11,7 +11,7 @@ export function useLending_approveAndLend(asset: Asset, depositAmount: string) {
   return {
     lend: async () => {
       let tx: CheckAndApproveResult = {};
-      if (asset !== Asset.BTC) {
+      if (asset !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
           asset,
           getLendingContract(asset).address,

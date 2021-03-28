@@ -2,8 +2,8 @@ import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
 
 export enum TradingPairType {
-  BTC_DOC = 'BTC_DOC',
-  BTC_USDT = 'BTC_USDT',
+  RBTC_DOC = 'RBTC_DOC',
+  RBTC_USDT = 'RBTC_USDT',
   BPRO_USDT = 'BPRO_USDT',
 }
 
@@ -14,18 +14,18 @@ export class TradingPairDictionary {
     TradingPair
   >([
     [
-      TradingPairType.BTC_USDT,
+      TradingPairType.RBTC_USDT,
       new TradingPair(
-        'BTC',
+        'RBTC',
         // asset
-        Asset.BTC,
-        'BTC:USDT',
+        Asset.RBTC,
+        'RBTC:USDT',
         // asset for long position
         Asset.USDT,
         // asset for sort position
-        Asset.BTC,
-        [Asset.BTC, Asset.USDT, Asset.DOC],
-        [Asset.BTC, Asset.USDT, Asset.DOC],
+        Asset.RBTC,
+        [Asset.RBTC, Asset.USDT, Asset.DOC],
+        [Asset.RBTC, Asset.USDT, Asset.DOC],
       ),
     ],
     [

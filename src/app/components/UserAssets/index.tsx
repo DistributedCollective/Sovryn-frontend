@@ -111,7 +111,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
     const get = async () => {
       setLoading(true);
       let tokenA: string = '0';
-      if (item.asset === Asset.BTC) {
+      if (item.asset === Asset.RBTC) {
         tokenA = await Sovryn.getWeb3().eth.getBalance(account);
       } else {
         tokenA = await contractReader.call(
@@ -172,7 +172,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
       </td>
       <td className="text-right d-none d-md-table-cell">
         <ButtonGroup>
-          {item.asset === Asset.BTC && (
+          {item.asset === Asset.RBTC && (
             <Button
               minimal
               text={t(translations.userAssets.actions.deposit)}

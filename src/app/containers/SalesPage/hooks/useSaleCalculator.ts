@@ -18,7 +18,7 @@ export function useSaleCalculator(btcAmount: string) {
     '0',
   );
   const { value: btcRate, loading: btcRateLoading } = usePriceFeeds_QueryRate(
-    Asset.BTC,
+    Asset.RBTC,
     Asset.USDT,
   );
 

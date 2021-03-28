@@ -28,7 +28,7 @@ export function useApproveAndBorrow(
   return {
     borrow: async () => {
       let tx: CheckAndApproveResult = {};
-      if (collateralToken !== Asset.BTC) {
+      if (collateralToken !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
           collateralToken,
           getLendingContract(borrowToken).address,

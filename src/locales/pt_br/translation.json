@@ -126,7 +126,7 @@
     "buttons": {
       "submit": "Realizar troca",
       "switchAssets": "Alternar ativos"
-   },
+    },
     "arbitrage": {
       "best_rate": "Oportunidade de lucro rápido trocando até ",
       "for": "por até",
