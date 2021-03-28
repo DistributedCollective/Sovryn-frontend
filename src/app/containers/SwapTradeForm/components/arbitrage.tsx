@@ -44,25 +44,6 @@ export function Arbitrage() {
   const toAmount = data.USDT.rateToBalance.rate.toFixed(2);
   const toToken = symbolByTokenAddress(data.USDT.rateToBalance.to);
 
-  const tooltipText = (
-    <div className="px-5 py-4 font-weight-light">
-      <p>
-        {t(s.arbitrage.popover_p1, {
-          fromAmount: fromAmount,
-          fromToken: fromToken,
-          toAmount: toAmount,
-          toToken: toToken,
-          earn: data.USDT.rateToBalance.earn.toFixed(4),
-        })}
-      </p>
-      <p>
-        {t(s.arbitrage.popover_p2, {
-          fromToken: fromToken,
-        })}
-      </p>
-    </div>
-  );
-
   return (
     <>
       {show && (
@@ -77,7 +58,24 @@ export function Arbitrage() {
               {toAmount} {toToken}
             </span>
             <Popover
-              content={tooltipText}
+              content={
+                <div className="px-5 py-4 font-weight-light">
+                  <p>
+                    {t(s.arbitrage.popover_p1, {
+                      fromAmount: fromAmount,
+                      fromToken: fromToken,
+                      toAmount: toAmount,
+                      toToken: toToken,
+                      earn: data.USDT.rateToBalance.earn.toFixed(4),
+                    })}
+                  </p>
+                  <p>
+                    {t(s.arbitrage.popover_p2, {
+                      fromToken: fromToken,
+                    })}
+                  </p>
+                </div>
+              }
               className="pl-3"
               popoverClassName={'w-50 mx-1'}
             >
