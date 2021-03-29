@@ -33,3 +33,5 @@ export type TvlData = {
   total_btc: number;
   total_usd: number;
 };
+
+export type TvlContract = 'tvlProtocol' | 'tvlAmm' | 'tvlLending';
