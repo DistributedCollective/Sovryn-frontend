@@ -750,7 +750,7 @@
       "title": "Envie BTC para este endereço:"
     },
     "buttonBTC": "Enviar BTC para receber rBTC",
-    "buttonFiat": "Comprar rBTC usando dinheiro",
+    "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
       "status": "Status {{status}}",
