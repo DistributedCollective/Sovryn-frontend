@@ -744,7 +744,7 @@
     },
     "fiatDialog": {
       "title": "Comprar rBTC com fiat:",
-      "explanation": "Ao clicar no botão abaixo, você abrirá um fiat na rampa. Certifique-se de que o endereço do BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. FastBTC fará a conversão para rBTC para você em segundo plano. Tenha em mente o limite de 0,01"
+      "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite de 0,01"
     },
     "qr": {
       "title": "Envie BTC para este endereço:"
