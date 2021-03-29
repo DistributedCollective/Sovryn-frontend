@@ -23,15 +23,21 @@ export function StatsPage() {
       <Header />
       <main>
         <div className="container mt-5">
-          <h1 className="text-center w-100">Trading Volume</h1>
+          <h1 className="text-center w-100">
+            {t(translations.statsPage.titles.tradingVolume)}
+          </h1>
           <div className="my-5 mx-3">
             <TradingVolume />
           </div>
-          <h1 className="text-center w-100">Total Value Locked</h1>
+          <h1 className="text-center w-100">
+            {t(translations.statsPage.titles.tvl)}
+          </h1>
           <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
             <TVL />
           </div>
-          <h1 className="text-center w-100">Lending Stats</h1>
+          <h1 className="text-center w-100">
+            {t(translations.statsPage.titles.lending)}
+          </h1>
           <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
             <table className="w-100">
               <thead>

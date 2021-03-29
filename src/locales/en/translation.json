@@ -214,6 +214,11 @@
     "renewalDate": "Renewal Date"
   },
   "statsPage": {
+    "titles": {
+      "tradingVolume": "Trading Volume",
+      "tvl": "Total Value Locked",
+      "lending": "Lending Stats"
+    },
     "asset": "Asset",
     "totalAssetSupplied": "Total Asset Supplied",
     "totalAssetBorrowed": "Total Asset Borrowed",
