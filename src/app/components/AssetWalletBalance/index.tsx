@@ -3,7 +3,7 @@
  * AssetWalletBalance
  *
  */
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Asset } from 'types/asset';
 import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
@@ -11,7 +11,7 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
-import { Sovryn } from '../../../utils/sovryn';
+import { useWalletContext } from '@sovryn/react-wallet';
 
 interface Props {
   asset: Asset;
@@ -19,6 +19,7 @@ interface Props {
 }
 
 export function AssetWalletBalance(props: Props) {
+  const { connect } = useWalletContext();
   const { value, loading } = useAssetBalanceOf(props.asset);
   const { t } = useTranslation();
   const connected = useIsConnected();
@@ -29,12 +30,6 @@ export function AssetWalletBalance(props: Props) {
     }
   }, [props, value]);
 
-  const doConnect = useCallback(() => {
-    Sovryn.connect()
-      .then(() => {})
-      .catch(() => {});
-  }, []);
-
   return (
     <div>
       <div className="font-weight-bold text-muted mb-2">
@@ -42,7 +37,7 @@ export function AssetWalletBalance(props: Props) {
       </div>
       {!connected && (
         <button
-          onClick={doConnect}
+          onClick={() => connect()}
           className="bg-transparent btn-link text-white border-0 d-block text-left text-nowrap"
         >
           {t(translations.assetWalletBalance.connect)}

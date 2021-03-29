@@ -3,10 +3,7 @@ import styled from 'styled-components/macro';
 import SalesButton from 'app/components/SalesButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { SHOW_MODAL } from 'utils/classifiers';
-import { actions } from 'app/containers/EngageWalletDialog/slice';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { useDispatch } from 'react-redux';
+import { useWalletContext } from '@sovryn/react-wallet';
 
 const StyledContent = styled.div`
   height: 620px;
@@ -35,11 +32,7 @@ const StyledContent = styled.div`
 
 export default function Screen1() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const handleEngage = () => {
-    dispatch(actions.showModal(SHOW_MODAL));
-    reactLocalStorage.set('closedRskTutorial', 'false');
-  };
+  const { connect } = useWalletContext();
 
   return (
     <StyledContent>
@@ -50,7 +43,7 @@ export default function Screen1() {
       </p>
       <SalesButton
         text={t(translations.wallet.connect_btn)}
-        onClick={handleEngage}
+        onClick={() => connect()}
       />
     </StyledContent>
   );
