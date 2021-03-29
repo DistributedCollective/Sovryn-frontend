@@ -743,7 +743,7 @@
       "point3": "Aguarde 15 minutos para que a transação seja processada"
     },
     "fiatDialog": {
-      "title": "Comprar rBTC com fiat:",
+      "title": "Comprar rBTC:",
       "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite de 0,01"
     },
     "qr": {
