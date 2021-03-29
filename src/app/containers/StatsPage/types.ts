@@ -35,3 +35,18 @@ export type TvlData = {
 };
 
 export type TvlContract = 'tvlProtocol' | 'tvlAmm' | 'tvlLending';
+
+export type AmmBalanceRow = {
+  ammPool: string;
+  ammRateBtc: number;
+  ammRateToken: number;
+  btcDelta: number;
+  contractBalanceBtc: number;
+  contractBalanceToken: number;
+  oracleBtcPrice: number;
+  oracleRateBtc: number;
+  oracleRateToken: number;
+  stakedBalanceBtc: number;
+  stakedBalanceToken: number;
+  tokenDelta: number;
+};
