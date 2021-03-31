@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { TxStatus } from '../../store/global/transactions-store/types';
 
 // For disabling buttons while check is in progress, user not yet connected and etc.
-export function useCanInteract() {
+export function useCanInteract(ignoreWhitelist: boolean = false) {
   const isConnected = useIsConnected();
   const account = useAccount();
   const { whitelist } = useSelector(selectWalletProvider);
@@ -26,6 +26,11 @@ export function useCanInteract() {
       );
     }
   }, [tx, account]);
+
+  if (ignoreWhitelist) {
+    return isConnected && canSendTx;
+  }
+
   return (
     ((isConnected && !whitelist.enabled) ||
       (isConnected && whitelist.loaded && whitelist.whitelisted)) &&
