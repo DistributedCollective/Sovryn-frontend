@@ -1,7 +1,7 @@
 {
   "common": {
     "back": "Voltar",
-    "min": "min",
+    "min": "mín",
     "max": "max",
     "close": "Fechar",
     "for": "por"
@@ -732,8 +732,8 @@
     "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
     "limits": {
       "title": "Limites:",
-      "min": "Mínimo: {{amount}}",
-      "max": "Máximo: {{amount}}",
+      "min": "Mín: {{amount}}",
+      "max": "Máx: {{amount}}",
       "btc": "BTC"
     },
     "instructions": {
