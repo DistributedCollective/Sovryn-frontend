@@ -28,7 +28,6 @@ import { getTokenContractName } from '../../../utils/blockchain/contract-helpers
 import { Sovryn } from '../../../utils/sovryn';
 import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
-import { useIsWhitelisted } from '../../hooks/whitelist/useIsWhitelisted';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -105,7 +104,6 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
-  const whitelisted = useIsWhitelisted();
 
   const [dollarValue, setDollarValue] = useState('0');
 
@@ -179,7 +177,6 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
               minimal
               text={t(translations.userAssets.actions.deposit)}
               className="text-gold button-round"
-              disabled={!whitelisted}
               onClick={() => onFastBtc()}
             />
           )}

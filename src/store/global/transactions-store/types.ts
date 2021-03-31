@@ -29,6 +29,7 @@ export enum TxType {
   SOV_REIMBURSE = 'sov_reimburse',
   SOV_CONVERT = 'sov_convert',
   SOV_ORIGIN_CLAIM = 'sov_origin_claim',
+  SOV_WITHDRAW_VESTING = 'sov_withdraw_vesting',
 }
 
 export enum TxStatus {
