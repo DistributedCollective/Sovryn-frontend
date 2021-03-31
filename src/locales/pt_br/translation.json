@@ -126,7 +126,7 @@
     "buttons": {
       "submit": "Realizar troca",
       "switchAssets": "Alternar ativos"
-   },
+    },
     "arbitrage": {
       "best_rate": "Oportunidade de lucro rápido trocando até ",
       "for": "por até",
@@ -277,7 +277,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está liberada. Todas as interações na Sovryn estão desativadas até que o endereço da sua carteira esteja liberado."
+    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."

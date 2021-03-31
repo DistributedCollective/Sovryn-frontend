@@ -1,12 +1,11 @@
 import React from 'react';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useIsWhitelisted } from '../../hooks/whitelist/useIsWhitelisted';
 
 export function WhitelistedNotification() {
   const isWhitelisted = useIsWhitelisted();
-  const { t } = useTranslation();
 
   if (isWhitelisted) return <></>;
 
@@ -16,7 +15,21 @@ export function WhitelistedNotification() {
         <div className="ml-3 mr-4">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
-        <div>{t(translations.whiteListedNotification.text)}</div>
+        <div>
+          <Trans
+            i18nKey={translations.whiteListedNotification.text}
+            components={[
+              <a
+                href="https://wiki.sovryn.app/"
+                className="font-weight-light text-gold"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                x
+              </a>,
+            ]}
+          />
+        </div>
       </div>
     </div>
   );
