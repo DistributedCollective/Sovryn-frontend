@@ -2,6 +2,7 @@
   .tw-qrcode-container {
     @apply tw-w-min;
     @apply tw-mx-auto;
+    @apply tw-relative;
   }
   .tw-qrcode-label {
     @apply tw-mb-2.5;
@@ -13,7 +14,9 @@
   }
   .tw-qrcode-wrapper svg {
     border-radius: 10px;
-    @apply tw-w-full tw-h-full tw-py-6 tw-px-20;
+    @apply tw-w-full tw-h-full tw-py-6;
+    width: 158px;
+    margin: 24px 82px;
   }
   .tw-qrcode-wrapper path:first-child {
     @apply tw-fill-current tw-text-white;
@@ -23,7 +26,7 @@
   }
 
   .tw-qrcode-clipboard {
-    @apply tw-mt-5;
+    @apply tw-absolute tw-w-full;
   }
   .tw-qrcode-clipboard .tw-qrcode-address-wrapper {
     @apply tw-cursor-pointer;
