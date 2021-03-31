@@ -728,8 +728,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Depositar BTC",
-    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
+    "title": "Receber rBTC",
+    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
     "limits": {
       "title": "Limites:",
       "min": "Mínimo: {{amount}}",
@@ -742,10 +742,15 @@
       "point2": "Não envie mais BTC do que o limite máximo",
       "point3": "Aguarde 15 minutos para que a transação seja processada"
     },
+    "fiatDialog": {
+      "title": "Comprar rBTC:",
+      "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite de 0,01"
+    },
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "button": "Gerar endereço",
+    "buttonBTC": "Enviar BTC",
+    "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
       "status": "Status {{status}}",
@@ -753,7 +758,8 @@
       "to": "Para:",
       "fee": "Taxa:",
       "hash": "Hash:",
-      "close": "FECHAR",
+      "close": "Fechar",
+      "address": "Endereço:",
       "pending": "pendente",
       "confirmed": "confirmada",
       "sent": "enviada"

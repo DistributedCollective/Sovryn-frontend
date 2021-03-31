@@ -52,6 +52,15 @@ const fastBtcDialogSlice = createSlice({
       state.history.loading = false;
       state.history.items = [];
     },
+    selectBTC(state) {
+      state.step = Step.WALLET;
+    },
+    selectFiat(state) {
+      state.step = Step.FIAT;
+    },
+    openFiatOnRamp(state) {
+      state.step = Step.TRANSAK;
+    },
     // generate deposit address
     generateDepositAddress(state) {
       state.deposit.loading = true;
@@ -60,7 +69,6 @@ const fastBtcDialogSlice = createSlice({
       state,
       { payload }: PayloadAction<{ btcadr: string; web3adr: string }>,
     ) {
-      state.step = Step.WALLET;
       state.deposit.loading = false;
       state.deposit.address = payload.btcadr;
       state.deposit.receiver = payload.web3adr;
