@@ -18,10 +18,11 @@ export function useRadioContext() {
 interface Props {
   children: React.ReactNode;
   value: string;
+  title?: string;
   onChange: (value: string) => void;
 }
 
-function RadioGroup({ children, value, onChange }: Props) {
+function RadioGroup({ children, value, title, onChange }: Props) {
   const [state, setState] = useState('');
 
   function handleOnChange(value: string) {
@@ -35,7 +36,8 @@ function RadioGroup({ children, value, onChange }: Props) {
 
   return (
     <RadioContext.Provider value={[state, handleOnChange]}>
-      <div role="radiogroup" className="tw-radio-group">
+      <div className="tw-radio-group-title">{title}</div>
+      <div role="radiogroup" className="tw-radio-group-content">
         {children}
       </div>
     </RadioContext.Provider>
