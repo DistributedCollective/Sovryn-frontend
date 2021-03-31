@@ -37,13 +37,6 @@ export function BorrowLiquidationPrice(props: Props) {
     loading: loadingLongToUsdPrice,
   } = useBorrowAssetPrice(props.assetLong, Asset.USDT);
 
-  console.log(props.asset, props.assetLong, {
-    price,
-    loadingPrice,
-    longToUsd,
-    loadingLongToUsdPrice,
-  });
-
   const { value, loading: loadingLiq } = useBorrowLiquidationPrice(
     props.asset,
     bignumber(price).mul(bignumber(longToUsd).div(1e18)).toFixed(0),
