@@ -7,7 +7,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { toWei, weiTo18 } from '../../../utils/blockchain/math-helpers';
+import {
+  fromWei,
+  toWei,
+  weiTo18,
+} from '../../../utils/blockchain/math-helpers';
 import { FieldGroup } from '../../components/FieldGroup';
 import { AmountField } from '../AmountField';
 import { useCanInteract } from '../../hooks/useCanInteract';
@@ -22,12 +26,14 @@ import { TradeButton } from '../../components/TradeButton';
 import { bignumber } from 'mathjs';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { SendTxProgress } from '../../components/SendTxProgress';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 interface Props {
   pool: LiquidityPool;
 }
 
 export function PoolV1(props: Props) {
+  const rates = usePriceFeeds_tradingPairRates();
   const { t } = useTranslation();
   const isConnected = useCanInteract();
 
@@ -42,21 +48,29 @@ export function PoolV1(props: Props) {
   const [balances, setBalances] = useState({});
 
   const getAmount = (token: Asset) => amounts[token] || '0';
-  const setAmount = (token: Asset) => (value: string) =>
+  const setAmount = (token: Asset) => (value: string) => {
     setAmounts(prevState => ({ ...prevState, [token]: value }));
+
+    const targets = tokens
+      .filter(item => item.key !== token)
+      .map(item => item.key);
+    for (const target of targets) {
+      const item = rates.find(
+        item => item.source === token && item.target === target,
+      );
+      const rate = item ? item.value.rate : '0';
+      let amount = '0';
+      if (rate !== '0') {
+        amount = fromWei(bignumber(value).mul(rate));
+      }
+      setAmounts(prevState => ({ ...prevState, [target]: amount }));
+    }
+  };
 
   const getBalance = (token: Asset) => balances[token] || '0';
   const setBalance = (token: Asset) => (value: string) =>
     setBalances(prevState => ({ ...prevState, [token]: value }));
 
-  //
-  // usePoolToken(pool, sourceToken);
-  //
-  // const [amount, setAmount] = useState('');
-  //
-  // const balance = useAssetBalanceOf(sourceToken);
-  // const weiAmount = useWeiAmount(amount);
-  //
   const tx = useApproveAndAddV1Liquidity(
     props.pool.getAsset(),
     tokens.map(item => item.key),
@@ -67,31 +81,6 @@ export function PoolV1(props: Props) {
   const handleSupply = useCallback(() => {
     tx.deposit();
   }, [tx]);
-  //
-  // const handlePoolChange = useCallback(item => {
-  //   setPool(item.key);
-  // }, []);
-  //
-  // const handleTokenChange = useCallback(item => {
-  //   setSourceToken(item.key);
-  // }, []);
-  //
-  // useEffect(() => {
-  //   const _tokens = prepareTokens();
-  //   setTokens(_tokens);
-  //   if (!_tokens.find(i => i.key === sourceToken)) {
-  //     setSourceToken(_tokens[0].key);
-  //   }
-  // }, [sourceToken, pool, prepareTokens]);
-  //
-  // const amountValid = () => {
-  //   return (
-  //     bignumber(weiAmount).greaterThan(0) &&
-  //     bignumber(weiAmount).lessThanOrEqualTo(balance.value)
-  //   );
-  // };
-
-  // const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
 
   const { checkMaintenance } = useMaintenance();
   const liquidityLocked = checkMaintenance('changeLiquidity');

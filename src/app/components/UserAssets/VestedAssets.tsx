@@ -3,7 +3,7 @@
  * UserAssets
  *
  */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -13,11 +13,17 @@ import { LoadableValue } from '../LoadableValue';
 import { Asset } from '../../../types/asset';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { Skeleton } from '../PageSkeleton';
-import { weiToNumberFormat } from '../../../utils/display-text/format';
+import {
+  numberToUSD,
+  weiToNumberFormat,
+} from '../../../utils/display-text/format';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
 import { VestingDialog } from './VestingDialog';
 import { ethGenesisAddress } from '../../../utils/classifiers';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { bignumber } from 'mathjs';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -51,6 +57,9 @@ export function VestedAssets() {
               <th className="text-right">
                 {t(translations.userAssets.tableHeaders.lockedAmount)}
               </th>
+              <th className="text-right d-none d-md-table-cell">
+                {t(translations.userAssets.tableHeaders.dollarBalance)}
+              </th>
               <th className="text-right">
                 {t(translations.userAssets.tableHeaders.action)}
               </th>
@@ -60,6 +69,9 @@ export function VestedAssets() {
             {!connected && (
               <>
                 <tr>
+                  <td>
+                    <Skeleton />
+                  </td>
                   <td>
                     <Skeleton />
                   </td>
@@ -128,6 +140,19 @@ function AssetRow({
   onWithdraw,
 }: AssetProps) {
   const { t } = useTranslation();
+  const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
+
+  const dollarValue = useMemo(() => {
+    if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
+      return value;
+    } else {
+      return bignumber(value)
+        .mul(dollars.value)
+        .div(10 ** item.decimals)
+        .toFixed(0);
+    }
+  }, [dollars.value, value, item.asset, item.decimals]);
+
   return (
     <tr key={item.asset}>
       <td>
@@ -141,6 +166,12 @@ function AssetRow({
       </td>
       <td className="text-right">
         <LoadableValue value={weiToNumberFormat(value, 4)} loading={loading} />
+      </td>
+      <td className="text-right">
+        <LoadableValue
+          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          loading={dollars.loading}
+        />
       </td>
       <td className="text-right">
         <Button
