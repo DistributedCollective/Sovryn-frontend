@@ -40,7 +40,7 @@ export function OpenTransak({ address, onClose }: Props) {
       onClose();
     });
     // eslint-disable-next-line
-  }, []);
+  }, [address]);
 
   return <></>;
 }
