@@ -3,6 +3,7 @@
     @apply tw-w-min;
     @apply tw-mx-auto;
     @apply tw-relative;
+    margin-bottom: 72px;
   }
   .tw-qrcode-label {
     @apply tw-mb-2.5;
