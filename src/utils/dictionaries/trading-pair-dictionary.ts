@@ -2,10 +2,10 @@ import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
 
 export enum TradingPairType {
-  BTC_DOC = 'BTC_DOC',
-  BTC_USDT = 'BTC_USDT',
+  RBTC_DOC = 'RBTC_DOC',
+  RBTC_USDT = 'RBTC_USDT',
   BPRO_USDT = 'BPRO_USDT',
-  BTC_SOV = 'BTC_SOV',
+  RBTC_SOV = 'RBTC_SOV',
 }
 
 export class TradingPairDictionary {
@@ -15,18 +15,18 @@ export class TradingPairDictionary {
     TradingPair
   >([
     [
-      TradingPairType.BTC_USDT,
+      TradingPairType.RBTC_USDT,
       new TradingPair(
         'RBTC/USDT',
         // asset
-        Asset.BTC,
-        'BTC:USDT',
+        Asset.RBTC,
+        'RBTC:USDT',
         // asset for long position
         Asset.USDT,
         // asset for short position
-        Asset.BTC,
-        [Asset.BTC, Asset.USDT, Asset.DOC],
-        [Asset.BTC, Asset.USDT, Asset.DOC],
+        Asset.RBTC,
+        [Asset.RBTC, Asset.USDT, Asset.DOC],
+        [Asset.RBTC, Asset.USDT, Asset.DOC],
       ),
     ],
     [
@@ -45,17 +45,17 @@ export class TradingPairDictionary {
       ),
     ],
     // [
-    //   TradingPairType.BTC_SOV,
+    //   TradingPairType.RBTC_SOV,
     //   new TradingPair(
     //     'RBTC/SOV',
     //     // asset
-    //     Asset.BTC,
+    //     Asset.RBTC,
     //     'BTC:SOV',
     //     // asset for long position
     //     Asset.SOV,
     //     // asset for short position
-    //     Asset.BTC, // no shorting for SOV
-    //     [Asset.BTC, Asset.SOV],
+    //     Asset.RBTC, // no shorting for SOV
+    //     [Asset.RBTC, Asset.SOV],
     //     [],
     //   ),
     // ],

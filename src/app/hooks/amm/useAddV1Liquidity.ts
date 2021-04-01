@@ -20,7 +20,7 @@ export function useAddV1Liquidity(
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
-      const btcIndex = reserveTokens.indexOf(Asset.BTC);
+      const btcIndex = reserveTokens.indexOf(Asset.RBTC);
 
       if (btcIndex !== -1) {
         // making btc as first element

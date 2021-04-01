@@ -25,7 +25,7 @@ export function useApproveAndAddV1Liquidity(
       for (let i = 0; i < reserveTokens.length; i++) {
         const asset = reserveTokens[i];
         const amount = reserveAmounts[i];
-        if (asset !== Asset.BTC) {
+        if (asset !== Asset.RBTC) {
           tx = await contractWriter.checkAndApprove(
             asset,
             getContract('BTCWrapperProxy').address,

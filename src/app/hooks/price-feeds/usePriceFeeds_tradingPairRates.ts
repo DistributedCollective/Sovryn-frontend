@@ -65,10 +65,10 @@ export function usePriceFeeds_tradingPairRates() {
     }
 
     try {
-      const btcToSov = await getSwapRate(Asset.BTC, Asset.SOV, '1');
+      const btcToSov = await getSwapRate(Asset.RBTC, Asset.SOV, '1');
 
       items.push({
-        source: Asset.BTC,
+        source: Asset.RBTC,
         target: Asset.SOV,
         value: {
           precision: '1000000000000000000',
@@ -78,7 +78,7 @@ export function usePriceFeeds_tradingPairRates() {
 
       items.push({
         source: Asset.SOV,
-        target: Asset.BTC,
+        target: Asset.RBTC,
         value: {
           precision: '1000000000000000000',
           rate: toWei(1 / Number(btcToSov)),
@@ -86,7 +86,7 @@ export function usePriceFeeds_tradingPairRates() {
       });
 
       const btcToUsd = items.find(
-        item => item.source === Asset.BTC && item.target === Asset.USDT,
+        item => item.source === Asset.RBTC && item.target === Asset.USDT,
       )?.value?.rate;
 
       const sovToUsd = bignumber(btcToUsd)

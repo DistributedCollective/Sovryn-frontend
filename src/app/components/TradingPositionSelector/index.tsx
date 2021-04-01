@@ -33,7 +33,7 @@ export function TradingPositionSelector(props: Props) {
       </div>
       <div className="col-6 pl-1">
         <Tab
-          disabled={props.pairType === TradingPairType.BTC_SOV}
+          disabled={props.pairType === TradingPairType.RBTC_SOV}
           type={TradingPosition.SHORT}
           active={props.value === TradingPosition.SHORT}
           text={t(translations.trandingPositionSelector.short)}

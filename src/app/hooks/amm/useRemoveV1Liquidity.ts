@@ -21,7 +21,7 @@ export function useRemoveV1Liquidity(
 
   return {
     withdraw: (nonce?: number, approveTx?: string | null) => {
-      const btcIndex = reserveTokens.indexOf(Asset.BTC);
+      const btcIndex = reserveTokens.indexOf(Asset.RBTC);
       if (btcIndex !== -1) {
         // making btc as first element
         const btcToken = reserveTokens[btcIndex];

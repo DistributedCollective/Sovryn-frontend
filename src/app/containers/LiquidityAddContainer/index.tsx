@@ -36,7 +36,7 @@ interface Props {}
 
 export function LiquidityAddContainer(props: Props) {
   const { t } = useTranslation();
-  const isConnected = useCanInteract();
+  const isConnected = useCanInteract(true);
 
   const [pool, setPool] = useState(poolList[0].key);
 

@@ -1,6 +1,6 @@
 export enum Asset {
   CSOV = 'CSOV',
-  BTC = 'BTC',
+  RBTC = 'RBTC',
   DOC = 'DOC',
   USDT = 'USDT',
   BPRO = 'BPRO',

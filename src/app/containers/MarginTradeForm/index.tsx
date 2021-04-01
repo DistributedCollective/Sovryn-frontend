@@ -132,7 +132,7 @@ export function MarginTradeForm() {
 
   // Force LONG for BTC/SOV trading pair.
   useEffect(() => {
-    if (tradingPair === TradingPairType.BTC_SOV) {
+    if (tradingPair === TradingPairType.RBTC_SOV) {
       setPosition(TradingPosition.LONG);
     }
   }, [tradingPair]);
