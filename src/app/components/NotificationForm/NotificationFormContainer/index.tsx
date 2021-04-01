@@ -20,18 +20,9 @@ export function NotificationForm() {
   const mailSrv = backendUrl[currentChainId];
 
   const walletAddress = useAccount();
-  const emptyUser = {
-    user_address: '',
-    email: '',
-    name: '',
-    first_transaction: '',
-    marketing: true,
-    notifications: true,
-    referred_by: '',
-  };
 
   const [response, setResponse] = useState('');
-  const [foundUser, setFoundUser] = useState(emptyUser);
+  const [userExists, setUserExists] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
 
@@ -58,15 +49,6 @@ export function NotificationForm() {
       dispatch({ field: e.target.name, value: e.target.value });
     }
   };
-
-  //SET VALUES IN UPDATE FORM
-  useEffect(() => {
-    if (foundUser && foundUser.email && foundUser.name) {
-      dispatch({ field: 'name', value: foundUser.name });
-      dispatch({ field: 'email', value: foundUser.email });
-      dispatch({ field: 'marketing', value: foundUser.marketing });
-    }
-  }, [foundUser]);
 
   //UPDATE OR ADD USER
   const addUser = (e, formType) => {
@@ -113,26 +95,16 @@ export function NotificationForm() {
           walletAddress: walletAddress,
         })
         .then(res => {
-          setFoundUser(res.data[0]);
+          setUserExists(res.data.found);
+          console.log('User exists: ' + userExists);
           setLoading(false);
         })
         .catch(e => {
           console.log(e);
           setLoading(false);
         });
-    } else {
-      setFoundUser({
-        user_address: '',
-        email: '',
-        name: '',
-        first_transaction: '',
-        marketing: true,
-        notifications: true,
-        referred_by: '',
-      });
-      setLoading(false);
     }
-  }, [mailSrv, walletAddress]);
+  }, [mailSrv, walletAddress, userExists]);
 
   //GET USER
   useEffect(() => {
@@ -145,6 +117,8 @@ export function NotificationForm() {
     setResponse('');
     getUser();
     setLoading(false);
+    state.name = '';
+    state.email = '';
   }
 
   return (
@@ -152,7 +126,7 @@ export function NotificationForm() {
       <div className={`tw-hidden ${!loading && walletAddress && 'tw-inline'}`}>
         <EmailNotificationButton
           text={`${
-            foundUser
+            userExists
               ? t(
                   translations.notificationFormContainer
                     .emailSettingsBtn_update,
@@ -180,16 +154,16 @@ export function NotificationForm() {
                     response={response}
                     onSubmit={addUser}
                     onChange={onChange}
-                    formType={foundUser ? 'update' : 'signup'}
+                    formType={userExists ? 'update' : 'signup'}
                   />
                 )}
-                {response === 'success' && !foundUser && (
+                {response === 'success' && !userExists && (
                   <div>
                     {t(translations.notificationFormContainer.updated_success)}
                   </div>
                 )}
 
-                {response === 'success' && foundUser && (
+                {response === 'success' && userExists && (
                   <div>
                     {t(
                       translations.notificationFormContainer

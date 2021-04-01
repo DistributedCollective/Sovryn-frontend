@@ -145,7 +145,7 @@ export function CloseTradingPositionHandler(props: Props) {
 
         {!!props.item.loanId && (
           <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
-            <AssetWalletBalance asset={Asset.BTC} />
+            <AssetWalletBalance asset={Asset.RBTC} />
             <TradeButton
               text={
                 withdrawAll
@@ -154,7 +154,10 @@ export function CloseTradingPositionHandler(props: Props) {
               }
               onClick={() => handleConfirmSwap()}
               disabled={
-                rest.loading || !valid || closeTradesLocked?.maintenance_active
+                rest.loading ||
+                !valid ||
+                closeTradesLocked?.maintenance_active ||
+                test.diff > 5
               }
               loading={rest.loading}
               tooltip={

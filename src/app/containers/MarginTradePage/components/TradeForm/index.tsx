@@ -22,9 +22,11 @@ const pairs: Options<TradingPairType> = TradingPairDictionary.entries().map(
 
 export function TradeForm() {
   const { t } = useTranslation();
-  const [value, setValue] = useState<TradingPairType>(TradingPairType.BTC_USDT);
+  const [value, setValue] = useState<TradingPairType>(
+    TradingPairType.RBTC_USDT,
+  );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [collateral, setCollateral] = useState<Asset>(Asset.BTC);
+  const [collateral, setCollateral] = useState<Asset>(Asset.RBTC);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [position, setPosition] = useState<TradingPosition>(
     TradingPosition.LONG,
@@ -60,7 +62,7 @@ export function TradeForm() {
           {/*<Select value={collateral} onChange={} options={} />*/}
         </FormGroup>
         <div>Available balance: 0000000</div>
-        <AssetWalletBalance asset={Asset.BTC} />
+        <AssetWalletBalance asset={Asset.RBTC} />
         <FormGroup
           label={t(translations.marginTradePage.tradeForm.labels.leverage)}
         >
@@ -76,7 +78,7 @@ export function TradeForm() {
           <AmountInput
             value={amount}
             onChange={value => setAmount(value)}
-            asset={Asset.BTC}
+            asset={Asset.RBTC}
           />
         </FormGroup>
       </div>

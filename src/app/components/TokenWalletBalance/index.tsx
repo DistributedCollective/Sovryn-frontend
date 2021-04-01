@@ -3,7 +3,7 @@
  * TokenWalletBalance
  *
  */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
@@ -11,6 +11,7 @@ import { LoadableValue } from '../LoadableValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { useTokenBalanceOf } from '../../hooks/useTokenBalanceOf';
+import { Sovryn } from '../../../utils/sovryn';
 
 interface Props {
   asset: Asset;
@@ -29,12 +30,25 @@ export function TokenWalletBalance(props: Props) {
     }
   }, [props, value]);
 
+  const doConnect = useCallback(() => {
+    Sovryn.connect()
+      .then(() => {})
+      .catch(() => {});
+  }, []);
+
   return (
     <div>
       <div className="tw-font-bold tw-text-muted tw-mb-2">
         {t(translations.assetWalletBalance.accountBalance)}
       </div>
-      {!connected && <span>{t(translations.assetWalletBalance.connect)}</span>}
+      {!connected && (
+        <button
+          onClick={doConnect}
+          className="bg-transparent btn-link text-white border-0 d-block text-left text-nowrap"
+        >
+          {t(translations.assetWalletBalance.connect)}
+        </button>
+      )}
       {connected && (
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
           <span className="tw-text-muted">{props.asset}</span>

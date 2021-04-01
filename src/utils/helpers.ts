@@ -106,8 +106,8 @@ export const toChunks = (from: number, to: number, size: number) => {
   return array;
 };
 
-export const maxMinusFee = (amount: any, asset: Asset = Asset.BTC) => {
-  if (asset !== Asset.BTC) return amount;
+export const maxMinusFee = (amount: any, asset: Asset = Asset.RBTC) => {
+  if (asset !== Asset.RBTC) return amount;
   const gasPrice = gas.get();
   const gasLimit = 2000000;
   const fee = bignumber(gasPrice).mul(gasLimit);

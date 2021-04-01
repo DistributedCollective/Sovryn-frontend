@@ -16,7 +16,7 @@ import { reducer, sliceKey } from './slice';
 import { selectTradingPage } from './selectors';
 import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import { TradingViewChart } from '../../components/TradingViewChart';
+import { TradingChart, Theme, ChartType } from '../../components/TradingChart';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
@@ -52,7 +52,11 @@ export function TradingPage(props: Props) {
               tradingPage.isMobileStatsOpen && `tw-block`
             } lg:tw-block`}
           >
-            <TradingViewChart symbol={symbol} />
+            <TradingChart
+              symbol={symbol}
+              theme={Theme.DARK}
+              type={ChartType.CANDLE}
+            />
           </div>
           <div className="lg:tw-order-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}

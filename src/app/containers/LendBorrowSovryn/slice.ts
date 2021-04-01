@@ -6,7 +6,7 @@ import { Asset } from '../../../types/asset';
 // The initial state of the WalletConnector container
 export const initialState: ContainerState = {
   tab: TabType.LEND,
-  asset: Asset.BTC,
+  asset: Asset.RBTC,
   collateral: null,
   lendAmount: '',
   borrowAmount: '',

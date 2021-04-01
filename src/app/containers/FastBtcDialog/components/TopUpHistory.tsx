@@ -26,7 +26,7 @@ export function TopUpHistory() {
   const state = useSelector(selectFastBtcDialog);
   const dispatch = useDispatch();
 
-  const asset = AssetsDictionary.get(Asset.BTC);
+  const asset = AssetsDictionary.get(Asset.RBTC);
 
   useEffect(() => {
     if (isConnected && account) {

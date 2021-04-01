@@ -11,7 +11,7 @@ import { translations } from 'locales/i18n';
 export function HintDialog() {
   const [show, setShow] = useState<boolean>(false);
   const connected = useIsConnected();
-  const { value, loading } = useAssetBalanceOf(Asset.BTC);
+  const { value, loading } = useAssetBalanceOf(Asset.RBTC);
   const { t } = useTranslation();
 
   useEffect(() => {

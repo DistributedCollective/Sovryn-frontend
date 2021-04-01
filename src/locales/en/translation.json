@@ -3,7 +3,11 @@
     "back": "Back",
     "min": "min",
     "max": "max",
-    "close": "Close"
+    "close": "Close",
+    "for": "for",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "fee": "Tx Fee: {{amount}} (r)BTC"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -123,7 +127,14 @@
       "receive": "You receive"
     },
     "buttons": {
-      "submit": "Place Trade"
+      "submit": "Place Trade",
+      "switchAssets": "Switch Assets"
+    },
+    "arbitrage": {
+      "best_rate": "Make an instant profit by swapping up to",
+      "for": "for up to",
+      "popover_p1": "Currently on Sovryn, you can trade {{fromAmount}} {{fromToken}} for {{toAmount}} {{toToken}}. This is {{earn}} {{toToken}} more than the market price (free money!).",
+      "popover_p2": "This arbitrage is an opportunity for our users to make extra money selling their {{fromToken}}, and helps to keep our AMM (automated market maker) in balance."
     }
   },
   "amountField": {
@@ -150,7 +161,7 @@
   },
   "mainMenu": {
     "trade": "Trade",
-    "lend": "Lend/Borrow",
+    "lend": "Loans",
     "fastBtc": "Top-Up",
     "wallet": "My wallet",
     "liquidity": "Market-making",
@@ -273,7 +284,7 @@
     "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
-    "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
+    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
@@ -582,11 +593,12 @@
       "action": "Action"
     },
     "actions": {
-      "deposit": "FastBTC",
+      "deposit": "Top Up",
       "swap": "Swap",
       "trade": "Trade",
       "claimSov": "Claim SOV",
-      "redeemRBTC": "Redeem rBTC"
+      "redeemRBTC": "Redeem rBTC",
+      "withdraw": "Withdraw"
     }
   },
   "topUpHistory": {
@@ -724,12 +736,13 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Top Up FastBTC",
-    "subtitle": "Deposit BTC to receive rBTC in your wallet",
+    "title": "Get rBTC",
+    "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
     "limits": {
       "title": "Deposit limits:",
-      "min": "MIN: {{amount}} BTC",
-      "max": "MAX: {{amount}} BTC"
+      "min": "MIN: {{amount}}",
+      "max": "MAX: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instructions:",
@@ -737,10 +750,15 @@
       "point2": "Do not send more BTC than the MAX limit",
       "point3": "Allow  15 mins for the transaction to process"
     },
+    "fiatDialog": {
+      "title": "Buy rBTC with fiat:",
+      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the 0.01 limit"
+    },
     "qr": {
       "title": "Send BTC to this address:"
     },
-    "button": "Generate deposit address",
+    "buttonBTC": "Get rBTC with BTC",
+    "buttonFiat": "Get rBTC with fiat",
     "transaction": {
       "title": "Transaction Details",
       "status": "Status {{status}}",
@@ -748,7 +766,11 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "Close"
+      "close": "Close",
+      "address": "Address",
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "sent": "sent"
     }
   },
   "onCopy": {
@@ -777,5 +799,12 @@
       "noResults": "No results",
       "placeholder": "Select item"
     }
+  },
+  "vestingDialog": {
+    "title": "Withdraw Vesting",
+    "subtitle": "This transaction requires rBTC for gas.",
+    "amount": "Amount to Withdraw:",
+    "receiver": "Receive SOV to:",
+    "calculating": "Calculating..."
   }
 }
