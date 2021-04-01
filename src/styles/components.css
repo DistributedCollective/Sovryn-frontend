@@ -150,45 +150,6 @@
     opacity: 100;
   }
 
-  /* Slider */
-  .tw-slider {
-    height: 3rem;
-  }
-
-  .tw-slider .bp3-slider-track {
-    height: 0.75rem;
-    @apply lg:tw-rounded;
-  }
-
-  .tw-slider .bp3-slider-progress {
-    height: 0.75rem;
-    /* todo change color with correct tailwinds definition */
-    background-color: #707070;
-  }
-
-  .tw-slider .bp3-slider-progress.bp3-intent-primary {
-    background-color: theme('colors.secondary');
-  }
-
-  .tw-slider .bp3-slider-handle {
-    @apply tw-rounded tw-w-6 tw-h-6;
-  }
-
-  .tw-slider .bp3-slider-axis {
-    position: relative;
-    width: calc(100% - 0.75rem);
-    @apply tw-mx-auto;
-  }
-
-  .tw-slider .bp3-slider-label {
-    @apply tw-font-bold tw-font-body tw-text-white;
-    top: 0.75rem;
-  }
-
-  .tw-slider .bp3-slider-handle .bp3-slider-label {
-    display: none;
-  }
-
   .tw-trading-form-card {
     max-width: 452px;
     width: 100%;
