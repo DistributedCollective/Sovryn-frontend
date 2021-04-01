@@ -14,6 +14,7 @@ import { Footer } from '../../components/Footer';
 import { StatsRow } from '../../components/StatsRow';
 import { TradingVolume } from './components/TradingVolume';
 import { TVL } from './components/TVL';
+import { AmmBalance } from './components/AmmBalance';
 
 export function StatsPage() {
   const { t } = useTranslation();
@@ -60,6 +61,10 @@ export function StatsPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <h1 className="text-center w-100">AMM Balances</h1>
+          <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
+            <AmmBalance />
           </div>
         </div>
       </main>
