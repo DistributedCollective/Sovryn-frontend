@@ -15,8 +15,6 @@ export function EventTable(props: Props) {
     .map(item => parseFloat(item.reserve_amount))
     .reduce((item, sum) => sum + item, 0);
 
-  console.log(totalAdded);
-
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
