@@ -13,6 +13,8 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { LiquidityAddContainer } from '../LiquidityAddContainer';
 import { LiquidityRemoveContainer } from '../LiquidityRemoveContainer';
+import { LiquidityMining } from '../LiquidityMining';
+import { Explainer } from '../LiquidityMining/components/Explainer';
 
 enum TabType {
   ADD,
@@ -33,7 +35,7 @@ export function LiquidityPage(props: Props) {
       <Header />
       <div className="container mt-5">
         <div className="row">
-          <div className="col-12 col-lg-6 order-lg-0 pr-lg-5">
+          <div className="col-12 col-lg-6 order-lg-0 pr-lg-3">
             <div className="sovryn-tabs">
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab
@@ -49,6 +51,25 @@ export function LiquidityPage(props: Props) {
                   <LiquidityRemoveContainer />
                 </Tab>
               </Tabs>
+            </div>
+          </div>
+          <div className="col-12 col-lg-6 order-lg-0 pl-lg-3 mt-5 mt-md-0">
+            <div className="sovryn-tabs">
+              <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
+                <Tab
+                  eventKey={(TabType.ADD as unknown) as string}
+                  title="How does it work?"
+                >
+                  <Explainer />
+                </Tab>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-5">
+          <div className="col-12">
+            <div className="container p-3 sovryn-border">
+              <LiquidityMining />
             </div>
           </div>
         </div>

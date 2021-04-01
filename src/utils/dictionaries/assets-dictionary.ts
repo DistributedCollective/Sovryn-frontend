@@ -28,6 +28,9 @@ export class AssetsDictionary {
         Asset.CSOV,
         new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
       ],
+      // [
+      //   Asset.SOV, new AssetDetails(Asset.SOV, 'SOV')
+      // ]
     ],
   );
 
