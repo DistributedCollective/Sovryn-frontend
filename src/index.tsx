@@ -16,6 +16,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 // Import scss global styles
+import 'antd/dist/antd.css';
 import './styles/sass/styles.scss';
 import './styles/index.css';
 
@@ -30,7 +31,6 @@ import { store } from './store/store';
 import './locales/i18n';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
-import 'antd/dist/antd.css';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   import('./sentry').then(({ default: sentryInit }) => sentryInit());

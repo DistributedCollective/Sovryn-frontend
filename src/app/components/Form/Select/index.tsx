@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import classNames from 'classnames';
 import { Select as BP_Select } from '@blueprintjs/select';
-import { MenuItem, Text } from '@blueprintjs/core';
+import { Text } from '@blueprintjs/core';
 import { isMobile } from 'utils/helpers';
 import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
-import { areOptionsEqual, filterItem, renderItem } from './renderers';
+import { areOptionsEqual, renderItem } from './renderers';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
 
 interface Props<K = string, V = string, P = any> {
@@ -26,8 +26,6 @@ interface Props<K = string, V = string, P = any> {
 const Selector = BP_Select.ofType<Option>();
 
 export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
-  const { t } = useTranslation();
-
   const onItemSelect = useCallback(item => props.onChange(item.key, item), [
     props,
   ]);
