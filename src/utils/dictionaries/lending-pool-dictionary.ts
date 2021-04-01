@@ -5,7 +5,12 @@ export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [
       Asset.RBTC,
-      new LendingPool('RBTC', Asset.RBTC, [Asset.DOC, Asset.USDT, Asset.BPRO]),
+      new LendingPool('RBTC', Asset.RBTC, [
+        Asset.SOV,
+        Asset.DOC,
+        Asset.USDT,
+        Asset.BPRO,
+      ]),
     ],
     [
       Asset.DOC,
