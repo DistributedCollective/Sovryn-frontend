@@ -1,0 +1,51 @@
+/* trading button styles */
+@layer components {
+  .tw-btn-trade {
+    width: 100%;
+    height: 3.75rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-px-6 tw-py-2;
+    @apply tw-border-0 lg:tw-rounded;
+    @apply tw-transition;
+    @apply hover:tw-bg-opacity-75;
+  }
+
+  .tw-btn-trade:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
+
+  .tw-btn-trade.loading,
+  .tw-btn-trade.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
+  }
+
+  .tw-btn-trade--long {
+    background: #17c3b2 !important;
+  }
+
+  .tw-btn-trade--short {
+    background: #d74e09 !important;
+  }
+
+  .tw-btn-trade .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.white');
+  }
+
+  .tw-btn-trade .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+
+  .tw-btn-loader__spinner {
+    @apply tw-block tw-overflow-hidden tw-text-left;
+    transition: width 150ms, opacity 100ms;
+    opacity: 0;
+    width: 0;
+  }
+
+  .tw-btn-loader__spinner.active {
+    width: 2rem;
+    opacity: 100;
+  }
+}
