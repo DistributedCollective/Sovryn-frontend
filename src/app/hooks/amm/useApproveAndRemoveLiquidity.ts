@@ -31,7 +31,7 @@ export function useApproveAndRemoveLiquidity(
       let tx: CheckAndApproveResult = {};
       tx = await contractWriter.checkAndApproveContract(
         getPoolTokenContractName(pool, asset),
-        asset === Asset.BTC
+        asset === Asset.RBTC
           ? getContract('BTCWrapperProxy').address
           : getAmmContract(pool).address,
         [amount, toWei('100000')],

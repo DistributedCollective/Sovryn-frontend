@@ -10,6 +10,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import { Asset } from '../../../../../types/asset';
 
 export function Screen3(props) {
   const { t } = useTranslation();
@@ -132,7 +133,7 @@ export function Screen3(props) {
             <div className="col-4">
               {t(translations.rskConnectTutorial.input_settings.symbol)}:
             </div>
-            <div className="col-8">RBTC</div>
+            <div className="col-8">{Asset.RBTC}</div>
           </div>
           <div className="row">
             <div className="col-4">

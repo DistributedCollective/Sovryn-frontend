@@ -16,14 +16,14 @@ export function useAddLiquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    asset === Asset.BTC ? 'BTCWrapperProxy' : getAmmContractName(pool),
+    asset === Asset.RBTC ? 'BTCWrapperProxy' : getAmmContractName(pool),
     'addLiquidity',
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
       return send(
         [
-          asset === Asset.BTC
+          asset === Asset.RBTC
             ? getAmmContract(pool).address
             : getTokenContract(asset).address,
           amount,
@@ -31,7 +31,7 @@ export function useAddLiquidity(
         ],
         {
           from: account,
-          value: asset === Asset.BTC ? amount : '0',
+          value: asset === Asset.RBTC ? amount : '0',
           nonce,
         },
         {

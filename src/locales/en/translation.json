@@ -589,7 +589,7 @@
       "action": "Action"
     },
     "actions": {
-      "deposit": "FastBTC",
+      "deposit": "Top Up",
       "swap": "Swap",
       "trade": "Trade",
       "claimSov": "Claim SOV",
@@ -732,12 +732,13 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Top Up FastBTC",
-    "subtitle": "Deposit BTC to receive rBTC in your wallet",
+    "title": "Get rBTC",
+    "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
     "limits": {
       "title": "Deposit limits:",
-      "min": "MIN: {{amount}} BTC",
-      "max": "MAX: {{amount}} BTC"
+      "min": "MIN: {{amount}}",
+      "max": "MAX: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instructions:",
@@ -745,10 +746,15 @@
       "point2": "Do not send more BTC than the MAX limit",
       "point3": "Allow  15 mins for the transaction to process"
     },
+    "fiatDialog": {
+      "title": "Buy rBTC with fiat:",
+      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the 0.01 limit"
+    },
     "qr": {
       "title": "Send BTC to this address:"
     },
-    "button": "Generate deposit address",
+    "buttonBTC": "Get rBTC with BTC",
+    "buttonFiat": "Get rBTC with fiat",
     "transaction": {
       "title": "Transaction Details",
       "status": "Status {{status}}",
@@ -756,7 +762,8 @@
       "to": "To:",
       "fee": "Tx Fee:",
       "hash": "Tx Hash:",
-      "close": "CLOSE",
+      "close": "Close",
+      "address": "Address",
       "pending": "pending",
       "confirmed": "confirmed",
       "sent": "sent"

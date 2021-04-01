@@ -13,8 +13,10 @@ export interface FastBtcDialogState {
 export type ContainerState = FastBtcDialogState;
 
 export enum Step {
+  FIAT,
   MAIN,
   WALLET,
+  TRANSAK,
   TRANSACTION,
 }
 
