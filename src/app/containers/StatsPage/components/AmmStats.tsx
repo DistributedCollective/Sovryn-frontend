@@ -3,7 +3,6 @@ import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { AmmBalanceRow } from '../types';
-import { formatNumber } from '../utils';
 
 export function AmmStats() {
   const assets = ['DOC', 'USDT', 'BPRO'];
@@ -46,13 +45,6 @@ function Row(props) {
       })
       .catch(e => console.error(e));
   }, [url, props.asset]);
-
-  const decimals = {
-    BTC: 4,
-    BPRO: 4,
-    USDT: 2,
-    DOC: 2,
-  };
 
   return (
     <>

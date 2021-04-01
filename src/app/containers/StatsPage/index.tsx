@@ -15,7 +15,6 @@ import { StatsRow } from '../../components/StatsRow';
 import { TradingVolume } from './components/TradingVolume';
 import { TVL } from './components/TVL';
 import { AmmBalance } from './components/AmmBalance';
-import { AmmStats } from './components/AmmStats';
 
 export function StatsPage() {
   const { t } = useTranslation();
@@ -72,10 +71,6 @@ export function StatsPage() {
           <h1 className="text-center w-100">AMM Balances</h1>
           <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
             <AmmBalance />
-          </div>
-          <h1 className="text-center w-100">AMM Stats</h1>
-          <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
-            <AmmStats />
           </div>
         </div>
       </main>
