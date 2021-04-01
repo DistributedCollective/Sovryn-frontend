@@ -3,9 +3,10 @@ import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { AmmBalanceRow } from '../types';
+import { Asset } from 'types/asset';
 
 export function AmmStats() {
-  const assets = ['DOC', 'USDT', 'BPRO'];
+  const assets = [Asset.DOC, Asset.USDT, Asset.BPRO];
 
   return (
     <div>

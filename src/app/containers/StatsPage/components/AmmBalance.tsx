@@ -4,9 +4,10 @@ import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { AmmBalanceRow } from '../types';
 import { formatNumber } from '../utils';
+import { Asset } from 'types/asset';
 
 export function AmmBalance() {
-  const assets = ['DOC', 'USDT', 'BPRO'];
+  const assets = [Asset.DOC, Asset.USDT, Asset.BPRO];
 
   return (
     <div>
