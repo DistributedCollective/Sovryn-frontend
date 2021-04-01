@@ -3,7 +3,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { getAmmContract } from 'utils/blockchain/contract-helpers';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { useAddV1Liquidity } from './useAddV1Liquidity';
 
 export function useApproveAndAddV1Liquidity(
@@ -25,16 +25,16 @@ export function useApproveAndAddV1Liquidity(
       for (let i = 0; i < reserveTokens.length; i++) {
         const asset = reserveTokens[i];
         const amount = reserveAmounts[i];
-        // if (asset !== Asset.BTC) {
-        tx = await contractWriter.checkAndApprove(
-          asset,
-          getAmmContract(pool).address,
-          amount,
-        );
-        if (tx.rejected) {
-          return;
+        if (asset !== Asset.BTC) {
+          tx = await contractWriter.checkAndApprove(
+            asset,
+            getContract('BTCWrapperProxy').address,
+            amount,
+          );
+          if (tx.rejected) {
+            return;
+          }
         }
-        // }
       }
 
       await deposit(tx?.nonce, tx?.approveTx);

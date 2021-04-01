@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import {
-  getAmmContractName,
+  getAmmContract,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
@@ -15,23 +15,35 @@ export function useAddV1Liquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    getAmmContractName(pool),
-    'addLiquidity',
+    'BTCWrapperProxy',
+    'addLiquidityToV1',
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
-      // const btcIndex = reserveTokens.indexOf(Asset.BTC);
+      const btcIndex = reserveTokens.indexOf(Asset.BTC);
+
+      if (btcIndex !== -1) {
+        // making btc as first element
+        const btcToken = reserveTokens[btcIndex];
+        const btcAmount = reserveAmounts[btcIndex];
+        delete reserveTokens[btcIndex];
+        delete reserveAmounts[btcIndex];
+        reserveTokens.unshift(btcToken);
+        reserveAmounts.unshift(btcAmount);
+      }
 
       return send(
         [
-          reserveTokens.map(item => getTokenContract(item).address),
-          reserveAmounts,
+          getAmmContract(pool).address,
+          reserveTokens
+            .filter(item => !!item)
+            .map(item => getTokenContract(item).address),
+          reserveAmounts.filter(item => !!item),
           totalSupply,
         ],
         {
           from: account,
-          // value: btcIndex === -1 ? '0' : reserveAmounts[btcIndex],
-          value: '0',
+          value: btcIndex === -1 ? '0' : reserveAmounts[0],
           nonce,
         },
         {

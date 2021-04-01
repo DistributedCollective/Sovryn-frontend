@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import {
-  getAmmContractName,
+  getAmmContract,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
@@ -15,17 +15,30 @@ export function useRemoveV1Liquidity(
 ) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
-    getAmmContractName(pool),
-    'removeLiquidity',
+    'BTCWrapperProxy',
+    'removeLiquidityFromV1',
   );
 
   return {
-    withdraw: (nonce?: number, approveTx?: string | null) =>
-      send(
+    withdraw: (nonce?: number, approveTx?: string | null) => {
+      const btcIndex = reserveTokens.indexOf(Asset.BTC);
+      if (btcIndex !== -1) {
+        // making btc as first element
+        const btcToken = reserveTokens[btcIndex];
+        const btcAmount = reserveMinReturnAmounts[btcIndex];
+        delete reserveTokens[btcIndex];
+        delete reserveMinReturnAmounts[btcIndex];
+        reserveTokens.unshift(btcToken);
+        reserveMinReturnAmounts.unshift(btcAmount);
+      }
+      return send(
         [
+          getAmmContract(pool).address,
           amount,
-          reserveTokens.map(item => getTokenContract(item).address),
-          reserveMinReturnAmounts,
+          reserveTokens
+            .filter(item => !!item)
+            .map(item => getTokenContract(item).address),
+          reserveMinReturnAmounts.filter(item => !!item),
         ],
         {
           from: account,
@@ -34,7 +47,8 @@ export function useRemoveV1Liquidity(
           approveTransactionHash: approveTx,
           type: TxType.REMOVE_LIQUIDITY,
         },
-      ),
+      );
+    },
     ...rest,
   };
 }

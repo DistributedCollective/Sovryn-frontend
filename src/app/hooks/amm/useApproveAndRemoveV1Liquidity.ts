@@ -1,5 +1,5 @@
 import { Asset } from 'types/asset';
-import { getAmmContract } from 'utils/blockchain/contract-helpers';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import {
   CheckAndApproveResult,
   contractWriter,
@@ -27,7 +27,7 @@ export function useApproveAndRemoveV1Liquidity(
 
       tx = await contractWriter.checkAndApproveContract(
         `${pool}_${pool}_poolToken` as ContractName,
-        getAmmContract(pool).address,
+        getContract('BTCWrapperProxy').address,
         [amount, toWei('100000')],
         pool,
       );
