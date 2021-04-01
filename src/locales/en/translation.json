@@ -242,7 +242,10 @@
     "token": "Expected pool tokens",
     "fee": "fee",
     "supply": "Supply",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "v1": {
+      "balance": "Available balance"
+    }
   },
   "modal": {
     "close": "Close"
@@ -285,7 +288,7 @@
     "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
-    "text": "Currently Sovryn is available for invited users only and your wallet is not yet whitelisted. All interactions is disabled until you switch to whitelisted wallet or get whitelisted for current one."
+    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
