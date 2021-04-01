@@ -1,9 +1,5 @@
 @layer components {
-  .tw-radio-group-title {
-    @apply tw-mb-5;
-    @apply tw-font-semibold tw-text-base;
-  }
-  .tw-radio-group-content {
+  .tw-radio-group {
     @apply tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-overflow-hidden tw-divide-x;
     max-width: 320px;
     @apply tw-border tw-border-secondary;
