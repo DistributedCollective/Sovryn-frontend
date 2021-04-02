@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-import { TvlData } from '../types';
+import { TvlData, TvlContract } from '../types';
 
 export function TVL() {
   const url = backendUrl[currentChainId];
@@ -19,45 +19,39 @@ export function TVL() {
       .catch(e => console.error(e));
   }, [url]);
 
+  const btcValue = (contract: TvlContract) => {
+    return (
+      data &&
+      data[contract].btc_total +
+        data[contract].usd_total * (1 / data?.btc_doc_rate) +
+        data[contract].bpro_total * data?.bpro_btc_rate
+    );
+  };
+
+  const usdValue = (contract: TvlContract) => {
+    return (
+      data &&
+      data[contract].usd_total +
+        data[contract].btc_total * data.btc_doc_rate +
+        data[contract].bpro_total * data.bpro_doc_rate
+    );
+  };
+
   const rowData = [
     {
       contract: 'Protocol Contract',
-      btcValue:
-        data &&
-        data?.tvlProtocol.btc_total +
-          data?.tvlProtocol.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlProtocol.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlProtocol.usd_total +
-          data?.tvlProtocol.btc_total * data?.btc_doc_rate +
-          data?.tvlProtocol.bpro_total * data?.bpro_doc_rate,
+      btcValue: btcValue('tvlProtocol'),
+      usdValue: usdValue('tvlProtocol'),
     },
     {
       contract: 'Lending Contracts',
-      btcValue:
-        data &&
-        data?.tvlLending.btc_total +
-          data?.tvlLending.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlLending.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlLending.usd_total +
-          data?.tvlLending.btc_total * data?.btc_doc_rate +
-          data?.tvlLending.bpro_total * data?.bpro_doc_rate,
+      btcValue: btcValue('tvlLending'),
+      usdValue: usdValue('tvlLending'),
     },
     {
       contract: 'Amm Contracts',
-      btcValue:
-        data &&
-        data?.tvlAmm.btc_total +
-          data?.tvlAmm.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlAmm.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlAmm.usd_total +
-          data?.tvlAmm.btc_total * data?.btc_doc_rate +
-          data?.tvlAmm.bpro_total * data?.bpro_doc_rate,
+      btcValue: btcValue('tvlAmm'),
+      usdValue: usdValue('tvlAmm'),
     },
     {
       contract: 'Total',
