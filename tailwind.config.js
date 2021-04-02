@@ -1,6 +1,9 @@
 module.exports = {
   prefix: 'tw-',
-  purge: ['./src/app/components/**/*.{ts,tsx}', './src/app/containers/**/*.{ts,tsx}'],
+  purge: [
+    './src/app/components/**/*.{ts,tsx}',
+    './src/app/containers/**/*.{ts,tsx}',
+  ],
   future: {
     purgeLayersByDefault: true,
   },
@@ -21,11 +24,28 @@ module.exports = {
       body: ['Montserrat', 'sans-serif'],
     },
     colors: {
+      // new
+      primary: '#fec004',
+      secondary: '#2274A5',
+      gray: {
+        1: '#333333',
+        2: '#191919',
+      },
+      white: '#E9EAE9',
+      black: '#000000',
+
+      cta: '#fec004',
+      input: '#2274A5',
+      tradingLong: '#17C3B2',
+      tradingShort: '#D74E09',
+      overlay: '#333333',
+      dAppBackground: '#191919',
+
       transparent: 'transparent',
       current: 'currentColor',
-      primary: '#EDB305',
-      secondary: '#2274A5',
-      white: '#e9eae9',
+      // primary: '#EDB305',
+      // secondary: '#2274A5',
+      // white: '#e9eae9',
       // black: '#000000',
       dark: {
         1: '#575757',
@@ -46,7 +66,7 @@ module.exports = {
       'sales-background': '#181818',
 
       // theme colors
-      black: '#000',
+      // black: '#000',
       muted: '#656565',
       long: '#4ecdc4',
       short: '#cd4e4e',

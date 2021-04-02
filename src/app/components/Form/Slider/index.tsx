@@ -11,6 +11,7 @@ interface Props {
   min?: number;
   max?: number;
   stepSize?: number;
+  labelStepSize?: number;
   labelRenderer?: boolean | LabelRendererFn;
   className?: string;
 }

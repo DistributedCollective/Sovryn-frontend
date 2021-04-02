@@ -1,9 +1,10 @@
 {
   "common": {
     "back": "Voltar",
-    "min": "min",
+    "min": "mín",
     "max": "max",
-    "close": "Fechar"
+    "close": "Fechar",
+    "for": "por"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -32,8 +33,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Abertas",
-      "tradingHistory": "Fechadas"
+      "activeTrades": "Ativas",
+      "tradingHistory": "Concluídas"
     }
   },
   "tradingPage": {
@@ -123,7 +124,14 @@
       "receive": "Você recebe"
     },
     "buttons": {
-      "submit": "Realizar troca"
+      "submit": "Realizar troca",
+      "switchAssets": "Alternar ativos"
+    },
+    "arbitrage": {
+      "best_rate": "Oportunidade de lucro rápido trocando até ",
+      "for": "por até",
+      "popover_p1": "Atualmente na Sovryn, você pode trocar {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. Isso é {{earn}} {{toToken}} a mais do que o preço de mercado (dinheiro de graça!).",
+      "popover_p2": "Essa arbitragem é uma oportunidade para nossos usuários ganharem dinheiro extra vendendo seus {{fromToken}}, e ajuda a manter o sistema em equilíbrio."
     }
   },
   "amountField": {
@@ -269,7 +277,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Atualmente a Sovryn está disponível apenas para usuários convidados e sua carteira ainda não está liberada. Todas as interações na Sovryn estão desativadas até que o endereço da sua carteira esteja liberado."
+    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
@@ -556,7 +564,7 @@
     },
     "tabs": {
       "userAssets": "Meus ativos",
-      "vestedAssets": "Ativos adquiridos",
+      "vestedAssets": "Ativos reservados",
       "userNFTS": "NFTS"
     }
   },
@@ -720,12 +728,13 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Depositar BTC",
-    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
+    "title": "Receber rBTC",
+    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
     "limits": {
       "title": "Limites:",
-      "min": "Mínimo: {{amount}} BTC",
-      "max": "Máximo: {{amount}} BTC"
+      "min": "Mín: {{amount}}",
+      "max": "Máx: {{amount}}",
+      "btc": "BTC"
     },
     "instructions": {
       "title": "Instruções:",
@@ -733,10 +742,15 @@
       "point2": "Não envie mais BTC do que o limite máximo",
       "point3": "Aguarde 15 minutos para que a transação seja processada"
     },
+    "fiatDialog": {
+      "title": "Comprar rBTC:",
+      "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite máximo de 0,01"
+    },
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "button": "Gerar endereço",
+    "buttonBTC": "Enviar BTC",
+    "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
       "status": "Status {{status}}",
@@ -744,7 +758,11 @@
       "to": "Para:",
       "fee": "Taxa:",
       "hash": "Hash:",
-      "close": "Fechar"
+      "close": "Fechar",
+      "address": "Endereço:",
+      "pending": "pendente",
+      "confirmed": "confirmada",
+      "sent": "enviada"
     }
   },
   "onCopy": {

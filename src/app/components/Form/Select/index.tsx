@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import classNames from 'classnames';
 import { Select as BP_Select } from '@blueprintjs/select';
-import { MenuItem, Text } from '@blueprintjs/core';
+import { Text } from '@blueprintjs/core';
 import { isMobile } from 'utils/helpers';
 import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
-import { areOptionsEqual, filterItem, renderItem } from './renderers';
-import styles from './index.module.css';
+import { areOptionsEqual, renderItem } from './renderers';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
 
 interface Props<K = string, V = string, P = any> {
@@ -27,8 +26,6 @@ interface Props<K = string, V = string, P = any> {
 const Selector = BP_Select.ofType<Option>();
 
 export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
-  const { t } = useTranslation();
-
   const onItemSelect = useCallback(item => props.onChange(item.key, item), [
     props,
   ]);
@@ -47,29 +44,36 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
 
   return (
     <Selector
-      className={classNames('tw-w-full', props.className)}
+      className={classNames('tw-select-container', props.className)}
       items={props.options as any}
       inputProps={
         isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
       }
-      filterable={props.filterable}
+      // filterable={props.filterable}
       activeItem={selected as any}
       popoverProps={{
-        targetTagName: 'div',
+        // targetTagName: 'div',
+        // isOpen: true,
+        fill: true,
+        usePortal: false,
+        minimal: true,
       }}
-      noResults={
-        <MenuItem disabled text={t(translations.form.select.noResults)} />
-      }
+      // noResults={
+      //   <MenuItem disabled text={t(translations.form.select.noResults)} />
+      // }
       itemRenderer={props.itemRenderer as any}
-      itemPredicate={filterItem}
+      // itemPredicate={filterItem}
       onItemSelect={onItemSelect}
       itemsEqual={areOptionsEqual as any}
     >
-      <div className={classNames(styles.wrapperContainer, props.innerClasses)}>
+      <div className={classNames('tw-select-origin', props.innerClasses)}>
         <div
-          className={classNames('tw-flex-grow tw-flex-shrink tw-w-full', {
-            'tw-text-center': !selected,
-          })}
+          className={classNames(
+            'tw-select-origin-content, tw-flex-grow tw-flex-shrink tw-w-full',
+            {
+              'tw-text-center': !selected,
+            },
+          )}
         >
           {selected ? (
             <>{(props as any).valueRenderer(selected)}</>
@@ -79,10 +83,25 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
         </div>
         <div
           className={classNames(
+            'tw-select-origin-caret',
             'tw-flex-grow-0 tw-flex-shrink-0',
-            styles.arrowDown,
           )}
-        />
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21.5"
+            height="13.276"
+            viewBox="0 0 21.5 13.276"
+          >
+            <path
+              id="Path_2912"
+              data-name="Path 2912"
+              d="M24.974,8.59,16.75,16.8,8.526,8.59,6,11.116l10.75,10.75L27.5,11.116Z"
+              transform="translate(-6 -8.59)"
+              fill="#e9eae9"
+            />
+          </svg>
+        </div>
       </div>
     </Selector>
   );
@@ -90,7 +109,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
 
 Select.defaultProps = {
   placeholder: <Trans i18nKey={translations.form.select.placeholder} />,
-  innerClasses: styles.wrapper,
+  innerClasses: 'tw-select-origin',
   valueRenderer: (item: Option) => <Text ellipsize>{item.label}</Text>,
   itemRenderer: renderItem,
 };

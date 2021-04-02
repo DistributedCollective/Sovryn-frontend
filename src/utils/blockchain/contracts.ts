@@ -49,12 +49,12 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
   },
-  BTC_token: {
+  RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
   },
-  BTC_lending: {
+  RBTC_lending: {
     address: '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
     abi: LoanTokenLogicWrbtc,
     blockNumber: 2742496,

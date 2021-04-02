@@ -1,23 +1,34 @@
 @layer components {
   .tw-input-wrapper {
     height: 2.5rem;
-    @apply tw-bg-white tw-px-12 tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 lg:tw-rounded;
+    max-width:320px;
+    @apply tw-bg-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 lg:tw-rounded;
     @apply tw-font-semibold tw-font-body tw-text-black;
+    @apply tw-w-full;
   }
 
   .tw-input {
     @apply tw-w-full tw-bg-transparent tw-text-black;
-    @apply tw-font-semibold tw-font-body;
+    @apply tw-font-semibold tw-font-body tw-text-base;
+    @apply tw-px-5;
+    @apply tw-placeholder-black tw-placeholder-opacity-25;
   }
+  .tw-input-label {
+    @apply tw-text-white;
 
-  .tw-input-append {
+  }
+  .tw-input-append {    
+    @apply tw-text-black;
+    @apply tw-mr-5 !important;
   }
 
   .tw-input-wrapper.readonly {
     @apply tw-bg-transparent tw-text-white tw-border tw-border-white;
   }
-
   .tw-input-wrapper.readonly .tw-input {
+    @apply tw-text-white;
+  }
+  .tw-input-wrapper.readonly .tw-input-append {
     @apply tw-text-white;
   }
 }

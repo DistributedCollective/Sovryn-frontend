@@ -17,12 +17,12 @@ import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
 import { Header } from '../../components/Header';
-import { TradingViewChart } from '../../components/TradingViewChart';
 import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 import styles from './index.module.css';
 import { TradeForm } from './components/TradeForm';
+import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 
 interface Props {}
 
@@ -58,7 +58,11 @@ export function MarginTradePage(props: Props) {
               styles.chartWrapper,
             )}
           >
-            <TradingViewChart symbol={pair.getChartSymbol()} />
+            <TradingChart
+              symbol={pair.getChartSymbol()}
+              theme={Theme.DARK}
+              type={ChartType.CANDLE}
+            />
           </div>
           <TradeForm />
         </div>

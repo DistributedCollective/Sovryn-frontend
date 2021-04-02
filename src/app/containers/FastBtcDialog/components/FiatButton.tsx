@@ -9,7 +9,7 @@ interface Props {
   onClick: () => void;
 }
 
-export function AddressButton({ loading, ready, onClick }: Props) {
+export function FiatButton({ loading, ready, onClick }: Props) {
   const { t } = useTranslation();
   return (
     <>
@@ -17,7 +17,7 @@ export function AddressButton({ loading, ready, onClick }: Props) {
         <Button
           minimal
           className="text-gold button-round font-size-lg mx-auto"
-          text={t(translations.fastBtcDialog.button)}
+          text={t(translations.fastBtcDialog.buttonFiat)}
           loading={loading}
           disabled={loading || !ready}
           onClick={onClick}

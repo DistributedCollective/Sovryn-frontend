@@ -4,20 +4,20 @@ import { LendingPool } from '../models/lending-pool';
 export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [
-      Asset.BTC,
-      new LendingPool('BTC', Asset.BTC, [Asset.DOC, Asset.USDT, Asset.BPRO]),
+      Asset.RBTC,
+      new LendingPool('RBTC', Asset.RBTC, [Asset.DOC, Asset.USDT, Asset.BPRO]),
     ],
     [
       Asset.DOC,
-      new LendingPool('DoC', Asset.DOC, [Asset.BTC, Asset.USDT, Asset.BPRO]),
+      new LendingPool('DoC', Asset.DOC, [Asset.RBTC, Asset.USDT, Asset.BPRO]),
     ],
     [
       Asset.USDT,
-      new LendingPool('USDT', Asset.USDT, [Asset.BTC, Asset.DOC, Asset.BPRO]),
+      new LendingPool('USDT', Asset.USDT, [Asset.RBTC, Asset.DOC, Asset.BPRO]),
     ],
     [
       Asset.BPRO,
-      new LendingPool('BPRO', Asset.BPRO, [Asset.BTC, Asset.DOC, Asset.USDT]),
+      new LendingPool('BPRO', Asset.BPRO, [Asset.RBTC, Asset.DOC, Asset.USDT]),
     ],
   ]);
 

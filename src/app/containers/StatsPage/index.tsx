@@ -12,6 +12,8 @@ import { translations } from 'locales/i18n';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { StatsRow } from '../../components/StatsRow';
+import { TradingVolume } from './components/TradingVolume';
+import { TVL } from './components/TVL';
 
 export function StatsPage() {
   const { t } = useTranslation();
@@ -21,6 +23,14 @@ export function StatsPage() {
       <Header />
       <main>
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
+          <div className="tw-text-center tw-w-full">Trading Volume</div>
+          <div className="tw-ty-5 tw-mx-3">
+            <TradingVolume />
+          </div>
+          <h1 className="tw-text-center tw-w-full">Total Value Locked</h1>
+          <div className="sovryn-border sovryn-table tw-p-3 tw-mt-5 tw-mb-5">
+            <TVL />
+          </div>
           <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
             <table className="tw-w-full">
               <thead>

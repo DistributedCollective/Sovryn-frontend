@@ -15,6 +15,7 @@ import scanQR from 'assets/images/tutorial/scanQr.svg';
 import { Icon } from '@blueprintjs/core';
 import { useContent } from '../../../../hooks/tutorial/useContent';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Asset } from '../../../../../types/asset';
 import {
   blockExplorers,
   currentChainId,
@@ -35,87 +36,85 @@ export function Screen4(props) {
 
   return (
     <>
-      <div className="crater tw-absolute">
-        <img src={crater} alt="" className="tw-w-full tw-h-full" />
+      <div className="crater position-absolute">
+        <img src={crater} alt="" className="w-100 h-100" />
       </div>
-      <div className={`arm_${step}--qr tw-absolute`}>
-        <div className="arm1 tw-absolute">
-          <img src={arm1} alt="" className="tw-h-full tw-w-full" />
+      <div className={`arm_${step}--qr position-absolute`}>
+        <div className="arm1 position-absolute">
+          <img src={arm1} alt="" className="h-100 w-100" />
         </div>
-        <div className="arm2 tw-relative">
-          <img src={arm2} alt="" className="tw-h-full tw-w-full" />
+        <div className="arm2 position-relative">
+          <img src={arm2} alt="" className="h-100 w-100" />
         </div>
       </div>
-      <div className="badger-body tw-absolute">
-        <img src={badgerBody} alt="" className="tw-h-full tw-w-full" />
+      <div className="badger-body position-absolute">
+        <img src={badgerBody} alt="" className="h-100 w-100" />
       </div>
       <div className={`speech step${step}`}>
         <img src={speechBubble} alt="" />
         <p>{speechText}</p>
       </div>
 
-      <div className="left-box_outline tw-absolute">
-        <img src={leftBox} alt="" className="tw-h-full tw-w-full" />
+      <div className="left-box_outline position-absolute">
+        <img src={leftBox} alt="" className="h-100 w-100" />
       </div>
-      <div className={`left-box tw-absolute`}>
+      <div className={`left-box position-absolute`}>
         <img src={content[step].mobileWalletImage} alt="" />
       </div>
-      <div className="right-box_outline tw-absolute">
-        <img src={rightBox} alt="" className="tw-h-full tw-w-full" />
+      <div className="right-box_outline position-absolute">
+        <img src={rightBox} alt="" className="h-100 w-100" />
       </div>
-      <div className="right-box tw-absolute">
+      <div className="right-box position-absolute">
         <div>
           <div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <p className="tw-text-center tw-mx-auto">
+            <div className="row">
+              <p className="text-center mx-auto">
                 {t(translations.rskConnectTutorial.input_settings.title)}
               </p>
             </div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <div className="tw-col-span-5">
+            <div className="row">
+              <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.network)}
               </div>
-              <div className="tw-col-span-7">
-                {networkNames[currentChainId]}
-              </div>
+              <div className="col-7">{networkNames[currentChainId]}</div>
             </div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <div className="tw-col-span-5">
+            <div className="row">
+              <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.new_RPC)}
               </div>
-              <div className="tw-col-span-7">
+              <div className="col-7">
                 <CopyToClipboard
                   text={rpcNodes[currentChainId]}
                   onCopy={() => alert('Copied!')}
                 >
-                  <span className="tw-cursor-pointer">
+                  <span className="cursor-pointer">
                     {rpcNodes[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
               </div>
             </div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <div className="tw-col-span-5">
+            <div className="row">
+              <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.chain_Id)}
               </div>
-              <div className="tw-col-span-7">{currentChainId}</div>
+              <div className="col-7">{currentChainId}</div>
             </div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <div className="tw-col-span-5">
+            <div className="row">
+              <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.symbol)}
               </div>
-              <div className="tw-col-span-7">RBTC</div>
+              <div className="col-7">{Asset.RBTC}</div>
             </div>
-            <div className="tw-grid tw-gap-8 ols-12">
-              <div className="tw-col-span-5">
+            <div className="row">
+              <div className="col-5">
                 {t(translations.rskConnectTutorial.input_settings.explorer_url)}
               </div>
-              <div className="tw-col-span-7">
+              <div className="col-7">
                 <CopyToClipboard
                   text="https://public-node.rsk.co"
                   onCopy={() => alert('Copied!')}
                 >
-                  <span className="tw-cursor-pointer">
+                  <span className="cursor-pointer">
                     {blockExplorers[currentChainId]} <Icon icon="duplicate" />
                   </span>
                 </CopyToClipboard>
@@ -131,7 +130,7 @@ export function Screen4(props) {
         </p>
       </div>
       <div className="stepper">
-        <div className="tw-flex tw-flex-row">
+        <div className="d-flex flex-row">
           <img
             src={leftArrow}
             alt="left arrow"
@@ -173,7 +172,7 @@ export function Screen4(props) {
         </div>
       </div>
       <div
-        className={`scan-qr-button ${step === 7 && 'active'} tw-absolute`}
+        className={`scan-qr-button ${step === 7 && 'active'} position-absolute`}
         onClick={() => props.handleClick(3)}
       >
         <img src={scanQR} alt="Scan QR Code button" />

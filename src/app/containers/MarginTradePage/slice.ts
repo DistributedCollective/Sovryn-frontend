@@ -6,8 +6,8 @@ import { Asset } from '../../../types/asset';
 
 // The initial state of the MarginTradePage container
 export const initialState: ContainerState = {
-  pairType: TradingPairType.BTC_USDT,
-  collateral: Asset.BTC,
+  pairType: TradingPairType.RBTC_USDT,
+  collateral: Asset.RBTC,
 };
 
 const marginTradePageSlice = createSlice({

@@ -45,7 +45,7 @@ export function SwapFormContainer() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.DOC);
-  const [targetToken, setTargetToken] = useState(Asset.BTC);
+  const [targetToken, setTargetToken] = useState(Asset.RBTC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
 

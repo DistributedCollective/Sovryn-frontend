@@ -35,10 +35,7 @@ function RadioGroup({ children, value, onChange }: Props) {
 
   return (
     <RadioContext.Provider value={[state, handleOnChange]}>
-      <div
-        role="radiogroup"
-        className="tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-border tw-border-white tw-overflow-hidden tw-divide-x"
-      >
+      <div role="radiogroup" className="tw-radio-group">
         {children}
       </div>
     </RadioContext.Provider>
@@ -55,12 +52,9 @@ function Button({ value, text }: ButtonProps) {
   const checked = value === state;
   return (
     <label
-      className={cn(
-        'tw-flex-grow-0 tw-flex-shrink-1 tw-block tw-w-full tw-p-2 tw-cursor-pointer tw-m-0 tw-h-10 tw-flex tw-flex-row tw-items-center tw-justify-center tw-transition tw-truncate',
-        {
-          'tw-bg-secondary tw-bg-opacity-75': checked,
-        },
-      )}
+      className={cn('tw-radio-group__label', {
+        'tw-radio-group__label--active': checked,
+      })}
     >
       <input
         className="tw-invisible tw-w-0 tw-h-0"
@@ -70,12 +64,9 @@ function Button({ value, text }: ButtonProps) {
         onChange={({ target }) => onChange(target.value)}
       />
       <div
-        className={cn(
-          'tw-w-full tw-font-semibold tw-flex tw-row tw-justify-center tw-items-center tw-opacity-25 tw-transition tw-truncate tw-whitespace-nowrap',
-          {
-            'tw-opacity-100': checked,
-          },
-        )}
+        className={cn('tw-radio-group__label-content', {
+          'tw-radio-group__label-content--active': checked,
+        })}
       >
         {text}
       </div>

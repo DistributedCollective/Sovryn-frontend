@@ -8,11 +8,11 @@ export function useLending_mint(asset: Asset, weiAmount: string) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
     getLendingContractName(asset),
-    asset === Asset.BTC ? 'mintWithBTC' : 'mint',
+    asset === Asset.RBTC ? 'mintWithBTC' : 'mint',
   );
   return {
     send: (nonce?: number, approveTx?: string | null) =>
-      asset === Asset.BTC
+      asset === Asset.RBTC
         ? send(
             [account],
             { from: account, value: weiAmount, nonce },
