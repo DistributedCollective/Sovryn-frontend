@@ -144,7 +144,7 @@ export function CloseTradingPositionHandler(props: Props) {
         <SendTxProgress {...rest} displayAbsolute={false} />
 
         {!!props.item.loanId && (
-          <div className="tw-mt-6 tw-flex tw-flex-row tw-justify-between">
+          <div className="tw-mt-4 tw-flex tw-flex-row tw-justify-between">
             <AssetWalletBalance asset={Asset.RBTC} />
             <TradeButton
               text={

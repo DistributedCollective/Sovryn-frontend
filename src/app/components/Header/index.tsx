@@ -15,7 +15,6 @@ import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
-import { WhitelistedNotification } from '../WhitelistedNotification/Loadable';
 
 export function Header() {
   const { t } = useTranslation();
@@ -213,7 +212,6 @@ export function Header() {
           </div>
         </div>
       </header>
-      <WhitelistedNotification />
     </>
   );
 }

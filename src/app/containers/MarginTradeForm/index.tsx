@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { min, bignumber } from 'mathjs';
+import { bignumber, min } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { TradingPositionSelector } from '../../components/TradingPositionSelector';
 import { LeverageSelector } from '../../components/LeverageSelector';
@@ -15,7 +15,10 @@ import { TradingPosition } from '../../../types/trading-position';
 import { BorrowLiquidationPrice } from '../../components/BorrowLiquidationPrice';
 import { useSelector } from 'react-redux';
 import { selectTradingPage } from '../TradingPage/selectors';
-import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
+import {
+  TradingPairDictionary,
+  TradingPairType,
+} from '../../../utils/dictionaries/trading-pair-dictionary';
 import { BorrowInterestRate } from '../../components/BorrowInterestRate';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { AmountField } from '../AmountField';
@@ -127,9 +130,17 @@ export function MarginTradeForm() {
   const [liqPrice, setLiqPrice] = useState('0');
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Force LONG for BTC/SOV trading pair.
+  useEffect(() => {
+    if (tradingPair === TradingPairType.RBTC_SOV) {
+      setPosition(TradingPosition.LONG);
+    }
+  }, [tradingPair]);
+
   return (
     <>
       <TradingPositionSelector
+        pairType={tradingPair}
         value={position}
         onChange={value => setPosition(value)}
       />
@@ -144,6 +155,7 @@ export function MarginTradeForm() {
         <div className="tw-col-span-6 tw-pr-1">
           <BorrowLiquidationPrice
             asset={pair.getAsset()}
+            assetLong={pair.getLongAsset()}
             leverage={leverage}
             position={position}
             labelColor={color}
@@ -206,7 +218,7 @@ export function MarginTradeForm() {
               !isConnected ||
               tx.loading ||
               !valid ||
-              diff > 5 ||
+              // diff > 5 ||
               tradesLocked?.maintenance_active
             }
             textColor={color}

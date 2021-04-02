@@ -241,7 +241,10 @@
     "token": "Expected pool tokens",
     "fee": "fee",
     "supply": "Supply",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "v1": {
+      "balance": "Available balance"
+    }
   },
   "modal": {
     "close": "Close"
@@ -775,6 +778,13 @@
   },
   "onCopy": {
     "address": "Address was copied to clipboard."
+  },
+  "vestingDialog": {
+    "title": "Withdraw Vesting",
+    "subtitle": "This transaction requires rBTC for gas.",
+    "amount": "Amount to Withdraw:",
+    "receiver": "Receive SOV to:",
+    "calculating": "Calculating..."
   },
   "marginTradePage": {
     "meta": {

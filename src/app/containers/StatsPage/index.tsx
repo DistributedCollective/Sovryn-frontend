@@ -14,6 +14,7 @@ import { Footer } from '../../components/Footer';
 import { StatsRow } from '../../components/StatsRow';
 import { TradingVolume } from './components/TradingVolume';
 import { TVL } from './components/TVL';
+import { AmmBalance } from './components/AmmBalance';
 
 export function StatsPage() {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ export function StatsPage() {
       <Header />
       <main>
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
-          <div className="tw-text-center tw-w-full">Trading Volume</div>
+          <h1 className="tw-text-center tw-w-full">Trading Volume</h1>
           <div className="tw-ty-5 tw-mx-3">
             <TradingVolume />
           </div>
@@ -31,8 +32,9 @@ export function StatsPage() {
           <div className="sovryn-border sovryn-table tw-p-3 tw-mt-5 tw-mb-5">
             <TVL />
           </div>
+          <h1 className="tw-text-center tw-w-full">Lending Stats</h1>
           <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
-            <table className="tw-w-full">
+            <table className=tw-w-full>
               <thead>
                 <tr>
                   <th>{t(translations.statsPage.asset)}</th>
@@ -59,6 +61,10 @@ export function StatsPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <h1 className="tw-text-center tw-w-full">AMM Balances</h1>
+          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
+            <AmmBalance />
           </div>
         </div>
       </main>

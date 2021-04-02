@@ -23,6 +23,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
+import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
 const s = translations.tradingPage;
 
 interface Props {}
@@ -45,6 +46,7 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
+      <WhitelistedNotification />
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div

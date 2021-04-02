@@ -40,7 +40,7 @@
 
   .nav-tabs {
     border-bottom: 0;
-    tw-flex-wrap: nowrap;
+    flex-wrap: nowrap;
 
     & .nav-item {
       font-size: 15px;
@@ -744,5 +744,13 @@ header {
         }
       }
     }
+  }
+}
+.btn-trading[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #656565 !important;
+  &:hover {
+    background: #656565 !important;
   }
 }
