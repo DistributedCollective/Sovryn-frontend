@@ -211,6 +211,11 @@
     "renewalDate": "Data de renovação"
   },
   "statsPage": {
+    "titles": {
+      "tradingVolume": "Volume de operações",
+      "tvl": "Valor total na Sovryn",
+      "lending": "Dados de empréstimos"
+    },
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
