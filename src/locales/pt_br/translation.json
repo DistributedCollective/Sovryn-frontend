@@ -586,7 +586,7 @@
       "action": "Ação"
     },
     "actions": {
-      "deposit": "FastBTC",
+      "deposit": "Depositar",
       "swap": "Trocar",
       "trade": "Operar",
       "claimSov": "Receber SOV",
