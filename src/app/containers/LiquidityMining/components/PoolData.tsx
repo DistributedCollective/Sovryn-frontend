@@ -55,7 +55,10 @@ export function PoolData(props: Props) {
           {props.data.txList.length > 0 ? (
             <EventTable data={props.data.txList} />
           ) : (
-            <div>You have no liquidity mining events.</div>
+            <div className="w-100 text-center mt-5">
+              You have no {symbolByTokenAddress(props.data.asset)} liquidity
+              mining events yet.
+            </div>
           )}
         </>
       )}
