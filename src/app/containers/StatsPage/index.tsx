@@ -34,7 +34,7 @@ export function StatsPage() {
           </div>
           <h1 className="tw-text-center tw-w-full">Lending Stats</h1>
           <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
-            <table className=tw-w-full>
+            <table className="tw-w-full">
               <thead>
                 <tr>
                   <th>{t(translations.statsPage.asset)}</th>

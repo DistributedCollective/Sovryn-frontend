@@ -24,8 +24,6 @@ import { ethGenesisAddress } from '../../../utils/classifiers';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { bignumber } from 'mathjs';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { VestingDialog } from './VestingDialog';
-import { ethGenesisAddress } from '../../../utils/classifiers';
 
 export function VestedAssets() {
   const { t } = useTranslation();

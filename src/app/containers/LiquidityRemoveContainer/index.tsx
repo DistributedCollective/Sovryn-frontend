@@ -136,7 +136,9 @@ export function LiquidityRemoveContainer(props: Props) {
         )}
         <div
           className={`${
-            poolData.getVersion() === 1 ? 'lg:tw-col-span-9' : 'lg:tw-col-span-6'
+            poolData.getVersion() === 1
+              ? 'lg:tw-col-span-9'
+              : 'lg:tw-col-span-6'
           } tw-col-span-12`}
         >
           <FieldGroup label={t(translations.liquidity.amount)}>
