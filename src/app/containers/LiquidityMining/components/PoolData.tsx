@@ -76,5 +76,5 @@ const Div = styled.div`
 `;
 
 const Label = styled.h3`
-  margin-top: 45px;
+  margin-top: 15px;
 `;
