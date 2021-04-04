@@ -4,7 +4,6 @@ import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { TvlData, TvlContract } from '../types';
 import { useTranslation } from 'react-i18next';
-import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 import { translations } from 'locales/i18n';
 
 export function TVL() {
