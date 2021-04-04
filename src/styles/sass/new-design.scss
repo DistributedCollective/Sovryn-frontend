@@ -290,6 +290,8 @@ button.button-round {
   text-transform: none;
   padding: 8px 20px;
   transition: background .3s;
+  min-width: 170px;
+  max-width: 200px;
 
   &:hover {
     background: rgba(254, 192, 4, 0.25) !important;
