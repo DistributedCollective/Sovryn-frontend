@@ -215,7 +215,7 @@
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (Quem empresta)",
+    "supplyAPR": "Juros anual a receber",
     "borrowAPR": "Juros anual (Quem obtém)"
   },
   "pageNotFound": {
