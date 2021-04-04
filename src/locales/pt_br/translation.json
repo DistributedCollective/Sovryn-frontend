@@ -749,7 +749,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Enviar BTC",
+    "buttonBTC": "Depositar BTC",
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
