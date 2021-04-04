@@ -33,8 +33,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
-      "tradingHistory": "Concluídas"
+      "activeTrades": "Aberta",
+      "tradingHistory": "Concluída"
     }
   },
   "tradingPage": {
@@ -313,7 +313,7 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo ativo."
+    "text": "Você não tem nenhum empréstimo à pagar."
   },
   "activeUserLoans": {
     "text": "Você não tem nenhuma operação de compra ou venda aberta.",
@@ -344,8 +344,8 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Ativas",
-      "history": "Quitadas"
+      "active": "À pagar",
+      "history": "Quitada"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
@@ -632,7 +632,7 @@
       "borrow": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
-        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+        "line_3": "O pool irá aumentar quando os usuários quitarem seus respectivos empréstimos."
       }
     }
   },
