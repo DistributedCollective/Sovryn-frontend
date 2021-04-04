@@ -729,7 +729,7 @@
   },
   "fastBtcDialog": {
     "title": "Receber rBTC",
-    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
+    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com moeda estatal",
     "limits": {
       "title": "Limites:",
       "min": "Mín: {{amount}}",
