@@ -295,7 +295,7 @@
       "lend": "Emprestar",
       "borrow": "Obter empréstimo",
       "lendArp": "Juros anual (quem empresta)",
-      "borrowArp": "Juros anual a pagar"
+      "borrowArp": "Juros anual (quem obtém)"
     },
     "container": {
       "leftBtn": "Fornecer",
