@@ -294,7 +294,7 @@
     "currency": {
       "lend": "Emprestar",
       "borrow": "Obter empréstimo",
-      "lendArp": "Juros anual (Quem empresta)",
+      "lendArp": "Juros anual a receber",
       "borrowArp": "Juros anual (Quem obtém)"
     },
     "container": {
