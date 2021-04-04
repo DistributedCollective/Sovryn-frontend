@@ -215,8 +215,8 @@
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (Emprestador)",
-    "borrowAPR": "Juros anual (Tomador)"
+    "supplyAPR": "Juros anual (Quem empresta)",
+    "borrowAPR": "Juros anual (Quem obtém)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -293,9 +293,9 @@
     },
     "currency": {
       "lend": "Emprestar",
-      "borrow": "Tomar empréstimo",
-      "lendArp": "Juros anual (Emprestador)",
-      "borrowArp": "Juros anual (Tomador)"
+      "borrow": "Obter empréstimo",
+      "lendArp": "Juros anual (Quem empresta)",
+      "borrowArp": "Juros anual (Quem obtém)"
     },
     "container": {
       "leftBtn": "Fornecer",
@@ -308,7 +308,7 @@
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
       "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
-      "borrow": "Tomar empréstimo",
+      "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias"
     }
   },
