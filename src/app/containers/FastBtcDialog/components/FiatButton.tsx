@@ -16,7 +16,7 @@ export function FiatButton({ loading, ready, onClick }: Props) {
       <div className="justify-content-center items-center d-flex flex-row">
         <Button
           minimal
-          className="text-gold button-round font-size-lg mx-auto"
+          className="text-gold button-width button-round font-size-lg mx-auto"
           text={t(translations.fastBtcDialog.buttonFiat)}
           loading={loading}
           disabled={loading || !ready}
