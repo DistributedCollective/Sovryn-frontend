@@ -33,8 +33,8 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Aberta",
-      "tradingHistory": "Concluída"
+      "activeTrades": "Abertas",
+      "tradingHistory": "Concluídas"
     }
   },
   "tradingPage": {
@@ -213,8 +213,29 @@
   "statsPage": {
     "titles": {
       "tradingVolume": "Volume de operações",
+      "hourVolumne":"24 HORAS",
+      "allVolumne":"TODO PERÍODO",
+      "btc": "BTC",
+      "usd": "USD",
       "tvl": "Valor total na Sovryn",
       "lending": "Dados de empréstimos"
+    },
+    "tvl": {
+      "type": "Tipo de contrato",
+      "btc": "Valor em (BTC)",
+      "usd": "Valor em (USD)",
+      "protocol":"Contrato de protocolo",
+      "lend":"Contrato de empréstimo",
+      "amm":"Contrato Amm",
+      "total": "Total"
+    },
+    "ammpool": {
+      "title": "SALDOS AMM",
+      "pool": "Pool",
+      "stakedBalance":"Saldo aplicado",
+      "contractBalance":"Saldo do contrato",
+      "imBalance":"Desequilíbrio"
+
     },
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
@@ -238,7 +259,7 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer liquidez",
+    "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez"
   },
   "modal": {
@@ -303,12 +324,12 @@
       "borrowArp": "Juros anual (quem obtém)"
     },
     "container": {
-      "leftBtn": "Fornecer",
+      "leftBtn": "Adicionar",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Emprestado",
       "profit": "Lucro",
-      "supply": "Fornecer"
+      "supply": "Adicionar"
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
@@ -350,7 +371,7 @@
     "title": "Minhas dívidas",
     "tabs": {
       "active": "À pagar",
-      "history": "Quitada"
+      "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
