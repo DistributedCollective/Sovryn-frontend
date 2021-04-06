@@ -3,8 +3,11 @@ import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { TvlData, TvlContract } from '../types';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function TVL() {
+  const { t } = useTranslation();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<TvlData>();
@@ -39,22 +42,22 @@ export function TVL() {
 
   const rowData = [
     {
-      contract: 'Protocol Contract',
+      contract: t(translations.statsPage.tvl.protocol),
       btcValue: btcValue('tvlProtocol'),
       usdValue: usdValue('tvlProtocol'),
     },
     {
-      contract: 'Lending Contracts',
+      contract: t(translations.statsPage.tvl.lend),
       btcValue: btcValue('tvlLending'),
       usdValue: usdValue('tvlLending'),
     },
     {
-      contract: 'Amm Contracts',
+      contract: t(translations.statsPage.tvl.amm),
       btcValue: btcValue('tvlAmm'),
       usdValue: usdValue('tvlAmm'),
     },
     {
-      contract: 'Total',
+      contract: t(translations.statsPage.tvl.total),
       btcValue: data?.total_btc,
       usdValue: data?.total_usd,
     },
@@ -94,9 +97,9 @@ export function TVL() {
       <table className="w-100">
         <thead>
           <tr>
-            <th className="">Contract Type</th>
-            <th className="">Value (BTC)</th>
-            <th className="">Value (USD)</th>
+            <th className="">{t(translations.statsPage.tvl.type)}</th>
+            <th className="">{t(translations.statsPage.tvl.btc)}</th>
+            <th className="">{t(translations.statsPage.tvl.usd)}</th>
           </tr>
         </thead>
         <tbody className="mt-5">{rows}</tbody>
