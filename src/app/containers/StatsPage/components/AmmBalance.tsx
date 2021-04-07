@@ -4,20 +4,29 @@ import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { AmmBalanceRow } from '../types';
 import { formatNumber } from '../utils';
+import { Asset } from 'types/asset';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function AmmBalance() {
-  const assets = ['DOC', 'USDT', 'BPRO'];
-
+  const assets = [Asset.DOC, Asset.USDT, Asset.BPRO];
+  const { t } = useTranslation();
   return (
     <div>
       <table className="w-100">
         <thead>
           <tr>
-            <th className="">Pool</th>
-            <th className="">Asset</th>
-            <th className="text-right">Staked Balance</th>
-            <th className="text-right">Contract Balance</th>
-            <th className="text-right">Imbalance</th>
+            <th className="">{t(translations.statsPage.ammpool.pool)}</th>
+            <th className="">{t(translations.statsPage.asset)}</th>
+            <th className="text-right">
+              {t(translations.statsPage.ammpool.stakedBalance)}
+            </th>
+            <th className="text-right">
+              {t(translations.statsPage.ammpool.contractBalance)}
+            </th>
+            <th className="text-right">
+              {t(translations.statsPage.ammpool.imBalance)}
+            </th>
           </tr>
         </thead>
         <tbody className="mt-5">

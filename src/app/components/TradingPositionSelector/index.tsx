@@ -11,10 +11,12 @@ import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowAlt
 import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleDown';
 import { TradingPosition } from 'types/trading-position';
 import { translations } from 'locales/i18n';
+import { TradingPairType } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 interface Props {
   value: TradingPosition;
   onChange: (value: TradingPosition) => void;
+  pairType: TradingPairType;
 }
 
 export function TradingPositionSelector(props: Props) {
@@ -31,6 +33,7 @@ export function TradingPositionSelector(props: Props) {
       </div>
       <div className="col-6 pl-1">
         <Tab
+          disabled={props.pairType === TradingPairType.RBTC_SOV}
           type={TradingPosition.SHORT}
           active={props.value === TradingPosition.SHORT}
           text={t(translations.trandingPositionSelector.short)}
@@ -51,6 +54,7 @@ interface TabProps {
   type: TradingPosition;
   active: boolean;
   onClick: (value: TradingPosition) => void;
+  disabled?: boolean;
 }
 
 function Tab(props: TabProps) {
@@ -58,7 +62,7 @@ function Tab(props: TabProps) {
     props.type === TradingPosition.LONG
       ? faArrowAltCircleUp
       : faArrowAltCircleDown;
-  const classes = props.active
+  let classes = props.active
     ? props.type === TradingPosition.LONG
       ? 'bg-long'
       : 'bg-short'
@@ -67,7 +71,8 @@ function Tab(props: TabProps) {
   return (
     <button
       type="button"
-      className={`w-100 btn px-1 px-lg-3 py-2 text-dark font-weight-bold text-uppercase d-flex flex-row align-items-center justify-content-center ${classes}`}
+      disabled={props.disabled}
+      className={`btn-trading w-100 btn px-1 px-lg-3 py-2 text-dark font-weight-bold text-uppercase d-flex flex-row align-items-center justify-content-center ${classes}`}
       onClick={() => props.onClick(props.type)}
     >
       <FontAwesomeIcon icon={icon} className="mr-1 mr-lg-3" />

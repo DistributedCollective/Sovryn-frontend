@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-import { TvlData } from '../types';
+import { TvlData, TvlContract } from '../types';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function TVL() {
+  const { t } = useTranslation();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<TvlData>();
@@ -19,48 +22,42 @@ export function TVL() {
       .catch(e => console.error(e));
   }, [url]);
 
+  const btcValue = (contract: TvlContract) => {
+    return (
+      data &&
+      data[contract].btc_total +
+        data[contract].usd_total * (1 / data?.btc_doc_rate) +
+        data[contract].bpro_total * data?.bpro_btc_rate
+    );
+  };
+
+  const usdValue = (contract: TvlContract) => {
+    return (
+      data &&
+      data[contract].usd_total +
+        data[contract].btc_total * data.btc_doc_rate +
+        data[contract].bpro_total * data.bpro_doc_rate
+    );
+  };
+
   const rowData = [
     {
-      contract: 'Protocol Contract',
-      btcValue:
-        data &&
-        data?.tvlProtocol.btc_total +
-          data?.tvlProtocol.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlProtocol.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlProtocol.usd_total +
-          data?.tvlProtocol.btc_total * data?.btc_doc_rate +
-          data?.tvlProtocol.bpro_total * data?.bpro_doc_rate,
+      contract: t(translations.statsPage.tvl.protocol),
+      btcValue: btcValue('tvlProtocol'),
+      usdValue: usdValue('tvlProtocol'),
     },
     {
-      contract: 'Lending Contracts',
-      btcValue:
-        data &&
-        data?.tvlLending.btc_total +
-          data?.tvlLending.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlLending.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlLending.usd_total +
-          data?.tvlLending.btc_total * data?.btc_doc_rate +
-          data?.tvlLending.bpro_total * data?.bpro_doc_rate,
+      contract: t(translations.statsPage.tvl.lend),
+      btcValue: btcValue('tvlLending'),
+      usdValue: usdValue('tvlLending'),
     },
     {
-      contract: 'Amm Contracts',
-      btcValue:
-        data &&
-        data?.tvlAmm.btc_total +
-          data?.tvlAmm.usd_total * (1 / data?.btc_doc_rate) +
-          data?.tvlAmm.bpro_total * data?.bpro_btc_rate,
-      usdValue:
-        data &&
-        data?.tvlAmm.usd_total +
-          data?.tvlAmm.btc_total * data?.btc_doc_rate +
-          data?.tvlAmm.bpro_total * data?.bpro_doc_rate,
+      contract: t(translations.statsPage.tvl.amm),
+      btcValue: btcValue('tvlAmm'),
+      usdValue: usdValue('tvlAmm'),
     },
     {
-      contract: 'Total',
+      contract: t(translations.statsPage.tvl.total),
       btcValue: data?.total_btc,
       usdValue: data?.total_usd,
     },
@@ -100,9 +97,9 @@ export function TVL() {
       <table className="w-100">
         <thead>
           <tr>
-            <th className="">Contract Type</th>
-            <th className="">Value (BTC)</th>
-            <th className="">Value (USD)</th>
+            <th className="">{t(translations.statsPage.tvl.type)}</th>
+            <th className="">{t(translations.statsPage.tvl.btc)}</th>
+            <th className="">{t(translations.statsPage.tvl.usd)}</th>
           </tr>
         </thead>
         <tbody className="mt-5">{rows}</tbody>

@@ -7,6 +7,8 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { CachedAssetRate } from '../../containers/WalletProvider/types';
 import { actions } from 'app/containers/WalletProvider/slice';
+import { toWei } from '../../../utils/blockchain/math-helpers';
+import { bignumber } from 'mathjs';
 
 export function usePriceFeeds_tradingPairRates() {
   const { syncBlockNumber, assetRates } = useSelector(selectWalletProvider);
@@ -19,6 +21,20 @@ export function usePriceFeeds_tradingPairRates() {
     ]);
   }, []);
 
+  const getSwapRate = useCallback(
+    async (sourceAsset: Asset, destAsset: Asset, amount: string = '1') => {
+      const path = await contractReader.call('swapNetwork', 'conversionPath', [
+        getTokenContract(sourceAsset).address,
+        getTokenContract(destAsset).address,
+      ]);
+      return await contractReader.call('swapNetwork', 'rateByPath', [
+        path,
+        amount,
+      ]);
+    },
+    [],
+  );
+
   const getRates = useCallback(async () => {
     const assets = AssetsDictionary.list().map(item => item.asset);
     const items: CachedAssetRate[] = [];
@@ -29,7 +45,9 @@ export function usePriceFeeds_tradingPairRates() {
         if (
           target === source ||
           target === Asset.CSOV || // todo: remove when oracle will have price
-          source === Asset.CSOV
+          source === Asset.CSOV ||
+          target === Asset.SOV ||
+          source === Asset.SOV
         ) {
           continue;
         }
@@ -45,8 +63,58 @@ export function usePriceFeeds_tradingPairRates() {
         }
       }
     }
+
+    try {
+      const btcToSov = await getSwapRate(Asset.RBTC, Asset.SOV, '1');
+
+      items.push({
+        source: Asset.RBTC,
+        target: Asset.SOV,
+        value: {
+          precision: '1000000000000000000',
+          rate: toWei(btcToSov),
+        },
+      });
+
+      items.push({
+        source: Asset.SOV,
+        target: Asset.RBTC,
+        value: {
+          precision: '1000000000000000000',
+          rate: toWei(1 / Number(btcToSov)),
+        },
+      });
+
+      const btcToUsd = items.find(
+        item => item.source === Asset.RBTC && item.target === Asset.USDT,
+      )?.value?.rate;
+
+      const sovToUsd = bignumber(btcToUsd)
+        .mul(1 / Number(btcToSov))
+        .toFixed(0);
+
+      items.push({
+        source: Asset.SOV,
+        target: Asset.USDT,
+        value: {
+          precision: '1000000000000000000',
+          rate: sovToUsd,
+        },
+      });
+
+      items.push({
+        source: Asset.CSOV,
+        target: Asset.USDT,
+        value: {
+          precision: '1000000000000000000',
+          rate: sovToUsd,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
     return items;
-  }, [getRate]);
+  }, [getRate, getSwapRate]);
 
   useEffect(() => {
     getRates()
