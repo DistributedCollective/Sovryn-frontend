@@ -57,7 +57,7 @@
     }
   },
   "marketingPage": {
-    "explain":{
+    "explain": {
       "title": "HOW DOES IT WORK?",
       "earn": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
@@ -67,6 +67,19 @@
       "sharePool": "Your share of the pool is calculated by:",
       "liquidityAdded":"liquidity added by you * number of blocks held",
       "totalAdded":"total liquidity added * number of blocks held"
+    },
+    "liquidity": {
+      "title": "LIQUIDITY MINING: USDT/BTC POOL",
+      "connetWallet": "Connect your wallet to see your liquidity mining history.",
+      "provider": "*This number may go up or down depending on how much liquidity other liquidity providers add to or remove from the pool",
+      "asset": "Asset",
+      "sov": "25k SOV",
+      "reward": "Reward",
+      "pool": "Pool",
+      "rewardPool": "Your Current Share Of Reward Pool*",
+      "rewardSOV": "Your Current SOV Reward*",
+      "miningEvent": "Your liquidity mining events",
+      "noAsset": "You have no {{asset}} liquidity mining events yet."
     }
   },
   "tradingHistoryPage": {
