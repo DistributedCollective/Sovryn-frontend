@@ -63,9 +63,9 @@ export function FastBtcDialog(props: Props) {
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <div className={styles.innerContainer}>
-              {[Step.MAIN, Step.WALLET].includes(state.step) && (
-                <MainScreen state={state} dispatch={dispatch} />
-              )}
+              {[Step.MAIN, Step.WALLET, Step.FIAT, Step.TRANSAK].includes(
+                state.step,
+              ) && <MainScreen state={state} dispatch={dispatch} />}
               {state.step === Step.TRANSACTION && (
                 <TransactionScreen
                   state={state}

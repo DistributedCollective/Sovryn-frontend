@@ -60,13 +60,13 @@ export function useApproveAndTrade(
     collateralToken,
     account, // trader
     '0x',
-    token === Asset.BTC ? collateralTokenSent : '0',
+    token === Asset.RBTC ? collateralTokenSent : '0',
   );
 
   return {
     trade: async () => {
       let tx: CheckAndApproveResult = {};
-      if (token !== Asset.BTC) {
+      if (token !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
           token,
           getLendingContract(loanToken).address,

@@ -254,7 +254,7 @@
     "updated_success_user": "Your details have been updated."
   },
   "whiteListedNotification": {
-    "text": "Actualmente Sovryn esta disponible solo para usuarios invitados y tu cartera no está en la lista de invitados. Todo intercambio estará deshabilitado hasta que conmutes a una cartera invitada o tu cartera actual reciba un token de invitación."
+    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },
   "lend": {
     "history": {
@@ -457,7 +457,6 @@
       "userNFTS": "NFTS"
     }
   },
-
   "salesPage": {
     "meta": {
       "title": "Presale",
@@ -475,7 +474,7 @@
       "action": "Action"
     },
     "actions": {
-      "deposit": "Top-Up",
+      "deposit": "FastBTC",
       "swap": "Swap",
       "trade": "Trade",
       "claimSov": "Claim SOV"
@@ -613,6 +612,43 @@
           "description": "currently we suggest checking your token balances in the SOVRYN My Wallet section."
         }
       }
+    },
+    "fastBtcDialog": {
+      "title": "Obtén rBTC",
+      "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
+      "limits": {
+        "title": "Límites:",
+        "min": "Mínimo: {{amount}} BTC",
+        "max": "Máximo: {{amount}} BTC"
+      },
+      "instructions": {
+        "title": "Instrucciones:",
+        "point1": "No deposites ningún activo que no sea BTC",
+        "point2": "No envíes más BTC del límite máximo",
+        "point3": "Espera 15 minutos para que la transacción sea procesada"
+      },
+      "fiatDialog": {
+        "title": "Comprar rBTC con fiat",
+        "explanation": "Haciendo clic en el botón de abajo, accederás a una rampa de pago en fiat. Asegúrate de que la dirección de BTC a la que estás enviando tus fondos es la misma que ésta. FastBTC hará la conversión a rBTC por ti en segundo plano, así que no necesitas hacer nada más. Ten en cuenta el límite de 0,01"
+      },
+      "qr": {
+        "title": "Envía BTC a esta dirección:"
+      },
+      "buttonBTC": "Obtén rBTC con BTC",
+      "buttonFiat": "Obtén rBTC con fiat",
+      "transaction": {
+        "title": "Detalles de la transacción",
+        "status": "Status {{status}}",
+        "from": "De:",
+        "to": "Para:",
+        "fee": "Comisión:",
+        "hash": "Hash:",
+        "close": "Cerrar",
+        "address": "Dirección:"
+      }
+    },
+    "onCopy": {
+      "address": "La dirección se ha copiado en el portapapeles"
     }
   }
 }

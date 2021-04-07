@@ -4,9 +4,11 @@ import { FastBtcDialogState, Step } from '../types';
 import { actions } from '../slice';
 import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
-import { AddressButton } from './AddressButton';
+import { BTCButton } from './BTCButton';
+import { FiatButton } from './FiatButton';
 import { AddressQrCode } from '../../../components/Form/AddressQrCode';
-import { toNumberFormat } from '../../../../utils/display-text/format';
+import { FiatDialogScreen } from './FiatDialogScreen';
+import { OpenTransak } from './transak';
 
 interface MainScreenProps {
   state: FastBtcDialogState;
@@ -27,14 +29,22 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           {t(translations.fastBtcDialog.limits.title)}
         </div>
         <div className={styles.limitsValue}>
-          •{' '}
-          {t(translations.fastBtcDialog.limits.min, {
-            amount: toNumberFormat(state.limits.min, 4),
-          })}
-          <br />•{' '}
-          {t(translations.fastBtcDialog.limits.max, {
-            amount: toNumberFormat(state.limits.max, 4),
-          })}
+          <div>
+            •{' '}
+            {t(translations.fastBtcDialog.limits.min, {
+              amount: parseFloat(state.limits.min.toFixed(4)),
+            })}{' '}
+          </div>
+          <div> {t(translations.fastBtcDialog.limits.btc)} </div>
+        </div>
+        <div className={styles.limitsValue}>
+          <div>
+            •{' '}
+            {t(translations.fastBtcDialog.limits.max, {
+              amount: parseFloat(state.limits.max.toFixed(4)),
+            })}{' '}
+          </div>
+          <div>{t(translations.fastBtcDialog.limits.btc)} </div>
         </div>
       </div>
 
@@ -52,13 +62,41 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       {state.step === Step.WALLET && (
         <AddressQrCode address={state.deposit.address} />
       )}
-      {state.step === Step.MAIN && (
-        <AddressButton
-          loading={state.deposit.loading}
-          ready={state.ready}
-          onClick={() => dispatch(actions.generateDepositAddress())}
+      {state.step === Step.TRANSAK && (
+        <OpenTransak
+          address={state.deposit.address}
+          onClose={() => dispatch(actions.reset())}
         />
       )}
+      {state.step === Step.FIAT && (
+        <FiatDialogScreen
+          state={state}
+          address={state.deposit.address}
+          dispatch={dispatch}
+        />
+      )}
+      <div className={styles.buttons}>
+        {state.step === Step.MAIN && (
+          <BTCButton
+            loading={state.deposit.loading}
+            ready={state.ready}
+            onClick={() => {
+              dispatch(actions.generateDepositAddress());
+              dispatch(actions.selectBTC());
+            }}
+          />
+        )}
+        {state.step === Step.MAIN && (
+          <FiatButton
+            loading={state.deposit.loading}
+            ready={state.ready}
+            onClick={() => {
+              dispatch(actions.generateDepositAddress());
+              dispatch(actions.selectFiat());
+            }}
+          />
+        )}
+      </div>
     </>
   );
 }

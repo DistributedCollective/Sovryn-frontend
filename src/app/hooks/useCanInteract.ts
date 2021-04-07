@@ -8,7 +8,7 @@ import { TxStatus } from '../../store/global/transactions-store/types';
 import { currentChainId } from '../../utils/classifiers';
 
 // For disabling buttons while check is in progress, user not yet connected and etc.
-export function useCanInteract() {
+export function useCanInteract(ignoreWhitelist: boolean = false) {
   const { address, connected, wallet } = useWalletContext();
 
   const { whitelist } = useSelector(selectWalletProvider);
@@ -38,6 +38,10 @@ export function useCanInteract() {
     return wallet.chainId === currentChainId;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, JSON.stringify(wallet)]);
+
+  if (ignoreWhitelist) {
+    return connected && testTxCount;
+  }
 
   return testWhitelist && testTxCount && testChain;
 }
