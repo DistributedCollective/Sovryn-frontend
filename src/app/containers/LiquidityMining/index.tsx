@@ -5,6 +5,7 @@ import { PoolData } from './components/PoolData';
 import {
   getContractNameByAddress,
   getContract,
+  symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 
@@ -73,13 +74,17 @@ export function LiquidityMining() {
     return output;
   });
 
-  const rows = combinedData.map((item, key) => {
-    if (getContractNameByAddress(item.pool)?.includes('USDT')) {
-      return <PoolData key={key} data={item} isConnected={isConnected} />;
-    } else {
-      return null;
-    }
-  });
+  const USDTData = combinedData.find(
+    item =>
+      getContractNameByAddress(item.pool)?.includes('USDT') &&
+      symbolByTokenAddress(item.asset).includes('USDT'),
+  );
+
+  const BTCData = combinedData.find(
+    item =>
+      getContractNameByAddress(item.pool)?.includes('BTC') &&
+      symbolByTokenAddress(item.asset).includes('BTC'),
+  );
 
   return (
     <div className="">
@@ -87,7 +92,34 @@ export function LiquidityMining() {
         Liquidity Mining: USDT/BTC Pool
       </h1>
       <div className="d-flex flex-wrap mb-5"></div>
-      <div className="d-flex flex-wrap justify-content-around">{rows}</div>
+      <div className="d-flex flex-wrap justify-content-around">
+        <PoolData
+          data={
+            USDTData || {
+              asset: getContract('USDT_token').address,
+              pool: getContract('USDT_amm').address,
+              percentage: 0,
+              txList: [],
+              weightedAmount: 0,
+              weightedTotal: 0,
+            }
+          }
+          isConnected={isConnected}
+        />
+        <PoolData
+          data={
+            BTCData || {
+              asset: getContract('RBTC_token').address,
+              pool: getContract('USDT_amm').address,
+              percentage: 0,
+              txList: [],
+              weightedAmount: 0,
+              weightedTotal: 0,
+            }
+          }
+          isConnected={isConnected}
+        />
+      </div>
       {!isConnected && (
         <div className="w-100 my-5 text-center font-family-montserrat font-weight-bold">
           Connect your wallet to see your liquidity mining history.

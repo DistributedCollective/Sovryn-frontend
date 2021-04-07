@@ -12,7 +12,7 @@ interface Props {
   dispatch: Dispatch<any>;
 }
 
-export function FiatDialogScreen({ address, dispatch }: Props) {
+export function FiatDialogScreen({ state, address, dispatch }: Props) {
   const { t } = useTranslation();
   return (
     <>
@@ -21,7 +21,9 @@ export function FiatDialogScreen({ address, dispatch }: Props) {
           {t(translations.fastBtcDialog.fiatDialog.title)}
         </div>
         <div className="mt-2">
-          {t(translations.fastBtcDialog.fiatDialog.explanation)}
+          {t(translations.fastBtcDialog.fiatDialog.explanation, {
+            amount: parseFloat(state.limits.max.toFixed(4)),
+          })}
         </div>
         <div className="mt-2">
           <div>
