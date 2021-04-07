@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { PoolData } from './components/PoolData';
 import {
@@ -8,8 +9,10 @@ import {
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { translations } from 'locales/i18n';
 
 export function LiquidityMining() {
+  const { t } = useTranslation();
   // Get total weighted liquidity and user liquidity
   const [totals, setTotals] = useState([
     {
@@ -122,13 +125,12 @@ export function LiquidityMining() {
       </div>
       {!isConnected && (
         <div className="w-100 my-5 text-center font-family-montserrat font-weight-bold">
-          Connect your wallet to see your liquidity mining history.
+          {t(translations.marketingPage.liquidity.connetWallet)}
         </div>
       )}
       <div className="row w-100 text-center p-2">
         <p className="w-100 text-center font-family-montserrat font-italic">
-          *This number may go up or down depending on how much liquidity other
-          liquidity providers add to or remove from the pool
+          *{t(translations.marketingPage.liquidity.provider)}
         </p>
       </div>
     </div>
