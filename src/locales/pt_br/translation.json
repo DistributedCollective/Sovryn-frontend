@@ -74,7 +74,7 @@
       "reward": "Recompensa",
       "pool": "Pool",
       "rewardPool": "Sua participação atual no pool de recompensas*",
-      "rewardSOV": "Seus ganhos atuais de SOV  *",
+      "rewardSOV": "Seus ganhos atuais de SOV*",
       "miningEvent": "Seus eventos de mineração de liquidez",
       "noAsset": "Você não tem {{asset}} eventos de mineração de liquidez ainda."
     }
