@@ -76,7 +76,7 @@
       "rewardPool": "Sua participação atual no pool de recompensas*",
       "rewardSOV": "Seus ganhos atuais de SOV*",
       "miningEvent": "Seus eventos de mineração de liquidez",
-      "noAsset": "Você não tem {{asset}} eventos de mineração de liquidez ainda."
+      "noAsset": "Você ainda não tem {{asset}} eventos de mineração de liquidez."
     }
   },
   "tradingHistoryPage": {
