@@ -33,7 +33,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
+      "activeTrades": "Abertas",
       "tradingHistory": "Concluídas"
     }
   },
@@ -211,12 +211,38 @@
     "renewalDate": "Data de renovação"
   },
   "statsPage": {
+    "titles": {
+      "tradingVolume": "Volume de operações",
+      "hourVolumne":"24 HORAS",
+      "allVolumne":"TODO PERÍODO",
+      "btc": "BTC",
+      "usd": "USD",
+      "tvl": "Valor total na Sovryn",
+      "lending": "Dados de empréstimos"
+    },
+    "tvl": {
+      "type": "Tipo de contrato",
+      "btc": "Valor em (BTC)",
+      "usd": "Valor em (USD)",
+      "protocol":"Contrato de protocolo",
+      "lend":"Contrato de empréstimo",
+      "amm":"Contrato Amm",
+      "total": "Total"
+    },
+    "ammpool": {
+      "title": "SALDOS AMM",
+      "pool": "Pool",
+      "stakedBalance":"Saldo aplicado",
+      "contractBalance":"Saldo do contrato",
+      "imBalance":"Desequilíbrio"
+
+    },
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (Emprestador)",
-    "borrowAPR": "Juros anual (Tomador)"
+    "supplyAPR": "Juros anual (quem empresta)",
+    "borrowAPR": "Juros anual (quem obtém)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -233,7 +259,7 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer liquidez",
+    "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez"
   },
   "modal": {
@@ -293,27 +319,27 @@
     },
     "currency": {
       "lend": "Emprestar",
-      "borrow": "Tomar empréstimo",
-      "lendArp": "Juros anual (Emprestador)",
-      "borrowArp": "Juros anual (Tomador)"
+      "borrow": "Obter empréstimo",
+      "lendArp": "Juros anual (quem empresta)",
+      "borrowArp": "Juros anual (quem obtém)"
     },
     "container": {
-      "leftBtn": "Fornecer",
+      "leftBtn": "Adicionar",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Emprestado",
       "profit": "Lucro",
-      "supply": "Fornecer"
+      "supply": "Adicionar"
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
       "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
-      "borrow": "Tomar empréstimo",
+      "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias"
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo ativo."
+    "text": "Você não tem nenhum empréstimo à pagar."
   },
   "activeUserLoans": {
     "text": "Você não tem nenhuma operação de compra ou venda aberta.",
@@ -344,7 +370,7 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Ativas",
+      "active": "À pagar",
       "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
@@ -586,7 +612,7 @@
       "action": "Ação"
     },
     "actions": {
-      "deposit": "Depositar",
+      "deposit": "FastBTC",
       "swap": "Trocar",
       "trade": "Operar",
       "claimSov": "Receber SOV",
@@ -632,7 +658,7 @@
       "borrow": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
-        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+        "line_3": "O pool irá aumentar quando os usuários quitarem seus respectivos empréstimos."
       }
     }
   },
@@ -729,7 +755,7 @@
   },
   "fastBtcDialog": {
     "title": "Receber rBTC",
-    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
+    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com moeda estatal",
     "limits": {
       "title": "Limites:",
       "min": "Mín: {{amount}}",
@@ -749,7 +775,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Enviar BTC",
+    "buttonBTC": "Depositar BTC",
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",

@@ -1,3 +1,5 @@
+import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
+import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -5,25 +7,24 @@
  */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { AssetDetails } from '../../../utils/models/asset-details';
-import { LoadableValue } from '../LoadableValue';
 import { Asset } from '../../../types/asset';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
-import { Skeleton } from '../PageSkeleton';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { ethGenesisAddress } from '../../../utils/classifiers';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
-import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
-import { VestingDialog } from './VestingDialog';
-import { ethGenesisAddress } from '../../../utils/classifiers';
+import { AssetDetails } from '../../../utils/models/asset-details';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { bignumber } from 'mathjs';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { LoadableValue } from '../LoadableValue';
+import { Skeleton } from '../PageSkeleton';
+import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
+import { VestingDialog } from './VestingDialog';
 
 export function VestedAssets() {
   const { t } = useTranslation();

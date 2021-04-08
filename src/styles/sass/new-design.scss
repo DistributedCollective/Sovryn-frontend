@@ -304,6 +304,10 @@ button.button-round {
     opacity: 0.5;
   }
 }
+button.button-width {
+  min-width: 170px;
+  max-width: 200px;
+}
 
 .is-pointer {
   cursor: pointer;

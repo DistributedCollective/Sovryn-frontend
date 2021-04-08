@@ -24,15 +24,21 @@ export function StatsPage() {
       <Header />
       <main>
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
-          <h1 className="tw-text-center tw-w-full">Trading Volume</h1>
+          <h1 className="tw-text-center tw-w-full">
+            {t(translations.statsPage.titles.tradingVolume)}
+          </h1>
           <div className="tw-ty-5 tw-mx-3">
             <TradingVolume />
           </div>
-          <h1 className="tw-text-center tw-w-full">Total Value Locked</h1>
+          <h1 className="tw-text-center tw-w-full">
+            {t(translations.statsPage.titles.tvl)}
+          </h1>
           <div className="sovryn-border sovryn-table tw-p-3 tw-mt-5 tw-mb-5">
             <TVL />
           </div>
-          <h1 className="tw-text-center tw-w-full">Lending Stats</h1>
+          <h1 className="tw-text-center tw-w-full">
+            {t(translations.statsPage.titles.lending)}
+          </h1>
           <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
             <table className="tw-w-full">
               <thead>
@@ -62,7 +68,9 @@ export function StatsPage() {
               </tbody>
             </table>
           </div>
-          <h1 className="tw-text-center tw-w-full">AMM Balances</h1>
+          <h1 className="tw-text-center tw-w-full">
+            {t(translations.statsPage.ammpool.title)}
+          </h1>
           <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
             <AmmBalance />
           </div>

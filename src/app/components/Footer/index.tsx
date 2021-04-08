@@ -53,9 +53,10 @@ export function Footer() {
                 i18nKey={translations.footer.notice_4}
                 components={[
                   <a
-                    href="https://wiki.sovryn.app/en/home"
+                    href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
                     target="_blank"
                     rel="noreferrer noopener"
+                    className="tw-font-light tw-text-gold"
                   >
                     x
                   </a>,
