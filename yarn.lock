@@ -3363,13 +3363,13 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sovryn/react-wallet@~1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.6.tgz#c775f6c8be085cdda12e85a947848927a3e1b2ea"
-  integrity sha512-ZVPRv8y3jO+9ltqN3n7VjBlt9rhTuwDSrb0Plr7IG84iVgBF0yBXJYOk5tKNyZJULgqj6/tZse77oXkDZQap8A==
+"@sovryn/react-wallet@~1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.8.tgz#45b1ffa4063754141eee8a2db82b7e751348d6de"
+  integrity sha512-lP8xOthA5GFqs912u23/qX5HA+NUP91kKQ988mYmzaeI12awHcPqqDUqlxYaG/nb5P7t7V8urnPW5xoGEWA1Nw==
   dependencies:
     "@hookstate/core" "^3.0.6"
-    "@sovryn/wallet" "^1.0.0"
+    "@sovryn/wallet" "^1.0.8"
     "@types/classnames" "^2.2.11"
     classnames "^2.2.6"
     detect-browser "^5.2.0"
@@ -3377,10 +3377,10 @@
     storage-factory "^0.2.0"
     styled-components "^5.2.3"
 
-"@sovryn/wallet@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-1.0.0.tgz#9c68a07bd8526d4363b798e6060e0819ae646f16"
-  integrity sha512-god2LW4x+tZeA38EW8HHuquu0e0kqFbW4+0dYdtaVBBDyUjyc6Tk6cVSFRDpfAVuw0RF2OS5J771P/5m4giU3w==
+"@sovryn/wallet@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-1.0.8.tgz#a75ca0c0f7d6ffbddc4acd3e7cd73044a358ac98"
+  integrity sha512-BkuPMB6ZRt9l0JW8Q2E8isOK3eyR18UZ3MGYq9wu78xokdZ6/ySLSKxD/loBagj1voCrghXwdKd6tMk1AWKQ1w==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.46.0"
     "@ledgerhq/hw-transport" "^5.46.0"
