@@ -30,6 +30,10 @@ export function Explainer() {
             total liquidity added * number of blocks held
           </div>
         </p>
+        <p>
+          Rewards will be deposited into liquidity providers' wallets on or
+          before 8th May 2021
+        </p>
       </div>
     </>
   );

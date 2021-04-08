@@ -786,5 +786,18 @@
     "amount": "Amount to Withdraw:",
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
+  },
+  "liquidityMining": {
+    "explainer": {
+      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
+      "startDate": "Start date: 1st April 2021, 12.00 UTC",
+      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
+      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "yourShare": "Your share of the pool is calculated by:",
+      "yourShare_N": "liquidity added by you * number of blocks held",
+      "yourShare_D": "total liquidity added * number of blocks held",
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
+    }
   }
 }
