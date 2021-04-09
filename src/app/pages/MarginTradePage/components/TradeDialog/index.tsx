@@ -12,7 +12,10 @@ import {
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { FormGroup } from 'form/FormGroup';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import { getLendingContractName } from '../../../../../utils/blockchain/contract-helpers';
+import {
+  getLendingContractName,
+  getTokenContract,
+} from '../../../../../utils/blockchain/contract-helpers';
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { LiquidationPrice } from '../LiquidationPrice';
@@ -21,8 +24,12 @@ import { DialogButton } from 'form/DialogButton';
 import { SendTxProgress } from '../../../../components/SendTxProgress';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
+import { toWei } from 'web3-utils';
+import { Asset } from '../../../../../types/asset';
+import { useAccount } from '../../../../hooks/useAccount';
 
 export function TradeDialog() {
+  const account = useAccount();
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -47,6 +54,20 @@ export function TradeDialog() {
   );
 
   const submit = () => trade();
+
+  const txArgs = [
+    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    toWei(String(leverage - 1), 'ether'),
+    useLoanTokens ? amount : '0',
+    useLoanTokens ? '0' : amount,
+    getTokenContract(collateralToken).address,
+    account, // trader
+    '0x',
+  ];
+
+  const txConf = {
+    value: collateral === Asset.RBTC ? amount : '0',
+  };
 
   return (
     <Dialog
@@ -114,7 +135,8 @@ export function TradeDialog() {
           </div>
         </FormGroup>
         <TxFeeCalculator
-          args={[]}
+          args={txArgs}
+          txConfig={txConf}
           methodName="marginTrade"
           contractName={contractName}
           condition={true}

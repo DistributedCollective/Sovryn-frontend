@@ -19,7 +19,6 @@ import { SwapPage } from './containers/SwapPage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { currentNetwork } from '../utils/classifiers';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
-import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
@@ -47,7 +46,6 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            {/*<Route exact path="/" component={TradingPage} />*/}
             <Route exact path="/" component={MarginTradePage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />

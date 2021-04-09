@@ -159,29 +159,29 @@ export function TradingChart(props: ChartContainerProps) {
         />
       ) : (
         <>
-          {/*<div className="row tw-h-full tw-flex tw-content-end">*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="50%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="30%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="80%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="70%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="65%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="30%" />*/}
-          {/*  </div>*/}
-          {/*  <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">*/}
-          {/*    <Skeleton height="55%" />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+          <div className="row tw-h-full tw-flex tw-content-end">
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="50%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="30%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="80%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="70%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="65%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="30%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="55%" />
+            </div>
+          </div>
         </>
       )}
     </div>

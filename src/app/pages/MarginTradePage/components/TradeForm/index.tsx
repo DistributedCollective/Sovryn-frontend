@@ -8,7 +8,6 @@ import {
 } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { Option, Options } from 'form/Select/types';
 import { Text } from '@blueprintjs/core';
-import { Asset } from '../../../../../types/asset';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
 import { FormGroup } from 'form/FormGroup';
@@ -17,14 +16,8 @@ import { CollateralAssets } from '../CollateralAssets';
 import { AvailableBalance } from '../AvailableBalance';
 import { Button } from '../Button';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { useLending_transactionLimit } from '../../../../hooks/lending/useLending_transactionLimit';
-import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
-import { bignumber, min } from 'mathjs';
-import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
-import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
-import { useBorrowInterestRate } from '../../../../hooks/trading/useBorrowInterestRate';
+import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { EngageButton } from '../EngageButton';
 import { TradeDialog } from '../TradeDialog';
@@ -55,43 +48,14 @@ export function TradeForm() {
     return TradingPairDictionary.get(pairType);
   }, [pairType]);
 
-  const submit = e => {
-    console.log('submit ', e);
-    dispatch(actions.submit(e));
-  };
+  useEffect(() => {
+    if (!pair.collaterals.includes(collateral)) {
+      dispatch(actions.setCollateral(pair.collaterals[0]));
+    }
+    // eslint-disable-next-line
+  }, [pair.collaterals]);
 
-  // const {
-  //   value: maxAmount,
-  //   loading: loadingLimit,
-  // } = useLending_transactionLimit(
-  //   pair.getAssetForPosition(position),
-  //   collateral,
-  // );
-
-  // const valid = useIsAmountWithinLimits(
-  //   weiAmount,
-  //   '1',
-  //   maxAmount !== '0'
-  //     ? min(bignumber(tokenBalance), bignumber(maxAmount))
-  //     : tokenBalance,
-  // );
-
-  // const { loanToken, collateralToken } = useTrading_resolvePairTokens(
-  //   pair,
-  //   position,
-  //   pair.getAssetForPosition(position),
-  //   collateral,
-  // );
-  //
-  // const { diff } = useTrading_testRates(loanToken, collateralToken, weiAmount);
-
-  // const {
-  //   value: interestValue,
-  //   loading: interestLoading,
-  // } = useBorrowInterestRate(loanToken, collateral, leverage, weiAmount);
-  //
-  // const [liqPrice, setLiqPrice] = useState('0');
-  // const [dialogOpen, setDialogOpen] = useState(false);
+  const submit = e => dispatch(actions.submit(e));
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 

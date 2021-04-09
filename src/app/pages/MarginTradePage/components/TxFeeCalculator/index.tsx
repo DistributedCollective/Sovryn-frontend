@@ -18,7 +18,7 @@ interface Props {
 }
 
 export function TxFeeCalculator(props: Props) {
-  const { value, loading } = useEstimateContractGas(
+  const { value, loading, error } = useEstimateContractGas(
     props.contractName,
     props.methodName,
     props.args,
@@ -33,9 +33,14 @@ export function TxFeeCalculator(props: Props) {
         values={{ symbol: props.symbol }}
         components={[
           <LoadableValue
-            value={weiToNumberFormat(value, 6)}
+            value={weiToNumberFormat(value, 8)}
             loading={loading}
-            tooltip={fromWei(value)}
+            tooltip={
+              <>
+                {fromWei(value)}
+                {error && <p className="tw-text-red">{error}</p>}
+              </>
+            }
           />,
         ]}
       />
