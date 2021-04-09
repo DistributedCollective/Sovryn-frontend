@@ -1,21 +1,23 @@
-import React, { useCallback, useState } from 'react';
-import { useGetUnlockedVesting } from '../../hooks/staking/useGetUnlockedVesting';
 import { Classes, Overlay } from '@blueprintjs/core';
-import VestingAbi from 'utils/blockchain/abi/Vesting.json';
-import styles from '../../containers/WalletPage/components/dialog.module.css';
-import { TxType } from '../../../store/global/transactions-store/types';
-import { Button } from '../Button';
-import { FieldGroup } from '../FieldGroup';
-import { DummyField } from '../DummyField';
 import classNames from 'classnames';
-import arrowDown from '../../containers/WalletPage/components/arrow-down.svg';
-import { SendTxProgress } from '../SendTxProgress';
-import { useAccount } from '../../hooks/useAccount';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { InputField } from '../InputField';
-import { useSendToContractAddressTx } from '../../hooks/useSendToContractAddressTx';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import VestingAbi from 'utils/blockchain/abi/Vesting.json';
+
 import { translations } from '../../../locales/i18n';
+import { TxType } from '../../../store/global/transactions-store/types';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
+import arrowDown from '../../containers/WalletPage/components/arrow-down.svg';
+import styles from '../../containers/WalletPage/components/dialog.module.css';
+import { useGetUnlockedVesting } from '../../hooks/staking/useGetUnlockedVesting';
+import { useAccount } from '../../hooks/useAccount';
+import { useSendToContractAddressTx } from '../../hooks/useSendToContractAddressTx';
+import { Button } from '../Button';
+import { DummyField } from '../DummyField';
+import { FieldGroup } from '../FieldGroup';
+import { InputField } from '../InputField';
+import { SendTxProgress } from '../SendTxProgress';
 
 interface Props {
   address: string;
@@ -105,9 +107,12 @@ export function VestingDialog(props: Props) {
                 <Button
                   text={t(translations.common.confirm)}
                   onClick={() => handleSubmit()}
-                  className="mr-3 w-100"
+                  className={`mr-3 w-100 ${
+                    value === '0' ||
+                    (tx.loading && `opacity-25 cursor-not-allowed`)
+                  }`}
                   loading={tx.loading}
-                  disabled={value === '0'}
+                  disabled={value === '0' || tx.loading}
                 />
                 <Button
                   text={t(translations.common.cancel)}
