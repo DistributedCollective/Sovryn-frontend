@@ -13,7 +13,7 @@ export class AssetsDictionary {
     [
       [
         Asset.RBTC,
-        new AssetDetails(Asset.RBTC, 'RBTC', 'Bitcoin', 18, rbtcIcon),
+        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon),
       ],
       [
         Asset.DOC,
@@ -29,9 +29,6 @@ export class AssetsDictionary {
         Asset.CSOV,
         new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
       ],
-      // [
-      //   Asset.SOV, new AssetDetails(Asset.SOV, 'SOV')
-      // ]
     ],
   );
 

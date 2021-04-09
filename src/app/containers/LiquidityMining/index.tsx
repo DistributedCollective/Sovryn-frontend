@@ -91,11 +91,11 @@ export function LiquidityMining() {
 
   return (
     <div className="">
-      <h1 className="w-100 text-center mb-3">
+      <h1 className="tw-w-full tw-text-center tw-mb-5 tw-text-white">
         Liquidity Mining: USDT/BTC Pool
       </h1>
-      <div className="d-flex flex-wrap mb-5"></div>
-      <div className="d-flex flex-wrap justify-content-around">
+      <div className="tw-mb-5" />
+      <div className="tw-flex tw-flex-wrap tw-justify-around">
         <PoolData
           data={
             USDTData || {
@@ -124,12 +124,12 @@ export function LiquidityMining() {
         />
       </div>
       {!isConnected && (
-        <div className="w-100 my-5 text-center font-family-montserrat font-weight-bold">
+        <div className="tw-w-full tw-my-8 tw-text-center tw-font-bold">
           {t(translations.marketingPage.liquidity.connetWallet)}
         </div>
       )}
-      <div className="row w-100 text-center p-2">
-        <p className="w-100 text-center font-family-montserrat font-italic">
+      <div className="tw-w-full tw-text-center tw-p-5">
+        <p className="tw-w-full tw-text-center tw-font-italic">
           *{t(translations.marketingPage.liquidity.provider)}
         </p>
       </div>

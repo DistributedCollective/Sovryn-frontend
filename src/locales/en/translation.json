@@ -848,7 +848,9 @@
         "pair": "Pair:",
         "asset": "Asset:",
         "leverage": "Leverage:",
-        "amount": "Amount:"
+        "amount": "Amount:",
+        "balance": "Available Balance: <0/> {{symbol}}",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Long",
@@ -861,12 +863,5 @@
       "noResults": "No results",
       "placeholder": "Select item"
     }
-  },
-  "vestingDialog": {
-    "title": "Withdraw Vesting",
-    "subtitle": "This transaction requires rBTC for gas.",
-    "amount": "Amount to Withdraw:",
-    "receiver": "Receive SOV to:",
-    "calculating": "Calculating..."
   }
 }

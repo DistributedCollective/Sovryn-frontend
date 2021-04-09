@@ -112,4 +112,8 @@
     max-width: 452px;
     width: 100%;
   }
+
+  .tw-mw-320 {
+    max-width: 320px;
+  }
 }

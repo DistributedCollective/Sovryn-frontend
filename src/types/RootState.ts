@@ -7,7 +7,7 @@ import { TransactionsStoreState } from '../store/global/transactions-store/types
 import { SalesPageState } from 'app/containers/SalesPage/types';
 import { MaintenanceStoreState } from '../store/global/maintenance-store/types';
 import { FastBtcDialogState } from 'app/containers/FastBtcDialog/types';
-import { MarginTradePageState } from 'app/containers/MarginTradePage/types';
+import { MarginTradePageState } from 'app/pages/MarginTradePage/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*

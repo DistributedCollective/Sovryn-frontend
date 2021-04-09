@@ -6,9 +6,8 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import classNames from 'classnames';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
@@ -20,7 +19,6 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
-import styles from './index.module.css';
 import { TradeForm } from './components/TradeForm';
 import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 
@@ -30,13 +28,8 @@ export function MarginTradePage(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { pairType, collateral } = useSelector(selectMarginTradePage);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch();
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { pairType } = useSelector(selectMarginTradePage);
+  const { t } = useTranslation();
 
   const pair = TradingPairDictionary.get(pairType);
 
@@ -53,13 +46,12 @@ export function MarginTradePage(props: Props) {
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col tw-items-center lg:tw-flex-row lg:tw-justify-between">
           <div
-            className={classNames(
-              'tw-flex-shrink tw-flex-grow lg:tw-pr-4',
-              styles.chartWrapper,
-            )}
+            className={
+              'tw-flex-shrink tw-w-full tw-flex-grow tw-mb-12 lg:tw-pr-4 lg:tw-mb-0'
+            }
           >
             <TradingChart
-              symbol={pair.getChartSymbol()}
+              symbol={pair.chartSymbol}
               theme={Theme.DARK}
               type={ChartType.CANDLE}
             />

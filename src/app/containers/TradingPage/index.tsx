@@ -16,7 +16,7 @@ import { reducer, sliceKey } from './slice';
 import { selectTradingPage } from './selectors';
 import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import { TradingChart, Theme, ChartType } from '../../components/TradingChart';
+import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
@@ -24,6 +24,7 @@ import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
+
 const s = translations.tradingPage;
 
 interface Props {}
@@ -34,10 +35,6 @@ export function TradingPage(props: Props) {
 
   const tradingPage = useSelector(selectTradingPage);
   const { t } = useTranslation();
-
-  const symbol = TradingPairDictionary.get(
-    tradingPage.tradingPair,
-  )?.getChartSymbol();
 
   return (
     <>
@@ -55,7 +52,9 @@ export function TradingPage(props: Props) {
             } lg:tw-block`}
           >
             <TradingChart
-              symbol={symbol}
+              symbol={
+                TradingPairDictionary.get(tradingPage.tradingPair)?.chartSymbol
+              }
               theme={Theme.DARK}
               type={ChartType.CANDLE}
             />

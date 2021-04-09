@@ -197,7 +197,7 @@ export default function GetAccess(props: Props) {
   const { tradingPair } = useSelector(selectTradingPage);
   const { requestAccessLoading } = useSelector(selectSalesPage);
   const pair = TradingPairDictionary.get(tradingPair);
-  const { value: price } = useCachedAssetPrice(pair.getAsset(), Asset.DOC);
+  const { value: price } = useCachedAssetPrice(pair.longAsset, Asset.DOC);
   const usdPrice = weiTo2(Number(price) * amount);
   const maxAmount = 100;
   const searchInput = useRef(null as any);

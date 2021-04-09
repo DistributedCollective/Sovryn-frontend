@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';

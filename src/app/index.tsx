@@ -27,7 +27,7 @@ import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
-import { MarginTradePage } from './containers/MarginTradePage/Loadable';
+import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -47,8 +47,8 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            <Route exact path="/" component={TradingPage} />
-            <Route exact path="/trade" component={MarginTradePage} />
+            {/*<Route exact path="/" component={TradingPage} />*/}
+            <Route exact path="/" component={MarginTradePage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
