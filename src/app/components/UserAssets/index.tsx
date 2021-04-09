@@ -171,42 +171,44 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
         />
       </td>
       <td className="text-right d-none d-md-table-cell">
-        <ButtonGroup>
-          {item.asset === Asset.RBTC && (
-            <Button
-              minimal
-              text={t(translations.userAssets.actions.deposit)}
-              className="text-gold button-round"
-              onClick={() => onFastBtc()}
-            />
-          )}
-          {item.asset !== Asset.CSOV ? (
-            <>
+        {item.asset !== Asset.SOV && (
+          <ButtonGroup>
+            {item.asset === Asset.RBTC && (
               <Button
                 minimal
-                text={t(translations.userAssets.actions.trade)}
+                text={t(translations.userAssets.actions.deposit)}
                 className="text-gold button-round"
-                onClick={() =>
-                  history.push('/', {
-                    params: { asset: item.asset, action: 'trade' },
-                  })
-                }
+                onClick={() => onFastBtc()}
               />
-              <Button
-                minimal
-                text={t(translations.userAssets.actions.swap)}
-                className="text-gold button-round"
-                onClick={() =>
-                  history.push('/', {
-                    params: { asset: item.asset, action: 'swap' },
-                  })
-                }
-              />
-            </>
-          ) : (
-            <CSovActions amount={tokens} />
-          )}
-        </ButtonGroup>
+            )}
+            {item.asset !== Asset.CSOV ? (
+              <>
+                <Button
+                  minimal
+                  text={t(translations.userAssets.actions.trade)}
+                  className="text-gold button-round"
+                  onClick={() =>
+                    history.push('/', {
+                      params: { asset: item.asset, action: 'trade' },
+                    })
+                  }
+                />
+                <Button
+                  minimal
+                  text={t(translations.userAssets.actions.swap)}
+                  className="text-gold button-round"
+                  onClick={() =>
+                    history.push('/', {
+                      params: { asset: item.asset, action: 'swap' },
+                    })
+                  }
+                />
+              </>
+            ) : (
+              <CSovActions amount={tokens} />
+            )}
+          </ButtonGroup>
+        )}
       </td>
     </tr>
   );

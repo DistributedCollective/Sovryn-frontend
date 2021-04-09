@@ -29,7 +29,9 @@ export function usePriceFeeds_tradingPairRates() {
         if (
           target === source ||
           target === Asset.CSOV || // todo: remove when oracle will have price
-          source === Asset.CSOV
+          source === Asset.CSOV ||
+          target === Asset.SOV ||
+          source === Asset.SOV
         ) {
           continue;
         }
