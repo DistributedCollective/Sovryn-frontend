@@ -40,16 +40,12 @@ export function PricePrediction({
     collateralToken,
   );
 
-  console.log(value, loanTokenAmount, collateralAmount, loanToken, collateralToken);
-
   const { price, loading } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
     value.principal,
     props.position === TradingPosition.SHORT,
   );
-
-  console.log(price);
 
   return (
     <LoadableValue loading={loading} value={<>{toNumberFormat(price, 2)}</>} />

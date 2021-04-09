@@ -16,12 +16,13 @@ import { getLendingContractName } from '../../../../../utils/blockchain/contract
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { LiquidationPrice } from '../LiquidationPrice';
+import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
+import { DialogButton } from 'form/DialogButton';
+import { SendTxProgress } from '../../../../components/SendTxProgress';
+import { LoadableValue } from '../../../../components/LoadableValue';
+import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 
-interface Props {
-  //
-}
-
-export function TradeDialog(props: Props) {
+export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -37,7 +38,15 @@ export function TradeDialog(props: Props) {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
-  // const tx = useApproveAndTrade(pair, position, collateral);
+  const { trade, ...tx } = useApproveAndTrade(
+    pair,
+    position,
+    collateral,
+    leverage,
+    amount,
+  );
+
+  const submit = () => trade();
 
   return (
     <Dialog
@@ -58,7 +67,12 @@ export function TradeDialog(props: Props) {
           label="Collateral:"
           value={
             <>
-              {weiToNumberFormat(amount)} {asset.symbol}
+              <LoadableValue
+                loading={false}
+                value={weiToNumberFormat(amount, 4)}
+                tooltip={fromWei(amount)}
+              />{' '}
+              {asset.symbol}
             </>
           }
         />
@@ -105,7 +119,17 @@ export function TradeDialog(props: Props) {
           contractName={contractName}
           condition={true}
         />
-        {contractName}
+      </div>
+
+      <SendTxProgress {...tx} displayAbsolute={false} />
+
+      <div className="tw-px-5">
+        <DialogButton
+          confirmLabel="Confirm"
+          onConfirm={() => submit()}
+          cancelLabel="Cancel"
+          onCancel={() => dispatch(actions.closeTradingModal())}
+        />
       </div>
     </Dialog>
   );
