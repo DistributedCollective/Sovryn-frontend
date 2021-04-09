@@ -82,7 +82,7 @@ export function LiquidityMining() {
 
   const BTCData = combinedData.find(
     item =>
-      getContractNameByAddress(item.pool)?.includes('BTC') &&
+      getContractNameByAddress(item.pool)?.includes('USDT') &&
       symbolByTokenAddress(item.asset).includes('BTC'),
   );
 
