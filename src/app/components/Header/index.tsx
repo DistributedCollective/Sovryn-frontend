@@ -107,7 +107,8 @@ export function Header() {
     );
   };
   const pages = [
-    { to: '/', title: t(translations.mainMenu.trade), exact: true },
+    { to: '/', title: t(translations.mainMenu.buySov), exact: true },
+    { to: '/trade', title: t(translations.mainMenu.trade) },
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
@@ -181,6 +182,9 @@ export function Header() {
             </div>
             <div className="d-none d-xl-block">
               <NavLink className="nav-item mr-4" to="/" exact>
+                {t(translations.mainMenu.buySov)}
+              </NavLink>
+              <NavLink className="nav-item mr-4" to="/trade">
                 {t(translations.mainMenu.trade)}
               </NavLink>
               <NavLink className="nav-item mr-4" to="/lend">

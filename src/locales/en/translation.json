@@ -160,6 +160,7 @@
     "buildID": "Build ID"
   },
   "mainMenu": {
+    "buySov": "Buy SOV",
     "trade": "Trade",
     "lend": "Loans",
     "fastBtc": "Top-Up",

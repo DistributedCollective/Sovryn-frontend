@@ -80,6 +80,7 @@ export function App() {
         <WalletProvider>
           <Switch>
             <Route exact path="/" component={TradingPage} />
+            <Route exact path="/trade" component={TradingPage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
