@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { Header } from 'app/components/Header';
@@ -23,6 +23,15 @@ import imgMtFeature from 'assets/mt-feature.svg';
 import styled from 'styled-components';
 
 export function BuySovPage() {
+  const ref = useRef<HTMLDivElement>(null);
+  const scrollTo = useCallback(() => {
+    if (ref.current) {
+      window.scrollTo({
+        top: ref.current.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  }, [ref]);
   return (
     <>
       <Helmet>
@@ -49,9 +58,9 @@ export function BuySovPage() {
         </div>
 
         <div className="w-100 text-center">
-          <Learn>How to earn with SOV</Learn>
+          <Learn onClick={scrollTo}>How to earn with SOV</Learn>
 
-          <How>How you can use SOV</How>
+          <How ref={ref}>How you can use SOV</How>
         </div>
 
         <Feature

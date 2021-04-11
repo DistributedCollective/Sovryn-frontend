@@ -14,8 +14,8 @@ interface Props {
 
 export function Feature(props: Props) {
   return (
-    <Article className="d-flex w-100 justify-content-between align-items-center">
-      <div className={props.reverse ? 'order-1' : 'order-0'}>
+    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
+      <div className={`${props.reverse ? 'order-lg-1' : 'order-lg-0'} order-1`}>
         <h1>{props.title}</h1>
         <div className="content">{props.content}</div>
         {props.href.startsWith('http') ? (
@@ -37,7 +37,9 @@ export function Feature(props: Props) {
         src={props.image}
         alt="Item"
         style={props.imageStyle}
-        className={props.reverse ? 'order-0 img-reverse' : 'order-1 img-normal'}
+        className={`${
+          props.reverse ? 'order-lg-0 img-reverse' : 'order-lg-1 img-normal'
+        } order-0`}
       />
     </Article>
   );
@@ -56,11 +58,20 @@ const Article = styled.article`
     margin-bottom: 32px;
   }
 
-  .img-reverse {
-    margin-right: 175px;
+  @media screen and (min-width: 992px) {
+    .img-reverse {
+      margin-right: 175px;
+    }
+    .img-normal {
+      margin-left: 175px;
+    }
   }
-  .img-normal {
-    margin-left: 175px;
+
+  @media screen and (max-width: 991px) {
+    .img-reverse,
+    .img-normal {
+      margin: 15px auto 25px;
+    }
   }
 
   .button {
@@ -80,6 +91,7 @@ const Article = styled.article`
     margin-top: 40px;
     &:hover {
       opacity: 0.75;
+      color: #e9eae9;
     }
   }
 

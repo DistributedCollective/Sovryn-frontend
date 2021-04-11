@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
+// import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import {
   toNumberFormat,
   weiToNumberFormat,
@@ -46,10 +46,13 @@ export function InfoBar() {
       });
   }, []);
 
-  const {
-    value: totalSupply,
-    loading: totalSupplyLoading,
-  } = useCacheCallWithValue('SOV_token', 'totalSupply', '0');
+  // const {
+  //   value: totalSupply,
+  //   loading: totalSupplyLoading,
+  // } = useCacheCallWithValue('SOV_token', 'totalSupply', '0');
+
+  const totalSupply = 2370000e18;
+  const totalSupplyLoading = false;
 
   const marketCap = useMemo(() => {
     return (
@@ -63,9 +66,22 @@ export function InfoBar() {
   return (
     <>
       <StyledInfoBar>
+        {/*<div className="col">*/}
+        {/*  <Text ellipsize tagName="p">*/}
+        {/*    Total Supply:*/}
+        {/*  </Text>*/}
+        {/*  <Text ellipsize tagName="p">*/}
+        {/*    <LoadableValue*/}
+        {/*      loading={totalSupplyLoading}*/}
+        {/*      value={weiToNumberFormat(totalSupply, 2)}*/}
+        {/*      tooltip={weiTo18(totalSupply)}*/}
+        {/*    />{' '}*/}
+        {/*    SOV*/}
+        {/*  </Text>*/}
+        {/*</div>*/}
         <div className="col">
           <Text ellipsize tagName="p">
-            Total Supply:
+            Circulating Supply:
           </Text>
           <Text ellipsize tagName="p">
             <LoadableValue
