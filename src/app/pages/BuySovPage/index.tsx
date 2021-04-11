@@ -6,6 +6,7 @@
 
 import React, { useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import styled from 'styled-components/macro';
 
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
@@ -20,7 +21,6 @@ import { Feature } from './components/Feature';
 
 import imgPlaceholder from 'assets/placeholder.svg';
 import imgMtFeature from 'assets/mt-feature.svg';
-import styled from 'styled-components';
 
 export function BuySovPage() {
   const ref = useRef<HTMLDivElement>(null);
@@ -201,6 +201,7 @@ const Learn = styled.button`
   display: inline-block;
   border-radius: 10px;
   background: transparent;
+  text-transform: none;
 `;
 const How = styled.h1`
   font-size: 36px;
