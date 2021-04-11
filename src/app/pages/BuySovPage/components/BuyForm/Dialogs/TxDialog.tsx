@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
@@ -21,8 +22,13 @@ interface Props {
 }
 
 export function TxDialog(props: Props) {
+  const history = useHistory();
   const close = () => {
     props.tx && props.tx.reset();
+  };
+  const confirm = () => {
+    props.tx.reset();
+    history.push('/wallet');
   };
 
   return (
@@ -78,7 +84,12 @@ export function TxDialog(props: Props) {
           )}
 
           <div style={{ maxWidth: 200 }} className="mx-auto w-100">
-            <ConfirmButton onClick={() => close()} text="Close" />
+            <ConfirmButton
+              onClick={() =>
+                props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
+              }
+              text="Close"
+            />
           </div>
         </>
       )}
