@@ -15,6 +15,7 @@ import { EngageWalletStep } from './components/EngageWallet';
 import { TopUpWallet } from './components/TopUpWallet';
 import { BuyForm } from './components/BuyForm';
 import { Welcome } from './components/Welcome';
+import { InfoBar } from './components/InfoBar';
 
 export function BuySovPage() {
   return (
@@ -26,6 +27,8 @@ export function BuySovPage() {
       <Header />
       <div className="container mt-5 font-family-montserrat">
         <PageHeader content="Buy SOV exclusively on Sovryn!" />
+
+        <InfoBar />
 
         <div className="w-100 d-flex flex-row justify-content-center align-items-start">
           <div>

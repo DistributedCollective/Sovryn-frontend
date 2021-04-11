@@ -20,6 +20,11 @@ export function OpenTransak({ address, onClose }: Props) {
       hostURL: window.location.origin,
       widgetHeight: '550px',
       widgetWidth: '450px',
+
+      cryptoCurrencyCode: 'BTC',
+      cryptoCurrencyList: 'BTC',
+      // isDisableCrypto: true,
+      hideMenu: true,
     });
 
     transak.init();

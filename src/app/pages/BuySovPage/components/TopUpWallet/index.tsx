@@ -12,7 +12,7 @@ export function TopUpWallet() {
   const [open, setOpen] = useState(false);
   return (
     <Card step={2} title="Top up RBTC" disabled={balance !== '0'}>
-      <div className="disable-content">
+      <div className="disable-content" style={{ height: 180 }}>
         <p>
           You will need RBTC in your wallet to buy SOV and pay gas fees on RSK
           Mainnet.

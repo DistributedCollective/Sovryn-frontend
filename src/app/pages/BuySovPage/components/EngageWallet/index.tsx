@@ -10,7 +10,7 @@ export function EngageWalletStep() {
   const connected = useIsConnected();
   return (
     <Card step={1} title="Engage Wallet" disabled={connected}>
-      <div className="disable-content">
+      <div className="disable-content" style={{ height: 180 }}>
         <p>
           Engage a browser, mobile or hardware wallet connected to the{' '}
           <a href="https://rsk.co" target="_blank" rel="noreferrer noopener">

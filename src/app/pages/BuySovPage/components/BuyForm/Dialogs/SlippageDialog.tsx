@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { Dialog } from '../../../../../containers/Dialog';
-import { InputField } from '../../../../../components/InputField';
 import { weiToNumberFormat } from '../../../../../../utils/display-text/format';
 import { FieldGroup } from '../../../../../components/FieldGroup';
 import { useSlippage } from '../useSlippage';
@@ -9,6 +8,7 @@ import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
 import { CloseButton } from '../../Button/close';
 import { LoadableValue } from '../../../../../components/LoadableValue';
+import { Slider } from '../../Slider';
 
 interface Props {
   isOpen: boolean;
@@ -46,12 +46,17 @@ export function SlippageDialog(props: Props) {
 
       <div className="px-4">
         <FieldGroup label="Slippage Tolerance:" labelColor="#E9EAE9">
-          <InputField
-            onChange={e => setValue(Number(e.target.value))}
-            value={String(value)}
+          <Slider
+            value={value}
+            onChange={e => setValue(e)}
+            min={0.1}
+            max={1}
+            stepSize={0.05}
+            labelRenderer={value => <>{value}%</>}
+            labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
           />
         </FieldGroup>
-
+        <br />
         <FieldGroup label="Minimum Received" labelColor="#E9EAE9">
           <Dummy className="d-flex justify-content-between align-items-center">
             <div>

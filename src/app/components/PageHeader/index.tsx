@@ -8,7 +8,7 @@ const StyledHeader = styled.div.attrs(_ => ({
     'd-flex flex-column flex-md-row align-items-center justify-content-center',
 }))`
   justify-content: center;
-  margin-bottom: 74px;
+  margin-bottom: 30px;
   margin-top: 54px;
   img {
     width: 30px;

@@ -15,7 +15,6 @@ import { translations } from '../../../../../locales/i18n';
 import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_rateByPath } from '../../../../hooks/swap-network/useSwapNetwork_rateByPath';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { useDispatch } from 'react-redux';
 import { useSlippage } from './useSlippage';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
@@ -26,7 +25,6 @@ import { BuyButton } from '../Button/buy';
 import { ArrowDown } from '../ArrowStep/down';
 import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
-import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { AmountButton } from '../AmountButton';
 
 const s = translations.swapTradeForm;
@@ -35,7 +33,6 @@ const gasLimit = 340000;
 
 export function BuyForm() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { checkMaintenance } = useMaintenance();
   const swapsLocked = checkMaintenance('openTradesSwaps');
 
@@ -43,7 +40,7 @@ export function BuyForm() {
   const [openSlippage, setOpenSlippage] = useState(false);
 
   const [amount, setAmount] = useState('');
-  const [slippage, setSlippage] = useState(0.1);
+  const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
   const { value: balance, loading: loadingBalance } = useAssetBalanceOf(
@@ -145,20 +142,13 @@ export function BuyForm() {
           </FieldGroup>
 
           {swapsLocked?.maintenance_active && <div>{swapsLocked?.message}</div>}
-        </div>
 
-        {connected ? (
           <BuyButton
-            disabled={tx.loading || !validate}
+            disabled={tx.loading || !validate || !connected}
             onClick={() => send()}
             text="Buy SOV"
           />
-        ) : (
-          <BuyButton
-            onClick={() => dispatch(actions.showModal(true))}
-            text="Engage Wallet"
-          />
-        )}
+        </div>
       </Card>
 
       <SlippageDialog
