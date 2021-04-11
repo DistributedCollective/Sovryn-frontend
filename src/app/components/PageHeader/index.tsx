@@ -8,8 +8,8 @@ const StyledHeader = styled.div.attrs(_ => ({
     'd-flex flex-column flex-md-row align-items-center justify-content-center',
 }))`
   justify-content: center;
-  margin-bottom: 1.8em;
-  margin-top: 1.3rem;
+  margin-bottom: 74px;
+  margin-top: 54px;
   img {
     width: 30px;
     margin-bottom: 25px;
@@ -18,6 +18,7 @@ const StyledHeader = styled.div.attrs(_ => ({
   justify-content: center;
   img {
     width: 52px;
+    height: 52px;
     margin-bottom: 0px;
     margin-right: 25px;
   }
@@ -29,9 +30,10 @@ const H1 = styled.h1`
   font-family: 'Montserrat';
   text-align: center;
   font-weight: bold;
-  letter-spacing: 0.8rem !important;
+  letter-spacing: 4.3px !important;
   margin: 0;
-  ${media.md`font-size: 53px; text-align: left;`}
+  text-transform: none;
+  ${media.md`font-size: 36px; line-height: 47px; text-align: center;`}
 `;
 
 interface Props {

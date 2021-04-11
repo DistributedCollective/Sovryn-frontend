@@ -25,6 +25,7 @@ import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
+import { BuySovPage } from './pages/BuySovPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -79,7 +80,7 @@ export function App() {
       ) : (
         <WalletProvider>
           <Switch>
-            <Route exact path="/" component={TradingPage} />
+            <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={TradingPage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
