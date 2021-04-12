@@ -25,6 +25,15 @@ export function useSwapNetwork_resolveRate(
       path,
       weiAmount,
     ]);
+
+    console.log(
+      sourceAsset,
+      destAsset,
+      getTokenContract(sourceAsset),
+      getTokenContract(destAsset),
+      { path, rate },
+    );
+
     return typeof rate == 'string' ? bignumber(parseInt(rate)).toFixed(0) : '0';
   };
 

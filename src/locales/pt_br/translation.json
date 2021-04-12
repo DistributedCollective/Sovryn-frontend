@@ -53,7 +53,7 @@
       }
     }
   },
-   "marketingPage": {
+  "marketingPage": {
     "explain": {
       "title": "COMO FUNCIONA?",
       "earn": "Ganhe SOV adicionando liquidez no pool USDT/BTC",
@@ -62,8 +62,8 @@
       "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
       "depositRBTC": "Recompensa se depositar RBTC: 25,000 SOV",
       "sharePool": "Sua participação no pool é calculada pela:",
-      "liquidityAdded":"liquidez adicionada por você * número de blocos mantidos",
-      "totalAdded":"liquidez total adicionada * número de blocos mantidos"
+      "liquidityAdded": "liquidez adicionada por você * número de blocos mantidos",
+      "totalAdded": "liquidez total adicionada * número de blocos mantidos"
     },
     "liquidity": {
       "title": "MINERAÇÃO DE LIQUIDEZ: USDT/BTC POOL",
@@ -239,8 +239,8 @@
   "statsPage": {
     "titles": {
       "tradingVolume": "Volume de operações",
-      "hourVolumne":"24 HORAS",
-      "allVolumne":"TODO PERÍODO",
+      "hourVolumne": "24 HORAS",
+      "allVolumne": "TODO PERÍODO",
       "btc": "BTC",
       "usd": "USD",
       "tvl": "Valor total na Sovryn",
@@ -250,18 +250,17 @@
       "type": "Tipo de contrato",
       "btc": "Valor em (BTC)",
       "usd": "Valor em (USD)",
-      "protocol":"Contrato de protocolo",
-      "lend":"Contrato de empréstimo",
-      "amm":"Contrato Amm",
+      "protocol": "Contrato de protocolo",
+      "lend": "Contrato de empréstimo",
+      "amm": "Contrato Amm",
       "total": "Total"
     },
     "ammpool": {
       "title": "SALDOS AMM",
       "pool": "Pool",
-      "stakedBalance":"Saldo aplicado",
-      "contractBalance":"Saldo do contrato",
-      "imBalance":"Desequilíbrio"
-
+      "stakedBalance": "Saldo aplicado",
+      "contractBalance": "Saldo do contrato",
+      "imBalance": "Desequilíbrio"
     },
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
