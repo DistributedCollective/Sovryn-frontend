@@ -20,6 +20,16 @@ export const blockExplorers = {
 export const networkNames = {
   30: 'RSK Mainnet',
   31: 'RSK Testnet',
+  1: 'Ethereum Mainnet',
+  3: 'Ethereum Ropsten Testnet',
+  4: 'Ethereum Rinkeby Testnet',
+  5: 'Ethereum Goerli Testnet',
+  56: 'Binance Smart Chain Mainnet',
+  57: 'Binance Smart Chain Testnet',
+  43114: 'Avalanche Mainnet',
+  43113: 'Avalanche Fuji Testnet',
+  80001: 'Matic Testnet Mumbai',
+  137: 'Matic Mainnet',
 };
 
 export const rpcNodes = {
