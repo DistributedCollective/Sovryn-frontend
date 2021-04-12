@@ -22,7 +22,7 @@ import {
 
 export function useSendToContractAddressTx(
   address: string,
-  abi: AbiItem,
+  abi: AbiItem[],
   methodName: string,
 ): SendTxResponseInterface {
   const transactions = useSelector(selectTransactions);

@@ -86,7 +86,7 @@ function GeneralAlert() {
         <p>
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
-            href="https://sovryn-1.gitbook.io/sovryn/"
+            href="https://wiki.sovryn.app/en/getting-started/faq-general"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"
@@ -98,7 +98,7 @@ function GeneralAlert() {
         <p>
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
-            href="https://sovryn-1.gitbook.io/sovryn/"
+            href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
             className="font-weight-light text-gold"
             target="_blank"
             rel="noreferrer noopener"

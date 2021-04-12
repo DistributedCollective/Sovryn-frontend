@@ -1,18 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from 'reactjs-localstorage';
 import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
 import blockies from 'ethereum-blockies';
 import styled from 'styled-components/macro';
-import { actions } from 'app/containers/EngageWalletDialog/slice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useWalletContext } from '@sovryn/react-wallet';
 import { prettyTx } from 'utils/helpers';
-import { Sovryn } from 'utils/sovryn';
-import { SHOW_MODAL } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
-import { selectWalletProvider } from '../WalletProvider/selectors';
 import { media } from '../../../styles/media';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import '../LendBorrowSovryn/assets/index.scss';
 
 type Props = {
@@ -20,29 +15,17 @@ type Props = {
 };
 
 const WalletConnectorContainer: React.FC<Props> = props => {
-  const { connected, connecting, address } = useSelector(selectWalletProvider);
+  const {
+    connected,
+    loading: connecting,
+    address,
+    connect,
+    disconnect,
+  } = useWalletContext();
   const { t } = useTranslation();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const location = useLocation();
   const simpleView = props.simpleView;
   const simpleViewClass = simpleView ? 'simpleView' : '';
-
-  const handleWalletConnection = useCallback(() => {
-    //don't show EngageWalletDialog if unsubscribe route
-    if (location.pathname === '/unsubscribe') {
-      Sovryn.connect()
-        .then(() => {})
-        .catch(console.error);
-    } else {
-      dispatch(actions.showModal(SHOW_MODAL));
-      reactLocalStorage.set('closedRskTutorial', 'false');
-    }
-  }, [dispatch, location.pathname]);
-
-  const handleDisconnect = () => {
-    Sovryn.disconnect().then(() => {});
-  };
 
   const getWalletAddrBlockieImg = (): string => {
     return blockies
@@ -62,7 +45,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     <div className="justify-content-center align-items-center d-none d-md-flex">
       {!connected && !address ? (
         <StyledButton
-          onClick={handleWalletConnection}
+          onClick={() => connect()}
           className="d-flex justify-content-center align-items-center"
         >
           {connecting && <Spinner size={22} />}
@@ -107,7 +90,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   <Icon
                     icon="log-out"
                     className="logout"
-                    onClick={handleDisconnect}
+                    onClick={() => disconnect()}
                   />
                 </span>
               </div>

@@ -11,6 +11,10 @@ class ContractReader {
     this.sovryn = Sovryn;
   }
 
+  public async nonce(address: string) {
+    return this.sovryn.getWeb3().eth.getTransactionCount(address);
+  }
+
   /**
    * Call contract and return response string or revert error
    * @param contractName

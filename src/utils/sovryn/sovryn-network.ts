@@ -75,14 +75,6 @@ export class SovrynNetwork {
     });
 
     this.initReadWeb3(currentChainId).then().catch();
-
-    if (this._web3Modal.cachedProvider) {
-      this.connect().then().catch();
-    }
-
-    // this._store.subscribe(() => {
-    //   const state = this.getState();
-    // });
   }
 
   public static Instance() {
@@ -92,6 +84,9 @@ export class SovrynNetwork {
     return this._instance;
   }
 
+  /**
+   * @deprecated
+   */
   public async connect() {
     try {
       this.connectProvider(await this._web3Modal.connect());
@@ -104,6 +99,10 @@ export class SovrynNetwork {
     }
   }
 
+  /**
+   * @deprecated
+   * @param provider
+   */
   public async connectTo(provider: string) {
     try {
       this.connectProvider(await this._web3Modal.connectTo(provider));
@@ -116,6 +115,9 @@ export class SovrynNetwork {
     }
   }
 
+  /**
+   * @deprecated
+   */
   public async disconnect() {
     try {
       if (
@@ -141,14 +143,25 @@ export class SovrynNetwork {
     return this._store.getState().walletProvider;
   }
 
+  /**
+   * @deprecated
+   */
   public getWriteWeb3() {
     return this._writeWeb3 as Web3;
   }
 
+  /**
+   * TODO: deprecate this
+   */
   public getWeb3() {
     return this._readWeb3;
   }
 
+  /**
+   * @deprecated
+   * @param contractName
+   * @param contractConfig
+   */
   public addWriteContract(
     contractName: string,
     contractConfig: {
@@ -210,6 +223,10 @@ export class SovrynNetwork {
     });
   }
 
+  /**
+   * @deprecated
+   * @param provider
+   */
   protected initWriteWeb3(provider) {
     try {
       this._writeWeb3 = new Web3(provider);
@@ -295,6 +312,10 @@ export class SovrynNetwork {
     }
   }
 
+  /**
+   * @deprecated
+   * @param provider
+   */
   protected subscribeProvider(provider) {
     try {
       if (provider.on) {
@@ -330,10 +351,13 @@ export class SovrynNetwork {
     }
   }
 
+  /**
+   * @deprecated
+   * @param provider
+   */
   protected async connectProvider(provider) {
     try {
       this.store().dispatch(actions.connect());
-      await this.subscribeProvider(provider);
 
       this.initWriteWeb3(provider);
 
@@ -369,6 +393,11 @@ export class SovrynNetwork {
         console.error('failed to send wallet address to database', e);
       });
   }
+
+  /**
+   * @deprecated
+   * @param chainId
+   */
   protected async testChain(chainId: number) {
     if (chainId !== currentChainId) {
       this._toaster.show(

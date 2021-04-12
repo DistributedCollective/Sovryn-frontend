@@ -33,7 +33,7 @@
     "title": "Minhas operações",
     "walletNote": "Primeiro conecte sua carteira!",
     "tabs": {
-      "activeTrades": "Ativas",
+      "activeTrades": "Abertas",
       "tradingHistory": "Concluídas"
     }
   },
@@ -51,6 +51,32 @@
         "title": "Você cancelou a inscrição nas notificações por e-mail",
         "text": "Você não receberá mais e-mails sobre chamadas de margem ou posições liquidadas. Você pode se inscrever novamente a qualquer momento."
       }
+    }
+  },
+  "marketingPage": {
+    "explain": {
+      "title": "COMO FUNCIONA?",
+      "earn": "Ganhe SOV adicionando liquidez no pool USDT/BTC",
+      "startDate": "Data inicial: 1º de Abril de 2021, 12.00 UTC",
+      "endDate": "Data final: 1º de Maio de 2021, 12.00 UTC",
+      "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
+      "depositRBTC": "Recompensa se depositar RBTC: 25,000 SOV",
+      "sharePool": "Sua participação no pool é calculada pela:",
+      "liquidityAdded": "liquidez adicionada por você * número de blocos mantidos",
+      "totalAdded": "liquidez total adicionada * número de blocos mantidos"
+    },
+    "liquidity": {
+      "title": "MINERAÇÃO DE LIQUIDEZ: USDT/BTC POOL",
+      "connetWallet": "Conecte sua carteira para ver seu histórico de mineração de liquidez.",
+      "provider": "*Este número pode aumentar ou diminuir dependendo de quanto liquidez outros fornecedores adiconarem ou removerem do pool",
+      "asset": "Ativo",
+      "sov": "25k SOV",
+      "reward": "Recompensa",
+      "pool": "Pool",
+      "rewardPool": "Sua participação atual no pool de recompensas*",
+      "rewardSOV": "Seus ganhos atuais de SOV*",
+      "miningEvent": "Seus eventos de mineração de liquidez",
+      "noAsset": "Você ainda não tem {{asset}} eventos de mineração de liquidez."
     }
   },
   "tradingHistoryPage": {
@@ -211,12 +237,37 @@
     "renewalDate": "Data de renovação"
   },
   "statsPage": {
+    "titles": {
+      "tradingVolume": "Volume de operações",
+      "hourVolumne": "24 HORAS",
+      "allVolumne": "TODO PERÍODO",
+      "btc": "BTC",
+      "usd": "USD",
+      "tvl": "Valor total na Sovryn",
+      "lending": "Dados de empréstimos"
+    },
+    "tvl": {
+      "type": "Tipo de contrato",
+      "btc": "Valor em (BTC)",
+      "usd": "Valor em (USD)",
+      "protocol": "Contrato de protocolo",
+      "lend": "Contrato de empréstimo",
+      "amm": "Contrato Amm",
+      "total": "Total"
+    },
+    "ammpool": {
+      "title": "SALDOS AMM",
+      "pool": "Pool",
+      "stakedBalance": "Saldo aplicado",
+      "contractBalance": "Saldo do contrato",
+      "imBalance": "Desequilíbrio"
+    },
     "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (Emprestador)",
-    "borrowAPR": "Juros anual (Tomador)"
+    "supplyAPR": "Juros anual (quem recebe)",
+    "borrowAPR": "Juros anual (quem paga)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -233,7 +284,7 @@
     "amountTarget": "Quantidade desejada",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
-    "supply": "Fornecer liquidez",
+    "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez"
   },
   "modal": {
@@ -277,7 +328,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
+    "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou aplicado). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
@@ -293,27 +344,27 @@
     },
     "currency": {
       "lend": "Emprestar",
-      "borrow": "Tomar empréstimo",
-      "lendArp": "Juros anual (Emprestador)",
-      "borrowArp": "Juros anual (Tomador)"
+      "borrow": "Obter empréstimo",
+      "lendArp": "Juros anual (quem recebe)",
+      "borrowArp": "Juros anual (quem paga)"
     },
     "container": {
-      "leftBtn": "Fornecer",
+      "leftBtn": "Adicionar",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
       "balance": "Emprestado",
       "profit": "Lucro",
-      "supply": "Fornecer"
+      "supply": "Adicionar"
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
       "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
-      "borrow": "Tomar empréstimo",
+      "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias"
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo ativo."
+    "text": "Você não tem nenhum empréstimo à pagar."
   },
   "activeUserLoans": {
     "text": "Você não tem nenhuma operação de compra ou venda aberta.",
@@ -344,7 +395,7 @@
   "borrowActivity": {
     "title": "Minhas dívidas",
     "tabs": {
-      "active": "Ativas",
+      "active": "À pagar",
       "history": "Quitadas"
     },
     "walletNote": "Primeiro conecte sua carteira!"
@@ -586,7 +637,7 @@
       "action": "Ação"
     },
     "actions": {
-      "deposit": "Depositar",
+      "deposit": "FastBTC",
       "swap": "Trocar",
       "trade": "Operar",
       "claimSov": "Receber SOV",
@@ -632,7 +683,7 @@
       "borrow": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
-        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+        "line_3": "O pool irá aumentar quando os usuários quitarem seus respectivos empréstimos."
       }
     }
   },
@@ -729,7 +780,7 @@
   },
   "fastBtcDialog": {
     "title": "Receber rBTC",
-    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com dinheiro",
+    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com moeda estatal",
     "limits": {
       "title": "Limites:",
       "min": "Mín: {{amount}}",
@@ -749,7 +800,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Enviar BTC",
+    "buttonBTC": "Depositar BTC",
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
