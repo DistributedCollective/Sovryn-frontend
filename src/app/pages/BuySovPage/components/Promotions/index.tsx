@@ -20,7 +20,7 @@ export function Promotions() {
         }
         cta="Sovryn goes brrrrrrrrrrrrrrr"
         href="https://sovryn.app/blog/sovryn-go-brrrrrr.html"
-        image={imgPromotion1}
+        image={imgPromotion2}
       />
 
       <Promotion
@@ -33,7 +33,7 @@ export function Promotions() {
         }
         cta="Here’s how you get in"
         href="https://twitter.com/SovrynBTC/status/1381112432945459201"
-        image={imgPromotion2}
+        image={imgPromotion1}
       />
     </article>
   );
