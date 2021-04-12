@@ -290,7 +290,6 @@ button.button-round {
   text-transform: none;
   padding: 8px 20px;
   transition: background .3s;
-
   &:hover {
     background: rgba(254, 192, 4, 0.25) !important;
   }
@@ -303,6 +302,10 @@ button.button-round {
   &:disabled {
     opacity: 0.5;
   }
+}
+button.button-width {
+  min-width: 170px;
+  max-width: 200px;
 }
 
 .is-pointer {
@@ -511,6 +514,14 @@ header {
   max-width: 614px;
 }
 
+.btn-trading[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #656565 !important;
+  &:hover {
+    background: #656565 !important;
+  }
+}
 
 
   /* Slider */

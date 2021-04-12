@@ -22,6 +22,7 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
+import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -30,7 +31,7 @@ export const contracts = {
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
-    address: '0x78E7e79F1acc1f57a3291d5BfA8436A0771C1800',
+    address: '0xe9D09d83De186d0915342de98C34500602105aCc',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
   },
@@ -162,6 +163,11 @@ export const contracts = {
     address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
     abi: tokenAbi,
     blockNumber: 3100260,
+  },
+  SOV_amm: {
+    address: '0x1D2c04967E8b17168310fD7035cc219DE477bE82',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
   },
   NFT_tier1: {
     address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',

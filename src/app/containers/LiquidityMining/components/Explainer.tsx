@@ -1,39 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function Explainer() {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="font-family-montserrat">
         <p className="text-white font-weight-bold mt-3">
           <u style={{ textUnderlinePosition: 'under' }}>
-            Earn SOV by depositing liquidity into the USDT/BTC liquidity pool
+            {t(translations.marketingPage.explain.earn)}
           </u>
         </p>
         <p>
-          Start date: 1st April 2021, 12.00 UTC
+          {t(translations.marketingPage.explain.startDate)}
           <br />
-          End date: 1st May 2021, 12.00 UTC
+          {t(translations.marketingPage.explain.endDate)}
         </p>
         <p>
-          Reward pool for depositing USDT: 25,000 SOV
+          {t(translations.marketingPage.explain.depositUSDT)}
           <br />
-          Reward pool for depositing RBTC: 25,000 SOV
+          {t(translations.marketingPage.explain.depositRBTC)}
         </p>
-        <p>
-          Your share of the pool is calculated by:
+        <div>
+          {t(translations.marketingPage.explain.sharePool)}
           <div className="w-100 text-center text-white mt-2">
-            liquidity added by you * number of blocks held
+            {t(translations.marketingPage.explain.liquidityAdded)}
           </div>
-          <Line></Line>
+          <Line />
           <div className="w-100 text-center text-white">
-            total liquidity added * number of blocks held
+            {t(translations.marketingPage.explain.totalAdded)}
           </div>
-        </p>
-        <p>
-          Rewards will be deposited into liquidity providers' wallets on or
-          before 8th May 2021
-        </p>
+        </div>
       </div>
     </>
   );

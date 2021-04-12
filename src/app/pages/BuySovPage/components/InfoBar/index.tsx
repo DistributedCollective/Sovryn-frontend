@@ -112,8 +112,8 @@ export function InfoBar() {
           <Text ellipsize tagName="p" className="value">
             <LoadableValue
               loading={price.loading}
-              value={price.value}
-              tooltip={price.value}
+              value={Number(price.value).toFixed(0)}
+              tooltip={Number(price.value).toFixed(0)}
             />{' '}
             sats
           </Text>

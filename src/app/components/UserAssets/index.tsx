@@ -3,7 +3,7 @@
  * UserAssets
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
@@ -105,8 +105,6 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
 
-  const [dollarValue, setDollarValue] = useState('0');
-
   useEffect(() => {
     const get = async () => {
       setLoading(true);
@@ -137,16 +135,14 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
     get().catch();
   }, [item.asset, account]);
 
-  useEffect(() => {
+  const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
-      setDollarValue(tokens);
+      return tokens;
     } else {
-      setDollarValue(
-        bignumber(tokens)
-          .mul(dollars.value)
-          .div(10 ** item.decimals)
-          .toFixed(0),
-      );
+      return bignumber(tokens)
+        .mul(dollars.value)
+        .div(10 ** item.decimals)
+        .toFixed(0);
     }
   }, [dollars.value, tokens, item.asset, item.decimals]);
 

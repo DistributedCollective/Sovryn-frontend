@@ -6,13 +6,12 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 
-import { EngageWalletDialog } from './containers/EngageWalletDialog/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
@@ -26,50 +25,16 @@ import { WalletPage } from './containers/WalletPage';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
 import { BuySovPage } from './pages/BuySovPage';
+import { useAppTheme } from './hooks/app/useAppTheme';
+import { NetworkRibbon } from './components/NetworkRibbon';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
-function getFaviconEl(): HTMLLinkElement {
-  return document.getElementById('favicon') as HTMLLinkElement;
-}
-
-function resolveColorScheme() {
-  try {
-    return window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  } catch (e) {
-    return 'light';
-  }
-}
-
 export function App() {
-  const [theme, setTheme] = useState(resolveColorScheme());
+  useAppTheme();
   const { checkMaintenance } = useMaintenance();
   const siteLocked = checkMaintenance('full');
-
-  useEffect(() => {
-    try {
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', e => {
-          setTheme(e.matches ? 'dark' : 'light');
-        });
-    } catch (e) {
-      setTheme('light');
-    }
-  }, []);
-
-  useEffect(() => {
-    // add white favicon for dark mode.
-    const fav = getFaviconEl();
-    fav.href = theme === 'dark' ? '/favicon-white.png' : '/favicon.png';
-    fav.type = 'image/png';
-    fav.sizes.add('48x48');
-  }, [theme]);
-
   return (
     <BrowserRouter>
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
@@ -79,6 +44,7 @@ export function App() {
         <MaintenancePage message={siteLocked?.message} />
       ) : (
         <WalletProvider>
+          <NetworkRibbon />
           <Switch>
             <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={TradingPage} />
@@ -99,7 +65,6 @@ export function App() {
             />
             <Route component={NotFoundPage} />
           </Switch>
-          <EngageWalletDialog />
         </WalletProvider>
       )}
       <GlobalStyle />

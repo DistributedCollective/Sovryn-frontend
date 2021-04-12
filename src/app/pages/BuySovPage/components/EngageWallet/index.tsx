@@ -1,12 +1,11 @@
 import React from 'react';
+import { useWalletContext } from '@sovryn/react-wallet';
 import { Card } from '../Card';
 import { Button } from '../Button';
-import { useDispatch } from 'react-redux';
-import { actions } from 'app/containers/EngageWalletDialog/slice';
 import { useIsConnected } from '../../../../hooks/useAccount';
 
 export function EngageWalletStep() {
-  const dispatch = useDispatch();
+  const { connect } = useWalletContext();
   const connected = useIsConnected();
   return (
     <Card step={1} title="Engage Wallet" disabled={connected}>
@@ -31,7 +30,7 @@ export function EngageWalletStep() {
       <Button
         text="Engage Wallet"
         disabled={connected}
-        onClick={() => dispatch(actions.showModal(true))}
+        onClick={() => connect()}
       />
     </Card>
   );

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
@@ -24,6 +24,7 @@ import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { ExpectedPoolTokens } from './ExpectedPoolTokens';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useMaintenance } from '../../hooks/useMaintenance';
+import { PoolV1 } from './PoolV1';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -38,6 +39,10 @@ export function LiquidityAddContainer(props: Props) {
   const isConnected = useCanInteract(true);
 
   const [pool, setPool] = useState(poolList[0].key);
+
+  const poolData = useMemo(() => {
+    return LiquidityPoolDictionary.get(pool);
+  }, [pool]);
 
   const prepareTokens = useCallback(() => {
     return LiquidityPoolDictionary.get(pool)
@@ -106,58 +111,68 @@ export function LiquidityAddContainer(props: Props) {
               />
             </FieldGroup>
           </div>
-          <div className="col-lg-3 col-6">
-            <FieldGroup label={t(translations.liquidity.currency)}>
-              <FormSelect
-                onChange={handleTokenChange}
-                placeholder={t(translations.liquidity.currencySelect)}
-                value={sourceToken}
-                items={tokens}
-              />
-            </FieldGroup>
-          </div>
-          <div className="col-lg-6 col-12">
-            <FieldGroup label={t(translations.liquidity.amount)}>
-              <AmountField
-                onChange={value => setAmount(value)}
-                onMaxClicked={() =>
-                  setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
-                }
-                value={amount}
-              />
-            </FieldGroup>
-          </div>
+          {poolData.getVersion() === 2 && (
+            <>
+              <div className="col-lg-3 col-6">
+                <FieldGroup label={t(translations.liquidity.currency)}>
+                  <FormSelect
+                    onChange={handleTokenChange}
+                    placeholder={t(translations.liquidity.currencySelect)}
+                    value={sourceToken}
+                    items={tokens}
+                  />
+                </FieldGroup>
+              </div>
+              <div className="col-lg-6 col-12">
+                <FieldGroup label={t(translations.liquidity.amount)}>
+                  <AmountField
+                    onChange={value => setAmount(value)}
+                    onMaxClicked={() =>
+                      setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
+                    }
+                    value={amount}
+                  />
+                </FieldGroup>
+              </div>
+            </>
+          )}
         </div>
-        <ExpectedPoolTokens
-          pool={pool}
-          asset={sourceToken}
-          amount={weiAmount}
-        />
-        <div className="mt-3">
-          <SendTxProgress {...tx} displayAbsolute={false} />
-        </div>
+        {poolData.getVersion() === 1 ? (
+          <PoolV1 pool={poolData} />
+        ) : (
+          <>
+            <ExpectedPoolTokens
+              pool={pool}
+              asset={sourceToken}
+              amount={weiAmount}
+            />
+            <div className="mt-3">
+              <SendTxProgress {...tx} displayAbsolute={false} />
+            </div>
 
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-          <div className="mb-3 mb-lg-0">
-            <AssetWalletBalance asset={sourceToken} />
-          </div>
-          <TradeButton
-            text={t(translations.liquidity.supply)}
-            onClick={handleSupply}
-            loading={tx.loading}
-            disabled={
-              !isConnected ||
-              tx.loading ||
-              !amountValid() ||
-              liquidityLocked?.maintenance_active
-            }
-            tooltip={
-              liquidityLocked?.maintenance_active ? (
-                <div className="mw-tooltip">{liquidityLocked?.message}</div>
-              ) : undefined
-            }
-          />
-        </div>
+            <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+              <div className="mb-3 mb-lg-0">
+                <AssetWalletBalance asset={sourceToken} />
+              </div>
+              <TradeButton
+                text={t(translations.liquidity.supply)}
+                onClick={handleSupply}
+                loading={tx.loading}
+                disabled={
+                  !isConnected ||
+                  tx.loading ||
+                  !amountValid() ||
+                  liquidityLocked?.maintenance_active
+                }
+                tooltip={
+                  liquidityLocked?.maintenance_active ? (
+                    <div className="mw-tooltip">{liquidityLocked?.message}</div>
+                  ) : undefined
+                }
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

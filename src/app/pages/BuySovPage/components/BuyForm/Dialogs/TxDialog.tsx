@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
@@ -10,12 +10,15 @@ import txPending from 'assets/images/pending-tx.svg';
 import wMetamask from 'assets/wallets/metamask.svg';
 import wNifty from 'assets/wallets/nifty.png';
 import wLiquality from 'assets/wallets/liquality.svg';
+import wPortis from 'assets/wallets/portis.svg';
+import wLedger from 'assets/wallets/ledger.svg';
+import wTrezor from 'assets/wallets/trezor.svg';
+import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import styled from 'styled-components/macro';
 import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
-
-const wallet = detectWeb3Wallet();
+import { useWalletContext } from '@sovryn/react-wallet';
 
 interface Props {
   tx: ResetTxResponseInterface;
@@ -23,6 +26,7 @@ interface Props {
 
 export function TxDialog(props: Props) {
   const history = useHistory();
+  const { address } = useWalletContext();
   const close = () => {
     props.tx && props.tx.reset();
   };
@@ -30,6 +34,9 @@ export function TxDialog(props: Props) {
     props.tx.reset();
     history.push('/wallet');
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
   return (
     <Dialog
@@ -100,12 +107,20 @@ export function TxDialog(props: Props) {
 function getWalletName(wallet) {
   if (wallet === 'liquality') return 'Liquality';
   if (wallet === 'nifty') return 'Nifty';
+  if (wallet === 'portis') return 'Portis';
+  if (wallet === 'ledger') return 'Ledger';
+  if (wallet === 'trezor') return 'Trezor';
+  if (wallet === 'wallet-connect') return 'Wallet Connect';
   return 'MetaMask';
 }
 
 function getWalletImage(wallet) {
   if (wallet === 'liquality') return wLiquality;
   if (wallet === 'nifty') return wNifty;
+  if (wallet === 'portis') return wPortis;
+  if (wallet === 'ledger') return wLedger;
+  if (wallet === 'trezor') return wTrezor;
+  if (wallet === 'wallet-connect') return wWalletConnect;
   return wMetamask;
 }
 
@@ -194,9 +209,9 @@ const WLImage = styled.img`
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="d-flex flex-column justify-content-center align-items-center">
+    <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div>{getWalletName(wallet)}</div>
+      <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
     </WLContainer>
   );
 }

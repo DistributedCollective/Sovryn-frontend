@@ -3,6 +3,8 @@ import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
 import { Asset } from '../types/asset';
+import { ProviderType } from '@sovryn/wallet';
+import { walletService } from '@sovryn/react-wallet';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -137,15 +139,25 @@ export const isMobile = () => {
   );
 };
 
-type WalletType = 'metamask' | 'nifty' | 'liquality' | 'unknown' | 'none';
-export function detectWeb3Wallet(): WalletType {
-  const { ethereum } = window as any;
-  if (ethereum) {
-    if (ethereum.isLiquality) return 'liquality';
-    if (ethereum.isNiftyWallet) return 'nifty';
-    if (ethereum.isMetaMask) return 'metamask';
-    return 'unknown';
+export function detectWeb3Wallet() {
+  switch (walletService.providerType) {
+    default:
+    case ProviderType.WEB3:
+      const { ethereum } = window as any;
+      if (ethereum) {
+        if (ethereum.isLiquality) return 'liquality';
+        if (ethereum.isNiftyWallet) return 'nifty';
+        if (ethereum.isMetaMask) return 'metamask';
+        return 'unknown';
+      }
+      return 'none';
+    case ProviderType.PORTIS:
+      return 'portis';
+    case ProviderType.LEDGER:
+      return 'ledger';
+    case ProviderType.TREZOR:
+      return 'trezor';
+    case ProviderType.WALLET_CONNECT:
+      return 'wallet-connect';
   }
-
-  return 'none';
 }
