@@ -48,6 +48,19 @@ export class LiquidityPoolDictionary {
         }),
       ]),
     ],
+    [
+      Asset.SOV,
+      new LiquidityPool(Asset.SOV, [
+        new LiquidityPoolSupplyAsset(Asset.SOV, {
+          mainnet: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902',
+          testnet: '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d', // todo most likely not needed for v1?
+          testnet: '0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315', // todo most likely not needed for v1?
+        }),
+      ]).setVersion(1),
+    ],
   ]);
 
   public static get(asset: Asset): LiquidityPool {

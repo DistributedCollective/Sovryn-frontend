@@ -93,12 +93,14 @@ export function WalletPage() {
           </div>
         )}
       </div>
-      <div className="container mt-5">
-        <div className="w-100">
-          <TopUpHistory />
-          <SwapHistory />
+      {connected && account && (
+        <div className="container mt-5">
+          <div className="w-100">
+            <TopUpHistory />
+            <SwapHistory />
+          </div>
         </div>
-      </div>
+      )}
       <Footer />
     </>
   );

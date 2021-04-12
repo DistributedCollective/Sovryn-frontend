@@ -5,16 +5,18 @@
  */
 
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Tab, Tabs } from 'react-bootstrap';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
-import { Header } from '../../components/Header';
+
 import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header';
 import { LiquidityAddContainer } from '../LiquidityAddContainer';
-import { LiquidityRemoveContainer } from '../LiquidityRemoveContainer';
 import { LiquidityMining } from '../LiquidityMining';
 import { Explainer } from '../LiquidityMining/components/Explainer';
+import { LiquidityRemoveContainer } from '../LiquidityRemoveContainer';
 
 enum TabType {
   ADD,
@@ -58,7 +60,7 @@ export function LiquidityPage(props: Props) {
               <Tabs defaultActiveKey={TabType.ADD} id="trade-n-swap-tabs">
                 <Tab
                   eventKey={(TabType.ADD as unknown) as string}
-                  title="How does it work?"
+                  title={t(translations.marketingPage.explain.title)}
                 >
                   <Explainer />
                 </Tab>

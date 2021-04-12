@@ -12,7 +12,7 @@ import { TransactionReceipt } from 'web3-core';
 import { Sovryn } from 'utils/sovryn';
 import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
-import { selectTransactionStack } from '../../../store/global/transactions-store/selectors';
+import { selectTransactionArray } from '../../../store/global/transactions-store/selectors';
 import { actions as txActions } from '../../../store/global/transactions-store/slice';
 import { TxStatus } from '../../../store/global/transactions-store/types';
 import { whitelist } from '../../../utils/whitelist';
@@ -89,8 +89,6 @@ function* processBlockHeader(event) {
 
 function* processBlock({ block, address }) {
   try {
-    const transactionStack = yield select(selectTransactionStack);
-    const localTransactions = transactionStack.map(e => e.toLowerCase());
     const user = address.toLowerCase();
 
     if (!block) {
@@ -105,23 +103,6 @@ function* processBlock({ block, address }) {
       for (let i = 0; i < txs.length; i++) {
         const from = (txs[i].from || '').toLowerCase();
         const to = (txs[i].to || '').toLowerCase();
-        const hash: string = (txs[i].hash || '').toLowerCase();
-
-        if (localTransactions.includes(hash) || from === user || to === user) {
-          const receipt: TransactionReceipt = yield call(
-            [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
-            hash,
-          );
-          if (receipt?.status) {
-            hasChanges = true;
-          }
-          yield put(
-            txActions.updateTransactionStatus({
-              transactionHash: hash,
-              status: receipt.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
-            }),
-          );
-        }
 
         const hasContract = Sovryn.contractList.find(contract => {
           const contractAddress = contract.options.address.toLowerCase();
@@ -136,6 +117,24 @@ function* processBlock({ block, address }) {
           hasChanges = true;
         }
       }
+    }
+
+    const transactions = yield select(selectTransactionArray);
+    const txes = transactions.filter(item => item.status === TxStatus.PENDING);
+    for (let tx of txes) {
+      const receipt: TransactionReceipt = yield call(
+        [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+        tx.transactionHash,
+      );
+      if (receipt?.status) {
+        hasChanges = true;
+      }
+      yield put(
+        txActions.updateTransactionStatus({
+          transactionHash: tx.transactionHash,
+          status: receipt.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
+        }),
+      );
     }
 
     yield put(actions.blockProcessed(block.number));

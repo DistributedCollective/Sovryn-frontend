@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { WalletProvider as SovrynWallet } from '@sovryn/react-wallet';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   eventsSlice,
@@ -27,6 +28,7 @@ import {
   reducer as btcReducer,
 } from '../FastBtcForm/slice';
 import { fastBtcFormSaga } from '../FastBtcForm/saga';
+import { currentChainId } from '../../../utils/classifiers';
 
 interface Props {
   children: React.ReactNode;
@@ -48,10 +50,10 @@ export function WalletProvider(props: Props) {
   const requestDialog = useSelector(selectRequestDialogState);
 
   return (
-    <>
+    <SovrynWallet chainId={currentChainId} remember>
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
       <FastBtcForm />
-    </>
+    </SovrynWallet>
   );
 }

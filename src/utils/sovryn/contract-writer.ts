@@ -1,5 +1,9 @@
 import { TransactionConfig } from 'web3-core';
 import { RevertInstructionError } from 'web3-core-helpers';
+import Contract from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+import { walletService } from '@sovryn/react-wallet';
+import { web3Wallets } from '@sovryn/wallet';
 import { actions as txActions } from 'store/global/transactions-store/slice';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
@@ -8,11 +12,13 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
-import { getTokenContractName } from '../blockchain/contract-helpers';
+import {
+  getContract,
+  getTokenContractName,
+} from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
-import { AbiItem } from 'web3-utils';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -22,17 +28,10 @@ export interface CheckAndApproveResult {
 
 class ContractWriter {
   private sovryn: SovrynNetwork;
+  private contracts: { [address: string]: Contract.Contract } = {};
 
   constructor() {
     this.sovryn = Sovryn;
-  }
-
-  public async nonce(address?: string): Promise<number> {
-    return this.sovryn
-      .getWriteWeb3()
-      .eth.getTransactionCount(
-        address || this.sovryn.store().getState().walletProvider.address,
-      );
   }
 
   public async checkAndApprove(
@@ -55,10 +54,10 @@ class ContractWriter {
     asset: Asset,
   ): Promise<CheckAndApproveResult> {
     const amounts = Array.isArray(amount) ? amount : [amount, amount];
-    const address = this.sovryn.store().getState().walletProvider?.address;
+    const address = walletService.address.toLowerCase();
     const dispatch = this.sovryn.store().dispatch;
     dispatch(txActions.setLoading(true));
-    let nonce = await this.nonce(address);
+    let nonce = await contractReader.nonce(address);
     try {
       const allowance = await contractReader.call<string>(
         contractName,
@@ -128,37 +127,66 @@ class ContractWriter {
     args: Array<any>,
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
-    if (!options.gasPrice) {
-      options.gasPrice = gas.get();
-    }
-    return new Promise<string | RevertInstructionError>((resolve, reject) => {
-      return this.sovryn.writeContracts[contractName].methods[methodName](
-        ...args,
-      )
-        .send(options)
-        .once('transactionHash', tx => resolve(tx))
-        .catch(e => reject(e));
-    });
+    const { address, abi } = getContract(contractName);
+    return this.sendByAddress(address, abi, methodName, args, options);
   }
 
   public async sendByAddress(
     address: string,
-    abi: AbiItem,
+    abi: AbiItem[],
     methodName: string,
     args: Array<any>,
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
-    if (!options.gasPrice) {
-      options.gasPrice = gas.get();
-    }
-    return new Promise<string | RevertInstructionError>((resolve, reject) => {
-      const Contract = this.sovryn.getWriteWeb3().eth.Contract;
-      const contract = new Contract(abi, address);
-      return contract.methods[methodName](...args)
-        .send(options)
-        .once('transactionHash', tx => resolve(tx))
-        .catch(e => reject(e));
-    });
+    return new Promise<string | RevertInstructionError>(
+      async (resolve, reject) => {
+        const data = this.getCustomContract(address, abi)
+          .methods[methodName](...args)
+          .encodeABI();
+
+        const nonce =
+          options.nonce ||
+          (await contractReader.nonce(walletService.address.toLowerCase()));
+
+        const gasLimit =
+          options?.gas ||
+          (await this.estimateCustomGas(address, abi, methodName, args, {
+            value: options?.value,
+            gasPrice: options?.gasPrice,
+            nonce,
+          }));
+
+        console.log('gas limit', gasLimit, gas.get());
+
+        try {
+          const signedTxOrTransactionHash = await walletService.signTransaction(
+            {
+              to: address.toLowerCase(),
+              value: String(options?.value || '0'),
+              data: data,
+              gasPrice: gas.get(),
+              nonce,
+              gasLimit: String(gasLimit),
+              chainId: walletService.chainId,
+            },
+          );
+
+          // Browser wallets (extensions) signs and broadcasts transactions themselves
+          if (web3Wallets.includes(walletService.providerType)) {
+            resolve(signedTxOrTransactionHash);
+          } else {
+            // Broadcast signed transaction and retrieve txHash.
+            return this.sovryn
+              .getWeb3()
+              .eth.sendSignedTransaction(signedTxOrTransactionHash)
+              .once('transactionHash', tx => resolve(tx))
+              .catch(e => reject(e));
+          }
+        } catch (e) {
+          reject(e);
+        }
+      },
+    );
   }
 
   public async estimateGas(
@@ -166,17 +194,49 @@ class ContractWriter {
     methodName: string,
     args: Array<any>,
     options: TransactionConfig = {},
-  ): Promise<string | RevertInstructionError> {
+  ) {
+    const { address, abi } = getContract(contractName);
+    return this.estimateCustomGas(address, abi, methodName, args, options);
+  }
+
+  public async estimateCustomGas(
+    address: string,
+    abi: AbiItem[],
+    methodName: string,
+    args: Array<any>,
+    options: TransactionConfig = {},
+  ) {
     if (!options.gasPrice) {
       options.gasPrice = gas.get();
     }
-    return new Promise<string | RevertInstructionError>((resolve, reject) => {
-      return this.sovryn.writeContracts[contractName].methods[methodName](
-        ...args,
-      )
-        .estimateGas(options)
+    if (!options.to) {
+      options.to = address.toLowerCase();
+    }
+    if (!options.from) {
+      options.from = walletService.address.toLowerCase();
+    }
+    options.data = this.getCustomContract(address, abi)
+      .methods[methodName](...args)
+      .encodeABI();
+    return new Promise<number>(resolve => {
+      return Sovryn.getWeb3()
+        .eth.estimateGas(options)
         .then(value => resolve(value));
     });
+  }
+
+  public getContract(contractName: ContractName) {
+    const { address, abi } = getContract(contractName);
+    return this.getCustomContract(address, abi);
+  }
+
+  public getCustomContract(address: string, abi: AbiItem[]) {
+    address = address.toLowerCase();
+    if (!this.contracts.hasOwnProperty(address)) {
+      // @ts-ignore wrong typings for contract?
+      this.contracts[address] = new Contract(abi, address);
+    }
+    return this.contracts[address];
   }
 }
 

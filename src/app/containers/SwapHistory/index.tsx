@@ -16,14 +16,12 @@ export function SwapHistory() {
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
-  console.log('history', history);
 
   const getHistory = useCallback(() => {
     setLoading(true);
     axios
       .get(`${url}/events/conversion-swap/${account}`)
       .then(res => {
-        console.log('res', res);
         setHistory(res.data);
         setLoading(false);
       })
