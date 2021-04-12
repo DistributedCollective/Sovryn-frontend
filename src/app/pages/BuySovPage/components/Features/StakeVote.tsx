@@ -1,23 +1,25 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import banner from 'assets/sov/stake-banner.svg';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
-export function StakeVote(props: any) {
+export function StakeVote() {
+  const { t } = useTranslation();
   return (
     <Article className="w-100">
-      <h1 className="d-block text-center">Stake & Vote</h1>
+      <h1 className="d-block text-center">
+        {t(translations.buySovPage.features.stake.title)}
+      </h1>
       <Banner src={banner} alt="Banner" />
       <div className="content">
-        The Sovryn protocol has hard-coded incentives for long-term growth.
-        Token holders who stake their SOV receive a pro-rata share of the
-        revenue that the platform generates from various transaction fees when
-        they participate in the governance of the protocol by voting.{' '}
+        {t(translations.buySovPage.features.stake.text)}{' '}
         <a
           href="https://wiki.sovryn.app/en/governance/staking-vesting-voting#staking-sov"
           target="_blank"
           rel="noreferrer noopener"
         >
-          Learn More
+          {t(translations.buySovPage.features.learnMore)}
         </a>
       </div>
       <div className="container text-center">
@@ -27,7 +29,7 @@ export function StakeVote(props: any) {
           target="_blank"
           rel="noreferrer noopener"
         >
-          Stake
+          {t(translations.buySovPage.features.stake.cta)}
         </a>
       </div>
     </Article>

@@ -5,31 +5,31 @@ import { useIsConnected } from '../../../../hooks/useAccount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { Asset } from '../../../../../types/asset';
 import { FastBtcDialog } from '../../../../containers/FastBtcDialog';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 export function TopUpWallet() {
+  const { t } = useTranslation();
   const connected = useIsConnected();
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
   const [open, setOpen] = useState(false);
   return (
-    <Card step={2} title="Top up RBTC" disabled={balance !== '0'}>
+    <Card
+      step={2}
+      title={t(translations.buySovPage.topUp.title)}
+      disabled={balance !== '0'}
+    >
       <div className="disable-content" style={{ height: 180 }}>
-        <p>
-          You will need RBTC in your wallet to buy SOV and pay gas fees on RSK
-          Mainnet.
-        </p>
+        <p>{t(translations.buySovPage.topUp.line1)}</p>
         <p>
           <br />
-          <a
-            href="https://liquality.io/atomic-swap-wallet.html"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Learn about RBTC on RSK
+          <a href="https://rsk.co" target="_blank" rel="noreferrer noopener">
+            {t(translations.buySovPage.topUp.line2)}
           </a>
         </p>
       </div>
       <Button
-        text="Top Up Wallet"
+        text={t(translations.buySovPage.topUp.cta)}
         disabled={!connected}
         onClick={() => setOpen(true)}
       />

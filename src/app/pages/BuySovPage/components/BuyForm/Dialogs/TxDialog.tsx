@@ -19,12 +19,15 @@ import styled from 'styled-components/macro';
 import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../../locales/i18n';
 
 interface Props {
   tx: ResetTxResponseInterface;
 }
 
 export function TxDialog(props: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
   const { address } = useWalletContext();
   const close = () => {
@@ -47,11 +50,12 @@ export function TxDialog(props: Props) {
     >
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <h1>Confirm Transaction</h1>
+          <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
           <p className="text-center mx-auto w-100" style={{ maxWidth: 266 }}>
-            Please confirm the transaction in your {getWalletName(wallet)}{' '}
-            wallet
+            {t(translations.buySovPage.txDialog.pendingUser.text, {
+              walletName: getWalletName(wallet),
+            })}
           </p>
         </>
       )}
@@ -66,7 +70,7 @@ export function TxDialog(props: Props) {
           >
             <span className="sr-only">Close Dialog</span>
           </button>
-          <h1>Transaction Status</h1>
+          <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
           <StatusComponent status={props.tx.status} />
 
           {!!props.tx.txHash && (
@@ -77,7 +81,7 @@ export function TxDialog(props: Props) {
               <ExplorerLink>
                 <LinkToExplorer
                   txHash={props.tx.txHash}
-                  text="View in Tracker"
+                  text={t(translations.buySovPage.txDialog.txStatus.cta)}
                   className="text-blue"
                 />
               </ExplorerLink>
@@ -86,7 +90,9 @@ export function TxDialog(props: Props) {
 
           {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
             <>
-              <p className="text-center">Transaction was aborted by user.</p>
+              <p className="text-center">
+                {t(translations.buySovPage.txDialog.txStatus.aborted)}
+              </p>
             </>
           )}
 
@@ -95,7 +101,7 @@ export function TxDialog(props: Props) {
               onClick={() =>
                 props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
               }
-              text="Close"
+              text={t(translations.common.close)}
             />
           </div>
         </>

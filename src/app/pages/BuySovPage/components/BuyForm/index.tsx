@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Card } from '../Card';
-import { useIsConnected } from '../../../../hooks/useAccount';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { Asset } from '../../../../../types/asset';
@@ -26,6 +25,7 @@ import { ArrowDown } from '../ArrowStep/down';
 import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
+import { useCanInteract } from '../../../../hooks/useCanInteract';
 
 const s = translations.swapTradeForm;
 
@@ -36,7 +36,7 @@ export function BuyForm() {
   const { checkMaintenance } = useMaintenance();
   const swapsLocked = checkMaintenance('openTradesSwaps');
 
-  const connected = useIsConnected();
+  const connected = useCanInteract(true);
   const [openSlippage, setOpenSlippage] = useState(false);
 
   const [amount, setAmount] = useState('');
@@ -91,9 +91,12 @@ export function BuyForm() {
 
   return (
     <>
-      <Card step={3} title="Buy SOV with RBTC" large>
+      <Card step={3} title={t(translations.buySovPage.form.title)} large>
         <div className="px-0 px-lg-4">
-          <FieldGroup label="Enter Amount" labelColor="#E9EAE9">
+          <FieldGroup
+            label={t(translations.buySovPage.form.enterAmount)}
+            labelColor="#E9EAE9"
+          >
             <Input
               value={amount}
               type="text"
@@ -102,7 +105,7 @@ export function BuyForm() {
               rightElement="rBTC"
             />
             <Slippage>
-              Available balance:{' '}
+              {t(translations.buySovPage.form.availableBalance)}{' '}
               <LoadableValue
                 loading={loadingBalance}
                 value={weiToNumberFormat(balance, 4)}
@@ -127,7 +130,7 @@ export function BuyForm() {
             </Dummy>
             <Slippage className="d-flex flex-row justify-content-between align-items-center">
               <div>
-                Minimum received:{' '}
+                {t(translations.buySovPage.form.minimumReceived)}{' '}
                 <LoadableValue
                   loading={false}
                   value={weiToNumberFormat(minReturn, 4)}
@@ -146,7 +149,7 @@ export function BuyForm() {
           <BuyButton
             disabled={tx.loading || !validate || !connected}
             onClick={() => send()}
-            text="Buy SOV"
+            text={t(translations.buySovPage.form.cta)}
           />
         </div>
       </Card>
