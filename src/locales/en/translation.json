@@ -163,7 +163,7 @@
     "trade": "Trade",
     "lend": "Loans",
     "fastBtc": "Top-Up",
-    "wallet": "My wallet",
+    "wallet": "Portfolio",
     "liquidity": "Market-making",
     "stats": "Stats",
     "faqs": "FAQs",
@@ -574,7 +574,7 @@
       "description": "Information about connected wallet"
     },
     "tabs": {
-      "userAssets": "My assets",
+      "userAssets": "Assets",
       "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
     }

@@ -19,6 +19,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
+import { SwapHistory } from '../../containers/SwapHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();
@@ -95,6 +96,7 @@ export function WalletPage() {
       <div className="container mt-5">
         <div className="w-100">
           <TopUpHistory />
+          <SwapHistory />
         </div>
       </div>
       <Footer />

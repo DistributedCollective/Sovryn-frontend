@@ -110,12 +110,12 @@ export function Header() {
     { to: '/', title: t(translations.mainMenu.trade), exact: true },
     { to: '/lend', title: t(translations.mainMenu.lend) },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
-    { to: '/wallet', title: t(translations.mainMenu.wallet) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.faqs),
     },
+    { to: '/wallet', title: t(translations.mainMenu.wallet) },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -189,9 +189,6 @@ export function Header() {
               <NavLink className="nav-item mr-4" to="/liquidity">
                 {t(translations.mainMenu.liquidity)}
               </NavLink>
-              <NavLink className="nav-item mr-4" to="/wallet">
-                {t(translations.mainMenu.wallet)}
-              </NavLink>
               <NavLink className="nav-item mr-4" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
@@ -203,6 +200,9 @@ export function Header() {
               >
                 {t(translations.mainMenu.help)}
               </a>
+              <NavLink className="nav-item mr-4" to="/wallet">
+                {t(translations.mainMenu.wallet)}
+              </NavLink>
             </div>
           </div>
           <div className="d-flex justify-content-start align-items-center">

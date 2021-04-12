@@ -47,14 +47,12 @@ interface Option {
 export function SwapTradeForm() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
-
   const [amount, setAmount] = useState('');
+  const weiAmount = useWeiAmount(amount);
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.DOC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
-
-  const weiAmount = useWeiAmount(amount);
 
   const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
