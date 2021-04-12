@@ -11,6 +11,7 @@ import { AssetDetails } from '../models/asset-details';
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
     [
+      [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
       [
         Asset.RBTC,
         new AssetDetails(Asset.RBTC, 'RBTC', 'Bitcoin', 18, rbtcIcon),
@@ -24,14 +25,10 @@ export class AssetsDictionary {
         Asset.BPRO,
         new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
       ],
-      [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
       [
         Asset.CSOV,
         new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
       ],
-      // [
-      //   Asset.SOV, new AssetDetails(Asset.SOV, 'SOV')
-      // ]
     ],
   );
 
