@@ -22,25 +22,39 @@ export function TradingVolume() {
   const rowData = [
     {
       title: '24 Hour Volume',
-      col1: `${data && data.total.btc.twentyFourHours.toFixed(4)} BTC`,
-      col2: `${
-        data &&
-        data.total.usd.twentyFourHours.toLocaleString('en', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      } USD`,
+      col1:
+        data && data.total?.btc?.twentyFourHours ? (
+          `${data.total.btc.twentyFourHours.toFixed(4)} BTC`
+        ) : (
+          <div className="bp3-skeleton">&nbsp;</div>
+        ),
+      col2:
+        data && data.total?.usd?.twentyFourHours ? (
+          `${data.total.usd.twentyFourHours.toLocaleString('en', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} USD`
+        ) : (
+          <div className="bp3-skeleton">&nbsp;</div>
+        ),
     },
     {
       title: 'All Time Volume',
-      col1: `${data && data.total.btc.allTime.toFixed(4)} BTC`,
-      col2: `${
-        data &&
-        data.total.usd.allTime.toLocaleString('en', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      } USD`,
+      col1:
+        data && data.total.btc.allTime ? (
+          `${data.total.btc.allTime.toFixed(4)} BTC`
+        ) : (
+          <div className="bp3-skeleton">&nbsp;</div>
+        ),
+      col2:
+        data && data.total?.usd?.allTime ? (
+          `${data.total.usd.allTime.toLocaleString('en', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} USD`
+        ) : (
+          <div className="bp3-skeleton">&nbsp;</div>
+        ),
     },
   ];
 
@@ -53,7 +67,7 @@ export function TradingVolume() {
           </h3>
         </div>
       </div>
-      <div className="col-4 bg-secondary border border-black">
+      <div className="col-4 bg-secondary border border-black border-top-0 border-bottom-0">
         <div className="text-center p-3">
           <h3>
             {loading ? (

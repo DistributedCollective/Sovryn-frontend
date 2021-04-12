@@ -1,0 +1,11 @@
+.bp3-popover.header-nav-popover .bp3-popover-content {
+  border: none;
+  background-color: black !important;
+  overflow: hidden;
+  & .bp3-menu {
+    padding: 0;
+    & a {
+      font-weight: normal;
+    }
+  }
+}
