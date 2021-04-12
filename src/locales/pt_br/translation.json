@@ -157,13 +157,18 @@
     "buildID": "Build ID"
   },
   "mainMenu": {
+    "buySov": "Compre SOV",
     "trade": "Operar",
-    "lend": "Empréstimos",
-    "fastBtc": "Depositar-Btc",
+    "swap": "Trocar ativos",
+    "marginTrade": "Operar com margem",
+    "finance": "Finanças",
+    "lend": "Emprestar ativos",
+    "borrow": "Obter empréstimo",
+    "liquidity": "Adicionar liquidez",
+    "staking": "Staking",
+    "governance": "Governança",
     "wallet": "Portfólio",
-    "liquidity": "Liquidez",
     "stats": "Dados",
-    "faqs": "FAQs",
     "help": "Ajuda"
   },
   "trandingPositionSelector": {
@@ -361,13 +366,13 @@
     "no_items": "Seu histórico de empréstimos está vazio."
   },
   "rskConnectTutorial": {
-    "browser_wallet": "Carteira de navegador",
+    "browser_wallet": "Carteira de computador",
     "mobile_wallet": "Carteira de celular",
     "mobile_wallet_alert_line1": "Certifique-se de usar uma carteira compatível com a rede RSK. Sugerimos a RWallet ou a Defiant.",
     "mobile_wallet_alert_line2": "A MetaMask tem problemas com o cálculo das taxas de transação quando usada com a rede RSK - sempre revise se não está pagando muito antes de aprovar a transação!",
     "hardware_wallet": "Carteira física",
     "speech": {
-      "1": "Abra sua carteira de navegador",
+      "1": "Abra sua carteira de computador",
       "2": "Vá para o menu rede",
       "3": "Selecione RPC personalizado",
       "4": "Insira os detalhes da rede",
@@ -422,11 +427,11 @@
     }
   },
   "SOVConnectTutorial": {
-    "browser_wallet": "Carteira de navegador",
+    "browser_wallet": "Carteira de computador",
     "mobile_wallet": "Carteira de celular",
     "hardware_wallet": "Carteira física",
     "speech": {
-      "1": "Abra sua carteira de navegador",
+      "1": "Abra sua carteira de computador",
       "2": "Vá para o menu rede",
       "3": "Selecione RPC personalizado",
       "4": "Insira os detalhes da rede",
@@ -478,7 +483,7 @@
     "submit": "Enviar",
     "p1": "A Sovryn ainda não foi otimizada para celulares.",
     "p2": "Cadastre seu e-mail para ser notificado do lançamento da versão otimizada para celulares!",
-    "p3": "Até lá, por que não tentar a versão para navegadores?",
+    "p3": "Até lá, por que não tentar a versão para computadores?",
     "errorText": "Erro ao enviar formulário",
     "success": "Sucesso!",
     "successText": "Entraremos em contato assim que a Sovryn estiver otimizada para celulares."
@@ -706,7 +711,7 @@
     },
     "metamaskAlert": {
       "p1": "Verificamos que você tem a MetaMask instalada.",
-      "p2_1": "Existem problemas conhecidos ao usar a MetaMask com a SOVRYN. Sugerimos usar uma carteira de navegador como a ",
+      "p2_1": "Existem problemas conhecidos ao usar a MetaMask com a SOVRYN. Sugerimos usar uma carteira de computador como a ",
       "p2_2": "Carteira Liquality",
       "p2_3": " ou a ",
       "p2_4": "Carteira Nifty",
