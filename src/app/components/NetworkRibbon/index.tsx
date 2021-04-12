@@ -50,7 +50,7 @@ function NetworkRibbon() {
         canOutsideClickClose={true}
         isCloseButtonShown={true}
         canEscapeKeyClose={false}
-        className="tutorial-dialog tw-relative tw-w-full tw-max-w-5xl tw-border-0"
+        className="tutorial-dialog"
       >
         <div className="tutorial-dialog-header tw-flex tw-justify-between">
           <div className="tw-cursor-pointer">
