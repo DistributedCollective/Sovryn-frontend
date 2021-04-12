@@ -51,7 +51,7 @@ function MainStep({ step, onChangeStep }: Props) {
   return (
     <div className="tutorial-step-main tw-flex">
       <div className="tw-ml-24">
-        <div className="tw-mr-3 tw-flex tw-justify-center tw-items-center tw-bg-white tw-p-10 tw-rounded-2xl tw-w-96 tw-h-96">
+        <div className="tw-mr-1 tw-flex tw-justify-center tw-items-center tw-bg-white tw-p-10 tw-rounded-2xl tw-w-96 tw-h-96">
           <img src={steps[step - 1].image} alt={`step${step - 1}`} />
         </div>
         <div className="tw-flex tw-mt-4 tw-justify-center">
@@ -91,7 +91,7 @@ function MainStep({ step, onChangeStep }: Props) {
         </div>
       </div>
       <div className="tw-flex tw-items-center">
-        <div className="tw-ml-32">
+        <div className="tw-ml-16">
           <div className="tw-font-semibold tw-text-2xl">Step {step}:</div>
           <div className="tw-font-semibold tw-text-base tw-mt-1">
             {steps[step - 1].text}
