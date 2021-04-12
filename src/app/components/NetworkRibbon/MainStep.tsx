@@ -92,7 +92,9 @@ function MainStep({ step, onChangeStep }: Props) {
       </div>
       <div className="tw-flex tw-items-center">
         <div className="tw-ml-16">
-          <div className="tw-font-semibold tw-text-2xl">Step {step}:</div>
+          <div className="tw-font-semibold tw-text-2xl">
+            Step {('0' + step).slice(-2)}:
+          </div>
           <div className="tw-font-semibold tw-text-base tw-mt-1">
             {steps[step - 1].text}
           </div>
