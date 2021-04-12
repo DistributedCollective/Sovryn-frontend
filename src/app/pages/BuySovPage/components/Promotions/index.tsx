@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import imgPromotion1 from 'assets/sov/promotion-1.svg';
 import imgPromotion2 from 'assets/sov/promotion-2.svg';
 import { Promotion } from './promotion';
