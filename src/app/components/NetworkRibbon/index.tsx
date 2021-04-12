@@ -8,8 +8,8 @@ import { MainStep } from './MainStep';
 import ArrowBackIcon from 'assets/images/new-tutorial/arrow_left.png';
 
 function NetworkRibbon() {
-  const [show, setShow] = useState(false);
-  const [step, setStep] = useState(0);
+  const [show, setShow] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(0);
   const { connected, wallet } = useWalletContext();
 
   const updateShow = () => {

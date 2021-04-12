@@ -4,8 +4,13 @@ import { currentChainId, networkNames } from '../../../utils/classifiers';
 import WarningIcon from 'assets/images/new-tutorial/warning.png';
 import LiquidityLogo from 'assets/images/new-tutorial/liquidity_logo.png';
 
-function ZeroStep({ onChangeStep }) {
+interface Props {
+  onChangeStep: (value: number) => any;
+}
+
+function ZeroStep({ onChangeStep }: Props) {
   const { wallet } = useWalletContext();
+
   const onClickHelp = () => {
     onChangeStep(1);
   };

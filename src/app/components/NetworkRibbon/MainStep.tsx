@@ -9,7 +9,17 @@ import ArrowNextIcon from 'assets/images/new-tutorial/arrow_right.png';
 import CircleInactiveIcon from 'assets/images/new-tutorial/circle_inactive.png';
 import CircleActiveIcon from 'assets/images/new-tutorial/circle_active.png';
 
-const steps = [
+interface StepProps {
+  value: number;
+  image: string;
+  text: string;
+}
+interface Props {
+  step: number;
+  onChangeStep: (value: number) => any;
+}
+
+const steps: StepProps[] = [
   {
     value: 1,
     image: StepOneImg,
@@ -37,7 +47,7 @@ const steps = [
   },
 ];
 
-function MainStep({ step, onChangeStep }) {
+function MainStep({ step, onChangeStep }: Props) {
   return (
     <div className="tutorial-step-main tw-flex">
       <div className="tw-ml-24">
@@ -53,7 +63,7 @@ function MainStep({ step, onChangeStep }) {
               onClick={() => onChangeStep(step - 1)}
             />
           </div>
-          {steps.map(row => {
+          {steps.map((row: StepProps) => {
             return (
               <div
                 key={row.value}
