@@ -913,12 +913,12 @@
       "marginTrading": {
         "title": "Operando com margem",
         "text": "Margin trading allows you to use assets in your wallet as collateral for your margin, to borrow more assets or to increase your initial position.",
-        "cta": "Trade"
+        "cta": "Operar"
       },
       "swap": {
         "title": "Realizando trocas de ativos",
         "text": "Swap Frictionlessly between listed tokens. The Sovryn Decentralized AMM ensures no one can take advantage of you creating a trade",
-        "cta": "Swap"
+        "cta": "Trocar"
       },
       "liquidity": {
         "title": "Market Making",
@@ -928,15 +928,15 @@
       "lending": {
         "title": "Emprestando seus ativos",
         "text": "Earn a passive income by lending your assets directly to borrowers or to margin traders and decrease your exposure to wider market performances and fluctuations. Sovryn’s non-custodial solution keeps you in control of your funds, and you are free to withdraw your assets at any time.",
-        "cta": "Trade"
+        "cta": "Emprestar"
       },
       "stake": {
         "title": "Aplicando & Votando",
         "text": "The Sovryn protocol has hard-coded incentives for long-term growth. Token holders who stake their SOV receive a pro-rata share of the revenue that the platform generates from various transaction fees when they participate in the governance of the protocol by voting.",
-        "cta": "Stake"
+        "cta": "Aplicar"
       }
     },
-    "title": "Buy SOV exclusively on Sovryn!",
+    "title": "Compre SOV exclusivamente na Sovryn!",
     "earn": "Ganhe com a Sovryn"
   }
 }
