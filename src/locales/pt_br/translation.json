@@ -892,14 +892,14 @@
     "promotions": {
       "title": "Promoções SOV",
       "p1": {
-        "title": "April  50k SOV BTC/USDT Pool Loot Drop",
-        "text": "Become a revered and respected Sovryn Liquidity Provider by adding your crypto to the pool. The longer you keep funds in the pool the more SOV you will earn.",
-        "cta": "Sovryn goes brrrrrrrrrrrrrrr"
+        "title": "Abril  50k SOV distribuidos no pool BTC/USDT",
+        "text": "Disponibilize sua crypto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
+        "cta": "Sovryn vai brrrrrrrrrrrrrrr"
       },
       "p2": {
-        "title": "April  75k SOV BTC/SOV Pool Loot Drop",
-        "text": " The SOV/BTC liquidity pool is open, giving you the chance to take part in our biggest Liquidity Provision giveaway yet.",
-        "cta": "Here’s how you get in"
+        "title": "Abril  75k SOV distribuidos no pool BTC/SOV",
+        "text": " O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
+        "cta": "Veja como participar"
       }
     },
     "features": {
