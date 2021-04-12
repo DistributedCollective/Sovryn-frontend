@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 
 export function Footer() {
   const { t } = useTranslation();
-  const [hasMatomo, setHasMatomo] = useState(false);
+  const [hasGA, setHasGA] = useState(false);
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   useEffect(() => {
-    setHasMatomo(window.hasOwnProperty('Matomo'));
+    setHasGA(window.hasOwnProperty('ga'));
   }, []);
 
   return (
@@ -79,12 +79,12 @@ export function Footer() {
             </a>
           </div>
         )}
-        {hasMatomo && (
+        {hasGA && (
           <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
             <iframe
-              title="MatomoOptout"
+              title="GoogleAnalyticsOptout"
               style={{ width: '100%', border: 'none', marginLeft: '-5px' }}
-              src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=171717&fontColor=ffffff&fontSize=14px&fontFamily=system-ui"
+              src="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
             />
           </div>
         )}
