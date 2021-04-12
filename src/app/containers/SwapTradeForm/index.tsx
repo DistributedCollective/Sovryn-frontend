@@ -69,7 +69,7 @@ export function SwapTradeForm() {
     return (tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
-        if (!asset) {
+        if (!asset || asset.asset === Asset.SOV) {
           return null;
         }
         return {

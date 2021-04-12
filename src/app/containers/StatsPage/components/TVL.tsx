@@ -79,13 +79,13 @@ export function TVL() {
             {row.btcValue?.toLocaleString('en', {
               maximumFractionDigits: 4,
               minimumFractionDigits: 4,
-            })}
+            }) || <div className="bp3-skeleton">&nbsp;</div>}
           </td>
           <td>
             {row.usdValue?.toLocaleString('en', {
               maximumFractionDigits: 2,
               minimumFractionDigits: 2,
-            })}
+            }) || <div className="bp3-skeleton">&nbsp;</div>}
           </td>
         </tr>
       )}

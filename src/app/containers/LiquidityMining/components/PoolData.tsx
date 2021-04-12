@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { translations } from 'locales/i18n';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';

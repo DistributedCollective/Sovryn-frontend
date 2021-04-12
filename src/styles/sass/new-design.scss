@@ -522,3 +522,47 @@ header {
     background: #656565 !important;
   }
 }
+
+
+  /* Slider */
+.tw-slider {
+  width: 100%;
+}
+
+.tw-slider .bp3-slider-track {
+  border-radius: 5px;
+  height: 10px;
+}
+
+.tw-slider .bp3-slider-progress {
+  height: 10px;
+  background-color: #707070;
+}
+
+.tw-slider .bp3-slider-progress.bp3-intent-primary {
+  background-color: #2274A5;
+}
+
+.tw-slider .bp3-slider-handle {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+}
+
+.tw-slider .bp3-slider-axis {
+  width: calc(100% - 0.75rem);
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tw-slider .bp3-slider-label {
+  top: 10px;
+  color: #FFFFFF;
+  font-weight: 900;
+  background-color: transparent;
+}
+
+.tw-slider .bp3-slider-handle .bp3-slider-label {
+  display: none;
+}
