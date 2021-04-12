@@ -34,7 +34,7 @@ export function EventTable(props: Props) {
     },
     {
       title: 'Total Remaining',
-      value: (totalAdded - totalRemoved) | 0,
+      value: totalAdded - totalRemoved || 0,
     },
   ];
 
