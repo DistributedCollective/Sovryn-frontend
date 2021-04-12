@@ -3,6 +3,7 @@ module.exports = {
   purge: [
     './src/app/components/**/*.{ts,tsx}',
     './src/app/containers/**/*.{ts,tsx}',
+    './src/app/pages/**/*.{ts,tsx}',
   ],
   future: {
     purgeLayersByDefault: true,
