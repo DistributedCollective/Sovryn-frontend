@@ -132,15 +132,16 @@ export function Header() {
     );
   };
   const pages = [
+    { to: '/', title: t(translations.mainMenu.buySov), exact: true },
     {
-      to: '/',
+      to: '/trade',
       title: t(translations.mainMenu.swap),
       beforeOpen: () => {
         dispatch(tradeSwapActions.changeTab(TradeSwapTabType.SWAP));
       },
     },
     {
-      to: '/',
+      to: '/trade',
       title: t(translations.mainMenu.marginTrade),
       beforeOpen: () => {
         dispatch(tradeSwapActions.changeTab(TradeSwapTabType.TRADE));
@@ -236,7 +237,7 @@ export function Header() {
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/'],
+      [SECTION_TYPE.TRADE]: ['/trade'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
     };
     return section && paths[section].includes(location.pathname);
@@ -276,6 +277,9 @@ export function Header() {
               </Link>
             </div>
             <div className="d-none d-xl-block font-family-montserrat">
+              <NavLink className="nav-item mr-4" to="/" exact>
+                {t(translations.mainMenu.buySov)}
+              </NavLink>
               <NavPopover
                 content={
                   <BPMenu>
@@ -286,9 +290,9 @@ export function Header() {
                         dispatch(
                           tradeSwapActions.changeTab(TradeSwapTabType.SWAP),
                         );
-                        history.push('/');
+                        history.push('/trade');
                       }}
-                    ></MenuItem>
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
                       className="bp3-popover-dismiss"
@@ -296,9 +300,9 @@ export function Header() {
                         dispatch(
                           tradeSwapActions.changeTab(TradeSwapTabType.TRADE),
                         );
-                        history.push('/');
+                        history.push('/trade');
                       }}
-                    ></MenuItem>
+                    />
                   </BPMenu>
                 }
               >
@@ -323,7 +327,7 @@ export function Header() {
                         );
                         history.push('/lend');
                       }}
-                    ></MenuItem>
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       className="bp3-popover-dismiss"
@@ -333,12 +337,12 @@ export function Header() {
                         );
                         history.push('/lend');
                       }}
-                    ></MenuItem>
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.liquidity)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/liquidity')}
-                    ></MenuItem>
+                    />
                   </BPMenu>
                 }
               >
