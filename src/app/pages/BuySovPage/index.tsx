@@ -17,12 +17,13 @@ import { TopUpWallet } from './components/TopUpWallet';
 import { BuyForm } from './components/BuyForm';
 import { Welcome } from './components/Welcome';
 import { InfoBar } from './components/InfoBar';
-import { Feature } from './components/Feature';
 
-import imgPlaceholder from 'assets/placeholder.svg';
-import imgMtFeature from 'assets/mt-feature.svg';
+import { Banner } from './components/Banner';
+import { Promotions } from './components/Promotions';
+import { Features } from './components/Features';
 
 export function BuySovPage() {
+  const ref1 = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scrollTo = useCallback(() => {
     if (ref.current) {
@@ -32,6 +33,16 @@ export function BuySovPage() {
       });
     }
   }, [ref]);
+
+  const bannerClick = useCallback(() => {
+    if (ref1.current) {
+      window.scrollTo({
+        top: ref1.current.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  }, [ref1]);
+
   return (
     <>
       <Helmet>
@@ -40,6 +51,9 @@ export function BuySovPage() {
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
+        <Banner onClick={bannerClick} />
+
+        <div ref={ref1} />
         <PageHeader content="Buy SOV exclusively on Sovryn!" />
 
         <InfoBar />
@@ -58,135 +72,13 @@ export function BuySovPage() {
         </div>
 
         <div className="w-100 text-center">
-          <Learn onClick={scrollTo}>How to earn with SOV</Learn>
-
-          <How ref={ref}>How you can use SOV</How>
+          <Learn onClick={scrollTo}>Earning with Sovryn</Learn>
         </div>
 
-        <Feature
-          title="Staking/Voting"
-          content={
-            <>
-              Stake your SOV at Bitocracy.sovryn.app/stake and immediately start
-              earning a percentage of trading fees generated on the platform.
-              Staked SOV is also used for calculating voting power in Bitocracy.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgPlaceholder}
-          cta="Stake"
-          href="https://bitocracy.sovryn.app/stake"
-        />
+        <Promotions />
 
-        <Feature
-          title="Liquidity Mining"
-          content={
-            <>
-              50,000 SOV tokens are up for grabs to users who deposit BTC and/or
-              SOV to the BTC/SOV pool between 1st April and 30th April 2021.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgPlaceholder}
-          cta="Mine"
-          href="/liquidity"
-          reverse
-        />
-
-        <Feature
-          title="Margin Trading"
-          content={
-            <>
-              Sovryn offers permissionless, noncustodial and
-              censorship-resistant swaps and margin tradesutilising an
-              oracle-based Dynamic Automated Market Maker.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgMtFeature}
-          cta="Trade"
-          href="/trade"
-        />
-
-        <Feature
-          title="Swap"
-          content={
-            <>
-              Earn a passive income by lending your assets directly to borrowers
-              or to margin traders.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgPlaceholder}
-          cta="Swap"
-          href="/trade?swap"
-          reverse
-        />
-
-        <Feature
-          title="Market Making"
-          content={
-            <>
-              Earn a passive income by lending your assets directly to borrowers
-              or to margin traders.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgPlaceholder}
-          cta="Market Maker"
-          href="/liquidity"
-        />
-
-        <Feature
-          title="Lending"
-          content={
-            <>
-              Earn a passive income by lending your assets directly to borrowers
-              or to margin traders.{' '}
-              <a
-                href="https://wiki.sovryn.app"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Learn more
-              </a>
-            </>
-          }
-          image={imgPlaceholder}
-          cta="Trade"
-          href="/loans"
-          reverse
-        />
+        <div ref={ref} />
+        <Features />
       </div>
       <Footer />
     </>
@@ -201,11 +93,5 @@ const Learn = styled.button`
   display: inline-block;
   border-radius: 10px;
   background: transparent;
-  text-transform: none;
-`;
-const How = styled.h1`
-  font-size: 36px;
-  letter-spacing: 4.3px;
-  line-height: 47px;
   text-transform: none;
 `;

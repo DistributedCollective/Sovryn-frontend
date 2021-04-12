@@ -24,7 +24,7 @@ const StyledButton = styled.button`
   border-radius: 10px;
   text-transform: none;
   line-height: 1;
-  transition: background 0.3s;
+  transition: opacity 0.3s;
   text-transform: uppercase;
 
   &:hover {
