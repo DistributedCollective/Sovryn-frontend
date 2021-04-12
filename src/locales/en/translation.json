@@ -161,12 +161,16 @@
   },
   "mainMenu": {
     "trade": "Trade",
-    "lend": "Loans",
-    "fastBtc": "Top-Up",
-    "wallet": "My wallet",
+    "swap": "Swap",
+    "marginTrade": "Margin Trading",
+    "finance": "Finance",
+    "lend": "Lend",
+    "borrow": "Borrow",
     "liquidity": "Market-making",
+    "staking": "Staking",
+    "governance": "Governance",
+    "wallet": "Portfolio",
     "stats": "Stats",
-    "faqs": "FAQs",
     "help": "Help"
   },
   "trandingPositionSelector": {

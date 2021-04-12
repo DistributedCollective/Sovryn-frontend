@@ -63,26 +63,40 @@ function Row(props) {
             <td className="font-weight-bold">{data.ammPool}</td>
             <td>{data.ammPool}</td>
             <td className="text-right">
-              {formatNumber(data.stakedBalanceToken, decimals[data.ammPool])}
+              {formatNumber(
+                data.stakedBalanceToken,
+                decimals[data.ammPool],
+              ) || <div className="bp3-skeleton">&nbsp;</div>}
             </td>
             <td className="text-right">
-              {formatNumber(data.contractBalanceToken, decimals[data.ammPool])}
+              {formatNumber(
+                data.contractBalanceToken,
+                decimals[data.ammPool],
+              ) || <div className="bp3-skeleton">&nbsp;</div>}
             </td>
             <td className="text-right">
-              {formatNumber(data.tokenDelta, decimals[data.ammPool])}
+              {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
+                <div className="bp3-skeleton">&nbsp;</div>
+              )}
             </td>
           </tr>
           <tr className="border-bottom">
             <td></td>
             <td>BTC</td>
             <td className="text-right">
-              {formatNumber(data.stakedBalanceBtc, decimals.BTC)}
+              {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
+                <div className="bp3-skeleton">&nbsp;</div>
+              )}
             </td>
             <td className="text-right">
-              {formatNumber(data.contractBalanceBtc, decimals.BTC)}
+              {formatNumber(data.contractBalanceBtc, decimals.BTC) || (
+                <div className="bp3-skeleton">&nbsp;</div>
+              )}
             </td>
             <td className="text-right">
-              {formatNumber(data.btcDelta, decimals.BTC)}
+              {formatNumber(data.btcDelta, decimals.BTC) || (
+                <div className="bp3-skeleton">&nbsp;</div>
+              )}
             </td>
           </tr>
         </>
