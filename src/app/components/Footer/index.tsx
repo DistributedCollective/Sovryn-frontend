@@ -66,6 +66,17 @@ export function Footer() {
             </p>
           </div>
         </div>
+        {hasGA && (
+          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mb-3">
+            <a
+              title="GoogleAnalyticsOptout"
+              target="_blank"
+              href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
+            >
+              Opt-out from Google Analytics
+            </a>
+          </div>
+        )}
         {commitHash && (
           <div className="small text-white font-family-montserrat">
             {t(translations.footer.buildID)}:{' '}
@@ -76,17 +87,6 @@ export function Footer() {
               className="font-weight-normal"
             >
               {commitHash.substr(0, 7)}
-            </a>
-          </div>
-        )}
-        {hasGA && (
-          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
-            <a
-              title="GoogleAnalyticsOptout"
-              target="_blank"
-              href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
-            >
-              Opt-out Google Analytics
             </a>
           </div>
         )}
