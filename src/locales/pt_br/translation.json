@@ -818,7 +818,7 @@
   },
   "onCopy": {
     "address": "O endereço foi copiado para a área de transferência."
-   },
+  },
   "vestingDialog": {
     "title": "Withdraw Vesting",
     "subtitle": "This transaction requires rBTC for gas.",
@@ -898,7 +898,7 @@
       },
       "p2": {
         "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
-        "text": " O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
+        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
         "cta": "Veja como participar"
       }
     },
