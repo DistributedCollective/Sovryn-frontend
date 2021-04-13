@@ -14,7 +14,7 @@ export function Footer() {
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   useEffect(() => {
-    setHasGA(window.hasOwnProperty('ga'));
+    setHasGA(window.hasOwnProperty('ga') || window.hasOwnProperty('gtag'));
   }, []);
 
   return (
@@ -81,11 +81,13 @@ export function Footer() {
         )}
         {hasGA && (
           <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
-            <iframe
+            <a
               title="GoogleAnalyticsOptout"
-              style={{ width: '100%', border: 'none', marginLeft: '-5px' }}
-              src="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
-            />
+              target="_blank"
+              href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
+            >
+              Opt-out Google Analytics
+            </a>
           </div>
         )}
       </div>
