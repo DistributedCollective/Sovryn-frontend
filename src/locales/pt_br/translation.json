@@ -4,7 +4,13 @@
     "min": "mín",
     "max": "max",
     "close": "Fechar",
-    "for": "por"
+    "for": "por",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "fee": "Taxa: {{amount}} (r)BTC",
+    "pending": "Pendente",
+    "confirmed": "Confirmada",
+    "failed": "Falhou"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -243,6 +249,7 @@
   },
   "statsPage": {
     "titles": {
+      "transactionVolume": "Volume de transações",
       "tradingVolume": "Volume de operações",
       "hourVolumne": "24 HORAS",
       "allVolumne": "TODO PERÍODO",
@@ -261,7 +268,7 @@
       "total": "Total"
     },
     "ammpool": {
-      "title": "SALDOS AMM",
+      "title": "SALDO AMM",
       "pool": "Pool",
       "stakedBalance": "Saldo aplicado",
       "contractBalance": "Saldo do contrato",
@@ -649,6 +656,17 @@
       "redeemRBTC": "Resgatar rBTC"
     }
   },
+  "swapHistory": {
+    "title": "Swap History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "from": "From",
+      "amountSent": "Amount Sent",
+      "to": "To",
+      "amountReceived": "Amount Received",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Histórico de depósitos"
@@ -862,7 +880,7 @@
     "engage": {
       "title": "Conectar carteira",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
-      "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
+      "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Nifty</0>",
       "cta": "Conectar carteira"
     },
     "topUp": {

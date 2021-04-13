@@ -23,7 +23,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
+// import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
 
 const s = translations.tradingPage;
 
@@ -72,7 +72,7 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      <WhitelistedNotification />
+      {/*<WhitelistedNotification />*/}
       <div className="container mt-5">
         <div className="row">
           <div

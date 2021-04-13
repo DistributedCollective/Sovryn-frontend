@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { useAccount } from '../../hooks/useAccount';
+import { translations } from '../../../locales/i18n';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -15,6 +17,7 @@ export function SwapHistory() {
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const getHistory = useCallback(() => {
     setLoading(true);
@@ -40,18 +43,21 @@ export function SwapHistory() {
   return (
     <section>
       <div className="sovryn-table p-3 mb-5">
-        <div className="d-flex align-items-center justify-content-start mb-3">
-          <h2 className="flex-shrink-0 flex-grow-0 sov-title">Swap History</h2>
-        </div>
         <table className="w-100">
           <thead>
             <tr>
-              <th className="d-none d-md-table-cell">Date/Time</th>
-              <th className="d-none d-md-table-cell">From</th>
-              <th>Amount Sent</th>
-              <th>To</th>
-              <th className="d-none d-md-table-cell">Amount Received</th>
-              <th> Status</th>
+              <th className="d-none d-md-table-cell">
+                {t(translations.swapHistory.tableHeaders.time)}
+              </th>
+              <th className="d-none d-md-table-cell">
+                {t(translations.swapHistory.tableHeaders.from)}
+              </th>
+              <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
+              <th>{t(translations.swapHistory.tableHeaders.to)}</th>
+              <th className="d-none d-md-table-cell">
+                {t(translations.swapHistory.tableHeaders.amountReceived)}
+              </th>
+              <th>{t(translations.swapHistory.tableHeaders.status)}</th>
             </tr>
           </thead>
           <tbody className="mt-5">

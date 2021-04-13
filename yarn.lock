@@ -3371,10 +3371,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sovryn/react-wallet@~1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.10.tgz#91fa6fecf0c7e4adf3fd4289c6311fdf6ad3d64b"
-  integrity sha512-3fxQJ3mB3gW/fqecdqh+XF34zEVfWWaTaYHLUoU6uH08z7e8ZGXsONsbGCdkGY2dUCPmFklj9IVW9VwJkOTbxg==
+"@sovryn/react-wallet@1.0.11-alpha.0":
+  version "1.0.11-alpha.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.11-alpha.0.tgz#cf83122eb65b9de2c02a4f113bee3dccc8745058"
+  integrity sha512-vgezH7rJY40hIkyheP8UVCZoQx1f31N2B5XLBL66XXx7IT/3RJ+fLs5+JfzlG94SSxVM6mnTrcKy3Lr1+TzOZg==
   dependencies:
     "@hookstate/core" "^3.0.6"
     "@sovryn/wallet" "^1.0.8"
