@@ -878,16 +878,16 @@
       "lastPrice": "Último preço:"
     },
     "engage": {
-      "title": "Conectar carteira",
+      "title": "Conectar",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Nifty</0>",
       "cta": "Conectar carteira"
     },
     "topUp": {
-      "title": "Depositar RBTC",
+      "title": "Depositar",
       "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK.",
       "line2": "Saiba mais sobre RBTC na RSK",
-      "cta": "Depositar"
+      "cta": "Depositar RBTC"
     },
     "form": {
       "title": "Comprar SOV com RBTC",
