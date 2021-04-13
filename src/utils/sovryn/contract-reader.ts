@@ -15,6 +15,10 @@ class ContractReader {
     return this.sovryn.getWeb3().eth.getTransactionCount(address);
   }
 
+  public async blockNumber() {
+    return this.sovryn.getWeb3().eth.getBlockNumber();
+  }
+
   /**
    * Call contract and return response string or revert error
    * @param contractName
