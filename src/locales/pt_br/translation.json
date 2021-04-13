@@ -268,7 +268,7 @@
       "total": "Total"
     },
     "ammpool": {
-      "title": "SALDOS AMM",
+      "title": "SALDO AMM",
       "pool": "Pool",
       "stakedBalance": "Saldo aplicado",
       "contractBalance": "Saldo do contrato",
