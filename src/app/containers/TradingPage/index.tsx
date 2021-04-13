@@ -29,30 +29,23 @@ const s = translations.tradingPage;
 
 interface Props {}
 
-const swapPairs = [
-  'RBTC:USDT',
-  'RBTC:DOC',
-  'RBTC:SOV',
-  'RBTC:BPRO',
-  'BPRO:RBTC',
-  'BPRO:USDT',
-  'BPRO:DOC',
-];
-
 const fixPair = {
   'USDT:RBTC': 'RBTC:USDT',
   'DOC:RBTC': 'RBTC:DOC',
   'SOV:RBTC': 'RBTC:SOV',
+  'SOV:DOC': 'RBTC:SOV',
+  'SOV:USDT': 'RBTC:SOV',
+  'SOV:BPRO': 'RBTC:SOV',
+  'DOC:SOV': 'RBTC:SOV',
+  'USDT:SOV': 'RBTC:SOV',
+  'BPRO:SOV': 'RBTC:SOV',
 };
 
 function getSwapPair(pair: string) {
   if (fixPair.hasOwnProperty(pair)) {
     return fixPair[pair];
   }
-  if (swapPairs.includes(pair)) {
-    return pair;
-  }
-  return null;
+  return pair;
 }
 
 export function TradingPage(props: Props) {
@@ -82,19 +75,17 @@ export function TradingPage(props: Props) {
       <WhitelistedNotification />
       <div className="container mt-5">
         <div className="row">
-          {symbol !== null && (
-            <div
-              className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
-                tradingPage.isMobileStatsOpen && `d-block`
-              } d-lg-block`}
-            >
-              <TradingChart
-                symbol={symbol}
-                theme={Theme.DARK}
-                type={ChartType.CANDLE}
-              />
-            </div>
-          )}
+          <div
+            className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
+              tradingPage.isMobileStatsOpen && `d-block`
+            } d-lg-block`}
+          >
+            <TradingChart
+              symbol={symbol}
+              theme={Theme.DARK}
+              type={ChartType.CANDLE}
+            />
+          </div>
           <div className="col-12 col-lg-6 order-lg-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}
             <TradeOrSwapTabs />

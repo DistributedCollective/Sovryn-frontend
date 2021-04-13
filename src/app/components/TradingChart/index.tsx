@@ -37,7 +37,8 @@ interface ChartData {
 }
 
 export function TradingChart(props: ChartContainerProps) {
-  const threeMonths = 7257600000; //3 months in ms
+  // const threeMonths = 7257600000; //3 months in ms
+  const threeMonths = 604800000; //7 days to ms
   const initData: ChartData[] = [{ data: [], legend: '' }];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
@@ -46,7 +47,7 @@ export function TradingChart(props: ChartContainerProps) {
   );
 
   const resetChart = () => {
-    setHasCharts(false);
+    // setHasCharts(false);
     setChartData(initData.slice());
     setLastTime(new Date().getTime() - threeMonths);
   };
