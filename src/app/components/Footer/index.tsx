@@ -73,7 +73,10 @@ export function Footer() {
               target="_blank"
               href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
             >
-              Opt-out from Google Analytics
+              <Trans
+                i18nKey={translations.footer.optOut}
+                components={[<strong></strong>]}
+              />
             </a>
           </div>
         )}
