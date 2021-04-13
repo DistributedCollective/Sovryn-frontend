@@ -249,6 +249,7 @@
   },
   "statsPage": {
     "titles": {
+      "transactionVolume": "Volume de transações",
       "tradingVolume": "Volume de operações",
       "hourVolumne": "24 HORAS",
       "allVolumne": "TODO PERÍODO",
