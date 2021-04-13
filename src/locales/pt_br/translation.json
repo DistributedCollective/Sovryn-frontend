@@ -892,12 +892,12 @@
     "promotions": {
       "title": "Promoções SOV",
       "p1": {
-        "title": "Abril  50k SOV distribuidos no pool BTC/USDT",
+        "title": "Mês de Abril - 50k SOV distribuidos no pool BTC/USDT",
         "text": "Disponibilize sua crypto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
         "cta": "Sovryn go brrrrrrrrrrrrrrr"
       },
       "p2": {
-        "title": "Abril  75k SOV distribuidos no pool BTC/SOV",
+        "title": "Mês de Abril - 75k SOV distribuidos no pool BTC/SOV",
         "text": " O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
         "cta": "Veja como participar"
       }
@@ -932,7 +932,7 @@
       },
       "stake": {
         "title": "Aplicando & Votando",
-        "text": "The Sovryn protocol has hard-coded incentives for long-term growth. Token holders who stake their SOV receive a pro-rata share of the revenue that the platform generates from various transaction fees when they participate in the governance of the protocol by voting.",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que aplicam seu SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
         "cta": "Aplicar"
       }
     },
