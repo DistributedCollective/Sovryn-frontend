@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import banner from 'assets/sov/stake-banner.svg';
+import banner from 'assets/sov/staking.svg';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 

@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Feature } from '../Feature';
-import imgPlaceholder from '../../../../../assets/placeholder.svg';
-import imgMtFeature from '../../../../../assets/mt-feature.svg';
+import imgMining from 'assets/sov/liquidity-mining.svg';
+import imgTrading from 'assets/sov/margin-trading.svg';
+import imgSwap from 'assets/sov/swap.svg';
+import imgMarketMaking from 'assets/sov/market-making.svg';
+import imgLending from 'assets/sov/lending.svg';
 import { StakeVote } from './StakeVote';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -29,7 +32,7 @@ export function Features() {
             </a>
           </>
         }
-        image={imgPlaceholder}
+        image={imgMining}
         cta={t(translations.buySovPage.features.mining.cta)}
         href="/liquidity"
         reverse
@@ -49,7 +52,7 @@ export function Features() {
             </a>
           </>
         }
-        image={imgMtFeature}
+        image={imgTrading}
         cta={t(translations.buySovPage.features.marginTrading.cta)}
         href="/trade"
       />
@@ -68,7 +71,7 @@ export function Features() {
             </a>
           </>
         }
-        image={imgPlaceholder}
+        image={imgSwap}
         cta={t(translations.buySovPage.features.swap.cta)}
         href="/trade?swap"
         reverse
@@ -88,7 +91,7 @@ export function Features() {
             </a>
           </>
         }
-        image={imgPlaceholder}
+        image={imgMarketMaking}
         cta={t(translations.buySovPage.features.liquidity.cta)}
         href="/liquidity"
       />
@@ -107,7 +110,7 @@ export function Features() {
             </a>
           </>
         }
-        image={imgPlaceholder}
+        image={imgLending}
         cta={t(translations.buySovPage.features.lending.cta)}
         href="/loans"
         reverse
