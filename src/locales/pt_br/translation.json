@@ -56,7 +56,7 @@
   "marketingPage": {
     "explain": {
       "title": "COMO FUNCIONA?",
-      "earn": "Ganhe SOV adicionando liquidez no pool USDT/BTC",
+      "earn": "Ganhe SOV minerando liquidez no pool USDT/BTC",
       "startDate": "Data inicial: 1º de Abril de 2021, 12.00 UTC",
       "endDate": "Data final: 1º de Maio de 2021, 12.00 UTC",
       "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
@@ -906,9 +906,9 @@
       "title": "Como você pode usar a Sovryn",
       "learnMore": "Saiba mais",
       "mining": {
-        "title": "Adicionando liquidez",
+        "title": "Minerando liquidez",
         "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de ativos.",
-        "cta": "Adicionar"
+        "cta": "Minerar"
       },
       "marginTrading": {
         "title": "Operando com margem",
@@ -921,9 +921,9 @@
         "cta": "Trocar"
       },
       "liquidity": {
-        "title": "Market Making",
+        "title": "Adicionando liquidez",
         "text": "Sovryn’s layer 2 solution operating on the Rootstock (RSK) Bitcoin side-chain facilitates the frictionless usage of financial primitives for multiple assets across multiple chains to further Satoshi’s vision of monetary sovereignty beyond simple peer to peer transactions",
-        "cta": "Market Maker"
+        "cta": "Adicionar"
       },
       "lending": {
         "title": "Emprestando seus ativos",
