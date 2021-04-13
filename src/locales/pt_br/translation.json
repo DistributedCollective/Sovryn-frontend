@@ -4,7 +4,13 @@
     "min": "mín",
     "max": "max",
     "close": "Fechar",
-    "for": "por"
+    "for": "por",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "fee": "Taxa: {{amount}} (r)BTC",
+    "pending": "Pendente",
+    "confirmed": "Confirmada",
+    "failed": "Falhou"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
