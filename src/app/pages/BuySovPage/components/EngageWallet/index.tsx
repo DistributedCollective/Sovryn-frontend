@@ -33,14 +33,14 @@ export function EngageWalletStep() {
         </p>
         <p>
           <Trans
-            i18nKey={translations.buySovPage.engage.line1}
+            i18nKey={translations.buySovPage.engage.line2}
             components={[
               <a
-                href="https://liquality.io/atomic-swap-wallet.html"
+                href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Liquality wallet
+                Nifty Wallet
               </a>,
             ]}
           />

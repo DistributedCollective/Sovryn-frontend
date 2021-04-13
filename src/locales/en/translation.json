@@ -887,7 +887,7 @@
     "engage": {
       "title": "Engage Wallet",
       "line1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
-      "line2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>",
+      "line2": "Don’t have a wallet? Sovryn recommends <0>Nifty wallet</0>",
       "cta": "Engage Wallet"
     },
     "topUp": {
