@@ -3,6 +3,7 @@ import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 
 export interface TradingPageState {
   tradingPair: TradingPairType;
+  swapPair: string;
   tab: TabType;
   isMobileStatsOpen: boolean;
 }
