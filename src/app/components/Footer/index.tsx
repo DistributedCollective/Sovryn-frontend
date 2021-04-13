@@ -84,6 +84,7 @@ export function Footer() {
             <a
               title="GoogleAnalyticsOptout"
               target="_blank"
+              rel="noopener noreferrer"
               href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
             >
               Opt-out Google Analytics
