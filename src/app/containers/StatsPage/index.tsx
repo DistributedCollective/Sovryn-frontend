@@ -25,7 +25,7 @@ export function StatsPage() {
       <main>
         <div className="container mt-5">
           <h1 className="text-center w-100">
-            {t(translations.statsPage.titles.tradingVolume)}
+            {t(translations.statsPage.titles.transactionVolume)}
           </h1>
           <div className="my-5 mx-3">
             <TradingVolume />

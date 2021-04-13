@@ -250,6 +250,7 @@
   },
   "statsPage": {
     "titles": {
+      "transactionVolume": "Transaction Volume",
       "tradingVolume": "Trading Volume",
       "hourVolumne": "24 HOUR VOLUME",
       "allVolumne": "ALL TIME VOLUME",
