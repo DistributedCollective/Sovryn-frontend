@@ -18,7 +18,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
-import { SwapHistory } from '../../containers/SwapHistory';
+import { SwapHistory } from '../SwapHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();

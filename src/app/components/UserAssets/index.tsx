@@ -178,22 +178,24 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
           )}
           {item.asset !== Asset.CSOV ? (
             <>
-              <Button
-                minimal
-                text={t(translations.userAssets.actions.trade)}
-                className="text-gold button-round"
-                onClick={() =>
-                  history.push('/', {
-                    params: { asset: item.asset, action: 'trade' },
-                  })
-                }
-              />
+              {item.asset !== Asset.SOV && (
+                <Button
+                  minimal
+                  text={t(translations.userAssets.actions.trade)}
+                  className="text-gold button-round"
+                  onClick={() =>
+                    history.push('/trade', {
+                      params: { asset: item.asset, action: 'trade' },
+                    })
+                  }
+                />
+              )}
               <Button
                 minimal
                 text={t(translations.userAssets.actions.swap)}
                 className="text-gold button-round"
                 onClick={() =>
-                  history.push('/', {
+                  history.push('/trade', {
                     params: { asset: item.asset, action: 'swap' },
                   })
                 }
