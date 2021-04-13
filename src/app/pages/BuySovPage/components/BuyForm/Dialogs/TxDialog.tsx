@@ -19,7 +19,7 @@ import styled from 'styled-components/macro';
 import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 
 interface Props {
@@ -137,9 +137,11 @@ function getStatusImage(tx: TxStatus) {
 }
 
 function getStatus(tx: TxStatus) {
-  if (tx === TxStatus.FAILED) return 'Failed';
-  if (tx === TxStatus.CONFIRMED) return 'Confirmed';
-  return 'Pending';
+  if (tx === TxStatus.FAILED)
+    return <Trans i18nKey={translations.common.failed} />;
+  if (tx === TxStatus.CONFIRMED)
+    return <Trans i18nKey={translations.common.confirmed} />;
+  return <Trans i18nKey={translations.common.pending} />;
 }
 
 const StyledStatus = styled.div`

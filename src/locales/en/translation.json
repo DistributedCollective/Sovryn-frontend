@@ -7,7 +7,10 @@
     "for": "for",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "fee": "Tx Fee: {{amount}} (r)BTC"
+    "fee": "Tx Fee: {{amount}} (r)BTC",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "failed": "Failed"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -172,7 +175,8 @@
     "connect_btn": "Engage wallet",
     "disconnect": "Disconnect",
     "my_wallet": "My Wallet",
-    "referrals": "Refer a friend"
+    "referrals": "Refer a friend",
+    "changeWallet": "Change Wallet"
   },
   "hintDialog": {
     "title": "Sovryn Tips"
