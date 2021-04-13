@@ -627,7 +627,7 @@
       "description": "Information about connected wallet"
     },
     "tabs": {
-      "userAssets": "My assets",
+      "userAssets": "Assets",
       "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
     }
