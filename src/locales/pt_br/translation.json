@@ -894,7 +894,7 @@
       "p1": {
         "title": "Abril  50k SOV distribuidos no pool BTC/USDT",
         "text": "Disponibilize sua crypto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
-        "cta": "Sovryn vai brrrrrrrrrrrrrrr"
+        "cta": "Sovryn go brrrrrrrrrrrrrrr"
       },
       "p2": {
         "title": "Abril  75k SOV distribuidos no pool BTC/SOV",
@@ -912,12 +912,12 @@
       },
       "marginTrading": {
         "title": "Operando com margem",
-        "text": "Operações com margem permitem realizar operações alavancadas possibilitando maiores ganhos ou perdas.",
+        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos ou perdas.",
         "cta": "Operar"
       },
       "swap": {
         "title": "Realizando trocas de ativos",
-        "text": "Swap Frictionlessly between listed tokens. The Sovryn Decentralized AMM ensures no one can take advantage of you creating a trade",
+        "text": "Faça trocas entre os ativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
         "cta": "Trocar"
       },
       "liquidity": {
@@ -927,7 +927,7 @@
       },
       "lending": {
         "title": "Emprestando seus ativos",
-        "text": "Earn a passive income by lending your assets directly to borrowers or to margin traders and decrease your exposure to wider market performances and fluctuations. Sovryn’s non-custodial solution keeps you in control of your funds, and you are free to withdraw your assets at any time.",
+        "text": "Receba uma renda passiva emprestando seus ativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus ativos a qualquer momento.",
         "cta": "Emprestar"
       },
       "stake": {
