@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { numberToUSD } from 'utils/display-text/format';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -63,6 +62,13 @@ export function SwapHistory() {
                 </td>
               </tr>
             )}
+            {history.length === 0 && !loading && (
+              <tr>
+                <td className="text-center" colSpan={99}>
+                  History is empty.
+                </td>
+              </tr>
+            )}
             {history.map(item => (
               <tr key={item.id}>
                 <td className="d-none d-md-table-cell">
@@ -110,11 +116,7 @@ export function SwapHistory() {
                   ))}
                 </td>
                 <td className="d-none d-md-table-cell">
-                  <div>
-                    {numberFromWei(item.returnVal._toAmount)}
-                    <br />≈{' '}
-                    {numberToUSD(numberFromWei(item.returnVal._fromAmount), 2)}
-                  </div>
+                  <div>{numberFromWei(item.returnVal._toAmount)}</div>
                 </td>
                 <td>
                   <LinkToExplorer
