@@ -360,7 +360,6 @@ export function Header() {
               </NavPopover>
               <a
                 href="https://bitocracy.sovryn.app/stake"
-                target="_blank"
                 rel="noopener noreferrer"
                 className="nav-item mr-4 text-capitalize"
               >
@@ -368,7 +367,6 @@ export function Header() {
               </a>
               <a
                 href="https://bitocracy.sovryn.app/"
-                target="_blank"
                 rel="noopener noreferrer"
                 className="nav-item mr-4 text-capitalize"
               >

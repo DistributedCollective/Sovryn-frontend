@@ -40,8 +40,8 @@ export function useCanInteract(ignoreWhitelist: boolean = false) {
   }, [connected, JSON.stringify(wallet)]);
 
   if (ignoreWhitelist) {
-    return connected && testTxCount;
+    return connected && testTxCount && testChain;
   }
 
-  return testWhitelist && testTxCount && testChain;
+  return testWhitelist && testTxCount && testChain && connected;
 }

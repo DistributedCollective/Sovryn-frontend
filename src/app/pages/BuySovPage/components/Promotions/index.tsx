@@ -3,35 +3,29 @@ import styled from 'styled-components/macro';
 import imgPromotion1 from 'assets/sov/promotion-1.svg';
 import imgPromotion2 from 'assets/sov/promotion-2.svg';
 import { Promotion } from './promotion';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 export function Promotions() {
+  const { t } = useTranslation();
   return (
     <article className="container">
-      <H1 className="text-center">SOV Promotions</H1>
+      <H1 className="text-center">
+        {t(translations.buySovPage.promotions.title)}
+      </H1>
 
       <Promotion
-        title="April  50k SOV BTC/USDT Pool Loot Drop"
-        content={
-          <>
-            Become a revered and respected Sovryn Liquidity Provider by adding
-            your crypto to the pool. The longer you keep funds in the pool the
-            more SOV you will earn.
-          </>
-        }
-        cta="Sovryn goes brrrrrrrrrrrrrrr"
+        title={t(translations.buySovPage.promotions.p1.title)}
+        content={<>{t(translations.buySovPage.promotions.p1.text)}</>}
+        cta={t(translations.buySovPage.promotions.p1.cta)}
         href="https://sovryn.app/blog/sovryn-go-brrrrrr.html"
         image={imgPromotion2}
       />
 
       <Promotion
-        title="April  75k SOV BTC/SOV Pool Loot Drop"
-        content={
-          <>
-            The SOV/BTC liquidity pool is open, giving you the chance to take
-            part in our biggest Liquidity Provision giveaway yet.
-          </>
-        }
-        cta="Here’s how you get in"
+        title={t(translations.buySovPage.promotions.p2.title)}
+        content={<>{t(translations.buySovPage.promotions.p2.text)}</>}
+        cta={t(translations.buySovPage.promotions.p2.cta)}
         href="https://twitter.com/SovrynBTC/status/1381112432945459201"
         image={imgPromotion1}
       />

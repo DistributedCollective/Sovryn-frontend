@@ -21,8 +21,11 @@ import { InfoBar } from './components/InfoBar';
 import { Banner } from './components/Banner';
 import { Promotions } from './components/Promotions';
 import { Features } from './components/Features';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 export function BuySovPage() {
+  const { t } = useTranslation();
   const ref1 = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scrollTo = useCallback(() => {
@@ -46,15 +49,18 @@ export function BuySovPage() {
   return (
     <>
       <Helmet>
-        {/*<title>{t(s.meta.title)}</title>*/}
-        {/*<meta name="description" content={t(s.meta.description)} />*/}
+        <title>{t(translations.buySovPage.meta.title)}</title>
+        <meta
+          name="description"
+          content={t(translations.buySovPage.meta.description)}
+        />
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
         <Banner onClick={bannerClick} />
 
         <div ref={ref1} />
-        <PageHeader content="Buy SOV exclusively on Sovryn!" />
+        <PageHeader content={t(translations.buySovPage.title)} />
 
         <InfoBar />
 
@@ -72,7 +78,7 @@ export function BuySovPage() {
         </div>
 
         <div className="w-100 text-center">
-          <Learn onClick={scrollTo}>Earning with Sovryn</Learn>
+          <Learn onClick={scrollTo}>{t(translations.buySovPage.earn)}</Learn>
         </div>
 
         <Promotions />

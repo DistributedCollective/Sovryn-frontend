@@ -9,7 +9,7 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
 export function AmmBalance() {
-  const assets = [Asset.DOC, Asset.USDT, Asset.BPRO];
+  const assets = [Asset.SOV, Asset.USDT, Asset.DOC, Asset.BPRO];
   const { t } = useTranslation();
   return (
     <div>

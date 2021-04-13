@@ -49,17 +49,19 @@ export function TradingPage(props: Props) {
       <WhitelistedNotification />
       <div className="container mt-5">
         <div className="row">
-          <div
-            className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
-              tradingPage.isMobileStatsOpen && `d-block`
-            } d-lg-block`}
-          >
-            <TradingChart
-              symbol={symbol}
-              theme={Theme.DARK}
-              type={ChartType.CANDLE}
-            />
-          </div>
+          {tradingPage.tab === TabType.TRADE && (
+            <div
+              className={`mb-5 mb-lg-0 col-12 col-lg-6 order-lg-1 d-none ${
+                tradingPage.isMobileStatsOpen && `d-block`
+              } d-lg-block`}
+            >
+              <TradingChart
+                symbol={symbol}
+                theme={Theme.DARK}
+                type={ChartType.CANDLE}
+              />
+            </div>
+          )}
           <div className="col-12 col-lg-6 order-lg-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}
             <TradeOrSwapTabs />
