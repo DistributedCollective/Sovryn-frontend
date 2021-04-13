@@ -168,7 +168,7 @@ export function TradingChart(props: ChartContainerProps) {
               locale: 'en-US',
             },
           }}
-          legend={props.symbol}
+          legend={props.symbol === 'RBTC:SOV' ? 'SOV:RBTC' : props.symbol}
           darkTheme={props.theme === Theme.DARK}
           autoWidth
           autoHeight
