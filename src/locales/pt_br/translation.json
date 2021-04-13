@@ -886,7 +886,7 @@
       "txStatus": {
         "title": "Status da transação",
         "aborted": "Transação abortada pelo usuário.",
-        "cta": "Ver no tracker"
+        "cta": "Ver no blockchain"
       }
     },
     "promotions": {
