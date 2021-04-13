@@ -56,7 +56,7 @@
   "marketingPage": {
     "explain": {
       "title": "COMO FUNCIONA?",
-      "earn": "Ganhe SOV adicionando liquidez no pool USDT/BTC",
+      "earn": "Ganhe SOV minerando liquidez no pool USDT/BTC",
       "startDate": "Data inicial: 1º de Abril de 2021, 12.00 UTC",
       "endDate": "Data final: 1º de Maio de 2021, 12.00 UTC",
       "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
@@ -818,5 +818,125 @@
   },
   "onCopy": {
     "address": "O endereço foi copiado para a área de transferência."
+   },
+  "vestingDialog": {
+    "title": "Withdraw Vesting",
+    "subtitle": "This transaction requires rBTC for gas.",
+    "amount": "Amount to Withdraw:",
+    "receiver": "Receive SOV to:",
+    "calculating": "Calculating..."
+  },
+  "liquidityMining": {
+    "explainer": {
+      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
+      "startDate": "Start date: 1st April 2021, 12.00 UTC",
+      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
+      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "yourShare": "Your share of the pool is calculated by:",
+      "yourShare_N": "liquidity added by you * number of blocks held",
+      "yourShare_D": "total liquidity added * number of blocks held",
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
+    }
+  },
+  "buySovPage": {
+    "meta": {
+      "title": "Negociações com SOV estão abertas!",
+      "description": "Negociações com SOV estão abertas!"
+    },
+    "banner": {
+      "title": "Negociações com SOV estão abertas!",
+      "cta": "Comprar SOV"
+    },
+    "stats": {
+      "totalSupply": "Total existente:",
+      "circulatingSupply": "Total em circulação:",
+      "marketCap": "Valor de mercado:",
+      "lastPrice": "Último preço:"
+    },
+    "engage": {
+      "title": "Conectar carteira",
+      "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
+      "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
+      "cta": "Conectar carteira"
+    },
+    "topUp": {
+      "title": "Depositar RBTC",
+      "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK.",
+      "line2": "Saiba mais sobre RBTC na RSK",
+      "cta": "Depositar"
+    },
+    "form": {
+      "title": "Comprar SOV com RBTC",
+      "enterAmount": "Insira a quantidade",
+      "availableBalance": "Saldo disponível:",
+      "minimumReceived": "Mínimo a receber:",
+      "cta": "Comprar SOV"
+    },
+    "slippageDialog": {
+      "title": "Ajustar desvio máximo",
+      "tolerance": "Diferença máxima no preço:",
+      "minimumReceived": "Mínimo a receber"
+    },
+    "txDialog": {
+      "pendingUser": {
+        "title": "Confirmar transação",
+        "text": "Por favor, confirme a transação na sua {{walletName}}"
+      },
+      "txStatus": {
+        "title": "Status da transação",
+        "aborted": "Transação abortada pelo usuário.",
+        "cta": "Ver no blockchain"
+      }
+    },
+    "promotions": {
+      "title": "Promoções SOV",
+      "p1": {
+        "title": "Mês de Abril - Distribuição de 50k SOV no pool BTC/USDT",
+        "text": "Disponibilize sua crypto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
+        "cta": "Sovryn go brrrrrrrrrrrrrrr"
+      },
+      "p2": {
+        "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
+        "text": " O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
+        "cta": "Veja como participar"
+      }
+    },
+    "features": {
+      "title": "Como você pode usar a Sovryn",
+      "learnMore": "Saiba mais",
+      "mining": {
+        "title": "Minerando liquidez",
+        "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de ativos.",
+        "cta": "Minerar"
+      },
+      "marginTrading": {
+        "title": "Operando com margem",
+        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos ou perdas.",
+        "cta": "Operar"
+      },
+      "swap": {
+        "title": "Realizando trocas de ativos",
+        "text": "Faça trocas entre os ativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
+        "cta": "Trocar"
+      },
+      "liquidity": {
+        "title": "Adicionando liquidez",
+        "text": "Sovryn’s layer 2 solution operating on the Rootstock (RSK) Bitcoin side-chain facilitates the frictionless usage of financial primitives for multiple assets across multiple chains to further Satoshi’s vision of monetary sovereignty beyond simple peer to peer transactions",
+        "cta": "Adicionar"
+      },
+      "lending": {
+        "title": "Emprestando seus ativos",
+        "text": "Receba uma renda passiva emprestando seus ativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus ativos a qualquer momento.",
+        "cta": "Emprestar"
+      },
+      "stake": {
+        "title": "Aplicando & Votando",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que aplicam seu SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "cta": "Aplicar"
+      }
+    },
+    "title": "Compre SOV exclusivamente na Sovryn!",
+    "earn": "Ganhe com a Sovryn"
   }
 }
