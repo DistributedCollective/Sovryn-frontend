@@ -650,5 +650,105 @@
     "onCopy": {
       "address": "La dirección se ha copiado en el portapapeles"
     }
+  },
+  "buySovPage": {
+    "meta": {
+      "title": "¡La venta de SOV ya se abrió al público!",
+      "description": "¡La venta de SOV ya se abrió al público!"
+    },
+    "banner": {
+      "title": "¡La venta de SOV ya se abrió al público!",
+      "cta": "Comprar SOV"
+    },
+    "stats": {
+      "totalSupply": "Existencias Totales:",
+      "circulatingSupply": "Total Circulante:",
+      "marketCap": "Capitalización de Mercado:",
+      "lastPrice": "Último Precio Transado:"
+    },
+    "engage": {
+      "title": "Enganchar Cartera",
+      "line1": "Enganchar una cartera de extensión, móvil o de hardware conectada a la <0>Mainnet de RSK</0>",
+      "line2": "¿No tienes una cartera? Sovryn te recomienda la <0>cartera de Liquality</0>",
+      "cta": "Enganchar Cartera"
+    },
+    "topUp": {
+      "title": "Recargar RBTC",
+      "line1": "Vas a necesitar RBTC en tu cartera para poder comprar SOV y pagar las tarifas de gas en la Mainnet de RSK.",
+      "line2": "Conoce acerca de RBTC en RSK",
+      "cta": "Recargar Cartera"
+    },
+    "form": {
+      "title": "Comprar SOV con RBTC",
+      "enterAmount": "Ingresar Monto",
+      "availableBalance": "Saldo Disponible:",
+      "minimumReceived": "Mínimo Admitido:",
+      "cta": "Comprar SOV"
+    },
+    "slippageDialog": {
+      "title": "Ajustar Disparidad",
+      "tolerance": "Disparidad Permitida:",
+      "minimumReceived": "Mínimo Admitido"
+    },
+    "txDialog": {
+      "pendingUser": {
+        "title": "Confirmar Transacción",
+        "text": "Por favor, confirma la transacción en tu cartera {{walletName}}"
+      },
+      "txStatus": {
+        "title": "Estatus de la Transacción",
+        "aborted": "La transacción ha sido cancelada por el usuario.",
+        "cta": "Ver en el Explorador"
+      }
+    },
+    "promotions": {
+      "title": "Promociones en SOV",
+      "p1": {
+        "title": "Ganga de 50k SOV a Repartir en Abril en Pro del Tanque BTC/USDT",
+        "text": "Conviértete en un reputado y reverenciado Proveedor de Liquidez de Sovryn al aportar tus criptos al tanque. Entre más tiempo dejes allí tu aporte mayores serán tus ganancias en SOV.",
+        "cta": "Sovryn se vuelve agrrrrrrrr"
+      },
+      "p2": {
+        "title": "Ganga de 75k SOV a Repartir en Abril en Pro del Tanque BTC/SOV",
+        "text": "El tanque de liquidez SOV/BTC ya está abierto al público, dándote la oportunidad de tomar parte en nuestra más grande distribución de liquidez hasta la fecha.",
+        "cta": "He aquí cómo puedes participar"
+      }
+    },
+    "features": {
+      "title": "Características del protocolo de Sovryn",
+      "learnMore": "Conoce más",
+      "mining": {
+        "title": "Minería de Liquidez",
+        "text": "Sovryn le dice adiós a los servicios centralizados que tradicionalmente han proveído la creación de mercados. Las comisiones generadas por el comercio son distribuidas entre los proveedores de liquidez como recompensa, a cambio de facilitar a la plataforma el comercio y el intercambio.",
+        "cta": "La mina"
+      },
+      "marginTrading": {
+        "title": "Comercio de Margen",
+        "text": "El comercio de margen te permite utilizar los activos que hay en tu cartera como colateral de margen, para poder pedir prestado más activos para incrementar tu posición inicial.",
+        "cta": "Comerciar"
+      },
+      "swap": {
+        "title": "Canjear",
+        "text": "Realiza canjes con facilidad entre los tokens listados. El AMM Descentralizado de Sovryn te asegura que nadie tome ventaja del comercio que estás creando.",
+        "cta": "Canjear"
+      },
+      "liquidity": {
+        "title": "Mercados Líquidos",
+        "text": "La solución de capa 2 de Sovryn que opera en la cadena lateral de Bitcoin de Rootstock (RSK) facilita el uso sin dificultades de servicios financieros básicos, para múltiples activos en múltiples cadenas, promoviendo así la visión de Satoshi de la soberanía monetaria más allá de las simples transacciones entre pares iguales.",
+        "cta": "Creador de Mercados"
+      },
+      "lending": {
+        "title": "Invertir",
+        "text": "Genera ingresos pasivos invirtiendo tus activos directamente a prestatarios o comerciantes de margen y disminuye tu exposición a las grandes fluctuaciones del mercado. La solución libre de custodia de Sovryn te mantiene al mando de tus fondos y siempre eres libre de retirar tus activos en cualquier momento.",
+        "cta": "Comerciar"
+      },
+      "stake": {
+        "title": "Colateralizar y Votar",
+        "text": "El protocolo de Sovryn tiene incentivos plasmados en su código para fomentar el crecimiento a largo plazo. Los dueños de tokens que colateralizan sus SOV reciben una participación prorrateada de los ingresos que genera la plataforma a partir de varias tarifas de transacciones, mientras que a su vez, gozan de voz y voto en la gobernanza del protocolo.",
+        "cta": "Colateralizar"
+      }
+    },
+    "title": "¡Compra SOV exclusivamente en Sovryn!",
+    "earn": "Ganando con Sovryn"
   }
 }

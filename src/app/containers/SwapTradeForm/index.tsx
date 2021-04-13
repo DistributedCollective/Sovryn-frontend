@@ -30,6 +30,8 @@ import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useMaintenance } from '../../hooks/useMaintenance';
 import { Arbitrage } from './components/arbitrage';
+import { useDispatch } from 'react-redux';
+import { actions } from 'app/containers/TradingPage/slice';
 
 const s = translations.swapTradeForm;
 
@@ -47,12 +49,17 @@ interface Option {
 export function SwapTradeForm() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState('');
   const weiAmount = useWeiAmount(amount);
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.DOC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
+
+  useEffect(() => {
+    dispatch(actions.changeSwapPair(`${sourceToken}:${targetToken}`));
+  }, [sourceToken, targetToken, dispatch]);
 
   const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',

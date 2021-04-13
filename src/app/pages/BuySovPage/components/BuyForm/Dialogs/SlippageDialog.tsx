@@ -9,6 +9,8 @@ import { ConfirmButton } from '../../Button/confirm';
 import { CloseButton } from '../../Button/close';
 import { LoadableValue } from '../../../../../components/LoadableValue';
 import { Slider } from '../../Slider';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../../locales/i18n';
 
 interface Props {
   isOpen: boolean;
@@ -19,6 +21,7 @@ interface Props {
 }
 
 export function SlippageDialog(props: Props) {
+  const { t } = useTranslation();
   const [value, setValue] = useState(props.value);
   const { minReturn } = useSlippage(props.amount, value);
 
@@ -42,10 +45,13 @@ export function SlippageDialog(props: Props) {
       <button data-close="" onClick={() => props.onClose()}>
         <span className="sr-only">Close Dialog</span>
       </button>
-      <h1>Adjust Slippage</h1>
+      <h1>{t(translations.buySovPage.slippageDialog.title)}</h1>
 
       <div className="px-4">
-        <FieldGroup label="Slippage Tolerance:" labelColor="#E9EAE9">
+        <FieldGroup
+          label={t(translations.buySovPage.slippageDialog.tolerance)}
+          labelColor="#E9EAE9"
+        >
           <Slider
             value={value}
             onChange={e => setValue(e)}
@@ -57,7 +63,10 @@ export function SlippageDialog(props: Props) {
           />
         </FieldGroup>
         <br />
-        <FieldGroup label="Minimum Received" labelColor="#E9EAE9">
+        <FieldGroup
+          label={t(translations.buySovPage.slippageDialog.minimumReceived)}
+          labelColor="#E9EAE9"
+        >
           <Dummy className="d-flex justify-content-between align-items-center">
             <div>
               <LoadableValue
@@ -72,11 +81,15 @@ export function SlippageDialog(props: Props) {
 
       <div className="d-flex w-100 justify-content-between align-items-center">
         <ConfirmButton
-          text="Confirm"
+          text={t(translations.common.confirm)}
           onClick={() => confirm()}
           className="mr-2"
         />
-        <CloseButton text="Cancel" onClick={() => cancel()} className="ml-2" />
+        <CloseButton
+          text={t(translations.common.cancel)}
+          onClick={() => cancel()}
+          className="ml-2"
+        />
       </div>
     </Dialog>
   );

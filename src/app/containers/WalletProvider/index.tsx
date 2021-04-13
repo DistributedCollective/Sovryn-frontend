@@ -4,9 +4,12 @@
  *
  */
 
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { WalletProvider as SovrynWallet } from '@sovryn/react-wallet';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useWalletContext,
+  WalletProvider as SovrynWallet,
+} from '@sovryn/react-wallet';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   eventsSlice,
@@ -29,6 +32,7 @@ import {
 } from '../FastBtcForm/slice';
 import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
+import { actions } from './slice';
 
 interface Props {
   children: React.ReactNode;
@@ -48,12 +52,30 @@ export function WalletProvider(props: Props) {
   useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.testTransactions());
+  }, [dispatch]);
 
   return (
     <SovrynWallet chainId={currentChainId} remember>
+      <WalletWatcher />
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
       <FastBtcForm />
     </SovrynWallet>
   );
+}
+
+function WalletWatcher() {
+  const dispatch = useDispatch();
+  const { address, chainId } = useWalletContext();
+  useEffect(() => {
+    dispatch(actions.accountChanged(address));
+  }, [dispatch, address]);
+  useEffect(() => {
+    dispatch(actions.chainChanged({ chainId, networkId: chainId }));
+  }, [dispatch, chainId]);
+  return <></>;
 }

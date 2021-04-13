@@ -1,18 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import logo from 'assets/sov/banner.svg';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 interface Props {
   onClick: () => void;
 }
 
 export function Banner(props: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <Image />
-      <H1>SOV trading is now live!</H1>
+      <H1>{t(translations.buySovPage.banner.title)}</H1>
       <div className="text-center">
-        <Button onClick={props.onClick}>Buy SOV</Button>
+        <Button onClick={props.onClick}>
+          {t(translations.buySovPage.banner.cta)}
+        </Button>
       </div>
     </>
   );

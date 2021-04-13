@@ -9,8 +9,11 @@ import {
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 export function InfoBar() {
+  const { t } = useTranslation();
   const [price, setPrice] = useState({ value: '0', loading: true });
   const [btcToUsd, setBtcToUsd] = useState({ value: '0', loading: true });
 
@@ -68,7 +71,7 @@ export function InfoBar() {
       <StyledInfoBar>
         {/*<div className="col">*/}
         {/*  <Text ellipsize tagName="p">*/}
-        {/*    Total Supply:*/}
+        {/*    {t(translations.buySovPage.stats.totalSupply)}*/}
         {/*  </Text>*/}
         {/*  <Text ellipsize tagName="p">*/}
         {/*    <LoadableValue*/}
@@ -81,7 +84,7 @@ export function InfoBar() {
         {/*</div>*/}
         <div className="col">
           <Text ellipsize tagName="p">
-            Circulating Supply:
+            {t(translations.buySovPage.stats.circulatingSupply)}
           </Text>
           <Text ellipsize tagName="p">
             <LoadableValue
@@ -94,7 +97,7 @@ export function InfoBar() {
         </div>
         <div className="col">
           <Text ellipsize tagName="p">
-            Market Cap:
+            {t(translations.buySovPage.stats.marketCap)}
           </Text>
           <Text ellipsize tagName="p">
             <LoadableValue
@@ -107,7 +110,7 @@ export function InfoBar() {
         </div>
         <div className="col last">
           <Text ellipsize tagName="p" className="title">
-            Last Traded Price:
+            {t(translations.buySovPage.stats.lastPrice)}
           </Text>
           <Text ellipsize tagName="p" className="value">
             <LoadableValue

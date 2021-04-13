@@ -110,6 +110,7 @@ const walletProviderSlice = createSlice({
     setPrices(state, { payload }: PayloadAction<CachedAssetRate[]>) {
       state.assetRates = payload;
     },
+    testTransactions() {},
   },
 });
 
