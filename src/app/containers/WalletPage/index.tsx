@@ -11,7 +11,6 @@ import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import WalletConnector from '../../containers/WalletConnector';
 import { UserAssets } from '../../components/UserAssets';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
@@ -19,6 +18,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
+import { SwapHistory } from '../../containers/SwapHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();
@@ -45,11 +45,6 @@ export function WalletPage() {
           <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
-          {connected && account && (
-            <div className="w-100 text-center">
-              <WalletConnector simpleView={true} />
-            </div>
-          )}
         </div>
         <div className="d-flex flex-row align-items-center justify-content-start">
           <div className="mr-2 ml-2">
@@ -92,11 +87,14 @@ export function WalletPage() {
           </div>
         )}
       </div>
-      <div className="container mt-5">
-        <div className="w-100">
-          <TopUpHistory />
+      {connected && account && (
+        <div className="container mt-5">
+          <div className="w-100">
+            <TopUpHistory />
+            <SwapHistory />
+          </div>
         </div>
-      </div>
+      )}
       <Footer />
     </>
   );

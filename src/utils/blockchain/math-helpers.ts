@@ -57,6 +57,10 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
   return roundToSmaller(bignumber(amount || '0').div(10 ** decimals), decimals);
 };
 
+export const numberFromWei = (amount: any, unit: Unit = 'ether') => {
+  return Number(fromWei(amount, unit));
+};
+
 export const toWei = (amount: any, unit: Unit = 'ether') => {
   let decimals = 0;
   switch (unit) {

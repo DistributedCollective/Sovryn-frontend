@@ -140,7 +140,7 @@
     "trade": "Comercio",
     "lend": "Loans",
     "fastBtc": "Recarga",
-    "wallet": "My wallet",
+    "wallet": "Portfolio",
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
     "faqs": "FAQ",
@@ -453,7 +453,7 @@
       "description": "Information about connected wallet"
     },
     "tabs": {
-      "userAssets": "My assets",
+      "userAssets": "Assets",
       "userNFTS": "NFTS"
     }
   },

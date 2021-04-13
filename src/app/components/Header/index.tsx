@@ -176,6 +176,7 @@ export function Header() {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
     },
+    { to: '/wallet', title: t(translations.mainMenu.wallet) },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
