@@ -23,6 +23,7 @@ import { SwapHistory } from '../../containers/SwapHistory';
 export function WalletPage() {
   const { t } = useTranslation();
   const [activeAssets, setActiveAssets] = useState(0);
+  const [activeHistory, setActiveHistory] = useState(0);
   const connected = useIsConnected();
   const account = useAccount();
   return (
@@ -89,9 +90,25 @@ export function WalletPage() {
       </div>
       {connected && account && (
         <div className="container mt-5">
+          <div className="d-flex flex-row align-items-center justify-content-start">
+            <div className="mr-2 ml-2">
+              <Tab
+                text={t(translations.topUpHistory.meta.title)}
+                active={activeHistory === 0}
+                onClick={() => setActiveHistory(0)}
+              />
+            </div>
+            <div className="mr-2 ml-2">
+              <Tab
+                text={t(translations.swapHistory.title)}
+                active={activeHistory === 1}
+                onClick={() => setActiveHistory(1)}
+              />
+            </div>
+          </div>
           <div className="w-100">
-            <TopUpHistory />
-            <SwapHistory />
+            {activeHistory === 0 && <TopUpHistory />}
+            {activeHistory === 1 && <SwapHistory />}
           </div>
         </div>
       )}

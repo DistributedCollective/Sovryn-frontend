@@ -649,6 +649,17 @@
       "redeemRBTC": "Resgatar rBTC"
     }
   },
+  "swapHistory": {
+    "title": "Swap History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "from": "From",
+      "amountSent": "Amount Sent",
+      "to": "To",
+      "amountReceived": "Amount Received",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Histórico de depósitos"
