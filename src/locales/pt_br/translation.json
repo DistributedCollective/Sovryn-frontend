@@ -4,7 +4,13 @@
     "min": "mín",
     "max": "max",
     "close": "Fechar",
-    "for": "por"
+    "for": "por",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "fee": "Taxa: {{amount}} (r)BTC",
+    "pending": "Pendente",
+    "confirmed": "Confirmada",
+    "failed": "Falhou"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -243,6 +249,7 @@
   },
   "statsPage": {
     "titles": {
+      "transactionVolume": "Volume de transações",
       "tradingVolume": "Volume de operações",
       "hourVolumne": "24 HORAS",
       "allVolumne": "TODO PERÍODO",
@@ -261,7 +268,7 @@
       "total": "Total"
     },
     "ammpool": {
-      "title": "SALDOS AMM",
+      "title": "SALDO AMM",
       "pool": "Pool",
       "stakedBalance": "Saldo aplicado",
       "contractBalance": "Saldo do contrato",
