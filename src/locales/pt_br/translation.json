@@ -657,13 +657,13 @@
     }
   },
   "swapHistory": {
-    "title": "Swap History",
+    "title": "Histórico de trocas",
     "tableHeaders": {
-      "time": "Date/Time",
-      "from": "From",
-      "amountSent": "Amount Sent",
-      "to": "To",
-      "amountReceived": "Amount Received",
+      "time": "Data/Hora",
+      "from": "De",
+      "amountSent": "Quantidade enviada",
+      "to": "Para",
+      "amountReceived": "Quantidade recebida",
       "status": "Status"
     }
   },
