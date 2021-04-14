@@ -884,7 +884,7 @@
       "cta": "Conectar carteira"
     },
     "topUp": {
-      "title": "Depositar",
+      "title": "Adquirir",
       "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK.",
       "line2": "Saiba mais sobre RBTC na RSK",
       "cta": "Depositar RBTC"
