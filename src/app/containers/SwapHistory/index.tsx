@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+// import ReactPaginate from 'react-paginate';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
@@ -10,20 +11,23 @@ import { translations } from '../../../locales/i18n';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { Pagination } from '../../components/Pagination';
 
 export function SwapHistory() {
   const account = useAccount();
   const assets = AssetsDictionary.list();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
+  const [currentHistory, setCurrentHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
   const getHistory = useCallback(() => {
     setLoading(true);
     axios
-      .get(`${url}/events/conversion-swap/${account}`)
+      .get(`${url}/events/conversion-swap/${account}`, {})
       .then(res => {
+        console.log('res', res);
         setHistory(res.data);
         setLoading(false);
       })
@@ -39,6 +43,13 @@ export function SwapHistory() {
       getHistory();
     }
   }, [account, getHistory]);
+
+  const onPageChanged = data => {
+    console.log('data', data);
+    const { currentPage, pageLimit } = data;
+    const offset = (currentPage - 1) * pageLimit;
+    setCurrentHistory(history.slice(offset, offset + pageLimit));
+  };
 
   return (
     <section>
@@ -75,7 +86,7 @@ export function SwapHistory() {
                 </td>
               </tr>
             )}
-            {history.map(item => (
+            {currentHistory.map(item => (
               <tr key={item.id}>
                 <td className="d-none d-md-table-cell">
                   <DisplayDate
@@ -134,6 +145,12 @@ export function SwapHistory() {
             ))}
           </tbody>
         </table>
+        <Pagination
+          totalRecords={history.length}
+          pageLimit={2}
+          pageNeighbours={1}
+          onChange={onPageChanged}
+        />
       </div>
     </section>
   );
