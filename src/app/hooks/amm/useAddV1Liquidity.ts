@@ -6,6 +6,7 @@ import {
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
 
 export function useAddV1Liquidity(
   pool: Asset,
@@ -45,6 +46,7 @@ export function useAddV1Liquidity(
           from: account,
           value: btcIndex === -1 ? '0' : reserveAmounts[0],
           nonce,
+          gas: gasLimit[TxType.ADD_LIQUIDITY],
         },
         {
           approveTransactionHash: approveTx,
