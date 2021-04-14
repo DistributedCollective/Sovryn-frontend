@@ -25,9 +25,9 @@ export function NetworkRibbon() {
       <Dialog
         isOpen={isConnect}
         onClose={handleClose}
-        canOutsideClickClose={false}
+        canOutsideClickClose={true}
         isCloseButtonShown={true}
-        canEscapeKeyClose={false}
+        canEscapeKeyClose={true}
         className="fw-900 p-4"
       >
         <div className="py-3">
