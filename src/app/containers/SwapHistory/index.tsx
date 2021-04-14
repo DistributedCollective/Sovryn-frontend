@@ -24,28 +24,30 @@ export function SwapHistory() {
 
   const getHistory = useCallback(() => {
     setLoading(true);
+    setHistory([]);
+    setCurrentHistory([]);
     axios
       .get(`${url}/events/conversion-swap/${account}`, {})
       .then(res => {
-        console.log('res', res);
         setHistory(res.data);
         setLoading(false);
       })
       .catch(e => {
         console.log(e);
+        setHistory([]);
+        setCurrentHistory([]);
         setLoading(false);
       });
-  }, [account, setHistory, url]);
+  }, [account, setHistory, url, setCurrentHistory]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory]);
+  }, [account, getHistory, setCurrentHistory]);
 
   const onPageChanged = data => {
-    console.log('data', data);
     const { currentPage, pageLimit } = data;
     const offset = (currentPage - 1) * pageLimit;
     setCurrentHistory(history.slice(offset, offset + pageLimit));
@@ -75,19 +77,21 @@ export function SwapHistory() {
             {loading && (
               <tr key={'loading'}>
                 <td colSpan={99}>
-                  <SkeletonRow />
+                  <SkeletonRow
+                    loadingText={t(translations.topUpHistory.loading)}
+                  />
                 </td>
               </tr>
             )}
             {history.length === 0 && !loading && (
-              <tr>
+              <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
                   History is empty.
                 </td>
               </tr>
             )}
             {currentHistory.map(item => (
-              <tr key={item.id}>
+              <tr key={item.transaction_hash}>
                 <td className="d-none d-md-table-cell">
                   <DisplayDate
                     timestamp={new Date(item.timestamp).getTime().toString()}
@@ -145,12 +149,14 @@ export function SwapHistory() {
             ))}
           </tbody>
         </table>
-        <Pagination
-          totalRecords={history.length}
-          pageLimit={2}
-          pageNeighbours={1}
-          onChange={onPageChanged}
-        />
+        {history.length > 0 && (
+          <Pagination
+            totalRecords={history.length}
+            pageLimit={6}
+            pageNeighbours={1}
+            onChange={onPageChanged}
+          />
+        )}
       </div>
     </section>
   );

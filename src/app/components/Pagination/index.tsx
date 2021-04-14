@@ -1,4 +1,9 @@
-import React, { Fragment, useCallback, useState } from 'react';
+/**
+ *
+ * Pagination
+ *
+ */
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import iconBack from 'assets/images/genesis/arrow_back.svg';
 
@@ -10,6 +15,7 @@ interface Props {
 }
 
 export function Pagination(props: Props) {
+  const [mount, setMount] = useState(false);
   const totalPages = Math.ceil(props.totalRecords / props.pageLimit);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const LEFT_PAGE = 'LEFT';
@@ -101,6 +107,7 @@ export function Pagination(props: Props) {
     page => {
       const { onChange = f => f } = props;
       const currentPage = Math.max(0, Math.min(page, totalPages));
+      setCurrentPage(currentPage);
       const paginationData = {
         currentPage,
         totalPages: totalPages,
@@ -108,10 +115,16 @@ export function Pagination(props: Props) {
         totalRecords: props.totalRecords,
       };
       onChange(paginationData);
-      setCurrentPage(currentPage);
     },
     [props, totalPages],
   );
+
+  useEffect(() => {
+    if (!mount && totalPages > 0) {
+      setMount(true);
+      gotoPage(1);
+    }
+  }, [totalPages, gotoPage, mount]);
 
   if (!props.totalRecords || totalPages === 1) return null;
 
@@ -131,13 +144,13 @@ export function Pagination(props: Props) {
   };
 
   return (
-    <Fragment>
+    <>
       <nav aria-label="Pagination">
         <StyledList>
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)
               return (
-                <li key={index} className="page-item">
+                <li key={index + 'pagination'} className="page-item">
                   <a
                     className="page-link"
                     href="#!"
@@ -176,20 +189,23 @@ export function Pagination(props: Props) {
           })}
         </StyledList>
       </nav>
-    </Fragment>
+    </>
   );
 }
 
 const StyledList = styled.ul.attrs(_ => ({
   className: 'pagination',
 }))`
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   justify-content: center;
   display: flex;
   align-items: center;
   margin-bottom: 0;
   li.page-item.active a.page-link {
     background-color: #2274a5;
+  }
+  .page-item:last-child .page-link,
+  .page-item:first-child .page-link {
     border-radius: 50%;
   }
   .page-link {
@@ -206,9 +222,10 @@ const StyledList = styled.ul.attrs(_ => ({
     border: none;
     background: transparent;
     margin: 0 0.1rem;
+    transition: all 0.3s;
+    border-radius: 50%;
     &:hover {
       background-color: #2274a5;
-      border-radius: 50%;
     }
     img {
       max-width: 32px;
