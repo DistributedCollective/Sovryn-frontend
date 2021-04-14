@@ -180,7 +180,7 @@
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja o <0>wiki</0> e aprenda a usar a SOVRYN.",
-    "optOut": "Deixar de participar no <0>Google Analytics</0>",
+    "optOut": "Desativar o <0>Google Analytics</0>",
     "buildID": "Build ID"
   },
   "mainMenu": {
