@@ -12,7 +12,11 @@ class ContractReader {
   }
 
   public async nonce(address: string) {
-    return this.sovryn.getWeb3().eth.getTransactionCount(address);
+    return this.sovryn.getWeb3().eth.getTransactionCount(address, 'pending');
+  }
+
+  public async blockNumber() {
+    return this.sovryn.getWeb3().eth.getBlockNumber();
   }
 
   /**

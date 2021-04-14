@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 
 export function Footer() {
   const { t } = useTranslation();
-  const [hasMatomo, setHasMatomo] = useState(false);
+  const [hasGA, setHasGA] = useState(false);
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   useEffect(() => {
-    setHasMatomo(window.hasOwnProperty('Matomo'));
+    setHasGA(window.hasOwnProperty('ga') || window.hasOwnProperty('gtag'));
   }, []);
 
   return (
@@ -66,6 +66,21 @@ export function Footer() {
             </p>
           </div>
         </div>
+        {hasGA && (
+          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mb-3">
+            <a
+              title="GoogleAnalyticsOptout"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
+            >
+              <Trans
+                i18nKey={translations.footer.optOut}
+                components={[<strong></strong>]}
+              />
+            </a>
+          </div>
+        )}
         {commitHash && (
           <div className="small text-white font-family-montserrat">
             {t(translations.footer.buildID)}:{' '}
@@ -77,15 +92,6 @@ export function Footer() {
             >
               {commitHash.substr(0, 7)}
             </a>
-          </div>
-        )}
-        {hasMatomo && (
-          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mt-5">
-            <iframe
-              title="MatomoOptout"
-              style={{ width: '100%', border: 'none', marginLeft: '-5px' }}
-              src="https://sovrynapp.matomo.cloud/index.php?module=CoreAdminHome&action=optOut&language=en&backgroundColor=171717&fontColor=ffffff&fontSize=14px&fontFamily=system-ui"
-            />
           </div>
         )}
       </div>

@@ -112,7 +112,7 @@ class ContractWriter {
     } catch (e) {
       dispatch(txActions.setLoading(false));
       dispatch(txActions.setTransactionRequestDialogError(e.message));
-      console.error('approve error?:', e.message);
+      console.error('approve error?:', e);
       return {
         approveTx: null,
         nonce,
@@ -127,8 +127,19 @@ class ContractWriter {
     args: Array<any>,
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
-    const { address, abi } = getContract(contractName);
-    return this.sendByAddress(address, abi, methodName, args, options);
+    if (contractName.endsWith('_poolToken')) {
+      const c = Sovryn.contracts[contractName];
+      return this.sendByAddress(
+        c.options.address,
+        c.options.jsonInterface,
+        methodName,
+        args,
+        options,
+      );
+    } else {
+      const { address, abi } = getContract(contractName);
+      return this.sendByAddress(address, abi, methodName, args, options);
+    }
   }
 
   public async sendByAddress(
@@ -226,8 +237,13 @@ class ContractWriter {
   }
 
   public getContract(contractName: ContractName) {
-    const { address, abi } = getContract(contractName);
-    return this.getCustomContract(address, abi);
+    console.log('get', contractName, Sovryn.contracts);
+    if (contractName.endsWith('__poolToken')) {
+      return Sovryn.contracts[contractName];
+    } else {
+      const { address, abi } = getContract(contractName);
+      return this.getCustomContract(address, abi);
+    }
   }
 
   public getCustomContract(address: string, abi: AbiItem[]) {

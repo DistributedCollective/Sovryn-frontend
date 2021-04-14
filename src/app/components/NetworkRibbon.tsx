@@ -13,7 +13,7 @@ export function NetworkRibbon() {
       wallet.chainId !== currentChainId
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, JSON.stringify(wallet)]);
+  }, [connected, wallet.chainId, wallet.providerType]);
 
   return (
     <>

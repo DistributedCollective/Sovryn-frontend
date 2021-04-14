@@ -24,6 +24,7 @@ import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
+import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
 
@@ -45,7 +46,8 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            <Route exact path="/" component={TradingPage} />
+            <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/trade" component={TradingPage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
