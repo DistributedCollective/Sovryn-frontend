@@ -52,7 +52,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   };
 
   return (
-    <div className="justify-content-center align-items-center d-md-flex">
+    <div className="justify-content-center align-items-center d-none d-md-flex">
       {!connected && !address ? (
         <StyledButton
           onClick={() => connect()}

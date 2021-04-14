@@ -77,9 +77,12 @@ export function TradingChart(props: ChartContainerProps) {
   }, [chartData, props.symbol, props.type]);
 
   useEffect(() => {
+    let cancelTokenSource;
     function getData() {
+      cancelTokenSource = axios.CancelToken.source();
       axios
         .get(`${backendUrl[currentChainId]}/datafeed/price/${props.symbol}`, {
+          cancelToken: cancelTokenSource.token,
           params: {
             type: props.type,
             startTime: lastTime,
@@ -139,6 +142,9 @@ export function TradingChart(props: ChartContainerProps) {
     }, props.rate * 1e3);
     return () => {
       clearInterval(interval);
+      if (cancelTokenSource) {
+        cancelTokenSource.cancel();
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
@@ -168,7 +174,7 @@ export function TradingChart(props: ChartContainerProps) {
               locale: 'en-US',
             },
           }}
-          legend={props.symbol}
+          legend={props.symbol === 'RBTC:SOV' ? 'SOV:RBTC' : props.symbol}
           darkTheme={props.theme === Theme.DARK}
           autoWidth
           autoHeight
