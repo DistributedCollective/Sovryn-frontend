@@ -1,12 +1,13 @@
 import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FastBtcDialogState, Step } from '../types';
-import { actions } from '../slice';
-import styles from '../index.module.css';
+
 import { translations } from '../../../../locales/i18n';
+import { AddressQrCode } from '../../../components/Form/AddressQrCode';
+import styles from '../index.module.css';
+import { actions } from '../slice';
+import { FastBtcDialogState, Step } from '../types';
 import { BTCButton } from './BTCButton';
 import { FiatButton } from './FiatButton';
-import { AddressQrCode } from '../../../components/Form/AddressQrCode';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
 

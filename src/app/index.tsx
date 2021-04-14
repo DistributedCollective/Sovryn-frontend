@@ -13,7 +13,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
 
 import { currentNetwork } from '../utils/classifiers';
-import { NetworkRibbon } from './components/NetworkRibbon';
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
