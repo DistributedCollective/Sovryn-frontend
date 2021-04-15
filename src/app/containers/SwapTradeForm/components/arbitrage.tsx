@@ -31,7 +31,7 @@ export function Arbitrage() {
     // Only show component if you can earn > 0.001 BTC or > 1 USDT. 'BTC' and 'USDT' need to match token names on backend
     if (
       (data.USDT.rateToBalance.earn > 0.001 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'BTC') ||
+        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'RBTC') ||
       (data.USDT.rateToBalance.earn > 10 &&
         symbolByTokenAddress(data.USDT.rateToBalance.to) === 'USDT')
     ) {
