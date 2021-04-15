@@ -89,7 +89,7 @@ export function WalletPage() {
         )}
       </div>
       {connected && account && (
-        <div className="container mt-5">
+        <div className="container-fluid mt-5">
           <div className="d-flex flex-row align-items-center justify-content-start">
             <div className="mr-2 ml-2">
               <Tab

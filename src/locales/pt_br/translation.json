@@ -186,6 +186,7 @@
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja o <0>wiki</0> e aprenda a usar a SOVRYN.",
+    "optOut": "Desativar o <0>Google Analytics</0>",
     "buildID": "Build ID"
   },
   "mainMenu": {
@@ -657,13 +658,13 @@
     }
   },
   "swapHistory": {
-    "title": "Swap History",
+    "title": "Histórico de trocas",
     "tableHeaders": {
-      "time": "Date/Time",
-      "from": "From",
-      "amountSent": "Amount Sent",
-      "to": "To",
-      "amountReceived": "Amount Received",
+      "time": "Data e hora",
+      "from": "De",
+      "amountSent": "Quantidade enviada",
+      "to": "Para",
+      "amountReceived": "Quantidade recebida",
       "status": "Status"
     }
   },
@@ -802,8 +803,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Receber rBTC",
-    "subtitle": "Receba rBTC na sua carteira depositando BTC ou realizando uma compra com moeda estatal",
+    "title": "FastBTC",
+    "subtitle": "Adquira rBTC depositando BTC ou realizando uma compra com moeda estatal",
     "limits": {
       "title": "Limites:",
       "min": "Mín: {{amount}}",
@@ -878,16 +879,16 @@
       "lastPrice": "Último preço:"
     },
     "engage": {
-      "title": "Conectar carteira",
+      "title": "Conectar",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
       "cta": "Conectar carteira"
     },
     "topUp": {
-      "title": "Depositar RBTC",
+      "title": "Adquirir",
       "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK.",
       "line2": "Saiba mais sobre RBTC na RSK",
-      "cta": "Depositar"
+      "cta": "Adquirir RBTC"
     },
     "form": {
       "title": "Comprar SOV com RBTC",
@@ -954,7 +955,7 @@
         "cta": "Emprestar"
       },
       "stake": {
-        "title": "Aplicando & Votando",
+        "title": "Aplicando seus SOV & Votando",
         "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que aplicam seu SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
         "cta": "Aplicar"
       }

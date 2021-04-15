@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+// import ReactPaginate from 'react-paginate';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
@@ -10,35 +11,47 @@ import { translations } from '../../../locales/i18n';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { Pagination } from '../../components/Pagination';
 
 export function SwapHistory() {
   const account = useAccount();
   const assets = AssetsDictionary.list();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
+  const [currentHistory, setCurrentHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
   const getHistory = useCallback(() => {
     setLoading(true);
+    setHistory([]);
+    setCurrentHistory([]);
     axios
-      .get(`${url}/events/conversion-swap/${account}`)
+      .get(`${url}/events/conversion-swap/${account}`, {})
       .then(res => {
         setHistory(res.data);
         setLoading(false);
       })
       .catch(e => {
         console.log(e);
+        setHistory([]);
+        setCurrentHistory([]);
         setLoading(false);
       });
-  }, [account, setHistory, url]);
+  }, [account, setHistory, url, setCurrentHistory]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory]);
+  }, [account, getHistory, setCurrentHistory]);
+
+  const onPageChanged = data => {
+    const { currentPage, pageLimit } = data;
+    const offset = (currentPage - 1) * pageLimit;
+    setCurrentHistory(history.slice(offset, offset + pageLimit));
+  };
 
   return (
     <section>
@@ -64,19 +77,21 @@ export function SwapHistory() {
             {loading && (
               <tr key={'loading'}>
                 <td colSpan={99}>
-                  <SkeletonRow />
+                  <SkeletonRow
+                    loadingText={t(translations.topUpHistory.loading)}
+                  />
                 </td>
               </tr>
             )}
             {history.length === 0 && !loading && (
-              <tr>
+              <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
                   History is empty.
                 </td>
               </tr>
             )}
-            {history.map(item => (
-              <tr key={item.id}>
+            {currentHistory.map(item => (
+              <tr key={item.transaction_hash}>
                 <td className="d-none d-md-table-cell">
                   <DisplayDate
                     timestamp={new Date(item.timestamp).getTime().toString()}
@@ -134,6 +149,14 @@ export function SwapHistory() {
             ))}
           </tbody>
         </table>
+        {history.length > 0 && (
+          <Pagination
+            totalRecords={history.length}
+            pageLimit={6}
+            pageNeighbours={1}
+            onChange={onPageChanged}
+          />
+        )}
       </div>
     </section>
   );
