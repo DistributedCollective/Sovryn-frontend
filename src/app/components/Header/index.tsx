@@ -290,7 +290,7 @@ export function Header() {
                         dispatch(
                           tradeSwapActions.changeTab(TradeSwapTabType.SWAP),
                         );
-                        history.push('/trade');
+                        history.push('/swap');
                       }}
                     />
                     <MenuItem

@@ -28,6 +28,7 @@ import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { weiToNumberFormat } from 'utils/display-text/format';
+import { TxDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/TxDialog';
 
 const s = translations.swapTradeForm;
 
@@ -240,6 +241,8 @@ export function SwapFormContainer() {
             SWAP
           </button>
         </div>
+
+        <TxDialog tx={tx} />
       </div>
     </>
   );
