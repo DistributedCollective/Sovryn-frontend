@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import axios from 'axios';
 
 import { translations } from 'locales/i18n';
 
@@ -10,10 +11,22 @@ import { EventTable } from './EventTable';
 export interface Props {
   isConnected: boolean;
   txList: Array<any>;
+  user: string;
 }
 
 export function SOVPoolData(props: Props) {
   const { t } = useTranslation();
+  const api = backendUrl[currentChainId];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(api + 'amm/liquidity-mining/sov/' + props.user)
+      .then(res => {
+        setData(res.data);
+      })
+      .catch(e => console.error(e));
+  }, [api, props.user]);
 
   return (
     <div className="col-12">
@@ -28,10 +41,7 @@ export function SOVPoolData(props: Props) {
       </Div>
       <div className="row my-3">
         <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}: %
-        </div>
-        <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
+          {t(translations.marketingPage.liquidity.rewardPool)}: Coming Soon
         </div>
       </div>
 
@@ -40,8 +50,8 @@ export function SOVPoolData(props: Props) {
           <h3 className="w-100 text-center mt-5 mb-3">
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
-          {props.txList.length > 0 ? (
-            <EventTable data={[]} />
+          {data && data.length > 0 ? (
+            <EventTable data={data || []} sov={true} />
           ) : (
             <div className="w-100 text-center mt-5">
               {t(translations.marketingPage.liquidity.noAsset, {

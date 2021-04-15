@@ -62,11 +62,12 @@
   "marketingPage": {
     "explain": {
       "title": "HOW DOES IT WORK?",
-      "earn": "Earn SOV by depositing liquidity into the USDT/RBTC liquidity pool",
-      "startDate": "Start date: 1st April 2021, 12.00 UTC",
-      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "earn": "Earn SOV by depositing liquidity into the USDT/RBTC or SOV/RBTC liquidity pools",
+      "datesUSDT": "USDT/RBTC dates: 1st April 2021, 12.00 UTC - 1st May 2021, 12.00 UTC",
+      "datesSOV": "SOV/RBTC dates: 13th April 2021 12.00 UTC - 11th May 2021 12.00 UTC",
       "depositUSDT": "Reward pool for depositing USDT: 25,000 SOV",
       "depositRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "depositSOV": "Reward pool for depositing SOV/RBTC: 75,000 SOV (15k /week plus extra 15k for 1st week)",
       "sharePool": "Your share of the pool is calculated by:",
       "liquidityAdded": "liquidity added by you * number of blocks held",
       "totalAdded": "total liquidity added * number of blocks held"
