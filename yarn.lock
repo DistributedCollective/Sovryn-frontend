@@ -3431,24 +3431,25 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sovryn/react-wallet@1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.12.tgz#da755d0fc53c133d683b216bf62eaa395611b346"
-  integrity sha512-u9cDFDl5Ox8cX7lFIfui1W+u/867Gq9kXlVBO6erEZwcur4saJCj5D3yJrlIR86W/M6UZk3sZBQJ1yPk2WSmLA==
+"@sovryn/react-wallet@1.0.16-alpha.0":
+  version "1.0.16-alpha.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-1.0.16-alpha.0.tgz#e548696f00bae21989c02d6f5f43bb9aa98a34e3"
+  integrity sha512-WjzD3OTiL6A7GqlFMHYdYU7FW25iAOyvuPg/HbWt/8LATTKG/KhgpH65VkDKR/Xba38Mnp4yVhcev+fKmrfR8g==
   dependencies:
     "@hookstate/core" "^3.0.6"
-    "@sovryn/wallet" "^1.0.12"
+    "@sovryn/wallet" "^1.0.16-alpha.0"
     "@types/classnames" "^2.2.11"
     classnames "^2.2.6"
     detect-browser "^5.2.0"
     ethereumjs-util "^7.0.9"
+    qrcode.react "^1.0.1"
     storage-factory "^0.2.0"
     styled-components "^5.2.3"
 
-"@sovryn/wallet@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-1.0.12.tgz#bc5f3c0edb823a928b4a50302f6277d726f7d23e"
-  integrity sha512-OuDAuhLTc0WZp/od8906iJ41MvNL2w7z7c3nXzy8fLLpobYj8AoouLwAQGa2mY6wxdslcyYdK8ggP7A6xqfWFA==
+"@sovryn/wallet@^1.0.16-alpha.0":
+  version "1.0.16-alpha.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-1.0.16-alpha.0.tgz#218545ca4a897be334166cc943286ea45986b20f"
+  integrity sha512-WkDe6CSrWowBsgyo3FY1JUcbhOFT4YtB0CYvBKa+/GXGWoaJLCTGRE6am+ZUZcY9ePMvZGMgh5mo8jW5vwlDxA==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.46.0"
     "@ledgerhq/hw-transport" "^5.46.0"
@@ -18261,6 +18262,15 @@ qrcode.react@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.0.tgz#7e8889db3b769e555e8eb463d4c6de221c36d5de"
   integrity sha512-jBXleohRTwvGBe1ngV+62QvEZ/9IZqQivdwzo9pJM4LQMoCM2VnvNBnKdjvGnKyDZ/l0nCDgsPod19RzlPvm/Q==
+  dependencies:
+    loose-envify "^1.4.0"
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
+
+qrcode.react@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.1.tgz#2834bb50e5e275ffe5af6906eff15391fe9e38a5"
+  integrity sha512-8d3Tackk8IRLXTo67Y+c1rpaiXjoz/Dd2HpcMdW//62/x8J1Nbho14Kh8x974t9prsLHN6XqVgcnRiBGFptQmg==
   dependencies:
     loose-envify "^1.4.0"
     prop-types "^15.6.0"
