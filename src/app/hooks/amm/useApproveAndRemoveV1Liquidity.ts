@@ -4,9 +4,9 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { toWei } from '../../../utils/blockchain/math-helpers';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { useRemoveV1Liquidity } from './useRemoveV1Liquidity';
-import { ContractName } from '../../../utils/types/contracts';
+import { ContractName } from 'utils/types/contracts';
 
 export function useApproveAndRemoveV1Liquidity(
   pool: Asset,

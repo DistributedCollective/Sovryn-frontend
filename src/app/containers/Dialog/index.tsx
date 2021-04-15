@@ -47,7 +47,9 @@ Dialog.defaultProps = {
   onClose: () => {},
 };
 
-const StyledClose = styled.button.attrs(_ => ({ type: 'button' }))`
+const StyledClose = styled.button.attrs(_ => ({
+  type: 'button',
+}))`
   width: 24px;
   height: 24px;
   border: 1px solid var(--white);

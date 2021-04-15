@@ -18,7 +18,8 @@ interface Props {}
 const SESSION_KEY = 'mm-notify-shown';
 
 const testForMetaMask = () => {
-  return !!(window?.ethereum?.isMetaMask && !window?.ethereum?.isNiftyWallet);
+  const { ethereum } = window as any;
+  return !!(ethereum?.isMetaMask && !ethereum?.isNiftyWallet);
 };
 
 export function MetaMaskDiscouragementNotifyModal(props: Props) {

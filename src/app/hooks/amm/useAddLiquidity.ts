@@ -7,6 +7,7 @@ import {
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
 
 export function useAddLiquidity(
   pool: Asset,
@@ -33,6 +34,7 @@ export function useAddLiquidity(
           from: account,
           value: asset === Asset.RBTC ? amount : '0',
           nonce,
+          gas: gasLimit[TxType.ADD_LIQUIDITY],
         },
         {
           approveTransactionHash: approveTx,

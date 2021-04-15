@@ -19,7 +19,9 @@ export function EventTable(props: Props) {
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
       <td className="align-middle">{item.reserve_amount}</td>
-      <td className="align-middle">{item.block_number}</td>
+      <td className="align-middle d-md-table-cell d-none">
+        {item.block_number}
+      </td>
     </tr>
   ));
 
@@ -34,7 +36,7 @@ export function EventTable(props: Props) {
     },
     {
       title: 'Total Remaining',
-      value: (totalAdded - totalRemoved) | 0,
+      value: totalAdded - totalRemoved || 0,
     },
   ];
 
@@ -44,7 +46,7 @@ export function EventTable(props: Props) {
       <td className="align-middle font-weight-bold">
         {item.value?.toFixed(4)}
       </td>
-      <td className="align-middle font-weight-bold"></td>
+      <td className="align-middle font-weight-bold d-none d-md-table-cell"></td>
     </tr>
   ));
   return (
@@ -54,7 +56,7 @@ export function EventTable(props: Props) {
           <tr className="">
             <th></th>
             <th>Amount</th>
-            <th>Block number</th>
+            <th className="d-none d-md-table-cell">Block number</th>
           </tr>
         </thead>
         <tbody>

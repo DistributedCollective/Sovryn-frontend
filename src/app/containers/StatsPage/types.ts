@@ -13,23 +13,17 @@ export type TradingVolumeData = {
 
 export type TvlData = {
   tvlLending: {
-    btc_total: number;
-    usd_total: number;
-    bpro_total: number;
+    totalBtc: number;
+    totalUsd: number;
   };
   tvlAmm: {
-    btc_total: number;
-    usd_total: number;
-    bpro_total: number;
+    totalBtc: number;
+    totalUsd: number;
   };
   tvlProtocol: {
-    btc_total: number;
-    usd_total: number;
-    bpro_total: number;
+    totalBtc: number;
+    totalUsd: number;
   };
-  btc_doc_rate: number;
-  bpro_doc_rate: number;
-  bpro_btc_rate: number;
   total_btc: number;
   total_usd: number;
 };
@@ -43,9 +37,6 @@ export type AmmBalanceRow = {
   btcDelta: number;
   contractBalanceBtc: number;
   contractBalanceToken: number;
-  oracleBtcPrice: number;
-  oracleRateBtc: number;
-  oracleRateToken: number;
   stakedBalanceBtc: number;
   stakedBalanceToken: number;
   tokenDelta: number;

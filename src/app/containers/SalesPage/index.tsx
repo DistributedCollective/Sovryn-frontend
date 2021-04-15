@@ -32,10 +32,11 @@ import { StyledButton } from '../../components/SalesButton';
 import GetAccess from './GetAccess';
 
 function detectInjectableWallet() {
-  if (window.ethereum?.isNiftyWallet) {
+  const { ethereum } = window as any;
+  if (ethereum?.isNiftyWallet) {
     return 'nifty';
   }
-  if (window.ethereum?.isMetaMask) {
+  if (ethereum?.isMetaMask) {
     return 'metamask';
   }
   return 'unknown';

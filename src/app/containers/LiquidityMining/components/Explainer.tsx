@@ -24,16 +24,16 @@ export function Explainer() {
           <br />
           {t(translations.marketingPage.explain.depositRBTC)}
         </p>
-        <p>
+        <div>
           {t(translations.marketingPage.explain.sharePool)}
           <div className="w-100 text-center text-white mt-2">
             {t(translations.marketingPage.explain.liquidityAdded)}
           </div>
-          <Line></Line>
+          <Line />
           <div className="w-100 text-center text-white">
             {t(translations.marketingPage.explain.totalAdded)}
           </div>
-        </p>
+        </div>
       </div>
     </>
   );
