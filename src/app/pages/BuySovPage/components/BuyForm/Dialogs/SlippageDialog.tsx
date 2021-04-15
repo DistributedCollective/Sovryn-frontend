@@ -11,13 +11,14 @@ import { LoadableValue } from '../../../../../components/LoadableValue';
 import { Slider } from '../../Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-
+import { Asset } from 'types/asset';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   amount: string;
   value: number;
   onChange: (value: number) => void;
+  asset?: Asset;
 }
 
 export function SlippageDialog(props: Props) {
@@ -70,11 +71,11 @@ export function SlippageDialog(props: Props) {
           <Dummy className="d-flex justify-content-between align-items-center">
             <div>
               <LoadableValue
-                value={<>{weiToNumberFormat(minReturn, 4)}</>}
+                value={<>{weiToNumberFormat(minReturn, 8)}</>}
                 loading={false}
               />
             </div>
-            <div>SOV</div>
+            <div>{props.asset || 'SOV'}</div>
           </Dummy>
         </FieldGroup>
       </div>

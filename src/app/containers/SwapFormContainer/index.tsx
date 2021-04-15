@@ -21,11 +21,13 @@ import { AssetWalletBalance } from '../../components/AssetWalletBalance';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
-import { SwapSlippageModal } from './components/SwapSlippageModal';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountField } from './components/SwapAmountField';
 import swapIcon from '../../../assets/images/swap/ic_swap.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
+import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 const s = translations.swapTradeForm;
 
@@ -48,6 +50,7 @@ export function SwapFormContainer() {
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
+  const [slippage, setSlippage] = useState(0.5);
 
   const weiAmount = useWeiAmount(amount);
 
@@ -105,10 +108,12 @@ export function SwapFormContainer() {
 
   const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
 
+  const { minReturn } = useSlippage(rateByPath, slippage);
+
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
     path,
     weiAmount,
-    rateByPath,
+    minReturn,
   );
 
   const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
@@ -139,14 +144,16 @@ export function SwapFormContainer() {
   return (
     <>
       {dialogOpen && (
-        <SwapSlippageModal
+        <SlippageDialog
           isOpen={dialogOpen}
-          minReceivedAmount={weiToFixed(rateByPath, 8)}
-          receivedToken={targetToken}
+          amount={rateByPath}
+          value={slippage}
+          asset={targetToken}
           onClose={() => setDialogOpen(false)}
-          onConfirm={() => setDialogOpen(false)}
+          onChange={value => setSlippage(value)}
         />
       )}
+
       <div className="swap-form-container position-relative">
         <div className="d-flex justify-content-center">
           <div className="swap-form swap-form-send">
@@ -210,15 +217,13 @@ export function SwapFormContainer() {
         <SendTxProgress {...tx} displayAbsolute={false} />
 
         <div className="swap-btn-container">
-          <div className="swap-btn-helper">
-            <span>Maximum Received: 0.02931216</span>
-            <span>
-              <img
-                src={settingIcon}
-                alt="settings"
-                onClick={() => setDialogOpen(true)}
-              />
-            </span>
+          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center">
+            <span>Minimum Received: {weiToNumberFormat(minReturn, 8)}</span>
+            <img
+              src={settingIcon}
+              alt="settings"
+              onClick={() => setDialogOpen(true)}
+            />
           </div>
           <button
             type="button"
