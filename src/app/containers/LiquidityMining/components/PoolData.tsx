@@ -51,7 +51,7 @@ export function PoolData(props: Props) {
         </div>
         <div className="w-100 text-center font-family-montserrat">
           {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {yourSOV?.toFixed(2)}
+          {yourSOV?.toFixed(2)} SOV
         </div>
       </div>
 
