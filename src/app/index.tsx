@@ -19,12 +19,12 @@ import { SwapPage } from './containers/SwapPage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { currentNetwork } from '../utils/classifiers';
 import LendBorrowSovryn from './containers/LendBorrowSovryn';
-import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
+import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
 import { MarginTradePage } from './containers/MarginTradePage/Loadable';
@@ -47,12 +47,12 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            <Route exact path="/" component={TradingPage} />
+            <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
+            <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
-            <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route

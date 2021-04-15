@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -16,17 +16,37 @@ import { reducer, sliceKey } from './slice';
 import { selectTradingPage } from './selectors';
 import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import { TradingChart, Theme, ChartType } from '../../components/TradingChart';
+import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { TabType } from './types';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
+// import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
+
 const s = translations.tradingPage;
 
 interface Props {}
+
+const fixPair = {
+  'USDT:RBTC': 'RBTC:USDT',
+  'DOC:RBTC': 'RBTC:DOC',
+  'SOV:RBTC': 'RBTC:SOV',
+  'SOV:DOC': 'RBTC:SOV',
+  'SOV:USDT': 'RBTC:SOV',
+  'SOV:BPRO': 'RBTC:SOV',
+  'DOC:SOV': 'RBTC:SOV',
+  'USDT:SOV': 'RBTC:SOV',
+  'BPRO:SOV': 'RBTC:SOV',
+};
+
+function getSwapPair(pair: string) {
+  if (fixPair.hasOwnProperty(pair)) {
+    return fixPair[pair];
+  }
+  return pair;
+}
 
 export function TradingPage(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -35,9 +55,15 @@ export function TradingPage(props: Props) {
   const tradingPage = useSelector(selectTradingPage);
   const { t } = useTranslation();
 
-  const symbol = TradingPairDictionary.get(
-    tradingPage.tradingPair,
-  )?.getChartSymbol();
+  const symbol = useMemo(() => {
+    if (tradingPage.tab === TabType.TRADE) {
+      return TradingPairDictionary.get(
+        tradingPage.tradingPair,
+      )?.getChartSymbol();
+    } else {
+      return getSwapPair(tradingPage.swapPair);
+    }
+  }, [tradingPage.tab, tradingPage.tradingPair, tradingPage.swapPair]);
 
   return (
     <>
@@ -46,7 +72,6 @@ export function TradingPage(props: Props) {
         <meta name="description" content={t(s.meta.description)} />
       </Helmet>
       <Header />
-      <WhitelistedNotification />
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12">
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div

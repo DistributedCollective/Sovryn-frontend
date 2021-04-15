@@ -1,64 +1,18 @@
 import Web3 from 'web3';
 import { WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { Toaster } from '@blueprintjs/core/lib/esm/components/toast/toaster';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Portis from '@portis/web3';
 import { store } from 'store/store';
-import axios from 'axios';
-import {
-  currentChainId,
-  rpcNodes,
-  readNodes,
-  currentNetwork,
-  databaseRpcNodes,
-  backendUrl,
-} from '../classifiers';
-import { actions } from '../../app/containers/WalletProvider/slice';
-import { WalletProviderState } from '../../app/containers/WalletProvider/types';
-import Web3Modal, { IProviderOptions, ThemeColors } from 'web3modal';
+import { currentChainId, readNodes, databaseRpcNodes } from '../classifiers';
 import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
-
-const themeColors: ThemeColors = {
-  background: 'var(--primary)',
-  border: 'none',
-  main: 'var(--white)',
-  secondary: 'var(--white)',
-  hover: 'var(--secondary)',
-};
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
   private _store = store;
 
-  private _web3Modal: Web3Modal;
-  private _providerOptions: IProviderOptions = {
-    walletconnect: {
-      display: {
-        name: 'Mobile',
-        description: 'Scan qrcode with your mobile wallet',
-      },
-      package: WalletConnectProvider,
-      options: {
-        chainId: currentChainId,
-        rpc: rpcNodes,
-      },
-    },
-    portis: {
-      package: Portis, // required
-      options: {
-        dappId: process.env.REACT_APP_PORTIS_ID,
-        network: currentNetwork === 'mainnet' ? 'orchid' : 'orchidTestnet',
-        id: process.env.REACT_APP_PORTIS_ID,
-      },
-    },
-  };
-  private _provider = null;
   private _writeWeb3: Web3 = null as any;
   private _readWeb3: Web3 = null as any;
   private _databaseWeb3: Web3 = null as any;
-  private _toaster = Toaster.create({ maxToasts: 3 });
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};
@@ -67,13 +21,6 @@ export class SovrynNetwork {
   public databaseContractList: Contract[] = [];
 
   constructor() {
-    this._web3Modal = new Web3Modal({
-      disableInjectedProvider: false,
-      cacheProvider: true,
-      providerOptions: this._providerOptions,
-      theme: themeColors,
-    });
-
     this.initReadWeb3(currentChainId).then().catch();
   }
 
@@ -84,63 +31,8 @@ export class SovrynNetwork {
     return this._instance;
   }
 
-  /**
-   * @deprecated
-   */
-  public async connect() {
-    try {
-      this.connectProvider(await this._web3Modal.connect());
-      return true;
-    } catch (e) {
-      console.error('connect fails.');
-      console.error(e);
-      this.disconnect();
-      return false;
-    }
-  }
-
-  /**
-   * @deprecated
-   * @param provider
-   */
-  public async connectTo(provider: string) {
-    try {
-      this.connectProvider(await this._web3Modal.connectTo(provider));
-      return true;
-    } catch (e) {
-      console.error('connectTo fails.');
-      console.error(e);
-      this.disconnect();
-      return false;
-    }
-  }
-
-  /**
-   * @deprecated
-   */
-  public async disconnect() {
-    try {
-      if (
-        this._writeWeb3 &&
-        this._writeWeb3.currentProvider &&
-        (this._writeWeb3 as any).currentProvider.close
-      ) {
-        await (this._writeWeb3 as any).currentProvider.close();
-      }
-      await this._web3Modal.clearCachedProvider();
-      this.store().dispatch(actions.disconnected());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   public store() {
     return this._store;
-  }
-
-  public getState(): WalletProviderState {
-    return this._store.getState().walletProvider;
   }
 
   /**
@@ -310,108 +202,5 @@ export class SovrynNetwork {
       console.error('init database web3 fails.');
       console.error(e);
     }
-  }
-
-  /**
-   * @deprecated
-   * @param provider
-   */
-  protected subscribeProvider(provider) {
-    try {
-      if (provider.on) {
-        provider.on('close', () => {
-          this.disconnect();
-        });
-        provider.on('error', error => {
-          console.error('provider error', error);
-        });
-        provider.on('open', a => {
-          console.log('provider open?', a);
-        });
-        provider.on('accountsChanged', async (accounts: string[]) => {
-          this.store().dispatch(actions.accountChanged(accounts[0]));
-        });
-        provider.on('chainChanged', async (chain: string) => {
-          const chainId = parseInt(chain);
-          await this.testChain(chainId);
-          const networkId = await this._writeWeb3.eth.net.getId();
-          await this.initReadWeb3(chainId);
-          this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-        });
-        provider.on('networkChanged', async (networkId: number) => {
-          const chainId = await (this._writeWeb3.eth as any).chainId();
-          await this.testChain(chainId);
-          await this.initReadWeb3(chainId);
-          this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-        });
-      }
-    } catch (e) {
-      console.error('subscribe provider fails');
-      console.error(e);
-    }
-  }
-
-  /**
-   * @deprecated
-   * @param provider
-   */
-  protected async connectProvider(provider) {
-    try {
-      this.store().dispatch(actions.connect());
-
-      this.initWriteWeb3(provider);
-
-      const accounts = await this._writeWeb3.eth.getAccounts();
-
-      const address = accounts[0];
-      const networkId = await this._writeWeb3.eth.net.getId();
-      const chainId = await (this._writeWeb3.eth as any).chainId();
-
-      this._provider = provider;
-
-      await this.testChain(chainId);
-
-      await this.initReadWeb3(chainId);
-      this.store().dispatch(actions.chainChanged({ chainId, networkId }));
-      this.store().dispatch(actions.connected({ address }));
-      this.sendAddressToDatabase(address);
-    } catch (e) {
-      console.error('connect provider fails.');
-      console.error(e);
-      this.disconnect();
-    }
-  }
-  protected async sendAddressToDatabase(walletAddress) {
-    await axios
-      .post(backendUrl[currentChainId] + '/addVisit', {
-        walletAddress: walletAddress,
-      })
-      .then(() => {
-        console.log('request successful');
-      })
-      .catch(e => {
-        console.error('failed to send wallet address to database', e);
-      });
-  }
-
-  /**
-   * @deprecated
-   * @param chainId
-   */
-  protected async testChain(chainId: number) {
-    if (chainId !== currentChainId) {
-      this._toaster.show(
-        {
-          intent: 'danger',
-          message: `Please switch to RSK ${currentNetwork}.`,
-        },
-        'network',
-      );
-      await this.disconnect();
-      return Promise.reject('Unsupported network');
-    }
-
-    // localStorage.setItem('connectedToRskBefore', 'true');
-    return Promise.resolve();
   }
 }

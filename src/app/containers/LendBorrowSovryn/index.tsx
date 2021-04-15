@@ -16,7 +16,7 @@ import { TabType } from './types';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from '../RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
-import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
+// import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
 
 type Props = {};
 
@@ -30,7 +30,6 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   return (
     <>
       <Header />
-      <WhitelistedNotification />
       <main className="tw-container tw-mx-auto tw-px-4">
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div>

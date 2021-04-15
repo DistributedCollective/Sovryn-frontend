@@ -7,7 +7,10 @@
     "for": "for",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "fee": "Tx Fee: {{amount}} (r)BTC"
+    "fee": "Tx Fee: {{amount}} (r)BTC",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "failed": "Failed"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -65,8 +68,8 @@
       "depositUSDT": "Reward pool for depositing USDT: 25,000 SOV",
       "depositRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
       "sharePool": "Your share of the pool is calculated by:",
-      "liquidityAdded":"liquidity added by you * number of blocks held",
-      "totalAdded":"total liquidity added * number of blocks held"
+      "liquidityAdded": "liquidity added by you * number of blocks held",
+      "totalAdded": "total liquidity added * number of blocks held"
     },
     "liquidity": {
       "title": "LIQUIDITY MINING: USDT/BTC POOL",
@@ -172,7 +175,8 @@
     "connect_btn": "Engage wallet",
     "disconnect": "Disconnect",
     "my_wallet": "My Wallet",
-    "referrals": "Refer a friend"
+    "referrals": "Refer a friend",
+    "changeWallet": "Change Wallet"
   },
   "hintDialog": {
     "title": "Sovryn Tips"
@@ -183,16 +187,22 @@
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
     "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "optOut": "Opt-out from <0>Google Analytics</0>",
     "buildID": "Build ID"
   },
   "mainMenu": {
+    "buySov": "Buy SOV",
     "trade": "Trade",
-    "lend": "Loans",
-    "fastBtc": "Top-Up",
-    "wallet": "My wallet",
+    "swap": "Swap",
+    "marginTrade": "Margin Trading",
+    "finance": "Finance",
+    "lend": "Lend",
+    "borrow": "Borrow",
     "liquidity": "Market-making",
+    "staking": "Staking",
+    "governance": "Governance",
+    "wallet": "Portfolio",
     "stats": "Stats",
-    "faqs": "FAQs",
     "help": "Help"
   },
   "trandingPositionSelector": {
@@ -241,9 +251,10 @@
   },
   "statsPage": {
     "titles": {
+      "transactionVolume": "Transaction Volume",
       "tradingVolume": "Trading Volume",
-      "hourVolumne":"24 HOUR VOLUME",
-      "allVolumne":"ALL TIME VOLUME",
+      "hourVolumne": "24 HOUR VOLUME",
+      "allVolumne": "ALL TIME VOLUME",
       "btc": "BTC",
       "usd": "USD",
       "tvl": "Total Value Locked",
@@ -253,19 +264,20 @@
       "type": "Contract Type",
       "btc": "Value (BTC)",
       "usd": "Value (USD)",
-      "protocol":"Protocol Contract",
-      "lend":"Lending Contract",
-      "amm":"Amm Contract",
+      "protocol": "Protocol Contract",
+      "lend": "Lending Contract",
+      "amm": "Amm Contract",
       "total": "Total"
     },
     "ammpool": {
       "title": "AMM BALANCES",
       "pool": "Pool",
-      "stakedBalance":"Staked Balance",
-      "contractBalance":"Contract Balance",
-      "imBalance":"Imbalance"
-
+      "stakedBalance": "Staked Balance",
+      "contractBalance": "Contract Balance",
+      "imBalance": "Imbalance"
     },
+    "tradingVolume": "Trading Volume",
+    "lending": "Lending Stats",
     "asset": "Asset",
     "totalAssetSupplied": "Total Asset Supplied",
     "totalAssetBorrowed": "Total Asset Borrowed",
@@ -625,7 +637,7 @@
       "description": "Information about connected wallet"
     },
     "tabs": {
-      "userAssets": "My assets",
+      "userAssets": "Assets",
       "vestedAssets": "Vested Assets",
       "userNFTS": "NFTS"
     }
@@ -654,6 +666,17 @@
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
+    }
+  },
+  "swapHistory": {
+    "title": "Swap History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "from": "From",
+      "amountSent": "Amount Sent",
+      "to": "To",
+      "amountReceived": "Amount Received",
+      "status": "Status"
     }
   },
   "topUpHistory": {
@@ -868,5 +891,118 @@
     "amount": "Amount to Withdraw:",
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
+  },
+  "liquidityMining": {
+    "explainer": {
+      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
+      "startDate": "Start date: 1st April 2021, 12.00 UTC",
+      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
+      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "yourShare": "Your share of the pool is calculated by:",
+      "yourShare_N": "liquidity added by you * number of blocks held",
+      "yourShare_D": "total liquidity added * number of blocks held",
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
+    }
+  },
+  "buySovPage": {
+    "meta": {
+      "title": "SOV trading is now live!",
+      "description": "SOV trading is now live!"
+    },
+    "banner": {
+      "title": "SOV trading is now live!",
+      "cta": "Buy SOV"
+    },
+    "stats": {
+      "totalSupply": "Total Supply:",
+      "circulatingSupply": "Circulating Supply:",
+      "marketCap": "Market Cap:",
+      "lastPrice": "Last Traded Price:"
+    },
+    "engage": {
+      "title": "Engage Wallet",
+      "line1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
+      "line2": "Don’t have a wallet? Sovryn recommends <0>Liquality Wallet</0>",
+      "cta": "Engage Wallet"
+    },
+    "topUp": {
+      "title": "Top up RBTC",
+      "line1": "You will need RBTC in your wallet to buy SOV and pay gas fees on RSK Mainnet.",
+      "line2": "Learn about RBTC on RSK",
+      "cta": "Top Up Wallet"
+    },
+    "form": {
+      "title": "Buy SOV with RBTC",
+      "enterAmount": "Enter Amount",
+      "availableBalance": "Available Balance:",
+      "minimumReceived": "Minimum received:",
+      "cta": "Buy SOV"
+    },
+    "slippageDialog": {
+      "title": "Adjust Slippage",
+      "tolerance": "Slippage Tolerance:",
+      "minimumReceived": "Minimum Received"
+    },
+    "txDialog": {
+      "pendingUser": {
+        "title": "Confirm Transaction",
+        "text": "Please confirm the transaction in your {{walletName}} wallet"
+      },
+      "txStatus": {
+        "title": "Transaction Status",
+        "aborted": "Transaction was aborted by user.",
+        "cta": "View in Tracker"
+      }
+    },
+    "promotions": {
+      "title": "SOV Promotions",
+      "p1": {
+        "title": "April  50k SOV BTC/USDT Pool Loot Drop",
+        "text": "Become a revered and respected Sovryn Liquidity Provider by adding your crypto to the pool. The longer you keep funds in the pool the more SOV you will earn.",
+        "cta": "Sovryn goes brrrrrrrrrrrrrrr"
+      },
+      "p2": {
+        "title": "April  75k SOV BTC/SOV Pool Loot Drop",
+        "text": " The SOV/BTC liquidity pool is open, giving you the chance to take part in our biggest Liquidity Provision giveaway yet.",
+        "cta": "Here’s how you get in"
+      }
+    },
+    "features": {
+      "title": "Sovryn protocol features",
+      "learnMore": "Learn more",
+      "mining": {
+        "title": "Liquidity Mining",
+        "text": "Sovryn waves goodbye to centralised services that conventionally provide market-making. Fees generated by trading are distributed amongst liquidity providers as a reward, in exchange for facilitating trades and swaps.",
+        "cta": "Mine"
+      },
+      "marginTrading": {
+        "title": "Margin Trading",
+        "text": "Margin trading allows you to use assets in your wallet as collateral for your margin, to borrow more assets or to increase your initial position.",
+        "cta": "Trade"
+      },
+      "swap": {
+        "title": "Swap",
+        "text": "Swap Frictionlessly between listed tokens. The Sovryn Decentralized AMM ensures no one can take advantage of you creating a trade",
+        "cta": "Swap"
+      },
+      "liquidity": {
+        "title": "Market Making",
+        "text": "Sovryn’s layer 2 solution operating on the Rootstock (RSK) Bitcoin side-chain facilitates the frictionless usage of financial primitives for multiple assets across multiple chains to further Satoshi’s vision of monetary sovereignty beyond simple peer to peer transactions",
+        "cta": "Market Maker"
+      },
+      "lending": {
+        "title": "Lending",
+        "text": "Earn a passive income by lending your assets directly to borrowers or to margin traders and decrease your exposure to wider market performances and fluctuations. Sovryn’s non-custodial solution keeps you in control of your funds, and you are free to withdraw your assets at any time.",
+        "cta": "Trade"
+      },
+      "stake": {
+        "title": "Stake & Vote",
+        "text": "The Sovryn protocol has hard-coded incentives for long-term growth. Token holders who stake their SOV receive a pro-rata share of the revenue that the platform generates from various transaction fees when they participate in the governance of the protocol by voting.",
+        "cta": "Stake"
+      }
+    },
+    "title": "Buy SOV exclusively on Sovryn!",
+    "earn": "Earning with Sovryn"
   }
 }
