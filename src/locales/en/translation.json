@@ -70,7 +70,8 @@
       "depositSOV": "Reward pool for depositing SOV/RBTC: 75,000 SOV (15k /week plus extra 15k for 1st week)",
       "sharePool": "Your share of the pool is calculated by:",
       "liquidityAdded": "liquidity added by you * number of blocks held",
-      "totalAdded": "total liquidity added * number of blocks held"
+      "totalAdded": "total liquidity added * number of blocks held",
+      "comingSoon": "Coming Soon"
     },
     "liquidity": {
       "title": "LIQUIDITY MINING: USDT/BTC POOL",
@@ -868,7 +869,8 @@
       "yourShare": "Your share of the pool is calculated by:",
       "yourShare_N": "liquidity added by you * number of blocks held",
       "yourShare_D": "total liquidity added * number of blocks held",
-      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
+      "comingSoon": "Coming Soon"
     }
   },
   "buySovPage": {

@@ -41,7 +41,8 @@ export function SOVPoolData(props: Props) {
       </Div>
       <div className="row my-3">
         <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}: Coming Soon
+          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
+          {t(translations.marketingPage.explain.comingSoon)}
         </div>
       </div>
 
