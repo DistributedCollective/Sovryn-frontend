@@ -36,8 +36,7 @@ export function useCanInteract(ignoreWhitelist: boolean = false) {
     if (!connected) return false;
     if (!web3Wallets.includes(wallet.providerType)) return true;
     return wallet.chainId === currentChainId;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, JSON.stringify(wallet)]);
+  }, [connected, wallet.providerType, wallet.chainId]);
 
   if (ignoreWhitelist) {
     return connected && testTxCount && testChain;

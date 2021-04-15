@@ -28,7 +28,7 @@ export function Arbitrage() {
   }, [api]);
 
   useEffect(() => {
-    // Only show component if you can earn > 0.001 BTC or > 1 USDT. 'BTC' and 'USDT' need to match token names on backend
+    // Only show component if you can earn > 0.001 BTC or > 1 USDT
     if (
       (data.USDT.rateToBalance.earn > 0.001 &&
         symbolByTokenAddress(data.USDT.rateToBalance.to) === 'RBTC') ||

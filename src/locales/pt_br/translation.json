@@ -660,7 +660,7 @@
   "swapHistory": {
     "title": "Histórico de trocas",
     "tableHeaders": {
-      "time": "Data/Hora",
+      "time": "Data e hora",
       "from": "De",
       "amountSent": "Quantidade enviada",
       "to": "Para",
