@@ -35,6 +35,7 @@ import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
 import './index.scss';
+import { usePageViews } from 'app/hooks/usePageViews';
 
 export function Header() {
   const { t } = useTranslation();
@@ -44,6 +45,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
 
+  usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
   useInjectSaga({ key: lendBorrowSlice, saga: lendBorrowSovrynSaga });
   useInjectReducer({ key: tradeSwapSlice, reducer: tradeSwapReducer });
