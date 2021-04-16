@@ -58,3 +58,26 @@ export function AssetWalletBalance(props: Props) {
     </div>
   );
 }
+
+export function AssetWalletBalanceInline(props: Props) {
+  const { value, loading } = useAssetBalanceOf(props.asset);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (props.onBalance) {
+      props.onBalance(value);
+    }
+  }, [props, value]);
+
+  return (
+    <div>
+      {t(translations.buySovPage.form.availableBalance)}{' '}
+      <LoadableValue
+        value={weiToFixed(value, 4)}
+        loading={loading}
+        tooltip={<>{weiTo18(value)}</>}
+      />{' '}
+      {props.asset}
+    </div>
+  );
+}
