@@ -1,43 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
+import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import axios from 'axios';
 
 import { translations } from 'locales/i18n';
-import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 import { EventTable } from './EventTable';
 
 export interface Props {
-  data: {
-    asset: string;
-    percentage: number | undefined;
-    pool: string;
-    txList: Array<any>;
-    weightedAmount: number;
-    weightedTotal: number | undefined;
-  };
   isConnected: boolean;
+  txList: Array<any>;
+  user: string;
 }
 
-export function PoolData(props: Props) {
-  const sovReward = 25000;
-  const yourSOV =
-    props.data.percentage && (sovReward / 100) * props.data.percentage;
+export function SOVPoolData(props: Props) {
   const { t } = useTranslation();
+  const api = backendUrl[currentChainId];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(api + 'amm/liquidity-mining/sov/' + props.user)
+      .then(res => {
+        setData(res.data);
+      })
+      .catch(e => console.error(e));
+  }, [api, props.user]);
 
   return (
-    <div className="col-12 col-md-6">
-      <div className="row">
-        <h2 className="w-100 text-center">
-          <span className="text-secondary">
-            {t(translations.marketingPage.liquidity.asset)}:
-          </span>
-          <span>{symbolByTokenAddress(props.data.asset)}</span>
-        </h2>
-      </div>
+    <div className="col-12">
       <Div className="mt-3">
         <Label className="text-center">
-          {t(translations.marketingPage.liquidity.sov)}
+          75K SOV
           <br />
           {t(translations.marketingPage.liquidity.reward)}
           <br />
@@ -47,11 +42,7 @@ export function PoolData(props: Props) {
       <div className="row my-3">
         <div className="w-100 text-center font-family-montserrat">
           {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {props.data.percentage?.toFixed(2)}%
-        </div>
-        <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {yourSOV?.toFixed(2)} SOV
+          {t(translations.marketingPage.explain.comingSoon)}
         </div>
       </div>
 
@@ -60,12 +51,12 @@ export function PoolData(props: Props) {
           <h3 className="w-100 text-center mt-5 mb-3">
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
-          {props.data.txList.length > 0 ? (
-            <EventTable data={props.data.txList} />
+          {data && data.length > 0 ? (
+            <EventTable data={data || []} sov={true} />
           ) : (
             <div className="w-100 text-center mt-5">
               {t(translations.marketingPage.liquidity.noAsset, {
-                asset: symbolByTokenAddress(props.data.asset),
+                asset: 'SOV/BTC',
               })}
             </div>
           )}
