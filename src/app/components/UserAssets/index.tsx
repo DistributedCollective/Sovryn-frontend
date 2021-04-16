@@ -33,7 +33,13 @@ export function UserAssets() {
   usePriceFeeds_tradingPairRates();
   const connected = useIsConnected();
   const account = useAccount();
-  const assets = AssetsDictionary.list();
+  const assets = useMemo(
+    () =>
+      AssetsDictionary.list().filter(
+        item => ![Asset.CSOV].includes(item.asset),
+      ),
+    [],
+  );
 
   const [fastBtc, setFastBtc] = useState(false);
 
@@ -146,68 +152,62 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   }, [dollars.value, tokens, item.asset, item.decimals]);
 
   return (
-    <>
-      {item.asset !== Asset.CSOV && (
-        <tr key={item.asset}>
-          <td>
-            <img
-              className="d-inline mr-2"
-              style={{ height: '40px' }}
-              src={item.logoSvg}
-              alt={item.asset}
-            />{' '}
-            {item.symbol}
-          </td>
-          <td className="text-right">
-            <LoadableValue
-              value={weiToNumberFormat(tokens, 4)}
-              loading={loading}
+    <tr key={item.asset}>
+      <td>
+        <img
+          className="d-inline mr-2"
+          style={{ height: '40px' }}
+          src={item.logoSvg}
+          alt={item.asset}
+        />{' '}
+        {item.symbol}
+      </td>
+      <td className="text-right">
+        <LoadableValue
+          value={weiToNumberFormat(tokens, 4)}
+          loading={loading}
+        />
+      </td>
+      <td className="text-right d-none d-md-table-cell">
+        <LoadableValue
+          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          loading={dollars.loading}
+        />
+      </td>
+      <td className="text-right d-none d-md-table-cell">
+        <ButtonGroup>
+          {item.asset === Asset.RBTC && (
+            <Button
+              minimal
+              text={t(translations.userAssets.actions.deposit)}
+              className="text-gold button-round"
+              onClick={() => onFastBtc()}
             />
-          </td>
-          <td className="text-right d-none d-md-table-cell">
-            <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-              loading={dollars.loading}
+          )}
+          {item.asset !== Asset.SOV && (
+            <Button
+              minimal
+              text={t(translations.userAssets.actions.trade)}
+              className="text-gold button-round"
+              onClick={() =>
+                history.push('/trade', {
+                  params: { asset: item.asset, action: 'trade' },
+                })
+              }
             />
-          </td>
-          <td className="text-right d-none d-md-table-cell">
-            <ButtonGroup>
-              {item.asset === Asset.RBTC && (
-                <Button
-                  minimal
-                  text={t(translations.userAssets.actions.deposit)}
-                  className="text-gold button-round"
-                  onClick={() => onFastBtc()}
-                />
-              )}
-              <>
-                {item.asset !== Asset.SOV && (
-                  <Button
-                    minimal
-                    text={t(translations.userAssets.actions.trade)}
-                    className="text-gold button-round"
-                    onClick={() =>
-                      history.push('/trade', {
-                        params: { asset: item.asset, action: 'trade' },
-                      })
-                    }
-                  />
-                )}
-                <Button
-                  minimal
-                  text={t(translations.userAssets.actions.swap)}
-                  className="text-gold button-round"
-                  onClick={() =>
-                    history.push('/trade', {
-                      params: { asset: item.asset, action: 'swap' },
-                    })
-                  }
-                />
-              </>
-            </ButtonGroup>
-          </td>
-        </tr>
-      )}
-    </>
+          )}
+          <Button
+            minimal
+            text={t(translations.userAssets.actions.swap)}
+            className="text-gold button-round"
+            onClick={() =>
+              history.push('/trade', {
+                params: { asset: item.asset, action: 'swap' },
+              })
+            }
+          />
+        </ButtonGroup>
+      </td>
+    </tr>
   );
 }

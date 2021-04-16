@@ -36,19 +36,19 @@ export function TradingVolume() {
         })
       } ${t(translations.statsPage.titles.usd)}`,
     },
-    {
-      title: t(translations.statsPage.titles.allVolumne),
-      col1: `${data && data.total.btc.allTime.toFixed(4)} ${t(
-        translations.statsPage.titles.btc,
-      )}`,
-      col2: `${
-        data &&
-        data.total.usd.allTime.toLocaleString('en', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      } ${t(translations.statsPage.titles.usd)}`,
-    },
+    // {
+    //   title: t(translations.statsPage.titles.allVolumne),
+    //   col1: `${data && data.total.btc.allTime.toFixed(4)} ${t(
+    //     translations.statsPage.titles.btc,
+    //   )}`,
+    //   col2: `${
+    //     data &&
+    //     data.total.usd.allTime.toLocaleString('en', {
+    //       minimumFractionDigits: 2,
+    //       maximumFractionDigits: 2,
+    //     })
+    //   } ${t(translations.statsPage.titles.usd)}`,
+    // },
   ];
 
   const rows = rowData.map((row, key) => (
