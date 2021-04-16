@@ -1,9 +1,10 @@
-import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { useWalletContext, walletService } from '@sovryn/react-wallet';
+import { ProviderType, web3Wallets } from '@sovryn/wallet';
 import React, { useEffect, useState } from 'react';
 
 import { currentChainId, currentNetwork } from '../../../utils/classifiers';
 import { Dialog } from '../../containers/Dialog/Loadable';
+
 import './_networkRibbon.scss';
 
 export function NetworkRibbon() {
@@ -13,7 +14,8 @@ export function NetworkRibbon() {
     web3Wallets.includes(wallet.providerType) &&
     wallet.chainId !== currentChainId;
   const [isConnect, setShow] = useState(getStatus());
-  console.log('current', currentNetwork);
+  console.log('current', wallet);
+  console.log('provider', walletService.providerType === ProviderType.WEB3);
   useEffect(() => {
     setShow(getStatus());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,7 +33,7 @@ export function NetworkRibbon() {
         canEscapeKeyClose={true}
         className="fw-900"
       >
-        <div className="py-3 font-family-montserrat">
+        <div className="py-1 font-family-montserrat">
           <div className="container text-center title">
             Change to RSK Network{' '}
           </div>
