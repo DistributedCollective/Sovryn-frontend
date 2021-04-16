@@ -163,10 +163,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
         {item.symbol}
       </td>
       <td className="text-right">
-        <LoadableValue
-          value={weiToNumberFormat(tokens, 4)}
-          loading={loading}
-        />
+        <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
       <td className="text-right d-none d-md-table-cell">
         <LoadableValue
