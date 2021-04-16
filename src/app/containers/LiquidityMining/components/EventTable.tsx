@@ -2,19 +2,12 @@ import React from 'react';
 
 export interface Props {
   data: Array<any>;
+  totalAdded: string;
+  totalRemoved: string;
+  totalRemaining: string;
 }
 
 export function EventTable(props: Props) {
-  const totalAdded = props.data
-    ?.filter(item => item.type === 'Added')
-    .map(item => parseFloat(item.reserve_amount))
-    .reduce((item, sum) => sum + item, 0);
-
-  const totalRemoved = props.data
-    ?.filter(item => item.type === 'Removed')
-    .map(item => parseFloat(item.reserve_amount))
-    .reduce((item, sum) => sum + item, 0);
-
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
@@ -28,24 +21,22 @@ export function EventTable(props: Props) {
   const totalData = [
     {
       title: 'Total Added',
-      value: totalAdded,
+      value: props.totalAdded,
     },
     {
       title: 'Total Removed',
-      value: totalRemoved,
+      value: props.totalRemoved,
     },
     {
       title: 'Total Remaining',
-      value: (totalAdded - totalRemoved) | 0,
+      value: props.totalRemaining,
     },
   ];
 
   const totalRows = totalData.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle font-weight-bold">{item.title}</td>
-      <td className="align-middle font-weight-bold">
-        {item.value?.toFixed(4)}
-      </td>
+      <td className="align-middle font-weight-bold">{item.value}</td>
       <td className="align-middle font-weight-bold d-none d-md-table-cell"></td>
     </tr>
   ));

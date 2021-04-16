@@ -10,34 +10,42 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
+import { BigNumber, bignumber } from 'mathjs';
+
+type UserData = {
+  asset: string;
+  pool: string;
+  txList: Array<any>;
+  totalAdded: string;
+  totalRemoved: string;
+  totalRemaining: string;
+  percentage: string;
+  sovReward: string;
+};
 
 export function LiquidityMining() {
   const { t } = useTranslation();
   // Get total weighted liquidity and user liquidity
-  const [totals, setTotals] = useState([
-    {
-      asset: getContract('USDT_token').address,
-      pool: getContract('USDT_amm').address,
-      weightedAmount: 100,
-    },
-    {
-      asset: getContract('RBTC_token').address,
-      pool: getContract('USDT_amm').address,
-      weightedAmount: 100,
-    },
-  ]);
-  const [userData, setUserData] = useState([
+  const [userData, setUserData] = useState<Array<UserData>>([
     {
       asset: getContract('USDT_token').address,
       pool: getContract('USDT_amm').address,
       txList: [],
-      weightedAmount: 0,
+      totalAdded: '',
+      totalRemoved: '',
+      totalRemaining: '',
+      percentage: '',
+      sovReward: '',
     },
     {
       asset: getContract('RBTC_token').address,
       pool: getContract('USDT_amm').address,
       txList: [],
-      weightedAmount: 0,
+      totalAdded: '',
+      totalRemoved: '',
+      totalRemaining: '',
+      percentage: '',
+      sovReward: '',
     },
   ]);
   const url = backendUrl[currentChainId];
@@ -45,48 +53,26 @@ export function LiquidityMining() {
   const isConnected = useIsConnected();
 
   useEffect(() => {
-    axios
-      .get(url + '/amm/liquidity-mining')
-      .then(res => setTotals(res.data))
-      .catch(e => console.error(e));
-  }, [url]);
-
-  useEffect(() => {
     if (isConnected) {
       axios
         .get(url + '/amm/liquidity-mining/' + userAddress)
-        .then(res => setUserData(res.data))
+        .then(res => {
+          setUserData(res.data);
+        })
         .catch(e => console.error(e));
     }
   }, [url, userAddress, isConnected]);
 
-  const combinedData = userData.map(i => {
-    const weightedTotal = totals.find(
-      j => j.asset === i.asset && j.pool === i.pool,
-    );
-    const percentage = () => {
-      if (weightedTotal) {
-        return (i.weightedAmount / weightedTotal.weightedAmount) * 100;
-      }
-    };
-    const output = {
-      ...i,
-      weightedTotal: weightedTotal?.weightedAmount,
-      percentage: percentage(),
-    };
-    return output;
-  });
+  const BTCData = userData.filter(
+    item =>
+      getContractNameByAddress(item.pool)?.includes('USDT') &&
+      symbolByTokenAddress(item.asset).includes('RBTC'),
+  );
 
-  const USDTData = combinedData.find(
+  const USDTData = userData.filter(
     item =>
       getContractNameByAddress(item.pool)?.includes('USDT') &&
       symbolByTokenAddress(item.asset).includes('USDT'),
-  );
-
-  const BTCData = combinedData.find(
-    item =>
-      getContractNameByAddress(item.pool)?.includes('USDT') &&
-      symbolByTokenAddress(item.asset).includes('BTC'),
   );
 
   return (
@@ -96,32 +82,8 @@ export function LiquidityMining() {
       </h1>
       <div className="d-flex flex-wrap mb-5"></div>
       <div className="d-flex flex-wrap justify-content-around">
-        <PoolData
-          data={
-            USDTData || {
-              asset: getContract('USDT_token').address,
-              pool: getContract('USDT_amm').address,
-              percentage: 0,
-              txList: [],
-              weightedAmount: 0,
-              weightedTotal: 0,
-            }
-          }
-          isConnected={isConnected}
-        />
-        <PoolData
-          data={
-            BTCData || {
-              asset: getContract('RBTC_token').address,
-              pool: getContract('USDT_amm').address,
-              percentage: 0,
-              txList: [],
-              weightedAmount: 0,
-              weightedTotal: 0,
-            }
-          }
-          isConnected={isConnected}
-        />
+        <PoolData data={BTCData[0]} isConnected={isConnected} />
+        <PoolData data={USDTData[0]} isConnected={isConnected} />
       </div>
       {!isConnected && (
         <div className="w-100 my-5 text-center font-family-montserrat font-weight-bold">
