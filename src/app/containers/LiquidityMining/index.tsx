@@ -10,7 +10,6 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
-import { BigNumber, bignumber } from 'mathjs';
 
 type UserData = {
   asset: string;
