@@ -26,7 +26,6 @@ import {
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
-import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
 
 export function UserAssets() {
@@ -147,65 +146,68 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   }, [dollars.value, tokens, item.asset, item.decimals]);
 
   return (
-    <tr key={item.asset}>
-      <td>
-        <img
-          className="d-inline mr-2"
-          style={{ height: '40px' }}
-          src={item.logoSvg}
-          alt={item.asset}
-        />{' '}
-        {item.symbol}
-      </td>
-      <td className="text-right">
-        <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
-      </td>
-      <td className="text-right d-none d-md-table-cell">
-        <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-          loading={dollars.loading}
-        />
-      </td>
-      <td className="text-right d-none d-md-table-cell">
-        <ButtonGroup>
-          {item.asset === Asset.RBTC && (
-            <Button
-              minimal
-              text={t(translations.userAssets.actions.deposit)}
-              className="text-gold button-round"
-              onClick={() => onFastBtc()}
+    <>
+      {item.asset !== Asset.CSOV && (
+        <tr key={item.asset}>
+          <td>
+            <img
+              className="d-inline mr-2"
+              style={{ height: '40px' }}
+              src={item.logoSvg}
+              alt={item.asset}
+            />{' '}
+            {item.symbol}
+          </td>
+          <td className="text-right">
+            <LoadableValue
+              value={weiToNumberFormat(tokens, 4)}
+              loading={loading}
             />
-          )}
-          {item.asset !== Asset.CSOV ? (
-            <>
-              {item.asset !== Asset.SOV && (
+          </td>
+          <td className="text-right d-none d-md-table-cell">
+            <LoadableValue
+              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              loading={dollars.loading}
+            />
+          </td>
+          <td className="text-right d-none d-md-table-cell">
+            <ButtonGroup>
+              {item.asset === Asset.RBTC && (
                 <Button
                   minimal
-                  text={t(translations.userAssets.actions.trade)}
+                  text={t(translations.userAssets.actions.deposit)}
+                  className="text-gold button-round"
+                  onClick={() => onFastBtc()}
+                />
+              )}
+              <>
+                {item.asset !== Asset.SOV && (
+                  <Button
+                    minimal
+                    text={t(translations.userAssets.actions.trade)}
+                    className="text-gold button-round"
+                    onClick={() =>
+                      history.push('/trade', {
+                        params: { asset: item.asset, action: 'trade' },
+                      })
+                    }
+                  />
+                )}
+                <Button
+                  minimal
+                  text={t(translations.userAssets.actions.swap)}
                   className="text-gold button-round"
                   onClick={() =>
                     history.push('/trade', {
-                      params: { asset: item.asset, action: 'trade' },
+                      params: { asset: item.asset, action: 'swap' },
                     })
                   }
                 />
-              )}
-              <Button
-                minimal
-                text={t(translations.userAssets.actions.swap)}
-                className="text-gold button-round"
-                onClick={() =>
-                  history.push('/trade', {
-                    params: { asset: item.asset, action: 'swap' },
-                  })
-                }
-              />
-            </>
-          ) : (
-            <CSovActions amount={tokens} />
-          )}
-        </ButtonGroup>
-      </td>
-    </tr>
+              </>
+            </ButtonGroup>
+          </td>
+        </tr>
+      )}
+    </>
   );
 }
