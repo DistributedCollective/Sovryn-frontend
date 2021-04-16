@@ -3,7 +3,7 @@
  * TradingChart
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Chart from 'utils/kaktana-react-lightweight-charts/Chart';
 import { Skeleton } from '../PageSkeleton';
@@ -36,8 +36,16 @@ interface ChartData {
   linearInterpolation?: number;
 }
 
+function toSats(amount: number, symbol: string) {
+  if (symbol === 'RBTC:SOV') {
+    return Number(amount) * 1e8;
+  }
+  return amount;
+}
+
 export function TradingChart(props: ChartContainerProps) {
-  const threeMonths = 7257600000; //3 months in ms
+  // const threeMonths = 7257600000; //3 months in ms
+  const threeMonths = 604800000; //7 days to ms
   const initData: ChartData[] = [{ data: [], legend: '' }];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
@@ -46,20 +54,35 @@ export function TradingChart(props: ChartContainerProps) {
   );
 
   const resetChart = () => {
-    setHasCharts(false);
+    // setHasCharts(false);
     setChartData(initData.slice());
     setLastTime(new Date().getTime() - threeMonths);
   };
 
-  const seriesProps = {
-    candlestickSeries: props.type === ChartType.CANDLE ? chartData : undefined,
-    lineSeries: props.type === ChartType.LINE ? chartData : undefined,
-  };
+  const seriesProps = useMemo(() => {
+    const data = chartData[0].data.map(({ open, close, high, low, time }) => ({
+      open: toSats(open, props.symbol) || 0,
+      close: toSats(close, props.symbol) || 0,
+      high: toSats(high, props.symbol) || 0,
+      low: toSats(low, props.symbol) || 0,
+      time: time || 0,
+    }));
+
+    return {
+      candlestickSeries:
+        props.type === ChartType.CANDLE ? [{ data, legend: '' }] : undefined,
+      lineSeries:
+        props.type === ChartType.LINE ? [{ data, legend: '' }] : undefined,
+    };
+  }, [chartData, props.symbol, props.type]);
 
   useEffect(() => {
+    let cancelTokenSource;
     function getData() {
+      cancelTokenSource = axios.CancelToken.source();
       axios
         .get(`${backendUrl[currentChainId]}/datafeed/price/${props.symbol}`, {
+          cancelToken: cancelTokenSource.token,
           params: {
             type: props.type,
             startTime: lastTime,
@@ -119,6 +142,9 @@ export function TradingChart(props: ChartContainerProps) {
     }, props.rate * 1e3);
     return () => {
       clearInterval(interval);
+      if (cancelTokenSource) {
+        cancelTokenSource.cancel();
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
@@ -151,7 +177,7 @@ export function TradingChart(props: ChartContainerProps) {
               locale: 'en-US',
             },
           }}
-          legend={props.symbol}
+          legend={props.symbol === 'RBTC:SOV' ? 'SOV:RBTC' : props.symbol}
           darkTheme={props.theme === Theme.DARK}
           autoWidth
           autoHeight

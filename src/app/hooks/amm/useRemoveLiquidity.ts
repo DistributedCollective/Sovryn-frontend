@@ -6,6 +6,7 @@ import {
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
 
 export function useRemoveLiquidity(
   pool: Asset,
@@ -32,6 +33,7 @@ export function useRemoveLiquidity(
         ],
         {
           from: account,
+          gas: gasLimit[TxType.REMOVE_LIQUIDITY],
         },
         {
           approveTransactionHash: approveTx,

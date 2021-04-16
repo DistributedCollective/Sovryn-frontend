@@ -9,6 +9,7 @@ import { ContainerState, TabType } from './types';
 // The initial state of the TradingPage container
 export const initialState: ContainerState = {
   tradingPair: TradingPairDictionary.pairTypeList()[0], // Set first pair as default selection.
+  swapPair: 'RBTC:DOC',
   isMobileStatsOpen: false,
   tab: TabType.TRADE,
 };
@@ -25,6 +26,9 @@ const tradingPageSlice = createSlice({
     },
     changeTab(state, { payload }: PayloadAction<TabType>) {
       state.tab = payload;
+    },
+    changeSwapPair(state, { payload }: PayloadAction<string>) {
+      state.swapPair = payload;
     },
   },
 });

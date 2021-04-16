@@ -3,6 +3,8 @@ import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
 import { Asset } from '../types/asset';
+import { ProviderType } from '@sovryn/wallet';
+import { walletService } from '@sovryn/react-wallet';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -106,11 +108,14 @@ export const toChunks = (from: number, to: number, size: number) => {
   return array;
 };
 
-export const maxMinusFee = (amount: any, asset: Asset = Asset.RBTC) => {
+export const maxMinusFee = (
+  amount: any,
+  asset: Asset = Asset.RBTC,
+  limit: number = 2000000,
+) => {
   if (asset !== Asset.RBTC) return amount;
   const gasPrice = gas.get();
-  const gasLimit = 2000000;
-  const fee = bignumber(gasPrice).mul(gasLimit);
+  const fee = bignumber(gasPrice).mul(limit);
   const balance = bignumber(amount).sub(fee);
   if (balance.lessThanOrEqualTo(0)) {
     return '0';
@@ -133,6 +138,29 @@ export const isMobile = () => {
     navigator.userAgent,
   );
 };
+
+export function detectWeb3Wallet() {
+  switch (walletService.providerType) {
+    default:
+    case ProviderType.WEB3:
+      const { ethereum } = window as any;
+      if (ethereum) {
+        if (ethereum.isLiquality) return 'liquality';
+        if (ethereum.isNiftyWallet) return 'nifty';
+        if (ethereum.isMetaMask) return 'metamask';
+        return 'unknown';
+      }
+      return 'none';
+    case ProviderType.PORTIS:
+      return 'portis';
+    case ProviderType.LEDGER:
+      return 'ledger';
+    case ProviderType.TREZOR:
+      return 'trezor';
+    case ProviderType.WALLET_CONNECT:
+      return 'wallet-connect';
+  }
+}
 
 export function makeId(length: number = 8): string {
   let result = '';

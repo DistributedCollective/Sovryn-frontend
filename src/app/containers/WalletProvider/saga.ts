@@ -12,10 +12,12 @@ import { TransactionReceipt } from 'web3-core';
 import { Sovryn } from 'utils/sovryn';
 import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
-import { selectTransactionStack } from '../../../store/global/transactions-store/selectors';
+import { selectTransactionArray } from '../../../store/global/transactions-store/selectors';
 import { actions as txActions } from '../../../store/global/transactions-store/slice';
 import { TxStatus } from '../../../store/global/transactions-store/types';
 import { whitelist } from '../../../utils/whitelist';
+import delay from '@redux-saga/delay-p';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -89,8 +91,6 @@ function* processBlockHeader(event) {
 
 function* processBlock({ block, address }) {
   try {
-    const transactionStack = yield select(selectTransactionStack);
-    const localTransactions = transactionStack.map(e => e.toLowerCase());
     const user = address.toLowerCase();
 
     if (!block) {
@@ -105,23 +105,6 @@ function* processBlock({ block, address }) {
       for (let i = 0; i < txs.length; i++) {
         const from = (txs[i].from || '').toLowerCase();
         const to = (txs[i].to || '').toLowerCase();
-        const hash: string = (txs[i].hash || '').toLowerCase();
-
-        if (localTransactions.includes(hash) || from === user || to === user) {
-          const receipt: TransactionReceipt = yield call(
-            [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
-            hash,
-          );
-          if (receipt?.status) {
-            hasChanges = true;
-          }
-          yield put(
-            txActions.updateTransactionStatus({
-              transactionHash: hash,
-              status: receipt.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
-            }),
-          );
-        }
 
         const hasContract = Sovryn.contractList.find(contract => {
           const contractAddress = contract.options.address.toLowerCase();
@@ -174,6 +157,42 @@ function* whitelistCheckSaga() {
   }
 }
 
+function* callTestTransactionsState() {
+  let hasChanges = false;
+  const transactions = yield select(selectTransactionArray);
+  const txes = transactions.filter(item => item.status === TxStatus.PENDING);
+  for (let tx of txes) {
+    const receipt: TransactionReceipt = yield call(
+      [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+      tx.transactionHash,
+    );
+    if (receipt === null) {
+      continue;
+    }
+    if (receipt?.status) {
+      hasChanges = true;
+    }
+    yield put(
+      txActions.updateTransactionStatus({
+        transactionHash: tx.transactionHash,
+        status: receipt?.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
+      }),
+    );
+  }
+
+  if (hasChanges) {
+    const block = yield call([contractReader, contractReader.blockNumber]);
+    yield put(actions.reSync(block.number));
+  }
+}
+
+function* testTransactionsPeriodically() {
+  while (true) {
+    yield call(callTestTransactionsState);
+    yield delay(5000); //fetch every 5 seconds
+  }
+}
+
 export function* walletProviderSaga() {
   yield takeLatest(actions.chainChanged.type, callCreateBlockChannels);
   yield takeLatest(actions.connected.type, walletConnected);
@@ -181,4 +200,5 @@ export function* walletProviderSaga() {
   yield takeEvery(actions.blockReceived.type, processBlockHeader);
   yield takeEvery(actions.accountChanged.type, accountChangedSaga);
   yield takeEvery(actions.whitelistCheck.type, whitelistCheckSaga);
+  yield takeEvery(actions.testTransactions.type, testTransactionsPeriodically);
 }

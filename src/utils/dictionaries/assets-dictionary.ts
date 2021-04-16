@@ -15,6 +15,7 @@ export class AssetsDictionary {
         Asset.RBTC,
         new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon),
       ],
+      [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
       [
         Asset.DOC,
         new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),

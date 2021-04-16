@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { translations } from 'locales/i18n';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
@@ -53,7 +53,7 @@ export function PoolData(props: Props) {
         </div>
         <div className="tw-w-full tw-text-center">
           {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {yourSOV?.toFixed(2)}
+          {yourSOV?.toFixed(2)} SOV
         </div>
       </div>
 
@@ -87,5 +87,10 @@ const Div = styled.div`
 `;
 
 const Label = styled.h3`
-  margin-top: 15px;
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 `;

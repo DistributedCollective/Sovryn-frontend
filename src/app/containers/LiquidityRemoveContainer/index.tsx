@@ -109,6 +109,8 @@ export function LiquidityRemoveContainer(props: Props) {
     sourceToken,
   );
 
+  usePoolToken(pool, sourceToken);
+
   return (
     <>
       <div className="tw-grid tw--mx-4 tw-grid-cols-12">

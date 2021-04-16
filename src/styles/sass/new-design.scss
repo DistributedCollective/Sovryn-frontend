@@ -91,6 +91,9 @@
   font-size: 16px;
   padding: 0 22px;
   height: 45px;
+  @media (max-width: 441px) {
+    padding: 0 15px;
+  }
 }
 
 .sovryn-table {
@@ -98,10 +101,11 @@
   font-weight: 100;
   width: 100%;
   font-size: 14px;
+  letter-spacing: 0;
 
   &.sovryn-table-mobile {
     font-size: 12px;
-    @media (max-width: 335px) {
+    @media (max-width: 441px) {
       font-size: 11px;
     }
   }
@@ -145,6 +149,9 @@
     td {
       padding: 0 30px;
       color: var(--light-gray);
+      @media (max-width: 441px) {
+        padding: 0 15px;
+      }
     }
 
     &:first-of-type {
@@ -757,4 +764,48 @@ header {
   &:hover {
     background: #656565 !important;
   }
+}
+
+
+  /* Slider */
+.tw-slider {
+  width: 100%;
+}
+
+.tw-slider .bp3-slider-track {
+  border-radius: 5px;
+  height: 10px;
+}
+
+.tw-slider .bp3-slider-progress {
+  height: 10px;
+  background-color: #707070;
+}
+
+.tw-slider .bp3-slider-progress.bp3-intent-primary {
+  background-color: #2274A5;
+}
+
+.tw-slider .bp3-slider-handle {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+}
+
+.tw-slider .bp3-slider-axis {
+  width: calc(100% - 0.75rem);
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tw-slider .bp3-slider-label {
+  top: 10px;
+  color: #FFFFFF;
+  font-weight: 900;
+  background-color: transparent;
+}
+
+.tw-slider .bp3-slider-handle .bp3-slider-label {
+  display: none;
 }

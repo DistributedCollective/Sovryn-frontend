@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { PoolData } from './components/PoolData';
+import { SOVPoolData } from './components/SOVPoolData';
 import {
   getContractNameByAddress,
   getContract,
@@ -85,7 +86,7 @@ export function LiquidityMining() {
 
   const BTCData = combinedData.find(
     item =>
-      getContractNameByAddress(item.pool)?.includes('BTC') &&
+      getContractNameByAddress(item.pool)?.includes('USDT') &&
       symbolByTokenAddress(item.asset).includes('BTC'),
   );
 
@@ -128,6 +129,10 @@ export function LiquidityMining() {
           {t(translations.marketingPage.liquidity.connetWallet)}
         </div>
       )}
+      <h1 className="w-100 text-center mb-3 mt-5 pt-5 border-top">
+        Liquidity Mining: SOV/BTC Pool
+      </h1>
+      <SOVPoolData txList={[]} isConnected={isConnected} user={userAddress} />
       <div className="tw-w-full tw-text-center tw-p-5">
         <p className="tw-w-full tw-text-center tw-font-italic">
           *{t(translations.marketingPage.liquidity.provider)}

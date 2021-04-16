@@ -14,16 +14,18 @@ export function Explainer() {
         </u>
       </p>
       <p>
-        {t(translations.marketingPage.explain.startDate)}
+        {t(translations.marketingPage.explain.datesUSDT)}
         <br />
-        {t(translations.marketingPage.explain.endDate)}
+        {t(translations.marketingPage.explain.datesSOV)}
       </p>
       <p>
         {t(translations.marketingPage.explain.depositUSDT)}
         <br />
         {t(translations.marketingPage.explain.depositRBTC)}
+        <br />
+        {t(translations.marketingPage.explain.depositSOV)}
       </p>
-      <p>
+      <div>
         {t(translations.marketingPage.explain.sharePool)}
         <div className="tw-w-full tw-text-center tw-text-white tw-mt-5">
           {t(translations.marketingPage.explain.liquidityAdded)}
@@ -32,7 +34,7 @@ export function Explainer() {
         <div className="tw-w-full tw-text-center tw-text-white">
           {t(translations.marketingPage.explain.totalAdded)}
         </div>
-      </p>
+      </div>
     </>
   );
 }

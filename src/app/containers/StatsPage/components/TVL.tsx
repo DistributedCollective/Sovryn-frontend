@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-import { TvlData, TvlContract } from '../types';
+import { TvlData } from '../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
@@ -22,39 +22,21 @@ export function TVL() {
       .catch(e => console.error(e));
   }, [url]);
 
-  const btcValue = (contract: TvlContract) => {
-    return (
-      data &&
-      data[contract].btc_total +
-        data[contract].usd_total * (1 / data?.btc_doc_rate) +
-        data[contract].bpro_total * data?.bpro_btc_rate
-    );
-  };
-
-  const usdValue = (contract: TvlContract) => {
-    return (
-      data &&
-      data[contract].usd_total +
-        data[contract].btc_total * data.btc_doc_rate +
-        data[contract].bpro_total * data.bpro_doc_rate
-    );
-  };
-
   const rowData = [
     {
       contract: t(translations.statsPage.tvl.protocol),
-      btcValue: btcValue('tvlProtocol'),
-      usdValue: usdValue('tvlProtocol'),
+      btcValue: data?.tvlProtocol.totalBtc,
+      usdValue: data?.tvlProtocol.totalUsd,
     },
     {
       contract: t(translations.statsPage.tvl.lend),
-      btcValue: btcValue('tvlLending'),
-      usdValue: usdValue('tvlLending'),
+      btcValue: data?.tvlLending.totalBtc,
+      usdValue: data?.tvlLending.totalUsd,
     },
     {
       contract: t(translations.statsPage.tvl.amm),
-      btcValue: btcValue('tvlAmm'),
-      usdValue: usdValue('tvlAmm'),
+      btcValue: data?.tvlAmm.totalBtc,
+      usdValue: data?.tvlAmm.totalUsd,
     },
     {
       contract: t(translations.statsPage.tvl.total),
@@ -79,13 +61,13 @@ export function TVL() {
             {row.btcValue?.toLocaleString('en', {
               maximumFractionDigits: 4,
               minimumFractionDigits: 4,
-            })}
+            }) || <div className="bp3-skeleton">&nbsp;</div>}
           </td>
           <td>
             {row.usdValue?.toLocaleString('en', {
               maximumFractionDigits: 2,
               minimumFractionDigits: 2,
-            })}
+            }) || <div className="bp3-skeleton">&nbsp;</div>}
           </td>
         </tr>
       )}

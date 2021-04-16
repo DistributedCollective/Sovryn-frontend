@@ -1,6 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
+import {
+  Icon,
+  Menu,
+  MenuDivider,
+  MenuItem,
+  Popover,
+  Spinner,
+} from '@blueprintjs/core';
 import blockies from 'ethereum-blockies';
 import styled from 'styled-components/macro';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -72,6 +79,17 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   icon="people"
                   text={t(translations.wallet.referrals)}
                   onClick={() => history.push('/referral')}
+                />
+                <MenuDivider />
+                {/*<MenuItem*/}
+                {/*  icon="log-in"*/}
+                {/*  text={t(translations.wallet.changeWallet)}*/}
+                {/*  onClick={() => connect()}*/}
+                {/*/>*/}
+                <MenuItem
+                  icon="log-out"
+                  text={t(translations.wallet.disconnect)}
+                  onClick={() => disconnect()}
                 />
               </Menu>
             }

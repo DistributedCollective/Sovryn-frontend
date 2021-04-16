@@ -11,18 +11,18 @@ import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import WalletConnector from '../../containers/WalletConnector';
 import { UserAssets } from '../../components/UserAssets';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
-import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
+import { SwapHistory } from '../SwapHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();
   const [activeAssets, setActiveAssets] = useState(0);
+  const [activeHistory, setActiveHistory] = useState(0);
   const connected = useIsConnected();
   const account = useAccount();
   return (
@@ -36,23 +36,14 @@ export function WalletPage() {
       </Helmet>
       <Header />
 
-      <div className="tw-container tw-mb-10">
-        <OriginClaimBanner />
-      </div>
-
       <div
         className="tw-container tw-mx-auto tw-px-4"
         style={{ maxWidth: 1200 }}
       >
-        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-4">
-          <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
+        <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
+          <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
-          {connected && account && (
-            <div className="tw-w-full tw-text-center">
-              <WalletConnector simpleView={true} />
-            </div>
-          )}
         </div>
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
           <div className="tw-mr-2 tw-ml-2">
@@ -95,11 +86,30 @@ export function WalletPage() {
           </div>
         )}
       </div>
-      <div className="container mt-5">
-        <div className="w-100">
-          <TopUpHistory />
+      {connected && account && (
+        <div className="container-fluid mt-5">
+          <div className="d-flex flex-row align-items-center justify-content-start">
+            <div className="mr-2 ml-2">
+              <Tab
+                text={t(translations.topUpHistory.meta.title)}
+                active={activeHistory === 0}
+                onClick={() => setActiveHistory(0)}
+              />
+            </div>
+            <div className="mr-2 ml-2">
+              <Tab
+                text={t(translations.swapHistory.title)}
+                active={activeHistory === 1}
+                onClick={() => setActiveHistory(1)}
+              />
+            </div>
+          </div>
+          <div className="w-100">
+            {activeHistory === 0 && <TopUpHistory />}
+            {activeHistory === 1 && <SwapHistory />}
+          </div>
         </div>
-      </div>
+      )}
       <Footer />
     </>
   );
