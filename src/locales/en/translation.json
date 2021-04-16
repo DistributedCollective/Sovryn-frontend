@@ -155,7 +155,7 @@
     "fields": {
       "currency_placeholder": "Choose currency",
       "send": "You send",
-      "receive": "You receive"
+      "receive": "SOV Received"
     },
     "buttons": {
       "submit": "Place Trade",

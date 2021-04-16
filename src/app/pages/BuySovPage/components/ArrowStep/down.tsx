@@ -3,9 +3,9 @@ import styled from 'styled-components/macro';
 import image from 'assets/images/arrow-down.svg';
 
 const Img = styled.img`
-  width: 82px;
-  height: 82px;
-  margin: 25px auto;
+  width: 40px;
+  height: 40px;
+  margin: 15px auto 30px;
 `;
 
 export function ArrowDown() {

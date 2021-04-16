@@ -5,7 +5,7 @@ const H1 = styled.h1`
   font-weight: 500;
   text-transform: none;
   text-align: left;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
   .step {
     font-size: 48px;
     letter-spacing: 4.3px;
@@ -25,15 +25,19 @@ interface ContainerProps {
 
 const Container = styled.article`
   width: 298px;
-  height: 410px;
+  min-height: 360px;
   font-size: 16px;
   font-weight: 400;
   border-radius: 20px;
-
+  padding: 15px 30px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
   a {
     font-size: 16px;
     color: #2274a5;
-    font-weight: 500;
+    font-weight: 300;
+    text-decoration: underline;
     &:hover {
       color: #2274a5;
       text-decoration: none;
@@ -50,11 +54,17 @@ const Container = styled.article`
   ${props =>
     props.large &&
     css`
-      width: 450px;
-      height: 645px;
-      padding-left: 65px;
-      padding-right: 65px;
-      padding-bottom: 50px;
+      padding-bottom: 30px;
+      margin: 0 auto;
+      @media (min-width: 768px) {
+        min-width: 450px;
+      }
+      @media (min-width: 1200px) {
+        min-width: 370px;
+      }
+      @media (min-width: 1300px) {
+        min-width: 450px;
+      }
     `}
 `;
 
@@ -71,13 +81,13 @@ export function Card(props: Props) {
     <Container
       disabled={props.disabled}
       large={props.large}
-      className="d-block p-4 bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0"
+      className="d-block bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0"
     >
       <H1 className="d-flex w-100 justify-content-start align-items-end disable-content">
         <span className="step">{props.step}.</span>{' '}
         <span className="title">{props.title}</span>
       </H1>
-      <div className="w-100">{props.children}</div>
+      <div className="w-100 mb-3">{props.children}</div>
     </Container>
   );
 }
