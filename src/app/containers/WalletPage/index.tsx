@@ -16,7 +16,6 @@ import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
-import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 
@@ -37,16 +36,12 @@ export function WalletPage() {
       </Helmet>
       <Header />
 
-      <div className="tw-container tw-mb-10">
-        <OriginClaimBanner />
-      </div>
-
       <div
         className="tw-container tw-mx-auto tw-px-4"
         style={{ maxWidth: 1200 }}
       >
-        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-4">
-          <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
+        <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
+          <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
         </div>
