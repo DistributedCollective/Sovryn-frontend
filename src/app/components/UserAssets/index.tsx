@@ -181,30 +181,28 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          <>
-            {item.asset !== Asset.SOV && (
-              <Button
-                minimal
-                text={t(translations.userAssets.actions.trade)}
-                className="text-gold button-round"
-                onClick={() =>
-                  history.push('/trade', {
-                    params: { asset: item.asset, action: 'trade' },
-                  })
-                }
-              />
-            )}
+          {item.asset !== Asset.SOV && (
             <Button
               minimal
-              text={t(translations.userAssets.actions.swap)}
+              text={t(translations.userAssets.actions.trade)}
               className="text-gold button-round"
               onClick={() =>
                 history.push('/trade', {
-                  params: { asset: item.asset, action: 'swap' },
+                  params: { asset: item.asset, action: 'trade' },
                 })
               }
             />
-          </>
+          )}
+          <Button
+            minimal
+            text={t(translations.userAssets.actions.swap)}
+            className="text-gold button-round"
+            onClick={() =>
+              history.push('/trade', {
+                params: { asset: item.asset, action: 'swap' },
+              })
+            }
+          />
         </ButtonGroup>
       </td>
     </tr>
