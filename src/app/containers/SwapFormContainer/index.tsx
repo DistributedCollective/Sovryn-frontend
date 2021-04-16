@@ -4,11 +4,11 @@
  *
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
-import { weiTo18, weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -16,19 +16,20 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
 import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { SendTxProgress } from '../../components/SendTxProgress';
-import { AssetWalletBalance } from '../../components/AssetWalletBalance';
-import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
+import { AssetWalletBalanceInline } from '../../components/AssetWalletBalance';
 import { useCanInteract } from '../../hooks/useCanInteract';
-import { maxMinusFee } from '../../../utils/helpers';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
-import { AmountField } from './components/SwapAmountField';
+import { AmountInput } from 'form/AmountInput';
 import swapIcon from '../../../assets/images/swap/ic_swap.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/TxDialog';
+import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { bignumber } from 'mathjs';
+import { Input } from 'form/Input';
 
 const s = translations.swapTradeForm;
 
@@ -44,6 +45,7 @@ interface Option {
 export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
+  const { connect } = useWalletContext();
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
@@ -117,8 +119,6 @@ export function SwapFormContainer() {
     minReturn,
   );
 
-  const { value: tokenBalance } = useAssetBalanceOf(sourceToken);
-
   const { state } = useLocation();
 
   useEffect(() => {
@@ -139,8 +139,17 @@ export function SwapFormContainer() {
   };
 
   const onSwap = () => {
-    send();
+    if (isConnected) send();
+    else connect();
   };
+
+  const validate = useMemo(() => {
+    return (
+      bignumber(weiAmount).greaterThan(0) &&
+      bignumber(minReturn).greaterThan(0) &&
+      targetToken !== sourceToken
+    );
+  }, [targetToken, sourceToken, minReturn, weiAmount]);
 
   return (
     <>
@@ -158,7 +167,7 @@ export function SwapFormContainer() {
       <div className="swap-form-container position-relative">
         <div className="d-flex justify-content-center">
           <div className="swap-form swap-form-send">
-            <div className="swap-form__title">Send</div>
+            <div className="swap-form__title">{t(translations.swap.send)}</div>
             <div className="swap-form__currency">
               <SwapAssetSelector
                 value={sourceToken}
@@ -168,19 +177,13 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalance asset={sourceToken} />
+              <AssetWalletBalanceInline asset={sourceToken} />
             </div>
             <div className="swap-form__amount">
-              <AmountField
+              <AmountInput
                 value={amount}
-                isLight
                 onChange={value => setAmount(value)}
-                onMaxClicked={() =>
-                  setAmount(weiTo18(maxMinusFee(tokenBalance, sourceToken)))
-                }
-                rightElement={
-                  <div className="swap-form__amount-type">{sourceToken}</div>
-                }
+                asset={sourceToken}
               />
             </div>
           </div>
@@ -192,7 +195,9 @@ export function SwapFormContainer() {
             />
           </div>
           <div className="swap-form swap-form-receive">
-            <div className="swap-form__title">Receive</div>
+            <div className="swap-form__title">
+              {t(translations.swap.receive)}
+            </div>
             <div className="swap-form__currency">
               <SwapAssetSelector
                 value={targetToken}
@@ -202,44 +207,37 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalance asset={targetToken} />
+              <AssetWalletBalanceInline asset={targetToken} />
             </div>
             <div className="swap-form__amount">
-              <AmountField
+              <Input
                 value={weiToFixed(rateByPath, 8)}
                 onChange={value => setAmount(value)}
-                rightElement={
-                  <div className="swap-form__amount-type">{targetToken}</div>
-                }
+                readOnly={true}
+                appendElem={targetToken}
               />
             </div>
           </div>
         </div>
-        <SendTxProgress {...tx} displayAbsolute={false} />
 
         <div className="swap-btn-container">
           <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center">
-            <span>Minimum Received: {weiToNumberFormat(minReturn, 8)}</span>
+            <span>
+              {t(translations.swap.minimumReceived)}{' '}
+              {weiToNumberFormat(minReturn, 8)}
+            </span>
             <img
               src={settingIcon}
               alt="settings"
               onClick={() => setDialogOpen(true)}
             />
           </div>
-          <button
-            type="button"
-            className="swap-btn"
-            disabled={
-              !isConnected ||
-              tx.loading ||
-              amount <= '0' ||
-              rateByPath <= '0' ||
-              targetToken === sourceToken
-            }
+
+          <BuyButton
+            disabled={tx.loading || (!validate && isConnected)}
             onClick={() => onSwap()}
-          >
-            SWAP
-          </button>
+            text={isConnected ? 'SWAP' : 'Engage Wallet'}
+          />
         </div>
 
         <TxDialog tx={tx} />

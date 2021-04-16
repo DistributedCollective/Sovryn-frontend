@@ -44,9 +44,7 @@ export function BuyForm() {
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
-  const { value: balance, loading: loadingBalance } = useAssetBalanceOf(
-    Asset.RBTC,
-  );
+  const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(Asset.RBTC),
