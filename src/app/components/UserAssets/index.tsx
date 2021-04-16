@@ -26,7 +26,6 @@ import {
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
-import { CSovActions } from '../../containers/WalletPage/components/CSovActions';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
 
 export function UserAssets() {
@@ -34,7 +33,13 @@ export function UserAssets() {
   usePriceFeeds_tradingPairRates();
   const connected = useIsConnected();
   const account = useAccount();
-  const assets = AssetsDictionary.list();
+  const assets = useMemo(
+    () =>
+      AssetsDictionary.list().filter(
+        item => ![Asset.CSOV].includes(item.asset),
+      ),
+    [],
+  );
 
   const [fastBtc, setFastBtc] = useState(false);
 
@@ -176,34 +181,30 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {item.asset !== Asset.CSOV ? (
-            <>
-              {item.asset !== Asset.SOV && (
-                <Button
-                  minimal
-                  text={t(translations.userAssets.actions.trade)}
-                  className="text-gold button-round"
-                  onClick={() =>
-                    history.push('/trade', {
-                      params: { asset: item.asset, action: 'trade' },
-                    })
-                  }
-                />
-              )}
+          <>
+            {item.asset !== Asset.SOV && (
               <Button
                 minimal
-                text={t(translations.userAssets.actions.swap)}
+                text={t(translations.userAssets.actions.trade)}
                 className="text-gold button-round"
                 onClick={() =>
                   history.push('/trade', {
-                    params: { asset: item.asset, action: 'swap' },
+                    params: { asset: item.asset, action: 'trade' },
                   })
                 }
               />
-            </>
-          ) : (
-            <CSovActions amount={tokens} />
-          )}
+            )}
+            <Button
+              minimal
+              text={t(translations.userAssets.actions.swap)}
+              className="text-gold button-round"
+              onClick={() =>
+                history.push('/trade', {
+                  params: { asset: item.asset, action: 'swap' },
+                })
+              }
+            />
+          </>
         </ButtonGroup>
       </td>
     </tr>
