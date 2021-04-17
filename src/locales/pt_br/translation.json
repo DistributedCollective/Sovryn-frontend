@@ -946,7 +946,7 @@
       },
       "liquidity": {
         "title": "Adicionando liquidez",
-        "text": "Sovryn’s layer 2 solution operating on the Rootstock (RSK) Bitcoin side-chain facilitates the frictionless usage of financial primitives for multiple assets across multiple chains to further Satoshi’s vision of monetary sovereignty beyond simple peer to peer transactions",
+        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de ferramentas financeiras usando diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária",
         "cta": "Adicionar"
       },
       "lending": {
