@@ -44,7 +44,7 @@ const StyledWrapper = styled.label.attrs(_ => ({
   className:
     'd-flex flex-row w-100 border rounded px-2 py-1 m-0 justify-content-between align-items-center',
 }))`
-  height: 48px;
+  height: 40px;
   transition: 0.3s border-color;
   will-change: border-color;
   color: #000;
@@ -62,8 +62,10 @@ const StyledInput = styled.input`
   width: 100%;
   color: #000;
   font-size: 16px;
+  padding-left: 40px;
   font-weight: 500;
   letter-spacing: 0;
+  text-align: center;
   ::-webkit-input-placeholder {
     color: #000;
   }
