@@ -81,8 +81,36 @@ export function LiquidityMining() {
       </h1>
       <div className="d-flex flex-wrap mb-5"></div>
       <div className="d-flex flex-wrap justify-content-around">
-        <PoolData data={BTCData[0]} isConnected={isConnected} />
-        <PoolData data={USDTData[0]} isConnected={isConnected} />
+        <PoolData
+          data={
+            BTCData[0] || {
+              asset: getContract('RBTC_token').address,
+              pool: getContract('USDT_amm').address,
+              txList: [],
+              totalAdded: '',
+              totalRemoved: '',
+              totalRemaining: '',
+              percentage: '',
+              sovReward: '',
+            }
+          }
+          isConnected={isConnected}
+        />
+        <PoolData
+          data={
+            USDTData[0] || {
+              asset: getContract('USDT_token').address,
+              pool: getContract('USDT_amm').address,
+              txList: [],
+              totalAdded: '',
+              totalRemoved: '',
+              totalRemaining: '',
+              percentage: '',
+              sovReward: '',
+            }
+          }
+          isConnected={isConnected}
+        />
       </div>
       {!isConnected && (
         <div className="w-100 my-5 text-center font-family-montserrat font-weight-bold">
