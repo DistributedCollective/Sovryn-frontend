@@ -293,7 +293,10 @@
   },
   "swap": {
     "title": "Swap",
-    "meta": "Swap"
+    "meta": "Swap",
+    "minimumReceived": "Minimum received:",
+    "send": "Send",
+    "receive": "Receive"
   },
   "liquidity": {
     "title": "Liquidity",

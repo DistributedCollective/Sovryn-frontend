@@ -30,12 +30,18 @@ export function SwapHistory() {
   const [currentHistory, setCurrentHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-    setCurrentHistory([]);
+
+  let cancelTokenSource;
+  const getData = () => {
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel();
+    }
+
+    cancelTokenSource = axios.CancelToken.source();
     axios
-      .get(`${url}/events/conversion-swap/${account}`, {})
+      .get(`${url}/events/conversion-swap/${account}`, {
+        cancelToken: cancelTokenSource.token,
+      })
       .then(res => {
         setHistory(res.data);
         setLoading(false);
@@ -46,6 +52,15 @@ export function SwapHistory() {
         setCurrentHistory([]);
         setLoading(false);
       });
+  };
+
+  const getHistory = useCallback(() => {
+    setLoading(true);
+    setHistory([]);
+    setCurrentHistory([]);
+
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, setHistory, url, setCurrentHistory]);
 
   //GET HISTORY

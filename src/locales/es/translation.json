@@ -200,6 +200,13 @@
     "text": "Pagina no encontrada.",
     "backHome": "Volver al Inicio"
   },
+  "swap": {
+    "title": "Canjear",
+    "meta": "Canjear",
+    "minimumReceived": "Mínimo Admitido:",
+    "send": "Enviar",
+    "receive": "Recibir"
+  },
   "liquidity": {
     "title": "Liquidez",
     "meta": "Añadir liquidez",

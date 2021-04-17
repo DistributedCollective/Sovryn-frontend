@@ -286,6 +286,13 @@
     "text": "Página não encontrada.",
     "backHome": "Ir para página inicial"
   },
+  "swap": {
+    "title": "Trocar",
+    "meta": "Trocar",
+    "minimumReceived": "Mínimo a receber:",
+    "send": "Enviar",
+    "receive": "Receber"
+  },
   "liquidity": {
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
