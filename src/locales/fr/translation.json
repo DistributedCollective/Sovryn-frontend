@@ -549,12 +549,12 @@
       "p1": "SOVRYN est une plateforme de trading et de prêt de bitcoins décentralisée, la première du genre!",
       "p2": "Vous seul contrôlez et avez accès à votre patrimoine, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
       "p3": "Assurez-vous de vérifier tous les prix des frais de transaction avant de continuer, car les portefeuilles tiers peuvent automatiquement présenter des frais élevés.",
-      "p4_1": "Veuillez visiter notre",
+      "p4_1": "Veuillez visiter notre ",
       "p4_2": "FAQ",
-      "p4_3": "Si vous avez des questions.",
-      "p5_1": "Si vous êtes nouveau sur DeFi, voici le",
+      "p4_3": " Si vous avez des questions.",
+      "p5_1": "Si vous êtes nouveau sur DeFi, voici le ",
       "p5_2": "Didacticiel",
-      "p5_3": "sur la façon d'utiliser SOVRYN."
+      "p5_3": " sur la façon d'utiliser SOVRYN."
     },
     "heading": "Attention… Non vraiment",
     "metamaskAlert": {
@@ -575,7 +575,7 @@
       "p1": "Nous avons remarqué que MetaMask est installé.",
       "p2_1": "Il existe des problèmes connus lors de l'utilisation de MetaMask avec SOVRYN. Nous vous suggérons d'utiliser un portefeuille navigateur comme",
       "p2_2": "Portefeuille Liquality",
-      "p2_3": "Ou",
+      "p2_3": " Ou ",
       "p2_4": "Portefeuille astucieux",
       "p2_5": ". Si vous souhaitez continuer avec MetaMask, veuillez noter les erreurs connues suivantes:"
     },
