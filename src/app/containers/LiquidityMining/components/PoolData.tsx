@@ -23,9 +23,7 @@ export interface Props {
 
 export function PoolData(props: Props) {
   const yourSOV = props.data?.sovReward;
-  console.log(yourSOV);
   const { t } = useTranslation();
-
   return (
     <div className="col-12 col-md-6">
       <div className="row">

@@ -8,8 +8,13 @@ import {
   getContract,
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import {
+  useAccount,
+  useBlockSync,
+  useIsConnected,
+} from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
+import type { ContractName } from '../../../utils/types/contracts';
 
 type UserData = {
   asset: string;
@@ -22,45 +27,51 @@ type UserData = {
   sovReward: string;
 };
 
+function getEmptyState(contractName: ContractName) {
+  return {
+    asset: getContract(contractName).address,
+    pool: getContract('USDT_amm').address,
+    txList: [],
+    totalAdded: '',
+    totalRemoved: '',
+    totalRemaining: '',
+    percentage: '',
+    sovReward: '',
+  };
+}
+
 export function LiquidityMining() {
   const { t } = useTranslation();
   // Get total weighted liquidity and user liquidity
   const [userData, setUserData] = useState<Array<UserData>>([
-    {
-      asset: getContract('USDT_token').address,
-      pool: getContract('USDT_amm').address,
-      txList: [],
-      totalAdded: '',
-      totalRemoved: '',
-      totalRemaining: '',
-      percentage: '',
-      sovReward: '',
-    },
-    {
-      asset: getContract('RBTC_token').address,
-      pool: getContract('USDT_amm').address,
-      txList: [],
-      totalAdded: '',
-      totalRemoved: '',
-      totalRemaining: '',
-      percentage: '',
-      sovReward: '',
-    },
+    getEmptyState('USDT_token'),
+    getEmptyState('RBTC_token'),
   ]);
   const url = backendUrl[currentChainId];
   const userAddress = useAccount();
   const isConnected = useIsConnected();
+  const sync = useBlockSync();
 
   useEffect(() => {
-    if (isConnected) {
+    console.log({ userAddress, url, sync });
+    const cancelToken = axios.CancelToken.source();
+    if (userAddress) {
       axios
-        .get(url + '/amm/liquidity-mining/' + userAddress)
+        .get(url + '/amm/liquidity-mining/' + userAddress, {
+          cancelToken: cancelToken.token,
+        })
         .then(res => {
           setUserData(res.data);
         })
         .catch(e => console.error(e));
     }
-  }, [url, userAddress, isConnected]);
+
+    return () => {
+      if (cancelToken) {
+        cancelToken.cancel('Canceled.');
+      }
+    };
+  }, [url, sync, userAddress]);
 
   const BTCData = userData.filter(
     item =>
@@ -82,33 +93,11 @@ export function LiquidityMining() {
       <div className="d-flex flex-wrap mb-5"></div>
       <div className="d-flex flex-wrap justify-content-around">
         <PoolData
-          data={
-            BTCData[0] || {
-              asset: getContract('RBTC_token').address,
-              pool: getContract('USDT_amm').address,
-              txList: [],
-              totalAdded: '',
-              totalRemoved: '',
-              totalRemaining: '',
-              percentage: '',
-              sovReward: '',
-            }
-          }
+          data={BTCData[0] || getEmptyState('RBTC_token')}
           isConnected={isConnected}
         />
         <PoolData
-          data={
-            USDTData[0] || {
-              asset: getContract('USDT_token').address,
-              pool: getContract('USDT_amm').address,
-              txList: [],
-              totalAdded: '',
-              totalRemoved: '',
-              totalRemaining: '',
-              percentage: '',
-              sovReward: '',
-            }
-          }
+          data={USDTData[0] || getEmptyState('USDT_token')}
           isConnected={isConnected}
         />
       </div>

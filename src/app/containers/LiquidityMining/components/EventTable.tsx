@@ -11,7 +11,11 @@ export function EventTable(props: Props) {
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
-      <td className="align-middle">{item.reserve_amount}</td>
+      <td className="align-middle">
+        {item.reserve_amount.hasOwnProperty('value')
+          ? item.reserve_amount.value
+          : item.reserve_amount}
+      </td>
       <td className="align-middle d-md-table-cell d-none">
         {item.block_number}
       </td>
