@@ -946,7 +946,7 @@
       },
       "liquidity": {
         "title": "Adicionando liquidez",
-        "text": "A Sovryn funciona na sidechain de Bitcoin Rootstock (RSK), que proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
+        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
         "cta": "Adicionar"
       },
       "lending": {
