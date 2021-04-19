@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../locales/i18n';
 import { currentChainId } from '../../../../utils/classifiers';
-import { AddressQrCode } from '../../../components/Form/AddressQrCode';
+import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
 import styles from '../index.module.css';
 import { actions } from '../slice';
 import { FastBtcDialogState, Step } from '../types';
@@ -74,7 +74,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       </div>
 
       {state.step === Step.WALLET && (
-        <AddressQrCode address={state.deposit.address} />
+        <AddressQrCode uri={URIType.BITCOIN} address={state.deposit.address} />
       )}
       {state.step === Step.TRANSAK && (
         <OpenTransak
