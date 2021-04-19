@@ -183,6 +183,12 @@
   "hintDialog": {
     "title": "Sovryn Tips"
   },
+  "updateDaapDialog": {
+    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Please close all tabs with Sovryn open to update",
+    "updateBtn": "UPDATE",
+    "closeBtn": "Please let me close a trade"
+  },
   "footer": {
     "title": "Powered by <0>Bitcoin</0>",
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",

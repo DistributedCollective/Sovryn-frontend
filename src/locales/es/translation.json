@@ -128,6 +128,12 @@
   "hintDialog": {
     "title": "Consejos Sovryn"
   },
+  "updateDaapDialog": {
+    "title": "Sovryn se ha actualizado a <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Cierre todas las pestañas con Sovryn abierto para actualizar",
+    "updateBtn": "ACTUALIZAR",
+    "closeBtn": "Por favor déjame cerrar una operación"
+  },
   "footer": {
     "title": "Promovido por <0>Bitcoin</0>",
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
