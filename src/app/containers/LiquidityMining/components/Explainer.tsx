@@ -15,14 +15,16 @@ export function Explainer() {
           </u>
         </p>
         <p>
-          {t(translations.marketingPage.explain.startDate)}
+          {t(translations.marketingPage.explain.datesUSDT)}
           <br />
-          {t(translations.marketingPage.explain.endDate)}
+          {t(translations.marketingPage.explain.datesSOV)}
         </p>
         <p>
           {t(translations.marketingPage.explain.depositUSDT)}
           <br />
           {t(translations.marketingPage.explain.depositRBTC)}
+          <br />
+          {t(translations.marketingPage.explain.depositSOV)}
         </p>
         <div>
           {t(translations.marketingPage.explain.sharePool)}

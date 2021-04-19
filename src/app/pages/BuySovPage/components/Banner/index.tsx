@@ -28,7 +28,18 @@ const Image = styled.div`
   height: 438px;
   margin: 0 auto 106px;
   background: transparent url(${logo}) center center no-repeat;
-  background-szie: 451px 438px;
+  background-size: 451px 438px;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+  @media (max-width: 640px) {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    margin: 0 auto 30px;
+    background-size: 251px 438px;
+  }
 `;
 
 const H1 = styled.h1`
@@ -39,6 +50,11 @@ const H1 = styled.h1`
   font-weight: 900;
   text-transform: none;
   line-height: 47px;
+  @media (max-width: 640px) {
+    font-size: 35px;
+    line-height: 42px;
+    margin: 0 auto 30px;
+  }
 `;
 
 const Button = styled.button`
@@ -58,5 +74,8 @@ const Button = styled.button`
   margin-bottom: 310px;
   &:hover {
     opacity: 75%;
+  }
+  @media (max-width: 1200px) {
+    margin-bottom: 30px;
   }
 `;

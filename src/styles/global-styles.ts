@@ -37,6 +37,7 @@ export const GlobalStyle = createGlobalStyle`
   label {
     font-family: inherit;
     line-height: 1.5em;
+    letter-spacing: 0;
   }
 
   input, select {

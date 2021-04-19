@@ -5,17 +5,24 @@ export interface Props {
   totalAdded: string;
   totalRemoved: string;
   totalRemaining: string;
+  sov?: boolean;
 }
 
 export function EventTable(props: Props) {
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
-      <td className="align-middle">
+      {!props.sov && <td className="align-middle">
         {item.reserve_amount.hasOwnProperty('value')
           ? item.reserve_amount.value
           : item.reserve_amount}
-      </td>
+        </td>}
+      {props.sov && (
+        <>
+          <td className="align-middle">{item.sov_amount}</td>
+          <td className="align-middle">{item.btc_amount}</td>
+        </>
+      )}
       <td className="align-middle d-md-table-cell d-none">
         {item.block_number}
       </td>
@@ -50,15 +57,21 @@ export function EventTable(props: Props) {
         <thead className="">
           <tr className="">
             <th></th>
-            <th>Amount</th>
+            {!props.sov && <th>Amount</th>}
+            {props.sov && <th>SOV Amount</th>}
+            {props.sov && <th>BTC Amount</th>}
             <th className="d-none d-md-table-cell">Block number</th>
           </tr>
         </thead>
         <tbody>
           {rows}
-          {totalRows}
+          {!props.sov && totalRows}
         </tbody>
       </table>
     </div>
   );
 }
+
+EventTable.defaultProps = {
+  sov: false,
+};
