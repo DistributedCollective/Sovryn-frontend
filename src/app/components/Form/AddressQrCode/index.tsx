@@ -7,18 +7,23 @@ import { toastSuccess } from 'utils/toaster';
 import { translations } from 'locales/i18n';
 import styles from './index.module.css';
 
+export enum URIType {
+  BITCOIN = 'bitcoin:',
+}
+
 interface Props {
   address: string;
+  uri?: URIType;
   hideClickToCopy?: boolean;
 }
 
-export function AddressQrCode({ address, hideClickToCopy }: Props) {
+export function AddressQrCode({ address, uri, hideClickToCopy }: Props) {
   const { t } = useTranslation();
   return (
     <>
       <div className={styles.qrCodeContainer}>
         <QRCode
-          value={address}
+          value={`${uri || ''}${address}`}
           renderAs="svg"
           bgColor="var(--white)"
           fgColor="var(--primary)"

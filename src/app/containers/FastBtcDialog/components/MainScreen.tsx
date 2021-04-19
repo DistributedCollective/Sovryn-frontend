@@ -7,7 +7,7 @@ import { actions } from '../slice';
 import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
 import { BTCButton } from './BTCButton';
-import { AddressQrCode } from '../../../components/Form/AddressQrCode';
+import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
 import { currentChainId } from '../../../../utils/classifiers';
@@ -73,7 +73,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       </div>
 
       {state.step === Step.WALLET && (
-        <AddressQrCode address={state.deposit.address} />
+        <AddressQrCode uri={URIType.BITCOIN} address={state.deposit.address} />
       )}
       {state.step === Step.TRANSAK && (
         <OpenTransak
