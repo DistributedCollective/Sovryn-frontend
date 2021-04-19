@@ -52,7 +52,13 @@ export function SOVPoolData(props: Props) {
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
           {data && data.length > 0 ? (
-            <EventTable data={data || []} sov={true} />
+            <EventTable
+              data={data || []}
+              sov={true}
+              totalAdded=""
+              totalRemoved=""
+              totalRemaining=""
+            />
           ) : (
             <div className="w-100 text-center mt-5">
               {t(translations.marketingPage.liquidity.noAsset, {
