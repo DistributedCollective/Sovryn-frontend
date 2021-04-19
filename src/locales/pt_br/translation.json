@@ -886,7 +886,7 @@
     },
     "topUp": {
       "title": "Adquirir",
-      "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK.",
+      "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK",
       "line2": "Saiba mais sobre RBTC na RSK",
       "cta": "Adquirir RBTC"
     },
@@ -936,7 +936,7 @@
       },
       "marginTrading": {
         "title": "Operando com margem",
-        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos ou perdas.",
+        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
         "cta": "Operar"
       },
       "swap": {
@@ -946,7 +946,7 @@
       },
       "liquidity": {
         "title": "Adicionando liquidez",
-        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de ferramentas financeiras usando diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária",
+        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
         "cta": "Adicionar"
       },
       "lending": {

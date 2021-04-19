@@ -10,21 +10,20 @@ import { EventTable } from './EventTable';
 export interface Props {
   data: {
     asset: string;
-    percentage: number | undefined;
     pool: string;
     txList: Array<any>;
-    weightedAmount: number;
-    weightedTotal: number | undefined;
+    totalAdded: string;
+    totalRemoved: string;
+    totalRemaining: string;
+    percentage: string;
+    sovReward: string;
   };
   isConnected: boolean;
 }
 
 export function PoolData(props: Props) {
-  const sovReward = 25000;
-  const yourSOV =
-    props.data.percentage && (sovReward / 100) * props.data.percentage;
+  const yourSOV = props.data?.sovReward;
   const { t } = useTranslation();
-
   return (
     <div className="col-12 col-md-6">
       <div className="row">
@@ -32,7 +31,9 @@ export function PoolData(props: Props) {
           <span className="text-secondary">
             {t(translations.marketingPage.liquidity.asset)}:
           </span>
-          <span>{symbolByTokenAddress(props.data.asset)}</span>
+          <span>
+            {props.data?.asset && symbolByTokenAddress(props.data.asset)}
+          </span>
         </h2>
       </div>
       <Div className="mt-3">
@@ -47,11 +48,10 @@ export function PoolData(props: Props) {
       <div className="row my-3">
         <div className="w-100 text-center font-family-montserrat">
           {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {props.data.percentage?.toFixed(2)}%
+          {props.data?.percentage}%
         </div>
         <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {yourSOV?.toFixed(2)} SOV
+          {t(translations.marketingPage.liquidity.rewardPool)}: {yourSOV}
         </div>
       </div>
 
@@ -60,8 +60,13 @@ export function PoolData(props: Props) {
           <h3 className="w-100 text-center mt-5 mb-3">
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
-          {props.data.txList.length > 0 ? (
-            <EventTable data={props.data.txList} />
+          {props.data?.txList && props.data.txList.length > 0 ? (
+            <EventTable
+              data={props.data.txList}
+              totalAdded={props.data.totalAdded}
+              totalRemoved={props.data.totalRemoved}
+              totalRemaining={props.data.totalRemaining}
+            />
           ) : (
             <div className="w-100 text-center mt-5">
               {t(translations.marketingPage.liquidity.noAsset, {

@@ -2,53 +2,20 @@ import React from 'react';
 
 export interface Props {
   data: Array<any>;
-  sov: boolean;
+  totalAdded: string;
+  totalRemoved: string;
+  totalRemaining: string;
+  sov?: boolean;
 }
 
 export function EventTable(props: Props) {
-  const totalAdded = !props.sov
-    ? props.data
-        ?.filter(item => item.type === 'Added')
-        .map(item => parseFloat(item.reserve_amount))
-        .reduce((item, sum) => sum + item, 0)
-    : props.data
-        ?.filter(item => item.type === 'Added')
-        .map(item => parseInt(item.sov_amount))
-        .reduce((item, sum) => sum + item, 0);
-
-  const totalRemoved = !props.sov
-    ? props.data
-        ?.filter(item => item.type === 'Removed')
-        .map(item => parseFloat(item.reserve_amount))
-        .reduce((item, sum) => sum + item, 0)
-    : props.data
-        ?.filter(item => item.type === 'Removed')
-        .map(item => parseInt(item.sov_amount))
-        .reduce((item, sum) => sum + item, 0);
-
-  const totalBtcAdded = props.sov
-    ? props.data
-        ?.filter(item => item.type === 'Added')
-        .map(item => parseFloat(item.btc_amount))
-        .reduce((item, sum) => sum + item, 0)
-    : null;
-
-  const totalBtcRemoved = props.sov
-    ? props.data
-        ?.filter(item => item.type === 'Removed')
-        .map(item => parseInt(item.btc_amount))
-        .reduce((item, sum) => sum + item, 0)
-    : null;
-
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle">{item.type}</td>
-      {props.sov === false && (
-        <td className="align-middle">{item.reserve_amount}</td>
-      )}
+      {!props.sov && <td className="align-middle">{item.reserve_amount}</td>}
       {props.sov && (
         <>
-          <td className="align-middle">{parseInt(item.sov_amount)}</td>
+          <td className="align-middle">{item.sov_amount}</td>
           <td className="align-middle">{item.btc_amount}</td>
         </>
       )}
@@ -61,34 +28,22 @@ export function EventTable(props: Props) {
   const totalData = [
     {
       title: 'Total Added',
-      value: totalAdded,
-      btcValue: totalBtcAdded,
+      value: props.totalAdded,
     },
     {
       title: 'Total Removed',
-      value: totalRemoved,
-      btcValue: totalBtcRemoved,
+      value: props.totalRemoved,
     },
     {
       title: 'Total Remaining',
-      value: totalAdded - totalRemoved,
-      btcValue: (totalBtcAdded || 0) - (totalBtcRemoved || 0),
+      value: props.totalRemaining,
     },
   ];
 
   const totalRows = totalData.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
       <td className="align-middle font-weight-bold">{item.title}</td>
-      <td className="align-middle font-weight-bold">
-        {props.sov ? item.value : item.value?.toFixed(4)}
-      </td>
-      {props.sov && (
-        <>
-          <td className="align-middle font-weight-bold">
-            {item.btcValue?.toFixed(4)}
-          </td>
-        </>
-      )}
+      <td className="align-middle font-weight-bold">{item.value}</td>
       <td className="align-middle font-weight-bold d-none d-md-table-cell"></td>
     </tr>
   ));
@@ -106,7 +61,7 @@ export function EventTable(props: Props) {
         </thead>
         <tbody>
           {rows}
-          {totalRows}
+          {!props.sov && totalRows}
         </tbody>
       </table>
     </div>
