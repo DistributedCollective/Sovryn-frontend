@@ -28,6 +28,7 @@ import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
 import { MarginTradePage } from './containers/MarginTradePage/Loadable';
+import { UpdateDaapDialog } from './components/UpdateDaapDialog';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -41,6 +42,7 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
+      <UpdateDaapDialog />
       {siteLocked?.maintenance_active ? (
         <MaintenancePage message={siteLocked?.message} />
       ) : (

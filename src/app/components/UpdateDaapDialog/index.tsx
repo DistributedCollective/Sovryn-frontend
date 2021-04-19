@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import styles from './index.module.css';
-import logoSvg from 'assets/images/sovryn-logo-horz-white.svg';
+import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
+import * as serviceWorker from 'serviceWorker';
+
+const CHECK_TIME = 10000;
 
 export function UpdateDaapDialog() {
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const intId = setInterval(() => {
+      console.log('serviceWorker register');
+      serviceWorker.register({
+        onUpdate: () => setShow(true),
+      });
+    }, CHECK_TIME);
+    return () => clearInterval(intId);
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Dialog isOpen={show} className={styles.dialog}>
       <div className="tw-container tw-mx-auto tw-px-4 text-center">
@@ -26,6 +41,7 @@ export function UpdateDaapDialog() {
           <Button
             className="tw-mb-3"
             text={t(translations.updateDaapDialog.updateBtn)}
+            onClick={() => window.location.reload()}
           />
           <Button
             className={styles.close + ' text-gold bg-transparent'}
