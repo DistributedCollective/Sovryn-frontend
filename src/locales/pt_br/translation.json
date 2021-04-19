@@ -130,7 +130,7 @@
   },
   "tradeOrSwapTabs": {
     "tabs": {
-      "trade": "Operar",
+      "trade": "Negociar",
       "swap": "Trocar ativos"
     }
   },
@@ -193,7 +193,7 @@
     "buySov": "Compre SOV",
     "trade": "Negociar",
     "swap": "Trocar ativos",
-    "marginTrade": "Operar com margem",
+    "marginTrade": "Negociar com margem",
     "finance": "Finanças",
     "lend": "Emprestar ativos",
     "borrow": "Obter empréstimo",
@@ -309,7 +309,7 @@
     "placeholder": "Selecione algo"
   },
   "hintHowToTopUp": {
-    "hintOne": "Você está conectado! Para operar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
+    "hintOne": "Você está conectado! Para negociar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
     "hintTwo": "Carregue sua carteira na",
     "hintThree": "e comece a usar!"
   },
@@ -344,7 +344,7 @@
     "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou aplicado). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
   "limitsNotification": {
-    "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
+    "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
     "history": {
@@ -936,9 +936,9 @@
         "cta": "Minerar"
       },
       "marginTrading": {
-        "title": "Operando com margem",
+        "title": "Negociando com margem",
         "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
-        "cta": "Operar"
+        "cta": "Negociar"
       },
       "swap": {
         "title": "Realizando trocas de ativos",
