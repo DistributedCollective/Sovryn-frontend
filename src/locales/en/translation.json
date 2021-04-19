@@ -969,5 +969,9 @@
     },
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
+  },
+  "claimOriginBanner": {
+    "text": "Your SOV is ready to claim!",
+    "cta": "Redeem SOV"
   }
 }
