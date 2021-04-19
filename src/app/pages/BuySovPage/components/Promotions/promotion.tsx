@@ -13,7 +13,7 @@ interface Props {
 
 export function Promotion(props: Props) {
   return (
-    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
+    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-xl-row justify-content-xl-between align-items-xl-center">
       <div className="order-1 order-lg-0">
         <h1>{props.title}</h1>
         <div className="content">{props.content}</div>
@@ -50,16 +50,19 @@ const Article = styled.article`
     margin-bottom: 32px;
   }
 
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 1200px) {
     .img {
       margin-left: 250px;
     }
   }
 
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width: 1199px) {
     .img {
       margin: 0 auto;
     }
+  }
+  @media (max-width: 640px) {
+    margin: 0 auto 30px;
   }
 
   a {
@@ -80,4 +83,8 @@ const Article = styled.article`
 const Img = styled.img`
   width: 450px;
   height: 303px;
+  @media (max-width: 640px) {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
 `;
