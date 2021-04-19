@@ -7,7 +7,6 @@ import { actions } from '../slice';
 import styles from '../index.module.css';
 import { translations } from '../../../../locales/i18n';
 import { BTCButton } from './BTCButton';
-import { FiatButton } from './FiatButton';
 import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
