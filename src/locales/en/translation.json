@@ -822,7 +822,8 @@
       "title": "Instructions:",
       "point1": "Do not deposit anything other than BTC",
       "point2": "Do not send more BTC than the MAX limit",
-      "point3": "Allow  15 mins for the transaction to process"
+      "point3": "Allow  15 mins for the transaction to process",
+      "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
     },
     "fiatDialog": {
       "title": "Buy rBTC with fiat:",
