@@ -18,13 +18,13 @@
   },
   "title": "Sovryn",
   "announcement": {
-    "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
+    "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "homePage": {
     "title": "Página inicial",
     "meta": "Página inicial da Sovryn",
     "lend": "Emprestar",
-    "trade": "Operar"
+    "trade": "Negociar"
   },
   "hintHowToConnect": {
     "hintOne": "Para usar a Sovryn, você precisa antes conectar a sua carteira na rede da RSK.",
@@ -191,7 +191,7 @@
   },
   "mainMenu": {
     "buySov": "Compre SOV",
-    "trade": "Operar",
+    "trade": "Negociar",
     "swap": "Trocar ativos",
     "marginTrade": "Operar com margem",
     "finance": "Finanças",
@@ -309,7 +309,7 @@
     "placeholder": "Selecione algo"
   },
   "hintHowToTopUp": {
-    "hintOne": "Você está conectado! Para operar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
+    "hintOne": "Você está conectado! Para negociar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
     "hintTwo": "Carregue sua carteira na",
     "hintThree": "e comece a usar!"
   },
@@ -344,7 +344,7 @@
     "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou aplicado). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
   "limitsNotification": {
-    "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode operar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
+    "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
     "history": {
@@ -815,7 +815,8 @@
       "title": "Instruções:",
       "point1": "Não deposite nenhum ativo que não seja BTC",
       "point2": "Não envie mais BTC do que o limite máximo",
-      "point3": "Aguarde 15 minutos para que a transação seja processada"
+      "point3": "Aguarde 15 minutos para que a transação seja processada",
+      "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
     },
     "fiatDialog": {
       "title": "Comprar rBTC:",
@@ -962,5 +963,9 @@
     },
     "title": "Compre SOV exclusivamente na Sovryn!",
     "earn": "Ganhe com a Sovryn"
+  },
+  "claimOriginBanner": {
+    "text": "Seu SOV está pronto para ser resgatado!",
+    "cta": "Resgatar SOV"
   }
 }
