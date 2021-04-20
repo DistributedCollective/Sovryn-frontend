@@ -1,16 +1,30 @@
 .title {
-    margin-bottom: 35px;
     font-size: 23px;
     line-height: 24px;
     font-weight: 600;
     text-transform: none;
   }
 .subtitle {
-  margin-bottom: 35px;
   font-size: 14px;
   line-height: 18px;
-  color: #a52222;
+  color: #eb2106;
   font-weight: 300;
   text-transform: none;
-  width: 60%;
+  width: 40%;
+}
+.titleTut {
+  font-size: 11px;
+  line-height: 18px;
+  color: #ffc107;
+  font-weight: 200;
+  text-decoration: underline;
+  width: 35%;
+}
+.logo {
+  width: 160px;
+  height: 160px;
+  background-color: #2d2d2d;
+  border-radius: 10%;
+  border-width: 5px;
+  border-color: white;
 }

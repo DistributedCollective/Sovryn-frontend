@@ -145,18 +145,18 @@ export function detectWeb3Wallet() {
     case ProviderType.WEB3:
       const { ethereum } = window as any;
       if (ethereum) {
-        if (ethereum.isLiquality) return 'liquality';
-        if (ethereum.isNiftyWallet) return 'nifty';
-        if (ethereum.isMetaMask) return 'metamask';
+        if (ethereum.isLiquality) return 'Liquality';
+        if (ethereum.isNiftyWallet) return 'Nifty';
+        if (ethereum.isMetaMask) return 'Metamask';
         return 'unknown';
       }
       return 'none';
     case ProviderType.PORTIS:
-      return 'portis';
+      return 'Portis';
     case ProviderType.LEDGER:
-      return 'ledger';
+      return 'Ledger';
     case ProviderType.TREZOR:
-      return 'trezor';
+      return 'Trezor';
     case ProviderType.WALLET_CONNECT:
       return 'wallet-connect';
   }
