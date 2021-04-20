@@ -145,7 +145,8 @@
     "liquidity": "Mercados-Líquidos",
     "stats": "Data",
     "faqs": "FAQ",
-    "help": "Help"
+    "help": "Help",
+    "bitocracy": "Bitocracy"
   },
   "trandingPositionSelector": {
     "long": "En Largo",

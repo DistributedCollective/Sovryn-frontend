@@ -205,7 +205,8 @@
     "governance": "Governance",
     "wallet": "Portfolio",
     "stats": "Stats",
-    "help": "Help"
+    "help": "Help",
+    "bitocracy": "Bitocracy"
   },
   "trandingPositionSelector": {
     "long": "Long",
