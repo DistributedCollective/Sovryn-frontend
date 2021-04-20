@@ -30,7 +30,6 @@ import { store } from './store/store';
 import './locales/i18n';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
-import { UpdateDaapDialog } from 'app/components/UpdateDaapDialog';
 
 // if (process.env.REACT_APP_SENTRY_DSN) {
 //   import('./sentry').then(({ default: sentryInit }) => sentryInit());
@@ -51,7 +50,6 @@ const ConnectedApp = ({ Component }: Props) => {
       </HelmetProvider>
       <ServiceWorkerToaster />
 
-      <UpdateDaapDialog />
       <MetaMaskDiscouragementNotifyModal />
     </Provider>
   );

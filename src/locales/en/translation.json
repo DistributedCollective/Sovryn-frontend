@@ -31,9 +31,10 @@
     "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
-    "title": "App was updated.",
-    "message": "New content is available and will be used when all tabs for this page are closed.",
-    "button": "Update Now"
+    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Please close all tabs with Sovryn open to update",
+    "updateBtn": "UPDATE",
+    "closeBtn": "Please let me close a trade"
   },
   "tradingActivity": {
     "title": "My Trading Activity",
@@ -182,12 +183,6 @@
   },
   "hintDialog": {
     "title": "Sovryn Tips"
-  },
-  "updateDaapDialog": {
-    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
-    "notice": "Please close all tabs with Sovryn open to update",
-    "updateBtn": "UPDATE",
-    "closeBtn": "Please let me close a trade"
   },
   "footer": {
     "title": "Powered by <0>Bitcoin</0>",
