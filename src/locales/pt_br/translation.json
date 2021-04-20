@@ -181,10 +181,10 @@
     "title": "Dicas Sovryn"
   },
   "updateDaapDialog": {
-    "title": "Sovryn foi atualizado para <br/> <0>Build ID: {{buildId}}</0>",
-    "notice": "Feche todas as guias com o Sovryn aberto para atualizar",
+    "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Para atualizar, feche a página da Sovryn",
     "updateBtn": "ATUALIZAR",
-    "closeBtn": "Por favor, deixe-me fechar uma negociação"
+    "closeBtn": "Por favor, deixe-me concluir uma negociação"
   },
   "footer": {
     "title": "Fornecido por <0>Bitcoin</0>",

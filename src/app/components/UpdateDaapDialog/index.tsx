@@ -8,7 +8,7 @@ import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
 import axios from 'axios';
 import * as serviceWorker from 'serviceWorker';
-import { sha256 } from 'utils/helpers';
+import { soliditySha3 } from 'web3-utils';
 
 //interval time to check sw
 const CHECK_TIME = 10 * 60 * 1000;
@@ -19,17 +19,18 @@ export function UpdateDaapDialog() {
   const [newSW, setNewSW] = useState('');
   const [oldSW, setOldSW] = useState('');
   const { t } = useTranslation();
+  const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   const fetchSw = useCallback(first => {
     axios
       .get(swUrl, {
         headers: { 'Service-Worker': 'script' },
       })
-      .then(async ({ data }) => {
+      .then(({ data }) => {
         if (!data) return;
-        const hash = await sha256(data);
-        if (first) setOldSW(hash);
-        else setNewSW(hash);
+        const hash = soliditySha3(data);
+        if (first) setOldSW(hash || '');
+        else setNewSW(hash || '');
       })
       .catch(() => {});
   }, []);
@@ -64,7 +65,7 @@ export function UpdateDaapDialog() {
           <Trans
             i18nKey={translations.updateDaapDialog.title}
             components={[<strong></strong>]}
-            values={{ buildId: 'test' }}
+            values={{ buildId: commitHash.substr(0, 7) }}
           />
         </p>
         <p className="tw-mb-6">{t(translations.updateDaapDialog.notice)}</p>
