@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import styled, { css } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
@@ -93,12 +93,12 @@ const SubRightDetails = styled.div`
   flex-direction: column;
   /* justify-content: start; */
 `;
-const SettingsTitle = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  text-align: left;
-  color: white;
-`;
+// const SettingsTitle = styled.div`
+//   font-size: 15px;
+//   font-weight: 500;
+//   text-align: left;
+//   color: white;
+// `;
 const DetailTitle = styled.div`
   font-size: 12px;
   font-weight: 400;
