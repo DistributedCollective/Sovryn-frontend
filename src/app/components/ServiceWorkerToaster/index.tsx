@@ -68,7 +68,6 @@ export function ServiceWorkerToaster(props: Props) {
   useEffect(() => {
     if (!oldSW && newSW) setOldSW(newSW);
     if (oldSW && newSW && oldSW !== newSW) setShow(true);
-
     // eslint-disable-next-line
   }, [oldSW, newSW]);
 
