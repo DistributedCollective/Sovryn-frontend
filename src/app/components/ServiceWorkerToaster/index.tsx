@@ -3,7 +3,7 @@
  * ServiceWorkerToaster
  *
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as serviceWorker from 'serviceWorker';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ interface Props {}
 
 //interval time to check sw
 const CHECK_TIME = 15e3; // 15 seconds
+const REOPEN_TIME = 120e3; // 120 seconds
 const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
 export function ServiceWorkerToaster(props: Props) {
@@ -26,15 +27,34 @@ export function ServiceWorkerToaster(props: Props) {
   const [swRegistration, setSwRegistration] = useState<
     ServiceWorkerRegistration
   >();
+  const [intervalId, setIntervalId] = useState<number | null>(null);
+  const [closeBtn, setCloseBtn] = useState(true);
   const [newSW, setNewSW] = useState('');
   const [oldSW, setOldSW] = useState('');
   const { t } = useTranslation();
+
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
-  const fetchSw = useCallback(first => {
+  let cancelTokenSource;
+  const fetchSw = first => {
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel();
+    }
+    cancelTokenSource = axios.CancelToken.source();
+
+    //change url to prevent caching
+    const url =
+      swUrl +
+      (process.env.NODE_ENV !== 'production'
+        ? `?timestamp=${new Date().getTime()}`
+        : '');
+
     axios
-      .get(swUrl, {
-        headers: { 'Service-Worker': 'script' },
+      .get(url, {
+        headers: {
+          'Service-Worker': 'script',
+          cancelToken: cancelTokenSource.token,
+        },
       })
       .then(({ data }) => {
         if (!data) return;
@@ -43,7 +63,7 @@ export function ServiceWorkerToaster(props: Props) {
         else setNewSW(hash || '');
       })
       .catch(() => {});
-  }, []);
+  };
 
   useEffect(() => {
     if (!oldSW && newSW) setOldSW(newSW);
@@ -62,6 +82,15 @@ export function ServiceWorkerToaster(props: Props) {
     window.location.reload();
   };
 
+  const closeDialog = () => {
+    setShow(false);
+    setCloseBtn(false);
+    if (intervalId) clearInterval(intervalId);
+    setTimeout(() => {
+      setShow(true);
+    }, REOPEN_TIME);
+  };
+
   useEffect(() => {
     fetchSw(true);
     serviceWorker.register({
@@ -74,6 +103,7 @@ export function ServiceWorkerToaster(props: Props) {
   }, []);
   useEffect(() => {
     const intId = setInterval(() => fetchSw(false), CHECK_TIME);
+    setIntervalId(intId);
     return () => clearInterval(intId);
     // eslint-disable-next-line
   }, []);
@@ -96,11 +126,13 @@ export function ServiceWorkerToaster(props: Props) {
             text={t(translations.serviceWorkerToaster.updateBtn)}
             onClick={() => updateSW()}
           />
-          <Button
-            className={styles.close + ' text-gold bg-transparent'}
-            text={t(translations.serviceWorkerToaster.closeBtn)}
-            onClick={() => setShow(false)}
-          />
+          {closeBtn && (
+            <Button
+              className={styles.close + ' text-gold bg-transparent'}
+              text={t(translations.serviceWorkerToaster.closeBtn)}
+              onClick={() => closeDialog()}
+            />
+          )}
         </div>
       </div>
     </Dialog>
