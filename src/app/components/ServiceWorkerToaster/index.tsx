@@ -108,7 +108,7 @@ export function ServiceWorkerToaster(props: Props) {
 }
 
 const StyledLogo = styled.img.attrs(_ => ({
-  alt: 'logo',
+  alt: 'Sovryn',
 }))`
   width: 120px;
 `;
