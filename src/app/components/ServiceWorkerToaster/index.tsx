@@ -18,7 +18,7 @@ import { soliditySha3 } from 'web3-utils';
 interface Props {}
 
 //interval time to check sw
-const CHECK_TIME = 10 * 60 * 1000;
+const CHECK_TIME = 15e3; // 15 seconds
 const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
 export function ServiceWorkerToaster(props: Props) {
