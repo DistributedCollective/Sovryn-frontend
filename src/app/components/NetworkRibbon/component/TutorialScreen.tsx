@@ -94,9 +94,10 @@ export function TutorialScreen(props: Props) {
         <LeftBlock>
           <div className="rounded p-4 text-center">
             <img
+              key={step}
               src={steps[step].image}
               alt={steps[step].title}
-              className="mx-auto"
+              className="mx-auto tutorial-image"
             />
           </div>
           <div className="d-flex flex-row justify-content-center align-items-center mt-3">
@@ -257,6 +258,20 @@ const LeftBlock = styled.div`
   width: 50%;
   /* max-width: 312px; */
   margin-right: 30px;
+
+  .tutorial-image {
+    animation: fadeIn 1s ease-;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0.5;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 const RightBlock = styled.div`
@@ -265,7 +280,6 @@ const RightBlock = styled.div`
     width: 485px;
   `}
 `;
-
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
   className: 'flex-grow-0 flex-shrink-0',
