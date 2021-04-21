@@ -49,7 +49,6 @@ const ConnectedApp = ({ Component }: Props) => {
         {/*</React.StrictMode>*/}
       </HelmetProvider>
       <ServiceWorkerToaster />
-
       <MetaMaskDiscouragementNotifyModal />
     </Provider>
   );
