@@ -58,4 +58,7 @@ const StyledClose = styled.button.attrs(_ => ({
   border-radius: 12px;
   padding: 0;
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 `;
