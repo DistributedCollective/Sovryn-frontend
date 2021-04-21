@@ -31,6 +31,9 @@ export function NetworkRibbon(this: any) {
   const handleTutDialog = () => {
     setStart(true);
   };
+  const handleBack = () => {
+    setStart(false);
+  };
   return (
     <NetworkDialog
       isOpen={isConnect}
@@ -38,10 +41,13 @@ export function NetworkRibbon(this: any) {
       className="fw-700"
       size="normal"
     >
+      <div className="py-2 font-family-montserrat">
+        <div className="text-center title">Change to RSK Network </div>
+      </div>
       {!startTut ? (
         <DetectionScreen onStart={handleTutDialog} walletType={walletName} />
       ) : (
-        <TutorialScreen walletType={walletName} />
+        <TutorialScreen walletType={walletName} onBack={handleBack} />
       )}
     </NetworkDialog>
   );

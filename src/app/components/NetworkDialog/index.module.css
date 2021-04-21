@@ -3,7 +3,7 @@
     width: 100%!important;
     min-height: 100vh;
     max-width: 1000px;
-    background-color: #000000;
+    background-color: #000000!important;
     color: #E9EAE9;
     transition: width 0.5s, height 0.5s, padding 0.5s;
     will-change: width, height, padding;

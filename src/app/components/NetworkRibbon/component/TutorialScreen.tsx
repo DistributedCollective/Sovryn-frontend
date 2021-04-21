@@ -18,9 +18,11 @@ import metamask06 from '../../../../assets/wallet_tutorials/metamask/metamask_06
 import nifty01 from '../../../../assets/wallet_tutorials/nifty/nifty_01.svg';
 import nifty02 from '../../../../assets/wallet_tutorials/nifty/nifty_02.svg';
 import nifty03 from '../../../../assets/wallet_tutorials/nifty/nifty_03.svg';
+import { BackButton } from '../../../components/BackButton';
 
 interface Props {
   walletType: string;
+  onBack: () => void;
 }
 interface IStep {
   title: string;
@@ -87,6 +89,7 @@ export function TutorialScreen(props: Props) {
 
   return (
     <>
+      <BackButton onClick={props.onBack} />
       <div className="d-flex flex-row justify-content-center align-items-center">
         <LeftBlock>
           <div className="rounded p-4 text-center">
@@ -114,7 +117,36 @@ export function TutorialScreen(props: Props) {
         </LeftBlock>
         <RightBlock>
           <StepTitle>{steps[step].step}</StepTitle>
-          <SettingsTitle>{steps[step].title}</SettingsTitle>
+          <SettingsTitle className="mt-3">{steps[step].title}</SettingsTitle>
+          {step === 3 && props.walletType === 'Metamask' && (
+            <>
+              <SettingsTitle className="mt-5">
+                RSK Mainnet Settings
+              </SettingsTitle>
+              <Details>
+                <SubDetails>
+                  <DetailTitle className="mt-3">Network Name:</DetailTitle>
+                  <DetailTitle className="mt-3">New RPC Url:</DetailTitle>
+                  <DetailTitle className="mt-3">Chaind Id:</DetailTitle>
+                  <DetailTitle className="mt-3">Symbol:</DetailTitle>
+                  <DetailTitle className="mt-3">
+                    Block Explorer URL:
+                  </DetailTitle>
+                </SubDetails>
+                <SubDetails>
+                  <DetailTitle className="mt-3">RSK Mainnet</DetailTitle>
+                  <DetailTitle className="mt-3">
+                    https://public-node.rsk.co
+                  </DetailTitle>
+                  <DetailTitle className="mt-3">30</DetailTitle>
+                  <DetailTitle className="mt-3">RBTC</DetailTitle>
+                  <DetailTitle className="mt-3">
+                    https://explorer.rsk.co
+                  </DetailTitle>
+                </SubDetails>
+              </Details>
+            </>
+          )}
         </RightBlock>
       </div>
     </>
@@ -191,16 +223,35 @@ export function TutorialScreen(props: Props) {
 //   margin-bottom: 64px;
 //   margin-top: 40px;
 // `;
-
+const Details = styled.div`
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: start; */
+`;
+const SubDetails = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+`;
 const SettingsTitle = styled.div`
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 500;
   text-align: left;
+  color: white;
 `;
 const StepTitle = styled.div`
   font-size: 23px;
   font-weight: 600;
   text-align: left;
+  color: white;
+`;
+const DetailTitle = styled.div`
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  color: white;
 `;
 const LeftBlock = styled.div`
   width: 50%;
