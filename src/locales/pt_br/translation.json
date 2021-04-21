@@ -62,14 +62,16 @@
   "marketingPage": {
     "explain": {
       "title": "COMO FUNCIONA?",
-      "earn": "Ganhe SOV minerando liquidez no pool USDT/BTC",
-      "startDate": "Data inicial: 1º de Abril de 2021, 12.00 UTC",
-      "endDate": "Data final: 1º de Maio de 2021, 12.00 UTC",
+      "earn": "Ganhe SOV minerando liquidez nos pools USDT/BTC ou SOV/RBTC",
+      "datesUSDT": "Datas USDT/RBTC: 1 Abril 2021, 12.00 UTC  até 1 Maio 2021, 12.00 UTC",
+      "datesSOV": "Datas SOV/RBTC: 13 Abril 2021 12.00 UTC até 11 Maio 2021 12.00 UTC",
       "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
       "depositRBTC": "Recompensa se depositar RBTC: 25,000 SOV",
+      "depositSOV": "Recompensa se depositar SOV/RBTC: 75,000 SOV (15k /por semana mais 15k extra para primeira semana)",
       "sharePool": "Sua participação no pool é calculada pela:",
       "liquidityAdded": "liquidez adicionada por você * número de blocos mantidos",
-      "totalAdded": "liquidez total adicionada * número de blocos mantidos"
+      "totalAdded": "liquidez total adicionada * número de blocos mantidos",
+      "comingSoon": "Em breve"
     },
     "liquidity": {
       "title": "MINERAÇÃO DE LIQUIDEZ: USDT/BTC POOL",
@@ -198,7 +200,7 @@
     "lend": "Emprestar ativos",
     "borrow": "Obter empréstimo",
     "liquidity": "Adicionar liquidez",
-    "staking": "Staking",
+    "staking": "Aplicar SOV",
     "governance": "Governança",
     "wallet": "Portfólio",
     "stats": "Dados",
