@@ -20,9 +20,10 @@
     "hintTwo": "Consigue instrucciones de cómo conectarse con <0>Metamask</0> o <1>Nifty</1> y a continuación, conecta tu cartera:"
   },
   "serviceWorkerToaster": {
-    "title": "La App fue actualizada.",
-    "message": "Un nuevo contenido está disponible y podrá ser usado cuando todas las pestañas para esta página se cierren.",
-    "button": "Actualizar Contenido"
+    "title": "Sovryn se ha actualizado a <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Cierre todas las pestañas con Sovryn abierto para actualizar",
+    "updateBtn": "ACTUALIZAR",
+    "closeBtn": "Por favor déjame cerrar una operación"
   },
   "tradingActivity": {
     "title": "Mi Actividad de Comercio",
@@ -199,6 +200,13 @@
   "pageNotFound": {
     "text": "Pagina no encontrada.",
     "backHome": "Volver al Inicio"
+  },
+  "swap": {
+    "title": "Canjear",
+    "meta": "Canjear",
+    "minimumReceived": "Mínimo Admitido:",
+    "send": "Enviar",
+    "receive": "Recibir"
   },
   "liquidity": {
     "title": "Liquidez",

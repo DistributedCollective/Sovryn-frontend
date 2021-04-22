@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Header } from '../../components/Header';
 import { SwapFormContainer } from '../SwapFormContainer';
-import { SwapHistoryTable } from '../SwapHistoryTable';
+import { SwapHistory } from '../SwapHistory';
 
 interface Props {}
 
@@ -37,7 +37,7 @@ export function SwapPage(props: Props) {
         </div>
         <div className="row">
           <div className="col-12 swap-history-table-container">
-            <SwapHistoryTable title="Swap History" />
+            <SwapHistory />
           </div>
         </div>
       </div>

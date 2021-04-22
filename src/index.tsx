@@ -16,7 +16,6 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 // Import scss global styles
-import 'antd/dist/antd.css';
 import './styles/sass/styles.scss';
 import './styles/index.css';
 import '@sovryn/react-wallet/index.css';
