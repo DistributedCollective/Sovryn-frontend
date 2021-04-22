@@ -152,11 +152,11 @@ export function detectWeb3Wallet() {
       }
       return 'none';
     case ProviderType.PORTIS:
-      return 'Portis';
+      return 'portis';
     case ProviderType.LEDGER:
-      return 'Ledger';
+      return 'ledger';
     case ProviderType.TREZOR:
-      return 'Trezor';
+      return 'trezor';
     case ProviderType.WALLET_CONNECT:
       return 'wallet-connect';
   }
