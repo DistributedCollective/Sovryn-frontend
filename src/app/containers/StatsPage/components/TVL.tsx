@@ -1,26 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios, { Canceler } from 'axios';
+import { useInterval } from 'app/hooks/useInterval';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { TvlData } from '../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-export function TVL() {
+export interface Props {
+  rate: number;
+}
+
+export function TVL(props: Props) {
   const { t } = useTranslation();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<TvlData>();
 
-  useEffect(() => {
+  const cancelDataRequest = useRef<Canceler>();
+
+  const getData = useCallback(() => {
+    cancelDataRequest.current && cancelDataRequest.current();
+
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
     axios
-      .get(url + '/tvl')
+      .get(url + '/tvl', {
+        cancelToken,
+      })
       .then(res => {
         setData(res.data);
         setLoading(false);
       })
       .catch(e => console.error(e));
   }, [url]);
+
+  useInterval(() => {
+    getData();
+  }, props.rate * 1e3);
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rowData = [
     {

@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import axios, { Canceler } from 'axios';
+import { useInterval } from 'app/hooks/useInterval';
 
 import { translations } from 'locales/i18n';
 
 import { EventTable } from './EventTable';
-import { useInterval } from 'app/hooks/useInterval';
 
 export interface Props {
   isConnected: boolean;
