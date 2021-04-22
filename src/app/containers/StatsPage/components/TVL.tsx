@@ -7,7 +7,7 @@ import { TvlData } from '../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-export interface Props {
+interface Props {
   rate: number;
 }
 
@@ -112,3 +112,7 @@ export function TVL(props: Props) {
     </div>
   );
 }
+
+TVL.defaultProps = {
+  rate: 30,
+};

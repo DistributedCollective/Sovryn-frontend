@@ -34,7 +34,7 @@ export function StatsPage() {
             {t(translations.statsPage.titles.tvl)}
           </h1>
           <div className="sovryn-border sovryn-table p-3 mt-5 mb-5">
-            <TVL rate={30} />
+            <TVL />
           </div>
           <h1 className="text-center w-100">
             {t(translations.statsPage.titles.lending)}
