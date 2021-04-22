@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
@@ -7,11 +7,13 @@ import axios from 'axios';
 import { translations } from 'locales/i18n';
 
 import { EventTable } from './EventTable';
+import { useInterval } from 'app/hooks/useInterval';
 
 export interface Props {
   isConnected: boolean;
   txList: Array<any>;
   user: string;
+  rate: number;
 }
 
 export function SOVPoolData(props: Props) {
@@ -19,14 +21,21 @@ export function SOVPoolData(props: Props) {
   const api = backendUrl[currentChainId];
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(api + 'amm/liquidity-mining/sov/' + props.user)
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(e => console.error(e));
-  }, [api, props.user]);
+  let cancelTokenSource;
+  useInterval(() => {
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel('Canceled');
+    }
+    cancelTokenSource = axios.CancelToken.source();
+    if (props.user) {
+      axios
+        .get(api + 'amm/liquidity-mining/sov/' + props.user)
+        .then(res => {
+          setData(res.data);
+        })
+        .catch(e => console.error(e));
+    }
+  }, props.rate * 1e3);
 
   return (
     <div className="col-12">
