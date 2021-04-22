@@ -24,7 +24,7 @@ export function DetectionScreen(props: Props) {
   }
   return (
     <>
-      <div className="d-flex my-3 justify-content-center flex-row py-3 font-family-montserrat">
+      <div className="d-flex my-3 justify-content-center flex-row pt-3 pb-5 font-family-montserrat">
         <div className="mr-2">
           <img src={error_alert} alt="1" />
         </div>
@@ -33,41 +33,34 @@ export function DetectionScreen(props: Props) {
           <br /> Please switch to RSK Mainnet in your {props.walletType} wallet
         </div>
       </div>
-      <div className="d-flex my-3 justify-content-center flex-row py-3 font-family-montserrat">
+      <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
         <div className="d-flex flex-row justify-content-center align-items-center logo">
           <img alt="1" src={logo} className="text-center" />
         </div>
         {props.walletType === 'Metamask' && (
-          <>
+          <div className="d-flex flex-column ml-5">
+            <SettingsTitle> RSK Mainnet Settings</SettingsTitle>
+
             <Details>
               <SubLeftDetails>
-                {/* <SettingsTitle className="mt-5">
-                  {' '}
-                  RSK Mainnet Settings
-                </SettingsTitle> */}
-
-                <DetailTitle className="mt-3">Network Name:</DetailTitle>
-                <DetailTitle className="mt-3">New RPC Url:</DetailTitle>
-                <DetailTitle className="mt-3">Chaind Id:</DetailTitle>
-                <DetailTitle className="mt-3">Symbol:</DetailTitle>
-                <DetailTitle className="mt-3">Block Explorer URL:</DetailTitle>
+                <DetailTitle>Network Name:</DetailTitle>
+                <DetailTitle>New RPC Url:</DetailTitle>
+                <DetailTitle>Chaind Id:</DetailTitle>
+                <DetailTitle>Symbol:</DetailTitle>
+                <DetailTitle>Block Explorer URL:</DetailTitle>
               </SubLeftDetails>
               <SubRightDetails>
-                <DetailTitle className="mt-3">RSK Mainnet</DetailTitle>
-                <DetailTitle className="mt-3">
-                  https://public-node.rsk.co
-                </DetailTitle>
-                <DetailTitle className="mt-3">30</DetailTitle>
-                <DetailTitle className="mt-3">RBTC</DetailTitle>
-                <DetailTitle className="mt-3">
-                  https://explorer.rsk.co
-                </DetailTitle>
+                <DetailTitle>RSK Mainnet</DetailTitle>
+                <DetailTitle>https://public-node.rsk.co</DetailTitle>
+                <DetailTitle>30</DetailTitle>
+                <DetailTitle>RBTC</DetailTitle>
+                <DetailTitle>https://explorer.rsk.co</DetailTitle>
               </SubRightDetails>
             </Details>
-          </>
+          </div>
         )}
       </div>
-      <div className="d-flex my-3 justify-content-center align-items-center text-center">
+      <div className="d-flex my-5 justify-content-center align-items-center text-center">
         <a onClick={props.onStart} className="titleTut font-family-montserrat">
           How to connect to RSK Mainnet with {props.walletType}
         </a>
@@ -76,29 +69,33 @@ export function DetectionScreen(props: Props) {
   );
 }
 const Details = styled.div`
-  width: 40%;
+  width: 120%;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 const SubLeftDetails = styled.div`
-  width: 30%;
+  width: 50%;
   display: flex;
+  height: 160px;
+  justify-content: space-evenly;
   flex-direction: column;
   /* justify-content: start; */
 `;
 const SubRightDetails = styled.div`
-  width: 40%;
+  width: 60%;
   display: flex;
+  height: 160px;
+  justify-content: space-evenly;
   flex-direction: column;
   /* justify-content: start; */
 `;
-// const SettingsTitle = styled.div`
-//   font-size: 15px;
-//   font-weight: 500;
-//   text-align: left;
-//   color: white;
-// `;
+const SettingsTitle = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: white;
+`;
 const DetailTitle = styled.div`
   font-size: 12px;
   font-weight: 400;

@@ -90,9 +90,9 @@ export function TutorialScreen(props: Props) {
   return (
     <>
       <BackButton onClick={props.onBack} />
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="d-flex flex-row justify-content-center align-items-center my-4">
         <LeftBlock>
-          <div className="rounded p-4 text-center">
+          <div className="rounded p-2 text-center">
             <img
               key={step}
               src={steps[step].image}
@@ -100,7 +100,7 @@ export function TutorialScreen(props: Props) {
               className="mx-auto tutorial-image"
             />
           </div>
-          <div className="d-flex flex-row justify-content-center align-items-center mt-3">
+          <div className="d-flex flex-row justify-content-center align-items-center mt-1">
             <NavBtn onClick={handleBack}>
               <Icon icon="caret-left" iconSize={24} className="text-white" />
             </NavBtn>
@@ -243,8 +243,8 @@ const SettingsTitle = styled.div`
   color: white;
 `;
 const StepTitle = styled.div`
-  font-size: 23px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 500;
   text-align: left;
   color: white;
 `;
@@ -260,7 +260,7 @@ const LeftBlock = styled.div`
   margin-right: 30px;
 
   .tutorial-image {
-    animation: fadeIn 1s ease-;
+    animation: fadeIn 1s ease-in;
   }
 
   @keyframes fadeIn {
