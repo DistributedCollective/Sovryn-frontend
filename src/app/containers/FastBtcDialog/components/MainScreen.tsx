@@ -1,16 +1,17 @@
-import React, { Dispatch, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { web3Wallets } from '@sovryn/wallet';
-import { FastBtcDialogState, Step } from '../types';
-import { actions } from '../slice';
-import styles from '../index.module.css';
+import React, { Dispatch, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { translations } from '../../../../locales/i18n';
-import { BTCButton } from './BTCButton';
+import { currentChainId } from '../../../../utils/classifiers';
 import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
+import styles from '../index.module.css';
+import { actions } from '../slice';
+import { FastBtcDialogState, Step } from '../types';
+import { BTCButton } from './BTCButton';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
-import { currentChainId } from '../../../../utils/classifiers';
 
 interface MainScreenProps {
   state: FastBtcDialogState;
