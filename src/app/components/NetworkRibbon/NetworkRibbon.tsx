@@ -24,9 +24,6 @@ export function NetworkRibbon(this: any) {
     setShow(getStatus());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, wallet.chainId, wallet.providerType]);
-  const handleClose = () => {
-    setShow(false);
-  };
   const handleTutDialog = () => {
     setStart(true);
   };
@@ -34,12 +31,7 @@ export function NetworkRibbon(this: any) {
     setStart(false);
   };
   return (
-    <NetworkDialog
-      isOpen={isConnect}
-      onClose={handleClose}
-      className="fw-700"
-      size="normal"
-    >
+    <NetworkDialog isOpen={isConnect} className="fw-700" size="normal">
       <div className="py-2 font-family-montserrat">
         <div className="text-center title">Change to RSK Network </div>
       </div>

@@ -9,7 +9,6 @@ type DialogSize = 'normal' | 'large' | 'small';
 
 interface Props {
   isOpen: boolean;
-  onClose: () => void;
   onClosed?: () => void;
   onClosing?: () => void;
   className?: string;
@@ -37,14 +36,6 @@ export function NetworkDialog(props: Props) {
             props.className,
           )}
         >
-          <button
-            className={styles.close}
-            onClick={props.onClose}
-            type="button"
-            title="Close"
-          >
-            <span className={styles.sr_only}>Close</span>
-          </button>
           <div className={styles.content}>{props.children}</div>
         </article>
       </div>
