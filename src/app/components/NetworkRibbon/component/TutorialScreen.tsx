@@ -65,11 +65,11 @@ const niftySteps: IStep[] = [
 export function TutorialScreen(props: Props) {
   const [step, setStep] = useState(0);
   var steps: IStep[] = [];
-  if (props.walletType === 'Metamask') {
+  if (props.walletType === 'metamask') {
     steps = metaSteps;
-  } else if (props.walletType === 'Liquality') {
+  } else if (props.walletType === 'liquality') {
     steps = liqSteps;
-  } else if (props.walletType === 'Nifty') {
+  } else if (props.walletType === 'nifty') {
     steps = niftySteps;
   }
   const handleBack = () => {
@@ -119,7 +119,7 @@ export function TutorialScreen(props: Props) {
         <RightBlock>
           <StepTitle>{steps[step].step}</StepTitle>
           <SettingsTitle className="mt-3">{steps[step].title}</SettingsTitle>
-          {step === 3 && props.walletType === 'Metamask' && (
+          {step === 3 && props.walletType === 'metamask' && (
             <>
               <SettingsTitle className="mt-5">
                 RSK Mainnet Settings
@@ -261,6 +261,8 @@ const LeftBlock = styled.div`
 
   .tutorial-image {
     animation: fadeIn 1s ease-in;
+    width: 350px;
+    height: 350px;
   }
 
   @keyframes fadeIn {

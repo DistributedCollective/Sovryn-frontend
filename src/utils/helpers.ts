@@ -145,9 +145,9 @@ export function detectWeb3Wallet() {
     case ProviderType.WEB3:
       const { ethereum } = window as any;
       if (ethereum) {
-        if (ethereum.isLiquality) return 'Liquality';
-        if (ethereum.isNiftyWallet) return 'Nifty';
-        if (ethereum.isMetaMask) return 'Metamask';
+        if (ethereum.isLiquality) return 'liquality';
+        if (ethereum.isNiftyWallet) return 'nifty';
+        if (ethereum.isMetaMask) return 'metamask';
         return 'unknown';
       }
       return 'none';

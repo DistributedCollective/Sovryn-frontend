@@ -19,6 +19,8 @@ export function DetectionScreen(props: Props) {
   var netName: string = '';
   const { ethereum } = window as any;
   const chainId = parseInt(ethereum.chainId as string);
+  const walletName =
+    props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
   // eslint-disable-next-line array-callback-return
   netData.map(item => {
     if (item.chainId === chainId) {
@@ -26,11 +28,11 @@ export function DetectionScreen(props: Props) {
       return 0;
     }
   });
-  if (props.walletType === 'Metamask') {
+  if (props.walletType === 'metamask') {
     logo = metamask;
-  } else if (props.walletType === 'Liquality') {
+  } else if (props.walletType === 'liquality') {
     logo = liquality;
-  } else if (props.walletType === 'Nifty') {
+  } else if (props.walletType === 'nifty') {
     logo = nifty;
   }
   return (
@@ -41,14 +43,14 @@ export function DetectionScreen(props: Props) {
         </div>
         <div className="text-left subtitle">
           We detected that you are on {netName}
-          <br /> Please switch to RSK Mainnet in your {props.walletType} wallet
+          <br /> Please switch to RSK Mainnet in your {walletName} wallet
         </div>
       </div>
       <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
         <div className="d-flex flex-row justify-content-center align-items-center logo">
           <img alt="1" src={logo} className="text-center" />
         </div>
-        {props.walletType === 'Metamask' && (
+        {props.walletType === 'metamask' && (
           <div className="d-flex flex-column ml-5">
             <SettingsTitle> RSK Mainnet Settings</SettingsTitle>
 
@@ -73,7 +75,7 @@ export function DetectionScreen(props: Props) {
       </div>
       <div className="d-flex my-5 justify-content-center align-items-center text-center">
         <a onClick={props.onStart} className="titleTut font-family-montserrat">
-          How to connect to RSK Mainnet with {props.walletType}
+          How to connect to RSK Mainnet with {walletName}
         </a>
       </div>
     </>
