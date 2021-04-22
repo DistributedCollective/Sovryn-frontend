@@ -1,11 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from 'styled-components/macro';
 
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
 import nifty from '../../../../assets/wallet_icons/nifty.svg';
+import netData from './network.json';
 
 import '../_networkRibbon.scss';
 
@@ -15,6 +16,16 @@ interface Props {
 }
 export function DetectionScreen(props: Props) {
   var logo: any = null;
+  var netName: string = '';
+  const { ethereum } = window as any;
+  const chainId = parseInt(ethereum.chainId as string);
+  // eslint-disable-next-line array-callback-return
+  netData.map(item => {
+    if (item.chainId === chainId) {
+      netName = item.name;
+      return 0;
+    }
+  });
   if (props.walletType === 'Metamask') {
     logo = metamask;
   } else if (props.walletType === 'Liquality') {
@@ -29,7 +40,7 @@ export function DetectionScreen(props: Props) {
           <img src={error_alert} alt="1" />
         </div>
         <div className="text-left subtitle">
-          We detected that you are on Ethereum Mainnet
+          We detected that you are on {netName}
           <br /> Please switch to RSK Mainnet in your {props.walletType} wallet
         </div>
       </div>
@@ -45,7 +56,7 @@ export function DetectionScreen(props: Props) {
               <SubLeftDetails>
                 <DetailTitle>Network Name:</DetailTitle>
                 <DetailTitle>New RPC Url:</DetailTitle>
-                <DetailTitle>Chaind Id:</DetailTitle>
+                <DetailTitle>Chain Id:</DetailTitle>
                 <DetailTitle>Symbol:</DetailTitle>
                 <DetailTitle>Block Explorer URL:</DetailTitle>
               </SubLeftDetails>

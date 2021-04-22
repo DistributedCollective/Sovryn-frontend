@@ -13,7 +13,6 @@ import './_networkRibbon.scss';
 
 export function NetworkRibbon(this: any) {
   const { connected, wallet } = useWalletContext();
-  console.log(useWalletContext());
   const walletName = detectWeb3Wallet();
   const getStatus = () =>
     connected &&

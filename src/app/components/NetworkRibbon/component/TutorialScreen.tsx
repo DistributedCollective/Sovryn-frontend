@@ -90,7 +90,7 @@ export function TutorialScreen(props: Props) {
   return (
     <>
       <BackButton onClick={props.onBack} />
-      <div className="d-flex flex-row justify-content-center align-items-center my-4">
+      <div className="d-flex flex-row justify-content-center align-items-center my-4 py-3">
         <LeftBlock>
           <div className="rounded p-2 text-center">
             <img
@@ -128,7 +128,7 @@ export function TutorialScreen(props: Props) {
                 <SubDetails>
                   <DetailTitle className="mt-3">Network Name:</DetailTitle>
                   <DetailTitle className="mt-3">New RPC Url:</DetailTitle>
-                  <DetailTitle className="mt-3">Chaind Id:</DetailTitle>
+                  <DetailTitle className="mt-3">Chain Id:</DetailTitle>
                   <DetailTitle className="mt-3">Symbol:</DetailTitle>
                   <DetailTitle className="mt-3">
                     Block Explorer URL:
