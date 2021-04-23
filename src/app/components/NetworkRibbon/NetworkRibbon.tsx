@@ -2,6 +2,9 @@
 import { useWalletContext } from '@sovryn/react-wallet';
 import { web3Wallets } from '@sovryn/wallet';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { translations } from 'locales/i18n';
 
 import { currentChainId } from '../../../utils/classifiers';
 import { detectWeb3Wallet } from '../../../utils/helpers';
@@ -14,6 +17,8 @@ import './_networkRibbon.scss';
 export function NetworkRibbon(this: any) {
   const { connected, wallet } = useWalletContext();
   const walletName = detectWeb3Wallet();
+  const { t } = useTranslation();
+
   const getStatus = () =>
     connected &&
     web3Wallets.includes(wallet.providerType) &&
@@ -33,7 +38,9 @@ export function NetworkRibbon(this: any) {
   return (
     <NetworkDialog isOpen={isConnect} className="fw-700" size="normal">
       <div className="py-2 font-family-montserrat">
-        <div className="text-center title">Change to RSK Network </div>
+        <div className="text-center title">
+          {t(translations.wrongNetworkDialog.title)}{' '}
+        </div>
       </div>
       {!startTut ? (
         <DetectionScreen onStart={handleTutDialog} walletType={walletName} />
