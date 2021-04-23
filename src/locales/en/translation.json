@@ -93,11 +93,14 @@
     "auth": "Please connect and authorize your wallet.",
     "noClosedTrades": "You do not have any closed trades.",
     "table": {
+      "direction": "Direction",
       "positionSize": "Position Size",
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit",
+      "profit": "Realized P&L",
+      "entryTxHash": "Entry Transaction Hash",
+      "closeTxHash": "Exit Transaction Hash",
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -877,26 +880,23 @@
         "pair": "Pair:",
         "asset": "Asset:",
         "leverage": "Leverage:",
-        "amount": "Amount:"
+        "amount": "Amount:",
+        "balance": "Available Balance: <0/> {{symbol}}",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Long",
         "short": "Short"
       }
-    }
+    },
+    "openPositions": "Open Positions",
+    "tradingHistory": "Trading History"
   },
   "form": {
     "select": {
       "noResults": "No results",
       "placeholder": "Select item"
     }
-  },
-  "vestingDialog": {
-    "title": "Withdraw Vesting",
-    "subtitle": "This transaction requires rBTC for gas.",
-    "amount": "Amount to Withdraw:",
-    "receiver": "Receive SOV to:",
-    "calculating": "Calculating..."
   },
   "liquidityMining": {
     "explainer": {
@@ -959,6 +959,7 @@
       "txStatus": {
         "title": "Transaction Status",
         "aborted": "Transaction was aborted by user.",
+        "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }
     },
@@ -1011,5 +1012,25 @@
     },
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
+  },
+  "addToMargin": {
+    "title": "Top Up",
+    "amount": "Amount to Add:",
+    "liquidationPrice": "Liquidation Price:"
+  },
+  "openPositionTable": {
+    "direction": "Direction",
+    "positionSize": "Position Size",
+    "entryPrice": "Entry Price",
+    "liquidationPrice": "Liquidation Price",
+    "positionMargin": "Position Margin",
+    "unrealizedPL": "Unrealized P&L",
+    "interestAPR": "Interest APR",
+    "actions": "Actions",
+    "noData": "No data",
+    "cta": {
+      "margin": "Add to Margin",
+      "close": "Close Position"
+    }
   }
 }

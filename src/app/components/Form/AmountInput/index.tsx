@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { bignumber } from 'mathjs';
 import { Input } from '../Input';
 import { Asset } from '../../../../types/asset';
@@ -11,9 +11,10 @@ interface Props {
   onChange: (value: string) => void;
   asset?: Asset;
   placeholder?: string;
+  maxAmount?: string;
 }
 
-export function AmountInput(props: Props) {
+export function AmountInput({ asset, maxAmount, ...props }: Props) {
   return (
     <>
       <Input
@@ -21,13 +22,15 @@ export function AmountInput(props: Props) {
         onChange={props.onChange}
         type="number"
         placeholder={props.placeholder || '0.0000'}
-        appendElem={
-          props.asset ? AssetsDictionary.get(props.asset)?.symbol : null
-        }
+        appendElem={asset ? AssetsDictionary.get(asset)?.symbol : null}
         {...props}
       />
-      {props.asset && (
-        <AmountSelector asset={props.asset} onChange={props.onChange} />
+      {(asset || maxAmount !== undefined) && (
+        <AmountSelector
+          asset={asset}
+          maxAmount={maxAmount}
+          onChange={props.onChange}
+        />
       )}
     </>
   );
@@ -36,12 +39,20 @@ export function AmountInput(props: Props) {
 const amounts = [10, 25, 50, 75, 100];
 
 interface AmountSelectorProps {
-  asset: Asset;
+  asset?: Asset;
+  maxAmount?: string;
   onChange: (value: string) => void;
 }
 
 function AmountSelector(props: AmountSelectorProps) {
-  const { value: balance } = useAssetBalanceOf(props.asset);
+  const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
+  const balance = useMemo(() => {
+    if (props.maxAmount !== undefined) {
+      return props.maxAmount;
+    }
+    return value;
+  }, [props.maxAmount, value]);
+
   const handleChange = (percent: number) => {
     let value = '0';
     if (percent === 100) {
@@ -54,10 +65,9 @@ function AmountSelector(props: AmountSelectorProps) {
         .toString();
     }
     props.onChange(fromWei(value));
-    console.log(balance, percent);
   };
   return (
-    <div className="tw-mt-6 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary lg:tw-rounded tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-4 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

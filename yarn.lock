@@ -2621,7 +2621,7 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hookstate/core@^3.0.6":
+"@hookstate/core@3.0.6", "@hookstate/core@^3.0.6":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@hookstate/core/-/core-3.0.6.tgz#1a686d05076f0c58e2c96c9afa2bed85964f2577"
   integrity sha512-WxFM9gYJvjIXqnpRw74ue+5pEAHzTWf7CbAYV33yFTD9rxCw4o/aeGkAQO+alB+fXjIZuiZzRntP/BAbzAguKw==

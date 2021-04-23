@@ -19,9 +19,10 @@ interface Props {
   children: React.ReactNode;
   value: string;
   onChange: (value: string) => void;
+  className?: string;
 }
 
-function RadioGroup({ children, value, onChange }: Props) {
+function RadioGroup({ children, value, onChange, className }: Props) {
   const [state, setState] = useState('');
 
   function handleOnChange(value: string) {
@@ -35,7 +36,7 @@ function RadioGroup({ children, value, onChange }: Props) {
 
   return (
     <RadioContext.Provider value={[state, handleOnChange]}>
-      <div role="radiogroup" className="tw-radio-group">
+      <div role="radiogroup" className={cn('tw-radio-group', className)}>
         {children}
       </div>
     </RadioContext.Provider>

@@ -155,7 +155,10 @@ export function TradingChart(props: ChartContainerProps) {
   }, [props.symbol, props.rate, props.type]);
 
   return (
-    <div className="w-100 h-100 bg-primary" style={{ minHeight: 500 }}>
+    <div
+      className="tw-w-full tw-h-full tw-bg-primary"
+      style={{ minHeight: 500 }}
+    >
       {hasCharts ? (
         <Chart
           options={{
@@ -182,7 +185,7 @@ export function TradingChart(props: ChartContainerProps) {
         />
       ) : (
         <>
-          <div className="row h-100 d-flex align-content-end">
+          <div className="row tw-h-full tw-flex tw-content-end">
             <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
               <Skeleton height="50%" />
             </div>

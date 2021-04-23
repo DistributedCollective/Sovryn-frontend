@@ -48,25 +48,21 @@
     border: 1px solid;
     margin-left: 15px;
     border-radius: 25px !important;
-    font-family: $font-family-montserrat;
     font-weight: 100;
     font-size: 14px;
     text-transform: none;
     padding: 8px 20px;
     transition: background 0.3s;
-
-    &:hover {
-      background: rgba(254, 192, 4, 0.25) !important;
-    }
-
-    &:active,
-    &:focus {
-      background: rgba(254, 192, 4, 0.5) !important;
-    }
-
-    &:disabled {
-      opacity: 0.5;
-    }
+    @apply tw-font-body;
+  }
+  button.tw-button-round:hover {
+    background: rgba(254, 192, 4, 0.25) !important;
+  }
+  button.tw-button-round:focus, button.tw-button-round:active {
+    background: rgba(254, 192, 4, 0.5) !important;
+  }
+  button.tw-button-round:disabled {
+    opacity: 0.5;
   }
   .tw-circle {
     width: 15px;
@@ -78,5 +74,9 @@
   }
   .tw-circle .tw.circle-green {
     background-color: var(--green);
+  }
+
+  article.bp3-dialog h1 {
+    @apply tw-text-white;
   }
 }

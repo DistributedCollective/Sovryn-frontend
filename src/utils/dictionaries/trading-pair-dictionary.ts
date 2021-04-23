@@ -1,11 +1,13 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
+import { TradingPosition } from '../../types/trading-position';
 
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',
-  BPRO_USDT = 'BPRO_USDT',
   RBTC_SOV = 'RBTC_SOV',
+  BPRO_USDT = 'BPRO_USDT',
+  BPRO_DOC = 'BPRO_DOC',
 }
 
 export class TradingPairDictionary {
@@ -17,70 +19,62 @@ export class TradingPairDictionary {
     [
       TradingPairType.RBTC_USDT,
       new TradingPair(
-        'RBTC/USDT',
-        // asset
-        Asset.RBTC,
+        TradingPairType.RBTC_USDT,
+        'RBTCUSDT',
         'RBTC:USDT',
-        // asset for long position
         Asset.USDT,
-        // asset for short position
         Asset.RBTC,
-        [Asset.RBTC, Asset.USDT, Asset.DOC],
-        [Asset.RBTC, Asset.USDT, Asset.DOC],
-      ),
-    ],
-    [
-      TradingPairType.BPRO_USDT,
-      new TradingPair(
-        'BPRO/USDT',
-        // asset
-        Asset.BPRO,
-        'BPRO:USDT',
-        // asset for long position
-        Asset.USDT,
-        // asset for short position
-        Asset.BPRO,
-        [Asset.USDT, Asset.BPRO, Asset.DOC],
-        [Asset.USDT, Asset.BPRO, Asset.DOC],
+        [Asset.RBTC, Asset.USDT],
       ),
     ],
     // [
     //   TradingPairType.RBTC_SOV,
     //   new TradingPair(
-    //     'RBTC/SOV',
-    //     // asset
-    //     Asset.RBTC,
-    //     'BTC:SOV',
-    //     // asset for long position
+    //     TradingPairType.RBTC_DOC,
+    //     'RBTCSOV',
+    //     'RBTC:SOV',
     //     Asset.SOV,
-    //     // asset for short position
-    //     Asset.RBTC, // no shorting for SOV
+    //     Asset.RBTC,
     //     [Asset.RBTC, Asset.SOV],
-    //     [],
     //   ),
     // ],
+    [
+      TradingPairType.RBTC_DOC,
+      new TradingPair(
+        TradingPairType.RBTC_DOC,
+        'RBTCDOC',
+        'RBTC:DOC',
+        Asset.DOC,
+        Asset.RBTC,
+        [Asset.RBTC, Asset.DOC],
+      ),
+    ],
+    [
+      TradingPairType.BPRO_USDT,
+      new TradingPair(
+        TradingPairType.BPRO_USDT,
+        'BRPOUSDT',
+        'BPRO:USDT',
+        Asset.USDT,
+        Asset.BPRO,
+        [Asset.BPRO, Asset.USDT],
+      ),
+    ],
+    [
+      TradingPairType.BPRO_DOC,
+      new TradingPair(
+        TradingPairType.BPRO_DOC,
+        'BRPODOC',
+        'BPRO:DOC',
+        Asset.DOC,
+        Asset.BPRO,
+        [Asset.BPRO, Asset.DOC],
+      ),
+    ],
   ]);
 
   public static get(pair: TradingPairType): TradingPair {
     return this.pairs.get(pair) as TradingPair;
-  }
-
-  public static getByLoanAsset(asset: Asset): TradingPair {
-    return this.list().find(
-      item => item.getShortAsset() === asset || item.getLongAsset() === asset,
-    ) as TradingPair;
-  }
-
-  public static getByShortAsset(asset: Asset): TradingPair {
-    return this.list().find(
-      item => item.getShortAsset() === asset,
-    ) as TradingPair;
-  }
-
-  public static getByLongAsset(asset: Asset): TradingPair {
-    return this.list().find(
-      item => item.getLongAsset() === asset,
-    ) as TradingPair;
   }
 
   public static list(): Array<TradingPair> {
@@ -97,5 +91,22 @@ export class TradingPairDictionary {
 
   public static entries() {
     return Array.from(this.pairs.entries());
+  }
+
+  public static findPair(loanToken: Asset, collateral: Asset) {
+    return this.list().find(
+      item =>
+        (item.longAsset === loanToken && item.shortAsset === collateral) ||
+        (item.shortAsset === loanToken && item.longAsset === collateral),
+    ) as TradingPair;
+  }
+
+  public static getPositionByPair(loanToken: Asset, collateral: Asset) {
+    const pair = this.findPair(loanToken, collateral);
+    if (!pair) {
+      return undefined;
+    }
+    if (pair.longAsset === loanToken) return TradingPosition.LONG;
+    return TradingPosition.SHORT;
   }
 }

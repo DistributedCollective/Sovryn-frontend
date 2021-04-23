@@ -27,7 +27,7 @@ import { MaintenancePage } from './containers/MaintenancePage';
 import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
-import { MarginTradePage } from './containers/MarginTradePage/Loadable';
+import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';

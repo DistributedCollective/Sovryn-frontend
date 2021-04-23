@@ -1,50 +1,74 @@
 import React from 'react';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faLongArrowAltDown,
-  faLongArrowAltUp,
-} from '@fortawesome/free-solid-svg-icons';
 import { bignumber } from 'mathjs';
+import { Tooltip } from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
 import { TradingPosition } from '../../../types/trading-position';
+import {
+  toNumberFormat,
+  weiToNumberFormat,
+} from '../../../utils/display-text/format';
+import { Asset } from '../../../types/asset';
+import { translations } from '../../../locales/i18n';
 
 interface Props {
   entryPrice: string;
   closePrice: string;
   profit: string;
   position: TradingPosition;
+  asset: Asset;
 }
 
 export function TradeProfit(props: Props) {
   let change = bignumber(bignumber(props.closePrice).minus(props.entryPrice))
     .div(props.closePrice)
     .mul(100)
-    .toFixed(4);
+    .toNumber();
   if (props.position === TradingPosition.SHORT) {
     change = bignumber(bignumber(props.entryPrice).minus(props.closePrice))
       .div(props.entryPrice)
       .mul(100)
-      .toFixed(4);
+      .toNumber();
   }
+
   return (
-    <>
-      <div className="tw-inline">{`$ ${parseFloat(
-        weiTo4(props.profit),
-      ).toLocaleString('en')}`}</div>
-      <div
-        className="tw-inline tw-ml-2 tw-mr-2"
-        style={{
-          fontSize: '12px',
-          color: Number(change) > 0 ? 'Green' : 'Red',
-        }}
+    <div>
+      <Tooltip
+        content={
+          <>
+            <Change change={Number(change)} />
+          </>
+        }
       >
-        <div className="tw-inline">
-          <FontAwesomeIcon
-            icon={Number(change) > 0 ? faLongArrowAltUp : faLongArrowAltDown}
-          />
-          {` ${change} %`}
-        </div>
-      </div>
-    </>
+        <span className={change < 0 ? 'tw-text-red' : 'tw-text-green'}>
+          {change > 0 && '+'}
+          {weiToNumberFormat(props.profit, 4)} {props.asset}
+        </span>
+      </Tooltip>
+    </div>
   );
+}
+
+function Change({ change }: { change: number }) {
+  const { t } = useTranslation();
+  if (change > 0) {
+    return (
+      <>
+        {t(translations.tradingHistoryPage.table.profitLabels.up)}
+        <span className="tw-text-green">{toNumberFormat(change * 100, 2)}</span>
+        %
+      </>
+    );
+  }
+  if (change < 0) {
+    return (
+      <>
+        {t(translations.tradingHistoryPage.table.profitLabels.down)}
+        <span className="tw-text-red">
+          {toNumberFormat(Math.abs(change * 100), 2)}
+        </span>
+        %
+      </>
+    );
+  }
+  return <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>;
 }

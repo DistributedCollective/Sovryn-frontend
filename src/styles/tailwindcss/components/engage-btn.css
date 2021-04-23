@@ -1,0 +1,48 @@
+/* trading button styles */
+@layer components {
+  .tw-btn-engage {
+    width: 100%;
+    height: 3.75rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-px-6 tw-py-2;
+    @apply tw-transition;
+    @apply tw-text-white;
+    @apply tw-border-0 tw-rounded;
+    background: #17c3b2;
+  }
+
+  .tw-btn-engage:hover {
+    @apply tw-opacity-75;
+  }
+
+  .tw-btn-engage:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
+
+  .tw-btn-engage.loading,
+  .tw-btn-engage.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
+  }
+
+  .tw-btn-engage .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.white');
+  }
+
+  .tw-btn-engage .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+
+  .tw-btn-engage__spinner {
+    @apply tw-block tw-overflow-hidden tw-text-left;
+    transition: width 150ms, opacity 100ms;
+    opacity: 0;
+    width: 0;
+  }
+
+  .tw-btn-engage__spinner.active {
+    width: 2rem;
+    opacity: 100;
+  }
+}
