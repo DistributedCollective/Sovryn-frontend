@@ -1,5 +1,6 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
+import { TradingPosition } from '../../types/trading-position';
 
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
@@ -78,5 +79,22 @@ export class TradingPairDictionary {
 
   public static entries() {
     return Array.from(this.pairs.entries());
+  }
+
+  public static findPair(loanToken: Asset, collateral: Asset) {
+    return this.list().find(
+      item =>
+        (item.longAsset === loanToken && item.shortAsset === collateral) ||
+        (item.shortAsset === loanToken && item.longAsset === collateral),
+    ) as TradingPair;
+  }
+
+  public static getPositionByPair(loanToken: Asset, collateral: Asset) {
+    const pair = this.findPair(loanToken, collateral);
+    if (!pair) {
+      return undefined;
+    }
+    if (pair.longAsset === loanToken) return TradingPosition.LONG;
+    return TradingPosition.SHORT;
   }
 }

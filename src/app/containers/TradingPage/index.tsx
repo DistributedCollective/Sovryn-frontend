@@ -55,14 +55,6 @@ export function TradingPage(props: Props) {
   const tradingPage = useSelector(selectTradingPage);
   const { t } = useTranslation();
 
-  const symbol = useMemo(() => {
-    if (tradingPage.tab === TabType.TRADE) {
-      return TradingPairDictionary.get(tradingPage.tradingPair)?.chartSymbol;
-    } else {
-      return getSwapPair(tradingPage.swapPair);
-    }
-  }, [tradingPage.tab, tradingPage.tradingPair, tradingPage.swapPair]);
-
   return (
     <>
       <Helmet>

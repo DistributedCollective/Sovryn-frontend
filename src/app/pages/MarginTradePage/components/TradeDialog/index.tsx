@@ -21,14 +21,17 @@ import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTradi
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { DialogButton } from 'form/DialogButton';
-import { SendTxProgress } from '../../../../components/SendTxProgress';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { toWei } from 'web3-utils';
 import { Asset } from '../../../../../types/asset';
 import { useAccount } from '../../../../hooks/useAccount';
+import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { translations } from '../../../../../locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function TradeDialog() {
+  const { t } = useTranslation();
   const account = useAccount();
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
@@ -70,90 +73,94 @@ export function TradeDialog() {
   };
 
   return (
-    <Dialog
-      isOpen={!!position}
-      onClose={() => dispatch(actions.closeTradingModal())}
-    >
-      <div className="tw-mw-320 tw-mx-auto">
-        <h1 className="tw-mb-6 tw-text-white tw-text-center">
-          Review Transaction
-        </h1>
-        <LabelValuePair label="Trading Pair:" value={pair.name} />
-        <LabelValuePair
-          label="Leverage:"
-          value={<>{toNumberFormat(leverage)}x</>}
-        />
-        <LabelValuePair label="Direction:" value={position} />
-        <LabelValuePair
-          label="Collateral:"
-          value={
-            <>
-              <LoadableValue
-                loading={false}
-                value={weiToNumberFormat(amount, 4)}
-                tooltip={fromWei(amount)}
-              />{' '}
-              {asset.symbol}
-            </>
-          }
-        />
-        <LabelValuePair
-          label="Maintenance Margin:"
-          value={<>{weiToNumberFormat(15)}%</>}
-        />
-        <LabelValuePair
-          label="Est. Liquidation price:"
-          value={
-            <>
-              <LiquidationPrice
-                asset={loanToken}
-                assetLong={collateralToken}
-                leverage={leverage}
-                position={position}
-              />{' '}
-              USD
-            </>
-          }
-        />
-        {/*<LabelValuePair*/}
-        {/*  label="Renewal Date:"*/}
-        {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
-        {/*/>*/}
-        <FormGroup label="Approx. Position Entry Price:" className="tw-mt-8">
-          <div className="tw-input-wrapper readonly">
-            <div className="tw-input">
-              <PricePrediction
-                position={position}
-                leverage={leverage}
-                loanToken={loanToken}
-                collateralToken={collateralToken}
-                useLoanTokens={useLoanTokens}
-                weiAmount={amount}
-              />
+    <>
+      <Dialog
+        isOpen={!!position}
+        onClose={() => dispatch(actions.closeTradingModal())}
+      >
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+            Review Transaction
+          </h1>
+          <LabelValuePair label="Trading Pair:" value={pair.name} />
+          <LabelValuePair
+            label="Leverage:"
+            value={<>{toNumberFormat(leverage)}x</>}
+          />
+          <LabelValuePair label="Direction:" value={position} />
+          <LabelValuePair
+            label="Collateral:"
+            value={
+              <>
+                <LoadableValue
+                  loading={false}
+                  value={weiToNumberFormat(amount, 4)}
+                  tooltip={fromWei(amount)}
+                />{' '}
+                {asset.symbol}
+              </>
+            }
+          />
+          <LabelValuePair
+            label="Maintenance Margin:"
+            value={<>{weiToNumberFormat(15)}%</>}
+          />
+          <LabelValuePair
+            label="Est. Liquidation price:"
+            value={
+              <>
+                <LiquidationPrice
+                  asset={pair.shortAsset}
+                  assetLong={pair.longAsset}
+                  leverage={leverage}
+                  position={position}
+                />{' '}
+                USD
+              </>
+            }
+          />
+          {/*<LabelValuePair*/}
+          {/*  label="Renewal Date:"*/}
+          {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
+          {/*/>*/}
+          <FormGroup label="Approx. Position Entry Price:" className="tw-mt-8">
+            <div className="tw-input-wrapper readonly">
+              <div className="tw-input">
+                <PricePrediction
+                  position={position}
+                  leverage={leverage}
+                  loanToken={loanToken}
+                  collateralToken={collateralToken}
+                  useLoanTokens={useLoanTokens}
+                  weiAmount={amount}
+                />
+              </div>
+              <div className="tw-input-append">USD</div>
             </div>
-            <div className="tw-input-append">USD</div>
-          </div>
-        </FormGroup>
-        <TxFeeCalculator
-          args={txArgs}
-          txConfig={txConf}
-          methodName="marginTrade"
-          contractName={contractName}
-          condition={true}
-        />
-      </div>
+          </FormGroup>
+          <TxFeeCalculator
+            args={txArgs}
+            txConfig={txConf}
+            methodName="marginTrade"
+            contractName={contractName}
+            condition={true}
+          />
+        </div>
 
-      <SendTxProgress {...tx} displayAbsolute={false} />
-
-      <div className="tw-px-5">
-        <DialogButton
-          confirmLabel="Confirm"
-          onConfirm={() => submit()}
-          cancelLabel="Cancel"
-          onCancel={() => dispatch(actions.closeTradingModal())}
-        />
-      </div>
-    </Dialog>
+        <div className="tw-px-5">
+          <DialogButton
+            confirmLabel={t(translations.common.confirm)}
+            onConfirm={() => submit()}
+            cancelLabel={t(translations.common.cancel)}
+            onCancel={() => dispatch(actions.closeTradingModal())}
+          />
+        </div>
+      </Dialog>
+      <TxDialog
+        tx={tx}
+        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+      />
+    </>
   );
 }
 

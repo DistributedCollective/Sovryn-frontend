@@ -1,6 +1,6 @@
 /**
  *
- * CloseTradingPositionHandler
+ * ClosePositionDialog
  *
  */
 

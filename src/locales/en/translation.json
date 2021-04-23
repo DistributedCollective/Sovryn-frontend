@@ -954,6 +954,7 @@
       "txStatus": {
         "title": "Transaction Status",
         "aborted": "Transaction was aborted by user.",
+        "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }
     },
@@ -1006,5 +1007,25 @@
     },
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
+  },
+  "addToMargin": {
+    "title": "Top Up",
+    "amount": "Amount to Add:",
+    "liquidationPrice": "Liquidation Price:"
+  },
+  "openPositionTable": {
+    "direction": "Direction",
+    "positionSize": "Position Size",
+    "entryPrice": "Entry Price",
+    "liquidationPrice": "Liquidation Price",
+    "positionMargin": "Position Margin",
+    "unrealizedPL": "Unrealized P&L",
+    "interestAPR": "Interest APR",
+    "actions": "Actions",
+    "noData": "No data",
+    "cta": {
+      "margin": "Add to Margin",
+      "close": "Close Position"
+    }
   }
 }

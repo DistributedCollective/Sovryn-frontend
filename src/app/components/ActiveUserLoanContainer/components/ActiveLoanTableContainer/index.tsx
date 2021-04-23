@@ -8,8 +8,8 @@ import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
-import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
-import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
+import { ClosePositionDialog } from '../../../../pages/MarginTradePage/components/ClosePositionDialog';
+import { AddToMarginDialog } from '../../../../pages/MarginTradePage/components/AddToMarginDialog';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import {
@@ -206,14 +206,14 @@ export function ActiveLoanTableContainer(props: Props) {
         setExpandedId={setExpandedId}
         expandedId={expandedId}
       />
-      <CloseTradingPositionHandler
+      <ClosePositionDialog
         item={selectedItem}
         showModal={positionCloseModalOpen}
         onCloseModal={() => setPositionCloseModalOpen(false)}
       />
 
       {selectedItem && (
-        <TopUpTradingPositionHandler
+        <AddToMarginDialog
           item={selectedItem}
           showModal={positionMarginModalOpen}
           onCloseModal={() => setPositionMarginModalOpen(false)}

@@ -16,9 +16,10 @@ interface Props {
   value: Asset;
   onChange: (value: Asset) => void;
   options: Asset[];
+  label?: React.ReactNode;
 }
 
-export function CollateralAssets({ value, onChange, options }: Props) {
+export function CollateralAssets({ value, onChange, options, label }: Props) {
   const { t } = useTranslation();
 
   const items: Items[] = useMemo(() => {
@@ -39,7 +40,9 @@ export function CollateralAssets({ value, onChange, options }: Props) {
 
   return (
     <>
-      <FormGroup label={t(translations.marginTradePage.tradeForm.labels.asset)}>
+      <FormGroup
+        label={label || t(translations.marginTradePage.tradeForm.labels.asset)}
+      >
         <RadioGroup
           value={value}
           onChange={value => onChange(value as Asset)}
