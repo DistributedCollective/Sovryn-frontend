@@ -82,7 +82,7 @@ export function InfoBar() {
         {/*    SOV*/}
         {/*  </Text>*/}
         {/*</div>*/}
-        <div className="col">
+        <div className="">
           <Text ellipsize tagName="p">
             {t(translations.buySovPage.stats.circulatingSupply)}
           </Text>
@@ -95,7 +95,7 @@ export function InfoBar() {
             SOV
           </Text>
         </div>
-        <div className="col">
+        <div className="">
           <Text ellipsize tagName="p">
             {t(translations.buySovPage.stats.marketCap)}
           </Text>
@@ -108,7 +108,7 @@ export function InfoBar() {
             USD
           </Text>
         </div>
-        <div className="col last">
+        <div className="last">
           <Text ellipsize tagName="p" className="title">
             {t(translations.buySovPage.stats.lastPrice)}
           </Text>
@@ -130,29 +130,24 @@ const StyledInfoBar = styled.div.attrs(() => ({
   className: 'row',
 }))`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   border-top: 1px solid #d9d9d9;
-  padding-top: 17px;
+  padding-top: 10px;
   border-bottom: 1px solid #d9d9d9;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 50px;
+  margin-bottom: 38px;
   p {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 300;
-    margin-bottom: 5px;
-    @media (min-width: 1500px) {
-      font-size: 16px;
-    }
+    margin-bottom: 0;
     &:last-child {
-      font-size: 16px;
+      font-size: 18px;
       margin-bottom: 0;
       font-weight: 400;
-      @media (min-width: 1500px) {
-        font-size: 20px;
-      }
+      margin-top: 2px;
     }
   }
   .col {
@@ -173,10 +168,11 @@ const StyledInfoBar = styled.div.attrs(() => ({
   & .last {
     color: #fec004;
     & .title {
-      font-weight: 500;
+      font-weight: 300;
+      letter-spacing: 0.6px;
     }
     & .value {
-      font-weight: 900;
+      font-weight: 600;
     }
   }
 `;

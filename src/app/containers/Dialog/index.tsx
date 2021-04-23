@@ -1,9 +1,3 @@
-/**
- *
- * Dialog
- *
- */
-
 import React, { Suspense } from 'react';
 import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';

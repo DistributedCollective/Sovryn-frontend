@@ -16,6 +16,7 @@ import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
+import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 
@@ -35,6 +36,10 @@ export function WalletPage() {
         />
       </Helmet>
       <Header />
+
+      <div className="tw-container tw-mx-auto tw-px-4">
+        <OriginClaimBanner />
+      </div>
 
       <div
         className="tw-container tw-mx-auto tw-px-4"

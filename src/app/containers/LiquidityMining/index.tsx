@@ -9,85 +9,81 @@ import {
   getContract,
   symbolByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import {
+  useAccount,
+  useBlockSync,
+  useIsConnected,
+} from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
+import type { ContractName } from '../../../utils/types/contracts';
+
+type UserData = {
+  asset: string;
+  pool: string;
+  txList: Array<any>;
+  totalAdded: string;
+  totalRemoved: string;
+  totalRemaining: string;
+  percentage: string;
+  sovReward: string;
+};
+
+function getEmptyState(contractName: ContractName) {
+  return {
+    asset: getContract(contractName).address,
+    pool: getContract('USDT_amm').address,
+    txList: [],
+    totalAdded: '',
+    totalRemoved: '',
+    totalRemaining: '',
+    percentage: '',
+    sovReward: '',
+  };
+}
 
 export function LiquidityMining() {
   const { t } = useTranslation();
   // Get total weighted liquidity and user liquidity
-  const [totals, setTotals] = useState([
-    {
-      asset: getContract('USDT_token').address,
-      pool: getContract('USDT_amm').address,
-      weightedAmount: 100,
-    },
-    {
-      asset: getContract('RBTC_token').address,
-      pool: getContract('USDT_amm').address,
-      weightedAmount: 100,
-    },
-  ]);
-  const [userData, setUserData] = useState([
-    {
-      asset: getContract('USDT_token').address,
-      pool: getContract('USDT_amm').address,
-      txList: [],
-      weightedAmount: 0,
-    },
-    {
-      asset: getContract('RBTC_token').address,
-      pool: getContract('USDT_amm').address,
-      txList: [],
-      weightedAmount: 0,
-    },
+  const [userData, setUserData] = useState<Array<UserData>>([
+    getEmptyState('USDT_token'),
+    getEmptyState('RBTC_token'),
   ]);
   const url = backendUrl[currentChainId];
   const userAddress = useAccount();
   const isConnected = useIsConnected();
+  const sync = useBlockSync();
 
   useEffect(() => {
-    axios
-      .get(url + '/amm/liquidity-mining')
-      .then(res => setTotals(res.data))
-      .catch(e => console.error(e));
-  }, [url]);
-
-  useEffect(() => {
-    if (isConnected) {
+    console.log({ userAddress, url, sync });
+    const cancelToken = axios.CancelToken.source();
+    if (userAddress) {
       axios
-        .get(url + '/amm/liquidity-mining/' + userAddress)
-        .then(res => setUserData(res.data))
+        .get(url + '/amm/liquidity-mining/' + userAddress, {
+          cancelToken: cancelToken.token,
+        })
+        .then(res => {
+          setUserData(res.data);
+        })
         .catch(e => console.error(e));
     }
-  }, [url, userAddress, isConnected]);
 
-  const combinedData = userData.map(i => {
-    const weightedTotal = totals.find(
-      j => j.asset === i.asset && j.pool === i.pool,
-    );
-    const percentage = () => {
-      if (weightedTotal) {
-        return (i.weightedAmount / weightedTotal.weightedAmount) * 100;
+    return () => {
+      if (cancelToken) {
+        cancelToken.cancel('Canceled.');
       }
     };
-    const output = {
-      ...i,
-      weightedTotal: weightedTotal?.weightedAmount,
-      percentage: percentage(),
-    };
-    return output;
-  });
+  }, [url, sync, userAddress]);
 
-  const USDTData = combinedData.find(
+  const BTCData = userData.filter(
+    item =>
+      getContractNameByAddress(item.pool)?.includes('USDT') &&
+      symbolByTokenAddress(item.asset).includes('RBTC'),
+  );
+
+  const USDTData = userData.filter(
     item =>
       getContractNameByAddress(item.pool)?.includes('USDT') &&
       symbolByTokenAddress(item.asset).includes('USDT'),
-  );
-
-  const BTCData = combinedData.find(
-    item =>
-      getContractNameByAddress(item.pool)?.includes('USDT') &&
-      symbolByTokenAddress(item.asset).includes('BTC'),
   );
 
   return (
@@ -98,29 +94,11 @@ export function LiquidityMining() {
       <div className="tw-mb-5" />
       <div className="tw-flex tw-flex-wrap tw-justify-around">
         <PoolData
-          data={
-            USDTData || {
-              asset: getContract('USDT_token').address,
-              pool: getContract('USDT_amm').address,
-              percentage: 0,
-              txList: [],
-              weightedAmount: 0,
-              weightedTotal: 0,
-            }
-          }
+          data={BTCData[0] || getEmptyState('RBTC_token')}
           isConnected={isConnected}
         />
         <PoolData
-          data={
-            BTCData || {
-              asset: getContract('RBTC_token').address,
-              pool: getContract('USDT_amm').address,
-              percentage: 0,
-              txList: [],
-              weightedAmount: 0,
-              weightedTotal: 0,
-            }
-          }
+          data={USDTData[0] || getEmptyState('USDT_token')}
           isConnected={isConnected}
         />
       </div>

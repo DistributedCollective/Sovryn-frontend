@@ -18,6 +18,7 @@ export function LanguageToggle() {
   const options = [
     { lang: 'EN', value: 'en' },
     { lang: 'ES', value: 'es' },
+    { lang: 'FR', value: 'fr' },
     { lang: 'PT-BR', value: 'pt_br' },
   ];
 
