@@ -93,11 +93,14 @@
     "auth": "Please connect and authorize your wallet.",
     "noClosedTrades": "You do not have any closed trades.",
     "table": {
+      "direction": "Direction",
       "positionSize": "Position Size",
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit",
+      "profit": "Realized P&L",
+      "entryTxHash": "Entry Transaction Hash",
+      "closeTxHash": "Exit Transaction Hash",
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -885,7 +888,9 @@
         "long": "Long",
         "short": "Short"
       }
-    }
+    },
+    "openPositions": "Open Positions",
+    "tradingHistory": "Trading History"
   },
   "form": {
     "select": {

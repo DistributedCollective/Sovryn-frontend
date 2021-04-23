@@ -6,6 +6,8 @@ interface DirectionBlockProps {
 }
 
 export const DirectionBlock = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 40px;
   height: 60px;
   border-radius: 8px;

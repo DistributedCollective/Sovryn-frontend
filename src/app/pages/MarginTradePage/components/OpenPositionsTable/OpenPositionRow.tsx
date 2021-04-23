@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { bignumber } from 'mathjs';
+import { ActionButton } from 'form/ActionButton';
 import { ActiveLoan } from 'types/active-loan';
+import { translations } from 'locales/i18n';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
 import { TradingPosition } from '../../../../../types/trading-position';
-import { DirectionBlock, DirectionLabel } from './styled';
 import {
   calculateLiquidation,
   formatAsBTCPrice,
@@ -13,13 +16,10 @@ import {
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
-import { bignumber } from 'mathjs';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { CurrentPositionProfit } from '../../../../components/CurrentPositionProfit';
-import { useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
-import { ActionButton } from 'form/ActionButton';
+import { PositionBlock } from './PositionBlock';
 
 interface Props {
   item: ActiveLoan;
@@ -126,21 +126,6 @@ export function OpenPositionRow({ item }: Props) {
         </td>
       </tr>
     </>
-  );
-}
-
-function PositionBlock({
-  position,
-  name,
-}: {
-  position: TradingPosition;
-  name: string;
-}) {
-  return (
-    <div className="tw-w-full tw-flex tw-justify-start tw-items-center">
-      <DirectionBlock position={position} />
-      <DirectionLabel position={position}>{name}</DirectionLabel>
-    </div>
   );
 }
 

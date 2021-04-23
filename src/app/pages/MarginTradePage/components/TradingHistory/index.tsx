@@ -1,30 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSortBy, useTable } from 'react-table';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EventData } from 'web3-eth-contract';
 import { translations } from 'locales/i18n';
-import { useAccount } from '../../hooks/useAccount';
-import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { Asset } from '../../../types/asset';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { TradingPosition } from '../../../types/trading-position';
-import {
-  faArrowAltCircleDown,
-  faArrowAltCircleUp,
-} from '@fortawesome/free-solid-svg-icons';
-import {
-  toWei,
-  weiTo18,
-  weiTo2,
-  weiTo4,
-  weiToFixed,
-} from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
-import { TradeProfit } from '../../components/TradeProfit';
-import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
-import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
+import { Asset } from '../../../../../types/asset';
+import { TradingPosition } from 'types/trading-position';
+import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { toWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { TradeProfit } from 'app/components/TradeProfit';
+import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
+import { LinkToExplorer } from '../../../../components/LinkToExplorer';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 
 type EventType = 'buy' | 'sell';
 
@@ -38,6 +30,7 @@ interface CustomEvent {
   leverage: string;
   positionSize: string;
   price: string;
+  txHash: string;
 }
 
 export interface CalculatedEvent {
@@ -51,6 +44,8 @@ export interface CalculatedEvent {
   entryPrice: string;
   closePrice: string;
   profit: string;
+  entryTxHash: string;
+  closeTxHash: string;
 }
 
 function normalizeEvent(event: EventData): CustomEvent {
@@ -60,9 +55,10 @@ function normalizeEvent(event: EventData): CustomEvent {
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
     event.returnValues.collateralToken,
   ).asset;
-  const position = TradingPairDictionary.longPositionTokens.includes(loanToken)
-    ? TradingPosition.LONG
-    : TradingPosition.SHORT;
+  const pair = TradingPairDictionary.findPair(loanToken, collateralToken);
+  const position =
+    pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
+
   const loanId = event.returnValues.loanId;
   switch (event.event) {
     default:
@@ -77,6 +73,7 @@ function normalizeEvent(event: EventData): CustomEvent {
         leverage: event.returnValues.entryLeverage,
         positionSize: event.returnValues.positionSize,
         price: event.returnValues.entryPrice,
+        txHash: event.transactionHash,
       };
     case 'CloseWithSwap':
       return {
@@ -89,6 +86,7 @@ function normalizeEvent(event: EventData): CustomEvent {
         leverage: event.returnValues.currentLeverage,
         positionSize: event.returnValues.positionCloseSize,
         price: event.returnValues.exitPrice,
+        txHash: event.transactionHash,
       };
   }
 }
@@ -122,8 +120,13 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     .add(10 ** 18)
     .toString();
 
+  const pair = TradingPairDictionary.findPair(
+    opens[0].loanToken,
+    opens[0].collateralToken,
+  );
+
   const prettyPrice = amount => {
-    return events[0].loanToken === Asset.RBTC
+    return events[0].loanToken === pair.shortAsset
       ? amount
       : toWei(
           bignumber(1)
@@ -164,6 +167,8 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     entryPrice,
     closePrice,
     profit: profit,
+    entryTxHash: opens[0].txHash || '',
+    closeTxHash: closes[closes.length - 1].txHash || '',
   };
 }
 
@@ -171,14 +176,16 @@ export function TradingHistory() {
   const { t } = useTranslation();
   const account = useAccount();
 
-  const tradeStates = useGetContractPastEvents('sovrynProtocol', 'Trade');
+  const tradeStates = useGetContractPastEvents('sovrynProtocol', 'Trade', {
+    user: account,
+  });
   const closeStates = useGetContractPastEvents(
     'sovrynProtocol',
     'CloseWithSwap',
+    { user: account },
   );
 
   const loading = tradeStates.loading || closeStates.loading;
-
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
 
   const mergeEvents = useCallback(
@@ -248,59 +255,68 @@ export function TradingHistory() {
 
 function HistoryTable(props: { items: CalculatedEvent[] }) {
   const { t } = useTranslation();
-  const prettyPrice = useCallback(
-    amount => `$ ${parseFloat(weiTo2(amount)).toLocaleString('en')}`,
-    [],
-  );
 
   const data = React.useMemo(() => {
-    return props.items.map(item => {
-      return {
-        item: item,
-        icon: (
-          <>
-            {item.position === TradingPosition.LONG ? (
-              <FontAwesomeIcon
-                icon={faArrowAltCircleUp}
-                className="tw-text-customTeal tw-ml-2"
-                style={{ fontSize: '20px' }}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faArrowAltCircleDown}
-                className="tw-text-Gold tw-ml-2"
-                style={{ fontSize: '20px' }}
-              />
-            )}
-          </>
-        ),
-        leverage: `${weiToFixed(item.leverage, 1)}x`,
-        positionSize: (
-          <Tooltip content={weiTo18(item.positionSize)}>
-            <span>
-              {weiTo4(item.positionSize)} {item.collateralToken}
-            </span>
-          </Tooltip>
-        ),
-        entryPrice: prettyPrice(item.entryPrice),
-        closePrice: prettyPrice(item.closePrice),
-        profit: (
-          <TradeProfit
-            profit={item.profit}
-            closePrice={item.closePrice}
-            entryPrice={item.entryPrice}
-            position={item.position}
-            asset={item.collateralToken}
-          />
-        ),
-      };
-    });
-  }, [props.items, prettyPrice]);
+    return props.items
+      .map(item => {
+        const pair = TradingPairDictionary.findPair(
+          item.loanToken,
+          item.collateralToken,
+        );
+
+        if (pair === undefined) return null;
+
+        return {
+          item: item,
+          icon: <PositionBlock position={item.position} name={pair.name} />,
+          leverage: `${weiToFixed(item.leverage, 1)}x`,
+          positionSize: (
+            <Tooltip content={weiTo18(item.positionSize)}>
+              <span>
+                {weiToNumberFormat(item.positionSize, 4)} {item.collateralToken}
+              </span>
+            </Tooltip>
+          ),
+          entryPrice: (
+            <>
+              {weiToNumberFormat(item.entryPrice, 4)} {item.collateralToken}
+            </>
+          ),
+          closePrice: (
+            <>
+              {weiToNumberFormat(item.closePrice, 4)} {item.collateralToken}
+            </>
+          ),
+          profit: (
+            <TradeProfit
+              profit={item.profit}
+              closePrice={item.closePrice}
+              entryPrice={item.entryPrice}
+              position={item.position}
+              asset={item.collateralToken}
+            />
+          ),
+          entryTxHash: (
+            <LinkToExplorer
+              txHash={item.entryTxHash}
+              className="tw-text-primary tw-truncate"
+            />
+          ),
+          closeTxHash: (
+            <LinkToExplorer
+              txHash={item.closeTxHash}
+              className="tw-text-primary tw-truncate"
+            />
+          ),
+        };
+      })
+      .filter(item => !!item);
+  }, [props.items]);
 
   const columns = React.useMemo(
     () => [
       {
-        Header: '',
+        Header: t(translations.tradingHistoryPage.table.direction),
         accessor: 'icon',
       },
       {
@@ -310,18 +326,29 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
       {
         Header: t(translations.tradingHistoryPage.table.leverage),
         accessor: 'leverage',
+        className: 'tw-hidden xl:tw-table-cell',
       },
       {
         Header: t(translations.tradingHistoryPage.table.openPrice),
         accessor: 'entryPrice',
+        className: 'tw-hidden xl:tw-table-cell',
       },
       {
         Header: t(translations.tradingHistoryPage.table.closePrice),
         accessor: 'closePrice',
+        className: 'tw-hidden xl:tw-table-cell',
       },
       {
         Header: t(translations.tradingHistoryPage.table.profit),
         accessor: 'profit',
+      },
+      {
+        Header: t(translations.tradingHistoryPage.table.entryTxHash),
+        accessor: 'entryTxHash',
+      },
+      {
+        Header: t(translations.tradingHistoryPage.table.closeTxHash),
+        accessor: 'closeTxHash',
       },
     ],
     [t],
@@ -336,13 +363,18 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <div className="tw-bg-primary tw-p-6 sovryn-border">
-      <table {...getTableProps()} className="sovryn-table">
+    <>
+      <table {...getTableProps()} className="tw-table">
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th
+                  {...column.getHeaderProps({
+                    className: column.className,
+                    ...column.getSortByToggleProps(),
+                  })}
+                >
                   {column.render('Header')}
                 </th>
               ))}
@@ -355,7 +387,11 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => (
-                  <td className="tw-text-left" {...cell.getCellProps()}>
+                  <td
+                    {...cell.getCellProps({
+                      className: cell.column.className,
+                    })}
+                  >
                     {cell.render('Cell')}
                   </td>
                 ))}
@@ -364,6 +400,6 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
           })}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }

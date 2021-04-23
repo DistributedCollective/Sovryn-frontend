@@ -7,6 +7,7 @@ export enum TradingPairType {
   RBTC_USDT = 'RBTC_USDT',
   RBTC_SOV = 'RBTC_SOV',
   BPRO_USDT = 'BPRO_USDT',
+  BPRO_DOC = 'BPRO_DOC',
 }
 
 export class TradingPairDictionary {
@@ -26,17 +27,17 @@ export class TradingPairDictionary {
         [Asset.RBTC, Asset.USDT],
       ),
     ],
-    [
-      TradingPairType.BPRO_USDT,
-      new TradingPair(
-        TradingPairType.BPRO_USDT,
-        'BRPOUSDT',
-        'BPRO:USDT',
-        Asset.USDT,
-        Asset.BPRO,
-        [Asset.BPRO, Asset.USDT],
-      ),
-    ],
+    // [
+    //   TradingPairType.RBTC_SOV,
+    //   new TradingPair(
+    //     TradingPairType.RBTC_DOC,
+    //     'RBTCSOV',
+    //     'RBTC:SOV',
+    //     Asset.SOV,
+    //     Asset.RBTC,
+    //     [Asset.RBTC, Asset.SOV],
+    //   ),
+    // ],
     [
       TradingPairType.RBTC_DOC,
       new TradingPair(
@@ -49,14 +50,25 @@ export class TradingPairDictionary {
       ),
     ],
     [
-      TradingPairType.RBTC_SOV,
+      TradingPairType.BPRO_USDT,
       new TradingPair(
-        TradingPairType.RBTC_DOC,
-        'RBTCSOV',
-        'RBTC:SOV',
-        Asset.SOV,
-        Asset.RBTC,
-        [Asset.RBTC, Asset.SOV],
+        TradingPairType.BPRO_USDT,
+        'BRPOUSDT',
+        'BPRO:USDT',
+        Asset.USDT,
+        Asset.BPRO,
+        [Asset.BPRO, Asset.USDT],
+      ),
+    ],
+    [
+      TradingPairType.BPRO_DOC,
+      new TradingPair(
+        TradingPairType.BPRO_DOC,
+        'BRPODOC',
+        'BPRO:DOC',
+        Asset.DOC,
+        Asset.BPRO,
+        [Asset.BPRO, Asset.DOC],
       ),
     ],
   ]);

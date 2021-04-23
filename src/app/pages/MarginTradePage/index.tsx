@@ -21,9 +21,9 @@ import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-
 
 import { TradeForm } from './components/TradeForm';
 import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
-import { TradingHistory } from '../../containers/TradingHistory';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
+import { TradingHistory } from './components/TradingHistory';
 
 interface Props {}
 
@@ -68,7 +68,7 @@ export function MarginTradePage(props: Props) {
           <>
             <article className="tw-w-full tw-mt-6">
               <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
-                Open Positions
+                {t(translations.marginTradePage.openPositions)}
               </h1>
               <div className="tw-px-5 tw-pb-5 tw-border tw-border-white tw-rounded-lg">
                 <OpenPositionsTable />
@@ -77,7 +77,7 @@ export function MarginTradePage(props: Props) {
 
             <article className="tw-w-full tw-mt-24 tw-px-5">
               <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
-                Trading History
+                {t(translations.marginTradePage.tradingHistory)}
               </h1>
               <TradingHistory />
             </article>
