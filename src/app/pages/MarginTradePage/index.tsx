@@ -56,9 +56,12 @@ export function MarginTradePage(props: Props) {
             }
           >
             <TradingChart
-              symbol={pair.chartSymbol}
+              symbol={
+                pair.chartSymbol === 'RBTC:SOV' ? 'SOV:RBTC' : pair.chartSymbol
+              }
               theme={Theme.DARK}
               type={ChartType.CANDLE}
+              inSats={pair.chartSymbol === 'RBTC:SOV'}
             />
           </div>
           <TradeForm />

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { Pagination } from '../../../../components/Pagination';
 
 interface Props {
   perPage: number;
@@ -12,13 +13,10 @@ interface Props {
 
 export function OpenPositionsTable(props: Props) {
   const { t } = useTranslation();
-  // const [page, setPage] = useState(1);
-  // const from = useMemo(() => (page - 1) * props.perPage, [props.perPage, page]);
+  const [page, setPage] = useState(1);
 
   const { value, loading } = useGetActiveLoans(
     useAccount(),
-    // from,
-    // props.perPage,
     0,
     1000,
     1,
@@ -26,7 +24,17 @@ export function OpenPositionsTable(props: Props) {
     false,
   );
 
-  const isEmpty = !loading && !value.length;
+  const items = useMemo(
+    () =>
+      value.slice(page * props.perPage - props.perPage, page * props.perPage),
+    [props.perPage, page, value],
+  );
+
+  const isEmpty = !loading && !items.length;
+
+  const onPageChanged = data => {
+    setPage(data.currentPage);
+  };
 
   return (
     <>
@@ -74,25 +82,28 @@ export function OpenPositionsTable(props: Props) {
             </tr>
           )}
 
-          {value.length > 0 && (
+          {items.length > 0 && (
             <>
-              {value.map(item => (
+              {items.map(item => (
                 <OpenPositionRow key={item.loanId} item={item} />
               ))}
             </>
           )}
         </tbody>
       </table>
-      {/*<Pagination*/}
-      {/*  totalRecords={1000}*/}
-      {/*  pageLimit={props.perPage}*/}
-      {/*  pageNeighbours={1}*/}
-      {/*  onChange={({ currentPage }) => setPage(currentPage)}*/}
-      {/*/>*/}
+
+      {value.length > 0 && (
+        <Pagination
+          totalRecords={value.length}
+          pageLimit={props.perPage}
+          pageNeighbours={1}
+          onChange={onPageChanged}
+        />
+      )}
     </>
   );
 }
 
 OpenPositionsTable.defaultProps = {
-  perPage: 20,
+  perPage: 5,
 };

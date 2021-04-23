@@ -7,7 +7,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import styled from 'styled-components/macro';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';

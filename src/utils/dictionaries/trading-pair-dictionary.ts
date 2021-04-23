@@ -27,17 +27,17 @@ export class TradingPairDictionary {
         [Asset.RBTC, Asset.USDT],
       ),
     ],
-    // [
-    //   TradingPairType.RBTC_SOV,
-    //   new TradingPair(
-    //     TradingPairType.RBTC_DOC,
-    //     'RBTCSOV',
-    //     'RBTC:SOV',
-    //     Asset.SOV,
-    //     Asset.RBTC,
-    //     [Asset.RBTC, Asset.SOV],
-    //   ),
-    // ],
+    [
+      TradingPairType.RBTC_SOV,
+      new TradingPair(
+        TradingPairType.RBTC_DOC,
+        'RBTCSOV',
+        'RBTC:SOV',
+        Asset.SOV,
+        Asset.RBTC,
+        [Asset.RBTC, Asset.SOV],
+      ),
+    ],
     [
       TradingPairType.RBTC_DOC,
       new TradingPair(
