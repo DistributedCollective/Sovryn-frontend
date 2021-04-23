@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import axios from 'axios';
 import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';

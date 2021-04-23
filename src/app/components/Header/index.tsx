@@ -21,15 +21,8 @@ import {
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
 } from '../../containers/LendBorrowSovryn/slice';
-import {
-  actions as tradeSwapActions,
-  reducer as tradeSwapReducer,
-  sliceKey as tradeSwapSlice,
-} from '../../containers/TradingPage/slice';
 import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
 import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
-import { tradingPageSaga } from '../../containers/TradingPage/saga';
-import { TabType as TradeSwapTabType } from '../../containers/TradingPage/types';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
@@ -46,8 +39,6 @@ export function Header() {
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
   useInjectSaga({ key: lendBorrowSlice, saga: lendBorrowSovrynSaga });
-  useInjectReducer({ key: tradeSwapSlice, reducer: tradeSwapReducer });
-  useInjectSaga({ key: tradeSwapSlice, saga: tradingPageSaga });
 
   const StyledMenu = styled.nav.attrs(_ => ({ open: open }))`
     display: flex;
@@ -287,9 +278,6 @@ export function Header() {
                       text={t(translations.mainMenu.swap)}
                       className="bp3-popover-dismiss"
                       onClick={() => {
-                        dispatch(
-                          tradeSwapActions.changeTab(TradeSwapTabType.SWAP),
-                        );
                         history.push('/swap');
                       }}
                     />
@@ -297,9 +285,6 @@ export function Header() {
                       text={t(translations.mainMenu.marginTrade)}
                       className="bp3-popover-dismiss"
                       onClick={() => {
-                        dispatch(
-                          tradeSwapActions.changeTab(TradeSwapTabType.TRADE),
-                        );
                         history.push('/trade');
                       }}
                     />
