@@ -1,3 +1,6 @@
+import { Button, ButtonGroup } from '@blueprintjs/core';
+// import { bignumber } from 'react-redux';
+import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -6,27 +9,25 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-import { bignumber } from 'mathjs';
-import { Button, ButtonGroup } from '@blueprintjs/core';
+
 import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { AssetDetails } from '../../../utils/models/asset-details';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { LoadableValue } from '../LoadableValue';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { Asset } from '../../../types/asset';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
-import { Skeleton } from '../PageSkeleton';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { AssetDetails } from '../../../utils/models/asset-details';
 import { Sovryn } from '../../../utils/sovryn';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { LoadableValue } from '../LoadableValue';
+import { Skeleton } from '../PageSkeleton';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -42,7 +43,16 @@ export function UserAssets() {
   );
 
   const [fastBtc, setFastBtc] = useState(false);
-
+  const symbolMap = {
+    [Asset.RBTC]: '<small>r</small>BTC',
+    [Asset.USDT]: '<small>r</small>USDT',
+  };
+  // function getAssetSymbol(asset: Asset) {
+  //   if (symbolMap.hasOwnProperty(asset)) {
+  //     return symbolMap[asset];
+  //   }
+  //   return AssetDictionary.get(asset).symbol;
+  // }
   return (
     <>
       <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
