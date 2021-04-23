@@ -8,12 +8,5 @@ const Img = styled.img`
 `;
 
 export function ArrowStep() {
-  return (
-    <div
-      className="d-flex justify-content-center align-items-center flex-grow-0 flex-shrink-0"
-      style={{ height: 410 }}
-    >
-      <Img src={image} alt="Next step" />
-    </div>
-  );
+  return <Img src={image} alt="Next step" />;
 }

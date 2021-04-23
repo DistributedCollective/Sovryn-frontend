@@ -30,7 +30,7 @@ const H1 = styled.h1`
   font-family: 'Montserrat';
   text-align: center;
   font-weight: bold;
-  letter-spacing: 4.3px !important;
+  letter-spacing: 0;
   margin: 0;
   text-transform: none;
   ${media.md`font-size: 36px; line-height: 47px; text-align: center;`}

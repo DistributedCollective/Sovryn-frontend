@@ -6,19 +6,31 @@ import { useTranslation } from 'react-i18next';
 import { toastSuccess } from 'utils/toaster';
 import { translations } from 'locales/i18n';
 
+export enum URIType {
+  BITCOIN = 'bitcoin:',
+}
+
 interface Props {
   label?: string;
   address: string;
+  uri?: URIType;
   hideClickToCopy?: boolean;
 }
 
-export function AddressQrCode({ label, address, hideClickToCopy }: Props) {
+export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
   const { t } = useTranslation();
   return (
     <div className="tw-qrcode-container">
       {label && <div className="tw-qrcode-label">{label}</div>}
       <div className="tw-qrcode-wrapper">
-        <QRCode value={address} renderAs="svg" includeMargin={false} />
+        <QRCode
+          value={`${uri || ''}${address}`}
+          renderAs="svg"
+          bgColor="var(--white)"
+          fgColor="var(--primary)"
+          includeMargin={false}
+          className="rounded w-75 h-75"
+        />
       </div>
       {!hideClickToCopy && (
         <div className="tw-qrcode-clipboard">

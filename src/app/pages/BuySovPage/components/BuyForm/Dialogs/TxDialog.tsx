@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
-import { TxStatus } from '../../../../../../store/global/transactions-store/types';
-import { detectWeb3Wallet, prettyTx } from '../../../../../../utils/helpers';
+import { TxStatus } from 'store/global/transactions-store/types';
+import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import txFailed from 'assets/images/failed-tx.svg';
 import txConfirm from 'assets/images/confirm-tx.svg';
 import txPending from 'assets/images/pending-tx.svg';
@@ -20,7 +20,7 @@ import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
-import { translations } from '../../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 
 interface Props {
   tx: ResetTxResponseInterface;
@@ -183,7 +183,7 @@ const ExplorerLink = styled.div`
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: ##2274a5 !important;
+      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }

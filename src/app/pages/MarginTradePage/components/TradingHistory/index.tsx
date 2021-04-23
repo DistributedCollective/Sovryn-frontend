@@ -17,6 +17,7 @@ import { TradeProfit } from 'app/components/TradeProfit';
 import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { Pagination } from '../../../../components/Pagination';
 
 type EventType = 'buy' | 'sell';
 
@@ -56,6 +57,9 @@ function normalizeEvent(event: EventData): CustomEvent {
     event.returnValues.collateralToken,
   ).asset;
   const pair = TradingPairDictionary.findPair(loanToken, collateralToken);
+
+  if (pair === undefined) return undefined as any;
+
   const position =
     pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
 
@@ -200,7 +204,10 @@ export function TradingHistory() {
         if (!items.hasOwnProperty(loanId)) {
           items[loanId] = [];
         }
-        items[loanId].push(normalizeEvent(item));
+        const event = normalizeEvent(item);
+        if (event !== undefined) {
+          items[loanId].push(normalizeEvent(item));
+        }
       });
 
       const entries = Object.entries(items);
@@ -255,9 +262,12 @@ export function TradingHistory() {
 
 function HistoryTable(props: { items: CalculatedEvent[] }) {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const pageLimit = 10;
 
   const data = React.useMemo(() => {
     return props.items
+      .slice(page * pageLimit - pageLimit, page * pageLimit)
       .map(item => {
         const pair = TradingPairDictionary.findPair(
           item.loanToken,
@@ -311,7 +321,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
         };
       })
       .filter(item => !!item);
-  }, [props.items]);
+  }, [props.items, page, pageLimit]);
 
   const columns = React.useMemo(
     () => [
@@ -362,6 +372,10 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
 
+  const onPageChanged = data => {
+    setPage(data.currentPage);
+  };
+
   return (
     <>
       <table {...getTableProps()} className="tw-table">
@@ -400,6 +414,15 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
           })}
         </tbody>
       </table>
+
+      {props.items.length > 0 && (
+        <Pagination
+          totalRecords={props.items.length}
+          pageLimit={pageLimit}
+          pageNeighbours={1}
+          onChange={onPageChanged}
+        />
+      )}
     </>
   );
 }

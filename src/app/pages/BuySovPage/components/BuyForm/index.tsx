@@ -176,13 +176,13 @@ const SlippageButton = styled.button`
   width: 24px;
   height: 24px;
   background: transparent url(${slipImage}) center center no-repeat;
-  background-size: 24px 24px;
+  background-size: 18px 18px;
 `;
 
 const Dummy = styled.div`
   border: 1px solid #575757;
   color: #e9eae9;
-  height: 48px;
+  height: 40px;
   padding: 11px 21px;
   font-weight: 500;
   border-radius: 10px;

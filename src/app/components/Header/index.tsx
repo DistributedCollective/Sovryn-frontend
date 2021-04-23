@@ -7,34 +7,33 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components/macro';
+import logoSvg from 'assets/images/sovryn-logo-white.svg';
+import iconNewTab from 'assets/images/iconNewTab.svg';
+import { usePageViews } from 'app/hooks/usePageViews';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { translations } from 'locales/i18n';
 import {
   actions as lendBorrowActions,
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
 } from '../../containers/LendBorrowSovryn/slice';
-import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
-import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
 import {
   actions as tradeSwapActions,
   reducer as tradeSwapReducer,
   sliceKey as tradeSwapSlice,
 } from '../../containers/TradingPage/slice';
+import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
+import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
 import { tradingPageSaga } from '../../containers/TradingPage/saga';
 import { TabType as TradeSwapTabType } from '../../containers/TradingPage/types';
-import styled from 'styled-components/macro';
-import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-
-import { translations } from 'locales/i18n';
-import logoSvg from 'assets/images/sovryn-logo-white.svg';
-
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
 import './index.scss';
-import { usePageViews } from 'app/hooks/usePageViews';
 
 export function Header() {
   const { t } = useTranslation();
@@ -135,18 +134,12 @@ export function Header() {
   const pages = [
     { to: '/', title: t(translations.mainMenu.buySov), exact: true },
     {
-      to: '/trade',
+      to: '/swap',
       title: t(translations.mainMenu.swap),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.SWAP));
-      },
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.TRADE));
-      },
     },
     {
       to: '/lend',
@@ -221,11 +214,14 @@ export function Header() {
   const NavPopover = ({ content, children }) => {
     return (
       <StyledPopover
+        interactionKind="hover"
         className="mr-4 cursor-pointer"
         minimal={true}
         popoverClassName="header-nav-popover"
         content={content}
         position={Position.BOTTOM_LEFT}
+        hoverOpenDelay={0}
+        hoverCloseDelay={0}
       >
         {children}
       </StyledPopover>
@@ -235,12 +231,14 @@ export function Header() {
   const SECTION_TYPE = {
     TRADE: 'trade',
     FINANCE: 'finance',
+    BITOCRACY: 'bitocracy',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/trade'],
+      [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
+      [SECTION_TYPE.BITOCRACY]: [''],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -313,7 +311,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3">
+                  <span className="tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -355,30 +353,60 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3">
+                  <span className="tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <a
-                href="https://bitocracy.sovryn.app/stake"
-                rel="noopener noreferrer"
-                className="tw-header-link tw-uppercase"
+
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
+                      href="https://bitocracy.sovryn.app/stake"
+                      target="_blank"
+                      text={t(translations.mainMenu.staking)}
+                      className="bp3-popover-dismiss"
+                    />
+                    <MenuItem
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
+                      href="https://bitocracy.sovryn.app/"
+                      target="_blank"
+                      text={t(translations.mainMenu.governance)}
+                      className="bp3-popover-dismiss"
+                    />
+                  </BPMenu>
+                }
               >
-                {t(translations.mainMenu.staking)}
-              </a>
-              <a
-                href="https://bitocracy.sovryn.app/"
-                rel="noopener noreferrer"
-                className="tw-header-link tw-uppercase"
-              >
-                {t(translations.mainMenu.governance)}
-              </a>
-              <NavLink className="tw-header-link tw-uppercase" to="/wallet">
+                <div
+                  className={`${
+                    isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
+                  }`}
+                >
+                  <span className="mr-1 tw-cursor-pointer">
+                    {t(translations.mainMenu.bitocracy)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
+              <NavLink className="tw-header-link mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <NavLink className="tw-header-link tw-uppercase" to="/stats">
+              <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
@@ -388,7 +416,7 @@ export function Header() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-header-link tw-uppercase d-none d-xl-block"
+              className="tw-header-link d-none d-xl-block"
             >
               {t(translations.mainMenu.help)}
             </a>
