@@ -2,7 +2,7 @@
 
 @layer components {
   .tw-link {
-    @apply tw-text-primary tw-no-underline;
+    @apply tw-text-primary tw-no-underline tw-font-normal;
   }
 
   .tw-link:hover {
@@ -11,16 +11,16 @@
 
   .tw-header-link,
   .tw-header-link:visited {
-    @apply tw-font-body tw-uppercase tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-font-medium tw-transition tw-mx-6;
+    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-transition tw-mx-6;
   }
 
   .tw-header-link:hover,
   .tw-header-link:active {
-    @apply tw-text-secondary tw-no-underline;
+    @apply tw-text-primary tw-no-underline;
   }
 
   .tw-header-link.active {
-    @apply tw-text-white tw-font-black tw-no-underline;
+    @apply tw-text-white tw-font-medium tw-no-underline;
   }
 
   /* form button styles */

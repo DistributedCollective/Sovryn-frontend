@@ -134,18 +134,12 @@ export function Header() {
   const pages = [
     { to: '/', title: t(translations.mainMenu.buySov), exact: true },
     {
-      to: '/trade',
+      to: '/swap',
       title: t(translations.mainMenu.swap),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.SWAP));
-      },
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.TRADE));
-      },
     },
     {
       to: '/lend',
@@ -242,7 +236,7 @@ export function Header() {
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/trade'],
+      [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
@@ -317,7 +311,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3">
+                  <span className="tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -359,7 +353,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3">
+                  <span className="tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -370,14 +364,26 @@ export function Header() {
                 content={
                   <BPMenu>
                     <MenuItem
-                      icon={<img src={iconNewTab} alt="newTab" />}
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
                       href="https://bitocracy.sovryn.app/stake"
                       target="_blank"
                       text={t(translations.mainMenu.staking)}
                       className="bp3-popover-dismiss"
                     />
                     <MenuItem
-                      icon={<img src={iconNewTab} alt="newTab" />}
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
                       href="https://bitocracy.sovryn.app/"
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
@@ -391,16 +397,16 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1">
+                  <span className="mr-1 tw-cursor-pointer">
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavLink className="nav-item mr-4 text-capitalize" to="/wallet">
+              <NavLink className="tw-header-link mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <NavLink className="tw-header-link tw-uppercase" to="/stats">
+              <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
@@ -410,7 +416,7 @@ export function Header() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-header-link tw-uppercase d-none d-xl-block"
+              className="tw-header-link d-none d-xl-block"
             >
               {t(translations.mainMenu.help)}
             </a>
