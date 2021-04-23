@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 
 import { media } from 'styles/media';
+import { useTranslation } from 'react-i18next';
 
+import { translations } from 'locales/i18n';
 import liquality01 from '../../../../assets/wallet_tutorials/liquality/liquality_01.svg';
 import liquality02 from '../../../../assets/wallet_tutorials/liquality/liquality_02.svg';
 import liquality03 from '../../../../assets/wallet_tutorials/liquality/liquality_03.svg';
@@ -30,40 +32,85 @@ interface IStep {
   step: string;
 }
 
-const liqSteps: IStep[] = [
-  {
-    step: 'Step 01:',
-    title: 'Open up Liquality in your browser',
-    image: liquality01,
-  },
-  { step: 'Step 02:', title: 'Go to dropdown', image: liquality02 },
-  { step: 'Step 03:', title: 'Select Settings', image: liquality03 },
-  { step: 'Step 04:', title: 'Go to network dropdown', image: liquality04 },
-  { step: 'Step 05:', title: 'Select RSK', image: liquality05 },
-];
-const metaSteps: IStep[] = [
-  {
-    step: 'Step 01:',
-    title: 'Open up Metamask in your browser',
-    image: metamask01,
-  },
-  { step: 'Step 02:', title: 'Go to network dropdown', image: metamask02 },
-  { step: 'Step 03:', title: 'Select Custom RPC', image: metamask03 },
-  { step: 'Step 04:', title: 'Input RSK Mainnet settings', image: metamask04 },
-  { step: 'Step 05:', title: 'Click Save', image: metamask05 },
-  { step: 'Step 06:', title: 'Click Add Network', image: metamask06 },
-];
-const niftySteps: IStep[] = [
-  {
-    step: 'Step 01:',
-    title: 'Open up Liquality in your browser',
-    image: nifty01,
-  },
-  { step: 'Step 02:', title: 'Go to dropdown', image: nifty02 },
-  { step: 'Step 03:', title: 'Select Settings', image: nifty03 },
-];
 export function TutorialScreen(props: Props) {
   const [step, setStep] = useState(0);
+  const { t } = useTranslation();
+  const liqSteps: IStep[] = [
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step1),
+      title: t(translations.wrongNetworkDialog.liquality.step1),
+      image: liquality01,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step2),
+      title: t(translations.wrongNetworkDialog.liquality.step2),
+      image: liquality02,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step3),
+      title: t(translations.wrongNetworkDialog.liquality.step3),
+      image: liquality03,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step4),
+      title: t(translations.wrongNetworkDialog.liquality.step4),
+      image: liquality04,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step5),
+      title: t(translations.wrongNetworkDialog.liquality.step5),
+      image: liquality05,
+    },
+  ];
+  const metaSteps: IStep[] = [
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step1),
+      title: t(translations.wrongNetworkDialog.metamask.step1),
+      image: metamask01,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step2),
+      title: t(translations.wrongNetworkDialog.metamask.step2),
+      image: metamask02,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step3),
+      title: t(translations.wrongNetworkDialog.metamask.step3),
+      image: metamask03,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step4),
+      title: t(translations.wrongNetworkDialog.metamask.step4),
+      image: metamask04,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step5),
+      title: t(translations.wrongNetworkDialog.metamask.step5),
+      image: metamask05,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step6),
+      title: t(translations.wrongNetworkDialog.metamask.step6),
+      image: metamask06,
+    },
+  ];
+  const niftySteps: IStep[] = [
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step1),
+      title: t(translations.wrongNetworkDialog.nifty.step1),
+      image: nifty01,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step2),
+      title: t(translations.wrongNetworkDialog.nifty.step2),
+      image: nifty02,
+    },
+    {
+      step: t(translations.wrongNetworkDialog.stepTitle.step3),
+      title: t(translations.wrongNetworkDialog.nifty.step3),
+      image: nifty03,
+    },
+  ];
   var steps: IStep[] = [];
   if (props.walletType === 'metamask') {
     steps = metaSteps;
