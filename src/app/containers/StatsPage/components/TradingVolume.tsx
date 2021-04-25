@@ -1,26 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { TradingVolumeData } from '../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useInterval } from 'app/hooks/useInterval';
 
-export function TradingVolume() {
+interface Props {
+  rate: number;
+}
+
+export function TradingVolume(props: Props) {
   const { t } = useTranslation();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<TradingVolumeData>();
+  const cancelDataRequest = useRef<Canceler>();
 
-  useEffect(() => {
+  const getData = useCallback(() => {
+    cancelDataRequest.current && cancelDataRequest.current();
+
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
     axios
-      .get(url + '/trading-volume')
+      .get(url + '/trading-volume', { cancelToken })
       .then(res => {
         setData(res.data);
         setLoading(false);
       })
       .catch(e => console.error(e));
   }, [url]);
+
+  useInterval(() => {
+    getData();
+  }, props.rate * 1e3);
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rowData = [
     {
@@ -87,3 +107,7 @@ export function TradingVolume() {
 
   return <div>{rows}</div>;
 }
+
+TradingVolume.defaultProps = {
+  rate: 30,
+};

@@ -29,30 +29,23 @@ const s = translations.tradingPage;
 
 interface Props {}
 
-const pricedInSats = {
-  'BPRO:USDT': false,
-  'USDT:BPRO': true,
-  'RBTC:USDT': false,
-  'USDT:RBTC': true,
-  'RBTC:DOC': false,
-  'DOC:RBTC': true,
-  'RBTC:BPRO': true,
-  'BPRO:RBTC': true,
-  'RBTC:SOV': true,
-  'SOV:RBTC': true,
-  'SOV:DOC': true,
-  'DOC:SOV': true,
-  'SOV:USDT': true,
-  'USDT:SOV': true,
-  'SOV:BPRO': true,
-  'BPRO:SOV': true,
+const fixPair = {
+  'USDT:RBTC': 'RBTC:USDT',
+  'DOC:RBTC': 'RBTC:DOC',
+  'RBTC:SOV': 'SOV:RBTC',
+  'SOV:DOC': 'SOV:RBTC',
+  'SOV:USDT': 'SOV:RBTC',
+  'SOV:BPRO': 'SOV:RBTC',
+  'DOC:SOV': 'SOV:RBTC',
+  'USDT:SOV': 'SOV:RBTC',
+  'BPRO:SOV': 'SOV:RBTC',
 };
 
-function showPairInSats(pair: string) {
-  if (pricedInSats.hasOwnProperty(pair)) {
-    return pricedInSats[pair];
+function getSwapPair(pair: string) {
+  if (fixPair.hasOwnProperty(pair)) {
+    return fixPair[pair];
   }
-  return true;
+  return pair;
 }
 
 export function TradingPage(props: Props) {
@@ -68,17 +61,7 @@ export function TradingPage(props: Props) {
         tradingPage.tradingPair,
       )?.getChartSymbol();
     } else {
-      return tradingPage.swapPair;
-    }
-  }, [tradingPage.tab, tradingPage.tradingPair, tradingPage.swapPair]);
-
-  const inSats = useMemo(() => {
-    if (tradingPage.tab === TabType.TRADE) {
-      return showPairInSats(
-        TradingPairDictionary.get(tradingPage.tradingPair)?.getChartSymbol(),
-      );
-    } else {
-      return showPairInSats(tradingPage.swapPair);
+      return getSwapPair(tradingPage.swapPair);
     }
   }, [tradingPage.tab, tradingPage.tradingPair, tradingPage.swapPair]);
 
@@ -98,7 +81,6 @@ export function TradingPage(props: Props) {
             } d-lg-block`}
           >
             <TradingChart
-              inSats={inSats}
               symbol={symbol}
               theme={Theme.DARK}
               type={ChartType.CANDLE}
