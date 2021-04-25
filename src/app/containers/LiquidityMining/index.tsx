@@ -110,7 +110,12 @@ export function LiquidityMining() {
       <h1 className="w-100 text-center mb-3 mt-5 pt-5 border-top">
         Liquidity Mining: SOV/BTC Pool
       </h1>
-      <SOVPoolData txList={[]} isConnected={isConnected} user={userAddress} />
+      <SOVPoolData
+        txList={[]}
+        isConnected={isConnected}
+        user={userAddress}
+        rate={30}
+      />
       <div className="tw-w-full tw-text-center tw-p-5">
         <p className="tw-w-full tw-text-center tw-font-italic">
           *{t(translations.marketingPage.liquidity.provider)}
