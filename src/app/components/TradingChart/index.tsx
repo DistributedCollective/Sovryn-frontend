@@ -24,6 +24,7 @@ export interface ChartContainerProps {
   symbol: string;
   type: ChartType;
   theme: Theme;
+  inSats: boolean;
 }
 
 // detailed description of series options https://github.com/kaktana/kaktana-react-lightweight-charts#seriesobject
@@ -36,45 +37,63 @@ interface ChartData {
   linearInterpolation?: number;
 }
 
-function toSats(amount: number, symbol: string) {
-  if (symbol === 'SOV:RBTC') {
-    return Number(amount) * 1e8;
-  }
-  return amount;
-}
-
 export function TradingChart(props: ChartContainerProps) {
-  // const threeMonths = 7257600000; //3 months in ms
-  const threeMonths = 604800000; //7 days to ms
-  const initData: ChartData[] = [{ data: [], legend: '' }];
+  // const feedStart = 7257600000; //3 months in ms
+  const feedStart = 604800000; //7 days to ms
+  const satsPriceFormat = {
+    priceFormat: { precision: 8, minMove: 0.00000001 },
+  };
+  const initData: ChartData[] = [
+    {
+      data: [],
+      legend: '',
+      options: props.inSats ? satsPriceFormat : null,
+    },
+  ];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
   const [lastTime, setLastTime] = useState<number>(
-    new Date().getTime() - threeMonths,
+    new Date().getTime() - feedStart,
   );
 
   const resetChart = () => {
     // setHasCharts(false);
     setChartData(initData.slice());
-    setLastTime(new Date().getTime() - threeMonths);
+    setLastTime(new Date().getTime() - feedStart);
   };
 
   const seriesProps = useMemo(() => {
     const data = chartData[0].data.map(({ open, close, high, low, time }) => ({
-      open: toSats(open, props.symbol) || 0,
-      close: toSats(close, props.symbol) || 0,
-      high: toSats(high, props.symbol) || 0,
-      low: toSats(low, props.symbol) || 0,
+      open: open || 0,
+      close: close || 0,
+      high: high || 0,
+      low: low || 0,
       time: time || 0,
     }));
 
     return {
       candlestickSeries:
-        props.type === ChartType.CANDLE ? [{ data, legend: '' }] : undefined,
+        props.type === ChartType.CANDLE
+          ? [
+              {
+                data,
+                legend: '',
+                options: props.inSats ? satsPriceFormat : null,
+              },
+            ]
+          : undefined,
       lineSeries:
-        props.type === ChartType.LINE ? [{ data, legend: '' }] : undefined,
+        props.type === ChartType.LINE
+          ? [
+              {
+                data,
+                legend: '',
+                options: props.inSats ? satsPriceFormat : null,
+              },
+            ]
+          : undefined,
     };
-  }, [chartData, props.symbol, props.type]);
+  }, [chartData, props.inSats, satsPriceFormat, props.type]);
 
   useEffect(() => {
     let cancelTokenSource;
@@ -122,6 +141,7 @@ export function TradingChart(props: ChartContainerProps) {
               {
                 data: newSeries,
                 legend: '',
+                options: props.inSats ? satsPriceFormat : null,
               },
             ]);
             const latest = newSeries[newSeries.length - 1];
@@ -173,11 +193,8 @@ export function TradingChart(props: ChartContainerProps) {
               timeVisible: true,
               secondsVisible: true,
             },
-            localization: {
-              locale: 'en-US',
-            },
           }}
-          legend={props.symbol === 'RBTC:SOV' ? 'SOV:RBTC' : props.symbol}
+          legend={props.symbol}
           darkTheme={props.theme === Theme.DARK}
           autoWidth
           autoHeight
