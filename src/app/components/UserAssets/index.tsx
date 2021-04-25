@@ -26,6 +26,7 @@ import { FastBtcDialog } from '../../containers/FastBtcDialog';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { CurrencyAssets } from '../CurrencyAsset/';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 
@@ -43,16 +44,6 @@ export function UserAssets() {
   );
 
   const [fastBtc, setFastBtc] = useState(false);
-  const symbolMap = {
-    [Asset.RBTC]: '<small>r</small>BTC',
-    [Asset.USDT]: '<small>r</small>USDT',
-  };
-  // function getAssetSymbol(asset: Asset) {
-  //   if (symbolMap.hasOwnProperty(asset)) {
-  //     return symbolMap[asset];
-  //   }
-  //   return AssetDictionary.get(asset).symbol;
-  // }
   return (
     <>
       <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
@@ -164,13 +155,14 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   return (
     <tr key={item.asset}>
       <td>
-        <img
+        {/* <img
           className="d-inline mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}
         />{' '}
-        {item.symbol}
+        {item.symbol} */}
+        <CurrencyAssets assetSymbol={item.asset} assetImg={item.logoSvg} />
       </td>
       <td className="text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
