@@ -27,6 +27,7 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
+import { AssetRenderer } from '../CurrencyAsset/';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -42,7 +43,6 @@ export function UserAssets() {
   );
 
   const [fastBtc, setFastBtc] = useState(false);
-
   return (
     <>
       <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
@@ -154,13 +154,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   return (
     <tr key={item.asset}>
       <td>
-        <img
-          className="tw-inline tw-mr-2"
-          style={{ height: '40px' }}
-          src={item.logoSvg}
-          alt={item.asset}
-        />{' '}
-        {item.symbol}
+        <AssetRenderer asset={item.asset} />
       </td>
       <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
