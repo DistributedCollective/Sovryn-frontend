@@ -98,6 +98,7 @@ const walletProviderSlice = createSlice({
       state.whitelist.loading = true;
       state.whitelist.loaded = false;
     },
+    addVisit(state, { payload }: PayloadAction<string>) {},
     whitelistChecked(state, { payload }: PayloadAction<boolean>) {
       state.whitelist.whitelisted = payload;
       state.whitelist.isDialogOpen = !payload;
