@@ -1,61 +1,51 @@
 /**
  *
- * CurrencyAssets
+ * AssetRenderer
  *
  */
 import React from 'react';
-import styled from 'styled-components/macro';
 
 import { Asset } from 'types/asset';
 
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import styles from './index.module.css';
 
 interface CurrencyProps {
-  assetImg?: any;
-  assetSymbol: Asset;
+  asset: Asset;
+  showImage?: boolean;
 }
 const symbolMap = {
-  [Asset.RBTC]: 'rBTC',
-  [Asset.USDT]: 'rUSDT',
+  [Asset.RBTC]: (
+    <>
+      <small className={styles.small}>r</small>BTC
+    </>
+  ),
+  [Asset.USDT]: (
+    <>
+      <small className={styles.small}>r</small>USDT
+    </>
+  ),
 };
-// function renderCustomSymbol(currency: string) {
-//   return (
-//     <div className="d-flex flex-row">
-//       <Small>{currency.charAt(0)}</Small>
-//       {currency.slice(1)}
-//     </div>
-//   );
-// }
+
 function getAssetSymbol(asset: Asset) {
+  console.log('currency', asset);
   if (symbolMap.hasOwnProperty(asset)) {
-    return symbolMap[asset];
+    return <span className="symbol">{symbolMap[asset]}</span>;
   }
   return AssetsDictionary.get(asset).symbol;
 }
-export function CurrencyAssets(props: CurrencyProps) {
-  const currency = getAssetSymbol(props.assetSymbol);
-  console.log('currency', currency);
+export function AssetRenderer(props: CurrencyProps) {
   return (
     <>
-      <img
-        className="d-inline mr-2"
-        style={{ height: '40px' }}
-        src={props.assetImg}
-        alt={props.assetSymbol}
-      />{' '}
-      {/* abc */}
-      {getAssetSymbol(props.assetSymbol)}
+      {props.showImage && (
+        <img
+          className="d-inline mr-2"
+          style={{ height: '40px' }}
+          src={AssetsDictionary.get(props.asset).logoSvg}
+          alt={AssetsDictionary.get(props.asset).name}
+        />
+      )}
+      {getAssetSymbol(props.asset)}
     </>
   );
 }
-
-const Small = styled.span.attrs(_ => ({
-  type: 'span',
-}))`
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 100;
-  width: 100%;
-  opacity: 50%;
-  font-size: 10.5px;
-  letter-spacing: 0;
-`;

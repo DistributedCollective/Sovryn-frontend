@@ -26,7 +26,7 @@ import { FastBtcDialog } from '../../containers/FastBtcDialog';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { CurrencyAssets } from '../CurrencyAsset/';
+import { AssetRenderer } from '../CurrencyAsset/';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 
@@ -162,7 +162,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
           alt={item.asset}
         />{' '}
         {item.symbol} */}
-        <CurrencyAssets assetSymbol={item.asset} assetImg={item.logoSvg} />
+        <AssetRenderer asset={item.asset} showImage />
       </td>
       <td className="text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
