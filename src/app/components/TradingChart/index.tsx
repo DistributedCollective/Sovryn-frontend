@@ -175,57 +175,78 @@ export function TradingChart(props: ChartContainerProps) {
   }, [props.symbol, props.rate, props.type]);
 
   return (
-    <div
-      className="tw-w-full tw-h-full tw-bg-primary"
-      style={{ minHeight: 500 }}
-    >
-      {hasCharts ? (
-        <Chart
-          options={{
-            alignLabels: true,
-            timeScale: {
-              rightOffset: 3,
-              barSpacing: 7,
-              shiftVisibleRangeOnNewBar: true,
-              rightBarStaysOnScroll: true,
-              borderVisible: false,
-              visible: true,
-              timeVisible: true,
-              secondsVisible: true,
-            },
-          }}
-          legend={props.symbol}
-          darkTheme={props.theme === Theme.DARK}
-          autoWidth
-          autoHeight
-          {...seriesProps}
-        />
-      ) : (
-        <>
-          <div className="row tw-h-full tw-flex tw-content-end">
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="50%" />
+    <div>
+      <div
+        className="tw-w-full tw-h-full tw-bg-primary"
+        style={{ minHeight: 500 }}
+      >
+        {hasCharts ? (
+          <Chart
+            options={{
+              alignLabels: true,
+              timeScale: {
+                rightOffset: 3,
+                barSpacing: 7,
+                shiftVisibleRangeOnNewBar: true,
+                rightBarStaysOnScroll: true,
+                borderVisible: false,
+                visible: true,
+                timeVisible: true,
+                secondsVisible: true,
+              },
+              localization: {
+                locale: 'en-US',
+              },
+            }}
+            legend={props.symbol}
+            darkTheme={props.theme === Theme.DARK}
+            autoWidth
+            autoHeight
+            {...seriesProps}
+          />
+        ) : (
+          <>
+            <div className="row tw-h-full tw-flex tw-content-end">
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="50%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="30%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="80%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="70%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="65%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="30%" />
+              </div>
+              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+                <Skeleton height="55%" />
+              </div>
             </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="30%" />
-            </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="80%" />
-            </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="70%" />
-            </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="65%" />
-            </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="30%" />
-            </div>
-            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-              <Skeleton height="55%" />
-            </div>
-          </div>
-        </>
+          </>
+        )}
+      </div>
+      {hasCharts && (
+        <div
+          className="text-Grey_text font-family-montserrat"
+          style={{ fontSize: '11px' }}
+        >
+          TradingView Lightweight Charts (с) 2020{' '}
+          <a
+            href="https://www.tradingview.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-weight-normal"
+          >
+            TradingView, Inc.
+          </a>
+        </div>
       )}
     </div>
   );

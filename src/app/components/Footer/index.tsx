@@ -71,7 +71,11 @@ export function Footer() {
               title="GoogleAnalyticsOptout"
               target="_blank"
               rel="noopener noreferrer"
-              href="https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en"
+              href={
+                navigator.userAgent.indexOf('Chrome/') > 0
+                  ? 'https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en'
+                  : 'https://tools.google.com/dlpage/gaoptout'
+              }
             >
               <Trans
                 i18nKey={translations.footer.optOut}
