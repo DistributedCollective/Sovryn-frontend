@@ -29,7 +29,7 @@ const symbolMap = {
 
 function getAssetSymbol(asset: Asset) {
   if (symbolMap.hasOwnProperty(asset)) {
-    return <span className="symbol">{symbolMap[asset]}</span>;
+    return <span>{symbolMap[asset]}</span>;
   }
   return AssetsDictionary.get(asset).symbol;
 }
