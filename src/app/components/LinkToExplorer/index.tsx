@@ -15,6 +15,7 @@ interface Props {
   className: string;
   realBtc?: boolean;
   text?: string;
+  isAddress?: boolean;
 }
 
 export function LinkToExplorer(props: Props) {
@@ -50,7 +51,7 @@ export function LinkToExplorer(props: Props) {
   return (
     <a
       className={props.className}
-      href={`${url}/tx/${props.txHash}`}
+      href={`${url}/${props.isAddress ? 'address' : 'tx'}/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
     >

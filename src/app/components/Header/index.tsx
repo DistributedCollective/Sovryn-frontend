@@ -163,10 +163,7 @@ export function Header() {
       },
     },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
-    {
-      to: 'https://bitocracy.sovryn.app/stake',
-      title: t(translations.mainMenu.staking),
-    },
+    { to: '/stake', title: t(translations.mainMenu.staking) },
     {
       to: 'https://bitocracy.sovryn.app',
       title: t(translations.mainMenu.governance),
@@ -361,13 +358,9 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <a
-                href="https://bitocracy.sovryn.app/stake"
-                rel="noopener noreferrer"
-                className="tw-header-link tw-uppercase"
-              >
+              <NavLink className="tw-header-link tw-uppercase" to="/stake">
                 {t(translations.mainMenu.staking)}
-              </a>
+              </NavLink>
               <a
                 href="https://bitocracy.sovryn.app/"
                 rel="noopener noreferrer"

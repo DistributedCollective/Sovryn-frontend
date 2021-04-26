@@ -12,6 +12,7 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
+// import { TransactionType } from '../blockchain/types';
 import {
   getContract,
   getTokenContractName,
@@ -138,6 +139,7 @@ class ContractWriter {
       );
     } else {
       const { address, abi } = getContract(contractName);
+
       return this.sendByAddress(address, abi, methodName, args, options);
     }
   }
@@ -146,13 +148,17 @@ class ContractWriter {
     address: string,
     abi: AbiItem[],
     methodName: string,
-    args: Array<any>,
+    args: any[],
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
+    let params = args;
+    if (args && args.length && typeof args[args.length - 1] === 'object') {
+      params = args.slice(0, -1);
+    }
     return new Promise<string | RevertInstructionError>(
       async (resolve, reject) => {
         const data = this.getCustomContract(address, abi)
-          .methods[methodName](...args)
+          .methods[methodName](...params)
           .encodeABI();
 
         const nonce =
@@ -161,7 +167,7 @@ class ContractWriter {
 
         const gasLimit =
           options?.gas ||
-          (await this.estimateCustomGas(address, abi, methodName, args, {
+          (await this.estimateCustomGas(address, abi, methodName, params, {
             value: options?.value,
             gasPrice: options?.gasPrice,
             nonce,

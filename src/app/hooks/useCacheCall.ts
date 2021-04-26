@@ -5,7 +5,7 @@ import { ContractName } from 'utils/types/contracts';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { Nullable } from '../../types';
 
-interface CacheCallResponse<T = string> {
+export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
   loading: boolean;
   error: string | null;

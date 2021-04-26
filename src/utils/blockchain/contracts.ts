@@ -21,6 +21,7 @@ import CSOVTokenAbi from './abi/CSOVToken.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
+import SovTokenABI from './abi/SOV.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 
@@ -29,6 +30,11 @@ export const contracts = {
     address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
     abi: bzxAbi,
     blockNumber: 2742418,
+  },
+  sovToken: {
+    address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
+    abi: SovTokenABI,
+    blockNumber: 2742422,
   },
   BTCWrapperProxy: {
     address: '0xA3B6E18B9A4ECAE44C7355458Ae7Db8874018C22',

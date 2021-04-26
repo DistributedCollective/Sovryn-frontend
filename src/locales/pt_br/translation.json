@@ -294,6 +294,10 @@
     "send": "Enviar",
     "receive": "Receber"
   },
+  "stake": {
+    "title": "Staking/Vesting",
+    "meta": "Staking/Vesting"
+  },
   "liquidity": {
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
