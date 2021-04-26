@@ -60,12 +60,9 @@ const WalletConnectorContainer: React.FC<Props> = props => {
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
-            <>
-              <span className="tw-hidden xl:tw-inline">
-                {t(translations.wallet.connect_btn)}
-              </span>
-              <Icon icon="log-in" className="xl:tw-hidden" />
-            </>
+            <span className="tw-hidden xl:tw-inline">
+              {t(translations.wallet.connect_btn)}
+            </span>
           )}
         </StyledButton>
       ) : (
