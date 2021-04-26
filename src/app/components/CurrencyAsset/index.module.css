@@ -1,7 +1,4 @@
-.small {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 100;
-    font-size: 0.75em;
-    opacity: 50%;
-    letter-spacing: 0;
-  }
+.symbol{
+  font-size: 0.75em;
+  opacity:0.5!important;
+}

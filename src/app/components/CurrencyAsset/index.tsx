@@ -17,18 +17,17 @@ interface CurrencyProps {
 const symbolMap = {
   [Asset.RBTC]: (
     <>
-      <small className={styles.small}>r</small>BTC
+      <small className={styles.symbol}>R</small>BTC
     </>
   ),
   [Asset.USDT]: (
     <>
-      <small className={styles.small}>r</small>USDT
+      <small className={styles.symbol}>R</small>USDT
     </>
   ),
 };
 
 function getAssetSymbol(asset: Asset) {
-  console.log('currency', asset);
   if (symbolMap.hasOwnProperty(asset)) {
     return <span className="symbol">{symbolMap[asset]}</span>;
   }
