@@ -14,7 +14,7 @@
     "@rsksmart/rsk3": "0.3.4",
     "@sentry/react": "5.25.0",
     "@sentry/tracing": "5.25.0",
-    "@sovryn/react-wallet": "1.0.16-alpha.0",
+    "@sovryn/react-wallet": "~1.0.17",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "10.0.1",
