@@ -73,7 +73,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               href={
-                navigator.userAgent.indexOf('Chrome/')
+                navigator.userAgent.indexOf('Chrome/') > 0
                   ? 'https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en'
                   : 'https://tools.google.com/dlpage/gaoptout'
               }
