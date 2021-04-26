@@ -17,7 +17,9 @@ import { actions as txActions } from '../../../store/global/transactions-store/s
 import { TxStatus } from '../../../store/global/transactions-store/types';
 import { whitelist } from '../../../utils/whitelist';
 import delay from '@redux-saga/delay-p';
+import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { backendUrl, currentChainId } from '../../../utils/classifiers';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -145,6 +147,9 @@ function* accountChangedSaga({ payload }: PayloadAction<string>) {
   if (state.whitelist.enabled) {
     yield put(actions.whitelistCheck());
   }
+  if (!!payload) {
+    yield put(actions.addVisit(payload));
+  }
 }
 
 function* whitelistCheckSaga() {
@@ -193,12 +198,20 @@ function* testTransactionsPeriodically() {
   }
 }
 
+function* addVisitSaga({ payload }: PayloadAction<string>) {
+  yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
+    walletAddress: payload,
+  });
+}
+
 export function* walletProviderSaga() {
   yield takeLatest(actions.chainChanged.type, callCreateBlockChannels);
   yield takeLatest(actions.connected.type, walletConnected);
   yield takeLatest(actions.disconnected.type, walletDisconnected);
+  yield takeLatest(actions.testTransactions.type, testTransactionsPeriodically);
+  yield takeLatest(actions.accountChanged.type, accountChangedSaga);
+  yield takeLatest(actions.whitelistCheck.type, whitelistCheckSaga);
+  yield takeLatest(actions.addVisit.type, addVisitSaga);
+  // takeEvery block.
   yield takeEvery(actions.blockReceived.type, processBlockHeader);
-  yield takeEvery(actions.accountChanged.type, accountChangedSaga);
-  yield takeEvery(actions.whitelistCheck.type, whitelistCheckSaga);
-  yield takeEvery(actions.testTransactions.type, testTransactionsPeriodically);
 }
