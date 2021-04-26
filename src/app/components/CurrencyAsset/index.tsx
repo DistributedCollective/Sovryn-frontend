@@ -38,8 +38,7 @@ export function AssetRenderer(props: CurrencyProps) {
     <>
       {props.showImage && (
         <img
-          className="d-inline mr-2"
-          style={{ height: '40px' }}
+          className="tw-inline tw-mr-3 tw-h-8 tw-w-8 tw-object-contain"
           src={AssetsDictionary.get(props.asset).logoSvg}
           alt={AssetsDictionary.get(props.asset).name}
         />

@@ -154,7 +154,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   return (
     <tr key={item.asset}>
       <td>
-        <AssetRenderer asset={item.asset} />
+        <AssetRenderer asset={item.asset} showImage />
       </td>
       <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
