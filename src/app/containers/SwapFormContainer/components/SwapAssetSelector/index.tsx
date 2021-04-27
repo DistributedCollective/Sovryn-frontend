@@ -18,9 +18,6 @@ import {
 } from 'app/components/FormSelect';
 import { MenuItem, Text } from '@blueprintjs/core';
 import { StyledButton, StyledAssetLogo, CaretElement } from './styled';
-import { useBorrowAssetPrice } from '../../../../hooks/trading/useBorrowAssetPrice';
-import { Asset } from '../../../../../types/asset';
-import { weiTo2 } from '../../../../../utils/blockchain/math-helpers';
 import { isMobile } from '../../../../../utils/helpers';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 
@@ -51,11 +48,6 @@ export function SwapAssetSelector(props: Props) {
   useEffect(() => {
     setSelected(getSelected());
   }, [getSelected, props.value, props.items]);
-
-  const { value: price, loading } = useBorrowAssetPrice(
-    props.value,
-    Asset.USDT,
-  );
 
   return (
     <Selector
@@ -88,17 +80,7 @@ export function SwapAssetSelector(props: Props) {
                 <StyledAssetLogo
                   src={AssetsDictionary.get(props.value).logoSvg}
                 />
-                <Text ellipsize>{`1 ${props.value}`}</Text>
-                <span className="px-1">≈</span>
-                <Text
-                  ellipsize
-                  className={[
-                    'flex-shrink-1 flex-grow-0',
-                    loading ? 'bp3-skeleton' : '',
-                  ].join(' ')}
-                >
-                  {weiTo2(price)}
-                </Text>
+                <Text ellipsize>{props.value}</Text>
               </span>
             </>
           ) : (

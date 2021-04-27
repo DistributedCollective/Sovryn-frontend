@@ -6,9 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
 import { bignumber } from 'mathjs';
-import { Button, ButtonGroup } from '@blueprintjs/core';
 import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -28,6 +26,7 @@ import { getTokenContractName } from '../../../utils/blockchain/contract-helpers
 import { Sovryn } from '../../../utils/sovryn';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
 import { AssetRenderer } from '../CurrencyAsset/';
+import { ActionButton } from 'form/ActionButton';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -166,20 +165,16 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
         />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        <ButtonGroup>
+        <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {item.asset === Asset.RBTC && (
-            <Button
-              minimal
+            <ActionButton
               text={t(translations.userAssets.actions.deposit)}
-              className="tw-text-gold tw-button-round"
               onClick={() => onFastBtc()}
             />
           )}
           {item.asset !== Asset.SOV && (
-            <Button
-              minimal
+            <ActionButton
               text={t(translations.userAssets.actions.trade)}
-              className="tw-text-gold tw-button-roun"
               onClick={() =>
                 history.push('/trade', {
                   params: { asset: item.asset, action: 'trade' },
@@ -187,17 +182,15 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
               }
             />
           )}
-          <Button
-            minimal
+          <ActionButton
             text={t(translations.userAssets.actions.swap)}
-            className="tw-text-gold tw-button-roun"
             onClick={() =>
               history.push('/trade', {
                 params: { asset: item.asset, action: 'swap' },
               })
             }
           />
-        </ButtonGroup>
+        </div>
       </td>
     </tr>
   );

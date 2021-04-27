@@ -1,4 +1,3 @@
-import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
 import { bignumber } from 'mathjs';
 /**
  *
@@ -25,6 +24,7 @@ import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
+import { ActionButton } from 'form/ActionButton';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -56,9 +56,6 @@ export function VestedAssets() {
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
               <th className="tw-text-right">
-                {t(translations.userAssets.tableHeaders.lockedAmount)}
-              </th>
-              <th className="text-right">
                 {t(translations.userAssets.tableHeaders.lockedAmount)}
               </th>
               <th className="text-right d-none d-md-table-cell">
@@ -178,10 +175,9 @@ function AssetRow({
         />
       </td>
       <td className="tw-text-right">
-        <Button
-          minimal
+        <ActionButton
+          className="tw-inline-block"
           text={t(translations.userAssets.actions.withdraw)}
-          className="text-gold button-round"
           disabled={contract === ethGenesisAddress || loading}
           onClick={() => onWithdraw(contract)}
         />

@@ -11,6 +11,9 @@ export enum TradingPairType {
 }
 
 export class TradingPairDictionary {
+  /**
+   * @deprecated
+   */
   public static longPositionTokens = [Asset.DOC, Asset.USDT];
   public static pairs: Map<TradingPairType, TradingPair> = new Map<
     TradingPairType,

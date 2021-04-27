@@ -26,7 +26,7 @@ import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
-import { AssetWalletBalanceInline } from 'app/components/AssetWalletBalance';
+import { AvailableBalance } from '../../../../components/AvailableBalance';
 
 const s = translations.swapTradeForm;
 
@@ -104,7 +104,7 @@ export function BuyForm() {
               rightElement="rBTC"
             />
             <Slippage>
-              <AssetWalletBalanceInline asset={Asset.RBTC} />
+              <AvailableBalance asset={Asset.RBTC} />
             </Slippage>
             <AmountButton onChange={changeAmount} />
           </FieldGroup>

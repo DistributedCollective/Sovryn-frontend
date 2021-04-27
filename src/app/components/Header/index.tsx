@@ -12,7 +12,7 @@ import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/usePageViews';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
+import { MenuItem, Popover, Menu as BPMenu } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
@@ -206,11 +206,9 @@ export function Header() {
     return (
       <StyledPopover
         interactionKind="hover"
-        className="mr-4 cursor-pointer"
         minimal={true}
         popoverClassName="header-nav-popover"
         content={content}
-        position={Position.BOTTOM_LEFT}
         hoverOpenDelay={0}
         hoverCloseDelay={0}
       >
@@ -267,8 +265,8 @@ export function Header() {
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="tw-hidden xl:tw-block">
-              <NavLink className="tw-header-link" to="/" exact>
+            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5">
+              <NavLink className="tw-header-link tw-flex-shrink-0" to="/" exact>
                 {t(translations.mainMenu.buySov)}
               </NavLink>
               <NavPopover
@@ -292,7 +290,7 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
@@ -334,7 +332,7 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
@@ -378,7 +376,7 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >

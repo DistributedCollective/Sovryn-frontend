@@ -4,9 +4,9 @@ import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
+import { LoadableValue } from '../LoadableValue';
 
 interface Props {
   asset: Asset;
