@@ -6,6 +6,7 @@ import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetRenderer } from '../../../../components/CurrencyAsset';
+
 interface Items {
   value: Asset;
   image: string;

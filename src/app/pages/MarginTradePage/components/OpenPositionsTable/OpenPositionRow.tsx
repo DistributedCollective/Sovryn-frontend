@@ -21,6 +21,7 @@ import { ClosePositionDialog } from '../ClosePositionDialog';
 import { CurrentPositionProfit } from '../../../../components/CurrentPositionProfit';
 import { PositionBlock } from './PositionBlock';
 import { AssetRenderer } from '../../../../components/CurrencyAsset';
+
 interface Props {
   item: ActiveLoan;
 }

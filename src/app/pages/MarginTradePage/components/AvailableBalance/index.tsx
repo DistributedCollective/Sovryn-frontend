@@ -8,6 +8,7 @@ import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/CurrencyAsset';
+
 interface Props {
   asset: Asset;
 }

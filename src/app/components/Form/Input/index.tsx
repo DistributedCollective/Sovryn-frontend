@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { handleNumber } from 'utils/helpers';
 import { AssetRenderer } from '../../../components/CurrencyAsset';
 import { Asset } from 'types/asset';
+
 type InputType = 'text' | 'email' | 'password' | 'number';
 
 interface InputProps {
