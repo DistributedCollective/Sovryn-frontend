@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
 import cn from 'classnames';
+import React, { useCallback } from 'react';
+
 import { handleNumber } from 'utils/helpers';
-import { AssetRenderer } from '../../../components/CurrencyAsset';
-import { Asset } from 'types/asset';
 
 type InputType = 'text' | 'email' | 'password' | 'number';
 
@@ -40,16 +39,6 @@ export function Input({
     },
     [props.type, onChange],
   );
-  const checkAsset = () => {
-    if (appendElem === 'RBTC' || appendElem === 'rBTC') {
-      console.log('appendElem', appendElem);
-      return <AssetRenderer asset={Asset.RBTC} />;
-    } else if (appendElem === 'USDT') {
-      return <AssetRenderer asset={Asset.USDT} />;
-    } else {
-      return appendElem;
-    }
-  };
 
   return (
     <div
@@ -63,7 +52,7 @@ export function Input({
         onChange={e => handleChange(e.currentTarget.value)}
         {...props}
       />
-      {appendElem && <div className="tw-input-append">{checkAsset()} </div>}
+      {appendElem && <div className="tw-input-append">{appendElem}</div>}
     </div>
   );
 }
