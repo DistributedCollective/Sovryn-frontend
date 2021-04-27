@@ -37,7 +37,7 @@ class ContractReader {
 
   public async callByAddress<T = string | RevertInstructionError>(
     address: string,
-    abi: AbiItem,
+    abi: AbiItem[] | AbiItem | any,
     methodName: string,
     args: Array<any>,
   ): Promise<T> {

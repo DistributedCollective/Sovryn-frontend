@@ -206,6 +206,19 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
   return roundToSmaller(bignumber(amount || '0').div(10 ** decimals), decimals);
 };
 
+export const toWei = (amount: any, unit: Unit = 'ether') => {
+  let decimals = 0;
+  switch (unit) {
+    case 'ether':
+      decimals = 18;
+      break;
+    default:
+      throw new Error('Unsupported unit (custom toWei helper)');
+  }
+
+  return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
+};
+
 export const numberFromWei = (amount: any, unit: Unit = 'ether') => {
   return Number(fromWei(amount, unit));
 };

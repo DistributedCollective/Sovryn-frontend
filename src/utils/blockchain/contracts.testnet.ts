@@ -36,6 +36,10 @@ export const contracts = {
     abi: SovTokenABI,
     blockNumber: 2742422,
   },
+  vestingRegistry2: {
+    address: '0x310006E356b0818C3Eaf86a9B2f13013d4691a1c',
+    abi: VestingRegistryAbi as any,
+  },
   BTCWrapperProxy: {
     address: '0x106f117Af68586A994234E208c29DE0f1A764C60',
     abi: RBTCWrapperProxy,

@@ -12,12 +12,7 @@ export function staking_stake(
   return contractWriter.send(
     'staking',
     'stake',
-    [
-      weiAmount,
-      untilTs,
-      ethGenesisAddress,
-      ethGenesisAddress,
-    ],
+    [weiAmount, untilTs, ethGenesisAddress, ethGenesisAddress],
     { from: account, nonce: nonce, gas: 250000 },
   );
 }

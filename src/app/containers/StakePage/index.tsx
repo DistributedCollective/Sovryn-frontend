@@ -8,6 +8,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import moment from 'moment-timezone';
+import Rsk3 from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -15,8 +16,6 @@ import { numberFromWei } from 'utils/helpers';
 import { Modal } from '../../components/Modal';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { Sovryn } from 'utils/sovryn';
-import { SovrynNetwork } from 'utils/sovryn/sovryn-network';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import {
   staking_allowance,
@@ -26,18 +25,25 @@ import {
   staking_withdraw,
   staking_delegate,
 } from 'utils/blockchain/requests/staking';
+import { CurrentVests } from './components/CurrentVests';
+import { DelegateForm } from './components/DelegateForm';
+import { ExtendStakeForm } from './components/ExtendStakeForm';
+import { IncreaseStakeForm } from './components/IncreaseStakeForm';
+import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
+import { HistoryEventsTable } from './components/HistoryEventsTable';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
 import { useStaking_kickoffTs } from '../../hooks/staking/useStaking_kickoffTs';
 import { useStaking_balanceOf } from '../../hooks/staking/useStaking_balanceOf';
+import { useStaking_WEIGHT_FACTOR } from '../../hooks/staking/useStaking_WEIGHT_FACTOR';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
+import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
 import logoSvg from 'assets/images/sovryn-icon.svg';
 import { StakeForm } from './components/StakeForm';
 import { StyledTable } from './components/StyledTable';
-
 
 const now = new Date();
 
@@ -73,29 +79,99 @@ export function StakePage() {
 function InnerStakePage() {
   const { t } = useTranslation();
   const account = useAccount();
-  const [address, setAddress] = useState('');
-  const sovBalanceOf = useSoV_balanceOf(account);
   const [amount, setAmount] = useState('');
   const weiAmount = useWeiAmount(amount);
+  const [weight, setWeight] = useState('');
   const kickoffTs = useStaking_kickoffTs();
-  const getStakes = useStaking_getStakes(account);
-  const [timestamp, setTimestamp] = useState<number>(0 as any);
+  const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
+  const sovBalanceOf = useSoV_balanceOf(account);
+  const getStakes = useStaking_getStakes(account);
   const balanceOf = useStaking_balanceOf(account);
-  const voteBalance = useStaking_getCurrentVotes(account);
-  const [until, setUntil] = useState<number>(0 as any);
-  const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
+  const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
+  const [stakeAmount, setStakeAmount] = useState(0);
   const [stakeForm, setStakeForm] = useState(false);
-  const [delegateForm, setDelegateForm] = useState(false);
   const [extendForm, setExtendForm] = useState(false);
+  const [until, setUntil] = useState<number>(0 as any);
+  const [delegateForm, setDelegateForm] = useState(false);
   const [withdrawForm, setWithdrawForm] = useState(false);
   const [increaseForm, setIncreaseForm] = useState(false);
-  const [weight, setWeight] = useState('');
+  const voteBalance = useStaking_getCurrentVotes(account);
   const [lockDate, setLockDate] = useState<number>(0 as any);
+  const [timestamp, setTimestamp] = useState<number>(0 as any);
   const [votingPower, setVotingPower] = useState<number>(0 as any);
+  const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
+  const weiWithdrawAmount = useWeiAmount(withdrawAmount);
+  const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
 
+  const getWeight = useStaking_computeWeightByDate(
+    Number(lockDate),
+    Math.round(now.getTime() / 1e3),
+  );
+
+  const [stakesArray, setStakesArray] = useState([]);
+  const [stakeLoad, setStakeLoad] = useState(false);
   const dates = getStakes.value['dates'];
   const stakes = getStakes.value['stakes'];
+
+  useEffect(() => {
+    async function getStakesEvent() {
+      try {
+        Promise.all(
+          dates.map(async (value, index) => {
+            const delegate = await contractReader
+              .call('staking', 'delegates', [account, value])
+              .then(res => {
+                if (res.toString().toLowerCase() !== account.toLowerCase()) {
+                  return res;
+                }
+                return false;
+              });
+            return [stakes[index], value, delegate];
+          }),
+        ).then(result => {
+          setStakesArray(result as any);
+        });
+        setStakeLoad(false);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (dates && stakes !== undefined) {
+      setStakeLoad(true);
+      getStakesEvent().finally(() => {
+        setStakeLoad(false);
+      });
+    }
+
+    return () => {
+      setStakesArray([]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, getStakes.value, setStakesArray]);
+
+  useEffect(() => {
+    if (timestamp && weiAmount && (stakeForm || increaseForm || extendForm)) {
+      setLockDate(timestamp);
+      setWeight(getWeight.value);
+      setVotingPower(
+        (Number(weiAmount) * Number(weight)) / Number(WEIGHT_FACTOR.value),
+      );
+    } else {
+      setLockDate(timestamp);
+      setWeight('');
+      setVotingPower(0);
+    }
+  }, [
+    getWeight.value,
+    weight,
+    stakeForm,
+    WEIGHT_FACTOR.value,
+    weiAmount,
+    timestamp,
+    increaseForm,
+    extendForm,
+  ]);
 
   //Form Validations
   const validateStakeForm = useCallback(() => {
@@ -107,7 +183,52 @@ function InnerStakePage() {
     return num * 1e18 <= Number(sovBalanceOf.value);
   }, [loading, amount, sovBalanceOf, timestamp]);
 
+  const validateDelegateForm = useCallback(() => {
+    if (loading) return false;
+    if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
+    return Rsk3.utils.isAddress(address.toLowerCase());
+  }, [loading, address, timestamp]);
+
+  const validateIncreaseForm = useCallback(() => {
+    if (loading) return false;
+    const num = Number(amount);
+    if (!num || isNaN(num) || num <= 0) return false;
+    return num * 1e18 <= Number(sovBalanceOf.value);
+  }, [loading, amount, sovBalanceOf]);
+
+  const validateWithdrawForm = useCallback(
+    amount => {
+      // if (loading) return false;
+      const num = Number(withdrawAmount);
+      if (!num || isNaN(num) || num <= 0) return false;
+      return num <= Number(amount);
+    },
+    [withdrawAmount],
+  );
+
+  const validateExtendTimeForm = useCallback(() => {
+    if (loading) return false;
+    return timestamp >= Math.round(now.getTime() / 1e3);
+  }, [loading, timestamp]);
+
   //Submit Forms
+  const handleWithdrawSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+
+      if (bignumber(weiWithdrawAmount).greaterThan(stakeAmount)) {
+        await staking_withdraw(stakeAmount.toString(), until, account);
+      } else {
+        await staking_withdraw(weiWithdrawAmount, until, account);
+      }
+
+      setLoading(false);
+      setWithdrawForm(!withdrawForm);
+    },
+    [weiWithdrawAmount, until, account, withdrawForm, stakeAmount],
+  );
+
   const handleStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
@@ -115,12 +236,12 @@ function InnerStakePage() {
       try {
         let nonce = await contractReader.nonce(account);
         const allowance = (await staking_allowance(account)) as string;
-        console.log(nonce);
-        console.log(allowance);
-        console.log(bignumber(allowance).lessThan(weiAmount));
-
         if (bignumber(allowance).lessThan(weiAmount)) {
-          await staking_approve(sovBalanceOf.value, account.toLowerCase(), nonce);
+          await staking_approve(
+            sovBalanceOf.value,
+            account.toLowerCase(),
+            nonce,
+          );
           nonce += 1;
         }
         await staking_stake(weiAmount, timestamp, account.toLowerCase(), nonce);
@@ -134,6 +255,59 @@ function InnerStakePage() {
     [weiAmount, sovBalanceOf.value, account, timestamp, stakeForm],
   );
 
+  const handleDelegateSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        await staking_delegate(address.toLowerCase(), timestamp, account);
+        setLoading(false);
+        setDelegateForm(!delegateForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
+      }
+    },
+    [address, account, timestamp, delegateForm],
+  );
+
+  const handleIncreaseStakeSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        let nonce = await contractReader.nonce(account);
+        const allowance = (await staking_allowance(account)) as string;
+        if (bignumber(allowance).lessThan(weiAmount)) {
+          await staking_approve(weiAmount, account, nonce);
+          nonce += 1;
+        }
+        await staking_stake(weiAmount, timestamp, account, nonce);
+        setLoading(false);
+        setIncreaseForm(!increaseForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
+      }
+    },
+    [weiAmount, account, timestamp, increaseForm],
+  );
+
+  const handleExtendTimeSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        await staking_extendStakingDuration(prevTimestamp, timestamp, account);
+        setLoading(false);
+        setExtendForm(!extendForm);
+      } catch (e) {
+        setLoading(false);
+      }
+    },
+    [prevTimestamp, timestamp, account, extendForm],
+  );
+
   return (
     <>
       <Helmet>
@@ -143,7 +317,9 @@ function InnerStakePage() {
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-m-auto">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">Staking/Vesting</h2>
+            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+              Staking/Vesting
+            </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
               <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">Total staked SOV</p>
@@ -214,7 +390,158 @@ function InnerStakePage() {
             <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
               Current Stakes
             </p>
+
+            <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
+              <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+                <StyledTable className="tw-w-full">
+                  <thead>
+                    <tr>
+                      <th className="tw-text-left assets">Asset</th>
+                      <th className="tw-text-left">Locked Amount</th>
+                      <th className="tw-text-left tw-font-normal tw-hidden lg:tw-table-cell">
+                        Voting Power:
+                      </th>
+                      <th className="tw-text-left tw-hidden lg:tw-table-cell">
+                        Staking Period
+                      </th>
+                      <th className="tw-text-left tw-hidden lg:tw-table-cell">
+                        Unlock Date
+                      </th>
+                      <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
+                    <StakesOverview
+                      stakes={stakesArray}
+                      loading={stakeLoad || getStakes.loading}
+                      onDelegate={a => {
+                        setTimestamp(a);
+                        setDelegateForm(!delegateForm);
+                      }}
+                      onExtend={(a, b) => {
+                        setPrevTimestamp(b);
+                        setTimestamp(b);
+                        setAmount(numberFromWei(a).toString());
+                        setStakeForm(false);
+                        setExtendForm(true);
+                        setIncreaseForm(false);
+                        setWithdrawForm(false);
+                      }}
+                      onIncrease={(a, b) => {
+                        setTimestamp(b);
+                        setAmount(numberFromWei(a).toString());
+                        setUntil(b);
+                        setStakeForm(false);
+                        setExtendForm(false);
+                        setIncreaseForm(true);
+                        setWithdrawForm(false);
+                      }}
+                      onUnstake={(a, b) => {
+                        setAmount(numberFromWei(a).toString());
+                        setWithdrawAmount(0);
+                        setStakeAmount(a);
+                        setTimestamp(b);
+                        setUntil(b);
+                        setStakeForm(false);
+                        setExtendForm(false);
+                        setIncreaseForm(false);
+                        setWithdrawForm(true);
+                      }}
+                    />
+                  </tbody>
+                </StyledTable>
+                <Modal
+                  show={delegateForm}
+                  content={
+                    <>
+                      <DelegateForm
+                        handleSubmit={handleDelegateSubmit}
+                        address={address}
+                        onChangeAddress={e => setAddress(e)}
+                        isValid={validateDelegateForm()}
+                        onCloseModal={() => setDelegateForm(!delegateForm)}
+                      />
+                    </>
+                  }
+                />
+              </div>
+            </div>
+            <CurrentVests />
+            <HistoryEventsTable />
           </div>
+          <>
+            {balanceOf.value !== '0' && (
+              <>
+                {increaseForm === true && (
+                  <Modal
+                    show={increaseForm}
+                    content={
+                      <>
+                        <IncreaseStakeForm
+                          handleSubmit={handleIncreaseStakeSubmit}
+                          amount={amount}
+                          timestamp={timestamp}
+                          onChangeAmount={e => setAmount(e)}
+                          sovBalanceOf={sovBalanceOf}
+                          isValid={validateIncreaseForm()}
+                          balanceOf={balanceOf}
+                          votePower={votingPower}
+                          onCloseModal={() => setIncreaseForm(!increaseForm)}
+                        />
+                      </>
+                    }
+                  />
+                )}
+                {extendForm === true && (
+                  <Modal
+                    show={extendForm}
+                    content={
+                      <>
+                        {kickoffTs.value !== '0' && (
+                          <ExtendStakeForm
+                            handleSubmit={handleExtendTimeSubmit}
+                            amount={amount}
+                            timestamp={timestamp}
+                            onChangeTimestamp={e => setTimestamp(e)}
+                            sovBalanceOf={sovBalanceOf}
+                            kickoff={kickoffTs}
+                            isValid={validateExtendTimeForm()}
+                            stakes={getStakes.value['dates']}
+                            balanceOf={balanceOf}
+                            votePower={votingPower}
+                            prevExtend={prevTimestamp}
+                            onCloseModal={() => setExtendForm(!extendForm)}
+                          />
+                        )}
+                      </>
+                    }
+                  />
+                )}
+                {withdrawForm === true && (
+                  <Modal
+                    show={withdrawForm}
+                    content={
+                      <>
+                        <WithdrawForm
+                          handleSubmit={handleWithdrawSubmit}
+                          withdrawAmount={withdrawAmount}
+                          amount={amount}
+                          until={timestamp}
+                          onChangeAmount={e => setWithdrawAmount(e)}
+                          sovBalanceOf={sovBalanceOf}
+                          balanceOf={balanceOf}
+                          isValid={validateWithdrawForm(amount)}
+                          onCloseModal={() => setWithdrawForm(!withdrawForm)}
+                        />
+                      </>
+                    }
+                  />
+                )}
+              </>
+            )}
+          </>
         </div>
       </main>
     </>
@@ -242,14 +569,14 @@ const StakesOverview: React.FC<Stakes> = ({
     <>
       {loading && !stakes.length && (
         <tr>
-          <td colSpan={99} className="text-center font-normal">
+          <td colSpan={99} className="tw-text-center tw-font-normal">
             Loading, please wait...
           </td>
         </tr>
       )}
       {!loading && !stakes.length && (
         <tr>
-          <td colSpan={99} className="text-center font-normal">
+          <td colSpan={99} className="tw-text-center tw-font-normal">
             No stakes yet.
           </td>
         </tr>
@@ -259,32 +586,32 @@ const StakesOverview: React.FC<Stakes> = ({
         return (
           <tr key={i}>
             <td>
-              <div className="assetname flex items-center">
+              <div className="assetname tw-flex tw-items-center">
                 <div>
-                  <img src={logoSvg} className="ml-3 mr-3" alt="sov" />
+                  <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
                 </div>
-                <div className="text-sm font-normal hidden xl:block pl-3">
+                <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
                   SOV
                 </div>
               </div>
             </td>
-            <td className="text-left font-normal">
+            <td className="tw-text-left tw-font-normal">
               {numberFromWei(item[0])} SOV
             </td>
-            <td className="text-left hidden lg:table-cell font-normal">
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {item[2].length && (
                 <>
                   Delegated to{' '}
                   <LinkToExplorer
                     isAddress={true}
                     txHash={item[2]}
-                    className="text-gold hover:text-gold hover:underline font-medium font-montserrat tracking-normal"
+                    className="tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
                   />
                 </>
               )}
               {!item[2].length && <p>No delegate</p>}
             </td>
-            <td className="text-left hidden lg:table-cell font-normal">
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (
                 <>
                   <br />
@@ -298,20 +625,20 @@ const StakesOverview: React.FC<Stakes> = ({
                 </>
               )}
             </td>
-            <td className="text-left hidden lg:table-cell font-normal">
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               <p>
                 {moment
                   .tz(new Date(parseInt(item[1]) * 1e3), 'GMT')
                   .format('DD/MM/YYYY - h:mm:ss a z')}
               </p>
             </td>
-            <td className="md:text-left lg:text-right hidden md:table-cell max-w-15 min-w-15">
-              <div className="flex flex-nowrap">
+            <td className="md:tw-text-left lg:tw-text-right tw-hidden md:tw-table-cell max-w-15 min-w-15">
+              <div className="tw-flex tw-flex-nowrap">
                 <button
                   type="button"
-                  className={`text-gold tracking-normal hover:text-gold hover:no-underline hover:bg-gold hover:bg-opacity-30 mr-1 xl:mr-7 px-4 py-2 bordered transition duration-500 ease-in-out rounded-full border border-gold text-sm font-light font-montserrat ${
+                  className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat ${
                     !locked &&
-                    'bg-transparent hover:bg-opacity-0 opacity-50 cursor-not-allowed hover:bg-transparent'
+                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
                   }`}
                   onClick={() => onIncrease(item[0], item[1])}
                   disabled={!locked}
@@ -320,22 +647,22 @@ const StakesOverview: React.FC<Stakes> = ({
                 </button>
                 <button
                   type="button"
-                  className="text-gold tracking-normal hover:text-gold hover:no-underline hover:bg-gold hover:bg-opacity-30 mr-1 xl:mr-8 px-5 py-2 bordered transition duration-500 ease-in-out rounded-full border border-gold text-sm font-light font-montserrat"
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                   onClick={() => onExtend(item[0], item[1])}
                 >
                   Extend
                 </button>
                 <button
                   type="button"
-                  className="text-gold tracking-normal hover:text-gold hover:no-underline hover:bg-gold hover:bg-opacity-30 mr-1 xl:mr-8 px-5 py-2 bordered transition duration-500 ease-in-out rounded-full border border-gold text-sm font-light font-montserrat"
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                   onClick={() => onUnstake(item[0], item[1])}
                 >
                   Unstake
                 </button>
                 <button
-                  className={`text-gold tracking-normal hover:text-gold hover:no-underline hover:bg-gold hover:bg-opacity-30 mr-1 xl:mr-7 px-4 py-2 bordered transition duration-500 ease-in-out rounded-full border border-gold text-sm font-light font-montserrat ${
+                  className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat ${
                     !locked &&
-                    'bg-transparent hover:bg-opacity-0 opacity-50 cursor-not-allowed hover:bg-transparent'
+                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
                   }`}
                   onClick={() => onDelegate(item[1])}
                   disabled={!locked}

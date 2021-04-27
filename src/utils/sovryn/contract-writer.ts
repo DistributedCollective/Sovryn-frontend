@@ -146,7 +146,7 @@ class ContractWriter {
 
   public async sendByAddress(
     address: string,
-    abi: AbiItem[],
+    abi: AbiItem[] | AbiItem | any,
     methodName: string,
     args: any[],
     options: TransactionConfig = {},
