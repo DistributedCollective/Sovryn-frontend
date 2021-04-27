@@ -1,6 +1,5 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
-
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',

@@ -27,7 +27,7 @@ const symbolMap = {
   ),
 };
 
-function getAssetSymbol(asset: Asset) {
+export function getAssetSymbol(asset: Asset) {
   if (symbolMap.hasOwnProperty(asset)) {
     return <span>{symbolMap[asset]}</span>;
   }

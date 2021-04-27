@@ -26,7 +26,8 @@ import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
-
+import { Trans } from 'react-i18next';
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 const s = translations.swapTradeForm;
 
 const gasLimit = 340000;
@@ -91,7 +92,16 @@ export function BuyForm() {
 
   return (
     <>
-      <Card step={3} title={t(translations.buySovPage.form.title)} large>
+      <Card
+        step={3}
+        title={
+          <Trans
+            i18nKey={translations.buySovPage.form.title}
+            components={[<AssetRenderer asset={Asset.RBTC} />]}
+          />
+        }
+        large
+      >
         <div className="px-0 px-lg-4">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}
@@ -102,7 +112,7 @@ export function BuyForm() {
               type="text"
               onChange={value => setAmount(value)}
               placeholder="0.0000"
-              rightElement="rBTC"
+              rightElement={<AssetRenderer asset={Asset.RBTC} />}
             />
             <Slippage>
               {t(translations.buySovPage.form.availableBalance)}{' '}
@@ -111,7 +121,7 @@ export function BuyForm() {
                 value={weiToNumberFormat(balance, 4)}
                 tooltip={weiTo18(balance)}
               />{' '}
-              rBTC
+              <AssetRenderer asset={Asset.RBTC} />
             </Slippage>
             <AmountButton onChange={changeAmount} />
           </FieldGroup>

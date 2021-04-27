@@ -7,7 +7,8 @@ import { Asset } from '../../../../../types/asset';
 import { FastBtcDialog } from '../../../../containers/FastBtcDialog';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-
+import { Trans } from 'react-i18next';
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 export function TopUpWallet() {
   const { t } = useTranslation();
   const connected = useIsConnected();
@@ -16,15 +17,29 @@ export function TopUpWallet() {
   return (
     <Card
       step={2}
-      title={t(translations.buySovPage.topUp.title)}
+      title={
+        <Trans
+          i18nKey={translations.buySovPage.topUp.title}
+          components={[<AssetRenderer asset={Asset.RBTC} />]}
+        />
+      }
       disabled={balance !== '0'}
     >
       <div className="disable-content" style={{ height: 180 }}>
-        <p>{t(translations.buySovPage.topUp.line1)}</p>
+        <p>
+          {' '}
+          <Trans
+            i18nKey={translations.buySovPage.topUp.line1}
+            components={[<AssetRenderer asset={Asset.RBTC} />]}
+          />
+        </p>
         <p>
           <br />
           <a href="https://rsk.co" target="_blank" rel="noreferrer noopener">
-            {t(translations.buySovPage.topUp.line2)}
+            <Trans
+              i18nKey={translations.buySovPage.topUp.line2}
+              components={[<AssetRenderer asset={Asset.RBTC} />]}
+            />
           </a>
         </p>
       </div>
