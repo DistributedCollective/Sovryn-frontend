@@ -929,7 +929,7 @@
         "asset": "Asset:",
         "leverage": "Leverage:",
         "amount": "Amount:",
-        "balance": "Available Balance: <0/> {{symbol}}",
+        "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
       },
       "buttons": {

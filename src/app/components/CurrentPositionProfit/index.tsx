@@ -11,7 +11,7 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
 import { bignumber } from 'mathjs';
-
+import { AssetRenderer } from '../../components/CurrencyAsset';
 interface Props {
   source: Asset;
   destination: Asset;
@@ -73,7 +73,8 @@ export function CurrentPositionProfit(props: Props) {
           <>
             <span className={diff < 0 ? 'tw-text-red' : 'tw-text-green'}>
               {diff > 0 && '+'}
-              {weiToNumberFormat(profit, 8)} {props.destination}
+              {weiToNumberFormat(profit, 8)}{' '}
+              <AssetRenderer asset={props.destination} />
             </span>
           </>
         }

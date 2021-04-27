@@ -5,7 +5,7 @@ import { FormGroup } from 'form/FormGroup';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 interface Items {
   value: Asset;
   image: string;
@@ -31,6 +31,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
             value: item,
             image: asset.logoSvg,
             name: asset.symbol,
+            curAsset: asset.asset,
           };
         }
         return null;
@@ -48,7 +49,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
           onChange={value => onChange(value as Asset)}
           className="tw-radio-group--secondary"
         >
-          {items.map(item => (
+          {items.map((item, idx) => (
             <RadioGroup.Button
               key={item.value}
               value={item.value}
@@ -59,7 +60,11 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
                     alt={item.name}
                     className="tw-mr-1 tw-w-6 tw-h-6 tw-object-fit"
                   />
-                  <div className="tw-truncate tw-uppercase">{item.name}</div>
+                  <div className="tw-truncate tw-uppercase">
+                    <AssetRenderer
+                      asset={AssetsDictionary.get(options[idx]).asset}
+                    />
+                  </div>
                 </>
               }
             />

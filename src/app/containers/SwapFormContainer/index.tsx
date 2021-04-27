@@ -30,7 +30,6 @@ import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'form/Input';
-
 const s = translations.swapTradeForm;
 
 function tokenAddress(asset: Asset) {
