@@ -1,10 +1,10 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
 import { TradingPosition } from 'types/trading-position';
-import { getAssetSymbol } from '../../app/components/CurrencyAsset';
-const RBTC = getAssetSymbol(Asset.RBTC);
-const USDT = getAssetSymbol(Asset.USDT);
-console.log('RBTC', RBTC);
+// import { getAssetSymbol } from '../../app/components/CurrencyAsset';
+// const RBTC = getAssetSymbol(Asset.RBTC);
+// const USDT = getAssetSymbol(Asset.USDT);
+// console.log('RBTC', RBTC);
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',

@@ -78,7 +78,7 @@ export function AssetWalletBalanceInline(props: Props) {
         value={weiToFixed(value, 4)}
         tooltip={weiTo18(value)}
       />{' '}
-      <AssetRenderer asset={Asset.RBTC} />
+      <AssetRenderer asset={props.asset} />
     </div>
   );
 }

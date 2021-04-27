@@ -5,7 +5,6 @@ import { Asset } from '../../../../types/asset';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
-
 interface Props {
   value: string;
   onChange: (value: string) => void;
