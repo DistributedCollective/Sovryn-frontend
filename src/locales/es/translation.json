@@ -629,6 +629,7 @@
     "fastBtcDialog": {
       "title": "Obtén rBTC",
       "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
+      "note": "Siempre asegúrese de verificar la dirección de depósito de BTC a medida que FastBTC se actualiza",
       "limits": {
         "title": "Límites:",
         "min": "Mínimo: {{amount}} BTC",

@@ -37,6 +37,9 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       <div className={styles.subtitle}>
         {t(translations.fastBtcDialog.subtitle)}
       </div>
+      <div className={styles.subtitle}>
+        {t(translations.fastBtcDialog.note)}
+      </div>
 
       <div>
         <div className={styles.limitsTitle}>
