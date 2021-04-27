@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { ContractName } from 'utils/types/contracts';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { Nullable } from '../../types';
+import { useBlockSync } from './useAccount';
 
 interface CacheCallResponse<T = string> {
   value: Nullable<T>;
@@ -26,7 +25,7 @@ export function useCacheCall<T = any>(
   methodName: string,
   ...args: any
 ): CacheCallResponse<T> {
-  const { syncBlockNumber } = useSelector(selectWalletProvider);
+  const syncBlockNumber = useBlockSync();
 
   const [state, setState] = useState<any>({
     value: null,

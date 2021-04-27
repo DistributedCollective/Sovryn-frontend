@@ -1,6 +1,3 @@
-import { Button, ButtonGroup } from '@blueprintjs/core';
-// import { bignumber } from 'react-redux';
-import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -9,26 +6,28 @@ import { bignumber } from 'mathjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-
+// import { useDispatch } from 'react-redux';
+import { bignumber } from 'mathjs';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types/asset';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { AssetDetails } from '../../../utils/models/asset-details';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { LoadableValue } from '../LoadableValue';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { Asset } from '../../../types/asset';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { Skeleton } from '../PageSkeleton';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { AssetDetails } from '../../../utils/models/asset-details';
-import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { Sovryn } from '../../../utils/sovryn';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../CurrencyAsset/';
-import { LoadableValue } from '../LoadableValue';
-import { Skeleton } from '../PageSkeleton';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -46,23 +45,23 @@ export function UserAssets() {
   const [fastBtc, setFastBtc] = useState(false);
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.totalBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.action)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {!connected && (
               <>
                 <tr>
@@ -72,10 +71,10 @@ export function UserAssets() {
                   <td>
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden md:tw-table-cell">
                     <Skeleton />
                   </td>
-                  <td className="d-none d-md-table-cell">
+                  <td className="tw-hidden md:tw-table-cell">
                     <Skeleton />
                   </td>
                 </tr>
@@ -155,31 +154,24 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
   return (
     <tr key={item.asset}>
       <td>
-        {/* <img
-          className="d-inline mr-2"
-          style={{ height: '40px' }}
-          src={item.logoSvg}
-          alt={item.asset}
-        />{' '}
-        {item.symbol} */}
         <AssetRenderer asset={item.asset} showImage />
       </td>
-      <td className="text-right">
+      <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
           loading={dollars.loading}
         />
       </td>
-      <td className="text-right d-none d-md-table-cell">
+      <td className="tw-text-right tw-hidden md:tw-table-cell">
         <ButtonGroup>
           {item.asset === Asset.RBTC && (
             <Button
               minimal
               text={t(translations.userAssets.actions.deposit)}
-              className="text-gold button-round"
+              className="tw-text-gold tw-button-round"
               onClick={() => onFastBtc()}
             />
           )}
@@ -187,7 +179,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
             <Button
               minimal
               text={t(translations.userAssets.actions.trade)}
-              className="text-gold button-round"
+              className="tw-text-gold tw-button-roun"
               onClick={() =>
                 history.push('/trade', {
                   params: { asset: item.asset, action: 'trade' },
@@ -198,7 +190,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
           <Button
             minimal
             text={t(translations.userAssets.actions.swap)}
-            className="text-gold button-round"
+            className="tw-text-gold tw-button-roun"
             onClick={() =>
               history.push('/trade', {
                 params: { asset: item.asset, action: 'swap' },

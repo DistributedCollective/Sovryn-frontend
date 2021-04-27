@@ -1,0 +1,19 @@
+.chartWrapper {
+    height: 320px;
+}
+
+.formWrapper {
+    width: 100%;
+    max-width: 452px;
+}
+
+@media screen and (min-width: 992px) {
+    .chartWrapper {
+        height: 600px;
+    }
+
+    .formWrapper {
+        width: 452px;
+        min-height: 600px;
+    }
+}

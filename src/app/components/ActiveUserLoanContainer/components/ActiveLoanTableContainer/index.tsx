@@ -8,8 +8,8 @@ import { Icon, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
-import { CloseTradingPositionHandler } from '../../../../containers/CloseTradingPositionHandler';
-import { TopUpTradingPositionHandler } from '../../../../containers/TopUpTradingPositionHandler';
+import { ClosePositionDialog } from '../../../../pages/MarginTradePage/components/ClosePositionDialog';
+import { AddToMarginDialog } from '../../../../pages/MarginTradePage/components/AddToMarginDialog';
 import { ActiveLoanTableMobile } from '../ActiveLoanTableMobile';
 import { ActiveLoanTableDesktop } from '../ActiveLoanTableDesktop';
 import {
@@ -117,9 +117,9 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
         maintenanceMargin: stringToPercent(item.maintenanceMargin, 2),
         actions: (
-          <div className="d-flex flex-row flex-nowrap justify-content-end">
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-end">
             <div
-              className={`mr-1 ${
+              className={`tw-mr-1 ${
                 openTradesLocked?.maintenance_active ? styles.disabled : ''
               }`}
             >
@@ -132,7 +132,7 @@ export function ActiveLoanTableContainer(props: Props) {
               >
                 <Icon
                   icon="double-chevron-up"
-                  className="text-green mr-1 rounded-circle border border-green p-1"
+                  className="tw-text-green-500 tw-mr-1 tw-rounded-full tw-border tw-border-green-500 tw-p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
@@ -158,9 +158,7 @@ export function ActiveLoanTableContainer(props: Props) {
               >
                 <Icon
                   icon="cross"
-                  className={
-                    'close-trade-icon text-red ml-1 rounded-circle border border-red p-1'
-                  }
+                  className="tw-text-red-500 tw-ml-1 tw-rounded tw-border tw-border-red-500 tw-p-1"
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
@@ -208,14 +206,14 @@ export function ActiveLoanTableContainer(props: Props) {
         setExpandedId={setExpandedId}
         expandedId={expandedId}
       />
-      <CloseTradingPositionHandler
+      <ClosePositionDialog
         item={selectedItem}
         showModal={positionCloseModalOpen}
         onCloseModal={() => setPositionCloseModalOpen(false)}
       />
 
       {selectedItem && (
-        <TopUpTradingPositionHandler
+        <AddToMarginDialog
           item={selectedItem}
           showModal={positionMarginModalOpen}
           onCloseModal={() => setPositionMarginModalOpen(false)}

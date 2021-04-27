@@ -9,7 +9,7 @@ import styles from './index.module.css';
 
 export function PreOrderBanner() {
   return (
-    <div className="row mb-5">
+    <div className="tw-grid tw-gap-8 tw-grid-cols-12 tw-mb-12">
       <a
         href="https://token.sovryn.app"
         className={classNames(styles.banner, styles.windows)}

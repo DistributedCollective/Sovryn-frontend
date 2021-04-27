@@ -31,9 +31,10 @@
     "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
-    "title": "App was updated.",
-    "message": "New content is available and will be used when all tabs for this page are closed.",
-    "button": "Update Now"
+    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Please close all tabs with Sovryn open to update",
+    "updateBtn": "UPDATE",
+    "closeBtn": "Please let me close a trade"
   },
   "tradingActivity": {
     "title": "My Trading Activity",
@@ -96,11 +97,14 @@
     "auth": "Please connect and authorize your wallet.",
     "noClosedTrades": "You do not have any closed trades.",
     "table": {
+      "direction": "Direction",
       "positionSize": "Position Size",
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit",
+      "profit": "Realized P&L",
+      "entryTxHash": "Entry Transaction Hash",
+      "closeTxHash": "Exit Transaction Hash",
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -295,6 +299,13 @@
   "pageNotFound": {
     "text": "Page not found.",
     "backHome": "Go home"
+  },
+  "swap": {
+    "title": "Swap",
+    "meta": "Swap",
+    "minimumReceived": "Minimum received:",
+    "send": "Send",
+    "receive": "Receive"
   },
   "liquidity": {
     "title": "Liquidity",
@@ -907,6 +918,34 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
+  "marginTradePage": {
+    "meta": {
+      "title": "Margin Trade",
+      "description": "Trade with margin"
+    },
+    "tradeForm": {
+      "labels": {
+        "pair": "Pair:",
+        "asset": "Asset:",
+        "leverage": "Leverage:",
+        "amount": "Amount:",
+        "balance": "Available Balance: <0/> {{symbol}}",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "long": "Long",
+        "short": "Short"
+      }
+    },
+    "openPositions": "Open Positions",
+    "tradingHistory": "Trading History"
+  },
+  "form": {
+    "select": {
+      "noResults": "No results",
+      "placeholder": "Select item"
+    }
+  },
   "liquidityMining": {
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
@@ -968,6 +1007,7 @@
       "txStatus": {
         "title": "Transaction Status",
         "aborted": "Transaction was aborted by user.",
+        "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }
     },
@@ -1020,6 +1060,26 @@
     },
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
+  },
+  "addToMargin": {
+    "title": "Top Up",
+    "amount": "Amount to Add:",
+    "liquidationPrice": "Liquidation Price:"
+  },
+  "openPositionTable": {
+    "direction": "Direction",
+    "positionSize": "Position Size",
+    "entryPrice": "Entry Price",
+    "liquidationPrice": "Liquidation Price",
+    "positionMargin": "Position Margin",
+    "unrealizedPL": "Unrealized P&L",
+    "interestAPR": "Interest APR",
+    "actions": "Actions",
+    "noData": "No data",
+    "cta": {
+      "margin": "Add to Margin",
+      "close": "Close Position"
+    }
   },
   "claimOriginBanner": {
     "text": "Your SOV is ready to claim!",

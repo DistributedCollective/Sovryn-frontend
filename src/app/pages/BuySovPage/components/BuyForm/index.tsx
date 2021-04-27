@@ -28,6 +28,8 @@ import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../../components/CurrencyAsset';
+import { AssetWalletBalanceInline } from '../../../../components/AssetWalletBalance';
+
 const s = translations.swapTradeForm;
 
 const gasLimit = 340000;
@@ -44,9 +46,7 @@ export function BuyForm() {
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
-  const { value: balance, loading: loadingBalance } = useAssetBalanceOf(
-    Asset.RBTC,
-  );
+  const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(Asset.RBTC),
@@ -115,13 +115,7 @@ export function BuyForm() {
               rightElement={<AssetRenderer asset={Asset.RBTC} />}
             />
             <Slippage>
-              {t(translations.buySovPage.form.availableBalance)}{' '}
-              <LoadableValue
-                loading={loadingBalance}
-                value={weiToNumberFormat(balance, 4)}
-                tooltip={weiTo18(balance)}
-              />{' '}
-              <AssetRenderer asset={Asset.RBTC} />
+              <AssetWalletBalanceInline asset={Asset.RBTC} />
             </Slippage>
             <AmountButton onChange={changeAmount} />
           </FieldGroup>

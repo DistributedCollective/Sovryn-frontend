@@ -82,11 +82,11 @@ const ButtonGroup: React.FC<Props> = ({
 
   return (
     <>
-      <div className="row">
-        <Tab.Container id="button-group " defaultActiveKey={leftButton}>
+      <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+        <Tab.Container id="button-group" defaultActiveKey={leftButton}>
           <Nav
             onSelect={k => setKey((k as unknown) as ButtonType)}
-            className="deposit-button-group w-100"
+            className="tw-col-span-12 deposit-button-group tw-w-full"
             variant="pills"
           >
             <Nav.Link eventKey={leftButton}>
@@ -118,16 +118,16 @@ const ButtonGroup: React.FC<Props> = ({
       </div>
 
       {key === ButtonType.REDEEM && (
-        <div className="container my-3">
-          <div className="withdraw-content py-3 row">
-            <div className="col-6 d-flex flex-column">
-              <h4 className="flex-grow-1">
-                <Text className="text-break">
+        <div className="tw-container tw-mx-auto tw-px-4 tw-my-4">
+          <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8 tw--mx-4">
+            <div className="tw-flex tw-flex-col">
+              <h4 className="tw-flex-grow">
+                <Text className="tw-break-normal">
                   {t(translations.lend.container.balance)}
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="tw-text-muted">{currency} </span>
                 <strong>
                   <Tooltip
                     position="top"
@@ -138,14 +138,14 @@ const ButtonGroup: React.FC<Props> = ({
                 </strong>
               </div>
             </div>
-            <div className="col-6 d-flex flex-column">
-              <h4 className="flex-grow-1">
-                <Text className="text-break">
+            <div className="tw-flex tw-flex-col">
+              <h4 className="tw-flex-grow">
+                <Text className="tw-text-break">
                   {t(translations.lend.container.profit)}
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="tw-text-muted">{currency} </span>
                 <strong>
                   <Tooltip
                     position="top"

@@ -1,0 +1,88 @@
+@import 'tailwindcss/components/index.css';
+
+@layer components {
+  .tw-link {
+    @apply tw-text-primary tw-no-underline tw-font-normal;
+  }
+
+  .tw-link:hover {
+    @apply tw-text-primary tw-underline;
+  }
+
+  .tw-header-link,
+  .tw-header-link:visited {
+    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-transition tw-mx-6;
+  }
+
+  .tw-header-link:hover,
+  .tw-header-link:active {
+    @apply tw-text-primary tw-no-underline;
+  }
+
+  .tw-header-link.active {
+    @apply tw-text-white tw-font-medium tw-no-underline;
+  }
+
+  /* form button styles */
+  .tw-btn {
+    height: 3rem;
+    letter-spacing: 0.1rem;
+    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-text-primary tw-uppercase tw-text-xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-px-6 tw-py-2;
+    @apply tw-border lg:tw-rounded;
+    @apply tw-transition;
+    @apply tw-bg-primary tw-bg-opacity-5;
+    @apply hover:tw-bg-opacity-25;
+  }
+
+  .tw-btn:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-25 tw-cursor-not-allowed;
+  }
+
+  .tw-btn.loading,
+  .tw-btn.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
+  }
+
+  .tw-btn .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.primary');
+  }
+
+  .tw-btn .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+
+  /* inverted btn styles */
+  .tw-btn-inverted {
+    @apply tw-btn;
+    @apply tw-text-black tw-bg-opacity-100;
+    @apply hover:tw-bg-opacity-75;
+  }
+
+  .tw-btn-inverted:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-not-allowed;
+  }
+
+  .tw-btn-inverted.loading,
+  .tw-btn-inverted.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-wait;
+  }
+
+  .tw-btn-inverted .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.black');
+  }
+
+  .tw-btn-inverted .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(0, 0, 0, 0.1);
+  }
+
+  .tw-trading-form-card {
+    max-width: 452px;
+    width: 100%;
+  }
+
+  .tw-mw-320 {
+    max-width: 320px;
+  }
+}

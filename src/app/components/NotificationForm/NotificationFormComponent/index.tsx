@@ -28,8 +28,8 @@ export function NotificationFormComponent(props: Props) {
     signup: {
       buttonText: t(s.dialog.wantBtn),
       title: (
-        <p className="font-family-work-sans">
-          <span className="mr-2">
+        <p>
+          <span className="tw-mr-2">
             <Icon icon="issue" iconSize={20} />
           </span>
           {t(s.want)}
@@ -45,12 +45,12 @@ export function NotificationFormComponent(props: Props) {
   return (
     <form>
       {text[props.formType].title}
-      <div className="row">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <FormGroup
           label={t(s.dialog.form.name.label)}
           labelFor="text-input"
           labelInfo={t(s.dialog.form.name.info)}
-          className="col-md-6 col-sm-12"
+          className="md:tw-col-span-6 sm:tw-col-span-12"
         >
           <InputGroup
             id="name"
@@ -64,7 +64,7 @@ export function NotificationFormComponent(props: Props) {
           label={t(s.dialog.form.email.label)}
           labelFor="email-input"
           labelInfo={t(s.dialog.form.email.info)}
-          className="col-md-6 col-sm-12"
+          className="md:tw-col-span-6 sm:tw-col-span-12"
         >
           <InputGroup
             type="email"
@@ -76,13 +76,13 @@ export function NotificationFormComponent(props: Props) {
           />
         </FormGroup>
       </div>
-      <div className="row px-3">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-px-4">
         {props.formType === 'signup' && (
           <Checkbox
             name="marketing"
             checked={props.marketing}
             onChange={props.onChange}
-            className="col-md-8 col-sm-12"
+            className="md:tw-col-span-8 sm:tw-col-span-12"
             style={{ fontSize: '11px' }}
           >
             {t(s.receive)}
@@ -91,12 +91,12 @@ export function NotificationFormComponent(props: Props) {
         <div
           className={`${
             props.formType === 'update'
-              ? 'float-right w-100'
-              : 'col-md-4 col-sm-12'
+              ? 'tw-float-right tw-w-full'
+              : 'md:tw-col-span-4 sm:tw-col-span-12'
           }`}
         >
           <StyledButton
-            className="sovryn-border float-right"
+            className="sovryn-border tw-float-right"
             type="submit"
             onClick={e => props.onSubmit(e, props.formType)}
             disabled={!props.email || !props.name}
@@ -105,8 +105,8 @@ export function NotificationFormComponent(props: Props) {
           </StyledButton>
         </div>
         {props.response !== 'success' && props.response && (
-          <div className="row p-3">
-            <p className="text-red">{t(s.dialog.error)}</p>
+          <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-p-4">
+            <p className="tw-text-red-500">{t(s.dialog.error)}</p>
           </div>
         )}
       </div>

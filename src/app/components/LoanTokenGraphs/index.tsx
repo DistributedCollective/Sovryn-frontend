@@ -182,7 +182,7 @@ function BarsGraph({ width, asset, data }: BarsProps) {
 
   return width < 10 ? null : (
     <div
-      className="position-relative"
+      className="tw-relative"
       ref={containerRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}

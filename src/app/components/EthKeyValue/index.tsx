@@ -11,7 +11,7 @@ interface Props {
 export function EthKeyValue({ label, value, decimals }: Props) {
   return (
     <>
-      <div className="font-weight-bold">{label}</div>
+      <div className="tw-font-bold">{label}</div>
       <Tooltip content={weiTo18(value)}>
         <div>{weiToFixed(value, decimals)}</div>
       </Tooltip>

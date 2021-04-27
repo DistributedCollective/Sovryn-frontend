@@ -16,7 +16,6 @@
 
   &:hover,
   &:active {
-
     color: #fec006;
     text-decoration: none;
   }
@@ -42,10 +41,10 @@
     padding: 12px 12px;
     background: #686868;
     cursor: pointer;
-    transition: background .3s;
-    color: #FEC004;
+    transition: background 0.3s;
+    color: #fec004;
     border-radius: 0 8px 8px 0;
-    margin-left: .7rem;
+    margin-left: 0.7rem;
 
     &:hover {
       background: rgba(0, 0, 0, 0.36);
@@ -93,12 +92,11 @@
     padding: 0;
   }
 
-  &>span {
+  & > span {
     font-size: 14px;
   }
 
-  &>div {
-    width: max-content;
+  & > div {
     justify-content: space-around;
     display: flex;
     flex-direction: column;
@@ -182,7 +180,7 @@
 
 .deposit-button-group {
   display: flex;
-  flex-wrap: nowrap;
+  tw-flex-wrap: nowrap;
   justify-content: space-between;
 
   & button {
@@ -272,7 +270,7 @@
     }
 
     & .cell {
-      &>th {
+      & > th {
         font-weight: 300;
         text-transform: uppercase;
         font-size: 12px;

@@ -37,6 +37,11 @@ const getIcon = (status: TxStatus) => {
   }
 };
 
+/**
+ * @deprecated use TxDialog component instead
+ * @param props
+ * @constructor
+ */
 export function SendTxProgress(props: Props) {
   const { t } = useTranslation();
   const [display, setDisplay] = useState(false);
@@ -96,8 +101,8 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`bg-white text-black p-4 rounded d-flex flex-row justify-content-between font-family-work-sans ${
-        props.displayAbsolute ? 'position-absolute p-4' : 'my-3 px-3 py-2'
+      className={`tw-bg-white tw-text-black tw-p-6 tw-rounded tw-flex tw-flex-row tw-justify-between ${
+        props.displayAbsolute ? 'tw-absolute tw-p-6' : 'tw-my-4 tw-px-4 tw-py-2'
       }`}
       style={{
         top: '0',
@@ -108,17 +113,17 @@ export function SendTxProgress(props: Props) {
     >
       {!tx && props.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon="time"
               iconSize={17}
               style={{ color: `var(--${color})` }}
             />
           </div>
-          <div className="flex-grow-1">
+          <div className="tw-flex-grow">
             {props.displayAbsolute && (
               <div
-                className="position-relative float-right"
+                className="tw-relative tw-float-right"
                 style={{
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -129,12 +134,12 @@ export function SendTxProgress(props: Props) {
               </div>
             )}
             <div
-              className="text-uppercase font-weight-bold"
+              className="tw-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {t(translations.sendTxProgress.pending_for_user.title)}
             </div>
-            <div className="font-weight-light">
+            <div className="tw-font-light">
               {t(translations.sendTxProgress.pending_for_user.text)}
             </div>
           </div>
@@ -143,16 +148,16 @@ export function SendTxProgress(props: Props) {
 
       {tx && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
               style={{ color: `var(--${color})` }}
             />
           </div>
-          <div className="flex-grow-1">
+          <div className="tw-flex-grow">
             <div
-              className="position-relative float-right"
+              className="tw-relative tw-float-right"
               style={{
                 fontSize: '12px',
                 cursor: 'pointer',
@@ -162,29 +167,29 @@ export function SendTxProgress(props: Props) {
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
             <div
-              className="text-uppercase font-weight-bold"
+              className="tw-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {mainText}
             </div>
-            <div className="font-weight-light">
+            <div className="tw-font-light">
               {tx?.transactionHash ? (
                 <>
-                  {subText && <p className="mb-1">{subText}</p>}
-                  <p className="m-0">
+                  {subText && <p className="tw-mb-1">{subText}</p>}
+                  <p className="tw-m-0">
                     {t(translations.sendTxProgress.texts.transaction)}:{' '}
                     {tx?.approveTransactionHash && (
                       <>
                         <LinkToExplorer
                           txHash={tx.approveTransactionHash}
-                          className="ml-1 text-black"
+                          className="tw-ml-1 tw-text-black"
                         />
                         {' & '}
                       </>
                     )}
                     <LinkToExplorer
                       txHash={tx.transactionHash}
-                      className="ml-1 text-black"
+                      className="tw-ml-1 tw-text-black"
                     />
                   </p>
                 </>
@@ -198,16 +203,16 @@ export function SendTxProgress(props: Props) {
 
       {!tx && props.status === TxStatus.FAILED && (
         <>
-          <div className="flex-grow-0 flex-shrink-1 mr-3">
+          <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
               style={{ color: `var(--${color})` }}
             />
           </div>
-          <div className="flex-grow-1">
+          <div className="tw-flex-grow">
             <div
-              className="position-relative float-right"
+              className="tw-relative tw-float-right"
               style={{
                 fontSize: '12px',
                 cursor: 'pointer',
@@ -217,12 +222,12 @@ export function SendTxProgress(props: Props) {
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
             <div
-              className="text-uppercase font-weight-bold"
+              className="tw-uppercase tw-font-bold"
               style={{ color: `var(--${color})` }}
             >
               {mainText}
             </div>
-            <div className="font-weight-light">{subText}</div>
+            <div className="tw-font-light">{subText}</div>
           </div>
         </>
       )}
