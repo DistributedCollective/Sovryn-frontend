@@ -985,6 +985,7 @@
     },
     "infoBar": {
       "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
       "liquidityTarget": "Total Liquidity Target:",
       "remainingToCollect": "Total Remaining to Collect:"
     },

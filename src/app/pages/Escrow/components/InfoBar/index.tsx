@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components/macro';
-import { Text } from '@blueprintjs/core';
+import { Text, Tooltip } from '@blueprintjs/core';
 import Countdown from 'react-countdown';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { bignumber } from 'mathjs';
+import moment from 'moment';
 
 // const countdownDate = new Date('2021-05-06T00:00:00'); // todo
 
@@ -16,7 +17,7 @@ const countdownRenderer = ({
   completed,
 }) => {
   if (completed) {
-    return <>Done</>;
+    return <Trans i18nKey={translations.escrowPage.infoBar.timeCompleted} />;
   }
   return (
     <>
@@ -66,12 +67,22 @@ export function InfoBar() {
               value={
                 <>
                   {releaseTime.value !== '0' && (
-                    <Countdown
-                      date={Number(releaseTime.value) * 1e3}
-                      renderer={countdownRenderer}
-                      zeroPadTime={2}
-                      zeroPadDays={2}
-                    />
+                    <Tooltip
+                      content={
+                        <>
+                          {moment(Number(releaseTime.value) * 1e3).format(
+                            'YYYY-MM-DD HH:mm:ss',
+                          )}
+                        </>
+                      }
+                    >
+                      <Countdown
+                        date={Number(releaseTime.value) * 1e3}
+                        renderer={countdownRenderer}
+                        zeroPadTime={2}
+                        zeroPadDays={2}
+                      />
+                    </Tooltip>
                   )}
                 </>
               }
