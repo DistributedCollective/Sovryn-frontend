@@ -33,33 +33,56 @@ export function HistoryEventsTable() {
     async function getHistory() {
       let genesys: void, team: void, origin: void;
       const stake = await eventReader
-        .getPastEvents('staking', 'TokensStaked', { staker: account })
+        .getPastEventsAll(
+          'staking',
+          'TokensStaked',
+          {
+            staker: account,
+          },
+          0,
+        )
         .then(res => {
-          console.log('stake done');
           setEventsHistory(res);
         });
 
       if (vesting.value !== ethGenesisAddress) {
         genesys = await eventReader
-          .getPastEvents('staking', 'TokensStaked', { staker: vesting.value })
+          .getPastEventsAll(
+            'staking',
+            'TokensStaked',
+            {
+              staker: vesting.value,
+            },
+            0,
+          )
           .then(res => {
             setEventsHistoryVesting(res);
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
         team = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingTeam.value,
-          })
+          .getPastEventsAll(
+            'staking',
+            'TokensStaked',
+            {
+              staker: vestingTeam.value,
+            },
+            0,
+          )
           .then(res => {
             setEventsHistoryVestingTeam(res);
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
         origin = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingOrigin.value,
-          })
+          .getPastEventsAll(
+            'staking',
+            'TokensStaked',
+            {
+              staker: vestingOrigin.value,
+            },
+            0,
+          )
           .then(res => {
             setEventsHistoryVestingOrigin(res);
           });
@@ -91,7 +114,7 @@ export function HistoryEventsTable() {
         Staking History
       </p>
       <div className="tw-bg-gray-light tw-rounded-b tw-shadow max-h-96 tw-overflow-y-auto tw-mb-10">
-        <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 max-h-96 tw-overflow-y-auto">
+        <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
           <StyledTable className="w-full">
             <thead>
               <tr>

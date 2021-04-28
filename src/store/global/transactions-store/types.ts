@@ -12,6 +12,10 @@ export interface TransactionsStoreState {
 export type ContainerState = TransactionsStoreState;
 
 export enum TxType {
+  STAKE = 'stake',
+  WITHDRAW = 'withdraw',
+  EXTEND = 'extend',
+  DELEGATE = 'delegate',
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',

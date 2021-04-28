@@ -28,7 +28,7 @@ export function IncreaseStakeForm(props: Props) {
           >
             Amount Currently Staked:
           </label>
-          <div className="tw-flex tw-space-x-4 tw-elative">
+          <div className="tw-flex tw-space-x-4 tw-relative">
             <input
               readOnly
               className="tw-appearance-none tw-border tw-border-theme-white tw-border-solid tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-theme-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"

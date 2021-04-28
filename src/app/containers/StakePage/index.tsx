@@ -31,6 +31,7 @@ import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
+// import { SendTxProgress } from '../../components/SendTxProgress';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
@@ -44,6 +45,14 @@ import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_c
 import logoSvg from 'assets/images/sovryn-icon.svg';
 import { StakeForm } from './components/StakeForm';
 import { StyledTable } from './components/StyledTable';
+// import {
+//   SendTxResponse,
+//   useSendContractTx,
+// } from '../../hooks/useSendContractTx';
+// import {
+//   TxStatus,
+//   TxType,
+// } from '../../../store/global/transactions-store/types';
 
 const now = new Date();
 
@@ -103,6 +112,7 @@ function InnerStakePage() {
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
   const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
+  // const [showTx, setShowTx] = useState(false);
 
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
@@ -308,6 +318,16 @@ function InnerStakePage() {
     [prevTimestamp, timestamp, account, extendForm],
   );
 
+  // const { send, ...tx } = useSendContractTx('staking', 'stake');
+
+  // useEffect(() => {
+  //   setShowTx(
+  //     [TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
+  //       tx.status,
+  //     ) && tx.txHash !== '',
+  //   );
+  // }, [tx]);
+
   return (
     <>
       <Helmet>
@@ -390,7 +410,7 @@ function InnerStakePage() {
             <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
               Current Stakes
             </p>
-
+            {/* <SendTxProgress {...tx} displayAbsolute={false} /> */}
             <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
               <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
                 <StyledTable className="tw-w-full">
@@ -614,7 +634,6 @@ const StakesOverview: React.FC<Stakes> = ({
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (
                 <>
-                  <br />
                   {Math.abs(
                     moment().diff(
                       moment(new Date(parseInt(item[1]) * 1e3)),

@@ -12,7 +12,7 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
-// import { TransactionType } from '../blockchain/types';
+
 import {
   getContract,
   getTokenContractName,

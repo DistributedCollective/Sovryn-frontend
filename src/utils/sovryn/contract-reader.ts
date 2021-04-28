@@ -29,10 +29,11 @@ class ContractReader {
     contractName: ContractName,
     methodName: string,
     args: Array<any>,
+    account?: string,
   ): Promise<T> {
     return this.sovryn.contracts[contractName].methods[methodName](
       ...args,
-    ).call();
+    ).call({ from: account });
   }
 
   public async callByAddress<T = string | RevertInstructionError>(

@@ -1,7 +1,11 @@
-import { getContract } from '../../../utils/blockchain/contract-helpers';
-import { ethGenesisAddress } from '../../../utils/classifiers';
-import { contractWriter } from '../../../utils/sovryn/contract-writer';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { ethGenesisAddress } from 'utils/classifiers';
+import { contractWriter } from 'utils/sovryn/contract-writer';
+import { contractReader } from 'utils/sovryn/contract-reader';
+// import {
+//   TxStatus,
+//   TxType,
+// } from '../../../store/global/transactions-store/types';
 
 export function staking_stake(
   weiAmount: string,
@@ -14,6 +18,7 @@ export function staking_stake(
     'stake',
     [weiAmount, untilTs, ethGenesisAddress, ethGenesisAddress],
     { from: account, nonce: nonce, gas: 250000 },
+    // { type: TxType.STAKE }
   );
 }
 
@@ -33,9 +38,8 @@ export function staking_approve(
         nonce,
       },
     ],
-    // {
-    //   type: 'approve',
-    // },
+    // {},
+    // { type: TxType.APPROVE }
   );
 }
 
@@ -55,9 +59,8 @@ export function staking_withdraw(
         from: account,
       },
     ],
-    // {
-    //   type: 'withdraw',
-    // },
+    // {},
+    // { type: TxType.WITHDRAW }
   );
 }
 
@@ -85,9 +88,8 @@ export function staking_increaseStake(
         gasLimit: 250000,
       },
     ],
-    // {
-    //   type: 'stake',
-    // },
+    // {},
+    // { type: TxType.STAKE }
   );
 }
 
@@ -106,9 +108,8 @@ export function staking_extendStakingDuration(
         from: account,
       },
     ],
-    // {
-    //   type: 'extend',
-    // },
+    // {},
+    // { type: TxType.EXTEND }
   );
 }
 
@@ -117,9 +118,8 @@ export function staking_delegate(address: string, lockDate: number, account) {
     'staking',
     'delegate',
     [address, lockDate, { from: account }],
-    // {
-    //   type: 'delegate',
-    // },
+    // {},
+    // { type: TxType.DELEGATE }
   );
 }
 

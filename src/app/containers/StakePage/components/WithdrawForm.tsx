@@ -2,7 +2,7 @@ import React, { FormEvent, useCallback, useState } from 'react';
 import { handleNumberInput, numberFromWei, toWei } from 'utils/helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { contractReader } from 'utils/sovryn/contract-reader';
-// import { useAccount } from 'app/hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   amount: string;
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function WithdrawForm(props: Props) {
-  // const account = useAccount();
+  const account = useAccount();
   const [forfeitWithdraw, setForfeitWithdraw] = useState<number>(0);
   const [forfeitPercent, setForfeitPercent] = useState<number>(0);
   const [loadingWithdraw, setLoadingWithdraw] = useState(false);
@@ -30,7 +30,7 @@ export function WithdrawForm(props: Props) {
           'staking',
           'getWithdrawAmounts',
           [toWei(amount), Number(props.until)],
-          // account,
+          account,
         )
         .then(res => {
           setForfeitWithdraw(res[1]);
@@ -44,7 +44,7 @@ export function WithdrawForm(props: Props) {
           return false;
         });
     },
-    [props.until],
+    [account, props.until],
   );
 
   return (

@@ -149,6 +149,22 @@ class EventReader {
     }
   }
 
+  public async getPastEventsAll(
+    contractName: ContractName,
+    eventName: string,
+    filter: any = undefined,
+    fromBlock: number = 0,
+    toBlock: number | 'latest' = 'latest',
+  ): Promise<EventData[]> {
+    console.log(this.sovryn);
+
+    return this.sovryn.contracts[contractName].getPastEvents(eventName, {
+      fromBlock,
+      toBlock,
+      filter,
+    });
+  }
+
   protected async getBlockNumber() {
     return await this.sovryn.getWeb3().eth.getBlockNumber();
   }
