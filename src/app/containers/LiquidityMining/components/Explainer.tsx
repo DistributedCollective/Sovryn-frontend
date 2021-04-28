@@ -8,33 +8,31 @@ export function Explainer() {
 
   return (
     <>
-      <div className="font-family-montserrat">
-        <p className="text-white font-weight-bold mt-3">
-          <u style={{ textUnderlinePosition: 'under' }}>
-            {t(translations.marketingPage.explain.earn)}
-          </u>
-        </p>
-        <p>
-          {t(translations.marketingPage.explain.datesUSDT)}
-          <br />
-          {t(translations.marketingPage.explain.datesSOV)}
-        </p>
-        <p>
-          {t(translations.marketingPage.explain.depositUSDT)}
-          <br />
-          {t(translations.marketingPage.explain.depositRBTC)}
-          <br />
-          {t(translations.marketingPage.explain.depositSOV)}
-        </p>
-        <div>
-          {t(translations.marketingPage.explain.sharePool)}
-          <div className="w-100 text-center text-white mt-2">
-            {t(translations.marketingPage.explain.liquidityAdded)}
-          </div>
-          <Line />
-          <div className="w-100 text-center text-white">
-            {t(translations.marketingPage.explain.totalAdded)}
-          </div>
+      <p className="tw-text-white tw-font-bold tw-mt-5">
+        <u style={{ textUnderlinePosition: 'under' }}>
+          {t(translations.marketingPage.explain.earn)}
+        </u>
+      </p>
+      <p>
+        {t(translations.marketingPage.explain.datesUSDT)}
+        <br />
+        {t(translations.marketingPage.explain.datesSOV)}
+      </p>
+      <p>
+        {t(translations.marketingPage.explain.depositUSDT)}
+        <br />
+        {t(translations.marketingPage.explain.depositRBTC)}
+        <br />
+        {t(translations.marketingPage.explain.depositSOV)}
+      </p>
+      <div>
+        {t(translations.marketingPage.explain.sharePool)}
+        <div className="tw-w-full tw-text-center tw-text-white tw-mt-5">
+          {t(translations.marketingPage.explain.liquidityAdded)}
+        </div>
+        <Line />
+        <div className="tw-w-full tw-text-center tw-text-white">
+          {t(translations.marketingPage.explain.totalAdded)}
         </div>
       </div>
     </>

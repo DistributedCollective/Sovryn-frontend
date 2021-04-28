@@ -7,11 +7,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import iconBack from 'assets/images/genesis/arrow_back.svg';
 
+interface ChangeEvent {
+  currentPage: number;
+  totalPages: number;
+  pageLimit: number;
+  totalRecords: number;
+}
+
 interface Props {
   totalRecords: number;
   pageLimit: number;
   pageNeighbours: number;
-  onChange: (value: Object) => void;
+  onChange: (value: ChangeEvent) => void;
 }
 
 export function Pagination(props: Props) {

@@ -290,6 +290,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             closePrice={item.closePrice}
             entryPrice={item.entryPrice}
             position={item.position}
+            asset={item.collateralToken}
           />
         ),
       };

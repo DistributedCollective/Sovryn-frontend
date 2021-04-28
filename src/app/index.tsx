@@ -8,9 +8,12 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
+import { currentNetwork } from '../utils/classifiers';
+import { useAppTheme } from './hooks/app/useAppTheme';
+import { useMaintenance } from './hooks/useMaintenance';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
@@ -18,17 +21,14 @@ import { WalletProvider } from './containers/WalletProvider';
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { currentNetwork } from '../utils/classifiers';
-import LendBorrowSovryn from './containers/LendBorrowSovryn';
-import { SandboxPage } from './containers/SandboxPage/Loadable';
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage';
-import { useMaintenance } from './hooks/useMaintenance';
+import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { MaintenancePage } from './containers/MaintenancePage';
+import { SandboxPage } from './containers/SandboxPage/Loadable';
+import { WalletPage } from './containers/WalletPage';
 import { BuySovPage } from './pages/BuySovPage';
-import { useAppTheme } from './hooks/app/useAppTheme';
-import { NetworkRibbon } from './components/NetworkRibbon';
-import { MarginTradePage } from './containers/MarginTradePage/Loadable';
+import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';

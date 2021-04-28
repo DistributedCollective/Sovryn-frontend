@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -20,9 +20,11 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
+import { usePrevious } from '../../hooks/usePrevious';
 
 interface Props {
   tx: ResetTxResponseInterface;
+  onUserConfirmed?: () => void;
 }
 
 export function TxDialog(props: Props) {
@@ -37,6 +39,19 @@ export function TxDialog(props: Props) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
+
+  const oldStatus = usePrevious(props.tx.status);
+
+  useEffect(() => {
+    if (
+      oldStatus === TxStatus.PENDING_FOR_USER &&
+      props.tx.status === TxStatus.PENDING &&
+      props.onUserConfirmed
+    ) {
+      props.onUserConfirmed();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.tx.status]);
 
   return (
     <Dialog
@@ -90,6 +105,11 @@ export function TxDialog(props: Props) {
               <p className="text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
+              {wallet === 'ledger' && (
+                <p className="text-center">
+                  {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
+                </p>
+              )}
             </>
           )}
 

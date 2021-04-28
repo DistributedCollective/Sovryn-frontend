@@ -10,33 +10,34 @@ import { EventTable } from './EventTable';
 export interface Props {
   data: {
     asset: string;
-    percentage: number | undefined;
     pool: string;
     txList: Array<any>;
-    weightedAmount: number;
-    weightedTotal: number | undefined;
+    totalAdded: string;
+    totalRemoved: string;
+    totalRemaining: string;
+    percentage: string;
+    sovReward: string;
   };
   isConnected: boolean;
 }
 
 export function PoolData(props: Props) {
-  const sovReward = 25000;
-  const yourSOV =
-    props.data.percentage && (sovReward / 100) * props.data.percentage;
+  const yourSOV = props.data?.sovReward;
   const { t } = useTranslation();
-
   return (
-    <div className="col-12 col-md-6">
-      <div className="row">
-        <h2 className="w-100 text-center">
-          <span className="text-secondary">
+    <div className="tw-col-12 md:col-6 tw-text-white">
+      <div>
+        <h2 className="tw-w-full tw-text-center">
+          <span className="tw-text-secondary">
             {t(translations.marketingPage.liquidity.asset)}:
           </span>
-          <span>{symbolByTokenAddress(props.data.asset)}</span>
+          <span className="tw-text-white">
+            {props.data?.asset && symbolByTokenAddress(props.data.asset)}
+          </span>
         </h2>
       </div>
-      <Div className="mt-3">
-        <Label className="text-center">
+      <Div className="tw-mt-5 tw-flex tw-flex-col tw-items-center tw-justify-center">
+        <Label className="tw-text-center">
           {t(translations.marketingPage.liquidity.sov)}
           <br />
           {t(translations.marketingPage.liquidity.reward)}
@@ -44,26 +45,30 @@ export function PoolData(props: Props) {
           {t(translations.marketingPage.liquidity.pool)}
         </Label>
       </Div>
-      <div className="row my-3">
-        <div className="w-100 text-center font-family-montserrat">
+      <div className="tw-w-full tw-mt-5">
+        <div className="tw-w-full tw-text-center">
           {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {props.data.percentage?.toFixed(2)}%
+          {props.data?.percentage}%
         </div>
-        <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {yourSOV?.toFixed(2)} SOV
+        <div className="tw-w-full tw-text-center">
+          {t(translations.marketingPage.liquidity.rewardPool)}: {yourSOV}
         </div>
       </div>
 
       {props.isConnected && (
         <>
-          <h3 className="w-100 text-center mt-5 mb-3">
+          <h3 className="tw-w-full tw-text-center tw-mt-12 tw-mb-12">
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
-          {props.data.txList.length > 0 ? (
-            <EventTable data={props.data.txList} />
+          {props.data?.txList && props.data.txList.length > 0 ? (
+            <EventTable
+              data={props.data.txList}
+              totalAdded={props.data.totalAdded}
+              totalRemoved={props.data.totalRemoved}
+              totalRemaining={props.data.totalRemaining}
+            />
           ) : (
-            <div className="w-100 text-center mt-5">
+            <div className="tw-w-full tw-text-center tw-mt-12">
               {t(translations.marketingPage.liquidity.noAsset, {
                 asset: symbolByTokenAddress(props.data.asset),
               })}

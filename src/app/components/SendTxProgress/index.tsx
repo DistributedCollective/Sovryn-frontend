@@ -37,6 +37,11 @@ const getIcon = (status: TxStatus) => {
   }
 };
 
+/**
+ * @deprecated use TxDialog component instead
+ * @param props
+ * @constructor
+ */
 export function SendTxProgress(props: Props) {
   const { t } = useTranslation();
   const [display, setDisplay] = useState(false);

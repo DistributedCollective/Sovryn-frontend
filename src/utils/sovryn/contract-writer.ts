@@ -173,8 +173,6 @@ class ContractWriter {
             nonce,
           }));
 
-        console.log('gas limit', gasLimit, gas.get());
-
         try {
           const signedTxOrTransactionHash = await walletService.signTransaction(
             {

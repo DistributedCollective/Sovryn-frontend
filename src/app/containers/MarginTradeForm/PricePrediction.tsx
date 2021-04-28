@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { TradingPosition } from '../../../types/trading-position';
 import { Asset } from '../../../types/asset';
 import { useGetEstimatedMarginDetails } from '../../hooks/trading/useGetEstimatedMarginDetails';
@@ -23,13 +23,14 @@ export function PricePrediction({
   leverage,
   ...props
 }: Props) {
-  const [collateralAmount, setCollateralAmount] = useState('0');
-  const [loanTokenAmount, setLoanTokenAmount] = useState('0');
-
-  useEffect(() => {
-    setLoanTokenAmount(useLoanTokens ? weiAmount : '0');
-    setCollateralAmount(useLoanTokens ? '0' : weiAmount);
-  }, [useLoanTokens, weiAmount, leverage]);
+  const collateralAmount = useMemo(() => (useLoanTokens ? '0' : weiAmount), [
+    useLoanTokens,
+    weiAmount,
+  ]);
+  const loanTokenAmount = useMemo(() => (useLoanTokens ? weiAmount : '0'), [
+    useLoanTokens,
+    weiAmount,
+  ]);
 
   const { value } = useGetEstimatedMarginDetails(
     loanToken,
@@ -47,9 +48,6 @@ export function PricePrediction({
   );
 
   return (
-    <LoadableValue
-      loading={loading}
-      value={<>{toNumberFormat(price, 2)} USD*</>}
-    />
+    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 2)}</>} />
   );
 }

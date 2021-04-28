@@ -1,20 +1,15 @@
 @layer components {
   .tw-radio-group {
-    @apply tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-overflow-hidden tw-divide-x;
     max-width: 320px;
-    @apply tw-border tw-border-secondary;
+    @apply tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-border tw-border-white tw-overflow-hidden tw-divide-x tw-divide-white;
   }
 
   .tw-radio-group__label {
     @apply tw-flex-grow-0 tw-flex-shrink tw-block tw-w-full tw-p-2 tw-cursor-pointer tw-m-0 tw-h-10 tw-flex tw-flex-row tw-items-center tw-justify-center tw-transition tw-truncate;
-    @apply tw-bg-secondary;
-    @apply tw-bg-opacity-5;
-    @apply tw-border-l tw-border-r tw-border-secondary;
-    color: white;
   }
 
   .tw-radio-group__label--active {
-    @apply tw-bg-secondary tw-bg-opacity-75;
+    /*@apply tw-bg-secondary tw-bg-opacity-75;*/
   }
 
   .tw-radio-group__label-content {
@@ -23,5 +18,13 @@
 
   .tw-radio-group__label-content--active {
     @apply tw-opacity-100;
+  }
+
+  .tw-radio-group--secondary.tw-radio-group {
+    @apply tw-border-secondary tw-divide-secondary;
+  }
+
+  .tw-radio-group--secondary .tw-radio-group__label--active {
+    @apply tw-bg-secondary tw-bg-opacity-75;
   }
 }

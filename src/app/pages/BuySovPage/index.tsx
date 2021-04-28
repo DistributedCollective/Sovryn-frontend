@@ -64,17 +64,26 @@ export function BuySovPage() {
 
         <InfoBar />
 
-        <div className="w-100 d-flex flex-row justify-content-center align-items-start">
+        <div className="w-100 d-xl-flex flex-row justify-content-center">
           <div>
-            <div className="w-100 d-flex flex-row justify-content-center align-items-start">
+            <div className="w-100 d-md-flex flex-row justify-content-center align-items-center">
               <EngageWalletStep />
-              <ArrowStep />
+              <RotatedMob className="d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+                <ArrowStep />
+              </RotatedMob>
               <TopUpWallet />
+              <div className="d-xl-flex d-none mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+                <ArrowStep />
+              </div>
             </div>
             <Welcome />
           </div>
-          <ArrowStep />
-          <BuyForm />
+          <div className="d-xl-flex flex-row justify-content-start align-items-center">
+            <Rotated className="d-xl-none d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+              <ArrowStep />
+            </Rotated>
+            <BuyForm />
+          </div>
         </div>
 
         <div className="w-100 text-center">
@@ -94,10 +103,23 @@ export function BuySovPage() {
 const Learn = styled.button`
   border: 1px solid #e9eae9;
   color: #e9eae9;
-  padding: 11px 37px;
-  margin: 70px auto 115px;
+  padding: 7px 41px;
+  margin: 90px auto 115px;
   display: inline-block;
   border-radius: 10px;
   background: transparent;
   text-transform: none;
+`;
+
+const Rotated = styled.div`
+  img {
+    transform: rotate(90deg);
+  }
+`;
+const RotatedMob = styled.div`
+  @media (max-width: 768px) {
+    img {
+      transform: rotate(90deg);
+    }
+  }
 `;

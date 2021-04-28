@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { TradingPosition } from '../../../types/trading-position';

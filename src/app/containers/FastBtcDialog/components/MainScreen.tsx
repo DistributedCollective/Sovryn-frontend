@@ -1,12 +1,15 @@
-import React, { Dispatch } from 'react';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { web3Wallets } from '@sovryn/wallet';
+import React, { Dispatch, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FastBtcDialogState, Step } from '../types';
-import { actions } from '../slice';
-import styles from '../index.module.css';
+
 import { translations } from '../../../../locales/i18n';
+import { currentChainId } from '../../../../utils/classifiers';
+import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
+import styles from '../index.module.css';
+import { actions } from '../slice';
+import { FastBtcDialogState, Step } from '../types';
 import { BTCButton } from './BTCButton';
-import { FiatButton } from './FiatButton';
-import { AddressQrCode } from '../../../components/Form/AddressQrCode';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
 
@@ -17,6 +20,17 @@ interface MainScreenProps {
 
 export function MainScreen({ state, dispatch }: MainScreenProps) {
   const { t } = useTranslation();
+  const { connected, wallet } = useWalletContext();
+
+  const isWrongChainId = useMemo(() => {
+    return (
+      connected &&
+      web3Wallets.includes(wallet.providerType) &&
+      wallet.chainId !== currentChainId
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connected, wallet.chainId, wallet.providerType]);
+
   return (
     <>
       <h2 className={styles.title}>{t(translations.fastBtcDialog.title)}</h2>
@@ -60,7 +74,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
       </div>
 
       {state.step === Step.WALLET && (
-        <AddressQrCode address={state.deposit.address} />
+        <AddressQrCode uri={URIType.BITCOIN} address={state.deposit.address} />
       )}
       {state.step === Step.TRANSAK && (
         <OpenTransak
@@ -75,27 +89,35 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           dispatch={dispatch}
         />
       )}
+
+      {isWrongChainId && (
+        <p className="text-center">
+          {t(translations.fastBtcDialog.instructions.chainId)}
+        </p>
+      )}
+
       <div className={styles.buttons}>
         {state.step === Step.MAIN && (
           <BTCButton
             loading={state.deposit.loading}
             ready={state.ready}
+            disabled={isWrongChainId}
             onClick={() => {
               dispatch(actions.generateDepositAddress());
               dispatch(actions.selectBTC());
             }}
           />
         )}
-        {state.step === Step.MAIN && (
-          <FiatButton
-            loading={state.deposit.loading}
-            ready={state.ready}
-            onClick={() => {
-              dispatch(actions.generateDepositAddress());
-              dispatch(actions.selectFiat());
-            }}
-          />
-        )}
+        {/*{state.step === Step.MAIN && (*/}
+        {/*  <FiatButton*/}
+        {/*    loading={state.deposit.loading}*/}
+        {/*    ready={state.ready}*/}
+        {/*    onClick={() => {*/}
+        {/*      dispatch(actions.generateDepositAddress());*/}
+        {/*      dispatch(actions.selectFiat());*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*)}*/}
       </div>
     </>
   );

@@ -1,0 +1,43 @@
+@layer components {
+
+    .tw-table {
+        @apply tw-table-fixed;
+        @apply tw-w-full;
+    }
+
+    .tw-table th, .tw-table td {
+        @apply tw-px-5 tw-py-3;
+    }
+
+    .tw-table tbody tr:nth-child(even) {
+        background-color: #191919;
+    }
+    .tw-table tbody tr:nth-child(odd) {
+        background-color: #1F1F1F;
+    }
+
+    .tw-table tbody tr:first-child td:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    .tw-table tbody tr:first-child td:last-child {
+        border-top-right-radius: 10px
+    }
+
+    .tw-table tbody tr:last-child td:first-child  {
+        border-bottom-left-radius: 10px;
+    }
+
+    .tw-table tbody tr:last-child td:last-child  {
+        border-bottom-right-radius: 10px;
+    }
+
+    .tw-table tbody td {
+        @apply tw-text-xs tw-font-normal;
+    }
+
+    .tw-table thead th {
+        @apply tw-text-sm tw-font-normal;
+        @apply tw-py-4;
+    }
+}

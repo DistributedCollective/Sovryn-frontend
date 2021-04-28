@@ -1,5 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Icon,
   Menu,
@@ -8,13 +6,18 @@ import {
   Popover,
   Spinner,
 } from '@blueprintjs/core';
-import blockies from 'ethereum-blockies';
-import styled from 'styled-components/macro';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { prettyTx } from 'utils/helpers';
-import { translations } from 'locales/i18n';
-import { media } from '../../../styles/media';
+import blockies from 'ethereum-blockies';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components/macro';
+
+import { translations } from 'locales/i18n';
+import { prettyTx } from 'utils/helpers';
+
+import { media } from '../../../styles/media';
+
 import '../LendBorrowSovryn/assets/index.scss';
 
 type Props = {
@@ -57,12 +60,9 @@ const WalletConnectorContainer: React.FC<Props> = props => {
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
-            <>
-              <span className="tw-hidden xl:tw-inline">
-                {t(translations.wallet.connect_btn)}
-              </span>
-              <Icon icon="log-in" className="xl:tw-hidden" />
-            </>
+            <span className="tw-hidden xl:tw-inline">
+              {t(translations.wallet.connect_btn)}
+            </span>
           )}
         </StyledButton>
       ) : (

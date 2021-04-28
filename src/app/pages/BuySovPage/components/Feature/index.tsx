@@ -108,4 +108,10 @@ const Article = styled.article`
 const Img = styled.img`
   width: 450px;
   height: 303px;
+  @media (max-width: 640px) {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
 `;
