@@ -17,16 +17,17 @@ import { StatsPage } from './containers/StatsPage/Loadable';
 import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { currentNetwork } from '../utils/classifiers';
-import LendBorrowSovryn from './containers/LendBorrowSovryn';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage';
+import { WalletPage } from './containers/WalletPage/Loadable';
 import { useMaintenance } from './hooks/useMaintenance';
 import { MaintenancePage } from './containers/MaintenancePage';
-import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
+import { BuySovPage } from './pages/BuySovPage/Loadable';
+import { EscrowPage } from './pages/Escrow/Loadable';
+import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -48,11 +49,12 @@ export function App() {
           <Switch>
             <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={TradingPage} />
-            <Route exact path="/lend" component={LendBorrowSovryn} />
+            <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/escrow" component={EscrowPage} />
             <Route
               exact
               path="/optin-success"
