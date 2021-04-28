@@ -808,7 +808,7 @@
   "fastBtcDialog": {
     "title": "FastBTC",
     "subtitle": "Adquira rBTC depositando BTC ou realizando uma compra com moeda estatal",
-    "note": "Verifique sempre se houve mudança no endereço de depósito BTC",
+    "note": "Verifique sempre o endereço de depósito BTC",
     "limits": {
       "title": "Limites:",
       "min": "Mín: {{amount}}",
