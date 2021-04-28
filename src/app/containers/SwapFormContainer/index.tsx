@@ -1,3 +1,7 @@
+import { useWalletContext } from '@sovryn/react-wallet';
+import { AmountInput } from 'form/AmountInput';
+import { Input } from 'form/Input';
+import { bignumber } from 'mathjs';
 /**
  *
  * SwapFormContainer
@@ -7,29 +11,28 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { translations } from 'locales/i18n';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../types/asset';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { AssetWalletBalanceInline } from '../../components/AssetWalletBalance';
-import { useCanInteract } from '../../hooks/useCanInteract';
-import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
-import { AmountInput } from 'form/AmountInput';
-import swapIcon from '../../../assets/images/swap/ic_swap.svg';
-import settingIcon from '../../../assets/images/swap/ic_setting.svg';
+
+import { AssetRenderer } from 'app/components/CurrencyAsset';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { translations } from 'locales/i18n';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { useWalletContext } from '@sovryn/react-wallet';
-import { bignumber } from 'mathjs';
-import { Input } from 'form/Input';
+
+import settingIcon from '../../../assets/images/swap/ic_setting.svg';
+import swapIcon from '../../../assets/images/swap/ic_swap.svg';
+import { Asset } from '../../../types/asset';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { AssetWalletBalanceInline } from '../../components/AssetWalletBalance';
+import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { useCanInteract } from '../../hooks/useCanInteract';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
+import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 
 const s = translations.swapTradeForm;
 
@@ -214,7 +217,7 @@ export function SwapFormContainer() {
                 value={weiToFixed(rateByPath, 8)}
                 onChange={value => setAmount(value)}
                 readOnly={true}
-                appendElem={targetToken}
+                appendElem={<AssetRenderer asset={targetToken} />}
               />
             </div>
           </div>

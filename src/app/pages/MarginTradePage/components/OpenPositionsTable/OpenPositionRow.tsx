@@ -20,6 +20,7 @@ import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { CurrentPositionProfit } from '../../../../components/CurrentPositionProfit';
 import { PositionBlock } from './PositionBlock';
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 
 interface Props {
   item: ActiveLoan;
@@ -57,14 +58,14 @@ export function OpenPositionRow({ item }: Props) {
         <td>
           <div className="tw-truncate">
             {weiToNumberFormat(item.collateral, 4)}{' '}
-            {collateralAssetDetails.symbol}
+            <AssetRenderer asset={collateralAssetDetails.asset} />
           </div>
           {/*<div>≈ xxxxxx USD</div>*/}
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
             {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
-            {pair.longDetails.symbol}
+            <AssetRenderer asset={pair.longDetails.asset} />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
@@ -78,7 +79,7 @@ export function OpenPositionRow({ item }: Props) {
               ),
               4,
             )}{' '}
-            {pair.longDetails.symbol}
+            <AssetRenderer asset={pair.longDetails.asset} />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">

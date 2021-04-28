@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
 import cn from 'classnames';
+import React, { useCallback } from 'react';
+
 import { handleNumber } from 'utils/helpers';
 
 type InputType = 'text' | 'email' | 'password' | 'number';
@@ -38,6 +39,7 @@ export function Input({
     },
     [props.type, onChange],
   );
+
   return (
     <div
       className={cn('tw-input-wrapper', className, {

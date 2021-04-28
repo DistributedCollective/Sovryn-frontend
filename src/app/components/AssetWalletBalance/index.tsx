@@ -12,6 +12,7 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { AssetRenderer } from '../CurrencyAsset';
 
 interface Props {
   asset: Asset;
@@ -73,11 +74,11 @@ export function AssetWalletBalanceInline(props: Props) {
     <div>
       {t(translations.buySovPage.form.availableBalance)}{' '}
       <LoadableValue
-        value={weiToFixed(value, 4)}
         loading={loading}
-        tooltip={<>{weiTo18(value)}</>}
+        value={weiToFixed(value, 4)}
+        tooltip={weiTo18(value)}
       />{' '}
-      {props.asset}
+      <AssetRenderer asset={props.asset} />
     </div>
   );
 }
