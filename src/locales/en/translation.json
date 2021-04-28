@@ -857,6 +857,7 @@
   "fastBtcDialog": {
     "title": "Get rBTC",
     "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
+    "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
     "limits": {
       "title": "Deposit limits:",
       "min": "MIN: {{amount}}",
