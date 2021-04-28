@@ -17,6 +17,7 @@ import { AmountButton } from '../../../BuySovPage/components/AmountButton';
 import { Button } from '../Button';
 import { useApproveAndDepositToken } from '../../hooks/useApproveAndDepositToken';
 import { TxDialog } from './TxDialog';
+import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 
 export function EscrowForm() {
   const { t } = useTranslation();
@@ -28,6 +29,18 @@ export function EscrowForm() {
 
   const { value: balance, loading: loadingBalance } = useAssetBalanceOf(
     Asset.SOV,
+  );
+
+  const contractStatus = useCacheCallWithValue('escrowRewards', 'status', '0');
+  const totalDeposit = useCacheCallWithValue(
+    'escrowRewards',
+    'totalDeposit',
+    '0',
+  );
+  const depositLimit = useCacheCallWithValue(
+    'escrowRewards',
+    'depositLimit',
+    '0',
   );
 
   const reward = useMemo(() => {
@@ -42,9 +55,19 @@ export function EscrowForm() {
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(balance)
+      bignumber(weiAmount).lessThanOrEqualTo(balance) &&
+      contractStatus.value === '1' &&
+      bignumber(depositLimit.value).greaterThanOrEqualTo(
+        bignumber(totalDeposit.value).add(weiAmount),
+      )
     );
-  }, [balance, weiAmount]);
+  }, [
+    weiAmount,
+    balance,
+    contractStatus.value,
+    depositLimit.value,
+    totalDeposit.value,
+  ]);
 
   const changeAmount = value => {
     if (value === 100) {
