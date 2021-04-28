@@ -22,6 +22,7 @@ import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { DialogButton } from 'form/DialogButton';
 import { ErrorBadge } from 'form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
+import { TxFeeCalculator } from '../TxFeeCalculator';
 
 interface Props {
   item: ActiveLoan;
@@ -87,6 +88,8 @@ export function ClosePositionDialog(props: Props) {
   const { checkMaintenance } = useMaintenance();
   const closeTradesLocked = checkMaintenance('closeTradesSwaps');
 
+  const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -96,6 +99,7 @@ export function ClosePositionDialog(props: Props) {
           </h1>
 
           <CollateralAssets
+            label={t(translations.closeTradingPositionHandler.withdrawIn)}
             value={collateral}
             onChange={value => setCollateral(value)}
             options={options}
@@ -108,6 +112,12 @@ export function ClosePositionDialog(props: Props) {
               maxAmount={props.item.collateral}
             />
           </FormGroup>
+
+          <TxFeeCalculator
+            args={args}
+            methodName="closeWithSwap"
+            contractName="sovrynProtocol"
+          />
 
           {(closeTradesLocked?.maintenance_active || test.diff > 5) && (
             <ErrorBadge

@@ -29,6 +29,7 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
+// import { Slider } from '../../../BuySovPage/components/Slider';
 
 export function TradeDialog() {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
+  // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -115,7 +117,7 @@ export function TradeDialog() {
                   leverage={leverage}
                   position={position}
                 />{' '}
-                USD
+                {pair.longDetails.symbol}
               </>
             }
           />
@@ -123,6 +125,22 @@ export function TradeDialog() {
           {/*  label="Renewal Date:"*/}
           {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
           {/*/>*/}
+
+          {/*<FormGroup*/}
+          {/*  className="tw-mt-8"*/}
+          {/*  label={t(translations.buySovPage.slippageDialog.tolerance)}*/}
+          {/*>*/}
+          {/*  <Slider*/}
+          {/*    value={slippage}*/}
+          {/*    onChange={e => setSlippage(e)}*/}
+          {/*    min={0.1}*/}
+          {/*    max={1}*/}
+          {/*    stepSize={0.05}*/}
+          {/*    labelRenderer={value => <>{value}%</>}*/}
+          {/*    labelValues={[0.1, 0.25, 0.5, 0.75, 1]}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
+
           <FormGroup label="Approx. Position Entry Price:" className="tw-mt-8">
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
@@ -135,7 +153,7 @@ export function TradeDialog() {
                   weiAmount={amount}
                 />
               </div>
-              <div className="tw-input-append">USD</div>
+              <div className="tw-input-append">{pair.longDetails.symbol}</div>
             </div>
           </FormGroup>
           <TxFeeCalculator

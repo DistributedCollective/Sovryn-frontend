@@ -16,7 +16,7 @@ export function AvailableBalance(props: Props) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
-    <div className="tw-mb-8 tw-truncate">
+    <div className="tw-mb-8 tw-truncate tw-text-xs">
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         values={{ symbol: asset.symbol }}
@@ -24,7 +24,11 @@ export function AvailableBalance(props: Props) {
           <LoadableValue
             value={weiToNumberFormat(value, 6)}
             loading={loading}
-            tooltip={fromWei(value)}
+            tooltip={
+              <>
+                {fromWei(value)} {asset.symbol}
+              </>
+            }
           />,
         ]}
       />
