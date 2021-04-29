@@ -13,7 +13,6 @@ import { Nullable } from 'types';
 import {
   areOptionsEqual,
   filterItem,
-  highlightText,
   SelectItem,
 } from 'app/components/FormSelect';
 import { MenuItem, Text } from '@blueprintjs/core';
