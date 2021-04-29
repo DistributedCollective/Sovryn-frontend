@@ -344,7 +344,6 @@ export function Header() {
               <NavLink className="tw-header-link" to="/stake">
                 {t(translations.mainMenu.staking)}
               </NavLink>
-
               <NavPopover
                 content={
                   <BPMenu>

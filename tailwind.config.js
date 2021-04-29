@@ -122,7 +122,14 @@ module.exports = {
         blue: '#2274A5',
       }
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        }
+       }
+    },
   },
   variants: {
     opacity: ['responsive', 'hover'],

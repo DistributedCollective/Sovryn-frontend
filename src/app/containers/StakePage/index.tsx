@@ -20,10 +20,6 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import {
   staking_allowance,
   staking_approve,
-  staking_extendStakingDuration,
-  staking_stake,
-  staking_withdraw,
-  staking_delegate,
 } from 'utils/blockchain/requests/staking';
 import { CurrentVests } from './components/CurrentVests';
 import { DelegateForm } from './components/DelegateForm';
@@ -31,7 +27,6 @@ import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-// import { SendTxProgress } from '../../components/SendTxProgress';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
@@ -45,14 +40,12 @@ import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_c
 import logoSvg from 'assets/images/sovryn-icon.svg';
 import { StakeForm } from './components/StakeForm';
 import { StyledTable } from './components/StyledTable';
-// import {
-//   SendTxResponse,
-//   useSendContractTx,
-// } from '../../hooks/useSendContractTx';
-// import {
-//   TxStatus,
-//   TxType,
-// } from '../../../store/global/transactions-store/types';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { useStakeIncrease } from '../../hooks/staking/useStakeIncrease';
+import { useStakeStake } from '../../hooks/staking/useStakeStake';
+import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
+import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
+import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
 
 const now = new Date();
 
@@ -112,7 +105,6 @@ function InnerStakePage() {
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
   const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
-  // const [showTx, setShowTx] = useState(false);
 
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
@@ -123,6 +115,12 @@ function InnerStakePage() {
   const [stakeLoad, setStakeLoad] = useState(false);
   const dates = getStakes.value['dates'];
   const stakes = getStakes.value['stakes'];
+
+  const { increase, ...increaseTx } = useStakeIncrease();
+  const { stake, ...stakeTx } = useStakeStake();
+  const { extend, ...extendTx } = useStakeExtend();
+  const { withdraw, ...withdrawTx } = useStakeWithdraw();
+  const { delegate, ...delegateTx } = useStakeDelegate();
 
   useEffect(() => {
     async function getStakesEvent() {
@@ -185,13 +183,13 @@ function InnerStakePage() {
 
   //Form Validations
   const validateStakeForm = useCallback(() => {
-    if (loading) return false;
+    if (loading || stakeTx.loading) return false;
     const num = Number(amount);
 
     if (!num || isNaN(num) || num <= 0) return false;
     if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
     return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf, timestamp]);
+  }, [loading, amount, sovBalanceOf, timestamp, stakeTx.loading]);
 
   const validateDelegateForm = useCallback(() => {
     if (loading) return false;
@@ -200,11 +198,11 @@ function InnerStakePage() {
   }, [loading, address, timestamp]);
 
   const validateIncreaseForm = useCallback(() => {
-    if (loading) return false;
+    if (loading || increaseTx.loading) return false;
     const num = Number(amount);
     if (!num || isNaN(num) || num <= 0) return false;
     return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf]);
+  }, [loading, amount, sovBalanceOf, increaseTx.loading]);
 
   const validateWithdrawForm = useCallback(
     amount => {
@@ -217,116 +215,106 @@ function InnerStakePage() {
   );
 
   const validateExtendTimeForm = useCallback(() => {
-    if (loading) return false;
+    if (loading || extendTx.loading) return false;
     return timestamp >= Math.round(now.getTime() / 1e3);
-  }, [loading, timestamp]);
+  }, [loading, timestamp, extendTx.loading]);
 
   //Submit Forms
   const handleWithdrawSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLoading(true);
-
-      if (bignumber(weiWithdrawAmount).greaterThan(stakeAmount)) {
-        await staking_withdraw(stakeAmount.toString(), until, account);
-      } else {
-        await staking_withdraw(weiWithdrawAmount, until, account);
+      if (!withdrawTx.loading) {
+        if (bignumber(weiWithdrawAmount).greaterThan(stakeAmount)) {
+          withdraw(stakeAmount.toString(), until);
+        } else {
+          withdraw(weiWithdrawAmount, until);
+        }
       }
-
       setLoading(false);
       setWithdrawForm(!withdrawForm);
     },
-    [weiWithdrawAmount, until, account, withdrawForm, stakeAmount],
+    [
+      weiWithdrawAmount,
+      until,
+      withdrawForm,
+      stakeAmount,
+      withdrawTx.loading,
+      withdraw,
+    ],
   );
 
   const handleStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLoading(true);
-      try {
-        let nonce = await contractReader.nonce(account);
-        const allowance = (await staking_allowance(account)) as string;
-        if (bignumber(allowance).lessThan(weiAmount)) {
-          await staking_approve(
-            sovBalanceOf.value,
-            account.toLowerCase(),
-            nonce,
-          );
-          nonce += 1;
-        }
-        await staking_stake(weiAmount, timestamp, account.toLowerCase(), nonce);
+      let nonce = await contractReader.nonce(account);
+      const allowance = (await staking_allowance(account)) as string;
+      if (bignumber(allowance).lessThan(weiAmount)) {
+        await staking_approve(sovBalanceOf.value, account.toLowerCase(), nonce);
+        nonce += 1;
+      }
+      if (!stakeTx.loading) {
+        stake(weiAmount, timestamp, nonce);
         setLoading(false);
         setStakeForm(!stakeForm);
-      } catch (e) {
-        setLoading(false);
-        console.error(e);
       }
     },
-    [weiAmount, sovBalanceOf.value, account, timestamp, stakeForm],
+    [
+      weiAmount,
+      sovBalanceOf.value,
+      account,
+      timestamp,
+      stakeForm,
+      stakeTx.loading,
+      stake,
+    ],
   );
 
   const handleDelegateSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLoading(true);
-      try {
-        await staking_delegate(address.toLowerCase(), timestamp, account);
+      if (!delegateTx.loading) {
+        delegate(address.toLowerCase(), Number(timestamp));
         setLoading(false);
         setDelegateForm(!delegateForm);
-      } catch (e) {
-        setLoading(false);
-        console.error(e);
       }
     },
-    [address, account, timestamp, delegateForm],
+    [address, timestamp, delegateForm, delegateTx.loading, delegate],
   );
 
   const handleIncreaseStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLoading(true);
-      try {
-        let nonce = await contractReader.nonce(account);
-        const allowance = (await staking_allowance(account)) as string;
-        if (bignumber(allowance).lessThan(weiAmount)) {
-          await staking_approve(weiAmount, account, nonce);
-          nonce += 1;
-        }
-        await staking_stake(weiAmount, timestamp, account, nonce);
+      let nonce = await contractReader.nonce(account);
+      const allowance = (await staking_allowance(account)) as string;
+      if (bignumber(allowance).lessThan(weiAmount)) {
+        await staking_approve(weiAmount, account, nonce);
+        nonce += 1;
+      }
+      if (!increaseTx.loading) {
+        increase(weiAmount, timestamp, nonce);
         setLoading(false);
         setIncreaseForm(!increaseForm);
-      } catch (e) {
-        setLoading(false);
-        console.error(e);
       }
     },
-    [weiAmount, account, timestamp, increaseForm],
+    [weiAmount, account, timestamp, increaseForm, increaseTx.loading, increase],
   );
 
   const handleExtendTimeSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLoading(true);
-      try {
-        await staking_extendStakingDuration(prevTimestamp, timestamp, account);
+      if (!extendTx.loading) {
+        extend(prevTimestamp, timestamp);
         setLoading(false);
         setExtendForm(!extendForm);
-      } catch (e) {
-        setLoading(false);
       }
     },
-    [prevTimestamp, timestamp, account, extendForm],
+    [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
-
-  // const { send, ...tx } = useSendContractTx('staking', 'stake');
-
-  // useEffect(() => {
-  //   setShowTx(
-  //     [TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
-  //       tx.status,
-  //     ) && tx.txHash !== '',
-  //   );
-  // }, [tx]);
 
   return (
     <>
@@ -410,7 +398,6 @@ function InnerStakePage() {
             <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
               Current Stakes
             </p>
-            {/* <SendTxProgress {...tx} displayAbsolute={false} /> */}
             <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
               <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
                 <StyledTable className="tw-w-full">
@@ -491,6 +478,11 @@ function InnerStakePage() {
             <CurrentVests />
             <HistoryEventsTable />
           </div>
+          <TxDialog tx={increaseTx} />
+          <TxDialog tx={stakeTx} />
+          <TxDialog tx={extendTx} />
+          <TxDialog tx={withdrawTx} />
+          <TxDialog tx={delegateTx} />
           <>
             {balanceOf.value !== '0' && (
               <>

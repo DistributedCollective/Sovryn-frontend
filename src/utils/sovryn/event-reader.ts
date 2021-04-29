@@ -156,8 +156,6 @@ class EventReader {
     fromBlock: number = 0,
     toBlock: number | 'latest' = 'latest',
   ): Promise<EventData[]> {
-    console.log(this.sovryn);
-
     return this.sovryn.contracts[contractName].getPastEvents(eventName, {
       fromBlock,
       toBlock,
