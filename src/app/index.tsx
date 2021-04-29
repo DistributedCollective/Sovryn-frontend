@@ -8,25 +8,27 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
+import { currentNetwork } from 'utils/classifiers';
 
-import { currentNetwork } from '../utils/classifiers';
-import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
-import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { EmailPage } from './containers/EmailPage';
-import LendBorrowSovryn from './containers/LendBorrowSovryn';
-import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { SandboxPage } from './containers/SandboxPage/Loadable';
-import { StatsPage } from './containers/StatsPage/Loadable';
-import { TradingPage } from './containers/TradingPage/Loadable';
-import { WalletPage } from './containers/WalletPage';
-import { WalletProvider } from './containers/WalletProvider';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
-import { BuySovPage } from './pages/BuySovPage';
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
+import { MaintenancePage } from './containers/MaintenancePage';
+import { WalletProvider } from './containers/WalletProvider';
+
+import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import { StatsPage } from './containers/StatsPage/Loadable';
+import { LiquidityPage } from './containers/LiquidityPage/Loadable';
+import { TradingPage } from './containers/TradingPage/Loadable';
+import { SandboxPage } from './containers/SandboxPage/Loadable';
+import { EmailPage } from './containers/EmailPage';
+import { WalletPage } from './containers/WalletPage/Loadable';
+import { BuySovPage } from './pages/BuySovPage/Loadable';
+import { EscrowPage } from './pages/Escrow/Loadable';
+import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -48,11 +50,12 @@ export function App() {
           <Switch>
             <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={TradingPage} />
-            <Route exact path="/lend" component={LendBorrowSovryn} />
+            <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/escrow" component={EscrowPage} />
             <Route
               exact
               path="/optin-success"

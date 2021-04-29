@@ -23,6 +23,7 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
+import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -177,5 +178,9 @@ export const contracts = {
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
     abi: tokenAbi,
+  },
+  escrowRewards: {
+    address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
+    abi: EscrowRewardsAbi,
   },
 };

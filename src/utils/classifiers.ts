@@ -65,6 +65,5 @@ export const gasLimit = {
   [TxType.SALE_BUY_SOV]: 260000,
   [TxType.SOV_REIMBURSE]: 100000,
   [TxType.SOV_CONVERT]: 2700000,
+  [TxType.ESCROW_SOV_DEPOSIT]: 100000,
 };
-
-export const SHOW_MODAL = 'SHOW_MODAL';
