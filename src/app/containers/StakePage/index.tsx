@@ -326,11 +326,13 @@ function InnerStakePage() {
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-m-auto">
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
-              Staking/Vesting
+              {t(translations.stake.title)}
             </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
               <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
-                <p className="tw-text-lg tw--mt-1">Total staked SOV</p>
+                <p className="tw-text-lg tw--mt-1">
+                  {t(translations.stake.total)}
+                </p>
                 <p
                   className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
                     balanceOf.loading && 'skeleton'
@@ -371,13 +373,15 @@ function InnerStakePage() {
                       setWithdrawForm(false);
                     }}
                   >
-                    Add New Stake
+                    {t(translations.stake.addStake)}
                   </button>
                 )}
               </div>
 
               <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
-                <p className="tw-text-lg tw--mt-1">Combined Voting Power</p>
+                <p className="tw-text-lg tw--mt-1">
+                  {t(translations.stake.votingPower)}
+                </p>
                 <p
                   className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
                     voteBalance.loading && 'skeleton'
@@ -390,32 +394,36 @@ function InnerStakePage() {
                     to={'/'}
                     className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block"
                   >
-                    View Governance
+                    {t(translations.stake.viewGovernance)}
                   </Link>
                 </div>
               </div>
             </div>
             <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
-              Current Stakes
+              {t(translations.stake.currentStakes.title)}
             </p>
             <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
               <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
                 <StyledTable className="tw-w-full">
                   <thead>
                     <tr>
-                      <th className="tw-text-left assets">Asset</th>
-                      <th className="tw-text-left">Locked Amount</th>
+                      <th className="tw-text-left assets">
+                        {t(translations.stake.currentStakes.asset)}
+                      </th>
+                      <th className="tw-text-left">
+                        {t(translations.stake.currentStakes.lockedAmount)}
+                      </th>
                       <th className="tw-text-left tw-font-normal tw-hidden lg:tw-table-cell">
-                        Voting Power:
+                        {t(translations.stake.currentStakes.votingPower)}
                       </th>
                       <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                        Staking Period
+                        {t(translations.stake.currentStakes.stakingPeriod)}
                       </th>
                       <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                        Unlock Date
+                        {t(translations.stake.currentStakes.unlockDate)}
                       </th>
                       <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
-                        Actions
+                        {t(translations.stake.currentStakes.actions)}
                       </th>
                     </tr>
                   </thead>
@@ -577,19 +585,20 @@ const StakesOverview: React.FC<Stakes> = ({
   onUnstake,
   onDelegate,
 }) => {
+  const { t } = useTranslation();
   return (
     <>
       {loading && !stakes.length && (
         <tr>
           <td colSpan={99} className="tw-text-center tw-font-normal">
-            Loading, please wait...
+            {t(translations.stake.loading)}
           </td>
         </tr>
       )}
       {!loading && !stakes.length && (
         <tr>
           <td colSpan={99} className="tw-text-center tw-font-normal">
-            No stakes yet.
+            {t(translations.stake.nostake)}
           </td>
         </tr>
       )}
@@ -654,21 +663,21 @@ const StakesOverview: React.FC<Stakes> = ({
                   onClick={() => onIncrease(item[0], item[1])}
                   disabled={!locked}
                 >
-                  Increase
+                  {t(translations.stake.actions.increase)}
                 </button>
                 <button
                   type="button"
                   className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                   onClick={() => onExtend(item[0], item[1])}
                 >
-                  Extend
+                  {t(translations.stake.actions.extend)}
                 </button>
                 <button
                   type="button"
                   className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                   onClick={() => onUnstake(item[0], item[1])}
                 >
-                  Unstake
+                  {t(translations.stake.actions.unstake)}
                 </button>
                 <button
                   className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat ${
@@ -678,7 +687,7 @@ const StakesOverview: React.FC<Stakes> = ({
                   onClick={() => onDelegate(item[1])}
                   disabled={!locked}
                 >
-                  Delegate
+                  {t(translations.stake.actions.delegate)}
                 </button>
               </div>
             </td>
