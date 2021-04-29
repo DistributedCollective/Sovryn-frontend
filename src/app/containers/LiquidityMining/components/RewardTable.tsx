@@ -5,6 +5,7 @@ export interface Props {
 }
 export interface WeekRewardType {
   blockStart: number;
+  rewardPool: number;
   percentage: string;
   sovReward: string;
   weekStart: string;
@@ -17,7 +18,7 @@ export function RewardTable(props: Props) {
       <td className="align-middle">
         {new Date(item.weekStart).toDateString()}
       </td>
-      <td className="align-middle">{item.weightedAmount}</td>
+      <td className="align-middle">{item.rewardPool} SOV</td>
       <td className="align-middle">{item.percentage}</td>
       <td className="align-middle d-md-table-cell d-none">{item.sovReward}</td>
     </tr>
@@ -30,8 +31,8 @@ export function RewardTable(props: Props) {
           <tr className="">
             <th>Week</th>
             <th>Reward Pool</th>
-            <th>Your %</th>
-            <th>Your SOV Reward</th>
+            <th>Your % *</th>
+            <th>Your SOV Reward *</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
