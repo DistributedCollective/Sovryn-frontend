@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
 import { AmmBalanceRow } from '../types';
@@ -7,8 +7,13 @@ import { formatNumber } from '../utils';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import { useInterval } from 'app/hooks/useInterval';
 
-export function AmmBalance() {
+interface Props {
+  rate: number;
+}
+
+export function AmmBalance(props: Props) {
   const assets = [Asset.SOV, Asset.USDT, Asset.DOC, Asset.BPRO];
   const { t } = useTranslation();
   return (
@@ -31,7 +36,7 @@ export function AmmBalance() {
         </thead>
         <tbody className="mt-5">
           {assets.map((item, key) => (
-            <Row key={key} asset={item} />
+            <Row key={key} asset={item} rate={props.rate} />
           ))}
         </tbody>
       </table>
@@ -39,14 +44,24 @@ export function AmmBalance() {
   );
 }
 
+AmmBalance.defaultProps = {
+  rate: 30,
+};
+
 function Row(props) {
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AmmBalanceRow>();
+  const cancelDataRequest = useRef<Canceler>();
 
-  useEffect(() => {
+  const getData = useCallback(() => {
+    cancelDataRequest.current && cancelDataRequest.current();
+
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
     axios
-      .get(`${url}/amm/pool-balance/${props.asset}`)
+      .get(`${url}/amm/pool-balance/${props.asset}`, { cancelToken })
       .then(res => {
         console.log(res);
         setData(res.data);
@@ -54,6 +69,15 @@ function Row(props) {
       })
       .catch(e => console.error(e));
   }, [url, props.asset]);
+
+  useInterval(() => {
+    getData();
+  }, props.rate * 1e3);
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const decimals = {
     BTC: 4,

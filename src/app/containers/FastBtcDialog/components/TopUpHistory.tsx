@@ -6,16 +6,17 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { selectFastBtcDialog } from '../selectors';
-import { useAccount, useIsConnected } from '../../../hooks/useAccount';
-import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
-import { Asset } from '../../../../types/asset';
-import { translations } from '../../../../locales/i18n';
-import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
 
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+
+import { translations } from '../../../../locales/i18n';
+import { Asset } from '../../../../types/asset';
 import { weiToFixed } from '../../../../utils/blockchain/math-helpers';
+import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
+import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
+import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
+import { useAccount, useIsConnected } from '../../../hooks/useAccount';
+import { selectFastBtcDialog } from '../selectors';
 import { actions } from '../slice';
 
 export function TopUpHistory() {

@@ -112,10 +112,14 @@ const Learn = styled.button`
 `;
 
 const Rotated = styled.div`
-  transform: rotate(90deg);
+  img {
+    transform: rotate(90deg);
+  }
 `;
 const RotatedMob = styled.div`
   @media (max-width: 768px) {
-    transform: rotate(90deg);
+    img {
+      transform: rotate(90deg);
+    }
   }
 `;

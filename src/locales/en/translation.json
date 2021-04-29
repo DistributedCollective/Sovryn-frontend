@@ -205,7 +205,8 @@
     "governance": "Governance",
     "wallet": "Portfolio",
     "stats": "Stats",
-    "help": "Help"
+    "help": "Help",
+    "bitocracy": "Bitocracy"
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -431,6 +432,48 @@
       }
     },
     "no_items": "Your borrow history is empty."
+  },
+  "wrongNetworkDialog": {
+    "title": "Change to RSK Network",
+    "networkAlert": "We detected that you are on {{name}} network.",
+    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
+    "networkSetting": {
+      "title": "RSK Mainnet Settings",
+      "networkName": "RSK Mainnet Settings",
+      "rpcUrl": "RSK Mainnet Settings",
+      "symbol": "RSK Mainnet Settings",
+      "explorerUrl": "RSK Mainnet Settings",
+      "chainId": "Chain Id"
+    },
+    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
+    "stepTitle": {
+      "step1": "Step 01:",
+      "step2": "Step 02:",
+      "step3": "Step 03:",
+      "step4": "Step 04:",
+      "step5": "Step 05:",
+      "step6": "Step 06:"
+    },
+    "metamask": {
+      "step1": "Open up Metamask in your browser",
+      "step2": "Go to network dropdown",
+      "step3": "Select Custom RPC",
+      "step4": "Input RSK Mainnet settings",
+      "step5": "Click Save",
+      "step6": "Click Add Network"
+    },
+    "liquality": {
+      "step1": "Open up Liquality in your browser",
+      "step2": "Go to dropdown",
+      "step3": "Select Settings",
+      "step4": "Go to network dropdown",
+      "step5": "Select RSK"
+    },
+    "nifty": {
+      "step1": "Open up Nifty in your browser",
+      "step2": "Go to dropdown",
+      "step3": "Select Settings"
+    }
   },
   "rskConnectTutorial": {
     "browser_wallet": "Browser Wallet",
@@ -814,6 +857,7 @@
   "fastBtcDialog": {
     "title": "Get rBTC",
     "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
+    "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
     "limits": {
       "title": "Deposit limits:",
       "min": "MIN: {{amount}}",

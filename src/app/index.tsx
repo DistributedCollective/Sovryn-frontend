@@ -11,20 +11,21 @@ import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
+import { currentNetwork } from 'utils/classifiers';
+
+import { useAppTheme } from './hooks/app/useAppTheme';
+import { useMaintenance } from './hooks/useMaintenance';
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
+import { MaintenancePage } from './containers/MaintenancePage';
+import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { WalletProvider } from './containers/WalletProvider';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { currentNetwork } from '../utils/classifiers';
 import { TradingPage } from './containers/TradingPage/Loadable';
 import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
-import { useMaintenance } from './hooks/useMaintenance';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { useAppTheme } from './hooks/app/useAppTheme';
-import { NetworkRibbon } from './components/NetworkRibbon';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { EscrowPage } from './pages/Escrow/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';

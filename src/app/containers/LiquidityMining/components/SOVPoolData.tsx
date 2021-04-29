@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
-import axios from 'axios';
+import axios, { Canceler } from 'axios';
+import { useInterval } from 'app/hooks/useInterval';
 
 import { translations } from 'locales/i18n';
 
@@ -12,21 +13,42 @@ export interface Props {
   isConnected: boolean;
   txList: Array<any>;
   user: string;
+  rate: number;
 }
 
 export function SOVPoolData(props: Props) {
   const { t } = useTranslation();
   const api = backendUrl[currentChainId];
   const [data, setData] = useState([]);
+  const cancelDataRequest = useRef<Canceler>();
+
+  const getData = useCallback(() => {
+    if (props.user) {
+      cancelDataRequest.current && cancelDataRequest.current();
+
+      const cancelToken = new axios.CancelToken(c => {
+        cancelDataRequest.current = c;
+      });
+
+      axios
+        .get(api + 'amm/liquidity-mining/sov/' + props.user, {
+          cancelToken,
+        })
+        .then(res => {
+          setData(res.data);
+        })
+        .catch(e => console.error(e));
+    }
+  }, [api, props.user]);
+
+  useInterval(() => {
+    getData();
+  }, props.rate * 1e3);
 
   useEffect(() => {
-    axios
-      .get(api + 'amm/liquidity-mining/sov/' + props.user)
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(e => console.error(e));
-  }, [api, props.user]);
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.user]);
 
   return (
     <div className="col-12">
