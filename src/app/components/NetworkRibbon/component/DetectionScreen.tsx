@@ -29,7 +29,7 @@ export function DetectionScreen(props: Props) {
   // eslint-disable-next-line array-callback-return
   netData.map(item => {
     if (item.chainId === chainId) {
-      netName = item.name;
+      netName = item.chain;
       return 0;
     }
   });
