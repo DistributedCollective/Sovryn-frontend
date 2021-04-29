@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
-import axios from 'axios';
+import axios, { Canceler } from 'axios';
 
 import { translations } from 'locales/i18n';
 
@@ -11,17 +11,27 @@ export interface Props {
   isConnected: boolean;
   txList: Array<any>;
   user: string;
+  rate: number;
 }
 
 export function RewardPool(props: Props) {
   const { t } = useTranslation();
   const api = backendUrl[currentChainId];
   const [data, setData] = useState<WeekRewardType[]>([]);
+  const cancelDataRequest = useRef<Canceler>();
 
-  useEffect(() => {
+  const getData = useCallback(() => {
     if (props.user) {
+      cancelDataRequest.current && cancelDataRequest.current();
+
+      const cancelToken = new axios.CancelToken(c => {
+        cancelDataRequest.current = c;
+      });
+
       axios
-        .get(api + 'amm/liquidity-mining/sov-calc/' + props.user)
+        .get(api + 'amm/liquidity-mining/sov-calc/' + props.user, {
+          cancelToken,
+        })
         .then(res => {
           const { week1, week2, week3, week4 } = res.data;
           const now = new Date();
@@ -42,6 +52,18 @@ export function RewardPool(props: Props) {
         })
         .catch(e => console.error(e));
     }
+  }, [api, props.user]);
+
+  useEffect(() => {
+    getData();
+    const interval = setInterval(() => {
+      getData();
+    }, props.rate * 1e3);
+    return () => {
+      clearInterval(interval);
+      cancelDataRequest.current && cancelDataRequest.current();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, props.user]);
 
   return (
@@ -68,3 +90,7 @@ export function RewardPool(props: Props) {
     </div>
   );
 }
+
+RewardPool.defaultProps = {
+  rate: 60,
+};
