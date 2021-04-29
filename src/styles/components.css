@@ -11,7 +11,7 @@
 
   .tw-header-link,
   .tw-header-link:visited {
-    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-leading-none tw-no-underline tw-transition tw-mx-6;
+    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-no-underline tw-transition;
   }
 
   .tw-header-link:hover,

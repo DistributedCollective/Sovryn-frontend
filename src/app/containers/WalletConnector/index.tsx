@@ -60,7 +60,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
-            <span className="tw-hidden xl:tw-inline">
+            <span className="tw-hidden xl:tw-inline tw-truncate">
               {t(translations.wallet.connect_btn)}
             </span>
           )}
@@ -96,7 +96,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           >
             <>
               <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
-                <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between">
+                <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
                   <span>{prettyTx(address, 4, 4)}</span>
                   <span className="tw-pl-2">
                     <img

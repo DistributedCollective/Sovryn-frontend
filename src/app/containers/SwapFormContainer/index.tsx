@@ -1,7 +1,3 @@
-import { useWalletContext } from '@sovryn/react-wallet';
-import { AmountInput } from 'form/AmountInput';
-import { Input } from 'form/Input';
-import { bignumber } from 'mathjs';
 /**
  *
  * SwapFormContainer
@@ -11,28 +7,30 @@ import { bignumber } from 'mathjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-
-import { AssetRenderer } from 'app/components/CurrencyAsset';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
-import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { translations } from 'locales/i18n';
-import { weiToNumberFormat } from 'utils/display-text/format';
-
-import settingIcon from '../../../assets/images/swap/ic_setting.svg';
-import swapIcon from '../../../assets/images/swap/ic_swap.svg';
-import { Asset } from '../../../types/asset';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { Asset } from '../../../types/asset';
+import { useWeiAmount } from '../../hooks/useWeiAmount';
+import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { AssetWalletBalanceInline } from '../../components/AssetWalletBalance';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useCanInteract } from '../../hooks/useCanInteract';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
+import { AmountInput } from 'form/AmountInput';
+import swapIcon from '../../../assets/images/swap/ic_swap.svg';
+import settingIcon from '../../../assets/images/swap/ic_setting.svg';
+import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { bignumber } from 'mathjs';
+import { Input } from 'form/Input';
+import { AvailableBalance } from '../../components/AvailableBalance';
 
 const s = translations.swapTradeForm;
 
@@ -52,8 +50,8 @@ export function SwapFormContainer() {
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
-  const [sourceToken, setSourceToken] = useState(Asset.DOC);
-  const [targetToken, setTargetToken] = useState(Asset.RBTC);
+  const [sourceToken, setSourceToken] = useState(Asset.RBTC);
+  const [targetToken, setTargetToken] = useState(Asset.SOV);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
@@ -180,7 +178,7 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalanceInline asset={sourceToken} />
+              <AvailableBalance asset={sourceToken} />
             </div>
             <div className="swap-form__amount">
               <AmountInput
@@ -210,7 +208,7 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalanceInline asset={targetToken} />
+              <AvailableBalance asset={targetToken} />
             </div>
             <div className="swap-form__amount">
               <Input

@@ -11,7 +11,7 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
 import { bignumber } from 'mathjs';
-import { AssetRenderer } from '../../components/CurrencyAsset';
+import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
   source: Asset;

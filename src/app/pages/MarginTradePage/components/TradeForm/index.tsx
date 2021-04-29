@@ -13,7 +13,6 @@ import { LeverageSelector } from '../LeverageSelector';
 import { FormGroup } from 'form/FormGroup';
 import { AmountInput } from 'form/AmountInput';
 import { CollateralAssets } from '../CollateralAssets';
-import { AvailableBalance } from '../AvailableBalance';
 import { Button } from '../Button';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
@@ -24,6 +23,7 @@ import { TradeDialog } from '../TradeDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
+import { AvailableBalance } from '../../../../components/AvailableBalance';
 
 const pairs: Options<TradingPairType> = TradingPairDictionary.entries().map(
   ([type, item]) => ({ key: type, label: item.name }),

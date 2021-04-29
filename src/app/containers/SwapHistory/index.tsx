@@ -22,7 +22,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { AssetRenderer } from '../../components/CurrencyAsset';
+import { AssetRenderer } from '../../components/AssetRenderer';
 
 export function SwapHistory() {
   const account = useAccount();

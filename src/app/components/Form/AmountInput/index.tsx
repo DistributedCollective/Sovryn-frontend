@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import { Asset } from '../../../../types/asset';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
-import { AssetRenderer } from '../../../components/CurrencyAsset';
+import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
 

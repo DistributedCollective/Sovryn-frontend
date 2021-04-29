@@ -8,7 +8,7 @@ import { FastBtcDialog } from '../../../../containers/FastBtcDialog';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Trans } from 'react-i18next';
-import { AssetRenderer } from '../../../../components/CurrencyAsset';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 export function TopUpWallet() {
   const { t } = useTranslation();

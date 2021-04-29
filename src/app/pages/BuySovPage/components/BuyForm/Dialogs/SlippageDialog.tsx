@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { Dialog } from '../../../../../containers/Dialog';
 import { weiToNumberFormat } from '../../../../../../utils/display-text/format';
-import { FieldGroup } from '../../../../../components/FieldGroup';
 import { useSlippage } from '../useSlippage';
 import styles from './dialog.module.css';
 import { ConfirmButton } from '../../Button/confirm';
@@ -12,6 +11,9 @@ import { Slider } from '../../Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { Asset } from 'types/asset';
+import { FormGroup } from 'form/FormGroup';
+import { AssetRenderer } from '../../../../../components/AssetRenderer';
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -49,10 +51,7 @@ export function SlippageDialog(props: Props) {
       <h1>{t(translations.buySovPage.slippageDialog.title)}</h1>
 
       <div className="px-4">
-        <FieldGroup
-          label={t(translations.buySovPage.slippageDialog.tolerance)}
-          labelColor="#E9EAE9"
-        >
+        <FormGroup label={t(translations.buySovPage.slippageDialog.tolerance)}>
           <Slider
             value={value}
             onChange={e => setValue(e)}
@@ -62,11 +61,10 @@ export function SlippageDialog(props: Props) {
             labelRenderer={value => <>{value}%</>}
             labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
           />
-        </FieldGroup>
+        </FormGroup>
         <br />
-        <FieldGroup
+        <FormGroup
           label={t(translations.buySovPage.slippageDialog.minimumReceived)}
-          labelColor="#E9EAE9"
         >
           <Dummy className="d-flex justify-content-between align-items-center">
             <div>
@@ -75,9 +73,11 @@ export function SlippageDialog(props: Props) {
                 loading={false}
               />
             </div>
-            <div>{props.asset || 'SOV'}</div>
+            <div>
+              <AssetRenderer asset={props.asset || Asset.SOV} />
+            </div>
           </Dummy>
-        </FieldGroup>
+        </FormGroup>
       </div>
 
       <div className="d-flex w-100 justify-content-between align-items-center">

@@ -27,7 +27,7 @@ export function TxFeeCalculator(props: Props) {
   );
 
   return (
-    <div className="tw-mb-8 tw-truncate">
+    <div className="tw-mb-8 tw-truncate tw-text-xs">
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
         values={{ symbol: props.symbol }}
@@ -37,7 +37,7 @@ export function TxFeeCalculator(props: Props) {
             loading={loading}
             tooltip={
               <>
-                {fromWei(value)}
+                {fromWei(value)} {props.symbol}
                 {error && <p className="tw-text-red">{error}</p>}
               </>
             }

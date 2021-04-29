@@ -20,7 +20,7 @@ import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { CurrentPositionProfit } from '../../../../components/CurrentPositionProfit';
 import { PositionBlock } from './PositionBlock';
-import { AssetRenderer } from '../../../../components/CurrencyAsset';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 interface Props {
   item: ActiveLoan;

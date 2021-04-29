@@ -12,13 +12,18 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { AssetRenderer } from '../CurrencyAsset';
+import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
   asset: Asset;
   onBalance?: (value: string) => void;
 }
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export function AssetWalletBalance(props: Props) {
   const { connect } = useWalletContext();
   const { value, loading } = useAssetBalanceOf(props.asset);
@@ -46,7 +51,9 @@ export function AssetWalletBalance(props: Props) {
       )}
       {connected && (
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-          <span className="tw-text-muted">{props.asset}</span>
+          <span className="tw-text-muted">
+            <AssetRenderer asset={props.asset} />
+          </span>
           <span className="tw-text-white tw-font-bold tw-ml-2">
             <LoadableValue
               value={weiToFixed(value, 4)}
@@ -56,29 +63,6 @@ export function AssetWalletBalance(props: Props) {
           </span>
         </div>
       )}
-    </div>
-  );
-}
-
-export function AssetWalletBalanceInline(props: Props) {
-  const { value, loading } = useAssetBalanceOf(props.asset);
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    if (props.onBalance) {
-      props.onBalance(value);
-    }
-  }, [props, value]);
-
-  return (
-    <div>
-      {t(translations.buySovPage.form.availableBalance)}{' '}
-      <LoadableValue
-        loading={loading}
-        value={weiToFixed(value, 4)}
-        tooltip={weiTo18(value)}
-      />{' '}
-      <AssetRenderer asset={props.asset} />
     </div>
   );
 }

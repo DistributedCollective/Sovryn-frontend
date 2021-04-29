@@ -5,7 +5,7 @@ import { FormGroup } from 'form/FormGroup';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { AssetRenderer } from '../../../../components/CurrencyAsset';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 interface Items {
   value: Asset;
