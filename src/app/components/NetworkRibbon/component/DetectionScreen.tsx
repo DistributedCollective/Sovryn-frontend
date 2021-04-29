@@ -20,19 +20,13 @@ interface Props {
 
 export function DetectionScreen(props: Props) {
   var logo: any = null;
-  var netName: string = '';
   const { ethereum } = window as any;
   const { t } = useTranslation();
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
   // eslint-disable-next-line array-callback-return
-  netData.map(item => {
-    if (item.chainId === chainId) {
-      netName = item.chain;
-      return 0;
-    }
-  });
+  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
