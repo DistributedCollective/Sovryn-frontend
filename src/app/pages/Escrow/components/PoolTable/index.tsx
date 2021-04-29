@@ -7,7 +7,10 @@ import { translations } from '../../../../../locales/i18n';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useAccount } from '../../../../hooks/useAccount';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  toNumberFormat,
+  weiToNumberFormat,
+} from '../../../../../utils/display-text/format';
 
 export function PoolTable() {
   const { t } = useTranslation();
@@ -38,8 +41,6 @@ export function PoolTable() {
     '0',
   );
 
-  console.log(totalDeposit);
-
   const reward = useMemo(() => {
     return bignumber(liquidityProvided.value)
       .mul(5 / 100)
@@ -49,9 +50,9 @@ export function PoolTable() {
 
   const share = useMemo(() => {
     return bignumber(liquidityProvided.value)
-      .sub(totalDeposit.value)
+      .div(totalDeposit.value)
       .mul(100)
-      .toFixed(4);
+      .toString();
   }, [totalDeposit.value, liquidityProvided.value]);
 
   return (
@@ -80,7 +81,7 @@ export function PoolTable() {
             <td>
               <LoadableValue
                 loading={liquidityProvided.loading || totalDeposit.loading}
-                value={<>{weiToNumberFormat(Number(share), 4)} %</>}
+                value={<>{toNumberFormat(Number(share), 4)} %</>}
               />
             </td>
             <td>
