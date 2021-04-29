@@ -175,12 +175,12 @@ export function TradingChart(props: ChartContainerProps) {
   }, [props.symbol, props.rate, props.type]);
 
   return (
-    <div>
-      <div
-        className="tw-w-full tw-h-full tw-bg-primary"
-        style={{ minHeight: 500 }}
-      >
-        {hasCharts ? (
+    <div
+      className="tw-w-full tw-h-full tw-bg-primary tw-relative"
+      style={{ minHeight: 500 }}
+    >
+      {hasCharts ? (
+        <>
           <Chart
             options={{
               alignLabels: true,
@@ -204,49 +204,46 @@ export function TradingChart(props: ChartContainerProps) {
             autoHeight
             {...seriesProps}
           />
-        ) : (
-          <>
-            <div className="row tw-h-full tw-flex tw-content-end">
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="50%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="30%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="80%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="70%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="65%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="30%" />
-              </div>
-              <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
-                <Skeleton height="55%" />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      {hasCharts && (
-        <div
-          className="text-Grey_text font-family-montserrat"
-          style={{ fontSize: '11px' }}
-        >
-          TradingView Lightweight Charts (с) 2020{' '}
-          <a
-            href="https://www.tradingview.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-weight-normal"
+          <div
+            className="tw-w-full tw-absolute tw-text-right tw-pt-1 tw-opacity-50"
+            style={{ fontSize: 11 }}
           >
-            TradingView, Inc.
-          </a>
-        </div>
+            TradingView Lightweight Charts (с) 2020{' '}
+            <a
+              href="https://www.tradingview.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TradingView, Inc.
+            </a>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="row tw-h-full tw-flex tw-content-end">
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="50%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="30%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="80%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="70%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="65%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="30%" />
+            </div>
+            <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+              <Skeleton height="55%" />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

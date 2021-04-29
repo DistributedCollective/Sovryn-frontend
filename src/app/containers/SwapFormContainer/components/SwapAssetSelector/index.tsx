@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Select } from '@blueprintjs/select';
+import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -13,16 +13,13 @@ import { Nullable } from 'types';
 import {
   areOptionsEqual,
   filterItem,
-  renderItem,
   SelectItem,
 } from 'app/components/FormSelect';
 import { MenuItem, Text } from '@blueprintjs/core';
 import { StyledButton, StyledAssetLogo, CaretElement } from './styled';
-import { useBorrowAssetPrice } from '../../../../hooks/trading/useBorrowAssetPrice';
-import { Asset } from '../../../../../types/asset';
-import { weiTo2 } from '../../../../../utils/blockchain/math-helpers';
 import { isMobile } from '../../../../../utils/helpers';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 const Selector = Select.ofType<SelectItem>();
 
@@ -51,11 +48,6 @@ export function SwapAssetSelector(props: Props) {
   useEffect(() => {
     setSelected(getSelected());
   }, [getSelected, props.value, props.items]);
-
-  const { value: price, loading } = useBorrowAssetPrice(
-    props.value,
-    Asset.USDT,
-  );
 
   return (
     <Selector
@@ -88,17 +80,7 @@ export function SwapAssetSelector(props: Props) {
                 <StyledAssetLogo
                   src={AssetsDictionary.get(props.value).logoSvg}
                 />
-                <Text ellipsize>{`1 ${props.value}`}</Text>
-                <span className="px-1">≈</span>
-                <Text
-                  ellipsize
-                  className={[
-                    'flex-shrink-1 flex-grow-0',
-                    loading ? 'bp3-skeleton' : '',
-                  ].join(' ')}
-                >
-                  {weiTo2(price)}
-                </Text>
+                <Text ellipsize>{props.value}</Text>
               </span>
             </>
           ) : (
@@ -116,4 +98,26 @@ export function SwapAssetSelector(props: Props) {
 SwapAssetSelector.defaultProps = {
   placeholder: 'Select something',
   innerClasses: 'border rounded',
+};
+
+export const renderItem: ItemRenderer<SelectItem> = (
+  item,
+  { handleClick, modifiers, query },
+) => {
+  if (!modifiers.matchesPredicate) {
+    return null;
+  }
+  return (
+    <MenuItem
+      active={modifiers.active}
+      disabled={modifiers.disabled}
+      key={item.key}
+      onClick={handleClick}
+      text={
+        <Text ellipsize>
+          <AssetRenderer asset={item.key} showImage imageSize={5} />
+        </Text>
+      }
+    />
+  );
 };

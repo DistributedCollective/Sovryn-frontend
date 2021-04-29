@@ -22,6 +22,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { AssetRenderer } from '../../components/AssetRenderer';
 
 export function SwapHistory() {
   const account = useAccount();
@@ -196,7 +197,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
           src={itemFrom.logoSvg}
           alt={itemFrom.asset}
         />{' '}
-        {itemFrom.asset}
+        <AssetRenderer asset={itemFrom.asset} />
       </td>
       <td>{numberFromWei(data.returnVal._fromAmount)}</td>
       <td>
@@ -206,7 +207,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
           src={itemTo.logoSvg}
           alt={itemTo.asset}
         />{' '}
-        {itemTo.asset}
+        <AssetRenderer asset={itemTo.asset} />
       </td>
       <td className="d-none d-md-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}

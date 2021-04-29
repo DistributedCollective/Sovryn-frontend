@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
@@ -16,7 +17,6 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
 import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { AssetWalletBalanceInline } from '../../components/AssetWalletBalance';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'form/AmountInput';
@@ -30,6 +30,7 @@ import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'form/Input';
+import { AvailableBalance } from '../../components/AvailableBalance';
 
 const s = translations.swapTradeForm;
 
@@ -49,8 +50,8 @@ export function SwapFormContainer() {
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
-  const [sourceToken, setSourceToken] = useState(Asset.DOC);
-  const [targetToken, setTargetToken] = useState(Asset.RBTC);
+  const [sourceToken, setSourceToken] = useState(Asset.RBTC);
+  const [targetToken, setTargetToken] = useState(Asset.SOV);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
@@ -177,7 +178,7 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalanceInline asset={sourceToken} />
+              <AvailableBalance asset={sourceToken} />
             </div>
             <div className="swap-form__amount">
               <AmountInput
@@ -207,14 +208,14 @@ export function SwapFormContainer() {
               />
             </div>
             <div className="swap-form__available-balance">
-              <AssetWalletBalanceInline asset={targetToken} />
+              <AvailableBalance asset={targetToken} />
             </div>
             <div className="swap-form__amount">
               <Input
                 value={weiToFixed(rateByPath, 8)}
                 onChange={value => setAmount(value)}
                 readOnly={true}
-                appendElem={targetToken}
+                appendElem={<AssetRenderer asset={targetToken} />}
               />
             </div>
           </div>

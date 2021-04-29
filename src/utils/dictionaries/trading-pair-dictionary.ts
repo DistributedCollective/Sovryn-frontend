@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
-import { TradingPosition } from '../../types/trading-position';
+import { TradingPosition } from 'types/trading-position';
 
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
@@ -11,6 +11,9 @@ export enum TradingPairType {
 }
 
 export class TradingPairDictionary {
+  /**
+   * @deprecated
+   */
   public static longPositionTokens = [Asset.DOC, Asset.USDT];
   public static pairs: Map<TradingPairType, TradingPair> = new Map<
     TradingPairType,
@@ -20,7 +23,7 @@ export class TradingPairDictionary {
       TradingPairType.RBTC_USDT,
       new TradingPair(
         TradingPairType.RBTC_USDT,
-        'RBTCUSDT',
+        'RBTC/USDT',
         'RBTC:USDT',
         Asset.USDT,
         Asset.RBTC,
@@ -31,7 +34,7 @@ export class TradingPairDictionary {
     //   TradingPairType.RBTC_SOV,
     //   new TradingPair(
     //     TradingPairType.RBTC_DOC,
-    //     'RBTCSOV',
+    //     'RBTC/SOV',
     //     'RBTC:SOV',
     //     Asset.SOV,
     //     Asset.RBTC,
@@ -42,7 +45,7 @@ export class TradingPairDictionary {
       TradingPairType.RBTC_DOC,
       new TradingPair(
         TradingPairType.RBTC_DOC,
-        'RBTCDOC',
+        'RBTC/DOC',
         'RBTC:DOC',
         Asset.DOC,
         Asset.RBTC,
@@ -53,7 +56,7 @@ export class TradingPairDictionary {
       TradingPairType.BPRO_USDT,
       new TradingPair(
         TradingPairType.BPRO_USDT,
-        'BRPOUSDT',
+        'BRPO/USDT',
         'BPRO:USDT',
         Asset.USDT,
         Asset.BPRO,
@@ -64,7 +67,7 @@ export class TradingPairDictionary {
       TradingPairType.BPRO_DOC,
       new TradingPair(
         TradingPairType.BPRO_DOC,
-        'BRPODOC',
+        'BRPO/DOC',
         'BPRO:DOC',
         Asset.DOC,
         Asset.BPRO,

@@ -3,14 +3,15 @@
   }
 
   .tw-form-group-label {
-    @apply tw-text-white tw-font-medium tw-text-base;
+    @apply tw-text-white tw-font-normal tw-text-sm;
     @apply tw-block;
+    letter-spacing: 1.2px;
   }
 
   .tw-form-group-content {
     @apply tw-text-white tw-font-medium tw-text-base;
     @apply tw-my-2.5;
-    @apply tw-block;    
+    @apply tw-block;
   }
 
   .tw-form-group-describe {

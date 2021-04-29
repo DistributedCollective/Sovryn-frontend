@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
 import { bignumber } from 'mathjs';
-import { Input } from '../Input';
+import React, { useMemo } from 'react';
+
 import { Asset } from '../../../../types/asset';
-import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
-import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import { AssetRenderer } from '../../AssetRenderer';
+import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
+import { Input } from '../Input';
 
 interface Props {
   value: string;
@@ -22,7 +23,7 @@ export function AmountInput({ asset, maxAmount, ...props }: Props) {
         onChange={props.onChange}
         type="number"
         placeholder={props.placeholder || '0.0000'}
-        appendElem={asset ? AssetsDictionary.get(asset)?.symbol : null}
+        appendElem={asset ? <AssetRenderer asset={asset} /> : null}
         {...props}
       />
       {(asset || maxAmount !== undefined) && (

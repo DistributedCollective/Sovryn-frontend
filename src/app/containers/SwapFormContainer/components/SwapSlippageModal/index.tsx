@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
-import classNames from 'classnames';
 import { Classes, Overlay } from '@blueprintjs/core';
+import classNames from 'classnames';
+import React, { useCallback } from 'react';
+
 import { AmountField } from '../SwapAmountField';
 import styles from './index.module.scss';
 

@@ -24,7 +24,7 @@ export function ActionButton({
     <button
       {...props}
       onClick={onClick}
-      className={cn(className, {
+      className={cn('tw-btn-action', className, {
         disabled: props.disabled,
         loading: loading,
       })}
@@ -54,5 +54,5 @@ export function ActionButton({
 
 ActionButton.defaultProps = {
   type: 'button',
-  className: 'tw-btn-action',
+  className: 'tw-btn-action tw-flex tw-items-center tw-justify-center',
 };

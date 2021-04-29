@@ -1,6 +1,5 @@
 @layer components {
     .tw-btn-action {
-        width: 100%;
         height: 2.5rem;
         border-radius: 1.25rem;
         font-size: 0.875rem;
@@ -8,11 +7,10 @@
 
         @apply tw-normal-case tw-text-primary tw-leading-none;
         @apply tw-border tw-border-primary;
-        @apply tw-px-5;
+        @apply tw-px-5 tw-py-0;
 
         @apply tw-transition;
     }
-
 
     .tw-btn-action:hover {
         @apply tw-opacity-75;
