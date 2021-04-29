@@ -17,21 +17,16 @@ interface Props {
   onStart: () => void;
   walletType: string;
 }
+
 export function DetectionScreen(props: Props) {
   var logo: any = null;
-  var netName: string = '';
   const { ethereum } = window as any;
   const { t } = useTranslation();
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
   // eslint-disable-next-line array-callback-return
-  netData.map(item => {
-    if (item.chainId === chainId) {
-      netName = item.name;
-      return 0;
-    }
-  });
+  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
@@ -47,7 +42,7 @@ export function DetectionScreen(props: Props) {
         </div>
         <div className="text-left subtitle">
           {t(translations.wrongNetworkDialog.networkAlert, {
-            string: netName,
+            name: netName,
           })}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
@@ -104,7 +99,7 @@ export function DetectionScreen(props: Props) {
       <div className="d-flex my-5 justify-content-center align-items-center text-center">
         <a onClick={props.onStart} className="titleTut font-family-montserrat">
           {t(translations.wrongNetworkDialog.tutorialGuide, {
-            string: walletName,
+            wallet: walletName,
           })}{' '}
         </a>
       </div>

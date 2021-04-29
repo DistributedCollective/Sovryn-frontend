@@ -34,8 +34,11 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
   return (
     <>
       <h2 className={styles.title}>{t(translations.fastBtcDialog.title)}</h2>
-      <div className={styles.subtitle}>
+      <div className={styles.subtitle + ' mb-0'}>
         {t(translations.fastBtcDialog.subtitle)}
+      </div>
+      <div className={styles.subtitle}>
+        {t(translations.fastBtcDialog.note)}
       </div>
 
       <div>
