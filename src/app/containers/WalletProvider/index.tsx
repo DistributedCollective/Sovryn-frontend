@@ -30,6 +30,12 @@ import {
   sliceKey as btcSlice,
   reducer as btcReducer,
 } from '../FastBtcForm/slice';
+import {
+  actions as maintenanceActions,
+  maintenanceSlice,
+  reducer as maintenanceReducer,
+} from 'store/global/maintenance-store/slice';
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
 import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
@@ -51,11 +57,15 @@ export function WalletProvider(props: Props) {
   useInjectReducer({ key: btcSlice, reducer: btcReducer });
   useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
+  useInjectReducer({ key: maintenanceSlice, reducer: maintenanceReducer });
+  useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
+
   const requestDialog = useSelector(selectRequestDialogState);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.testTransactions());
+    dispatch(maintenanceActions.fetchMaintenance());
   }, [dispatch]);
 
   return (
