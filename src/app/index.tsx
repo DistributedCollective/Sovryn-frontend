@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
@@ -28,13 +28,32 @@ import { BuySovPage } from './pages/BuySovPage';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { NetworkRibbon } from './components/NetworkRibbon';
 
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import {
+  actions as maintenanceActions,
+  maintenanceSlice,
+  reducer as maintenanceReducer,
+} from 'store/global/maintenance-store/slice';
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
+import { useDispatch } from 'react-redux';
+
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 export function App() {
   useAppTheme();
+
+  useInjectReducer({ key: maintenanceSlice, reducer: maintenanceReducer });
+  useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
+  const dispatch = useDispatch();
+
   const { checkMaintenance } = useMaintenance();
   const siteLocked = checkMaintenance('full');
+
+  useEffect(() => {
+    dispatch(maintenanceActions.fetchMaintenance());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
