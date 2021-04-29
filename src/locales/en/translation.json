@@ -435,8 +435,8 @@
   },
   "wrongNetworkDialog": {
     "title": "Change to RSK Network",
-    "networkAlert": "We detected that you are on {{strng}}",
-    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet",
+    "networkAlert": "We detected that you are on {{name}}.",
+    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",
       "networkName": "RSK Mainnet Settings",
@@ -445,7 +445,7 @@
       "explorerUrl": "RSK Mainnet Settings",
       "chainId": "Chain Id"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{strng}}",
+    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
     "stepTitle": {
       "step1": "Step 01:",
       "step2": "Step 02:",

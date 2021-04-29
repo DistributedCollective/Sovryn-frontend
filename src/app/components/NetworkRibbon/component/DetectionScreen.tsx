@@ -17,6 +17,7 @@ interface Props {
   onStart: () => void;
   walletType: string;
 }
+
 export function DetectionScreen(props: Props) {
   var logo: any = null;
   var netName: string = '';
@@ -28,7 +29,7 @@ export function DetectionScreen(props: Props) {
   // eslint-disable-next-line array-callback-return
   netData.map(item => {
     if (item.chainId === chainId) {
-      netName = item.name;
+      netName = item.chain;
       return 0;
     }
   });
@@ -47,7 +48,7 @@ export function DetectionScreen(props: Props) {
         </div>
         <div className="text-left subtitle">
           {t(translations.wrongNetworkDialog.networkAlert, {
-            string: netName,
+            name: netName,
           })}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
@@ -104,7 +105,7 @@ export function DetectionScreen(props: Props) {
       <div className="d-flex my-5 justify-content-center align-items-center text-center">
         <a onClick={props.onStart} className="titleTut font-family-montserrat">
           {t(translations.wrongNetworkDialog.tutorialGuide, {
-            string: walletName,
+            wallet: walletName,
           })}{' '}
         </a>
       </div>
