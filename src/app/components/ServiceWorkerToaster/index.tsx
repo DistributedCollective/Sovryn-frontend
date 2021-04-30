@@ -42,19 +42,15 @@ export function ServiceWorkerToaster(props: Props) {
     }
     cancelTokenSource = axios.CancelToken.source();
 
-    //change url to prevent caching
-    const url =
-      swUrl +
-      (process.env.NODE_ENV !== 'production'
-        ? `?timestamp=${new Date().getTime()}`
-        : '');
-
     axios
-      .get(url, {
+      .get(swUrl, {
         headers: {
           'Service-Worker': 'script',
-          cancelToken: cancelTokenSource.token,
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
+        cancelToken: cancelTokenSource.token,
       })
       .then(({ data }) => {
         if (!data) return;
@@ -78,7 +74,7 @@ export function ServiceWorkerToaster(props: Props) {
     } else {
       serviceWorker.unregister();
     }
-    window.location.reload();
+    window.location.replace(window.location.href);
   };
 
   const closeDialog = () => {
