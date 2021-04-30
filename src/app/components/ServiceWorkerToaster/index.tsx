@@ -34,7 +34,7 @@ export function ServiceWorkerToaster(props: Props) {
             onClick: () => {
               waitingWorker &&
                 waitingWorker.postMessage({ type: 'SKIP_WAITING' });
-              window.location.reload();
+              window.location.replace(window.location.href);
             },
             text: t(translations.serviceWorkerToaster.button),
           },
