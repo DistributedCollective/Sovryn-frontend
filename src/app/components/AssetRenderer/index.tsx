@@ -11,7 +11,7 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 import styles from './index.module.css';
 
-type ImageSizes = 4 | 5 | 6 | 8 | 12 | 16 | 24;
+type ImageSizes = 4 | 5 | 6 | 8 | 12;
 
 interface CurrencyProps {
   asset: Asset;
@@ -40,9 +40,9 @@ export function getAssetSymbol(asset: Asset) {
 }
 
 export function AssetRenderer(props: CurrencyProps) {
-  const classNames = useMemo(() => {
-    return `tw-h-${props.imageSize} tw-w-${props.imageSize}`;
-  }, [props.imageSize]);
+  const classNames = useMemo(() => getSizeClass(props.imageSize), [
+    props.imageSize,
+  ]);
 
   return (
     <span className="tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2">
@@ -61,3 +61,19 @@ export function AssetRenderer(props: CurrencyProps) {
 AssetRenderer.defaultProps = {
   imageSize: 8,
 };
+
+// Full class names are required to be here so css purger would not remove "unused" classes.
+const sizeClassMap = {
+  4: 'tw-h-4 tw-w-5',
+  5: 'tw-h-5 tw-w-5',
+  6: 'tw-h-6 tw-w-6',
+  8: 'tw-h-8 tw-w-8',
+  12: 'tw-h-12 tw-w-12',
+};
+
+function getSizeClass(size: number | undefined) {
+  if (size !== undefined && sizeClassMap.hasOwnProperty(size)) {
+    return sizeClassMap[size];
+  }
+  return 'tw-h-8 tw-w-8';
+}
