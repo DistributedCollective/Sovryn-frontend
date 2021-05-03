@@ -942,6 +942,12 @@
     "openPositions": "Open Positions",
     "tradingHistory": "Trading History"
   },
+  "spotTradingPage": {
+    "meta": {
+      "title": "Spot Trading",
+      "description": "Spot trading"
+    }
+  },
   "form": {
     "select": {
       "noResults": "No results",
