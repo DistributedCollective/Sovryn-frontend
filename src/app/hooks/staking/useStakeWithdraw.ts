@@ -11,7 +11,7 @@ export function useStakeWithdraw() {
         [weiAmount, timestamp, account],
         { from: account },
         {
-          type: TxType.WITHDRAW,
+          type: TxType.STAKING_WITHDRAW,
         },
       );
     },

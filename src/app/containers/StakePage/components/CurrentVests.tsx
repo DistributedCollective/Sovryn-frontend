@@ -115,7 +115,7 @@ function useGetItems() {
           }
 
           const vesting3 = (await contractReader.call(
-            'vestingRegistry2',
+            'vestingRegistryOrigin',
             'getVesting',
             [account],
           )) as string;

@@ -28,7 +28,7 @@ export function staking_approve(
   nonce: number,
 ) {
   return contractWriter.send(
-    'sovToken',
+    'SOV_token',
     'approve',
     [
       getContract('staking').address,
@@ -65,7 +65,7 @@ export function staking_withdraw(
 }
 
 export function staking_allowance(account: string) {
-  return contractReader.call('sovToken', 'allowance', [
+  return contractReader.call('SOV_token', 'allowance', [
     account,
     getContract('staking').address,
   ]);

@@ -12,7 +12,7 @@ export function useStakeIncrease() {
         [weiAmount, timestamp, account, ethGenesisAddress],
         { from: account, nonce: nonce, gas: 250000 },
         {
-          type: TxType.STAKE,
+          type: TxType.STAKING_STAKE,
         },
       );
     },

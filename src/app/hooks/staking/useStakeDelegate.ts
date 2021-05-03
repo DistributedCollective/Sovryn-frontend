@@ -11,7 +11,7 @@ export function useStakeDelegate() {
         [address, lockDate],
         { from: account },
         {
-          type: TxType.DELEGATE,
+          type: TxType.STAKING_DELEGATE,
         },
       );
     },

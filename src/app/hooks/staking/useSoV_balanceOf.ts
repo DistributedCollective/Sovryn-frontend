@@ -3,7 +3,7 @@ import { ethGenesisAddress } from '../../../utils/classifiers';
 
 export function useSoV_balanceOf(address: string) {
   return useCacheCallWithValue(
-    'sovToken',
+    'SOV_token',
     'balanceOf',
     !!address && address !== ethGenesisAddress,
     address || ethGenesisAddress,

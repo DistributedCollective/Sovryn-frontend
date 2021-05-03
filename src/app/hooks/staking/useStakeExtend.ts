@@ -14,7 +14,7 @@ export function useStakeExtend() {
         [prevTimestamp, timestamp + 86400],
         { from: account },
         {
-          type: TxType.EXTEND,
+          type: TxType.STAKING_EXTEND,
         },
       );
     },
