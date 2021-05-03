@@ -31,7 +31,7 @@ export function TopUpHistory() {
 
   useEffect(() => {
     if (isConnected && account) {
-      dispatch(actions.init());
+      // dispatch(actions.init());
     }
   }, [account, isConnected, dispatch]);
 
