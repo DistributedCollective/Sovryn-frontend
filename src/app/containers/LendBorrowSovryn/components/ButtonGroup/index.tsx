@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Nav, Tab } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Tooltip, Text } from '@blueprintjs/core';
@@ -13,6 +13,7 @@ import { bignumber } from 'mathjs';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_assetBalanceOf';
 import { ButtonType } from '../../types';
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 
 type Props = {
   currency: Asset;
@@ -36,10 +37,6 @@ const ButtonGroup: React.FC<Props> = ({
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
   const { value: interestCall } = useLending_supplyInterestRate(asset);
 
-  const [balance, setBalance] = useState(
-    bignumber(balanceCall).minus(profitCall).toString(),
-  );
-
   const [profit, setProfit] = useState(profitCall);
   const [ticker, setTicker] = useState('0');
 
@@ -47,9 +44,10 @@ const ButtonGroup: React.FC<Props> = ({
     setProfit('0');
   }, [currency]);
 
-  useEffect(() => {
-    setBalance(bignumber(balanceCall).minus(profitCall).toString());
-  }, [balanceCall, profitCall, setBorrowAmount]);
+  const balance = useMemo(() => {
+    return bignumber(balanceCall).minus(profitCall).toString();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceCall, profitCall, currency]);
 
   useEffect(() => {
     setTicker(
@@ -127,13 +125,15 @@ const ButtonGroup: React.FC<Props> = ({
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="text-muted">
+                  <AssetRenderer asset={currency} />
+                </span>{' '}
                 <strong>
                   <Tooltip
                     position="top"
-                    content={<>{weiToFixed(balance, 18)}</>}
+                    content={<>{weiToFixed(balanceCall, 18)}</>}
                   >
-                    {weiToFixed(balance, 4)}
+                    {weiToFixed(balanceCall, 4)}
                   </Tooltip>
                 </strong>
               </div>
@@ -145,7 +145,9 @@ const ButtonGroup: React.FC<Props> = ({
                 </Text>
               </h4>
               <div>
-                <span className="text-muted">{currency} </span>
+                <span className="text-muted">
+                  <AssetRenderer asset={currency} />
+                </span>{' '}
                 <strong>
                   <Tooltip
                     position="top"

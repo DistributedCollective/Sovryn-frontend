@@ -12,6 +12,7 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { AssetRenderer } from '../CurrencyAsset';
 
 interface Props {
   asset: Asset;
@@ -45,7 +46,9 @@ export function AssetWalletBalance(props: Props) {
       )}
       {connected && (
         <div className="d-flex flex-row justify-content-start align-items-center">
-          <span className="text-muted">{props.asset}</span>
+          <span className="text-muted">
+            <AssetRenderer asset={props.asset} />
+          </span>
           <span className="text-white font-weight-bold ml-2">
             <LoadableValue
               value={weiToFixed(value, 4)}
