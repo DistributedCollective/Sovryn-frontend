@@ -29,7 +29,7 @@ export function RewardPool(props: Props) {
       });
 
       axios
-        .get(api + 'amm/liquidity-mining/sov-calc/' + props.user, {
+        .get(api + '/amm/liquidity-mining/sov-calc/' + props.user, {
           cancelToken,
         })
         .then(res => {
