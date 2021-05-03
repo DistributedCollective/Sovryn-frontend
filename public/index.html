@@ -68,6 +68,39 @@
         margin-top: 10px;
         font-family: Courier, monospace;
       }
+
+      .feedback-button {
+        background-color: #000;
+        height: 34px;
+        border-radius: 5px 5px 0 0;
+        box-shadow: 0 0 3px #9b9b9b;
+        cursor: pointer;
+        color: #fff;
+        display: block;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+        text-align: center;
+        -webkit-appearance: none;
+        transition: transform .15s ease-in-out;
+        padding: 0 15px;
+        margin: 0 10px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 30px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        white-space: nowrap;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        text-decoration: none;
+      }
+      .feedback-button:hover {
+        text-decoration: none;
+      }
     </style>
 
     <% if (process.env.REACT_APP_NETWORK=='mainnet') { %>
@@ -150,22 +183,6 @@
         console.warn(e);
       }
     </script>
-
-    <% if (process.env.REACT_APP_YBUG_ID) { %>
-    <!-- Ybug code start (https://ybug.io) -->
-    <script type="text/javascript">
-      (function () {
-        window.ybug_settings = { id: '<%= process.env.REACT_APP_YBUG_ID %>' };
-        var ybug = document.createElement('script');
-        ybug.type = 'text/javascript';
-        ybug.async = true;
-        ybug.src =
-          'https://widget.ybug.io/button/' + window.ybug_settings.id + '.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ybug, s);
-      })();
-    </script>
-    <!-- Ybug code end -->
-    <% } %>
+    <a href="https://sovryn.freshdesk.com/support/home" class="feedback-button" rel="noreferrer noopener" target="_blank">Help Desk</a>
   </body>
 </html>
