@@ -12,6 +12,7 @@ import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import logo from './logo.svg';
 import SalesButton from '../SalesButton';
+import { isDesktopViewportWidth } from 'utils/helpers';
 
 interface Props {}
 
@@ -22,14 +23,15 @@ const testForMetaMask = () => {
   return !!(ethereum?.isMetaMask && !ethereum?.isNiftyWallet);
 };
 
+const shouldModalBeVisible = () =>
+  isDesktopViewportWidth() && !local.getItem(SESSION_KEY);
+
 export function MetaMaskDiscouragementNotifyModal(props: Props) {
   const { t } = useTranslation();
-  const [show, setShow] = useState(!local.getItem(SESSION_KEY));
+  const [show, setShow] = useState(shouldModalBeVisible());
   const [checked, setChecked] = useState(false);
 
-  useEffect(() => {
-    setShow(!local.getItem(SESSION_KEY));
-  }, []);
+  useEffect(() => setShow(shouldModalBeVisible()), []);
 
   const handleClose = () => {
     local.setItem(SESSION_KEY, '1');

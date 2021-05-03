@@ -139,6 +139,8 @@ export const isMobile = () => {
   );
 };
 
+export const isDesktopViewportWidth = () => window?.innerWidth >= 1024;
+
 export function detectWeb3Wallet() {
   switch (walletService.providerType) {
     default:
