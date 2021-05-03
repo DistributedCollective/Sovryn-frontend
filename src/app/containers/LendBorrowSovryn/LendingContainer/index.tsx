@@ -103,6 +103,12 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     maxAmount !== '0' ? maxAmount : undefined,
   );
 
+  const validRedeem = useIsAmountWithinLimits(
+    weiAmount,
+    '1',
+    depositedAssetBalance,
+  );
+
   useEffect(() => {
     setTxState(lendTx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +134,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
       txState={txState}
       isConnected={isConnected}
       valid={valid}
+      validRedeem={validRedeem}
       leftButton={ButtonType.DEPOSIT}
       rightButton={ButtonType.REDEEM}
       amountValue={amount}

@@ -375,7 +375,7 @@
       "leftBtn": "Deposit",
       "rightBtn": "Withdraw",
       "amountName": "Deposit Amount",
-      "balance": "Balance (+Profit)",
+      "balance": "Balance",
       "profit": "Profit",
       "supply": "Supply"
     },

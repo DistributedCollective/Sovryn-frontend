@@ -272,7 +272,7 @@
       "leftBtn": "Invertir",
       "rightBtn": "Retirar",
       "amountName": "Cantidad a Invertir",
-      "balance": "Saldo (+Ganancias)",
+      "balance": "Saldo",
       "profit": "Ganancias",
       "supply": "Aporte"
     },

@@ -369,7 +369,7 @@
       "leftBtn": "Adicionar",
       "rightBtn": "Retirar",
       "amountName": "Valor do depósito",
-      "balance": "Emprestado (+Lucro)",
+      "balance": "Emprestado",
       "profit": "Lucro",
       "supply": "Adicionar"
     },

@@ -351,7 +351,7 @@
     },
     "container": {
       "amountName": "Montant du dépôt",
-      "balance": "Balance (+Profit)",
+      "balance": "Balance",
       "leftBtn": "Dépôt",
       "profit": "Profit",
       "rightBtn": "Retirer",
