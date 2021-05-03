@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../../../types/asset';
 import { useLending_profitOf } from '../../../../hooks/lending/useLending_profitOf';
-import { useLending_supplyInterestRate } from '../../../../hooks/lending/useLending_supplyInterestRate';
 import { bignumber } from 'mathjs';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_assetBalanceOf';
@@ -35,44 +34,45 @@ const ButtonGroup: React.FC<Props> = ({
   const asset = currency as Asset;
   const { value: profitCall } = useLending_profitOf(asset, useAccount());
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
-  const { value: interestCall } = useLending_supplyInterestRate(asset);
+  // const { value: interestCall } = useLending_supplyInterestRate(asset);
 
-  const [profit, setProfit] = useState(profitCall);
-  const [ticker, setTicker] = useState('0');
+  // const [profit, setProfit] = useState(profitCall);
+  // const [ticker, setTicker] = useState('0');
 
-  useEffect(() => {
-    setProfit('0');
-  }, [currency]);
+  // useEffect(() => {
+  //   setProfit('0');
+  // }, [currency]);
 
   const balance = useMemo(() => {
     return bignumber(balanceCall).minus(profitCall).toString();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceCall, profitCall, currency]);
 
-  useEffect(() => {
-    setTicker(
-      bignumber(balance)
-        .mul(
-          bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
-        )
-        .div(10 ** 18)
-        .toFixed(0),
-    );
-  }, [balance, interestCall]);
+  // useEffect(() => {
+  //   setTicker(
+  //     bignumber(balance)
+  //       .mul(
+  //         bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
+  //       )
+  //       .div(10 ** 18)
+  //       .toFixed(0),
+  //   );
+  // }, [balance, interestCall]);
 
-  useEffect(() => {
-    const ms = 1000;
-    const diff = bignumber(ticker).div(1000).div(ms);
-    let value = bignumber(profitCall).add(profit);
-    const interval = setInterval(() => {
-      value = value.add(diff);
-      setProfit(value.toFixed(0));
-    }, ms);
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, ticker, currency]);
+  // useEffect(() => {
+  //   const ms = 1000;
+  //   const diff = bignumber(ticker).div(1000).div(ms);
+  //   let value = bignumber(profitCall).add(profit);
+  //   console.log('add profit', value);
+  //   const interval = setInterval(() => {
+  //     value = value.add(diff);
+  //     setProfit(value.toFixed(0));
+  //   }, ms);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [profitCall, ticker, currency]);
 
   useEffect(() => {
     setCurrentButton(key);
@@ -151,9 +151,9 @@ const ButtonGroup: React.FC<Props> = ({
                 <strong>
                   <Tooltip
                     position="top"
-                    content={<>{weiToFixed(profit, 18)}</>}
+                    content={<>{weiToFixed(profitCall, 18)}</>}
                   >
-                    {weiToFixed(profit, 8)}
+                    {weiToFixed(profitCall, 8)}
                   </Tooltip>
                 </strong>
               </div>
