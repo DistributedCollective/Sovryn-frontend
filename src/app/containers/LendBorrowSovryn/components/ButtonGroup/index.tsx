@@ -72,7 +72,7 @@ const ButtonGroup: React.FC<Props> = ({
       clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, ticker]);
+  }, [profitCall, ticker, currency]);
 
   useEffect(() => {
     setCurrentButton(key);
