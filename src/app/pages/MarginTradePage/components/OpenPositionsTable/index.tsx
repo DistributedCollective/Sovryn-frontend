@@ -40,6 +40,25 @@ export function OpenPositionsTable(props: Props) {
     setPage(data.currentPage);
   };
 
+  const onGoingTransactions = useMemo(() => {
+    return (
+      transactions.length > 0 && (
+        <>
+          {transactions
+            .filter(
+              tx =>
+                tx.type === TxType.TRADE &&
+                [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
+            )
+            .reverse()
+            .map(item => (
+              <PendingPositionRow key={item.transactionHash} item={item} />
+            ))}
+        </>
+      )
+    );
+  }, [transactions]);
+
   return (
     <>
       <table className="tw-table">
@@ -77,19 +96,7 @@ export function OpenPositionsTable(props: Props) {
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
             </tr>
           )}
-          {transactions.length > 0 && (
-            <>
-              {transactions
-                .filter(
-                  tx =>
-                    tx.type === TxType.TRADE &&
-                    [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
-                )
-                .map(item => (
-                  <PendingPositionRow key={item.transactionHash} item={item} />
-                ))}
-            </>
-          )}
+          {onGoingTransactions}
 
           {loading && (
             <tr>

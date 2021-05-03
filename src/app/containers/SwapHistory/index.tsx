@@ -212,6 +212,7 @@ interface AssetProps {
 }
 
 function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
+  const { t } = useTranslation();
   const dollars = useCachedAssetPrice(itemTo.asset, Asset.USDT);
   const dollarValue = useMemo(() => {
     if (data.returnVal._toAmount === null) return '';
@@ -257,9 +258,15 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       <td>
         <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
           <div>
-            {!data.status && <p className="m-0">Confirmed</p>}
-            {data.status === TxStatus.FAILED && <p className="m-0">Failed</p>}
-            {data.status === TxStatus.PENDING && <p className="m-0">Pending</p>}
+            {!data.status && (
+              <p className="m-0">{t(translations.common.confirmed)}</p>
+            )}
+            {data.status === TxStatus.FAILED && (
+              <p className="m-0">{t(translations.common.failed)}</p>
+            )}
+            {data.status === TxStatus.PENDING && (
+              <p className="m-0">{t(translations.common.pending)}</p>
+            )}
             <LinkToExplorer
               txHash={data.transaction_hash}
               className="text-gold font-weight-normal text-nowrap"

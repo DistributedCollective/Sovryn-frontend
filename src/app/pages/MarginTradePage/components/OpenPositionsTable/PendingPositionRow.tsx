@@ -9,6 +9,8 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Transaction, TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { PositionBlock } from './PositionBlock';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 interface Props {
   item: Transaction;
@@ -16,6 +18,7 @@ interface Props {
 
 export function PendingPositionRow({ item }: Props) {
   const { customData } = item;
+  const { t } = useTranslation();
 
   const collateralAssetDetails = AssetsDictionary.get(
     customData?.collateralToken,
@@ -39,9 +42,11 @@ export function PendingPositionRow({ item }: Props) {
         <td>
           <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
             <div>
-              {item.status === TxStatus.FAILED && <p className="m-0">Failed</p>}
+              {item.status === TxStatus.FAILED && (
+                <p className="m-0">{t(translations.common.failed)}</p>
+              )}
               {item.status === TxStatus.PENDING && (
-                <p className="m-0">Pending</p>
+                <p className="m-0">{t(translations.common.pending)}</p>
               )}
               <LinkToExplorer
                 txHash={item.transactionHash}
