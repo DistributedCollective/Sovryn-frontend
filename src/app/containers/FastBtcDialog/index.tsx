@@ -34,8 +34,8 @@ export function FastBtcDialog(props: Props) {
   const dispatch = useDispatch();
 
   const handleOpening = useCallback(() => {
-    dispatch(actions.init());
-  }, [dispatch]);
+    // dispatch(actions.init());
+  }, []);
 
   const handleClosing = useCallback(() => {
     dispatch(actions.reset());
