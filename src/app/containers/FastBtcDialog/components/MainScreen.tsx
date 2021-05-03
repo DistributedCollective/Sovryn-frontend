@@ -108,7 +108,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           <BTCButton
             loading={state.deposit.loading}
             ready={state.ready}
-            disabled={isWrongChainId}
+            disabled={isWrongChainId || true}
             onClick={() => {
               dispatch(actions.generateDepositAddress());
               dispatch(actions.selectBTC());
