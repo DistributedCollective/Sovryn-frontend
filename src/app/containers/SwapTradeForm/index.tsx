@@ -53,12 +53,12 @@ export function SwapTradeForm() {
   const [amount, setAmount] = useState('');
   const weiAmount = useWeiAmount(amount);
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
-  const [targetToken, setTargetToken] = useState(Asset.DOC);
+  const [targetToken, setTargetToken] = useState(Asset.SOV);
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
 
   useEffect(() => {
-    dispatch(actions.changeSwapPair(`${sourceToken}:${targetToken}`));
+    dispatch(actions.changeSwapPair(`${sourceToken}/${targetToken}`));
   }, [sourceToken, targetToken, dispatch]);
 
   const { value: tokens } = useCacheCallWithValue<string[]>(

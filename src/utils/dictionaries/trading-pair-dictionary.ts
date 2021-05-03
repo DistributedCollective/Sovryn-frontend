@@ -20,7 +20,7 @@ export class TradingPairDictionary {
         'RBTC/USDT',
         // asset
         Asset.RBTC,
-        'RBTC:USDT',
+        'RBTC/USDT',
         // asset for long position
         Asset.USDT,
         // asset for short position
@@ -35,7 +35,7 @@ export class TradingPairDictionary {
         'BPRO/USDT',
         // asset
         Asset.BPRO,
-        'BPRO:USDT',
+        'BPRO/USDT',
         // asset for long position
         Asset.USDT,
         // asset for short position
@@ -50,7 +50,7 @@ export class TradingPairDictionary {
     //     'RBTC/SOV',
     //     // asset
     //     Asset.RBTC,
-    //     'BTC:SOV',
+    //     'BTC/SOV',
     //     // asset for long position
     //     Asset.SOV,
     //     // asset for short position

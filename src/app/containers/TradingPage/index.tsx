@@ -16,7 +16,7 @@ import { reducer, sliceKey } from './slice';
 import { selectTradingPage } from './selectors';
 import { tradingPageSaga } from './saga';
 import { TradingPairSelector } from '../TradingPairSelector/Loadable';
-import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
+import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeOrSwapTabs } from '../../components/TradeOrSwapTabs/Loadable';
 import { TradingActivity } from '../TradingActivity/Loadable';
 import { Header } from 'app/components/Header';
@@ -30,15 +30,14 @@ const s = translations.tradingPage;
 interface Props {}
 
 const fixPair = {
-  'USDT:RBTC': 'RBTC:USDT',
-  'DOC:RBTC': 'RBTC:DOC',
-  'RBTC:SOV': 'SOV:RBTC',
-  'SOV:DOC': 'SOV:RBTC',
-  'SOV:USDT': 'SOV:RBTC',
-  'SOV:BPRO': 'SOV:RBTC',
-  'DOC:SOV': 'SOV:RBTC',
-  'USDT:SOV': 'SOV:RBTC',
-  'BPRO:SOV': 'SOV:RBTC',
+  'USDT/RBTC': 'RBTC/USDT',
+  'DOC/RBTC': 'RBTC/DOC',
+  'BPRO/RBTC': 'RBTC/BPRO',
+
+  'RBTC/SOV': 'SOV/RBTC',
+  'DOC/SOV': 'SOV/DOC',
+  'USDT/SOV': 'SOV/USDT',
+  'BPRO/SOV': 'SOV/BPRO',
 };
 
 function getSwapPair(pair: string) {
@@ -80,11 +79,7 @@ export function TradingPage(props: Props) {
               tradingPage.isMobileStatsOpen && `d-block`
             } d-lg-block`}
           >
-            <TradingChart
-              symbol={symbol}
-              theme={Theme.DARK}
-              type={ChartType.CANDLE}
-            />
+            <TradingChart symbol={symbol} theme={Theme.DARK} />
           </div>
           <div className="col-12 col-lg-6 order-lg-0">
             {tradingPage.tab === TabType.TRADE && <TradingPairSelector />}

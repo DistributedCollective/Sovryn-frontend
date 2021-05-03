@@ -41,6 +41,7 @@
     "@visx/shape": "1.2.0",
     "@visx/text": "1.1.0",
     "@visx/tooltip": "1.1.0",
+    "axios": "0.21.1",
     "babel-eslint": "10.1.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.1.0",

@@ -9,7 +9,7 @@ import { ContainerState, TabType } from './types';
 // The initial state of the TradingPage container
 export const initialState: ContainerState = {
   tradingPair: TradingPairDictionary.pairTypeList()[0], // Set first pair as default selection.
-  swapPair: 'RBTC:DOC',
+  swapPair: 'RBTC/SOV',
   isMobileStatsOpen: false,
   tab: TabType.TRADE,
 };
