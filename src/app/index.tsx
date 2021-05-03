@@ -27,7 +27,6 @@ import { SandboxPage } from './containers/SandboxPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
-import { EscrowPage } from './pages/Escrow/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -74,7 +73,7 @@ export function App() {
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
-            <Route exact path="/escrow" component={EscrowPage} />
+            {/*<Route exact path="/escrow" component={EscrowPage} />*/}
             <Route
               exact
               path="/optin-success"
