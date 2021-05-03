@@ -42,7 +42,7 @@ export function useApproveAndTrade(
   );
 
   return {
-    trade: async () => {
+    trade: async (customData?: object) => {
       let tx: CheckAndApproveResult = {};
       if (collateral !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
@@ -54,7 +54,7 @@ export function useApproveAndTrade(
           return;
         }
       }
-      await trade(tx?.nonce, tx?.approveTx);
+      await trade(tx?.nonce, tx?.approveTx, customData);
     },
     ...rest,
   };
