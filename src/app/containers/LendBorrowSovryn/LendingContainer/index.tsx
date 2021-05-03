@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { min, bignumber } from 'mathjs';
 
@@ -21,6 +21,7 @@ import { SendTxResponse } from '../../../hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { ButtonType } from '../types';
 import { maxMinusFee } from '../../../../utils/helpers';
+import { useLending_assetBalanceOf } from '../../../hooks/lending/useLending_assetBalanceOf';
 
 type Props = {
   currency: Asset;
@@ -42,6 +43,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     currency as Asset,
     useAccount(),
   );
+  const { value: depositedAssetBalance } = useLending_assetBalanceOf(
+    currency as Asset,
+    useAccount(),
+  );
   const {
     value: maxAmount,
     loading: loadingLimit,
@@ -55,7 +60,7 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
         amount = min(maxMinusFee(userBalance, currency), bignumber(maxAmount));
       }
     } else if (type === ButtonType.REDEEM) {
-      amount = depositedBalance;
+      amount = depositedAssetBalance;
     }
     setAmount(weiTo18(amount));
   };
@@ -67,11 +72,17 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     txData: null,
   });
 
+  const withdrawAmount = useMemo(() => {
+    return bignumber(weiAmount)
+      .mul(bignumber(depositedBalance).div(depositedAssetBalance))
+      .toFixed(0);
+  }, [weiAmount, depositedBalance, depositedAssetBalance]);
+
   // LENDING
   const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);
   const { unlend, ...unlendTx } = useLending_approveAndUnlend(
     currency,
-    weiAmount,
+    withdrawAmount,
   );
 
   const handleLendSubmit = useCallback(() => {
