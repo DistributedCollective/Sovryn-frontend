@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { Nullable } from 'types';
 import {
   areOptionsEqual,
@@ -16,7 +15,7 @@ import {
   SelectItem,
 } from 'app/components/FormSelect';
 import { MenuItem, Text } from '@blueprintjs/core';
-import { StyledButton, StyledAssetLogo, CaretElement } from './styled';
+import { StyledButton, CaretElement } from './styled';
 import { isMobile } from '../../../../../utils/helpers';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
@@ -77,10 +76,7 @@ export function SwapAssetSelector(props: Props) {
           {selected ? (
             <>
               <span className="d-flex flex-row justify-content-start align-items-center flex-shrink-0 flex-grow-1">
-                <StyledAssetLogo
-                  src={AssetsDictionary.get(props.value).logoSvg}
-                />
-                <Text ellipsize>{props.value}</Text>
+                <AssetRenderer asset={props.value} showImage />
               </span>
             </>
           ) : (

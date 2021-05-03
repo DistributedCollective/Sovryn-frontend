@@ -1,14 +1,5 @@
 import styled from 'styled-components/macro';
 
-export const StyledAssetLogo = styled.img.attrs(attrs => ({
-  alt: 'Asset type',
-}))`
-  width: 29px;
-  height: 26px;
-  object-fit: contain;
-  margin-right: 9px;
-`;
-
 export const StyledButton = styled.button.attrs(attrs => ({
   className:
     'w-100 bg-dark mb-4 d-flex flex-row justify-content-between align-items-center p-0',
