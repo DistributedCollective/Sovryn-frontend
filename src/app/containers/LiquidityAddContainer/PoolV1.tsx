@@ -61,7 +61,7 @@ export function PoolV1(props: Props) {
       const rate = item ? item.value.rate : '0';
       let amount = '0';
       if (rate !== '0') {
-        amount = fromWei(bignumber(value).mul(rate));
+        amount = fromWei(bignumber(value || '0').mul(rate));
       }
       setAmounts(prevState => ({ ...prevState, [target]: amount }));
     }

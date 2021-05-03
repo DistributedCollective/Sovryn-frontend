@@ -1,3 +1,4 @@
+import { Dialog as BPDialog, Icon } from '@blueprintjs/core';
 /**
  *
  * Dialog
@@ -5,8 +6,8 @@
  */
 
 import React, { Suspense } from 'react';
-import { Dialog as BPDialog, Icon } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
+
 import { ComponentSkeleton } from '../../components/PageSkeleton';
 
 interface Props {
@@ -31,7 +32,7 @@ export function Dialog(props: Props) {
       {props.isCloseButtonShown && (
         <div className="mb-3 text-right">
           <StyledClose onClick={() => props.onClose()}>
-            <Icon icon="cross" />
+            <Icon icon="cross" className="d-flex justify-content-center" />
           </StyledClose>
         </div>
       )}
