@@ -51,6 +51,7 @@
     "bootstrap": "4.5.3",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "charting-library": "ssh://git@github.com/DistributedCollective/charting-library.git",
     "clsx": "1.1.1",
     "core-js": "3.7.0",
     "cross-env": "7.0.2",
