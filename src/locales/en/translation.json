@@ -215,7 +215,8 @@
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
-    "bitocracy": "Bitocracy"
+    "bitocracy": "Bitocracy",
+    "spotTrade": "Spot Trade"
   },
   "trandingPositionSelector": {
     "long": "Long",
