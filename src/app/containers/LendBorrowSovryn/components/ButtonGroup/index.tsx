@@ -118,7 +118,7 @@ const ButtonGroup: React.FC<Props> = ({
       {(key === ButtonType.REDEEM || key === ButtonType.DEPOSIT) && (
         <div className="container my-3">
           <div className="withdraw-content py-3 row">
-            <div className="col-6 d-flex flex-column">
+            <div className="col-12 d-flex flex-column">
               <h4 className="flex-grow-1">
                 <Text className="text-break">
                   {t(translations.lend.container.balance)}
@@ -131,29 +131,17 @@ const ButtonGroup: React.FC<Props> = ({
                 <strong>
                   <Tooltip
                     position="top"
-                    content={<>{weiToFixed(balanceCall, 18)}</>}
+                    content={
+                      <>
+                        {t(translations.lend.container.balance)}:{' '}
+                        {weiToFixed(balanceCall, 18)}
+                        <br />
+                        {t(translations.lend.container.profit)}:{' '}
+                        {weiToFixed(profit, 18)}
+                      </>
+                    }
                   >
                     {weiToFixed(balanceCall, 4)}
-                  </Tooltip>
-                </strong>
-              </div>
-            </div>
-            <div className="col-6 d-flex flex-column">
-              <h4 className="flex-grow-1">
-                <Text className="text-break">
-                  {t(translations.lend.container.profit)}
-                </Text>
-              </h4>
-              <div>
-                <span className="text-muted">
-                  <AssetRenderer asset={currency} />
-                </span>{' '}
-                <strong>
-                  <Tooltip
-                    position="top"
-                    content={<>{weiToFixed(profit, 18)}</>}
-                  >
-                    {weiToFixed(profit, 8)}
                   </Tooltip>
                 </strong>
               </div>
