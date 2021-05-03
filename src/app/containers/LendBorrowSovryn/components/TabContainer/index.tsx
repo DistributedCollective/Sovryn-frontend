@@ -30,6 +30,7 @@ type Props = {
   handleSubmitRepay?: () => void;
   isConnected: boolean;
   valid: boolean;
+  validRedeem: boolean;
   txState: SendTxResponse;
 };
 
@@ -46,6 +47,7 @@ const TabContainer: React.FC<Props> = ({
   rightButton,
   isConnected,
   valid,
+  validRedeem,
   txState,
   onMaxChange,
   setBorrowAmount,
@@ -87,6 +89,7 @@ const TabContainer: React.FC<Props> = ({
         title={currentButton}
         txState={txState}
         valid={valid}
+        validRedeem={validRedeem}
         isConnected={isConnected}
         handleSubmit={handleSubmit}
         handleSubmitWithdraw={handleSubmitWithdraw}
