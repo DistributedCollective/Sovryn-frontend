@@ -17,7 +17,17 @@ export const lazyLoad = <
 
   if (selectorFunc) {
     lazyFactory = () =>
-      importFunc().then(module => ({ default: selectorFunc(module) }));
+      importFunc()
+        .then(module => ({ default: selectorFunc(module) }))
+        .catch(reason => {
+          if (/Loading chunk [\d]+ failed/.test(reason.message)) {
+            alert(
+              "dApp failed to load, let's try again.\nIt may be an issue with an internet connection.",
+            );
+            window.location.replace(window.location.href);
+          }
+          return reason;
+        });
   }
 
   const LazyComponent = lazy(lazyFactory);

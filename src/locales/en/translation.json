@@ -84,7 +84,8 @@
       "rewardPool": "Your Current Share Of Reward Pool*",
       "rewardSOV": "Your Current SOV Reward*",
       "miningEvent": "Your liquidity mining events",
-      "noAsset": "You have no {{asset}} liquidity mining events yet."
+      "noAsset": "You have no {{asset}} liquidity mining events yet.",
+      "rewardPoolNote": "*For weeks that are still in progress, this number may go up or down"
     }
   },
   "tradingHistoryPage": {
