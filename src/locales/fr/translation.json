@@ -503,7 +503,8 @@
       "rewardPool": "Votre part actuelle du pool de récompenses *",
       "rewardSOV": "Votre récompense de SOV actuelle *",
       "sov": "25k SOV",
-      "title": "Liquidités de minage : USDT/BTC POOL"
+      "title": "Liquidités de minage : USDT/BTC POOL",
+      "rewardPoolNote": "* Pour les semaines qui sont encore en cours, ce nombre peut augmenter ou diminuer"
     }
   },
   "mobileNotReady": {
