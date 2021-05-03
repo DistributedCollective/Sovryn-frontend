@@ -99,10 +99,6 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
         </p>
       )}
 
-      <div className={styles.subtitle}>
-        FastBTC is undergoing some maintenance. We'll be back soon.
-      </div>
-
       <div className={styles.buttons}>
         {state.step === Step.MAIN && (
           <BTCButton
