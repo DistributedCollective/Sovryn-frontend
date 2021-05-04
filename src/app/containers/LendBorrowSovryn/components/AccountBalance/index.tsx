@@ -16,6 +16,7 @@ type Props = {
   title: ButtonType;
   isConnected: boolean;
   valid: boolean;
+  validRedeem: boolean;
   txState: any;
   handleSubmit: () => void;
   handleSubmitWithdraw?: () => void;
@@ -33,6 +34,7 @@ const AccountBalance: React.FC<Props> = ({
   handleSubmitRepay,
   isConnected,
   valid,
+  validRedeem,
   txState,
   title,
   canRedeem,
@@ -42,6 +44,7 @@ const AccountBalance: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const noRedeem = title === ButtonType.REDEEM && !canRedeem;
+  const isValid = title === ButtonType.REDEEM ? validRedeem : valid;
   return (
     <>
       <SendTxProgress
@@ -65,7 +68,7 @@ const AccountBalance: React.FC<Props> = ({
               : handleSubmit
           }
           disabled={
-            txState.loading || !isConnected || !valid || noRedeem || disabled
+            txState.loading || !isConnected || !isValid || noRedeem || disabled
           }
           loading={txState.loading}
           tooltip={

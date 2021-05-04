@@ -32,7 +32,7 @@ export function SOVPoolData(props: Props) {
       });
 
       axios
-        .get(api + 'amm/liquidity-mining/sov/' + props.user, {
+        .get(api + '/amm/liquidity-mining/sov/' + props.user, {
           cancelToken,
         })
         .then(res => {

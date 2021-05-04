@@ -12,6 +12,7 @@ import { translations } from 'locales/i18n';
 import '../../assets/index.scss';
 import './style.scss';
 import { LoanTokenGraphs } from '../../../../components/LoanTokenGraphs';
+import { AssetRenderer } from '../../../../components/CurrencyAsset';
 
 type Props = {
   lendingPool: LendingPool;
@@ -37,7 +38,9 @@ const CurrencyRow: React.FC<Props> = ({
     >
       <div className="d-flex flex-row justify-content-start align-items-center currency currency-title w-lg-50 mb-3 mb-lg-0 px-3">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />
-        <h3 className="m-0 font-family-rowdies">{lendingPool.getName()}</h3>
+        <h3 className="m-0 font-family-rowdies">
+          <AssetRenderer asset={lendingPool.getAsset()} />
+        </h3>
       </div>
       <div className="d-flex currency pt-0 w-lg-50 pt-lg-3">
         <div className="w-50 px-3">
