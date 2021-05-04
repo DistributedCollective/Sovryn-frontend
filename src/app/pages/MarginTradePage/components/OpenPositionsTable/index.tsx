@@ -3,10 +3,13 @@ import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
+import { PendingPositionRow } from './PendingPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
-
+import { useSelector } from 'react-redux';
+import { selectTransactionArray } from 'store/global/transactions-store/selectors';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 interface Props {
   perPage: number;
 }
@@ -14,6 +17,7 @@ interface Props {
 export function OpenPositionsTable(props: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
+  const transactions = useSelector(selectTransactionArray);
 
   const { value, loading } = useGetActiveLoans(
     useAccount(),
@@ -30,11 +34,30 @@ export function OpenPositionsTable(props: Props) {
     [props.perPage, page, value],
   );
 
-  const isEmpty = !loading && !items.length;
+  const isEmpty = !loading && !items.length && !transactions.length;
 
   const onPageChanged = data => {
     setPage(data.currentPage);
   };
+
+  const onGoingTransactions = useMemo(() => {
+    return (
+      transactions.length > 0 && (
+        <>
+          {transactions
+            .filter(
+              tx =>
+                tx.type === TxType.TRADE &&
+                [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
+            )
+            .reverse()
+            .map(item => (
+              <PendingPositionRow key={item.transactionHash} item={item} />
+            ))}
+        </>
+      )
+    );
+  }, [transactions]);
 
   return (
     <>
@@ -73,6 +96,7 @@ export function OpenPositionsTable(props: Props) {
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
             </tr>
           )}
+          {onGoingTransactions}
 
           {loading && (
             <tr>
