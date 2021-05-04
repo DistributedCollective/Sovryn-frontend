@@ -40,6 +40,10 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
 }
 
+// Copy Tradingview Chart library to /public folder
+const copyLibs = require('./copy-chart-libs');
+copyLibs();
+
 // Generate configuration
 const config = configFactory('production');
 
