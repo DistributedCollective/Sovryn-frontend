@@ -18,6 +18,7 @@ import { translations } from '../../../locales/i18n';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
+import { TradeForm } from './components/TradeForm';
 
 interface Props {}
 
@@ -25,8 +26,7 @@ export function SpotTradingPage(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: spotTradingPageSaga });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const spotTradingPage = useSelector(selectSpotTradingPage);
+  const { pairType } = useSelector(selectSpotTradingPage);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
 
@@ -51,13 +51,15 @@ export function SpotTradingPage(props: Props) {
             }
           >
             <TradingChart
-              symbol="SOV:RBTC"
+              symbol={pairType.replace('_', ':')}
               theme={Theme.DARK}
               type={ChartType.CANDLE}
               inSats
             />
           </div>
-          <div>// Trade From //</div>
+          <div>
+            <TradeForm />
+          </div>
         </div>
       </div>
       <Footer />

@@ -5,11 +5,14 @@
     height: 3.75rem;
     letter-spacing: 0.1rem;
     @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
-    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
     @apply tw-px-6 tw-py-2;
     @apply tw-transition;
-    @apply tw-text-white;
     @apply tw-border-0 tw-rounded;
+  }
+  .tw-btn-trade,
+  .tw-btn-trade-content {
+    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-text-white;
   }
 
   .tw-btn-trade:hover {
