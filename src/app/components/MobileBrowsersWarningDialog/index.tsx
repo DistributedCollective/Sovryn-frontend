@@ -1,30 +1,23 @@
 import React, { useCallback, useState } from 'react';
 import { Dialog } from '../../containers/Dialog/Loadable';
-import logo from 'assets/images/sovryn-logo-white-inline.svg';
-import { isDesktopViewportWidth } from 'utils/helpers';
+import logo from 'assets/images/sovryn-logo-staked.svg';
+import { isMobile } from 'utils/helpers';
 import { noop } from '../../constants';
 import { Checkbox } from '@blueprintjs/core';
 import SalesButton from '../SalesButton';
-import { local } from 'utils/storage';
 import { WarningContainer, WarningTextContent } from './styled';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
-const localStorageKey = 'mobile-warning-shown';
-
-export function MobileBrowsersWarningDialog() {
+export const MobileBrowsersWarningDialog: React.FC = () => {
+  const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
-  const [isOpen, setIsOpen] = useState(
-    !isDesktopViewportWidth() && !local.getItem(localStorageKey),
-  );
+  const [isOpen, setIsOpen] = useState(isMobile());
 
-  const onCheckboxClick = useCallback(
-    () => setChecked(prevValue => !prevValue),
-    [setChecked],
-  );
+  // eslint-disable-next-line prettier/prettier
+  const onCheckboxClick = useCallback(() => setChecked(prevValue => !prevValue), [setChecked]);
 
-  const handleClose = useCallback(() => {
-    local.setItem(localStorageKey, '1');
-    setIsOpen(false);
-  }, [setIsOpen]);
+  const handleClose = useCallback(() => setIsOpen(false), [setIsOpen]);
 
   return (
     <Dialog
@@ -38,21 +31,22 @@ export function MobileBrowsersWarningDialog() {
 
         <WarningTextContent>
           <p>
-            For security the user experience for Sovryn is not yet optimized for
-            this device.
+            {t(translations.mobileBrowsersWarningDialog.content.paragraph1)}
           </p>
-          <p className="mt-4">Until then Why not try the desktop Version?</p>
+          <p className="mt-4">
+            {t(translations.mobileBrowsersWarningDialog.content.paragraph2)}
+          </p>
         </WarningTextContent>
 
         <div className="mt-5 mb-4">
           <Checkbox
             checked={checked}
             onChange={onCheckboxClick}
-            label="I accept the risks and want to use dapp with my mobile device"
+            label={t(translations.mobileBrowsersWarningDialog.acceptTerms)}
           />
           <div className="mt-4">
             <SalesButton
-              text={'I Understand'}
+              text={t(translations.mobileBrowsersWarningDialog.salesBtn)}
               onClick={handleClose}
               disabled={!checked}
             />
@@ -61,4 +55,4 @@ export function MobileBrowsersWarningDialog() {
       </WarningContainer>
     </Dialog>
   );
-}
+};
