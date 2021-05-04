@@ -6,6 +6,7 @@ import { noop } from '../../constants';
 import { Checkbox } from '@blueprintjs/core';
 import SalesButton from '../SalesButton';
 import { local } from 'utils/storage';
+import { WarningContainer, WarningTextContent } from './styled';
 
 const localStorageKey = 'mobile-warning-shown';
 
@@ -26,16 +27,22 @@ export function MobileBrowsersWarningDialog() {
   }, [setIsOpen]);
 
   return (
-    <Dialog isOpen={isOpen} onClose={noop} isCloseButtonShown={false}>
-      <div className="text-center">
-        <div>
-          <img src={logo} alt="Sovryn" />
-        </div>
+    <Dialog
+      isOpen={isOpen}
+      onClose={noop}
+      isCloseButtonShown={false}
+      className="w-auto"
+    >
+      <WarningContainer className="pt-2 px-4 text-center">
+        <img src={logo} alt="Sovryn" className="mb-5" />
 
-        <div className="font-family-montserrat font-medium">
-          For security the user experience for Sovryn is not yet optimized for
-          this device. Until then Why not try the desktop Version?
-        </div>
+        <WarningTextContent>
+          <p>
+            For security the user experience for Sovryn is not yet optimized for
+            this device.
+          </p>
+          <p className="mt-4">Until then Why not try the desktop Version?</p>
+        </WarningTextContent>
 
         <div className="mt-5 mb-4">
           <Checkbox
@@ -51,7 +58,7 @@ export function MobileBrowsersWarningDialog() {
             />
           </div>
         </div>
-      </div>
+      </WarningContainer>
     </Dialog>
   );
 }
