@@ -44,7 +44,7 @@ export function SwapHistory() {
         cancelToken: cancelTokenSource.token,
       })
       .then(res => {
-        setHistory(res.data);
+        setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
         setLoading(false);
       })
       .catch(e => {
