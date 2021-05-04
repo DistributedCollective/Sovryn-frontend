@@ -24,6 +24,12 @@ Build for production:
 yarn build
 ```
 
+Dapp uses private repository as a dependency, for this reason you may need to create private access token for your account here https://github.com/settings/tokens.
+You will need to choose `repo` scope for the token.
+Export token `export CI_USER_TOKEN='ghp_xxxxx'` and run `./bin/gh-pack` to apply it.
+Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
+If yarn install fails after these steps please ask for read access to charting-library repository.
+
 ## Contributing
 
 <a href="https://github.com/DistributedCollective/Sovryn-frontend/graphs/contributors">
