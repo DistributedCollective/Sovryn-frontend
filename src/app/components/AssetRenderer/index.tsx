@@ -25,11 +25,6 @@ const symbolMap = {
       <em>R</em>BTC
     </>
   ),
-  [Asset.USDT]: (
-    <>
-      <em>R</em>USDT
-    </>
-  ),
 };
 
 export function getAssetSymbol(asset: Asset) {
