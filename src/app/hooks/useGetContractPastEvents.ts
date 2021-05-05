@@ -27,15 +27,15 @@ export function useGetContractPastEvents(
   const getEvents = useCallback(async () => {
     const fromBlock = getContract(contractName).blockNumber;
     const toBlock = 'latest';
-    return eventReader.getPastEvents(
-      contractName,
-      event,
-      { [filtersEventKeyMap[event]]: address, ...filters },
-      {
-        fromBlock,
-        toBlock,
-      },
-    );
+
+    if (filtersEventKeyMap.hasOwnProperty(event)) {
+      filters[filtersEventKeyMap[event]] = String(address).toLowerCase();
+    }
+
+    return eventReader.getPastEvents(contractName, event, filters, {
+      fromBlock,
+      toBlock,
+    });
   }, [address, contractName, event, filters]);
 
   useEffect(() => {
