@@ -165,8 +165,8 @@
     "yarn": "1.22.10"
   },
   "bin": {
-    "changelog": "./bin/changelog.sh",
-    "gh-pack": "./bin/gh-pack.sh"
+    "changelog": "./bin/changelog",
+    "gh-pack": "./bin/gh-pack"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -186,8 +186,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "changelog": "./bin/changelog.sh",
-    "preinstall": "./bin/gh-pack.sh"
+    "changelog": "./bin/changelog",
+    "preinstall": "./bin/gh-pack"
   },
   "browserslist": {
     "production": [

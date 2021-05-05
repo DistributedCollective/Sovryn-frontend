@@ -12,6 +12,8 @@ Install packages:
 yarn
 ```
 
+If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
+
 Start app for development:
 
 ```shell
