@@ -17,7 +17,7 @@ import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
 import { renderItemNH } from 'form/Select/renderers';
 import { BuySell } from '../BuySell';
-import { TradingTypes } from '../../types';
+import { SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
@@ -45,8 +45,8 @@ export function TradeForm() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [slippage, setSlippage] = useState(0.5);
   const [amount, setAmount] = useState<string>('');
-  const [sourceToken, setSourceToken] = useState(Asset.RBTC);
-  const [targetToken, setTargetToken] = useState(Asset.SOV);
+  const [sourceToken, setSourceToken] = useState(Asset.SOV);
+  const [targetToken, setTargetToken] = useState(Asset.RBTC);
 
   const { pairType } = useSelector(selectSpotTradingPage);
 
@@ -77,9 +77,9 @@ export function TradeForm() {
   }, [balance, minReturn, sourceToken, weiAmount]);
 
   useEffect(() => {
-    setSourceToken(pairs[pairType][0]);
-    setTargetToken(pairs[pairType][1]);
-  }, [pairType]);
+    setSourceToken(pairs[pairType][tradeType === TradingTypes.BUY ? 1 : 0]);
+    setTargetToken(pairs[pairType][tradeType === TradingTypes.BUY ? 0 : 1]);
+  }, [pairType, tradeType]);
 
   return (
     <>
@@ -102,13 +102,17 @@ export function TradeForm() {
             className="tw-mt-6"
           >
             <Select
-              value={pairType}
-              options={pairList.map(key => ({
-                key,
-                label: key,
+              value={`${pairType}`}
+              options={pairList.map(pair => ({
+                key: `${pair}`,
+                label: `${pair}`.replace('_', ' - '),
               }))}
               filterable={false}
-              onChange={value => dispatch(actions.setPairType(value))}
+              onChange={value =>
+                dispatch(
+                  actions.setPairType((value as unknown) as SpotPairType),
+                )
+              }
               itemRenderer={renderItemNH}
               valueRenderer={(item: Option) => (
                 <Text ellipsize className="tw-text-center">
@@ -166,8 +170,8 @@ export function TradeForm() {
             <Button
               text={t(
                 tradeType === TradingTypes.BUY
-                  ? translations.spotTradingPage.tradeForm.sell_cta
-                  : translations.spotTradingPage.tradeForm.buy_cta,
+                  ? translations.spotTradingPage.tradeForm.buy_cta
+                  : translations.spotTradingPage.tradeForm.sell_cta,
               )}
               tradingType={tradeType}
               onClick={() => send()}

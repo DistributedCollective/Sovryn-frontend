@@ -1,12 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState, SpotPairType } from './types';
-import { Asset } from '../../../types/asset';
 
 // The initial state of the SpotTradingPage container
 export const initialState: ContainerState = {
-  pairType: SpotPairType.RBTC_SOV,
-  collateral: Asset.RBTC,
+  pairType: SpotPairType.SOV_RBTC,
   amount: '0',
 };
 

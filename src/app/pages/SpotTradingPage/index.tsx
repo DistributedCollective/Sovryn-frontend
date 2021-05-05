@@ -19,6 +19,7 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
+import { SwapHistory } from 'app/containers/SwapHistory';
 
 interface Props {}
 
@@ -51,7 +52,7 @@ export function SpotTradingPage(props: Props) {
             }
           >
             <TradingChart
-              symbol={pairType.replace('_', ':')}
+              symbol={`${pairType}`.replace('_', ':')}
               theme={Theme.DARK}
               type={ChartType.CANDLE}
               inSats
@@ -60,6 +61,10 @@ export function SpotTradingPage(props: Props) {
           <div>
             <TradeForm />
           </div>
+        </div>
+        <div className="tw-mt-10">
+          <div className="tw-px-3">Spot History</div>
+          <SwapHistory />
         </div>
       </div>
       <Footer />
