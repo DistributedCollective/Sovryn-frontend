@@ -22,7 +22,6 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { AssetRenderer } from '../../components/AssetRenderer';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
@@ -234,9 +233,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td className="d-none d-md-table-cell">
-        <AssetRenderer asset={itemFrom.asset} />
-        -
-        <AssetRenderer asset={itemTo.asset} />
+        {order.pair?.replace('_', ' - ')}
       </td>
       <td className="tw-font-bold">
         <span

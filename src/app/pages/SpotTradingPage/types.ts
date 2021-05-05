@@ -42,8 +42,8 @@ export enum TradingTypes {
 export const getOrder = (from: Asset, to: Asset) => {
   const fromSymbol = AssetsDictionary.get(from).symbol.toUpperCase();
   const toSymbol = AssetsDictionary.get(to).symbol.toUpperCase();
-  let buyPair = pairList.find(pair => pair === `${fromSymbol}_${toSymbol}`);
-  let sellPair = pairList.find(pair => pair === `${toSymbol}_${fromSymbol}`);
+  let buyPair = pairList.find(pair => pair === `${toSymbol}_${fromSymbol}`);
+  let sellPair = pairList.find(pair => pair === `${fromSymbol}_${toSymbol}`);
 
   if (!buyPair && !sellPair) return null;
 
