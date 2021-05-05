@@ -16,14 +16,14 @@ async function copyDir(src, dest) {
   }
 }
 
-function copyLibs() {
+async function copyLibs() {
   if (!fs.existsSync('public/charting_library'))
-    copyDir(
+    await copyDir(
       'node_modules/charting-library/public/charting_library',
       'public/charting_library',
     );
   if (!fs.existsSync('public/datafeeds'))
-    copyDir(
+    await copyDir(
       'node_modules/charting-library/public/datafeeds',
       'public/datafeeds',
     );

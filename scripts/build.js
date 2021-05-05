@@ -42,7 +42,6 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Copy Tradingview Chart library to /public folder
 const copyLibs = require('./copy-chart-libs');
-copyLibs();
 
 // Generate configuration
 const config = configFactory('production');
@@ -56,10 +55,11 @@ checkBrowsers(paths.appPath, isInteractive)
     // This lets us display how much they changed later.
     return measureFileSizesBeforeBuild(paths.appBuild);
   })
-  .then(previousFileSizes => {
+  .then(async previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
+    await copyLibs();
     // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build
