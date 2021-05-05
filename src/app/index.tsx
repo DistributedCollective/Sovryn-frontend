@@ -6,37 +6,57 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
-import { currentNetwork } from '../utils/classifiers';
+import { currentNetwork } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
+import { MaintenancePage } from './containers/MaintenancePage';
+import { WalletProvider } from './containers/WalletProvider';
+
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { WalletProvider } from './containers/WalletProvider';
-import { SwapPage } from './containers/SwapPage/Loadable';
-import { StakePage } from './containers/StakePage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { EmailPage } from './containers/EmailPage';
-import LendBorrowSovryn from './containers/LendBorrowSovryn';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { SandboxPage } from './containers/SandboxPage/Loadable';
-import { WalletPage } from './containers/WalletPage';
-import { BuySovPage } from './pages/BuySovPage';
+import { WalletPage } from './containers/WalletPage/Loadable';
+import { StakePage } from './containers/StakePage/Loadable';
+import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
+
+import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
+import { SwapPage } from './containers/SwapPage/Loadable';
+
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import {
+  actions as maintenanceActions,
+  maintenanceSlice,
+  reducer as maintenanceReducer,
+} from 'store/global/maintenance-store/slice';
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
+import { useDispatch } from 'react-redux';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 export function App() {
   useAppTheme();
+
+  useInjectReducer({ key: maintenanceSlice, reducer: maintenanceReducer });
+  useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
+  const dispatch = useDispatch();
+
   const { checkMaintenance } = useMaintenance();
   const siteLocked = checkMaintenance('full');
+
+  useEffect(() => {
+    dispatch(maintenanceActions.fetchMaintenance());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
@@ -51,11 +71,10 @@ export function App() {
             <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
+            <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stake" component={StakePage} />
-            <Route exact path="/lend" component={LendBorrowSovryn} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
-            <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route
               exact

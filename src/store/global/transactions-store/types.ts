@@ -34,6 +34,7 @@ export enum TxType {
   SOV_CONVERT = 'sov_convert',
   SOV_ORIGIN_CLAIM = 'sov_origin_claim',
   SOV_WITHDRAW_VESTING = 'sov_withdraw_vesting',
+  ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
 }
 
 export enum TxStatus {
@@ -59,6 +60,7 @@ export interface Transaction {
   value: string;
   asset: Nullable<Asset>;
   assetAmount: Nullable<string>;
+  customData?: { [key: string]: any };
 }
 
 export interface RequestDialogState {

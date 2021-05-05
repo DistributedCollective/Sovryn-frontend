@@ -46,6 +46,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
     <Selector
       className={classNames('tw-select-container', props.className)}
       items={props.options as any}
+      filterable={props.filterable}
       inputProps={
         isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
       }

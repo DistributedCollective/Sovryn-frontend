@@ -24,10 +24,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
+import { renderItemNH } from 'form/Select/renderers';
 
-const pairs: Options<TradingPairType> = TradingPairDictionary.entries().map(
-  ([type, item]) => ({ key: type, label: item.name }),
-);
+const pairs: Options<
+  TradingPairType,
+  React.ReactNode
+> = TradingPairDictionary.entries().map(([type, item]) => ({
+  key: type,
+  label: item.name,
+}));
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -77,7 +82,9 @@ export function TradeForm() {
             <Select
               value={pairType}
               options={pairs as any}
+              filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
+              itemRenderer={renderItemNH}
               valueRenderer={(item: Option) => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}

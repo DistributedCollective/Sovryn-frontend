@@ -244,6 +244,7 @@
   "fastBtcDialog": {
     "buttonBTC": "Obtenez du rBTC avec du BTC",
     "buttonFiat": "Obtenez du rBTC avec du Fiat",
+    "note": "Assurez-vous toujours de vérifier l'adresse de dépôt BTC lorsque FastBTC est mis à jour",
     "fiatDialog": {
       "explanation": "En cliquant sur le bouton ci-dessous, vous ouvrirez un fiat sur la rampe. Assurez-vous que l'adresse BTC à laquelle vous envoyez vos fonds est la même que celle ci-dessous. FastBTC effectuera la conversion en rBTC pour vous en arrière-plan. Gardez à l'esprit la limite de {{amount}}",
       "title": "Achetez du rBTC avec du Fiat:"
@@ -502,7 +503,8 @@
       "rewardPool": "Votre part actuelle du pool de récompenses *",
       "rewardSOV": "Votre récompense de SOV actuelle *",
       "sov": "25k SOV",
-      "title": "Liquidités de minage : USDT/BTC POOL"
+      "title": "Liquidités de minage : USDT/BTC POOL",
+      "rewardPoolNote": "* Pour les semaines qui sont encore en cours, ce nombre peut augmenter ou diminuer"
     }
   },
   "mobileNotReady": {

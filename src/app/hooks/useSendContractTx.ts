@@ -23,6 +23,7 @@ export interface TransactionOptions {
   approveTransactionHash?: Nullable<string>;
   asset?: Asset;
   assetAmount?: string;
+  customData?: { [key: string]: any };
 }
 
 export interface SendTxResponse {
@@ -90,6 +91,7 @@ export function useSendContractTx(
             value: (config?.value as string) || '0',
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,
+            customData: options?.customData || undefined,
           };
           dispatch(actions.addTransaction(txData));
           setTx(txData);

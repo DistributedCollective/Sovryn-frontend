@@ -601,6 +601,7 @@
       "pendingForUserText": "Review and confirm transaction in your wallet"
     }
   },
+
   "notifyDialog": {
     "heading": "Caution… No Really",
     "acceptTerms": "I have read and understand that I am responsible for my own Sovrynity",
@@ -638,42 +639,43 @@
         }
       }
     },
-    "fastBtcDialog": {
-      "title": "Obtén rBTC",
-      "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
-      "limits": {
-        "title": "Límites:",
-        "min": "Mínimo: {{amount}} BTC",
-        "max": "Máximo: {{amount}} BTC"
-      },
-      "instructions": {
-        "title": "Instrucciones:",
-        "point1": "No deposites ningún activo que no sea BTC",
-        "point2": "No envíes más BTC del límite máximo",
-        "point3": "Espera 15 minutos para que la transacción sea procesada"
-      },
-      "fiatDialog": {
-        "title": "Comprar rBTC con fiat",
-        "explanation": "Haciendo clic en el botón de abajo, accederás a una rampa de pago en fiat. Asegúrate de que la dirección de BTC a la que estás enviando tus fondos es la misma que ésta. FastBTC hará la conversión a rBTC por ti en segundo plano, así que no necesitas hacer nada más. Ten en cuenta el límite de 0,01"
-      },
-      "qr": {
-        "title": "Envía BTC a esta dirección:"
-      },
-      "buttonBTC": "Obtén rBTC con BTC",
-      "buttonFiat": "Obtén rBTC con fiat",
-      "transaction": {
-        "title": "Detalles de la transacción",
-        "status": "Status {{status}}",
-        "from": "De:",
-        "to": "Para:",
-        "fee": "Comisión:",
-        "hash": "Hash:",
-        "close": "Cerrar",
-        "address": "Dirección:"
-      }
-    },
     "onCopy": {
       "address": "La dirección se ha copiado en el portapapeles"
+    }
+  },
+  "fastBtcDialog": {
+    "title": "Obtén rBTC",
+    "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
+    "note": "Siempre asegúrese de verificar la dirección de depósito de BTC a medida que FastBTC se actualiza",
+    "limits": {
+      "title": "Límites:",
+      "min": "Mínimo: {{amount}} BTC",
+      "max": "Máximo: {{amount}} BTC"
+    },
+    "instructions": {
+      "title": "Instrucciones:",
+      "point1": "No deposites ningún activo que no sea BTC",
+      "point2": "No envíes más BTC del límite máximo",
+      "point3": "Espera 15 minutos para que la transacción sea procesada"
+    },
+    "fiatDialog": {
+      "title": "Comprar rBTC con fiat",
+      "explanation": "Haciendo clic en el botón de abajo, accederás a una rampa de pago en fiat. Asegúrate de que la dirección de BTC a la que estás enviando tus fondos es la misma que ésta. FastBTC hará la conversión a rBTC por ti en segundo plano, así que no necesitas hacer nada más. Ten en cuenta el límite de 0,01"
+    },
+    "qr": {
+      "title": "Envía BTC a esta dirección:"
+    },
+    "buttonBTC": "Obtén rBTC con BTC",
+    "buttonFiat": "Obtén rBTC con fiat",
+    "transaction": {
+      "title": "Detalles de la transacción",
+      "status": "Status {{status}}",
+      "from": "De:",
+      "to": "Para:",
+      "fee": "Comisión:",
+      "hash": "Hash:",
+      "close": "Cerrar",
+      "address": "Dirección:"
     }
   },
   "buySovPage": {

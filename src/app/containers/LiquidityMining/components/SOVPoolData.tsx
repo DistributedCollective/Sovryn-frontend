@@ -8,6 +8,7 @@ import { useInterval } from 'app/hooks/useInterval';
 import { translations } from 'locales/i18n';
 
 import { EventTable } from './EventTable';
+import { RewardPool } from './RewardPool';
 
 export interface Props {
   isConnected: boolean;
@@ -62,10 +63,11 @@ export function SOVPoolData(props: Props) {
         </Label>
       </Div>
       <div className="row my-3">
-        <div className="w-100 text-center font-family-montserrat">
-          {t(translations.marketingPage.liquidity.rewardPool)}:{' '}
-          {t(translations.marketingPage.explain.comingSoon)}
-        </div>
+        <RewardPool
+          user={props.user}
+          txList={props.txList}
+          isConnected={props.isConnected}
+        />
       </div>
 
       {props.isConnected && (

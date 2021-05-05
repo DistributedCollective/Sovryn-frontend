@@ -23,6 +23,24 @@ export const renderItem: ItemRenderer<Option> = (
   );
 };
 
+export const renderItemNH: ItemRenderer<Option> = (
+  item,
+  { handleClick, modifiers, query },
+) => {
+  if (!modifiers.matchesPredicate) {
+    return null;
+  }
+  return (
+    <MenuItem
+      active={modifiers.active}
+      disabled={modifiers.disabled}
+      key={item.key}
+      onClick={handleClick}
+      text={<Text ellipsize>{item.label || item.key}</Text>}
+    />
+  );
+};
+
 export const filterItem: ItemPredicate<Option> = (
   query,
   item,

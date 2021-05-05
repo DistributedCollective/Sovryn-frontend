@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
 import { TradingPosition } from 'types/trading-position';
+import { RenderTradingPairName } from '../../app/components/Helpers';
 
 export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
@@ -23,7 +24,8 @@ export class TradingPairDictionary {
       TradingPairType.RBTC_USDT,
       new TradingPair(
         TradingPairType.RBTC_USDT,
-        'RBTC/USDT',
+        // 'RBTC/USDT',
+        RenderTradingPairName(Asset.RBTC, Asset.USDT),
         'RBTC:USDT',
         Asset.USDT,
         Asset.RBTC,
@@ -34,7 +36,7 @@ export class TradingPairDictionary {
     //   TradingPairType.RBTC_SOV,
     //   new TradingPair(
     //     TradingPairType.RBTC_DOC,
-    //     'RBTC/SOV',
+    //     RenderTradingPairName(Asset.RBTC, Asset.SOV),
     //     'RBTC:SOV',
     //     Asset.SOV,
     //     Asset.RBTC,
@@ -45,7 +47,7 @@ export class TradingPairDictionary {
       TradingPairType.RBTC_DOC,
       new TradingPair(
         TradingPairType.RBTC_DOC,
-        'RBTC/DOC',
+        RenderTradingPairName(Asset.RBTC, Asset.DOC),
         'RBTC:DOC',
         Asset.DOC,
         Asset.RBTC,
@@ -56,7 +58,7 @@ export class TradingPairDictionary {
       TradingPairType.BPRO_USDT,
       new TradingPair(
         TradingPairType.BPRO_USDT,
-        'BRPO/USDT',
+        RenderTradingPairName(Asset.BPRO, Asset.USDT),
         'BPRO:USDT',
         Asset.USDT,
         Asset.BPRO,
@@ -67,7 +69,7 @@ export class TradingPairDictionary {
       TradingPairType.BPRO_DOC,
       new TradingPair(
         TradingPairType.BPRO_DOC,
-        'BRPO/DOC',
+        RenderTradingPairName(Asset.BPRO, Asset.DOC),
         'BPRO:DOC',
         Asset.DOC,
         Asset.BPRO,

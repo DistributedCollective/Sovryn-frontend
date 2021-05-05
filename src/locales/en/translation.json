@@ -86,6 +86,7 @@
       "rewardSOV": "Your Current SOV Reward*",
       "miningEvent": "Your liquidity mining events",
       "noAsset": "You have no {{asset}} liquidity mining events yet.",
+      "rewardPoolNote": "*For weeks that are still in progress, this number may go up or down",
       "RBTC_DOC": "<0>RBTC</0>/DOC",
       "RBTC_USDT": "<0>RBTC</0>/USDT",
       "BPRO_USDT": "BPRO/<0>USDT</0>",
@@ -475,8 +476,8 @@
   },
   "wrongNetworkDialog": {
     "title": "Change to RSK Network",
-    "networkAlert": "We detected that you are on {{strng}}",
-    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet",
+    "networkAlert": "We detected that you are on {{name}} network.",
+    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",
       "networkName": "RSK Mainnet Settings",
@@ -485,7 +486,7 @@
       "explorerUrl": "RSK Mainnet Settings",
       "chainId": "Chain Id"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{strng}}",
+    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
     "stepTitle": {
       "step1": "Step 01:",
       "step2": "Step 02:",
@@ -897,6 +898,7 @@
   "fastBtcDialog": {
     "title": "Get rBTC",
     "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
+    "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
     "limits": {
       "title": "Deposit limits:",
       "min": "MIN: {{amount}}",
@@ -1109,5 +1111,42 @@
   "claimOriginBanner": {
     "text": "Your SOV is ready to claim!",
     "cta": "Redeem SOV"
+  },
+  "escrowPage": {
+    "meta": {
+      "title": "",
+      "description": ""
+    },
+    "infoBar": {
+      "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
+      "liquidityTarget": "Total Liquidity Target:",
+      "remainingToCollect": "Total Remaining to Collect:"
+    },
+    "form": {
+      "amount": "Enter amount:",
+      "reward": "Expected SOV Reward:",
+      "cta": "Deposit SOV"
+    },
+    "description": {
+      "title": "Uniswap Liquidity Pool Escrow",
+      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
+      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
+      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
+    },
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidity Provided",
+        "share": "Current Pool Share",
+        "totalFees": "Total Fees Collected",
+        "minimumRewards": "Minimum Rewards Collected",
+        "unlockDate": "Unlock Date",
+        "action": "Action"
+      },
+      "uniswapPool": "Uniswap Pool Token",
+      "addButton": "Add",
+      "withdrawButton": "Withdraw"
+    }
   }
 }

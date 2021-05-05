@@ -58,7 +58,15 @@ export function TradeDialog() {
     amount,
   );
 
-  const submit = () => trade();
+  const submit = () =>
+    trade({
+      pair,
+      position,
+      collateralToken,
+      collateral,
+      leverage,
+      amount,
+    });
 
   const txArgs = [
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
