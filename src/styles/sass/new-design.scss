@@ -524,14 +524,26 @@ header {
 
 // new swap page
 .swap-page {
-  @include media-breakpoint-down(md) {
+  margin: 1rem 0;
+
+  @include media-breakpoint-up(lg) {
+    margin: 3rem 0;
+  }
+
+  @include media-breakpoint-down(lg) {
     max-width: 100%;
-    padding: 0;
-    margin: 0;
   }
   // swap form
   .swap-form-container {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+    }
+
     .swap-form {
       background: #111111;
       border-radius: 20px;
@@ -564,6 +576,12 @@ header {
       display: flex;
       align-items: center;
       justify-content: center;
+      transform: rotate(90deg);
+
+      @include media-breakpoint-up(lg) {
+        transform: none;
+      }
+
       .swap-revert {
         width: 170px;
         height: 133px;

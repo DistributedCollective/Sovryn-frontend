@@ -29,7 +29,7 @@ export function SwapPage(props: Props) {
         <meta name="description" content={t(translations.swap.meta)} />
       </Helmet>
       <Header />
-      <div className="container my-5 swap-page">
+      <div className="container swap-page">
         <div className="row">
           <div className="col-12">
             <SwapFormContainer />
