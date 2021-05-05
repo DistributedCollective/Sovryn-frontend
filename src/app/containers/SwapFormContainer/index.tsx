@@ -20,7 +20,7 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'form/AmountInput';
-import swapIcon from '../../../assets/images/swap/ic_swap.svg';
+import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
