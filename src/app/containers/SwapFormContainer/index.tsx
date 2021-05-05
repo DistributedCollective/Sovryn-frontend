@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -182,7 +182,7 @@ export function SwapFormContainer() {
             </div>
             <div className="swap-form__amount">
               <AmountInput
-                value={amount}
+                value={weiTo4(weiAmount)}
                 onChange={value => setAmount(value)}
                 asset={sourceToken}
               />
@@ -212,20 +212,21 @@ export function SwapFormContainer() {
             </div>
             <div className="swap-form__amount">
               <Input
-                value={weiToFixed(rateByPath, 8)}
+                value={weiTo4(rateByPath)}
                 onChange={value => setAmount(value)}
                 readOnly={true}
                 appendElem={<AssetRenderer asset={targetToken} />}
+                inputClassName="tw-text-center"
               />
             </div>
           </div>
         </div>
 
         <div className="swap-btn-container">
-          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center">
+          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center tw-tracking-normal">
             <span>
               {t(translations.swap.minimumReceived)}{' '}
-              {weiToNumberFormat(minReturn, 8)}
+              {weiToNumberFormat(minReturn, 7)}
             </span>
             <img
               src={settingIcon}

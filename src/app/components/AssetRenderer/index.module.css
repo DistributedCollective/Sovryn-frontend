@@ -1,5 +1,9 @@
+.symbol {
+  font-weight: 500;
+}
+
 .symbol em {
-  font-size: 0.75em;
+  font-size: 0.875em;
   opacity:0.5!important;
   font-style: inherit;
 }

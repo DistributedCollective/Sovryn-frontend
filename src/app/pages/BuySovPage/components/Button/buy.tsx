@@ -19,7 +19,7 @@ const StyledButton = styled.button`
   color: #ffffff;
   padding: 11px;
   font-size: 24px;
-  font-weight: 900;
+  font-weight: 800;
   background: #17c3b2;
   border-radius: 10px;
   text-transform: none;
