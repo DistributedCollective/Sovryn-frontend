@@ -1,3 +1,4 @@
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 /* --- STATE --- */
 import { Asset } from 'types/asset';
 
@@ -37,5 +38,19 @@ export enum TradingTypes {
   BUY = 'BUY',
   SELL = 'SELL',
 }
+
+export const getOrder = (from: Asset, to: Asset) => {
+  const fromSymbol = AssetsDictionary.get(from).symbol.toUpperCase();
+  const toSymbol = AssetsDictionary.get(to).symbol.toUpperCase();
+  let buyPair = pairList.find(pair => pair === `${fromSymbol}_${toSymbol}`);
+  let sellPair = pairList.find(pair => pair === `${toSymbol}_${fromSymbol}`);
+
+  if (!buyPair && !sellPair) return null;
+
+  return {
+    orderType: buyPair ? TradingTypes.BUY : TradingTypes.SELL,
+    pair: buyPair || sellPair,
+  };
+};
 
 export type ContainerState = SpotTradingPageState;

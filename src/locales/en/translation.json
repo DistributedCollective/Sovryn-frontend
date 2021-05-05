@@ -737,6 +737,18 @@
       "status": "Status"
     }
   },
+  "spotHistory": {
+    "title": "Spot History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "amountPaid": "Amount Paid",
+      "amountReceived": "Amount Received",
+      "transactionFee": "Transaction Fee",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Top-Up History"

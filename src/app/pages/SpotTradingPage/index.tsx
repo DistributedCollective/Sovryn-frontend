@@ -19,7 +19,7 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
-import { SwapHistory } from 'app/containers/SwapHistory';
+import { SpotHistory } from 'app/containers/SpotHistory';
 
 interface Props {}
 
@@ -64,7 +64,7 @@ export function SpotTradingPage(props: Props) {
         </div>
         <div className="tw-mt-10">
           <div className="tw-px-3">Spot History</div>
-          <SwapHistory />
+          <SpotHistory />
         </div>
       </div>
       <Footer />
