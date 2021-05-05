@@ -186,8 +186,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "changelog": "./bin/changelog",
-    "preinstall": "./bin/gh-pack"
+    "changelog": "bash ./bin/changelog",
+    "preinstall": "bash ./bin/gh-pack"
   },
   "browserslist": {
     "production": [
