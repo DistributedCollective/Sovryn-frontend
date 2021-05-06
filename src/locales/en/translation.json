@@ -966,6 +966,10 @@
       "amountReceived": "Amount Received",
       "buy": "BUY",
       "sell": "SELL"
+    },
+    "priceHistory": {
+      "turnover": "Turnover",
+      "lastTradedPrice": "Last traded price"
     }
   },
   "form": {

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function PriceHistory() {
+  const { t } = useTranslation();
   const url = backendUrl[currentChainId];
   const [currentPrice, setCurrentPrice] = useState(-1);
   const [turnover, setTurnover] = useState(-1);
@@ -27,13 +30,13 @@ export function PriceHistory() {
         24hr Low: <span>76225 Sats</span>
       </div> */}
       <div>
-        Turnover:{' '}
+        {t(translations.spotTradingPage.priceHistory.turnover)}:{' '}
         {turnover > -1 && (
           <b>{Number(turnover.toFixed(2)).toLocaleString()} SOV</b>
         )}
       </div>
       <div className="tw-text-primary ">
-        Last traded price:{' '}
+        {t(translations.spotTradingPage.priceHistory.lastTradedPrice)}:{' '}
         {currentPrice > -1 && <b>{currentPrice.toLocaleString()} sats</b>}
       </div>
     </div>
