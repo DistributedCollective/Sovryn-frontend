@@ -8,6 +8,7 @@ export function useVestedStaking_balanceOf(address: string) {
   const [vestedValue, setVestedValue] = useState('0');
   const [teamVestedValue, setTeamVestedValue] = useState('0');
   const [originVestedValue, setOriginVestedValue] = useState('0');
+  const [lmVestedValue, setLMVestedValue] = useState('0');
   const [error, setError] = useState<any>(null);
 
   const [vestingContract, setVestingContract] = useState(ethGenesisAddress);
@@ -17,6 +18,7 @@ export function useVestedStaking_balanceOf(address: string) {
   const [originVestingContract, setOriginVestingContract] = useState(
     ethGenesisAddress,
   );
+  const [lmVestingContract, setLMVestingContract] = useState(ethGenesisAddress);
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +34,11 @@ export function useVestedStaking_balanceOf(address: string) {
       );
       const adr3 = await contractReader.call(
         'vestingRegistryOrigin',
+        'getVesting',
+        [address],
+      );
+      const adr4 = await contractReader.call(
+        'vestingRegistryLM',
         'getVesting',
         [address],
       );
@@ -60,10 +67,24 @@ export function useVestedStaking_balanceOf(address: string) {
         setOriginVestedValue(String(originVested));
       }
 
-      if (adr1 === adr2 && adr2 === adr3 && adr1 === ethGenesisAddress) {
+      if (adr4 !== ethGenesisAddress) {
+        const lmVested = await contractReader.call('staking', 'balanceOf', [
+          adr4,
+        ]);
+        setLMVestingContract(String(adr4));
+        setLMVestedValue(String(lmVested));
+      }
+
+      if (
+        adr1 === adr2 &&
+        adr2 === adr3 &&
+        adr3 === adr4 &&
+        adr1 === ethGenesisAddress
+      ) {
         setVestingContract(ethGenesisAddress);
         setTeamVestingContract(ethGenesisAddress);
         setOriginVestingContract(ethGenesisAddress);
+        setLMVestingContract(ethGenesisAddress);
       }
       setLoading(false);
       setError(null);
@@ -80,6 +101,7 @@ export function useVestedStaking_balanceOf(address: string) {
     value: bignumber(teamVestedValue)
       .add(vestedValue)
       .add(originVestedValue)
+      .add(lmVestedValue)
       .toString(),
     loading,
     error,
@@ -89,5 +111,7 @@ export function useVestedStaking_balanceOf(address: string) {
     teamVestingContract,
     originVestedValue,
     originVestingContract,
+    lmVestedValue,
+    lmVestingContract,
   };
 }
