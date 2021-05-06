@@ -25,7 +25,7 @@ export function useMarginTrade(
   );
 
   return {
-    trade: (nonce?: number, approveTx?: string | null) =>
+    trade: (nonce?: number, approveTx?: string | null, customData?: object) =>
       send(
         [
           loanId,
@@ -44,6 +44,7 @@ export function useMarginTrade(
         {
           approveTransactionHash: approveTx,
           type: TxType.TRADE,
+          customData,
         },
       ),
     ...txState,

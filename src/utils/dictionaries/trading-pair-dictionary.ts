@@ -24,7 +24,6 @@ export class TradingPairDictionary {
       TradingPairType.RBTC_USDT,
       new TradingPair(
         TradingPairType.RBTC_USDT,
-        // 'RBTC/USDT',
         RenderTradingPairName(Asset.RBTC, Asset.USDT),
         'RBTC:USDT',
         Asset.USDT,
