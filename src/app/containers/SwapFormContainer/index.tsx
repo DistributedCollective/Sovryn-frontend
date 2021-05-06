@@ -94,7 +94,7 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = getOptions();
-    setTargetOptions(newOptions);
+    setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
 
     if (
       !newOptions.find(item => item.key === targetToken) &&
