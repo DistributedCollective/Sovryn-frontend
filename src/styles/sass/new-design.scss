@@ -524,10 +524,10 @@ header {
 
 // new swap page
 .swap-page {
-  margin: 1rem 0;
+  margin: 1rem auto;
 
   @include media-breakpoint-up(lg) {
-    margin: 3rem 0;
+    margin: 3rem auto;
   }
 
   @include media-breakpoint-down(lg) {
@@ -550,6 +550,7 @@ header {
       border: 1px solid #444444;
       padding: 30px 36px 50px;
       width: 387px;
+      min-height: 388px;
       &__title {
         opacity: 1;
         color: #e9eae9;
