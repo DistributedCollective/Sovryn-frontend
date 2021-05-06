@@ -45,11 +45,14 @@ export const getOrder = (from: Asset, to: Asset) => {
   let buyPair = pairList.find(pair => pair === `${toSymbol}_${fromSymbol}`);
   let sellPair = pairList.find(pair => pair === `${fromSymbol}_${toSymbol}`);
 
-  if (!buyPair && !sellPair) return null;
+  const pair = buyPair || sellPair;
+
+  if (!pair) return null;
 
   return {
     orderType: buyPair ? TradingTypes.BUY : TradingTypes.SELL,
-    pair: buyPair || sellPair,
+    pair,
+    pairAsset: pairs[pair],
   };
 };
 

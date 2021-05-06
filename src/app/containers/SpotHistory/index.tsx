@@ -26,6 +26,7 @@ import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -233,7 +234,8 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td className="d-none d-md-table-cell">
-        {order.pair?.replace('_', ' - ')}
+        <AssetRenderer asset={order.pairAsset[0]} /> -
+        <AssetRenderer asset={order.pairAsset[1]} />
       </td>
       <td className="tw-font-bold">
         <span
