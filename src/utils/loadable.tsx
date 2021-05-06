@@ -24,7 +24,10 @@ export const lazyLoad = <
             alert(
               "dApp failed to load, let's try again.\nIt may be an issue with an internet connection.",
             );
-            window.location.replace(window.location.href);
+
+            fetch(`/clear-site-data`).finally(() =>
+              window.location.replace(window.location.href),
+            );
           }
           return reason;
         });
