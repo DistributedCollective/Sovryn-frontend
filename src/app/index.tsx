@@ -14,6 +14,14 @@ import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import {
+  actions as maintenanceActions,
+  maintenanceSlice,
+  reducer as maintenanceReducer,
+} from 'store/global/maintenance-store/slice';
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
+import { useDispatch } from 'react-redux';
 
 import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { MaintenancePage } from './containers/MaintenancePage';
@@ -26,18 +34,10 @@ import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
+import { SwapPage } from './containers/SwapPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
-import { SwapPage } from './containers/SwapPage/Loadable';
-
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import {
-  actions as maintenanceActions,
-  maintenanceSlice,
-  reducer as maintenanceReducer,
-} from 'store/global/maintenance-store/slice';
-import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
-import { useDispatch } from 'react-redux';
+import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -70,6 +70,7 @@ export function App() {
             <Route exact path="/" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
+            <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />

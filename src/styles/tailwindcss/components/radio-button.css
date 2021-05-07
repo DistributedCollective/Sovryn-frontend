@@ -27,4 +27,14 @@
   .tw-radio-group--secondary .tw-radio-group__label--active {
     @apply tw-bg-secondary tw-bg-opacity-75;
   }
+
+  .tw-radio-group--primary.tw-radio-group {
+    @apply tw-border-0 tw-divide-none;
+  }
+  .tw-radio-group--primary .tw-radio-group__label {
+    @apply tw-opacity-60;
+  }
+  .tw-radio-group--primary .tw-radio-group__label--active {
+    @apply tw-bg-opacity-100 tw-opacity-100;
+  }
 }
