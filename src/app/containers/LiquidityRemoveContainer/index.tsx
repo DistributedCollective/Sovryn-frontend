@@ -172,7 +172,7 @@ export function LiquidityRemoveContainer() {
         <div
           className={`${
             isV1pool ? 'lg:tw-col-span-9' : 'lg:tw-col-span-6'
-          } tw-col-span-12`}
+          } tw-col-span-12 tw-px-4`}
         >
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
@@ -195,7 +195,7 @@ export function LiquidityRemoveContainer() {
         <>
           <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
             <div className="tw-grid tw-gap-8 tw-grid-cols-12">
-              <div className="tw-col-span-12">
+              <div className="tw-col-span-6">
                 <div className="tw-font-bold small">
                   <LoadableValue
                     loading={targetLoading}
@@ -211,7 +211,7 @@ export function LiquidityRemoveContainer() {
                   {t(translations.liquidity.amountTarget)}
                 </div>
               </div>
-              <div className="tw-col-span-12">
+              <div className="tw-col-span-6">
                 <div className="tw-font-bold small">
                   <LoadableValue
                     loading={targetLoading}
