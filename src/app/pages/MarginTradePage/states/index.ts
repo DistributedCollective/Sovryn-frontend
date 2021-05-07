@@ -4,5 +4,5 @@ import { TradingPairType } from '../../../../utils/dictionaries/trading-pair-dic
 export const tradeState = createState({
   pairType: TradingPairType.BPRO_USDT,
 
-  amount: ''
+  amount: '',
 });
