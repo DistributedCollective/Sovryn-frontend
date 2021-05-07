@@ -15,7 +15,7 @@ import { EngageButton } from '../EngageButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
-import { renderItemNH } from 'form/Select/renderers';
+import { renderAssetPair } from 'form/Select/renderers';
 import { BuySell } from '../BuySell';
 import { SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
@@ -105,9 +105,7 @@ export function TradeForm() {
               value={`${pairType}`}
               options={pairList.map(pair => ({
                 key: `${pair}`,
-                label: `${AssetsDictionary.get(pairs[pair][0]).symbol} - ${
-                  AssetsDictionary.get(pairs[pair][1]).symbol
-                }`,
+                label: pairs[pair],
               }))}
               filterable={false}
               onChange={value =>
@@ -115,10 +113,11 @@ export function TradeForm() {
                   actions.setPairType((value as unknown) as SpotPairType),
                 )
               }
-              itemRenderer={renderItemNH}
-              valueRenderer={(item: Option) => (
+              itemRenderer={renderAssetPair}
+              valueRenderer={(item: Option<string, Asset[], any>) => (
                 <Text ellipsize className="tw-text-center">
-                  {item.label}
+                  <AssetRenderer asset={item.label[0]} /> -
+                  <AssetRenderer asset={item.label[1]} />
                 </Text>
               )}
             />
