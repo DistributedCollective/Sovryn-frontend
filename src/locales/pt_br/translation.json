@@ -103,7 +103,7 @@
       "leverage": "Alavancagem",
       "openPrice": "Preço de entrada",
       "closePrice": "Preço de fechamento",
-      "profit": "P&L realizado",
+      "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
       "closeTxHash": "Transação de saída",
       "profitLabels": {
