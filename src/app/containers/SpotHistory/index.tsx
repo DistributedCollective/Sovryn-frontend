@@ -50,7 +50,12 @@ export function SpotHistory() {
         cancelToken: cancelTokenSource.token,
       })
       .then(res => {
-        setHistory(res.data);
+        setHistory(
+          res.data.sort(
+            (a, b) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+          ),
+        );
         setLoading(false);
       })
       .catch(e => {
