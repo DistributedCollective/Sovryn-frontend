@@ -105,7 +105,9 @@ export function TradeForm() {
               value={`${pairType}`}
               options={pairList.map(pair => ({
                 key: `${pair}`,
-                label: `${pair}`.replace('_', ' - '),
+                label: `${AssetsDictionary.get(pairs[pair][0]).symbol} - ${
+                  AssetsDictionary.get(pairs[pair][1]).symbol
+                }`,
               }))}
               filterable={false}
               onChange={value =>
@@ -142,7 +144,7 @@ export function TradeForm() {
               {t(translations.spotTradingPage.tradeForm.amountReceived)}:
             </div>
             <Input
-              value={weiToFixed(rateByPath, 8)}
+              value={weiToFixed(rateByPath, 4)}
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
@@ -150,7 +152,7 @@ export function TradeForm() {
             <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
               <span className="tw-text-xs tw-whitespace-nowrap tw-mr-1">
                 {t(translations.swap.minimumReceived)}{' '}
-                {weiToNumberFormat(minReturn, 8)}
+                {weiToNumberFormat(minReturn, 4)}
               </span>
               <img
                 src={settingIcon}
