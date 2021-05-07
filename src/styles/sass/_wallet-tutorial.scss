@@ -27,8 +27,6 @@ $scale: 0.8;
 
 .wallet-tutorial {
   &_container {
-
-
     .back {
       z-index: 20;
       bottom: -50px;
@@ -207,7 +205,7 @@ $scale: 0.8;
       left: 12%;
       top: 82%;
       @include fade-in(1.5s);
-      > .flex-row > * {
+      > .tw-flex-row > * {
         cursor: pointer;
       }
       img {
@@ -335,7 +333,6 @@ $scale: 0.8;
 // SCREEN 1
 
 .screen1 {
-
   .wallet-holder {
     position: absolute;
     top: 180px;
@@ -345,7 +342,8 @@ $scale: 0.8;
     & .wallet-block {
       width: 200px;
       height: 260px;
-      background: url('../../assets/images/tutorial/screen1_rectangle.svg') center center no-repeat;
+      background: url('../../assets/images/tutorial/screen1_rectangle.svg')
+        center center no-repeat;
       background-size: 200px 260px;
       padding: 20px;
       margin: 0 20px;
@@ -381,7 +379,8 @@ $scale: 0.8;
 
       &.disabled {
         cursor: not-allowed;
-        .wallet-title, .wallet-icon {
+        .wallet-title,
+        .wallet-icon {
           opacity: 0.5;
         }
       }
@@ -391,7 +390,8 @@ $scale: 0.8;
         top: -25%;
         left: -25%;
         z-index: 30;
-        background: url('../../assets/images/tutorial/coming_soon.svg') center center no-repeat;
+        background: url('../../assets/images/tutorial/coming_soon.svg') center
+          center no-repeat;
         background-size: 100% 100%;
         width: 160px;
         height: 160px;

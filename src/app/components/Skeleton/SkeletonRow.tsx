@@ -6,29 +6,29 @@ interface Props {
 
 export function SkeletonRow(props: Props) {
   return (
-    <div className="position-relative">
-      <div className="row mt-3">
-        <div className="col-3">
+    <div className="tw-relative">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-4 tw-mt-0">
+        <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
-        <div className="col-6">
+        <div className="tw-col-span-2">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
-        <div className="col-3">
+        <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
       </div>
-      <div className="row mt-3">
-        <div className="col-6">
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-6 tw-mt-6">
+        <div className="tw-col-span-3">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
-        <div className="col-2">
+        <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
       </div>
       {props.loadingText && (
         <div className="skeleton-overlay">
-          <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+          <div className="tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center">
             <>{props.loadingText}</>
           </div>
         </div>

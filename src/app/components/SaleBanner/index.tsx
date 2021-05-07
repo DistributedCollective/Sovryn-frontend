@@ -19,20 +19,22 @@ export function SaleBanner() {
 
   return (
     <div className="banner-container">
-      <div className="banner py-3">
+      <div className="banner tw-py-4">
         <div className="info-container">
-          <h2 className="text-uppercase title-container black-font">
+          <h2 className="tw-uppercase title-container tw-black-font">
             <>SOV* Genesis Pre-Order is Over!</>
           </h2>
           <div className="sub-info-container">
-            <p className="sub-info-text black-font">Sold out!</p>
+            <p className="sub-info-text tw-black-font">Sold out!</p>
           </div>
           <div className="button-container">
             <Link
               className="button button-nav button-black button-white button-container"
               to="/genesis"
             >
-              <span className="button-text text-nowrap">Learn More</span>
+              <span className="button-text tw-whitespace-nowrap">
+                Learn More
+              </span>
             </Link>
           </div>
         </div>
@@ -43,7 +45,7 @@ export function SaleBanner() {
           <Button
             minimal
             color="black"
-            className="float-right"
+            className="tw-float-right"
             onClick={() => {
               closeBanner();
             }}

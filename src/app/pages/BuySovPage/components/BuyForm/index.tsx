@@ -26,6 +26,9 @@ import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
+import { AvailableBalance } from '../../../../components/AvailableBalance';
+import { Trans } from 'react-i18next';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 const s = translations.swapTradeForm;
 
@@ -43,9 +46,7 @@ export function BuyForm() {
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
-  const { value: balance, loading: loadingBalance } = useAssetBalanceOf(
-    Asset.RBTC,
-  );
+  const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(Asset.RBTC),
@@ -91,7 +92,16 @@ export function BuyForm() {
 
   return (
     <>
-      <Card step={3} title={t(translations.buySovPage.form.title)} large>
+      <Card
+        step={3}
+        title={
+          <Trans
+            i18nKey={translations.buySovPage.form.title}
+            components={[<AssetRenderer asset={Asset.RBTC} />]}
+          />
+        }
+        large
+      >
         <div className="px-0 px-lg-4">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}
@@ -102,16 +112,10 @@ export function BuyForm() {
               type="text"
               onChange={value => setAmount(value)}
               placeholder="0.0000"
-              rightElement="rBTC"
+              rightElement={<AssetRenderer asset={Asset.RBTC} />}
             />
             <Slippage>
-              {t(translations.buySovPage.form.availableBalance)}{' '}
-              <LoadableValue
-                loading={loadingBalance}
-                value={weiToNumberFormat(balance, 4)}
-                tooltip={weiTo18(balance)}
-              />{' '}
-              rBTC
+              <AvailableBalance asset={Asset.RBTC} />
             </Slippage>
             <AmountButton onChange={changeAmount} />
           </FieldGroup>

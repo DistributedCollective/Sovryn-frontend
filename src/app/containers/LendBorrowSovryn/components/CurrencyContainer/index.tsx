@@ -21,11 +21,11 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   const weiBorrowAmount = useWeiAmount(borrowAmount);
   const weiLendAmount = useWeiAmount(lendAmount);
   return (
-    <Container className="d-flex flex-column w-100 p-0">
+    <Container className="tw-flex tw-flex-col tw-w-full tw-p-0">
       <Tab.Container id="left-tabs" defaultActiveKey={state}>
         <Nav
           onSelect={k => setState(k as Asset)}
-          className="d-flex flex-column currency-nav"
+          className="tw-flex tw-flex-col currency-nav"
           variant="pills"
         >
           {currencyRows.map(info => {
@@ -33,7 +33,7 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
               <Nav.Link
                 key={info.getAsset()}
                 eventKey={info.getAsset()}
-                className="currency-row-link w-100"
+                className="currency-row-link tw-w-full"
               >
                 <CurrencyRow
                   lendingPool={info}

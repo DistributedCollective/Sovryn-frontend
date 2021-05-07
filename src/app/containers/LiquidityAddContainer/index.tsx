@@ -88,9 +88,9 @@ export function LiquidityAddContainer() {
 
   return (
     <>
-      <div className="position-relative">
-        <div className="row">
-          <div className="col-lg-3 col-6">
+      <div className="tw-relative">
+        <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+          <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
             <FieldGroup label={t(translations.liquidity.pool)}>
               <FormSelect
                 onChange={handlePoolChange}
@@ -102,7 +102,7 @@ export function LiquidityAddContainer() {
           </div>
           {poolData.getVersion() === 2 && (
             <>
-              <div className="col-lg-3 col-6">
+              <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
                 <FieldGroup label={t(translations.liquidity.currency)}>
                   <FormSelect
                     onChange={handleTokenChange}
@@ -112,7 +112,7 @@ export function LiquidityAddContainer() {
                   />
                 </FieldGroup>
               </div>
-              <div className="col-lg-6 col-12">
+              <div className="lg:tw-col-span-6 tw-col-span-12 tw-px-4">
                 <FieldGroup label={t(translations.liquidity.amount)}>
                   <AmountField
                     onChange={value => setAmount(value)}
@@ -131,12 +131,12 @@ export function LiquidityAddContainer() {
         ) : (
           <>
             <SuppliedBalance pool={pool} asset={sourceToken} />
-            <div className="mt-3">
+            <div className="tw-mt-4">
               <SendTxProgress {...tx} displayAbsolute={false} />
             </div>
 
-            <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-              <div className="mb-3 mb-lg-0">
+            <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+              <div className="tw-mb-4 lg:tw-mb-0">
                 <AssetWalletBalance asset={sourceToken} />
               </div>
               <TradeButton

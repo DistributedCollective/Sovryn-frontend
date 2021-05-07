@@ -18,29 +18,28 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="mt-3">
-      <div className="container py-3">
-        <div className="d-flex flex-column justify-content-center align-items-start text-lightGrey font-family-montserrat">
-          <h6 className="font-weight-normal mb-4">
+    <footer className="tw-mt-4">
+      <div className="tw-container tw-py-4 tw-mx-auto tw-px-4">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-lightGrey">
+          <h6 className="tw-font-normal tw-text-base tw-mb-6">
             <Trans
               i18nKey={translations.footer.title}
               components={[<strong></strong>]}
             />
           </h6>
-          <div className="font-weight-light">
-            <p>
+          <div className="tw-font-light">
+            <p className="tw-mb-4">
               <Trans i18nKey={translations.footer.notice_1} />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans i18nKey={translations.footer.notice_2} />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans
                 i18nKey={translations.footer.notice_3}
                 components={[
                   <a
                     href="https://wiki.sovryn.app/en/getting-started/faq-general"
-                    className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -49,15 +48,15 @@ export function Footer() {
                 ]}
               />
             </p>
-            <p>
+            <p className="tw-mb-4">
               <Trans
                 i18nKey={translations.footer.notice_4}
                 components={[
                   <a
                     href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
-                    className="font-weight-light text-gold"
                     target="_blank"
                     rel="noreferrer noopener"
+                    className="tw-font-light tw-text-gold"
                   >
                     x
                   </a>,
@@ -67,7 +66,7 @@ export function Footer() {
           </div>
         </div>
         {hasGA && (
-          <div className="d-flex flex-row justify-content-between align-items-center text-lightGrey mb-3">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-text-lightGrey tw-mb-6">
             <a
               title="GoogleAnalyticsOptout"
               target="_blank"
@@ -86,13 +85,13 @@ export function Footer() {
           </div>
         )}
         {commitHash && (
-          <div className="small text-white font-family-montserrat">
+          <div className="small tw-text-white">
             {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-weight-normal"
+              className="tw-font-normal tw-text-white"
             >
               {commitHash.substr(0, 7)}
             </a>

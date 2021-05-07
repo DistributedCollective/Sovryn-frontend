@@ -1,14 +1,7 @@
-import { Dialog as BPDialog, Icon } from '@blueprintjs/core';
-/**
- *
- * Dialog
- *
- */
-
 import React, { Suspense } from 'react';
-import styled from 'styled-components/macro';
-
+import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
+import styles from '../../components/Dialogs/dialog.module.css';
 
 interface Props {
   isOpen: boolean;
@@ -30,11 +23,9 @@ export function Dialog(props: Props) {
       className={props.className}
     >
       {props.isCloseButtonShown && (
-        <div className="mb-3 text-right">
-          <StyledClose onClick={() => props.onClose()}>
-            <Icon icon="cross" className="d-flex justify-content-center" />
-          </StyledClose>
-        </div>
+        <button data-close="" className="dialog-close" onClick={props.onClose}>
+          <span className="tw-sr-only">Close Dialog</span>
+        </button>
       )}
       <Suspense fallback={<ComponentSkeleton lines={4} />}>
         {props.children}
@@ -44,19 +35,7 @@ export function Dialog(props: Props) {
 }
 
 Dialog.defaultProps = {
+  className: styles.dialog,
   isCloseButtonShown: true,
   onClose: () => {},
 };
-
-const StyledClose = styled.button.attrs(_ => ({
-  type: 'button',
-}))`
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--white);
-  color: var(--white);
-  background-color: var(--primary);
-  border-radius: 12px;
-  padding: 0;
-  margin: 0;
-`;

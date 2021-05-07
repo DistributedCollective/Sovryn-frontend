@@ -1,0 +1,49 @@
+/* trading button styles */
+@layer components {
+  .tw-btn-dialog {
+    width: 100%;
+    height: 3.125rem;
+    letter-spacing: 0.1rem;
+    font-size: 1.25rem;
+    @apply tw-uppercase tw-border tw-rounded tw-bg-primary tw-border-primary tw-text-black;
+    @apply tw-text-black tw-uppercase tw-font-extrabold tw-leading-none tw-font-body;
+    @apply tw-px-6 tw-py-2 tw-transition;
+  }
+
+  .tw-btn-dialog__secondary {
+    @apply tw-bg-dark tw-text-primary tw-border-primary;
+  }
+
+  .tw-btn-dialog:hover {
+    @apply tw-opacity-75;
+  }
+
+  .tw-btn-dialog:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
+
+  .tw-btn-dialog.loading,
+  .tw-btn-dialog.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
+  }
+
+  .tw-btn-dialog .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.white');
+  }
+
+  .tw-btn-dialog .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
+
+  .tw-btn-loader__spinner {
+    @apply tw-block tw-overflow-hidden tw-text-left;
+    transition: width 150ms, opacity 100ms;
+    opacity: 0;
+    width: 0;
+  }
+
+  .tw-btn-loader__spinner.active {
+    width: 2rem;
+    opacity: 100;
+  }
+}

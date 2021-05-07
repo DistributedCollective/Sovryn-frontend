@@ -42,16 +42,16 @@ export function TradeButton(props: Props) {
         type={props.type}
         disabled={props.disabled}
         hideIt={props.hideIt}
-        className="sovryn-border flex-grow-0 flex-shrink-0 font-family-montserrat font-weight-bold"
+        className="sovryn-border tw-flex-grow-0 tw-flex-shrink-0 tw-font-bold"
         textColor={props.textColor}
         onClick={handleClick}
       >
         <Text
           ellipsize
-          className="d-flex flex-row align-items-center justify-content-center"
+          className="tw-flex tw-flex-row tw-items-center tw-justify-center"
           tagName="span"
         >
-          {props.loading && <Spinner className="mr-1" size={17} />}
+          {props.loading && <Spinner className="tw-mr-1" size={17} />}
           {props.text}
         </Text>
       </StyledButton>

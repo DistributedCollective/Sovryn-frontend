@@ -49,33 +49,33 @@ export function TopUpHistory() {
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="text-left d-none d-md-table-cell">
+              <th className="tw-text-left tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.time)}
               </th>
-              <th className="text-left d-none d-md-table-cell">
+              <th className="tw-text-left tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.asset)}
               </th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.topUpHistory.tableHeaders.amount)}
               </th>
-              <th className="text-right">
-                <span className="d-none d-md-inline">
+              <th className="tw-text-right">
+                <span className="tw-hidden md:tw-inline">
                   {t(translations.topUpHistory.tableHeaders.depositTx)}
                 </span>
-                <span className="d-inline d-md-none">
+                <span className="tw-inline md:tw-hidden">
                   {t(translations.topUpHistory.tableHeaders.txHash)}
                 </span>
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.transferTx)}
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {state.history.items.length === 0 && !state.history.loading && (
               <tr>
                 <td className="text-center" colSpan={99}>
@@ -98,16 +98,16 @@ export function TopUpHistory() {
             )}
             {state.history.items.map(item => (
               <tr key={item.txHash}>
-                <td className="text-left d-none d-md-table-cell">
+                <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <DisplayDate
                     timestamp={(
                       new Date(item.dateAdded).getTime() / 1000
                     ).toString()}
                   />
                 </td>
-                <td className="text-left d-none d-md-table-cell">
+                <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <img
-                    className="d-inline"
+                    className="tw-inline"
                     style={{ height: '40px' }}
                     src={asset.logoSvg}
                     alt={asset.asset}
@@ -115,35 +115,35 @@ export function TopUpHistory() {
                   {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                 </td>
                 <td>
-                  <div className="d-flex flex-nowrap text-right justify-content-end">
+                  <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
                     <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
-                    <small className="text-muted">
+                    <small className="tw-text-muted">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
                   </div>
                 </td>
                 <td
-                  className={`text-right ${
-                    item.type !== 'deposit' && 'd-none d-md-table-cell'
+                  className={`tw-text-right ${
+                    item.type !== 'deposit' && 'tw-hidden md:tw-table-cell'
                   }`}
                 >
                   {item.type === 'deposit' && (
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
-                      className="text-gold"
+                      className="tw-text-gold"
                     />
                   )}
                 </td>
                 <td
-                  className={`text-right ${
-                    item.type !== 'transfer' && 'd-none d-md-table-cell'
+                  className={`tw-text-right ${
+                    item.type !== 'transfer' && 'tw-hidden md:tw-table-cell'
                   }`}
                 >
                   {item.type === 'transfer' && (
                     <LinkToExplorer
                       txHash={item.txHash}
-                      className="text-gold"
+                      className="tw-text-gold"
                     />
                   )}
                 </td>

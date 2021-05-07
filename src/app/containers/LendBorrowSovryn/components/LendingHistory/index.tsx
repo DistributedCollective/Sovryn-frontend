@@ -109,7 +109,7 @@ const LendingHistory: React.FC<Props> = props => {
                         >
                           <td>
                             {weiToFixed(event.returnValues.assetAmount, 8)}{' '}
-                            <span className="text-muted">{asset}</span>
+                            <span className="tw-text-muted">{asset}</span>
                           </td>
                           <td>
                             <DisplayDate
