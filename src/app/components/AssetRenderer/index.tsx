@@ -34,7 +34,7 @@ const symbolMap = {
 
 export function getAssetSymbol(asset: Asset) {
   if (symbolMap.hasOwnProperty(asset)) {
-    return <span className={styles.symbol}>{symbolMap[asset]}</span>;
+    return symbolMap[asset];
   }
   return AssetsDictionary.get(asset).symbol;
 }
@@ -53,7 +53,7 @@ export function AssetRenderer(props: CurrencyProps) {
           alt={AssetsDictionary.get(props.asset).name}
         />
       )}
-      <span>{getAssetSymbol(props.asset)}</span>
+      <span className={styles.symbol}>{getAssetSymbol(props.asset)}</span>
     </span>
   );
 }

@@ -49,7 +49,7 @@ export function SwapHistory() {
         cancelToken: cancelTokenSource.token,
       })
       .then(res => {
-        setHistory(res.data);
+        setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
         setLoading(false);
       })
       .catch(e => {
@@ -128,15 +128,15 @@ export function SwapHistory() {
         <table className="w-100">
           <thead>
             <tr>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.from)}
               </th>
               <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
               <th>{t(translations.swapHistory.tableHeaders.to)}</th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.swapHistory.tableHeaders.status)}</th>
@@ -224,14 +224,14 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
 
   return (
     <tr>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <img
-          className="d-none d-md-inline mr-2"
+          className="d-none d-lg-inline mr-2"
           style={{ height: '40px' }}
           src={itemFrom.logoSvg}
           alt={itemFrom.asset}
@@ -241,14 +241,14 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       <td>{numberFromWei(data.returnVal._fromAmount)}</td>
       <td>
         <img
-          className="d-none d-md-inline mr-2"
+          className="d-none d-lg-inline mr-2"
           style={{ height: '40px' }}
           src={itemTo.logoSvg}
           alt={itemTo.asset}
         />{' '}
         <AssetRenderer asset={itemTo.asset} />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -256,7 +256,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="d-flex align-items-center justify-content-between col-lg-12 col-md-12 p-0">
           <div>
             {!data.status && (
               <p className="m-0">{t(translations.common.confirmed)}</p>
@@ -272,7 +272,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
               className="text-gold font-weight-normal text-nowrap"
             />
           </div>
-          <div>
+          <div className="d-none d-sm-block d-lg-none d-xl-block">
             {!data.status && (
               <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
             )}

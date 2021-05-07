@@ -24,6 +24,7 @@ export function AmountInput({ asset, maxAmount, ...props }: Props) {
         type="number"
         placeholder={props.placeholder || '0.0000'}
         appendElem={asset ? <AssetRenderer asset={asset} /> : null}
+        inputClassName="tw-text-center"
         {...props}
       />
       {(asset || maxAmount !== undefined) && (
