@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Nav, Tab } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Tooltip, Text } from '@blueprintjs/core';
@@ -8,11 +8,11 @@ import clsx from 'clsx';
 import { weiToFixed } from '../../../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../../../types/asset';
 import { useLending_profitOf } from '../../../../hooks/lending/useLending_profitOf';
-import { useLending_supplyInterestRate } from '../../../../hooks/lending/useLending_supplyInterestRate';
 import { bignumber } from 'mathjs';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLending_assetBalanceOf } from '../../../../hooks/lending/useLending_assetBalanceOf';
 import { ButtonType } from '../../types';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 type Props = {
   currency: Asset;
@@ -34,47 +34,45 @@ const ButtonGroup: React.FC<Props> = ({
   const asset = currency as Asset;
   const { value: profitCall } = useLending_profitOf(asset, useAccount());
   const { value: balanceCall } = useLending_assetBalanceOf(asset, useAccount());
-  const { value: interestCall } = useLending_supplyInterestRate(asset);
+  // const { value: interestCall } = useLending_supplyInterestRate(asset);
 
-  const [balance, setBalance] = useState(
-    bignumber(balanceCall).minus(profitCall).toString(),
-  );
+  // const [profit, setProfit] = useState(profitCall);
+  // const [ticker, setTicker] = useState('0');
 
-  const [profit, setProfit] = useState(profitCall);
-  const [ticker, setTicker] = useState('0');
+  // useEffect(() => {
+  //   setProfit('0');
+  // }, [currency]);
 
-  useEffect(() => {
-    setProfit('0');
-  }, [currency]);
-
-  useEffect(() => {
-    setBalance(bignumber(balanceCall).minus(profitCall).toString());
-  }, [balanceCall, profitCall, setBorrowAmount]);
-
-  useEffect(() => {
-    setTicker(
-      bignumber(balance)
-        .mul(
-          bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
-        )
-        .div(10 ** 18)
-        .toFixed(0),
-    );
-  }, [balance, interestCall]);
-
-  useEffect(() => {
-    const ms = 1000;
-    const diff = bignumber(ticker).div(1000).div(ms);
-    let value = bignumber(profitCall).add(profit);
-    const interval = setInterval(() => {
-      value = value.add(diff);
-      setProfit(value.toFixed(0));
-    }, ms);
-    return () => {
-      clearInterval(interval);
-    };
+  const balance = useMemo(() => {
+    return bignumber(balanceCall).minus(profitCall).toString();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, ticker]);
+  }, [balanceCall, profitCall, currency]);
+
+  // useEffect(() => {
+  //   setTicker(
+  //     bignumber(balance)
+  //       .mul(
+  //         bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
+  //       )
+  //       .div(10 ** 18)
+  //       .toFixed(0),
+  //   );
+  // }, [balance, interestCall]);
+
+  // useEffect(() => {
+  //   const ms = 1000;
+  //   const diff = bignumber(ticker).div(1000).div(ms);
+  //   let value = bignumber(profitCall).add(profit);
+  //   console.log('add profit', value);
+  //   const interval = setInterval(() => {
+  //     value = value.add(diff);
+  //     setProfit(value.toFixed(0));
+  //   }, ms);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [profitCall, ticker, currency]);
 
   useEffect(() => {
     setCurrentButton(key);
@@ -117,7 +115,7 @@ const ButtonGroup: React.FC<Props> = ({
         </Tab.Container>
       </div>
 
-      {key === ButtonType.REDEEM && (
+      {(key === ButtonType.REDEEM || key === ButtonType.DEPOSIT) && (
         <div className="tw-container tw-mx-auto tw-px-4 tw-my-4">
           <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8 tw--mx-4">
             <div className="tw-flex tw-flex-col">
@@ -127,7 +125,9 @@ const ButtonGroup: React.FC<Props> = ({
                 </Text>
               </h4>
               <div>
-                <span className="tw-text-muted">{currency} </span>
+                <span className="tw-text-muted">
+                  <AssetRenderer asset={currency} />
+                </span>{' '}
                 <strong>
                   <Tooltip
                     position="top"
@@ -145,13 +145,15 @@ const ButtonGroup: React.FC<Props> = ({
                 </Text>
               </h4>
               <div>
-                <span className="tw-text-muted">{currency} </span>
+                <span className="tw-text-muted">
+                  <AssetRenderer asset={currency} />
+                </span>{' '}
                 <strong>
                   <Tooltip
                     position="top"
-                    content={<>{weiToFixed(profit, 18)}</>}
+                    content={<>{weiToFixed(profitCall, 18)}</>}
                   >
-                    {weiToFixed(profit, 8)}
+                    {weiToFixed(profitCall, 8)}
                   </Tooltip>
                 </strong>
               </div>

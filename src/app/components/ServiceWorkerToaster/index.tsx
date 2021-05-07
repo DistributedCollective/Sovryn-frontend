@@ -42,6 +42,7 @@ export function ServiceWorkerToaster(props: Props) {
     }
     cancelTokenSource = axios.CancelToken.source();
 
+    // TODO: change with native fetch
     axios
       .get(swUrl, {
         headers: {
@@ -74,7 +75,9 @@ export function ServiceWorkerToaster(props: Props) {
     } else {
       serviceWorker.unregister();
     }
-    window.location.replace(window.location.href);
+    fetch(`/clear-site-data`).finally(() =>
+      window.location.replace(window.location.href),
+    );
   };
 
   const closeDialog = () => {
