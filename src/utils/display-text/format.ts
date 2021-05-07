@@ -1,4 +1,5 @@
 import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
+import { bignumber } from 'mathjs';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
@@ -64,18 +65,36 @@ export function calculateLiquidation(
   maintenanceStr: string,
   startRateStr: string,
 ): number {
-  const startRate: number = isLong
-    ? parseFloat(weiTo18(startRateStr))
-    : 1 / parseFloat(weiTo18(startRateStr));
+  const startRate = isLong
+    ? startRateStr
+    : bignumber(1).div(startRateStr).mul(1e18).toString();
+
   const maintenanceMargin: number =
     parseFloat(weiToFixed(maintenanceStr, 4)) / 100;
 
-  const liquidationPriceLong: number =
-    (startRate * leverage) / (leverage + 1 - maintenanceMargin * leverage);
-  const liquidationPriceShort: number =
-    (startRate * leverage) / (leverage - 1 + maintenanceMargin * leverage);
+  const priceMovement =
+    1 - ((1 + maintenanceMargin) * (leverage - 1)) / leverage;
 
-  return isLong ? liquidationPriceLong : liquidationPriceShort;
+  if (isLong) {
+    return Number(
+      bignumber(bignumber(1).minus(priceMovement))
+        .mul(bignumber(fromWei(startRate, 'ether')))
+        .toFixed(18),
+    );
+  }
+
+  return Number(
+    bignumber(bignumber(1).add(priceMovement))
+      .mul(bignumber(fromWei(startRate, 'ether')))
+      .mul(1e18)
+      .toFixed(18),
+  );
+
+  // const liquidationPriceLong: number =
+  //   (startRate * leverage) / (leverage + 1 - maintenanceMargin * leverage);
+  // const liquidationPriceShort: number =
+  //   (startRate * leverage) / (leverage - 1 + maintenanceMargin * leverage);
+  // return isLong ? liquidationPriceLong : liquidationPriceShort;
 }
 
 export function calculateProfit(
