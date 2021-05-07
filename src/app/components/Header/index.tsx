@@ -163,6 +163,7 @@ export function Header() {
       },
     },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
+    { to: '/mining', title: t(translations.mainMenu.mining) },
     {
       to: 'https://bitocracy.sovryn.app/stake',
       title: t(translations.mainMenu.staking),
@@ -244,7 +245,7 @@ export function Header() {
   const isSectionOpen = (section: string) => {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/trade'],
-      [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
+      [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity', '/mining'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
     return section && paths[section].includes(location.pathname);
@@ -349,6 +350,11 @@ export function Header() {
                       text={t(translations.mainMenu.liquidity)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/liquidity')}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.mining)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/mining')}
                     />
                   </BPMenu>
                 }

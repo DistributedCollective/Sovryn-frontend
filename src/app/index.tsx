@@ -28,6 +28,7 @@ import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
+import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
@@ -71,6 +72,7 @@ export function App() {
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
+            <Route exact path="/mining" component={LiquidityMiningPage} />
             <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
             {/*<Route exact path="/escrow" component={EscrowPage} />*/}
