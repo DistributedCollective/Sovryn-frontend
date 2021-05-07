@@ -113,6 +113,16 @@ export function VestedAssets() {
                     onWithdraw={onWithdraw}
                   />
                 )}
+                {result.lmVestingContract !== ethGenesisAddress && (
+                  <AssetRow
+                    item={item}
+                    title="Reward SOV"
+                    value={result.lmVestedValue}
+                    loading={result.loading}
+                    contract={result.lmVestingContract}
+                    onWithdraw={onWithdraw}
+                  />
+                )}
               </>
             )}
           </tbody>
