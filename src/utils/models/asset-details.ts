@@ -1,5 +1,5 @@
-import type { Asset } from 'types';
 import type { AbiItem } from 'web3-utils';
+import type { Asset } from 'types';
 import type { ContractName } from '../types/contracts';
 import { appContracts } from '../blockchain/app-contracts';
 

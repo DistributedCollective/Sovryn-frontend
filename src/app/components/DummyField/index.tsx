@@ -12,7 +12,7 @@ interface Props {
 
 export function DummyField(props: Props) {
   return (
-    <Div className="d-flex flex-row align-items-center">{props.children}</Div>
+    <Div className="tw-flex tw-flex-row tw-items-center">{props.children}</Div>
   );
 }
 

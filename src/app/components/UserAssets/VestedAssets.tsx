@@ -1,4 +1,3 @@
-import { Button } from '@blueprintjs/core/lib/esm/components/button/buttons';
 import { bignumber } from 'mathjs';
 /**
  *
@@ -25,6 +24,7 @@ import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
+import { ActionButton } from 'form/ActionButton';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -50,12 +50,12 @@ export function VestedAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table pt-1 pb-3 pr-3 pl-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.lockedAmount)}
               </th>
               <th className="text-right d-none d-md-table-cell">
@@ -66,7 +66,7 @@ export function VestedAssets() {
               </th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {!connected && (
               <>
                 <tr>
@@ -110,6 +110,16 @@ export function VestedAssets() {
                     value={result.teamVestedValue}
                     loading={result.loading}
                     contract={result.teamVestingContract}
+                    onWithdraw={onWithdraw}
+                  />
+                )}
+                {result.lmVestingContract !== ethGenesisAddress && (
+                  <AssetRow
+                    item={item}
+                    title="Reward SOV"
+                    value={result.lmVestedValue}
+                    loading={result.loading}
+                    contract={result.lmVestingContract}
                     onWithdraw={onWithdraw}
                   />
                 )}
@@ -158,27 +168,26 @@ function AssetRow({
     <tr key={item.asset}>
       <td>
         <img
-          className="d-inline mr-2"
+          className="tw-inline tw-mr-2"
           style={{ height: '40px' }}
           src={item.logoSvg}
           alt={item.asset}
         />{' '}
         {title}
       </td>
-      <td className="text-right">
+      <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(value, 4)} loading={loading} />
       </td>
-      <td className="text-right">
+      <td className="tw-text-right">
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
           loading={dollars.loading}
         />
       </td>
-      <td className="text-right">
-        <Button
-          minimal
+      <td className="tw-text-right">
+        <ActionButton
+          className="tw-inline-block"
           text={t(translations.userAssets.actions.withdraw)}
-          className="text-gold button-round"
           disabled={contract === ethGenesisAddress || loading}
           onClick={() => onWithdraw(contract)}
         />

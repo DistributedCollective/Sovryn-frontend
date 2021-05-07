@@ -17,6 +17,8 @@ import { Provider } from 'react-redux';
 
 // Import scss global styles
 import './styles/sass/styles.scss';
+import './styles/index.css';
+import '@sovryn/react-wallet/index.css';
 
 // Import root app
 import { App } from 'app';
@@ -29,6 +31,7 @@ import { store } from './store/store';
 import './locales/i18n';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
+import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
 
 // if (process.env.REACT_APP_SENTRY_DSN) {
 //   import('./sentry').then(({ default: sentryInit }) => sentryInit());
@@ -48,6 +51,7 @@ const ConnectedApp = ({ Component }: Props) => {
         {/*</React.StrictMode>*/}
       </HelmetProvider>
       <ServiceWorkerToaster />
+      <MobileBrowsersWarningDialog />
       <MetaMaskDiscouragementNotifyModal />
     </Provider>
   );

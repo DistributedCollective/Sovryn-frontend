@@ -1,6 +1,7 @@
 import { NodePlopAPI } from 'node-plop';
 import { componentGenerator } from './component';
 import { containerGenerator } from './container';
+import { pageGenerator } from './page';
 import shell from 'shelljs';
 
 interface CustomActionData {
@@ -16,6 +17,7 @@ export const BACKUPFILE_EXTENSION = 'rbgen';
 export default function plop(plop: NodePlopAPI) {
   plop.setGenerator('component', componentGenerator);
   plop.setGenerator('container', containerGenerator);
+  plop.setGenerator('page', pageGenerator);
 
   plop.setActionType('prettify', (answers, config) => {
     const data = config.data as CustomActionData;

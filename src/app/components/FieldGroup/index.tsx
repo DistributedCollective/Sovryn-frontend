@@ -4,19 +4,21 @@
  *
  */
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
+import cn from 'classnames';
 
 interface Props {
   label: React.ReactNode;
   children: React.ReactNode;
-  labelColor: string;
+  labelColor?: string;
+  className?: string;
 }
 
 export function FieldGroup(props: Props) {
   return (
-    <Div className="mb-3">
-      <Label className="mb-2" color={props.labelColor}>
+    <Div className={cn('tw-mb-4', props.className)}>
+      <Label className="tw-mb-2 tw-text-white" color={props.labelColor}>
         {props.label}
       </Label>
       <Content>{props.children}</Content>
@@ -24,20 +26,22 @@ export function FieldGroup(props: Props) {
   );
 }
 
-FieldGroup.defaultProps = {
-  labelColor: 'var(--dark-gray)',
-};
+FieldGroup.defaultProps = {};
 
 const Div = styled.div``;
 
 const Content = styled.div``;
 
 interface LabelProps {
-  color: string;
+  color?: string;
 }
 const Label = styled(Text).attrs(_ => ({
   ellipsize: true,
 }))`
-  color: ${(props: LabelProps) => props.color};
+  ${(props: LabelProps) =>
+    props.color &&
+    css`
+      color: ${props.color};
+    `}
   font-size: 14px;
 `;

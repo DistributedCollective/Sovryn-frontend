@@ -12,7 +12,7 @@ export function BorrowAmount({ amount, asset }: Props) {
   const loading = false;
   return (
     <span className={`${loading && 'bp3-skeleton'}`}>
-      {weiTo4(amount)} <span className="text-muted">{asset}</span>{' '}
+      {weiTo4(amount)} <span className="tw-text-muted">{asset}</span>{' '}
     </span>
   );
 }

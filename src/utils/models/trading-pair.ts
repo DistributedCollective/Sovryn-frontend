@@ -1,63 +1,30 @@
-import { Asset } from 'types/asset';
+import type { ReactNode } from 'react';
+import type { Asset } from 'types/asset';
+import type { TradingPairType } from '../dictionaries/trading-pair-dictionary';
+import type { AssetDetails } from './asset-details';
 import { AssetsDictionary } from '../dictionaries/assets-dictionary';
-import { AssetDetails } from './asset-details';
 import { TradingPosition } from '../../types/trading-position';
 
 export class TradingPair {
-  private _assetDetails;
+  public readonly shortDetails: AssetDetails;
+  public readonly longDetails: AssetDetails;
   constructor(
-    private _name: string,
-    private _asset: Asset,
-    private _chartSymbol: string,
-    private _longAsset: Asset,
-    private _shortAsset: Asset,
-    private _longCollateral: Asset[],
-    private _shortCollateral: Asset[],
+    public readonly pairType: TradingPairType,
+    public readonly name: ReactNode,
+    public readonly chartSymbol: string,
+    public readonly longAsset: Asset,
+    public readonly shortAsset: Asset,
+    public readonly collaterals: Asset[],
   ) {
-    this._assetDetails = AssetsDictionary.get(this._asset);
+    this.shortDetails = AssetsDictionary.get(this.shortAsset);
+    this.longDetails = AssetsDictionary.get(this.longAsset);
   }
 
-  public getName(): string {
-    return this._name;
+  public getContractForPosition(position: TradingPosition) {
+    return position === TradingPosition.LONG ? this.longAsset : this.shortAsset;
   }
 
-  public getAsset(): Asset {
-    return this._asset;
-  }
-
-  public getLongAsset(): Asset {
-    return this._longAsset;
-  }
-
-  public getShortAsset(): Asset {
-    return this._shortAsset;
-  }
-
-  public getShortCollateral(): Asset[] {
-    return this._shortCollateral;
-  }
-
-  public getLongCollateral(): Asset[] {
-    return this._longCollateral;
-  }
-
-  public getAssetDetails(): AssetDetails {
-    return this._assetDetails;
-  }
-
-  public getAssetForPosition(position: TradingPosition): Asset {
-    return position === TradingPosition.LONG
-      ? this._longAsset
-      : this._shortAsset;
-  }
-
-  public getCollateralForPosition(position: TradingPosition): Asset[] {
-    return position === TradingPosition.LONG
-      ? this._longCollateral
-      : this._shortCollateral;
-  }
-
-  public getChartSymbol() {
-    return this._chartSymbol;
+  public getAssetForPosition(position: TradingPosition) {
+    return position === TradingPosition.LONG ? this.longAsset : this.shortAsset;
   }
 }

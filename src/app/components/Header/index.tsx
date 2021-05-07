@@ -7,13 +7,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import styled from 'styled-components/macro';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/usePageViews';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
+import { MenuItem, Popover, Menu as BPMenu } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
@@ -22,15 +21,8 @@ import {
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
 } from '../../containers/LendBorrowSovryn/slice';
-import {
-  actions as tradeSwapActions,
-  reducer as tradeSwapReducer,
-  sliceKey as tradeSwapSlice,
-} from '../../containers/TradingPage/slice';
 import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
 import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
-import { tradingPageSaga } from '../../containers/TradingPage/saga';
-import { TabType as TradeSwapTabType } from '../../containers/TradingPage/types';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
@@ -47,8 +39,6 @@ export function Header() {
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
   useInjectSaga({ key: lendBorrowSlice, saga: lendBorrowSovrynSaga });
-  useInjectReducer({ key: tradeSwapSlice, reducer: tradeSwapReducer });
-  useInjectSaga({ key: tradeSwapSlice, saga: tradingPageSaga });
 
   const StyledMenu = styled.nav.attrs(_ => ({ open: open }))`
     display: flex;
@@ -135,18 +125,12 @@ export function Header() {
   const pages = [
     { to: '/', title: t(translations.mainMenu.buySov), exact: true },
     {
-      to: '/trade',
+      to: '/swap',
       title: t(translations.mainMenu.swap),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.SWAP));
-      },
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
-      beforeOpen: () => {
-        dispatch(tradeSwapActions.changeTab(TradeSwapTabType.TRADE));
-      },
     },
     {
       to: '/lend',
@@ -223,11 +207,9 @@ export function Header() {
     return (
       <StyledPopover
         interactionKind="hover"
-        className="mr-4 cursor-pointer"
         minimal={true}
         popoverClassName="header-nav-popover"
         content={content}
-        position={Position.BOTTOM_LEFT}
         hoverOpenDelay={0}
         hoverCloseDelay={0}
       >
@@ -244,7 +226,7 @@ export function Header() {
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/trade'],
+      [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity', '/mining'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
@@ -271,21 +253,21 @@ export function Header() {
   return (
     <>
       <header>
-        <Container className="d-flex justify-content-between align-items-center mb-3 pt-2 pb-2">
-          <div className="d-xl-none">
+        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-mb-4 tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+          <div className="xl:tw-hidden">
             <div ref={node}>
               <Burger open={open} setOpen={setOpen} />
               <Menu open={open} setOpen={setOpen} />
             </div>
           </div>
-          <div className="d-xl-flex flex-row align-items-center">
-            <div className="mr-3">
+          <div className="xl:tw-flex tw-flex-row tw-items-center">
+            <div className="tw-mr-4">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="d-none d-xl-block font-family-montserrat">
-              <NavLink className="nav-item mr-4" to="/" exact>
+            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5">
+              <NavLink className="tw-header-link tw-flex-shrink-0" to="/" exact>
                 {t(translations.mainMenu.buySov)}
               </NavLink>
               <NavPopover
@@ -295,19 +277,20 @@ export function Header() {
                       text={t(translations.mainMenu.swap)}
                       className="bp3-popover-dismiss"
                       onClick={() => {
-                        dispatch(
-                          tradeSwapActions.changeTab(TradeSwapTabType.SWAP),
-                        );
-                        history.push('/trade');
+                        history.push('/swap');
+                      }}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.spotTrade)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/spot');
                       }}
                     />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
                       className="bp3-popover-dismiss"
                       onClick={() => {
-                        dispatch(
-                          tradeSwapActions.changeTab(TradeSwapTabType.TRADE),
-                        );
                         history.push('/trade');
                       }}
                     />
@@ -315,11 +298,13 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
-                    isSectionOpen(SECTION_TYPE.TRADE) && 'font-weight-bold'
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="mr-1">{t(translations.mainMenu.trade)}</span>
+                  <span className="tw-mr-3 tw-cursor-pointer">
+                    {t(translations.mainMenu.trade)}
+                  </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
@@ -360,11 +345,11 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
-                    isSectionOpen(SECTION_TYPE.FINANCE) && 'font-weight-bold'
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="mr-1">
+                  <span className="tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -375,14 +360,26 @@ export function Header() {
                 content={
                   <BPMenu>
                     <MenuItem
-                      icon={<img src={iconNewTab} alt="newTab" />}
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
                       href="https://bitocracy.sovryn.app/stake"
                       target="_blank"
                       text={t(translations.mainMenu.staking)}
                       className="bp3-popover-dismiss"
                     />
                     <MenuItem
-                      icon={<img src={iconNewTab} alt="newTab" />}
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
                       href="https://bitocracy.sovryn.app/"
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
@@ -392,39 +389,39 @@ export function Header() {
                 }
               >
                 <div
-                  className={`${
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1">
+                  <span className="mr-1 tw-cursor-pointer">
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavLink className="nav-item mr-4 text-capitalize" to="/wallet">
+              <NavLink className="tw-header-link mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <NavLink className="nav-item mr-4 text-capitalize" to="/stats">
+              <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
           </div>
-          <div className="d-flex justify-content-start align-items-center">
+          <div className="tw-flex tw-justify-start tw-items-center">
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-item mr-2 text-capitalize d-none d-xl-block"
+              className="tw-header-link d-none d-xl-block"
             >
               {t(translations.mainMenu.help)}
             </a>
-            <div className="mr-2">
+            <div className="tw-mr-4">
               <LanguageToggle />
             </div>
             <WalletConnector simpleView={false} />
           </div>
-        </Container>
+        </div>
       </header>
     </>
   );
