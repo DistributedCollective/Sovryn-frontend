@@ -1,9 +1,3 @@
-/**
- *
- * LiquidityRemoveContainer
- *
- */
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -12,7 +6,7 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { FormSelect } from '../../components/FormSelect';
 import { LoadableValue } from '../../components/LoadableValue';
-import { weiTo18, weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
+import { toWei, weiTo18, weiTo4 } from 'utils/blockchain/math-helpers';
 import { SendTxProgress } from '../../components/SendTxProgress';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { usePoolTokenBalance } from '../../hooks/amm/usePoolTokenBalance';
@@ -26,6 +20,7 @@ import { useMaintenance } from '../../hooks/useMaintenance';
 import { getPoolTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { RemovePoolV1 } from './RemovePoolV1';
+import { bignumber } from 'mathjs';
 
 const pools = LiquidityPoolDictionary.list();
 const poolList = pools.map(item => ({
@@ -33,9 +28,7 @@ const poolList = pools.map(item => ({
   label: item.getAssetDetails().symbol,
 }));
 
-interface Props {}
-
-export function LiquidityRemoveContainer(props: Props) {
+export function LiquidityRemoveContainer() {
   const { t } = useTranslation();
   const isConnected = useIsConnected();
   const [pool, setPool] = useState(poolList[0].key);
@@ -43,6 +36,9 @@ export function LiquidityRemoveContainer(props: Props) {
   const poolData = useMemo(() => {
     return LiquidityPoolDictionary.get(pool);
   }, [pool]);
+
+  const isV1pool = useMemo(() => poolData.getVersion() === 1, [poolData]);
+  const isV2pool = useMemo(() => poolData.getVersion() === 2, [poolData]);
 
   const prepareTokens = useCallback(() => {
     return LiquidityPoolDictionary.get(pool)
@@ -57,22 +53,37 @@ export function LiquidityRemoveContainer(props: Props) {
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
 
   const poolAddress = usePoolToken(pool, sourceToken);
+  const poolTokenBalance = usePoolTokenBalance(pool, sourceToken);
 
-  const balance = usePoolTokenBalance(pool, sourceToken);
-  const [amount, setAmount] = useState(weiTo18(balance.value));
+  const [sourceTokenAmount, setSourceTokenAmount] = useState('');
+  const [poolTokensAmount, setPoolTokensAmount] = useState('');
 
-  const weiAmount = useWeiAmount(amount);
+  const poolTokensWeiAmount = useWeiAmount(poolTokensAmount);
 
   const {
     value: targetValue,
     loading: targetLoading,
-  } = useRemoveLiquidityReturnAndFee(pool, poolAddress.value, weiAmount);
+  } = useRemoveLiquidityReturnAndFee(
+    pool,
+    poolAddress.value,
+    poolTokensWeiAmount,
+  );
+
+  // we need this to get the source token staked balance
+  const {
+    value: sourceTokenValue,
+    loading: sourceTokenLoading,
+  } = useRemoveLiquidityReturnAndFee(
+    pool,
+    poolAddress.value,
+    poolTokenBalance.value,
+  );
 
   const tx = useApproveAndRemoveLiquidity(
     pool,
     sourceToken,
     poolAddress.value,
-    weiAmount,
+    poolTokensWeiAmount,
     '1',
   );
 
@@ -100,7 +111,10 @@ export function LiquidityRemoveContainer(props: Props) {
   }, [sourceToken, pool, prepareTokens]);
 
   const amountValid = () => {
-    return Number(weiAmount) > 0 && Number(weiAmount) <= Number(balance.value);
+    return (
+      Number(poolTokensWeiAmount) > 0 &&
+      Number(poolTokensWeiAmount) <= Number(poolTokenBalance.value)
+    );
   };
 
   const symbol = useCacheCallWithValue(
@@ -109,7 +123,26 @@ export function LiquidityRemoveContainer(props: Props) {
     sourceToken,
   );
 
-  usePoolToken(pool, sourceToken);
+  const onAmountChangeClick = useCallback(
+    (value: string) => {
+      setSourceTokenAmount(value);
+
+      setPoolTokensAmount(
+        bignumber(toWei(value))
+          .div(sourceTokenValue[0])
+          .mul(weiTo18(poolTokenBalance.value))
+          .toString(),
+      );
+    },
+    [poolTokenBalance.value, sourceTokenValue],
+  );
+
+  const onAmountMaxClick = useCallback(() => {
+    setSourceTokenAmount(
+      weiTo18(isV1pool ? poolTokenBalance.value : sourceTokenValue[0]),
+    );
+    setPoolTokensAmount(weiTo18(poolTokenBalance.value));
+  }, [isV1pool, poolTokenBalance.value, sourceTokenValue]);
 
   return (
     <>
@@ -124,7 +157,7 @@ export function LiquidityRemoveContainer(props: Props) {
             />
           </FieldGroup>
         </div>
-        {poolData.getVersion() === 2 && (
+        {isV2pool && (
           <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
             <FieldGroup label={t(translations.liquidity.currency)}>
               <FormSelect
@@ -138,33 +171,31 @@ export function LiquidityRemoveContainer(props: Props) {
         )}
         <div
           className={`${
-            poolData.getVersion() === 1
-              ? 'lg:tw-col-span-9'
-              : 'lg:tw-col-span-6'
-          } tw-col-span-12`}
+            isV1pool ? 'lg:tw-col-span-9' : 'lg:tw-col-span-6'
+          } tw-col-span-12 tw-px-4`}
         >
           <FieldGroup label={t(translations.liquidity.amount)}>
             <AmountField
-              onChange={value => setAmount(value)}
-              onMaxClicked={() => setAmount(weiTo18(balance.value))}
-              value={amount}
+              onChange={onAmountChangeClick}
+              onMaxClicked={onAmountMaxClick}
+              value={sourceTokenAmount}
             />
           </FieldGroup>
         </div>
       </div>
 
-      {poolData.getVersion() === 1 ? (
+      {isV1pool ? (
         <RemovePoolV1
           poolData={poolData}
-          value={amount}
-          balance={balance}
+          value={sourceTokenAmount}
+          balance={poolTokenBalance}
           symbol={symbol.value}
         />
       ) : (
         <>
           <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
             <div className="tw-grid tw-gap-8 tw-grid-cols-12">
-              <div className="tw-col-span-12">
+              <div className="tw-col-span-6">
                 <div className="tw-font-bold small">
                   <LoadableValue
                     loading={targetLoading}
@@ -180,7 +211,7 @@ export function LiquidityRemoveContainer(props: Props) {
                   {t(translations.liquidity.amountTarget)}
                 </div>
               </div>
-              <div className="tw-col-span-12">
+              <div className="tw-col-span-6">
                 <div className="tw-font-bold small">
                   <LoadableValue
                     loading={targetLoading}
@@ -214,11 +245,11 @@ export function LiquidityRemoveContainer(props: Props) {
                 )}
                 {isConnected && (
                   <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-                    <span className="tw-text-muted">{symbol.value}</span>
+                    <span className="tw-text-muted">{sourceToken}</span>
                     <span className="tw-text-white tw-font-bold tw-ml-2">
                       <LoadableValue
-                        value={weiToFixed(balance.value, 4)}
-                        loading={balance.loading}
+                        value={weiTo4(sourceTokenValue[0])}
+                        loading={sourceTokenLoading}
                       />
                     </span>
                   </div>

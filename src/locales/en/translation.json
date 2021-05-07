@@ -318,6 +318,7 @@
     "poolSelect": "Select pool",
     "amount": "Enter amount",
     "amountTarget": "Target Amount",
+    "suppliedBalance": "Supplied Balance",
     "token": "Expected pool tokens",
     "fee": "fee",
     "supply": "Supply",
