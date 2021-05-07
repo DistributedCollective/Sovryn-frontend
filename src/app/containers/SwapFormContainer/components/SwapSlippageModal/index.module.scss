@@ -1,0 +1,77 @@
+.swapConfirmDialog {
+  width: 468px;
+  .container {
+    background-color: var(--black);
+    color: #d9d9d9;
+    max-width: 468px;
+    padding: 36px 32px 40px;
+    border-radius: 15px;
+    position: relative;
+    letter-spacing: 0;
+  }
+
+  .title {
+    color: #e9eae9;
+    font-size: 28px;
+    text-align: center;
+    text-transform: none;
+  }
+
+  .receivedAmountInputWrapper {
+    color: #e9eae9;
+    font-size: 16px;
+    margin: 0px 40px;
+    margin-top: 57px;
+    .receivedAmountInput {
+      margin-top: 24px;
+    }
+  }
+
+  .btnActionWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 85px;
+    .button {
+      max-width: 320px;
+      width: 190px;
+      height: 60px;
+      margin: 0;
+      text-transform: uppercase;
+      color: var(--black);
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 23px;
+      letter-spacing: 0;
+      padding: 15px;
+      transition: opacity 0.3s;
+      background: #fec004;
+      border: 1px solid #fec004;
+      text-transform: none;
+    }
+    .confirmButton {
+      color: var(--black);
+      background: #fec004;
+    }
+    .cancelButton {
+      color: #fec004;
+      background: transparent;
+    }
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .button:disabled {
+      opacity: 0.4;
+    }
+
+    .button_long {
+      background-color: #4ecdc4;
+      border: 0;
+    }
+    .button_short {
+      background-color: #cd4e4e;
+      border: 0;
+    }
+  }
+}

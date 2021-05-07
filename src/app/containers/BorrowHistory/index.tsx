@@ -99,7 +99,7 @@ export function BorrowHistory(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="bg-primary sovryn-border p-3 table-responsive">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -109,18 +109,18 @@ export function BorrowHistory(props: Props) {
                   <Text ellipsize tagName="span">
                     {column.render('Header')}
                     {column.sortable && (
-                      <span className="mx-1">
+                      <span className="tw-mx-1">
                         {column.isSorted ? (
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="text-white"
+                              className="tw-text-white"
                               iconSize={15}
                             />
                           )
@@ -142,7 +142,7 @@ export function BorrowHistory(props: Props) {
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td className="align-middle" {...cell.getCellProps()}>
+                    <td className="tw-align-middle" {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   );

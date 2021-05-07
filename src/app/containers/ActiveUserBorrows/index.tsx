@@ -32,7 +32,7 @@ export function ActiveUserBorrows(props: Props) {
 
   if (!value.length && !loading) {
     return (
-      <div className="container pt-4">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-pt-6">
         {t(translations.activeUserBorrows.text)}
       </div>
     );

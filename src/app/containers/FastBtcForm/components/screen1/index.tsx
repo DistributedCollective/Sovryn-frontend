@@ -22,29 +22,29 @@ export function Screen1({ state, dispatch }: Props) {
 
   return (
     <>
-      <h3 className="heading my-4 text-center">{t(s.title)}</h3>
-      <div className="btc-address sovryn-border bg-primary p-3">
-        <div className="row d-flex flex-nowrap w-100 mx-auto justify-content-between align-items-center">
+      <h3 className="heading tw-my-6 tw-text-center">{t(s.title)}</h3>
+      <div className="btc-address sovryn-border tw-bg-primary tw-p-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-flex tw-flex-nowrap tw-w-full tw-mx-auto tw-justify-between tw-items-center">
           {address.length > 0 && (
             <>
               <CopyToClipboard text={address}>
-                <Text ellipsize className="pr-2">
-                  <div className="d-block d-md-none">
+                <Text ellipsize className="tw-pr-2">
+                  <div className="tw-block md:tw-hidden">
                     {prettyTx(address, 16, 8)}
                   </div>
-                  <Text className="d-none d-md-block" ellipsize>
+                  <Text className="tw-hidden md:tw-block" ellipsize>
                     {address}
                   </Text>
                 </Text>
               </CopyToClipboard>
             </>
           )}
-          <div className="address-link flex-shrink-0 flex-grow-0">
-            <Button small minimal className="text-white" icon="log-out" />
+          <div className="address-link tw-flex-shrink-0 tw-flex-grow-0">
+            <Button small minimal className="tw-text-white" icon="log-out" />
           </div>
         </div>
       </div>
-      <div className="description my-4">
+      <div className="description tw-my-6">
         <p>{t(s.p1)}</p>
         <p>{t(s.p2)}</p>
       </div>

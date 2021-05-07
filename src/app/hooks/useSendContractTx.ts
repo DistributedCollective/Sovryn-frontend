@@ -23,6 +23,7 @@ export interface TransactionOptions {
   approveTransactionHash?: Nullable<string>;
   asset?: Asset;
   assetAmount?: string;
+  customData?: { [key: string]: any };
 }
 
 export interface SendTxResponse {
@@ -78,20 +79,21 @@ export function useSendContractTx(
         .send(contractName, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
-          dispatch(
-            actions.addTransaction({
-              transactionHash: transactionHash,
-              approveTransactionHash: options?.approveTransactionHash || null,
-              type: options?.type || TxType.OTHER,
-              status: TxStatus.PENDING,
-              loading: true,
-              to: contractName,
-              from: account,
-              value: (config?.value as string) || '0',
-              asset: options?.asset || null,
-              assetAmount: options?.assetAmount || null,
-            }),
-          );
+          const txData = {
+            transactionHash: transactionHash,
+            approveTransactionHash: options?.approveTransactionHash || null,
+            type: options?.type || TxType.OTHER,
+            status: TxStatus.PENDING,
+            loading: true,
+            to: contractName,
+            from: account,
+            value: (config?.value as string) || '0',
+            asset: options?.asset || null,
+            assetAmount: options?.assetAmount || null,
+            customData: options?.customData || undefined,
+          };
+          dispatch(actions.addTransaction(txData));
+          setTx(txData);
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
         })
@@ -121,7 +123,18 @@ export function useSendContractTx(
     reset,
     txData: tx || null,
     txHash: tx?.transactionHash || '',
-    status: tx ? tx.status : txId,
+    status: tx
+      ? tx.status
+      : txId &&
+        [
+          TxStatus.NONE,
+          TxStatus.PENDING_FOR_USER,
+          TxStatus.PENDING_FOR_USER,
+          TxStatus.CONFIRMED,
+          TxStatus.FAILED,
+        ].includes(txId as any)
+      ? txId
+      : TxStatus.PENDING,
     loading: loading,
   };
 }

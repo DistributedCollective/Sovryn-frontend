@@ -22,8 +22,8 @@ interface Props {
 export function TradingPositionSelector(props: Props) {
   const { t } = useTranslation();
   return (
-    <div className="row mb-3">
-      <div className="col-6 pr-1">
+    <div className="tw-grid tw-grid-cols-12 tw-mb-4">
+      <div className="tw-col-span-6 tw-pr-1">
         <Tab
           type={TradingPosition.LONG}
           active={props.value === TradingPosition.LONG}
@@ -31,7 +31,7 @@ export function TradingPositionSelector(props: Props) {
           onClick={value => props.onChange(value)}
         />
       </div>
-      <div className="col-6 pl-1">
+      <div className="tw-col-span-6 tw-pl-1">
         <Tab
           disabled={props.pairType === TradingPairType.RBTC_SOV}
           type={TradingPosition.SHORT}
@@ -72,10 +72,10 @@ function Tab(props: TabProps) {
     <button
       type="button"
       disabled={props.disabled}
-      className={`btn-trading w-100 btn px-1 px-lg-3 py-2 text-dark font-weight-bold text-uppercase d-flex flex-row align-items-center justify-content-center ${classes}`}
+      className={`tw-w-full btn tw-px-1 lg:tw-px-4 tw-py-2 tw-text-dark tw-font-bold tw-uppercase tw-flex tw-flex-row tw-items-center tw-justify-center ${classes}`}
       onClick={() => props.onClick(props.type)}
     >
-      <FontAwesomeIcon icon={icon} className="mr-1 mr-lg-3" />
+      <FontAwesomeIcon icon={icon} className="tw-mr-1 lg:tw-mr-3" />
       <Text ellipsize tagName="span" className="font-size-lg">
         {props.text}
       </Text>

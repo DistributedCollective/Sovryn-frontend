@@ -31,9 +31,10 @@
     "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
-    "title": "App was updated.",
-    "message": "New content is available and will be used when all tabs for this page are closed.",
-    "button": "Update Now"
+    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Please close all tabs with Sovryn open to update",
+    "updateBtn": "UPDATE",
+    "closeBtn": "Please let me close a trade"
   },
   "tradingActivity": {
     "title": "My Trading Activity",
@@ -85,7 +86,11 @@
       "rewardSOV": "Your Current SOV Reward*",
       "miningEvent": "Your liquidity mining events",
       "noAsset": "You have no {{asset}} liquidity mining events yet.",
-      "rewardPoolNote": "*For weeks that are still in progress, this number may go up or down"
+      "rewardPoolNote": "*For weeks that are still in progress, this number may go up or down",
+      "RBTC_DOC": "<0>RBTC</0>/DOC",
+      "RBTC_USDT": "<0>RBTC</0>/USDT",
+      "BPRO_USDT": "BPRO/<0>USDT</0>",
+      "RBTC_SOV": "<0>RBTC</0>/SOV"
     }
   },
   "tradingHistoryPage": {
@@ -93,11 +98,14 @@
     "auth": "Please connect and authorize your wallet.",
     "noClosedTrades": "You do not have any closed trades.",
     "table": {
+      "direction": "Direction",
       "positionSize": "Position Size",
       "leverage": "Leverage",
       "openPrice": "Open Price",
       "closePrice": "Close Price",
-      "profit": "Profit",
+      "profit": "Realized P&L",
+      "entryTxHash": "Entry Transaction Hash",
+      "closeTxHash": "Exit Transaction Hash",
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -207,7 +215,8 @@
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
-    "bitocracy": "Bitocracy"
+    "bitocracy": "Bitocracy",
+    "spotTrade": "Spot Trade"
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -292,6 +301,13 @@
   "pageNotFound": {
     "text": "Page not found.",
     "backHome": "Go home"
+  },
+  "swap": {
+    "title": "Swap",
+    "meta": "Swap",
+    "minimumReceived": "Minimum received:",
+    "send": "Send",
+    "receive": "Receive"
   },
   "liquidity": {
     "title": "Liquidity",
@@ -721,6 +737,18 @@
       "status": "Status"
     }
   },
+  "spotHistory": {
+    "title": "Spot History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "amountPaid": "Amount Paid",
+      "amountReceived": "Amount Received",
+      "transactionFee": "Transaction Fee",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Top-Up History"
@@ -913,6 +941,51 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
+  "marginTradePage": {
+    "meta": {
+      "title": "Margin Trade",
+      "description": "Trade with margin"
+    },
+    "tradeForm": {
+      "labels": {
+        "pair": "Pair:",
+        "asset": "Asset:",
+        "leverage": "Leverage:",
+        "amount": "Amount:",
+        "balance": "Available Balance: <0/> <1/>",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "long": "Long",
+        "short": "Short"
+      }
+    },
+    "openPositions": "Open Positions",
+    "tradingHistory": "Trading History"
+  },
+  "spotTradingPage": {
+    "meta": {
+      "title": "Spot Trading",
+      "description": "Spot trading"
+    },
+    "tradeForm": {
+      "buy_cta": "PLACE BUY",
+      "sell_cta": "PLACE SELL",
+      "amountReceived": "Amount Received",
+      "buy": "BUY",
+      "sell": "SELL"
+    },
+    "priceHistory": {
+      "turnover": "Turnover",
+      "lastTradedPrice": "Last traded price"
+    }
+  },
+  "form": {
+    "select": {
+      "noResults": "No results",
+      "placeholder": "Select item"
+    }
+  },
   "liquidityMining": {
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
@@ -949,13 +1022,13 @@
       "cta": "Engage Wallet"
     },
     "topUp": {
-      "title": "Top up RBTC",
-      "line1": "You will need RBTC in your wallet to buy SOV and pay gas fees on RSK Mainnet.",
-      "line2": "Learn about RBTC on RSK",
+      "title": "Top up <0>RBTC</0>",
+      "line1": "You will need <0>RBTC</0> in your wallet to buy SOV and pay gas fees on RSK Mainnet.",
+      "line2": "Learn about <0>RBTC</0> on RSK",
       "cta": "Top Up Wallet"
     },
     "form": {
-      "title": "Buy SOV with RBTC",
+      "title": "Buy SOV with <0>RBTC</0>",
       "enterAmount": "Enter Amount",
       "availableBalance": "Available Balance:",
       "minimumReceived": "Minimum received:",
@@ -974,6 +1047,7 @@
       "txStatus": {
         "title": "Transaction Status",
         "aborted": "Transaction was aborted by user.",
+        "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }
     },
@@ -1026,6 +1100,26 @@
     },
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
+  },
+  "addToMargin": {
+    "title": "Top Up",
+    "amount": "Amount to Add:",
+    "liquidationPrice": "Liquidation Price:"
+  },
+  "openPositionTable": {
+    "direction": "Direction",
+    "positionSize": "Position Size",
+    "entryPrice": "Entry Price",
+    "liquidationPrice": "Liquidation Price",
+    "positionMargin": "Position Margin",
+    "unrealizedPL": "Unrealized P&L",
+    "interestAPR": "Interest APR",
+    "actions": "Actions",
+    "noData": "No data",
+    "cta": {
+      "margin": "Add to Margin",
+      "close": "Close Position"
+    }
   },
   "claimOriginBanner": {
     "text": "Your SOV is ready to claim!",

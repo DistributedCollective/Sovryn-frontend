@@ -26,7 +26,7 @@ export function BorrowAssetPrice(props: Props) {
     <LoadableValue
       value={
         <span style={{ verticalAlign: 'middle' }}>
-          <span className="text-lightGrey">Price: $</span>
+          <span className="tw-text-lightGrey">Price: $</span>
           {parseFloat(weiToFixed(value, 2)).toLocaleString('en', {
             minimumFractionDigits: 2,
           })}

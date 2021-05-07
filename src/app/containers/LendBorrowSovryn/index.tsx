@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
@@ -30,21 +30,20 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   return (
     <>
       <Header />
-      {/*<WhitelistedNotification />*/}
-      <main className="container">
-        <Row>
-          <div className="col-12 col-lg-6">
+      <main className="tw-container tw-mx-auto tw-px-4">
+        <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
+          <div>
             <CurrencyContainer
               state={state.asset}
               setState={asset => dispatch(actions.changeAsset(asset))}
             />
           </div>
-          <div className="col-12 col-lg-6 mt-3 mt-lg-0">
+          <div className="tw-mt-4 lg:tw-mt-0">
             <CurrencyDetails />
           </div>
-        </Row>
+        </div>
       </main>
-      <Container className="mt-4">
+      <Container className="tw-mt-6">
         {state.tab === TabType.LEND && <LendingHistory />}
         {state.tab === TabType.BORROW && <BorrowActivity />}
         <RepayPositionHandler />

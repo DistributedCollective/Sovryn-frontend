@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { TradingPair } from 'utils/models/trading-pair';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { TradingPosition } from 'types/trading-position';
 import { Asset } from 'types/asset';
 
@@ -14,43 +13,69 @@ interface PairTokensResponse {
 export function useTrading_resolvePairTokens(
   pair: TradingPair,
   position: TradingPosition,
-  lendingContract: Asset,
-  token: Asset,
+  collateral: Asset,
 ): PairTokensResponse {
-  const getLendingToken = useCallback(() => {
-    if (
-      TradingPairDictionary.longPositionTokens.includes(lendingContract) &&
-      TradingPairDictionary.longPositionTokens.includes(token)
-    ) {
-      return token;
-    }
-    return lendingContract;
-  }, [lendingContract, token]);
-
-  const getToken = useCallback(() => {
-    if (getLendingToken() === token) {
+  const loanToken = useMemo(() => pair.getAssetForPosition(position), [
+    pair,
+    position,
+  ]);
+  const collateralToken = useMemo(() => {
+    if (loanToken === collateral) {
       return position === TradingPosition.LONG
-        ? pair.getShortAsset()
-        : pair.getLongAsset();
+        ? pair.shortAsset
+        : pair.longAsset;
     }
-    return token;
-  }, [getLendingToken, token, pair, position]);
-
-  const [loanToken, setLoanToken] = useState(getLendingToken());
-  const [collateralToken, setCollateralToken] = useState(getToken());
-
-  useEffect(() => {
-    setLoanToken(getLendingToken());
-  }, [lendingContract, token, getLendingToken]);
-
-  useEffect(() => {
-    setCollateralToken(getToken());
-  }, [getLendingToken, getToken, token, pair, position]);
+    return collateral;
+  }, [pair, position, collateral, loanToken]);
 
   return {
     loanToken,
     collateralToken,
-    useLoanTokens: loanToken === token,
-    useCollateralTokens: loanToken !== token,
+    useLoanTokens: loanToken === collateral,
+    useCollateralTokens: loanToken !== collateral,
   };
 }
+
+// export function useTrading_resolvePairTokens(
+//   pair: TradingPair,
+//   position: TradingPosition,
+//   lendingContract: Asset,
+//   token: Asset,
+// ): PairTokensResponse {
+//   const getLendingToken = useCallback(() => {
+//     if (
+//       TradingPairDictionary.longPositionTokens.includes(lendingContract) &&
+//       TradingPairDictionary.longPositionTokens.includes(token)
+//     ) {
+//       return token;
+//     }
+//     return lendingContract;
+//   }, [lendingContract, token]);
+//
+//   const getToken = useCallback(() => {
+//     if (getLendingToken() === token) {
+//       return position === TradingPosition.LONG
+//         ? pair.getShortAsset()
+//         : pair.getLongAsset();
+//     }
+//     return token;
+//   }, [getLendingToken, token, pair, position]);
+//
+//   const [loanToken, setLoanToken] = useState(getLendingToken());
+//   const [collateralToken, setCollateralToken] = useState(getToken());
+//
+//   useEffect(() => {
+//     setLoanToken(getLendingToken());
+//   }, [lendingContract, token, getLendingToken]);
+//
+//   useEffect(() => {
+//     setCollateralToken(getToken());
+//   }, [getLendingToken, getToken, token, pair, position]);
+//
+//   return {
+//     loanToken,
+//     collateralToken,
+//     useLoanTokens: loanToken === token,
+//     useCollateralTokens: loanToken !== token,
+//   };
+// }
