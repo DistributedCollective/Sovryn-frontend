@@ -222,3 +222,9 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
 export const numberFromWei = (amount: any, unit: Unit = 'ether') => {
   return Number(fromWei(amount, unit));
 };
+
+export function getUSDSum(array: any[]) {
+  return array.reduce(function (sum, value) {
+    return sum + value;
+  }, 0);
+}

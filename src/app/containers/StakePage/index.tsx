@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import moment from 'moment-timezone';
@@ -12,17 +12,25 @@ import Rsk3 from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { numberFromWei } from 'utils/helpers';
-import { Modal } from '../../components/Modal';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import { numberFromWei, getUSDSum } from 'utils/helpers';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import {
   staking_allowance,
   staking_approve,
+  staking_withdrawFee,
+  staking_numTokenCheckpoints,
 } from 'utils/blockchain/requests/staking';
+import { Asset } from '../../../types/asset';
+import { Modal } from '../../components/Modal';
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
 import { DelegateForm } from './components/DelegateForm';
+import { LoadableValue } from '../../components/LoadableValue';
 import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
@@ -30,12 +38,14 @@ import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
 import { useStaking_kickoffTs } from '../../hooks/staking/useStaking_kickoffTs';
 import { useStaking_balanceOf } from '../../hooks/staking/useStaking_balanceOf';
 import { useStaking_WEIGHT_FACTOR } from '../../hooks/staking/useStaking_WEIGHT_FACTOR';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
+import { useStaking_getAccumulatedFees } from '../../hooks/staking/useStaking_getAccumulatedFees';
 import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
 import logoSvg from 'assets/images/sovryn-icon.svg';
 import { StakeForm } from './components/StakeForm';
@@ -113,8 +123,10 @@ function InnerStakePage() {
 
   const [stakesArray, setStakesArray] = useState([]);
   const [stakeLoad, setStakeLoad] = useState(false);
+  const [usdTotal, setUsdTotal] = useState(0) as any;
   const dates = getStakes.value['dates'];
   const stakes = getStakes.value['stakes'];
+  const assets = AssetsDictionary.list();
 
   const { increase, ...increaseTx } = useStakeIncrease();
   const { stake, ...stakeTx } = useStakeStake();
@@ -122,11 +134,18 @@ function InnerStakePage() {
   const { withdraw, ...withdrawTx } = useStakeWithdraw();
   const { delegate, ...delegateTx } = useStakeDelegate();
 
+  const SOV = AssetsDictionary.get(Asset.SOV);
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
+
   useEffect(() => {
     async function getStakesEvent() {
       try {
         Promise.all(
           dates.map(async (value, index) => {
+            const dollarValue = bignumber(Number(stakes[index]))
+              .mul(dollars.value)
+              .div(10 ** SOV.decimals); //adding converted USD value to stakesArray
+
             const delegate = await contractReader
               .call('staking', 'delegates', [account, value])
               .then(res => {
@@ -135,7 +154,7 @@ function InnerStakePage() {
                 }
                 return false;
               });
-            return [stakes[index], value, delegate];
+            return [stakes[index], value, delegate, dollarValue];
           }),
         ).then(result => {
           setStakesArray(result as any);
@@ -155,8 +174,15 @@ function InnerStakePage() {
     return () => {
       setStakesArray([]);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, getStakes.value, setStakesArray]);
+  }, [
+    account,
+    getStakes.value,
+    setStakesArray,
+    SOV.decimals,
+    dates,
+    dollars.value,
+    stakes,
+  ]);
 
   useEffect(() => {
     if (timestamp && weiAmount && (stakeForm || increaseForm || extendForm)) {
@@ -316,6 +342,12 @@ function InnerStakePage() {
     [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
 
+  let usdTotalValue = [] as any;
+  const updateUsdTotal = e => {
+    usdTotalValue.push(e);
+    setUsdTotal(getUSDSum(usdTotalValue));
+  };
+
   return (
     <>
       <Helmet>
@@ -377,7 +409,23 @@ function InnerStakePage() {
                   </button>
                 )}
               </div>
-
+              <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+                <p className="tw-text-lg tw--mt-1">
+                  {t(translations.stake.feeTitle)}
+                </p>
+                <p className="tw-text-4-5xl tw-mt-2 tw-mb-6">
+                  ≈ {numberToUSD(usdTotal, 4)}
+                </p>
+                {assets.map((item, i) => {
+                  return (
+                    <FeeBlock
+                      usdTotal={e => updateUsdTotal(e)}
+                      key={i}
+                      contractToken={item}
+                    />
+                  );
+                })}
+              </div>
               <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
@@ -483,7 +531,12 @@ function InnerStakePage() {
                 />
               </div>
             </div>
-            <CurrentVests />
+            <CurrentVests
+              onDelegate={a => {
+                setTimestamp(a);
+                setDelegateForm(!delegateForm);
+              }}
+            />
             <HistoryEventsTable />
           </div>
           <TxDialog tx={increaseTx} />
@@ -586,6 +639,7 @@ const StakesOverview: React.FC<Stakes> = ({
   onDelegate,
 }) => {
   const { t } = useTranslation();
+
   return (
     <>
       {loading && !stakes.length && (
@@ -618,6 +672,7 @@ const StakesOverview: React.FC<Stakes> = ({
             </td>
             <td className="tw-text-left tw-font-normal">
               {numberFromWei(item[0])} SOV
+              <br />≈ {numberToUSD(Number(weiToFixed(item[3], 4)), 4)}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {item[2].length && (
@@ -697,3 +752,67 @@ const StakesOverview: React.FC<Stakes> = ({
     </>
   );
 };
+
+interface FeeProps {
+  contractToken: any;
+  usdTotal: (e: any) => void;
+}
+
+function FeeBlock({ contractToken, usdTotal }: FeeProps) {
+  const account = useAccount();
+  const { t } = useTranslation();
+  const token = (contractToken.asset + '_token') as any;
+  const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
+  const tokenAddress = getContract(token).address;
+  const currency = useStaking_getAccumulatedFees(account, tokenAddress);
+  const dollarValue = useMemo(() => {
+    if (currency.value === null) return '';
+    return bignumber(currency.value)
+      .mul(dollars.value)
+      .div(10 ** contractToken.decimals)
+      .toFixed(0);
+  }, [dollars.value, currency.value, contractToken.decimals]);
+
+  const handleWithdrawFee = useCallback(
+    async e => {
+      e.preventDefault();
+      try {
+        const numTokenCheckpoints = (await staking_numTokenCheckpoints(
+          tokenAddress,
+        )) as string;
+        await staking_withdrawFee(tokenAddress, numTokenCheckpoints, account);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [tokenAddress, account],
+  );
+
+  useEffect(() => {
+    usdTotal(Number(weiToFixed(dollarValue, 4)));
+  }, [currency.value, dollarValue, usdTotal]);
+
+  return (
+    <>
+      {Number(currency.value) > 0 && (
+        <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
+          <div className="tw-w-1/5">{contractToken.asset}</div>
+          <div className="tw-w-1/2 tw-ml-6">
+            {numberFromWei(currency.value).toFixed(5)} ≈{' '}
+            <LoadableValue
+              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              loading={dollars.loading}
+            />
+          </div>
+          <button
+            onClick={handleWithdrawFee}
+            type="button"
+            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
+          >
+            {t(translations.userAssets.actions.withdraw)}
+          </button>
+        </div>
+      )}
+    </>
+  );
+}

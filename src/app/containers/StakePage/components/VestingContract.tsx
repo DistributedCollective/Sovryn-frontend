@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
-// import { useDispatch } from 'react-redux';
-import { numberFromWei } from 'utils/helpers';
-import { ethGenesisAddress } from 'utils/classifiers';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import React, { useEffect, useState, useMemo } from 'react';
 import moment from 'moment-timezone';
-// import { actions } from 'utils/blockchain/slice';
+import logoSvg from 'assets/images/sovryn-icon.svg';
+import { bignumber } from 'mathjs';
+import { numberFromWei } from 'utils/helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { ethGenesisAddress } from 'utils/classifiers';
+import { Modal } from '../../../components/Modal';
+import { Asset } from '../../../../types/asset';
 import { useAccount } from '../../../hooks/useAccount';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { numberToUSD } from 'utils/display-text/format';
+import { LoadableValue } from '../../../components/LoadableValue';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
+import { WithdrawVesting } from './WithdrawVesting';
+import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { Modal } from '../../../components/Modal';
-import { WithdrawVesting } from './WithdrawVesting';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
@@ -20,11 +25,11 @@ import {
 interface Props {
   vestingAddress: string;
   type: 'genesis' | 'origin' | 'team';
+  onDelegate: (a: number) => void;
 }
 
 export function VestingContract(props: Props) {
   const account = useAccount();
-  // const dispatch = useDispatch();
   const getStakes = useStaking_getStakes(props.vestingAddress);
   const lockedAmount = useStaking_balanceOf(props.vestingAddress);
   const [stakingPeriodStart, setStakingPeriodStart] = useState('');
@@ -33,8 +38,16 @@ export function VestingContract(props: Props) {
   const [locked, setLocked] = useState(true);
   const [delegate, setDelegate] = useState<any>([]);
   const [delegateLoading, setDelegateLoading] = useState(false);
-
+  const SOV = AssetsDictionary.get(Asset.SOV);
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const [showWithdraw, setShowWithdraw] = useState(false);
+  const dollarValue = useMemo(() => {
+    if (lockedAmount === null) return '';
+    return bignumber(lockedAmount.value)
+      .mul(dollars.value)
+      .div(10 ** SOV.decimals)
+      .toFixed(0);
+  }, [dollars.value, lockedAmount, SOV.decimals]);
 
   useEffect(() => {
     async function getVestsList() {
@@ -115,7 +128,11 @@ export function VestingContract(props: Props) {
           <td className="tw-text-left tw-font-normal">
             <p className={`${lockedAmount.loading && 'skeleton'}`}>
               {numberFromWei(lockedAmount.value)}{' '}
-              {props.type === 'genesis' ? 'CSOV' : 'SOV'}
+              {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
+              <LoadableValue
+                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                loading={dollars.loading}
+              />
             </p>
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
@@ -166,10 +183,7 @@ export function VestingContract(props: Props) {
             <div className="tw-flex tw-flex-nowrap tw-justify-end">
               <button
                 className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
-                // onClick={() => {
-                //   dispatch(actions.vestingType(props.type));
-                //   dispatch(actions.toggleDelagationDialog(true));
-                // }}
+                onClick={() => props.onDelegate(Number(unlockDate))}
               >
                 Delegate
               </button>

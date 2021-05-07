@@ -5,8 +5,13 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { VestingContract } from './VestingContract';
 
-export function CurrentVests() {
+interface Props {
+  onDelegate: (a: number) => void;
+}
+
+export function CurrentVests(props: Props) {
   const { items, loading, error } = useGetItems();
+
   return (
     <>
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
@@ -39,7 +44,7 @@ export function CurrentVests() {
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
               {loading && !items.length && (
                 <tr>
-                  <td colSpan={99} className="ttw-ext-center tw-font-normal">
+                  <td colSpan={99} className="tw-text-center tw-font-normal">
                     Loading, please wait...
                   </td>
                 </tr>
@@ -63,6 +68,7 @@ export function CurrentVests() {
                   key={item.address}
                   vestingAddress={item.address}
                   type={item.type}
+                  onDelegate={props.onDelegate}
                 />
               ))}
             </tbody>

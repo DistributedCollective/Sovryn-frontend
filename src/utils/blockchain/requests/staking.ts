@@ -134,3 +134,29 @@ export function staking_getPriorUserStakeByDate(
     blockNumber,
   ]);
 }
+
+export function staking_withdrawFee(
+  tokenAddress: string,
+  processedCheckpoints: string,
+  account: string,
+) {
+  return contractWriter.send('feeSharingProxy', 'withdraw', [
+    tokenAddress,
+    processedCheckpoints,
+    account,
+  ]);
+}
+export function staking_processedCheckpoints(
+  account: string,
+  tokenAddress: string,
+) {
+  return contractReader.call('feeSharingProxy', 'processedCheckpoints', [
+    account,
+    tokenAddress,
+  ]);
+}
+export function staking_numTokenCheckpoints(tokenAddress: string) {
+  return contractReader.call('feeSharingProxy', 'numTokenCheckpoints', [
+    tokenAddress,
+  ]);
+}

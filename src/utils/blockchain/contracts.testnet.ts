@@ -24,6 +24,7 @@ import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -187,5 +188,9 @@ export const contracts = {
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
     abi: EscrowRewardsAbi,
+  },
+  feeSharingProxy: {
+    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
+    abi: feeSharingProxyAbi,
   },
 };

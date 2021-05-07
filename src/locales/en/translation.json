@@ -315,6 +315,7 @@
     "votingPower": "Combined Voting Power",
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
+    "feeTitle": "Total earned fees Available",
     "currentStakes": {
       "title": "Current Stakes",
       "asset": "Asset",
