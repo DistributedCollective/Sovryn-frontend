@@ -276,6 +276,13 @@ export function Header() {
                       }}
                     />
                     <MenuItem
+                      text={t(translations.mainMenu.spotTrade)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/spot');
+                      }}
+                    />
+                    <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
                       className="bp3-popover-dismiss"
                       onClick={() => {

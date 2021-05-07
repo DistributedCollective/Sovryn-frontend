@@ -215,7 +215,8 @@
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
-    "bitocracy": "Bitocracy"
+    "bitocracy": "Bitocracy",
+    "spotTrade": "Spot Trade"
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -762,6 +763,18 @@
       "status": "Status"
     }
   },
+  "spotHistory": {
+    "title": "Spot History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "amountPaid": "Amount Paid",
+      "amountReceived": "Amount Received",
+      "transactionFee": "Transaction Fee",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Top-Up History"
@@ -975,6 +988,23 @@
     },
     "openPositions": "Open Positions",
     "tradingHistory": "Trading History"
+  },
+  "spotTradingPage": {
+    "meta": {
+      "title": "Spot Trading",
+      "description": "Spot trading"
+    },
+    "tradeForm": {
+      "buy_cta": "PLACE BUY",
+      "sell_cta": "PLACE SELL",
+      "amountReceived": "Amount Received",
+      "buy": "BUY",
+      "sell": "SELL"
+    },
+    "priceHistory": {
+      "turnover": "Turnover",
+      "lastTradedPrice": "Last traded price"
+    }
   },
   "form": {
     "select": {

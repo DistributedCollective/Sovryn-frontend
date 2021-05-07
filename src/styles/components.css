@@ -77,6 +77,9 @@
     stroke: rgba(0, 0, 0, 0.1);
   }
 
+  .tw-trading-form-card.spot-form {
+    min-width: 400px;
+  }
   .tw-trading-form-card {
     max-width: 452px;
     width: 100%;

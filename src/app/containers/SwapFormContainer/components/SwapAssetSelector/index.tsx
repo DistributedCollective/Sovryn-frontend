@@ -76,7 +76,7 @@ export function SwapAssetSelector(props: Props) {
           {selected ? (
             <>
               <span className="d-flex flex-row justify-content-start align-items-center flex-shrink-0 flex-grow-1">
-                <AssetRenderer asset={props.value} showImage />
+                <AssetRenderer imageSize={6} asset={props.value} showImage />
               </span>
             </>
           ) : (

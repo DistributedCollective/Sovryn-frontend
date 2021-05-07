@@ -22,12 +22,13 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { AssetRenderer } from '../../components/AssetRenderer';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
-export function SwapHistory() {
+export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
@@ -49,7 +50,12 @@ export function SwapHistory() {
         cancelToken: cancelTokenSource.token,
       })
       .then(res => {
-        setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
+        setHistory(
+          res.data.sort(
+            (a, b) =>
+              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+          ),
+        );
         setLoading(false);
       })
       .catch(e => {
@@ -128,18 +134,18 @@ export function SwapHistory() {
         <table className="w-100">
           <thead>
             <tr>
-              <th className="d-none d-lg-table-cell">
-                {t(translations.swapHistory.tableHeaders.time)}
+              <th className="d-none d-md-table-cell">
+                {t(translations.spotHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-lg-table-cell">
-                {t(translations.swapHistory.tableHeaders.from)}
+              <th className="d-none d-md-table-cell">
+                {t(translations.spotHistory.tableHeaders.pair)}
               </th>
-              <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
-              <th>{t(translations.swapHistory.tableHeaders.to)}</th>
-              <th className="d-none d-lg-table-cell">
-                {t(translations.swapHistory.tableHeaders.amountReceived)}
+              <th>{t(translations.spotHistory.tableHeaders.orderType)}</th>
+              <th>{t(translations.spotHistory.tableHeaders.amountPaid)}</th>
+              <th className="d-none d-md-table-cell">
+                {t(translations.spotHistory.tableHeaders.amountReceived)}
               </th>
-              <th>{t(translations.swapHistory.tableHeaders.status)}</th>
+              <th>{t(translations.spotHistory.tableHeaders.status)}</th>
             </tr>
           </thead>
           <tbody className="mt-5">
@@ -222,41 +228,42 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       .toFixed(0);
   }, [dollars.value, data.returnVal._toAmount, itemTo.decimals]);
 
+  const order = getOrder(itemFrom.asset, itemTo.asset);
+  if (!order) return null;
+
   return (
     <tr>
-      <td className="d-none d-lg-table-cell">
+      <td className="d-none d-md-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-lg-table-cell">
-        <img
-          className="d-none d-lg-inline mr-2"
-          style={{ height: '40px' }}
-          src={itemFrom.logoSvg}
-          alt={itemFrom.asset}
-        />{' '}
-        <AssetRenderer asset={itemFrom.asset} />
+      <td className="d-none d-md-table-cell">
+        <AssetRenderer asset={order.pairAsset[0]} /> -
+        <AssetRenderer asset={order.pairAsset[1]} />
+      </td>
+      <td className="tw-font-bold">
+        <span
+          className={
+            order.orderType === TradingTypes.BUY
+              ? 'tw-text-tradingLong'
+              : 'tw-text-tradingShort'
+          }
+        >
+          {order.orderType}
+        </span>
       </td>
       <td>{numberFromWei(data.returnVal._fromAmount)}</td>
-      <td>
-        <img
-          className="d-none d-lg-inline mr-2"
-          style={{ height: '40px' }}
-          src={itemTo.logoSvg}
-          alt={itemTo.asset}
-        />{' '}
-        <AssetRenderer asset={itemTo.asset} />
-      </td>
-      <td className="d-none d-lg-table-cell">
+      <td className="d-none d-md-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
           loading={dollars.loading}
         />
       </td>
+
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-12 col-md-12 p-0">
+        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
           <div>
             {!data.status && (
               <p className="m-0">{t(translations.common.confirmed)}</p>
@@ -272,7 +279,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
               className="text-gold font-weight-normal text-nowrap"
             />
           </div>
-          <div className="d-none d-sm-block d-lg-none d-xl-block">
+          <div>
             {!data.status && (
               <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
             )}

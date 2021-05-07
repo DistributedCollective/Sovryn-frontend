@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -20,7 +20,7 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'form/AmountInput';
-import swapIcon from '../../../assets/images/swap/ic_swap.svg';
+import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -94,7 +94,7 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = getOptions();
-    setTargetOptions(newOptions);
+    setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
 
     if (
       !newOptions.find(item => item.key === targetToken) &&
@@ -165,84 +165,81 @@ export function SwapFormContainer() {
         />
       )}
 
-      <div className="swap-form-container position-relative">
-        <div className="d-flex justify-content-center">
-          <div className="swap-form swap-form-send">
-            <div className="swap-form__title">{t(translations.swap.send)}</div>
-            <div className="swap-form__currency">
-              <SwapAssetSelector
-                value={sourceToken}
-                items={sourceOptions}
-                placeholder={t(s.fields.currency_placeholder)}
-                onChange={value => setSourceToken(value.key)}
-              />
-            </div>
-            <div className="swap-form__available-balance">
-              <AvailableBalance asset={sourceToken} />
-            </div>
-            <div className="swap-form__amount">
-              <AmountInput
-                value={amount}
-                onChange={value => setAmount(value)}
-                asset={sourceToken}
-              />
-            </div>
-          </div>
-          <div className="swap-revert-wrapper">
-            <div
-              className="swap-revert"
-              style={{ backgroundImage: `url(${swapIcon})` }}
-              onClick={onSwapAssert}
+      <div className="swap-form-container">
+        <div className="swap-form swap-form-send">
+          <div className="swap-form__title">{t(translations.swap.send)}</div>
+          <div className="swap-form__currency">
+            <SwapAssetSelector
+              value={sourceToken}
+              items={sourceOptions}
+              placeholder={t(s.fields.currency_placeholder)}
+              onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div className="swap-form swap-form-receive">
-            <div className="swap-form__title">
-              {t(translations.swap.receive)}
-            </div>
-            <div className="swap-form__currency">
-              <SwapAssetSelector
-                value={targetToken}
-                items={targetOptions}
-                placeholder={t(s.fields.currency_placeholder)}
-                onChange={value => setTargetToken(value.key)}
-              />
-            </div>
-            <div className="swap-form__available-balance">
-              <AvailableBalance asset={targetToken} />
-            </div>
-            <div className="swap-form__amount">
-              <Input
-                value={weiToFixed(rateByPath, 8)}
-                onChange={value => setAmount(value)}
-                readOnly={true}
-                appendElem={<AssetRenderer asset={targetToken} />}
-              />
-            </div>
+          <div className="swap-form__available-balance">
+            <AvailableBalance asset={sourceToken} />
+          </div>
+          <div className="swap-form__amount">
+            <AmountInput
+              value={weiTo4(weiAmount)}
+              onChange={value => setAmount(value)}
+              asset={sourceToken}
+            />
           </div>
         </div>
-
-        <div className="swap-btn-container">
-          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center">
-            <span>
-              {t(translations.swap.minimumReceived)}{' '}
-              {weiToNumberFormat(minReturn, 8)}
-            </span>
-            <img
-              src={settingIcon}
-              alt="settings"
-              onClick={() => setDialogOpen(true)}
+        <div className="swap-revert-wrapper">
+          <div
+            className="swap-revert"
+            style={{ backgroundImage: `url(${swapIcon})` }}
+            onClick={onSwapAssert}
+          />
+        </div>
+        <div className="swap-form swap-form-receive">
+          <div className="swap-form__title">{t(translations.swap.receive)}</div>
+          <div className="swap-form__currency">
+            <SwapAssetSelector
+              value={targetToken}
+              items={targetOptions}
+              placeholder={t(s.fields.currency_placeholder)}
+              onChange={value => setTargetToken(value.key)}
             />
           </div>
+          <div className="swap-form__available-balance">
+            <AvailableBalance asset={targetToken} />
+          </div>
+          <div className="swap-form__amount">
+            <Input
+              value={weiTo4(rateByPath)}
+              onChange={value => setAmount(value)}
+              readOnly={true}
+              appendElem={<AssetRenderer asset={targetToken} />}
+              inputClassName="tw-text-center"
+            />
+          </div>
+        </div>
+      </div>
 
-          <BuyButton
-            disabled={tx.loading || (!validate && isConnected)}
-            onClick={() => onSwap()}
-            text={isConnected ? 'SWAP' : 'Engage Wallet'}
+      <div className="swap-btn-container">
+        <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center tw-tracking-normal">
+          <span>
+            {t(translations.swap.minimumReceived)}{' '}
+            {weiToNumberFormat(minReturn, 7)}
+          </span>
+          <img
+            src={settingIcon}
+            alt="settings"
+            onClick={() => setDialogOpen(true)}
           />
         </div>
 
-        <TxDialog tx={tx} />
+        <BuyButton
+          disabled={tx.loading || (!validate && isConnected)}
+          onClick={() => onSwap()}
+          text={isConnected ? 'SWAP' : 'Engage Wallet'}
+        />
       </div>
+
+      <TxDialog tx={tx} />
     </>
   );
 }

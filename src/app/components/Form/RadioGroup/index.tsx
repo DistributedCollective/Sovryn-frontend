@@ -46,16 +46,21 @@ function RadioGroup({ children, value, onChange, className }: Props) {
 interface ButtonProps {
   value: string;
   text?: React.ReactNode;
+  className?: string;
 }
 
-function Button({ value, text }: ButtonProps) {
+function Button({ value, text, className }: ButtonProps) {
   const [state, onChange] = useRadioContext();
   const checked = value === state;
   return (
     <label
-      className={cn('tw-radio-group__label', {
-        'tw-radio-group__label--active': checked,
-      })}
+      className={cn(
+        'tw-radio-group__label',
+        {
+          'tw-radio-group__label--active': checked,
+        },
+        className,
+      )}
     >
       <input
         className="tw-invisible tw-w-0 tw-h-0"
