@@ -919,7 +919,7 @@
       "sell": "VENDA"
     },
     "priceHistory": {
-      "turnover": "Turnover",
+      "turnover": "Volume de negociações",
       "lastTradedPrice": "Último preço"
     }
   },
