@@ -318,7 +318,7 @@
     "token": "Pool tokens a receber",
     "fee": "Taxa",
     "supply": "Adicionar liquidez",
-    "withdraw": "Retirar liquidez"
+    "withdraw": "Retirar liquidez",
     "v1": {
       "balance": "Saldo disponível"
     }
