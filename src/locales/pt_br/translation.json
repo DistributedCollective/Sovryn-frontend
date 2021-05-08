@@ -319,6 +319,9 @@
     "fee": "Taxa",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez"
+    "v1": {
+      "balance": "Saldo disponível"
+    }
   },
   "modal": {
     "close": "Fechar"
