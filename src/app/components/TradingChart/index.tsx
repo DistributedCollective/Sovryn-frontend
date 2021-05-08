@@ -213,6 +213,7 @@ export function TradingChart(props: ChartContainerProps) {
               href="https://www.tradingview.com/"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-white"
             >
               TradingView, Inc.
             </a>
