@@ -42,7 +42,7 @@ const CurrencyRow: React.FC<Props> = ({
           <AssetRenderer asset={lendingPool.getAsset()} />
         </h3>
       </div>
-      <div className="tw-flex currency tw-pt-0 tw-pb-4 lg:tw-w-3/6 lg:tw-pt-4">
+      <div className="tw-flex currency tw-pt-0 tw-pb-4 lg:tw-pt-4">
         <div className="tw-w-3/6 tw-px-4">
           <Text className="tw-text-muted">
             {t(translations.lend.currency.lendArp)}:
