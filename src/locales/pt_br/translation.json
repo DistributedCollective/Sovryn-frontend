@@ -292,8 +292,8 @@
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (quem recebe)",
-    "borrowAPR": "Juros anual (quem paga)"
+    "supplyAPR": "Juros anual (emprestador)",
+    "borrowAPR": "Juros anual (tomador)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -381,8 +381,8 @@
     "currency": {
       "lend": "Emprestar",
       "borrow": "Obter empréstimo",
-      "lendArp": "Juros anual (quem recebe)",
-      "borrowArp": "Juros anual (quem paga)"
+      "lendArp": "Juros anual (emprestador)",
+      "borrowArp": "Juros anual (tomador)"
     },
     "container": {
       "leftBtn": "Adicionar",
