@@ -915,7 +915,7 @@
       "description": "Operar Spot"
     },
     "tradeForm": {
-      "buy_cta": "COMPRAR",
+      "buy_cta": "COMPRA",
       "sell_cta": "VENDER",
       "amountReceived": "Receber",
       "buy": "COMPRA",
