@@ -916,7 +916,7 @@
     },
     "tradeForm": {
       "buy_cta": "COMPRA",
-      "sell_cta": "VENDER",
+      "sell_cta": "VENDA",
       "amountReceived": "Receber",
       "buy": "COMPRA",
       "sell": "VENDA"
