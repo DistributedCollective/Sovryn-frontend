@@ -11,6 +11,9 @@ import { selectWalletProvider } from '../../containers/WalletProvider/selectors'
 import { databaseRpcNodes } from '../../../utils/classifiers';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
 import ComparisonChart from '../../components/ComparisonChart';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+
 interface DataItem {
   date: Date;
   supply_apr: number;
@@ -64,6 +67,7 @@ interface BarsProps {
 }
 
 function BarsGraph({ width, data }: BarsProps) {
+  const { t } = useTranslation();
   const height = 150;
 
   const supplyApr = useMemo(
@@ -98,13 +102,13 @@ function BarsGraph({ width, data }: BarsProps) {
         height={height}
         datasetPrimary={{
           type: 'areaspline',
-          name: 'Lend APR',
+          name: t(translations.lend.currency.lendArp),
           color: '#FFAC3E',
           data: supplyApr,
         }}
         datasetSecondary={{
           type: 'areaspline',
-          name: 'Borrow APR',
+          name: t(translations.lend.currency.borrowArp),
           color: 'white',
           data: borrowApr,
         }}
