@@ -32,7 +32,7 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted',
+        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted',
         active && 'currency-container__active',
       )}
     >
