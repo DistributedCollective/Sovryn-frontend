@@ -251,7 +251,10 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
           {order.orderType}
         </span>
       </td>
-      <td>{numberFromWei(data.returnVal._fromAmount)}</td>
+      <td>
+        {numberFromWei(data.returnVal._fromAmount)}{' '}
+        <AssetRenderer asset={itemFrom.asset} />
+      </td>
       <td className="d-none d-md-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
