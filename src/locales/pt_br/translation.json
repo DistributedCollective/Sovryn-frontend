@@ -215,7 +215,7 @@
     "stats": "Dados",
     "help": "Ajuda",
     "bitocracy": "Bitocracia",
-    "spotTrade": "Operar Spot"
+    "spotTrade": "Operar spot"
   },
   "trandingPositionSelector": {
     "long": "Comprado",
@@ -919,8 +919,8 @@
   },
   "spotTradingPage": {
     "meta": {
-      "title": "Operar Spot",
-      "description": "Operar Spot"
+      "title": "Operar spot",
+      "description": "Operar spot"
     },
     "tradeForm": {
       "buy_cta": "COMPRA",
