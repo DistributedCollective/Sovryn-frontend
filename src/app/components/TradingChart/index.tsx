@@ -49,14 +49,15 @@ export function TradingChart(props: ChartContainerProps) {
   const initData: ChartData[] = [{ data: [], legend: '' }];
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chartData, setChartData] = useState<ChartData[]>(initData.slice());
-  const [lastTime, setLastTime] = useState<number>(
-    new Date().getTime() - threeMonths,
-  );
+  const [initTime, setInitTime] = useState<number>(Date.now());
+  const [lastTime, setLastTime] = useState<number>(Date.now() - threeMonths);
 
   const resetChart = () => {
     // setHasCharts(false);
+    const currTime = Date.now();
     setChartData(initData.slice());
-    setLastTime(new Date().getTime() - threeMonths);
+    setLastTime(currTime - threeMonths);
+    setInitTime(currTime);
   };
 
   const seriesProps = useMemo(() => {
@@ -79,6 +80,10 @@ export function TradingChart(props: ChartContainerProps) {
   useEffect(() => {
     let cancelTokenSource;
     function getData() {
+      if (Date.now() - initTime >= 600000) {
+        console.log('chart timed out from inactivity');
+        return;
+      }
       cancelTokenSource = axios.CancelToken.source();
       axios
         .get(`${backendUrl[currentChainId]}/datafeed/price/${props.symbol}`, {
