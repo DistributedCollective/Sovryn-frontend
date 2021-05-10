@@ -164,11 +164,11 @@ export function TradeForm() {
         </div>
 
         {!connected ? (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12">
+          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12 tw-mx-auto">
             <EngageButton />
           </div>
         ) : (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12">
+          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
             <Button
               text={t(
                 tradeType === TradingTypes.BUY
