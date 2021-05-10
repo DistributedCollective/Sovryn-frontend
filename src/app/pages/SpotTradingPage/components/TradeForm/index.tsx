@@ -116,7 +116,7 @@ export function TradeForm() {
               itemRenderer={renderAssetPair}
               valueRenderer={(item: Option<string, Asset[], any>) => (
                 <Text ellipsize className="tw-text-center">
-                  <AssetRenderer asset={item.label[0]} /> -
+                  <AssetRenderer asset={item.label[0]} /> -{' '}
                   <AssetRenderer asset={item.label[1]} />
                 </Text>
               )}

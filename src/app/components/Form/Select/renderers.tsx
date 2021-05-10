@@ -118,7 +118,7 @@ export const renderAssetPair: ItemRenderer<Option<string, Asset[], any>> = (
       onClick={handleClick}
       text={
         <Text className="tw-text-center">
-          <AssetRenderer asset={item.label[0]} /> -
+          <AssetRenderer asset={item.label[0]} /> -{' '}
           <AssetRenderer asset={item.label[1]} />
         </Text>
       }
