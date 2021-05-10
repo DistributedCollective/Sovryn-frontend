@@ -317,6 +317,7 @@
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
     "feeTitle": "Total earned fees Available",
+    "noUnlockedSov": "You don't have unlocked SOV",
     "currentStakes": {
       "title": "Current Stakes",
       "asset": "Asset",

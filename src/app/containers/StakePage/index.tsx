@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import moment from 'moment-timezone';
 import Rsk3 from '@rsksmart/rsk3';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -361,7 +362,7 @@ function InnerStakePage() {
               {t(translations.stake.title)}
             </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
-              <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
@@ -392,7 +393,7 @@ function InnerStakePage() {
                     </>
                   }
                 />
-                {sovBalanceOf.value !== '0' && (
+                {sovBalanceOf.value !== '0' ? (
                   <button
                     type="button"
                     className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
@@ -407,9 +408,24 @@ function InnerStakePage() {
                   >
                     {t(translations.stake.addStake)}
                   </button>
+                ) : (
+                  <Tooltip
+                    position="bottom"
+                    hoverOpenDelay={0}
+                    hoverCloseDelay={0}
+                    interactionKind="hover"
+                    content={<>{t(translations.stake.noUnlockedSov)}</>}
+                  >
+                    <button
+                      type="button"
+                      className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold  tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
+                    >
+                      {t(translations.stake.addStake)}
+                    </button>
+                  </Tooltip>
                 )}
               </div>
-              <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -426,7 +442,7 @@ function InnerStakePage() {
                   );
                 })}
               </div>
-              <div className="tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
