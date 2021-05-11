@@ -42,7 +42,7 @@ export function TradingChart(props: ChartContainerProps) {
         container_id: 'tv_chart_container', //id of DOM container
         library_path: '/charting_library/', //relative path of library in /public folder
         locale: 'en',
-        enabled_features: ['hide_left_toolbar_by_default'], //full list of features here: https://github.com/tradingview/charting_library/wiki/Featuresets
+        enabled_features: [], //full list of features here: https://github.com/tradingview/charting_library/wiki/Featuresets
         disabled_features: [
           'header_symbol_search',
           'header_saveload',
@@ -52,12 +52,12 @@ export function TradingChart(props: ChartContainerProps) {
         // toolbar_bg: '#a3a3a3',
         theme: props.theme,
         time_frames: [
-          { text: '1d', resolution: '30', description: '1d', title: '1d' },
-          { text: '3d', resolution: '60', description: '3d', title: '3d' },
+          { text: '1d', resolution: '10', description: '1d', title: '1d' },
+          { text: '3d', resolution: '30', description: '3d', title: '3d' },
           { text: '7d', resolution: '60', description: '7d', title: '7d' },
           { text: '3m', resolution: '120', description: '3m', title: '3m' },
-          { text: '6m', resolution: '240', description: '6m', title: '6m' },
-          { text: '1y', resolution: '1W', description: '1y', title: '1y' },
+          // { text: '6m', resolution: '240', description: '6m', title: '6m' },
+          // { text: '1y', resolution: '1W', description: '1y', title: '1y' },
           { text: '5y', resolution: '1W', description: '5y', title: '5y' },
         ],
       };

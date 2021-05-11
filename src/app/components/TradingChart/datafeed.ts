@@ -1,8 +1,8 @@
 /**
  * TradingChart Datafeed
  *
- * Implementation of TradingView Charting Library JS API:
- * https://github.com/tradingview/charting_library/wiki/JS-Api
+ * Implementation of TradingView Charting Library JS API (v18.043):
+ * https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924
  *
  * If the version of the library is updated, then modifications may
  * be necessary to this file and the realtime streaming.ts file in
@@ -27,10 +27,13 @@ export const supportedResolutions = [
   '1W',
   '1M',
 ];
+const MAX_DAYS = 5;
+const MAX_MONTHS = 1;
+
 const lastBarCache = new Map<string, Bar>();
 
 // Supported configuration options can be found here:
-// https://github.com/tradingview/charting_library/wiki/JS-Api#onreadycallback
+// https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
 const config = {
   exchanges: [],
   symbols_types: [],
@@ -60,12 +63,12 @@ export type Bar = {
  * JS API Datafeed implementation
  */
 export default {
-  // https://github.com/tradingview/charting_library/wiki/JS-Api#onreadycallback
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => {
     setTimeout(() => callback(config));
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
+  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
   searchSymbols: async (
     userInput,
     exchange,
@@ -75,7 +78,7 @@ export default {
     // disabled via chart config in index.tsx
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
+  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
     symbolName,
     onSymbolResolvedCallback,
@@ -109,7 +112,7 @@ export default {
     setTimeout(() => onSymbolResolvedCallback(symbolInfo));
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
+  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
   getBars: async (
     symbolInfo,
     resolution,
@@ -174,8 +177,17 @@ export default {
       onErrorCallback(error);
     }
   },
-
-  //https://github.com/tradingview/charting_library/wiki/JS-Api#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
+  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
+  calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
+    if (resolutionBack === 'D') {
+      if (resolution > MAX_DAYS)
+        return { resolutionBack: 'D', intervalBack: MAX_DAYS };
+    } else if (resolutionBack === 'M') {
+      if (resolution > MAX_MONTHS)
+        return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
+    }
+  },
+  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
   subscribeBars: (
     symbolInfo,
     resolution,
