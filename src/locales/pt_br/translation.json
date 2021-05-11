@@ -186,6 +186,7 @@
     "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
     "my_wallet": "Portfólio",
+    "copy_address": "Copiar endereço",
     "referrals": "Convide um amigo"
   },
   "hintDialog": {
