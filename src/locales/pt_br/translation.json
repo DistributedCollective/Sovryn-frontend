@@ -926,8 +926,8 @@
       "buy_cta": "COMPRA",
       "sell_cta": "VENDA",
       "amountReceived": "Receber",
-      "buy": "COMPRA",
-      "sell": "VENDA"
+      "buy": "COMPRAR",
+      "sell": "VENDER"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1026,7 +1026,7 @@
         "cta": "Minerar"
       },
       "marginTrading": {
-        "title": "Operando com margem",
+        "title": "Operando margem",
         "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
         "cta": "Operar"
       },
