@@ -1,3 +1,5 @@
+import { ActionButton } from 'form/ActionButton';
+import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -6,27 +8,26 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { bignumber } from 'mathjs';
+
 import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { AssetDetails } from '../../../utils/models/asset-details';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { LoadableValue } from '../LoadableValue';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { Asset } from '../../../types/asset';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
-import { Skeleton } from '../PageSkeleton';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { AssetDetails } from '../../../utils/models/asset-details';
 import { Sovryn } from '../../../utils/sovryn';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog } from '../../containers/FastBtcDialog';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
-import { ActionButton } from 'form/ActionButton';
+import { LoadableValue } from '../LoadableValue';
+import { Skeleton } from '../PageSkeleton';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -166,6 +167,12 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
+          {item.asset === Asset.RBTC && (
+            <ActionButton
+              text={t(translations.userAssets.actions.buy)}
+              onClick={() => onFastBtc()}
+            />
+          )}
           {item.asset === Asset.RBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.deposit)}

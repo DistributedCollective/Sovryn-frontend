@@ -723,6 +723,7 @@
       "deposit": "FastBTC",
       "swap": "Swap",
       "trade": "Trade",
+      "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
