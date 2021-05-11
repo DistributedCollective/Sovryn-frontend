@@ -69,7 +69,7 @@ export function SlippageDialog(props: Props) {
           <Dummy className="d-flex justify-content-between align-items-center">
             <div>
               <LoadableValue
-                value={<>{weiToNumberFormat(minReturn, 8)}</>}
+                value={<>{weiToNumberFormat(minReturn, 6)}</>}
                 loading={false}
               />
             </div>

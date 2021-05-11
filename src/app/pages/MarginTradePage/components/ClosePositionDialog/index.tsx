@@ -23,6 +23,7 @@ import { DialogButton } from 'form/DialogButton';
 import { ErrorBadge } from 'form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   item: ActiveLoan;
@@ -111,7 +112,7 @@ export function ClosePositionDialog(props: Props) {
           >
             <AmountInput
               onChange={value => setAmount(value)}
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               maxAmount={props.item.collateral}
             />
           </FormGroup>

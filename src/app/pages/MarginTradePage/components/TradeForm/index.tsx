@@ -25,6 +25,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { renderItemNH } from 'form/Select/renderers';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 const pairs: Options<
   TradingPairType,
@@ -113,7 +114,7 @@ export function TradeForm() {
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
             <AmountInput
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               onChange={value => setAmount(value)}
               asset={collateral}
             />
