@@ -23,6 +23,7 @@ import { DialogButton } from 'form/DialogButton';
 import { ErrorBadge } from 'form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   item: ActiveLoan;
@@ -93,8 +94,8 @@ export function ClosePositionDialog(props: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-w-full tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center tw-tracking-normal">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
 
@@ -105,10 +106,13 @@ export function ClosePositionDialog(props: Props) {
             options={options}
           />
 
-          <FormGroup label="Position amount to close" className="tw-mt-6">
+          <FormGroup
+            label={t(translations.closeTradingPositionHandler.amountToClose)}
+            className="tw-mt-7"
+          >
             <AmountInput
               onChange={value => setAmount(value)}
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               maxAmount={props.item.collateral}
             />
           </FormGroup>
@@ -143,9 +147,7 @@ export function ClosePositionDialog(props: Props) {
               }
             />
           )}
-        </div>
 
-        <div className="tw-full tw-px-5 tw-mt-8">
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}

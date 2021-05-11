@@ -31,7 +31,10 @@ import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNet
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
@@ -131,7 +134,7 @@ export function TradeForm() {
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
             <AmountInput
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
@@ -144,7 +147,7 @@ export function TradeForm() {
               {t(translations.spotTradingPage.tradeForm.amountReceived)}:
             </div>
             <Input
-              value={weiToFixed(rateByPath, 4)}
+              value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
@@ -152,7 +155,7 @@ export function TradeForm() {
             <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
               <span className="tw-text-xs tw-whitespace-nowrap tw-mr-1">
                 {t(translations.swap.minimumReceived)}{' '}
-                {weiToNumberFormat(minReturn, 4)}
+                {weiToNumberFormat(minReturn, 6)}
               </span>
               <img
                 src={settingIcon}
