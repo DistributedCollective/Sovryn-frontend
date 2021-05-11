@@ -59,16 +59,13 @@ export type Bar = {
   volume?: number;
 };
 
-/**
- * JS API Datafeed implementation
- */
 export default {
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => {
     setTimeout(() => callback(config));
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
   searchSymbols: async (
     userInput,
     exchange,
@@ -78,7 +75,7 @@ export default {
     // disabled via chart config in index.tsx
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
     symbolName,
     onSymbolResolvedCallback,
@@ -103,16 +100,10 @@ export default {
       data_status: 'streaming',
     };
 
-    // if (!symbolItem) {
-    //   console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
-    //   onResolveErrorCallback('cannot resolve symbol');
-    //   return;
-    // }
-
     setTimeout(() => onSymbolResolvedCallback(symbolInfo));
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
   getBars: async (
     symbolInfo,
     resolution,
@@ -127,7 +118,6 @@ export default {
     const urlParameters = {
       startTime: from * 1e3,
       endTime: to * 1e3,
-      // limit: 600,
     };
     const query = Object.keys(urlParameters)
       .map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
@@ -146,7 +136,6 @@ export default {
                 high: bar.high,
                 open: bar.open,
                 close: bar.close,
-                //volume: bar.volume
               },
             ];
           }
@@ -177,7 +166,7 @@ export default {
       onErrorCallback(error);
     }
   },
-  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
     if (resolutionBack === 'D') {
       if (resolution > MAX_DAYS)
@@ -187,7 +176,7 @@ export default {
         return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
     }
   },
-  //https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
   subscribeBars: (
     symbolInfo,
     resolution,
@@ -205,7 +194,7 @@ export default {
     );
   },
 
-  //https://github.com/tradingview/charting_library/wiki/JS-Api#unsubscribebarssubscriberuid
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
   unsubscribeBars: subscriberUID => {
     stream.unsubscribeFromStream(subscriberUID);
   },

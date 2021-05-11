@@ -38,7 +38,7 @@ export function TradingChart(props: ChartContainerProps) {
         symbol: props.symbol,
         datafeed: Datafeed,
         interval: '30', //default time interval
-        timeframe: '1D', //default range
+        timeframe: '3D', //default range
         container_id: 'tv_chart_container', //id of DOM container
         library_path: '/charting_library/', //relative path of library in /public folder
         locale: 'en',
