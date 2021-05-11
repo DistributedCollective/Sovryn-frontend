@@ -2,6 +2,8 @@ import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { MenuItem, Text } from '@blueprintjs/core';
 import React from 'react';
 import { Option } from 'form/Select/types';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { Asset } from 'types/asset';
 
 export const renderItem: ItemRenderer<Option> = (
   item,
@@ -100,3 +102,26 @@ export function escapeRegExpChars(text: string) {
   // eslint-disable-next-line no-useless-escape
   return text.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
 }
+
+export const renderAssetPair: ItemRenderer<Option<string, Asset[], any>> = (
+  item,
+  { handleClick, modifiers, query },
+) => {
+  if (!modifiers.matchesPredicate) {
+    return null;
+  }
+  return (
+    <MenuItem
+      active={modifiers.active}
+      disabled={modifiers.disabled}
+      key={item.key}
+      onClick={handleClick}
+      text={
+        <Text className="tw-text-center">
+          <AssetRenderer asset={item.label[0]} /> -{' '}
+          <AssetRenderer asset={item.label[1]} />
+        </Text>
+      }
+    />
+  );
+};
