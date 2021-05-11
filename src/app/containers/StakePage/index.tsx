@@ -36,7 +36,7 @@ import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { LinkToExplorer } from '../../components/LinkToExplorer';
+import { AddressBadge } from '../../components/AddressBadge';
 import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
@@ -694,9 +694,9 @@ const StakesOverview: React.FC<Stakes> = ({
               {item[2].length && (
                 <>
                   Delegated to{' '}
-                  <LinkToExplorer
-                    isAddress={true}
+                  <AddressBadge
                     txHash={item[2]}
+                    startLength={6}
                     className="tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
                   />
                 </>

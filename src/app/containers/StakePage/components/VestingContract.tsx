@@ -12,7 +12,7 @@ import { useAccount } from '../../../hooks/useAccount';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { LoadableValue } from '../../../components/LoadableValue';
-import { LinkToExplorer } from '../../../components/LinkToExplorer';
+import { AddressBadge } from '../../../components/AddressBadge';
 import { WithdrawVesting } from './WithdrawVesting';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
@@ -140,9 +140,9 @@ export function VestingContract(props: Props) {
               {delegate.length > 0 && (
                 <>
                   Delegated to{' '}
-                  <LinkToExplorer
-                    isAddress={true}
+                  <AddressBadge
                     txHash={delegate}
+                    startLength={6}
                     className={`tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal ${
                       delegateLoading && 'skeleton'
                     }`}

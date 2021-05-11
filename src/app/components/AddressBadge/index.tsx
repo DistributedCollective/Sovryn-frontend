@@ -1,11 +1,10 @@
 /**
  *
- * LinkToExplorer
+ * AddressBadge
  *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { useWalletContext } from '@sovryn/react-wallet';
 import { blockExplorers, currentChainId } from '../../../utils/classifiers';
 
 interface Props {
@@ -17,7 +16,7 @@ interface Props {
   text?: string;
 }
 
-export function LinkToExplorer(props: Props) {
+export function AddressBadge(props: Props) {
   const handleTx = useCallback(() => {
     if (props.txHash && props.startLength && props.endLength) {
       const start = props.txHash.substr(0, props.startLength);
@@ -36,8 +35,7 @@ export function LinkToExplorer(props: Props) {
 
   const [txHash, setTxHash] = useState(handleTx());
   const [url, setUrl] = useState(getUrl());
-
-  const { chainId } = useSelector(selectWalletProvider);
+  const { chainId } = useWalletContext();
 
   useEffect(() => {
     setTxHash(handleTx());
@@ -50,7 +48,7 @@ export function LinkToExplorer(props: Props) {
   return (
     <a
       className={props.className}
-      href={`${url}/tx/${props.txHash}`}
+      href={`${url}/address/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
     >
@@ -59,7 +57,7 @@ export function LinkToExplorer(props: Props) {
   );
 }
 
-LinkToExplorer.defaultProps = {
+AddressBadge.defaultProps = {
   startLength: 10,
   endLength: 4,
   className: 'tw-ml-1 tw-text-white',
