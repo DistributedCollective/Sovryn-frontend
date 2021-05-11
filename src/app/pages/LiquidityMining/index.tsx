@@ -12,13 +12,15 @@ import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { translations } from 'locales/i18n';
 
-import { MiningPoolDictionary } from './dictionaries/mining-pool-dictionary';
 import { MiningPool } from './components/MiningPool';
+import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { useLiquidityMining_fetchUserInfoList } from './hooks/useLiquidityMining_getUserInfoList';
 
-const pools = MiningPoolDictionary.pools;
+const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
+  useLiquidityMining_fetchUserInfoList();
   return (
     <>
       <Helmet>
@@ -30,8 +32,11 @@ export function LiquidityMining() {
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
+        <div className="tw-mb-12">
+          TODO: Transfer Marked-Making balances to the LM pools.
+        </div>
         {pools.map(item => (
-          <MiningPool key={item.pool} pool={item} />
+          <MiningPool key={item.poolAsset} pool={item} />
         ))}
       </div>
       <Footer />

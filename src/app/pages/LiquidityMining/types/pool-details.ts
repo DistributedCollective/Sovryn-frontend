@@ -1,5 +1,8 @@
 import type { Asset, ChainId } from 'types';
 
+/**
+ * @deprecated
+ */
 export class PoolDetails {
   constructor(
     public readonly pool: Asset,

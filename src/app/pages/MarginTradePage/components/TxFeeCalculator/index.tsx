@@ -4,7 +4,10 @@ import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  toNumberFormat,
+  weiToNumberFormat,
+} from '../../../../../utils/display-text/format';
 import { ContractName } from '../../../../../utils/types/contracts';
 import { useEstimateContractGas } from '../../../../hooks/useEstimateGas';
 
@@ -18,7 +21,7 @@ interface Props {
 }
 
 export function TxFeeCalculator(props: Props) {
-  const { value, loading, error } = useEstimateContractGas(
+  const { value, loading, error, gasPrice } = useEstimateContractGas(
     props.contractName,
     props.methodName,
     props.args,
@@ -37,7 +40,11 @@ export function TxFeeCalculator(props: Props) {
             loading={loading}
             tooltip={
               <>
-                {fromWei(value)} {props.symbol}
+                {fromWei(value)} {props.symbol}{' '}
+                <small className="tw-text-muted">
+                  (gas price:{' '}
+                  {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
+                </small>
                 {error && <p className="tw-text-red">{error}</p>}
               </>
             }

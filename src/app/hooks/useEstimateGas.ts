@@ -50,6 +50,7 @@ export function useEstimateGas(
     value: txFee,
     error: state.error,
     loading: state.loading,
+    gasPrice: gas.get(),
   };
 }
 

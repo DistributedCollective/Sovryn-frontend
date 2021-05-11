@@ -1,7 +1,7 @@
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
@@ -24,7 +24,6 @@ export function AmountInput({ asset, maxAmount, ...props }: Props) {
         type="number"
         placeholder={props.placeholder || '0.0000'}
         appendElem={asset ? <AssetRenderer asset={asset} /> : null}
-        inputClassName="tw-text-center"
         {...props}
       />
       {(asset || maxAmount !== undefined) && (

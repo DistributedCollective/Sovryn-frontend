@@ -1,6 +1,9 @@
 import { Asset, ChainId } from 'types';
 import { PoolDetails } from '../types/pool-details';
 
+/**
+ * @deprecated
+ */
 export class MiningPoolDictionary {
   public static pools: PoolDetails[] = [
     new PoolDetails(

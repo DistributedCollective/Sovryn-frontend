@@ -1,30 +1,63 @@
 import React, { useState } from 'react';
-import { PoolDetails } from '../../types/pool-details';
-import { Dialog } from '../../../../containers/Dialog';
+import { ActionButton } from 'form/ActionButton';
+import { AddLiquidityDialog } from '../AddLiquidityDialog';
+import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
+import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
+import { PoolAssetInfo } from './PoolAssetInfo';
+import { PoolChart } from './PoolChart';
+import { UserPoolInfo } from './UserPoolInfo';
 
 interface Props {
-  pool: PoolDetails;
+  pool: LiquidityPool;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
 export function MiningPool({ pool }: Props) {
   const [dialog, setDialog] = useState<DialogType>('none');
-
   return (
     <>
-      <div className="d-flex flex-row justify-content-between align-items-center mb-3 bg-secondaryBackground rounded-lg p-3">
-        <div>
-          <div>{pool.pool}</div>
-          <div>{pool.token}</div>
+      <div className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-bg-secondaryBackground tw-rounded-lg tw-p-3">
+        {/* Pie Chart */}
+        <div className="tw-w-12 tw-h-12 tw-rounded-full tw-bg-white tw-mr-5" />
+        {/* Assets and balances */}
+        <div className="tw-flex tw-flex-col tw-space-y-2">
+          {pool.supplyAssets.map(item => (
+            <PoolAssetInfo
+              key={item.asset}
+              poolAsset={pool.poolAsset}
+              supplyAsset={item}
+            />
+          ))}
         </div>
+        {/* Graph chart */}
+        <PoolChart pool={pool} />
+        {/* Some info */}
+        <UserPoolInfo pool={pool} />
+        {/* Actions */}
         <div>
-          <button onClick={() => setDialog('add')}>Add</button>
-          <button onClick={() => setDialog('remove')}>Withdraw</button>
+          <ActionButton
+            text="Deposit"
+            onClick={() => setDialog('add')}
+            className="tw-block tw-w-full tw-mb-3"
+          />
+          <ActionButton
+            text="Withdraw"
+            onClick={() => setDialog('remove')}
+            className="tw-block tw-w-full"
+          />
         </div>
       </div>
-      <Dialog isOpen={dialog === 'add'}>add</Dialog>
-      <Dialog isOpen={dialog === 'remove'}>remove</Dialog>
+      <AddLiquidityDialog
+        pool={pool}
+        showModal={dialog === 'add'}
+        onCloseModal={() => setDialog('none')}
+      />
+      <RemoveLiquidityDialog
+        pool={pool}
+        showModal={dialog === 'remove'}
+        onCloseModal={() => setDialog('none')}
+      />
     </>
   );
 }
