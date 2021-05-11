@@ -6,6 +6,7 @@
 
 import React, { useReducer, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import { useAccount } from '../../../hooks/useAccount';
@@ -15,7 +16,11 @@ import { CustomDialog } from '../../CustomDialog';
 import { Sovryn } from '../../../../utils/sovryn';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 
-export function NotificationForm() {
+interface Props {
+  className?: string;
+}
+
+export function NotificationForm(props: Props) {
   const { t } = useTranslation();
   const mailSrv = backendUrl[currentChainId];
 
@@ -123,7 +128,12 @@ export function NotificationForm() {
 
   return (
     <>
-      <div className={`tw-hidden ${!loading && walletAddress && 'tw-inline'}`}>
+      <div
+        className={classnames(
+          props.className,
+          `${!loading && walletAddress && 'tw-inline'}`,
+        )}
+      >
         <EmailNotificationButton
           text={`${
             userExists

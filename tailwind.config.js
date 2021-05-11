@@ -20,9 +20,15 @@ module.exports = {
       lg: '992px',
       xl: '1200px',
       '2xl': '1536px',
+      '3xl': '1854px',
     },
     fontFamily: {
       body: ['Montserrat', 'sans-serif'],
+    },
+    maxWidth: {
+      '68': '68%',
+      '75': '75%',
+      '80': '80%',
     },
     colors: {
       // new

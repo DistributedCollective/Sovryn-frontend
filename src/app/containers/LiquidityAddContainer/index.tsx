@@ -1,9 +1,3 @@
-/**
- *
- * LiquidityAddContainer
- *
- */
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
@@ -20,8 +14,7 @@ import { TradeButton } from '../../components/TradeButton';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { usePoolToken } from '../../hooks/amm/usePoolToken';
-import { ExpectedPoolTokens } from './ExpectedPoolTokens';
+import { SuppliedBalance } from './SuppliedBalance';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useMaintenance } from '../../hooks/useMaintenance';
 import { PoolV1 } from './PoolV1';
@@ -32,9 +25,7 @@ const poolList = pools.map(item => ({
   label: item.getAssetDetails().symbol,
 }));
 
-interface Props {}
-
-export function LiquidityAddContainer(props: Props) {
+export function LiquidityAddContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract(true);
 
@@ -55,8 +46,6 @@ export function LiquidityAddContainer(props: Props) {
 
   const [tokens, setTokens] = useState(prepareTokens());
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
-
-  usePoolToken(pool, sourceToken);
 
   const [amount, setAmount] = useState('');
 
@@ -141,11 +130,7 @@ export function LiquidityAddContainer(props: Props) {
           <PoolV1 pool={poolData} />
         ) : (
           <>
-            <ExpectedPoolTokens
-              pool={pool}
-              asset={sourceToken}
-              amount={weiAmount}
-            />
+            <SuppliedBalance pool={pool} asset={sourceToken} />
             <div className="tw-mt-4">
               <SendTxProgress {...tx} displayAbsolute={false} />
             </div>

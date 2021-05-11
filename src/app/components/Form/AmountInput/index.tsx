@@ -15,22 +15,27 @@ interface Props {
   maxAmount?: string;
 }
 
-export function AmountInput({ asset, maxAmount, ...props }: Props) {
+export function AmountInput({
+  value,
+  onChange,
+  placeholder = '0.000000',
+  asset,
+  maxAmount,
+}: Props) {
   return (
     <>
       <Input
-        value={props.value}
-        onChange={props.onChange}
+        value={value}
+        onChange={onChange}
         type="number"
-        placeholder={props.placeholder || '0.0000'}
+        placeholder={placeholder}
         appendElem={asset ? <AssetRenderer asset={asset} /> : null}
-        {...props}
       />
       {(asset || maxAmount !== undefined) && (
         <AmountSelector
           asset={asset}
           maxAmount={maxAmount}
-          onChange={props.onChange}
+          onChange={onChange}
         />
       )}
     </>

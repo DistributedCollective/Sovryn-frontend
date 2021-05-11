@@ -27,6 +27,7 @@ import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-fro
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { TradingPosition } from '../../../../../types/trading-position';
 import type { ActiveLoan } from 'types/active-loan';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   item: ActiveLoan;
@@ -71,17 +72,17 @@ export function AddToMarginDialog(props: Props) {
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+          <h1 className="tw-text-white tw-tracking-normal">
             {t(translations.addToMargin.title)}
           </h1>
 
           <FormGroup
             label={t(translations.addToMargin.amount)}
-            className="tw-mb-12"
+            className="tw-mb-8"
           >
             <AmountInput
               onChange={value => setAmount(value)}
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               asset={tokenDetails.asset}
             />
           </FormGroup>
@@ -110,9 +111,7 @@ export function AddToMarginDialog(props: Props) {
           {topupLocked?.maintenance_active && (
             <ErrorBadge content={topupLocked?.message} />
           )}
-        </div>
 
-        <div className="tw-px-5">
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirm()}

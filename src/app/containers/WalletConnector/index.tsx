@@ -11,6 +11,8 @@ import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
 
 import { translations } from 'locales/i18n';
@@ -70,6 +72,17 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             content={
               <Menu>
+                <CopyToClipboard
+                  text={address}
+                  onCopy={() =>
+                    toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
+                  }
+                >
+                  <MenuItem
+                    icon="duplicate"
+                    text={t(translations.wallet.copy_address)}
+                  />
+                </CopyToClipboard>
                 <MenuItem
                   icon="briefcase"
                   text={t(translations.wallet.my_wallet)}

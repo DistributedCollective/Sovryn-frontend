@@ -25,6 +25,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { renderItemNH } from 'form/Select/renderers';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 const pairs: Options<
   TradingPairType,
@@ -73,7 +74,7 @@ export function TradeForm() {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black lg:tw-rounded tw-p-12">
+      <div className="tw-trading-form-card tw-bg-black lg:tw-rounded tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-320 tw-mx-auto">
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.pair)}
@@ -85,6 +86,7 @@ export function TradeForm() {
               filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
               itemRenderer={renderItemNH}
+              innerClasses="tw-pr-3"
               valueRenderer={(item: Option) => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}
@@ -112,7 +114,7 @@ export function TradeForm() {
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
             <AmountInput
-              value={amount}
+              value={stringToFixedPrecision(amount, 6)}
               onChange={value => setAmount(value)}
               asset={collateral}
             />
@@ -120,11 +122,11 @@ export function TradeForm() {
         </div>
 
         {!connected ? (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
             <EngageButton />
           </div>
         ) : (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
             <Button
               text={t(translations.marginTradePage.tradeForm.buttons.long)}
               position={TradingPosition.LONG}

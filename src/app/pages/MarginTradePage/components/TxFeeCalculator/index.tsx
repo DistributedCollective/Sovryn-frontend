@@ -30,7 +30,7 @@ export function TxFeeCalculator(props: Props) {
   );
 
   return (
-    <div className="tw-mb-8 tw-truncate tw-text-xs">
+    <div className="tw-mb-10 tw-truncate tw-text-sm tw-tracking-normal">
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
         values={{ symbol: props.symbol }}
