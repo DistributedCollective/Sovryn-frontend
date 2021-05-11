@@ -19,7 +19,7 @@ export function DialogButton({
   ...props
 }: Props) {
   return (
-    <div className="tw-flex tw-justify-between tw-items-center tw-space-x-8">
+    <div className="tw-flex tw-justify-between tw-items-center tw-space-x-3">
       <button className={cn('tw-btn-dialog')} onClick={onConfirm} {...props}>
         {confirmLabel}
       </button>

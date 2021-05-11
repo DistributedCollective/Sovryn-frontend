@@ -118,7 +118,7 @@ const ButtonGroup: React.FC<Props> = ({
       {(key === ButtonType.REDEEM || key === ButtonType.DEPOSIT) && (
         <div className="tw-container tw-mx-auto tw-px-4 tw-my-4">
           <div className="withdraw-content tw-py-4 tw-grid tw-grid-cols-2 tw-gap-8 tw--mx-4">
-            <div className="tw-flex tw-flex-col">
+            <div className="tw-flex tw-flex-col tw-pl-4">
               <h4 className="tw-flex-grow">
                 <Text className="tw-break-normal">
                   {t(translations.lend.container.balance)}
