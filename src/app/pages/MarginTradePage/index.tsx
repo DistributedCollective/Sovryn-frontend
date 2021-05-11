@@ -24,6 +24,7 @@ import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
+import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 
 interface Props {}
 
@@ -69,9 +70,10 @@ export function MarginTradePage(props: Props) {
 
         {connected && (
           <>
-            <article className="tw-w-full tw-mt-6">
+            <article className="tw-w-full tw-mt-10">
               <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
                 {t(translations.marginTradePage.openPositions)}
+                <NotificationForm className="tw-ml-2 tw-inline-block" />
               </h1>
               <div className="tw-px-5 tw-pb-5 tw-border tw-border-white tw-rounded-lg">
                 <OpenPositionsTable />

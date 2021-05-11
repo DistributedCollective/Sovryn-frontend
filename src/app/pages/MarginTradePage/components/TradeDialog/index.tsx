@@ -92,43 +92,45 @@ export function TradeDialog() {
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
             Review Transaction
           </h1>
-          <LabelValuePair label="Trading Pair:" value={pair.name} />
-          <LabelValuePair
-            label="Leverage:"
-            value={<>{toNumberFormat(leverage)}x</>}
-          />
-          <LabelValuePair label="Direction:" value={position} />
-          <LabelValuePair
-            label="Collateral:"
-            value={
-              <>
-                <LoadableValue
-                  loading={false}
-                  value={weiToNumberFormat(amount, 4)}
-                  tooltip={fromWei(amount)}
-                />{' '}
-                {asset.symbol}
-              </>
-            }
-          />
-          <LabelValuePair
-            label="Maintenance Margin:"
-            value={<>{weiToNumberFormat(15)}%</>}
-          />
-          <LabelValuePair
-            label="Est. Liquidation price:"
-            value={
-              <>
-                <LiquidationPrice
-                  asset={pair.shortAsset}
-                  assetLong={pair.longAsset}
-                  leverage={leverage}
-                  position={position}
-                />{' '}
-                {pair.longDetails.symbol}
-              </>
-            }
-          />
+          <div className="tw-text-sm tw-font-light tw-tracking-normal">
+            <LabelValuePair label="Trading Pair:" value={pair.name} />
+            <LabelValuePair
+              label="Leverage:"
+              value={<>{toNumberFormat(leverage)}x</>}
+            />
+            <LabelValuePair label="Direction:" value={position} />
+            <LabelValuePair
+              label="Collateral:"
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(amount, 4)}
+                    tooltip={fromWei(amount)}
+                  />{' '}
+                  {asset.symbol}
+                </>
+              }
+            />
+            <LabelValuePair
+              label="Maintenance Margin:"
+              value={<>{weiToNumberFormat(15)}%</>}
+            />
+            <LabelValuePair
+              label="Est. Liquidation price:"
+              value={
+                <>
+                  <LiquidationPrice
+                    asset={pair.shortAsset}
+                    assetLong={pair.longAsset}
+                    leverage={leverage}
+                    position={position}
+                  />{' '}
+                  {pair.longDetails.symbol}
+                </>
+              }
+            />
+          </div>
           {/*<LabelValuePair*/}
           {/*  label="Renewal Date:"*/}
           {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
@@ -171,9 +173,7 @@ export function TradeDialog() {
             contractName={contractName}
             condition={true}
           />
-        </div>
 
-        <div className="tw-px-5">
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
@@ -200,12 +200,12 @@ function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
       className={cn(
-        'tw-flex tw-flex-row tw-justify-between tw-items-center tw-space-x-4 tw-mb-2',
+        'tw-flex tw-flex-row tw-justify-between tw-space-x-4 tw-mb-2',
         props.className,
       )}
     >
-      <div className="tw-truncate">{props.label}</div>
-      <div className="tw-truncate">{props.value}</div>
+      <div className="tw-truncate tw-w-7/12">{props.label}</div>
+      <div className="tw-truncate tw-w-5/12 tw-text-left">{props.value}</div>
     </div>
   );
 }

@@ -32,17 +32,17 @@ const CurrencyRow: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'sovryn-border tw-py-1 lg:tw-py-2 currency-container tw-mb-4 tw-text-muted',
+        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted',
         active && 'currency-container__active',
       )}
     >
       <div className="tw-flex tw-flex- tw-justify-start tw-items-center currency currency-title lg:tw-w-3/6 tw-mb-4 lg:tw-mb-0 tw-px-4">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />
-        <h3 className="tw-m-0 font-family-rowdies">
+        <h3 className="tw-m-0 tw-pb-2">
           <AssetRenderer asset={lendingPool.getAsset()} />
         </h3>
       </div>
-      <div className="tw-flex currency tw-pt-0 lg:tw-w-3/6 lg:tw-pt-4">
+      <div className="tw-flex currency tw-pt-0 tw-pb-4 lg:tw-pt-4">
         <div className="tw-w-3/6 tw-px-4">
           <Text className="tw-text-muted">
             {t(translations.lend.currency.lendArp)}:
@@ -63,7 +63,7 @@ const CurrencyRow: React.FC<Props> = ({
         </div>
       </div>
       {active && (
-        <div className="tw-mt-4">
+        <div>
           <LoanTokenGraphs lendingPool={lendingPool} />
         </div>
       )}
