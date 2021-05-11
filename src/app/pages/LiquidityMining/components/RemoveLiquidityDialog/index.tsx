@@ -99,8 +99,8 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
     pool.poolAsset,
     asset,
     supplyAsset.getContractAddress(),
-    weiAmount,
-    '1',
+    poolWeiAmount,
+    minReturn,
   );
 
   const valid = useMemo(() => {
@@ -111,10 +111,10 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
     return [
       getAmmContract(pool.poolAsset).address,
       getTokenContract(asset).address,
-      weiAmount,
+      poolWeiAmount,
       minReturn,
     ];
-  }, [pool.poolAsset, asset, weiAmount, minReturn]);
+  }, [pool.poolAsset, asset, poolWeiAmount, minReturn]);
 
   const handleConfirm = () => withdraw();
 

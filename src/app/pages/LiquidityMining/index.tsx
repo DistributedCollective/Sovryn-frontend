@@ -14,13 +14,11 @@ import { translations } from 'locales/i18n';
 
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { useLiquidityMining_fetchUserInfoList } from './hooks/useLiquidityMining_getUserInfoList';
 
 const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
-  useLiquidityMining_fetchUserInfoList();
   return (
     <>
       <Helmet>
