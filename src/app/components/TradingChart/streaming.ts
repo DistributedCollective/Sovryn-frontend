@@ -40,7 +40,7 @@ export class Streaming {
       .get(`${api_root}${subscriptionItem.symbolInfo.name.replace('/', ':')}`, {
         cancelToken: this.cancelTokenSource.token,
         params: {
-          startTime: subscriptionItem.lastBar.time,
+          startTime: subscriptionItem?.lastBar?.time || Date.now(),
         },
       })
       .then(response => {
@@ -51,13 +51,19 @@ export class Streaming {
         ) {
           response.data.series.forEach(item => {
             let bar;
-            if (item.time * 1e3 > subscriptionItem.lastBar.time) {
+            if (
+              !subscriptionItem.lastBar ||
+              item.time * 1e3 > subscriptionItem.lastBar.time
+            ) {
               // generate new bar
               bar = {
                 ...item,
                 time: item.time * 1e3,
               };
-            } else if (item.time * 1e3 === subscriptionItem.lastBar.time) {
+            } else if (
+              subscriptionItem.lastBar &&
+              item.time * 1e3 === subscriptionItem.lastBar.time
+            ) {
               // update last bar
               bar = {
                 ...subscriptionItem.lastBar,
