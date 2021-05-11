@@ -8,15 +8,13 @@ export function EngageButton() {
   const { t } = useTranslation();
   const { connect, loading } = useWalletContext();
   return (
-    <div>
-      <button
-        type="button"
-        className={cn('tw-btn-engage', { loading: loading })}
-        onClick={() => connect()}
-        disabled={loading}
-      >
-        {t(translations.wallet.connect_btn)}
-      </button>
-    </div>
+    <button
+      type="button"
+      className={cn('tw-btn-engage', { loading: loading })}
+      onClick={() => connect()}
+      disabled={loading}
+    >
+      {t(translations.wallet.connect_btn)}
+    </button>
   );
 }
