@@ -11,6 +11,7 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
 import { bignumber } from 'mathjs';
+import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
   source: Asset;
@@ -45,7 +46,8 @@ export function CurrentPositionProfit(props: Props) {
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="text-green">{toNumberFormat(diff * 100, 2)}</span>%
+          <span className="tw-text-green">{toNumberFormat(diff * 100, 2)}</span>
+          %
         </>
       );
     }
@@ -53,7 +55,7 @@ export function CurrentPositionProfit(props: Props) {
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.down)}
-          <span className="text-red">
+          <span className="tw-text-red">
             {toNumberFormat(Math.abs(diff * 100), 2)}
           </span>
           %
@@ -70,10 +72,11 @@ export function CurrentPositionProfit(props: Props) {
         loading={loading}
         value={
           <>
-            <span className={diff < 0 ? 'text-red' : 'text-green'}>
-              {weiToNumberFormat(profit, 8)}
-            </span>{' '}
-            {props.destination}
+            <span className={diff < 0 ? 'tw-text-red' : 'tw-text-green'}>
+              {diff > 0 && '+'}
+              {weiToNumberFormat(profit, 8)}{' '}
+              <AssetRenderer asset={props.destination} />
+            </span>
           </>
         }
         tooltip={

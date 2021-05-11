@@ -31,9 +31,10 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "O aplicativo foi atualizado.",
-    "message": "Novo conteúdo disponível e será usado quando todas as guias desta página forem fechadas.",
-    "button": "Atualizar agora"
+    "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
+    "notice": "Para atualizar, feche a página da Sovryn",
+    "updateBtn": "ATUALIZAR",
+    "closeBtn": "Antes de atualizar, eu gostaria de concluir uma negociação"
   },
   "tradingActivity": {
     "title": "Minhas operações",
@@ -84,8 +85,12 @@
       "rewardPool": "Sua participação atual no pool de recompensas*",
       "rewardSOV": "Seus ganhos atuais de SOV*",
       "miningEvent": "Seus eventos de mineração de liquidez",
-      "noAsset": "Você ainda não tem {{asset}} eventos de mineração de liquidez.",
-      "rewardPoolNote": "* Para semanas que ainda estão em andamento, este número pode aumentar ou diminuir"
+      "noAsset": "Você ainda não adicionou {{asset}} no pool de mineração de liquidez.",
+      "rewardPoolNote": "* Para semanas que ainda estão em andamento, este número pode aumentar ou diminuir",
+      "RBTC_DOC": "<0>RBTC</0>/DOC",
+      "RBTC_USDT": "<0>RBTC</0>/USDT",
+      "BPRO_USDT": "BPRO/<0>USDT</0>",
+      "RBTC_SOV": "<0>RBTC</0>/SOV"
     }
   },
   "tradingHistoryPage": {
@@ -93,11 +98,14 @@
     "auth": "Por favor, conecte e autorize sua carteira.",
     "noClosedTrades": "Você não tem operações fechadas.",
     "table": {
+      "direction": "Direção",
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
       "openPrice": "Preço de entrada",
       "closePrice": "Preço de fechamento",
-      "profit": "Lucro / Prejuízo",
+      "profit": "L&P realizado",
+      "entryTxHash": "Transação de entrada",
+      "closeTxHash": "Transação de saída",
       "profitLabels": {
         "up": "Lucro de ",
         "down": "Prejuízo de ",
@@ -196,7 +204,7 @@
     "buySov": "Compre SOV",
     "trade": "Negociar",
     "swap": "Trocar ativos",
-    "marginTrade": "Operar com margem",
+    "marginTrade": "Operar margem",
     "finance": "Finanças",
     "lend": "Emprestar ativos",
     "borrow": "Obter empréstimo",
@@ -206,7 +214,8 @@
     "wallet": "Portfólio",
     "stats": "Dados",
     "help": "Ajuda",
-    "bitocracy": "Bitocracia"
+    "bitocracy": "Bitocracia",
+    "spotTrade": "Operar spot"
   },
   "trandingPositionSelector": {
     "long": "Comprado",
@@ -283,12 +292,19 @@
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (quem recebe)",
-    "borrowAPR": "Juros anual (quem paga)"
+    "supplyAPR": "Juros anual (emprestador)",
+    "borrowAPR": "Juros anual (tomador)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
     "backHome": "Ir para página inicial"
+  },
+  "swap": {
+    "title": "Trocar",
+    "meta": "Trocar",
+    "minimumReceived": "Mínimo a receber:",
+    "send": "Enviar",
+    "receive": "Receber"
   },
   "liquidity": {
     "title": "Liquidez",
@@ -302,7 +318,10 @@
     "token": "Pool tokens a receber",
     "fee": "Taxa",
     "supply": "Adicionar liquidez",
-    "withdraw": "Retirar liquidez"
+    "withdraw": "Retirar liquidez",
+    "v1": {
+      "balance": "Saldo disponível"
+    }
   },
   "modal": {
     "close": "Fechar"
@@ -362,8 +381,8 @@
     "currency": {
       "lend": "Emprestar",
       "borrow": "Obter empréstimo",
-      "lendArp": "Juros anual (quem recebe)",
-      "borrowArp": "Juros anual (quem paga)"
+      "lendArp": "Juros anual (emprestador)",
+      "borrowArp": "Juros anual (tomador)"
     },
     "container": {
       "leftBtn": "Adicionar",
@@ -672,6 +691,18 @@
       "status": "Status"
     }
   },
+  "spotHistory": {
+    "title": "Histórico",
+    "tableHeaders": {
+      "time": "Data e hora",
+      "pair": "Par",
+      "orderType": "Tipo de ordem",
+      "amountPaid": "Quantidade paga",
+      "amountReceived": "Quantidade recebida",
+      "transactionFee": "Taxa de transação",
+      "status": "Status"
+    }
+  },
   "topUpHistory": {
     "meta": {
       "title": "Histórico de depósitos"
@@ -806,6 +837,14 @@
       }
     }
   },
+  "mobileBrowsersWarningDialog": {
+    "acceptTerms": "Eu aceito os riscos e desejo usar o dapp com meu dispositivo móvel",
+    "salesBtn": "Eu entendo",
+    "content": {
+      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com dispositivos móveis.",
+      "paragraph2": "Que tal usar a versão para computadores?"
+    }
+  },
   "fastBtcDialog": {
     "title": "FastBTC",
     "subtitle": "Adquira rBTC depositando BTC ou realizando uma compra com moeda estatal",
@@ -856,6 +895,51 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
+  "marginTradePage": {
+    "meta": {
+      "title": "Operar margem",
+      "description": "Operar margem"
+    },
+    "tradeForm": {
+      "labels": {
+        "pair": "Par:",
+        "asset": "Ativo:",
+        "leverage": "Alavancagem:",
+        "amount": "Quantidade:",
+        "balance": "Saldo disponível: <0/> <1/>",
+        "txFee": "Taxa de transação: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "long": "Comprado",
+        "short": "Vendido"
+      }
+    },
+    "openPositions": "Posições abertas",
+    "tradingHistory": "Histórico"
+  },
+  "spotTradingPage": {
+    "meta": {
+      "title": "Operar spot",
+      "description": "Operar spot"
+    },
+    "tradeForm": {
+      "buy_cta": "COMPRA",
+      "sell_cta": "VENDA",
+      "amountReceived": "Receber",
+      "buy": "COMPRA",
+      "sell": "VENDA"
+    },
+    "priceHistory": {
+      "turnover": "Volume de negociações",
+      "lastTradedPrice": "Último preço"
+    }
+  },
+  "form": {
+    "select": {
+      "noResults": "Sem resultados",
+      "placeholder": "Selecionar item"
+    }
+  },
   "liquidityMining": {
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
@@ -885,19 +969,19 @@
       "lastPrice": "Último preço:"
     },
     "engage": {
-      "title": "Conectar",
+      "title": "Conectar carteira",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
-      "cta": "Conectar carteira"
+      "cta": "Conectar"
     },
     "topUp": {
-      "title": "Adquirir",
-      "line1": "Você irá precisar de RBTC na sua carteira para comprar SOV e pagar as taxas da rede RSK",
-      "line2": "Saiba mais sobre RBTC na RSK",
-      "cta": "Adquirir RBTC"
+      "title": "Adquirir <0>RBTC</0>",
+      "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
+      "line2": "Saiba mais sobre <0>RBTC</0> na RSK",
+      "cta": "Adquirir"
     },
     "form": {
-      "title": "Comprar SOV com RBTC",
+      "title": "Comprar SOV com <0>RBTC</0>",
       "enterAmount": "Insira a quantidade",
       "availableBalance": "Saldo disponível:",
       "minimumReceived": "Mínimo a receber:",
@@ -916,7 +1000,8 @@
       "txStatus": {
         "title": "Status da transação",
         "aborted": "Transação abortada pelo usuário.",
-        "cta": "Ver no blockchain"
+        "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
+        "cta": "Ver na blockchain"
       }
     },
     "promotions": {
@@ -968,6 +1053,26 @@
     },
     "title": "Compre SOV exclusivamente na Sovryn!",
     "earn": "Ganhe com a Sovryn"
+  },
+  "addToMargin": {
+    "title": "Depositar",
+    "amount": "Quantidade:",
+    "liquidationPrice": "Preço de liquidação:"
+  },
+  "openPositionTable": {
+    "direction": "Direção",
+    "positionSize": "Tamanho da posição",
+    "entryPrice": "Preço de entrada",
+    "liquidationPrice": "Preço de liquidação",
+    "positionMargin": "Posição margem",
+    "unrealizedPL": "L&P não realizado",
+    "interestAPR": "Juros anual",
+    "actions": "Ação",
+    "noData": "Sem dados",
+    "cta": {
+      "margin": "Adicionar margem",
+      "close": "Fechar posição"
+    }
   },
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser resgatado!",

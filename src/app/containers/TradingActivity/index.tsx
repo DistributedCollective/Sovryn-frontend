@@ -16,14 +16,14 @@ export function TradingActivity() {
   const [activeTrades, setActiveTrades] = useState(true);
   return (
     <div>
-      <div className="mt-5 mb-4 d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
-        <h3 className="mt-0 mb-3 mb-md-0 text-white">
+      <div className="tw-mt-10 tw-mb-8 tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between md:tw-items-center">
+        <h3 className="tw-mt-0 tw-mb-6 md:tw-mb-0 tw-text-white">
           {t(s.title)}
           <NotificationForm />
         </h3>
 
-        <div className="d-flex flex-row align-items-center justify-content-start justify-content-md-end">
-          <div className="mr-3">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start md:tw-justify-end">
+          <div className="tw-mr-4">
             <Tab
               text={t(s.tabs.activeTrades)}
               active={activeTrades}
@@ -39,16 +39,14 @@ export function TradingActivity() {
           </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col-12">
-          {!isConnected ? (
-            <SkeletonRow loadingText={t(s.walletNote)} />
-          ) : activeTrades ? (
-            <ActiveUserLoans loanType={1} />
-          ) : (
-            <TradingHistory />
-          )}
-        </div>
+      <div className="tw-grid tw-gap-8 tw-grid-cols-1">
+        {!isConnected ? (
+          <SkeletonRow loadingText={t(s.walletNote)} />
+        ) : activeTrades ? (
+          <ActiveUserLoans loanType={1} />
+        ) : (
+          <TradingHistory />
+        )}
       </div>
     </div>
   );

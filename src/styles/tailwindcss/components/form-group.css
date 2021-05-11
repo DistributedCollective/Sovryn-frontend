@@ -1,0 +1,20 @@
+@layer components {
+  .tw-form-group {
+  }
+
+  .tw-form-group-label {
+    @apply tw-text-white tw-font-normal tw-text-base tw-tracking-normal;
+    @apply tw-block;
+  }
+
+  .tw-form-group-content {
+    @apply tw-text-white tw-font-medium tw-text-base;
+    @apply tw-my-2.5;
+    @apply tw-block;
+  }
+
+  .tw-form-group-describe {
+    @apply tw-text-white tw-text-xs tw-font-normal;
+    @apply tw-block;
+  }
+}

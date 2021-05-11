@@ -1,0 +1,52 @@
+@layer components {
+  .tw-select-container {
+    @apply tw-w-full;
+    @apply tw-relative;
+    max-width: 500px;
+  }
+
+  /* origin */
+  .tw-select-origin {
+    background-color: #222222;
+    @apply tw-h-10;
+    @apply tw-border tw-border-solid tw-border-dark-1;
+    @apply tw-rounded-lg;
+    @apply tw-flex;
+    @apply tw-justify-between;
+    @apply tw-items-center;
+    @apply tw-pt-4 tw-pb-4 tw-pl-10 tw-pr-10;
+    @apply tw-cursor-pointer;
+    @apply tw-font-medium tw-text-base tw-text-white;
+  }
+
+  .tw-select-origin .tw-select-origin-content {
+  }
+
+  .tw-select-origin .tw-select-origin-caret {
+    @apply tw-ml-4;
+    @apply tw-fill-current tw-text-white;
+  }
+
+  .tw-select-container .bp3-transition-container {
+    @apply tw-w-full;
+    @apply tw--ml-1;
+  }
+  .tw-select-container .bp3-transition-container .bp3-popover {
+    @apply tw-w-full;
+    @apply tw-rounded-lg;
+  }
+  .tw-select-container
+    .bp3-transition-container
+    .bp3-popover
+    .bp3-popover-content {
+    background-color: #222222 !important;
+  }
+
+  .tw-select-container
+    .bp3-transition-container
+    .bp3-popover
+    .bp3-popover-content
+    input {
+    @apply tw-border-none tw-shadow-none !important;
+  }
+}

@@ -1,9 +1,3 @@
-/**
- *
- * LiquidityAddContainer
- *
- */
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
@@ -20,8 +14,7 @@ import { TradeButton } from '../../components/TradeButton';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { usePoolToken } from '../../hooks/amm/usePoolToken';
-import { ExpectedPoolTokens } from './ExpectedPoolTokens';
+import { SuppliedBalance } from './SuppliedBalance';
 import { maxMinusFee } from '../../../utils/helpers';
 import { useMaintenance } from '../../hooks/useMaintenance';
 import { PoolV1 } from './PoolV1';
@@ -32,9 +25,7 @@ const poolList = pools.map(item => ({
   label: item.getAssetDetails().symbol,
 }));
 
-interface Props {}
-
-export function LiquidityAddContainer(props: Props) {
+export function LiquidityAddContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract(true);
 
@@ -55,8 +46,6 @@ export function LiquidityAddContainer(props: Props) {
 
   const [tokens, setTokens] = useState(prepareTokens());
   const [sourceToken, setSourceToken] = useState(tokens[0].key);
-
-  usePoolToken(pool, sourceToken);
 
   const [amount, setAmount] = useState('');
 
@@ -99,9 +88,9 @@ export function LiquidityAddContainer(props: Props) {
 
   return (
     <>
-      <div className="position-relative">
-        <div className="row">
-          <div className="col-lg-3 col-6">
+      <div className="tw-relative">
+        <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+          <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
             <FieldGroup label={t(translations.liquidity.pool)}>
               <FormSelect
                 onChange={handlePoolChange}
@@ -113,7 +102,7 @@ export function LiquidityAddContainer(props: Props) {
           </div>
           {poolData.getVersion() === 2 && (
             <>
-              <div className="col-lg-3 col-6">
+              <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
                 <FieldGroup label={t(translations.liquidity.currency)}>
                   <FormSelect
                     onChange={handleTokenChange}
@@ -123,7 +112,7 @@ export function LiquidityAddContainer(props: Props) {
                   />
                 </FieldGroup>
               </div>
-              <div className="col-lg-6 col-12">
+              <div className="lg:tw-col-span-6 tw-col-span-12 tw-px-4">
                 <FieldGroup label={t(translations.liquidity.amount)}>
                   <AmountField
                     onChange={value => setAmount(value)}
@@ -141,17 +130,13 @@ export function LiquidityAddContainer(props: Props) {
           <PoolV1 pool={poolData} />
         ) : (
           <>
-            <ExpectedPoolTokens
-              pool={pool}
-              asset={sourceToken}
-              amount={weiAmount}
-            />
-            <div className="mt-3">
+            <SuppliedBalance pool={pool} asset={sourceToken} />
+            <div className="tw-mt-4">
               <SendTxProgress {...tx} displayAbsolute={false} />
             </div>
 
-            <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-              <div className="mb-3 mb-lg-0">
+            <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+              <div className="tw-mb-4 lg:tw-mb-0">
                 <AssetWalletBalance asset={sourceToken} />
               </div>
               <TradeButton

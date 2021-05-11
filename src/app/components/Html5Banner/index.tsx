@@ -13,14 +13,14 @@ interface Props {}
 export function Html5Banner(props: Props) {
   return (
     <div
-      className={classNames('mx-auto my-5 position-relative', styles.banner)}
+      className={classNames('tw-mx-auto tw-my-12 tw-relative', styles.banner)}
     >
       <iframe
         src="/banners/index290x90.html"
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none d-xs-block d-sm-none',
+          'tw-hidden xs:tw-block sm:tw-hidden',
         )}
         title="Sale"
       />
@@ -29,7 +29,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none d-sm-block d-md-none',
+          'tw-hidden sm:tw-block md:tw-hidden',
         )}
         title="Sale"
       />
@@ -38,7 +38,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none d-md-block d-lg-none',
+          'tw-hidden md:tw-block lg:tw-hidden',
         )}
         title="Sale"
       />
@@ -47,7 +47,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none d-lg-block d-xl-none',
+          'tw-hidden lg:tw-block xl:tw-hidden',
         )}
         title="Sale"
       />
@@ -56,7 +56,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none d-xl-block',
+          'tw-hidden xl:tw-block',
           styles.dXxlNone,
         )}
         title="Sale"
@@ -66,7 +66,7 @@ export function Html5Banner(props: Props) {
         className={classNames(
           styles.iframe,
           styles.banner,
-          'd-none',
+          'tw-hidden',
           styles.dXxlBlock,
         )}
         title="Sale"

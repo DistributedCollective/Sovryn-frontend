@@ -12,6 +12,7 @@ import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import logo from './logo.svg';
 import SalesButton from '../SalesButton';
+import { isMobile } from 'utils/helpers';
 
 interface Props {}
 
@@ -22,14 +23,14 @@ const testForMetaMask = () => {
   return !!(ethereum?.isMetaMask && !ethereum?.isNiftyWallet);
 };
 
+const shouldModalBeVisible = () => !isMobile() && !local.getItem(SESSION_KEY);
+
 export function MetaMaskDiscouragementNotifyModal(props: Props) {
   const { t } = useTranslation();
-  const [show, setShow] = useState(!local.getItem(SESSION_KEY));
+  const [show, setShow] = useState(shouldModalBeVisible());
   const [checked, setChecked] = useState(false);
 
-  useEffect(() => {
-    setShow(!local.getItem(SESSION_KEY));
-  }, []);
+  useEffect(() => setShow(shouldModalBeVisible()), []);
 
   const handleClose = () => {
     local.setItem(SESSION_KEY, '1');
@@ -43,12 +44,12 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
       canOutsideClickClose={false}
       isCloseButtonShown={false}
       canEscapeKeyClose={false}
-      className="fw-900 p-4"
+      className="fw-900 tw-p-6"
     >
-      <div className="font-family-montserrat font-weight-light text-center mfw-600 mx-auto">
-        <img src={logo} alt="MetaMask" className="mb-3" />
+      <div className="tw-font-light tw-text-center mfw-600 tw-mx-auto">
+        <img src={logo} alt="MetaMask" className="tw-mb-4" />
         <div
-          className="font-weight-bold text-center mb-4"
+          className="tw-font-bold tw-text-center tw-mb-6"
           style={{ fontSize: '25px' }}
         >
           {t(translations.notifyDialog.heading)}
@@ -56,13 +57,13 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
         {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />}
       </div>
 
-      <div className="d-flex flex-column align-items-center justify-content-center mt-5 mb-4">
+      <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-12 tw-mb-6">
         <Checkbox
           checked={checked}
           onChange={() => setChecked(!checked)}
           label={t(translations.notifyDialog.acceptTerms)}
         />
-        <div className="mt-4">
+        <div className="tw-mt-6">
           <SalesButton
             text={t(translations.notifyDialog.salesBtn)}
             onClick={handleClose}
@@ -78,17 +79,17 @@ function GeneralAlert() {
   const { t } = useTranslation();
   return (
     <>
-      <p className="font-weight-bold">
+      <p className="tw-font-bold">
         {t(translations.notifyDialog.generalAlert.p1)}
       </p>
-      <div className="px-3 text-left">
+      <div className="tw-px-4 tw-text-left">
         <p>{t(translations.notifyDialog.generalAlert.p2)}</p>
         <p>{t(translations.notifyDialog.generalAlert.p3)}</p>
         <p>
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/faq-general"
-            className="font-weight-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -100,7 +101,7 @@ function GeneralAlert() {
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
-            className="font-weight-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -123,15 +124,15 @@ function MetaMaskAlert() {
 
   return (
     <>
-      <p className="font-weight-bold">
+      <p className="tw-font-bold">
         {t(translations.notifyDialog.metamaskAlert.p1)}
       </p>
-      <div className="px-3 text-left">
+      <div className="tw-px-4 tw-text-left">
         <p>
           {t(translations.notifyDialog.metamaskAlert.p2_1)}
           <a
             href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
-            className="font-weight-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -140,7 +141,7 @@ function MetaMaskAlert() {
           {t(translations.notifyDialog.metamaskAlert.p2_3)}
           <a
             href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
-            className="font-weight-light text-gold"
+            className="tw-font-light tw-text-gold"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -150,8 +151,8 @@ function MetaMaskAlert() {
         </p>
 
         <StyledList>
-          <li className="mb-3">
-            <div className="font-weight-bold mb-1">
+          <li className="tw-mb-4">
+            <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors
                   .defaultGasPrice.title,
@@ -164,8 +165,8 @@ function MetaMaskAlert() {
               )}
             </div>
           </li>
-          <li className="mb-3">
-            <div className="font-weight-bold mb-1">
+          <li className="tw-mb-4">
+            <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors.checksum
                   .title,
@@ -178,8 +179,8 @@ function MetaMaskAlert() {
               )}
             </div>
           </li>
-          <li className="mb-3">
-            <div className="font-weight-bold mb-1">
+          <li className="tw-mb-4">
+            <div className="tw-font-bold tw-mb-1">
               {t(
                 translations.notifyDialog.metamaskAlert.knownErrors.price.title,
               )}

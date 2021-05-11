@@ -10,9 +10,9 @@ export function WhitelistedNotification() {
   if (isWhitelisted) return <></>;
 
   return (
-    <div className="container mt-6 mb-4">
-      <div className="bg-info sovryn-border rounded p-3 d-flex flex-row justify-content-start align-items-center">
-        <div className="ml-3 mr-4">
+    <div className="tw-container tw-mx-auto tw-px-4 tw-mt-6 tw-mb-6">
+      <div className="bg-info sovryn-border tw-rounded tw-p-4 tw-flex tw-flex-row tw-justify-start tw-items-center">
+        <div className="tw-ml-4 tw-mr-6">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
         <div>

@@ -16,6 +16,7 @@ type Props = {
   title: ButtonType;
   isConnected: boolean;
   valid: boolean;
+  validRedeem: boolean;
   txState: any;
   handleSubmit: () => void;
   handleSubmitWithdraw?: () => void;
@@ -33,6 +34,7 @@ const AccountBalance: React.FC<Props> = ({
   handleSubmitRepay,
   isConnected,
   valid,
+  validRedeem,
   txState,
   title,
   canRedeem,
@@ -42,6 +44,7 @@ const AccountBalance: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const noRedeem = title === ButtonType.REDEEM && !canRedeem;
+  const isValid = title === ButtonType.REDEEM ? validRedeem : valid;
   return (
     <>
       <SendTxProgress
@@ -49,8 +52,8 @@ const AccountBalance: React.FC<Props> = ({
         type={txState.type}
         displayAbsolute={false}
       />
-      <div className="account-balance-container position-relative d-flex flex-column flex-md-row justify-content-md-between">
-        <div className="mb-4 mb-md-0">
+      <div className="account-balance-container tw-relative tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between">
+        <div className="tw-mb-6 md:tw-mb-0">
           <AssetWalletBalance asset={currency} />
         </div>
         <TradeButton
@@ -65,13 +68,13 @@ const AccountBalance: React.FC<Props> = ({
               : handleSubmit
           }
           disabled={
-            txState.loading || !isConnected || !valid || noRedeem || disabled
+            txState.loading || !isConnected || !isValid || noRedeem || disabled
           }
           loading={txState.loading}
           tooltip={
             noRedeem ? (
               <>
-                <p className="mb-1">
+                <p className="tw-mb-1">
                   {t(translations.lendingPage.liquidity.redeem.line_1, {
                     currency,
                   })}
@@ -82,7 +85,7 @@ const AccountBalance: React.FC<Props> = ({
                     amount: weiTo4(maxRedeem),
                   })}
                 </p>
-                <p className="mb-0">
+                <p className="tw-mb-0">
                   {t(translations.lendingPage.liquidity.redeem.line_3)}
                 </p>
               </>

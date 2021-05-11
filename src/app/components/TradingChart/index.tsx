@@ -23,7 +23,7 @@ export enum Theme {
 
 export interface ChartContainerProps {
   symbol: string;
-  theme: Theme;
+  theme?: Theme;
 }
 
 export function TradingChart(props: ChartContainerProps) {
@@ -90,20 +90,22 @@ export function TradingChart(props: ChartContainerProps) {
 
   return (
     <div
-      className={`w-100 h-100 ${hasCharts && 'border'}`}
+      className={`tw-w-full tw-h-full tw-bg-primary tw-relative ${
+        hasCharts && 'border'
+      }`}
       style={{ minWidth: 450, minHeight: 500 }}
     >
       <>
         <div
           id="tv_chart_container"
           className={classnames(
-            'tv-chart-container w-100 h-100',
+            'tv-chart-container tw-w-full tw-h-full',
             !hasCharts && 'd-none',
           )}
         />
         <div
           className={classnames(
-            'w-100 h-100 align-content-end',
+            'tw-w-full tw-h-full align-content-end',
             hasCharts ? 'd-none' : 'd-flex',
           )}
         >

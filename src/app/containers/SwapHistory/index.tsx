@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 // import ReactPaginate from 'react-paginate';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
-import { Sovryn } from 'utils/sovryn';
+import iconPending from 'assets/images/icon-pending.svg';
 import { bignumber } from 'mathjs';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
@@ -22,22 +22,34 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { AssetRenderer } from '../../components/AssetRenderer';
+import { useSelector } from 'react-redux';
+import { selectTransactionArray } from 'store/global/transactions-store/selectors';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 
 export function SwapHistory() {
+  const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
   const [currentHistory, setCurrentHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-    setCurrentHistory([]);
+  const assets = AssetsDictionary.list();
+
+  let cancelTokenSource;
+  const getData = () => {
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel();
+    }
+
+    cancelTokenSource = axios.CancelToken.source();
     axios
-      .get(`${url}/events/conversion-swap/${account}`, {})
+      .get(`${url}/events/conversion-swap/${account}`, {
+        cancelToken: cancelTokenSource.token,
+      })
       .then(res => {
-        setHistory(res.data);
+        setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
         setLoading(false);
       })
       .catch(e => {
@@ -46,6 +58,15 @@ export function SwapHistory() {
         setCurrentHistory([]);
         setLoading(false);
       });
+  };
+
+  const getHistory = useCallback(() => {
+    setLoading(true);
+    setHistory([]);
+    setCurrentHistory([]);
+
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, setHistory, url, setCurrentHistory]);
 
   //GET HISTORY
@@ -61,7 +82,45 @@ export function SwapHistory() {
     setCurrentHistory(history.slice(offset, offset + pageLimit));
   };
 
-  const assets = AssetsDictionary.list();
+  const onGoingTransactions = useMemo(() => {
+    return transactions
+      .filter(
+        tx =>
+          tx.type === TxType.CONVERT_BY_PATH &&
+          [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
+      )
+      .map(item => {
+        const { customData } = item;
+        let assetFrom = [] as any;
+        let assetTo = [] as any;
+
+        assetFrom = assets.find(
+          currency => currency.asset === customData?.sourceToken,
+        );
+        assetTo = assets.find(
+          currency => currency.asset === customData?.targetToken,
+        );
+
+        const data = {
+          status: item.status,
+          timestamp: customData?.date,
+          transaction_hash: item.transactionHash,
+          returnVal: {
+            _fromAmount: customData?.amount,
+            _toAmount: customData?.minReturn || null,
+          },
+        };
+
+        return (
+          <AssetRow
+            key={item.transactionHash}
+            data={data}
+            itemFrom={assetFrom}
+            itemTo={assetTo}
+          />
+        );
+      });
+  }, [assets, transactions]);
 
   return (
     <section>
@@ -69,15 +128,15 @@ export function SwapHistory() {
         <table className="w-100">
           <thead>
             <tr>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.from)}
               </th>
               <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
               <th>{t(translations.swapHistory.tableHeaders.to)}</th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.swapHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.swapHistory.tableHeaders.status)}</th>
@@ -100,6 +159,7 @@ export function SwapHistory() {
                 </td>
               </tr>
             )}
+            {onGoingTransactions}
             {currentHistory.map(item => {
               let assetFrom = [] as any;
               let assetTo = [] as any;
@@ -152,15 +212,10 @@ interface AssetProps {
 }
 
 function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
-  const txStatus = async (hash: string) => {
-    return await Sovryn.getWeb3().eth.getTransactionReceipt(hash);
-  };
-  const tx = txStatus(data.transaction_hash).then(res => {
-    return res;
-  });
-
+  const { t } = useTranslation();
   const dollars = useCachedAssetPrice(itemTo.asset, Asset.USDT);
   const dollarValue = useMemo(() => {
+    if (data.returnVal._toAmount === null) return '';
     return bignumber(data.returnVal._toAmount)
       .mul(dollars.value)
       .div(10 ** itemTo.decimals)
@@ -169,31 +224,31 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
 
   return (
     <tr>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <img
-          className="d-none d-md-inline mr-2"
+          className="d-none d-lg-inline mr-2"
           style={{ height: '40px' }}
           src={itemFrom.logoSvg}
           alt={itemFrom.asset}
         />{' '}
-        {itemFrom.asset}
+        <AssetRenderer asset={itemFrom.asset} />
       </td>
       <td>{numberFromWei(data.returnVal._fromAmount)}</td>
       <td>
         <img
-          className="d-none d-md-inline mr-2"
+          className="d-none d-lg-inline mr-2"
           style={{ height: '40px' }}
           src={itemTo.logoSvg}
           alt={itemTo.asset}
         />{' '}
-        {itemTo.asset}
+        <AssetRenderer asset={itemTo.asset} />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -201,18 +256,32 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="d-flex align-items-center justify-content-between col-lg-12 col-md-12 p-0">
           <div>
-            {tx && <p className="m-0">Confirmed</p>}
-            {!tx && <p className="m-0">Failed</p>}
+            {!data.status && (
+              <p className="m-0">{t(translations.common.confirmed)}</p>
+            )}
+            {data.status === TxStatus.FAILED && (
+              <p className="m-0">{t(translations.common.failed)}</p>
+            )}
+            {data.status === TxStatus.PENDING && (
+              <p className="m-0">{t(translations.common.pending)}</p>
+            )}
             <LinkToExplorer
               txHash={data.transaction_hash}
               className="text-gold font-weight-normal text-nowrap"
             />
           </div>
-          <div>
-            {tx && <img src={iconSuccess} title="Confirmed" alt="Confirmed" />}
-            {!tx && <img src={iconRejected} title="Failed" alt="Failed" />}
+          <div className="d-none d-sm-block d-lg-none d-xl-block">
+            {!data.status && (
+              <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
+            )}
+            {data.status === TxStatus.FAILED && (
+              <img src={iconRejected} title="Failed" alt="Failed" />
+            )}
+            {data.status === TxStatus.PENDING && (
+              <img src={iconPending} title="Pending" alt="Pending" />
+            )}
           </div>
         </div>
       </td>

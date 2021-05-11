@@ -16,8 +16,8 @@ interface Props {
 export function LoadableValue(props: Props) {
   if (props.loading) {
     return (
-      <span className="skeleton-wrapper d-inline-block text-nowrap m-0 p-0 overflow-hidden">
-        <span className="bp3-skeleton d-inline-block m-0 p-0">
+      <span className="skeleton-wrapper tw-inline-block tw-whitespace-nowrap tw-overflow-hidden tw-m-0 tw-p-0">
+        <span className="bp3-skeleton tw-inline-block tw-m-0 tw-p-0">
           {props.loaderContent}
         </span>
       </span>
