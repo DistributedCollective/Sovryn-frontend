@@ -105,7 +105,7 @@
       "closePrice": "Preço de liquidação",
       "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
-      "closeTxHash": "Transação de saída",
+      "closeTxHash": "Transação de liquidação",
       "profitLabels": {
         "up": "Lucro de ",
         "down": "Prejuízo de ",
