@@ -3,9 +3,9 @@
   }
 
   .tw-form-group-label {
-    @apply tw-text-white tw-font-normal tw-text-sm;
+    @apply tw-text-white tw-font-normal tw-text-base;
     @apply tw-block;
-    letter-spacing: 1.2px;
+    letter-spacing: 0;
   }
 
   .tw-form-group-content {
