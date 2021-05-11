@@ -186,6 +186,7 @@
     "connect_btn": "Engage wallet",
     "disconnect": "Disconnect",
     "my_wallet": "My Wallet",
+    "copy_address": "Copy Address",
     "referrals": "Refer a friend",
     "changeWallet": "Change Wallet"
   },
