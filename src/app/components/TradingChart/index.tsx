@@ -7,7 +7,7 @@
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames';
+import cn from 'classnames';
 import {
   widget,
   IChartingLibraryWidget,
@@ -90,21 +90,22 @@ export function TradingChart(props: ChartContainerProps) {
 
   return (
     <div
-      className={`tw-w-full tw-h-full tw-bg-primary tw-relative ${
-        hasCharts && 'border'
-      }`}
+      className={cn(
+        'tw-w-full tw-h-full tw-bg-primary tw-relative tw-rounded tw-overflow-hidden',
+        hasCharts && 'border',
+      )}
       style={{ minWidth: 450, minHeight: 500 }}
     >
       <>
         <div
           id="tv_chart_container"
-          className={classnames(
+          className={cn(
             'tv-chart-container tw-w-full tw-h-full',
             !hasCharts && 'd-none',
           )}
         />
         <div
-          className={classnames(
+          className={cn(
             'tw-w-full tw-h-full align-content-end',
             hasCharts ? 'd-none' : 'd-flex',
           )}
