@@ -424,7 +424,7 @@
       "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
-      "fee": "Taxa"
+      "fee": "Lucro"
     },
     "supplied_balance": "Você forneceu",
     "not_connected": "Conectar carteira",
