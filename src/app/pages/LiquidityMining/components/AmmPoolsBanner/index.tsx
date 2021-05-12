@@ -76,7 +76,6 @@ export function AmmPoolsBanner() {
           }
         }
       }
-      console.log(items);
       setState(items);
     };
 

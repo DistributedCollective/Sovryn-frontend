@@ -5,6 +5,7 @@ import { ActionButton } from 'form/ActionButton';
 import { useMining_ApproveAndDeposit } from '../../hooks/useMining_ApproveAndDeposit';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { getPoolTokenContractName } from '../../../../../utils/blockchain/contract-helpers';
+import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 
 interface Props {
   pool: Asset;
@@ -13,20 +14,13 @@ interface Props {
 }
 
 export function AmmPool(props: Props) {
-  // const pool = LiquidityPoolDictionary.get(props.pool) as LiquidityPool;
-  //
-  // const { value: poolTokenAddress } = usePoolToken(
-  //   props.pool,
-  //   props.asset.asset,
-  // );
-
+  usePoolToken(props.pool, props.asset.asset);
   const { deposit, ...tx } = useMining_ApproveAndDeposit(
     getPoolTokenContractName(props.pool, props.asset.asset),
     props.asset.asset,
     props.asset.getContractAddress(),
     props.balance,
   );
-
   return (
     <>
       <div className="tw-bg-secondaryBackground tw-m-3 tw-p-3 tw-rounded">
