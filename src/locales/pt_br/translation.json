@@ -971,10 +971,10 @@
       "lastPrice": "Último preço:"
     },
     "engage": {
-      "title": "Conectar carteira",
+      "title": "Conectar",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
-      "cta": "Conectar"
+      "cta": "Conectar carteira"
     },
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
