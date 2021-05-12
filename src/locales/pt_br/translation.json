@@ -316,6 +316,7 @@
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Quantidade desejada",
+    "suppliedBalance": "Saldo disponibilizado",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
     "supply": "Adicionar liquidez",
@@ -425,7 +426,7 @@
       "target_amount": "Quantidade desejada",
       "fee": "Taxa"
     },
-    "supplied_balance": "Saldo fornecido",
+    "supplied_balance": "Saldo disponibilizado",
     "not_connected": "Conectar carteira",
     "btn": "Retirar"
   },
