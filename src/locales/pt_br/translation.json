@@ -767,8 +767,8 @@
     "button": "Quitar"
   },
   "closeTradingPositionHandler": {
-    "title": "Liquidar posição",
-    "titleDone": "Posição liquidada",
+    "title": "Fechar posição",
+    "titleDone": "Posição fechada",
     "positionSize": "Tamanho da posição",
     "withdrawIn": "Resgatar em",
     "returnAmount": "Valor devolvido",
