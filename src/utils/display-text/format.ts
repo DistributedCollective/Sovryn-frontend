@@ -112,8 +112,7 @@ export function calculateProfit(
 export const countDecimals = value => {
   if (!value) return;
   const decimalPart = value.split('.')[1];
-  if (Math.floor(value) === value || !decimalPart) return 0;
-  return decimalPart.length || 0;
+  return decimalPart ? decimalPart.length || 0 : 0;
 };
 
 export const stringToFixedPrecision = (value: string, precision: number) => {
