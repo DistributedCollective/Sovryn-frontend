@@ -102,7 +102,7 @@
       "positionSize": "Tamanho da posição",
       "leverage": "Alavancagem",
       "openPrice": "Preço de entrada",
-      "closePrice": "Preço de liquidação",
+      "closePrice": "Preço de fechamento",
       "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
       "closeTxHash": "Transação de liquidação",
