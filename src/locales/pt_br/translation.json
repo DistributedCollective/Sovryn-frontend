@@ -224,7 +224,7 @@
   },
   "assetWalletBalance": {
     "accountBalance": "Saldo disponível",
-    "suppliedBalance": "Saldo disponibilizado",
+    "suppliedBalance": "Você forneceu",
     "connect": "Conectar carteira"
   },
   "leverageSelector": {
@@ -315,8 +315,8 @@
     "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
-    "amountTarget": "Quantidade desejada",
-    "suppliedBalance": "Saldo disponibilizado",
+    "amountTarget": "Quantidade a retirar",
+    "suppliedBalance": "Você forneceu",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
     "supply": "Adicionar liquidez",
@@ -426,7 +426,7 @@
       "target_amount": "Quantidade desejada",
       "fee": "Taxa"
     },
-    "supplied_balance": "Saldo disponibilizado",
+    "supplied_balance": "Você forneceu",
     "not_connected": "Conectar carteira",
     "btn": "Retirar"
   },
