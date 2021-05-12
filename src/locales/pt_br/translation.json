@@ -247,7 +247,7 @@
       "startPrice": "Preço de entrada",
       "container": {
         "topUp": "Aumentar posição",
-        "close": "Fechar posição"
+        "close": "Fechar"
       }
     }
   },
