@@ -1,3 +1,4 @@
+import { Checkbox, FormGroup, Icon, InputGroup } from '@blueprintjs/core';
 /**
  *
  * NotificationForm
@@ -5,10 +6,11 @@
  */
 
 import React from 'react';
-import { FormGroup, InputGroup, Checkbox, Icon } from '@blueprintjs/core';
-import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/macro';
+
 import { translations } from 'locales/i18n';
+
 import { media } from '../../../../styles/media';
 
 interface Props {
@@ -44,27 +46,24 @@ export function NotificationFormComponent(props: Props) {
 
   return (
     <form>
-      {text[props.formType].title}
-      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+      <>
+        <StyledDiv className="tw-mb-8">{t(s.dialog.want)}</StyledDiv>
         <FormGroup
           label={t(s.dialog.form.name.label)}
           labelFor="text-input"
-          labelInfo={t(s.dialog.form.name.info)}
-          className="md:tw-col-span-6 sm:tw-col-span-12"
+          className="tw-mb-8"
         >
           <InputGroup
             id="name"
             name="name"
             value={props.name}
             onChange={props.onChange}
-            placeholder={t(s.dialog.form.name.placeholder)}
           />
         </FormGroup>
         <FormGroup
           label={t(s.dialog.form.email.label)}
           labelFor="email-input"
-          labelInfo={t(s.dialog.form.email.info)}
-          className="md:tw-col-span-6 sm:tw-col-span-12"
+          className="tw-mb-8"
         >
           <InputGroup
             type="email"
@@ -72,29 +71,22 @@ export function NotificationFormComponent(props: Props) {
             name="email"
             value={props.email}
             onChange={props.onChange}
-            placeholder={t(s.dialog.form.email.placeholder)}
           />
         </FormGroup>
-      </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-px-4">
+      </>
+      <div>
         {props.formType === 'signup' && (
           <Checkbox
             name="marketing"
             checked={props.marketing}
             onChange={props.onChange}
-            className="md:tw-col-span-8 sm:tw-col-span-12"
+            className="tw-mb-8 md:tw-col-span-8 sm:tw-col-span-12"
             style={{ fontSize: '11px' }}
           >
             {t(s.receive)}
           </Checkbox>
         )}
-        <div
-          className={`${
-            props.formType === 'update'
-              ? 'tw-float-right tw-w-full'
-              : 'md:tw-col-span-4 sm:tw-col-span-12'
-          }`}
-        >
+        <div>
           <StyledButton
             className="sovryn-border tw-float-right"
             type="submit"
@@ -115,18 +107,34 @@ export function NotificationFormComponent(props: Props) {
 }
 
 const StyledButton = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
-  border-radius: 20px;
-  padding: 5px 30px;
-  font-size: 12px;
+  background: #fec004;
+  border: 1px solid #fex004;
+  color: #000000;
+  border-radius: 10px;
+  border-color: #fec004;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  padding: 0 25px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.25;
+    cursor: not-allowed;
   }
   &:hover:not(:disabled) {
-    color: var(--Gold);
+    background: rgba(254, 192, 4, 0.5);
+  }
+  &:hover {
+    background: rgb(254, 192, 4, 0.8);
   }
   ${media.lg`
-  font-size: 14px
+  font-size: 18px
   `}
+`;
+
+const StyledDiv = styled.div`
+  font-size: 13px;
 `;

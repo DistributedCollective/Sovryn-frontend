@@ -1,20 +1,21 @@
+import axios from 'axios';
+import classnames from 'classnames';
 /**
  *
  * NotificationForm
  *
  */
 
-import React, { useReducer, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import classnames from 'classnames';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from '../../../../locales/i18n';
-import { useAccount } from '../../../hooks/useAccount';
-import { NotificationFormComponent } from '../NotificationFormComponent';
-import { EmailNotificationButton } from '../EmailNotificationButton';
-import { CustomDialog } from '../../CustomDialog';
-import { Sovryn } from '../../../../utils/sovryn';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import { Sovryn } from '../../../../utils/sovryn';
+import { Dialog } from '../../../containers/Dialog/Loadable';
+import { useAccount } from '../../../hooks/useAccount';
+import { EmailNotificationButton } from '../EmailNotificationButton';
+import { NotificationFormComponent } from '../NotificationFormComponent';
 
 interface Props {
   className?: string;
@@ -54,7 +55,6 @@ export function NotificationForm(props: Props) {
       dispatch({ field: e.target.name, value: e.target.value });
     }
   };
-
   //UPDATE OR ADD USER
   const addUser = (e, formType) => {
     e.preventDefault();
@@ -116,15 +116,19 @@ export function NotificationForm(props: Props) {
     getUser();
   }, [walletAddress, mailSrv, getUser]);
 
-  function resetForm() {
-    setLoading(true);
+  const onClickClose = () => {
     setShowForm(false);
-    setResponse('');
-    getUser();
-    setLoading(false);
-    state.name = '';
-    state.email = '';
-  }
+  };
+
+  // function resetForm() {
+  //   setLoading(true);
+  //   setShowForm(false);
+  //   setResponse('');
+  //   getUser();
+  //   setLoading(false);
+  //   state.name = '';
+  //   state.email = '';
+  // }
 
   return (
     <>
@@ -146,46 +150,50 @@ export function NotificationForm(props: Props) {
           onClick={() => setShowForm(true)}
         />
       </div>
-      <CustomDialog
+      {/* <CustomDialog
         show={showForm}
         title={t(translations.notificationFormContainer.dialog.title)}
         onClose={() => resetForm()}
         content={
-          <div>
-            {loading || response === 'pending' ? (
-              <div className="bp3-skeleton">&nbsp;</div>
-            ) : (
-              <div>
-                {response !== 'success' && (
-                  <NotificationFormComponent
-                    name={name}
-                    email={email}
-                    marketing={state.marketing}
-                    response={response}
-                    onSubmit={addUser}
-                    onChange={onChange}
-                    formType={userExists ? 'update' : 'signup'}
-                  />
-                )}
-                {response === 'success' && !userExists && (
-                  <div>
-                    {t(translations.notificationFormContainer.updated_success)}
-                  </div>
-                )}
-
-                {response === 'success' && userExists && (
-                  <div>
-                    {t(
-                      translations.notificationFormContainer
-                        .updated_success_user,
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
         }
-      />
+      /> */}
+      <Dialog isOpen={showForm} onClose={onClickClose}>
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-text-white tw-tracking-normal">
+            {t(translations.notificationFormContainer.dialog.title)}
+          </h1>
+          {loading || response === 'pending' ? (
+            <div className="bp3-skeleton">&nbsp;</div>
+          ) : (
+            <div>
+              {response !== 'success' && (
+                <NotificationFormComponent
+                  name={name}
+                  email={email}
+                  marketing={state.marketing}
+                  response={response}
+                  onSubmit={addUser}
+                  onChange={onChange}
+                  formType={userExists ? 'update' : 'signup'}
+                />
+              )}
+              {response === 'success' && !userExists && (
+                <div>
+                  {t(translations.notificationFormContainer.updated_success)}
+                </div>
+              )}
+
+              {response === 'success' && userExists && (
+                <div>
+                  {t(
+                    translations.notificationFormContainer.updated_success_user,
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Dialog>
     </>
   );
 }
