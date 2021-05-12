@@ -315,7 +315,7 @@
     "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
-    "amountTarget": "Quantidade a retirar",
+    "amountTarget": "Saldo a retirar",
     "suppliedBalance": "Você forneceu",
     "token": "Pool tokens a receber",
     "fee": "Taxa",
