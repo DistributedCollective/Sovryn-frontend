@@ -109,5 +109,13 @@ export function calculateProfit(
   return isLong ? profitLong : profitShort;
 }
 
-export const stringToFixedPrecision = (value: string, precision: number) =>
-  parseFloat(value).toFixed(precision);
+export const countDecimals = value => {
+  if (Math.floor(value) === value || !value.split('.')[1]) return 0;
+  return value.split('.')[1].length || 0;
+};
+
+export const stringToFixedPrecision = (value: string, precision: number) => {
+  if (countDecimals(value) > precision)
+    return parseFloat(value).toFixed(precision);
+  else return value;
+};
