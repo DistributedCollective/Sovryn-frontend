@@ -60,7 +60,6 @@ export function OpenPositionRow({ item }: Props) {
             {weiToNumberFormat(item.collateral, 4)}{' '}
             <AssetRenderer asset={collateralAssetDetails.asset} />
           </div>
-          {/*<div>≈ xxxxxx USD</div>*/}
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">

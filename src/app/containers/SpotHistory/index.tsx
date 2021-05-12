@@ -1,11 +1,9 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-// import ReactPaginate from 'react-paginate';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
-import { bignumber } from 'mathjs';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
@@ -14,19 +12,18 @@ import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { Asset } from '../../../types/asset';
 import { Pagination } from '../../components/Pagination';
 import { useAccount } from '../../hooks/useAccount';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
 
 export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -219,14 +216,11 @@ interface AssetProps {
 
 function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
   const { t } = useTranslation();
-  const dollars = useCachedAssetPrice(itemTo.asset, Asset.USDT);
-  const dollarValue = useMemo(() => {
-    if (data.returnVal._toAmount === null) return '';
-    return bignumber(data.returnVal._toAmount)
-      .mul(dollars.value)
-      .div(10 ** itemTo.decimals)
-      .toFixed(0);
-  }, [dollars.value, data.returnVal._toAmount, itemTo.decimals]);
+
+  const [dollarValue, dollarsLoading] = useGetProfitDollarValue(
+    itemTo.asset,
+    data.returnVal._toAmount,
+  );
 
   const order = getOrder(itemFrom.asset, itemTo.asset);
   if (!order) return null;
@@ -258,7 +252,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-          loading={dollars.loading}
+          loading={dollarsLoading}
         />
       </td>
 
