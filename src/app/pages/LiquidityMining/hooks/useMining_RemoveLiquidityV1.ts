@@ -8,7 +8,7 @@ import { TxType } from '../../../../store/global/transactions-store/types';
 import { useAccount } from '../../../hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 
-export function useRemoveV1Liquidity(
+export function useMining_RemoveLiquidityV1(
   pool: Asset,
   amount: string,
   reserveTokens: Asset[],
@@ -32,6 +32,18 @@ export function useRemoveV1Liquidity(
         reserveTokens.unshift(btcToken);
         reserveMinReturnAmounts.unshift(btcAmount);
       }
+
+      console.log({
+        props: [
+          getAmmContract(pool).address,
+          amount,
+          reserveTokens
+            .filter(item => !!item)
+            .map(item => getTokenContract(item).address),
+          reserveMinReturnAmounts.filter(item => !!item),
+        ],
+      });
+
       return send(
         [
           getAmmContract(pool).address,

@@ -57,7 +57,7 @@ export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
   [TxType.ADD_LIQUIDITY]: 500000,
-  // [TxType.REMOVE_LIQUIDITY]: 550000,
+  [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,

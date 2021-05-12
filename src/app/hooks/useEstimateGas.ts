@@ -51,6 +51,7 @@ export function useEstimateGas(
     error: state.error,
     loading: state.loading,
     gasPrice: gas.get(),
+    gasLimit: state.value,
   };
 }
 

@@ -5,16 +5,16 @@ import {
   contractWriter,
 } from 'utils/sovryn/contract-writer';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { useRemoveV1Liquidity } from './useRemoveV1Liquidity';
+import { useMining_RemoveLiquidityV1 } from './useMining_RemoveLiquidityV1';
 import { ContractName } from 'utils/types/contracts';
 
-export function useApproveAndRemoveV1Liquidity(
+export function useMining_ApproveAndRemoveLiquidityV1(
   pool: Asset,
   amount: string,
   reserveTokens: Asset[],
   reserveMinReturnAmounts: string[],
 ) {
-  const { withdraw, ...txState } = useRemoveV1Liquidity(
+  const { withdraw, ...txState } = useMining_RemoveLiquidityV1(
     pool,
     amount,
     reserveTokens,
@@ -28,7 +28,7 @@ export function useApproveAndRemoveV1Liquidity(
       tx = await contractWriter.checkAndApproveContract(
         `${pool}_${pool}_poolToken` as ContractName,
         getContract('BTCWrapperProxy').address,
-        [amount, toWei('100000')],
+        [amount, toWei('1000000000000000')],
         pool,
       );
       if (tx.rejected) {

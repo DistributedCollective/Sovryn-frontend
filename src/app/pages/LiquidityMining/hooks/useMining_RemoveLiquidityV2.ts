@@ -23,12 +23,6 @@ export function useMining_RemoveLiquidityV2(
 
   return {
     withdraw: (nonce?: number, approveTx?: string | null) => {
-      console.log([
-        getAmmContract(pool).address,
-        getTokenContract(asset).address,
-        amount,
-        minReturn,
-      ]);
       return send(
         [
           getAmmContract(pool).address,

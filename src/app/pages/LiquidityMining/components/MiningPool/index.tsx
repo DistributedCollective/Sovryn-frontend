@@ -8,6 +8,7 @@ import { PoolChart } from './PoolChart';
 import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
+import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
 
 interface Props {
   pool: LiquidityPool;
@@ -56,6 +57,11 @@ export function MiningPool({ pool }: Props) {
               <AddLiquidityDialogV1
                 pool={pool}
                 showModal={dialog === 'add'}
+                onCloseModal={() => setDialog('none')}
+              />
+              <RemoveLiquidityDialogV1
+                pool={pool}
+                showModal={dialog === 'remove'}
                 onCloseModal={() => setDialog('none')}
               />
             </>
