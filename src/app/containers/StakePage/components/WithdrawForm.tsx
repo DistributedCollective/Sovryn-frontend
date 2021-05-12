@@ -19,8 +19,8 @@ interface Props {
 
 export function WithdrawForm(props: Props) {
   const account = useAccount();
-  const [forfeitWithdraw, setForfeitWithdraw] = useState<any>(0);
-  const [forfeitPercent, setForfeitPercent] = useState<any>(0);
+  const [forfeitWithdraw, setForfeitWithdraw] = useState<number>(0);
+  const [forfeitPercent, setForfeitPercent] = useState<number>(0);
   const [loadingWithdraw, setLoadingWithdraw] = useState(false);
   const [withdrawFormConfirmation, setWithdrawFormConfirmation] = useState(
     false,
@@ -44,9 +44,7 @@ export function WithdrawForm(props: Props) {
           setLoadingWithdraw(false);
         })
         .catch(error => {
-          setForfeitWithdraw('Error');
           setLoadingWithdraw(false);
-          setForfeitPercent('');
           return false;
         });
     },
