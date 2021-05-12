@@ -14,6 +14,7 @@ import { translations } from 'locales/i18n';
 
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -30,9 +31,7 @@ export function LiquidityMining() {
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
-        <div className="tw-mb-12">
-          TODO: Transfer Marked-Making balances to the LM pools.
-        </div>
+        <AmmPoolsBanner />
         {pools.map(item => (
           <MiningPool key={item.poolAsset} pool={item} />
         ))}

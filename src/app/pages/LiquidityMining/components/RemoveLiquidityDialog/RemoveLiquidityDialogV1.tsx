@@ -124,15 +124,17 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
 
   const poolWeiAmount = useMemo(
     () =>
-      bignumber(weiAmount)
-        .div(bignumber(balance).div(poolTokenBalance))
+      bignumber(weiAmount || '0')
+        .div(bignumber(balance || '0').div(poolTokenBalance || '0'))
         .toFixed(0),
     [weiAmount, balance, poolTokenBalance],
   );
 
   const sideWeiAmount = useMemo(
     () =>
-      bignumber(sideBalance).mul(bignumber(weiAmount).div(balance)).toFixed(0),
+      bignumber(sideBalance || '0')
+        .mul(bignumber(weiAmount || '0').div(balance || '0'))
+        .toFixed(0) || '0',
     [balance, sideBalance, weiAmount],
   );
 
@@ -148,8 +150,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
   );
 
   const valid = useMemo(() => {
-    return true;
-  }, []);
+    return (
+      bignumber(poolWeiAmount).lessThanOrEqualTo(poolTokenBalance) &&
+      bignumber(poolWeiAmount).greaterThan(0)
+    );
+  }, [poolWeiAmount, poolTokenBalance]);
 
   const txFeeArgs = useMemo(() => {
     return [
