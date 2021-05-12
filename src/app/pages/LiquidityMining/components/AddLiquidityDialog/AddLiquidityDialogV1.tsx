@@ -6,7 +6,6 @@ import { FormGroup } from 'form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
-import { CollateralAssets } from '../../../MarginTradePage/components/CollateralAssets';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { AmountInput } from 'form/AmountInput';
 import { DialogButton } from 'form/DialogButton';
@@ -17,13 +16,16 @@ import {
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { useMining_ApproveAndAddLiquidityV2 } from '../../hooks/useMining_ApproveAndAddLiquidityV2';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { Input } from 'form/Input';
+import { DummyInput, Input } from 'form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
 import { ArrowDown } from '../../../../components/Arrows';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
+import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { useMining_ApproveAndAddLiquidityV1 } from '../../hooks/useMining_ApproveAndAddLiquidityV1';
+import { useTargetAmountAndFee } from '../../../../hooks/amm/useTargetAmountAndFee';
 
 interface Props {
   pool: LiquidityPool;
@@ -31,48 +33,67 @@ interface Props {
   onCloseModal: () => void;
 }
 
-export function AddLiquidityDialog({ pool, ...props }: Props) {
+export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   const { t } = useTranslation();
+  usePoolToken(pool.poolAsset, pool.poolAsset);
 
   const canInteract = useCanInteract();
 
-  const [asset, setAsset] = useState(pool.poolAsset);
-  const [amount, setAmount] = useState('0');
-  const weiAmount = useWeiAmount(amount);
+  const token1 = pool.supplyAssets[0].asset;
+  const token2 = pool.supplyAssets[1].asset;
+
+  const [amount1, setAmount1] = useState('0');
+  const weiAmount1 = useWeiAmount(amount1);
   // We are hard-coding 5% slippage here
-  // const { minReturn } = useSlippage(weiAmount, 5);
+  // const { minReturn } = useSlippage(weiAmount1, 5);
   const minReturn = '1';
 
-  const { value: balance } = useAssetBalanceOf(asset);
-
-  const { deposit, ...tx } = useMining_ApproveAndAddLiquidityV2(
+  const { value: targetAmount } = useTargetAmountAndFee(
     pool.poolAsset,
-    asset,
-    weiAmount,
+    token1,
+    token2,
+    weiAmount1,
+  );
+
+  const weiAmount2 = useMemo(
+    () => bignumber(targetAmount[0]).add(targetAmount[1]).toString(),
+    [targetAmount],
+  );
+
+  const { value: balance1 } = useAssetBalanceOf(token1);
+  const { value: balance2 } = useAssetBalanceOf(token2);
+
+  const { deposit, ...tx } = useMining_ApproveAndAddLiquidityV1(
+    pool.poolAsset,
+    [token1, token2],
+    [weiAmount1, weiAmount2],
     minReturn,
   );
 
   const valid = useMemo(() => {
     return (
-      bignumber(balance).greaterThanOrEqualTo(weiAmount) &&
-      bignumber(weiAmount).greaterThan(0)
+      bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
+      bignumber(weiAmount1).greaterThan(0) &&
+      bignumber(balance2).greaterThanOrEqualTo(weiAmount2) &&
+      bignumber(weiAmount2).greaterThan(0)
     );
-  }, [balance, weiAmount]);
+  }, [balance1, balance2, weiAmount1, weiAmount2]);
 
   const txFeeArgs = useMemo(() => {
     return [
       getAmmContract(pool.poolAsset).address,
-      getTokenContract(asset).address,
-      weiAmount,
+      // Makes sure RBTC asset is first in the list.
+      token2 === Asset.RBTC
+        ? [getTokenContract(token2).address, getTokenContract(token1).address]
+        : [getTokenContract(token1).address, getTokenContract(token2).address],
+      token2 === Asset.RBTC
+        ? [weiAmount2, weiAmount1]
+        : [weiAmount1, weiAmount2],
       minReturn,
     ];
-  }, [pool, asset, weiAmount, minReturn]);
+  }, [pool, weiAmount1, weiAmount2, minReturn, token1, token2]);
 
   const handleConfirm = () => deposit();
-
-  const assets = useMemo(() => pool.supplyAssets.map(item => item.asset), [
-    pool.supplyAssets,
-  ]);
 
   return (
     <>
@@ -82,29 +103,21 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             Add Liquidity
           </h1>
 
-          <CollateralAssets
-            value={asset}
-            onChange={value => setAsset(value)}
-            options={assets}
-          />
-
           <FormGroup label="Amount:" className="tw-mt-5">
             <AmountInput
-              onChange={value => setAmount(value)}
-              value={amount}
-              asset={asset}
+              onChange={value => setAmount1(value)}
+              value={amount1}
+              asset={token1}
             />
           </FormGroup>
+
+          <DummyInput
+            value={weiToNumberFormat(weiAmount2, 8)}
+            appendElem={<AssetRenderer asset={token2} />}
+            className="tw-mt-6"
+          />
 
           <ArrowDown />
-
-          <FormGroup label="Estimated Fees Earned (Year):">
-            <Input
-              value="0"
-              readOnly
-              appendElem={<AssetRenderer asset={asset} />}
-            />
-          </FormGroup>
 
           <FormGroup label="Expected Reward:" className="tw-mb-5">
             <Input
@@ -116,7 +129,10 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
 
           <TxFeeCalculator
             args={txFeeArgs}
-            methodName="addLiquidityToV2"
+            txConfig={{
+              value: token1 === Asset.RBTC ? weiAmount1 : weiAmount2,
+            }}
+            methodName="addLiquidityToV1"
             contractName="BTCWrapperProxy"
           />
 

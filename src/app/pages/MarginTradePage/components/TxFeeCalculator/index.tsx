@@ -29,6 +29,8 @@ export function TxFeeCalculator(props: Props) {
     props.condition,
   );
 
+  console.log(error);
+
   return (
     <div className="tw-mb-10 tw-truncate tw-text-sm tw-tracking-normal">
       <Trans

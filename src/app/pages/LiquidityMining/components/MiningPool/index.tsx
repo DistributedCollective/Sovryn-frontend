@@ -7,6 +7,7 @@ import { PoolAssetInfo } from './PoolAssetInfo';
 import { PoolChart } from './PoolChart';
 import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
+import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 
 interface Props {
   pool: LiquidityPool;
@@ -25,11 +26,7 @@ export function MiningPool({ pool }: Props) {
         {/* Assets and balances */}
         <div className="tw-flex tw-flex-col tw-space-y-2">
           {pool.supplyAssets.map(item => (
-            <PoolAssetInfo
-              key={item.asset}
-              poolAsset={pool.poolAsset}
-              supplyAsset={item}
-            />
+            <PoolAssetInfo key={item.asset} pool={pool} supplyAsset={item} />
           ))}
         </div>
         {/* Graph chart */}
@@ -54,16 +51,29 @@ export function MiningPool({ pool }: Props) {
       </div>
       {canInteract && (
         <>
-          <AddLiquidityDialog
-            pool={pool}
-            showModal={dialog === 'add'}
-            onCloseModal={() => setDialog('none')}
-          />
-          <RemoveLiquidityDialog
-            pool={pool}
-            showModal={dialog === 'remove'}
-            onCloseModal={() => setDialog('none')}
-          />
+          {pool.version === 1 && (
+            <>
+              <AddLiquidityDialogV1
+                pool={pool}
+                showModal={dialog === 'add'}
+                onCloseModal={() => setDialog('none')}
+              />
+            </>
+          )}
+          {pool.version === 2 && (
+            <>
+              <AddLiquidityDialog
+                pool={pool}
+                showModal={dialog === 'add'}
+                onCloseModal={() => setDialog('none')}
+              />
+              <RemoveLiquidityDialog
+                pool={pool}
+                showModal={dialog === 'remove'}
+                onCloseModal={() => setDialog('none')}
+              />
+            </>
+          )}
         </>
       )}
     </>
