@@ -110,12 +110,15 @@ export function calculateProfit(
 }
 
 export const countDecimals = value => {
-  if (Math.floor(value) === value || !value.split('.')[1]) return 0;
-  return value.split('.')[1].length || 0;
+  if (!value) return;
+  const decimalPart = value.split('.')[1];
+  if (Math.floor(value) === value || !decimalPart) return 0;
+  return decimalPart.length || 0;
 };
 
 export const stringToFixedPrecision = (value: string, precision: number) => {
   if (countDecimals(value) > precision)
     return parseFloat(value).toFixed(precision);
-  else return value;
+
+  return value;
 };
