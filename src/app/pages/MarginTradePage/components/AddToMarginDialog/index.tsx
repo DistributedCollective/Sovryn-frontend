@@ -27,7 +27,6 @@ import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-fro
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { TradingPosition } from '../../../../../types/trading-position';
 import type { ActiveLoan } from 'types/active-loan';
-import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   item: ActiveLoan;
@@ -82,7 +81,7 @@ export function AddToMarginDialog(props: Props) {
           >
             <AmountInput
               onChange={value => setAmount(value)}
-              value={stringToFixedPrecision(amount, 6)}
+              value={amount}
               asset={tokenDetails.asset}
             />
           </FormGroup>

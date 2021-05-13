@@ -181,7 +181,7 @@ export function SwapFormContainer() {
           </div>
           <div className="swap-form__amount">
             <AmountInput
-              value={weiToFixed(weiAmount, 6)}
+              value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />

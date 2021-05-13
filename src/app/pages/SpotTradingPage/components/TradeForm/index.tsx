@@ -31,10 +31,7 @@ import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNet
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
-import {
-  stringToFixedPrecision,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
@@ -134,7 +131,7 @@ export function TradeForm() {
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
             <AmountInput
-              value={stringToFixedPrecision(amount, 6)}
+              value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
