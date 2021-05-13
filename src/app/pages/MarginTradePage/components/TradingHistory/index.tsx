@@ -310,12 +310,16 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             <LinkToExplorer
               txHash={item.entryTxHash}
               className="tw-text-primary tw-truncate"
+              startLength={5}
+              endLength={5}
             />
           ),
           closeTxHash: (
             <LinkToExplorer
               txHash={item.closeTxHash}
               className="tw-text-primary tw-truncate"
+              startLength={5}
+              endLength={5}
             />
           ),
         };

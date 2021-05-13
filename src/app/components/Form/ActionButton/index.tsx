@@ -8,6 +8,7 @@ export interface ButtonProps {
   text: React.ReactNode;
   type?: ButtonType;
   className?: string;
+  textClassName?: string;
   loading?: boolean;
   disabled?: boolean;
   onClick?: () => void;
@@ -18,6 +19,7 @@ export function ActionButton({
   loading,
   onClick,
   className,
+  textClassName,
   ...props
 }: ButtonProps) {
   return (
@@ -41,7 +43,7 @@ export function ActionButton({
           <Spinner size={20} className="tw-fill-current tw-text-red-500" />
         </span>
         <span
-          className={cn('tw-truncate tw-btn-loader__value', {
+          className={cn('tw-truncate tw-btn-loader__value', textClassName, {
             active: loading,
           })}
         >

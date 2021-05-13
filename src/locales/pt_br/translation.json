@@ -105,7 +105,7 @@
       "closePrice": "Preço de fechamento",
       "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
-      "closeTxHash": "Transação de saída",
+      "closeTxHash": "Transação de fechamento",
       "profitLabels": {
         "up": "Lucro de ",
         "down": "Prejuízo de ",
@@ -186,6 +186,7 @@
     "connect_btn": "Conectar carteira",
     "disconnect": "Sair",
     "my_wallet": "Portfólio",
+    "copy_address": "Copiar endereço",
     "referrals": "Convide um amigo"
   },
   "hintDialog": {
@@ -223,7 +224,7 @@
   },
   "assetWalletBalance": {
     "accountBalance": "Saldo disponível",
-    "suppliedBalance": "Saldo disponibilizado",
+    "suppliedBalance": "Você forneceu",
     "connect": "Conectar carteira"
   },
   "leverageSelector": {
@@ -246,7 +247,7 @@
       "startPrice": "Preço de entrada",
       "container": {
         "topUp": "Aumentar posição",
-        "close": "Fechar posição"
+        "close": "Fechar"
       }
     }
   },
@@ -292,8 +293,8 @@
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
-    "supplyAPR": "Juros anual (emprestador)",
-    "borrowAPR": "Juros anual (tomador)"
+    "supplyAPR": "Juros anual (credor)",
+    "borrowAPR": "Juros anual (devedor)"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -314,9 +315,10 @@
     "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
-    "amountTarget": "Quantidade desejada",
+    "amountTarget": "Saldo a retirar",
+    "suppliedBalance": "Você forneceu",
     "token": "Pool tokens a receber",
-    "fee": "Taxa",
+    "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
     "v1": {
@@ -381,8 +383,8 @@
     "currency": {
       "lend": "Emprestar",
       "borrow": "Obter empréstimo",
-      "lendArp": "Juros anual (emprestador)",
-      "borrowArp": "Juros anual (tomador)"
+      "lendArp": "Juros anual (credor)",
+      "borrowArp": "Juros anual (devedor)"
     },
     "container": {
       "leftBtn": "Adicionar",
@@ -422,9 +424,9 @@
       "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
-      "fee": "Taxa"
+      "fee": "Lucro"
     },
-    "supplied_balance": "Saldo fornecido",
+    "supplied_balance": "Você forneceu",
     "not_connected": "Conectar carteira",
     "btn": "Retirar"
   },
@@ -765,8 +767,8 @@
     "button": "Quitar"
   },
   "closeTradingPositionHandler": {
-    "title": "Liquidar posição",
-    "titleDone": "Posição liquidada",
+    "title": "Fechar posição",
+    "titleDone": "Posição fechada",
     "positionSize": "Tamanho da posição",
     "withdrawIn": "Resgatar em",
     "returnAmount": "Valor devolvido",
@@ -926,8 +928,8 @@
       "buy_cta": "COMPRA",
       "sell_cta": "VENDA",
       "amountReceived": "Receber",
-      "buy": "COMPRA",
-      "sell": "VENDA"
+      "buy": "COMPRAR",
+      "sell": "VENDER"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -969,10 +971,10 @@
       "lastPrice": "Último preço:"
     },
     "engage": {
-      "title": "Conectar carteira",
+      "title": "Conectar",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
-      "cta": "Conectar"
+      "cta": "Conectar carteira"
     },
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
@@ -1026,7 +1028,7 @@
         "cta": "Minerar"
       },
       "marginTrading": {
-        "title": "Operando com margem",
+        "title": "Operando margem",
         "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
         "cta": "Operar"
       },

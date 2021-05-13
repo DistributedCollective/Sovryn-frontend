@@ -15,7 +15,7 @@ import { EngageButton } from '../EngageButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
-import { renderItemNH } from 'form/Select/renderers';
+import { renderAssetPair } from 'form/Select/renderers';
 import { BuySell } from '../BuySell';
 import { SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
@@ -31,10 +31,7 @@ import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNet
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
-import {
-  stringToFixedPrecision,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
@@ -96,7 +93,7 @@ export function TradeForm() {
           onChange={value => setSlippage(value)}
         />
       )}
-      <div className="tw-trading-form-card spot-form tw-bg-black lg:tw-rounded-3xl tw-p-12">
+      <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-320 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
 
@@ -108,9 +105,7 @@ export function TradeForm() {
               value={`${pairType}`}
               options={pairList.map(pair => ({
                 key: `${pair}`,
-                label: `${AssetsDictionary.get(pairs[pair][0]).symbol} - ${
-                  AssetsDictionary.get(pairs[pair][1]).symbol
-                }`,
+                label: pairs[pair],
               }))}
               filterable={false}
               onChange={value =>
@@ -118,10 +113,11 @@ export function TradeForm() {
                   actions.setPairType((value as unknown) as SpotPairType),
                 )
               }
-              itemRenderer={renderItemNH}
-              valueRenderer={(item: Option) => (
+              itemRenderer={renderAssetPair}
+              valueRenderer={(item: Option<string, Asset[], any>) => (
                 <Text ellipsize className="tw-text-center">
-                  {item.label}
+                  <AssetRenderer asset={item.label[0]} /> -{' '}
+                  <AssetRenderer asset={item.label[1]} />
                 </Text>
               )}
             />
@@ -134,7 +130,7 @@ export function TradeForm() {
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
             <AmountInput
-              value={stringToFixedPrecision(amount, 6)}
+              value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
