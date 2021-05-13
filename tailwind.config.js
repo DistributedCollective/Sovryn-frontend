@@ -26,8 +26,10 @@ module.exports = {
       body: ['Montserrat', 'sans-serif'],
     },
     maxWidth: {
-      '68': '68%',
+      '65': '65%',
+      '70': '70%',
       '75': '75%',
+      '77': '77%',
       '80': '80%',
     },
     colors: {
