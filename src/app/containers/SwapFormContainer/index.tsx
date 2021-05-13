@@ -24,10 +24,7 @@ import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import {
-  stringToFixedPrecision,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -184,7 +181,7 @@ export function SwapFormContainer() {
           </div>
           <div className="swap-form__amount">
             <AmountInput
-              value={stringToFixedPrecision(amount, 6)}
+              value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
