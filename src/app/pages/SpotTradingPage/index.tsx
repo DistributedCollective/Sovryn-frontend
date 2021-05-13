@@ -48,10 +48,10 @@ export function SpotTradingPage() {
         <PriceHistory />
       </div>
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between">
+        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
           <div
             className={
-              'tw-flex-shrink tw-w-full tw-flex-grow tw-mb-12 lg:tw-pr-4 lg:tw-mb-0'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0 xl:tw-max-w-65 2xl:tw-max-w-70 3xl:tw-max-w-77'
             }
           >
             <TradingChart
