@@ -56,20 +56,19 @@ export function OpenPositionRow({ item }: Props) {
           <PositionBlock position={position} name={pair.name} />
         </td>
         <td>
-          <div className="tw-truncate">
+          <div className="tw-whitespace-nowrap">
             {weiToNumberFormat(item.collateral, 4)}{' '}
             <AssetRenderer asset={collateralAssetDetails.asset} />
           </div>
-          {/*<div>≈ xxxxxx USD</div>*/}
         </td>
         <td className="tw-hidden xl:tw-table-cell">
-          <div className="tw-truncate">
+          <div className="tw-whitespace-nowrap">
             {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
             <AssetRenderer asset={pair.longDetails.asset} />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
-          <div className="tw-truncate">
+          <div className="tw-whitespace-nowrap">
             {toNumberFormat(
               calculateLiquidation(
                 isLong,
@@ -84,11 +83,12 @@ export function OpenPositionRow({ item }: Props) {
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
-            {weiToNumberFormat(item.currentMargin, 4)}% ({leverage}x)
+            {weiToNumberFormat(amount, 4)}{' '}
+            <AssetRenderer asset={pair.shortDetails.asset} /> ({leverage}x)
           </div>
         </td>
         <td>
-          <div className="tw-truncate">
+          <div className="tw-whitespace-nowrap">
             <CurrentPositionProfit
               source={loanAsset}
               destination={collateralAsset}
@@ -98,20 +98,24 @@ export function OpenPositionRow({ item }: Props) {
             />
           </div>
         </td>
-        <td className="tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden 2xl:tw-table-cell">
           <div className="tw-truncate">
             {toNumberFormat(getInterestAPR(item), 2)}%
           </div>
         </td>
         <td>
-          <div className="tw-flex tw-items-center tw-justify-end tw-space-x-4">
+          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-end">
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}
+              className="tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4"
+              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
               onClick={() => setShowClosePosition(true)}
+              className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 2xl:tw-pl-4 tw-pr-0"
+              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
             />
           </div>
           <AddToMarginDialog

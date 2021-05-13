@@ -6,10 +6,12 @@ import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  decimalPrecision?: number;
   asset?: Asset;
   placeholder?: string;
   maxAmount?: string;
@@ -19,13 +21,14 @@ export function AmountInput({
   value,
   onChange,
   placeholder = '0.000000',
+  decimalPrecision = 6,
   asset,
   maxAmount,
 }: Props) {
   return (
     <>
       <Input
-        value={value}
+        value={stringToFixedPrecision(value, decimalPrecision)}
         onChange={onChange}
         type="number"
         placeholder={placeholder}
