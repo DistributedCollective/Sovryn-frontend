@@ -14,7 +14,7 @@
     @apply tw-flex;
     @apply tw-justify-between;
     @apply tw-items-center;
-    @apply tw-pt-4 tw-pb-4 tw-pl-10 tw-pr-10;
+    @apply tw-pt-4 tw-pb-4 tw-pl-10 tw-pr-3;
     @apply tw-cursor-pointer;
     @apply tw-font-medium tw-text-base tw-text-white;
   }

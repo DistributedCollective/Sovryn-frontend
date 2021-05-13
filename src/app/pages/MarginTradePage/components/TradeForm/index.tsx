@@ -85,7 +85,6 @@ export function TradeForm() {
               filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
               itemRenderer={renderItemNH}
-              innerClasses="tw-pr-3"
               valueRenderer={(item: Option) => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}
