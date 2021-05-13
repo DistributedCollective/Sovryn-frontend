@@ -73,7 +73,7 @@ export function TradeForm() {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black lg:tw-rounded tw-p-12 tw-mx-auto xl:tw-mx-0">
+      <div className="tw-trading-form-card tw-bg-black lg:tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-320 tw-mx-auto">
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.pair)}
