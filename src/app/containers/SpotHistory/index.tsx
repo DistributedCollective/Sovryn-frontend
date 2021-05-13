@@ -51,10 +51,28 @@ export function SpotHistory() {
       })
       .then(res => {
         setHistory(
-          res.data.sort(
-            (a, b) =>
-              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
-          ),
+          res.data
+            .sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime(),
+            )
+            .map(item => {
+              const { assetFrom, assetTo } = extractAssets(
+                item.from_token,
+                item.to_token,
+              );
+              const order = getOrder(assetFrom.asset, assetTo.asset);
+              if (!order) return null;
+
+              return {
+                assetFrom,
+                assetTo,
+                order,
+                item,
+              };
+            })
+            .filter(item => item),
         );
         setLoading(false);
       })
@@ -166,27 +184,7 @@ export function SpotHistory() {
               </tr>
             )}
             {onGoingTransactions}
-            {currentHistory.map(item => {
-              let assetFrom = [] as any;
-              let assetTo = [] as any;
-              assets.map(currency => {
-                if (
-                  getContractNameByAddress(item.from_token)?.includes(
-                    currency.asset,
-                  )
-                ) {
-                  assetFrom = currency;
-                }
-                if (
-                  getContractNameByAddress(item.to_token)?.includes(
-                    currency.asset,
-                  )
-                ) {
-                  assetTo = currency;
-                }
-                return null;
-              });
-
+            {currentHistory.map(({ item, assetFrom, assetTo }) => {
               return (
                 <AssetRow
                   key={item.transaction_hash}
@@ -253,7 +251,10 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
           {order.orderType}
         </span>
       </td>
-      <td>{numberFromWei(data.returnVal._fromAmount)}</td>
+      <td>
+        {numberFromWei(data.returnVal._fromAmount)}{' '}
+        <AssetRenderer asset={itemFrom.asset} />
+      </td>
       <td className="d-none d-md-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
@@ -294,4 +295,26 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
     </tr>
   );
+}
+
+function extractAssets(fromToken, toToken) {
+  const assets = AssetsDictionary.list();
+
+  let assetFrom = [] as any;
+  let assetTo = [] as any;
+
+  assets.map(currency => {
+    if (getContractNameByAddress(fromToken)?.includes(currency.asset)) {
+      assetFrom = currency;
+    }
+    if (getContractNameByAddress(toToken)?.includes(currency.asset)) {
+      assetTo = currency;
+    }
+    return null;
+  });
+
+  return {
+    assetFrom,
+    assetTo,
+  };
 }
