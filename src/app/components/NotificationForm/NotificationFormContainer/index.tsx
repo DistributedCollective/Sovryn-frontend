@@ -1,17 +1,16 @@
-import axios from 'axios';
-import classnames from 'classnames';
 /**
  *
  * NotificationForm
  *
  */
-
+import { walletService } from '@sovryn/react-wallet';
+import axios from 'axios';
+import classnames from 'classnames';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../locales/i18n';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
-import { Sovryn } from '../../../../utils/sovryn';
 import { Dialog } from '../../../containers/Dialog/Loadable';
 import { useAccount } from '../../../hooks/useAccount';
 import { EmailNotificationButton } from '../EmailNotificationButton';
@@ -73,23 +72,21 @@ export function NotificationForm(props: Props) {
     const message = `${timestamp} \n \n Please confirm that the details associated with this account will now be: \n \n Username: ${name} \n Email: ${email}`;
     const route = formType === 'signup' ? '/addUser' : '/updateUser';
 
-    Sovryn.getWriteWeb3()
-      .eth.personal.sign(message, walletAddress, '')
-      .then(res =>
-        axios
-          .post(mailSrv + route, {
-            ...newUser,
-            signedMessage: res,
-            message: message,
-          })
-          .then(res => {
-            setResponse('success');
-          })
-          .catch(e => {
-            setResponse('error');
-            console.log(e);
-          }),
-      );
+    walletService.signMessage(message).then(res =>
+      axios
+        .post(mailSrv + route, {
+          ...newUser,
+          signedMessage: res,
+          message: message,
+        })
+        .then(res => {
+          setResponse('success');
+        })
+        .catch(e => {
+          setResponse('error');
+          console.log(e);
+        }),
+    );
   };
 
   const getUser = useCallback(() => {
