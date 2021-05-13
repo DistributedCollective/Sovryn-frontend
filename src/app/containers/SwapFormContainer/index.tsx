@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types/asset';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -137,6 +137,7 @@ export function SwapFormContainer() {
     const _sourceToken = sourceToken;
     setSourceToken(targetToken);
     setTargetToken(_sourceToken);
+    setAmount(fromWei(rateByPath));
   };
 
   const onSwap = () => {
