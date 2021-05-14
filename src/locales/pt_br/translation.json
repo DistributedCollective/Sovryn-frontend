@@ -839,7 +839,7 @@
       }
     }
   },
-   "mobileBrowsersWarningDialog": {
+  "mobileBrowsersWarningDialog": {
     "acceptTerms": "Eu aceito os riscos e desejo usar o dapp com meu dispositivo móvel",
     "salesBtn": "Eu entendo",
     "content": {
@@ -897,7 +897,7 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
-   "marginTradePage": {
+  "marginTradePage": {
     "meta": {
       "title": "Operar margem",
       "description": "Operar margem"

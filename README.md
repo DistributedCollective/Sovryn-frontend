@@ -12,6 +12,8 @@ Install packages:
 yarn
 ```
 
+If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
+
 Start app for development:
 
 ```shell
@@ -23,6 +25,12 @@ Build for production:
 ```shell
 yarn build
 ```
+
+Dapp uses private repository as a dependency, for this reason you may need to create private access token for your account here https://github.com/settings/tokens.
+You will need to choose `repo` scope for the token.
+Export token `export CI_USER_TOKEN='ghp_xxxxx'` and run `./bin/gh-pack` to apply it.
+Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
+If yarn install fails after these steps please ask for read access to charting-library repository.
 
 ## Contributing
 

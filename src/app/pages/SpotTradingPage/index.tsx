@@ -18,7 +18,7 @@ import cn from 'classnames';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
+import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { SpotHistory } from 'app/containers/SpotHistory';
 import { PriceHistory } from './components/PriceHistory';
@@ -55,10 +55,8 @@ export function SpotTradingPage() {
             }
           >
             <TradingChart
-              symbol={`${pairType}`.replace('_', ':')}
+              symbol={`${pairType}`.replace('_', '/')}
               theme={Theme.DARK}
-              type={ChartType.CANDLE}
-              inSats
             />
           </div>
           <div>
