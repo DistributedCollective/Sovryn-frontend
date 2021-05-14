@@ -939,6 +939,13 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
+  "rewardPage": {
+    "meta": {
+      "title": "Reward",
+      "description": "Reward SOV"
+    },
+    "totalEarned": "Total Rewards Earned:"
+  },
   "marginTradePage": {
     "meta": {
       "title": "Margin Trade",
