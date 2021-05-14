@@ -247,7 +247,7 @@
       "startPrice": "Preço de entrada",
       "container": {
         "topUp": "Aumentar posição",
-        "close": "Fechar"
+        "close": "Fechar posição"
       }
     }
   },
@@ -925,11 +925,11 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "COMPRA",
-      "sell_cta": "VENDA",
+      "buy_cta": "COMPRAR",
+      "sell_cta": "VENDER",
       "amountReceived": "Receber",
-      "buy": "COMPRAR",
-      "sell": "VENDER"
+      "buy": "COMPRA",
+      "sell": "VENDA"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1073,7 +1073,7 @@
     "noData": "Sem dados",
     "cta": {
       "margin": "Adicionar margem",
-      "close": "Fechar posição"
+      "close": "Fechar"
     }
   },
   "claimOriginBanner": {
