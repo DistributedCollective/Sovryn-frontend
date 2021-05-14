@@ -51,7 +51,7 @@ export function SpotTradingPage() {
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
           <div
             className={
-              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0 xl:tw-max-w-65 2xl:tw-max-w-70 3xl:tw-max-w-77'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 xl:tw-pr-4 xl:tw-mb-0'
             }
           >
             <TradingChart
