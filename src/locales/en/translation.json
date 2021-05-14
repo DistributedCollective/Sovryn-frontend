@@ -944,6 +944,13 @@
       "title": "Reward",
       "description": "Reward SOV"
     },
+    "claimForm": {
+      "title": "Available Rewards",
+      "availble": "Total Reward SOV Available:",
+      "cta": "claim",
+      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
+    },
     "totalEarned": "Total Rewards Earned:"
   },
   "marginTradePage": {

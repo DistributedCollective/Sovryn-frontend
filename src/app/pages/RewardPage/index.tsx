@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet-async';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { RewardBox } from './components/RewardBox';
+import { ClaimForm } from './components/ClaimForm';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -55,6 +56,9 @@ export function RewardPage() {
               { key: 'Total Rewards Earned:', value: '73.5927 SOV' },
             ]}
           />
+        </div>
+        <div className="tw-mt-4">
+          <ClaimForm />
         </div>
       </div>
       <Footer />
