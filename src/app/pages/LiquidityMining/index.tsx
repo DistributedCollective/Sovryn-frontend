@@ -12,6 +12,8 @@ import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 import { TopInfoSectionWrapper } from '../../components/Finance V2 shared components/TopInfo/TopInfoSectionWrapper/index';
 import { TopInfoTitle } from '../../components/Finance V2 shared components/TopInfo/TopInfoTitle/index';
 import { TopInfoContent } from '../../components/Finance V2 shared components/TopInfo/TopInfoContent/index';
+import { TopInfoWrapper } from '../../components/Finance V2 shared components/TopInfo/TopInfoWrapper/index';
+import { Asset } from 'types';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -29,22 +31,37 @@ export function LiquidityMining() {
       <Header />
       <div className="container mt-5 font-family-montserrat">
         <TopInfoSectionWrapper>
-          <div>
+          <TopInfoWrapper>
             <TopInfoTitle title="Liquidity Provided" />
-            <TopInfoContent isApproximation={true} content="3.5827 RBTC" />
-          </div>
-          <div>
+            <TopInfoContent
+              isApproximation={true}
+              amount="3.5827"
+              asset={Asset.RBTC}
+            />
+          </TopInfoWrapper>
+
+          <TopInfoWrapper>
             <TopInfoTitle title="Available Fees" />
-            <TopInfoContent isApproximation={true} content="0.2857 RBTC" />
-          </div>
-          <div>
+            <TopInfoContent
+              isApproximation={true}
+              amount="0.2857"
+              asset={Asset.RBTC}
+            />
+          </TopInfoWrapper>
+
+          <TopInfoWrapper>
             <TopInfoTitle title="Available Rewards" />
-            <TopInfoContent content="23.4323 SOV" />
-          </div>
-          <div>
+            <TopInfoContent amount="23.4323" asset={Asset.SOV} />
+          </TopInfoWrapper>
+
+          <TopInfoWrapper>
             <TopInfoTitle title="All time Fees Earned" />
-            <TopInfoContent isApproximation={true} content="34.3928 RBTC" />
-          </div>
+            <TopInfoContent
+              isApproximation={true}
+              amount="34.3928"
+              asset={Asset.RBTC}
+            />
+          </TopInfoWrapper>
         </TopInfoSectionWrapper>
         <AmmPoolsBanner />
         {pools.map(item => (
