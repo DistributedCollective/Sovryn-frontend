@@ -13,9 +13,9 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
 import { contractReader } from 'utils/sovryn/contract-reader';
-
-interface Item {}
-
+import { useSendContractTx } from '../../../../hooks/useSendContractTx';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
 interface Props {
   className?: object;
   address: string;
@@ -23,6 +23,7 @@ interface Props {
 export function ClaimForm({ className, address }: Props) {
   const { t } = useTranslation();
   const [lockedBalance, setLockedBalance] = useState('');
+  const { send } = useSendContractTx('lockedSov', 'createVestingAndStake');
 
   useEffect(() => {
     if (address) {
@@ -34,6 +35,18 @@ export function ClaimForm({ className, address }: Props) {
     }
   }, [address]);
 
+  const handleSubmit = () => {
+    send(
+      [],
+      {
+        from: address,
+        gas: gasLimit[TxType.REMOVE_LIQUIDITY],
+      },
+      {
+        type: TxType.REMOVE_LIQUIDITY,
+      },
+    );
+  };
   return (
     <div
       className={cn(
@@ -54,6 +67,8 @@ export function ClaimForm({ className, address }: Props) {
           appendElem={<AssetRenderer asset={Asset.SOV} />}
         />
         <Button
+          disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
+          onClick={handleSubmit}
           className="tw-w-full tw-mt-10"
           text={t(translations.rewardPage.claimForm.cta)}
         />
