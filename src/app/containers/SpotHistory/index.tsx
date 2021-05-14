@@ -149,15 +149,15 @@ export function SpotHistory() {
         <table className="w-100">
           <thead>
             <tr>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.spotHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.spotHistory.tableHeaders.pair)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.orderType)}</th>
               <th>{t(translations.spotHistory.tableHeaders.amountPaid)}</th>
-              <th className="d-none d-md-table-cell">
+              <th className="d-none d-lg-table-cell">
                 {t(translations.spotHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.status)}</th>
@@ -225,12 +225,12 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
 
   return (
     <tr>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <AssetRenderer asset={order.pairAsset[0]} /> -
         <AssetRenderer asset={order.pairAsset[1]} />
       </td>
@@ -249,7 +249,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         {numberFromWei(data.returnVal._fromAmount)}{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
-      <td className="d-none d-md-table-cell">
+      <td className="d-none d-lg-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -272,9 +272,11 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
             <LinkToExplorer
               txHash={data.transaction_hash}
               className="text-gold font-weight-normal text-nowrap"
+              startLength={5}
+              endLength={5}
             />
           </div>
-          <div>
+          <div className="tw-hidden 2xl:tw-block">
             {!data.status && (
               <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
             )}
