@@ -1,5 +1,8 @@
 import { Asset } from 'types/asset';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import {
+  getContract,
+  getLendingContractName,
+} from 'utils/blockchain/contract-helpers';
 import {
   CheckAndApproveResult,
   contractWriter,
@@ -15,10 +18,11 @@ export function useLending_approveAndUnlend(
     unlend: async () => {
       let tx: CheckAndApproveResult = {};
       if (asset !== Asset.RBTC) {
-        tx = await contractWriter.checkAndApprove(
-          asset,
-          getLendingContract(asset).address,
+        tx = await contractWriter.checkAndApproveContract(
+          getLendingContractName(asset),
+          getContract('BTCWrapperProxy').address,
           withdrawAmount,
+          asset,
         );
         if (tx.rejected) {
           return;
