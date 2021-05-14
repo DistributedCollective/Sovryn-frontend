@@ -23,9 +23,9 @@ export function RewardBox({ className, title, items }: Props) {
     <Box className={cn(className, 'p-3 rounded-lg')}>
       <div className="tw-text-xl tw-font-semibold">{title}</div>
       <div className="tw-px-2 tw-pt-2 tw-flex tw-justify-between">
-        {items.map(item => {
+        {items.map((item, i) => {
           return (
-            <div className="tw-text-sm tw-font-light">
+            <div key={i} className="tw-text-sm tw-font-light">
               {item.key} <br />
               <span className="tw-font-medium">{item.value}</span>
             </div>

@@ -12,9 +12,11 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { RewardBox } from './components/RewardBox';
 import { ClaimForm } from './components/ClaimForm';
+import { useAccount } from 'app/hooks/useAccount';
 
 export function RewardPage() {
   const { t } = useTranslation();
+  const userAddress = useAccount();
 
   return (
     <>
@@ -25,6 +27,7 @@ export function RewardPage() {
           content={t(translations.rewardPage.meta.description)}
         />
       </Helmet>
+
       <Header />
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
@@ -58,7 +61,7 @@ export function RewardPage() {
           />
         </div>
         <div className="tw-mt-4">
-          <ClaimForm />
+          <ClaimForm address={userAddress} />
         </div>
       </div>
       <Footer />

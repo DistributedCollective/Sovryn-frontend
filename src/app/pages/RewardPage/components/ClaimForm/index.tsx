@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -12,14 +12,28 @@ import { Input } from 'form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
+import { contractReader } from 'utils/sovryn/contract-reader';
 
 interface Item {}
 
 interface Props {
   className?: object;
+  address: string;
 }
-export function ClaimForm({ className }: Props) {
+export function ClaimForm({ className, address }: Props) {
   const { t } = useTranslation();
+  const [lockedBalance, setLockedBalance] = useState('');
+
+  useEffect(() => {
+    if (address) {
+      contractReader
+        .call('lockedSov', 'getLockedBalance', [address])
+        .then(info => {
+          setLockedBalance(`${info}`);
+        });
+    }
+  }, [address]);
+
   return (
     <div
       className={cn(
@@ -35,7 +49,7 @@ export function ClaimForm({ className }: Props) {
           {t(translations.rewardPage.claimForm.availble)}
         </div>
         <Input
-          value={'39.275'}
+          value={lockedBalance}
           readOnly={true}
           appendElem={<AssetRenderer asset={Asset.SOV} />}
         />
