@@ -54,7 +54,7 @@ export function InfoBar() {
   //   loading: totalSupplyLoading,
   // } = useCacheCallWithValue('SOV_token', 'totalSupply', '0');
 
-  const totalSupply = 2370000e18;
+  const totalSupply = 2630000e18;
   const totalSupplyLoading = false;
 
   const marketCap = useMemo(() => {
