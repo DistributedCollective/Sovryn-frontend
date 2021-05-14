@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -12,28 +12,35 @@ import { Input } from 'form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 interface Props {
   className?: object;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
   const { t } = useTranslation();
-  const [lockedBalance, setLockedBalance] = useState('');
   const { send } = useSendContractTx('lockedSov', 'createVestingAndStake');
 
+  const { value: lockedBalance } = useCacheCallWithValue(
+    'lockedSov',
+    'getLockedBalance',
+    '0',
+    address,
+  );
+
+  const { value: unlockedBalance } = useCacheCallWithValue(
+    'lockedSov',
+    'getUnlockedBalance',
+    '0',
+    address,
+  );
+
   useEffect(() => {
-    if (address) {
-      contractReader
-        .call('lockedSov', 'getLockedBalance', [address])
-        .then(info => {
-          setLockedBalance(`${info}`);
-        });
-    }
-  }, [address]);
+    console.log('unlockedBalance: ', unlockedBalance);
+  }, [unlockedBalance]);
 
   const handleSubmit = () => {
     send(
