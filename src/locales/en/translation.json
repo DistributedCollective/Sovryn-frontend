@@ -349,6 +349,7 @@
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
       "title": "Email Notifications",
+      "want": "Receive email notifications about margin calls and liquidated positions",
       "form": {
         "name": {
           "label": "Name / Pseudonym",
@@ -1117,7 +1118,7 @@
     "noData": "No data",
     "cta": {
       "margin": "Add to Margin",
-      "close": "Close Position"
+      "close": "Close"
     }
   },
   "claimOriginBanner": {

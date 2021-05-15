@@ -18,7 +18,7 @@ import cn from 'classnames';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
+import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { SpotHistory } from 'app/containers/SpotHistory';
 import { PriceHistory } from './components/PriceHistory';
@@ -48,17 +48,15 @@ export function SpotTradingPage() {
         <PriceHistory />
       </div>
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between">
+        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
           <div
             className={
-              'tw-flex-shrink tw-w-full tw-flex-grow tw-mb-12 lg:tw-pr-4 lg:tw-mb-0'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 xl:tw-pr-4 xl:tw-mb-0'
             }
           >
             <TradingChart
-              symbol={`${pairType}`.replace('_', ':')}
+              symbol={`${pairType}`.replace('_', '/')}
               theme={Theme.DARK}
-              type={ChartType.CANDLE}
-              inSats
             />
           </div>
           <div>

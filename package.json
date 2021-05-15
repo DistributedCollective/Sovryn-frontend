@@ -35,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "@visx/responsive": "1.1.0",
+    "axios": "0.21.1",
     "animate.css": "4.1.1",
     "antd": "4.12.2",
     "autoprefixer": "10.2.4",
@@ -47,6 +48,7 @@
     "bootstrap": "4.5.3",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "charting-library": "https://github.com/DistributedCollective/charting-library.git",
     "clsx": "1.1.1",
     "core-js": "3.7.0",
     "cross-env": "7.0.2",
@@ -90,7 +92,7 @@
     "lightweight-charts": "3.3.0",
     "lint-staged": "10.0.8",
     "local-storage": "2.0.0",
-    "mathjs": "7.1.0",
+    "mathjs": "7.5.1",
     "mini-css-extract-plugin": "0.9.0",
     "moment": "2.29.1",
     "node-plop": "0.25.0",
@@ -164,7 +166,8 @@
     "yarn": "1.22.10"
   },
   "bin": {
-    "changelog": "./bin/changelog"
+    "changelog": "./bin/changelog",
+    "gh-pack": "./bin/gh-pack"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -172,7 +175,7 @@
     "build:testnet": "env-cmd -f .env.testnet yarn build",
     "test": "node scripts/test.js",
     "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/test-generators.ts",
-    "start:prod": "yarn build && serve -s build",
+    "start:prod": "yarn build && serve build",
     "start:mainnet": "env-cmd -f .env.mainnet.local yarn start",
     "checkTs": "tsc --noEmit",
     "eslint": "eslint --ext js,ts,tsx",
@@ -184,7 +187,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "changelog": "./bin/changelog"
+    "changelog": "bash ./bin/changelog",
+    "preinstall": "bash ./bin/gh-pack"
   },
   "browserslist": {
     "production": [
