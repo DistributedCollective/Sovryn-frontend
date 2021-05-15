@@ -54,6 +54,8 @@ export const backendUrl = {
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
+export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
+
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
   [TxType.ADD_LIQUIDITY]: 450000,
