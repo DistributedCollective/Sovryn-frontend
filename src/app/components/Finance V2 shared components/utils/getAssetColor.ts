@@ -1,4 +1,4 @@
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../types/asset';
 
 export const getAssetColor = (asset: Asset) => {
   switch (asset) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { convertPercentageToDegrees } from './utils/convertPercentageToDegrees';
-import { getAssetColor } from './utils/getAssetColor';
+import { getAssetColor } from '../utils/getAssetColor';
 import { Asset } from 'types/asset';
 import { StyledPieChart } from './styled';
 
