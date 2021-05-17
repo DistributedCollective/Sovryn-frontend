@@ -16,13 +16,17 @@ import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
 interface Props {
   className?: object;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
   const { t } = useTranslation();
-  const { send } = useSendContractTx('lockedSov', 'createVestingAndStake');
+  const { send, ...tx } = useSendContractTx(
+    'lockedSov',
+    'createVestingAndStake',
+  );
 
   const { value: lockedBalance } = useCacheCallWithValue(
     'lockedSov',
@@ -81,6 +85,7 @@ export function ClaimForm({ className, address }: Props) {
           </div>
         </div>
       </div>
+      <TxDialog tx={tx} />
     </div>
   );
 }
