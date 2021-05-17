@@ -13,6 +13,7 @@ import { Footer } from '../../components/Footer';
 import { RewardBox } from './components/RewardBox';
 import { ClaimForm } from './components/ClaimForm';
 import { useAccount } from 'app/hooks/useAccount';
+import { RewardHistory } from './components/RewardHistory';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ export function RewardPage() {
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <h2 className="mb-4 tw-text-2xl tw-font-semibold">
-          {t(translations.rewardPage.totalEarned) + ' '} 138.8372 SOV
+          {t(translations.rewardPage.totalEarned) + ' '} 0 SOV
         </h2>
         <div className="tw-grid tw-grid-cols-3 tw-gap-8">
           <RewardBox
@@ -81,7 +82,10 @@ export function RewardPage() {
             ]}
           />
         </div>
-        <div className="tw-mt-4">
+        <div className="tw-mt-4 tw-flex tw-gap-8">
+          <div className="tw-flex-1">
+            <RewardHistory account={userAddress} />
+          </div>
           <ClaimForm address={userAddress} />
         </div>
       </div>

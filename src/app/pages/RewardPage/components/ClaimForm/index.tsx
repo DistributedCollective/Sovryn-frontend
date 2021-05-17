@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -16,6 +16,7 @@ import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 interface Props {
   className?: object;
   address: string;
@@ -27,20 +28,9 @@ export function ClaimForm({ className, address }: Props) {
   const { value: lockedBalance } = useCacheCallWithValue(
     'lockedSov',
     'getLockedBalance',
-    '0',
+    '',
     address,
   );
-
-  const { value: unlockedBalance } = useCacheCallWithValue(
-    'lockedSov',
-    'getUnlockedBalance',
-    '0',
-    address,
-  );
-
-  useEffect(() => {
-    console.log('unlockedBalance: ', unlockedBalance);
-  }, [unlockedBalance]);
 
   const handleSubmit = () => {
     send(
@@ -58,31 +48,35 @@ export function ClaimForm({ className, address }: Props) {
     <div
       className={cn(
         className,
-        'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0',
+        'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
       <div className="text-center tw-text-xl">
         {t(translations.rewardPage.claimForm.title)}
       </div>
-      <div className="tw-mt-6">
-        <div className="tw-text-sm tw-mb-1">
-          {t(translations.rewardPage.claimForm.availble)}
+      <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
+        <div>
+          <div className="tw-text-sm tw-mb-1">
+            {t(translations.rewardPage.claimForm.availble)}
+          </div>
+          <Input
+            value={`${weiToFixed(lockedBalance, 4)}`}
+            readOnly={true}
+            appendElem={<AssetRenderer asset={Asset.SOV} />}
+          />
         </div>
-        <Input
-          value={`${parseFloat(lockedBalance) / 1e18}`}
-          readOnly={true}
-          appendElem={<AssetRenderer asset={Asset.SOV} />}
-        />
-        <Button
-          disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
-          onClick={handleSubmit}
-          className="tw-w-full tw-mt-10"
-          text={t(translations.rewardPage.claimForm.cta)}
-        />
+        <div>
+          <Button
+            disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
+            onClick={handleSubmit}
+            className="tw-w-full tw-mt-10"
+            text={t(translations.rewardPage.claimForm.cta)}
+          />
 
-        <div className="tw-text-xs tw-mt-4">
-          {t(translations.rewardPage.claimForm.note) + ' '}
-          <a href="/">{t(translations.rewardPage.claimForm.learn)}</a>
+          <div className="tw-text-xs tw-mt-4">
+            {t(translations.rewardPage.claimForm.note) + ' '}
+            <a href="/">{t(translations.rewardPage.claimForm.learn)}</a>
+          </div>
         </div>
       </div>
     </div>
