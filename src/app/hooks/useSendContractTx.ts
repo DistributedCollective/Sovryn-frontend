@@ -69,6 +69,7 @@ export function useSendContractTx(
       // );
       setTxId(TxStatus.PENDING_FOR_USER);
       if (
+        !config.hasOwnProperty('gas') &&
         options.approveTransactionHash &&
         options.type &&
         gasLimit.hasOwnProperty(options.type)
