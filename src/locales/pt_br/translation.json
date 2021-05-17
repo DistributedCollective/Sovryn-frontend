@@ -677,7 +677,7 @@
     "actions": {
       "deposit": "FastBTC",
       "swap": "Trocar",
-      "trade": "Operar",
+      "trade": "Margem",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC"
     }
