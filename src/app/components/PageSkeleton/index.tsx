@@ -10,105 +10,105 @@ import styled from 'styled-components/macro';
 export function PageSkeleton() {
   return (
     <>
-      <div className="container py-3">
-        <div className="row mb-3">
-          <div className="col-4">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-py-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+          <div className="tw-col-span-4">
             <Skeleton />
           </div>
-          <div className="col-6">
+          <div className="tw-col-span-6">
             <Skeleton />
           </div>
-          <div className="col-2">
-            <Skeleton />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-2">
-            <Skeleton />
-          </div>
-          <div className="col-2">
-            <Skeleton />
-          </div>
-          <div className="col-3">
-            <Skeleton />
-          </div>
-          <div className="col-5">
+          <div className="tw-col-span-2">
             <Skeleton />
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-6 col-lg-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+          <div className="tw-col-span-2">
+            <Skeleton />
+          </div>
+          <div className="tw-col-span-2">
+            <Skeleton />
+          </div>
+          <div className="tw-col-span-3">
+            <Skeleton />
+          </div>
+          <div className="tw-col-span-5">
+            <Skeleton />
+          </div>
+        </div>
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+          <div className="tw-col-span-6 lg:tw-col-span-4">
             <Skeleton height="100%" />
           </div>
-          <div className="col-6 col-lg-8">
-            <div className="row mb-3">
-              <div className="col-2">
+          <div className="tw-col-span-6 lg:tw-col-span-8">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-2">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-3">
+              <div className="tw-col-span-3">
                 <Skeleton />
               </div>
-              <div className="col-5">
-                <Skeleton />
-              </div>
-            </div>
-            <div className="row mb-3">
-              <div className="col-2">
-                <Skeleton />
-              </div>
-              <div className="col-2">
-                <Skeleton />
-              </div>
-              <div className="col-3">
-                <Skeleton />
-              </div>
-              <div className="col-5">
+              <div className="tw-col-span-5">
                 <Skeleton />
               </div>
             </div>
-            <div className="row mb-3">
-              <div className="col-2">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-2">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-3">
+              <div className="tw-col-span-3">
                 <Skeleton />
               </div>
-              <div className="col-5">
+              <div className="tw-col-span-5">
                 <Skeleton />
               </div>
             </div>
-            <div className="row">
-              <div className="col-2">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-2">
+              <div className="tw-col-span-2">
                 <Skeleton />
               </div>
-              <div className="col-3">
+              <div className="tw-col-span-3">
                 <Skeleton />
               </div>
-              <div className="col-5">
+              <div className="tw-col-span-5">
+                <Skeleton />
+              </div>
+            </div>
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
+              <div className="tw-col-span-2">
+                <Skeleton />
+              </div>
+              <div className="tw-col-span-2">
+                <Skeleton />
+              </div>
+              <div className="tw-col-span-3">
+                <Skeleton />
+              </div>
+              <div className="tw-col-span-5">
                 <Skeleton />
               </div>
             </div>
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+          <div className="tw-col-span-4">
             <Skeleton />
           </div>
-          <div className="col-6">
+          <div className="tw-col-span-6">
             <Skeleton />
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-6">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
+          <div className="tw-col-span-6">
             <Skeleton />
           </div>
         </div>
@@ -122,25 +122,28 @@ interface Props {
 }
 export function ComponentSkeleton({ lines }: Props) {
   return (
-    <div className="container">
+    <div className="tw-container tw-mx-auto tw-px-4">
       {Array(lines).map((_, index) => (
-        <div className="row my-3" key={index}>
+        <div
+          className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-my-4"
+          key={index}
+        >
           {index % 2 !== 0 && (
             <>
-              <div className="col-4">
+              <div className="tw-col-span-4">
                 <Skeleton />
               </div>
-              <div className="col-8">
+              <div className="tw-col-span-8">
                 <Skeleton />
               </div>
             </>
           )}
           {index % 2 === 0 && (
             <>
-              <div className="col-3">
+              <div className="tw-col-span-3">
                 <Skeleton />
               </div>
-              <div className="col-6">
+              <div className="tw-col-span-6">
                 <Skeleton />
               </div>
             </>

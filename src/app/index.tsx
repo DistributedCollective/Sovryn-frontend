@@ -12,23 +12,8 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
-
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
-import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { WalletProvider } from './containers/WalletProvider';
-
-import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { StatsPage } from './containers/StatsPage/Loadable';
-import { LiquidityPage } from './containers/LiquidityPage/Loadable';
-import { TradingPage } from './containers/TradingPage/Loadable';
-import { SandboxPage } from './containers/SandboxPage/Loadable';
-import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
-import { BuySovPage } from './pages/BuySovPage/Loadable';
-import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
-
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   actions as maintenanceActions,
@@ -37,6 +22,22 @@ import {
 } from 'store/global/maintenance-store/slice';
 import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
 import { useDispatch } from 'react-redux';
+
+import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
+import { MaintenancePage } from './containers/MaintenancePage';
+import { WalletProvider } from './containers/WalletProvider';
+
+import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import { StatsPage } from './containers/StatsPage/Loadable';
+import { LiquidityPage } from './containers/LiquidityPage/Loadable';
+import { EmailPage } from './containers/EmailPage';
+import { WalletPage } from './containers/WalletPage/Loadable';
+import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
+
+import { SwapPage } from './containers/SwapPage/Loadable';
+import { BuySovPage } from './pages/BuySovPage/Loadable';
+import { MarginTradePage } from './pages/MarginTradePage/Loadable';
+import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -67,13 +68,13 @@ export function App() {
           <NetworkRibbon />
           <Switch>
             <Route exact path="/" component={BuySovPage} />
-            <Route exact path="/trade" component={TradingPage} />
+            <Route exact path="/trade" component={MarginTradePage} />
+            <Route exact path="/swap" component={SwapPage} />
+            <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
-            <Route exact path="/sandbox" component={SandboxPage} />
             <Route exact path="/wallet" component={WalletPage} />
-            {/*<Route exact path="/escrow" component={EscrowPage} />*/}
             <Route
               exact
               path="/optin-success"

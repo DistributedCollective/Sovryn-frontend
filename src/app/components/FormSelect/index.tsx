@@ -54,7 +54,7 @@ export function FormSelect(props: Props) {
 
   return (
     <Selector
-      className={`w-100 ${props.outerClasses || ''}`}
+      className={`tw-w-full ${props.outerClasses || ''}`}
       items={props.items}
       inputProps={
         isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
@@ -92,7 +92,7 @@ FormSelect.defaultProps = {
   loading: false,
   filterable: true,
   placeholder: 'Select something',
-  innerClasses: 'border rounded',
+  innerClasses: 'border tw-rounded',
 };
 
 interface StyledProps {
@@ -101,7 +101,7 @@ interface StyledProps {
 }
 const StyledSelection = styled.button.attrs(_ => ({
   type: 'button',
-  className: `px-2 py-2 d-flex flex-row justify-content-between w-100 align-items-center ${
+  className: `tw-px-2 tw-py-2 tw-flex tw-flex-row tw-justify-between tw-w-full tw-items-center ${
     _.className || ''
   }`,
 }))`

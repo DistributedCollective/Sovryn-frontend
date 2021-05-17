@@ -56,6 +56,7 @@ export interface Transaction {
   value: string;
   asset: Nullable<Asset>;
   assetAmount: Nullable<string>;
+  customData?: { [key: string]: any };
 }
 
 export interface RequestDialogState {

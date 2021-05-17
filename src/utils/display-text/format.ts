@@ -1,4 +1,9 @@
-import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
+import {
+  weiToFixed,
+  weiTo18,
+  fromWei,
+  roundToSmaller,
+} from '../blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
 export function formatAsNumber(value, decimals): number {
@@ -89,12 +94,6 @@ export function calculateLiquidation(
       .mul(1e18)
       .toFixed(18),
   );
-
-  // const liquidationPriceLong: number =
-  //   (startRate * leverage) / (leverage + 1 - maintenanceMargin * leverage);
-  // const liquidationPriceShort: number =
-  //   (startRate * leverage) / (leverage - 1 + maintenanceMargin * leverage);
-  // return isLong ? liquidationPriceLong : liquidationPriceShort;
 }
 
 export function calculateProfit(
@@ -115,15 +114,14 @@ export function calculateProfit(
   return isLong ? profitLong : profitShort;
 }
 
-// export function calculateProfit(
-//   startPrice: number,
-//   currentPrice: number,
-//   isLong: boolean,
-//   collateral: string,
-// ) {
-//   const positionSize = parseFloat(weiTo18(collateral));
-//   if (isLong) {
-//     return positionSize * currentPrice - positionSize * startPrice;
-//   }
-//   return positionSize * startPrice - positionSize * currentPrice;
-// }
+const decimalPartLength = value => {
+  const decimalPart = value?.split('.')[1];
+  return decimalPart?.length ?? 0;
+};
+
+export const stringToFixedPrecision = (value: string, precision: number) => {
+  if (decimalPartLength(value) > precision)
+    return roundToSmaller(value, precision);
+
+  return value;
+};

@@ -16,7 +16,7 @@ export function Announcement() {
       content={
         <Trans
           i18nKey={translations.announcement.message}
-          components={[<span className="font-weight-bold"></span>]}
+          components={[<span className="tw-font-bold"></span>]}
         />
       }
       localStorageRef="txLimitInfo"
