@@ -14,6 +14,7 @@ import { TopInfoTitle } from '../../components/Finance V2 shared components/TopI
 import { TopInfoContent } from '../../components/Finance V2 shared components/TopInfo/TopInfoContent/index';
 import { TopInfoWrapper } from '../../components/Finance V2 shared components/TopInfo/TopInfoWrapper/index';
 import { Asset } from 'types';
+import { HistoryTable } from './components/HistoryTable';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -63,10 +64,18 @@ export function LiquidityMining() {
             />
           </TopInfoWrapper>
         </TopInfoSectionWrapper>
+
         <AmmPoolsBanner />
         {pools.map(item => (
           <MiningPool key={item.poolAsset} pool={item} />
         ))}
+
+        <div className="tw-mt-10">
+          <div className="tw-px-3">
+            {t(translations.liquidityMining.historyTable.title)}
+          </div>
+          <HistoryTable />
+        </div>
       </div>
       <Footer />
     </>

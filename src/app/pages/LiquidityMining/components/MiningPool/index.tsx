@@ -43,7 +43,6 @@ export function MiningPool({ pool }: Props) {
   return (
     <>
       <div className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-bg-secondaryBackground tw-rounded-lg tw-p-3 tw-relative">
-        {/* Pie Chart */}
         <PieChart
           firstAsset={pool.supplyAssets[0].asset}
           secondAsset={pool.supplyAssets[1].asset}

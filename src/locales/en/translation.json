@@ -1010,6 +1010,18 @@
       "yourShare_D": "total liquidity added * number of blocks held",
       "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
       "comingSoon": "Coming Soon"
+    },
+    "historyTable": {
+      "title": "Liquidity History",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "liquidityAmount": "Liquidity Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      }
     }
   },
   "buySovPage": {
