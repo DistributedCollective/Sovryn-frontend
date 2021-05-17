@@ -8,31 +8,31 @@ export const TableHeader: React.FC = () => {
   return (
     <thead>
       <tr>
-        <th>
+        <th className="tw-text-sm">
           {t(translations.liquidityMining.historyTable.tableHeaders.time)}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(translations.liquidityMining.historyTable.tableHeaders.pool)}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(translations.liquidityMining.historyTable.tableHeaders.action)}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(translations.liquidityMining.historyTable.tableHeaders.asset)}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(
             translations.liquidityMining.historyTable.tableHeaders
               .liquidityAmount,
           )}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(
             translations.liquidityMining.historyTable.tableHeaders
               .transactionHash,
           )}
         </th>
-        <th>
+        <th className="tw-text-sm">
           {t(translations.liquidityMining.historyTable.tableHeaders.status)}
         </th>
       </tr>

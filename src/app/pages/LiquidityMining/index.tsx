@@ -71,7 +71,7 @@ export function LiquidityMining() {
         ))}
 
         <div className="tw-mt-10">
-          <div className="tw-px-3">
+          <div className="tw-px-3 tw-text-lg">
             {t(translations.liquidityMining.historyTable.title)}
           </div>
           <HistoryTable />

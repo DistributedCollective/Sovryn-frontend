@@ -11,7 +11,7 @@ interface ITableRowProps {
 }
 
 export const TableRow: React.FC<ITableRowProps> = ({ pool }) => (
-  <tr>
+  <tr className="tw-text-xs">
     <td>
       <DisplayDate timestamp={new Date().getTime().toString()} />
     </td>

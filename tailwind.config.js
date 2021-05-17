@@ -1,5 +1,6 @@
 module.exports = {
   prefix: 'tw-',
+  important: true,
   purge: [
     './src/app/components/**/*.{ts,tsx}',
     './src/app/containers/**/*.{ts,tsx}',
