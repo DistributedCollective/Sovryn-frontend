@@ -29,8 +29,7 @@ export const TableBody: React.FC = () => {
                   History is empty.
                 </td>
               </tr>
-            )}
-            {onGoingTransactions} */}
+            )} */}
     </tbody>
   );
 };

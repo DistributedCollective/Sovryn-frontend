@@ -15,7 +15,7 @@ export const TablePoolRenderer: React.FC<ITablePoolRendererProps> = ({
   <div>
     <PoolAsset assetColor={getAssetColor(asset)}>{asset}</PoolAsset>
     {secondaryAsset && (
-      <PoolAsset assetColor={getAssetColor(secondaryAsset)} className="tw-pt-1">
+      <PoolAsset assetColor={getAssetColor(secondaryAsset)} className="tw-pt-2">
         {secondaryAsset}
       </PoolAsset>
     )}
