@@ -1,4 +1,9 @@
-import { weiToFixed, weiTo18, fromWei } from '../blockchain/math-helpers';
+import {
+  weiToFixed,
+  weiTo18,
+  fromWei,
+  roundToSmaller,
+} from '../blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
 export function formatAsNumber(value, decimals): number {
@@ -116,7 +121,7 @@ const decimalPartLength = value => {
 
 export const stringToFixedPrecision = (value: string, precision: number) => {
   if (decimalPartLength(value) > precision)
-    return parseFloat(value).toFixed(precision);
+    return roundToSmaller(value, precision);
 
   return value;
 };
