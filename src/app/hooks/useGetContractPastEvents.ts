@@ -5,6 +5,7 @@ import { ContractName } from '../../utils/types/contracts';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { eventReader } from '../../utils/sovryn/event-reader';
 import { getContract } from '../../utils/blockchain/contract-helpers';
+import { useAccount } from './useAccount';
 
 const filtersEventKeyMap = {
   Mint: 'minter',
@@ -20,7 +21,8 @@ export function useGetContractPastEvents(
   event: string = 'allEvents',
   filters: any = {},
 ) {
-  const { syncBlockNumber, address } = useSelector(selectWalletProvider);
+  const address = useAccount();
+  const { syncBlockNumber } = useSelector(selectWalletProvider);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<EventData[]>([]);
 

@@ -4,7 +4,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 
-export function useLending_mint(asset: Asset, weiAmount: string) {
+export function useLendingProxy_mint(asset: Asset, weiAmount: string) {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx(
     'BTCWrapperProxy',

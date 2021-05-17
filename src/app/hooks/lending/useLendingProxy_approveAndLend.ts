@@ -4,10 +4,13 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { useLending_mint } from './useLending_mint';
+import { useLendingProxy_mint } from './useLendingProxy_mint';
 
-export function useLending_approveAndLend(asset: Asset, depositAmount: string) {
-  const { send: mint, ...mintTx } = useLending_mint(asset, depositAmount);
+export function useLendingProxy_approveAndLend(
+  asset: Asset,
+  depositAmount: string,
+) {
+  const { send: mint, ...mintTx } = useLendingProxy_mint(asset, depositAmount);
   return {
     lend: async () => {
       let tx: CheckAndApproveResult = {};

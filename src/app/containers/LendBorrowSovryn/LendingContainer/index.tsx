@@ -7,7 +7,7 @@ import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
-import { useLending_approveAndLend } from 'app/hooks/lending/useLending_approveAndLend';
+import { useLendingProxy_approveAndLend } from 'app/hooks/lending/useLendingProxy_approveAndLend';
 import { useLending_approveAndUnlend } from 'app/hooks/lending/useLending_approveAndUnlend';
 import { useLending_transactionLimit } from 'app/hooks/lending/useLending_transactionLimit';
 import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
@@ -79,7 +79,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
   }, [weiAmount, depositedBalance, depositedAssetBalance]);
 
   // LENDING
-  const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);
+  const { lend, ...lendTx } = useLendingProxy_approveAndLend(
+    currency,
+    weiAmount,
+  );
   const { unlend, ...unlendTx } = useLending_approveAndUnlend(
     currency,
     withdrawAmount,
