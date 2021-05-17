@@ -142,23 +142,18 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   const entryPrice = prettyPrice(opens[0].price);
   const closePrice = prettyPrice(closes[closes.length - 1].price);
 
-  // Profit for long
-  let unitProfit = bignumber(closePrice).minus(entryPrice).toString();
+  let change = bignumber(bignumber(closePrice).minus(entryPrice))
+    .div(entryPrice)
+    .toNumber();
   if (events[0].position === TradingPosition.SHORT) {
-    unitProfit = bignumber(entryPrice).minus(closePrice).toString();
+    change = bignumber(bignumber(entryPrice).minus(closePrice))
+      .div(entryPrice)
+      .toNumber();
   }
 
-  let profit = toWei(
-    bignumber(unitProfit)
-      .mul(positionSize)
-      .div(10 ** 36),
-  );
-
-  if (
-    TradingPairDictionary.longPositionTokens.includes(events[0].collateralToken)
-  ) {
-    profit = toWei(bignumber(profit).div(closePrice));
-  }
+  const profit = bignumber(change)
+    .mul(bignumber(positionSize) /*.mul(bignumber(leverage).div(1e18))*/)
+    .toFixed(0);
 
   return {
     loanId: events[0].loanId,

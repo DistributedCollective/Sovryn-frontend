@@ -34,7 +34,7 @@
     "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
     "notice": "Para atualizar, feche a página da Sovryn",
     "updateBtn": "ATUALIZAR",
-    "closeBtn": "Antes de atualizar, eu gostaria de concluir uma negociação"
+    "closeBtn": "Antes de atualizar, preciso concluir uma negociação"
   },
   "tradingActivity": {
     "title": "Minhas operações",

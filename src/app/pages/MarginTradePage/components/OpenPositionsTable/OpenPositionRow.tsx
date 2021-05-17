@@ -92,7 +92,7 @@ export function OpenPositionRow({ item }: Props) {
             <CurrentPositionProfit
               source={loanAsset}
               destination={collateralAsset}
-              amount={amount}
+              amount={item.collateral}
               startPrice={startPrice}
               isLong={isLong}
             />
