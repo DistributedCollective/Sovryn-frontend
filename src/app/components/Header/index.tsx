@@ -129,6 +129,10 @@ export function Header() {
       title: t(translations.mainMenu.swap),
     },
     {
+      to: '/spot',
+      title: t(translations.mainMenu.spotTrade),
+    },
+    {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
     },
