@@ -69,12 +69,12 @@ export function ClaimForm({ className, address }: Props) {
           {t(translations.rewardPage.claimForm.availble)}
         </div>
         <Input
-          value={lockedBalance}
+          value={`${parseFloat(lockedBalance) / 1e18}`}
           readOnly={true}
           appendElem={<AssetRenderer asset={Asset.SOV} />}
         />
         <Button
-          // disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
+          disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
           onClick={handleSubmit}
           className="tw-w-full tw-mt-10"
           text={t(translations.rewardPage.claimForm.cta)}
