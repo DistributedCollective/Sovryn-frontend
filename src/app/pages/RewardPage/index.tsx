@@ -36,27 +36,48 @@ export function RewardPage() {
         </h2>
         <div className="tw-grid tw-grid-cols-3 tw-gap-8">
           <RewardBox
-            title="Referral Rewards"
+            title={t(translations.rewardPage.topData.referralRewards)}
             items={[
-              { key: 'Number of referrals:', value: 5 },
-              { key: 'Available Rewards:', value: '15.4323 SOV' },
-              { key: 'Total Rewards Earned:', value: '73.5927 SOV' },
+              { key: t(translations.rewardPage.topData.referrals), value: 0 },
+              {
+                key: t(translations.rewardPage.topData.availableRewards),
+                value: '0 SOV',
+              },
+              {
+                key: t(translations.rewardPage.topData.totalRewards),
+                value: '0 SOV',
+              },
             ]}
           />
           <RewardBox
-            title="Liquidity Rewards"
+            title={t(translations.rewardPage.topData.liquidityRewards)}
             items={[
-              { key: 'Number of referrals:', value: 5 },
-              { key: 'Available Rewards:', value: '15.4323 SOV' },
-              { key: 'Total Rewards Earned:', value: '73.5927 SOV' },
+              {
+                key: t(translations.rewardPage.topData.lockedRewards),
+                value: '0 SOV',
+              },
+              {
+                key: t(translations.rewardPage.topData.claimibleRewards),
+                value: '0 SOV',
+              },
+              {
+                key: t(translations.rewardPage.topData.totalRewards),
+                value: '0 SOV',
+              },
             ]}
           />
           <RewardBox
-            title="OG Rewards"
+            title={t(translations.rewardPage.topData.OGRewards)}
             items={[
-              { key: 'Number of referrals:', value: 5 },
-              { key: 'Available Rewards:', value: '15.4323 SOV' },
-              { key: 'Total Rewards Earned:', value: '73.5927 SOV' },
+              {
+                key: t(translations.rewardPage.topData.availableRewards),
+                value: '0 SOV',
+              },
+
+              {
+                key: t(translations.rewardPage.topData.totalRewards),
+                value: '0 SOV',
+              },
             ]}
           />
         </div>
