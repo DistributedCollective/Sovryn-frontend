@@ -13,7 +13,6 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -37,10 +36,9 @@ export function ClaimForm({ className, address }: Props) {
       [],
       {
         from: address,
-        gas: gasLimit[TxType.REMOVE_LIQUIDITY],
       },
       {
-        type: TxType.REMOVE_LIQUIDITY,
+        type: TxType.LOCKED_SOV_CLAIM,
       },
     );
   };
@@ -60,7 +58,11 @@ export function ClaimForm({ className, address }: Props) {
             {t(translations.rewardPage.claimForm.availble)}
           </div>
           <Input
-            value={`${weiToFixed(lockedBalance, 4)}`}
+            value={
+              lockedBalance !== ''
+                ? weiToFixed(lockedBalance, 4)
+                : lockedBalance
+            }
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
