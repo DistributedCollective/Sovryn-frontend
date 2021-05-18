@@ -9,10 +9,10 @@ import { translations } from 'locales/i18n';
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { TopInfoSectionWrapper } from '../../components/Finance V2 shared components/TopInfo/TopInfoSectionWrapper/index';
-import { TopInfoTitle } from '../../components/Finance V2 shared components/TopInfo/TopInfoTitle/index';
-import { TopInfoContent } from '../../components/Finance V2 shared components/TopInfo/TopInfoContent/index';
-import { TopInfoWrapper } from '../../components/Finance V2 shared components/TopInfo/TopInfoWrapper/index';
+import { TopInfoSectionWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoSectionWrapper/index';
+import { TopInfoTitle } from '../../components/FinanceV2Components/TopInfo/TopInfoTitle/index';
+import { TopInfoContent } from '../../components/FinanceV2Components/TopInfo/TopInfoContent/index';
+import { TopInfoWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoWrapper/index';
 import { Asset } from 'types';
 import { HistoryTable } from './components/HistoryTable';
 

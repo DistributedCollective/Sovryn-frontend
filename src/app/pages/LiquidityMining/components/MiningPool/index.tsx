@@ -9,7 +9,7 @@ import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
-import { PieChart } from '../../../../components/Finance V2 shared components/PieChart/index';
+import { PieChart } from '../../../../components/FinanceV2Components/PieChart/index';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import {
   getAmmContractName,

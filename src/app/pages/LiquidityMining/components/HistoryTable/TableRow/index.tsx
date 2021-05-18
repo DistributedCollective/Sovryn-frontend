@@ -2,8 +2,8 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
 import { LiquidityPool } from 'utils/models/liquidity-pool';
-import { TablePoolRenderer } from '../../../../../components/Finance V2 shared components/TablePoolRenderer/index';
-import { TableTransactionStatus } from '../../../../../components/Finance V2 shared components/TableTransactionStatus/index';
+import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer/index';
+import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
 import { TxStatus } from 'store/global/transactions-store/types';
 
 interface ITableRowProps {

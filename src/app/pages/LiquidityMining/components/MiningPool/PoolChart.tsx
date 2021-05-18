@@ -1,8 +1,8 @@
 import React from 'react';
 
 import type { LiquidityPool } from 'utils/models/liquidity-pool';
-import ComparisonChart from 'app/components/Finance V2 shared components/ComparisonChart';
-import { getAssetColor } from 'app/components/Finance V2 shared components/utils/getAssetColor';
+import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart';
+import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 
 interface Props {
   pool: LiquidityPool;
