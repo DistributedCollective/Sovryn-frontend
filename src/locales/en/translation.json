@@ -951,7 +951,17 @@
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
-    "totalEarned": "Total Rewards Earned:"
+    "totalEarned": "Total Rewards Earned:",
+    "topData": {
+      "referralRewards": "Referral Rewards",
+      "referrals": "Number of referrals:",
+      "availableRewards": "Available Rewards:",
+      "totalRewards": "Total Rewards Earned:",
+      "liquidityRewards": "Liquidity Rewards",
+      "lockedRewards": "Locked Rewards:",
+      "claimibleRewards": "Claimible Rewards",
+      "OGRewards": "OG Rewards"
+    }
   },
   "marginTradePage": {
     "meta": {
