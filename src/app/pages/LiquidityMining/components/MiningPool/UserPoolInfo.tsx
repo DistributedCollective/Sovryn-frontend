@@ -4,13 +4,6 @@ import type {
   LiquidityPool,
   LiquidityPoolSupplyAsset,
 } from 'utils/models/liquidity-pool';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
-import { PoolTokenRewards } from './PoolTokenRewards';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { useAccount } from '../../../../hooks/useAccount';
 import {
@@ -19,6 +12,7 @@ import {
   getPoolTokenContractName,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
+import { LiquidityMiningRowTable } from '../../components/RowTable/index';
 
 interface Props {
   pool: LiquidityPool;
@@ -128,54 +122,14 @@ export function UserPoolInfo({ pool }: Props) {
   }, [account, pool, token1, token2]);
 
   return (
-    <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-space-x-8">
-      <div>
-        {/* Backend needed, parse events */}
-        <div>APY%</div>
-        <div>0</div>
-      </div>
-      <div>
-        <div>Fee Share</div>
-        <div>{toNumberFormat(pool.version === 1 ? 0.3 : 0.1, 1)}%</div>
-      </div>
-      <div className="tw-font-bold">
-        <div>Your Liquidity</div>
-        <div>
-          <div>
-            <LoadableValue
-              loading={loading1}
-              value={
-                <>
-                  {weiToNumberFormat(balance1, 4)}{' '}
-                  <AssetRenderer asset={token1.asset} />
-                </>
-              }
-            />
-          </div>
-          <div>
-            <LoadableValue
-              loading={loading2}
-              value={
-                <>
-                  {weiToNumberFormat(balance2, 4)}{' '}
-                  <AssetRenderer asset={token2.asset} />
-                </>
-              }
-            />
-          </div>
-        </div>
-      </div>
-      <div className="tw-font-bold">
-        {/* Backend needed, parse events */}
-        <div>P/L</div>
-        <div>0</div>
-      </div>
-      <div className="tw-font-bold">
-        <div>Rewards</div>
-        <div>
-          <PoolTokenRewards pool={pool} />
-        </div>
-      </div>
-    </div>
+    <LiquidityMiningRowTable
+      pool={pool}
+      balance1={balance1}
+      loading1={loading1}
+      balance2={balance2}
+      loading2={loading2}
+      asset1={token1.asset}
+      asset2={token2.asset}
+    />
   );
 }
