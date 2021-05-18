@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import iconSuccess from '../../../../assets/images/icon-success.svg';
@@ -22,7 +22,7 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const getText = useCallback(() => {
+  const text = useMemo(() => {
     switch (transactionStatus) {
       case TxStatus.FAILED:
         return t(translations.common.failed);
@@ -33,7 +33,7 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
     }
   }, [t, transactionStatus]);
 
-  const getIcon = useCallback(() => {
+  const icon = useMemo(() => {
     switch (transactionStatus) {
       case TxStatus.FAILED:
         return (
@@ -70,9 +70,9 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
       )}
     >
       <div>
-        <p className={cn('m-0 tw-text-xs', textClassName)}>{getText()}</p>
+        <p className={cn('m-0 tw-text-xs', textClassName)}>{text}</p>
       </div>
-      <div className={iconClassName}>{getIcon()}</div>
+      <div className={iconClassName}>{icon}</div>
     </div>
   );
 };

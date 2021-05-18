@@ -8,10 +8,7 @@ export const TableBody: React.FC = () => {
   return (
     <tbody className="mt-5">
       {pools.map((item, index) => (
-        <TableRow
-          key={`${item.supplyAssets[0].asset}/${item.supplyAssets[1].asset}/${index}`}
-          pool={item}
-        />
+        <TableRow key={`${item.poolAsset}/${index}`} pool={item} />
       ))}
 
       {/* {loading && (
