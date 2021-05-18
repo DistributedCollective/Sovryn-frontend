@@ -1041,7 +1041,8 @@
         "pl": "P/L",
         "rewards": "Rewards"
       }
-    }
+    },
+    "lootDropLink": "Learn more"
   },
   "buySovPage": {
     "meta": {

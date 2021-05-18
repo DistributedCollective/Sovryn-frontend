@@ -13,8 +13,11 @@ import { TopInfoSectionWrapper } from '../../components/FinanceV2Components/TopI
 import { TopInfoTitle } from '../../components/FinanceV2Components/TopInfo/TopInfoTitle/index';
 import { TopInfoContent } from '../../components/FinanceV2Components/TopInfo/TopInfoContent/index';
 import { TopInfoWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoWrapper/index';
+import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper/index';
+import { LootDrop } from '../../components/FinanceV2Components/LootDrop/index';
 import { Asset } from 'types';
 import { HistoryTable } from './components/HistoryTable';
+import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -31,6 +34,35 @@ export function LiquidityMining() {
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
+        <LootDropSectionWrapper>
+          <LootDrop
+            title="50K SOV Loot Drop"
+            pool="USDT/RBTC"
+            startDate="01/04/21, 12.00 UTC"
+            endDate="01/05/21, 12.00 UTC"
+            linkUrl="https://www.test.sk"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Purple}
+          />
+          <LootDrop
+            title="75K SOV Loot Drop"
+            pool="SOV/RBTC"
+            startDate="13/04/21, 12.00 UTC"
+            endDate="11/05/21, 12.00 UTC"
+            linkUrl="https://www.test.sk"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Yellow}
+          />
+          <LootDrop
+            title="100K SOV Loot Drop"
+            pool="ETH/RBTC"
+            startDate="17/05/21, 12.00 UTC"
+            endDate="17/06/21, 12.00 UTC"
+            linkUrl="https://www.test.sk"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Green}
+          />
+        </LootDropSectionWrapper>
         <TopInfoSectionWrapper>
           <TopInfoWrapper>
             <TopInfoTitle title="Liquidity Provided" />
