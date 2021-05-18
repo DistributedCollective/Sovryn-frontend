@@ -34,6 +34,8 @@ export class Streaming {
       return;
     }
 
+    if (typeof document?.hasFocus === 'function' && !document.hasFocus())
+      return;
     if (this.cancelTokenSource) this.cancelTokenSource.cancel();
     this.cancelTokenSource = axios.CancelToken.source();
     axios
