@@ -6,6 +6,7 @@ import {
 import { TxType } from 'store/global/transactions-store/types';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useMarginTrade(
   asset: Asset,
@@ -39,6 +40,7 @@ export function useMarginTrade(
         {
           from: account,
           value: weiAmount,
+          gas: gasLimit[TxType.TRADE],
           nonce,
         },
         {
