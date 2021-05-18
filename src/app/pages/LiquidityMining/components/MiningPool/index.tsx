@@ -15,6 +15,7 @@ import {
   getAmmContractName,
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
+import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 
 interface Props {
   pool: LiquidityPool;
@@ -40,9 +41,9 @@ export function MiningPool({ pool }: Props) {
     getTokenContract(pool.supplyAssets[1].asset).address,
   );
 
-  return (
-    <>
-      <div className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-bg-secondaryBackground tw-rounded-lg tw-p-3 tw-relative">
+  const LeftSection = () => {
+    return (
+      <div className="tw-flex tw-items-center tw-gap-3 tw-mr-4">
         <PieChart
           firstAsset={pool.supplyAssets[0].asset}
           secondAsset={pool.supplyAssets[1].asset}
@@ -55,26 +56,38 @@ export function MiningPool({ pool }: Props) {
             <PoolAssetInfo key={item.asset} pool={pool} supplyAsset={item} />
           ))}
         </div>
-        {/* Graph chart */}
-        <PoolChart pool={pool} />
-        {/* Some info */}
-        <UserPoolInfo pool={pool} />
-        {/* Actions */}
-        <div>
-          <ActionButton
-            text="Deposit"
-            onClick={() => setDialog('add')}
-            className="tw-block tw-w-full tw-mb-3"
-            disabled={!canInteract}
-          />
-          <ActionButton
-            text="Withdraw"
-            onClick={() => setDialog('remove')}
-            className="tw-block tw-w-full"
-            disabled={!canInteract}
-          />
-        </div>
       </div>
+    );
+  };
+
+  const Actions = () => {
+    return (
+      <div>
+        <ActionButton
+          text="Deposit"
+          onClick={() => setDialog('add')}
+          className="tw-block tw-w-full tw-mb-3"
+          disabled={!canInteract}
+        />
+        <ActionButton
+          text="Withdraw"
+          onClick={() => setDialog('remove')}
+          className="tw-block tw-w-full"
+          disabled={!canInteract}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <CardRow
+        LeftSection={<LeftSection />}
+        ChartSection={<PoolChart pool={pool} />}
+        Actions={<Actions />}
+        DataSection={<UserPoolInfo pool={pool} />}
+        leftColor="red"
+      ></CardRow>
       {canInteract && (
         <>
           {pool.version === 1 && (
@@ -107,6 +120,6 @@ export function MiningPool({ pool }: Props) {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
