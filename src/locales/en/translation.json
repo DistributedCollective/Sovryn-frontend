@@ -1032,6 +1032,15 @@
         "transactionHash": "Transaction Hash",
         "status": "Status"
       }
+    },
+    "rowTable": {
+      "tableHeaders": {
+        "apy": "APY%",
+        "feeShare": "Fee Share",
+        "yourLiquidity": "Your Liquidity",
+        "pl": "P/L",
+        "rewards": "Rewards"
+      }
     }
   },
   "buySovPage": {
