@@ -242,11 +242,11 @@ function InnerStakePage() {
     },
     [withdrawAmount, loading],
   );
-
   const validateExtendTimeForm = useCallback(() => {
-    if (loading || extendTx.loading) return false;
+    if (loading || extendTx.loading || timestamp === prevTimestamp)
+      return false;
     return timestamp >= Math.round(now.getTime() / 1e3);
-  }, [loading, timestamp, extendTx.loading]);
+  }, [loading, timestamp, extendTx.loading, prevTimestamp]);
 
   //Submit Forms
   const handleWithdrawSubmit = useCallback(
@@ -595,7 +595,7 @@ function InnerStakePage() {
                           <ExtendStakeForm
                             handleSubmit={handleExtendTimeSubmit}
                             amount={amount}
-                            timestamp={timestamp}
+                            timestamp={0}
                             onChangeTimestamp={e => setTimestamp(e)}
                             sovBalanceOf={sovBalanceOf}
                             kickoff={kickoffTs}
