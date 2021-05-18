@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import moment from 'moment-timezone';
 import styled from 'styled-components/macro';
 import logoSvg from 'assets/images/sovryn-icon.svg';
-import { numberFromWei } from 'utils/helpers';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -14,6 +16,7 @@ import { useVesting_getTeamVesting } from '../../../hooks/staking/useVesting_get
 import { useVesting_getOriginVesting } from '../../../hooks/staking/useVesting_getOriginVesting';
 
 export function HistoryEventsTable() {
+  const { t } = useTranslation();
   const account = useAccount();
   const getStakes = useStaking_getStakes(account);
   const vesting = useVesting_getVesting(account);
@@ -33,56 +36,36 @@ export function HistoryEventsTable() {
     async function getHistory() {
       let genesys: void, team: void, origin: void;
       const stake = await eventReader
-        .getPastEventsAll(
-          'staking',
-          'TokensStaked',
-          {
-            staker: account,
-          },
-          0,
-        )
+        .getPastEvents('staking', 'TokensStaked', {
+          staker: account,
+        })
         .then(res => {
           setEventsHistory(res);
         });
 
       if (vesting.value !== ethGenesisAddress) {
         genesys = await eventReader
-          .getPastEventsAll(
-            'staking',
-            'TokensStaked',
-            {
-              staker: vesting.value,
-            },
-            0,
-          )
+          .getPastEvents('staking', 'TokensStaked', {
+            staker: vesting.value,
+          })
           .then(res => {
             setEventsHistoryVesting(res);
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
         team = await eventReader
-          .getPastEventsAll(
-            'staking',
-            'TokensStaked',
-            {
-              staker: vestingTeam.value,
-            },
-            0,
-          )
+          .getPastEvents('staking', 'TokensStaked', {
+            staker: vestingTeam.value,
+          })
           .then(res => {
             setEventsHistoryVestingTeam(res);
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
         origin = await eventReader
-          .getPastEventsAll(
-            'staking',
-            'TokensStaked',
-            {
-              staker: vestingOrigin.value,
-            },
-            0,
-          )
+          .getPastEvents('staking', 'TokensStaked', {
+            staker: vestingOrigin.value,
+          })
           .then(res => {
             setEventsHistoryVestingOrigin(res);
           });
@@ -111,20 +94,24 @@ export function HistoryEventsTable() {
   return (
     <>
       <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
-        Staking History
+        {t(translations.stake.history.title)}
       </p>
       <div className="tw-bg-gray-light tw-rounded-b tw-shadow max-h-96 tw-overflow-y-auto tw-mb-10">
         <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
           <StyledTable className="w-full">
             <thead>
               <tr>
-                <th className="tw-text-left assets">Asset</th>
-                <th className="tw-text-left">Staked Amount</th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
-                  Staking Date
+                <th className="tw-text-left assets">
+                  {t(translations.stake.history.asset)}
+                </th>
+                <th className="tw-text-left">
+                  {t(translations.stake.history.stakedAmount)}
                 </th>
                 <th className="tw-text-left hidden lg:tw-table-cell">
-                  Total Staked
+                  {t(translations.stake.history.stakingDate)}
+                </th>
+                <th className="tw-text-left hidden lg:tw-table-cell">
+                  {t(translations.stake.history.totalStaked)}
                 </th>
               </tr>
             </thead>
@@ -174,7 +161,7 @@ export function HistoryEventsTable() {
                             className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                             onClick={() => setViewHistory(true)}
                           >
-                            Click to view history
+                            {t(translations.stake.history.viewHistory)}
                           </button>
                         </td>
                       </tr>

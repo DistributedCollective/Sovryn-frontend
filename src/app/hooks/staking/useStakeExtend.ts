@@ -11,7 +11,7 @@ export function useStakeExtend() {
   return {
     extend: (prevTimestamp: number, timestamp: number) => {
       send(
-        [prevTimestamp, timestamp + 86400],
+        [prevTimestamp, timestamp],
         { from: account },
         {
           type: TxType.STAKING_EXTEND,

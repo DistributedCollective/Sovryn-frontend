@@ -1,4 +1,6 @@
 import React, { FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   address: string;
@@ -8,10 +10,11 @@ interface Props {
 }
 
 export function DelegateForm(props: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-        Delegate
+        {t(translations.stake.actions.delegate)}
       </h3>
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
@@ -19,7 +22,7 @@ export function DelegateForm(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="address"
           >
-            Delegate To:
+            {t(translations.stake.delegation.delegateTo)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -27,13 +30,13 @@ export function DelegateForm(props: Props) {
               id="address"
               type="text"
               value={props.address}
-              placeholder="Enter or paste address"
+              placeholder={t(translations.stake.delegation.address)}
               onChange={e => props.onChangeAddress(e.currentTarget.value)}
             />
           </div>
 
           <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            Tx Fee: 0.0006 rBTC
+            {t(translations.stake.txFee)}: 0.0006 rBTC
           </p>
         </div>
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
@@ -45,7 +48,7 @@ export function DelegateForm(props: Props) {
             }`}
             disabled={!props.isValid}
           >
-            Confirm
+            {t(translations.stake.actions.confirm)}
           </button>
           <button
             type="button"
@@ -55,7 +58,7 @@ export function DelegateForm(props: Props) {
             }}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
-            Cancel
+            {t(translations.stake.actions.cancel)}
           </button>
         </div>
       </form>

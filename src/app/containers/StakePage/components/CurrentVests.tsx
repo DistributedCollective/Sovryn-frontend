@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { StyledTable } from './StyledTable';
 import { useAccount } from '../../../hooks/useAccount';
 import { ethGenesisAddress } from 'utils/classifiers';
@@ -11,33 +13,38 @@ interface Props {
 
 export function CurrentVests(props: Props) {
   const { items, loading, error } = useGetItems();
+  const { t } = useTranslation();
 
   return (
     <>
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
-        Current Vests
+        {t(translations.stake.currentVests.title)}
       </p>
       <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
         <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto">
           <StyledTable className="tw-w-full">
             <thead>
               <tr>
-                <th className="tw-text-left assets">Asset</th>
-                <th className="tw-text-left">Locked Amount</th>
-                <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  Voting Power
+                <th className="tw-text-left assets">
+                  {t(translations.stake.currentVests.asset)}
+                </th>
+                <th className="tw-text-left">
+                  {t(translations.stake.currentVests.lockedAmount)}
                 </th>
                 <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  Staking Date
+                  {t(translations.stake.currentVests.votingPower)}
                 </th>
                 <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  Staking Period
+                  {t(translations.stake.currentVests.stakingDate)}
                 </th>
                 <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  Unlock Date
+                  {t(translations.stake.currentVests.stakingPeriod)}
+                </th>
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
+                  {t(translations.stake.currentVests.unlockDate)}
                 </th>
                 <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
-                  Actions
+                  {t(translations.stake.actions.title)}
                 </th>
               </tr>
             </thead>
@@ -45,14 +52,14 @@ export function CurrentVests(props: Props) {
               {loading && !items.length && (
                 <tr>
                   <td colSpan={99} className="tw-text-center tw-font-normal">
-                    Loading, please wait...
+                    {t(translations.stake.loading)}
                   </td>
                 </tr>
               )}
               {!loading && !items.length && (
                 <tr>
                   <td colSpan={99} className="tw-text-center tw-font-normal">
-                    You don't have any vesting contracts.
+                    {t(translations.stake.currentVests.noVestingContracts)}
                   </td>
                 </tr>
               )}

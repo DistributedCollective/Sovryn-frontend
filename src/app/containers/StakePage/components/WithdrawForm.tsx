@@ -1,5 +1,8 @@
 import React, { FormEvent, useCallback, useState } from 'react';
-import { handleNumberInput, numberFromWei, toWei } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { handleNumberInput } from 'utils/helpers';
+import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { useAccount } from 'app/hooks/useAccount';
@@ -18,6 +21,7 @@ interface Props {
 }
 
 export function WithdrawForm(props: Props) {
+  const { t } = useTranslation();
   const account = useAccount();
   const [forfeitWithdraw, setForfeitWithdraw] = useState<number>(0);
   const [forfeitPercent, setForfeitPercent] = useState<number>(0);
@@ -45,6 +49,7 @@ export function WithdrawForm(props: Props) {
         })
         .catch(error => {
           setLoadingWithdraw(false);
+          console.log('forfeit error', error);
           return false;
         });
     },
@@ -63,14 +68,14 @@ export function WithdrawForm(props: Props) {
         ) : (
           <>
             <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-              Unstake SOV
+              {t(translations.stake.withdraw.title)}
             </h3>
             <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
               <label
                 className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
                 htmlFor="amount"
               >
-                Amount Currently Staked:
+                {t(translations.stake.withdraw.amountCurrentlyStaked)}:
               </label>
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
@@ -81,7 +86,7 @@ export function WithdrawForm(props: Props) {
                   defaultValue={props.amount}
                 />
                 <span className="tw-text-theme-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-                  SOV
+                  {t(translations.stake.sov)}
                 </span>
               </div>
 
@@ -89,7 +94,7 @@ export function WithdrawForm(props: Props) {
                 className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                 htmlFor="amountAdd"
               >
-                Amount to Unstake:
+                {t(translations.stake.withdraw.amountToUnstake)}:
               </label>
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
@@ -104,7 +109,7 @@ export function WithdrawForm(props: Props) {
                   }}
                 />
                 <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-                  SOV
+                  {t(translations.stake.sov)}
                 </span>
               </div>
               <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
@@ -164,7 +169,7 @@ export function WithdrawForm(props: Props) {
                     className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                     htmlFor="unstake"
                   >
-                    Early unstake forfeit:
+                    {t(translations.stake.withdraw.forfeit)}:
                   </label>
                   <div className="tw-flex tw-space-x-4">
                     <input
@@ -187,7 +192,7 @@ export function WithdrawForm(props: Props) {
               )}
 
               <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-                Tx Fee: 0.0006 rBTC
+                {t(translations.stake.txFee)}: 0.0006 rBTC
               </p>
             </div>
 
@@ -196,16 +201,20 @@ export function WithdrawForm(props: Props) {
                 <button
                   type="button"
                   className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-                    !props.isValid &&
+                    (!props.isValid ||
+                      loadingWithdraw ||
+                      forfeitWithdraw === 0) &&
                     'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
                   }`}
-                  disabled={!props.isValid}
+                  disabled={
+                    !props.isValid || loadingWithdraw || forfeitWithdraw === 0
+                  }
                   onClick={e => {
                     e.preventDefault();
                     setWithdrawFormConfirmation(true);
                   }}
                 >
-                  Confirm
+                  {t(translations.stake.actions.confirm)}
                 </button>
               ) : (
                 <button
@@ -216,7 +225,7 @@ export function WithdrawForm(props: Props) {
                   }`}
                   disabled={!props.isValid}
                 >
-                  Confirm
+                  {t(translations.stake.actions.confirm)}
                 </button>
               )}
               <button
@@ -224,7 +233,7 @@ export function WithdrawForm(props: Props) {
                 onClick={() => props.onCloseModal()}
                 className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
               >
-                Cancel
+                {t(translations.stake.actions.cancel)}
               </button>
             </div>
           </>

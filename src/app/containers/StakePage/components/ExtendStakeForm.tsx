@@ -1,5 +1,7 @@
 import React, { FormEvent } from 'react';
-import { numberFromWei } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { StakingDateSelector } from '../../../components/StakingDateSelector';
 import moment from 'moment';
@@ -20,13 +22,14 @@ interface Props {
 }
 
 export function ExtendStakeForm(props: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-        Extend SOV Stake
+        {t(translations.stake.extending.title)}
       </h3>
       <div className="tw-text-gray-5 tw-mb-4 md:tw-px-9 tw-tracking-normal tw-text-xs">
-        Previous until:
+        {t(translations.stake.extending.previousUntil)}:
         <br />
         <span className="tw-font-bold">
           {moment(new Date(props.prevExtend * 1e3)).format('DD.MM.YYYY')}
@@ -38,7 +41,7 @@ export function ExtendStakeForm(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="amount"
           >
-            Amount to Stake:
+            {t(translations.stake.extending.amountToStake)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -49,7 +52,7 @@ export function ExtendStakeForm(props: Props) {
               defaultValue={props.amount}
             />
             <span className="tw-text-theme-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-              SOV
+              {t(translations.stake.sov)}
             </span>
           </div>
 
@@ -67,7 +70,7 @@ export function ExtendStakeForm(props: Props) {
             className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
-            Voting Power received:
+            {t(translations.stake.extending.votingPowerReceived)}:
           </label>
           <div className="tw-flex tw-space-x-4">
             <input
@@ -80,10 +83,10 @@ export function ExtendStakeForm(props: Props) {
             />
           </div>
           <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            Tx Fee: 0.0006 rBTC
+            {t(translations.stake.txFee)}: 0.0006 rBTC
           </p>
           <div className="tw-text-gray-700 tw-text-xs tw-mt-3 tw-hidden">
-            Balance:{' '}
+            {t(translations.stake.extending.balance)}:{' '}
             <span
               className={`tw-text-gray-900 ${
                 props.sovBalanceOf.loading && 'skeleton'
@@ -91,11 +94,11 @@ export function ExtendStakeForm(props: Props) {
             >
               {numberFromWei(props.sovBalanceOf.value).toLocaleString()}
             </span>{' '}
-            SoV
+            {t(translations.stake.sov)}
             {Number(props.votePower) > 0 && (
               <>
                 <br />
-                Will be added to your vote: +{' '}
+                {t(translations.stake.extending.willAddedVote)}: +{' '}
                 {numberFromWei(props.votePower).toLocaleString()}
               </>
             )}
@@ -110,14 +113,14 @@ export function ExtendStakeForm(props: Props) {
             }`}
             disabled={!props.isValid}
           >
-            Confirm
+            {t(translations.stake.actions.confirm)}
           </button>
           <button
             type="button"
             onClick={() => props.onCloseModal()}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
-            Cancel
+            {t(translations.stake.actions.cancel)}
           </button>
         </div>
       </form>

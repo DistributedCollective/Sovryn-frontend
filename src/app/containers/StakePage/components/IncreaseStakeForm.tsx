@@ -1,5 +1,8 @@
 import React, { FormEvent } from 'react';
-import { handleNumberInput, numberFromWei } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { handleNumberInput } from 'utils/helpers';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 
 interface Props {
@@ -15,10 +18,11 @@ interface Props {
 }
 
 export function IncreaseStakeForm(props: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-        Add to Stake
+        {t(translations.stake.increase.title)}
       </h3>
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
@@ -26,7 +30,7 @@ export function IncreaseStakeForm(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="amount"
           >
-            Amount Currently Staked:
+            {t(translations.stake.increase.currentlyStaked)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -37,7 +41,7 @@ export function IncreaseStakeForm(props: Props) {
               defaultValue={props.amount}
             />
             <span className="tw-text-theme-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-              SOV
+              {t(translations.stake.sov)}
             </span>
           </div>
 
@@ -45,7 +49,7 @@ export function IncreaseStakeForm(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="amountAdd"
           >
-            Amount to Add:
+            {t(translations.stake.increase.amountToAdd)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -57,7 +61,7 @@ export function IncreaseStakeForm(props: Props) {
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
             <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-              SOV
+              {t(translations.stake.sov)}
             </span>
           </div>
           <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
@@ -116,7 +120,7 @@ export function IncreaseStakeForm(props: Props) {
             className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
-            New Voting Power:
+            {t(translations.stake.increase.newVotingPower)}:
           </label>
           <div className="flex space-x-4">
             <input
@@ -129,7 +133,7 @@ export function IncreaseStakeForm(props: Props) {
             />
           </div>
           <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            Tx Fee: 0.0006 rBTC
+            {t(translations.stake.txFee)}: 0.0006 rBTC
           </p>
         </div>
 
@@ -142,14 +146,14 @@ export function IncreaseStakeForm(props: Props) {
             }`}
             disabled={!props.isValid}
           >
-            Confirm
+            {t(translations.stake.actions.confirm)}
           </button>
           <button
             type="button"
             onClick={() => props.onCloseModal()}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
-            Cancel
+            {t(translations.stake.actions.cancel)}
           </button>
         </div>
       </form>

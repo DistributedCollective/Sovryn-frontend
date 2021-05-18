@@ -13,12 +13,13 @@ import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { numberFromWei, getUSDSum } from 'utils/helpers';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { getUSDSum } from 'utils/helpers';
+import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   staking_allowance,
   staking_approve,
@@ -37,7 +38,7 @@ import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { AddressBadge } from '../../components/AddressBadge';
-import { useSoV_balanceOf } from '../../hooks/staking/useSoV_balanceOf';
+import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
@@ -77,9 +78,11 @@ export function StakePage() {
       <main>
         <div className="bg-gray-700 tracking-normal">
           <div className="container">
-            <h2 className="text-white pt-8 pb-5 pl-10">Staking/Vesting</h2>
+            <h2 className="text-white pt-8 pb-5 pl-10">
+              {t(translations.stake.title)}
+            </h2>
             <div className="w-full bg-gray-light text-center rounded-b shadow p-3">
-              <i>Please connect with your wallet to use staking.</i>
+              <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
         </div>
@@ -98,7 +101,6 @@ function InnerStakePage() {
   const kickoffTs = useStaking_kickoffTs();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
-  const sovBalanceOf = useSoV_balanceOf(account);
   const getStakes = useStaking_getStakes(account);
   const balanceOf = useStaking_balanceOf(account);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
@@ -128,7 +130,7 @@ function InnerStakePage() {
   const dates = getStakes.value['dates'];
   const stakes = getStakes.value['stakes'];
   const assets = AssetsDictionary.list();
-
+  const sovBalanceOf = useAssetBalanceOf(Asset.SOV);
   const { increase, ...increaseTx } = useStakeIncrease();
   const { stake, ...stakeTx } = useStakeStake();
   const { extend, ...extendTx } = useStakeExtend();
@@ -233,12 +235,12 @@ function InnerStakePage() {
 
   const validateWithdrawForm = useCallback(
     amount => {
-      // if (loading) return false;
+      if (loading) return false;
       const num = Number(withdrawAmount);
       if (!num || isNaN(num) || num <= 0) return false;
       return num <= Number(amount);
     },
-    [withdrawAmount],
+    [withdrawAmount, loading],
   );
 
   const validateExtendTimeForm = useCallback(() => {
@@ -282,7 +284,7 @@ function InnerStakePage() {
         nonce += 1;
       }
       if (!stakeTx.loading) {
-        stake(weiAmount, timestamp, nonce);
+        stake(weiAmount, timestamp + 3600, nonce);
         setLoading(false);
         setStakeForm(!stakeForm);
       }
@@ -335,7 +337,7 @@ function InnerStakePage() {
       e.preventDefault();
       setLoading(true);
       if (!extendTx.loading) {
-        extend(prevTimestamp, timestamp);
+        extend(Number(prevTimestamp), Number(timestamp) + 3600);
         setLoading(false);
         setExtendForm(!extendForm);
       }
@@ -433,6 +435,7 @@ function InnerStakePage() {
                   ≈ {numberToUSD(usdTotal, 4)}
                 </p>
                 {assets.map((item, i) => {
+                  if (item.asset === 'CSOV') return '';
                   return (
                     <FeeBlock
                       usdTotal={e => updateUsdTotal(e)}
@@ -487,7 +490,7 @@ function InnerStakePage() {
                         {t(translations.stake.currentStakes.unlockDate)}
                       </th>
                       <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
-                        {t(translations.stake.currentStakes.actions)}
+                        {t(translations.stake.actions.title)}
                       </th>
                     </tr>
                   </thead>
@@ -687,13 +690,13 @@ const StakesOverview: React.FC<Stakes> = ({
               </div>
             </td>
             <td className="tw-text-left tw-font-normal">
-              {numberFromWei(item[0])} SOV
+              {weiToNumberFormat(item[0])} SOV
               <br />≈ {numberToUSD(Number(weiToFixed(item[3], 4)), 4)}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {item[2].length && (
                 <>
-                  Delegated to{' '}
+                  {t(translations.stake.delegation.delegatedTo)}{' '}
                   <AddressBadge
                     txHash={item[2]}
                     startLength={6}
@@ -701,7 +704,9 @@ const StakesOverview: React.FC<Stakes> = ({
                   />
                 </>
               )}
-              {!item[2].length && <p>No delegate</p>}
+              {!item[2].length && (
+                <p>{t(translations.stake.delegation.noDelegate)}</p>
+              )}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (

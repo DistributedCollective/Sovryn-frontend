@@ -1,8 +1,12 @@
 import React, { FormEvent } from 'react';
-import { fromWei, handleNumberInput, numberFromWei } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { handleNumberInput } from 'utils/helpers';
+import { numberFromWei, fromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { StakingDateSelector } from '../../../components/StakingDateSelector';
 import '../../../components/Header/index.scss';
+
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   amount: string;
@@ -18,10 +22,11 @@ interface Props {
 }
 
 export function StakeForm(props: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-        Stake SOV
+        {t(translations.stake.staking.title)}
       </h3>
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-8 tw-px-4 tw-tracking-normal">
@@ -29,7 +34,7 @@ export function StakeForm(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="amount"
           >
-            Amount to Stake:
+            {t(translations.stake.staking.amountToStake)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -41,7 +46,7 @@ export function StakeForm(props: Props) {
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
             <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
-              SOV
+              {t(translations.stake.sov)}
             </span>
           </div>
           <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
@@ -107,7 +112,7 @@ export function StakeForm(props: Props) {
             className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
-            Voting Power received:
+            {t(translations.stake.staking.votingPowerReceived)}:
           </label>
           <div className="tw-flex tw-space-x-4">
             <input
@@ -120,7 +125,7 @@ export function StakeForm(props: Props) {
             />
           </div>
           <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            Tx Fee: 0.0006 rBTC
+            {t(translations.stake.txFee)}: 0.0006 rBTC
           </p>
         </div>
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
@@ -132,14 +137,14 @@ export function StakeForm(props: Props) {
             }`}
             disabled={!props.isValid}
           >
-            Confirm
+            {t(translations.stake.actions.confirm)}
           </button>
           <button
             type="button"
             onClick={() => props.onCloseModal()}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
-            Cancel
+            {t(translations.stake.actions.cancel)}
           </button>
         </div>
       </form>

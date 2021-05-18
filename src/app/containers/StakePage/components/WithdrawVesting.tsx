@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { numberFromWei } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { vesting_withdraw } from 'utils/blockchain/requests/vesting';
@@ -10,6 +12,7 @@ interface Props {
 }
 
 export function WithdrawVesting(props: Props) {
+  const { t } = useTranslation();
   const account = useAccount();
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
@@ -45,7 +48,7 @@ export function WithdrawVesting(props: Props) {
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
-        Unstake SOV
+        {t(translations.stake.withdraw.title)}
       </h3>
       <form onSubmit={submitForm}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
@@ -53,7 +56,7 @@ export function WithdrawVesting(props: Props) {
             className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="address"
           >
-            Receive SOV at:
+            {t(translations.stake.withdraw.receiveSovAt)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
@@ -70,7 +73,7 @@ export function WithdrawVesting(props: Props) {
             className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
-            Unlocked SOV:
+            {t(translations.stake.withdraw.unlockedSov)}:
           </label>
           <div className="tw-flex tw-space-x-4">
             <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
@@ -79,7 +82,7 @@ export function WithdrawVesting(props: Props) {
           </div>
 
           <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            Tx Fee: 0.0006 rBTC
+            {t(translations.stake.txFee)}: 0.0006 rBTC
           </p>
         </div>
 
@@ -91,14 +94,14 @@ export function WithdrawVesting(props: Props) {
             }`}
             disabled={!validate()}
           >
-            Confirm
+            {t(translations.stake.actions.confirm)}
           </button>
           <button
             type="button"
             onClick={() => props.onCloseModal()}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
-            Cancel
+            {t(translations.stake.actions.cancel)}
           </button>
         </div>
       </form>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import moment from 'moment-timezone';
 import logoSvg from 'assets/images/sovryn-icon.svg';
 import { bignumber } from 'mathjs';
-import { numberFromWei } from 'utils/helpers';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { ethGenesisAddress } from 'utils/classifiers';
@@ -29,6 +31,7 @@ interface Props {
 }
 
 export function VestingContract(props: Props) {
+  const { t } = useTranslation();
   const account = useAccount();
   const getStakes = useStaking_getStakes(props.vestingAddress);
   const lockedAmount = useStaking_balanceOf(props.vestingAddress);
@@ -127,7 +130,7 @@ export function VestingContract(props: Props) {
           </td>
           <td className="tw-text-left tw-font-normal">
             <p className={`${lockedAmount.loading && 'skeleton'}`}>
-              {numberFromWei(lockedAmount.value)}{' '}
+              {weiToNumberFormat(lockedAmount.value)}{' '}
               {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
               <LoadableValue
                 value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -139,7 +142,7 @@ export function VestingContract(props: Props) {
             <p className={`${delegateLoading && 'skeleton'}`}>
               {delegate.length > 0 && (
                 <>
-                  Delegated to{' '}
+                  {t(translations.stake.delegation.delegatedTo)}{' '}
                   <AddressBadge
                     txHash={delegate}
                     startLength={6}
@@ -149,7 +152,9 @@ export function VestingContract(props: Props) {
                   />
                 </>
               )}
-              {!delegate.length && <>No delegate</>}
+              {!delegate.length && (
+                <>{t(translations.stake.delegation.noDelegate)}</>
+              )}
             </p>
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
@@ -185,7 +190,7 @@ export function VestingContract(props: Props) {
                 className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
                 onClick={() => props.onDelegate(Number(unlockDate))}
               >
-                Delegate
+                {t(translations.stake.actions.delegate)}
               </button>
               <button
                 type="button"
@@ -196,7 +201,7 @@ export function VestingContract(props: Props) {
                   props.vestingAddress === ethGenesisAddress
                 }
               >
-                Withdraw
+                {t(translations.stake.actions.withdraw)}
               </button>
             </div>
           </td>
