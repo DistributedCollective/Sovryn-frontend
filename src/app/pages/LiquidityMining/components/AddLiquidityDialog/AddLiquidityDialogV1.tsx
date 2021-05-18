@@ -17,10 +17,9 @@ import {
 } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { DummyInput, Input } from 'form/Input';
+import { DummyInput } from 'form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
-import { ArrowDown } from '../../../../components/Arrows';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
@@ -117,15 +116,15 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             className="tw-mt-6"
           />
 
-          <ArrowDown />
+          {/*<ArrowDown />*/}
 
-          <FormGroup label="Expected Reward:" className="tw-mb-5">
-            <Input
-              value="0"
-              readOnly
-              appendElem={<AssetRenderer asset={Asset.SOV} />}
-            />
-          </FormGroup>
+          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
+          {/*  <Input*/}
+          {/*    value="0"*/}
+          {/*    readOnly*/}
+          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
 
           <TxFeeCalculator
             args={txFeeArgs}

@@ -34,6 +34,7 @@ import { Asset } from '../../../../../types';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useMining_ApproveAndRemoveLiquidityV1 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV1';
+import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 
 interface Props {
   pool: LiquidityPool;
@@ -175,6 +176,10 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
     sideToken.asset,
   ]);
 
+  const rewards = useLiquidityMining_getUserAccumulatedReward(
+    pool.supplyAssets[0].getContractAddress(),
+  );
+
   const handleConfirm = () => withdraw();
 
   return (
@@ -200,12 +205,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
 
           <ArrowDown />
           <FormGroup label="Reward:">
-            {/* Calculation be added later */}
             <DummyInput
               value={
                 <LoadableValue
-                  loading={false}
-                  value={weiToNumberFormat('0', 6)}
+                  loading={rewards.loading}
+                  value={weiToNumberFormat(rewards.value, 6)}
                 />
               }
               appendElem={<AssetRenderer asset={Asset.SOV} />}

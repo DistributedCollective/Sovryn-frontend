@@ -23,3 +23,6 @@ yarn-error.log*
 generated-cra-app
 .cra-template-rb
 template
+
+public/charting_library
+public/datafeeds

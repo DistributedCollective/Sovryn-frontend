@@ -31,6 +31,7 @@ import {
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
 import { Asset } from '../../../../../types';
+import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 
 interface Props {
   pool: LiquidityPool;
@@ -101,6 +102,10 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
     ];
   }, [pool.poolAsset, asset, poolWeiAmount, minReturn]);
 
+  const rewards = useLiquidityMining_getUserAccumulatedReward(
+    supplyAsset.getContractAddress(),
+  );
+
   const handleConfirm = () => withdraw();
 
   const assets = useMemo(() => pool.supplyAssets.map(item => item.asset), [
@@ -129,12 +134,11 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
           </FormGroup>
           <ArrowDown />
           <FormGroup label="Reward:">
-            {/* Calculation be added later */}
             <DummyInput
               value={
                 <LoadableValue
-                  loading={false}
-                  value={weiToNumberFormat('0', 6)}
+                  loading={rewards.loading}
+                  value={weiToNumberFormat(rewards.value, 6)}
                 />
               }
               appendElem={<AssetRenderer asset={Asset.SOV} />}

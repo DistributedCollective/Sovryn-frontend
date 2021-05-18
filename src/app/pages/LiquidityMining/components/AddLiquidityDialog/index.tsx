@@ -19,10 +19,6 @@ import {
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndAddLiquidityV2 } from '../../hooks/useMining_ApproveAndAddLiquidityV2';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { Input } from 'form/Input';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
-import { Asset } from '../../../../../types';
-import { ArrowDown } from '../../../../components/Arrows';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 
 interface Props {
@@ -96,23 +92,23 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             />
           </FormGroup>
 
-          <ArrowDown />
+          {/*<ArrowDown />*/}
 
-          <FormGroup label="Estimated Fees Earned (Year):">
-            <Input
-              value="0"
-              readOnly
-              appendElem={<AssetRenderer asset={asset} />}
-            />
-          </FormGroup>
+          {/*<FormGroup label="Estimated Fees Earned (Year):">*/}
+          {/*  <Input*/}
+          {/*    value="0"*/}
+          {/*    readOnly*/}
+          {/*    appendElem={<AssetRenderer asset={asset} />}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
 
-          <FormGroup label="Expected Reward:" className="tw-mb-5">
-            <Input
-              value="0"
-              readOnly
-              appendElem={<AssetRenderer asset={Asset.SOV} />}
-            />
-          </FormGroup>
+          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
+          {/*  <Input*/}
+          {/*    value="0"*/}
+          {/*    readOnly*/}
+          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
+          {/*  />*/}
+          {/*</FormGroup>*/}
 
           <TxFeeCalculator
             args={txFeeArgs}

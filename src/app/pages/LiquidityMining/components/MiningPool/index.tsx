@@ -9,7 +9,7 @@ import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
-import { PieChart } from '../../../../components/FinanceV2Components/PieChart/index';
+import { PieChart } from '../../../../components/FinanceV2Components/PieChart';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import {
   getAmmContractName,
@@ -86,7 +86,7 @@ export function MiningPool({ pool }: Props) {
         ChartSection={<PoolChart pool={pool} />}
         Actions={<Actions />}
         DataSection={<UserPoolInfo pool={pool} />}
-      ></CardRow>
+      />
       {canInteract && (
         <>
           {pool.version === 1 && (
