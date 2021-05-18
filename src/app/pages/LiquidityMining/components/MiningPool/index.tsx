@@ -86,7 +86,6 @@ export function MiningPool({ pool }: Props) {
         ChartSection={<PoolChart pool={pool} />}
         Actions={<Actions />}
         DataSection={<UserPoolInfo pool={pool} />}
-        leftColor="red"
       ></CardRow>
       {canInteract && (
         <>

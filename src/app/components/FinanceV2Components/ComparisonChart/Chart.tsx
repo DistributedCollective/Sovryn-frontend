@@ -88,7 +88,7 @@ export default function Chart(props: ChartProps) {
     chart: {
       height: props.height,
       width: props.width,
-      backgroundColor: props.backgroundColor || '#525252',
+      backgroundColor: props.backgroundColor || '#2D2D2D',
       margin: props.margin || [30, 40, 30, 40],
     },
     legend: {

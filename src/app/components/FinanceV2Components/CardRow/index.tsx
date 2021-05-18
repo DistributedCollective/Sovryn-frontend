@@ -17,7 +17,7 @@ export const CardRow: React.FC<ICardRowProps> = ({
 }: ICardRowProps) => {
   return (
     <StyledCardRow
-      className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-bg-secondaryBackground tw-rounded-lg tw-p-4 tw-relative overflow-auto tw-gap-x-8"
+      className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-rounded-lg tw-p-4 tw-relative overflow-auto tw-gap-x-8"
       leftColor={leftColor}
     >
       {LeftSection && <div>{LeftSection}</div>}
