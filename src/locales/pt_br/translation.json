@@ -34,7 +34,7 @@
     "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
     "notice": "Para atualizar, feche a página da Sovryn",
     "updateBtn": "ATUALIZAR",
-    "closeBtn": "Antes de atualizar, preciso concluir uma negociação"
+    "closeBtn": "Atualizar mais tarde"
   },
   "tradingActivity": {
     "title": "Minhas operações",
@@ -677,7 +677,7 @@
     "actions": {
       "deposit": "FastBTC",
       "swap": "Trocar",
-      "trade": "Operar",
+      "trade": "Margem",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC"
     }
@@ -768,12 +768,8 @@
   },
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
-    "titleDone": "Posição fechada",
-    "positionSize": "Tamanho da posição",
-    "withdrawIn": "Resgatar em",
-    "returnAmount": "Valor devolvido",
-    "closePosition": "Fechar posição",
-    "closeAmount": "Valor de fechamento",
+    "withdrawIn": "Ativo:",
+    "amountToClose": "Quantidade:",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
       "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
