@@ -63,38 +63,49 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
       </thead>
 
       <TableBody>
-        <TableBodyData>0</TableBodyData>
-        <TableBodyData>
-          {toNumberFormat(pool.version === 1 ? 0.3 : 0.1, 1)}%
-        </TableBodyData>
-        <TableBodyData isBold={true}>
-          <div>
-            <LoadableValue
-              loading={loading1}
-              value={
-                <>
-                  {weiToNumberFormat(balance1, 4)}{' '}
-                  <AssetRenderer asset={asset1} />
-                </>
-              }
-            />
-          </div>
-          <div>
-            <LoadableValue
-              loading={loading2}
-              value={
-                <>
-                  {weiToNumberFormat(balance2, 4)}{' '}
-                  <AssetRenderer asset={asset2} />
-                </>
-              }
-            />
-          </div>
-        </TableBodyData>
-        <TableBodyData isBold={true}>0</TableBodyData>
-        <TableBodyData isBold={true}>
-          <PoolTokenRewards pool={pool} />
-        </TableBodyData>
+        {balance1 === '0' && balance2 === '0' ? (
+          <td
+            colSpan={5}
+            className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
+          >
+            {t(translations.liquidityMining.rowTable.noLiquidityProvided)}
+          </td>
+        ) : (
+          <>
+            <TableBodyData>0</TableBodyData>
+            <TableBodyData>
+              {toNumberFormat(pool.version === 1 ? 0.3 : 0.1, 1)}%
+            </TableBodyData>
+            <TableBodyData isBold={true}>
+              <div>
+                <LoadableValue
+                  loading={loading1}
+                  value={
+                    <>
+                      {weiToNumberFormat(balance1, 4)}{' '}
+                      <AssetRenderer asset={asset1} />
+                    </>
+                  }
+                />
+              </div>
+              <div>
+                <LoadableValue
+                  loading={loading2}
+                  value={
+                    <>
+                      {weiToNumberFormat(balance2, 4)}{' '}
+                      <AssetRenderer asset={asset2} />
+                    </>
+                  }
+                />
+              </div>
+            </TableBodyData>
+            <TableBodyData isBold={true}>0</TableBodyData>
+            <TableBodyData isBold={true}>
+              <PoolTokenRewards pool={pool} />
+            </TableBodyData>
+          </>
+        )}
       </TableBody>
     </RowTable>
   );

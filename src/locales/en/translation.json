@@ -1034,6 +1034,7 @@
       }
     },
     "rowTable": {
+      "noLiquidityProvided": "You have no liquidity provided",
       "tableHeaders": {
         "apy": "APY%",
         "feeShare": "Fee Share",
