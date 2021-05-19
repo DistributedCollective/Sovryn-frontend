@@ -9,6 +9,7 @@ interface IPieChartProps {
   secondAsset?: Asset;
   firstPercentage: number;
   secondPercentage?: number;
+  className?: string;
 }
 
 export const PieChart: React.FC<IPieChartProps> = ({
@@ -16,9 +17,10 @@ export const PieChart: React.FC<IPieChartProps> = ({
   secondAsset,
   firstPercentage,
   secondPercentage = 0,
+  className,
 }) => {
   return (
-    <div>
+    <div className={className}>
       <StyledPieChart
         firstPercentage={convertPercentageToDegrees(
           secondPercentage > 0 ? firstPercentage : 100,

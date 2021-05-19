@@ -17,13 +17,15 @@ import {
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
+import cn from 'classnames';
 
 interface Props {
   pool: LiquidityPool;
   supplyAsset: LiquidityPoolSupplyAsset;
+  className?: string;
 }
 
-export function PoolAssetInfo({ pool, supplyAsset }: Props) {
+export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
   const weight = useCacheCallWithValue(
     getAmmContractName(pool.poolAsset),
     'reserveWeight',
@@ -32,18 +34,23 @@ export function PoolAssetInfo({ pool, supplyAsset }: Props) {
   );
 
   return (
-    <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-space-x-8">
-      <div className="tw-flex-shrink-0">
+    <div
+      className={cn(
+        'tw-flex tw-flex-row tw-justify-between tw-items-center',
+        className,
+      )}
+    >
+      <div className="tw-flex tw-w-24 tw-mr-7">
         <AssetRenderer asset={supplyAsset.asset} showImage />
       </div>
-      <div className="tw-w-full tw-flex tw-flex-col">
-        <div className="tw-font-light">
+      <div className="tw-w-20 tw-flex tw-flex-col">
+        <div className="tw-font-thin tw-text-base">
           <LoadableValue
             loading={weight.loading}
             value={<>{toNumberFormat(Number(weight.value) / 1e4, 1)}%</>}
           />
         </div>
-        <div className="tw-text-xs">
+        <div className="tw-text-xs tw-font-semibold">
           {pool.version === 1 && (
             <ReserveStakedBalanceV1 pool={pool} supplyAsset={supplyAsset} />
           )}

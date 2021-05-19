@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledCardRow } from './styled';
+import { ChartWrapper, StyledCardRow } from './styled';
 
 interface ICardRowProps {
   LeftSection?: React.ReactNode;
@@ -17,13 +17,13 @@ export const CardRow: React.FC<ICardRowProps> = ({
 }: ICardRowProps) => {
   return (
     <StyledCardRow
-      className="d-flex tw-flex-row tw-justify-between tw-items-center tw-mb-3 tw-rounded-lg tw-p-4 tw-relative overflow-auto tw-gap-x-8"
+      className="d-flex tw-flex-row tw-items-center tw-mb-3 tw-rounded-lg tw-py-2.5 tw-px-4 tw-relative overflow-auto"
       leftColor={leftColor}
     >
       {LeftSection && <div>{LeftSection}</div>}
-      {ChartSection && <div>{ChartSection}</div>}
+      {ChartSection && <ChartWrapper>{ChartSection}</ChartWrapper>}
       {DataSection && <div>{DataSection}</div>}
-      {Actions && <div className="tw-pr-6">{Actions}</div>}
+      {Actions && <div className="tw-ml-5 tw-w-full">{Actions}</div>}
     </StyledCardRow>
   );
 };
