@@ -1,6 +1,7 @@
-import React from 'react';
 import { Button } from '@blueprintjs/core';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
 
 interface Props {

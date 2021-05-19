@@ -51,7 +51,7 @@ export function DetectionScreen(props: Props) {
         </div>
       </div>
       <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
-        <div className="d-flex flex-row justify-content-center align-items-center logo">
+        <div className="d-flex flex-row justify-content-center align-items-center">
           <img alt="1" src={logo} className="text-center" />
         </div>
         {props.walletType === 'metamask' && (
