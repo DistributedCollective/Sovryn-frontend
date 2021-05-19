@@ -18,4 +18,6 @@ export const ChartWrapper = styled.div`
   max-width: 27.5rem;
   margin-left: 1rem;
   margin-right: 1.75rem;
+  position: relative;
+  pointer-events: none;
 `;
