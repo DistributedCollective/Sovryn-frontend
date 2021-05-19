@@ -21,7 +21,7 @@ import {
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { FastBtcDialog } from '../../containers/FastBtcDialog';
+import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
 import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -43,6 +43,8 @@ export function UserAssets() {
   );
 
   const [fastBtc, setFastBtc] = useState(false);
+  const [transack, setTransack] = useState(false);
+
   return (
     <>
       <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
@@ -87,12 +89,14 @@ export function UserAssets() {
                   key={item.asset}
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
+                  onTransack={() => setTransack(true)}
                 />
               ))}
           </tbody>
         </table>
       </div>
       <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
+      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
     </>
   );
 }
@@ -100,9 +104,10 @@ export function UserAssets() {
 interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
+  onTransack: () => void;
 }
 
-function AssetRow({ item, onFastBtc }: AssetProps) {
+function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -170,7 +175,7 @@ function AssetRow({ item, onFastBtc }: AssetProps) {
           {item.asset === Asset.RBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.buy)}
-              onClick={() => onFastBtc()}
+              onClick={() => onTransack()}
             />
           )}
           {item.asset === Asset.RBTC && (

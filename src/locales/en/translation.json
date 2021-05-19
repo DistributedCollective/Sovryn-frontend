@@ -909,8 +909,14 @@
       "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
     },
     "fiatDialog": {
-      "title": "Buy rBTC with fiat:",
-      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the {{amount}} limit"
+      "title": "Buy <0>RBTC</0> with fiat",
+      "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
+      "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
+      "instructions": {
+        "point1": "Do not buy more BTC than the MAX limit above",
+        "point2": "Allow  15 mins for the transaction to process",
+        "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
+      }
     },
     "qr": {
       "title": "Send BTC to this address:"
