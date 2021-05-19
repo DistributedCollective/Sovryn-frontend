@@ -17,6 +17,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { gasLimit } from 'utils/classifiers';
 interface Props {
   className?: object;
   address: string;
@@ -40,6 +41,7 @@ export function ClaimForm({ className, address }: Props) {
       [],
       {
         from: address,
+        gas: gasLimit[TxType.LOCKED_SOV_CLAIM],
       },
       {
         type: TxType.LOCKED_SOV_CLAIM,
