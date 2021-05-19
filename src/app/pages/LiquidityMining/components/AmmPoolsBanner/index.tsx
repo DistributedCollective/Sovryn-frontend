@@ -8,8 +8,12 @@ import {
   LiquidityPoolSupplyAsset,
 } from '../../../../../utils/models/liquidity-pool';
 import { Asset } from '../../../../../types';
-import { ErrorBadge } from 'form/ErrorBadge';
 import { AmmPool } from './AmmPool';
+import { PoolTransferDialog } from './PoolTransferDialog';
+import { ActionButton } from 'form/ActionButton';
+
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -20,8 +24,11 @@ interface StateInterface {
 }
 
 export function AmmPoolsBanner() {
+  const { t } = useTranslation();
+
   const account = useAccount();
 
+  const [transferDialog, setTransferDialog] = useState(false);
   const [state, setState] = useState<StateInterface[]>([]);
 
   useEffect(() => {
@@ -91,27 +98,30 @@ export function AmmPoolsBanner() {
   }
 
   return (
-    <div className="tw-mb-12">
-      <ErrorBadge
-        content={
-          <>
-            {' '}
-            You have some pool tokens of our old marked-maker pools, please
-            transfer them to the new ones here:
-          </>
-        }
+    <div className="tw-my-5 tw-text-center">
+      <p className="tw-text-white">{t(translations.liquidity.transferNote)}</p>
+
+      <ActionButton
+        className="mx-auto tw-mt-4 tw-rounded-lg"
+        text={t(translations.liquidity.transfer)}
+        onClick={() => setTransferDialog(true)}
       />
 
-      <div className="tw-grid tw-grid-flow-col tw-auto-cols-max">
-        {state.map(item => (
-          <AmmPool
-            key={item.pool + '-' + item.asset.asset}
-            pool={item.pool}
-            asset={item.asset}
-            balance={item.balance}
-          />
-        ))}
-      </div>
+      <PoolTransferDialog
+        showModal={transferDialog}
+        onCloseModal={() => setTransferDialog(false)}
+      >
+        <div className="tw-flex tw-flex-col">
+          {state.map(item => (
+            <AmmPool
+              key={item.pool + '-' + item.asset.asset}
+              pool={item.pool}
+              asset={item.asset}
+              balance={item.balance}
+            />
+          ))}
+        </div>
+      </PoolTransferDialog>
     </div>
   );
 }

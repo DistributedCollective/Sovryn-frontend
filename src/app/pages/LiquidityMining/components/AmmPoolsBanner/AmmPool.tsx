@@ -7,6 +7,9 @@ import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { getPoolTokenContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../locales/i18n';
+
 interface Props {
   pool: Asset;
   asset: LiquidityPoolSupplyAsset;
@@ -14,6 +17,7 @@ interface Props {
 }
 
 export function AmmPool(props: Props) {
+  const { t } = useTranslation();
   usePoolToken(props.pool, props.asset.asset);
   const { deposit, ...tx } = useMining_ApproveAndDeposit(
     getPoolTokenContractName(props.pool, props.asset.asset),
@@ -23,13 +27,14 @@ export function AmmPool(props: Props) {
   );
   return (
     <>
-      <div className="tw-bg-secondaryBackground tw-m-3 tw-p-3 tw-rounded">
-        <div>
+      <div className="tw-flex tw-items-center tw-m-2">
+        <div className="tw-w-1/2 tw-text-right">
           {props.pool}/{props.asset.asset}
         </div>
-        <div className="tw-mt-3">
+        <div className="tw-ml-7">
           <ActionButton
-            text="Transfer"
+            className="tw-rounded-lg"
+            text={t(translations.liquidity.transfer)}
             onClick={() => deposit()}
             disabled={tx.loading}
             loading={tx.loading}

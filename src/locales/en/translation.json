@@ -324,8 +324,15 @@
     "fee": "fee",
     "supply": "Supply",
     "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "transferNote": "Please initiate the transfer of your liquidity to our new pools",
     "v1": {
       "balance": "Available balance"
+    },
+    "PoolTransferDialog": {
+      "title": "Pool Update",
+      "subtitle": "We have just updated our AMM pools and noticed you have provided liquidity in our old pools",
+      "note": "Please initiate the transfer of your liquidity to our new pools"
     }
   },
   "modal": {
