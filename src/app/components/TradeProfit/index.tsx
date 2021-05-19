@@ -20,7 +20,7 @@ interface Props {
 
 export function TradeProfit(props: Props) {
   let change = bignumber(bignumber(props.closePrice).minus(props.entryPrice))
-    .div(props.closePrice)
+    .div(props.entryPrice)
     .mul(100)
     .toNumber();
   if (props.position === TradingPosition.SHORT) {
@@ -41,7 +41,7 @@ export function TradeProfit(props: Props) {
       >
         <span className={change < 0 ? 'tw-text-red' : 'tw-text-green'}>
           {change > 0 && '+'}
-          {weiToNumberFormat(props.profit, 4)} {props.asset}
+          {weiToNumberFormat(props.profit, 8)} {props.asset}
         </span>
       </Tooltip>
     </div>
@@ -54,8 +54,7 @@ function Change({ change }: { change: number }) {
     return (
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.up)}
-        <span className="tw-text-green">{toNumberFormat(change * 100, 2)}</span>
-        %
+        <span className="tw-text-green">{toNumberFormat(change, 2)}</span>%
       </>
     );
   }
@@ -64,7 +63,7 @@ function Change({ change }: { change: number }) {
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.down)}
         <span className="tw-text-red">
-          {toNumberFormat(Math.abs(change * 100), 2)}
+          {toNumberFormat(Math.abs(change), 2)}
         </span>
         %
       </>

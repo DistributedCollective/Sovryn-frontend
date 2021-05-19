@@ -349,6 +349,7 @@
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
       "title": "Email Notifications",
+      "want": "Receive email notifications about margin calls and liquidated positions",
       "form": {
         "name": {
           "label": "Name / Pseudonym",

@@ -25,7 +25,7 @@ export class TradingPairDictionary {
       new TradingPair(
         TradingPairType.RBTC_USDT,
         RenderTradingPairName(Asset.RBTC, Asset.USDT),
-        'RBTC:USDT',
+        'RBTC/USDT',
         Asset.USDT,
         Asset.RBTC,
         [Asset.RBTC, Asset.USDT],
@@ -36,7 +36,7 @@ export class TradingPairDictionary {
     //   new TradingPair(
     //     TradingPairType.RBTC_DOC,
     //     RenderTradingPairName(Asset.RBTC, Asset.SOV),
-    //     'RBTC:SOV',
+    //     'RBTC/SOV',
     //     Asset.SOV,
     //     Asset.RBTC,
     //     [Asset.RBTC, Asset.SOV],
@@ -47,7 +47,7 @@ export class TradingPairDictionary {
       new TradingPair(
         TradingPairType.RBTC_DOC,
         RenderTradingPairName(Asset.RBTC, Asset.DOC),
-        'RBTC:DOC',
+        'RBTC/DOC',
         Asset.DOC,
         Asset.RBTC,
         [Asset.RBTC, Asset.DOC],
@@ -58,7 +58,7 @@ export class TradingPairDictionary {
       new TradingPair(
         TradingPairType.BPRO_USDT,
         RenderTradingPairName(Asset.BPRO, Asset.USDT),
-        'BPRO:USDT',
+        'BPRO/USDT',
         Asset.USDT,
         Asset.BPRO,
         [Asset.BPRO, Asset.USDT],
@@ -69,7 +69,7 @@ export class TradingPairDictionary {
       new TradingPair(
         TradingPairType.BPRO_DOC,
         RenderTradingPairName(Asset.BPRO, Asset.DOC),
-        'BPRO:DOC',
+        'BPRO/DOC',
         Asset.DOC,
         Asset.BPRO,
         [Asset.BPRO, Asset.DOC],

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import RadioGroup from 'form/RadioGroup';
+import RadioGroup from 'app/components/Form/RadioGroup';
 import { TradingTypes } from '../../types';
 import { translations } from 'locales/i18n';
 
