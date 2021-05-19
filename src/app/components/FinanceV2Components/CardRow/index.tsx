@@ -23,7 +23,7 @@ export const CardRow: React.FC<ICardRowProps> = ({
       {LeftSection && <div>{LeftSection}</div>}
       {ChartSection && <ChartWrapper>{ChartSection}</ChartWrapper>}
       {DataSection && <div>{DataSection}</div>}
-      {Actions && <div className="tw-ml-5 tw-w-full">{Actions}</div>}
+      {Actions && <>{Actions}</>}
     </StyledCardRow>
   );
 };

@@ -68,7 +68,7 @@ export function MiningPool({ pool }: Props) {
 
   const Actions = () => {
     return (
-      <>
+      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
           text="Deposit"
           onClick={() => setDialog('add')}
@@ -83,7 +83,7 @@ export function MiningPool({ pool }: Props) {
           textClassName="tw-text-base tw-font-semibold"
           disabled={!canInteract}
         />
-      </>
+      </div>
     );
   };
 

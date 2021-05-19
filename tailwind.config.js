@@ -97,6 +97,7 @@ module.exports = {
     },
     extend: {
       maxWidth: {
+        '8.75-rem': '8.75rem',
         '65': '65%',
         '70': '70%',
         '75': '75%',
