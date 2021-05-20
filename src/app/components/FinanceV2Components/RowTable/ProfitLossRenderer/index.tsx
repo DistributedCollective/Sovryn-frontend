@@ -1,6 +1,6 @@
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import React from 'react';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 
 interface IProfitLossRendererProps {
   isProfit: boolean;

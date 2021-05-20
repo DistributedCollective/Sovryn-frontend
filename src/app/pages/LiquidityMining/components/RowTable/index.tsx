@@ -25,8 +25,6 @@ interface ILiquidityMiningRowTableProps {
   asset2: Asset;
   pln1: string;
   pln2: string;
-  rewards1: string;
-  rewards2: string;
   totalEarned: string;
 }
 
@@ -40,8 +38,6 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
   asset2,
   pln1,
   pln2,
-  rewards1,
-  rewards2,
   totalEarned,
 }) => {
   const { t } = useTranslation();
@@ -102,12 +98,12 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
             <TableBodyData isBold={true}>
               <ProfitLossRenderer
                 isProfit={true}
-                amount={pln1}
+                amount={weiToNumberFormat(pln1, 4)}
                 asset={asset1}
               />
               <ProfitLossRenderer
                 isProfit={false}
-                amount={pln2}
+                amount={weiToNumberFormat(pln2, 4)}
                 asset={asset2}
               />
             </TableBodyData>
@@ -115,17 +111,16 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
               <PoolTokenRewards pool={pool} />
             </TableBodyData>
             <TableBodyData isBold={true}>
-              <div className="tw-text-green">
-                <LoadableValue
-                  loading={loading1 || loading2}
-                  value={
-                    <>
-                      {weiToNumberFormat(totalEarned, 4)}{' '}
-                      <AssetRenderer asset={asset1} />
-                    </>
-                  }
-                />
-              </div>
+              <LoadableValue
+                loading={loading1 || loading2}
+                value={
+                  <ProfitLossRenderer
+                    isProfit={true}
+                    amount={weiToNumberFormat(totalEarned, 4)}
+                    asset={Asset.RBTC}
+                  />
+                }
+              />
             </TableBodyData>
           </>
         )}

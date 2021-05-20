@@ -137,8 +137,6 @@ export function UserPoolInfo({ pool }: Props) {
       asset2={token2.asset}
       pln1="0"
       pln2="0"
-      rewards1="0"
-      rewards2="0"
       totalEarned="0"
     />
   );
