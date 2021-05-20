@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
@@ -17,11 +17,18 @@ import { LootDropSectionWrapper } from '../../components/FinanceV2Components/Loo
 import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import cn from 'classnames';
 
 const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
+  const [hasOldPools, setHasOldPools] = useState(true);
+
+  const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
+    setHasOldPools,
+  ]);
+
   return (
     <>
       <Helmet>
@@ -78,8 +85,14 @@ export function LiquidityMining() {
           </TopInfoWrapper>
         </TopInfoSectionWrapper>
 
-        <AmmPoolsBanner />
-        <div className="tw-max-w-screen-2xl tw-mx-auto">
+        <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
+
+        <div
+          className={cn(
+            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5',
+            hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
+          )}
+        >
           {pools.map(item => (
             <MiningPool key={item.poolAsset} pool={item} />
           ))}

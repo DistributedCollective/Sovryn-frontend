@@ -23,7 +23,11 @@ interface StateInterface {
   balance: string;
 }
 
-export function AmmPoolsBanner() {
+interface IAmmPoosBannerProps {
+  onDataNotPresent: () => void;
+}
+
+export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
   const { t } = useTranslation();
 
   const account = useAccount();
@@ -84,6 +88,7 @@ export function AmmPoolsBanner() {
         }
       }
       setState(items);
+      items.length === 0 && onDataNotPresent();
     };
 
     if (!account) {
@@ -91,7 +96,7 @@ export function AmmPoolsBanner() {
       return;
     }
     getData().catch(console.error);
-  }, [account]);
+  }, [account, onDataNotPresent]);
 
   if (state.length === 0 || !account) {
     return <></>;
@@ -99,10 +104,13 @@ export function AmmPoolsBanner() {
 
   return (
     <div className="tw-my-5 tw-text-center">
-      <p className="tw-text-white">{t(translations.liquidity.transferNote)}</p>
+      <p className="tw-text-white tw-text-xl">
+        {t(translations.liquidity.transferNote)}
+      </p>
 
       <ActionButton
-        className="mx-auto tw-mt-4 tw-rounded-lg"
+        className="mx-auto tw-mt-4 tw-rounded-lg tw-w-32"
+        textClassName="tw-text-base tw-font-semibold"
         text={t(translations.liquidity.transfer)}
         onClick={() => setTransferDialog(true)}
       />
