@@ -42,10 +42,11 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="50K SOV Loot Drop"
-            pool="USDT/RBTC"
-            startDate="01/04/21, 12.00 UTC"
-            endDate="01/05/21, 12.00 UTC"
+            title="40K SOV Loot Drop"
+            asset1={Asset.SOV}
+            asset2={Asset.RBTC}
+            startDate="24/05/21, 12.00 UTC"
+            endDate="30/05/21, 12.00 UTC"
             linkUrl="https://www.sovryn.app/blog"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}

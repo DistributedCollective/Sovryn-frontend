@@ -16,6 +16,8 @@ import {
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
+import { Asset } from 'types';
+import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 
 interface Props {
   pool: LiquidityPool;
@@ -94,6 +96,12 @@ export function MiningPool({ pool }: Props) {
         ChartSection={<PoolChart pool={pool} />}
         Actions={<Actions />}
         DataSection={<UserPoolInfo pool={pool} />}
+        leftColor={
+          pool.supplyAssets[0].asset === Asset.SOV &&
+          pool.supplyAssets[1].asset === Asset.RBTC
+            ? LootDropColors.Purple
+            : undefined
+        }
       />
       {canInteract && (
         <>
