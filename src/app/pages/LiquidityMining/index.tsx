@@ -9,14 +9,13 @@ import { translations } from 'locales/i18n';
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { TopInfoSectionWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoSectionWrapper/index';
-import { TopInfoTitle } from '../../components/FinanceV2Components/TopInfo/TopInfoTitle/index';
-import { TopInfoContent } from '../../components/FinanceV2Components/TopInfo/TopInfoContent/index';
-import { TopInfoWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoWrapper/index';
-import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper/index';
-import { LootDrop } from '../../components/FinanceV2Components/LootDrop/index';
+import { TopInfoSectionWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoSectionWrapper';
+import { TopInfoTitle } from '../../components/FinanceV2Components/TopInfo/TopInfoTitle';
+import { TopInfoContent } from '../../components/FinanceV2Components/TopInfo/TopInfoContent';
+import { TopInfoWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoWrapper';
+import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
+import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
-import { HistoryTable } from './components/HistoryTable';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 
 const pools = LiquidityPoolDictionary.list();
@@ -40,27 +39,9 @@ export function LiquidityMining() {
             pool="USDT/RBTC"
             startDate="01/04/21, 12.00 UTC"
             endDate="01/05/21, 12.00 UTC"
-            linkUrl="https://www.test.sk"
+            linkUrl="https://www.sovryn.app/blog"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
-          />
-          <LootDrop
-            title="75K SOV Loot Drop"
-            pool="SOV/RBTC"
-            startDate="13/04/21, 12.00 UTC"
-            endDate="11/05/21, 12.00 UTC"
-            linkUrl="https://www.test.sk"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Yellow}
-          />
-          <LootDrop
-            title="100K SOV Loot Drop"
-            pool="ETH/RBTC"
-            startDate="17/05/21, 12.00 UTC"
-            endDate="17/06/21, 12.00 UTC"
-            linkUrl="https://www.test.sk"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Green}
           />
         </LootDropSectionWrapper>
         <TopInfoSectionWrapper>
@@ -102,12 +83,12 @@ export function LiquidityMining() {
           <MiningPool key={item.poolAsset} pool={item} />
         ))}
 
-        <div className="tw-mt-10">
-          <div className="tw-px-3 tw-text-lg">
-            {t(translations.liquidityMining.historyTable.title)}
-          </div>
-          <HistoryTable />
-        </div>
+        {/*<div className="tw-mt-10">*/}
+        {/*  <div className="tw-px-3 tw-text-lg">*/}
+        {/*    {t(translations.liquidityMining.historyTable.title)}*/}
+        {/*  </div>*/}
+        {/*  <HistoryTable />*/}
+        {/*</div>*/}
       </div>
 
       <Footer />
