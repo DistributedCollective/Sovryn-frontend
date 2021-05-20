@@ -283,7 +283,7 @@ const totalLiq: [number, number][] = testTotal.map(i => [
 
 export function PoolChart(props: Props) {
   return (
-    <div>
+    <>
       <ComparisonChart
         primaryData={{
           name: 'rBTC APY',
@@ -307,6 +307,6 @@ export function PoolChart(props: Props) {
           suffix: '₿',
         }}
       />
-    </div>
+    </>
   );
 }

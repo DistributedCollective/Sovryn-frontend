@@ -1043,6 +1043,7 @@
       }
     },
     "rowTable": {
+      "noLiquidityProvided": "You have no liquidity provided",
       "tableHeaders": {
         "apy": "APY%",
         "feeShare": "Fee Share",
@@ -1051,7 +1052,8 @@
         "rewards": "Rewards"
       }
     },
-    "lootDropLink": "Learn more"
+    "lootDropLink": "Learn more",
+    "chartOverlayText": "AER% Coming Soon"
   },
   "buySovPage": {
     "meta": {

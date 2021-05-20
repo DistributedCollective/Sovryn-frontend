@@ -32,7 +32,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
           href={linkUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="tw-text-secondary tw-text-xs"
+          className="tw-text-secondary tw-text-xs tw-underline"
         >
           {linkText}
         </a>

@@ -79,9 +79,11 @@ export function LiquidityMining() {
         </TopInfoSectionWrapper>
 
         <AmmPoolsBanner />
-        {pools.map(item => (
-          <MiningPool key={item.poolAsset} pool={item} />
-        ))}
+        <div className="tw-max-w-screen-2xl tw-mx-auto">
+          {pools.map(item => (
+            <MiningPool key={item.poolAsset} pool={item} />
+          ))}
+        </div>
 
         {/*<div className="tw-mt-10">*/}
         {/*  <div className="tw-px-3 tw-text-lg">*/}

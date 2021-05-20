@@ -43,17 +43,23 @@ export function MiningPool({ pool }: Props) {
 
   const LeftSection = () => {
     return (
-      <div className="tw-flex tw-items-center tw-gap-3 tw-mr-4">
+      <div className="tw-flex tw-items-center tw-mr-4">
         <PieChart
           firstAsset={pool.supplyAssets[0].asset}
           secondAsset={pool.supplyAssets[1].asset}
           firstPercentage={Number(firstAssetWeight.value) / 1e4}
           secondPercentage={Number(secondAssetWeight.value) / 1e4}
+          className="tw-mr-4"
         />
         {/* Assets and balances */}
-        <div className="tw-flex tw-flex-col tw-space-y-2">
-          {pool.supplyAssets.map(item => (
-            <PoolAssetInfo key={item.asset} pool={pool} supplyAsset={item} />
+        <div className="tw-flex tw-flex-col tw-justify-between">
+          {pool.supplyAssets.map((item, index) => (
+            <PoolAssetInfo
+              key={item.asset}
+              pool={pool}
+              supplyAsset={item}
+              className={index === 1 ? 'tw-mt-2.5' : ''}
+            />
           ))}
         </div>
       </div>
@@ -62,17 +68,19 @@ export function MiningPool({ pool }: Props) {
 
   const Actions = () => {
     return (
-      <div>
+      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
           text="Deposit"
           onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3"
+          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg hover:tw-bg-ctaHover"
+          textClassName="tw-text-base tw-font-semibold"
           disabled={!canInteract}
         />
         <ActionButton
           text="Withdraw"
           onClick={() => setDialog('remove')}
-          className="tw-block tw-w-full"
+          className="tw-block tw-w-full tw-rounded-lg hover:tw-bg-ctaHover"
+          textClassName="tw-text-base tw-font-semibold"
           disabled={!canInteract}
         />
       </div>
