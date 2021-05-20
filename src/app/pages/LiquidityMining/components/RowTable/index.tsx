@@ -2,10 +2,7 @@ import React from 'react';
 import { Asset } from '../../../../../types/asset';
 import type { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable/index';
@@ -14,6 +11,7 @@ import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
+import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
@@ -42,22 +40,17 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
     <RowTable>
       <thead className="tw-text-sm">
         <tr>
-          <TableHeader>
-            {t(translations.liquidityMining.rowTable.tableHeaders.apy)}
-          </TableHeader>
-          <TableHeader>
-            {t(translations.liquidityMining.rowTable.tableHeaders.feeShare)}
-          </TableHeader>
           <TableHeader isBold={true}>
-            {t(
-              translations.liquidityMining.rowTable.tableHeaders.yourLiquidity,
-            )}
+            {t(translations.liquidityMining.rowTable.tableHeaders.balance)}
           </TableHeader>
           <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.pl)}
           </TableHeader>
           <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.rewards)}
+          </TableHeader>
+          <TableHeader isBold={true}>
+            {t(translations.liquidityMining.rowTable.tableHeaders.totalEarned)}
           </TableHeader>
         </tr>
       </thead>
@@ -72,10 +65,6 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
           </td>
         ) : (
           <>
-            <TableBodyData>0</TableBodyData>
-            <TableBodyData>
-              {toNumberFormat(pool.version === 1 ? 0.3 : 0.1, 1)}%
-            </TableBodyData>
             <TableBodyData isBold={true}>
               <div>
                 <LoadableValue
@@ -100,10 +89,14 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 />
               </div>
             </TableBodyData>
-            <TableBodyData isBold={true}>0</TableBodyData>
+            <TableBodyData isBold={true}>
+              <ProfitLossRenderer isProfit={true} amount="12" asset={asset1} />
+              <ProfitLossRenderer isProfit={false} amount="2" asset={asset2} />
+            </TableBodyData>
             <TableBodyData isBold={true}>
               <PoolTokenRewards pool={pool} />
             </TableBodyData>
+            <TableBodyData isBold={true}>0</TableBodyData>
           </>
         )}
       </TableBody>
