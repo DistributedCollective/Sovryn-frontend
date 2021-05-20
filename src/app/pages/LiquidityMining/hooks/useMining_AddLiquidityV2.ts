@@ -21,20 +21,6 @@ export function useMining_AddLiquidityV2(
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
-      console.log({
-        params: [
-          getAmmContract(pool).address,
-          getTokenContract(asset).address,
-          amount,
-          minReturn,
-        ],
-        config: {
-          from: account,
-          value: asset === Asset.RBTC ? amount : '0',
-          nonce,
-        },
-      });
-
       return send(
         [
           getAmmContract(pool).address,

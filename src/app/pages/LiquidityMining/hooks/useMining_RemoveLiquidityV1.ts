@@ -32,18 +32,6 @@ export function useMining_RemoveLiquidityV1(
         reserveTokens.unshift(btcToken);
         reserveMinReturnAmounts.unshift(btcAmount);
       }
-
-      console.log({
-        props: [
-          getAmmContract(pool).address,
-          amount,
-          reserveTokens
-            .filter(item => !!item)
-            .map(item => getTokenContract(item).address),
-          reserveMinReturnAmounts.filter(item => !!item),
-        ],
-      });
-
       return send(
         [
           getAmmContract(pool).address,

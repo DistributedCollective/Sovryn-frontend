@@ -33,17 +33,6 @@ export function useMining_AddLiquidityV1(
         reserveAmounts.unshift(btcAmount);
       }
 
-      console.log({
-        params: [
-          getAmmContract(pool).address,
-          reserveTokens
-            .filter(item => !!item)
-            .map(item => getTokenContract(item).address),
-          reserveAmounts.filter(item => !!item),
-          minReturn,
-        ],
-      });
-
       return send(
         [
           getAmmContract(pool).address,

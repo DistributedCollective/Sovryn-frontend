@@ -103,7 +103,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(pln1).isPositive()}
+                    isProfit={bignumber(pln1).greaterThan(0)}
                     amount={weiToNumberFormat(bignumber(pln1).abs(), 4)}
                     asset={asset1}
                   />
@@ -113,7 +113,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(pln1).isPositive()}
+                    isProfit={bignumber(pln1).greaterThan(0)}
                     amount={weiToNumberFormat(bignumber(pln2).abs(), 4)}
                     asset={asset2}
                   />
@@ -128,7 +128,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={loading1 || loading2 || plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(totalEarned).isPositive()}
+                    isProfit={bignumber(totalEarned).greaterThan(0)}
                     amount={weiToNumberFormat(bignumber(totalEarned).abs(), 4)}
                     asset={Asset.RBTC}
                   />
