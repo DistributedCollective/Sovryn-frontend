@@ -1,20 +1,24 @@
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import React from 'react';
+import { Asset } from 'types/asset';
 import { HighlightedBorder, LootDropColors, LootDropWrapper } from './styled';
 
 interface ILootDropProps {
   title: string | JSX.Element;
-  pool: string | React.ReactNode;
-  startDate: string | React.ReactNode;
-  endDate: string | React.ReactNode;
+  asset1: Asset;
+  asset2: Asset;
+  startDate: string;
+  endDate: string;
   linkUrl: string;
-  linkText: string | React.ReactNode;
+  linkText: string;
   highlightColor: LootDropColors;
 }
 
 export const LootDrop: React.FC<ILootDropProps> = ({
   highlightColor,
   title,
-  pool,
+  asset1,
+  asset2,
   startDate,
   endDate,
   linkUrl,
@@ -23,7 +27,10 @@ export const LootDrop: React.FC<ILootDropProps> = ({
   <LootDropWrapper>
     <div className="tw-p-4 tw-pb-1.5">
       <div className="tw-text-2xl tw-tracking-normal tw-mb-2.5">{title}</div>
-      <div className="tw-text-sm tw-tracking-normal">{pool}</div>
+      <div className="tw-text-sm tw-tracking-normal">
+        <AssetSymbolRenderer asset={asset1} /> /{' '}
+        <AssetSymbolRenderer asset={asset2} />
+      </div>
       <div className="tw-text-xs tw-tracking-normal tw-mb-4">
         {startDate} - {endDate}
       </div>
