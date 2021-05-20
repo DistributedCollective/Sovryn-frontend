@@ -1045,14 +1045,14 @@
     "rowTable": {
       "noLiquidityProvided": "You have no liquidity provided",
       "tableHeaders": {
+        "totalEarned": "Total Earned",
         "balance": "Balance",
         "pl": "P/L",
-        "rewards": "Rewards",
-        "totalEarned": "Total Earned"
+        "rewards": "Rewards"
       }
     },
     "lootDropLink": "Learn more",
-    "chartOverlayText": "AER% Coming Soon"
+    "chartOverlayText": "AER% Coming Soon!"
   },
   "buySovPage": {
     "meta": {

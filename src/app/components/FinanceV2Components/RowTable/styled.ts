@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-export const TableWrapper = styled.div`
-  width: 536px;
-`;
-
 interface ITableBodyDataProps {
   isBold?: boolean;
 }

@@ -10,9 +10,9 @@ import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
+import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
 
 interface ILiquidityMiningRowTableProps {
@@ -50,16 +50,16 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
     <RowTable>
       <thead className="tw-text-sm">
         <tr>
-          <TableHeader isBold={true} className="tw-w-1/4">
+          <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.balance)}
           </TableHeader>
-          <TableHeader isBold={true} className="tw-w-1/4">
+          <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.pl)}
           </TableHeader>
-          <TableHeader isBold={true} className="tw-w-1/4">
+          <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.rewards)}
           </TableHeader>
-          <TableHeader isBold={true} className="tw-w-1/4">
+          <TableHeader isBold={true}>
             {t(translations.liquidityMining.rowTable.tableHeaders.totalEarned)}
           </TableHeader>
         </tr>
@@ -75,7 +75,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
           </td>
         ) : (
           <>
-            <TableBodyData isBold={true} className="tw-w-1/4">
+            <TableBodyData isBold={true}>
               <div>
                 <LoadableValue
                   loading={loading1}
@@ -99,34 +99,22 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 />
               </div>
             </TableBodyData>
-            <TableBodyData isBold={true} className="tw-w-1/4 ">
-              <div className="tw-text-green">
-                <LoadableValue
-                  loading={loading1}
-                  value={
-                    <>
-                      {weiToNumberFormat(pln1, 4)}{' '}
-                      <AssetRenderer asset={asset1} />
-                    </>
-                  }
-                />
-              </div>
-              <div className="tw-text-red">
-                <LoadableValue
-                  loading={loading2}
-                  value={
-                    <>
-                      {weiToNumberFormat(pln2, 4)}{' '}
-                      <AssetRenderer asset={asset2} />
-                    </>
-                  }
-                />
-              </div>
+            <TableBodyData isBold={true}>
+              <ProfitLossRenderer
+                isProfit={true}
+                amount={pln1}
+                asset={asset1}
+              />
+              <ProfitLossRenderer
+                isProfit={false}
+                amount={pln2}
+                asset={asset2}
+              />
             </TableBodyData>
-            <TableBodyData isBold={true} className="tw-w-1/4 tw-text-green">
+            <TableBodyData isBold={true}>
               <PoolTokenRewards pool={pool} />
             </TableBodyData>
-            <TableBodyData isBold={true} className="tw-w-1/4 tw-truncate">
+            <TableBodyData isBold={true}>
               <div className="tw-text-green">
                 <LoadableValue
                   loading={loading1 || loading2}

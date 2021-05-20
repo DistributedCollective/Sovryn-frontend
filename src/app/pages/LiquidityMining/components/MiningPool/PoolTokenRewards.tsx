@@ -3,8 +3,8 @@ import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiqu
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
+import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
 
 interface Props {
   pool: LiquidityPool;
@@ -27,9 +27,11 @@ function PoolTokenRewardsV1({ pool }: Props) {
     <LoadableValue
       loading={loading}
       value={
-        <>
-          {weiToNumberFormat(value, 4)} <AssetRenderer asset={Asset.SOV} />
-        </>
+        <ProfitLossRenderer
+          isProfit={true}
+          amount={weiToNumberFormat(value, 3)}
+          asset={Asset.SOV}
+        />
       }
     />
   );
@@ -54,17 +56,21 @@ function PoolTokenRewardsV2({ pool }: Props) {
       <LoadableValue
         loading={loading1}
         value={
-          <>
-            {weiToNumberFormat(token1, 4)} <AssetRenderer asset={Asset.SOV} />
-          </>
+          <ProfitLossRenderer
+            isProfit={true}
+            amount={weiToNumberFormat(token1, 4)}
+            asset={Asset.SOV}
+          />
         }
       />
       <LoadableValue
         loading={loading2}
         value={
-          <>
-            {weiToNumberFormat(token2, 4)} <AssetRenderer asset={Asset.SOV} />
-          </>
+          <ProfitLossRenderer
+            isProfit={true}
+            amount={weiToNumberFormat(token2, 4)}
+            asset={Asset.SOV}
+          />
         }
       />
     </>
