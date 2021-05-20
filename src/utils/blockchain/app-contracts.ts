@@ -1,4 +1,5 @@
 import { contracts } from 'utils/blockchain/contracts';
+
 import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 

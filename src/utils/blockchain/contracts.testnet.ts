@@ -24,6 +24,8 @@ import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import LiquidityMiningAbi from './abi/LiquidityMining.json';
+import LockedSovAbi from './abi/LockedSOV.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -32,7 +34,7 @@ export const contracts = {
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
-    address: '0x106f117Af68586A994234E208c29DE0f1A764C60',
+    address: '0x6b1a4735b1E25ccE9406B2d5D7417cE53d1cf90e',
     abi: RBTCWrapperProxy,
     blockNumber: 1319117,
   },
@@ -187,5 +189,13 @@ export const contracts = {
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
     abi: EscrowRewardsAbi,
+  },
+  liquidityMiningProxy: {
+    address: '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e',
+    abi: LiquidityMiningAbi,
+  },
+  lockedSov: {
+    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
+    abi: LockedSovAbi,
   },
 };

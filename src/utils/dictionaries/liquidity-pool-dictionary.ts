@@ -10,17 +10,17 @@ export class LiquidityPoolDictionary {
     LiquidityPool
   >([
     [
-      Asset.DOC,
-      new LiquidityPool(Asset.DOC, [
-        new LiquidityPoolSupplyAsset(Asset.DOC, {
-          mainnet: '0x2dc80332C19FBCd5169ab4a579d87eE006Cb72c0',
-          testnet: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+      Asset.SOV,
+      new LiquidityPool(Asset.SOV, [
+        new LiquidityPoolSupplyAsset(Asset.SOV, {
+          mainnet: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902',
+          testnet: '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
-          mainnet: '0x840437BdE7346EC13B5451417Df50586F4dAF836',
-          testnet: '0x7F433CC76298bB5099c15C1C7C8f2e89A8370111',
+          mainnet: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d', // todo most likely not needed for v1?
+          testnet: '0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315', // todo most likely not needed for v1?
         }),
-      ]),
+      ]).setVersion(1),
     ],
     [
       Asset.USDT,
@@ -36,6 +36,19 @@ export class LiquidityPoolDictionary {
       ]),
     ],
     [
+      Asset.DOC,
+      new LiquidityPool(Asset.DOC, [
+        new LiquidityPoolSupplyAsset(Asset.DOC, {
+          mainnet: '0x2dc80332C19FBCd5169ab4a579d87eE006Cb72c0',
+          testnet: '0x6787161bc4F8d54e6ac6fcB9643Af6f4a12DfF28',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x840437BdE7346EC13B5451417Df50586F4dAF836',
+          testnet: '0x7F433CC76298bB5099c15C1C7C8f2e89A8370111',
+        }),
+      ]),
+    ],
+    [
       Asset.BPRO,
       new LiquidityPool(Asset.BPRO, [
         new LiquidityPoolSupplyAsset(Asset.BPRO, {
@@ -47,19 +60,6 @@ export class LiquidityPoolDictionary {
           testnet: '0x98e5F39D8C675972A66ea165040Cb81803c440A3',
         }),
       ]),
-    ],
-    [
-      Asset.SOV,
-      new LiquidityPool(Asset.SOV, [
-        new LiquidityPoolSupplyAsset(Asset.SOV, {
-          mainnet: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902',
-          testnet: '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
-        }),
-        new LiquidityPoolSupplyAsset(Asset.RBTC, {
-          mainnet: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d', // todo most likely not needed for v1?
-          testnet: '0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315', // todo most likely not needed for v1?
-        }),
-      ]).setVersion(1),
     ],
   ]);
 

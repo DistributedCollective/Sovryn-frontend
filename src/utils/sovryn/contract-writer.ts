@@ -235,7 +235,6 @@ class ContractWriter {
   }
 
   public getContract(contractName: ContractName) {
-    console.log('get', contractName, Sovryn.contracts);
     if (contractName.endsWith('__poolToken')) {
       return Sovryn.contracts[contractName];
     } else {

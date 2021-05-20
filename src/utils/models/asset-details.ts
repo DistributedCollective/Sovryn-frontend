@@ -1,6 +1,6 @@
-import { AbiItem } from 'web3-utils';
-import { Asset } from 'types/asset';
-import { ContractName } from '../types/contracts';
+import type { AbiItem } from 'web3-utils';
+import type { Asset } from 'types';
+import type { ContractName } from '../types/contracts';
 import { appContracts } from '../blockchain/app-contracts';
 
 interface ContractInterface {

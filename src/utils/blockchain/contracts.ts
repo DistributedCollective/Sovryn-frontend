@@ -24,6 +24,8 @@ import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import LiquidityMiningAbi from './abi/LiquidityMining.json';
+import LockedSovAbi from './abi/LockedSOV.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -182,5 +184,13 @@ export const contracts = {
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
     abi: EscrowRewardsAbi,
+  },
+  liquidityMiningProxy: {
+    address: '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e',
+    abi: LiquidityMiningAbi,
+  },
+  lockedSov: {
+    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
+    abi: LockedSovAbi,
   },
 };

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ContractName } from '../../utils/types/contracts';
 import { Nullable } from '../../types';
 
-interface Response<T = string> {
+export interface Response<T = string> {
   value: T;
   loading: boolean;
   error: Nullable<string>;

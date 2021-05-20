@@ -1,7 +1,7 @@
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
