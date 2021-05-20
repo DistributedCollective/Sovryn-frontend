@@ -12,7 +12,8 @@ import {
   getPoolTokenContractName,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
-import { LiquidityMiningRowTable } from '../../components/RowTable/index';
+import { LiquidityMiningRowTable } from '../RowTable';
+import { useUserPoolData } from '../../hooks/useUserPoolData';
 
 interface Props {
   pool: LiquidityPool;
@@ -20,6 +21,10 @@ interface Props {
 
 export function UserPoolInfo({ pool }: Props) {
   const account = useAccount();
+  const data = useUserPoolData(pool);
+
+  console.log({ pool, data });
+
   const token1 = pool.supplyAssets[0];
   const token2 = pool.supplyAssets[1];
 
@@ -130,6 +135,11 @@ export function UserPoolInfo({ pool }: Props) {
       loading2={loading2}
       asset1={token1.asset}
       asset2={token2.asset}
+      pln1="0"
+      pln2="0"
+      rewards1="0"
+      rewards2="0"
+      totalEarned="0"
     />
   );
 }

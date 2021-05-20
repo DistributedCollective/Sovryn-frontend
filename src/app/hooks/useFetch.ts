@@ -10,6 +10,7 @@ interface Response<T> {
 export function useFetch<T = any>(
   url: string,
   defaultValue: Partial<T> = null as any,
+  condition: boolean = undefined as any,
 ): Response<T> {
   const [state, setState] = useState<Response<T>>({
     value: defaultValue as any,
@@ -18,6 +19,8 @@ export function useFetch<T = any>(
   });
 
   useEffect(() => {
+    if (condition !== undefined && !condition) return;
+
     const cancel = axios.CancelToken.source();
 
     setState(prevState => ({ ...prevState, loading: true }));
@@ -48,7 +51,7 @@ export function useFetch<T = any>(
       setState(prevState => ({ ...prevState, loading: false }));
       cancel.cancel();
     };
-  }, [url]);
+  }, [url, condition]);
 
   return state;
 }

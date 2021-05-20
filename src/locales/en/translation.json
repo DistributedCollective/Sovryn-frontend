@@ -1045,11 +1045,10 @@
     "rowTable": {
       "noLiquidityProvided": "You have no liquidity provided",
       "tableHeaders": {
-        "apy": "APY%",
-        "feeShare": "Fee Share",
-        "yourLiquidity": "Your Liquidity",
+        "balance": "Balance",
         "pl": "P/L",
-        "rewards": "Rewards"
+        "rewards": "Rewards",
+        "totalEarned": "Total Earned"
       }
     },
     "lootDropLink": "Learn more",

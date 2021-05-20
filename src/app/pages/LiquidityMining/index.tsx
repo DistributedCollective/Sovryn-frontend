@@ -9,14 +9,11 @@ import { translations } from 'locales/i18n';
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { TopInfoSectionWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoSectionWrapper';
-import { TopInfoTitle } from '../../components/FinanceV2Components/TopInfo/TopInfoTitle';
-import { TopInfoContent } from '../../components/FinanceV2Components/TopInfo/TopInfoContent';
-import { TopInfoWrapper } from '../../components/FinanceV2Components/TopInfo/TopInfoWrapper';
 import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { AssetSymbolRenderer } from '../../components/AssetSymbolRenderer';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -35,48 +32,53 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="50K SOV Loot Drop"
-            pool="USDT/RBTC"
-            startDate="01/04/21, 12.00 UTC"
-            endDate="01/05/21, 12.00 UTC"
+            title="40K SOV Loot Drop"
+            pool={
+              <>
+                SOV/
+                <AssetSymbolRenderer asset={Asset.RBTC} />
+              </>
+            }
+            startDate="24/05/21, 12.00 UTC"
+            endDate="30/05/21, 12.00 UTC"
             linkUrl="https://www.sovryn.app/blog"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
         </LootDropSectionWrapper>
-        <TopInfoSectionWrapper>
-          <TopInfoWrapper>
-            <TopInfoTitle title="Liquidity Provided" />
-            <TopInfoContent
-              isApproximation={true}
-              amount="3.5827"
-              asset={Asset.RBTC}
-            />
-          </TopInfoWrapper>
+        {/*<TopInfoSectionWrapper>*/}
+        {/*  <TopInfoWrapper>*/}
+        {/*    <TopInfoTitle title="Liquidity Provided" />*/}
+        {/*    <TopInfoContent*/}
+        {/*      isApproximation={true}*/}
+        {/*      amount="3.5827"*/}
+        {/*      asset={Asset.RBTC}*/}
+        {/*    />*/}
+        {/*  </TopInfoWrapper>*/}
 
-          <TopInfoWrapper>
-            <TopInfoTitle title="Available Fees" />
-            <TopInfoContent
-              isApproximation={true}
-              amount="0.2857"
-              asset={Asset.RBTC}
-            />
-          </TopInfoWrapper>
+        {/*  <TopInfoWrapper>*/}
+        {/*    <TopInfoTitle title="Available Fees" />*/}
+        {/*    <TopInfoContent*/}
+        {/*      isApproximation={true}*/}
+        {/*      amount="0.2857"*/}
+        {/*      asset={Asset.RBTC}*/}
+        {/*    />*/}
+        {/*  </TopInfoWrapper>*/}
 
-          <TopInfoWrapper>
-            <TopInfoTitle title="Available Rewards" />
-            <TopInfoContent amount="23.4323" asset={Asset.SOV} />
-          </TopInfoWrapper>
+        {/*  <TopInfoWrapper>*/}
+        {/*    <TopInfoTitle title="Available Rewards" />*/}
+        {/*    <TopInfoContent amount="23.4323" asset={Asset.SOV} />*/}
+        {/*  </TopInfoWrapper>*/}
 
-          <TopInfoWrapper>
-            <TopInfoTitle title="All time Fees Earned" />
-            <TopInfoContent
-              isApproximation={true}
-              amount="34.3928"
-              asset={Asset.RBTC}
-            />
-          </TopInfoWrapper>
-        </TopInfoSectionWrapper>
+        {/*  <TopInfoWrapper>*/}
+        {/*    <TopInfoTitle title="All time Fees Earned" />*/}
+        {/*    <TopInfoContent*/}
+        {/*      isApproximation={true}*/}
+        {/*      amount="34.3928"*/}
+        {/*      asset={Asset.RBTC}*/}
+        {/*    />*/}
+        {/*  </TopInfoWrapper>*/}
+        {/*</TopInfoSectionWrapper>*/}
 
         <AmmPoolsBanner />
         <div className="tw-max-w-screen-2xl tw-mx-auto">

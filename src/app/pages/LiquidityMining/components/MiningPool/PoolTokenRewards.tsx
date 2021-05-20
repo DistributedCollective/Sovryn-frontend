@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { bignumber } from 'mathjs';
+import React from 'react';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
@@ -29,7 +28,7 @@ function PoolTokenRewardsV1({ pool }: Props) {
       loading={loading}
       value={
         <>
-          {weiToNumberFormat(value, 3)} <AssetRenderer asset={Asset.SOV} />
+          {weiToNumberFormat(value, 4)} <AssetRenderer asset={Asset.SOV} />
         </>
       }
     />
@@ -50,20 +49,24 @@ function PoolTokenRewardsV2({ pool }: Props) {
     pool.supplyAssets[1].getContractAddress(),
   );
 
-  const loading = useMemo(() => loading1 || loading2, [loading1, loading2]);
-  const value = useMemo(() => bignumber(token1).add(token2).toString(), [
-    token1,
-    token2,
-  ]);
-
   return (
-    <LoadableValue
-      loading={loading}
-      value={
-        <>
-          {weiToNumberFormat(value, 3)} <AssetRenderer asset={Asset.SOV} />
-        </>
-      }
-    />
+    <>
+      <LoadableValue
+        loading={loading1}
+        value={
+          <>
+            {weiToNumberFormat(token1, 4)} <AssetRenderer asset={Asset.SOV} />
+          </>
+        }
+      />
+      <LoadableValue
+        loading={loading2}
+        value={
+          <>
+            {weiToNumberFormat(token2, 4)} <AssetRenderer asset={Asset.SOV} />
+          </>
+        }
+      />
+    </>
   );
 }

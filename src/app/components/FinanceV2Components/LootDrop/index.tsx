@@ -3,11 +3,11 @@ import { HighlightedBorder, LootDropColors, LootDropWrapper } from './styled';
 
 interface ILootDropProps {
   title: string | JSX.Element;
-  pool: string;
-  startDate: string;
-  endDate: string;
+  pool: string | React.ReactNode;
+  startDate: string | React.ReactNode;
+  endDate: string | React.ReactNode;
   linkUrl: string;
-  linkText: string;
+  linkText: string | React.ReactNode;
   highlightColor: LootDropColors;
 }
 
@@ -24,7 +24,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
     <div className="tw-p-4 tw-pb-1.5">
       <div className="tw-text-2xl tw-tracking-normal tw-mb-2.5">{title}</div>
       <div className="tw-text-sm tw-tracking-normal">{pool}</div>
-      <div className="tw-text-sm tw-tracking-normal tw-mb-4">
+      <div className="tw-text-xs tw-tracking-normal tw-mb-4">
         {startDate} - {endDate}
       </div>
       <div>
