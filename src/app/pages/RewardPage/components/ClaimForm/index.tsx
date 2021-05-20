@@ -15,9 +15,9 @@ import { Button } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { gasLimit } from 'utils/classifiers';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 interface Props {
   className?: object;
   address: string;
@@ -64,11 +64,7 @@ export function ClaimForm({ className, address }: Props) {
             {t(translations.rewardPage.claimForm.availble)}
           </div>
           <Input
-            value={
-              lockedBalance !== ''
-                ? weiToFixed(lockedBalance, 4)
-                : lockedBalance
-            }
+            value={weiToNumberFormat(lockedBalance, 4)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
@@ -83,7 +79,13 @@ export function ClaimForm({ className, address }: Props) {
 
           <div className="tw-text-xs tw-mt-4">
             {t(translations.rewardPage.claimForm.note) + ' '}
-            <a href="/">{t(translations.rewardPage.claimForm.learn)}</a>
+            <a
+              href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t(translations.rewardPage.claimForm.learn)}
+            </a>
           </div>
         </div>
       </div>

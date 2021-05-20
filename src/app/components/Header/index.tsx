@@ -231,7 +231,7 @@ export function Header() {
   const isSectionOpen = (section: string) => {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
-      [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
+      [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity', '/reward'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
     return section && paths[section].includes(location.pathname);
@@ -265,12 +265,12 @@ export function Header() {
             </div>
           </div>
           <div className="xl:tw-flex tw-flex-row tw-items-center">
-            <div className="tw-mr-4">
+            <div className="tw-mr-20">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5">
+            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5 xl:tw-space-x-10">
               <NavLink className="tw-header-link tw-flex-shrink-0" to="/" exact>
                 {t(translations.mainMenu.buySov)}
               </NavLink>
@@ -339,6 +339,11 @@ export function Header() {
                       text={t(translations.mainMenu.liquidity)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/liquidity')}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.reward)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/reward')}
                     />
                   </BPMenu>
                 }
@@ -430,11 +435,11 @@ const StyledLogo = styled.img.attrs(_ => ({
   alt: '',
 }))`
   width: 130px;
-  height: 50px;
+  height: 22px;
   margin: 0 0 0 1rem;
   ${media.xl`
-    width: 284px;
-    height: 48px;
+    width: 216px;
+    height: 38px;
     margin: 0;
   `}
 `;
