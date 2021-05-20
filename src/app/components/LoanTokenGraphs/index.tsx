@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import { databaseRpcNodes } from '../../../utils/classifiers';
 import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
-import ComparisonChart from '../../components/ComparisonChart';
+import ComparisonChart from '../ComparisonChart';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 

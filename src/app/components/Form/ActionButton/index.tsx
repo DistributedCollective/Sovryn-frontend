@@ -31,7 +31,7 @@ export function ActionButton({
         loading: loading,
       })}
     >
-      <span className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-truncate">
+      <span className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-truncate">
         <span
           className={cn(
             'tw-flex-shrink-0 tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center tw-justify-start',

@@ -29,15 +29,16 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
+import { RewardPage } from './pages/RewardPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
+import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -73,7 +74,8 @@ export function App() {
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
-            <Route exact path="/liquidity" component={LiquidityPage} />
+            <Route exact path="/liquidity" component={LiquidityMiningPage} />
+            <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route
               exact
