@@ -731,7 +731,7 @@
     "actions": {
       "deposit": "FastBTC",
       "swap": "Swap",
-      "trade": "Trade",
+      "trade": "Margin Trade",
       "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
