@@ -900,8 +900,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Get rBTC",
-    "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
+    "title": "Top Up FastBTC",
+    "subtitle": "Deposit BTC to receive rBTC in your wallet",
     "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
     "limits": {
       "title": "Deposit limits:",
@@ -913,7 +913,9 @@
       "title": "Instructions:",
       "point1": "Do not deposit anything other than BTC",
       "point2": "Do not send more BTC than the MAX limit",
-      "point3": "Allow  15 mins for the transaction to process",
+      "point3": "Allow up to 60 mins for the transaction to process",
+      "point4": "If rBTC is not visible on your wallet after 60 mins open a ",
+      "point4LinkText": "support ticket",
       "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
     },
     "fiatDialog": {

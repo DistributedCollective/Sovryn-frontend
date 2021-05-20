@@ -34,93 +34,107 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
   return (
     <>
       <h2 className={styles.title}>{t(translations.fastBtcDialog.title)}</h2>
-      {/*<div className={styles.subtitle + ' mb-0'}>*/}
-      {/*  {t(translations.fastBtcDialog.subtitle)}*/}
-      {/*</div>*/}
       <div className={styles.subtitle}>
-        {t(translations.fastBtcDialog.note)}
+        {t(translations.fastBtcDialog.subtitle)}
       </div>
 
-      <div>
-        <div className={styles.limitsTitle}>
-          {t(translations.fastBtcDialog.limits.title)}
-        </div>
-        <div className={styles.limitsValue}>
+      <div className="tw-flex">
+        <div className="tw-w-1/2">
           <div>
-            •{' '}
-            {t(translations.fastBtcDialog.limits.min, {
-              amount: parseFloat(state.limits.min.toFixed(4)),
-            })}{' '}
+            <div className={styles.limitsTitle}>
+              {t(translations.fastBtcDialog.limits.title)}
+            </div>
+            <div className={styles.limitsValue}>
+              <div>
+                •{' '}
+                {t(translations.fastBtcDialog.limits.min, {
+                  amount: parseFloat(state.limits.min.toFixed(4)),
+                })}{' '}
+              </div>
+              <div> {t(translations.fastBtcDialog.limits.btc)} </div>
+            </div>
+            <div className={styles.limitsValue}>
+              <div>
+                •{' '}
+                {t(translations.fastBtcDialog.limits.max, {
+                  amount: parseFloat(state.limits.max.toFixed(4)),
+                })}{' '}
+              </div>
+              <div>{t(translations.fastBtcDialog.limits.btc)} </div>
+            </div>
           </div>
-          <div> {t(translations.fastBtcDialog.limits.btc)} </div>
-        </div>
-        <div className={styles.limitsValue}>
+
           <div>
-            •{' '}
-            {t(translations.fastBtcDialog.limits.max, {
-              amount: parseFloat(state.limits.max.toFixed(4)),
-            })}{' '}
+            <div className={styles.instructionsTitle}>
+              {t(translations.fastBtcDialog.instructions.title)}
+            </div>
+            <div className={styles.instructionsValue}>
+              • {t(translations.fastBtcDialog.instructions.point1)}
+              <br />• {t(translations.fastBtcDialog.instructions.point2)}
+              <br />• {t(translations.fastBtcDialog.instructions.point3)}
+              <br />• {t(translations.fastBtcDialog.instructions.point4)}{' '}
+              <a
+                href="https://sovryn.freshdesk.com/support/tickets/new"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t(translations.fastBtcDialog.instructions.point4LinkText)}
+              </a>
+            </div>
           </div>
-          <div>{t(translations.fastBtcDialog.limits.btc)} </div>
         </div>
-      </div>
 
-      <div>
-        <div className={styles.instructionsTitle}>
-          {t(translations.fastBtcDialog.instructions.title)}
+        <div className="tw-w-1/2 tw-flex tw-items-center tw-justify-center">
+          {state.step === Step.WALLET && (
+            <AddressQrCode
+              uri={URIType.BITCOIN}
+              address={state.deposit.address}
+            />
+          )}
+          {state.step === Step.TRANSAK && (
+            <OpenTransak
+              address={state.deposit.address}
+              onClose={() => dispatch(actions.reset())}
+            />
+          )}
+          {state.step === Step.FIAT && (
+            <FiatDialogScreen
+              state={state}
+              address={state.deposit.address}
+              dispatch={dispatch}
+            />
+          )}
+
+          {isWrongChainId && (
+            <p className="text-center">
+              {t(translations.fastBtcDialog.instructions.chainId)}
+            </p>
+          )}
+
+          <div className={styles.buttons}>
+            {state.step === Step.MAIN && (
+              <BTCButton
+                loading={state.deposit.loading}
+                ready={state.ready}
+                disabled={isWrongChainId}
+                onClick={() => {
+                  dispatch(actions.generateDepositAddress());
+                  dispatch(actions.selectBTC());
+                }}
+              />
+            )}
+            {/*{state.step === Step.MAIN && (*/}
+            {/*  <FiatButton*/}
+            {/*    loading={state.deposit.loading}*/}
+            {/*    ready={state.ready}*/}
+            {/*    onClick={() => {*/}
+            {/*      dispatch(actions.generateDepositAddress());*/}
+            {/*      dispatch(actions.selectFiat());*/}
+            {/*    }}*/}
+            {/*  />*/}
+            {/*)}*/}
+          </div>
         </div>
-        <div className={styles.instructionsValue}>
-          • {t(translations.fastBtcDialog.instructions.point1)}
-          <br />• {t(translations.fastBtcDialog.instructions.point2)}
-          <br />• {t(translations.fastBtcDialog.instructions.point3)}
-        </div>
-      </div>
-
-      {state.step === Step.WALLET && (
-        <AddressQrCode uri={URIType.BITCOIN} address={state.deposit.address} />
-      )}
-      {state.step === Step.TRANSAK && (
-        <OpenTransak
-          address={state.deposit.address}
-          onClose={() => dispatch(actions.reset())}
-        />
-      )}
-      {state.step === Step.FIAT && (
-        <FiatDialogScreen
-          state={state}
-          address={state.deposit.address}
-          dispatch={dispatch}
-        />
-      )}
-
-      {isWrongChainId && (
-        <p className="text-center">
-          {t(translations.fastBtcDialog.instructions.chainId)}
-        </p>
-      )}
-
-      <div className={styles.buttons}>
-        {state.step === Step.MAIN && (
-          <BTCButton
-            loading={state.deposit.loading}
-            ready={state.ready}
-            disabled={isWrongChainId}
-            onClick={() => {
-              dispatch(actions.generateDepositAddress());
-              dispatch(actions.selectBTC());
-            }}
-          />
-        )}
-        {/*{state.step === Step.MAIN && (*/}
-        {/*  <FiatButton*/}
-        {/*    loading={state.deposit.loading}*/}
-        {/*    ready={state.ready}*/}
-        {/*    onClick={() => {*/}
-        {/*      dispatch(actions.generateDepositAddress());*/}
-        {/*      dispatch(actions.selectFiat());*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*)}*/}
       </div>
     </>
   );

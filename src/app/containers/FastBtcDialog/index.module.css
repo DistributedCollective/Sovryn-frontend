@@ -1,12 +1,12 @@
 .dialogContainer {
-  max-width: 470px;
+  max-width: 1000px;
   width: 100%;
 }
 
 .container {
   background-color: #000000;
   color: #d9d9d9;
-  max-width: 470px;
+  max-width: 1000px;
   width: 100%;
   border-radius: 15px;
   position: relative;
@@ -26,7 +26,7 @@
 
 @media screen and (min-width: 920px) {
   .innerContainer {
-    padding: 30px 62px;
+    padding: 30px 62px 53px 62px;
   }
 }
 
