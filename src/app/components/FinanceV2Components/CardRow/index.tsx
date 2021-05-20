@@ -27,7 +27,7 @@ export const CardRow: React.FC<ICardRowProps> = ({
       {LeftSection && <div>{LeftSection}</div>}
       {ChartSection && (
         <ChartWrapper>
-          <div className="tw-absolute tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-text-secondary tw-text-2xl tw-z-10">
+          <div className="tw-absolute tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-text-white tw-font-extralight tw-text-2xl tw-z-10">
             {t(translations.liquidityMining.chartOverlayText)}
           </div>
           <div className="tw-opacity-20"> {ChartSection} </div>
