@@ -20,7 +20,7 @@ import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 import { TradeForm } from './components/TradeForm';
-import { ChartType, Theme, TradingChart } from '../../components/TradingChart';
+import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
@@ -56,14 +56,7 @@ export function MarginTradePage(props: Props) {
               'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0 xl:tw-max-w-68 2xl:tw-max-w-75 3xl:tw-max-w-80'
             }
           >
-            <TradingChart
-              symbol={
-                pair.chartSymbol === 'RBTC:SOV' ? 'SOV:RBTC' : pair.chartSymbol
-              }
-              theme={Theme.DARK}
-              type={ChartType.CANDLE}
-              inSats={pair.chartSymbol === 'RBTC:SOV'}
-            />
+            <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
           </div>
           <TradeForm />
         </div>

@@ -1,4 +1,3 @@
-import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -6,7 +5,7 @@ import { bignumber } from 'mathjs';
  */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { Asset } from '../../../types/asset';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';

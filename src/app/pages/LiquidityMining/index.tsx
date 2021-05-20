@@ -111,6 +111,7 @@ export function LiquidityMining() {
           <HistoryTable />
         </div>
       </div>
+
       <Footer />
     </>
   );

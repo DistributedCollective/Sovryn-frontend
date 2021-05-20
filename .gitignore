@@ -24,5 +24,6 @@ generated-cra-app
 .cra-template-rb
 template
 
+# tradingview chart libs
 public/charting_library
 public/datafeeds
