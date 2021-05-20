@@ -172,7 +172,9 @@ export function UserPoolInfo({ pool }: Props) {
         ? '0'
         : bignumber(reward2).mul(sovRate.rate).div(sovRate.precision);
 
-    return p1.add(p2).add(r1).add(r2).toFixed(0);
+    const result = p1.add(p2).add(r1).add(r2).toFixed(0);
+
+    return isNaN(Number(result)) ? '0' : result;
   }, [
     pln.pl1,
     pln.pl2,

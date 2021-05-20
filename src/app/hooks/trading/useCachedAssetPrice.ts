@@ -28,10 +28,8 @@ export function useCachedAssetRate(sourceAsset: Asset, destAsset: Asset) {
       item => item.source === sourceAsset && item.target === destAsset,
     );
     if (item) {
-      console.log(sourceAsset, destAsset, item);
       return item.value;
     } else {
-      console.log('no rate', sourceAsset, destAsset);
       return { rate: '0', precision: '0' };
     }
   }, [items, sourceAsset, destAsset]);

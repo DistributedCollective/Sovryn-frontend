@@ -43,8 +43,8 @@ export function LiquidityMining() {
             title="40K SOV Loot Drop"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
-            startDate="24/05/21, 12.00 UTC"
-            endDate="30/05/21, 12.00 UTC"
+            startDate="24/05/21"
+            endDate="30/05/21"
             linkUrl="https://www.sovryn.app/blog"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}

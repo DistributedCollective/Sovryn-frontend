@@ -26,15 +26,17 @@ export const LootDrop: React.FC<ILootDropProps> = ({
 }) => (
   <LootDropWrapper>
     <div className="tw-p-4 tw-pb-1.5">
-      <div className="tw-text-2xl tw-tracking-normal tw-mb-2.5">{title}</div>
-      <div className="tw-text-sm tw-tracking-normal">
+      <div className="tw-text-2xl tw-tracking-normal tw-mb-2.5 tw-text-center">
+        {title}
+      </div>
+      <div className="tw-text-sm tw-tracking-normal tw-text-center text-font-bolder">
         <AssetSymbolRenderer asset={asset1} /> /{' '}
         <AssetSymbolRenderer asset={asset2} />
       </div>
-      <div className="tw-text-xs tw-tracking-normal tw-mb-4">
+      <div className="tw-text-xs tw-tracking-normal tw-mb-4 tw-text-center">
         {startDate} - {endDate}
       </div>
-      <div>
+      <div className="tw-text-center">
         <a
           href={linkUrl}
           target="_blank"
