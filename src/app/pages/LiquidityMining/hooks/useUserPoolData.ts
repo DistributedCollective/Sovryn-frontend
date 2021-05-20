@@ -1,8 +1,13 @@
 import { useMemo } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
 import { useFetch } from '../../../hooks/useFetch';
-import { getAmmContract } from '../../../../utils/blockchain/contract-helpers';
+import {
+  assetByTokenAddress,
+  getAmmContract,
+  getTokenContract,
+} from '../../../../utils/blockchain/contract-helpers';
 import type { LiquidityPool } from '../../../../utils/models/liquidity-pool';
+import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 
 interface Response {
   pool: string;
@@ -20,11 +25,13 @@ export function useUserPoolData(pool: LiquidityPool) {
   const address = useAccount();
 
   const { value, loading, error } = useFetch<Response>(
-    `/liquidity-page/${address}/${getAmmContract(pool.poolAsset)}`,
+    `${backendUrl[currentChainId]}/liquidity-page/${address}/${
+      getAmmContract(pool.poolAsset).address
+    }`,
     {
       pool: getAmmContract(pool.poolAsset).address,
       data: pool.supplyAssets.map(item => ({
-        asset: item.getContractAddress(),
+        asset: getTokenContract(item.getAsset()).address,
         totalAdded: '0',
         totalRemoved: '0',
         removedMinusAdded: '0',
@@ -33,9 +40,16 @@ export function useUserPoolData(pool: LiquidityPool) {
     !!address,
   );
 
-  const data = useMemo(() => {
-    return value;
-  }, [value]);
+  const data = useMemo(
+    () => ({
+      pool: pool.poolAsset,
+      data: value.data.map(item => ({
+        ...item,
+        asset: assetByTokenAddress(item.asset),
+      })),
+    }),
+    [value, pool],
+  );
 
   return { value: data, loading, error };
 }

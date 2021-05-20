@@ -10,10 +10,11 @@ import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
-import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer/index';
+import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
+import { bignumber } from 'mathjs';
 
 interface ILiquidityMiningRowTableProps {
   pool: LiquidityPool;
@@ -25,6 +26,7 @@ interface ILiquidityMiningRowTableProps {
   asset2: Asset;
   pln1: string;
   pln2: string;
+  plnLoading: boolean;
   totalEarned: string;
 }
 
@@ -39,6 +41,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
   pln1,
   pln2,
   totalEarned,
+  plnLoading,
 }) => {
   const { t } = useTranslation();
 
@@ -96,15 +99,25 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
               </div>
             </TableBodyData>
             <TableBodyData isBold={true}>
-              <ProfitLossRenderer
-                isProfit={true}
-                amount={weiToNumberFormat(pln1, 4)}
-                asset={asset1}
+              <LoadableValue
+                loading={plnLoading}
+                value={
+                  <ProfitLossRenderer
+                    isProfit={bignumber(pln1).isPositive()}
+                    amount={weiToNumberFormat(bignumber(pln1).abs(), 4)}
+                    asset={asset1}
+                  />
+                }
               />
-              <ProfitLossRenderer
-                isProfit={false}
-                amount={weiToNumberFormat(pln2, 4)}
-                asset={asset2}
+              <LoadableValue
+                loading={plnLoading}
+                value={
+                  <ProfitLossRenderer
+                    isProfit={bignumber(pln1).isPositive()}
+                    amount={weiToNumberFormat(bignumber(pln2).abs(), 4)}
+                    asset={asset2}
+                  />
+                }
               />
             </TableBodyData>
             <TableBodyData isBold={true}>
@@ -112,11 +125,11 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
             </TableBodyData>
             <TableBodyData isBold={true}>
               <LoadableValue
-                loading={loading1 || loading2}
+                loading={loading1 || loading2 || plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={true}
-                    amount={weiToNumberFormat(totalEarned, 4)}
+                    isProfit={bignumber(totalEarned).isPositive()}
+                    amount={weiToNumberFormat(bignumber(totalEarned).abs(), 4)}
                     asset={Asset.RBTC}
                   />
                 }

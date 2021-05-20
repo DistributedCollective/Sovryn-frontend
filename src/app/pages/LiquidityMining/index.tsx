@@ -14,11 +14,13 @@ import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import cn from 'classnames';
+import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
+  usePriceFeeds_tradingPairRates();
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [

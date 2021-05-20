@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
-import { useAccount } from '../../../../hooks/useAccount';
+import { useAccount, useBlockSync } from '../../../../hooks/useAccount';
 import ERC20Abi from 'utils/blockchain/abi/erc20.json';
 import {
   LiquidityPool,
@@ -31,6 +31,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
   const { t } = useTranslation();
 
   const account = useAccount();
+  const synBlock = useBlockSync();
 
   const [transferDialog, setTransferDialog] = useState(false);
   const [state, setState] = useState<StateInterface[]>([]);
@@ -60,7 +61,6 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
               balance,
             });
           }
-          console.log({ pool, balance });
         } else if (pool.version === 2) {
           const balance1 = (await getBalance(
             pool,
@@ -96,7 +96,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
       return;
     }
     getData().catch(console.error);
-  }, [account, onDataNotPresent]);
+  }, [account, synBlock, onDataNotPresent]);
 
   if (state.length === 0 || !account) {
     return <></>;
