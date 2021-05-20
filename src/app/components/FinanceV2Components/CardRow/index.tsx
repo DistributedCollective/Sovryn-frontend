@@ -21,12 +21,12 @@ export const CardRow: React.FC<ICardRowProps> = ({
 
   return (
     <StyledCardRow
-      className="d-flex tw-flex-row tw-items-center tw-mb-3 tw-rounded-lg tw-py-2.5 tw-px-4 tw-relative overflow-auto"
+      className="d-flex tw-flex-row tw-items-center tw-mb-3 tw-rounded-lg tw-py-2.5 tw-px-4 tw-relative overflow-auto tw-justify-between"
       leftColor={leftColor}
     >
       {LeftSection && <div>{LeftSection}</div>}
       {ChartSection && (
-        <ChartWrapper>
+        <ChartWrapper className="xl:tw-max-w-xs 2xl:tw-max-w-md">
           <div className="tw-absolute tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-text-white tw-font-extralight tw-text-2xl tw-z-10">
             {t(translations.liquidityMining.chartOverlayText)}
           </div>
