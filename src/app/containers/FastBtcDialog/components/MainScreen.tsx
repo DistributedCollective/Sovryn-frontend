@@ -45,22 +45,18 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
               {t(translations.fastBtcDialog.limits.title)}
             </div>
             <div className={styles.limitsValue}>
-              <div>
-                •{' '}
-                {t(translations.fastBtcDialog.limits.min, {
-                  amount: parseFloat(state.limits.min.toFixed(4)),
-                })}{' '}
-              </div>
-              <div> {t(translations.fastBtcDialog.limits.btc)} </div>
+              •{' '}
+              {t(translations.fastBtcDialog.limits.min, {
+                amount: parseFloat(state.limits.min.toFixed(4)),
+              })}{' '}
+              {t(translations.fastBtcDialog.limits.btc)}
             </div>
             <div className={styles.limitsValue}>
-              <div>
-                •{' '}
-                {t(translations.fastBtcDialog.limits.max, {
-                  amount: parseFloat(state.limits.max.toFixed(4)),
-                })}{' '}
-              </div>
-              <div>{t(translations.fastBtcDialog.limits.btc)} </div>
+              •{' '}
+              {t(translations.fastBtcDialog.limits.max, {
+                amount: parseFloat(state.limits.max.toFixed(4)),
+              })}{' '}
+              {t(translations.fastBtcDialog.limits.btc)}
             </div>
           </div>
 
@@ -77,6 +73,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
                 href="https://sovryn.freshdesk.com/support/tickets/new"
                 target="_blank"
                 rel="noopener noreferrer"
+                className={styles.supportLink}
               >
                 {t(translations.fastBtcDialog.instructions.point4LinkText)}
               </a>
@@ -84,7 +81,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           </div>
         </div>
 
-        <div className="tw-w-1/2 tw-flex tw-items-center tw-justify-center">
+        <div className="tw-w-1/2 tw-flex tw-items-center tw-justify-end">
           {state.step === Step.WALLET && (
             <AddressQrCode
               uri={URIType.BITCOIN}
@@ -136,6 +133,8 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           </div>
         </div>
       </div>
+
+      <div className={styles.footer}>{t(translations.fastBtcDialog.note)}</div>
     </>
   );
 }

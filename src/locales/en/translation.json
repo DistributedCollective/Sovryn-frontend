@@ -931,7 +931,7 @@
     "qr": {
       "title": "Send BTC to this address:"
     },
-    "buttonBTC": "Get rBTC with BTC",
+    "buttonBTC": "Generate deposit address",
     "buttonFiat": "Get rBTC with fiat",
     "transaction": {
       "title": "Transaction Details",
