@@ -330,7 +330,7 @@
     "PoolTransferDialog": {
       "title": "Atualizar pool",
       "subtitle": "Acabamos de atualizar nossos pools de AMM e notamos que você forneceu liquidez em nossos pools antigos",
-      "note": "Por favor, inicie a transferência de sua liquidez para nossos novos pools"
+      "note": "Por favor, inicie a transferência da sua liquidez para nossos novos pools"
     }
   },
   "modal": {
