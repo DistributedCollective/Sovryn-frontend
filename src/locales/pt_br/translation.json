@@ -209,7 +209,8 @@
     "finance": "Finanças",
     "lend": "Emprestar ativos",
     "borrow": "Obter empréstimo",
-    "liquidity": "Adicionar liquidez",
+    "liquidity": "Minerar liquidez",
+    "reward": "Recompensas SOV",
     "staking": "Aplicar SOV",
     "governance": "Governança",
     "wallet": "Portfólio",
@@ -321,8 +322,15 @@
     "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
+    "transfer": "Transferir",
+    "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
       "balance": "Saldo disponível"
+    },
+    "PoolTransferDialog": {
+      "title": "Atualizar pool",
+      "subtitle": "Acabamos de atualizar nossos pools de AMM e notamos que você forneceu liquidez em nossos pools antigos",
+      "note": "Por favor, inicie a transferência da sua liquidez para nossos novos pools"
     }
   },
   "modal": {
@@ -345,7 +353,8 @@
     "emailSettingsBtn_update": "Configurações de e-mail",
     "emailSettingsBtn_get": "Receba notificações por e-mail",
     "dialog": {
-      "title": "Notificações de e-mail",
+      "title": "Notificações",
+      "want": "Receba notificações por e-mail de chamadas de margem e posições liquidadas",
       "form": {
         "name": {
           "label": "Nome / Apelido",
@@ -678,6 +687,7 @@
       "deposit": "FastBTC",
       "swap": "Trocar",
       "trade": "Margem",
+      "buy": "Comprar",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC"
     }
@@ -861,8 +871,14 @@
       "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
     },
     "fiatDialog": {
-      "title": "Comprar rBTC:",
-      "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite máximo de 0,01"
+      "title": "Comprar rBTC com dinheiro estatal:",
+      "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
+      "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
+      "instructions": {
+        "point1": "Não compre mais BTC que o limite máximo mostrado acima",
+        "point2": "Aguarde 15 minutos para que a transação seja processada",
+        "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede."
+      }
     },
     "qr": {
       "title": "Envie BTC para este endereço:"
@@ -888,10 +904,34 @@
   },
   "vestingDialog": {
     "title": "Withdraw Vesting",
-    "subtitle": "This transaction requires rBTC for gas.",
-    "amount": "Amount to Withdraw:",
-    "receiver": "Receive SOV to:",
-    "calculating": "Calculating..."
+    "subtitle": "Esta transação requer rBTC para pagar as taxas.",
+    "amount": "Quantidade a resgatar:",
+    "receiver": "Receber SOV em:",
+    "calculating": "Calculando..."
+  },
+  "rewardPage": {
+    "meta": {
+      "title": "Recompensa",
+      "description": "Recompensa SOV"
+    },
+    "claimForm": {
+      "title": "Recompensas",
+      "availble": "Quantidade de SOV disponível:",
+      "cta": "reivindicar",
+      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam travador por 10 meses com a possibilidade de resgate após 1 mês.",
+      "learn": "Saiba mais"
+    },
+    "totalEarned": "Total ganho:",
+    "topData": {
+      "referralRewards": "Recompensas de convites",
+      "referrals": "Número de convites:",
+      "availableRewards": "Recompensas disponíveis:",
+      "totalRewards": "Total ganho:",
+      "liquidityRewards": "Recompensas de liquidez",
+      "lockedRewards": "Recompensas bloqueadas:",
+      "claimibleRewards": "Recompensas reinvidicáveis",
+      "OGRewards": "Recompensas OG"
+    }
   },
   "marginTradePage": {
     "meta": {
@@ -949,7 +989,30 @@
       "yourShare_N": "liquidity added by you * number of blocks held",
       "yourShare_D": "total liquidity added * number of blocks held",
       "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
-    }
+    },
+    "historyTable": {
+      "title": "Histórico",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "liquidityAmount": "Quantidade de liquidez",
+        "transactionHash": "ID da transação",
+        "status": "Status"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Você não fornceceu liquidez",
+      "tableHeaders": {
+        "totalEarned": "Total ganho",
+        "balance": "Saldo",
+        "pl": "L/P",
+        "rewards": "Recompensas"
+      }
+    },
+    "lootDropLink": "Saiba mais",
+    "chartOverlayText": "AER% Em breve!"
   },
   "buySovPage": {
     "meta": {
