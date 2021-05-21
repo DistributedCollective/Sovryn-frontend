@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { Dialog } from '../../../../containers/Dialog';
 import { translations } from '../../../../../locales/i18n';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
@@ -13,12 +13,12 @@ import {
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
 import { CollateralAssets } from '../../../MarginTradePage/components/CollateralAssets';
-import { AmountInput } from 'form/AmountInput';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { ArrowDown } from '../../../../components/Arrows';
-import { DummyInput } from 'form/Input';
+import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
-import { DialogButton } from 'form/DialogButton';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndRemoveLiquidityV2 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV2';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';

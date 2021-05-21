@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { Dialog } from '../../../../containers/Dialog';
 import { translations } from '../../../../../locales/i18n';
@@ -15,12 +15,12 @@ import {
   getTokenContract,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
-import { AmountInput } from 'form/AmountInput';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { ArrowDown } from '../../../../components/Arrows';
-import { DummyInput } from 'form/Input';
+import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
-import { DialogButton } from 'form/DialogButton';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import { LoadableValue } from '../../../../components/LoadableValue';

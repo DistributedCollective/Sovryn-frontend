@@ -1,7 +1,3 @@
-import { AmountInput } from 'form/AmountInput';
-import { DialogButton } from 'form/DialogButton';
-import { ErrorBadge } from 'form/ErrorBadge';
-import { FormGroup } from 'form/FormGroup';
 /**
  *
  * AddToMarginDialog
@@ -28,7 +24,10 @@ import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { DialogButton } from 'app/components/Form/DialogButton';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import type { ActiveLoan } from 'types/active-loan';
 
 interface Props {

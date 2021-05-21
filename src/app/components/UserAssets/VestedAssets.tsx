@@ -23,7 +23,7 @@ import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function VestedAssets() {
   const { t } = useTranslation();

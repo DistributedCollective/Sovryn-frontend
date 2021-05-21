@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { CollateralAssets } from '../../../MarginTradePage/components/CollateralAssets';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { AmountInput } from 'form/AmountInput';
-import { DialogButton } from 'form/DialogButton';
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import {

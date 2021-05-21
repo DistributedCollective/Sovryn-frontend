@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Select } from 'form/Select';
+import { Select } from 'app/components/Form/Select';
 import {
   TradingPairDictionary,
   TradingPairType,
 } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Option, Options } from 'form/Select/types';
+import { Option, Options } from 'app/components/Form/Select/types';
 import { Text } from '@blueprintjs/core';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
-import { FormGroup } from 'form/FormGroup';
-import { AmountInput } from 'form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { CollateralAssets } from '../CollateralAssets';
 import { Button } from '../Button';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { renderItemNH } from 'form/Select/renderers';
+import { renderItemNH } from 'app/components/Form/Select/renderers';
 
 const pairs: Options<
   TradingPairType,

@@ -10,7 +10,7 @@ import {
 import { Asset } from '../../../../../types';
 import { AmmPool } from './AmmPool';
 import { PoolTransferDialog } from './PoolTransferDialog';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';

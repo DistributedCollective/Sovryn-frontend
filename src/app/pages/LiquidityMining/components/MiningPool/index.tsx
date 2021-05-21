@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';

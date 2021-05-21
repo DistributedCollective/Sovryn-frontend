@@ -8,7 +8,7 @@ import React from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Input } from 'form/Input';
+import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';

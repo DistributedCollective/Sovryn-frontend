@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { ActiveLoan } from 'types/active-loan';
 import { translations } from 'locales/i18n';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';

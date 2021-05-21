@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { translations } from '../../../locales/i18n';
 import { Slider } from '../../pages/BuySovPage/components/Slider';
 
