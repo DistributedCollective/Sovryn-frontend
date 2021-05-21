@@ -867,7 +867,9 @@
       "title": "Instruções:",
       "point1": "Não deposite nenhum ativo que não seja BTC",
       "point2": "Não envie mais BTC do que o limite máximo",
-      "point3": "Aguarde 15 minutos para que a transação seja processada",
+      "point3": "Aguarde aproximandamente 60 minutos para que a transação seja processada",
+      "point4": "Se o rBTC não estiver visível na sua carteira após 60 minutos, abra um ",
+      "point4LinkText": "ticket de suporte",
       "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
     },
     "fiatDialog": {
@@ -883,7 +885,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Depositar BTC",
+    "buttonBTC": "Gerar endereço de depósito",
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
@@ -1009,6 +1011,16 @@
         "balance": "Saldo",
         "pl": "L/P",
         "rewards": "Recompensas"
+      }
+    },
+     "modals": {
+      "deposit": {
+        "title": "Adicionar liquidez",
+        "cta": "Depositar"
+      },
+      "withdraw": {
+        "title": "Resgatar liquidez",
+        "cta": "Resgatar"
       }
     },
     "lootDropLink": "Saiba mais",
