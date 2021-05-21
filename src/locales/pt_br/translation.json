@@ -855,7 +855,7 @@
   },
   "fastBtcDialog": {
     "title": "FastBTC",
-    "subtitle": "Adquira rBTC depositando BTC ou realizando uma compra com moeda estatal",
+    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
     "note": "Verifique sempre o endereço de depósito BTC",
     "limits": {
       "title": "Limites:",
@@ -867,11 +867,13 @@
       "title": "Instruções:",
       "point1": "Não deposite nenhum ativo que não seja BTC",
       "point2": "Não envie mais BTC do que o limite máximo",
-      "point3": "Aguarde 15 minutos para que a transação seja processada",
+      "point3": "Aguarde aproximandamente 60 minutos para que a transação seja processada",
+      "point4": "Se o rBTC não estiver visível na sua carteira após 60 minutos, abra um ",
+      "point4LinkText": "ticket de suporte",
       "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
     },
     "fiatDialog": {
-      "title": "Comprar rBTC com dinheiro estatal:",
+      "title": "Comprar rBTC:",
       "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
       "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
       "instructions": {
@@ -883,7 +885,7 @@
     "qr": {
       "title": "Envie BTC para este endereço:"
     },
-    "buttonBTC": "Depositar BTC",
+    "buttonBTC": "Gerar endereço de depósito",
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
@@ -1009,6 +1011,16 @@
         "balance": "Saldo",
         "pl": "L/P",
         "rewards": "Recompensas"
+      }
+    },
+     "modals": {
+      "deposit": {
+        "title": "Adicionar liquidez",
+        "cta": "Depositar"
+      },
+      "withdraw": {
+        "title": "Retirar liquidez",
+        "cta": "Resgatar"
       }
     },
     "lootDropLink": "Saiba mais",
