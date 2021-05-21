@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { ActionButton } from 'form/ActionButton';
@@ -35,17 +35,31 @@ export function OpenPositionRow({ item }: Props) {
   const collateralAsset = assetByTokenAddress(item.collateralToken);
 
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-  if (pair === undefined) return <></>;
 
   const position =
     pair.longAsset === loanAsset ? TradingPosition.LONG : TradingPosition.SHORT;
 
   const isLong = position === TradingPosition.LONG;
+  const leverage = leverageFromMargin(item.startMargin);
+
+  const liquidationPrice = useMemo(
+    () =>
+      toNumberFormat(
+        calculateLiquidation(
+          isLong,
+          leverage,
+          item.maintenanceMargin,
+          item.startRate,
+        ),
+        4,
+      ),
+    [item, isLong, leverage],
+  );
+  if (pair === undefined) return <></>;
 
   const collateralAssetDetails = AssetsDictionary.get(collateralAsset);
 
   const startPrice = formatAsBTCPrice(item.startRate, isLong);
-  const leverage = leverageFromMargin(item.startMargin);
 
   const amount = bignumber(item.collateral).div(leverage).toFixed(0);
 
@@ -69,16 +83,7 @@ export function OpenPositionRow({ item }: Props) {
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            {toNumberFormat(
-              calculateLiquidation(
-                isLong,
-                leverageFromMargin(item.startMargin),
-                item.maintenanceMargin,
-                item.startRate,
-              ),
-              4,
-            )}{' '}
-            <AssetRenderer asset={pair.longDetails.asset} />
+            {liquidationPrice} <AssetRenderer asset={pair.longDetails.asset} />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
@@ -120,6 +125,12 @@ export function OpenPositionRow({ item }: Props) {
           </div>
           <AddToMarginDialog
             item={item}
+            liquidationPrice={
+              <>
+                {liquidationPrice}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            }
             onCloseModal={() => setShowAddToMargin(false)}
             showModal={showAddToMargin}
           />
