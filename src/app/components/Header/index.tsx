@@ -16,11 +16,13 @@ import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
+import { useCookies } from 'react-cookie';
 import {
   actions as lendBorrowActions,
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
 } from '../../containers/LendBorrowSovryn/slice';
+import { getParameterFromUrl } from 'utils/helpers';
 import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
 import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
 import WalletConnector from '../../containers/WalletConnector';
@@ -35,6 +37,14 @@ export function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
+  const [, setCookie] = useCookies(['referral']);
+
+  useEffect(() => {
+    const ref = getParameterFromUrl(location.search, 'ref');
+    if (ref) {
+      setCookie('referral', ref);
+    }
+  }, [location.search, setCookie]);
 
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
