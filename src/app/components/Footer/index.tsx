@@ -62,6 +62,18 @@ export function Footer() {
             </p>
           </div>
         </div>
+        <div className="small tw-text-lightGrey tw-mb-3">
+          Charts powered by{' '}
+          <a
+            href="https://www.highcharts.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tw-font-normal tw-text-white"
+          >
+            Highcharts
+          </a>
+          . All rights reserved.
+        </div>
         <div className="tw-mb-6 small">
           <div
             className="tw-cursor-pointer hover:tw-underline tw-font-light tw-text-gold"

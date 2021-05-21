@@ -216,7 +216,8 @@
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Market-making",
+    "liquidity": "Liquidity-mining",
+    "reward": "Reward SOV",
     "staking": "Staking",
     "governance": "Governance",
     "wallet": "Portfolio",
@@ -330,8 +331,15 @@
     "fee": "fee",
     "supply": "Supply",
     "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "transferNote": "Please initiate the transfer of your liquidity to our new pools",
     "v1": {
       "balance": "Available balance"
+    },
+    "PoolTransferDialog": {
+      "title": "Pool Update",
+      "subtitle": "We have just updated our AMM pools and noticed you have provided liquidity in our old pools",
+      "note": "Please initiate the transfer of your liquidity to our new pools"
     }
   },
   "modal": {
@@ -729,7 +737,8 @@
     "actions": {
       "deposit": "FastBTC",
       "swap": "Swap",
-      "trade": "Trade",
+      "trade": "Margin Trade",
+      "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
@@ -914,8 +923,14 @@
       "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
     },
     "fiatDialog": {
-      "title": "Buy rBTC with fiat:",
-      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the {{amount}} limit"
+      "title": "Buy <0>RBTC</0> with fiat",
+      "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
+      "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
+      "instructions": {
+        "point1": "Do not buy more BTC than the MAX limit above",
+        "point2": "Allow  15 mins for the transaction to process",
+        "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
+      }
     },
     "qr": {
       "title": "Send BTC to this address:"
@@ -945,6 +960,30 @@
     "amount": "Amount to Withdraw:",
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
+  },
+  "rewardPage": {
+    "meta": {
+      "title": "Reward",
+      "description": "Reward SOV"
+    },
+    "claimForm": {
+      "title": "Available Rewards",
+      "availble": "Total Reward SOV Available:",
+      "cta": "claim",
+      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
+    },
+    "totalEarned": "Total Rewards Earned:",
+    "topData": {
+      "referralRewards": "Referral Rewards",
+      "referrals": "Number of referrals:",
+      "availableRewards": "Available Rewards:",
+      "totalRewards": "Total Rewards Earned:",
+      "liquidityRewards": "Liquidity Rewards",
+      "lockedRewards": "Locked Rewards:",
+      "claimibleRewards": "Claimible Rewards",
+      "OGRewards": "OG Rewards"
+    }
   },
   "marginTradePage": {
     "meta": {
@@ -1003,7 +1042,30 @@
       "yourShare_D": "total liquidity added * number of blocks held",
       "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
       "comingSoon": "Coming Soon"
-    }
+    },
+    "historyTable": {
+      "title": "Liquidity History",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "liquidityAmount": "Liquidity Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "You have no liquidity provided",
+      "tableHeaders": {
+        "totalEarned": "Total Earned",
+        "balance": "Balance",
+        "pl": "P/L",
+        "rewards": "Rewards"
+      }
+    },
+    "lootDropLink": "Learn more",
+    "chartOverlayText": "AER% Coming Soon!"
   },
   "buySovPage": {
     "meta": {

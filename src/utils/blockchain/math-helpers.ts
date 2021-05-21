@@ -53,6 +53,9 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
     case 'ether':
       decimals = 18;
       break;
+    case 'gwei':
+      decimals = 9;
+      break;
     default:
       throw new Error('Unsupported unit (custom fromWei helper)');
   }

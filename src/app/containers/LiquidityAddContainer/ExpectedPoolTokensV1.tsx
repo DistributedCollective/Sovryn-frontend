@@ -39,7 +39,6 @@ export function ExpectedPoolTokensV1({ pool, amounts }: Props) {
                 toWei(amount),
               ],
             );
-            console.log(result);
             amount.add(result as string);
           } catch (e) {
             console.error(e);

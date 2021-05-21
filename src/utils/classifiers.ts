@@ -58,8 +58,8 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
-  [TxType.ADD_LIQUIDITY]: 450000,
-  [TxType.REMOVE_LIQUIDITY]: 550000,
+  [TxType.ADD_LIQUIDITY]: 500000,
+  [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
@@ -68,4 +68,6 @@ export const gasLimit = {
   [TxType.SOV_REIMBURSE]: 100000,
   [TxType.SOV_CONVERT]: 2700000,
   [TxType.ESCROW_SOV_DEPOSIT]: 100000,
+  [TxType.LM_DEPOSIT]: 150000,
+  [TxType.LOCKED_SOV_CLAIM]: 2850000,
 };

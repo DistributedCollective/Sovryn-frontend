@@ -1,15 +1,9 @@
-/**
- *
- * AssetRenderer
- *
- */
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-
-import styles from './index.module.css';
+import { AssetSymbolRenderer } from '../AssetSymbolRenderer/index';
 
 type ImageSizes = 4 | 5 | 6 | 8 | 12;
 
@@ -17,26 +11,6 @@ interface CurrencyProps {
   asset: Asset;
   showImage?: boolean;
   imageSize?: ImageSizes;
-}
-
-const symbolMap = {
-  [Asset.RBTC]: (
-    <>
-      <em>R</em>BTC
-    </>
-  ),
-  [Asset.USDT]: (
-    <>
-      <em>R</em>USDT
-    </>
-  ),
-};
-
-export function getAssetSymbol(asset: Asset) {
-  if (symbolMap.hasOwnProperty(asset)) {
-    return symbolMap[asset];
-  }
-  return AssetsDictionary.get(asset).symbol;
 }
 
 export function AssetRenderer(props: CurrencyProps) {
@@ -53,7 +27,7 @@ export function AssetRenderer(props: CurrencyProps) {
           alt={AssetsDictionary.get(props.asset).name}
         />
       )}
-      <span className={styles.symbol}>{getAssetSymbol(props.asset)}</span>
+      <AssetSymbolRenderer asset={props.asset} />
     </span>
   );
 }

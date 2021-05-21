@@ -21,7 +21,7 @@ export function FiatDialogScreen({ state, address, dispatch }: Props) {
           {t(translations.fastBtcDialog.fiatDialog.title)}
         </div>
         <div className="mt-2">
-          {t(translations.fastBtcDialog.fiatDialog.explanation, {
+          {t(translations.fastBtcDialog.fiatDialog.explanation1, {
             amount: parseFloat(state.limits.max.toFixed(4)),
           })}
         </div>
