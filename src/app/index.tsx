@@ -33,6 +33,7 @@ import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
+import { ReferralPage } from './containers/ReferralPage/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
@@ -81,6 +82,7 @@ export function App() {
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
+            <Route exact path="/referral" component={ReferralPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
             <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />

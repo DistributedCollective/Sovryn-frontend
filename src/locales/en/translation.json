@@ -1463,5 +1463,26 @@
       "addButton": "Add",
       "withdrawButton": "Withdraw"
     }
+  },
+  "referral": {
+    "title": "Join the SWOT Team and Earn Crypto",
+    "isConnected": "Please connect with your wallet to use referral system.",
+    "refLink": "Share your unique referral link",
+    "totalRewardsEarned": "Total Rewards Earned",
+    "numberReferralsTraded": "Number of referrals traded",
+    "numberReferrals": "Number of referrals",
+    "ranking": "Ranking",
+    "linkCopied": "Your link copied to clipboard",
+    "referralHistory": "Referral History",
+    "terms": "Terms and Conditions",
+    "text": "Expand your Sovryn Web Of Trust to earn<0>$SOV bonus rewards and .01% of fees</0>on every transaction made by new wallets created with your unique referral link.",
+    "tableHeaders": {
+      "date": "Date/Time",
+      "type": "Type",
+      "from": "From",
+      "amount": "Amount",
+      "hash": "Transaction Hash",
+      "status": "Status"
+    }
   }
 }
