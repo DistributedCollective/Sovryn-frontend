@@ -1,16 +1,23 @@
 .dialogContainer {
-  max-width: 470px;
+  max-width: 1000px;
   width: 100%;
 }
 
 .container {
   background-color: #000000;
   color: #d9d9d9;
-  max-width: 470px;
+  max-width: 1000px;
   width: 100%;
   border-radius: 15px;
   position: relative;
   letter-spacing: 0;
+}
+
+.alertBlock{ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .innerContainer {
@@ -19,7 +26,7 @@
 
 @media screen and (min-width: 920px) {
   .innerContainer {
-    padding: 30px 62px;
+    padding: 30px 113px 53px 113px;
   }
 }
 
@@ -27,9 +34,15 @@
   margin-bottom: 25px;
   font-size: 28px;
   line-height: 38px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   text-transform: none;
+}
+
+.footer {
+  margin-top: 81px;
+  font-size: 16px;
+  text-align: center;
 }
 
 .subtitle {
@@ -42,6 +55,26 @@
   width: 100%;
 }
 
+.subexp1 {
+  margin-bottom: 10px;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  text-align: left;
+  text-transform: none;
+  width: 100%;
+}
+
+.subexp2 {
+  margin-bottom: 35px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 100;
+  text-align: left;
+  text-transform: none;
+  width: 100%;
+}
 .limitsTitle {
   margin-bottom: 10px;
   font-size: 16px;
@@ -65,13 +98,21 @@
   font-size: 16px;
   line-height: 19px;
   font-weight: 400;
+  color: #F4F4F4;
+}
+
+.supportLink {
+  color: #E9EAE9 !important;
+  text-decoration: underline;
+  font-weight: 400;
 }
 
 .instructionsValue {
   margin-bottom: 35px;
   font-size: 14px;
   line-height: 20px;
-  font-weight: 300;
+  font-weight: 100;
+  color: #E9EAE9;
 }
 
 .buttons {

@@ -20,7 +20,7 @@ export function OpenTransak({ address, onClose }: Props) {
       hostURL: window.location.origin,
       widgetHeight: '550px',
       widgetWidth: '450px',
-
+      disableWalletAddressForm: true,
       cryptoCurrencyCode: 'BTC',
       cryptoCurrencyList: 'BTC',
       // isDisableCrypto: true,

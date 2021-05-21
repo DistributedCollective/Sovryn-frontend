@@ -84,6 +84,18 @@ export function Footer() {
             </a>
           </div>
         )}
+        <div className="small tw-text-lightGrey tw-mb-3">
+          Charts powered by{' '}
+          <a
+            href="https://www.highcharts.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tw-font-normal tw-text-white"
+          >
+            Highcharts
+          </a>
+          . All rights reserved.
+        </div>
         {commitHash && (
           <div className="small tw-text-white">
             {t(translations.footer.buildID)}:{' '}
