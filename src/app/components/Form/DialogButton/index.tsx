@@ -16,16 +16,21 @@ export function DialogButton({
   confirmLabel,
   onCancel,
   cancelLabel,
+  className,
   ...props
 }: Props) {
   return (
     <div className="tw-flex tw-justify-between tw-items-center tw-space-x-3">
-      <button className={cn('tw-btn-dialog')} onClick={onConfirm} {...props}>
+      <button
+        className={cn('tw-btn-dialog', className)}
+        onClick={onConfirm}
+        {...props}
+      >
         {confirmLabel}
       </button>
       {cancelLabel && onCancel && (
         <button
-          className={cn('tw-btn-dialog tw-btn-dialog__secondary')}
+          className={cn('tw-btn-dialog tw-btn-dialog__secondary', className)}
           onClick={onCancel}
           type="button"
         >

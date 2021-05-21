@@ -1058,6 +1058,16 @@
         "rewards": "Rewards"
       }
     },
+    "modals": {
+      "deposit": {
+        "title": "Deposit Liquidity",
+        "cta": "Deposit"
+      },
+      "withdraw": {
+        "title": "Withdraw Liquidity",
+        "cta": "Withdraw"
+      }
+    },
     "lootDropLink": "Learn more",
     "chartOverlayText": "AER% Coming Soon!"
   },
