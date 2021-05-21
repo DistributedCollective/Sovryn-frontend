@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { ActionButton } from 'form/ActionButton';
 
 interface Props {
   loading: boolean;
@@ -13,17 +13,14 @@ interface Props {
 export function BTCButton({ loading, ready, disabled, onClick }: Props) {
   const { t } = useTranslation();
   return (
-    <>
-      <div className="justify-content-center items-center d-flex flex-row w-100">
-        <Button
-          minimal
-          className="text-gold button-width button-round font-size-lg mx-auto"
-          text={t(translations.fastBtcDialog.buttonBTC)}
-          loading={loading}
-          disabled={loading || !ready || disabled}
-          onClick={onClick}
-        />
-      </div>
-    </>
+    <div className="tw-w-72">
+      <ActionButton
+        text={t(translations.fastBtcDialog.buttonBTC)}
+        onClick={onClick}
+        className="tw-flex tw-items-center tw-justify-center tw-w-full tw-h-12 tw-rounded-lg"
+        textClassName="tw-inline-block tw-text-lg"
+        disabled={loading || !ready || disabled}
+      />
+    </div>
   );
 }
