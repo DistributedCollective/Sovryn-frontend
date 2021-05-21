@@ -9,12 +9,6 @@ import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
-import { PieChart } from '../../../../components/FinanceV2Components/PieChart';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import {
-  getAmmContractName,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
@@ -29,30 +23,9 @@ export function MiningPool({ pool }: Props) {
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
 
-  const firstAssetWeight = useCacheCallWithValue(
-    getAmmContractName(pool.poolAsset),
-    'reserveWeight',
-    '0',
-    getTokenContract(pool.supplyAssets[0].asset).address,
-  );
-
-  const secondAssetWeight = useCacheCallWithValue(
-    getAmmContractName(pool.poolAsset),
-    'reserveWeight',
-    '0',
-    getTokenContract(pool.supplyAssets[1].asset).address,
-  );
-
   const LeftSection = () => {
     return (
       <div className="tw-flex tw-items-center tw-mr-4">
-        <PieChart
-          firstAsset={pool.supplyAssets[0].asset}
-          secondAsset={pool.supplyAssets[1].asset}
-          firstPercentage={Number(firstAssetWeight.value) / 1e4}
-          secondPercentage={Number(secondAssetWeight.value) / 1e4}
-          className="tw-mr-4"
-        />
         {/* Assets and balances */}
         <div className="tw-flex tw-flex-col tw-justify-between">
           {pool.supplyAssets.map((item, index) => (

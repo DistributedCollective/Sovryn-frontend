@@ -40,7 +40,7 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
         className,
       )}
     >
-      <div className="tw-flex tw-w-24 tw-mr-7">
+      <div className="tw-flex tw-w-24 tw-mr-4 2xl:tw-mr-7">
         <AssetRenderer asset={supplyAsset.asset} showImage />
       </div>
       <div className="tw-w-20 tw-flex tw-flex-col">
