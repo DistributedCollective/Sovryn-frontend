@@ -116,15 +116,15 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
-            Remove Liquidity
+          <h1 className="tw-text-white tw-text-center tw-tracking-normal">
+            {t(translations.liquidityMining.modals.withdraw.title)}
           </h1>
           <CollateralAssets
             value={asset}
             onChange={value => setAsset(value)}
             options={assets}
           />
-          <FormGroup label="Amount:" className="tw-mt-5">
+          <FormGroup label="Amount:" className="tw-mt-8">
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
@@ -148,19 +148,17 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
             args={txFeeArgs}
             methodName="removeLiquidityFromV2"
             contractName="BTCWrapperProxy"
+            className="tw-mt-5 tw-font-extralight"
           />
           {/*{topupLocked?.maintenance_active && (*/}
           {/*  <ErrorBadge content={topupLocked?.message} />*/}
           {/*)}*/}
-        </div>
 
-        <div className="tw-px-5">
           <DialogButton
-            confirmLabel={t(translations.common.confirm)}
+            confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
             onConfirm={() => handleConfirm()}
             disabled={tx.loading || !valid || !canInteract}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={props.onCloseModal}
+            className="tw-rounded-lg"
           />
         </div>
       </Dialog>

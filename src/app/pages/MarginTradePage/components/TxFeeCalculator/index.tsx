@@ -10,6 +10,7 @@ import {
 } from '../../../../../utils/display-text/format';
 import { ContractName } from '../../../../../utils/types/contracts';
 import { useEstimateContractGas } from '../../../../hooks/useEstimateGas';
+import cn from 'classnames';
 
 interface Props {
   symbol?: string;
@@ -18,6 +19,7 @@ interface Props {
   args: any[];
   txConfig?: TransactionConfig;
   condition?: boolean;
+  className?: string;
 }
 
 export function TxFeeCalculator(props: Props) {
@@ -29,7 +31,12 @@ export function TxFeeCalculator(props: Props) {
     props.condition,
   );
   return (
-    <div className="tw-mb-10 tw-truncate tw-text-sm tw-tracking-normal">
+    <div
+      className={cn(
+        'tw-mb-10 tw-truncate tw-text-sm tw-tracking-normal',
+        props.className,
+      )}
+    >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
         values={{ symbol: props.symbol }}
