@@ -686,6 +686,7 @@
       "deposit": "FastBTC",
       "swap": "Trocar",
       "trade": "Margem",
+      "buy": "Comprar",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC"
     }
@@ -716,7 +717,7 @@
   "topUpHistory": {
     "meta": {
       "title": "Histórico de depósitos"
-    },
+    },"claimSov":
     "tableHeaders": {
       "time": "Data e hora",
       "asset": "Ativo",
@@ -869,8 +870,14 @@
       "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
     },
     "fiatDialog": {
-      "title": "Comprar rBTC:",
-      "explanation": "Ao clicar no botão abaixo, você será direcionado para um serviço de compra de BTC. Certifique-se de que o endereço BTC para o qual você está enviando seus fundos seja o mesmo que o abaixo. A Sovryn fará a conversão para rBTC para você. Fique atento ao limite máximo de 0,01"
+      "title": "Comprar rBTC com dinheiro estatal:",
+      "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
+      "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
+      "instructions": {
+        "point1": "Não compre mais BTC que o limite máximo mostrado acima",
+        "point2": "Aguarde 15 minutos para que a transação seja processada",
+        "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede."
+      }
     },
     "qr": {
       "title": "Envie BTC para este endereço:"
