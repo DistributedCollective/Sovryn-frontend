@@ -62,13 +62,13 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="small tw-text-lightGrey tw-mb-3">
+        <div className="small tw-text-lightGrey tw-mb-4">
           Charts powered by{' '}
           <a
             href="https://www.highcharts.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="tw-font-normal tw-text-white"
+            className="tw-font-normal tw-text-lightGrey"
           >
             Highcharts
           </a>
