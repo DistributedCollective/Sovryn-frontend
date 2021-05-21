@@ -119,8 +119,8 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0xBA25e656f4fb9389c1B07d23688867E88882E010',
-    abi: LiquidityPoolV2Converter,
+    address: '0x21475506d808DaAf757092a5675cfa3804AB7239',
+    abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
   CrowdSale: {
