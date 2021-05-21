@@ -1,9 +1,10 @@
-import React from 'react';
 import { Button } from '@blueprintjs/core';
+import React from 'react';
 import { translations } from 'locales/i18n';
 import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../components/AssetRenderer';
 import { Asset } from '../../../../types/asset';
+
 interface Props {
   loading: boolean;
   ready: boolean;
