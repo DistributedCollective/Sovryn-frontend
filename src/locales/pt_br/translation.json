@@ -353,7 +353,8 @@
     "emailSettingsBtn_update": "Configurações de e-mail",
     "emailSettingsBtn_get": "Receba notificações por e-mail",
     "dialog": {
-      "title": "Notificações de e-mail",
+      "title": "Notificações",
+      "want": "Receba notificações por e-mail de chamadas de margem e posições liquidadas",
       "form": {
         "name": {
           "label": "Nome / Apelido",
