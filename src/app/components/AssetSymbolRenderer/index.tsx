@@ -1,5 +1,5 @@
 import React from 'react';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import styles from './index.module.css';
 
@@ -12,6 +12,11 @@ const symbolMap = {
   [Asset.USDT]: (
     <>
       <em>R</em>USDT
+    </>
+  ),
+  [Asset.ETH]: (
+    <>
+      ETH<em>X</em>
     </>
   ),
 };
