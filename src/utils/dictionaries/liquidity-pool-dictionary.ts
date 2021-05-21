@@ -35,19 +35,19 @@ export class LiquidityPoolDictionary {
         }),
       ]),
     ],
-    // [
-    //   Asset.ETH,
-    //   new LiquidityPool(Asset.ETH, [
-    //     new LiquidityPoolSupplyAsset(Asset.ETH, {
-    //       mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
-    //       testnet: '0x860F186014aDB35f226bE37Ad66b64F581fb1a49',
-    //     }),
-    //     new LiquidityPoolSupplyAsset(Asset.RBTC, {
-    //       mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
-    //       testnet: '0x860F186014aDB35f226bE37Ad66b64F581fb1a49',
-    //     }),
-    //   ]).setVersion(1),
-    // ],
+    [
+      Asset.ETH,
+      new LiquidityPool(Asset.ETH, [
+        new LiquidityPoolSupplyAsset(Asset.ETH, {
+          mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
+          testnet: '0x860F186014aDB35f226bE37Ad66b64F581fb1a49',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
+          testnet: '0x860F186014aDB35f226bE37Ad66b64F581fb1a49',
+        }),
+      ]).setVersion(1),
+    ],
     [
       Asset.DOC,
       new LiquidityPool(Asset.DOC, [

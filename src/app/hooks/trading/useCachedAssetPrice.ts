@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { Asset } from 'types/asset';
-import { usePriceFeeds_tradingPairRates } from '../price-feeds/usePriceFeeds_tradingPairRates';
+import { useSelector } from 'react-redux';
+import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 
 export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
-  const items = usePriceFeeds_tradingPairRates();
+  const { assetRates: items } = useSelector(selectWalletProvider);
   const value = useMemo(() => {
     const item = items.find(
       item => item.source === sourceAsset && item.target === destAsset,
@@ -18,7 +19,7 @@ export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
 }
 
 export function useCachedAssetRate(sourceAsset: Asset, destAsset: Asset) {
-  const items = usePriceFeeds_tradingPairRates();
+  const { assetRates: items } = useSelector(selectWalletProvider);
   const value = useMemo(() => {
     if (sourceAsset === destAsset) {
       return { rate: '1', precision: '1' };

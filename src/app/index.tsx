@@ -39,6 +39,7 @@ import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
+import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -52,6 +53,8 @@ export function App() {
 
   const { checkMaintenance } = useMaintenance();
   const siteLocked = checkMaintenance('full');
+
+  usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
     dispatch(maintenanceActions.fetchMaintenance());

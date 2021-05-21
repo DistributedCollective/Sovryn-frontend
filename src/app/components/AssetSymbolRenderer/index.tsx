@@ -16,7 +16,7 @@ const symbolMap = {
   ),
   [Asset.ETH]: (
     <>
-      ETH<em>X</em>
+      ETH<em>S</em>
     </>
   ),
 };

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -22,7 +22,6 @@ import { AssetDetails } from '../../../utils/models/asset-details';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
@@ -31,7 +30,6 @@ import { Skeleton } from '../PageSkeleton';
 
 export function UserAssets() {
   const { t } = useTranslation();
-  usePriceFeeds_tradingPairRates();
   const connected = useIsConnected();
   const account = useAccount();
   const assets = useMemo(

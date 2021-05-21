@@ -34,7 +34,7 @@ export const contracts = {
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
-    address: '0xA3B6E18B9A4ECAE44C7355458Ae7Db8874018C22',
+    address: '0xa917BF723433d020a15629eba71f6C2a6B38e52d',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
   },
@@ -105,6 +105,21 @@ export const contracts = {
   },
   BPRO_amm: {
     address: '0x26463990196B74aD5644865E4d4567E4A411e065',
+    abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  ETH_token: {
+    address: '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3', // todo
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // ETH_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  ETH_amm: {
+    address: '0xBA25e656f4fb9389c1B07d23688867E88882E010', // todo
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
@@ -186,11 +201,11 @@ export const contracts = {
     abi: EscrowRewardsAbi,
   },
   liquidityMiningProxy: {
-    address: '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e',
+    address: '0xf730af26e87D9F55E46A6C447ED2235C385E55e0',
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
+    address: '0xB4e4517cA4Edf591Dcafb702999F04f02E57D978',
     abi: LockedSovAbi,
   },
 };
