@@ -717,7 +717,7 @@
   "topUpHistory": {
     "meta": {
       "title": "Histórico de depósitos"
-    },"claimSov":
+    },
     "tableHeaders": {
       "time": "Data e hora",
       "asset": "Ativo",
