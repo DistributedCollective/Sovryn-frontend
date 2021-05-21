@@ -13,10 +13,3 @@ export const StyledCardRow = styled.div<IStyledCardRowProps>`
   border-left-width: 10px;
   border-left-color: ${props => `${props.leftColor || '#222222'}`};
 `;
-
-export const ChartWrapper = styled.div`
-  margin-left: 1rem;
-  margin-right: 1.25rem;
-  position: relative;
-  pointer-events: none;
-`;
