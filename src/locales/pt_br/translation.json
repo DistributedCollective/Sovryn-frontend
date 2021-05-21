@@ -1019,7 +1019,7 @@
         "cta": "Depositar"
       },
       "withdraw": {
-        "title": "Resgatar liquidez",
+        "title": "Retirar liquidez",
         "cta": "Resgatar"
       }
     },
