@@ -30,10 +30,11 @@ export const LootDrop: React.FC<ILootDropProps> = ({
         {title}
       </div>
       <div className="tw-text-sm tw-tracking-normal tw-text-center text-font-bolder">
-        <AssetSymbolRenderer asset={asset1} /> /{' '}
+        <AssetSymbolRenderer asset={asset1} />
+        /
         <AssetSymbolRenderer asset={asset2} />
       </div>
-      <div className="tw-text-xs tw-tracking-normal tw-mb-4 tw-text-center">
+      <div className="tw-text-xs tw-tracking-normal tw-font-thin tw-mb-3 tw-text-center">
         {startDate} - {endDate}
       </div>
       <div className="tw-text-center">

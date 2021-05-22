@@ -50,7 +50,7 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
             value={<>{toNumberFormat(Number(weight.value) / 1e4, 1)}%</>}
           />
         </div>
-        <div className="tw-text-xs tw-font-semibold">
+        <div className="tw-text-xs">
           {pool.version === 1 && (
             <ReserveStakedBalanceV1 pool={pool} supplyAsset={supplyAsset} />
           )}

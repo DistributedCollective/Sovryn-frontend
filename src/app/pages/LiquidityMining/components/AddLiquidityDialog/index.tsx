@@ -8,6 +8,7 @@ import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { CollateralAssets } from '../../../MarginTradePage/components/CollateralAssets';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from 'form/AmountInput';
 import { DialogButton } from 'form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
@@ -84,10 +85,16 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             options={assets}
           />
 
-          <FormGroup label="Amount:" className="tw-mt-8">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.deposit.amount)}
+            className="tw-mt-8"
+          >
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
+              subText={`${t(
+                translations.common.availableBalance,
+              )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
             />
           </FormGroup>
@@ -114,7 +121,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             args={txFeeArgs}
             methodName="addLiquidityToV2"
             contractName="BTCWrapperProxy"
-            className="tw-mt-5 tw-font-extralight"
+            className="tw-mt-6"
           />
 
           {/*{topupLocked?.maintenance_active && (*/}
