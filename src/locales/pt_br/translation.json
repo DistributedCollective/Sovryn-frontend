@@ -846,10 +846,10 @@
     }
   },
   "mobileBrowsersWarningDialog": {
-    "acceptTerms": "Eu aceito os riscos e desejo usar o dapp com meu dispositivo móvel",
+    "acceptTerms": "Eu aceito os riscos e desejo acessar o dapp usando meu celular",
     "salesBtn": "Eu entendo",
     "content": {
-      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com dispositivos móveis.",
+      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
   },
