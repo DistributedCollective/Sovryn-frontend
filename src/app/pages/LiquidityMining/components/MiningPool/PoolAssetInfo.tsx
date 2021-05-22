@@ -43,7 +43,7 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
       <div className="tw-flex tw-w-24 tw-mr-4 2xl:tw-mr-7">
         <AssetRenderer asset={supplyAsset.asset} showImage />
       </div>
-      <div className="tw-w-20 tw-flex tw-flex-col">
+      <div className="tw-w-20 tw-flex tw-flex-col tw-tracking-normal">
         <div className="tw-font-thin tw-text-base">
           <LoadableValue
             loading={weight.loading}

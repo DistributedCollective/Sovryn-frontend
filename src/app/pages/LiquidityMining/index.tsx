@@ -86,7 +86,7 @@ export function LiquidityMining() {
 
         <div
           className={cn(
-            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5',
+            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',
             hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
           )}
         >
