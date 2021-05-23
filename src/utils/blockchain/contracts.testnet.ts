@@ -109,7 +109,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   ETH_token: {
-    address: '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3',
+    address: '0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },

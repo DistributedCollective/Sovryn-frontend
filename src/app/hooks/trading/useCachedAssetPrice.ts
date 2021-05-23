@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Asset } from 'types/asset';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { fixNumber } from '../../../utils/helpers';
 
 export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
   const { assetRates: items } = useSelector(selectWalletProvider);
@@ -10,7 +11,7 @@ export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
       item => item.source === sourceAsset && item.target === destAsset,
     );
     if (item) {
-      return item.value.rate;
+      return fixNumber(item.value.rate);
     } else {
       return '0';
     }
