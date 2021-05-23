@@ -749,12 +749,12 @@
       "redeem": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimo.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
-        "line_3": "O pool irá aumentar quando os usuários quitarem seus empréstimos."
+        "line_3": "O pool irá aumentar quando os usuários devolverem seus empréstimos."
       },
       "borrow": {
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
-        "line_3": "O pool irá aumentar quando os usuários quitarem seus respectivos empréstimos."
+        "line_3": "O pool irá aumentar quando os usuários devolverem seus respectivos empréstimos."
       }
     }
   },
@@ -763,18 +763,18 @@
       "borrowAmount": "Valor do empréstimo",
       "collateralAmount": "Colateral",
       "interestAPR": "Juros anual",
-      "endTimestamp": "Quitar até"
+      "endTimestamp": "Devolver até"
     },
-    "repayButton": "Quitar"
+    "repayButton": "Devolver"
   },
   "repayPositionForm": {
-    "title": "Quitar empréstimo",
+    "title": "Devolver empréstimo",
     "labels": {
       "borrowedAmount": "Valor do empréstimo",
       "amountToRepay": "{{currency}} Valor a ser quitado",
       "amountToReceive": "Você irá receber"
     },
-    "button": "Quitar"
+    "button": "Devolver"
   },
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
