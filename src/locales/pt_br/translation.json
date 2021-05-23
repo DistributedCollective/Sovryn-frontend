@@ -204,6 +204,12 @@
     "optOut": "Desativar o Google Analytics",
     "buildID": "Build ID"
   },
+   "analyticsDialog": {
+    "title": "Dados analíticos",
+    "message_1": "A Sovryn gostaria de coletar alguns dados analíticos para melhorar a experiência do usuário. Se você preferir desativar a coleta, desmarque a caixa de seleção abaixo e clique em 'Confirmar'.",
+    "option": "Permitir que a Sovryn colete dados analíticos",
+    "message_2": "Após confirmar, atualize a página para garantir que os dados não serão mais coletados."
+  },
   "mainMenu": {
     "buySov": "Compre SOV",
     "trade": "Negociar",
