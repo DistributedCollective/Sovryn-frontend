@@ -10,7 +10,10 @@
     "fee": "Taxa: {{amount}} (r)BTC",
     "pending": "Pendente",
     "confirmed": "Confirmada",
-    "failed": "Falhou"
+    "failed": "Falhou",
+    "deposit": "Depositar",
+    "withdraw": "Resgatar",
+    "availableBalance": "Saldo disponível:"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -943,7 +946,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par:",
-        "asset": "Criptoativo:",
+        "asset": "Colateral:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
@@ -1016,11 +1019,14 @@
      "modals": {
       "deposit": {
         "title": "Adicionar liquidez",
-        "cta": "Depositar"
+        "cta": "Depositar",
+        "amount": "Quantidade:"
       },
       "withdraw": {
         "title": "Retirar liquidez",
-        "cta": "Resgatar"
+        "cta": "Resgatar",
+        "amount": "Quantidade:",
+        "reward": "Recompensa:"
       }
     },
     "lootDropLink": "Saiba mais",
