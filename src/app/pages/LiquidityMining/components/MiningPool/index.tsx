@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { translations } from '../../../../../locales/i18n';
 import { ActionButton } from 'form/ActionButton';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
@@ -20,6 +23,7 @@ interface Props {
 type DialogType = 'none' | 'add' | 'remove';
 
 export function MiningPool({ pool }: Props) {
+  const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
 
@@ -45,17 +49,17 @@ export function MiningPool({ pool }: Props) {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
-          text="Deposit"
+          text={t(translations.common.deposit)}
           onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg hover:tw-bg-ctaHover"
-          textClassName="tw-text-base tw-font-semibold"
+          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          textClassName="tw-text-base"
           disabled={!canInteract}
         />
         <ActionButton
-          text="Withdraw"
+          text={t(translations.common.withdraw)}
           onClick={() => setDialog('remove')}
-          className="tw-block tw-w-full tw-rounded-lg hover:tw-bg-ctaHover"
-          textClassName="tw-text-base tw-font-semibold"
+          className="tw-block tw-w-full tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          textClassName="tw-text-base"
           disabled={!canInteract}
         />
       </div>

@@ -2,7 +2,6 @@
   /* Slider */
   .tw-slider {
     @apply tw-w-full tw-h-12;
-    max-width: 310px;
   }
 
   .tw-slider .bp3-slider-track {

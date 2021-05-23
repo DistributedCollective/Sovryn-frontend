@@ -102,10 +102,16 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             {t(translations.liquidityMining.modals.deposit.title)}
           </h1>
 
-          <FormGroup label="Amount:" className="tw-mt-5">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.deposit.amount)}
+            className="tw-mt-5 tw-font-thin"
+          >
             <AmountInput
               onChange={value => setAmount1(value)}
               value={amount1}
+              subText={`${t(
+                translations.common.availableBalance,
+              )} ${weiToNumberFormat(balance1, 8)}`}
               asset={token1}
             />
           </FormGroup>
@@ -113,8 +119,14 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
           <DummyInput
             value={weiToNumberFormat(weiAmount2, 8)}
             appendElem={<AssetRenderer asset={token2} />}
-            className="tw-mt-8"
+            className="tw-mt-6 tw-h-9"
           />
+          <div className="tw-text-xs tw-font-thin tw-mt-1">
+            {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
+              balance2,
+              8,
+            )}`}
+          </div>
 
           {/*<ArrowDown />*/}
 
@@ -133,7 +145,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             }}
             methodName="addLiquidityToV1"
             contractName="BTCWrapperProxy"
-            className="tw-mt-5 tw-font-extralight"
+            className="tw-mt-6"
           />
 
           {/*{topupLocked?.maintenance_active && (*/}

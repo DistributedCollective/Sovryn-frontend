@@ -10,7 +10,10 @@
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
     "confirmed": "Confirmed",
-    "failed": "Failed"
+    "failed": "Failed",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "availableBalance": "Available Balance:"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -995,7 +998,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Asset:",
+        "asset": "Collateral:",
         "leverage": "Leverage:",
         "amount": "Amount:",
         "balance": "Available Balance: <0/> <1/>",
@@ -1069,11 +1072,14 @@
     "modals": {
       "deposit": {
         "title": "Deposit Liquidity",
-        "cta": "Deposit"
+        "cta": "Deposit",
+        "amount": "Amount:"
       },
       "withdraw": {
         "title": "Withdraw Liquidity",
-        "cta": "Withdraw"
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:"
       }
     },
     "lootDropLink": "Learn more",
