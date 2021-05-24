@@ -418,7 +418,7 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo à pagar."
+    "text": "Você não tem nenhum empréstimo a devolver."
   },
   "activeUserLoans": {
     "text": "Você não tem nenhuma operação de compra ou venda aberta.",
@@ -436,7 +436,6 @@
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Criptoativo",
       "currency_placeholder": "Escolha o criptoativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
@@ -447,10 +446,10 @@
     "btn": "Retirar"
   },
   "borrowActivity": {
-    "title": "Minhas dívidas",
+    "title": "Meus empréstimos",
     "tabs": {
-      "active": "À pagar",
-      "history": "Quitadas"
+      "active": "A devolver",
+      "history": "Devolvidos"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
