@@ -23,6 +23,7 @@ const REOPEN_TIME = 120e3; // 120 seconds
 const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
 export function ServiceWorkerToaster(props: Props) {
+  const [update, setUpdate] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const [swRegistration, setSwRegistration] = useState<
     ServiceWorkerRegistration
@@ -69,6 +70,7 @@ export function ServiceWorkerToaster(props: Props) {
   }, [oldSW, newSW]);
 
   const updateSW = () => {
+    setUpdate(true);
     if (swRegistration) {
       const waitingWorker = swRegistration && swRegistration.waiting;
       waitingWorker && waitingWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -99,6 +101,7 @@ export function ServiceWorkerToaster(props: Props) {
     });
     // eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     const intId = setInterval(() => fetchSw(false), CHECK_TIME);
     setIntervalId(intId);
@@ -122,6 +125,8 @@ export function ServiceWorkerToaster(props: Props) {
           <Button
             className="tw-mb-3"
             text={t(translations.serviceWorkerToaster.updateBtn)}
+            loading={update}
+            disabled={update}
             onClick={() => updateSW()}
           />
           {closeBtn && (

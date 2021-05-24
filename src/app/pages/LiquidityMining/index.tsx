@@ -43,7 +43,7 @@ export function LiquidityMining() {
             asset2={Asset.RBTC}
             startDate="24/05/21"
             endDate="30/05/21"
-            linkUrl="https://www.sovryn.app/blog"
+            linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />

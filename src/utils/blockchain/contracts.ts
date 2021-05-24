@@ -108,21 +108,21 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
-  ETH_token: {
-    address: '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3', // todo
-    abi: TestTokenABI,
-    blockNumber: 1408174,
-  },
+  // ETH_token: {
+  //   address: '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3', // todo
+  //   abi: TestTokenABI,
+  //   blockNumber: 1408174,
+  // },
   // ETH_lending: {
   //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
   //   abi: LoanTokenLogicStandard,
   //   blockNumber: 1406290,
   // },
-  ETH_amm: {
-    address: '0xBA25e656f4fb9389c1B07d23688867E88882E010', // todo
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
+  // ETH_amm: {
+  //   address: '0xBA25e656f4fb9389c1B07d23688867E88882E010', // todo
+  //   abi: LiquidityPoolV1Converter,
+  //   blockNumber: 1218833,
+  // },
   CrowdSale: {
     address: '0xd42070b07D4EAbb801d76c6929f21749647275Ec',
     abi: CrowdSaleAbi,

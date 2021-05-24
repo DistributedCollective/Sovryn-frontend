@@ -341,8 +341,7 @@
     },
     "PoolTransferDialog": {
       "title": "Pool Update",
-      "subtitle": "We have just updated our AMM pools and noticed you have provided liquidity in our old pools",
-      "note": "Please initiate the transfer of your liquidity to our new pools"
+      "subtitle": "We have updated the AMM smart contracts, in order to continue using liquidity pools with Sovryn UI and to earn Liquidity Mining rewards please click transfer for each pool you have liquidity in"
     }
   },
   "modal": {
