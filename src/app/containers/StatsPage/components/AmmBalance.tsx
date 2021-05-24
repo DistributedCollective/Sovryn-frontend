@@ -114,7 +114,7 @@ function Row(props) {
           </tr>
           <tr className="border-bottom">
             <td></td>
-            <td>BTC</td>
+            <td>RBTC</td>
             <td className="text-right">
               {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
