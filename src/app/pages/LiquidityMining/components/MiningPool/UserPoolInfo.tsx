@@ -20,9 +20,10 @@ import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiqu
 
 interface Props {
   pool: LiquidityPool;
+  onNonEmptyBalance: () => void;
 }
 
-export function UserPoolInfo({ pool }: Props) {
+export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const account = useAccount();
   const { value: poolData, loading: plnLoading } = useUserPoolData(pool);
 
@@ -45,6 +46,12 @@ export function UserPoolInfo({ pool }: Props) {
   const { value: reward2 } = useLiquidityMining_getUserAccumulatedReward(
     token2.getContractAddress(),
   );
+
+  useEffect(() => {
+    if (balance1 !== '0' || balance2 !== '0') {
+      onNonEmptyBalance();
+    }
+  }, [balance1, balance2, onNonEmptyBalance]);
 
   useEffect(() => {
     if (!account) return;
