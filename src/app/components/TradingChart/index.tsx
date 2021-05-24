@@ -91,10 +91,10 @@ export function TradingChart(props: ChartContainerProps) {
   return (
     <div
       className={cn(
-        'tw-w-full tw-h-full tw-bg-primary d-flex tw-rounded tw-overflow-hidden',
+        'tw-w-full tw-h-full d-flex tw-rounded tw-overflow-hidden',
         hasCharts && 'border',
       )}
-      style={{ minWidth: 450, minHeight: 500 }}
+      style={{ minWidth: 270, minHeight: 500 }}
     >
       <>
         <div

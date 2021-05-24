@@ -10,7 +10,10 @@
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
     "confirmed": "Confirmed",
-    "failed": "Failed"
+    "failed": "Failed",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "availableBalance": "Available Balance:"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -338,8 +341,7 @@
     },
     "PoolTransferDialog": {
       "title": "Pool Update",
-      "subtitle": "We have just updated our AMM pools and noticed you have provided liquidity in our old pools",
-      "note": "Please initiate the transfer of your liquidity to our new pools"
+      "subtitle": "We have updated the AMM smart contracts, in order to continue using liquidity pools with Sovryn UI and to earn Liquidity Mining rewards please click transfer for each pool you have liquidity in"
     }
   },
   "modal": {
@@ -995,7 +997,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Asset:",
+        "asset": "Collateral:",
         "leverage": "Leverage:",
         "amount": "Amount:",
         "balance": "Available Balance: <0/> <1/>",
@@ -1069,11 +1071,14 @@
     "modals": {
       "deposit": {
         "title": "Deposit Liquidity",
-        "cta": "Deposit"
+        "cta": "Deposit",
+        "amount": "Amount:"
       },
       "withdraw": {
         "title": "Withdraw Liquidity",
-        "cta": "Withdraw"
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:"
       }
     },
     "lootDropLink": "Learn more",

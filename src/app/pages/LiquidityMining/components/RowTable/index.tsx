@@ -47,18 +47,18 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
 
   return (
     <RowTable>
-      <thead className="tw-text-sm">
+      <thead className="tw-text-sm tw-tracking-normal">
         <tr>
-          <TableHeader isBold={true}>
+          <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.balance)}
           </TableHeader>
-          <TableHeader isBold={true}>
+          <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.pl)}
           </TableHeader>
-          <TableHeader isBold={true}>
+          <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.rewards)}
           </TableHeader>
-          <TableHeader isBold={true}>
+          <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.totalEarned)}
           </TableHeader>
         </tr>
@@ -74,7 +74,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
           </td>
         ) : (
           <>
-            <TableBodyData isBold={true}>
+            <TableBodyData>
               <div>
                 <LoadableValue
                   loading={loading1}
@@ -98,7 +98,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 />
               </div>
             </TableBodyData>
-            <TableBodyData isBold={true}>
+            <TableBodyData>
               <LoadableValue
                 loading={plnLoading}
                 value={
@@ -120,10 +120,10 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 }
               />
             </TableBodyData>
-            <TableBodyData isBold={true}>
+            <TableBodyData>
               <PoolTokenRewards pool={pool} />
             </TableBodyData>
-            <TableBodyData isBold={true}>
+            <TableBodyData>
               <LoadableValue
                 loading={loading1 || loading2 || plnLoading}
                 value={

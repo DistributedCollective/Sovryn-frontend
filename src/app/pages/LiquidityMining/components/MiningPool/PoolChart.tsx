@@ -286,14 +286,14 @@ export function PoolChart(props: Props) {
     <>
       <ComparisonChart
         primaryData={{
-          name: 'rBTC APY',
+          name: 'rBTC AER',
           color: '#FFAC3E',
           data: btcApr,
           numDecimals: 2,
           suffix: '%',
         }}
         secondaryData={{
-          name: `${props.pool.poolAsset} APY`,
+          name: `${props.pool.poolAsset} AER`,
           color: getAssetColor(props.pool.poolAsset),
           data: poolApr,
           numDecimals: 2,

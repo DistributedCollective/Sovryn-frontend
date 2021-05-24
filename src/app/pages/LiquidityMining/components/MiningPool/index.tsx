@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { translations } from '../../../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
@@ -9,12 +12,6 @@ import { UserPoolInfo } from './UserPoolInfo';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
-import { PieChart } from '../../../../components/FinanceV2Components/PieChart';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import {
-  getAmmContractName,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
@@ -26,33 +23,13 @@ interface Props {
 type DialogType = 'none' | 'add' | 'remove';
 
 export function MiningPool({ pool }: Props) {
+  const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
-
-  const firstAssetWeight = useCacheCallWithValue(
-    getAmmContractName(pool.poolAsset),
-    'reserveWeight',
-    '0',
-    getTokenContract(pool.supplyAssets[0].asset).address,
-  );
-
-  const secondAssetWeight = useCacheCallWithValue(
-    getAmmContractName(pool.poolAsset),
-    'reserveWeight',
-    '0',
-    getTokenContract(pool.supplyAssets[1].asset).address,
-  );
 
   const LeftSection = () => {
     return (
       <div className="tw-flex tw-items-center tw-mr-4">
-        <PieChart
-          firstAsset={pool.supplyAssets[0].asset}
-          secondAsset={pool.supplyAssets[1].asset}
-          firstPercentage={Number(firstAssetWeight.value) / 1e4}
-          secondPercentage={Number(secondAssetWeight.value) / 1e4}
-          className="tw-mr-4"
-        />
         {/* Assets and balances */}
         <div className="tw-flex tw-flex-col tw-justify-between">
           {pool.supplyAssets.map((item, index) => (
@@ -72,17 +49,17 @@ export function MiningPool({ pool }: Props) {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
-          text="Deposit"
+          text={t(translations.common.deposit)}
           onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg hover:tw-bg-ctaHover"
-          textClassName="tw-text-base tw-font-semibold"
+          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          textClassName="tw-text-base"
           disabled={!canInteract}
         />
         <ActionButton
-          text="Withdraw"
+          text={t(translations.common.withdraw)}
           onClick={() => setDialog('remove')}
-          className="tw-block tw-w-full tw-rounded-lg hover:tw-bg-ctaHover"
-          textClassName="tw-text-base tw-font-semibold"
+          className="tw-block tw-w-full tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          textClassName="tw-text-base"
           disabled={!canInteract}
         />
       </div>

@@ -5,7 +5,7 @@ import image from 'assets/images/arrow-down.svg';
 const Img = styled.img`
   width: 40px;
   height: 40px;
-  margin: 15px auto 20px;
+  margin: 15px auto;
 `;
 
 export function ArrowDown() {

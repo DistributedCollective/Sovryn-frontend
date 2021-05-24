@@ -10,6 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+import { currentNetwork } from './utils/classifiers';
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -26,7 +28,11 @@ type Config = {
 };
 
 export function register(config?: Config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    currentNetwork === 'mainnet' &&
+    'serviceWorker' in navigator
+  ) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -56,6 +62,9 @@ export function register(config?: Config) {
         registerValidSW(swUrl, config);
       }
     });
+  }
+  if (currentNetwork !== 'mainnet') {
+    unregister();
   }
 }
 

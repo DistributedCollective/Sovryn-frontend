@@ -109,7 +109,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   // ETH_token: {
-  //   address: '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3',
+  //   address: '0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c',
   //   abi: TestTokenABI,
   //   blockNumber: 1408174,
   // },
@@ -119,8 +119,8 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   // ETH_amm: {
-  //   address: '0xBA25e656f4fb9389c1B07d23688867E88882E010',
-  //   abi: LiquidityPoolV2Converter,
+  //   address: '0x21475506d808DaAf757092a5675cfa3804AB7239',
+  //   abi: LiquidityPoolV1Converter,
   //   blockNumber: 1218833,
   // },
   CrowdSale: {

@@ -17,6 +17,7 @@ export class AssetsDictionary {
         new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon),
       ],
       [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
+      // [Asset.ETH, new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon)],
       [
         Asset.DOC,
         new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),
@@ -26,8 +27,6 @@ export class AssetsDictionary {
         Asset.BPRO,
         new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
       ],
-      [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
-      // [Asset.ETH, new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon)],
       [
         Asset.CSOV,
         new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),

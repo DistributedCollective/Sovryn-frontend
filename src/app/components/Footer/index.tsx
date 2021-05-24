@@ -25,13 +25,13 @@ export function Footer() {
             />
           </h6>
           <div className="tw-font-light">
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans i18nKey={translations.footer.notice_1} />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans i18nKey={translations.footer.notice_2} />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans
                 i18nKey={translations.footer.notice_3}
                 components={[
@@ -45,7 +45,7 @@ export function Footer() {
                 ]}
               />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans
                 i18nKey={translations.footer.notice_4}
                 components={[
@@ -61,18 +61,6 @@ export function Footer() {
               />
             </p>
           </div>
-        </div>
-        <div className="small tw-text-lightGrey tw-mb-4">
-          Charts powered by{' '}
-          <a
-            href="https://www.highcharts.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tw-font-normal tw-text-lightGrey"
-          >
-            Highcharts
-          </a>
-          . All rights reserved.
         </div>
         <div className="tw-mb-6 small">
           <div
@@ -95,6 +83,18 @@ export function Footer() {
             </a>
           </div>
         )}
+        <div className="small tw-text-lightGrey tw-mb-1">
+          Charts powered by{' '}
+          <a
+            href="https://www.highcharts.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tw-font-normal tw-text-lightGrey"
+          >
+            Highcharts
+          </a>
+          . All rights reserved.
+        </div>
       </div>
       <OptOutDialog
         open={optDialogOpen}

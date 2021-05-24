@@ -172,3 +172,13 @@ export function makeId(length: number = 8): string {
   }
   return result;
 }
+
+export function fixNumber(amount: any) {
+  if (amount === Infinity || amount === 'Infinity' || amount === undefined) {
+    return 0;
+  }
+  if (isNaN(Number(amount))) {
+    return 0;
+  }
+  return amount;
+}

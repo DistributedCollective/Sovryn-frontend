@@ -22,9 +22,6 @@ export function PoolTransferDialog({ ...props }: Props) {
           <div className="tw-mb-6 tw-text-white tw-text-center tw-font-light tw-text-sm">
             {t(translations.liquidity.PoolTransferDialog.subtitle)}
           </div>
-          <p className="tw-mb-6 tw-text-white tw-text-center tw-text-lg">
-            {t(translations.liquidity.PoolTransferDialog.note)}
-          </p>
           <div>{props.children}</div>
         </div>
       </Dialog>

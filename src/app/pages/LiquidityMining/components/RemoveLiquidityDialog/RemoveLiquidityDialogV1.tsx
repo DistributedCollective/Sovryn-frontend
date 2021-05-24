@@ -189,22 +189,35 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
           <h1 className="tw-text-white tw-text-center tw-tracking-normal">
             {t(translations.liquidityMining.modals.withdraw.title)}
           </h1>
-          <FormGroup label="Amount:" className="tw-mt-5">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.withdraw.amount)}
+            className="tw-mt-5"
+          >
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
               asset={mainToken.asset}
+              subText={`${t(
+                translations.common.availableBalance,
+              )} ${weiToNumberFormat(balance, 8)}`}
               maxAmount={balance}
             />
           </FormGroup>
           <DummyInput
             value={weiToNumberFormat(sideWeiAmount, 8)}
             appendElem={<AssetRenderer asset={sideToken.asset} />}
-            className="tw-mt-8"
+            className="tw-mt-6 tw-h-9"
           />
-
+          <div className="tw-text-xs tw-font-thin tw-mt-1">
+            {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
+              sideBalance,
+              8,
+            )}`}
+          </div>
           <ArrowDown />
-          <FormGroup label="Reward:">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.withdraw.reward)}
+          >
             <DummyInput
               value={
                 <LoadableValue
@@ -219,7 +232,7 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
             args={txFeeArgs}
             methodName="removeLiquidityFromV1"
             contractName="BTCWrapperProxy"
-            className="tw-mt-5 tw-font-extralight"
+            className="tw-mt-6"
           />
           {/*{topupLocked?.maintenance_active && (*/}
           {/*  <ErrorBadge content={topupLocked?.message} />*/}

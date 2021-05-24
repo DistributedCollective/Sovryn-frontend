@@ -13,6 +13,7 @@ interface Props {
   onChange: (value: string) => void;
   decimalPrecision?: number;
   asset?: Asset;
+  subText?: string;
   placeholder?: string;
   maxAmount?: string;
 }
@@ -23,6 +24,7 @@ export function AmountInput({
   placeholder = '0.000000',
   decimalPrecision = 6,
   asset,
+  subText,
   maxAmount,
 }: Props) {
   return (
@@ -34,6 +36,9 @@ export function AmountInput({
         placeholder={placeholder}
         appendElem={asset ? <AssetRenderer asset={asset} /> : null}
       />
+      {subText && (
+        <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
+      )}
       {(asset || maxAmount !== undefined) && (
         <AmountSelector
           asset={asset}
@@ -76,7 +81,7 @@ function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value));
   };
   return (
-    <div className="tw-mt-4 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

@@ -124,16 +124,24 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
             onChange={value => setAsset(value)}
             options={assets}
           />
-          <FormGroup label="Amount:" className="tw-mt-8">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.withdraw.amount)}
+            className="tw-mt-8"
+          >
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
+              subText={`${t(
+                translations.common.availableBalance,
+              )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
               maxAmount={balance}
             />
           </FormGroup>
           <ArrowDown />
-          <FormGroup label="Reward:">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.withdraw.reward)}
+          >
             <DummyInput
               value={
                 <LoadableValue
@@ -148,7 +156,7 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
             args={txFeeArgs}
             methodName="removeLiquidityFromV2"
             contractName="BTCWrapperProxy"
-            className="tw-mt-5 tw-font-extralight"
+            className="tw-mt-6"
           />
           {/*{topupLocked?.maintenance_active && (*/}
           {/*  <ErrorBadge content={topupLocked?.message} />*/}

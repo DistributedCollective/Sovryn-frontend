@@ -10,6 +10,7 @@ import { CollateralAssets } from '../../../MarginTradePage/components/Collateral
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import {
@@ -84,10 +85,16 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             options={assets}
           />
 
-          <FormGroup label="Amount:" className="tw-mt-8">
+          <FormGroup
+            label={t(translations.liquidityMining.modals.deposit.amount)}
+            className="tw-mt-8"
+          >
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
+              subText={`${t(
+                translations.common.availableBalance,
+              )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
             />
           </FormGroup>
@@ -114,7 +121,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             args={txFeeArgs}
             methodName="addLiquidityToV2"
             contractName="BTCWrapperProxy"
-            className="tw-mt-5 tw-font-extralight"
+            className="tw-mt-6"
           />
 
           {/*{topupLocked?.maintenance_active && (*/}

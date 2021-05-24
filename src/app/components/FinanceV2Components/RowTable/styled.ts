@@ -6,6 +6,7 @@ interface ITableBodyDataProps {
 
 export const TableBodyData = styled.td<ITableBodyDataProps>`
   font-size: 0.75rem;
+  letter-spacing: 0;
   font-weight: ${props => (props.isBold ? '600' : '100')};
 `;
 

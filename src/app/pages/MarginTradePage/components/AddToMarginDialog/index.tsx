@@ -34,6 +34,7 @@ interface Props {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
+  liquidationPrice?: React.ReactNode;
 }
 
 export function AddToMarginDialog(props: Props) {
@@ -90,16 +91,18 @@ export function AddToMarginDialog(props: Props) {
 
           <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
             <DummyField>
-              <LiquidationPrice
-                asset={pair.shortAsset}
-                assetLong={pair.longAsset}
-                leverage={leverageFromMargin(props.item.startMargin)}
-                position={
-                  loanToken.asset === pair.longAsset
-                    ? TradingPosition.LONG
-                    : TradingPosition.SHORT
-                }
-              />
+              {props.liquidationPrice || (
+                <LiquidationPrice
+                  asset={pair.shortAsset}
+                  assetLong={pair.longAsset}
+                  leverage={leverageFromMargin(props.item.startMargin)}
+                  position={
+                    loanToken.asset === pair.longAsset
+                      ? TradingPosition.LONG
+                      : TradingPosition.SHORT
+                  }
+                />
+              )}
             </DummyField>
           </FormGroup>
 

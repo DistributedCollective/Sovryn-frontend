@@ -14,13 +14,11 @@ import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import cn from 'classnames';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
-  usePriceFeeds_tradingPairRates();
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
@@ -45,7 +43,7 @@ export function LiquidityMining() {
             asset2={Asset.RBTC}
             startDate="24/05/21"
             endDate="30/05/21"
-            linkUrl="https://www.sovryn.app/blog"
+            linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
@@ -88,7 +86,7 @@ export function LiquidityMining() {
 
         <div
           className={cn(
-            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5',
+            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',
             hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
           )}
         >
