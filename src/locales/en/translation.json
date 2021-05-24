@@ -1072,12 +1072,14 @@
       "deposit": {
         "title": "Deposit Liquidity",
         "cta": "Deposit",
+        "asset": "Asset:",
         "amount": "Amount:"
       },
       "withdraw": {
         "title": "Withdraw Liquidity",
         "cta": "Withdraw",
         "amount": "Amount:",
+        "asset": "Asset:",
         "reward": "Reward:"
       }
     },

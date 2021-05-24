@@ -83,6 +83,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             value={asset}
             onChange={value => setAsset(value)}
             options={assets}
+            label={t(translations.liquidityMining.modals.deposit.asset)}
           />
 
           <FormGroup

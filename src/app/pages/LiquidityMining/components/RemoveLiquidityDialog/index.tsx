@@ -123,6 +123,7 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
             value={asset}
             onChange={value => setAsset(value)}
             options={assets}
+            label={t(translations.liquidityMining.modals.withdraw.asset)}
           />
           <FormGroup
             label={t(translations.liquidityMining.modals.withdraw.amount)}
