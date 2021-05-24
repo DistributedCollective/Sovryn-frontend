@@ -99,7 +99,7 @@ export function ActiveLoanTableMobile(props: Props) {
   });
 
   return (
-    <div className="tw-bg-primary sovryn-border tw-p-4 tw-block md:tw-hidden">
+    <div className="sovryn-border tw-p-4 tw-block md:tw-hidden">
       <div className="sovryn-table sovryn-table-mobile tw-p-4">
         <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 table-header">
           <div className="tw-col-span-2" />

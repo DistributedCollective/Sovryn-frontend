@@ -11,7 +11,6 @@ export function useCustomContract(
   const contract = useRef<Contract>(null);
 
   useEffect(() => {
-    console.log('effect changed.', address, abi, canSend);
     // @ts-ignore
     contract.current = new (canSend
       ? Sovryn.getWriteWeb3()

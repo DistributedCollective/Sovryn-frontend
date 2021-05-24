@@ -43,6 +43,9 @@ interface ComparisonProps {
 
 export default function ComparisonChart(props: ComparisonProps) {
   const [options, setOptions] = useState<Highcharts.Options>({
+    credits: {
+      enabled: false,
+    },
     title: {
       text: props.title,
     },

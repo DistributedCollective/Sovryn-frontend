@@ -24,7 +24,7 @@ export function Arbitrage() {
     axios
       .get(api + '/amm/arbitrage')
       .then(res => setData(res.data))
-      .catch(e => console.log(e));
+      .catch(console.error);
   }, [api]);
 
   useEffect(() => {

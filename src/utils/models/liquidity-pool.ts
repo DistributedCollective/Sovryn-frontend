@@ -6,55 +6,70 @@ import { currentNetwork } from '../classifiers';
 type PoolVersion = 2 | 1;
 
 export class LiquidityPool {
-  private _assetDetails: AssetDetails;
-  private _version: PoolVersion = 2;
+  public readonly assetDetails: AssetDetails;
+  public version: PoolVersion = 2;
   constructor(
-    private _poolAsset: Asset,
-    private _supplyAssets: LiquidityPoolSupplyAsset[] = [],
+    public readonly poolAsset: Asset,
+    public readonly supplyAssets: LiquidityPoolSupplyAsset[] = [],
   ) {
-    this._assetDetails = AssetsDictionary.get(this._poolAsset);
+    this.assetDetails = AssetsDictionary.get(this.poolAsset);
   }
   public getName(): string {
-    return this._assetDetails.symbol;
+    return this.assetDetails.symbol;
   }
+
+  /**
+   * @deprecated use poolAsset prop instead
+   */
   public getAsset(): Asset {
-    return this._poolAsset;
+    return this.poolAsset;
   }
+
+  /**
+   * @deprecated use assetDetails prop instead
+   */
   public getAssetDetails(): AssetDetails {
-    return this._assetDetails;
+    return this.assetDetails;
   }
+
+  /**
+   * @deprecated use supplyAssets prop instead.
+   */
   public getSupplyAssets(): LiquidityPoolSupplyAsset[] {
-    return this._supplyAssets;
+    return this.supplyAssets;
   }
   public getPoolAsset(asset: Asset) {
-    return this._supplyAssets.find(item => item.getAsset() === asset);
+    return this.supplyAssets.find(item => item.getAsset() === asset);
   }
   public setVersion(version: PoolVersion) {
-    this._version = version;
+    this.version = version;
     return this;
   }
   public getVersion() {
-    return this._version;
+    return this.version;
   }
 }
 
 export class LiquidityPoolSupplyAsset {
-  private _assetDetails: AssetDetails;
-  constructor(private _asset: Asset, private _poolTokens: LiquidityPoolTokens) {
-    this._assetDetails = AssetsDictionary.get(this._asset);
+  public readonly assetDetails: AssetDetails;
+  constructor(
+    public readonly asset: Asset,
+    public readonly poolTokens: LiquidityPoolTokens,
+  ) {
+    this.assetDetails = AssetsDictionary.get(this.asset);
   }
   public getAsset() {
-    return this._asset;
+    return this.asset;
   }
   public getAssetDetails() {
-    return this._assetDetails;
+    return this.assetDetails;
   }
   public getContractAddress(): string {
-    if (this._poolTokens.hasOwnProperty(currentNetwork)) {
-      return this._poolTokens[currentNetwork];
+    if (this.poolTokens.hasOwnProperty(currentNetwork)) {
+      return this.poolTokens[currentNetwork];
     }
     throw new Error(
-      'Pool token is not defined for ' + this._asset + ' on ' + currentNetwork,
+      'Pool token is not defined for ' + this.asset + ' on ' + currentNetwork,
     );
   }
 }

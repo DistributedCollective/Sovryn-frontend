@@ -3,19 +3,16 @@
  * Footer
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import OptOutDialog from '../OptOutDialog';
 
 export function Footer() {
   const { t } = useTranslation();
-  const [hasGA, setHasGA] = useState(false);
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
-
-  useEffect(() => {
-    setHasGA(window.hasOwnProperty('ga') || window.hasOwnProperty('gtag'));
-  }, []);
+  const [optDialogOpen, setOptDialogOpen] = useState<boolean>(false);
 
   return (
     <footer className="tw-mt-4">
@@ -28,13 +25,13 @@ export function Footer() {
             />
           </h6>
           <div className="tw-font-light">
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans i18nKey={translations.footer.notice_1} />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans i18nKey={translations.footer.notice_2} />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans
                 i18nKey={translations.footer.notice_3}
                 components={[
@@ -48,7 +45,7 @@ export function Footer() {
                 ]}
               />
             </p>
-            <p className="tw-mb-4">
+            <p className="tw-mb-1">
               <Trans
                 i18nKey={translations.footer.notice_4}
                 components={[
@@ -65,25 +62,14 @@ export function Footer() {
             </p>
           </div>
         </div>
-        {hasGA && (
-          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-text-lightGrey tw-mb-6">
-            <a
-              title="GoogleAnalyticsOptout"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={
-                navigator.userAgent.indexOf('Chrome/') > 0
-                  ? 'https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh?hl=en'
-                  : 'https://tools.google.com/dlpage/gaoptout'
-              }
-            >
-              <Trans
-                i18nKey={translations.footer.optOut}
-                components={[<strong></strong>]}
-              />
-            </a>
+        <div className="tw-mb-6 small">
+          <div
+            className="tw-cursor-pointer hover:tw-underline tw-font-light tw-text-gold"
+            onClick={e => setOptDialogOpen(true)}
+          >
+            {t(translations.footer.optOut)}
           </div>
-        )}
+        </div>
         {commitHash && (
           <div className="small tw-text-white">
             {t(translations.footer.buildID)}:{' '}
@@ -97,7 +83,23 @@ export function Footer() {
             </a>
           </div>
         )}
+        <div className="small tw-text-lightGrey tw-mb-1">
+          Charts powered by{' '}
+          <a
+            href="https://www.highcharts.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tw-font-normal tw-text-lightGrey"
+          >
+            Highcharts
+          </a>
+          . All rights reserved.
+        </div>
       </div>
+      <OptOutDialog
+        open={optDialogOpen}
+        onClose={() => setOptDialogOpen(false)}
+      />
     </footer>
   );
 }

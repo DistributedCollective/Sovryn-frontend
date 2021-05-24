@@ -231,7 +231,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td className="d-none d-lg-table-cell">
-        <AssetRenderer asset={order.pairAsset[0]} /> -
+        <AssetRenderer asset={order.pairAsset[0]} />-
         <AssetRenderer asset={order.pairAsset[1]} />
       </td>
       <td className="tw-font-bold">

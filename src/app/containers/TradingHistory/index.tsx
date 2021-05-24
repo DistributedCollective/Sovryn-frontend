@@ -6,7 +6,7 @@ import { EventData } from 'web3-eth-contract';
 import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { TradingPosition } from '../../../types/trading-position';
 import {
@@ -336,7 +336,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   } = useTable({ columns, data }, useSortBy);
 
   return (
-    <div className="tw-bg-primary tw-p-6 sovryn-border">
+    <div className="tw-p-6 sovryn-border">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

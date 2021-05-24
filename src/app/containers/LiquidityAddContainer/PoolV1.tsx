@@ -17,7 +17,7 @@ import { AmountField } from '../AmountField';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { maxMinusFee } from '../../../utils/helpers';
 import { LiquidityPool } from '../../../utils/models/liquidity-pool';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { DummyField } from '../../components/DummyField';
 import { BalanceV1 } from './BalanceV1';
 import { useApproveAndAddV1Liquidity } from '../../hooks/amm/useApproveAndAddV1Liquidity';
@@ -26,14 +26,16 @@ import { TradeButton } from '../../components/TradeButton';
 import { bignumber } from 'mathjs';
 import { usePoolToken } from '../../hooks/amm/usePoolToken';
 import { SendTxProgress } from '../../components/SendTxProgress';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useSelector } from 'react-redux';
+import { selectWalletProvider } from '../WalletProvider/selectors';
 
 interface Props {
   pool: LiquidityPool;
 }
 
 export function PoolV1(props: Props) {
-  const rates = usePriceFeeds_tradingPairRates();
+  const { assetRates: rates } = useSelector(selectWalletProvider);
+
   const { t } = useTranslation();
   const isConnected = useCanInteract();
 
