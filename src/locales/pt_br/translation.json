@@ -1023,12 +1023,14 @@
       "deposit": {
         "title": "Adicionar liquidez",
         "cta": "Depositar",
+        "asset": "Ativo:",
         "amount": "Quantidade:"
       },
       "withdraw": {
         "title": "Retirar liquidez",
         "cta": "Resgatar",
         "amount": "Quantidade:",
+        "asset": "Ativo:",
         "reward": "Recompensa:"
       }
     },
