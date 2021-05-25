@@ -47,6 +47,56 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
     token2.getContractAddress(),
   );
 
+  const pln = useMemo(() => {
+    const pl1 = poolData.data.find(item => item.asset === token1.asset);
+    const pl2 = poolData.data.find(item => item.asset === token2.asset);
+    let pln1 = '0';
+    let pln2 = '0';
+
+    if (pl1?.totalAdded && pl1?.totalAdded !== '0') {
+      pln1 = bignumber(pl1?.removedMinusAdded || '0')
+        .add(balance1)
+        .toFixed(0);
+    }
+
+    if (pl2?.totalAdded && pl2?.totalAdded !== '0') {
+      pln2 = bignumber(pl2?.removedMinusAdded || '0')
+        .add(balance2)
+        .toFixed(0);
+    }
+
+    return {
+      pl1: pln1,
+      pl2: pln2,
+    };
+  }, [poolData, token1, token2, balance1, balance2]);
+
+  const totalEarned = useMemo(() => {
+    const p1 = bignumber(pln.pl1).mul(rate1.rate).div(rate1.precision);
+    const p2 = bignumber(pln.pl2).mul(rate2.rate).div(rate2.precision);
+    const r1 = bignumber(reward1).mul(sovRate.rate).div(sovRate.precision);
+    const r2 =
+      pool.version === 1
+        ? '0'
+        : bignumber(reward2).mul(sovRate.rate).div(sovRate.precision);
+
+    const result = p1.add(p2).add(r1).add(r2).toFixed(0);
+
+    return isNaN(Number(result)) ? '0' : result;
+  }, [
+    pln.pl1,
+    pln.pl2,
+    rate1.rate,
+    rate1.precision,
+    rate2.rate,
+    rate2.precision,
+    reward1,
+    sovRate.rate,
+    sovRate.precision,
+    pool.version,
+    reward2,
+  ]);
+
   useEffect(() => {
     if (balance1 !== '0' || balance2 !== '0') {
       onNonEmptyBalance();
@@ -144,56 +194,16 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
         })
         .catch(console.error);
     }
-  }, [account, pool, token1, token2]);
-
-  const pln = useMemo(() => {
-    const pl1 = poolData.data.find(item => item.asset === token1.asset);
-    const pl2 = poolData.data.find(item => item.asset === token2.asset);
-    let pln1 = '0';
-    let pln2 = '0';
-
-    if (pl1?.totalAdded && pl1?.totalAdded !== '0') {
-      pln1 = bignumber(pl1?.removedMinusAdded || '0')
-        .add(balance1)
-        .toFixed(0);
-    }
-
-    if (pl2?.totalAdded && pl2?.totalAdded !== '0') {
-      pln2 = bignumber(pl2?.removedMinusAdded || '0')
-        .add(balance2)
-        .toFixed(0);
-    }
-
-    return {
-      pl1: pln1,
-      pl2: pln2,
-    };
-  }, [poolData, token1, token2, balance1, balance2]);
-
-  const totalEarned = useMemo(() => {
-    const p1 = bignumber(pln.pl1).mul(rate1.rate).div(rate1.precision);
-    const p2 = bignumber(pln.pl2).mul(rate2.rate).div(rate2.precision);
-    const r1 = bignumber(reward1).mul(sovRate.rate).div(sovRate.precision);
-    const r2 =
-      pool.version === 1
-        ? '0'
-        : bignumber(reward2).mul(sovRate.rate).div(sovRate.precision);
-
-    const result = p1.add(p2).add(r1).add(r2).toFixed(0);
-
-    return isNaN(Number(result)) ? '0' : result;
   }, [
+    account,
+    pool,
+    token1,
+    token2,
+    reward1,
+    reward2,
     pln.pl1,
     pln.pl2,
-    rate1.rate,
-    rate1.precision,
-    rate2.rate,
-    rate2.precision,
-    reward1,
-    sovRate.rate,
-    sovRate.precision,
-    pool.version,
-    reward2,
+    totalEarned,
   ]);
 
   return (
