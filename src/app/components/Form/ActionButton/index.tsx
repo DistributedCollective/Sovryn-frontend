@@ -58,3 +58,20 @@ ActionButton.defaultProps = {
   type: 'button',
   className: 'tw-btn-action tw-flex tw-items-center tw-justify-center',
 };
+
+interface LinkProps extends React.AnchorHTMLAttributes<any> {
+  text: React.ReactNode;
+}
+
+export function ActionLink({ text, ...props }: LinkProps) {
+  return (
+    <a
+      {...props}
+      className={cn(
+        'tw-btn-action tw-flex tw-flex-row tw-justify-center tw-items-center tw-no-underline hover:tw-no-underline',
+      )}
+    >
+      <span className={cn('tw-truncate')}>{text}</span>
+    </a>
+  );
+}

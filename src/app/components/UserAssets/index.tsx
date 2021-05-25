@@ -1,4 +1,4 @@
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton, ActionLink } from 'form/ActionButton';
 import { bignumber } from 'mathjs';
 /**
  *
@@ -27,6 +27,7 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
+import { currentNetwork } from '../../../utils/classifiers';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -178,8 +179,20 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
           )}
           {item.asset === Asset.RBTC && (
             <ActionButton
-              text={t(translations.userAssets.actions.deposit)}
+              text={t(translations.userAssets.actions.fastBtc)}
               onClick={() => onFastBtc()}
+            />
+          )}
+          {item.asset === Asset.ETH && (
+            <ActionLink
+              text={t(translations.userAssets.actions.deposit)}
+              href={
+                currentNetwork === 'mainnet'
+                  ? 'https://bridge.sovryn.app'
+                  : 'https://bridge.test.sovryn.app'
+              }
+              target="_blank"
+              rel="noreferrer noopener"
             />
           )}
           {item.asset !== Asset.SOV && (
