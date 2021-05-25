@@ -70,7 +70,8 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
   usePoolToken(pool.poolAsset, pool.poolAsset);
 
   const {
-    value: { amount: poolTokenBalance },
+    value: { amount: poolTokenBalance, accumulatedReward },
+    loading,
   } = useLiquidityMining_getUserInfo(mainToken.getContractAddress());
 
   const { value: supply } = useCacheCallWithValue(
@@ -180,6 +181,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
     pool.supplyAssets[0].getContractAddress(),
   );
 
+  const reward = useMemo(
+    () => bignumber(rewards.value).add(accumulatedReward).toFixed(0),
+    [rewards.value, accumulatedReward],
+  );
+
   const handleConfirm = () => withdraw();
 
   return (
@@ -221,8 +227,8 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
             <DummyInput
               value={
                 <LoadableValue
-                  loading={rewards.loading}
-                  value={weiToNumberFormat(rewards.value, 6)}
+                  loading={rewards.loading || loading}
+                  value={weiToNumberFormat(reward, 6)}
                 />
               }
               appendElem={<AssetRenderer asset={Asset.SOV} />}
