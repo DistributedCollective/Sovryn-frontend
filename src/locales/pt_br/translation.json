@@ -690,7 +690,8 @@
       "action": "Ação"
     },
     "actions": {
-      "deposit": "FastBTC",
+      "deposit": "Bridge",
+      "fastBtc": "FastBTC",
       "swap": "Trocar",
       "trade": "Margem",
       "buy": "Comprar",
