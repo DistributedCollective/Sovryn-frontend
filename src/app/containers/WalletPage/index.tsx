@@ -37,7 +37,7 @@ export function WalletPage() {
       </Helmet>
       <Header />
 
-      <div className="tw-container tw-mx-auto tw-px-4">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-mt-4">
         <OriginClaimBanner />
       </div>
 
