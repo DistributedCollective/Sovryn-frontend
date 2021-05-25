@@ -1,12 +1,13 @@
 @layer base {
   body {
     @apply tw-bg-dark tw-text-white tw-font-body;
+    font-variant-numeric: tabular-nums;
   }
 
   * {
     @apply tw-font-body;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply tw-text-white;
   }

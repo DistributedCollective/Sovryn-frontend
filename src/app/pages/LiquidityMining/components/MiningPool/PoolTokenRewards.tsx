@@ -29,7 +29,7 @@ function PoolTokenRewardsV1({ pool }: Props) {
       value={
         <ProfitLossRenderer
           isProfit={true}
-          amount={weiToNumberFormat(value, 4)}
+          amount={weiToNumberFormat(value, 6)}
           asset={Asset.SOV}
         />
       }
@@ -58,7 +58,7 @@ function PoolTokenRewardsV2({ pool }: Props) {
         value={
           <ProfitLossRenderer
             isProfit={true}
-            amount={weiToNumberFormat(token1, 4)}
+            amount={weiToNumberFormat(token1, 6)}
             asset={Asset.SOV}
           />
         }
@@ -68,7 +68,7 @@ function PoolTokenRewardsV2({ pool }: Props) {
         value={
           <ProfitLossRenderer
             isProfit={true}
-            amount={weiToNumberFormat(token2, 4)}
+            amount={weiToNumberFormat(token2, 6)}
             asset={Asset.SOV}
           />
         }
