@@ -108,11 +108,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
-  // ETH_token: {
-  //   address: '0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c',
-  //   abi: TestTokenABI,
-  //   blockNumber: 1408174,
-  // },
+  ETH_token: {
+    address: '0x499bB1355B36aDeb93706B08A897CE6022de6aC9',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
   // ETH_lending: {
   //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
   //   abi: LoanTokenLogicStandard,
