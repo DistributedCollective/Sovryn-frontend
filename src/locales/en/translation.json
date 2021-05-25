@@ -10,7 +10,10 @@
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
     "confirmed": "Confirmed",
-    "failed": "Failed"
+    "failed": "Failed",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "availableBalance": "Available Balance:"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -199,8 +202,14 @@
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
     "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
-    "optOut": "Opt-out from <0>Google Analytics</0>",
+    "optOut": "Opt-out from Google Analytics",
     "buildID": "Build ID"
+  },
+  "analyticsDialog": {
+    "title": "Analytics Settings",
+    "message_1": "We would like to collect some analytics data from you in order to improve user experience. If you would prefer to opt out of this, please unselect the checkbox below and click 'Confirm'.",
+    "option": "Allow Sovryn to collect analytics data",
+    "message_2": "Please refresh the page after confirming to ensure the analytics are disabled."
   },
   "mainMenu": {
     "buySov": "Buy SOV",
@@ -210,7 +219,8 @@
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Market-making",
+    "liquidity": "Liquidity-mining",
+    "reward": "Reward SOV",
     "staking": "Staking",
     "governance": "Governance",
     "wallet": "Portfolio",
@@ -324,8 +334,14 @@
     "fee": "fee",
     "supply": "Supply",
     "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "transferNote": "Please initiate the transfer of your liquidity to our new pools",
     "v1": {
       "balance": "Available balance"
+    },
+    "PoolTransferDialog": {
+      "title": "Pool Update",
+      "subtitle": "We have updated the AMM smart contracts, in order to continue using liquidity pools with Sovryn UI and to earn Liquidity Mining rewards please click transfer for each pool you have liquidity in"
     }
   },
   "modal": {
@@ -349,6 +365,7 @@
     "emailSettingsBtn_get": "Get email notifications",
     "dialog": {
       "title": "Email Notifications",
+      "want": "Receive email notifications about margin calls and liquidated positions",
       "form": {
         "name": {
           "label": "Name / Pseudonym",
@@ -722,7 +739,8 @@
     "actions": {
       "deposit": "FastBTC",
       "swap": "Swap",
-      "trade": "Trade",
+      "trade": "Margin Trade",
+      "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
@@ -890,8 +908,8 @@
     }
   },
   "fastBtcDialog": {
-    "title": "Get rBTC",
-    "subtitle": "Deposit BTC or fiat to receive rBTC in your wallet",
+    "title": "Top Up FastBTC",
+    "subtitle": "Deposit BTC to receive rBTC in your wallet",
     "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
     "limits": {
       "title": "Deposit limits:",
@@ -903,17 +921,25 @@
       "title": "Instructions:",
       "point1": "Do not deposit anything other than BTC",
       "point2": "Do not send more BTC than the MAX limit",
-      "point3": "Allow  15 mins for the transaction to process",
+      "point3": "Allow up to 60 mins for the transaction to process",
+      "point4": "If rBTC is not visible on your wallet after 60 mins open a ",
+      "point4LinkText": "support ticket",
       "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
     },
     "fiatDialog": {
-      "title": "Buy rBTC with fiat:",
-      "explanation": "By clicking the button down below you will open a fiat on ramp. Make sure that the BTC address you are sending your funds to is the same than the one below. FastBTC will do the conversion to rBTC for you in the background. Keep in mind the {{amount}} limit"
+      "title": "Buy <0>RBTC</0> with fiat",
+      "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
+      "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
+      "instructions": {
+        "point1": "Do not buy more BTC than the MAX limit above",
+        "point2": "Allow  15 mins for the transaction to process",
+        "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
+      }
     },
     "qr": {
       "title": "Send BTC to this address:"
     },
-    "buttonBTC": "Get rBTC with BTC",
+    "buttonBTC": "Generate deposit address",
     "buttonFiat": "Get rBTC with fiat",
     "transaction": {
       "title": "Transaction Details",
@@ -939,6 +965,30 @@
     "receiver": "Receive SOV to:",
     "calculating": "Calculating..."
   },
+  "rewardPage": {
+    "meta": {
+      "title": "Reward",
+      "description": "Reward SOV"
+    },
+    "claimForm": {
+      "title": "Available Rewards",
+      "availble": "Total Reward SOV Available:",
+      "cta": "claim",
+      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
+    },
+    "totalEarned": "Total Rewards Earned:",
+    "topData": {
+      "referralRewards": "Referral Rewards",
+      "referrals": "Number of referrals:",
+      "availableRewards": "Available Rewards:",
+      "totalRewards": "Total Rewards Earned:",
+      "liquidityRewards": "Liquidity Rewards",
+      "lockedRewards": "Locked Rewards:",
+      "claimibleRewards": "Claimible Rewards",
+      "OGRewards": "OG Rewards"
+    }
+  },
   "marginTradePage": {
     "meta": {
       "title": "Margin Trade",
@@ -947,7 +997,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Asset:",
+        "asset": "Collateral:",
         "leverage": "Leverage:",
         "amount": "Amount:",
         "balance": "Available Balance: <0/> <1/>",
@@ -996,7 +1046,43 @@
       "yourShare_D": "total liquidity added * number of blocks held",
       "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
       "comingSoon": "Coming Soon"
-    }
+    },
+    "historyTable": {
+      "title": "Liquidity History",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "liquidityAmount": "Liquidity Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "You have no liquidity provided",
+      "tableHeaders": {
+        "totalEarned": "Total Earned",
+        "balance": "Balance",
+        "pl": "P/L",
+        "rewards": "Rewards"
+      }
+    },
+    "modals": {
+      "deposit": {
+        "title": "Deposit Liquidity",
+        "cta": "Deposit",
+        "amount": "Amount:"
+      },
+      "withdraw": {
+        "title": "Withdraw Liquidity",
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:"
+      }
+    },
+    "lootDropLink": "Learn more",
+    "chartOverlayText": "AER% Coming Soon!"
   },
   "buySovPage": {
     "meta": {

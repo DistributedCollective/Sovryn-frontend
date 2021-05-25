@@ -24,6 +24,8 @@ import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import LiquidityMiningAbi from './abi/LiquidityMining.json';
+import LockedSovAbi from './abi/LockedSOV.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -32,7 +34,7 @@ export const contracts = {
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
-    address: '0xA3B6E18B9A4ECAE44C7355458Ae7Db8874018C22',
+    address: '0xa917BF723433d020a15629eba71f6C2a6B38e52d',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
   },
@@ -106,6 +108,21 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  ETH_token: {
+    address: '0x1D931Bf8656d795E50eF6D639562C5bD8Ac2B78f',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // ETH_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  // ETH_amm: {
+  //   address: '0xBA25e656f4fb9389c1B07d23688867E88882E010', // todo
+  //   abi: LiquidityPoolV1Converter,
+  //   blockNumber: 1218833,
+  // },
   CrowdSale: {
     address: '0xd42070b07D4EAbb801d76c6929f21749647275Ec',
     abi: CrowdSaleAbi,
@@ -182,5 +199,13 @@ export const contracts = {
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
     abi: EscrowRewardsAbi,
+  },
+  liquidityMiningProxy: {
+    address: '0xf730af26e87D9F55E46A6C447ED2235C385E55e0',
+    abi: LiquidityMiningAbi,
+  },
+  lockedSov: {
+    address: '0xB4e4517cA4Edf591Dcafb702999F04f02E57D978',
+    abi: LockedSovAbi,
   },
 };

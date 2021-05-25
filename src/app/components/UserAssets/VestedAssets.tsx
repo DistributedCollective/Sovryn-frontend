@@ -1,4 +1,3 @@
-import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -6,9 +5,9 @@ import { bignumber } from 'mathjs';
  */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -17,7 +16,6 @@ import {
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
 import { AssetDetails } from '../../../utils/models/asset-details';
-import { usePriceFeeds_tradingPairRates } from '../../hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { LoadableValue } from '../LoadableValue';
@@ -28,7 +26,6 @@ import { ActionButton } from 'form/ActionButton';
 
 export function VestedAssets() {
   const { t } = useTranslation();
-  usePriceFeeds_tradingPairRates();
   const connected = useIsConnected();
   const account = useAccount();
 

@@ -1,3 +1,7 @@
+import { AmountInput } from 'form/AmountInput';
+import { DialogButton } from 'form/DialogButton';
+import { ErrorBadge } from 'form/ErrorBadge';
+import { FormGroup } from 'form/FormGroup';
 /**
  *
  * AddToMarginDialog
@@ -6,32 +10,32 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
-import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
-import { Dialog } from '../../../../containers/Dialog/Loadable';
-import { useCanInteract } from '../../../../hooks/useCanInteract';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
-import { AmountInput } from 'form/AmountInput';
-import { FormGroup } from 'form/FormGroup';
-import { TxFeeCalculator } from '../TxFeeCalculator';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { DialogButton } from 'form/DialogButton';
-import { ErrorBadge } from 'form/ErrorBadge';
-import { LiquidationPrice } from '../LiquidationPrice';
-import { DummyField } from '../../../../components/DummyField';
-import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
-import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
+
 import { TradingPosition } from '../../../../../types/trading-position';
+import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
+import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
+import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { DummyField } from '../../../../components/DummyField';
+import { Dialog } from '../../../../containers/Dialog/Loadable';
+import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
+import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
+import { useCanInteract } from '../../../../hooks/useCanInteract';
+import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
+import { useMaintenance } from '../../../../hooks/useMaintenance';
+import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { LiquidationPrice } from '../LiquidationPrice';
+import { TxFeeCalculator } from '../TxFeeCalculator';
+
 import type { ActiveLoan } from 'types/active-loan';
 
 interface Props {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
+  liquidationPrice?: React.ReactNode;
 }
 
 export function AddToMarginDialog(props: Props) {
@@ -88,16 +92,18 @@ export function AddToMarginDialog(props: Props) {
 
           <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
             <DummyField>
-              <LiquidationPrice
-                asset={pair.shortAsset}
-                assetLong={pair.longAsset}
-                leverage={leverageFromMargin(props.item.startMargin)}
-                position={
-                  loanToken.asset === pair.longAsset
-                    ? TradingPosition.LONG
-                    : TradingPosition.SHORT
-                }
-              />
+              {props.liquidationPrice || (
+                <LiquidationPrice
+                  asset={pair.shortAsset}
+                  assetLong={pair.longAsset}
+                  leverage={leverageFromMargin(props.item.startMargin)}
+                  position={
+                    loanToken.asset === pair.longAsset
+                      ? TradingPosition.LONG
+                      : TradingPosition.SHORT
+                  }
+                />
+              )}
             </DummyField>
           </FormGroup>
 

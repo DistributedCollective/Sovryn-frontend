@@ -17,7 +17,7 @@
     border-radius: 10px;
     @apply tw-w-full tw-h-full tw-py-6;
     width: 158px;
-    margin: 24px 82px;
+    margin: 0 82px 24px 82px;
   }
   .tw-qrcode-wrapper path:first-child {
     @apply tw-fill-current tw-text-white;
@@ -35,6 +35,7 @@
     @apply tw-rounded-lg;
     @apply tw-border tw-border-dark-1 tw-border-solid;
     @apply tw-bg-gray-2;
+    @apply tw-text-sm tw-font-extralight;
   }
   .tw-qrcode-clipboard .tw-qrcode-address-wrapper svg path:nth-child(2) {
     @apply tw-fill-current tw-text-secondary;

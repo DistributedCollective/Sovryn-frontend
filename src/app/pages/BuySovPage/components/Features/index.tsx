@@ -73,7 +73,7 @@ export function Features() {
         }
         image={imgSwap}
         cta={t(translations.buySovPage.features.swap.cta)}
-        href="/trade?swap"
+        href="/swap"
         reverse
       />
 
@@ -112,7 +112,7 @@ export function Features() {
         }
         image={imgLending}
         cta={t(translations.buySovPage.features.lending.cta)}
-        href="/loans"
+        href="/lend"
         reverse
       />
       <StakeVote />

@@ -25,7 +25,10 @@ export const weiToBigInt = (amount: any) => {
 };
 
 export const roundToSmaller = (amount: any, decimals: number): string => {
-  const bn = bignumber(amount);
+  if (amount === Infinity) {
+    amount = '0';
+  }
+  const bn = bignumber(amount || '0');
   let [integer, decimal] = bn.toFixed(128).split('.');
 
   if (decimal && decimal.length) {
@@ -49,6 +52,9 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
   switch (unit) {
     case 'ether':
       decimals = 18;
+      break;
+    case 'gwei':
+      decimals = 9;
       break;
     default:
       throw new Error('Unsupported unit (custom fromWei helper)');

@@ -60,3 +60,35 @@ export function Input({
 Input.defaultProps = {
   inputClassName: 'tw-text-left',
 };
+
+interface DummyProps {
+  value: React.ReactNode;
+  appendElem?: React.ReactNode;
+  className?: string;
+  inputClassName?: string;
+  readOnly?: boolean;
+}
+
+export function DummyInput({
+  value,
+  appendElem,
+  className,
+  inputClassName,
+  ...props
+}: DummyProps) {
+  return (
+    <div
+      className={cn('tw-input-wrapper', className, {
+        readonly: props.readOnly,
+      })}
+    >
+      <div className={cn('tw-input', inputClassName)}>{value}</div>
+      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+    </div>
+  );
+}
+
+DummyInput.defaultProps = {
+  inputClassName: 'tw-text-left',
+  readOnly: true,
+};

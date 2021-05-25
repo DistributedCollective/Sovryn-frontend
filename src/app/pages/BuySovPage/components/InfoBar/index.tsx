@@ -2,15 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
 // import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { useFetch } from '../../../../hooks/useFetch';
 
 export function InfoBar() {
   const { t } = useTranslation();
@@ -49,20 +46,17 @@ export function InfoBar() {
       });
   }, []);
 
-  // const {
-  //   value: totalSupply,
-  //   loading: totalSupplyLoading,
-  // } = useCacheCallWithValue('SOV_token', 'totalSupply', '0');
-
-  const totalSupply = 2370000e18;
-  const totalSupplyLoading = false;
+  const {
+    value: { circulating_supply: totalSupply },
+    loading: totalSupplyLoading,
+  } = useFetch<{ circulating_supply: number; insertion_time: Date }>(
+    backendUrl[currentChainId] + '/sov/circulating-supply',
+    { circulating_supply: 0 },
+  );
 
   const marketCap = useMemo(() => {
     return (
-      (Number(btcToUsd.value) *
-        (Number(price.value) / 1e8) *
-        Number(totalSupply)) /
-      1e18
+      Number(btcToUsd.value) * (Number(price.value) / 1e8) * Number(totalSupply)
     );
   }, [btcToUsd.value, price.value, totalSupply]);
 
@@ -89,8 +83,8 @@ export function InfoBar() {
           <Text ellipsize tagName="p">
             <LoadableValue
               loading={totalSupplyLoading}
-              value={weiToNumberFormat(totalSupply, 2)}
-              tooltip={weiTo18(totalSupply)}
+              value={toNumberFormat(totalSupply, 2)}
+              tooltip={totalSupply}
             />{' '}
             SOV
           </Text>

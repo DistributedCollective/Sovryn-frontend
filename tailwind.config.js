@@ -1,5 +1,6 @@
 module.exports = {
   prefix: 'tw-',
+  important: true,
   purge: [
     './src/app/components/**/*.{ts,tsx}',
     './src/app/containers/**/*.{ts,tsx}',
@@ -25,12 +26,19 @@ module.exports = {
     fontFamily: {
       body: ['Montserrat', 'sans-serif'],
     },
-    maxWidth: {
-      '65': '65%',
-      '70': '70%',
-      '75': '75%',
-      '77': '77%',
-      '80': '80%',
+    fontSize: {
+      tiny: '.7rem',
+      xs: '.75rem',
+      sm: '.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '4rem',
+      '7xl': '5rem',
     },
     colors: {
       // new
@@ -44,6 +52,7 @@ module.exports = {
       black: '#000000',
 
       cta: '#fec004',
+      ctaHover: '#FEC00440',
       input: '#2274A5',
       tradingLong: '#17C3B2',
       tradingShort: '#D74E09',
@@ -100,7 +109,21 @@ module.exports = {
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
     },
-    extend: {},
+    extend: {
+      maxWidth: {
+        '8.75-rem': '8.75rem',
+        '13rem': '13rem',
+        '65': '65%',
+        '70': '70%',
+        '75': '75%',
+        '77': '77%',
+        '80': '80%',
+      },
+      width: {
+        '155': '38.75rem',
+        '163': '40.75rem',
+      },
+    },
   },
   variants: {
     opacity: ['responsive', 'hover'],

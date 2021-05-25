@@ -10,6 +10,9 @@ import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
+/**
+ * use this only once
+ */
 export function usePriceFeeds_tradingPairRates() {
   const { syncBlockNumber, assetRates } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
@@ -47,7 +50,9 @@ export function usePriceFeeds_tradingPairRates() {
           target === Asset.CSOV || // todo: remove when oracle will have price
           source === Asset.CSOV ||
           target === Asset.SOV ||
-          source === Asset.SOV
+          source === Asset.SOV ||
+          target === Asset.ETH ||
+          source === Asset.ETH
         ) {
           continue;
         }
@@ -111,7 +116,48 @@ export function usePriceFeeds_tradingPairRates() {
         },
       });
     } catch (e) {
-      console.error(e);
+      console.error('Failed to retrieve sov price', e);
+    }
+
+    try {
+      const btcToEth = await getSwapRate(Asset.RBTC, Asset.ETH, '1');
+
+      items.push({
+        source: Asset.RBTC,
+        target: Asset.ETH,
+        value: {
+          precision: '1000000000000000000',
+          rate: toWei(btcToEth),
+        },
+      });
+
+      items.push({
+        source: Asset.ETH,
+        target: Asset.RBTC,
+        value: {
+          precision: '1000000000000000000',
+          rate: toWei(1 / Number(btcToEth)),
+        },
+      });
+
+      const btcToUsd = items.find(
+        item => item.source === Asset.RBTC && item.target === Asset.USDT,
+      )?.value?.rate;
+
+      const ethToUsd = bignumber(btcToUsd)
+        .mul(1 / Number(btcToEth))
+        .toFixed(0);
+
+      items.push({
+        source: Asset.ETH,
+        target: Asset.USDT,
+        value: {
+          precision: '1000000000000000000',
+          rate: ethToUsd,
+        },
+      });
+    } catch (e) {
+      console.error('Failed to retrieve eth price', e);
     }
     return items;
   }, [getRate, getSwapRate]);
