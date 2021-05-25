@@ -39,6 +39,7 @@ import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
+import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const title =
@@ -72,6 +73,7 @@ export function App() {
           <NetworkRibbon />
           <Switch>
             <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
@@ -80,6 +82,7 @@ export function App() {
             <Route exact path="/liquidity" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/origins" component={OriginsLaunchpadPage} />
             <Route
               exact
               path="/optin-success"

@@ -227,7 +227,33 @@
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
-    "spotTrade": "Spot Trade"
+    "spotTrade": "Spot Trade",
+    "origins": "Origins"
+  },
+  "originsLaunchpad": {
+    "upcomingSales": {
+      "title": "Upcoming Sales On Origins Launchpad",
+      "projectCard": {
+        "saleToken": "Sale Token",
+        "project": "Project",
+        "startDate": "Starts",
+        "startPrice": "Starts"
+      },
+      "inputLabel": "Enter Email Address",
+      "submitButton": "Sign up for Origins Updates"
+    },
+    "previousSales": {
+      "title": "Previous Sales On Origins",
+      "projectCard": {
+        "saleName": "Sale Name",
+        "saleAllocation": "Sale Allocation",
+        "totalRaised": "Total Raised",
+        "participatingWallets": "Participating Wallets",
+        "date": "Date",
+        "saleDuration": "Sale Duration",
+        "price": "Price"
+      }
+    }
   },
   "trandingPositionSelector": {
     "long": "Long",

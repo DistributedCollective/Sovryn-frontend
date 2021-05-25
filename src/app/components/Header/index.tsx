@@ -124,6 +124,7 @@ export function Header() {
   };
   const pages = [
     { to: '/', title: t(translations.mainMenu.buySov), exact: true },
+    { to: '/buy-sov', title: t(translations.mainMenu.buySov), exact: true },
     {
       to: '/swap',
       title: t(translations.mainMenu.swap),
@@ -166,6 +167,7 @@ export function Header() {
       title: t(translations.mainMenu.help),
     },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
+    { to: '/origins', title: t(translations.mainMenu.origins) },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -203,7 +205,7 @@ export function Header() {
 
   const StyledPopover = styled(Popover)`
     &:hover {
-      color: #fec006;
+      color: #2274a5;
     }
   `;
   const NavPopover = ({ content, children }) => {
@@ -230,7 +232,7 @@ export function Header() {
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
+      [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity', '/reward'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
@@ -271,12 +273,16 @@ export function Header() {
               </Link>
             </div>
             <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5 xl:tw-space-x-10">
-              <NavLink className="tw-header-link tw-flex-shrink-0" to="/" exact>
-                {t(translations.mainMenu.buySov)}
-              </NavLink>
               <NavPopover
                 content={
                   <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.buySov)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/buy-sov');
+                      }}
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.swap)}
                       className="bp3-popover-dismiss"
@@ -408,6 +414,9 @@ export function Header() {
               </NavLink>
               <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
+              </NavLink>
+              <NavLink className="tw-header-link" to="/origins">
+                {t(translations.mainMenu.origins)}
               </NavLink>
             </div>
           </div>
