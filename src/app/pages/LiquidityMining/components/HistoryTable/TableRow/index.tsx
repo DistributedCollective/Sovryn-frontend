@@ -8,12 +8,22 @@ import { TxStatus } from 'store/global/transactions-store/types';
 
 interface ITableRowProps {
   pool: LiquidityPool;
+  time: string;
+  type: string;
+  amount: string;
+  txHash: string;
 }
 
-export const TableRow: React.FC<ITableRowProps> = ({ pool }) => (
+export const TableRow: React.FC<ITableRowProps> = ({
+  pool,
+  time,
+  type,
+  amount,
+  txHash,
+}) => (
   <tr className="tw-text-xs">
     <td>
-      <DisplayDate timestamp={new Date().getTime().toString()} />
+      <DisplayDate timestamp={new Date(time).getTime().toString()} />
     </td>
     <td>
       <TablePoolRenderer
@@ -21,12 +31,14 @@ export const TableRow: React.FC<ITableRowProps> = ({ pool }) => (
         secondaryAsset={pool.supplyAssets[1].asset}
       />
     </td>
-    <td>Deposit</td>
+    <td>{type}</td>
     <td>{pool.supplyAssets[1].asset}</td>
-    <td>+10.000 {pool.supplyAssets[1].asset}</td>
+    <td>
+      {amount} {pool.supplyAssets[1].asset}
+    </td>
     <td>
       <LinkToExplorer
-        txHash="0x4130000089054"
+        txHash={txHash}
         className="text-gold font-weight-normal text-nowrap"
         startLength={5}
         endLength={5}

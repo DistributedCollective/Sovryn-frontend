@@ -13,6 +13,7 @@ import { LootDropSectionWrapper } from '../../components/FinanceV2Components/Loo
 import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { HistoryTable } from './components/HistoryTable';
 import cn from 'classnames';
 
 const pools = LiquidityPoolDictionary.list();
@@ -95,12 +96,12 @@ export function LiquidityMining() {
           ))}
         </div>
 
-        {/*<div className="tw-mt-10">*/}
-        {/*  <div className="tw-px-3 tw-text-lg">*/}
-        {/*    {t(translations.liquidityMining.historyTable.title)}*/}
-        {/*  </div>*/}
-        {/*  <HistoryTable />*/}
-        {/*</div>*/}
+        <div className="tw-mt-10">
+          <div className="tw-px-3 tw-text-lg">
+            {t(translations.liquidityMining.historyTable.title)}
+          </div>
+          <HistoryTable />
+        </div>
       </div>
 
       <Footer />
