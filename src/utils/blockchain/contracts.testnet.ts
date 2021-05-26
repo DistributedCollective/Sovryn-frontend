@@ -109,7 +109,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   ETH_token: {
-    address: '0x499bB1355B36aDeb93706B08A897CE6022de6aC9',
+    address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
@@ -119,7 +119,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0x21475506d808DaAf757092a5675cfa3804AB7239',
+    address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
