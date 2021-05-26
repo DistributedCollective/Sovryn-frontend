@@ -13,8 +13,8 @@ import {
 import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
 import { bignumber } from 'mathjs';
+import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
 
 interface ILiquidityMiningRowTableProps {
   pool: LiquidityPool;

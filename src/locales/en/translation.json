@@ -1035,6 +1035,16 @@
       "placeholder": "Select item"
     }
   },
+  "lending": {
+    "rowTable": {
+      "tableHeaders": {
+        "apy": "APY%",
+        "yourDeposit": "Your Deposit",
+        "myProfit": "My Profit",
+        "rewards": "Rewards"
+      }
+    }
+  },
   "liquidityMining": {
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",

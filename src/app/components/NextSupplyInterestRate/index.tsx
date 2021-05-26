@@ -22,10 +22,10 @@ export function NextSupplyInterestRate(props: Props) {
   );
   return (
     <Tooltip content={<>{weiToFixed(value, 18)}%</>}>
-      <h2 className="tw-flex tw-flex-row">
+      <div className="tw-flex tw-flex-row tw-text-lg">
         {weiToFixed(value, 2)}
         <span className="tw-text-muted">%</span>
-      </h2>
+      </div>
     </Tooltip>
   );
 }
