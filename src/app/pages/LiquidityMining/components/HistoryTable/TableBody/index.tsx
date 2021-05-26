@@ -5,7 +5,7 @@ import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 interface ITableBodyProps {
   items: any[];
   loading: Boolean;
@@ -13,18 +13,20 @@ interface ITableBodyProps {
 
 export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const { t } = useTranslation();
-  const pools = LiquidityPoolDictionary.list();
 
   return (
     <tbody className="mt-5">
       {items.map((item, index) => (
         <TableRow
           key={`${item.poolAsset}/${index}`}
-          pool={pools[0]}
+          pool={LiquidityPoolDictionary.get(
+            AssetsDictionary.getByAmmContractAddress(item.pool)?.asset,
+          )}
           time={item.time}
           txHash={item.txHash}
           amount={weiToFixed(item.amount, 4)}
           type={item.type}
+          asset={AssetsDictionary.getByTokenContractAddress(item.asset).asset}
         />
       ))}
 

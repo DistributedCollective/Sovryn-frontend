@@ -65,7 +65,7 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
   return (
     <div
       className={cn(
-        'd-flex align-items-center justify-content-between col-md-12 p-0',
+        'd-flex align-items-center justify-content-start tw-gap-4 col-md-12 p-0',
         wrapperClassName,
       )}
     >

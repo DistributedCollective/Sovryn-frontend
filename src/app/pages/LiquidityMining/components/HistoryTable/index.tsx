@@ -5,12 +5,17 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
+import { Pagination } from 'app/components/Pagination';
+
+const pageSize = 6;
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total] = useState(10);
 
   let cancelTokenSource;
   const getData = () => {
@@ -21,7 +26,7 @@ export const HistoryTable: React.FC = () => {
     cancelTokenSource = axios.CancelToken.source();
     axios
       .get(
-        `http://13.59.52.224:3010/liquidity-history/${account}?page=1&pageSize=10`,
+        `http://13.59.52.224:3010/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
         {
           cancelToken: cancelTokenSource.token,
         },
@@ -43,14 +48,19 @@ export const HistoryTable: React.FC = () => {
 
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url]);
+  }, [account, setHistory, url, page]);
 
   useEffect(() => {
-    console.log('account ** : ', account);
     if (account) {
       getHistory();
     }
-  }, [account, getHistory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, page]);
+
+  const onPageChanged = data => {
+    const { currentPage } = data;
+    setPage(currentPage);
+  };
 
   return (
     <section>
@@ -59,14 +69,14 @@ export const HistoryTable: React.FC = () => {
           <TableHeader />
           <TableBody items={history} loading={loading} />
         </table>
-        {/* {history.length > 0 && (
+        {total > 0 && (
           <Pagination
-            totalRecords={history.length}
-            pageLimit={6}
+            totalRecords={total}
+            pageLimit={pageSize}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
-        )} */}
+        )}
       </div>
     </section>
   );
