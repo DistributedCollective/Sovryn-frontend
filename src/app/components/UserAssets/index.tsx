@@ -195,24 +195,18 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               rel="noreferrer noopener"
             />
           )}
-          {item.asset !== Asset.SOV && (
+          {![Asset.SOV, Asset.ETH].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.trade)}
-              onClick={() =>
-                history.push('/trade', {
-                  params: { asset: item.asset, action: 'trade' },
-                })
-              }
+              onClick={() => history.push('/trade')}
             />
           )}
-          <ActionButton
-            text={t(translations.userAssets.actions.swap)}
-            onClick={() =>
-              history.push('/trade', {
-                params: { asset: item.asset, action: 'swap' },
-              })
-            }
-          />
+          {![Asset.ETH].includes(item.asset) && (
+            <ActionButton
+              text={t(translations.userAssets.actions.swap)}
+              onClick={() => history.push('/swap')}
+            />
+          )}
         </div>
       </td>
     </tr>
