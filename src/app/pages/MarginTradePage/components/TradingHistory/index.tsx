@@ -5,7 +5,7 @@ import { EventData } from 'web3-eth-contract';
 import { translations } from 'locales/i18n';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import { TradingPosition } from 'types/trading-position';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';

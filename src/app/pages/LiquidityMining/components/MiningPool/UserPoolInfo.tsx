@@ -23,6 +23,8 @@ interface Props {
   onNonEmptyBalance: () => void;
 }
 
+// todo this needs refactoring to optimize blockchain reads, most of the
+//  calls to the node are also used in some of the child components
 export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const account = useAccount();
   const { value: poolData, loading: plnLoading } = useUserPoolData(pool);
@@ -38,6 +40,8 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const [loading1, setLoading1] = useState(false);
   const [balance2, setBalance2] = useState('0');
   const [loading2, setLoading2] = useState(false);
+  const [infoReward1, setInfoReward1] = useState('0');
+  const [infoReward2, setInfoReward2] = useState('0');
 
   const { value: reward1 } = useLiquidityMining_getUserAccumulatedReward(
     token1.getContractAddress(),
@@ -46,6 +50,117 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const { value: reward2 } = useLiquidityMining_getUserAccumulatedReward(
     token2.getContractAddress(),
   );
+
+  const rewardI1 = useMemo(
+    () => bignumber(reward1).add(infoReward1).toFixed(0),
+    [reward1, infoReward1],
+  );
+
+  const rewardI2 = useMemo(
+    () => bignumber(reward2).add(infoReward2).toFixed(0),
+    [reward2, infoReward2],
+  );
+
+  useEffect(() => {
+    if (!account) return;
+    const getInfo = async (token: LiquidityPoolSupplyAsset) => {
+      const info = (await contractReader.call(
+        'liquidityMiningProxy',
+        'getUserInfo',
+        [token.getContractAddress(), account],
+      )) as any;
+      return {
+        amount: info ? info.amount : '0',
+        reward: info ? info.accumulatedReward : '0',
+      };
+    };
+
+    const getBalance = async (
+      token: LiquidityPoolSupplyAsset,
+      amount: string,
+    ) => {
+      const {
+        0: balance,
+        // 1: fee,
+      } = await contractReader.call(
+        getAmmContractName(pool.poolAsset),
+        'removeLiquidityReturnAndFee',
+        [token.getContractAddress(), amount],
+      );
+      return balance;
+    };
+
+    const retrieveV2Balance = async (
+      token: LiquidityPoolSupplyAsset,
+      setReward: (value: any) => void,
+    ) => {
+      const info = await getInfo(token);
+      setReward(info.reward);
+      return await getBalance(token, info.amount);
+    };
+
+    const retrieveV1Balance = async () => {
+      const info = await getInfo(token1);
+      setInfoReward1(info.reward);
+      const supply = (await contractReader.call(
+        getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
+        'totalSupply',
+        [],
+      )) as any;
+      const converterBalance1 = (await contractReader.call(
+        getTokenContractName(token1.asset),
+        'balanceOf',
+        [getAmmContract(pool.poolAsset).address],
+      )) as any;
+      const converterBalance2 = (await contractReader.call(
+        getTokenContractName(token2.asset),
+        'balanceOf',
+        [getAmmContract(pool.poolAsset).address],
+      )) as any;
+
+      const balance1 = bignumber(info.amount)
+        .div(supply)
+        .mul(converterBalance1)
+        .toFixed(0);
+      const balance2 = bignumber(info.amount)
+        .div(supply)
+        .mul(converterBalance2)
+        .toFixed(0);
+
+      return {
+        balance1,
+        balance2,
+      };
+    };
+
+    if (pool.version === 2) {
+      setLoading1(true);
+      setLoading2(true);
+      retrieveV2Balance(token1, setInfoReward1)
+        .then(e => {
+          setBalance1(e);
+          setLoading1(false);
+        })
+        .catch(console.error);
+      retrieveV2Balance(token2, setInfoReward2)
+        .then(e => {
+          setBalance2(e);
+          setLoading2(false);
+        })
+        .catch(console.error);
+    } else {
+      setLoading1(true);
+      setLoading2(true);
+      retrieveV1Balance()
+        .then(e => {
+          setBalance1(e.balance1);
+          setBalance2(e.balance2);
+          setLoading1(false);
+          setLoading2(false);
+        })
+        .catch(console.error);
+    }
+  }, [account, pool, token1, token2]);
 
   const pln = useMemo(() => {
     const pl1 = poolData.data.find(item => item.asset === token1.asset);
@@ -74,11 +189,11 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const totalEarned = useMemo(() => {
     const p1 = bignumber(pln.pl1).mul(rate1.rate).div(rate1.precision);
     const p2 = bignumber(pln.pl2).mul(rate2.rate).div(rate2.precision);
-    const r1 = bignumber(reward1).mul(sovRate.rate).div(sovRate.precision);
+    const r1 = bignumber(rewardI1).mul(sovRate.rate).div(sovRate.precision);
     const r2 =
       pool.version === 1
         ? '0'
-        : bignumber(reward2).mul(sovRate.rate).div(sovRate.precision);
+        : bignumber(rewardI2).mul(sovRate.rate).div(sovRate.precision);
 
     const result = p1.add(p2).add(r1).add(r2).toFixed(0);
 
@@ -90,11 +205,11 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
     rate1.precision,
     rate2.rate,
     rate2.precision,
-    reward1,
+    rewardI1,
     sovRate.rate,
     sovRate.precision,
     pool.version,
-    reward2,
+    rewardI2,
   ]);
 
   useEffect(() => {
@@ -102,109 +217,6 @@ export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
       onNonEmptyBalance();
     }
   }, [balance1, balance2, onNonEmptyBalance]);
-
-  useEffect(() => {
-    if (!account) return;
-    const getInfo = async (token: LiquidityPoolSupplyAsset) => {
-      const info = (await contractReader.call(
-        'liquidityMiningProxy',
-        'getUserInfo',
-        [token.getContractAddress(), account],
-      )) as any;
-      return info ? info.amount : '0';
-    };
-
-    const getBalance = async (
-      token: LiquidityPoolSupplyAsset,
-      amount: string,
-    ) => {
-      const {
-        0: balance,
-        // 1: fee,
-      } = await contractReader.call(
-        getAmmContractName(pool.poolAsset),
-        'removeLiquidityReturnAndFee',
-        [token.getContractAddress(), amount],
-      );
-      return balance;
-    };
-
-    const retrieveV2Balance = async (token: LiquidityPoolSupplyAsset) => {
-      const info = await getInfo(token);
-      return await getBalance(token, info);
-    };
-
-    const retrieveV1Balance = async () => {
-      const info = await getInfo(token1);
-      const supply = (await contractReader.call(
-        getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
-        'totalSupply',
-        [],
-      )) as any;
-      const converterBalance1 = (await contractReader.call(
-        getTokenContractName(token1.asset),
-        'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
-      )) as any;
-      const converterBalance2 = (await contractReader.call(
-        getTokenContractName(token2.asset),
-        'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
-      )) as any;
-
-      const balance1 = bignumber(info)
-        .div(supply)
-        .mul(converterBalance1)
-        .toFixed(0);
-      const balance2 = bignumber(info)
-        .div(supply)
-        .mul(converterBalance2)
-        .toFixed(0);
-
-      return {
-        balance1,
-        balance2,
-      };
-    };
-
-    if (pool.version === 2) {
-      setLoading1(true);
-      setLoading2(true);
-      retrieveV2Balance(token1)
-        .then(e => {
-          setBalance1(e);
-          setLoading1(false);
-        })
-        .catch(console.error);
-      retrieveV2Balance(token2)
-        .then(e => {
-          setBalance2(e);
-          setLoading2(false);
-        })
-        .catch(console.error);
-    } else {
-      setLoading1(true);
-      setLoading2(true);
-      retrieveV1Balance()
-        .then(e => {
-          setBalance1(e.balance1);
-          setBalance2(e.balance2);
-          setLoading1(false);
-          setLoading2(false);
-        })
-        .catch(console.error);
-    }
-  }, [
-    account,
-    pool,
-    token1,
-    token2,
-    reward1,
-    reward2,
-    pln.pl1,
-    pln.pl2,
-    totalEarned,
-  ]);
 
   return (
     <LiquidityMiningRowTable
