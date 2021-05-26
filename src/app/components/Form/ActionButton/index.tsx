@@ -43,7 +43,7 @@ export function ActionButton({
           <Spinner size={20} className="tw-fill-current tw-text-red-500" />
         </span>
         <span
-          className={cn('tw-truncate tw-btn-loader__value', textClassName, {
+          className={cn('tw-btn-loader__value', textClassName, {
             active: loading,
           })}
         >

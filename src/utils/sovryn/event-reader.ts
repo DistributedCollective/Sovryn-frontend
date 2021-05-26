@@ -138,11 +138,13 @@ class EventReader {
           ...{ filter },
         })
         .then(e =>
-          e.map(e => ({
-            ...e,
-            returnValues: (e as any).returnVal,
-            event: (e as any)?.eventName,
-          })),
+          e
+            .map(e => ({
+              ...e,
+              returnValues: (e as any).returnVal,
+              event: (e as any)?.eventName,
+            }))
+            .filter(item => !!item.returnValues),
         );
     } catch (e) {
       return [];
