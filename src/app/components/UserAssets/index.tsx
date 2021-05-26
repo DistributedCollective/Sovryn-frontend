@@ -195,7 +195,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
           <ActionButton
             text={t(translations.userAssets.actions.swap)}
             onClick={() =>
-              history.push('/trade', {
+              history.push('/swap', {
                 params: { asset: item.asset, action: 'swap' },
               })
             }
