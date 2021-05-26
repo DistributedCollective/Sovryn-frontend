@@ -157,7 +157,7 @@ export function SwapHistory() {
             {history.length === 0 && !loading && (
               <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
-                  History is empty.
+                  {t(translations.swapHistory.emptyState)}
                 </td>
               </tr>
             )}
