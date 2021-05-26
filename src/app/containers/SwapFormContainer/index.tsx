@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -65,7 +65,7 @@ export function SwapFormContainer() {
   );
 
   const getOptions = useCallback(() => {
-    return (tokens
+    return ((tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         if (!asset) {
@@ -76,7 +76,9 @@ export function SwapFormContainer() {
           label: asset.symbol,
         };
       })
-      .filter(item => item !== null) as unknown) as Option[];
+      .filter(item => item !== null) as unknown) as Option[]).filter(
+      item => item.key !== Asset.ETH,
+    );
   }, [tokens]);
 
   useEffect(() => {
