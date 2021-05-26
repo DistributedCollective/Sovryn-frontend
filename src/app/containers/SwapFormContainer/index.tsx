@@ -65,7 +65,7 @@ export function SwapFormContainer() {
   );
 
   const getOptions = useCallback(() => {
-    return ((tokens
+    return (tokens
       .map(item => {
         const asset = AssetsDictionary.getByTokenContractAddress(item);
         if (!asset) {
@@ -76,9 +76,7 @@ export function SwapFormContainer() {
           label: asset.symbol,
         };
       })
-      .filter(item => item !== null) as unknown) as Option[]).filter(
-      item => item.key !== Asset.ETH,
-    );
+      .filter(item => item !== null) as unknown) as Option[];
   }, [tokens]);
 
   useEffect(() => {
