@@ -1,36 +1,34 @@
+import { NumericInput, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
+import { bignumber, min } from 'mathjs';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+
 import { translations } from 'locales/i18n';
-import {
-  Popover,
-  PopoverInteractionKind,
-  Position,
-  NumericInput,
-} from '@blueprintjs/core';
-import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { useWeiAmount } from '../../../hooks/useWeiAmount';
-import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
-import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import '../assets/index.scss';
+
 import { Asset } from '../../../../types/asset';
-import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
+import { weiTo4, weiToFixed } from '../../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
-import { FormSelect } from '../../../components/FormSelect';
-import { FieldGroup } from '../../../components/FieldGroup';
-import { AmountField } from '../../AmountField';
+import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
 import { AssetWalletBalance } from '../../../components/AssetWalletBalance';
 import { DummyField } from '../../../components/DummyField/Loadable';
-import { weiTo4, weiToFixed } from '../../../../utils/blockchain/math-helpers';
-import { TradeButton } from '../../../components/TradeButton';
+import { FieldGroup } from '../../../components/FieldGroup';
+import { FormSelect } from '../../../components/FormSelect';
 import { SendTxProgress } from '../../../components/SendTxProgress';
-import { bignumber, min } from 'mathjs';
-import { actions } from '../slice';
-import { useCanInteract } from '../../../hooks/useCanInteract';
-import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
-import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
+import { TradeButton } from '../../../components/TradeButton';
 import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
+import { useLending_transactionLimit } from '../../../hooks/lending/useLending_transactionLimit';
+import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
+import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
+import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
+import { useCanInteract } from '../../../hooks/useCanInteract';
+import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
 import { useMaintenance } from '../../../hooks/useMaintenance';
+import { useWeiAmount } from '../../../hooks/useWeiAmount';
+import { AmountField } from '../../AmountField';
+import { actions } from '../slice';
+
+import '../assets/index.scss';
 
 type Props = {
   currency: Asset;
