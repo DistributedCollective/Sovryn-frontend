@@ -11,7 +11,6 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { EngageButton } from '../EngageButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -162,24 +161,18 @@ export function TradeForm() {
           </div>
         </div>
 
-        {!connected ? (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12 tw-mx-auto">
-            <EngageButton />
-          </div>
-        ) : (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
-            <Button
-              text={t(
-                tradeType === TradingTypes.BUY
-                  ? translations.spotTradingPage.tradeForm.buy_cta
-                  : translations.spotTradingPage.tradeForm.sell_cta,
-              )}
-              tradingType={tradeType}
-              onClick={() => send()}
-              disabled={!validate}
-            />
-          </div>
-        )}
+        <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
+          <Button
+            text={t(
+              tradeType === TradingTypes.BUY
+                ? translations.spotTradingPage.tradeForm.buy_cta
+                : translations.spotTradingPage.tradeForm.sell_cta,
+            )}
+            tradingType={tradeType}
+            onClick={() => send()}
+            disabled={!validate || !connected}
+          />
+        </div>
       </div>
       <TxDialog tx={tx} />
     </>
