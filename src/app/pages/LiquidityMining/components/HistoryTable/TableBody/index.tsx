@@ -40,7 +40,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
       {items.length === 0 && !loading && (
         <tr key={'empty'}>
           <td className="text-center" colSpan={99}>
-            History is empty.
+            {t(translations.liquidityMining.historyTable.emptyState)}
           </td>
         </tr>
       )}

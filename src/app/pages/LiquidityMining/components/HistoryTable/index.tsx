@@ -15,7 +15,7 @@ export const HistoryTable: React.FC = () => {
   const [history, setHistory] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [total] = useState(10);
+  const [total, setTotal] = useState(0);
 
   let cancelTokenSource;
   const getData = () => {
@@ -26,13 +26,15 @@ export const HistoryTable: React.FC = () => {
     cancelTokenSource = axios.CancelToken.source();
     axios
       .get(
-        `http://13.59.52.224:3010/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
+        `${url}/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
         {
           cancelToken: cancelTokenSource.token,
         },
       )
       .then(res => {
-        setHistory(res.data);
+        const { events, pagination } = res.data;
+        setHistory(events || []);
+        setTotal(pagination.totalPages * pageSize);
         setLoading(false);
       })
       .catch(e => {
