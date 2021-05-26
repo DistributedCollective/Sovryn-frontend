@@ -1,4 +1,4 @@
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton, ActionLink } from 'form/ActionButton';
 import { bignumber } from 'mathjs';
 /**
  *
@@ -27,6 +27,7 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
+import { currentNetwork } from '../../../utils/classifiers';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -178,28 +179,34 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
           )}
           {item.asset === Asset.RBTC && (
             <ActionButton
-              text={t(translations.userAssets.actions.deposit)}
+              text={t(translations.userAssets.actions.fastBtc)}
               onClick={() => onFastBtc()}
             />
           )}
-          {item.asset !== Asset.SOV && (
-            <ActionButton
-              text={t(translations.userAssets.actions.trade)}
-              onClick={() =>
-                history.push('/trade', {
-                  params: { asset: item.asset, action: 'trade' },
-                })
+          {item.asset === Asset.ETH && (
+            <ActionLink
+              text={t(translations.userAssets.actions.deposit)}
+              href={
+                currentNetwork === 'mainnet'
+                  ? 'https://bridge.sovryn.app'
+                  : 'https://bridge.test.sovryn.app'
               }
+              target="_blank"
+              rel="noreferrer noopener"
             />
           )}
-          <ActionButton
-            text={t(translations.userAssets.actions.swap)}
-            onClick={() =>
-              history.push('/trade', {
-                params: { asset: item.asset, action: 'swap' },
-              })
-            }
-          />
+          {![Asset.SOV, Asset.ETH].includes(item.asset) && (
+            <ActionButton
+              text={t(translations.userAssets.actions.trade)}
+              onClick={() => history.push('/trade')}
+            />
+          )}
+          {![Asset.ETH].includes(item.asset) && (
+            <ActionButton
+              text={t(translations.userAssets.actions.swap)}
+              onClick={() => history.push('/swap')}
+            />
+          )}
         </div>
       </td>
     </tr>

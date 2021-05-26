@@ -86,3 +86,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 ## Licence
 
 The Sovryn DApp is open-sourced software licensed under the [MIT license](LICENSE).
+
