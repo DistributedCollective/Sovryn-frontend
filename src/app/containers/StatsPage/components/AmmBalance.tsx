@@ -8,6 +8,7 @@ import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useInterval } from 'app/hooks/useInterval';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface Props {
   rate: number;
@@ -114,7 +115,9 @@ function Row(props) {
           </tr>
           <tr className="border-bottom">
             <td></td>
-            <td>BTC</td>
+            <td>
+              <AssetRenderer asset={Asset.RBTC} />
+            </td>
             <td className="text-right">
               {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
