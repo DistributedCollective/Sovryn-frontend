@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { Asset } from '../../../../../types';
 import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
+import { useLiquidityMining_getTotalUserAccumulatedReward } from '../../hooks/useLiquidityMining_getTotalUserAccumulatedReward';
 
 interface Props {
   pool: LiquidityPool;
@@ -20,7 +20,7 @@ export function PoolTokenRewards({ pool }: Props) {
 }
 
 function PoolTokenRewardsV1({ pool }: Props) {
-  const { value, loading } = useLiquidityMining_getUserAccumulatedReward(
+  const { value, loading } = useLiquidityMining_getTotalUserAccumulatedReward(
     pool.supplyAssets[0].getContractAddress(),
   );
   return (
@@ -29,7 +29,7 @@ function PoolTokenRewardsV1({ pool }: Props) {
       value={
         <ProfitLossRenderer
           isProfit={true}
-          amount={weiToNumberFormat(value, 4)}
+          amount={weiToNumberFormat(value, 6)}
           asset={Asset.SOV}
         />
       }
@@ -41,13 +41,13 @@ function PoolTokenRewardsV2({ pool }: Props) {
   const {
     value: token1,
     loading: loading1,
-  } = useLiquidityMining_getUserAccumulatedReward(
+  } = useLiquidityMining_getTotalUserAccumulatedReward(
     pool.supplyAssets[0].getContractAddress(),
   );
   const {
     value: token2,
     loading: loading2,
-  } = useLiquidityMining_getUserAccumulatedReward(
+  } = useLiquidityMining_getTotalUserAccumulatedReward(
     pool.supplyAssets[1].getContractAddress(),
   );
 
@@ -58,7 +58,7 @@ function PoolTokenRewardsV2({ pool }: Props) {
         value={
           <ProfitLossRenderer
             isProfit={true}
-            amount={weiToNumberFormat(token1, 4)}
+            amount={weiToNumberFormat(token1, 6)}
             asset={Asset.SOV}
           />
         }
@@ -68,7 +68,7 @@ function PoolTokenRewardsV2({ pool }: Props) {
         value={
           <ProfitLossRenderer
             isProfit={true}
-            amount={weiToNumberFormat(token2, 4)}
+            amount={weiToNumberFormat(token2, 6)}
             asset={Asset.SOV}
           />
         }

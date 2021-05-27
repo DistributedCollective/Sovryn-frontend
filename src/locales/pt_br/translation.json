@@ -691,7 +691,7 @@
       "action": "Ação"
     },
     "actions": {
-      "deposit": "FastBTC",
+      "fastBtc": "FastBTC",
       "swap": "Trocar",
       "trade": "Margem",
       "buy": "Comprar",

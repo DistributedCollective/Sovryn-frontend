@@ -80,7 +80,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                   loading={loading1}
                   value={
                     <>
-                      {weiToNumberFormat(balance1, 4)}{' '}
+                      {weiToNumberFormat(balance1, 6)}{' '}
                       <AssetRenderer asset={asset1} />
                     </>
                   }
@@ -91,7 +91,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                   loading={loading2}
                   value={
                     <>
-                      {weiToNumberFormat(balance2, 4)}{' '}
+                      {weiToNumberFormat(balance2, 6)}{' '}
                       <AssetRenderer asset={asset2} />
                     </>
                   }
@@ -103,8 +103,8 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(pln1).greaterThan(0)}
-                    amount={weiToNumberFormat(bignumber(pln1).abs(), 4)}
+                    isProfit={bignumber(pln1).greaterThanOrEqualTo(0)}
+                    amount={weiToNumberFormat(bignumber(pln1).abs(), 6)}
                     asset={asset1}
                   />
                 }
@@ -113,8 +113,8 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(pln1).greaterThan(0)}
-                    amount={weiToNumberFormat(bignumber(pln2).abs(), 4)}
+                    isProfit={bignumber(pln2).greaterThanOrEqualTo(0)}
+                    amount={weiToNumberFormat(bignumber(pln2).abs(), 6)}
                     asset={asset2}
                   />
                 }
@@ -128,8 +128,8 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 loading={loading1 || loading2 || plnLoading}
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(totalEarned).greaterThan(0)}
-                    amount={weiToNumberFormat(bignumber(totalEarned).abs(), 4)}
+                    isProfit={bignumber(totalEarned).greaterThanOrEqualTo(0)}
+                    amount={weiToNumberFormat(bignumber(totalEarned).abs(), 6)}
                     asset={Asset.RBTC}
                   />
                 }
