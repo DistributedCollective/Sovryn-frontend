@@ -66,7 +66,6 @@ input[type=number] {
   }
   h1 {
     font-size: 30px;
-    letter-spacing: 1.7px;
     font-weight: 500;
   }
   h3 {
