@@ -42,12 +42,22 @@ export function WithdrawConfirmationForm(props: Props) {
             .format('DD/MM/YYYY - h:mm:ss a z')}
         </div>
 
-        <p className="tw-text-red tw-text-center">
-          {t(translations.stake.withdraw.penalty)}:
-        </p>
-        <div className="tw-text-center tw-text-2xl tw-font-semibold tw-mb-16 tw-mt-3">
-          {numberFromWei(props.forfeit).toFixed(2) + ' SOV'}
-        </div>
+        {props.forfeit === 0 ? (
+          <>
+            <p className="text-red text-center">
+              {t(translations.stake.withdraw.penaltyZero)}
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-red text-center">
+              {t(translations.stake.withdraw.penalty)}:
+            </p>
+            <div className="text-center text-lg font-semibold">
+              {numberFromWei(props.forfeit).toFixed(2) + ' SOV'}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="md:tw-px-16 tw-mb-8">
