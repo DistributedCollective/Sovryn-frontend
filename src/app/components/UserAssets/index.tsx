@@ -21,13 +21,15 @@ import {
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
+// import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
 import { currentNetwork } from '../../../utils/classifiers';
+import { Dialog } from '../../containers/Dialog';
+import { Button } from '../Button';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -94,8 +96,35 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
-      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <Dialog
+        isOpen={fastBtc || transack}
+        onClose={() => {
+          setFastBtc(false);
+          setTransack(false);
+        }}
+      >
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+            Under Maintenance
+          </h1>
+          <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
+            Sorry, {fastBtc ? 'FastBTC' : 'BTC'} deposits is undergoing
+            maintenance that will last a few hours.
+          </div>
+          <div className="tw-text-center tw-mt-5">
+            <Button
+              text="Ok"
+              inverted
+              onClick={() => {
+                setFastBtc(false);
+                setTransack(false);
+              }}
+            />
+          </div>
+        </div>
+      </Dialog>
+      {/*<FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />*/}
+      {/*<TransackDialog isOpen={transack} onClose={() => setTransack(false)} />*/}
     </>
   );
 }
