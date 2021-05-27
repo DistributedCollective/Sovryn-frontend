@@ -122,7 +122,6 @@ export function Features() {
 
 const How = styled.h1`
   font-size: 36px;
-  letter-spacing: 4.3px;
   line-height: 47px;
   text-transform: none;
 `;

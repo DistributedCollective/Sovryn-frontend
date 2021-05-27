@@ -17,7 +17,9 @@ export function Feature(props: Props) {
     <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
       <div className={`${props.reverse ? 'order-lg-1' : 'order-lg-0'} order-1`}>
         <h1>{props.title}</h1>
-        <div className="content">{props.content}</div>
+        <div className="content tw-font-thin tw-leading-snug">
+          {props.content}
+        </div>
         {props.href.startsWith('http') ? (
           <a
             href={props.href}

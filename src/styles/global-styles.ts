@@ -7,7 +7,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
     font-weight: 400;
-    letter-spacing: 1.2px;
   }
 
   body {
@@ -66,7 +65,6 @@ input[type=number] {
   }
   h1 {
     font-size: 30px;
-    letter-spacing: 1.7px;
     font-weight: 500;
   }
   h3 {
