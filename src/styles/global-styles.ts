@@ -26,6 +26,7 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     min-height: 100vh;
     overflow: auto;
+    padding-top: 4.4rem;
     &.openedMenu {
       overflow: hidden;
       height: 0;
