@@ -7,7 +7,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
     font-weight: 400;
-    letter-spacing: 1.2px;
   }
 
   body {
