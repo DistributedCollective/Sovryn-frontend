@@ -70,6 +70,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
       ) : (
         <div className={simpleViewClass}>
           <Popover
+            placement={'bottom'}
             content={
               <Menu>
                 <CopyToClipboard

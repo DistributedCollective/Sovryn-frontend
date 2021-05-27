@@ -24,7 +24,9 @@ import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useMining_ApproveAndAddLiquidityV1 } from '../../hooks/useMining_ApproveAndAddLiquidityV1';
-import { useTargetAmountAndFee } from '../../../../hooks/amm/useTargetAmountAndFee';
+import { useLiquidityMining_getExpectedV1TokenAmount } from '../../hooks/useLiquidityMining_getExpectedV1TokenAmount';
+import { useLiquidityMining_getExpectedV1PoolTokens } from '../../hooks/useLiquidityMining_getExpectedV1PoolTokens';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 
 interface Props {
   pool: LiquidityPool;
@@ -43,21 +45,19 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
 
   const [amount1, setAmount1] = useState('0');
   const weiAmount1 = useWeiAmount(amount1);
-  // We are hard-coding 5% slippage here
-  // const { minReturn } = useSlippage(weiAmount1, 5);
-  const minReturn = '1';
 
-  const { value: targetAmount } = useTargetAmountAndFee(
-    pool.poolAsset,
-    token1,
-    token2,
+  const { value: weiAmount2 } = useLiquidityMining_getExpectedV1TokenAmount(
+    pool,
     weiAmount1,
   );
 
-  const weiAmount2 = useMemo(
-    () => bignumber(targetAmount[0]).add(targetAmount[1]).toString(),
-    [targetAmount],
+  const { value: poolWeiAmount } = useLiquidityMining_getExpectedV1PoolTokens(
+    pool,
+    weiAmount1,
   );
+
+  // We are hard-coding 1% slippage here
+  const { minReturn } = useSlippage(poolWeiAmount, 1);
 
   const { value: balance1 } = useAssetBalanceOf(token1);
   const { value: balance2 } = useAssetBalanceOf(token2);

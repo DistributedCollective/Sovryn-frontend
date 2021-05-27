@@ -756,7 +756,8 @@
       "to": "To",
       "amountReceived": "Amount Received",
       "status": "Status"
-    }
+    },
+    "emptyState": "History is empty."
   },
   "spotHistory": {
     "title": "Spot History",
@@ -768,7 +769,8 @@
       "amountReceived": "Amount Received",
       "transactionFee": "Transaction Fee",
       "status": "Status"
-    }
+    },
+    "emptyState": "History is empty."
   },
   "topUpHistory": {
     "meta": {
@@ -988,6 +990,17 @@
       "lockedRewards": "Locked Rewards:",
       "claimibleRewards": "Claimible Rewards",
       "OGRewards": "OG Rewards"
+    },
+    "historyTable": {
+      "tableHeaders": {
+        "time": "Date",
+        "type": "Type",
+        "amount": "Action",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      },
+      "emptyState": "History is empty.",
+      "loading": "Loading..."
     }
   },
   "marginTradePage": {

@@ -176,7 +176,7 @@ export function SpotHistory() {
             {history.length === 0 && !loading && (
               <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
-                  History is empty.
+                  {t(translations.spotHistory.emptyState)}
                 </td>
               </tr>
             )}
@@ -242,7 +242,9 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
               : 'tw-text-tradingShort'
           }
         >
-          {order.orderType}
+          {order.orderType === TradingTypes.BUY
+            ? t(translations.spotTradingPage.tradeForm.buy)
+            : t(translations.spotTradingPage.tradeForm.sell)}
         </span>
       </td>
       <td>
@@ -278,13 +280,25 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
           </div>
           <div className="tw-hidden 2xl:tw-block">
             {!data.status && (
-              <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
+              <img
+                src={iconSuccess}
+                title={t(translations.common.confirmed)}
+                alt={t(translations.common.confirmed)}
+              />
             )}
             {data.status === TxStatus.FAILED && (
-              <img src={iconRejected} title="Failed" alt="Failed" />
+              <img
+                src={iconRejected}
+                title={t(translations.common.failed)}
+                alt={t(translations.common.failed)}
+              />
             )}
             {data.status === TxStatus.PENDING && (
-              <img src={iconPending} title="Pending" alt="Pending" />
+              <img
+                src={iconPending}
+                title={t(translations.common.pending)}
+                alt={t(translations.common.pending)}
+              />
             )}
           </div>
         </div>
