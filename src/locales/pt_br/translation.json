@@ -34,7 +34,7 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
+    "title": "A Sovryn foi atualizada para a versão <br/> <0>Versão: {{buildId}}</0>",
     "notice": "Para atualizar, feche a página da Sovryn",
     "updateBtn": "ATUALIZAR",
     "closeBtn": "Atualizar mais tarde"
@@ -436,6 +436,7 @@
   },
   "liquidityRemoveContainer": {
     "fields": {
+        "currency": "Criptoativo",
       "currency_placeholder": "Escolha o criptoativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
@@ -1104,6 +1105,11 @@
       "p3": {
         "title": "Distribuição de 40K SOV no pool SOV/RBTC!",
         "text": "Forneça liquidez no pool SOV/RBTC até 30 de maio e ganhe sua parte na recompensa de 40K SOV. Serão 40K SOV distribuídos em apenas 7 dias! Novas promoções semanais serão anunciadas em breve.",
+        "cta": "Ganhe agora"
+         },
+      "p4": {
+        "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
+        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novas recompensas para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
         "cta": "Ganhe agora"
       }
     },
