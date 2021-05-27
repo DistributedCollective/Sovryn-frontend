@@ -74,10 +74,13 @@ export function MiningPool({ pool }: Props) {
         Actions={<Actions />}
         DataSection={<UserPoolInfo pool={pool} />}
         leftColor={
-          pool.supplyAssets[0].asset === Asset.SOV &&
-          pool.supplyAssets[1].asset === Asset.RBTC
-            ? LootDropColors.Purple
-            : undefined
+          (pool.supplyAssets[0].asset === Asset.SOV &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Purple) ||
+          (pool.supplyAssets[0].asset === Asset.ETH &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Green) ||
+          undefined
         }
       />
       {canInteract && (

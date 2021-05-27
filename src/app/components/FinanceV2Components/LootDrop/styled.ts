@@ -15,7 +15,7 @@ export const LootDropWrapper = styled.div`
     rgba(34, 34, 34, 1) 83%
   );
   mix-blend-mode: lighten;
-  width: 304px;
+  width: 310px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin: 0 0.625rem;
