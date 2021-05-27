@@ -4,7 +4,7 @@
     width: 100%;
     height: 3.75rem;
     letter-spacing: 0.1rem;
-    @apply tw-flex tw-flex-row tw-items-center tw-justify-center;
+    @apply tw-block tw-overflow-ellipsis tw-overflow-hidden tw-whitespace-nowrap;
     @apply tw-px-6 tw-py-2;
     @apply tw-transition;
     @apply tw-border-0 tw-rounded;
