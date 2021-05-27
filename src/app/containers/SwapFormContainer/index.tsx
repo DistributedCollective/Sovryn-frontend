@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';

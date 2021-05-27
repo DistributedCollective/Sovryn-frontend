@@ -39,11 +39,11 @@ export class LiquidityPoolDictionary {
       Asset.ETH,
       new LiquidityPool(Asset.ETH, [
         new LiquidityPoolSupplyAsset(Asset.ETH, {
-          mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D', // todo
+          mainnet: '0xF41Ed702df2B84AcE02772C6a0D8AE46465aA5F4',
           testnet: '0xBb5B900EDa0F1459F582aB2436EA825a927f5bA2',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
-          mainnet: '0x40580E31cc14DbF7a0859f38Ab36A84262df821D',
+          mainnet: '0xF41Ed702df2B84AcE02772C6a0D8AE46465aA5F4',
           testnet: '0xBb5B900EDa0F1459F582aB2436EA825a927f5bA2',
         }),
       ]).setVersion(1),
