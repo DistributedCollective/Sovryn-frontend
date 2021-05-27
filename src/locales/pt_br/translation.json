@@ -436,7 +436,7 @@
   },
   "liquidityRemoveContainer": {
     "fields": {
-        "currency": "Criptoativo",
+      "currency": "Criptoativo",
       "currency_placeholder": "Escolha o criptoativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
