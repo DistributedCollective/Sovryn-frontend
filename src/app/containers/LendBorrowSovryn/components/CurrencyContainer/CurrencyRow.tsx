@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import styled from 'styled-components/macro';
 // import clsx from 'clsx';
@@ -18,6 +18,7 @@ import { ActionButton } from 'form/ActionButton';
 import { PoolChart } from '../CurrencyContainer/PoolChart';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { UserLendingInfo } from './UserLendingInfo';
+import { LendingDialog } from '../LendingDialog';
 
 type Props = {
   lendingPool: LendingPool;
@@ -26,6 +27,8 @@ type Props = {
   active: boolean;
 };
 
+export type DialogType = 'none' | 'add' | 'remove';
+
 const CurrencyRow: React.FC<Props> = ({
   lendingPool,
   lendingAmount,
@@ -33,6 +36,7 @@ const CurrencyRow: React.FC<Props> = ({
   active,
 }) => {
   const { t } = useTranslation();
+  const [dialog, setDialog] = useState<DialogType>('none');
 
   const LeftSection = () => {
     return (
@@ -49,13 +53,13 @@ const CurrencyRow: React.FC<Props> = ({
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
           text={t(translations.common.deposit)}
-          onClick={() => {}}
+          onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
         />
         <ActionButton
           text={t(translations.common.withdraw)}
-          onClick={() => {}}
+          onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
         />
@@ -78,6 +82,16 @@ const CurrencyRow: React.FC<Props> = ({
         }
         leftColor={undefined}
       />
+
+      <>
+        <LendingDialog
+          currency={lendingPool.getAsset()}
+          showModal={dialog !== 'none'}
+          onCloseModal={() => setDialog('none')}
+          type={dialog}
+          lendingAmount={lendingAmount}
+        />
+      </>
     </div>
   );
   // return (
