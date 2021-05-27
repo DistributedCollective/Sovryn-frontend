@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 // import imgPromotion1 from 'assets/sov/promotion-1.svg';
 // import imgPromotion2 from 'assets/sov/promotion-2.svg';
 import imgPromotion3 from 'assets/sov/promotion-3.svg';
+import imgPromotion4 from 'assets/sov/promotion-4.svg';
 import { Promotion } from './promotion';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -37,6 +38,14 @@ export function Promotions() {
         cta={t(translations.buySovPage.promotions.p3.cta)}
         href="/liquidity"
         image={imgPromotion3}
+      />
+
+      <Promotion
+        title={t(translations.buySovPage.promotions.p4.title)}
+        content={<>{t(translations.buySovPage.promotions.p4.text)}</>}
+        cta={t(translations.buySovPage.promotions.p4.cta)}
+        href="/liquidity"
+        image={imgPromotion4}
       />
     </article>
   );
