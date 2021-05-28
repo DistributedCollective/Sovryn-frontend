@@ -7,7 +7,6 @@ import { Asset } from 'types';
 import { DialogType } from '../CurrencyContainer/CurrencyRow';
 import { FormGroup } from 'form/FormGroup';
 import { AmountInput } from 'form/AmountInput';
-import { AvailableBalance } from 'app/components/AvailableBalance';
 
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
@@ -20,7 +19,6 @@ import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { bignumber } from 'mathjs';
 import { maxMinusFee } from 'utils/helpers';
 import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
-import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { LoadableValue } from 'app/components/LoadableValue';
@@ -28,6 +26,7 @@ import { fromWei } from 'web3-utils';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Dialog } from 'app/containers/Dialog';
+import cn from 'classnames';
 
 interface Props {
   currency: Asset;
@@ -64,14 +63,19 @@ export function LendingDialog({
   } = useLending_assetBalanceOf(currency as Asset, useAccount());
   const { value: maxAmount } = useLending_transactionLimit(currency, currency);
 
-  const validate = useMemo(() => {
-    return (
-      bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(userBalance, currency, gasLimit),
-      )
+  const greaterZero = useMemo(() => {
+    return bignumber(weiAmount).greaterThan(0);
+  }, [weiAmount]);
+
+  const enoughBalance = useMemo(() => {
+    return bignumber(weiAmount).lessThanOrEqualTo(
+      maxMinusFee(userBalance, currency, gasLimit),
     );
   }, [currency, userBalance, weiAmount]);
+
+  const validate = useMemo(() => {
+    return greaterZero && enoughBalance;
+  }, [greaterZero, enoughBalance]);
 
   const withdrawAmount = useMemo(() => {
     return bignumber(weiAmount)
@@ -116,6 +120,16 @@ export function LendingDialog({
     setAmount('');
   }, [currency]);
 
+  const disabled = () => (type === 'add' ? !valid : !validRedeem);
+
+  const errorMessage = useMemo(() => {
+    if (type === 'add') {
+      if (!greaterZero) return t(translations.validationErrors.minimumZero);
+      if (!enoughBalance)
+        return t(translations.validationErrors.insufficientBalance);
+    }
+  }, [type, greaterZero, t, enoughBalance]);
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -135,11 +149,21 @@ export function LendingDialog({
             />
           </FormGroup>
 
-          <div className="tw-mb-6 tw-mt-2">
-            {type === 'add' && <AvailableBalance asset={currency} />}
+          <div className="tw-mb-4 tw-mt-2">
+            {/* {type === 'add' && <AvailableBalance asset={currency} />} */}
+
+            {type === 'add' && (
+              <div
+                className={cn('tw-text-red tw-text-sm tw-text-center', {
+                  'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
+                })}
+              >
+                {errorMessage}
+              </div>
+            )}
 
             {type === 'remove' && (
-              <div className="tw-mb-8 tw-truncate tw-text-xs tw-font-light tw-tracking-normal">
+              <div className="tw-mb-10 tw-truncate tw-text-xs tw-font-light tw-tracking-normal">
                 <Trans
                   i18nKey={
                     translations.lendingPage.modal.withdraw.depositBalance
@@ -163,12 +187,19 @@ export function LendingDialog({
 
           {type === 'add' && (
             <>
-              <ArrowDown />
-              <div className="tw-text-center tw-mb-4">
-                APY{' '}
-                <NextSupplyInterestRate
-                  asset={currency}
-                  weiAmount={lendingAmount}
+              <div
+                className={cn('tw-text-center tw-mt-4 tw-mb-8', {
+                  'tw-opacity-40': disabled(),
+                })}
+              >
+                <Trans
+                  i18nKey={translations.lendingPage.modal.deposit.apy}
+                  components={[
+                    <NextSupplyInterestRate
+                      asset={currency}
+                      weiAmount={lendingAmount}
+                    />,
+                  ]}
                 />
               </div>
             </>
@@ -199,7 +230,7 @@ export function LendingDialog({
               if (type === 'add') handleLendSubmit();
               else handleUnlendSubmit();
             }}
-            disabled={type === 'add' ? !valid : !validRedeem}
+            disabled={disabled()}
             className="tw-rounded-lg"
           />
         </div>

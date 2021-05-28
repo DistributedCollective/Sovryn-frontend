@@ -789,6 +789,10 @@
     "walletHistory": "Wallet must be connected.",
     "loading": "Loading..."
   },
+  "validationErrors": {
+    "insufficientBalance": "insufficient funds available",
+    "minimumZero": "Minimum amount more than zero"
+  },
   "lendingPage": {
     "tabs": {
       "deposit": "Deposit",
@@ -826,7 +830,8 @@
       "deposit": {
         "title": "Deposit",
         "cta": "Deposit",
-        "amount": "Amount:"
+        "amount": "Amount:",
+        "apy": "APY% <0/> variable"
       },
       "withdraw": {
         "title": "Withdraw",
