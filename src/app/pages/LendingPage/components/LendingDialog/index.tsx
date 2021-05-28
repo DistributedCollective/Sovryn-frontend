@@ -27,6 +27,11 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Dialog } from 'app/containers/Dialog';
 import cn from 'classnames';
+import {
+  getLendingContractName,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 
 interface Props {
   currency: Asset;
@@ -130,6 +135,27 @@ export function LendingDialog({
     }
   }, [type, greaterZero, t, enoughBalance]);
 
+  const contractName = getLendingContractName(currency);
+  const tokenAddress = getTokenContract(currency).address;
+  const methodName =
+    type === 'add'
+      ? currency === Asset.RBTC
+        ? 'mintWithBTC'
+        : 'mint'
+      : currency === Asset.RBTC
+      ? 'burnToBTC'
+      : 'burn';
+
+  const txFeeArgs = useMemo(() => {
+    if (type === 'add')
+      return currency === Asset.RBTC
+        ? [tokenAddress]
+        : [tokenAddress, weiAmount];
+    return currency === Asset.RBTC
+      ? [tokenAddress]
+      : [tokenAddress, withdrawAmount];
+  }, [currency, tokenAddress, type, weiAmount, withdrawAmount]);
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -188,7 +214,7 @@ export function LendingDialog({
           {type === 'add' && (
             <>
               <div
-                className={cn('tw-text-center tw-mt-4 tw-mb-8', {
+                className={cn('tw-text-center tw-mt-8 tw-mb-12', {
                   'tw-opacity-40': disabled(),
                 })}
               >
@@ -213,12 +239,12 @@ export function LendingDialog({
           {/*  />*/}
           {/*</FormGroup>*/}
 
-          {/* <TxFeeCalculator
+          <TxFeeCalculator
             args={txFeeArgs}
-            methodName="addLiquidityToV2"
-            contractName="BTCWrapperProxy"
+            methodName={methodName}
+            contractName={contractName}
             className="tw-mt-6"
-          /> */}
+          />
 
           {/*{topupLocked?.maintenance_active && (*/}
           {/*  <ErrorBadge content={topupLocked?.message} />*/}
