@@ -697,7 +697,8 @@
       "trade": "Margem",
       "buy": "Comprar",
       "claimSov": "Receber SOV",
-      "redeemRBTC": "Resgatar rBTC"
+      "redeemRBTC": "Resgatar rBTC",
+      "withdraw": "Resgatar"
     }
   },
   "swapHistory": {
