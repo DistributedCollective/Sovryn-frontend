@@ -1057,13 +1057,13 @@
       "title": "Conectar",
       "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
       "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
-      "cta": "Conectar carteira"
+      "cta": "Conectar Carteira"
     },
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
       "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
       "line2": "Saiba mais sobre <0>RBTC</0> na RSK",
-      "cta": "Carregar carteira"
+      "cta": "Carregar Carteira"
     },
     "form": {
       "title": "Comprar SOV com <0>RBTC</0>",
