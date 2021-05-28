@@ -34,12 +34,12 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app/',
-  31: 'https://testnet.sovryn.app/fastbtc',
+  31: 'https://api.test.sovryn.app/fastbtc',
 };
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/backend/rpc',
+  31: 'https://api.test.sovryn.app/rpc',
 };
 
 export const saleBackend = {
@@ -49,7 +49,7 @@ export const saleBackend = {
 
 export const backendUrl = {
   30: 'https://backend.sovryn.app',
-  31: 'https://testnet.sovryn.app/backend',
+  31: 'https://api.test.sovryn.app',
 };
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';

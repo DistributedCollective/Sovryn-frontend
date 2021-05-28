@@ -216,8 +216,8 @@
     "swap": "Trocar criptos",
     "marginTrade": "Operar margem",
     "finance": "Finanças",
-    "lend": "Emprestar cripto",
-    "borrow": "Obter empréstimo",
+    "lend": "Emprestar criptos",
+    "borrow": "Obter empréstimos",
     "liquidity": "Minerar liquidez",
     "reward": "Recompensas SOV",
     "staking": "Aplicar SOV",
@@ -418,7 +418,7 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo à pagar."
+    "text": "Você não tem nenhum empréstimo a devolver."
   },
   "activeUserLoans": {
     "text": "Você não tem nenhuma operação de compra ou venda aberta.",
@@ -436,7 +436,6 @@
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Criptoativo",
       "currency_placeholder": "Escolha o criptoativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
@@ -447,10 +446,10 @@
     "btn": "Retirar"
   },
   "borrowActivity": {
-    "title": "Minhas dívidas",
+    "title": "Meus empréstimos",
     "tabs": {
-      "active": "À pagar",
-      "history": "Quitadas"
+      "active": "A devolver",
+      "history": "Devolvidos"
     },
     "walletNote": "Primeiro conecte sua carteira!"
   },
@@ -669,7 +668,7 @@
     },
     "tabs": {
       "userAssets": "Meus criptoativos",
-      "vestedAssets": "Criptoativos reservados",
+      "vestedAssets": "Reservados",
       "userNFTS": "NFTS"
     }
   },
@@ -691,6 +690,7 @@
       "action": "Ação"
     },
     "actions": {
+      "deposit": "Bridge",
       "fastBtc": "FastBTC",
       "swap": "Trocar",
       "trade": "Margem",
@@ -1024,12 +1024,14 @@
       "deposit": {
         "title": "Adicionar liquidez",
         "cta": "Depositar",
+        "asset": "Ativo:",
         "amount": "Quantidade:"
       },
       "withdraw": {
         "title": "Retirar liquidez",
         "cta": "Resgatar",
         "amount": "Quantidade:",
+        "asset": "Ativo:",
         "reward": "Recompensa:"
       }
     },
@@ -1098,6 +1100,11 @@
         "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
         "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
         "cta": "Veja como participar"
+      },
+      "p3": {
+        "title": "Distribuição de 40K SOV no pool SOV/RBTC!",
+        "text": "Forneça liquidez no pool SOV/RBTC até 30 de maio e ganhe sua parte na recompensa de 40K SOV. Serão 40K SOV distribuídos em apenas 7 dias! Novas promoções semanais serão anunciadas em breve.",
+        "cta": "Ganhe agora"
       }
     },
     "features": {

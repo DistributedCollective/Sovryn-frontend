@@ -47,6 +47,16 @@ export function LiquidityMining() {
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
+          <LootDrop
+            title="35K SOV Yield Farming"
+            asset1={Asset.ETH}
+            asset2={Asset.RBTC}
+            startDate="26/05/21"
+            endDate="01/06/21"
+            linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Green}
+          />
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
         {/*  <TopInfoWrapper>*/}
