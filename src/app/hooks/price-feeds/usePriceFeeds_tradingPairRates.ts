@@ -10,6 +10,8 @@ import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
+const assetsWithoutOracle = [Asset.SOV, Asset.CSOV, Asset.ETH, Asset.MOC];
+
 /**
  * use this only once
  */
@@ -47,12 +49,8 @@ export function usePriceFeeds_tradingPairRates() {
         const target = assets[l];
         if (
           target === source ||
-          target === Asset.CSOV || // todo: remove when oracle will have price
-          source === Asset.CSOV ||
-          target === Asset.SOV ||
-          source === Asset.SOV ||
-          target === Asset.ETH ||
-          source === Asset.ETH
+          assetsWithoutOracle.includes(target) ||
+          assetsWithoutOracle.includes(source)
         ) {
           continue;
         }
@@ -69,96 +67,50 @@ export function usePriceFeeds_tradingPairRates() {
       }
     }
 
-    try {
-      const btcToSov = await getSwapRate(Asset.RBTC, Asset.SOV, '1');
+    const btcToUsd = items.find(
+      item => item.source === Asset.RBTC && item.target === Asset.USDT,
+    )?.value?.rate;
 
-      items.push({
-        source: Asset.RBTC,
-        target: Asset.SOV,
-        value: {
-          precision: '1000000000000000000',
-          rate: toWei(btcToSov),
-        },
-      });
+    for (let asset of assetsWithoutOracle) {
+      if (asset === Asset.CSOV) continue;
+      try {
+        const btcToAsset = await getSwapRate(Asset.RBTC, asset, '1');
 
-      items.push({
-        source: Asset.SOV,
-        target: Asset.RBTC,
-        value: {
-          precision: '1000000000000000000',
-          rate: toWei(1 / Number(btcToSov)),
-        },
-      });
+        items.push({
+          source: Asset.RBTC,
+          target: asset,
+          value: {
+            precision: '1000000000000000000',
+            rate: toWei(btcToAsset),
+          },
+        });
 
-      const btcToUsd = items.find(
-        item => item.source === Asset.RBTC && item.target === Asset.USDT,
-      )?.value?.rate;
+        items.push({
+          source: asset,
+          target: Asset.RBTC,
+          value: {
+            precision: '1000000000000000000',
+            rate: toWei(1 / Number(btcToAsset)),
+          },
+        });
 
-      const sovToUsd = bignumber(btcToUsd)
-        .mul(1 / Number(btcToSov))
-        .toFixed(0);
+        const assetToUsd = bignumber(btcToUsd)
+          .mul(1 / Number(btcToAsset))
+          .toFixed(0);
 
-      items.push({
-        source: Asset.SOV,
-        target: Asset.USDT,
-        value: {
-          precision: '1000000000000000000',
-          rate: sovToUsd,
-        },
-      });
-
-      items.push({
-        source: Asset.CSOV,
-        target: Asset.USDT,
-        value: {
-          precision: '1000000000000000000',
-          rate: sovToUsd,
-        },
-      });
-    } catch (e) {
-      console.error('Failed to retrieve sov price', e);
+        items.push({
+          source: asset,
+          target: Asset.USDT,
+          value: {
+            precision: '1000000000000000000',
+            rate: assetToUsd,
+          },
+        });
+      } catch (e) {
+        console.error(`Failed to retrieve ${asset} price`, e);
+      }
     }
 
-    try {
-      const btcToEth = await getSwapRate(Asset.RBTC, Asset.ETH, '1');
-
-      items.push({
-        source: Asset.RBTC,
-        target: Asset.ETH,
-        value: {
-          precision: '1000000000000000000',
-          rate: toWei(btcToEth),
-        },
-      });
-
-      items.push({
-        source: Asset.ETH,
-        target: Asset.RBTC,
-        value: {
-          precision: '1000000000000000000',
-          rate: toWei(1 / Number(btcToEth)),
-        },
-      });
-
-      const btcToUsd = items.find(
-        item => item.source === Asset.RBTC && item.target === Asset.USDT,
-      )?.value?.rate;
-
-      const ethToUsd = bignumber(btcToUsd)
-        .mul(1 / Number(btcToEth))
-        .toFixed(0);
-
-      items.push({
-        source: Asset.ETH,
-        target: Asset.USDT,
-        value: {
-          precision: '1000000000000000000',
-          rate: ethToUsd,
-        },
-      });
-    } catch (e) {
-      console.error('Failed to retrieve eth price', e);
-    }
     return items;
   }, [getRate, getSwapRate]);
 
