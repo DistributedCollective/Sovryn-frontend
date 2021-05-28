@@ -783,7 +783,7 @@
         "title": "Emprestar",
         "cta": "Depositar",
         "amount": "Quantidade:",
-        "apy": "APY% <0/> variável"
+        "apy": "Juros anual% <0/> variável"
       },
       "withdraw": {
         "title": "Resgatar empréstimo",
