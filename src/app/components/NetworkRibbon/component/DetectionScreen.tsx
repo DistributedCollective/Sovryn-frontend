@@ -2,9 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from 'styled-components/macro';
-
+import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
-
+import { useWalletContext } from '@sovryn/react-wallet';
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
@@ -34,6 +34,7 @@ export function DetectionScreen(props: Props) {
   } else if (props.walletType === 'nifty') {
     logo = nifty;
   }
+  const { disconnect } = useWalletContext();
   return (
     <>
       <div className="d-flex my-3 justify-content-center flex-row pt-3 pb-5 font-family-montserrat">
@@ -51,7 +52,7 @@ export function DetectionScreen(props: Props) {
         </div>
       </div>
       <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
-        <div className="d-flex flex-row justify-content-center align-items-center">
+        <div className="d-flex flex-row justify-content-center align-items-center logo">
           <img alt="1" src={logo} className="text-center" />
         </div>
         {props.walletType === 'metamask' && (
@@ -96,11 +97,21 @@ export function DetectionScreen(props: Props) {
           </div>
         )}
       </div>
-      <div className="d-flex my-5 justify-content-center align-items-center text-center">
-        <a onClick={props.onStart} className="titleTut font-family-montserrat">
+      <div className="d-flex my-5 flex-column justify-content-center align-items-center text-center">
+        <a
+          onClick={props.onStart}
+          className="titleTut font-family-montserrat mb-3"
+        >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
+        </a>
+        <a
+          className="d-flex align-items-center justify-content-center titleTut font-family-montserrat"
+          onClick={() => disconnect()}
+        >
+          <Icon icon="log-out" className="tw-text-gold mr-1" iconSize={12} />{' '}
+          {t(translations.wallet.disconnect)}
         </a>
       </div>
     </>

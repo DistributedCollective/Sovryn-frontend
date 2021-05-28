@@ -36,7 +36,10 @@ export function FiatDialogScreen({ state, address, dispatch }: Props) {
         <FiatButton
           loading={false}
           ready={true}
-          onClick={() => dispatch(actions.openFiatOnRamp())}
+          onClick={() => {
+            dispatch(actions.generateDepositAddress());
+            dispatch(actions.openFiatOnRamp());
+          }}
         />
       </div>
     </>

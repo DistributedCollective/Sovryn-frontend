@@ -18,7 +18,6 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { EngageButton } from '../EngageButton';
 import { TradeDialog } from '../TradeDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMarginTradePage } from '../../selectors';
@@ -119,26 +118,20 @@ export function TradeForm() {
           </FormGroup>
         </div>
 
-        {!connected ? (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
-            <EngageButton />
-          </div>
-        ) : (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={submit}
-              disabled={!validate}
-            />
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={submit}
-              disabled={!validate}
-            />
-          </div>
-        )}
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
+          <Button
+            text={t(translations.marginTradePage.tradeForm.buttons.long)}
+            position={TradingPosition.LONG}
+            onClick={submit}
+            disabled={!validate || !connected}
+          />
+          <Button
+            text={t(translations.marginTradePage.tradeForm.buttons.short)}
+            position={TradingPosition.SHORT}
+            onClick={submit}
+            disabled={!validate || !connected}
+          />
+        </div>
       </div>
       <TradeDialog />
     </>
