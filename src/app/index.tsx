@@ -76,8 +76,7 @@ export function App() {
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
-            <Route exact path="/lend" component={LendBorrow} />
-            <Route exact path="/lend/v2" component={LendingPage} />
+            <Route exact path="/lend" component={LendingPage} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />
