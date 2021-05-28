@@ -769,7 +769,7 @@
   },
    "validationErrors": {
     "insufficientBalance": "Sem saldo suficiente",
-    "minimumZero": "Insira uma quantia maior que 0"
+    "minimumZero": "Insira uma quantidade maior que 0"
   },
   "lendingPage": {
     "tabs": {
