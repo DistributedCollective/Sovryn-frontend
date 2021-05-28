@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../Dialog';
@@ -24,6 +24,10 @@ import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBal
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { fromWei } from 'web3-utils';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface Props {
   currency: Asset;
@@ -54,10 +58,10 @@ export function LendingDialog({
     currency as Asset,
     useAccount(),
   );
-  const { value: depositedAssetBalance } = useLending_assetBalanceOf(
-    currency as Asset,
-    useAccount(),
-  );
+  const {
+    value: depositedAssetBalance,
+    loading: loadingDepositedAssetBalance,
+  } = useLending_assetBalanceOf(currency as Asset, useAccount());
   const { value: maxAmount } = useLending_transactionLimit(currency, currency);
 
   const validate = useMemo(() => {
@@ -94,11 +98,12 @@ export function LendingDialog({
     }
   }, [unlendTx.loading, unlend]);
 
-  const valid = useIsAmountWithinLimits(
-    weiAmount,
-    '1',
-    maxAmount !== '0' ? maxAmount : undefined,
-  );
+  const valid =
+    useIsAmountWithinLimits(
+      weiAmount,
+      '1',
+      maxAmount !== '0' ? maxAmount : undefined,
+    ) && validate;
 
   const validRedeem = useIsAmountWithinLimits(
     weiAmount,
@@ -126,21 +131,46 @@ export function LendingDialog({
               value={amount}
               onChange={value => setAmount(value)}
               asset={currency}
+              maxAmount={type === 'add' ? userBalance : depositedAssetBalance}
             />
           </FormGroup>
 
           <div className="tw-mb-6 tw-mt-2">
-            <AvailableBalance asset={currency} />
+            {type === 'add' && <AvailableBalance asset={currency} />}
+
+            {type === 'remove' && (
+              <div className="tw-mb-8 tw-truncate tw-text-xs tw-font-light tw-tracking-normal">
+                <Trans
+                  i18nKey={translations.lending.modal.withdraw.depositBalance}
+                  components={[
+                    <LoadableValue
+                      value={weiToNumberFormat(depositedAssetBalance, 6)}
+                      loading={loadingDepositedAssetBalance}
+                      tooltip={
+                        <>
+                          {fromWei(depositedAssetBalance)}{' '}
+                          <AssetRenderer asset={currency} />
+                        </>
+                      }
+                    />,
+                  ]}
+                />
+              </div>
+            )}
           </div>
 
-          <ArrowDown />
-          <div className="tw-text-center tw-mb-4">
-            APY{' '}
-            <NextSupplyInterestRate
-              asset={currency}
-              weiAmount={lendingAmount}
-            />
-          </div>
+          {type === 'add' && (
+            <>
+              <ArrowDown />
+              <div className="tw-text-center tw-mb-4">
+                APY{' '}
+                <NextSupplyInterestRate
+                  asset={currency}
+                  weiAmount={lendingAmount}
+                />
+              </div>
+            </>
+          )}
 
           {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
           {/*  <Input*/}
@@ -167,7 +197,7 @@ export function LendingDialog({
               if (type === 'add') handleLendSubmit();
               else handleUnlendSubmit();
             }}
-            disabled={type === 'add' ? !valid : !validRedeem || !validate}
+            disabled={type === 'add' ? !valid : !validRedeem}
             className="tw-rounded-lg"
           />
         </div>

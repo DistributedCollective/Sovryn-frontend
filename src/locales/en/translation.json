@@ -1054,7 +1054,8 @@
         "title": "Withdraw",
         "cta": "Withdraw",
         "amount": "Amount:",
-        "reward": "Reward:"
+        "reward": "Reward:",
+        "depositBalance": "Your deposit: <0/> <1/>"
       }
     }
   },
