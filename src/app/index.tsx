@@ -35,6 +35,7 @@ import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
+import { LendingPage } from './pages/LendingPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
@@ -76,6 +77,7 @@ export function App() {
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
+            <Route exact path="/lend/v2" component={LendingPage} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />

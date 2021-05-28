@@ -1,0 +1,19 @@
+.loan-graph-container {
+  &-enter {
+    opacity: 0;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-axit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+}

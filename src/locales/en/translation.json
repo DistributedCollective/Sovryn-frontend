@@ -813,6 +813,28 @@
         "line_2": "Currently pool has only {{amount}} {{currency}} available.",
         "line_3": "Pool will increase once users will repay their loans."
       }
+    },
+    "rowTable": {
+      "tableHeaders": {
+        "apy": "APY%",
+        "yourDeposit": "Your Deposit",
+        "myProfit": "My Profit",
+        "rewards": "Rewards"
+      }
+    },
+    "modal": {
+      "deposit": {
+        "title": "Deposit",
+        "cta": "Deposit",
+        "amount": "Amount:"
+      },
+      "withdraw": {
+        "title": "Withdraw",
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:",
+        "depositBalance": "Your deposit: <0/> <1/>"
+      }
     }
   },
   "activeBorrowTable": {
