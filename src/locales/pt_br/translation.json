@@ -126,7 +126,7 @@
     "title": "Depositar-BTC",
     "history": {
       "title": "Histórico",
-      "empty": "Histórico vazio.",
+      "empty": "Você não tem histórico de depósitos.",
       "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
       "loading": "Carregando..."
     },
@@ -1030,6 +1030,7 @@
     },
     "historyTable": {
       "title": "Histórico",
+      "emptyState": "Você não tem histórico de fornecimento de liquidez.",
       "tableHeaders": {
         "time": "Data e hora",
         "pool": "Pool",
