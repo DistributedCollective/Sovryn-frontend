@@ -31,8 +31,8 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>
         <TablePoolRenderer
-          asset={pool.supplyAssets[0].asset}
-          secondaryAsset={pool.supplyAssets[1].asset}
+          asset={pool?.supplyAssets[0]?.asset}
+          secondaryAsset={pool?.supplyAssets[1]?.asset}
         />
       </td>
       <td>{type}</td>
