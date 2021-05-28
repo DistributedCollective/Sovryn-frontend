@@ -226,7 +226,33 @@
     "stats": "Dados",
     "help": "Ajuda",
     "bitocracy": "Bitocracia",
-    "spotTrade": "Operar spot"
+    "spotTrade": "Operar spot",
+    "origins": "Origens"
+  },
+  "originsLaunchpad": {
+    "upcomingSales": {
+      "title": "Próximas vendas na plataforma Origens",
+      "projectCard": {
+        "saleToken": "Token à venda",
+        "project": "Projeto",
+        "startDate": "Data de início",
+        "startPrice": "Preço inicial"
+      },
+      "inputLabel": "Insira um endereço de e-mail",
+      "submitButton": "Inscreva-se para receber atualizações"
+    },
+    "previousSales": {
+      "title": "Vendas anteriores",
+      "projectCard": {
+        "saleName": "Nome",
+        "saleAllocation": "Reservado para venda",
+        "totalRaised": "Total arrecadado",
+        "participatingWallets": "Carteiras participantes",
+        "date": "Data",
+        "saleDuration": "Duração da venda",
+        "price": "Preço"
+      }
+    }
   },
   "trandingPositionSelector": {
     "long": "Comprado",
