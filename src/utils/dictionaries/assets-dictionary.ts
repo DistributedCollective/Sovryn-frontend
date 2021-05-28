@@ -6,6 +6,7 @@ import rbtcIcon from 'assets/images/tokens/rbtc.png';
 import bproIcon from 'assets/images/tokens/bpro.svg';
 import sovIcon from 'assets/images/tokens/sov.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
+import mocIcon from 'assets/images/tokens/moc.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -18,11 +19,15 @@ export class AssetsDictionary {
       ],
       [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
       [Asset.ETH, new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon)],
+      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
+      [
+        Asset.MOC,
+        new AssetDetails(Asset.MOC, 'MoC', 'Money on Chain', 18, mocIcon),
+      ],
       [
         Asset.DOC,
         new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),
       ],
-      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
       [
         Asset.BPRO,
         new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
