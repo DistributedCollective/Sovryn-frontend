@@ -1048,6 +1048,15 @@
       "placeholder": "Select item"
     }
   },
+  "borrowPage": {
+    "modal":{
+      "borrowModal": {
+        "title": "Borrow",
+        "amount": "Amount to borrow:",
+        "collateral": "Select collateral asset:"
+      }
+    }
+  },
   "liquidityMining": {
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",

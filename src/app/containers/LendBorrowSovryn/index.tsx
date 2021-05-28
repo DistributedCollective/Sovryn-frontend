@@ -1,21 +1,23 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Header } from 'app/components/Header';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
-import CurrencyContainer from './components/CurrencyContainer';
-import './assets/index.scss';
-import CurrencyDetails from './components/CurrencyDetails';
-import LendingHistory from './components/LendingHistory';
-import { Header } from 'app/components/Header';
-import { lendBorrowSovrynSaga } from './saga';
-import { actions, reducer, sliceKey } from './slice';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectLendBorrowSovryn } from './selectors';
-import { TabType } from './types';
+import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from '../RepayPositionHandler/Loadable';
-import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
+import CurrencyContainer from './components/CurrencyContainer';
+import CurrencyDetails from './components/CurrencyDetails';
+import LendingHistory from './components/LendingHistory';
+import { lendBorrowSovrynSaga } from './saga';
+import { selectLendBorrowSovryn } from './selectors';
+import { actions, reducer, sliceKey } from './slice';
+import { TabType } from './types';
+
+import './assets/index.scss';
+
 // import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
 
 type Props = {};
