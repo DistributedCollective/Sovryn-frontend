@@ -741,6 +741,10 @@
     "walletHistory": "A carteira precisa estar conectada.",
     "loading": "Carregando..."
   },
+   "validationErrors": {
+    "insufficientBalance": "Sem saldo suficiente",
+    "minimumZero": "Insira uma quantidade maior que 0"
+  },
   "lendingPage": {
     "tabs": {
       "deposit": "Depositar",
@@ -764,6 +768,29 @@
         "line_1": "Não há {{currency}} suficiente no pool de empréstimos disponíveis para serem emprestados.",
         "line_2": "O pool atual tem somente {{amount}} {{currency}} disponível.",
         "line_3": "O pool irá aumentar quando os usuários devolverem seus respectivos empréstimos."
+      }
+    },
+    "rowTable": {
+      "tableHeaders": {
+        "apy": "Juros anual%",
+        "yourDeposit": "Meu depósito",
+        "myProfit": "Lucro",
+        "rewards": "Recompensas"
+      }
+    },
+    "modal": {
+      "deposit": {
+        "title": "Emprestar",
+        "cta": "Depositar",
+        "amount": "Quantidade:",
+        "apy": "APY% <0/> variável"
+      },
+      "withdraw": {
+        "title": "Resgatar empréstimo",
+        "cta": "Resgatar",
+        "amount": "Quantidade:",
+        "reward": "Recompensa:",
+        "depositBalance": "Meu depósito: <0/> <1/>"
       }
     }
   },
