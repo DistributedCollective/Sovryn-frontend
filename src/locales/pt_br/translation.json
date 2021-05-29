@@ -768,7 +768,7 @@
     "loading": "Carregando..."
   },
    "validationErrors": {
-    "insufficientBalance": "Sem saldo suficiente",
+    "insufficientBalance": "Saldo insuficiente",
     "minimumZero": "Insira uma quantidade maior que 0"
   },
   "lendingPage": {
