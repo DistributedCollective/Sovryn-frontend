@@ -99,7 +99,7 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem operações fechadas.",
+    "noClosedTrades": "Você não tem histórico operações fechadas.",
     "table": {
       "direction": "Direção",
       "positionSize": "Tamanho da posição",
@@ -444,10 +444,10 @@
     }
   },
   "activeUserBorrows": {
-    "text": "Você não tem nenhum empréstimo a devolver."
+    "text": "Você não tem empréstimos a devolver."
   },
   "activeUserLoans": {
-    "text": "Você não tem nenhuma operação de compra ou venda aberta.",
+    "text": "Você não tem operações de compra ou venda abertas.",
     "info": {
       "line_1": "Precisa de ajuda? Leia nosso guia ",
       "line_2": " de como usar a Sovryn",
@@ -763,7 +763,7 @@
       "transferTx": "ID recebimento RBTC ",
       "txHash": "Transação"
     },
-    "emptyState": "Histórico vázio.",
+    "emptyState": "Você não tem histórico de depósitos.",
     "walletHistory": "A carteira precisa estar conectada.",
     "loading": "Carregando..."
   },
