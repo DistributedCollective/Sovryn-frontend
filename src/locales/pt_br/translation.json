@@ -306,7 +306,7 @@
       "allVolumne": "TODO PERÍODO",
       "btc": "BTC",
       "usd": "USD",
-      "tvl": "TVL",
+      "tvl": "TVL (Valor total na Sovryn)",
       "lending": "Dados de empréstimos"
     },
     "tvl": {
