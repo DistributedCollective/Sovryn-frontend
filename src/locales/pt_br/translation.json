@@ -245,7 +245,7 @@
       "title": "Vendas anteriores",
       "projectCard": {
         "saleName": "Nome",
-        "saleAllocation": "Reservado para venda",
+        "saleAllocation": "Disponibilizado para venda",
         "totalRaised": "Total arrecadado",
         "participatingWallets": "Carteiras participantes",
         "date": "Data",
