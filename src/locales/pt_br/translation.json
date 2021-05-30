@@ -694,7 +694,7 @@
       "description": "Informações sobre a carteira conectada"
     },
     "tabs": {
-      "userAssets": "Criptoativos",
+      "userAssets": "Meus criptoativos",
       "vestedAssets": "Reservados",
       "userNFTS": "NFTS"
     }
