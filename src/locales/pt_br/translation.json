@@ -816,7 +816,7 @@
         "cta": "Resgatar",
         "amount": "Quantidade:",
         "reward": "Recompensa:",
-        "depositBalance": "Meu depósito: <0/> <1/>"
+        "depositBalance": "Você emprestou: <0/> <1/>"
       }
     }
   },
