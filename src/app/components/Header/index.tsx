@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';
-import { usePageViews } from 'app/hooks/usePageViews';
+import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

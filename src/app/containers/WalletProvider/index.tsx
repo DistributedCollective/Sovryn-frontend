@@ -6,6 +6,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import crypto from 'crypto';
 import {
   useWalletContext,
   WalletProvider as SovrynWallet,
@@ -33,6 +34,7 @@ import {
 import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
+import { useEvent } from 'app/hooks/useAnalytics';
 
 interface Props {
   children: React.ReactNode;
@@ -70,10 +72,21 @@ export function WalletProvider(props: Props) {
 
 function WalletWatcher() {
   const dispatch = useDispatch();
-  const { address, chainId } = useWalletContext();
+  const { wallet, address, chainId } = useWalletContext();
+  const setEvent = useEvent();
+
   useEffect(() => {
+    if (address) {
+      setEvent({
+        category: 'WalletEngaged',
+        action: wallet?.wallet?.getWalletType() || 'unknown',
+        label: crypto.createHash('md5').update(address).digest('hex'),
+      });
+    }
     dispatch(actions.accountChanged(address));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, address]);
+
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));
   }, [dispatch, chainId]);
