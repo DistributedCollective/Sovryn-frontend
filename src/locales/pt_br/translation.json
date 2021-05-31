@@ -1071,7 +1071,7 @@
       }
     },
     "rowTable": {
-      "noLiquidityProvided": "Você não fornceceu liquidez",
+      "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
       "tableHeaders": {
         "totalEarned": "Total ganho",
         "balance": "Saldo",
