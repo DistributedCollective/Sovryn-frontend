@@ -1044,6 +1044,8 @@
     }
   },
   "liquidityMining": {
+    "deposit": "Adicionar",
+    "withdraw": "Retirar",
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
