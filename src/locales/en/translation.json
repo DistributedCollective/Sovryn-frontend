@@ -1063,6 +1063,7 @@
     },
     "historyTable": {
       "title": "Liquidity History",
+      "emptyState": "History is empty.",
       "tableHeaders": {
         "time": "Date/Time",
         "pool": "Pool",
