@@ -54,14 +54,14 @@ export function MiningPool({ pool }: Props) {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
-          text={t(translations.common.deposit)}
+          text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract}
         />
         <ActionButton
-          text={t(translations.common.withdraw)}
+          text={t(translations.liquidityMining.withdraw)}
           onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
