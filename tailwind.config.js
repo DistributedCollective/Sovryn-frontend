@@ -93,6 +93,7 @@ module.exports = {
       teal: '#4ecdc4',
       gold: '#fec004',
       red: '#eb2106',
+      error: '#A52222',
       green: '#00ce7d',
       customOrange: '#ff9931',
       Gold: '#fec004',

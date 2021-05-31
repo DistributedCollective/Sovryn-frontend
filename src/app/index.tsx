@@ -31,7 +31,6 @@ import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
-import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';

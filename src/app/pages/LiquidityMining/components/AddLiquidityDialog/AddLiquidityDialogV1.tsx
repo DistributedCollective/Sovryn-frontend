@@ -68,15 +68,25 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     [weiAmount1, weiAmount2],
     minReturn,
   );
+  const enoughBalance = useMemo(() => {
+    return (
+      bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
+      bignumber(balance2).greaterThanOrEqualTo(weiAmount2)
+    );
+  }, [balance1, balance2, weiAmount1, weiAmount2]);
+
+  const errorMessage = useMemo(() => {
+    if (!enoughBalance)
+      return t(translations.validationErrors.insufficientBalance);
+  }, [t, enoughBalance]);
 
   const valid = useMemo(() => {
     return (
-      bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
+      enoughBalance &&
       bignumber(weiAmount1).greaterThan(0) &&
-      bignumber(balance2).greaterThanOrEqualTo(weiAmount2) &&
       bignumber(weiAmount2).greaterThan(0)
     );
-  }, [balance1, balance2, weiAmount1, weiAmount2]);
+  }, [enoughBalance, weiAmount1, weiAmount2]);
 
   const txFeeArgs = useMemo(() => {
     return [
@@ -115,12 +125,22 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               asset={token1}
             />
           </FormGroup>
-
-          <DummyInput
-            value={weiToNumberFormat(weiAmount2, 8)}
-            appendElem={<AssetRenderer asset={token2} />}
-            className="tw-mt-6 tw-h-9"
-          />
+          <div className="tw-relative">
+            <DummyInput
+              value={weiToNumberFormat(weiAmount2, 8)}
+              appendElem={<AssetRenderer asset={token2} />}
+              className="tw-mt-6 tw-h-9"
+            />
+            {errorMessage && (
+              <div
+                className={
+                  'tw-text-error tw-text-sm tw-text-center tw-absolute tw-flex tw-items-center tw-justify-center tw-bg-black tw-h-full tw-top-0 tw-w-full tw-input-wrapper readonly'
+                }
+              >
+                {errorMessage}
+              </div>
+            )}
+          </div>
           <div className="tw-text-xs tw-font-thin tw-mt-1">
             {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
               balance2,

@@ -180,7 +180,7 @@ export function LendingDialog({
 
             {type === 'add' && (
               <div
-                className={cn('tw-text-red tw-text-sm tw-text-center', {
+                className={cn('tw-text-error tw-text-sm tw-text-center', {
                   'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
                 })}
               >
