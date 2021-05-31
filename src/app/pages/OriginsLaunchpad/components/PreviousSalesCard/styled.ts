@@ -3,6 +3,11 @@ import styled from 'styled-components';
 export const CardImage = styled.div`
   width: 18.6875rem;
   height: 24.8125rem;
+  margin-bottom: 1rem;
+
+  @media (min-width: 576px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const InfoRowValue = styled.div`

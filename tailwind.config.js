@@ -127,6 +127,9 @@ module.exports = {
         '155': '38.75rem',
         '163': '40.75rem',
       },
+      minWidth: {
+        '122': '30.5rem',
+      },
       height: {
         '88': '22rem',
       },

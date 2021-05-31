@@ -30,7 +30,12 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className={cn('tw-flex tw-max-w-50', className)}>
+    <div
+      className={cn(
+        'tw-flex tw-min-w-122 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50',
+        className,
+      )}
+    >
       <CardImage style={{ backgroundImage: `url(${backgroundImage})` }} />
       <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 2xl:tw-ml-11">
         <InfoRow

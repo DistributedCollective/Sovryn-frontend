@@ -27,7 +27,7 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="~ 650"
         date="25 Jan 2021"
         saleDuration="27 minutes"
-        className="tw-ml-8 xl:tw-ml-16 2xl:tw-ml-36"
+        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0 xl:tw-ml-8 xl:tw-ml-16 2xl:tw-ml-36"
         backgroundImage={imgGenesis}
       />
     </PreviousSalesRow>
