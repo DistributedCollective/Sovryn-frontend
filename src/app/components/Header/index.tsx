@@ -151,7 +151,7 @@ export function Header() {
         dispatch(lendBorrowActions.changeTab(LendBorrowTabType.BORROW));
       },
     },
-    { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
+    { to: '/yield-farm', title: t(translations.mainMenu.yieldFarm) },
     {
       to: 'https://bitocracy.sovryn.app/stake',
       title: t(translations.mainMenu.staking),
@@ -228,12 +228,14 @@ export function Header() {
     TRADE: 'trade',
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
+    REWARDS: 'rewards',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
-      [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity', '/reward'],
+      [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
+      [SECTION_TYPE.REWARDS]: ['/reward'],
       [SECTION_TYPE.BITOCRACY]: [''],
     };
     return section && paths[section].includes(location.pathname);
@@ -342,14 +344,9 @@ export function Header() {
                       }}
                     />
                     <MenuItem
-                      text={t(translations.mainMenu.liquidity)}
+                      text={t(translations.mainMenu.yieldFarm)}
                       className="bp3-popover-dismiss"
-                      onClick={() => history.push('/liquidity')}
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.reward)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => history.push('/reward')}
+                      onClick={() => history.push('/yield-farm')}
                     />
                   </BPMenu>
                 }
@@ -409,14 +406,38 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
+
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.reward)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/reward')}
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
+                  }`}
+                >
+                  <span className="mr-1 tw-cursor-pointer">
+                    {t(translations.mainMenu.rewards)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
+
               <NavLink className="tw-header-link mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <NavLink className="tw-header-link" to="/stats">
-                {t(translations.mainMenu.stats)}
-              </NavLink>
               <NavLink className="tw-header-link" to="/origins">
                 {t(translations.mainMenu.origins)}
+              </NavLink>
+              <NavLink className="tw-header-link" to="/stats">
+                {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
           </div>

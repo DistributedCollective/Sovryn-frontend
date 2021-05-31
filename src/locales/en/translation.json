@@ -215,20 +215,21 @@
     "buySov": "Buy SOV",
     "trade": "Trade",
     "swap": "Swap",
-    "marginTrade": "Margin Trading",
+    "marginTrade": "Margin",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Liquidity-mining",
+    "yieldFarm": "Yield farm",
     "reward": "Reward SOV",
-    "staking": "Staking",
+    "staking": "Stake",
     "governance": "Governance",
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
-    "spotTrade": "Spot Trade",
-    "origins": "Origins"
+    "spotTrade": "Spot",
+    "origins": "Origins",
+    "rewards": "Rewards"
   },
   "originsLaunchpad": {
     "upcomingSales": {

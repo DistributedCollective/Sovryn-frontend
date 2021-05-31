@@ -34,7 +34,7 @@ export function Features() {
         }
         image={imgMining}
         cta={t(translations.buySovPage.features.mining.cta)}
-        href="/liquidity"
+        href="/yield-farm"
         reverse
       />
 
@@ -93,7 +93,7 @@ export function Features() {
         }
         image={imgMarketMaking}
         cta={t(translations.buySovPage.features.liquidity.cta)}
-        href="/liquidity"
+        href="/yield-farm"
       />
 
       <Feature
