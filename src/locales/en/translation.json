@@ -1092,6 +1092,7 @@
     },
     "historyTable": {
       "title": "Liquidity History",
+      "emptyState": "History is empty.",
       "tableHeaders": {
         "time": "Date/Time",
         "pool": "Pool",
@@ -1103,7 +1104,7 @@
       }
     },
     "rowTable": {
-      "noLiquidityProvided": "You have no liquidity provided",
+      "noLiquidityProvided": "Add liquidity and earn income",
       "tableHeaders": {
         "totalEarned": "Total Earned",
         "balance": "Balance",
