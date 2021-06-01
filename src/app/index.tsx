@@ -8,7 +8,7 @@
 
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
@@ -79,6 +79,7 @@ export function App() {
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
             <Route exact path="/stats" component={StatsPage} />
+            <Redirect exact from="/liquidity" to="/yield-farm" />
             <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
