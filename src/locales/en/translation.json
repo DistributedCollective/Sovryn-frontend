@@ -794,6 +794,8 @@
     "minimumZero": "Minimum amount more than zero"
   },
   "lendingPage": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
     "tabs": {
       "deposit": "Deposit",
       "redeem": "Redeem"

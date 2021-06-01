@@ -44,6 +44,10 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceCall, profitCall, asset]);
 
+  const hasDeposited = useMemo(() => {
+    return bignumber(balance).greaterThan(0);
+  }, [balance]);
+
   return (
     <RowTable>
       <thead className="tw-text-sm tw-tracking-normal">
@@ -71,29 +75,41 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             className="tw-text-base"
           />
         </TableBodyData>
-        <TableBodyData>
-          <LoadableValue
-            loading={pLoading || bLoading}
-            value={
-              <>
-                {weiToFixed(balance, 4)} <AssetRenderer asset={asset} />
-              </>
-            }
-          />
-        </TableBodyData>
-        <TableBodyData>
-          <LoadableValue
-            loading={pLoading}
-            value={
-              <ProfitLossRenderer
-                isProfit={bignumber(profitCall).greaterThanOrEqualTo(0)}
-                amount={weiToFixed(profitCall, 8)}
-                asset={asset}
+        {!hasDeposited && !pLoading && !bLoading && (
+          <td
+            colSpan={3}
+            className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
+          >
+            {t(translations.liquidityMining.rowTable.noLiquidityProvided)}
+          </td>
+        )}
+        {(hasDeposited || pLoading || bLoading) && (
+          <>
+            <TableBodyData>
+              <LoadableValue
+                loading={pLoading || bLoading}
+                value={
+                  <>
+                    {weiToFixed(balance, 4)} <AssetRenderer asset={asset} />
+                  </>
+                }
               />
-            }
-          />
-        </TableBodyData>
-        <TableBodyData>-</TableBodyData>
+            </TableBodyData>
+            <TableBodyData>
+              <LoadableValue
+                loading={pLoading}
+                value={
+                  <ProfitLossRenderer
+                    isProfit={bignumber(profitCall).greaterThanOrEqualTo(0)}
+                    amount={weiToFixed(profitCall, 8)}
+                    asset={asset}
+                  />
+                }
+              />
+            </TableBodyData>
+            <TableBodyData>-</TableBodyData>
+          </>
+        )}
       </TableBody>
     </RowTable>
   );
