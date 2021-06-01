@@ -58,10 +58,9 @@ export function PoolChart(props: Props) {
 
   const tooltipFormatter = function (this: any) {
     const d = new Date(this.x);
-    console.log('this.points: ', this.points);
     return this.points?.reduce(
       function (s, point) {
-        return `${s}<br/>${point.series.name}: ${point.y.toFixed(2)}${
+        return `${s}<br/>${point.series.name}: ${point.y.toFixed(3)}${
           point.series.userOptions?.tooltip?.valueSuffix
         }`;
       },
@@ -80,7 +79,7 @@ export function PoolChart(props: Props) {
         primaryData={{
           name: `${asset} APY%`,
           color: getAssetColor(asset),
-          numDecimals: 2,
+          numDecimals: 3,
           suffix: '%',
           data: supplyApr,
         }}
@@ -88,7 +87,7 @@ export function PoolChart(props: Props) {
           name: 'Total Liquidity',
           color: '#ACACAC',
           data: totalLiq,
-          numDecimals: 2,
+          numDecimals: 3,
           suffix: '₿',
         }}
         tooltipFormatter={tooltipFormatter}
