@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet-async';
 
 type Props = {};
 
-const LendBorrowSovryn: React.FC<Props> = props => {
+const LendingPage: React.FC<Props> = props => {
   const { t } = useTranslation();
 
   return (
@@ -48,4 +48,4 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   );
 };
 
-export default LendBorrowSovryn;
+export default LendingPage;
