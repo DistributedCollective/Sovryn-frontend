@@ -799,6 +799,10 @@
         "line_3": "O pool irá aumentar quando os usuários devolverem seus respectivos empréstimos."
       }
     },
+     "poolChart": {
+      "totalLiquidity": "Liquidez total",
+      "apy": "{{asset}} Juros anual%"
+    },
     "rowTable": {
       "tableHeaders": {
       "noLiquidityProvided": "Empreste sua cripto e ganhe rendimentos",
