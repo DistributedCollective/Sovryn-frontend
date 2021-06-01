@@ -7,6 +7,8 @@ import { databaseRpcNodes } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface Props {
   pool: LendingPool;
@@ -19,6 +21,7 @@ interface DataItem {
 }
 
 export function PoolChart(props: Props) {
+  const { t } = useTranslation();
   const { chainId } = useSelector(selectWalletProvider);
   const [data, setData] = useState([]);
   const asset = props.pool.getAsset();
@@ -77,18 +80,18 @@ export function PoolChart(props: Props) {
       <ComparisonChart
         key={data.length}
         primaryData={{
-          name: `${asset} APY%`,
+          name: t(translations.lendingPage.poolChart.apy, { asset }),
           color: getAssetColor(asset),
           numDecimals: 3,
           suffix: '%',
           data: supplyApr,
         }}
         totalData={{
-          name: 'Total Liquidity',
+          name: t(translations.lendingPage.poolChart.totalLiquidity),
           color: '#ACACAC',
           data: totalLiq,
           numDecimals: 3,
-          suffix: '₿',
+          suffix: `${asset}`,
         }}
         tooltipFormatter={tooltipFormatter}
       />

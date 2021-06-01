@@ -57,30 +57,30 @@ export function LendingDialog({
 
   const weiAmount = useWeiAmount(amount);
 
-  const { value: userBalance } = useAssetBalanceOf(currency as Asset);
+  const { value: userBalance } = useAssetBalanceOf(currency);
   const { value: depositedBalance } = useLending_balanceOf(
-    currency as Asset,
+    currency,
     useAccount(),
   );
   const {
     value: depositedAssetBalance,
     loading: loadingDepositedAssetBalance,
-  } = useLending_assetBalanceOf(currency as Asset, useAccount());
+  } = useLending_assetBalanceOf(currency, useAccount());
   const { value: maxAmount } = useLending_transactionLimit(currency, currency);
 
-  const greaterZero = useMemo(() => {
+  const isGreaterThanZero = useMemo(() => {
     return bignumber(weiAmount).greaterThan(0);
   }, [weiAmount]);
 
-  const enoughBalance = useMemo(() => {
+  const hasSufficientBalance = useMemo(() => {
     return bignumber(weiAmount).lessThanOrEqualTo(
       maxMinusFee(userBalance, currency, gasLimit),
     );
   }, [currency, userBalance, weiAmount]);
 
   const validate = useMemo(() => {
-    return greaterZero && enoughBalance;
-  }, [greaterZero, enoughBalance]);
+    return isGreaterThanZero && hasSufficientBalance;
+  }, [isGreaterThanZero, hasSufficientBalance]);
 
   const withdrawAmount = useMemo(() => {
     return bignumber(weiAmount)
@@ -107,14 +107,14 @@ export function LendingDialog({
     }
   }, [unlendTx.loading, unlend]);
 
-  const valid =
+  const isValid =
     useIsAmountWithinLimits(
       weiAmount,
       '1',
       maxAmount !== '0' ? maxAmount : undefined,
     ) && validate;
 
-  const validRedeem = useIsAmountWithinLimits(
+  const isValidRedeem = useIsAmountWithinLimits(
     weiAmount,
     '1',
     depositedAssetBalance,
@@ -125,26 +125,23 @@ export function LendingDialog({
     setAmount('');
   }, [currency]);
 
-  const disabled = () => (type === 'add' ? !valid : !validRedeem);
+  const disabled = () => (type === 'add' ? !isValid : !isValidRedeem);
 
   const errorMessage = useMemo(() => {
     if (type === 'add') {
-      if (!greaterZero) return t(translations.validationErrors.minimumZero);
-      if (!enoughBalance)
+      if (!isGreaterThanZero)
+        return t(translations.validationErrors.minimumZero);
+      if (!hasSufficientBalance)
         return t(translations.validationErrors.insufficientBalance);
     }
-  }, [type, greaterZero, t, enoughBalance]);
+  }, [type, isGreaterThanZero, t, hasSufficientBalance]);
 
   const contractName = getLendingContractName(currency);
   const tokenAddress = getTokenContract(currency).address;
-  const methodName =
-    type === 'add'
-      ? currency === Asset.RBTC
-        ? 'mintWithBTC'
-        : 'mint'
-      : currency === Asset.RBTC
-      ? 'burnToBTC'
-      : 'burn';
+  const getMethodName = () => {
+    if (type === 'add') return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
+    return currency === Asset.RBTC ? 'burnToBTC' : 'burn';
+  };
 
   const txFeeArgs = useMemo(() => {
     if (type === 'add')
@@ -155,6 +152,11 @@ export function LendingDialog({
       ? [tokenAddress]
       : [tokenAddress, withdrawAmount];
   }, [currency, tokenAddress, type, weiAmount, withdrawAmount]);
+
+  const handleSubmit = () => {
+    if (type === 'add') handleLendSubmit();
+    else handleUnlendSubmit();
+  };
 
   return (
     <>
@@ -241,7 +243,7 @@ export function LendingDialog({
 
           <TxFeeCalculator
             args={txFeeArgs}
-            methodName={methodName}
+            methodName={getMethodName()}
             contractName={contractName}
             className="tw-mt-6"
           />
@@ -252,10 +254,7 @@ export function LendingDialog({
 
           <DialogButton
             confirmLabel={t(modalTranslation.cta)}
-            onConfirm={() => {
-              if (type === 'add') handleLendSubmit();
-              else handleUnlendSubmit();
-            }}
+            onConfirm={handleSubmit}
             disabled={disabled()}
             className="tw-rounded-lg"
           />

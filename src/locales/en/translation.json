@@ -820,8 +820,12 @@
         "line_3": "Pool will increase once users will repay their loans."
       }
     },
+    "poolChart": {
+      "totalLiquidity": "Total Liquidity",
+      "apy": "{{asset}} APY%"
+    },
     "rowTable": {
-      "noLiquidityProvided": "Add liquidity and earn income",
+      "noLiquidityProvided": "Lend your asset and earn income",
       "tableHeaders": {
         "apy": "APY%",
         "yourDeposit": "Your Deposit",
@@ -834,7 +838,7 @@
         "title": "Deposit",
         "cta": "Deposit",
         "amount": "Amount:",
-        "apy": "APY% <0/> variable"
+        "apy": "APY <0/> variable"
       },
       "withdraw": {
         "title": "Withdraw",

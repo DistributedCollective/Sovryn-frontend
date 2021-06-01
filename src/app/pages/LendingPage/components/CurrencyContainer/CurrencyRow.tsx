@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
 
-import '../../assets/index.scss';
-import './style.scss';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 
 import { ActionButton } from 'form/ActionButton';

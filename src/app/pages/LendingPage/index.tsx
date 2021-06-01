@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CurrencyContainer from './components/CurrencyContainer';
-import './assets/index.scss';
 import { Header } from 'app/components/Header';
 import { Footer } from '../../components/Footer';
 import { LootDropSectionWrapper } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
@@ -11,9 +10,7 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 
-type Props = {};
-
-const LendingPage: React.FC<Props> = props => {
+const LendingPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (

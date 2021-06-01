@@ -68,7 +68,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     [weiAmount1, weiAmount2],
     minReturn,
   );
-  const enoughBalance = useMemo(() => {
+  const hasSufficientBalance = useMemo(() => {
     return (
       bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
       bignumber(balance2).greaterThanOrEqualTo(weiAmount2)
@@ -76,17 +76,17 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   }, [balance1, balance2, weiAmount1, weiAmount2]);
 
   const errorMessage = useMemo(() => {
-    if (!enoughBalance)
+    if (!hasSufficientBalance)
       return t(translations.validationErrors.insufficientBalance);
-  }, [t, enoughBalance]);
+  }, [t, hasSufficientBalance]);
 
   const valid = useMemo(() => {
     return (
-      enoughBalance &&
+      hasSufficientBalance &&
       bignumber(weiAmount1).greaterThan(0) &&
       bignumber(weiAmount2).greaterThan(0)
     );
-  }, [enoughBalance, weiAmount1, weiAmount2]);
+  }, [hasSufficientBalance, weiAmount1, weiAmount2]);
 
   const txFeeArgs = useMemo(() => {
     return [

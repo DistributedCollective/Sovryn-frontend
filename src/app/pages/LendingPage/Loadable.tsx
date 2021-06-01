@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for EmailOptInSuccessPage
+ * Asynchronously loads the component for LendingPage
  *
  */
 
