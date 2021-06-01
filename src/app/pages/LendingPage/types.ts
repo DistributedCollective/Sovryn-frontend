@@ -2,7 +2,7 @@
 import { Asset } from 'types/asset';
 import { Nullable } from 'types';
 
-export interface LendBorrowSovrynState {
+export interface LendingPageState {
   tab: TabType;
   asset: Asset;
   collateral: Nullable<Asset>;
@@ -20,8 +20,6 @@ export enum TabType {
 export enum ButtonType {
   DEPOSIT = 'deposit',
   REDEEM = 'redeem',
-  BORROW = 'borrow',
-  REPAY = 'repay',
 }
 
-export type ContainerState = LendBorrowSovrynState;
+export type ContainerState = LendingPageState;

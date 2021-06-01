@@ -17,6 +17,7 @@ export interface ComparisonProps {
   secondaryData?: Dataset;
   totalData?: Dataset;
   className?: string;
+  tooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
 }
 
 const formatValues = value => {
@@ -38,6 +39,7 @@ export default function ComparisonChart(props: ComparisonProps) {
     height: 150,
     margin: [30, 45, 30, 40],
     labelColor: '#EDEDED',
+    tooltipFormatter: props.tooltipFormatter,
     yAxisProps: {
       suffix: '%',
     },

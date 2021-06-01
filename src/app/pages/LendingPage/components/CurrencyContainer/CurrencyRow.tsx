@@ -73,6 +73,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
           />
         }
         leftColor={undefined}
+        chartReady={true}
       />
 
       <>

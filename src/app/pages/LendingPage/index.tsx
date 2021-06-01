@@ -38,7 +38,7 @@ const LendBorrowSovryn: React.FC<Props> = props => {
           />
         </LootDropSectionWrapper>
 
-        <div className="tw-full">
+        <div className={'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32'}>
           <CurrencyContainer />
         </div>
       </div>

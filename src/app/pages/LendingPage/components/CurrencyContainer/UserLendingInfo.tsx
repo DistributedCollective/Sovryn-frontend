@@ -68,6 +68,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
           <NextSupplyInterestRate
             asset={lendingPool.getAsset()}
             weiAmount={lendingAmount}
+            className="tw-text-base"
           />
         </TableBodyData>
         <TableBodyData>
