@@ -215,19 +215,46 @@
     "buySov": "Buy SOV",
     "trade": "Trade",
     "swap": "Swap",
-    "marginTrade": "Margin Trading",
+    "marginTrade": "Margin",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Liquidity-mining",
+    "yieldFarm": "Yield Farm",
     "reward": "Reward SOV",
-    "staking": "Staking",
+    "staking": "Stake",
     "governance": "Governance",
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
-    "spotTrade": "Spot Trade"
+    "spotTrade": "Spot",
+    "origins": "Origins",
+    "rewards": "Rewards"
+  },
+  "originsLaunchpad": {
+    "upcomingSales": {
+      "title": "Upcoming Sales On Origins Launchpad",
+      "projectCard": {
+        "saleToken": "Sale Token",
+        "project": "Project",
+        "startDate": "Starts",
+        "startPrice": "Starts"
+      },
+      "inputLabel": "Enter Email Address",
+      "submitButton": "Sign up for Origins Updates"
+    },
+    "previousSales": {
+      "title": "Previous Sales On Origins",
+      "projectCard": {
+        "saleName": "Sale Name",
+        "saleAllocation": "Sale Allocation",
+        "totalRaised": "Total Raised",
+        "participatingWallets": "Participating Wallets",
+        "date": "Date",
+        "saleDuration": "Sale Duration",
+        "price": "Price"
+      }
+    }
   },
   "trandingPositionSelector": {
     "long": "Long",

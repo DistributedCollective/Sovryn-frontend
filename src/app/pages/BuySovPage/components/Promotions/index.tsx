@@ -36,7 +36,7 @@ export function Promotions() {
         title={t(translations.buySovPage.promotions.p3.title)}
         content={<>{t(translations.buySovPage.promotions.p3.text)}</>}
         cta={t(translations.buySovPage.promotions.p3.cta)}
-        href="/liquidity"
+        href="/yield-farm"
         image={imgPromotion3}
       />
 
@@ -44,7 +44,7 @@ export function Promotions() {
         title={t(translations.buySovPage.promotions.p4.title)}
         content={<>{t(translations.buySovPage.promotions.p4.text)}</>}
         cta={t(translations.buySovPage.promotions.p4.cta)}
-        href="/liquidity"
+        href="/yield-farm"
         image={imgPromotion4}
       />
     </article>
