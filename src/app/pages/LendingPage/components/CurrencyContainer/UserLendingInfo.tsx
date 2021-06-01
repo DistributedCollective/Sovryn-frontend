@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
 import {
@@ -21,11 +21,13 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 interface IUserLendingInfoProps {
   lendingPool: LendingPool;
   lendingAmount: string;
+  onNonEmptyBalance: () => void;
 }
 
 export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   lendingPool,
   lendingAmount,
+  onNonEmptyBalance,
 }) => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -44,9 +46,11 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceCall, profitCall, asset]);
 
-  const hasDeposited = useMemo(() => {
-    return bignumber(balance).greaterThan(0);
-  }, [balance]);
+  useEffect(() => {
+    if (balance !== '0') {
+      onNonEmptyBalance();
+    }
+  }, [balance, onNonEmptyBalance]);
 
   return (
     <RowTable>
@@ -75,15 +79,15 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             className="tw-text-base"
           />
         </TableBodyData>
-        {!hasDeposited && !pLoading && !bLoading && (
+        {balance === '0' && !pLoading && !bLoading && (
           <td
             colSpan={3}
             className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
           >
-            {t(translations.liquidityMining.rowTable.noLiquidityProvided)}
+            {t(translations.lendingPage.rowTable.noLiquidityProvided)}
           </td>
         )}
-        {(hasDeposited || pLoading || bLoading) && (
+        {(balance !== '0' || pLoading || bLoading) && (
           <>
             <TableBodyData>
               <LoadableValue

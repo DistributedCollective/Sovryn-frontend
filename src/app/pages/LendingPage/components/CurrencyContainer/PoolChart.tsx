@@ -58,9 +58,12 @@ export function PoolChart(props: Props) {
 
   const tooltipFormatter = function (this: any) {
     const d = new Date(this.x);
+    console.log('this.points: ', this.points);
     return this.points?.reduce(
       function (s, point) {
-        return `${s}<br/>${point.series.name}: ${point.y.toFixed(2)}%`;
+        return `${s}<br/>${point.series.name}: ${point.y.toFixed(2)}${
+          point.series.userOptions?.tooltip?.valueSuffix
+        }`;
       },
       `<span class='tw-font-bold'>
         ${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()} ${String(

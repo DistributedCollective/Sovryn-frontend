@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
@@ -23,10 +23,18 @@ export type DialogType = 'none' | 'add' | 'remove';
 const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
+  const [isEmptyBalance, setIsEmptyBalance] = useState(true);
+
+  const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
+    setIsEmptyBalance,
+  ]);
 
   const LeftSection = () => {
     return (
-      <div className="tw-flex tw-items-center tw-mr-4">
+      <div
+        className="tw-flex tw-items-center tw-mr-4"
+        style={{ minWidth: 105 }}
+      >
         <div className="tw-flex tw-flex-col tw-justify-between">
           <AssetRenderer asset={lendingPool.getAsset()} showImage />
         </div>
@@ -48,6 +56,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
           onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
+          disabled={isEmptyBalance}
         />
       </div>
     );
@@ -57,12 +66,17 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
     <div>
       <CardRow
         LeftSection={<LeftSection />}
-        ChartSection={<PoolChart pool={lendingPool} />}
+        ChartSection={
+          <div className="mr-3">
+            <PoolChart pool={lendingPool} />
+          </div>
+        }
         Actions={<Actions />}
         DataSection={
           <UserLendingInfo
             lendingPool={lendingPool}
             lendingAmount={lendingAmount}
+            onNonEmptyBalance={onNonEmptyBalance}
           />
         }
         leftColor={undefined}
