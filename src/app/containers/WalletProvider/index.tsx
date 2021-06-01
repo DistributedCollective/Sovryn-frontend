@@ -78,9 +78,11 @@ function WalletWatcher() {
   useEffect(() => {
     if (address) {
       setEvent({
-        category: 'WalletEngaged',
-        action: wallet?.wallet?.getWalletType() || 'unknown',
-        label: crypto.createHash('md5').update(address).digest('hex'),
+        category: 'Wallet',
+        action: 'Engaged',
+        label: `${
+          wallet?.wallet?.getWalletType() || 'unknown'
+        }:${crypto.createHash('md5').update(address).digest('hex')}`,
       });
     }
     dispatch(actions.accountChanged(address));
