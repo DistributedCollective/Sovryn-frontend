@@ -357,10 +357,12 @@
     "history": {
       "title": "Staking History",
       "asset": "Asset",
-      "stakedAmount": "Staked Amount",
-      "stakingDate": "Staking Date",
+      "stakedAmount": "Amount",
+      "stakingDate": "Date/Time",
+      "hash": "Transaction Hash",
       "totalStaked": "Total Staked",
-      "viewHistory": "Click to view history"
+      "viewHistory": "Click to view history",
+      "status": "Status"
     },
     "increase": {
       "title": "Add to Stake",
@@ -372,18 +374,20 @@
       "title": "Current Stakes",
       "asset": "Asset",
       "lockedAmount": "Locked Amount",
-      "votingPower": "Voting Power",
+      "votingPower": "Voting power",
+      "votingDelegation": "Voting Delegation",
       "stakingPeriod": "Staking Period",
       "unlockDate": "Unlock Date"
     },
     "currentVests" : {
       "title": "Current Vests",
-      "asset": "Asset",
+      "asset": "Voting Delegation",
       "lockedAmount": "Locked Amount",
-      "votingPower": "Voting Power",
-      "stakingDate": "Staking Date",
-      "stakingPeriod": "Staking Period",
+      "votingPower": "Voting Delegation",
+      "stakingDate": "End Date",
+      "stakingPeriod": "Vesting Period",
       "unlockDate": "Unlock Date",
+      "fees": "Fees Earned",
       "noVestingContracts": "You don't have any vesting contracts."
     },
     "actions": {
@@ -394,7 +398,8 @@
       "delegate": "Delegate",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "withdraw": "Withdraw"
+      "withdraw": "Withdraw",
+      "withdrawFees": "Withdraw Fees"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."

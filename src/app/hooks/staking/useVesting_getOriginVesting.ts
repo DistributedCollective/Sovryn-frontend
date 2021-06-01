@@ -5,7 +5,6 @@ export function useVesting_getOriginVesting(address: string) {
   return useCacheCallWithValue(
     'vestingRegistryOrigin',
     'getVesting',
-    ethGenesisAddress,
     !!address && address !== ethGenesisAddress,
     address || ethGenesisAddress,
   );

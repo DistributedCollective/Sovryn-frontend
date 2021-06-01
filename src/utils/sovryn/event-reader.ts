@@ -142,6 +142,7 @@ class EventReader {
             ...e,
             returnValues: (e as any).returnVal,
             event: (e as any)?.eventName,
+            eventDate: (e as any)?.eventDate,
           })),
         );
     } catch (e) {

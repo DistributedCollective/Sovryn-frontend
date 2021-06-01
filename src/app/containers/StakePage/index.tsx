@@ -1,13 +1,12 @@
 /**
  *
- * SwapPage
+ * StakePage
  *
  */
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import moment from 'moment-timezone';
 import Rsk3 from '@rsksmart/rsk3';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
@@ -19,7 +18,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   staking_allowance,
   staking_approve,
@@ -31,13 +29,13 @@ import { Modal } from '../../components/Modal';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
+import { CurrentStakes } from './components/CurrentStakes';
 import { DelegateForm } from './components/DelegateForm';
 import { LoadableValue } from '../../components/LoadableValue';
 import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { AddressBadge } from '../../components/AddressBadge';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
@@ -49,9 +47,7 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
 import { useStaking_getAccumulatedFees } from '../../hooks/staking/useStaking_getAccumulatedFees';
 import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
-import logoSvg from 'assets/images/sovryn-icon.svg';
 import { StakeForm } from './components/StakeForm';
-import { StyledTable } from './components/StyledTable';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useStakeIncrease } from '../../hooks/staking/useStakeIncrease';
 import { useStakeStake } from '../../hooks/staking/useStakeStake';
@@ -76,12 +72,12 @@ export function StakePage() {
       </Helmet>
       <Header />
       <main>
-        <div className="bg-gray-700 tracking-normal">
-          <div className="container">
-            <h2 className="text-white pt-8 pb-5 pl-10">
+        <div className="tw-bg-gray-700 tw-tracking-normal">
+          <div className="tw-container tw-mx-auto tw-px-6">
+            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="w-full bg-gray-light text-center rounded-b shadow p-3">
+            <div className="tw-w-full bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
               <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
@@ -118,17 +114,11 @@ function InnerStakePage() {
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
   const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
-
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
     Math.round(now.getTime() / 1e3),
   );
-
-  const [stakesArray, setStakesArray] = useState([]);
-  const [stakeLoad, setStakeLoad] = useState(false);
   const [usdTotal, setUsdTotal] = useState(0) as any;
-  const dates = getStakes.value['dates'];
-  const stakes = getStakes.value['stakes'];
   const assets = AssetsDictionary.list();
   const sovBalanceOf = useAssetBalanceOf(Asset.SOV);
   const { increase, ...increaseTx } = useStakeIncrease();
@@ -136,56 +126,6 @@ function InnerStakePage() {
   const { extend, ...extendTx } = useStakeExtend();
   const { withdraw, ...withdrawTx } = useStakeWithdraw();
   const { delegate, ...delegateTx } = useStakeDelegate();
-
-  const SOV = AssetsDictionary.get(Asset.SOV);
-  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
-
-  useEffect(() => {
-    async function getStakesEvent() {
-      try {
-        Promise.all(
-          dates.map(async (value, index) => {
-            const dollarValue = bignumber(Number(stakes[index]))
-              .mul(dollars.value)
-              .div(10 ** SOV.decimals); //adding converted USD value to stakesArray
-
-            const delegate = await contractReader
-              .call('staking', 'delegates', [account, value])
-              .then(res => {
-                if (res.toString().toLowerCase() !== account.toLowerCase()) {
-                  return res;
-                }
-                return false;
-              });
-            return [stakes[index], value, delegate, dollarValue];
-          }),
-        ).then(result => {
-          setStakesArray(result as any);
-        });
-        setStakeLoad(false);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    if (dates && stakes !== undefined) {
-      setStakeLoad(true);
-      getStakesEvent().finally(() => {
-        setStakeLoad(false);
-      });
-    }
-
-    return () => {
-      setStakesArray([]);
-    };
-  }, [
-    account,
-    getStakes.value,
-    setStakesArray,
-    SOV.decimals,
-    dates,
-    dollars.value,
-    stakes,
-  ]);
 
   useEffect(() => {
     if (timestamp && weiAmount && (stakeForm || increaseForm || extendForm)) {
@@ -359,7 +299,7 @@ function InnerStakePage() {
       <Header />
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
-          <div className="tw-container tw-m-auto">
+          <div className="tw-container tw-mx-auto tw-px-6">
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
@@ -466,90 +406,55 @@ function InnerStakePage() {
                 </div>
               </div>
             </div>
-            <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
-              {t(translations.stake.currentStakes.title)}
-            </p>
-            <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
-              <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
-                <StyledTable className="tw-w-full">
-                  <thead>
-                    <tr>
-                      <th className="tw-text-left assets">
-                        {t(translations.stake.currentStakes.asset)}
-                      </th>
-                      <th className="tw-text-left">
-                        {t(translations.stake.currentStakes.lockedAmount)}
-                      </th>
-                      <th className="tw-text-left tw-font-normal tw-hidden lg:tw-table-cell">
-                        {t(translations.stake.currentStakes.votingPower)}
-                      </th>
-                      <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                        {t(translations.stake.currentStakes.stakingPeriod)}
-                      </th>
-                      <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                        {t(translations.stake.currentStakes.unlockDate)}
-                      </th>
-                      <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
-                        {t(translations.stake.actions.title)}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-                    <StakesOverview
-                      stakes={stakesArray}
-                      loading={stakeLoad || getStakes.loading}
-                      onDelegate={a => {
-                        setTimestamp(a);
-                        setDelegateForm(!delegateForm);
-                      }}
-                      onExtend={(a, b) => {
-                        setPrevTimestamp(b);
-                        setTimestamp(b);
-                        setAmount(numberFromWei(a).toString());
-                        setStakeForm(false);
-                        setExtendForm(true);
-                        setIncreaseForm(false);
-                        setWithdrawForm(false);
-                      }}
-                      onIncrease={(a, b) => {
-                        setTimestamp(b);
-                        setAmount(numberFromWei(a).toString());
-                        setUntil(b);
-                        setStakeForm(false);
-                        setExtendForm(false);
-                        setIncreaseForm(true);
-                        setWithdrawForm(false);
-                      }}
-                      onUnstake={(a, b) => {
-                        setAmount(numberFromWei(a).toString());
-                        setWithdrawAmount(0);
-                        setStakeAmount(a);
-                        setTimestamp(b);
-                        setUntil(b);
-                        setStakeForm(false);
-                        setExtendForm(false);
-                        setIncreaseForm(false);
-                        setWithdrawForm(true);
-                      }}
-                    />
-                  </tbody>
-                </StyledTable>
-                <Modal
-                  show={delegateForm}
-                  content={
-                    <>
-                      <DelegateForm
-                        handleSubmit={handleDelegateSubmit}
-                        address={address}
-                        onChangeAddress={e => setAddress(e)}
-                        isValid={validateDelegateForm()}
-                        onCloseModal={() => setDelegateForm(!delegateForm)}
-                      />
-                    </>
-                  }
-                />
-              </div>
-            </div>
+            <Modal
+              show={delegateForm}
+              content={
+                <>
+                  <DelegateForm
+                    handleSubmit={handleDelegateSubmit}
+                    address={address}
+                    onChangeAddress={e => setAddress(e)}
+                    isValid={validateDelegateForm()}
+                    onCloseModal={() => setDelegateForm(!delegateForm)}
+                  />
+                </>
+              }
+            />
+            <CurrentStakes
+              onDelegate={a => {
+                setTimestamp(a);
+                setDelegateForm(!delegateForm);
+              }}
+              onExtend={(a, b) => {
+                setPrevTimestamp(b);
+                setTimestamp(b);
+                setAmount(numberFromWei(a).toString());
+                setStakeForm(false);
+                setExtendForm(true);
+                setIncreaseForm(false);
+                setWithdrawForm(false);
+              }}
+              onIncrease={(a, b) => {
+                setTimestamp(b);
+                setAmount(numberFromWei(a).toString());
+                setUntil(b);
+                setStakeForm(false);
+                setExtendForm(false);
+                setIncreaseForm(true);
+                setWithdrawForm(false);
+              }}
+              onUnstake={(a, b) => {
+                setAmount(numberFromWei(a).toString());
+                setWithdrawAmount(0);
+                setStakeAmount(a);
+                setTimestamp(b);
+                setUntil(b);
+                setStakeForm(false);
+                setExtendForm(false);
+                setIncreaseForm(false);
+                setWithdrawForm(true);
+              }}
+            />
             <CurrentVests
               onDelegate={a => {
                 setTimestamp(a);
@@ -639,140 +544,6 @@ function InnerStakePage() {
     </>
   );
 }
-
-interface Stakes {
-  stakes: any[] | any;
-  loading: boolean;
-  onIncrease: (a: number, b: number) => void;
-  onExtend: (a: number, b: number) => void;
-  onUnstake: (a: number, b: number) => void;
-  onDelegate: (a: number) => void;
-}
-
-const StakesOverview: React.FC<Stakes> = ({
-  stakes,
-  loading,
-  onIncrease,
-  onExtend,
-  onUnstake,
-  onDelegate,
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <>
-      {loading && !stakes.length && (
-        <tr>
-          <td colSpan={99} className="tw-text-center tw-font-normal">
-            {t(translations.stake.loading)}
-          </td>
-        </tr>
-      )}
-      {!loading && !stakes.length && (
-        <tr>
-          <td colSpan={99} className="tw-text-center tw-font-normal">
-            {t(translations.stake.nostake)}
-          </td>
-        </tr>
-      )}
-      {stakes.map((item, i: string) => {
-        const locked = Number(item[1]) > Math.round(now.getTime() / 1e3); //check if date is locked
-        return (
-          <tr key={i}>
-            <td>
-              <div className="assetname tw-flex tw-items-center">
-                <div>
-                  <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
-                </div>
-                <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                  SOV
-                </div>
-              </div>
-            </td>
-            <td className="tw-text-left tw-font-normal">
-              {weiToNumberFormat(item[0])} SOV
-              <br />≈ {numberToUSD(Number(weiToFixed(item[3], 4)), 4)}
-            </td>
-            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              {item[2].length && (
-                <>
-                  {t(translations.stake.delegation.delegatedTo)}{' '}
-                  <AddressBadge
-                    txHash={item[2]}
-                    startLength={6}
-                    className="tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
-                  />
-                </>
-              )}
-              {!item[2].length && (
-                <p>{t(translations.stake.delegation.noDelegate)}</p>
-              )}
-            </td>
-            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              {locked && (
-                <>
-                  {Math.abs(
-                    moment().diff(
-                      moment(new Date(parseInt(item[1]) * 1e3)),
-                      'days',
-                    ),
-                  )}{' '}
-                  days
-                </>
-              )}
-            </td>
-            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              <p>
-                {moment
-                  .tz(new Date(parseInt(item[1]) * 1e3), 'GMT')
-                  .format('DD/MM/YYYY - h:mm:ss a z')}
-              </p>
-            </td>
-            <td className="md:tw-text-left lg:tw-text-right tw-hidden md:tw-table-cell max-w-15 min-w-15">
-              <div className="tw-flex tw-flex-nowrap">
-                <button
-                  type="button"
-                  className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat ${
-                    !locked &&
-                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
-                  }`}
-                  onClick={() => onIncrease(item[0], item[1])}
-                  disabled={!locked}
-                >
-                  {t(translations.stake.actions.increase)}
-                </button>
-                <button
-                  type="button"
-                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
-                  onClick={() => onExtend(item[0], item[1])}
-                >
-                  {t(translations.stake.actions.extend)}
-                </button>
-                <button
-                  type="button"
-                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-8 tw-px-5 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
-                  onClick={() => onUnstake(item[0], item[1])}
-                >
-                  {t(translations.stake.actions.unstake)}
-                </button>
-                <button
-                  className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat ${
-                    !locked &&
-                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
-                  }`}
-                  onClick={() => onDelegate(item[1])}
-                  disabled={!locked}
-                >
-                  {t(translations.stake.actions.delegate)}
-                </button>
-              </div>
-            </td>
-          </tr>
-        );
-      })}
-    </>
-  );
-};
 
 interface FeeProps {
   contractToken: any;

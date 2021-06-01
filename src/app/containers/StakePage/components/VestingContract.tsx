@@ -10,6 +10,7 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { Modal } from '../../../components/Modal';
 import { Asset } from '../../../../types/asset';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { useAccount } from '../../../hooks/useAccount';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
@@ -19,6 +20,8 @@ import { WithdrawVesting } from './WithdrawVesting';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
+import { useStaking_getAccumulatedFees } from '../../../hooks/staking/useStaking_getAccumulatedFees';
+
 import {
   vesting_getEndDate,
   vesting_getStartDate,
@@ -41,9 +44,14 @@ export function VestingContract(props: Props) {
   const [locked, setLocked] = useState(true);
   const [delegate, setDelegate] = useState<any>([]);
   const [delegateLoading, setDelegateLoading] = useState(false);
-  const SOV = AssetsDictionary.get(Asset.SOV);
-  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const [showWithdraw, setShowWithdraw] = useState(false);
+  const SOV = AssetsDictionary.get(Asset.SOV);
+  const CSOV = AssetsDictionary.get(Asset.SOV);
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
+  const rbtc = useCachedAssetPrice(
+    Asset[props.type === 'genesis' ? 'CSOV' : 'SOV'],
+    Asset.RBTC,
+  );
   const dollarValue = useMemo(() => {
     if (lockedAmount === null) return '';
     return bignumber(lockedAmount.value)
@@ -51,6 +59,21 @@ export function VestingContract(props: Props) {
       .div(10 ** SOV.decimals)
       .toFixed(0);
   }, [dollars.value, lockedAmount, SOV.decimals]);
+
+  const token = (props.type === 'genesis' ? 'CSOV_token' : 'SOV_token') as any;
+  const tokenAddress = getContract(token).address;
+  const currency = useStaking_getAccumulatedFees(
+    props.vestingAddress,
+    tokenAddress,
+  );
+
+  const rbtcValue = useMemo(() => {
+    if (currency === null) return '';
+    return bignumber(currency.value)
+      .mul(rbtc.value)
+      .div(10 ** (props.type === 'genesis' ? CSOV.decimals : SOV.decimals))
+      .toFixed(0);
+  }, [currency, CSOV.decimals, SOV.decimals, props.type, rbtc.value]);
 
   useEffect(() => {
     async function getVestsList() {
@@ -142,11 +165,10 @@ export function VestingContract(props: Props) {
             <p className={`${delegateLoading && 'skeleton'}`}>
               {delegate.length > 0 && (
                 <>
-                  {t(translations.stake.delegation.delegatedTo)}{' '}
                   <AddressBadge
                     txHash={delegate}
                     startLength={6}
-                    className={`tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal ${
+                    className={`tw-text-theme-blue hover:tw-underline ${
                       delegateLoading && 'skeleton'
                     }`}
                   />
@@ -155,13 +177,6 @@ export function VestingContract(props: Props) {
               {!delegate.length && (
                 <>{t(translations.stake.delegation.noDelegate)}</>
               )}
-            </p>
-          </td>
-          <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p>
-              {moment
-                .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
-                .format('DD/MM/YYYY - h:mm:ss a z')}
             </p>
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
@@ -178,30 +193,38 @@ export function VestingContract(props: Props) {
             )}
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p className={`${!unlockDate && 'skeleton'}`}>
+            <p>
               {moment
-                .tz(new Date(parseInt(unlockDate) * 1e3), 'GMT')
+                .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
                 .format('DD/MM/YYYY - h:mm:ss a z')}
             </p>
           </td>
-          <td className="md:tw-text-left lg:tw-text-right tw-hidden md:tw-table-cell max-w-15 min-w-15">
-            <div className="tw-flex tw-flex-nowrap tw-justify-end">
+          <td>
+            ≈{' '}
+            <LoadableValue
+              value={weiToNumberFormat(rbtcValue, 4)}
+              loading={rbtc.loading}
+            />{' '}
+            RBTC
+          </td>
+          <td className="md:tw-text-left tw-hidden md:tw-table-cell">
+            <div className="tw-flex tw-flex-nowrap">
               <button
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
+                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
                 onClick={() => props.onDelegate(Number(unlockDate))}
               >
                 {t(translations.stake.actions.delegate)}
               </button>
               <button
                 type="button"
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-12 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
+                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
                 onClick={() => setShowWithdraw(true)}
                 disabled={
                   !props.vestingAddress ||
                   props.vestingAddress === ethGenesisAddress
                 }
               >
-                {t(translations.stake.actions.withdraw)}
+                {t(translations.stake.actions.withdrawFees)}
               </button>
             </div>
           </td>

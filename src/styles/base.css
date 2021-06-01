@@ -11,8 +11,7 @@
     @apply tw-text-white;
   }
 
-  a,
-  a:visited {
+  a {
     @apply tw-text-primary tw-no-underline tw-underline;
   }
 

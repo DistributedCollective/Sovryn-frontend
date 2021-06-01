@@ -35,15 +35,15 @@ export function CurrentVests(props: Props) {
                   {t(translations.stake.currentVests.votingPower)}
                 </th>
                 <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  {t(translations.stake.currentVests.stakingDate)}
-                </th>
-                <th className="tw-text-left tw-hidden lg:tw-table-cell">
                   {t(translations.stake.currentVests.stakingPeriod)}
                 </th>
                 <th className="tw-text-left tw-hidden lg:tw-table-cell">
-                  {t(translations.stake.currentVests.unlockDate)}
+                  {t(translations.stake.currentVests.stakingDate)}
                 </th>
-                <th className="tw-text-left tw-hidden md:tw-table-cell max-w-15 min-w-15">
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
+                  {t(translations.stake.currentVests.fees)}
+                </th>
+                <th className="tw-text-left tw-hidden md:tw-table-cell">
                   {t(translations.stake.actions.title)}
                 </th>
               </tr>

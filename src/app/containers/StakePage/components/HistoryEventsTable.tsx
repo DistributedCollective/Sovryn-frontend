@@ -1,9 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import moment from 'moment-timezone';
 import styled from 'styled-components/macro';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import iconSuccess from 'assets/images/icon-success.svg';
+import iconRejected from 'assets/images/icon-rejected.svg';
+import iconPending from 'assets/images/icon-pending.svg';
+// import { AssetDetails } from 'utils/models/asset-details';
+// import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
+import { Pagination } from '../../../components/Pagination';
+import { Asset } from '../../../../types/asset';
+import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
+import { numberToUSD } from 'utils/display-text/format';
+import { bignumber } from 'mathjs';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { LoadableValue } from '../../../components/LoadableValue';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { StyledTable } from './StyledTable';
@@ -12,12 +24,18 @@ import { eventReader } from 'utils/sovryn/event-reader';
 import { useAccount } from '../../../hooks/useAccount';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
 import { useVesting_getVesting } from '../../../hooks/staking/useVesting_getVesting';
+// import { useStaking_getPriorVotes } from '../../../hooks/staking/useStaking_getPriorVotes';
 import { useVesting_getTeamVesting } from '../../../hooks/staking/useVesting_getTeamVesting';
 import { useVesting_getOriginVesting } from '../../../hooks/staking/useVesting_getOriginVesting';
+// import { useSelector } from 'react-redux';
+// import { selectTransactionArray } from 'store/global/transactions-store/selectors';
+import { TxStatus } from 'store/global/transactions-store/types';
 
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
+  // const assets = AssetsDictionary.list();
+  // const transactions = useSelector(selectTransactionArray);
   const getStakes = useStaking_getStakes(account);
   const vesting = useVesting_getVesting(account);
   const vestingTeam = useVesting_getTeamVesting(account);
@@ -31,6 +49,38 @@ export function HistoryEventsTable() {
     any
   >([]);
   const [viewHistory, setViewHistory] = useState(false);
+  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const onPageChanged = data => {
+    const { currentPage, pageLimit } = data;
+    const offset = (currentPage - 1) * pageLimit;
+    setCurrentHistory(eventsHistory.slice(offset, offset + pageLimit));
+  };
+
+  // const onGoingTransactions = useMemo(() => {
+  //   return transactions
+  //     .filter(
+  //       tx =>
+  //         tx.type === TxType.CONVERT_BY_PATH &&
+  //         [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
+  //     )
+  //     .map(item => {
+  //       const { customData } = item;
+  //       const data = {
+  //         status: item.status,
+  //         timestamp: customData?.date,
+  //         transaction_hash: item.transactionHash,
+  //         returnVal: {
+  //           _fromAmount: customData?.amount,
+  //           _toAmount: customData?.minReturn || null,
+  //         },
+  //       };
+  //       return (
+  //         <HistoryTable
+  //           items={data}
+  //         />
+  //       );
+  //     });
+  // }, [assets, transactions]);
 
   useEffect(() => {
     async function getHistory() {
@@ -40,7 +90,14 @@ export function HistoryEventsTable() {
           staker: account,
         })
         .then(res => {
-          setEventsHistory(res);
+          console.log('stake', res);
+          setEventsHistory(
+            res.sort(
+              (x, y) =>
+                new Date(y.eventDate).getTime() -
+                new Date(x.eventDate).getTime(),
+            ),
+          );
         });
 
       if (vesting.value !== ethGenesisAddress) {
@@ -49,7 +106,14 @@ export function HistoryEventsTable() {
             staker: vesting.value,
           })
           .then(res => {
-            setEventsHistoryVesting(res);
+            console.log('genesys', res);
+            setEventsHistoryVesting(
+              res.sort(
+                (x, y) =>
+                  new Date(y.eventDate).getTime() -
+                  new Date(x.eventDate).getTime(),
+              ),
+            );
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
@@ -58,7 +122,14 @@ export function HistoryEventsTable() {
             staker: vestingTeam.value,
           })
           .then(res => {
-            setEventsHistoryVestingTeam(res);
+            console.log('vestingTeam', res);
+            setEventsHistoryVestingTeam(
+              res.sort(
+                (x, y) =>
+                  new Date(y.eventDate).getTime() -
+                  new Date(x.eventDate).getTime(),
+              ),
+            );
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
@@ -67,7 +138,14 @@ export function HistoryEventsTable() {
             staker: vestingOrigin.value,
           })
           .then(res => {
-            setEventsHistoryVestingOrigin(res);
+            console.log('vestingOrigin', res);
+            setEventsHistoryVestingOrigin(
+              res.sort(
+                (x, y) =>
+                  new Date(y.eventDate).getTime() -
+                  new Date(x.eventDate).getTime(),
+              ),
+            );
           });
       }
       try {
@@ -93,33 +171,37 @@ export function HistoryEventsTable() {
 
   return (
     <>
-      <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
-        {t(translations.stake.history.title)}
-      </p>
-      <div className="tw-bg-gray-light tw-rounded-b tw-shadow max-h-96 tw-overflow-y-auto tw-mb-10">
-        <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+      <div className="history-table tw-bg-gray-light tw-rounded-b tw-mb-10">
+        <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
+          {t(translations.stake.history.title)}
+        </p>
+        <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">
           <StyledTable className="w-full">
             <thead>
               <tr>
                 <th className="tw-text-left assets">
-                  {t(translations.stake.history.asset)}
+                  {t(translations.stake.history.stakingDate)}
                 </th>
                 <th className="tw-text-left">
                   {t(translations.stake.history.stakedAmount)}
                 </th>
                 <th className="tw-text-left hidden lg:tw-table-cell">
-                  {t(translations.stake.history.stakingDate)}
+                  {t(translations.stake.history.hash)}
                 </th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
+                {/* <th className="tw-text-left hidden lg:tw-table-cell">
                   {t(translations.stake.history.totalStaked)}
+                </th> */}
+                <th className="tw-text-left hidden lg:tw-table-cell">
+                  {t(translations.stake.history.status)}
                 </th>
               </tr>
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-              {eventsHistory.length > 0 && (
-                <HistoryTable items={eventsHistory} />
+              {/* {onGoingTransactions} */}
+              {currentHistory.length > 0 && (
+                <HistoryTable items={currentHistory} />
               )}
-              {eventsHistoryVesting.length > 0 && (
+              {/* {eventsHistoryVesting.length > 0 && (
                 <HistoryTable items={eventsHistoryVesting} />
               )}
               {eventsHistoryVestingTeam.length > 0 && (
@@ -127,10 +209,10 @@ export function HistoryEventsTable() {
               )}
               {eventsHistoryVestingOrigin.length > 0 && (
                 <HistoryTable items={eventsHistoryVestingOrigin} />
-              )}
+              )} */}
               {viewHistory ? (
                 <tr>
-                  <td colSpan={4} className="tw-text-center tw-font-normal">
+                  <td colSpan={5} className="tw-text-center tw-font-normal">
                     <StyledLoading className="loading">
                       <div className="loading__letter">L</div>
                       <div className="loading__letter">o</div>
@@ -153,7 +235,7 @@ export function HistoryEventsTable() {
                     eventsHistoryVestingOrigin.length === 0 && (
                       <tr>
                         <td
-                          colSpan={4}
+                          colSpan={5}
                           className="tw-text-center tw-font-normal"
                         >
                           <button
@@ -170,11 +252,91 @@ export function HistoryEventsTable() {
               )}
             </tbody>
           </StyledTable>
+          {eventsHistory.length > 0 && (
+            <Pagination
+              totalRecords={eventsHistory.length}
+              pageLimit={6}
+              pageNeighbours={1}
+              onChange={onPageChanged}
+            />
+          )}
         </div>
       </div>
     </>
   );
 }
+
+interface HisoryAsset {
+  item: any;
+  index: number;
+}
+
+const HisoryTableAsset: React.FC<HisoryAsset> = ({ item, index }) => {
+  const { t } = useTranslation();
+  const SOV = AssetsDictionary.get(Asset.SOV);
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
+  const dollarValue = useMemo(() => {
+    if (item.returnVal.amount === undefined) return '';
+    return bignumber(item.returnVal.amount)
+      .mul(dollars.value)
+      .div(10 ** SOV.decimals)
+      .toFixed(0);
+  }, [dollars.value, item.returnVal.amount, SOV.decimals]);
+  return (
+    <tr>
+      <td>
+        {moment
+          .tz(new Date(item.eventDate), 'GMT')
+          .format('DD/MM/YYYY - h:mm:ss a z')}
+      </td>
+      <td className="tw-text-left tw-font-normal">
+        {numberFromWei(item.returnValues.amount)} SOV
+        <br />≈{' '}
+        <LoadableValue
+          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          loading={dollars.loading}
+        />
+      </td>
+      <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal tw-relative">
+        <LinkToExplorer
+          txHash={item.transactionHash}
+          startLength={6}
+          className="tw-text-theme-blue hover:tw-underline"
+        />
+      </td>
+      <td>
+        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+          <div>
+            {!item.status && (
+              <p className="m-0">{t(translations.common.confirmed)}</p>
+            )}
+            {item.status === TxStatus.FAILED && (
+              <p className="m-0">{t(translations.common.failed)}</p>
+            )}
+            {item.status === TxStatus.PENDING && (
+              <p className="m-0">{t(translations.common.pending)}</p>
+            )}
+            <LinkToExplorer
+              txHash={item.transaction_hash}
+              className="text-gold font-weight-normal text-nowrap"
+            />
+          </div>
+          <div>
+            {!item.status && (
+              <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
+            )}
+            {item.status === TxStatus.FAILED && (
+              <img src={iconRejected} title="Failed" alt="Failed" />
+            )}
+            {item.status === TxStatus.PENDING && (
+              <img src={iconPending} title="Pending" alt="Pending" />
+            )}
+          </div>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 interface History {
   items: any;
@@ -183,44 +345,13 @@ interface History {
 const HistoryTable: React.FC<History> = ({ items }) => {
   return (
     <>
-      {items.map(item => {
+      {items.map((item, index) => {
         return (
-          <tr key={item.id}>
-            <td>
-              <div className="username tw-flex tw-items-center">
-                <div>
-                  <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
-                </div>
-                <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block">
-                  SOV
-                </div>
-              </div>
-            </td>
-            <td className="tw-text-left tw-font-normal">
-              {numberFromWei(item.returnValues.amount)} SOV
-              <br />
-            </td>
-            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal tw-relative">
-              <div className="tw-flex tw-items-center">
-                <div>
-                  {moment
-                    .tz(
-                      new Date(parseInt(item.returnValues.lockedUntil) * 1e3),
-                      'GMT',
-                    )
-                    .format('DD/MM/YYYY - h:mm:ss a z')}
-                  <br />
-                  <LinkToExplorer
-                    txHash={item.transactionHash}
-                    className="tw-text-gold hover:tw-text-gold hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
-                  />
-                </div>
-              </div>
-            </td>
-            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              {numberFromWei(item.returnValues.totalStaked)} SOV
-            </td>
-          </tr>
+          <HisoryTableAsset
+            key={item.transactionHash}
+            item={item}
+            index={index}
+          />
         );
       })}
     </>
