@@ -43,7 +43,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             startDate="31/05/21"
-            endDate="06/06/21"
+            endDate="07/06/21"
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
@@ -53,20 +53,20 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             startDate="26/05/21"
-            endDate="03/06/21"
+            endDate="07/06/21"
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
           <LootDrop
-            title="35K SOV Yield Farming"
-            asset1={Asset.ETH}
+            title="$37500 worth of MoC"
+            asset1={Asset.DOC}
             asset2={Asset.RBTC}
-            startDate="26/05/21"
-            endDate="01/06/21"
-            linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
+            startDate="02/06/21"
+            endDate="01/07/21"
+            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
             linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Green}
+            highlightColor={LootDropColors.Pink}
           />
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
