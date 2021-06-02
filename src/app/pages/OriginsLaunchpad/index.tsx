@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
-import { UpcomingSalesCardSection } from './components/UpcomingSalesCardSection';
-import { PreviousSalesCardSection } from './components/PreviousSalesCardSection';
-import { EmailSubscribeSection } from './components/EmailSubscribeSection';
+import { Dashboard } from './pages/Dashboard/index';
+import { SalesDay } from './pages/SalesDay/index';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
@@ -29,20 +28,8 @@ export const OriginsLaunchpad: React.FC = () => {
       <Header />
 
       <div className="container tw-pt-11 font-family-montserrat">
-        <div className="tw-text-center tw-text-3xl tw-font-semibold">
-          {t(translations.originsLaunchpad.upcomingSales.title)}
-        </div>
-        <div className="tw-mt-16">
-          <UpcomingSalesCardSection />
-          <EmailSubscribeSection />
-        </div>
-
-        <div className="tw-mt-36 tw-mb-60">
-          <div className="tw-text-center tw-text-3xl tw-font-semibold">
-            {t(translations.originsLaunchpad.previousSales.title)}
-          </div>
-          <PreviousSalesCardSection />
-        </div>
+        {/* <Dashboard /> */}
+        <SalesDay />
 
         <Footer />
       </div>
