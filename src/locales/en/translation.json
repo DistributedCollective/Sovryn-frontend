@@ -832,6 +832,16 @@
       "status": "Status"
     }
   },
+  "vestedHistory": {
+    "title": "Vested History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "vestingSchedule": "Vesting Schedule",
+      "amount": "Amount",
+      "hash": "Transaction Hash",
+      "status": "Status"
+    }
+  },
   "spotHistory": {
     "title": "Spot History",
     "tableHeaders": {

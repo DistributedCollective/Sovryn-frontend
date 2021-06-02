@@ -6,8 +6,6 @@ import styled from 'styled-components/macro';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
-// import { AssetDetails } from 'utils/models/asset-details';
-// import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { Pagination } from '../../../components/Pagination';
 import { Asset } from '../../../../types/asset';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
@@ -24,18 +22,13 @@ import { eventReader } from 'utils/sovryn/event-reader';
 import { useAccount } from '../../../hooks/useAccount';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
 import { useVesting_getVesting } from '../../../hooks/staking/useVesting_getVesting';
-// import { useStaking_getPriorVotes } from '../../../hooks/staking/useStaking_getPriorVotes';
 import { useVesting_getTeamVesting } from '../../../hooks/staking/useVesting_getTeamVesting';
 import { useVesting_getOriginVesting } from '../../../hooks/staking/useVesting_getOriginVesting';
-// import { useSelector } from 'react-redux';
-// import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus } from 'store/global/transactions-store/types';
 
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
-  // const assets = AssetsDictionary.list();
-  // const transactions = useSelector(selectTransactionArray);
   const getStakes = useStaking_getStakes(account);
   const vesting = useVesting_getVesting(account);
   const vestingTeam = useVesting_getTeamVesting(account);
@@ -55,32 +48,6 @@ export function HistoryEventsTable() {
     const offset = (currentPage - 1) * pageLimit;
     setCurrentHistory(eventsHistory.slice(offset, offset + pageLimit));
   };
-
-  // const onGoingTransactions = useMemo(() => {
-  //   return transactions
-  //     .filter(
-  //       tx =>
-  //         tx.type === TxType.CONVERT_BY_PATH &&
-  //         [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
-  //     )
-  //     .map(item => {
-  //       const { customData } = item;
-  //       const data = {
-  //         status: item.status,
-  //         timestamp: customData?.date,
-  //         transaction_hash: item.transactionHash,
-  //         returnVal: {
-  //           _fromAmount: customData?.amount,
-  //           _toAmount: customData?.minReturn || null,
-  //         },
-  //       };
-  //       return (
-  //         <HistoryTable
-  //           items={data}
-  //         />
-  //       );
-  //     });
-  // }, [assets, transactions]);
 
   useEffect(() => {
     async function getHistory() {
@@ -188,28 +155,16 @@ export function HistoryEventsTable() {
                 <th className="tw-text-left hidden lg:tw-table-cell">
                   {t(translations.stake.history.hash)}
                 </th>
-                {/* <th className="tw-text-left hidden lg:tw-table-cell">
-                  {t(translations.stake.history.totalStaked)}
-                </th> */}
                 <th className="tw-text-left hidden lg:tw-table-cell">
                   {t(translations.stake.history.status)}
                 </th>
               </tr>
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-              {/* {onGoingTransactions} */}
               {currentHistory.length > 0 && (
                 <HistoryTable items={currentHistory} />
               )}
-              {/* {eventsHistoryVesting.length > 0 && (
-                <HistoryTable items={eventsHistoryVesting} />
-              )}
-              {eventsHistoryVestingTeam.length > 0 && (
-                <HistoryTable items={eventsHistoryVestingTeam} />
-              )}
-              {eventsHistoryVestingOrigin.length > 0 && (
-                <HistoryTable items={eventsHistoryVestingOrigin} />
-              )} */}
+
               {viewHistory ? (
                 <tr>
                   <td colSpan={5} className="tw-text-center tw-font-normal">
