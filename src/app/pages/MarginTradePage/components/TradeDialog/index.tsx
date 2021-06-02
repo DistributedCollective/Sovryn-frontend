@@ -173,7 +173,6 @@ export function TradeDialog() {
             contractName={contractName}
             condition={true}
           />
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}

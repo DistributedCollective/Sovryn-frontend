@@ -72,6 +72,12 @@ input[type=number] {
     font-size: 30px;
     font-weight: 500;
   }
+  h2 {
+    text-transform: inherit;
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin: 0;
+}
   h3 {
     font-size: 18px;
     font-weight: bold;
@@ -93,8 +99,6 @@ input[type=number] {
     }
   }
   button {
-    text-transform: uppercase;
-    font-weight: 600;
     padding: 0.23rem 4.2%4.2%;
   }
   .active {

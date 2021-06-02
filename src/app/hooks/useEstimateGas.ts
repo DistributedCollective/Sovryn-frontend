@@ -39,7 +39,14 @@ export function useEstimateGas(
         );
     }
     // eslint-disable-next-line
-  }, [address, JSON.stringify(abi), methodName, JSON.stringify(args), JSON.stringify(config), condition]);
+  }, [
+    address,
+    JSON.stringify(abi),
+    methodName,
+    JSON.stringify(args),
+    JSON.stringify(config),
+    condition,
+  ]);
 
   const txFee = useMemo(
     () => bignumber(state.value).mul(gas.get()).toFixed(0),

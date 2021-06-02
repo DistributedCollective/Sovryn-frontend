@@ -146,7 +146,6 @@ export function ClosePositionDialog(props: Props) {
               }
             />
           )}
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}
