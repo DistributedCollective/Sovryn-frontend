@@ -52,11 +52,11 @@ export class LiquidityPoolDictionary {
       Asset.MOC,
       new LiquidityPool(Asset.MOC, [
         new LiquidityPoolSupplyAsset(Asset.MOC, {
-          mainnet: '0xF41Ed702df2B84AcE02772C6a0D8AE46465aA5F4', // todo
+          mainnet: '0x7fef930ebaa90B2f8619722AdC55e3f1d965b79b',
           testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
-          mainnet: '0xF41Ed702df2B84AcE02772C6a0D8AE46465aA5F4', // todo
+          mainnet: '0x7fef930ebaa90B2f8619722AdC55e3f1d965b79b',
           testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
         }),
       ]).setVersion(1),
