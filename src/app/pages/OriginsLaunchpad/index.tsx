@@ -5,7 +5,7 @@ import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { UpcomingSalesCardSection } from './components/UpcomingSalesCardSection/index';
-import { EmailSubscribeSection } from './components/EmailSubscribeSection/index';
+// import { EmailSubscribeSection } from './components/EmailSubscribeSection/index';
 import { PreviousSalesCardSection } from './components/PreviousSalesCardSection/index';
 
 export const OriginsLaunchpad: React.FC = () => {
