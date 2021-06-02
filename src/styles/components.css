@@ -16,7 +16,7 @@
 
   .tw-header-link:hover,
   .tw-header-link:active {
-    @apply tw-text-primary tw-no-underline;
+    @apply tw-text-secondary tw-no-underline;
   }
 
   .tw-header-link.active {

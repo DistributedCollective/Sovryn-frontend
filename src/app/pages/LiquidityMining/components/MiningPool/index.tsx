@@ -83,7 +83,7 @@ export function MiningPool({ pool }: Props) {
         leftColor={
           (pool.supplyAssets[0].asset === Asset.SOV &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Purple) ||
+            LootDropColors.Yellow) ||
           (pool.supplyAssets[0].asset === Asset.ETH &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Green) ||
