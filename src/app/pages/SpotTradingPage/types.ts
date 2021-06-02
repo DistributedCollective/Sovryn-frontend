@@ -19,7 +19,7 @@ export const pairs = {
   [SpotPairType.RBTC_USDT]: [Asset.RBTC, Asset.USDT],
   [SpotPairType.RBTC_DOC]: [Asset.RBTC, Asset.DOC],
   [SpotPairType.USDT_DOC]: [Asset.USDT, Asset.DOC],
-  [SpotPairType.MOC_RBTC]: [Asset.MOC, Asset.RBTC],
+  // [SpotPairType.MOC_RBTC]: [Asset.MOC, Asset.RBTC],
 };
 
 export const pairList = [
@@ -29,7 +29,7 @@ export const pairList = [
   SpotPairType.RBTC_USDT,
   SpotPairType.RBTC_DOC,
   SpotPairType.USDT_DOC,
-  SpotPairType.MOC_RBTC,
+  // SpotPairType.MOC_RBTC,
 ];
 
 export interface SpotTradingPageState {
