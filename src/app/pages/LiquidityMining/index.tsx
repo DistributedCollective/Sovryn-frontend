@@ -63,7 +63,7 @@ export function LiquidityMining() {
             asset2={Asset.RBTC}
             startDate="02/06/21"
             endDate="01/07/21"
-            linkUrl=" https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
+            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Pink}
           />
