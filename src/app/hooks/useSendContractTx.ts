@@ -75,6 +75,7 @@ export function useSendContractTx(
       ) {
         config.gas = gasLimit[options.type];
       }
+
       contractWriter
         .send(contractName, methodName, args, config)
         .then(e => {
@@ -86,7 +87,7 @@ export function useSendContractTx(
             status: TxStatus.PENDING,
             loading: true,
             to: contractName,
-            from: account,
+            from: account.toLowerCase(),
             value: (config?.value as string) || '0',
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,

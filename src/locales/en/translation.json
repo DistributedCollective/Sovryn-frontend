@@ -309,6 +309,101 @@
     "send": "Send",
     "receive": "Receive"
   },
+  "stake": {
+    "title": "Staking/Vesting",
+    "meta": "Staking/Vesting",
+    "connect": "Please connect with your wallet to use staking.",
+    "total": "Total staked SOV",
+    "votingPower": "Combined Voting Power",
+    "viewGovernance": "View Governance",
+    "addStake": "Add New Stake",
+    "feeTitle": "Total earned fees Available",
+    "noUnlockedSov": "You don't have unlocked SOV",
+    "txFee": "Tx Fee",
+    "sov": "SOV",
+    "delegation": {
+      "delegateTo": "Delegate To",
+      "delegatedTo": "Delegated To",
+      "noDelegate": "No delegate",
+      "address": "Enter or paste address"
+    },
+    "withdraw": {
+      "title": "Unstake SOV",
+      "amountCurrentlyStaked": "Amount Currently Staked",
+      "amountToUnstake": "Amount to Unstake",
+      "receiveSovAt": "Receive SOV at",
+      "unlockedSov": "Unlocked SOV",
+      "forfeit": "Early unstake forfeit",
+      "closeDialog": "Close Dialog",
+      "reallyUnstake": "Are you sure you want to unstake?",
+      "stakeUnlockUntil": "This stake is not scheduled to unlock until",
+      "penalty": "Unstaking now invokes a slashing penalty that will cost you",
+      "penaltyZero": "You will be slashed some of your SOV for withdrawing early",
+      "unstake": "Yes, Unstake"
+    },
+    "staking": {
+      "title": "Stake SOV",
+      "amountToStake": "Amount to Stake",
+      "votingPowerReceived": "Voting Power received"
+    },
+    "extending": {
+      "title": "Extend SOV Stake",
+      "previousUntil": "Previous until",
+      "amountToStake": "Amount to Stake",
+      "votingPowerReceived": "Voting Power received",
+      "willAddedVote": "Will be added to your vote",
+      "balance": "Balance"
+    },
+    "history": {
+      "title": "Staking History",
+      "asset": "Asset",
+      "stakedAmount": "Amount",
+      "stakingDate": "Date/Time",
+      "hash": "Transaction Hash",
+      "totalStaked": "Total Staked",
+      "viewHistory": "Click to view history",
+      "status": "Status"
+    },
+    "increase": {
+      "title": "Add to Stake",
+      "currentlyStaked": "Amount Currently Staked",
+      "amountToAdd": " Amount to Add",
+      "newVotingPower": "New Voting Power"
+    },
+    "currentStakes": {
+      "title": "Current Stakes",
+      "asset": "Asset",
+      "lockedAmount": "Locked Amount",
+      "votingPower": "Voting power",
+      "votingDelegation": "Voting Delegation",
+      "stakingPeriod": "Staking Period",
+      "unlockDate": "Unlock Date"
+    },
+    "currentVests" : {
+      "title": "Current Vests",
+      "asset": "Voting Delegation",
+      "lockedAmount": "Locked Amount",
+      "votingPower": "Voting Delegation",
+      "stakingDate": "End Date",
+      "stakingPeriod": "Vesting Period",
+      "unlockDate": "Unlock Date",
+      "fees": "Fees Earned",
+      "noVestingContracts": "You don't have any vesting contracts."
+    },
+    "actions": {
+      "title": "Actions",
+      "increase": "Increase",
+      "extend": "Extend",
+      "unstake": "Unstake",
+      "delegate": "Delegate",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "withdraw": "Withdraw",
+      "withdrawFees": "Withdraw Fees"
+    },
+    "loading": "Loading, please wait...",
+    "nostake": "No stakes yet."
+  },
   "liquidity": {
     "title": "Liquidity",
     "meta": "Add liquidity",
@@ -734,6 +829,16 @@
       "amountSent": "Amount Sent",
       "to": "To",
       "amountReceived": "Amount Received",
+      "status": "Status"
+    }
+  },
+  "vestedHistory": {
+    "title": "Vested History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "vestingSchedule": "Vesting Schedule",
+      "amount": "Amount",
+      "hash": "Transaction Hash",
       "status": "Status"
     }
   },

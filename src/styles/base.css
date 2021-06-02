@@ -6,13 +6,12 @@
   * {
     @apply tw-font-body;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply tw-text-white;
   }
 
-  a,
-  a:visited {
+  a {
     @apply tw-text-primary tw-no-underline tw-underline;
   }
 
@@ -75,7 +74,21 @@
   .tw-circle .tw.circle-green {
     background-color: var(--green);
   }
-
+  .skeleton {
+    animation: skeleton-glow 1s linear infinite alternate;
+    background: rgba(206,217,224,.2);
+    background-clip: padding-box!important;
+    border-color: rgba(206,217,224,.2)!important;
+    border-radius: 2px;
+    box-shadow: none!important;
+    color: transparent!important;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+  .skeleton *, .skeleton:after, .skeleton:before {
+      visibility: hidden!important;
+  }
   article.bp3-dialog h1 {
     @apply tw-text-white;
   }

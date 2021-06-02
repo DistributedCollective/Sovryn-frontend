@@ -32,6 +32,7 @@ import { StatsPage } from './containers/StatsPage/Loadable';
 import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
+import { StakePage } from './containers/StakePage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
@@ -72,6 +73,7 @@ export function App() {
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
+            <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/liquidity" component={LiquidityPage} />
             <Route exact path="/wallet" component={WalletPage} />

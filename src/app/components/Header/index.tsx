@@ -148,20 +148,16 @@ export function Header() {
     },
     { to: '/liquidity', title: t(translations.mainMenu.liquidity) },
     {
-      to: 'https://bitocracy.sovryn.app/stake',
-      title: t(translations.mainMenu.staking),
-    },
-    {
       to: 'https://bitocracy.sovryn.app',
       title: t(translations.mainMenu.governance),
     },
+    { to: '/stake', title: t(translations.mainMenu.staking) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
     },
-    { to: '/wallet', title: t(translations.mainMenu.wallet) },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -227,7 +223,7 @@ export function Header() {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/liquidity'],
-      [SECTION_TYPE.BITOCRACY]: [''],
+      [SECTION_TYPE.BITOCRACY]: ['/stake'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -349,23 +345,9 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-
               <NavPopover
                 content={
                   <BPMenu>
-                    <MenuItem
-                      icon={
-                        <img
-                          src={iconNewTab}
-                          alt="newTab"
-                          className="tw-w-4 tw-h-4"
-                        />
-                      }
-                      href="https://bitocracy.sovryn.app/stake"
-                      target="_blank"
-                      text={t(translations.mainMenu.staking)}
-                      className="bp3-popover-dismiss"
-                    />
                     <MenuItem
                       icon={
                         <img
@@ -378,6 +360,13 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.staking)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/stake');
+                      }}
                     />
                   </BPMenu>
                 }

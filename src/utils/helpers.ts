@@ -172,3 +172,9 @@ export function makeId(length: number = 8): string {
   }
   return result;
 }
+
+export function getUSDSum(array: any[]) {
+  return array.reduce(function (sum, value) {
+    return sum + value;
+  }, 0);
+}
