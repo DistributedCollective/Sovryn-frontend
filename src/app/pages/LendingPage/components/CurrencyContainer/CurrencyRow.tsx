@@ -47,15 +47,18 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
     );
   };
 
+  const ChartSection = () =>
+    window.screen.width > 1300 ? (
+      <div className="mr-3">
+        <PoolChart pool={lendingPool} />
+      </div>
+    ) : null;
+
   return (
     <div>
       <CardRow
         LeftSection={<LeftSection asset={asset} />}
-        ChartSection={
-          <div className="mr-3">
-            <PoolChart pool={lendingPool} />
-          </div>
-        }
+        ChartSection={ChartSection()}
         Actions={<Actions />}
         DataSection={
           <UserLendingInfo
