@@ -18,7 +18,7 @@ export const getAssetColor = (asset: Asset) => {
       return '#FFAC3E';
   }
 };
-export const getAssetColor2 = (asset: Asset) => {
+export const getAssetSecondaryColor = (asset: Asset) => {
   switch (asset) {
     case Asset.USDT:
       return '#376256';

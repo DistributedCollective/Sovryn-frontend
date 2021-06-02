@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { PieChart } from 'app/components/FinanceV2Components/PieChart';
 import {
-  getAssetColor2,
+  getAssetSecondaryColor,
   getAssetColor,
 } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import { getLendingContractName } from 'utils/blockchain/contract-helpers';
@@ -43,7 +43,7 @@ const LeftSection: React.FC<Props> = ({ asset }) => {
   const loading = loadingTotalAssetBorrow || loadingMarketLiquidity;
 
   const firstColor = getAssetColor(asset);
-  const secondColor = getAssetColor2(asset);
+  const secondColor = getAssetSecondaryColor(asset);
 
   return (
     <div className="tw-flex tw-items-center tw-mr-4">

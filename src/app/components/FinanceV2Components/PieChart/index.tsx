@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { convertPercentageToDegrees } from './utils/convertPercentageToDegrees';
 import { getAssetColor } from '../utils/getAssetColor';
 import { Asset } from 'types/asset';
@@ -21,6 +21,13 @@ export const PieChart: React.FC<IPieChartProps> = ({
   secondPercentage = 0,
   className,
 }) => {
+  const getSecondaryColor = useCallback(() => {
+    if (secondColor) {
+      return secondColor;
+    }
+    return secondAsset ? getAssetColor(secondAsset) : '';
+  }, [secondColor, secondAsset]);
+
   return (
     <div className={className}>
       <StyledPieChart
@@ -29,13 +36,7 @@ export const PieChart: React.FC<IPieChartProps> = ({
         )}
         secondPercentage={convertPercentageToDegrees(secondPercentage)}
         firstColor={getAssetColor(firstAsset)}
-        secondColor={
-          secondColor
-            ? secondColor
-            : secondAsset
-            ? getAssetColor(secondAsset)
-            : ''
-        }
+        secondColor={getSecondaryColor()}
       />
     </div>
   );
