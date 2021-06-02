@@ -31,6 +31,7 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
+import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
 
 const s = translations.swapTradeForm;
 
@@ -155,16 +156,14 @@ export function SwapFormContainer() {
 
   return (
     <>
-      {dialogOpen && (
-        <SlippageDialog
-          isOpen={dialogOpen}
-          amount={rateByPath}
-          value={slippage}
-          asset={targetToken}
-          onClose={() => setDialogOpen(false)}
-          onChange={value => setSlippage(value)}
-        />
-      )}
+      <SlippageDialog
+        isOpen={dialogOpen}
+        amount={rateByPath}
+        value={slippage}
+        asset={targetToken}
+        onClose={() => setDialogOpen(false)}
+        onChange={value => setSlippage(value)}
+      />
 
       <div className="swap-form-container">
         <div className="swap-form swap-form-send">
@@ -189,11 +188,14 @@ export function SwapFormContainer() {
           </div>
         </div>
         <div className="swap-revert-wrapper">
-          <div
-            className="swap-revert"
-            style={{ backgroundImage: `url(${swapIcon})` }}
-            onClick={onSwapAssert}
-          />
+          <div className="tw-w-full tw-flex tw-flex-col tw-items-center">
+            <Arbitrage />
+            <div
+              className="swap-revert"
+              style={{ backgroundImage: `url(${swapIcon})` }}
+              onClick={onSwapAssert}
+            />
+          </div>
         </div>
         <div className="swap-form swap-form-receive">
           <div className="swap-form__title">{t(translations.swap.receive)}</div>
