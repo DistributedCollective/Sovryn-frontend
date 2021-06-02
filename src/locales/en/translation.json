@@ -265,6 +265,13 @@
         "buttonText": "Engage Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
+      },
+      "accessCodeVerificationStep": {
+        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "instructions": "Please enter your access code in order to continue",
+        "inputLabel": "Enter access code",
+        "inputButton": "Submit Code",
+        "footer": "<0>Don’t have a code?</0>"
       }
     }
   },

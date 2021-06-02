@@ -4,6 +4,7 @@ import { TitleContent, TitleImage } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { EngageWalletStep } from './pages/EngageWalletStep/index';
+import { AccessCodeVerificationStep } from './pages/AccessCodeVerificationStep/index';
 
 export const SalesDay: React.FC = () => {
   const { t } = useTranslation();
@@ -18,7 +19,8 @@ export const SalesDay: React.FC = () => {
       </div>
 
       <div className="tw-justify-center tw-flex tw-text-center">
-        <EngageWalletStep />
+        {/* <EngageWalletStep /> */}
+        <AccessCodeVerificationStep />
       </div>
     </div>
   );
