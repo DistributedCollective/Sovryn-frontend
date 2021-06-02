@@ -2,13 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { AmountInput } from 'form/AmountInput';
-import { DialogButton } from 'form/DialogButton';
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import {
@@ -17,7 +17,7 @@ import {
 } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { DummyInput } from 'form/Input';
+import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';

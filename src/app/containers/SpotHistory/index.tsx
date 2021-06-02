@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
-import { bignumber } from 'mathjs';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
@@ -13,14 +13,12 @@ import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { Asset } from '../../../types/asset';
 import { Pagination } from '../../components/Pagination';
 import { useAccount } from '../../hooks/useAccount';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
 import { LoadableValue } from '../../components/LoadableValue';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';

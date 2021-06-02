@@ -58,7 +58,7 @@ export function HistoryEventsTable() {
         })
         .then(res => {
           setEventsHistory(
-            res.sort(
+            (res as any).sort(
               (x, y) =>
                 new Date(y.eventDate).getTime() -
                 new Date(x.eventDate).getTime(),
@@ -73,7 +73,7 @@ export function HistoryEventsTable() {
           })
           .then(res => {
             setEventsHistoryVesting(
-              res.sort(
+              (res as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),
@@ -88,7 +88,7 @@ export function HistoryEventsTable() {
           })
           .then(res => {
             setEventsHistoryVestingTeam(
-              res.sort(
+              (res as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),
@@ -103,7 +103,7 @@ export function HistoryEventsTable() {
           })
           .then(res => {
             setEventsHistoryVestingOrigin(
-              res.sort(
+              (res as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),

@@ -41,9 +41,12 @@ export function useEstimateGas(
     // eslint-disable-next-line
   }, [
     address,
+    // eslint-disable-next-line
     JSON.stringify(abi),
     methodName,
+    // eslint-disable-next-line
     JSON.stringify(args),
+    // eslint-disable-next-line
     JSON.stringify(config),
     condition,
   ]);

@@ -21,10 +21,10 @@ import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import { AmountInput } from 'form/AmountInput';
-import { FormGroup } from 'form/FormGroup';
-import { DialogButton } from 'form/DialogButton';
-import { ErrorBadge } from 'form/ErrorBadge';
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { DialogButton } from 'app/components/Form/DialogButton';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 
 interface Props {

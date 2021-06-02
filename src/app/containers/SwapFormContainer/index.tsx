@@ -19,7 +19,7 @@ import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwo
 import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
-import { AmountInput } from 'form/AmountInput';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
@@ -29,7 +29,7 @@ import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
-import { Input } from 'form/Input';
+import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
 
 const s = translations.swapTradeForm;

@@ -67,7 +67,7 @@ export function VestedHistory() {
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Genesys SOV' }));
             setEventsHistoryVesting(
-              newRes.sort(
+              (newRes as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),
@@ -83,7 +83,7 @@ export function VestedHistory() {
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
             setEventsHistoryVestingTeam(
-              newRes.sort(
+              (newRes as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),
@@ -99,7 +99,7 @@ export function VestedHistory() {
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
             setEventsHistoryVestingOrigin(
-              newRes.sort(
+              (newRes as any).sort(
                 (x, y) =>
                   new Date(y.eventDate).getTime() -
                   new Date(x.eventDate).getTime(),
