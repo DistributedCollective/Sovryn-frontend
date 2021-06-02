@@ -7,7 +7,7 @@ import { bignumber } from 'mathjs';
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { translations } from '../../../locales/i18n';
 import { Asset } from '../../../types';
@@ -171,6 +171,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
+          <DepositLink asset={item.asset} />
           {item.asset === Asset.RBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.buy)}
@@ -210,5 +211,19 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
         </div>
       </td>
     </tr>
+  );
+}
+
+function DepositLink({ asset }: { asset: Asset }) {
+  const receiver = useAccount();
+  return (
+    <Link
+      to={{
+        pathname: '/cross-chain/deposit',
+        state: { receiver, asset },
+      }}
+    >
+      Deposit
+    </Link>
   );
 }
