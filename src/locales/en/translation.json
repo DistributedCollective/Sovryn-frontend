@@ -822,14 +822,16 @@
     },
     "poolChart": {
       "totalLiquidity": "Total Liquidity",
-      "apy": "{{asset}} APY%"
+      "apy": "{{asset}} APY%",
+      "available": "Available",
+      "borrowed": "Borrowed"
     },
     "rowTable": {
-      "noLiquidityProvided": "Lend your asset and earn income",
+      "noLiquidityProvided": "Lend your {{asset}} and earn income",
       "tableHeaders": {
-        "apy": "APY%",
+        "apy": "APY",
         "yourDeposit": "Your Deposit",
-        "myProfit": "My Profit",
+        "myProfit": "Profit",
         "rewards": "Rewards"
       }
     },

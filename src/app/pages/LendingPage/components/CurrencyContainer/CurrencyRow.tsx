@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
 
-import { AssetRenderer } from '../../../../components/AssetRenderer';
-
 import { ActionButton } from 'form/ActionButton';
 import { PoolChart } from './PoolChart';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { UserLendingInfo } from './UserLendingInfo';
 import { LendingDialog } from '../LendingDialog';
+import LeftSection from './LeftSection';
 
 type Props = {
   lendingPool: LendingPool;
@@ -22,23 +21,11 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
+  const asset = lendingPool.getAsset();
 
   const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
     setIsEmptyBalance,
   ]);
-
-  const LeftSection = () => {
-    return (
-      <div
-        className="tw-flex tw-items-center tw-mr-4"
-        style={{ minWidth: 105 }}
-      >
-        <div className="tw-flex tw-flex-col tw-justify-between">
-          <AssetRenderer asset={lendingPool.getAsset()} showImage />
-        </div>
-      </div>
-    );
-  };
 
   const Actions = () => {
     return (
@@ -63,7 +50,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
   return (
     <div>
       <CardRow
-        LeftSection={<LeftSection />}
+        LeftSection={<LeftSection asset={asset} />}
         ChartSection={
           <div className="mr-3">
             <PoolChart pool={lendingPool} />
@@ -83,7 +70,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
 
       <>
         <LendingDialog
-          currency={lendingPool.getAsset()}
+          currency={asset}
           showModal={dialog !== 'none'}
           onCloseModal={() => setDialog('none')}
           type={dialog}

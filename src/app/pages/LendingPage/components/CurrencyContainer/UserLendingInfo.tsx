@@ -84,7 +84,9 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             colSpan={3}
             className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
           >
-            {t(translations.lendingPage.rowTable.noLiquidityProvided)}
+            {t(translations.lendingPage.rowTable.noLiquidityProvided, {
+              asset,
+            })}
           </td>
         )}
         {(balance !== '0' || pLoading || bLoading) && (

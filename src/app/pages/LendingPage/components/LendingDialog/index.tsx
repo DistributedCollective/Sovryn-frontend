@@ -68,25 +68,30 @@ export function LendingDialog({
   } = useLending_assetBalanceOf(currency, useAccount());
   const { value: maxAmount } = useLending_transactionLimit(currency, currency);
 
-  const isGreaterThanZero = useMemo(() => {
-    return bignumber(weiAmount).greaterThan(0);
-  }, [weiAmount]);
+  const isGreaterThanZero = useMemo(() => bignumber(weiAmount).greaterThan(0), [
+    weiAmount,
+  ]);
 
-  const hasSufficientBalance = useMemo(() => {
-    return bignumber(weiAmount).lessThanOrEqualTo(
-      maxMinusFee(userBalance, currency, gasLimit),
-    );
-  }, [currency, userBalance, weiAmount]);
+  const hasSufficientBalance = useMemo(
+    () =>
+      bignumber(weiAmount).lessThanOrEqualTo(
+        maxMinusFee(userBalance, currency, gasLimit),
+      ),
+    [currency, userBalance, weiAmount],
+  );
 
-  const validate = useMemo(() => {
-    return isGreaterThanZero && hasSufficientBalance;
-  }, [isGreaterThanZero, hasSufficientBalance]);
+  const validate = useMemo(() => isGreaterThanZero && hasSufficientBalance, [
+    isGreaterThanZero,
+    hasSufficientBalance,
+  ]);
 
-  const withdrawAmount = useMemo(() => {
-    return bignumber(weiAmount)
-      .mul(bignumber(depositedBalance).div(depositedAssetBalance))
-      .toFixed(0);
-  }, [weiAmount, depositedBalance, depositedAssetBalance]);
+  const withdrawAmount = useMemo(
+    () =>
+      bignumber(weiAmount)
+        .mul(bignumber(depositedBalance).div(depositedAssetBalance))
+        .toFixed(0),
+    [weiAmount, depositedBalance, depositedAssetBalance],
+  );
 
   // LENDING
   const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);
@@ -138,10 +143,12 @@ export function LendingDialog({
 
   const contractName = getLendingContractName(currency);
   const tokenAddress = getTokenContract(currency).address;
-  const getMethodName = () => {
-    if (type === 'add') return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
+  const getMethodName = useCallback(() => {
+    if (type === 'add') {
+      return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
+    }
     return currency === Asset.RBTC ? 'burnToBTC' : 'burn';
-  };
+  }, [type, currency]);
 
   const txFeeArgs = useMemo(() => {
     if (type === 'add')
@@ -153,10 +160,8 @@ export function LendingDialog({
       : [tokenAddress, withdrawAmount];
   }, [currency, tokenAddress, type, weiAmount, withdrawAmount]);
 
-  const handleSubmit = () => {
-    if (type === 'add') handleLendSubmit();
-    else handleUnlendSubmit();
-  };
+  const handleSubmit = () =>
+    type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
 
   return (
     <>

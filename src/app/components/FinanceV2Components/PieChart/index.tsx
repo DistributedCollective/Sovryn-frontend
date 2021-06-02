@@ -7,6 +7,7 @@ import { StyledPieChart } from './styled';
 interface IPieChartProps {
   firstAsset: Asset;
   secondAsset?: Asset;
+  secondColor?: string;
   firstPercentage: number;
   secondPercentage?: number;
   className?: string;
@@ -15,6 +16,7 @@ interface IPieChartProps {
 export const PieChart: React.FC<IPieChartProps> = ({
   firstAsset,
   secondAsset,
+  secondColor,
   firstPercentage,
   secondPercentage = 0,
   className,
@@ -27,7 +29,13 @@ export const PieChart: React.FC<IPieChartProps> = ({
         )}
         secondPercentage={convertPercentageToDegrees(secondPercentage)}
         firstColor={getAssetColor(firstAsset)}
-        secondColor={secondAsset ? getAssetColor(secondAsset) : ''}
+        secondColor={
+          secondColor
+            ? secondColor
+            : secondAsset
+            ? getAssetColor(secondAsset)
+            : ''
+        }
       />
     </div>
   );
