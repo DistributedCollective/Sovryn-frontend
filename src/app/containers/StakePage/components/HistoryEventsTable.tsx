@@ -57,7 +57,6 @@ export function HistoryEventsTable() {
           staker: account,
         })
         .then(res => {
-          console.log('stake', res);
           setEventsHistory(
             res.sort(
               (x, y) =>
@@ -73,7 +72,6 @@ export function HistoryEventsTable() {
             staker: vesting.value,
           })
           .then(res => {
-            console.log('genesys', res);
             setEventsHistoryVesting(
               res.sort(
                 (x, y) =>
@@ -89,7 +87,6 @@ export function HistoryEventsTable() {
             staker: vestingTeam.value,
           })
           .then(res => {
-            console.log('vestingTeam', res);
             setEventsHistoryVestingTeam(
               res.sort(
                 (x, y) =>
@@ -105,7 +102,6 @@ export function HistoryEventsTable() {
             staker: vestingOrigin.value,
           })
           .then(res => {
-            console.log('vestingOrigin', res);
             setEventsHistoryVestingOrigin(
               res.sort(
                 (x, y) =>

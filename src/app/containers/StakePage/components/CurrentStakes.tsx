@@ -104,33 +104,29 @@ export function CurrentStakes(props: Stakes) {
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
               {stakeLoad && !stakesArray.length && (
-                <tr>
+                <tr key="loading">
                   <td colSpan={99} className="tw-text-center tw-font-normal">
                     {t(translations.stake.loading)}
                   </td>
                 </tr>
               )}
               {!stakeLoad && !stakesArray.length && (
-                <tr>
+                <tr key="empty">
                   <td colSpan={99} className="tw-text-center tw-font-normal">
                     {t(translations.stake.nostake)}
                   </td>
                 </tr>
               )}
               {stakesArray.map((item, index) => {
-                console.log(item);
-
                 return (
-                  <>
-                    <AssetRow
-                      item={item}
-                      key={item}
-                      onIncrease={props.onIncrease}
-                      onExtend={props.onExtend}
-                      onUnstake={props.onUnstake}
-                      onDelegate={props.onDelegate}
-                    />
-                  </>
+                  <AssetRow
+                    item={item}
+                    key={item[1]}
+                    onIncrease={props.onIncrease}
+                    onExtend={props.onExtend}
+                    onUnstake={props.onUnstake}
+                    onDelegate={props.onDelegate}
+                  />
                 );
               })}
             </tbody>
@@ -182,12 +178,12 @@ function AssetRow(props: AssetProps) {
             <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
           </div>
           <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-            SOV
+            {t(translations.stake.sov)}
           </div>
         </div>
       </td>
       <td className="tw-text-left tw-font-normal">
-        {weiToNumberFormat(props.item[0])} SOV
+        {weiToNumberFormat(props.item[0])} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
