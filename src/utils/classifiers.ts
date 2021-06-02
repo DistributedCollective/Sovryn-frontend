@@ -17,16 +17,6 @@ export const blockExplorers = {
   btc_31: 'https://live.blockcypher.com/btc-testnet',
 };
 
-export const networkNames = {
-  30: 'RSK Mainnet',
-  31: 'RSK Testnet',
-};
-
-export const rpcNodes = {
-  30: 'https://mainnet.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/rpc',
-};
-
 export const readNodes = {
   30: 'wss://mainnet.sovryn.app/ws',
   31: 'wss://testnet.sovryn.app/ws',
@@ -40,11 +30,6 @@ export const fastBtcApis = {
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
-};
-
-export const saleBackend = {
-  30: 'https://genesisbackend.sovryn.app/genesis',
-  31: 'https://testnet.sovryn.app/genesis',
 };
 
 export const backendUrl = {
