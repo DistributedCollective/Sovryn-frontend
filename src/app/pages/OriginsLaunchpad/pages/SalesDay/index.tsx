@@ -5,9 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { EngageWalletStep } from './pages/EngageWalletStep/index';
 import { AccessCodeVerificationStep } from './pages/AccessCodeVerificationStep/index';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 export const SalesDay: React.FC = () => {
   const { t } = useTranslation();
+  const connected = useIsConnected();
 
   return (
     <div className="tw-mb-52">
@@ -19,8 +21,7 @@ export const SalesDay: React.FC = () => {
       </div>
 
       <div className="tw-justify-center tw-flex tw-text-center">
-        {/* <EngageWalletStep /> */}
-        <AccessCodeVerificationStep />
+        {!connected ? <EngageWalletStep /> : <AccessCodeVerificationStep />}
       </div>
     </div>
   );
