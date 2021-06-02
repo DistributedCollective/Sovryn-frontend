@@ -25,6 +25,7 @@ module.exports = {
     },
     fontFamily: {
       body: ['Montserrat', 'sans-serif'],
+      orbitron: ['Orbitron', 'sans-serif'],
     },
     fontSize: {
       tiny: '.7rem',
@@ -114,16 +115,32 @@ module.exports = {
       maxWidth: {
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
+        '20.5rem': '20.5rem',
+        '50': '50%',
         '65': '65%',
         '70': '70%',
         '75': '75%',
         '77': '77%',
         '80': '80%',
+        '90': '90%',
       },
       width: {
         '139': '34.75rem',
         '155': '38.75rem',
         '163': '40.75rem',
+      },
+      minWidth: {
+        '122': '30.5rem',
+      },
+      height: {
+        '88': '22rem',
+      },
+      lineHeight: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+      },
+      borderRadius: {
+        '10px': '0.625rem',
       },
     },
   },

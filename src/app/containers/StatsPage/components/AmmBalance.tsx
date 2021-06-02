@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function AmmBalance(props: Props) {
-  const assets = [Asset.SOV, Asset.USDT, Asset.DOC, Asset.BPRO];
+  const assets = [Asset.SOV, Asset.USDT, Asset.ETH, Asset.DOC, Asset.BPRO];
   const { t } = useTranslation();
   return (
     <div>

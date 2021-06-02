@@ -8,18 +8,24 @@ interface Props {
   placeholder?: string;
   rightElement?: React.ReactNode;
   invalid?: boolean;
+  isOnDarkBackground?: boolean;
+  inputClassName?: string;
 }
 
 export function InputField(props: Props) {
   return (
     <>
-      <StyledWrapper invalid={props.invalid!}>
+      <StyledWrapper
+        invalid={props.invalid!}
+        isOnDarkBackground={props.isOnDarkBackground}
+      >
         <div className="tw-flex tw-items-center tw-flex-grow">
           <StyledInput
             type={props.type}
             value={props.value}
             placeholder={props.placeholder}
             onChange={e => props.onChange(e)}
+            className={props.inputClassName}
           />
         </div>
         {props.rightElement && <>{props.rightElement}</>}
@@ -35,6 +41,7 @@ InputField.defaultProps = {
 
 interface Wrapper {
   invalid: boolean;
+  isOnDarkBackground?: boolean;
 }
 
 const StyledWrapper = styled.label.attrs(_ => ({
@@ -48,6 +55,11 @@ const StyledWrapper = styled.label.attrs(_ => ({
     props.invalid &&
     css`
       border-color: var(--danger) !important;
+    `}
+  ${(props: Wrapper) =>
+    props.isOnDarkBackground &&
+    css`
+      background-color: var(--white) !important;
     `}
 `;
 

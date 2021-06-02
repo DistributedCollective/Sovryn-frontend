@@ -215,19 +215,46 @@
     "buySov": "Buy SOV",
     "trade": "Trade",
     "swap": "Swap",
-    "marginTrade": "Margin Trading",
+    "marginTrade": "Margin",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Liquidity-mining",
+    "yieldFarm": "Yield Farm",
     "reward": "Reward SOV",
-    "staking": "Staking",
+    "staking": "Stake",
     "governance": "Governance",
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
-    "spotTrade": "Spot Trade"
+    "spotTrade": "Spot",
+    "origins": "Origins",
+    "rewards": "Rewards"
+  },
+  "originsLaunchpad": {
+    "upcomingSales": {
+      "title": "Upcoming Sales On Origins Launchpad",
+      "projectCard": {
+        "saleToken": "Sale Token",
+        "project": "Project",
+        "startDate": "Starts",
+        "startPrice": "Starts"
+      },
+      "inputLabel": "Enter Email Address",
+      "submitButton": "Sign up for Origins Updates"
+    },
+    "previousSales": {
+      "title": "Previous Sales On Origins",
+      "projectCard": {
+        "saleName": "Sale Name",
+        "saleAllocation": "Sale Allocation",
+        "totalRaised": "Total Raised",
+        "participatingWallets": "Participating Wallets",
+        "date": "Date",
+        "saleDuration": "Sale Duration",
+        "price": "Price"
+      }
+    }
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -1197,6 +1224,16 @@
         "title": "April  75k SOV BTC/SOV Pool Loot Drop",
         "text": " The SOV/BTC liquidity pool is open, giving you the chance to take part in our biggest Liquidity Provision giveaway yet.",
         "cta": "Here’s how you get in"
+      },
+      "p3": {
+        "title": "40K SOV SOV/RBTC Pool Loot Drop!",
+        "text": "Take your share of 40K SOV rewards by providing liquidity to the SOV/RBTC pool until 30th May. That’s 40K SOV in just 7 days! Additional rolling weekly rewards will be announced shortly.",
+        "cta": "Earn now"
+      },
+      "p4": {
+        "title": "35K SOV ETHs/RBTC Pool Loot Drop",
+        "text": "In the first week, $1.2 million worth of SOV will be distributed to liquidity providers of the AMM. This super loot drop will last 7 days. Some quick maths indicate that early pool entrants will get somewhere in the region of 3000%!! The largest yield on ETH today. There will be further rewards for subsequent weeks which will be revised and announced towards the end of each week.",
+        "cta": "Earn now"
       }
     },
     "features": {
