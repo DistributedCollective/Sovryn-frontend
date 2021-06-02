@@ -392,6 +392,19 @@ export function Header() {
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
                     />
+                    <MenuItem
+                      icon={
+                        <img
+                          src={iconNewTab}
+                          alt="newTab"
+                          className="tw-w-4 tw-h-4"
+                        />
+                      }
+                      href="https://forum.sovryn.app/"
+                      target="_blank"
+                      text={t(translations.mainMenu.forum)}
+                      className="bp3-popover-dismiss"
+                    />
                   </BPMenu>
                 }
               >
