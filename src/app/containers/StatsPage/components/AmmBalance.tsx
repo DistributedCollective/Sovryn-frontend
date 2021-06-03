@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
@@ -8,14 +8,21 @@ import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useInterval } from 'app/hooks/useInterval';
-import { AssetRenderer } from 'app/components/AssetRenderer';
+import { AssetSymbolRenderer } from '../../../components/AssetSymbolRenderer';
 
 interface Props {
   rate: number;
 }
 
 export function AmmBalance(props: Props) {
-  const assets = [Asset.SOV, Asset.USDT, Asset.ETH, Asset.DOC, Asset.BPRO];
+  const assets = [
+    Asset.SOV,
+    Asset.USDT,
+    Asset.ETH,
+    Asset.DOC,
+    Asset.MOC,
+    Asset.BPRO,
+  ];
   const { t } = useTranslation();
   return (
     <div>
@@ -114,9 +121,9 @@ function Row(props) {
             </td>
           </tr>
           <tr className="border-bottom">
-            <td></td>
+            <td />
             <td>
-              <AssetRenderer asset={Asset.RBTC} />
+              <AssetSymbolRenderer asset={Asset.RBTC} />
             </td>
             <td className="text-right">
               {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (

@@ -4,12 +4,12 @@ import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
 import styled from 'styled-components/macro';
 
-import { ActionButton } from 'form/ActionButton';
 import { PoolChart } from './PoolChart';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { UserLendingInfo } from './UserLendingInfo';
 import { LendingDialog } from '../LendingDialog';
 import LeftSection from './LeftSection';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 type Props = {
   lendingPool: LendingPool;

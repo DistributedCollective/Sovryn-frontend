@@ -182,3 +182,9 @@ export function fixNumber(amount: any) {
   }
   return amount;
 }
+
+export function getUSDSum(array: any[]) {
+  return array.reduce(function (sum, value) {
+    return sum + value;
+  }, 0);
+}

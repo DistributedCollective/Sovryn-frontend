@@ -2,11 +2,11 @@ import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
-import { DialogButton } from 'form/DialogButton';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { Asset } from 'types';
 import { DialogType } from '../CurrencyContainer/CurrencyRow';
-import { FormGroup } from 'form/FormGroup';
-import { AmountInput } from 'form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { AmountInput } from 'app/components/Form/AmountInput';
 
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';

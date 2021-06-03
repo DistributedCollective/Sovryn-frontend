@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
@@ -87,6 +87,9 @@ export function MiningPool({ pool }: Props) {
           (pool.supplyAssets[0].asset === Asset.ETH &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Green) ||
+          (pool.supplyAssets[0].asset === Asset.DOC &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Pink) ||
           undefined
         }
       />

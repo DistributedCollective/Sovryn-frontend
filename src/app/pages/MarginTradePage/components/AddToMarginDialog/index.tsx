@@ -1,18 +1,11 @@
-import { AmountInput } from 'form/AmountInput';
-import { DialogButton } from 'form/DialogButton';
-import { ErrorBadge } from 'form/ErrorBadge';
-import { FormGroup } from 'form/FormGroup';
 /**
  *
  * AddToMarginDialog
  *
  */
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { translations } from 'locales/i18n';
-
 import { TradingPosition } from '../../../../../types/trading-position';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
@@ -28,7 +21,10 @@ import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { DialogButton } from 'app/components/Form/DialogButton';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 
 interface Props {
@@ -75,13 +71,13 @@ export function AddToMarginDialog(props: Props) {
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-text-white tw-tracking-normal">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center">
             {t(translations.addToMargin.title)}
           </h1>
 
           <FormGroup
             label={t(translations.addToMargin.amount)}
-            className="tw-mb-8"
+            className="tw-mb-12"
           >
             <AmountInput
               onChange={value => setAmount(value)}
@@ -116,7 +112,6 @@ export function AddToMarginDialog(props: Props) {
           {topupLocked?.maintenance_active && (
             <ErrorBadge content={topupLocked?.message} />
           )}
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirm()}

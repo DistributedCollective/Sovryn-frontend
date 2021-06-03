@@ -6,4 +6,5 @@ export enum Asset {
   USDT = 'USDT',
   BPRO = 'BPRO',
   SOV = 'SOV',
+  MOC = 'MOC',
 }

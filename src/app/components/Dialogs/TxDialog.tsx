@@ -200,7 +200,7 @@ const ExplorerLink = styled.div`
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: ##2274a5 !important;
+      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }

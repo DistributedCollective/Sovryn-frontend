@@ -26,6 +26,7 @@ import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -76,6 +77,21 @@ export const contracts = {
   DOC_amm: {
     address: '0x497b0517dd24f66c456e93bc0adbb2a2bf159ec4',
     abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  MOC_token: {
+    address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
+    abi: TestTokenABI,
+    blockNumber: 202559,
+  },
+  // MOC_lending: {
+  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1218721,
+  // },
+  MOC_amm: {
+    address: '0xc137aD4Ef759D9206b15105532c05c866cc89f31',
+    abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
   USDT_token: {
@@ -212,5 +228,9 @@ export const contracts = {
   lockedSov: {
     address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
     abi: LockedSovAbi,
+  },
+  feeSharingProxy: {
+    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
+    abi: feeSharingProxyAbi,
   },
 };

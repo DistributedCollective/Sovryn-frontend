@@ -1,7 +1,7 @@
 import React from 'react';
 import { Asset } from '../../../../../types';
 import { LiquidityPoolSupplyAsset } from '../../../../../utils/models/liquidity-pool';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { useMining_ApproveAndDeposit } from '../../hooks/useMining_ApproveAndDeposit';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { getPoolTokenContractName } from '../../../../../utils/blockchain/contract-helpers';

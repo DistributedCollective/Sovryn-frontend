@@ -72,15 +72,15 @@ export function TradingVolume(props: Props) {
   ];
 
   const rows = rowData.map((row, key) => (
-    <div key={key} className="row sovryn-border mb-3">
-      <div className="col-4">
+    <div key={key} className="row sovryn-border mb-3 mt-2">
+      <div className="md:tw-w-1/3 tw-w-full">
         <div className="text-center p-3">
           <h3>
             <div className="p-3 text-center w-100">{row.title}</div>
           </h3>
         </div>
       </div>
-      <div className="col-4 bg-secondary border border-black border-top-0 border-bottom-0">
+      <div className="md:tw-w-1/3 tw-w-full bg-secondary border border-black border-top-0 border-bottom-0">
         <div className="text-center p-3">
           <h3>
             {loading ? (
@@ -91,7 +91,7 @@ export function TradingVolume(props: Props) {
           </h3>
         </div>
       </div>
-      <div className="col-4 bg-secondary ">
+      <div className="md:tw-w-1/3 tw-w-full bg-secondary ">
         <div className="text-center p-3">
           <h3>
             {loading ? (

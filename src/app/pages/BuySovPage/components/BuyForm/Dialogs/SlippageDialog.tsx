@@ -11,7 +11,7 @@ import { Slider } from '../../Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { Asset } from 'types/asset';
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from '../../../../../components/AssetRenderer';
 
 interface Props {
