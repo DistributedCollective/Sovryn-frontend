@@ -23,9 +23,9 @@ export const SalesDay: React.FC = () => {
       </div>
 
       <div className="tw-justify-center tw-flex tw-text-center">
-        {!connected ? <EngageWalletStep /> : <AccessCodeVerificationStep />}
+        {/* {!connected ? <EngageWalletStep /> : <AccessCodeVerificationStep />} */}
         {/* <ImportantInformationStep /> */}
-        {/* <BuyStep /> */}
+        <BuyStep />
       </div>
     </div>
   );
