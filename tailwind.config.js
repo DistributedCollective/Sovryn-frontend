@@ -37,6 +37,7 @@ module.exports = {
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
+      '4-5xl': '2.5rem',
       '5xl': '3rem',
       '6xl': '4rem',
       '7xl': '5rem',
@@ -48,6 +49,16 @@ module.exports = {
       gray: {
         1: '#333333',
         2: '#191919',
+        100: '#1f1f1f',
+        200: '#2F2F2F',
+        300: '#EDEDED',
+        600: '#F4F4F4',
+        700: '#191919',
+        800: '#282828',
+        900: '#686868',
+        dark: '#707070',
+        light: '#181818',
+        lighter: '#161616',
       },
       white: '#E9EAE9',
       black: '#000000',
@@ -109,6 +120,11 @@ module.exports = {
       Red: '#eb2106',
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
+      turquoise: '#4ECDC4',
+      theme: {
+        white: '#E9EAE9',
+        blue: '#2274A5',
+      },
     },
     extend: {
       maxWidth: {
@@ -140,6 +156,12 @@ module.exports = {
       },
       borderRadius: {
         '10px': '0.625rem',
+      },
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
       },
     },
   },

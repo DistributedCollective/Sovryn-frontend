@@ -46,12 +46,13 @@ export function NotificationFormComponent(props: Props) {
 
   return (
     <form>
-      <>
-        <StyledDiv className="tw-mb-8">{t(s.dialog.want)}</StyledDiv>
+      {text[props.formType].title}
+      <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <FormGroup
           label={t(s.dialog.form.name.label)}
           labelFor="text-input"
-          className="tw-mb-8"
+          labelInfo={t(s.dialog.form.name.info)}
+          className="md:tw-col-span-6 sm:tw-col-span-12"
         >
           <InputGroup
             id="name"
@@ -63,7 +64,8 @@ export function NotificationFormComponent(props: Props) {
         <FormGroup
           label={t(s.dialog.form.email.label)}
           labelFor="email-input"
-          className="tw-mb-8"
+          labelInfo={t(s.dialog.form.email.info)}
+          className="md:tw-col-span-6 sm:tw-col-span-12"
         >
           <InputGroup
             type="email"
@@ -73,20 +75,26 @@ export function NotificationFormComponent(props: Props) {
             onChange={props.onChange}
           />
         </FormGroup>
-      </>
-      <div>
+      </div>
+      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-px-4">
         {props.formType === 'signup' && (
           <Checkbox
             name="marketing"
             checked={props.marketing}
             onChange={props.onChange}
-            className="tw-mb-8 md:tw-col-span-8 sm:tw-col-span-12"
+            className="md:tw-col-span-8 sm:tw-col-span-12"
             style={{ fontSize: '11px' }}
           >
             {t(s.receive)}
           </Checkbox>
         )}
-        <div>
+        <div
+          className={`${
+            props.formType === 'update'
+              ? 'tw-float-right tw-w-full'
+              : 'md:tw-col-span-4 sm:tw-col-span-12'
+          }`}
+        >
           <StyledButton
             className="sovryn-border tw-float-right"
             type="submit"
@@ -107,34 +115,18 @@ export function NotificationFormComponent(props: Props) {
 }
 
 const StyledButton = styled.button`
-  background: #fec004;
-  border: 1px solid #fex004;
-  color: #000000;
-  border-radius: 10px;
-  border-color: #fec004;
-  transition: background 0.3s, color 0.3s, border 0.3s;
-  cursor: pointer;
-  height: 50px;
-  width: 100%;
-  padding: 0 25px;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
+  color: var(--white);
+  background-color: var(--primary);
+  border-radius: 20px;
+  padding: 5px 30px;
+  font-size: 12px;
   &:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
+    opacity: 0.7;
   }
   &:hover:not(:disabled) {
-    background: rgba(254, 192, 4, 0.5);
-  }
-  &:hover {
-    background: rgb(254, 192, 4, 0.8);
+    color: var(--Gold);
   }
   ${media.lg`
-  font-size: 18px
+  font-size: 14px
   `}
-`;
-
-const StyledDiv = styled.div`
-  font-size: 13px;
 `;

@@ -26,6 +26,7 @@ import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -227,5 +228,9 @@ export const contracts = {
   lockedSov: {
     address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
     abi: LockedSovAbi,
+  },
+  feeSharingProxy: {
+    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
+    abi: feeSharingProxyAbi,
   },
 };

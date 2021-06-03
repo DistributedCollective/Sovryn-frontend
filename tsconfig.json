@@ -15,10 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "./src",
-    "paths": {
-      "form/*": ["./app/components/Form/*"]
-    }
+    "baseUrl": "./src"
   },
   "include": ["src"]
 }

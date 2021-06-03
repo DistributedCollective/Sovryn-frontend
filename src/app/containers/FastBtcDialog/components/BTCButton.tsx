@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface Props {
   loading: boolean;
