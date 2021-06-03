@@ -37,7 +37,8 @@ const LeftSection: React.FC<Props> = ({ asset }) => {
     totalBorrow,
   ]);
   const firstPercentage = useMemo(
-    () => (totalAssetBorrow * 100) / (totalAssetBorrow + totalMarketLiquidity),
+    () =>
+      (totalMarketLiquidity * 100) / (totalAssetBorrow + totalMarketLiquidity),
     [totalAssetBorrow, totalMarketLiquidity],
   );
   const loading = loadingTotalAssetBorrow || loadingMarketLiquidity;

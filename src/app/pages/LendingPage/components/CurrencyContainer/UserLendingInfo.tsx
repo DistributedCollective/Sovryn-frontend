@@ -53,7 +53,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   }, [balance, onNonEmptyBalance]);
 
   return (
-    <RowTable>
+    <RowTable className="tw-w-100">
       <thead className="tw-text-sm tw-tracking-normal">
         <tr>
           <TableHeader>
