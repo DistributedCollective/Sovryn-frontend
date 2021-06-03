@@ -85,7 +85,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
 export default CurrencyRow;
 
 const ChartWrapper = styled.div`
-  @media (max-width: 1244px) {
+  @media (max-width: 1350px) {
     display: none;
   }
 `;
