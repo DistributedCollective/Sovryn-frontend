@@ -165,6 +165,8 @@ export function SwapFormContainer() {
         onChange={value => setSlippage(value)}
       />
 
+      <Arbitrage />
+
       <div className="swap-form-container">
         <div className="swap-form swap-form-send">
           <div className="swap-form__title">{t(translations.swap.send)}</div>
@@ -188,14 +190,11 @@ export function SwapFormContainer() {
           </div>
         </div>
         <div className="swap-revert-wrapper">
-          <div className="tw-w-full tw-flex tw-flex-col tw-items-center">
-            <Arbitrage />
-            <div
-              className="swap-revert"
-              style={{ backgroundImage: `url(${swapIcon})` }}
-              onClick={onSwapAssert}
-            />
-          </div>
+          <div
+            className="swap-revert"
+            style={{ backgroundImage: `url(${swapIcon})` }}
+            onClick={onSwapAssert}
+          />
         </div>
         <div className="swap-form swap-form-receive">
           <div className="swap-form__title">{t(translations.swap.receive)}</div>

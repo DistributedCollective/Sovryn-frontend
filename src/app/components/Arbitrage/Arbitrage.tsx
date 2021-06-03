@@ -12,24 +12,12 @@ import { selectWalletProvider } from '../../containers/WalletProvider/selectors'
 import { fixNumber } from '../../../utils/helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
+import type { PoolData } from './models/pool-data';
+import type { Opportunity } from './models/opportunity';
 
 const s = translations.swapTradeForm;
 
 const minUsdForOpportunity = 10;
-
-interface PoolData {
-  [pool: string]: {
-    oracleRate: string;
-    negativeDelta: boolean;
-    rateToBalance: {
-      amount: number;
-      from: string;
-      to: string;
-      rate: number;
-      earn: number;
-    };
-  };
-}
 
 export function Arbitrage() {
   const { t } = useTranslation();
@@ -40,43 +28,34 @@ export function Arbitrage() {
     {},
   );
 
-  const opportunityArray = useMemo(() => {
-    const opportunities: {
-      fromToken: Asset;
-      toToken: Asset;
-      fromAmount: number;
-      toAmount: number;
-      earn: number;
-      earnUsd: number;
-    }[] = [];
-    for (let pool in data) {
-      if (
-        data.hasOwnProperty(pool) &&
-        data[pool].hasOwnProperty('rateToBalance')
-      ) {
-        const toToken = assetByTokenAddress(data[pool].rateToBalance.to);
-        const rate = assetRates.find(
-          item => item.source === toToken && item.target === Asset.USDT,
-        );
-        opportunities.push({
-          fromToken: assetByTokenAddress(data[pool].rateToBalance.from),
-          toToken,
-          fromAmount: data[pool].rateToBalance.amount,
-          toAmount: data[pool].rateToBalance.rate,
-          earn: data[pool].rateToBalance.earn,
-          earnUsd: rate
-            ? Number(
-                bignumber(fixNumber(rate.value.rate))
-                  .mul(data[pool].rateToBalance.earn)
-                  .div(rate.value.precision)
-                  .toFixed(18),
-              )
-            : 0,
-        });
-      }
-    }
-    return opportunities.sort((a, b) => b.earnUsd - a.earnUsd);
-  }, [data, assetRates]);
+  const opportunityArray = useMemo(
+    () =>
+      Object.values(data)
+        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .map(item => {
+          const toToken = assetByTokenAddress(item.rateToBalance.to);
+          const rate = assetRates.find(
+            item => item.source === toToken && item.target === Asset.USDT,
+          );
+          return {
+            fromToken: assetByTokenAddress(item.rateToBalance.from),
+            toToken,
+            fromAmount: item.rateToBalance.amount,
+            toAmount: item.rateToBalance.rate,
+            earn: item.rateToBalance.earn,
+            earnUsd: rate
+              ? Number(
+                  bignumber(fixNumber(rate.value.rate))
+                    .mul(item.rateToBalance.earn)
+                    .div(rate.value.precision)
+                    .toFixed(18),
+                )
+              : 0,
+          };
+        })
+        .sort((a, b) => b.earnUsd - a.earnUsd) as Opportunity[],
+    [data, assetRates],
+  );
 
   const opportunity = useMemo(() => {
     const items = opportunityArray.filter(
