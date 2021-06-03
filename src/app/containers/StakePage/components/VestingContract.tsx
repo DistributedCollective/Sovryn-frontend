@@ -145,16 +145,17 @@ export function VestingContract(props: Props) {
                 <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
               </div>
               <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                {props.type === 'genesis' && 'CSOV Genesis'}
-                {props.type === 'origin' && 'SOV Origin'}
-                {props.type === 'team' && 'SOV Team'}
+                {props.type === 'genesis' && 'Genesis SOV'}
+                {props.type === 'origin' && 'Origin SOV'}
+                {props.type === 'team' && 'Team SOV'}
               </div>
             </div>
           </td>
           <td className="tw-text-left tw-font-normal">
             <p className={`${lockedAmount.loading && 'skeleton'}`}>
               {weiToNumberFormat(lockedAmount.value)}{' '}
-              {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
+              {t(translations.stake.sov)}
+              <br />≈{' '}
               <LoadableValue
                 value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
                 loading={dollars.loading}
