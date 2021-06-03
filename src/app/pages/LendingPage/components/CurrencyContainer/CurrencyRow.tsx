@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
+import styled from 'styled-components/macro';
 
 import { ActionButton } from 'form/ActionButton';
 import { PoolChart } from './PoolChart';
@@ -47,18 +48,15 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
     );
   };
 
-  const ChartSection = () =>
-    window.screen.width > 1300 ? (
-      <div className="mr-3">
-        <PoolChart pool={lendingPool} />
-      </div>
-    ) : null;
-
   return (
     <div>
       <CardRow
         LeftSection={<LeftSection asset={asset} />}
-        ChartSection={ChartSection()}
+        ChartSection={
+          <ChartWrapper className="mr-3">
+            <PoolChart pool={lendingPool} />
+          </ChartWrapper>
+        }
         Actions={<Actions />}
         DataSection={
           <UserLendingInfo
@@ -85,3 +83,9 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
 };
 
 export default CurrencyRow;
+
+const ChartWrapper = styled.div`
+  @media (max-width: 1244px) {
+    display: none;
+  }
+`;

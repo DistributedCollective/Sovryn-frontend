@@ -45,7 +45,7 @@ export default function ComparisonChart(props: ComparisonProps) {
     },
     secondaryYAxisProps: {
       formatter: function (this: any) {
-        return '₿' + formatValues(this.value);
+        return formatValues(this.value);
       },
     },
     datasetPrimary: {
