@@ -285,6 +285,32 @@
         },
         "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
         "submitButtonText": "I Understand"
+      },
+      "buyStep": {
+        "buyInformationLabels": {
+          "depositLimits": "Deposit limits",
+          "saleAllocation": "Sale Allocation",
+          "allocationRemaining": "Allocation Remaining",
+          "participatingWallets": "Participating Wallets",
+          "price": "Price",
+          "acceptedCurrencies": "Accepted currencies",
+          "tokenSaleEndTime": "Token Sale End Time"
+        },
+        "buyDialog": {
+          "enterAmount": "Enter Amount",
+          "tokenReceived": "{{token}} Received",
+          "minimumReceived": "Minimum Received",
+          "transactionFee": "Transaction Fee",
+          "buyButton": "Buy {{token}}"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "instruction1": "Buy {{token}} with RBTC in your engaged wallet",
+          "instruction2": "Please allow up to xx mins for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>",
+          "nftInstruction1": "By participating in the xxxxx xxxxxx xxxxx you earn this exclusive NFT, only minted for participants of this sale.  It will grant you super powers in the coming months so be sure to listen for announcements in the babelFish and Sovryn Discord channels.",
+          "nftInstruction2": "You will be able to view your NFT in your Sovryn portfolio after they are airdropped on the xxxxxxx"
+        }
       }
     }
   },
