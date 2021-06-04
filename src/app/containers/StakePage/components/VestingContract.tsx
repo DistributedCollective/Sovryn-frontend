@@ -29,7 +29,7 @@ import {
 
 interface Props {
   vestingAddress: string;
-  type: 'genesis' | 'origin' | 'team';
+  type: 'genesis' | 'origin' | 'team' | 'reward';
   onDelegate: (a: number) => void;
 }
 
@@ -145,9 +145,10 @@ export function VestingContract(props: Props) {
                 <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
               </div>
               <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                {props.type === 'genesis' && 'CSOV Genesis'}
+                {props.type === 'genesis' && 'SOV Genesis'}
                 {props.type === 'origin' && 'SOV Origin'}
                 {props.type === 'team' && 'SOV Team'}
+                {props.type === 'reward' && 'SOV Reward'}
               </div>
             </div>
           </td>
@@ -193,7 +194,7 @@ export function VestingContract(props: Props) {
             )}
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p>
+            <p className={`${!stakingPeriodStart && 'skeleton'}`}>
               {moment
                 .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
                 .format('DD/MM/YYYY - h:mm:ss a z')}
@@ -224,7 +225,7 @@ export function VestingContract(props: Props) {
                   props.vestingAddress === ethGenesisAddress
                 }
               >
-                {t(translations.stake.actions.withdrawFees)}
+                {t(translations.stake.actions.withdraw)}
               </button>
             </div>
           </td>

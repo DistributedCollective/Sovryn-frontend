@@ -59,6 +59,10 @@ export const contracts = {
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
   },
+  RBTC_itoken: {
+    address: '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
+    abi: abiTestWBRTCToken as any,
+  },
   RBTC_lending: {
     address: '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
     abi: LoanTokenLogicWrbtc,
@@ -68,6 +72,10 @@ export const contracts = {
     address: '0xe700691da7b9851f2f35f8b8182c69c53ccad9db',
     abi: TestTokenABI,
     blockNumber: 1764664,
+  },
+  DOC_itoken: {
+    address: '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
+    abi: tokenAbi as any,
   },
   DOC_lending: {
     address: '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
@@ -99,6 +107,10 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
+  USDT_itoken: {
+    address: '0x849C47f9C259E9D62F289BF1b2729039698D8387',
+    abi: tokenAbi as any,
+  },
   USDT_lending: {
     address: '0x849C47f9C259E9D62F289BF1b2729039698D8387',
     abi: LoanTokenLogicStandard,
@@ -113,6 +125,10 @@ export const contracts = {
     address: '0x440cd83c160de5c96ddb20246815ea44c7abbca8',
     abi: TestTokenABI,
     blockNumber: 1764667,
+  },
+  BPRO_itoken: {
+    address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
+    abi: tokenAbi as any,
   },
   BPRO_lending: {
     address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
@@ -168,6 +184,10 @@ export const contracts = {
     address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x14F3FE332e21Ef3f5d244C45C8D5fbFcEF2FB5c9',
+    abi: VestingRegistryAbi,
   },
   vestingRegistryOrigin: {
     address: '0x0a9bDbf5e104a30fb4c99f6812FB85B60Fd8D372',

@@ -89,7 +89,7 @@ export function CurrentVests(props: Props) {
 function useGetItems() {
   const account = useAccount();
   const [state, setState] = useState<{
-    items: { address: string; type: 'genesis' | 'origin' | 'team' }[];
+    items: { address: string; type: 'genesis' | 'origin' | 'team' | 'reward' }[];
     error: string;
     loading: boolean;
   }>({
@@ -104,7 +104,7 @@ function useGetItems() {
         try {
           const items: {
             address: string;
-            type: 'genesis' | 'origin' | 'team';
+            type: 'genesis' | 'origin' | 'team' | 'reward';
           }[] = [];
           const vesting1 = (await contractReader.call(
             'vestingRegistry',
@@ -134,6 +134,16 @@ function useGetItems() {
           )) as string;
           if (vesting3 && vesting3 !== ethGenesisAddress) {
             items.push({ address: vesting3, type: 'origin' });
+            setState(prevState => ({ ...prevState, items }));
+          }
+
+          const vesting4 = (await contractReader.call(
+            'vestingRegistry3',
+            'getVesting',
+            [account],
+          )) as string;
+          if (vesting4 && vesting4 !== ethGenesisAddress) {
+            items.push({ address: vesting4, type: 'reward' });
             setState(prevState => ({ ...prevState, items }));
           }
 

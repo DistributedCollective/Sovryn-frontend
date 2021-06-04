@@ -59,6 +59,10 @@ export const contracts = {
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
   },
+  RBTC_itoken: {
+    address: '0xe67Fe227e0504e8e96A34C3594795756dC26e14B',
+    abi: abiTestWBRTCToken as any,
+  },
   RBTC_lending: {
     address: '0xe67Fe227e0504e8e96A34C3594795756dC26e14B',
     abi: LoanTokenLogicWrbtc,
@@ -68,6 +72,10 @@ export const contracts = {
     address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
     abi: TestTokenABI,
     blockNumber: 202559,
+  },
+  DOC_itoken: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: tokenAbi as any,
   },
   DOC_lending: {
     address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
@@ -84,6 +92,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
+  MOC_itoken: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
   // MOC_lending: {
   //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
   //   abi: LoanTokenLogicStandard,
@@ -98,6 +111,10 @@ export const contracts = {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
     abi: TestTokenABI,
     blockNumber: 1408174,
+  },
+  USDT_itoken: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: tokenAbi as any,
   },
   USDT_lending: {
     address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
@@ -114,6 +131,10 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202562,
   },
+  BPRO_itoken: {
+    address: '0x6226b4B3F29Ecb5f9EEC3eC3391488173418dD5d',
+    abi: tokenAbi as any,
+  },
   BPRO_lending: {
     address: '0x6226b4B3F29Ecb5f9EEC3eC3391488173418dD5d',
     abi: LoanTokenLogicStandard,
@@ -128,6 +149,11 @@ export const contracts = {
     address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
     abi: TestTokenABI,
     blockNumber: 1408174,
+  },
+  ETH_itoken: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
   },
   // ETH_lending: {
   //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
@@ -178,6 +204,10 @@ export const contracts = {
     address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
     abi: VestingRegistryOriginAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
+    abi: VestingRegistryAbi,
   },
   staking: {
     address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
