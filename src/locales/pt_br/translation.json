@@ -809,7 +809,7 @@
       "apy": "{{asset}} Juros anual%"
     },
     "rowTable": {
-      "noLiquidityProvided": "Empreste sua cripto e ganhe rendimentos",
+      "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
       "tableHeaders": {
         "apy": "Juros anual",
         "yourDeposit": "Você emprestou",
