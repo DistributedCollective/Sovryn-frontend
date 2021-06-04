@@ -31,7 +31,7 @@ export const SalesDay: React.FC = () => {
 
   return (
     <div className="tw-mb-52">
-      <div className="tw-text-center tw-items-center tw-justify-center tw-flex tw-mb-28">
+      <div className="tw-text-center tw-items-center tw-justify-center tw-flex tw-mb-12">
         <TitleImage src={imgTitle} />
         <TitleContent>
           {t(translations.originsLaunchpad.saleDay.title, { token: 'Fish' })}
