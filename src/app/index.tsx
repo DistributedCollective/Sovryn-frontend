@@ -36,6 +36,7 @@ import { StakePage } from './containers/StakePage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
+import { Babelfish } from './pages/Babelfish/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
@@ -74,6 +75,7 @@ export function App() {
           <NetworkRibbon />
           <Switch>
             <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/babelfish" component={Babelfish} />
             <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
