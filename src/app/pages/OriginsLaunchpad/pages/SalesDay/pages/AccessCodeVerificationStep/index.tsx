@@ -7,15 +7,16 @@ import { FieldGroup } from 'app/components/FieldGroup';
 import { ActionButton } from 'form/ActionButton';
 import { InputField } from 'app/components/InputField';
 
-export const AccessCodeVerificationStep: React.FC = () => {
+interface IAccessCodeVerificationStepProps {
+  onVerified?: () => void;
+}
+
+export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepProps> = ({
+  onVerified,
+}) => {
   const { t } = useTranslation();
 
   const [code, setCode] = useState('');
-
-  const handleSubmit = useCallback(
-    () => console.log(`Submitting the following access code: ${code}`),
-    [code],
-  );
 
   return (
     <>
@@ -58,7 +59,7 @@ export const AccessCodeVerificationStep: React.FC = () => {
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
                 .inputButton,
             )}
-            onClick={handleSubmit}
+            onClick={onVerified}
             className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
             textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
           />

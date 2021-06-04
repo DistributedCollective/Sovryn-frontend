@@ -5,7 +5,13 @@ import { translations } from 'locales/i18n';
 import { Checkbox } from '@blueprintjs/core';
 import { ActionButton } from 'form/ActionButton';
 
-export const ImportantInformationStep: React.FC = () => {
+interface IImportantInformationStepProps {
+  onSubmit?: () => void;
+}
+
+export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
+  onSubmit,
+}) => {
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
 
@@ -84,7 +90,7 @@ export const ImportantInformationStep: React.FC = () => {
               translations.originsLaunchpad.saleDay.importantInformationStep
                 .submitButtonText,
             )}
-            onClick={() => console.log('submit')}
+            onClick={onSubmit}
             className="tw-block tw-max-w-20rem tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
             textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-5.5"
             disabled={!checked}
