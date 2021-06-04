@@ -89,7 +89,10 @@ export function CurrentVests(props: Props) {
 function useGetItems() {
   const account = useAccount();
   const [state, setState] = useState<{
-    items: { address: string; type: 'genesis' | 'origin' | 'team' | 'reward' }[];
+    items: {
+      address: string;
+      type: 'genesis' | 'origin' | 'team' | 'reward';
+    }[];
     error: string;
     loading: boolean;
   }>({

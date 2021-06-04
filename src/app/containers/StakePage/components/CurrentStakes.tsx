@@ -191,7 +191,7 @@ function AssetRow(props: AssetProps) {
         />
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-        {numberFromWei(votingPower)}
+        {numberFromWei(votingPower).toFixed(2)}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
         {props.item[2].length && (
@@ -202,7 +202,9 @@ function AssetRow(props: AssetProps) {
           />
         )}
         {!props.item[2].length && (
-          <p>{t(translations.stake.delegation.noDelegate)}</p>
+          <p className="tw-m-0">
+            {t(translations.stake.delegation.noDelegate)}
+          </p>
         )}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
@@ -219,7 +221,7 @@ function AssetRow(props: AssetProps) {
         )}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-        <p>
+        <p className="tw-m-0">
           {moment
             .tz(new Date(parseInt(props.item[1]) * 1e3), 'GMT')
             .format('DD/MM/YYYY - h:mm:ss a z')}

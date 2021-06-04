@@ -92,6 +92,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
+  MOC_itoken: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: TestTokenABI,
+    blockNumber: 202559,
+  },
   // MOC_lending: {
   //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
   //   abi: LoanTokenLogicStandard,
@@ -144,6 +149,11 @@ export const contracts = {
     address: '0x1D931Bf8656d795E50eF6D639562C5bD8Ac2B78f',
     abi: TestTokenABI,
     blockNumber: 1408174,
+  },
+  ETH_itoken: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
   },
   // ETH_lending: {
   //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',

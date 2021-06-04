@@ -614,7 +614,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
           <div className="tw-w-1/2 tw-ml-6">
             {numberFromWei(currency.value).toFixed(6)} ≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 2)}
+              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
               loading={dollars.loading}
             />
           </div>
