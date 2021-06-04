@@ -29,7 +29,7 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { LiquidityPage } from './containers/LiquidityPage/Loadable';
+import { LiquidityMining } from './pages/LiquidityMining';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
@@ -82,7 +82,7 @@ export function App() {
             <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
-            <Route exact path="/yield-farm" component={LiquidityPage} />
+            <Route exact path="/yield-farm" component={LiquidityMining} />
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route exact path="/origins" component={OriginsLaunchpadPage} />
