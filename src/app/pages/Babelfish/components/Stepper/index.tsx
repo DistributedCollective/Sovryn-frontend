@@ -4,9 +4,7 @@ import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import walletIcon from 'assets/images/wallet-icon.svg';
 
-interface Props {}
-
-export function Stepper(props: Props) {
+export function Stepper() {
   const [network, setNetwork] = useState<StepValue | null>(null);
   const [token, setToken] = useState<StepValue | null>(null);
   const [amount, setAmount] = useState<StepValue | null>(null);
@@ -57,14 +55,25 @@ export function Stepper(props: Props) {
   return (
     <div>
       <ul className="tw-relative">
-        <Step
-          title="Network"
-          current={step === 1}
-          value={network}
-          active={step >= 1}
-          onClick={() => handleStep(1)}
-          isFirst
-        />
+        <div className="tw-relative tw-flex">
+          <div
+            className="lg:tw-mt-0.5 tw-h-full tw-absolute tw-transition-transform tw-duration-200 tw-ease-in-out"
+            style={{
+              transform: `translateY(${100 * (step - 1)}%)`,
+            }}
+          >
+            <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-mr-4 tw-border-white"></span>
+          </div>
+          <Step
+            title="Network"
+            current={step === 1}
+            value={network}
+            active={step >= 1}
+            onClick={() => handleStep(1)}
+            isFirst
+          />
+        </div>
+
         <Step
           title="Token"
           value={token}
@@ -134,36 +143,35 @@ function Step({ title, current, value, active, isFirst, onClick }: StepProps) {
       )}
       onClick={() => onClick()}
     >
-      <span
-        className={cn(
-          'tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-transform tw-relative tw-mr-4 tw-transition tw-duration-200 tw-ease-in-out',
-          { 'tw-border-white': current, 'tw-border-transparent': !current },
-        )}
-      >
+      <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-transform tw-relative tw-mr-4 tw-border-transparent">
         {!isFirst && (
           <span
             className="tw-h-9 bg-white tw-absolute tw--top-1.5 tw-left-0 tw-right-0 tw-mx-auto tw-transform tw--translate-y-full tw--translate-x-1/2"
             style={{ width: 1 }}
           ></span>
         )}
-        {!value?.icon && (
-          <span
-            className={cn(
-              'tw-border-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-white tw-inline-block',
-              { 'tw-transform tw-scale-125': !!active },
-            )}
-          ></span>
-        )}
+        <span
+          className={cn(
+            'tw-absolute tw-border-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-white tw-inline-block tw-transition tw-duration-200 tw-ease-in-out',
+            {
+              'tw-transform tw-scale-125': !!active,
+              'tw-scale-0': value?.icon,
+              'tw-scale-100': !value?.icon,
+            },
+          )}
+        ></span>
 
-        {value?.icon && (
-          <span
-            className={cn(
-              'tw-flex tw-items-center tw-justify-center tw-transform tw-scale-125 tw-border-white tw-w-3.5 tw-h-3.5 tw-rounded-full',
-            )}
-          >
-            {value?.icon}
-          </span>
-        )}
+        <span
+          className={cn(
+            'tw-absolute tw-flex tw-items-center tw-justify-center tw-transform tw-border-white tw-w-3.5 tw-h-3.5 tw-rounded-full tw-transition tw-duration-200 tw-ease-in-out',
+            {
+              'tw-scale-0': !value?.icon,
+              'tw-scale-125': value?.icon,
+            },
+          )}
+        >
+          {value?.icon}
+        </span>
       </span>
       {value?.title || title}
     </li>
