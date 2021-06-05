@@ -572,7 +572,7 @@
   "borrowActivity": {
     "title": "Meus empréstimos",
     "tabs": {
-      "active": "À devolver",
+      "active": "A devolver",
       "history": "Devolvidos"
     },
     "walletNote": "Primeiro conecte sua carteira!"
