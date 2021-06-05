@@ -5,6 +5,7 @@ import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { vesting_withdraw } from 'utils/blockchain/requests/vesting';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { isAddress } from 'web3-utils';
 interface Props {
   vesting: string;
@@ -75,15 +76,16 @@ export function WithdrawVesting(props: Props) {
           >
             {t(translations.stake.withdraw.unlockedSov)}:
           </label>
-          <div className="tw-flex tw-space-x-4">
+          <div className="tw-flex tw-space-x-4 tw-mb-3">
             <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
               {loading ? 'Loading...' : numberFromWei(value)}
             </div>
           </div>
-
-          <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            {t(translations.stake.txFee)}: 0.0006 rBTC
-          </p>
+          <TxFeeCalculator
+            args={[address.toLowerCase()]}
+            methodName="withdrawTokens"
+            contractName="vesting"
+          />
         </div>
 
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">

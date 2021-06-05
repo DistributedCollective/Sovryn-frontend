@@ -4,6 +4,7 @@ import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { StakingDateSelector } from '../../../components/StakingDateSelector';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import moment from 'moment';
 
 interface Props {
@@ -72,7 +73,7 @@ export function ExtendStakeForm(props: Props) {
           >
             {t(translations.stake.extending.votingPowerReceived)}:
           </label>
-          <div className="tw-flex tw-space-x-4">
+          <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
               className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
@@ -82,9 +83,11 @@ export function ExtendStakeForm(props: Props) {
               value={numberFromWei(props.votePower)}
             />
           </div>
-          <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            {t(translations.stake.txFee)}: 0.0006 rBTC
-          </p>
+          <TxFeeCalculator
+            args={[props.prevExtend, props.timestamp]}
+            methodName="extendStakingDuration"
+            contractName="staking"
+          />
           <div className="tw-text-gray-700 tw-text-xs tw-mt-3 tw-hidden">
             {t(translations.stake.extending.balance)}:{' '}
             <span

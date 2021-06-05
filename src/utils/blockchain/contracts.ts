@@ -18,6 +18,7 @@ import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
@@ -59,10 +60,6 @@ export const contracts = {
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
   },
-  RBTC_itoken: {
-    address: '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
-    abi: abiTestWBRTCToken as any,
-  },
   RBTC_lending: {
     address: '0xa9DcDC63eaBb8a2b6f39D7fF9429d88340044a7A',
     abi: LoanTokenLogicWrbtc,
@@ -72,10 +69,6 @@ export const contracts = {
     address: '0xe700691da7b9851f2f35f8b8182c69c53ccad9db',
     abi: TestTokenABI,
     blockNumber: 1764664,
-  },
-  DOC_itoken: {
-    address: '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
-    abi: tokenAbi as any,
   },
   DOC_lending: {
     address: '0xd8D25f03EBbA94E15Df2eD4d6D38276B595593c1',
@@ -92,16 +85,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  MOC_itoken: {
+  MOC_lending: {
     address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-    abi: TestTokenABI,
-    blockNumber: 202559,
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
   MOC_amm: {
     address: '0x52eD2aD69A44A431B393d28CE415c19348abAb16',
     abi: LiquidityPoolV1Converter,
@@ -111,10 +99,6 @@ export const contracts = {
     address: '0xEf213441a85DF4d7acBdAe0Cf78004E1e486BB96',
     abi: TestTokenABI,
     blockNumber: 1408174,
-  },
-  USDT_itoken: {
-    address: '0x849C47f9C259E9D62F289BF1b2729039698D8387',
-    abi: tokenAbi as any,
   },
   USDT_lending: {
     address: '0x849C47f9C259E9D62F289BF1b2729039698D8387',
@@ -131,10 +115,6 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1764667,
   },
-  BPRO_itoken: {
-    address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
-    abi: tokenAbi as any,
-  },
   BPRO_lending: {
     address: '0x6E2fb26a60dA535732F8149b25018C9c0823a715',
     abi: LoanTokenLogicStandard,
@@ -150,16 +130,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  ETH_itoken: {
+  ETH_lending: {
     address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
   ETH_amm: {
     address: '0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20',
     abi: LiquidityPoolV1Converter,
@@ -188,6 +163,11 @@ export const contracts = {
   SovrynNFTBday: {
     address: '0x8ffB12De9e7602843e4792DB0bC2863e9d137d06',
     abi: SovrynNFTAbi,
+    blockNumber: 1218836,
+  },
+  vesting: {
+    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
+    abi: VestingAbi,
     blockNumber: 1218836,
   },
   vestingRegistry: {

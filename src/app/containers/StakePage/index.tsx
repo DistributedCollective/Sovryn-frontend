@@ -413,6 +413,7 @@ function InnerStakePage() {
                   <DelegateForm
                     handleSubmit={handleDelegateSubmit}
                     address={address}
+                    timestamp={Number(timestamp)}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
