@@ -948,7 +948,7 @@
     "title": "Devolver empréstimo",
     "labels": {
       "borrowedAmount": "Valor do empréstimo",
-      "amountToRepay": "{{currency}} à ser devolvido",
+      "amountToRepay": "{{currency}} a ser devolvido",
       "amountToReceive": "Você irá receber"
     },
     "button": "Devolver"
