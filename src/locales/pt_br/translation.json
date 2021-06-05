@@ -360,7 +360,7 @@
     "delegation": {
       "delegateTo": "Delegar para",
       "delegatedTo": "Delegado para",
-      "noDelegate": "Não delegado",
+      "noDelegate": "Sem delegação",
       "address": "Insira ou cole o endereço"
     },
     "withdraw": {
