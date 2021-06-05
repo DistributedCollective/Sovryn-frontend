@@ -554,7 +554,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   const account = useAccount();
   const { t } = useTranslation();
   const token = (contractToken.asset +
-    (contractToken.asset === Asset.SOV ? '_token' : '_itoken')) as any;
+    (contractToken.asset === Asset.SOV ? '_token' : '_lending')) as any;
   const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
   const tokenAddress = getContract(token).address;
   const currency = useStaking_getAccumulatedFees(account, tokenAddress);
