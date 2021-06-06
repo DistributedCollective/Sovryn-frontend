@@ -369,7 +369,7 @@
       "amountToUnstake": "Quantidade a ser desinvestida",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
-      "forfeit": "Multa por desinvestir antes do prazo",
+      "forfeit": "Multa por resgatar investimento antes do prazo",
       "closeDialog": "Fechar janela",
       "reallyUnstake": "Você tem certeza de que deseja desinvestir?",
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
