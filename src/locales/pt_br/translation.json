@@ -366,7 +366,7 @@
     "withdraw": {
       "title": "Desinvestir SOV",
       "amountCurrentlyStaked": "Quantidade atualmente investida",
-      "amountToUnstake": "Quantidade a ser desinvestida",
+      "amountToUnstake": "Quantidade a ser resgatada",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
       "forfeit": "Multa por resgatar investimento antes do prazo",
