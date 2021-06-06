@@ -438,7 +438,7 @@
       "withdrawFees": "Resgatar lucro"
     },
     "loading": "Carregando, por favor aguarde...",
-    "nostake": "Você não fez investimentos ainda."
+    "nostake": "Você ainda não fez investimentos."
   },
   "liquidity": {
     "title": "Liquidez",
