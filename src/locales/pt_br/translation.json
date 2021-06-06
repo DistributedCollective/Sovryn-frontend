@@ -371,7 +371,7 @@
       "unlockedSov": "SOV desbloqueado",
       "forfeit": "Multa por resgatar investimento antes do prazo",
       "closeDialog": "Fechar janela",
-      "reallyUnstake": "Você tem certeza de que deseja desinvestir?",
+      "reallyUnstake": "Você tem certeza de que deseja resgatar o investimento?",
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
       "penalty": "Resgatar investimento neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
