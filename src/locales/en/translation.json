@@ -5,6 +5,7 @@
     "max": "max",
     "close": "Close",
     "for": "for",
+    "submit": "Submit",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
@@ -1283,5 +1284,12 @@
       "addButton": "Add",
       "withdrawButton": "Withdraw"
     }
+  },
+  "emailSubscriptionForm": {
+    "fields": {
+      "email": "Email",
+      "name": "Name/Pseudonym"
+    },
+    "success": "Your email was subscribed."
   }
 }
