@@ -244,7 +244,7 @@
       "submitButton": "Inscreva-se para receber atualizações"
     },
     "previousSales": {
-      "title": "Vendas anteriores",
+      "title": "Vendas finalizadas",
       "projectCard": {
         "saleName": "Nome",
         "saleAllocation": "Disponibilizado para venda",
@@ -1096,8 +1096,8 @@
     "claimForm": {
       "title": "Recompensas",
       "availble": "Quantidade de SOV disponível:",
-      "cta": "reivindicar",
-      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgate após 1 mês.",
+      "cta": "Solicitar",
+      "note": "Ao solicitar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgate após 1 mês.",
       "learn": "Saiba mais"
     },
     "totalEarned": "Total ganho:",
