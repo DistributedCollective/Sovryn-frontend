@@ -424,7 +424,7 @@
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
       "fees": "Taxas recebidas",
-      "noVestingContracts": "Você não tem SOV reservados."
+      "noVestingContracts": "Não existem SOV reservados para você."
     },
     "actions": {
       "title": "Ação",
