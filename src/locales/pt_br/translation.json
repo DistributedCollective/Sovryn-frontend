@@ -375,7 +375,7 @@
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
       "penalty": "Resgatar investimento neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
-      "unstake": "Sim, desinvestir"
+      "unstake": "Ok, resgatar investimento"
     },
     "staking": {
       "title": "Investir SOV",
