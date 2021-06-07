@@ -7,7 +7,7 @@ import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
 import { Asset } from '../../../types/asset';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
