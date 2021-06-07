@@ -51,7 +51,7 @@ export function HistoryEventsTable() {
 
   useEffect(() => {
     async function getHistory() {
-      let genesys: void, team: void, origin: void;
+      let genesis: void, team: void, origin: void;
       const stake = await eventReader
         .getPastEvents('staking', 'TokensStaked', {
           staker: account,
@@ -67,7 +67,7 @@ export function HistoryEventsTable() {
         });
 
       if (vesting.value !== ethGenesisAddress) {
-        genesys = await eventReader
+        genesis = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
             staker: vesting.value,
           })
@@ -112,7 +112,7 @@ export function HistoryEventsTable() {
           });
       }
       try {
-        Promise.all([stake, genesys, team, origin]).then(_ =>
+        Promise.all([stake, genesis, team, origin]).then(_ =>
           setViewHistory(false),
         );
         setViewHistory(false);
