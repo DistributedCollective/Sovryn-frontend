@@ -1,57 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import { Asset } from 'types';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import walletIcon from 'assets/images/wallet-icon.svg';
 
-export function Stepper() {
-  const [network, setNetwork] = useState<StepValue | null>(null);
-  const [token, setToken] = useState<StepValue | null>(null);
-  const [amount, setAmount] = useState<StepValue | null>(null);
-  const [step, setStep] = useState(1);
-  const handleStep = useCallback(nextStep => {
-    if (nextStep > 1) {
-      setNetwork({
-        title: 'Ethereum',
-        icon: (
-          <img
-            className={'tw-object-contain'}
-            src={AssetsDictionary.get(Asset.ETH).logoSvg}
-            alt={AssetsDictionary.get(Asset.ETH).name}
-          />
-        ),
-      });
-    } else setNetwork(null);
-
-    if (nextStep > 2) {
-      setToken({
-        title: 'USDT',
-        icon: (
-          <img
-            className={'tw-object-contain'}
-            src={AssetsDictionary.get(Asset.USDT).logoSvg}
-            alt={AssetsDictionary.get(Asset.USDT).name}
-          />
-        ),
-      });
-    } else setToken(null);
-
-    if (nextStep > 3) {
-      setAmount({
-        title: '1000.00',
-        icon: (
-          <img
-            className={'tw-object-contain tw-h-2.5 tw-w-2.5'}
-            src={walletIcon}
-            alt="wallet"
-          />
-        ),
-      });
-    } else setAmount(null);
-
-    setStep(nextStep);
-  }, []);
-
+type Props = {
+  onClick: Function;
+  step: number;
+  steps: StepItem[];
+};
+export function Stepper({ steps, step, onClick }: Props) {
   return (
     <div>
       <ul className="tw-relative">
@@ -65,61 +20,37 @@ export function Stepper() {
             <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-mr-4 tw-border-white"></span>
           </div>
           <Step
-            title="Network"
+            title={steps[0].title}
+            value={steps[0].value}
             current={step === 1}
-            value={network}
             active={step >= 1}
-            onClick={() => handleStep(1)}
+            onClick={() => onClick(1)}
             isFirst
           />
         </div>
 
-        <Step
-          title="Token"
-          value={token}
-          active={step >= 2}
-          current={step === 2}
-          onClick={() => handleStep(2)}
-        />
-        <Step
-          title="Amount"
-          value={amount}
-          active={step >= 3}
-          current={step === 3}
-          onClick={() => handleStep(3)}
-        />
-        <Step
-          title="Review"
-          active={step >= 4}
-          current={step === 4}
-          onClick={() => handleStep(4)}
-        />
-        <Step
-          title="Confirm"
-          active={step >= 5}
-          current={step === 5}
-          onClick={() => handleStep(5)}
-        />
-        <Step
-          title="Processing"
-          active={step >= 6}
-          current={step === 6}
-          onClick={() => handleStep(6)}
-        />
-        <Step
-          title="Complete"
-          active={step >= 7}
-          current={step === 7}
-          onClick={() => handleStep(7)}
-        />
+        {steps.slice(1).map((item, i) => (
+          <Step
+            key={i}
+            title={item.title}
+            value={item.value}
+            active={step >= i + 2}
+            current={step === i + 2}
+            onClick={() => onClick(i + 2)}
+          />
+        ))}
       </ul>
     </div>
   );
 }
 
-interface StepValue {
+export interface StepValue {
   title: string;
   icon?: React.ReactChild;
+}
+export interface StepItem {
+  title: string;
+  value?: StepValue | null;
 }
 
 interface StepProps {
