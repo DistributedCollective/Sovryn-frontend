@@ -162,7 +162,8 @@ export function VestingContract(props: Props) {
               {lockedAmount.value && (
                 <>
                   {weiToNumberFormat(lockedAmount.value)}{' '}
-                  {t(translations.stake.sov)}<br />&approx;{' '}
+                  {t(translations.stake.sov)}
+                  <br />≈{' '}
                   <LoadableValue
                     value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
                     loading={dollars.loading}
