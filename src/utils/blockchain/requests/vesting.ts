@@ -7,15 +7,10 @@ export function vesting_delegate(
   owner: string,
   delegatee: string,
 ) {
-  return contractWriter.sendByAddress(
-    vestingAddress,
-    VestingABI,
-    'delegate',
-    [delegatee, { from: owner }],
-    // {
-    //   type: 'delegate',
-    // },
-  );
+  return contractWriter.sendByAddress(vestingAddress, VestingABI, 'delegate', [
+    delegatee,
+    { from: owner },
+  ]);
 }
 
 export function vesting_withdraw(
@@ -28,9 +23,6 @@ export function vesting_withdraw(
     VestingABI,
     'withdrawTokens',
     [receiver, { from: owner }],
-    // {
-    //   type: 'withdraw',
-    // },
   );
 }
 
