@@ -61,7 +61,7 @@ export function Babelfish() {
           title: '1000.00',
           icon: (
             <img
-              className={'tw-object-contain tw-h-2.5 tw-w-2.5'}
+              className={'tw-object-contain tw-h-3 tw-w-3'}
               src={walletIcon}
               alt="wallet"
             />
