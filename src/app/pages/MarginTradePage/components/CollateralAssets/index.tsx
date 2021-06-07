@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import RadioGroup from 'form/RadioGroup';
-import { FormGroup } from 'form/FormGroup';
+import RadioGroup from 'app/components/Form/RadioGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';

@@ -20,11 +20,12 @@ import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiqu
 
 interface Props {
   pool: LiquidityPool;
+  onNonEmptyBalance: () => void;
 }
 
 // todo this needs refactoring to optimize blockchain reads, most of the
 //  calls to the node are also used in some of the child components
-export function UserPoolInfo({ pool }: Props) {
+export function UserPoolInfo({ pool, onNonEmptyBalance }: Props) {
   const account = useAccount();
   const { value: poolData, loading: plnLoading } = useUserPoolData(pool);
 
@@ -210,6 +211,12 @@ export function UserPoolInfo({ pool }: Props) {
     pool.version,
     rewardI2,
   ]);
+
+  useEffect(() => {
+    if (balance1 !== '0' || balance2 !== '0') {
+      onNonEmptyBalance();
+    }
+  }, [balance1, balance2, onNonEmptyBalance]);
 
   return (
     <LiquidityMiningRowTable

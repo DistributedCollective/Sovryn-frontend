@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
@@ -26,6 +26,11 @@ export function MiningPool({ pool }: Props) {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
+  const [isEmptyBalance, setIsEmptyBalance] = useState(true);
+
+  const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
+    setIsEmptyBalance,
+  ]);
 
   const LeftSection = () => {
     return (
@@ -49,18 +54,18 @@ export function MiningPool({ pool }: Props) {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
-          text={t(translations.common.deposit)}
+          text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract}
         />
         <ActionButton
-          text={t(translations.common.withdraw)}
+          text={t(translations.liquidityMining.withdraw)}
           onClick={() => setDialog('remove')}
-          className="tw-block tw-w-full tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
-          disabled={!canInteract}
+          disabled={!canInteract || isEmptyBalance}
         />
       </div>
     );
@@ -72,7 +77,9 @@ export function MiningPool({ pool }: Props) {
         LeftSection={<LeftSection />}
         ChartSection={<PoolChart pool={pool} />}
         Actions={<Actions />}
-        DataSection={<UserPoolInfo pool={pool} />}
+        DataSection={
+          <UserPoolInfo pool={pool} onNonEmptyBalance={onNonEmptyBalance} />
+        }
         leftColor={
           (pool.supplyAssets[0].asset === Asset.SOV &&
             pool.supplyAssets[1].asset === Asset.RBTC &&

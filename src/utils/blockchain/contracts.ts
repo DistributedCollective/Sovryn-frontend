@@ -18,6 +18,7 @@ import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
@@ -26,6 +27,7 @@ import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -83,11 +85,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
+  MOC_lending: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
   MOC_amm: {
     address: '0x52eD2aD69A44A431B393d28CE415c19348abAb16',
     abi: LiquidityPoolV1Converter,
@@ -128,11 +130,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
+  ETH_lending: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   ETH_amm: {
     address: '0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20',
     abi: LiquidityPoolV1Converter,
@@ -163,10 +165,19 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vesting: {
+    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
+    abi: VestingAbi,
+    blockNumber: 1218836,
+  },
   vestingRegistry: {
     address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x14F3FE332e21Ef3f5d244C45C8D5fbFcEF2FB5c9',
+    abi: VestingRegistryAbi,
   },
   vestingRegistryOrigin: {
     address: '0x0a9bDbf5e104a30fb4c99f6812FB85B60Fd8D372',
@@ -222,5 +233,9 @@ export const contracts = {
   lockedSov: {
     address: '0xB4e4517cA4Edf591Dcafb702999F04f02E57D978',
     abi: LockedSovAbi,
+  },
+  feeSharingProxy: {
+    address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
+    abi: feeSharingProxyAbi,
   },
 };

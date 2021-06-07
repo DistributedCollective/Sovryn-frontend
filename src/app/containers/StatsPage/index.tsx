@@ -39,7 +39,7 @@ export function StatsPage() {
           <h1 className="tw-text-center tw-w-full">
             {t(translations.statsPage.titles.lending)}
           </h1>
-          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
+          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12 tw-overflow-auto">
             <table className="tw-w-full">
               <thead>
                 <tr>
@@ -71,7 +71,7 @@ export function StatsPage() {
           <h1 className="tw-text-center tw-w-full">
             {t(translations.statsPage.ammpool.title)}
           </h1>
-          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12">
+          <div className="sovryn-border sovryn-table tw-p-4 tw-mt-12 tw-mb-12 tw-overflow-auto">
             <AmmBalance />
           </div>
         </div>

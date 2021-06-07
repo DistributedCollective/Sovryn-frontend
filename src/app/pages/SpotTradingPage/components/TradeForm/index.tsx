@@ -1,25 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Select } from 'form/Select';
-import { Option } from 'form/Select/types';
+import { Select } from 'app/components/Form/Select';
+import { Option } from 'app/components/Form/Select/types';
 import { Text } from '@blueprintjs/core';
-import { FormGroup } from 'form/FormGroup';
-import { AmountInput } from 'form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { Button } from '../Button';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { EngageButton } from '../EngageButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
-import { renderAssetPair } from 'form/Select/renderers';
+import { renderAssetPair } from 'app/components/Form/Select/renderers';
 import { BuySell } from '../BuySell';
 import { SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
-import { Input } from 'form/Input';
+import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -162,24 +161,18 @@ export function TradeForm() {
           </div>
         </div>
 
-        {!connected ? (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-center tw-space-x-4 tw-mt-12 tw-mx-auto">
-            <EngageButton />
-          </div>
-        ) : (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
-            <Button
-              text={t(
-                tradeType === TradingTypes.BUY
-                  ? translations.spotTradingPage.tradeForm.buy_cta
-                  : translations.spotTradingPage.tradeForm.sell_cta,
-              )}
-              tradingType={tradeType}
-              onClick={() => send()}
-              disabled={!validate}
-            />
-          </div>
-        )}
+        <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
+          <Button
+            text={t(
+              tradeType === TradingTypes.BUY
+                ? translations.spotTradingPage.tradeForm.buy_cta
+                : translations.spotTradingPage.tradeForm.sell_cta,
+            )}
+            tradingType={tradeType}
+            onClick={() => send()}
+            disabled={!validate || !connected}
+          />
+        </div>
       </div>
       <TxDialog tx={tx} />
     </>

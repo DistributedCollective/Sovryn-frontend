@@ -48,23 +48,23 @@ export function TVL(props: Props) {
   const rowData = [
     {
       contract: t(translations.statsPage.tvl.protocol),
-      btcValue: data?.tvlProtocol.totalBtc,
-      usdValue: data?.tvlProtocol.totalUsd,
+      btcValue: data?.tvlProtocol?.totalBtc || 0,
+      usdValue: data?.tvlProtocol?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.lend),
-      btcValue: data?.tvlLending.totalBtc,
-      usdValue: data?.tvlLending.totalUsd,
+      btcValue: data?.tvlLending?.totalBtc || 0,
+      usdValue: data?.tvlLending?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.amm),
-      btcValue: data?.tvlAmm.totalBtc,
-      usdValue: data?.tvlAmm.totalUsd,
+      btcValue: data?.tvlAmm?.totalBtc || 0,
+      usdValue: data?.tvlAmm?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.total),
-      btcValue: data?.total_btc,
-      usdValue: data?.total_usd,
+      btcValue: data?.total_btc || 0,
+      usdValue: data?.total_usd || 0,
     },
   ];
 
