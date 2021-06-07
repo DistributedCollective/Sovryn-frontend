@@ -10,6 +10,7 @@ import { Stepper, StepItem } from './components/Stepper';
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import walletIcon from 'assets/images/wallet-icon.svg';
+import { SelectNetwork } from './components/SelectNetwork';
 
 const initialSteps = [
   'Network',
@@ -26,12 +27,19 @@ export function Babelfish() {
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
-
-  const handleStep = useCallback(
-    nextStep => {
+  const updateStep = useCallback(
+    (index, value) => {
       const prvSteps = [...steps];
-      if (nextStep > 1) {
-        prvSteps[0].value = {
+      prvSteps[index].value = value;
+
+      setSteps(prvSteps);
+    },
+    [steps],
+  );
+  const setNetwork = (network: string) => {
+    switch (network) {
+      case 'ETH':
+        updateStep(0, {
           title: 'Ethereum',
           icon: (
             <img
@@ -40,11 +48,40 @@ export function Babelfish() {
               alt={AssetsDictionary.get(Asset.ETH).name}
             />
           ),
-        };
-      } else prvSteps[0].value = null;
+        });
+        break;
+      case 'BSC':
+        updateStep(0, {
+          title: 'Binance Chain',
+          icon: (
+            <img
+              className={'tw-object-contain'}
+              src={AssetsDictionary.get(Asset.ETH).logoSvg}
+              alt={AssetsDictionary.get(Asset.ETH).name}
+            />
+          ),
+        });
+        break;
+    }
+    setStep(2);
+  };
+  const handleStep = useCallback(
+    nextStep => {
+      if (nextStep > 1) {
+        updateStep(0, {
+          title: 'Ethereum',
+          icon: (
+            <img
+              className={'tw-object-contain'}
+              src={AssetsDictionary.get(Asset.ETH).logoSvg}
+              alt={AssetsDictionary.get(Asset.ETH).name}
+            />
+          ),
+        });
+      } else updateStep(0, null);
 
       if (nextStep > 2) {
-        prvSteps[1].value = {
+        updateStep(1, {
           title: 'USDT',
           icon: (
             <img
@@ -53,11 +90,11 @@ export function Babelfish() {
               alt={AssetsDictionary.get(Asset.USDT).name}
             />
           ),
-        };
-      } else prvSteps[1].value = null;
+        });
+      } else updateStep(1, null);
 
       if (nextStep > 3) {
-        prvSteps[2].value = {
+        updateStep(2, {
           title: '1000.00',
           icon: (
             <img
@@ -66,17 +103,24 @@ export function Babelfish() {
               alt="wallet"
             />
           ),
-        };
-      } else prvSteps[2].value = null;
+        });
+      } else updateStep(2, null);
 
       setStep(nextStep);
-      setSteps(prvSteps);
     },
-    [steps],
+    [updateStep],
   );
   return (
-    <div className="tw-flex tw-px-10">
-      <Stepper steps={steps} step={step} onClick={handleStep} />
+    <div className="tw-flex tw-px-10 tw-h-full">
+      <div
+        className="tw-h-full tw-flex tw-items-center"
+        style={{ minWidth: 300 }}
+      >
+        <Stepper steps={steps} step={step} onClick={handleStep} />
+      </div>
+      <div className="tw-flex-1 tw-flex tw-justify-center tw-items-center">
+        {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
+      </div>
     </div>
   );
 }
