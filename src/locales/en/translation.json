@@ -437,8 +437,7 @@
       "delegate": "Delegate",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "withdraw": "Withdraw",
-      "withdrawFees": "Withdraw Fees"
+      "withdraw": "Withdraw"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
@@ -1298,8 +1297,8 @@
         "cta": "Here’s how you get in"
       },
       "p3": {
-        "title": "40K SOV SOV/RBTC Pool Loot Drop!",
-        "text": "Take your share of 40K SOV rewards by providing liquidity to the SOV/RBTC pool until 30th May. That’s 40K SOV in just 7 days! Additional rolling weekly rewards will be announced shortly.",
+        "title": "30K SOV SOV/RBTC Pool Loot Drop!",
+        "text": "Take your share of 30K SOV rewards by providing liquidity to the SOV/RBTC pool. Additional rolling weekly rewards will be announced shortly.",
         "cta": "Earn now"
       },
       "p4": {

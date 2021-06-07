@@ -19,6 +19,7 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
@@ -84,11 +85,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
+  MOC_lending: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
   MOC_amm: {
     address: '0xc137aD4Ef759D9206b15105532c05c866cc89f31',
     abi: LiquidityPoolV1Converter,
@@ -129,11 +130,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
+  ETH_lending: {
+    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   ETH_amm: {
     address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE',
     abi: LiquidityPoolV1Converter,
@@ -164,6 +165,11 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vesting: {
+    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    abi: VestingAbi,
+    blockNumber: 1218836,
+  },
   vestingRegistry: {
     address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
     abi: VestingRegistryAbi,
@@ -178,6 +184,10 @@ export const contracts = {
     address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
     abi: VestingRegistryOriginAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
+    abi: VestingRegistryAbi,
   },
   staking: {
     address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
