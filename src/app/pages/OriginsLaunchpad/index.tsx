@@ -6,6 +6,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { UpcomingSalesCardSection } from './components/UpcomingSalesCardSection';
 import { PreviousSalesCardSection } from './components/PreviousSalesCardSection';
+import { EmailSubscribeSection } from './components/EmailSubscribeSection';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ export const OriginsLaunchpad: React.FC = () => {
         </div>
         <div className="tw-mt-16">
           <UpcomingSalesCardSection />
-          {/* <EmailSubscribeSection /> */}
+          <EmailSubscribeSection />
         </div>
 
         <div className="tw-mt-36 tw-mb-60">
