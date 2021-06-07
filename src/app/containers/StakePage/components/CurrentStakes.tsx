@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { Asset } from '../../../../types/asset';
 import moment from 'moment-timezone';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import logoSvg from 'assets/images/tokens/sov.svg';
 import { useAccount } from '../../../hooks/useAccount';
 import { numberToUSD } from 'utils/display-text/format';
 import { StyledTable } from './StyledTable';
