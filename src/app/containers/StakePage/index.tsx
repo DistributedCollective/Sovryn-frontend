@@ -413,6 +413,7 @@ function InnerStakePage() {
                   <DelegateForm
                     handleSubmit={handleDelegateSubmit}
                     address={address}
+                    timestamp={Number(timestamp)}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
@@ -553,9 +554,10 @@ interface FeeProps {
 function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   const account = useAccount();
   const { t } = useTranslation();
-  const token = (contractToken.asset + '_token') as any;
+  const token = (contractToken.asset +
+    (contractToken.asset === Asset.SOV ? '_token' : '_lending')) as any;
   const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token).address;
+  const tokenAddress = getContract(token)?.address;
   const currency = useStaking_getAccumulatedFees(account, tokenAddress);
   const dollarValue = useMemo(() => {
     if (currency.value === null) return '';
@@ -588,9 +590,30 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="tw-w-1/5">{contractToken.asset}</div>
+          <div className="w-1/5">
+            {contractToken.asset !== Asset.SOV ? (
+              <Tooltip
+                content={
+                  <>
+                    {contractToken.asset} will be sent to the{' '}
+                    <a
+                      href="https://live.sovryn.app/lend"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      lending pool (live.sovryn.app/lend)
+                    </a>
+                  </>
+                }
+              >
+                <>i{contractToken.asset} (?)</>
+              </Tooltip>
+            ) : (
+              <>{contractToken.asset}</>
+            )}
+          </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(5)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
             <LoadableValue
               value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
               loading={dollars.loading}

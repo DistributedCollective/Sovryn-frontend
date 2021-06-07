@@ -7,6 +7,8 @@ import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawConfirmationForm } from './WithdrawConfimationForm';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   amount: string;
@@ -191,9 +193,13 @@ export function WithdrawForm(props: Props) {
                 </>
               )}
 
-              <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-                {t(translations.stake.txFee)}: 0.0006 rBTC
-              </p>
+              <div className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
+                <TxFeeCalculator
+                  args={[props.amount, props.until, account]}
+                  methodName="withdraw"
+                  contractName="staking"
+                />
+              </div>
             </div>
 
             <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">

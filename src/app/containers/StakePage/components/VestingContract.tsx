@@ -29,7 +29,7 @@ import {
 
 interface Props {
   vestingAddress: string;
-  type: 'genesis' | 'origin' | 'team';
+  type: 'genesis' | 'origin' | 'team' | 'reward';
   onDelegate: (a: number) => void;
 }
 
@@ -102,13 +102,12 @@ export function VestingContract(props: Props) {
   useEffect(() => {
     async function getDelegate() {
       setDelegateLoading(true);
+      const datesLength = getStakes.value['dates'].length;
       try {
         await contractReader
           .call('staking', 'delegates', [
             props.vestingAddress,
-            Number(
-              getStakes.value['dates'][getStakes.value['dates'].length - 2],
-            ),
+            getStakes.value['dates'][datesLength - 2],
           ])
           .then(res => {
             setDelegateLoading(false);
@@ -125,11 +124,17 @@ export function VestingContract(props: Props) {
         setDelegateLoading(false);
       }
     }
-    if (unlockDate !== '') {
+    if (unlockDate && !vestLoading && getStakes.value['dates'].length > 0) {
       getDelegate();
       setLocked(Number(unlockDate) > Math.round(new Date().getTime() / 1e3));
     }
-  }, [props.vestingAddress, unlockDate, delegate, getStakes.value]);
+  }, [
+    props.vestingAddress,
+    vestLoading,
+    unlockDate,
+    delegate,
+    getStakes.value,
+  ]);
 
   return (
     <>
@@ -145,24 +150,29 @@ export function VestingContract(props: Props) {
                 <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
               </div>
               <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                {props.type === 'genesis' && 'CSOV Genesis'}
+                {props.type === 'genesis' && 'SOV Genesis'}
                 {props.type === 'origin' && 'SOV Origin'}
                 {props.type === 'team' && 'SOV Team'}
+                {props.type === 'reward' && 'SOV Reward'}
               </div>
             </div>
           </td>
           <td className="tw-text-left tw-font-normal">
-            <p className={`${lockedAmount.loading && 'skeleton'}`}>
-              {weiToNumberFormat(lockedAmount.value)}{' '}
-              {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
-              <LoadableValue
-                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-                loading={dollars.loading}
-              />
+            <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
+              {lockedAmount.value && (
+                <>
+                  {weiToNumberFormat(lockedAmount.value)}{' '}
+                  {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
+                  <LoadableValue
+                    value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                    loading={dollars.loading}
+                  />
+                </>
+              )}
             </p>
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p className={`${delegateLoading && 'skeleton'}`}>
+            <p className={`tw-m-0 ${delegateLoading && 'skeleton'}`}>
               {delegate.length > 0 && (
                 <>
                   <AddressBadge
@@ -181,7 +191,7 @@ export function VestingContract(props: Props) {
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
             {locked && (
-              <p className={`${!unlockDate && 'skeleton'}`}>
+              <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
                 {Math.abs(
                   moment().diff(
                     moment(new Date(parseInt(unlockDate) * 1e3)),
@@ -193,7 +203,7 @@ export function VestingContract(props: Props) {
             )}
           </td>
           <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p>
+            <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
               {moment
                 .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
                 .format('DD/MM/YYYY - h:mm:ss a z')}
@@ -224,7 +234,7 @@ export function VestingContract(props: Props) {
                   props.vestingAddress === ethGenesisAddress
                 }
               >
-                {t(translations.stake.actions.withdrawFees)}
+                {t(translations.stake.actions.withdraw)}
               </button>
             </div>
           </td>

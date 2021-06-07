@@ -437,8 +437,7 @@
       "delegate": "Delegate",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "withdraw": "Withdraw",
-      "withdrawFees": "Withdraw Fees"
+      "withdraw": "Withdraw"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
