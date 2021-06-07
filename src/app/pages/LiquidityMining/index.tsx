@@ -39,21 +39,19 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="30K SOV Yield Farming"
+            title="30K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
-            startDate="31/05/21"
-            endDate="07/06/21"
+            message="Recalibrated on June 14"
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Yellow}
+            highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="35K SOV Yield Farming"
+            title="25K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
-            startDate="26/05/21"
-            endDate="07/06/21"
+            message="Recalibrated on June 14"
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
