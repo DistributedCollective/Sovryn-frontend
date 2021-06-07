@@ -209,7 +209,11 @@ const ExplorerLink = styled.div`
 function StatusComponent({ status }: { status: TxStatus }) {
   return (
     <StyledStatus>
-      <img src={getStatusImage(status)} alt="Status" />
+      <img
+        src={getStatusImage(status)}
+        className={`${status === 'pending' && 'tw-animate-spin'}`}
+        alt="Status"
+      />
       <p>{getStatus(status)}</p>
     </StyledStatus>
   );
