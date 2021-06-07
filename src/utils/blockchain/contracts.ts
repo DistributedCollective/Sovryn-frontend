@@ -109,7 +109,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   XUSD_token: {
-    address: '0x849D38abD3962cb40d4887E4279ad0e4E5958e34', // todo
+    address: '0xb5999795BE0EbB5bAb23144AA5FD6A02D080299F',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
