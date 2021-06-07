@@ -7,7 +7,7 @@ import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
 import { Asset } from '../../../types/asset';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
@@ -62,7 +62,7 @@ export function VestedHistory() {
   useEffect(() => {
     async function getHistory() {
       setLoading(true);
-      let reward: void, genesys: void, team: void, origin: void;
+      let reward: void, genesis: void, team: void, origin: void;
       if (rewards.value !== ethGenesisAddress) {
         reward = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
@@ -80,12 +80,12 @@ export function VestedHistory() {
           });
       }
       if (vesting.value !== ethGenesisAddress) {
-        genesys = await eventReader
+        genesis = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
             staker: vesting.value,
           })
           .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Genesys SOV' }));
+            const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
             setEventsHistoryVesting(
               (newRes as any).sort(
                 (x, y) =>
@@ -128,7 +128,7 @@ export function VestedHistory() {
           });
       }
       try {
-        Promise.all([reward, genesys, team, origin]).then(_ =>
+        Promise.all([reward, genesis, team, origin]).then(_ =>
           setLoading(false),
         );
       } catch (e) {

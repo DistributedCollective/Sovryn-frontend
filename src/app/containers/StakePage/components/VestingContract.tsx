@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import moment from 'moment-timezone';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import logoSvg from 'assets/images/tokens/sov.svg';
 import { bignumber } from 'mathjs';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -143,103 +143,105 @@ export function VestingContract(props: Props) {
           <td colSpan={7} className="skeleton" />
         </tr>
       ) : (
-        <tr>
-          <td>
-            <div className="assetname tw-flex tw-items-center">
-              <div>
-                <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
+        weiToNumberFormat(lockedAmount.value) !== '0' && (
+          <tr>
+            <td>
+              <div className="assetname tw-flex tw-items-center">
+                <div>
+                  <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
+                </div>
+                <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
+                  {props.type === 'genesis' && 'Genesis SOV'}
+                  {props.type === 'origin' && 'Origin SOV'}
+                  {props.type === 'team' && 'Team SOV'}
+                  {props.type === 'reward' && 'Reward SOV'}
+                </div>
               </div>
-              <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                {props.type === 'genesis' && 'Genesis SOV'}
-                {props.type === 'origin' && 'Origin SOV'}
-                {props.type === 'team' && 'Team SOV'}
-                {props.type === 'reward' && 'Reward SOV'}
-              </div>
-            </div>
-          </td>
-          <td className="tw-text-left tw-font-normal">
-            <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
-              {lockedAmount.value && (
-                <>
-                  {weiToNumberFormat(lockedAmount.value)}{' '}
-                  {t(translations.stake.sov)}
-                  <br />≈{' '}
-                  <LoadableValue
-                    value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-                    loading={dollars.loading}
-                  />
-                </>
-              )}
-            </p>
-          </td>
-          <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p className={`tw-m-0 ${delegateLoading && 'skeleton'}`}>
-              {delegate.length > 0 && (
-                <>
-                  <AddressBadge
-                    txHash={delegate}
-                    startLength={6}
-                    className={`tw-text-theme-blue hover:tw-underline ${
-                      delegateLoading && 'skeleton'
-                    }`}
-                  />
-                </>
-              )}
-              {!delegate.length && (
-                <>{t(translations.stake.delegation.noDelegate)}</>
-              )}
-            </p>
-          </td>
-          <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            {locked && (
-              <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
-                {Math.abs(
-                  moment().diff(
-                    moment(new Date(parseInt(unlockDate) * 1e3)),
-                    'days',
-                  ),
-                )}{' '}
-                days
+            </td>
+            <td className="tw-text-left tw-font-normal">
+              <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
+                {lockedAmount.value && (
+                  <>
+                    {weiToNumberFormat(lockedAmount.value)}{' '}
+                    {t(translations.stake.sov)}
+                    <br />≈{' '}
+                    <LoadableValue
+                      value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                      loading={dollars.loading}
+                    />
+                  </>
+                )}
               </p>
-            )}
-          </td>
-          <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-            <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
-              {moment
-                .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
-                .format('DD/MM/YYYY - h:mm:ss a z')}
-            </p>
-          </td>
-          <td>
-            ≈{' '}
-            <LoadableValue
-              value={weiToNumberFormat(rbtcValue, 4)}
-              loading={rbtc.loading}
-            />{' '}
-            RBTC
-          </td>
-          <td className="md:tw-text-left tw-hidden md:tw-table-cell">
-            <div className="tw-flex tw-flex-nowrap">
-              <button
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
-                onClick={() => props.onDelegate(Number(unlockDate))}
-              >
-                {t(translations.stake.actions.delegate)}
-              </button>
-              <button
-                type="button"
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
-                onClick={() => setShowWithdraw(true)}
-                disabled={
-                  !props.vestingAddress ||
-                  props.vestingAddress === ethGenesisAddress
-                }
-              >
-                {t(translations.stake.actions.withdraw)}
-              </button>
-            </div>
-          </td>
-        </tr>
+            </td>
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
+              <p className={`tw-m-0 ${delegateLoading && 'skeleton'}`}>
+                {delegate.length > 0 && (
+                  <>
+                    <AddressBadge
+                      txHash={delegate}
+                      startLength={6}
+                      className={`tw-text-theme-blue hover:tw-underline ${
+                        delegateLoading && 'skeleton'
+                      }`}
+                    />
+                  </>
+                )}
+                {!delegate.length && (
+                  <>{t(translations.stake.delegation.noDelegate)}</>
+                )}
+              </p>
+            </td>
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
+              {locked && (
+                <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
+                  {Math.abs(
+                    moment().diff(
+                      moment(new Date(parseInt(unlockDate) * 1e3)),
+                      'days',
+                    ),
+                  )}{' '}
+                  days
+                </p>
+              )}
+            </td>
+            <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
+              <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
+                {moment
+                  .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
+                  .format('DD/MM/YYYY - h:mm:ss a z')}
+              </p>
+            </td>
+            <td>
+              ≈{' '}
+              <LoadableValue
+                value={weiToNumberFormat(rbtcValue, 4)}
+                loading={rbtc.loading}
+              />{' '}
+              RBTC
+            </td>
+            <td className="md:tw-text-left tw-hidden md:tw-table-cell">
+              <div className="tw-flex tw-flex-nowrap">
+                <button
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                  onClick={() => props.onDelegate(Number(unlockDate))}
+                >
+                  {t(translations.stake.actions.delegate)}
+                </button>
+                <button
+                  type="button"
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                  onClick={() => setShowWithdraw(true)}
+                  disabled={
+                    !props.vestingAddress ||
+                    props.vestingAddress === ethGenesisAddress
+                  }
+                >
+                  {t(translations.stake.actions.withdraw)}
+                </button>
+              </div>
+            </td>
+          </tr>
+        )
       )}
       <Modal
         show={showWithdraw}
