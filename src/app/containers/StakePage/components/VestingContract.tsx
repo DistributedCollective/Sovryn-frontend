@@ -150,10 +150,10 @@ export function VestingContract(props: Props) {
                 <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
               </div>
               <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                {props.type === 'genesis' && 'SOV Genesis'}
-                {props.type === 'origin' && 'SOV Origin'}
-                {props.type === 'team' && 'SOV Team'}
-                {props.type === 'reward' && 'SOV Reward'}
+                {props.type === 'genesis' && 'Genesis SOV'}
+                {props.type === 'origin' && 'Origin SOV'}
+                {props.type === 'team' && 'Team SOV'}
+                {props.type === 'reward' && 'Reward SOV'}
               </div>
             </div>
           </td>
@@ -162,7 +162,7 @@ export function VestingContract(props: Props) {
               {lockedAmount.value && (
                 <>
                   {weiToNumberFormat(lockedAmount.value)}{' '}
-                  {props.type === 'genesis' ? 'CSOV' : 'SOV'} <br />≈{' '}
+                  {t(translations.stake.sov)}<br />&approx;{' '}
                   <LoadableValue
                     value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
                     loading={dollars.loading}
