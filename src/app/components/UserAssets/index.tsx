@@ -183,7 +183,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {item.asset === Asset.ETH && (
+          {[Asset.ETH, Asset.XUSD].includes(item.asset) && (
             <ActionLink
               text={t(translations.userAssets.actions.deposit)}
               href={
