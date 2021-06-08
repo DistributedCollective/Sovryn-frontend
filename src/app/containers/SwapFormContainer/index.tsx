@@ -31,6 +31,7 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
+import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
 
 const s = translations.swapTradeForm;
 
@@ -155,16 +156,16 @@ export function SwapFormContainer() {
 
   return (
     <>
-      {dialogOpen && (
-        <SlippageDialog
-          isOpen={dialogOpen}
-          amount={rateByPath}
-          value={slippage}
-          asset={targetToken}
-          onClose={() => setDialogOpen(false)}
-          onChange={value => setSlippage(value)}
-        />
-      )}
+      <SlippageDialog
+        isOpen={dialogOpen}
+        amount={rateByPath}
+        value={slippage}
+        asset={targetToken}
+        onClose={() => setDialogOpen(false)}
+        onChange={value => setSlippage(value)}
+      />
+
+      <Arbitrage />
 
       <div className="swap-form-container">
         <div className="swap-form swap-form-send">
