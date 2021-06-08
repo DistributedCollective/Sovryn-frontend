@@ -15,7 +15,7 @@ import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/u
 import { bignumber } from 'mathjs';
 import { maxMinusFee } from 'utils/helpers';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { TxDialog } from '../TxDialog';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { weiTo18 } from 'utils/blockchain/math-helpers';

@@ -311,6 +311,12 @@
           "nftInstruction1": "By participating in the xxxxx xxxxxx xxxxx you earn this exclusive NFT, only minted for participants of this sale.  It will grant you super powers in the coming months so be sure to listen for announcements in the babelFish and Sovryn Discord channels.",
           "nftInstruction2": "You will be able to view your NFT in your Sovryn portfolio after they are airdropped on the xxxxxxx"
         }
+      },
+      "txDialog": {
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "minimumReceived": "Minimum Received",
+        "txHash": "Tx Hash"
       }
     }
   },
