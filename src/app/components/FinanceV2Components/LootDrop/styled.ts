@@ -19,6 +19,9 @@ export const LootDropWrapper = styled.div`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin: 0 0.625rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 interface IHighlightedBorderProps {
