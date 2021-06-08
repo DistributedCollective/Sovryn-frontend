@@ -33,6 +33,7 @@ export enum TxType {
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
+  LAYER2_DEPOSIT_ETH = 'layer2_deposit_eth',
 }
 
 export enum TxStatus {

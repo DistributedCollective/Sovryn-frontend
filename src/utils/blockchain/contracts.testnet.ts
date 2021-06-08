@@ -26,6 +26,7 @@ import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
+import layer2Inbox from './abi/layer2/InboxAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -227,5 +228,9 @@ export const contracts = {
   lockedSov: {
     address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
     abi: LockedSovAbi,
+  },
+  layer2Inbox: {
+    address: '0x9EfB76BAB1E2B3ac2082d7AEAB5fBd68d30b5Bb9',
+    abi: layer2Inbox,
   },
 };

@@ -41,6 +41,7 @@ import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { Layer2Page } from './pages/Layer2Page/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -84,6 +85,7 @@ export function App() {
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route exact path="/origins" component={OriginsLaunchpadPage} />
+            <Route exact path="/layer-2" component={Layer2Page} />
             <Route
               exact
               path="/optin-success"
