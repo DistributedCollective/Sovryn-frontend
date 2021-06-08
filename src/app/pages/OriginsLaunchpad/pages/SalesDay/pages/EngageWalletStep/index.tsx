@@ -16,30 +16,32 @@ export const EngageWalletStep: React.FC = () => {
     <>
       <img src={imgLargeNFT} alt="Dialog NFT" />
       <EngageWalletDialogWrapper>
-        <DialogTitle>
-          {t(
-            translations.originsLaunchpad.saleDay.engageWalletScreen
-              .dialogTitle,
-            { token: 'FISH' },
-          )}
-        </DialogTitle>
+        <div>
+          <DialogTitle>
+            {t(
+              translations.originsLaunchpad.saleDay.engageWalletScreen
+                .dialogTitle,
+              { token: 'FISH' },
+            )}
+          </DialogTitle>
 
-        <EngageButton
-          onClick={onEngageClick}
-          className="tw-flex tw-justify-center tw-items-center"
-        >
-          {connecting && <Spinner size={22} />}
-          {!connecting && (
-            <span className="xl:tw-inline tw-truncate">
-              {t(
-                translations.originsLaunchpad.saleDay.engageWalletScreen
-                  .buttonText,
-              )}
-            </span>
-          )}
-        </EngageButton>
+          <EngageButton
+            onClick={onEngageClick}
+            className="tw-flex tw-justify-center tw-items-center"
+          >
+            {connecting && <Spinner size={22} />}
+            {!connecting && (
+              <span className="xl:tw-inline tw-truncate">
+                {t(
+                  translations.originsLaunchpad.saleDay.engageWalletScreen
+                    .buttonText,
+                )}
+              </span>
+            )}
+          </EngageButton>
+        </div>
 
-        <div className="tw-mt-32 tw-max-w-28.75rem">
+        <div className="tw-max-w-28.75rem">
           <div>
             <Trans
               i18nKey={

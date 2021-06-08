@@ -22,50 +22,52 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
     <>
       <img src={imgLargeNFT} alt="Dialog NFT" />
       <DialogWrapper>
-        <DialogTitle>
-          {t(
-            translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-              .dialogTitle,
-            { token: 'FISH' },
-          )}
-        </DialogTitle>
-        <div className="tw-text-xl tw-font-thin tw-mb-16">
-          {t(
-            translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-              .instructions,
-          )}
-        </div>
-
-        <div className="tw-max-w-20rem tw-mx-auto">
-          <FieldGroup
-            label={`${t(
+        <div>
+          <DialogTitle>
+            {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-                .inputLabel,
-            )}:`}
-            className="tw-text-sm tw-tracking-normal tw-font-thin tw-text-left"
-          >
-            <InputField
-              type="text"
-              onChange={event => setCode(event.target.value)}
-              value={code}
-              isOnDarkBackground={true}
-              inputClassName="tw-text-black"
-              wrapperClassName="tw-rounded-lg"
-            />
-          </FieldGroup>
-
-          <ActionButton
-            text={t(
-              translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-                .inputButton,
+                .dialogTitle,
+              { token: 'FISH' },
             )}
-            onClick={onVerified}
-            className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
-            textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
-          />
+          </DialogTitle>
+          <div className="tw-text-xl tw-font-thin tw-mb-16">
+            {t(
+              translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                .instructions,
+            )}
+          </div>
+
+          <div className="tw-max-w-20rem tw-mx-auto">
+            <FieldGroup
+              label={`${t(
+                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                  .inputLabel,
+              )}:`}
+              className="tw-text-sm tw-tracking-normal tw-font-thin tw-text-left"
+            >
+              <InputField
+                type="text"
+                onChange={event => setCode(event.target.value)}
+                value={code}
+                isOnDarkBackground={true}
+                inputClassName="tw-text-black"
+                wrapperClassName="tw-rounded-lg"
+              />
+            </FieldGroup>
+
+            <ActionButton
+              text={t(
+                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                  .inputButton,
+              )}
+              onClick={onVerified}
+              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
+              textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
+            />
+          </div>
         </div>
 
-        <div className="tw-mt-32">
+        <div>
           <Trans
             i18nKey={
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep

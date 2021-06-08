@@ -29,6 +29,9 @@ export const EngageWalletDialogWrapper = styled.div`
   padding: 3.125rem 8.25rem 4.75rem 8.25rem;
   border-radius: 1.25rem;
   margin-left: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const DialogTitle = styled.div`

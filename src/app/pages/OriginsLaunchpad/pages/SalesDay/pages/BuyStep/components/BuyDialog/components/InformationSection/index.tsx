@@ -5,6 +5,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
 import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
+import { AllocationRemaining } from './AllocationRemaining';
 
 export const InformationSection: React.FC = () => {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ export const InformationSection: React.FC = () => {
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .allocationRemaining,
         )}
-        value="333,333 FISH 25%"
+        value={<AllocationRemaining />}
         className="tw-text-primary"
       />
 
