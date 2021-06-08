@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -66,6 +67,13 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
           <div className="tw-text-lg tw-leading-6">{startPrice}</div>
         </div>
       </div>
+
+      <a
+        href="https://wiki.sovryn.app/en/technical-documents/sip-repository"
+        target="_blank"
+        className="tw-absolute tw-top-0 tw-left-0 tw-block tw-w-full tw-h-full"
+        rel="noopener noreferrer"
+      />
     </CardWrapper>
   );
 };
