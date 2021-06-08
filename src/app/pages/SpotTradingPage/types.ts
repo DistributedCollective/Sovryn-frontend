@@ -12,6 +12,11 @@ export enum SpotPairType {
   RBTC_DOC = 'RBTC_DOC',
   USDT_DOC = 'USDT_DOC',
   MOC_RBTC = 'MOC_RBTC',
+  ETH_XUSD = 'ETH_XUSD',
+  MOC_XUSD = 'MOC_XUSD',
+  BPRO_XUSD = 'BPRO_XUSD',
+  DOC_XUSD = 'DOC_XUSD',
+  USDT_XUSD = 'USDT_XUSD',
 }
 
 export const pairs = {
@@ -24,6 +29,11 @@ export const pairs = {
   [SpotPairType.RBTC_DOC]: [Asset.RBTC, Asset.DOC],
   [SpotPairType.USDT_DOC]: [Asset.USDT, Asset.DOC],
   [SpotPairType.MOC_RBTC]: [Asset.MOC, Asset.RBTC],
+  [SpotPairType.ETH_XUSD]: [Asset.ETH, Asset.XUSD],
+  [SpotPairType.MOC_XUSD]: [Asset.MOC, Asset.XUSD],
+  [SpotPairType.BPRO_XUSD]: [Asset.BPRO, Asset.XUSD],
+  [SpotPairType.DOC_XUSD]: [Asset.DOC, Asset.XUSD],
+  [SpotPairType.USDT_XUSD]: [Asset.USDT, Asset.XUSD],
 };
 
 export const pairList = [
@@ -36,6 +46,11 @@ export const pairList = [
   SpotPairType.RBTC_DOC,
   SpotPairType.USDT_DOC,
   SpotPairType.MOC_RBTC,
+  SpotPairType.ETH_XUSD,
+  SpotPairType.MOC_XUSD,
+  SpotPairType.BPRO_XUSD,
+  SpotPairType.DOC_XUSD,
+  SpotPairType.USDT_XUSD,
 ];
 
 export interface SpotTradingPageState {
