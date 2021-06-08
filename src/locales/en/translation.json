@@ -242,7 +242,9 @@
         "startPrice": "Starts"
       },
       "inputLabel": "Enter Email Address",
-      "submitButton": "Sign up for Origins Updates"
+      "inputLabelName": "Name or Pseudonym",
+      "submitButton": "Sign up for Origins Updates",
+      "submitSuccess": "Successfully subscribed!"
     },
     "previousSales": {
       "title": "Previous Sales On Origins",
