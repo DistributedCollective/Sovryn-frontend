@@ -1233,7 +1233,8 @@
       }
     },
     "lootDropLink": "Learn more",
-    "chartOverlayText": "AER% Coming Soon!"
+    "chartOverlayText": "AER% Coming Soon!",
+    "recalibration": "Next recalibration on {{date}}"
   },
   "buySovPage": {
     "meta": {
