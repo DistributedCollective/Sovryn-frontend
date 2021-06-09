@@ -321,7 +321,7 @@
       "protocol": "Protocol Contract",
       "lend": "Lending Contract",
       "amm": "Amm Contract",
-      "staked": "SOV Staking Contract",
+      "staked": "Bitocracy Staking Contract",
       "total": "Total"
     },
     "ammpool": {
