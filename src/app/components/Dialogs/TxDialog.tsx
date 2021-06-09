@@ -200,7 +200,7 @@ const ExplorerLink = styled.div`
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: ##2274a5 !important;
+      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }
@@ -209,7 +209,11 @@ const ExplorerLink = styled.div`
 function StatusComponent({ status }: { status: TxStatus }) {
   return (
     <StyledStatus>
-      <img src={getStatusImage(status)} alt="Status" />
+      <img
+        src={getStatusImage(status)}
+        className={`${status === 'pending' && 'tw-animate-spin'}`}
+        alt="Status"
+      />
       <p>{getStatus(status)}</p>
     </StyledStatus>
   );

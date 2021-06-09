@@ -101,6 +101,12 @@ export function ServiceWorkerToaster(props: Props) {
     });
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    const intId = setInterval(() => fetchSw(false), CHECK_TIME);
+    setIntervalId(intId);
+    return () => clearInterval(intId);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const intId = setInterval(() => fetchSw(false), CHECK_TIME);

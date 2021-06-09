@@ -19,7 +19,7 @@ import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwo
 import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
-import { AmountInput } from 'form/AmountInput';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
@@ -29,8 +29,9 @@ import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
-import { Input } from 'form/Input';
+import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
+import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
 
 const s = translations.swapTradeForm;
 
@@ -64,6 +65,8 @@ export function SwapFormContainer() {
     [],
   );
 
+  const xusdExcludes = [Asset.USDT, Asset.DOC];
+
   const getOptions = useCallback(() => {
     return (tokens
       .map(item => {
@@ -81,7 +84,15 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = getOptions();
-    setSourceOptions(newOptions);
+    setSourceOptions(
+      newOptions.filter(option => {
+        if (targetToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(targetToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== targetToken;
+      }),
+    );
 
     if (
       !newOptions.find(item => item.key === sourceToken) &&
@@ -94,7 +105,16 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = getOptions();
-    setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
+
+    setTargetOptions(
+      newOptions.filter(option => {
+        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== sourceToken;
+      }),
+    );
 
     if (
       !newOptions.find(item => item.key === targetToken) &&
@@ -155,16 +175,16 @@ export function SwapFormContainer() {
 
   return (
     <>
-      {dialogOpen && (
-        <SlippageDialog
-          isOpen={dialogOpen}
-          amount={rateByPath}
-          value={slippage}
-          asset={targetToken}
-          onClose={() => setDialogOpen(false)}
-          onChange={value => setSlippage(value)}
-        />
-      )}
+      <SlippageDialog
+        isOpen={dialogOpen}
+        amount={rateByPath}
+        value={slippage}
+        asset={targetToken}
+        onClose={() => setDialogOpen(false)}
+        onChange={value => setSlippage(value)}
+      />
+
+      <Arbitrage />
 
       <div className="swap-form-container">
         <div className="swap-form swap-form-send">

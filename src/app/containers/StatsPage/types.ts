@@ -24,11 +24,19 @@ export type TvlData = {
     totalBtc: number;
     totalUsd: number;
   };
+  tvlStaking: {
+    totalBtc: number;
+    totalUsd: number;
+  };
   total_btc: number;
   total_usd: number;
 };
 
-export type TvlContract = 'tvlProtocol' | 'tvlAmm' | 'tvlLending';
+export type TvlContract =
+  | 'tvlProtocol'
+  | 'tvlAmm'
+  | 'tvlLending'
+  | 'tvlStaking';
 
 export type AmmBalanceRow = {
   ammPool: string;

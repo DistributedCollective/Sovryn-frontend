@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider } from 'form/Slider';
+import { Slider } from 'app/components/Form/Slider';
 
 interface Props {
   value: number;

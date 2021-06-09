@@ -1,5 +1,3 @@
-import { ActionButton, ActionLink } from 'form/ActionButton';
-import { bignumber } from 'mathjs';
 /**
  *
  * UserAssets
@@ -8,26 +6,27 @@ import { bignumber } from 'mathjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-
+import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types';
+import { ActionButton, ActionLink } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
+import { AssetDetails } from '../../../utils/models/asset-details';
+import { LoadableValue } from '../LoadableValue';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { Asset } from '../../../types/asset';
+import { Skeleton } from '../PageSkeleton';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { AssetDetails } from '../../../utils/models/asset-details';
-import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
-import { LoadableValue } from '../LoadableValue';
-import { Skeleton } from '../PageSkeleton';
 import { currentNetwork } from '../../../utils/classifiers';
+import { Sovryn } from '../../../utils/sovryn';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -183,7 +182,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {item.asset === Asset.ETH && (
+          {[Asset.ETH, Asset.XUSD].includes(item.asset) && (
             <ActionLink
               text={t(translations.userAssets.actions.deposit)}
               href={

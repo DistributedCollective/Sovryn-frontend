@@ -10,7 +10,7 @@ import {
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import {
   getLendingContractName,
@@ -20,7 +20,7 @@ import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePre
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
-import { DialogButton } from 'form/DialogButton';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { toWei } from 'web3-utils';
@@ -175,7 +175,6 @@ export function TradeDialog() {
             contractName={contractName}
             condition={true}
           />
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { FieldGroup } from '../../../../components/FieldGroup';
 import { InputField } from '../../../../components/InputField';
 import { translations } from '../../../../../locales/i18n';

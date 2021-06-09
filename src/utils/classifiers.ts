@@ -34,7 +34,7 @@ export const databaseRpcNodes = {
 
 export const backendUrl = {
   30: 'https://backend.sovryn.app',
-  31: 'https://api.test.sovryn.app/',
+  31: 'https://api.test.sovryn.app',
 };
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';

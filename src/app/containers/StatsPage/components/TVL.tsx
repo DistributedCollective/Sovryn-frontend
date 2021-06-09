@@ -48,23 +48,28 @@ export function TVL(props: Props) {
   const rowData = [
     {
       contract: t(translations.statsPage.tvl.protocol),
-      btcValue: data?.tvlProtocol.totalBtc,
-      usdValue: data?.tvlProtocol.totalUsd,
+      btcValue: data?.tvlProtocol?.totalBtc || 0,
+      usdValue: data?.tvlProtocol?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.lend),
-      btcValue: data?.tvlLending.totalBtc,
-      usdValue: data?.tvlLending.totalUsd,
+      btcValue: data?.tvlLending?.totalBtc || 0,
+      usdValue: data?.tvlLending?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.amm),
-      btcValue: data?.tvlAmm.totalBtc,
-      usdValue: data?.tvlAmm.totalUsd,
+      btcValue: data?.tvlAmm?.totalBtc || 0,
+      usdValue: data?.tvlAmm?.totalUsd || 0,
+    },
+    {
+      contract: t(translations.statsPage.tvl.staked),
+      btcValue: data?.tvlStaking?.totalBtc || 0,
+      usdValue: data?.tvlStaking?.totalUsd || 0,
     },
     {
       contract: t(translations.statsPage.tvl.total),
-      btcValue: data?.total_btc,
-      usdValue: data?.total_usd,
+      btcValue: data?.total_btc || 0,
+      usdValue: data?.total_usd || 0,
     },
   ];
 
@@ -73,26 +78,31 @@ export function TVL(props: Props) {
       {loading ? (
         <SkeletonRow key={key} />
       ) : (
-        <tr
-          key={key}
-          className={`${
-            row.contract === 'Total' ? 'font-weight-bold border-top' : ''
-          }`}
-        >
-          <td>{row.contract}</td>
-          <td>
-            {row.btcValue?.toLocaleString('en', {
-              maximumFractionDigits: 4,
-              minimumFractionDigits: 4,
-            }) || <div className="bp3-skeleton">&nbsp;</div>}
-          </td>
-          <td>
-            {row.usdValue?.toLocaleString('en', {
-              maximumFractionDigits: 2,
-              minimumFractionDigits: 2,
-            }) || <div className="bp3-skeleton">&nbsp;</div>}
-          </td>
-        </tr>
+        row.btcValue &&
+        Number(row.btcValue) > 0 &&
+        row.usdValue &&
+        Number(row.usdValue) > 0 && (
+          <tr
+            key={key}
+            className={`${
+              row.contract === 'Total' ? 'font-weight-bold border-top' : ''
+            }`}
+          >
+            <td>{row.contract}</td>
+            <td>
+              {row.btcValue?.toLocaleString('en', {
+                maximumFractionDigits: 4,
+                minimumFractionDigits: 4,
+              }) || <div className="bp3-skeleton">&nbsp;</div>}
+            </td>
+            <td>
+              {row.usdValue?.toLocaleString('en', {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+              }) || <div className="bp3-skeleton">&nbsp;</div>}
+            </td>
+          </tr>
+        )
       )}
     </>
   ));
