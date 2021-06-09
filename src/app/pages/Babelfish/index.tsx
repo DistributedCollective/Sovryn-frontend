@@ -10,7 +10,9 @@ import { Stepper, StepItem } from './components/Stepper';
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import walletIcon from 'assets/images/wallet-icon.svg';
+import ethIcon from 'assets/images/tokens/eth.svg';
 import { SelectNetwork } from './components/SelectNetwork';
+import { SelectToken } from './components/SelectToken';
 
 const initialSteps = [
   'Network',
@@ -43,9 +45,11 @@ export function Babelfish() {
           title: 'Ethereum',
           icon: (
             <img
-              className={'tw-object-contain'}
-              src={AssetsDictionary.get(Asset.ETH).logoSvg}
-              alt={AssetsDictionary.get(Asset.ETH).name}
+              className={
+                'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-white'
+              }
+              src={ethIcon}
+              alt="ETH"
             />
           ),
         });
@@ -53,17 +57,36 @@ export function Babelfish() {
       case 'BSC':
         updateStep(0, {
           title: 'Binance Chain',
-          icon: (
-            <img
-              className={'tw-object-contain'}
-              src={AssetsDictionary.get(Asset.ETH).logoSvg}
-              alt={AssetsDictionary.get(Asset.ETH).name}
-            />
-          ),
+          icon: <img className={'tw-object-contain'} src={ethIcon} alt="BSC" />,
         });
         break;
     }
     setStep(2);
+  };
+  const setToken = (network: string) => {
+    switch (network) {
+      case 'ETH':
+        updateStep(1, {
+          title: 'Ethereum',
+          icon: (
+            <img
+              className={
+                'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-white'
+              }
+              src={ethIcon}
+              alt="ETH"
+            />
+          ),
+        });
+        break;
+      case 'BSC':
+        updateStep(1, {
+          title: 'Binance Chain',
+          icon: <img className={'tw-object-contain'} src={ethIcon} alt="BSC" />,
+        });
+        break;
+    }
+    setStep(3);
   };
   const handleStep = useCallback(
     nextStep => {
@@ -120,6 +143,7 @@ export function Babelfish() {
       </div>
       <div className="tw-flex-1 tw-flex tw-justify-center tw-items-center">
         {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
+        {step === 2 && <SelectToken setToken={setToken} />}
       </div>
     </div>
   );
