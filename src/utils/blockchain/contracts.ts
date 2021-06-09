@@ -108,6 +108,21 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  XUSD_token: {
+    address: '0xb5999795BE0EbB5bAb23144AA5FD6A02D080299F',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // XUSD_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  XUSD_amm: {
+    address: '0x303401D9AB4394AEaE4156F1A21C620eED56E22C',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
   BPRO_token: {
     address: '0x440cd83c160de5c96ddb20246815ea44c7abbca8',
     abi: TestTokenABI,
