@@ -3,9 +3,13 @@ import { DialogWrapper } from './styled';
 import { InformationSection } from './components/InformationSection';
 import { BuySection } from './components/BuySection';
 
-export const BuyDialog: React.FC = () => (
+interface IBuyDialogProps {
+  saleName: string;
+}
+
+export const BuyDialog: React.FC<IBuyDialogProps> = ({ saleName }) => (
   <DialogWrapper>
-    <InformationSection />
-    <BuySection />
+    <InformationSection saleName={saleName} />
+    <BuySection saleName={saleName} />
   </DialogWrapper>
 );

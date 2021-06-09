@@ -2,11 +2,15 @@ import React from 'react';
 import { Instructions } from './components/Instructions';
 import { BuyDialog } from './components/BuyDialog';
 
-export const BuyStep: React.FC = () => (
+interface IBuyStepProps {
+  saleName: string;
+}
+
+export const BuyStep: React.FC<IBuyStepProps> = ({ saleName }) => (
   <>
     <div className="tw-flex">
-      <BuyDialog />
-      <Instructions />
+      <BuyDialog saleName={saleName} />
+      <Instructions saleName={saleName} />
     </div>
   </>
 );

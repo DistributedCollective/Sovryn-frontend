@@ -11,7 +11,11 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
 import imgInstructions from 'assets/images/OriginsLaunchpad/FishSale/small_NFT.svg';
 
-export const Instructions: React.FC = () => {
+interface IInstructionsProps {
+  saleName: string;
+}
+
+export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +33,7 @@ export const Instructions: React.FC = () => {
                 .instruction1
             }
             components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
-            tOptions={{ token: 'FISH' }}
+            tOptions={{ token: saleName }}
           />
         </div>
 
@@ -48,7 +52,11 @@ export const Instructions: React.FC = () => {
                 .discordSupport
             }
             components={[
-              <a href="http://discord.com/invite/J22WS6z" target="_blank">
+              <a
+                href="http://discord.com/invite/J22WS6z"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 x
               </a>,
             ]}

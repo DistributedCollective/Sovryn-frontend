@@ -29,7 +29,7 @@ export const OriginsLaunchpad: React.FC = () => {
 
       <div className="container tw-pt-11 font-family-montserrat">
         {/* <Dashboard /> */}
-        <SalesDay />
+        <SalesDay saleName="FISH" isAccessCodeEnabled={false} />
 
         <Footer />
       </div>

@@ -6,7 +6,13 @@ import { DialogTitle, EngageButton, EngageWalletDialogWrapper } from './styled';
 import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
 import { Spinner } from '@blueprintjs/core';
 
-export const EngageWalletStep: React.FC = () => {
+interface IEngageWalletStepProps {
+  saleName: string;
+}
+
+export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
+  saleName,
+}) => {
   const { t } = useTranslation();
   const { loading: connecting, connect } = useWalletContext();
 
@@ -21,7 +27,7 @@ export const EngageWalletStep: React.FC = () => {
             {t(
               translations.originsLaunchpad.saleDay.engageWalletScreen
                 .dialogTitle,
-              { token: 'FISH' },
+              { token: saleName },
             )}
           </DialogTitle>
 

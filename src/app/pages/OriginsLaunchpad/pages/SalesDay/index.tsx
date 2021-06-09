@@ -9,23 +9,36 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
 
-export const SalesDay: React.FC = () => {
+interface ISalesDayProps {
+  saleName: string;
+  isAccessCodeEnabled: boolean;
+}
+
+export const SalesDay: React.FC<ISalesDayProps> = ({
+  saleName,
+  isAccessCodeEnabled,
+}) => {
   const { t } = useTranslation();
   const connected = useIsConnected();
 
   // This is just a temporary solution for a prototype purposes
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(isAccessCodeEnabled ? 1 : 2);
 
   const getActiveStep = (step: number) => {
     switch (step) {
       case 1:
-        return <AccessCodeVerificationStep onVerified={() => setStep(2)} />;
+        return (
+          <AccessCodeVerificationStep
+            saleName={saleName}
+            onVerified={() => setStep(2)}
+          />
+        );
       case 2:
         return <ImportantInformationStep onSubmit={() => setStep(3)} />;
       case 3:
-        return <BuyStep />;
+        return <BuyStep saleName={saleName} />;
       default:
-        return <EngageWalletStep />;
+        return <EngageWalletStep saleName={saleName} />;
     }
   };
 
@@ -34,12 +47,16 @@ export const SalesDay: React.FC = () => {
       <div className="tw-text-center tw-items-center tw-justify-center tw-flex tw-mb-12">
         <TitleImage src={imgTitle} />
         <TitleContent>
-          {t(translations.originsLaunchpad.saleDay.title, { token: 'Fish' })}
+          {t(translations.originsLaunchpad.saleDay.title, { token: saleName })}
         </TitleContent>
       </div>
 
       <div className="tw-justify-center tw-flex tw-text-center">
-        {!connected ? <EngageWalletStep /> : getActiveStep(step)}
+        {!connected ? (
+          <EngageWalletStep saleName={saleName} />
+        ) : (
+          getActiveStep(step)
+        )}
       </div>
     </div>
   );

@@ -27,7 +27,11 @@ const tokenAddress = (asset: Asset) =>
 
 const gasLimit = 340000;
 
-export const BuySection: React.FC = () => {
+interface IBuySectionProps {
+  saleName: string;
+}
+
+export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
@@ -93,7 +97,7 @@ export const BuySection: React.FC = () => {
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog
                 .tokenReceived,
-              { token: 'FISH' },
+              { token: saleName },
             )}
             :
           </div>
@@ -130,7 +134,7 @@ export const BuySection: React.FC = () => {
           <span>
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog.buyButton,
-              { token: 'FISH' },
+              { token: saleName },
             )}
           </span>
         </BuyButton>

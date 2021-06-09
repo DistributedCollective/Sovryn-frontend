@@ -7,7 +7,13 @@ import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { AllocationRemaining } from './AllocationRemaining';
 
-export const InformationSection: React.FC = () => {
+interface IInformationSectionProps {
+  saleName: string;
+}
+
+export const InformationSection: React.FC<IInformationSectionProps> = ({
+  saleName,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -35,7 +41,7 @@ export const InformationSection: React.FC = () => {
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .saleAllocation,
         )}
-        value="32,508,000 FISH"
+        value={`32,508,000 ${saleName}`}
       />
 
       <InfoItem
@@ -43,7 +49,7 @@ export const InformationSection: React.FC = () => {
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .allocationRemaining,
         )}
-        value={<AllocationRemaining />}
+        value={<AllocationRemaining saleName={saleName} />}
         className="tw-text-primary"
       />
 

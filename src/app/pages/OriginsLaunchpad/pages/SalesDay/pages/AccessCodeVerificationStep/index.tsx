@@ -8,10 +8,12 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { InputField } from 'app/components/InputField';
 
 interface IAccessCodeVerificationStepProps {
+  saleName: string;
   onVerified?: () => void;
 }
 
 export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepProps> = ({
+  saleName,
   onVerified,
 }) => {
   const { t } = useTranslation();
@@ -27,7 +29,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
                 .dialogTitle,
-              { token: 'FISH' },
+              { token: saleName },
             )}
           </DialogTitle>
           <div className="tw-text-xl tw-font-thin tw-mb-16">
