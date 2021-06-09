@@ -362,7 +362,7 @@
     "delegation": {
       "delegateTo": "Delegar para",
       "delegatedTo": "Delegado para",
-      "noDelegate": "Sem delegação",
+      "noDelegate": "Não",
       "address": "Insira ou cole o endereço"
     },
     "withdraw": {
@@ -405,7 +405,7 @@
     "increase": {
       "title": "Aumentar quantidade",
       "currentlyStaked": "Quantidade atualmente investida",
-      "amountToAdd": " Quantidade",
+      "amountToAdd": " Adicionar mais:",
       "newVotingPower": "Novo poder de voto"
     },
     "currentStakes": {
@@ -432,7 +432,7 @@
       "title": "Ação",
       "increase": "Aumentar",
       "extend": "Estender",
-      "unstake": "Resgatar investimento",
+      "unstake": "Resgatar",
       "delegate": "Delegar",
       "confirm": "Confirmar",
       "cancel": "Cancelar",

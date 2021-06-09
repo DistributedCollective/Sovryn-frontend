@@ -68,6 +68,7 @@ export function SwapFormContainer() {
     [],
   );
   const [tokenBalance, setTokenBalance] = useState<any[]>([]);
+  const xusdExcludes = [Asset.USDT, Asset.DOC];
 
   useEffect(() => {
     async function getOptions() {
@@ -111,7 +112,15 @@ export function SwapFormContainer() {
   useEffect(() => {
     const newOptions = tokenBalance;
     if (newOptions) {
-      setSourceOptions(newOptions);
+      setSourceOptions(
+        newOptions.filter(option => {
+          if (targetToken === Asset.XUSD && xusdExcludes.includes(option.key))
+            return false;
+          if (xusdExcludes.includes(targetToken) && option.key === Asset.XUSD)
+            return false;
+          return option.key !== targetToken;
+        }),
+      );
     }
 
     if (
@@ -120,12 +129,21 @@ export function SwapFormContainer() {
     ) {
       setSourceToken(newOptions[0].key);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
     const newOptions = tokenBalance;
     if (newOptions) {
-      setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
+      setTargetOptions(
+        newOptions.filter(option => {
+          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+            return false;
+          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+            return false;
+          return option.key !== sourceToken;
+        }),
+      );
     }
 
     if (
@@ -134,6 +152,7 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: path } = useSwapNetwork_conversionPath(
