@@ -32,6 +32,13 @@ export function MiningPool({ pool }: Props) {
     setIsEmptyBalance,
   ]);
 
+  const [successfulTransactions, setSuccessfulTransactions] = useState(0);
+
+  const onSuccessfulTransaction = useCallback(
+    () => setSuccessfulTransactions(prevValue => prevValue + 1),
+    [setSuccessfulTransactions],
+  );
+
   const LeftSection = () => {
     return (
       <div className="tw-flex tw-items-center tw-mr-4">
@@ -78,7 +85,11 @@ export function MiningPool({ pool }: Props) {
         ChartSection={<PoolChart pool={pool} />}
         Actions={<Actions />}
         DataSection={
-          <UserPoolInfo pool={pool} onNonEmptyBalance={onNonEmptyBalance} />
+          <UserPoolInfo
+            pool={pool}
+            onNonEmptyBalance={onNonEmptyBalance}
+            successfulTransactions={successfulTransactions}
+          />
         }
         leftColor={
           (pool.supplyAssets[0].asset === Asset.SOV &&
@@ -104,11 +115,13 @@ export function MiningPool({ pool }: Props) {
                 pool={pool}
                 showModal={dialog === 'add'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialogV1
                 pool={pool}
                 showModal={dialog === 'remove'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
             </>
           )}
@@ -118,11 +131,13 @@ export function MiningPool({ pool }: Props) {
                 pool={pool}
                 showModal={dialog === 'add'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialog
                 pool={pool}
                 showModal={dialog === 'remove'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
             </>
           )}
