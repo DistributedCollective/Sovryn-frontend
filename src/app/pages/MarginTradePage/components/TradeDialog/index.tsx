@@ -31,6 +31,8 @@ import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 // import { Slider } from '../../../BuySovPage/components/Slider';
 
+const maintenanceMargin = 15000000000000000000;
+
 export function TradeDialog() {
   const { t } = useTranslation();
   const account = useAccount();
@@ -114,7 +116,7 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label="Maintenance Margin:"
-              value={<>{weiToNumberFormat(15)}%</>}
+              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
               label="Est. Liquidation price:"
