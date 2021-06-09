@@ -241,7 +241,9 @@
         "startPrice": "Preço inicial"
       },
       "inputLabel": "Insira um endereço de e-mail",
-      "submitButton": "Inscreva-se para receber atualizações"
+       "inputLabelName": "Nome ou apelido",
+      "submitButton": "Cadastre-se para novidades",
+      "submitSuccess": "Cadastro realizado!"
     },
     "previousSales": {
       "title": "Vendas finalizadas",
@@ -1209,7 +1211,8 @@
       }
     },
     "lootDropLink": "Saiba mais",
-    "chartOverlayText": "AER% Em breve!"
+    "chartOverlayText": "AER% Em breve!",
+     "recalibration": "Próximo ajuste em {{date}}"
   },
   "buySovPage": {
     "meta": {
