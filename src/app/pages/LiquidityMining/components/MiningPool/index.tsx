@@ -90,6 +90,9 @@ export function MiningPool({ pool }: Props) {
           (pool.supplyAssets[0].asset === Asset.DOC &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Pink) ||
+          (pool.supplyAssets[0].asset === Asset.USDT &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Yellow) ||
           undefined
         }
       />

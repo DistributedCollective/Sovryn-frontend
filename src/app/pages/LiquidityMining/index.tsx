@@ -39,6 +39,17 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
+            title="25K SOV Yield Farming"
+            asset1={Asset.XUSD}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 14',
+            })}
+            linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Yellow}
+          />
+          <LootDrop
             title="30K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
