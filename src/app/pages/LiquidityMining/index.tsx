@@ -43,7 +43,7 @@ export function LiquidityMining() {
             asset1={Asset.USDT}
             asset2={Asset.RBTC}
             message="Next recalibration on June 14"
-            linkUrl="https://www.sovryn.app/blog/25K-SOV-yield-for-xusd-btc-pool"
+            linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
