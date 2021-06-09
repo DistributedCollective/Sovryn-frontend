@@ -25,18 +25,18 @@ export const StatusImage = styled.img`
 `;
 
 export const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
   border-radius: 20px;
-  border: 1px solid #e9eae9;
-  margin: 0 auto 35px;
-  div {
-    font-size: 12px;
-  }
+  border: 5px solid #e9eae9;
+  margin: 0 auto 4.375rem;
+  padding: 1.3rem 2.1rem 1rem 2.1rem;
 `;
 export const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
+  width: 100%;
 `;

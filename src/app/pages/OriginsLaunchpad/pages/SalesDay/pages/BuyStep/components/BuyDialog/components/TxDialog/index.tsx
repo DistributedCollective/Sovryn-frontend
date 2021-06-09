@@ -57,13 +57,16 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
       onClose={() => close()}
       className={styles.dialog}
     >
+      <CloseButton onClick={() => close()}>
+        <span className="sr-only">Close Dialog</span>
+      </CloseButton>
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <div className="tw-mb-7 tw-normal-case tw-text-center tw-text-2xl tw-font-semibold">
+          <div className="tw-mb-24 tw-normal-case tw-text-center tw-text-2xl tw-font-semibold">
             {t(translations.buySovPage.txDialog.pendingUser.title)}
           </div>
           <WalletLogo wallet={wallet} />
-          <p className="text-center mx-auto w-100" style={{ maxWidth: 266 }}>
+          <p className="tw-text-center tw-mx-auto tw-text-base">
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -74,9 +77,6 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
         props.tx.status,
       ) && (
         <>
-          <CloseButton onClick={() => close()}>
-            <span className="sr-only">Close Dialog</span>
-          </CloseButton>
           <div className="tw-text-2xl tw-font-medium tw-tracking-normal tw-mx-auto">
             {t(translations.buySovPage.txDialog.txStatus.title)}
           </div>

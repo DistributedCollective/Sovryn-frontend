@@ -33,8 +33,8 @@ interface IWalletLogoProps {
 }
 
 export const WalletLogo: React.FC<IWalletLogoProps> = ({ wallet }) => (
-  <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
+  <WLContainer>
     <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-    <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
+    <div className="tw-text-sm tw-truncate">{getWalletName(wallet)}</div>
   </WLContainer>
 );
