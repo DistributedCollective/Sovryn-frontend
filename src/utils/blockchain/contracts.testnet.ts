@@ -230,7 +230,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   layer2Inbox: {
-    address: '0x9EfB76BAB1E2B3ac2082d7AEAB5fBd68d30b5Bb9',
+    address: '0xb5705D259f2caE4e8bF5d241b7E7e1397640c02E',
     abi: layer2Inbox,
   },
 };
