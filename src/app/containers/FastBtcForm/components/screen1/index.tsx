@@ -23,7 +23,7 @@ export function Screen1({ state, dispatch }: Props) {
   return (
     <>
       <h3 className="heading tw-my-6 tw-text-center">{t(s.title)}</h3>
-      <div className="btc-address sovryn-border tw-p-4">
+      <div className="btc-address sovryn-border tw-bg-primary tw-p-4">
         <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-flex tw-flex-nowrap tw-w-full tw-mx-auto tw-justify-between tw-items-center">
           {address.length > 0 && (
             <>

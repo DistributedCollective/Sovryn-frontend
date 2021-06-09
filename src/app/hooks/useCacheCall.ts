@@ -4,7 +4,7 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { Nullable } from '../../types';
 import { useBlockSync } from './useAccount';
 
-interface CacheCallResponse<T = string> {
+export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
   loading: boolean;
   error: string | null;

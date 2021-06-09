@@ -7,8 +7,9 @@ interface ILootDropProps {
   title: string | JSX.Element;
   asset1: Asset;
   asset2: Asset;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
+  message?: string;
   linkUrl: string;
   linkText: string;
   highlightColor: LootDropColors;
@@ -21,6 +22,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
   asset2,
   startDate,
   endDate,
+  message,
   linkUrl,
   linkText,
 }) => (
@@ -35,7 +37,8 @@ export const LootDrop: React.FC<ILootDropProps> = ({
         <AssetSymbolRenderer asset={asset2} />
       </div>
       <div className="tw-text-xs tw-tracking-normal tw-font-thin tw-mb-3 tw-text-center">
-        {startDate} - {endDate}
+        {!!startDate && !!endDate && `${startDate} - ${endDate}`}
+        {!!message && message}
       </div>
       <div className="tw-text-center">
         <a

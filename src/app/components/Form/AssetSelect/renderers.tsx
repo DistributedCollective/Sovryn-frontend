@@ -1,8 +1,8 @@
 import { ItemRenderer } from '@blueprintjs/select';
-import { Option } from 'form/Select/types';
+import { Option } from 'app/components/Form/Select/types';
 import { MenuItem, Text } from '@blueprintjs/core';
 import React from 'react';
-import { highlightText } from 'form/Select/renderers';
+import { highlightText } from 'app/components/Form/Select/renderers';
 
 export const renderItem: ItemRenderer<Option> = (
   item,

@@ -30,7 +30,7 @@ const LendBorrowSovryn: React.FC<Props> = props => {
   return (
     <>
       <Header />
-      <main className="tw-container tw-mx-auto tw-px-4">
+      <main className="tw-container tw-mx-auto tw-mt-4 tw-px-4">
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div>
             <CurrencyContainer
