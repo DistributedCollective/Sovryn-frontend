@@ -95,7 +95,16 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = getOptions();
-    setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
+    const xusdExcludes = [Asset.USDT, Asset.DOC];
+    setTargetOptions(
+      newOptions.filter(option => {
+        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== sourceToken;
+      }),
+    );
 
     if (
       !newOptions.find(item => item.key === targetToken) &&
