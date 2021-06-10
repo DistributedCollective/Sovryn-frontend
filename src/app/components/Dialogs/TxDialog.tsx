@@ -25,6 +25,7 @@ import { usePrevious } from '../../hooks/usePrevious';
 interface Props {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
+  onSuccess?: () => void;
 }
 
 export function TxDialog(props: Props) {
@@ -49,6 +50,13 @@ export function TxDialog(props: Props) {
       props.onUserConfirmed
     ) {
       props.onUserConfirmed();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.tx.status]);
+
+  useEffect(() => {
+    if (props.tx.status === TxStatus.CONFIRMED && props.onSuccess) {
+      props.onSuccess();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.tx.status]);

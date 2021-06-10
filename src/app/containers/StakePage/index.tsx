@@ -24,7 +24,7 @@ import {
   staking_withdrawFee,
   staking_numTokenCheckpoints,
 } from 'utils/blockchain/requests/staking';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -591,16 +591,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             {contractToken.asset !== Asset.SOV ? (
               <Tooltip
                 content={
-                  <>
-                    {contractToken.asset} will be sent to the{' '}
-                    <a
-                      href="https://live.sovryn.app/lend"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      lending pool (live.sovryn.app/lend)
-                    </a>
-                  </>
+                  <>{contractToken.asset} will be sent to the lending pool.</>
                 }
               >
                 <>i{contractToken.asset} (?)</>

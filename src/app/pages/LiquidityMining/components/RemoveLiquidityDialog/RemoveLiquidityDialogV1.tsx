@@ -40,6 +40,7 @@ interface Props {
   pool: LiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
+  onSuccess: () => void;
 }
 
 export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
@@ -252,7 +253,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
           />
         </div>
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TxDialog
+        tx={tx}
+        onUserConfirmed={() => props.onCloseModal()}
+        onSuccess={props.onSuccess}
+      />
     </>
   );
 }
