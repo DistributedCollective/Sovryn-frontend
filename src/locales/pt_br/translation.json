@@ -356,7 +356,7 @@
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
-    "feeTitle": "Taxas recebidas disponíveis",
+    "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não desbloqueou SOV",
     "txFee": "Taxa de transação",
     "sov": "SOV",
@@ -426,7 +426,7 @@
       "stakingDate": "Data final",
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
-      "fees": "Taxas recebidas",
+      "fees": "Dividendos recebidos",
       "noVestingContracts": "Não existem SOV reservados para você."
     },
     "actions": {
