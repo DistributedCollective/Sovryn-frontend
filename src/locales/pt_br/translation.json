@@ -320,12 +320,13 @@
       "protocol": "Contrato de protocolo",
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
+      "staked": "Contrato Bitocracia",
       "total": "Total"
     },
     "ammpool": {
       "title": "SALDO AMM",
       "pool": "Pool",
-      "stakedBalance": "Saldo aplicado",
+      "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
@@ -507,7 +508,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou aplicado). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
+    "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou investido). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
