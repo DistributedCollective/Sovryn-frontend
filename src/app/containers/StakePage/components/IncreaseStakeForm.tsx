@@ -139,7 +139,12 @@ export function IncreaseStakeForm(props: Props) {
             />
           </div>
           <TxFeeCalculator
-            args={[props.amount, props.timestamp, account, ethGenesisAddress]}
+            args={[
+              props.amount.toString(),
+              Number(props.timestamp),
+              account,
+              ethGenesisAddress,
+            ]}
             txConfig={txConf}
             methodName="stake"
             contractName="staking"
