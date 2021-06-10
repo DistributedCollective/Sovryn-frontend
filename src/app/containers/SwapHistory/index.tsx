@@ -29,7 +29,13 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
 
-export function SwapHistory() {
+interface ISwapHistoryProps {
+  successfulTransactions?: number;
+}
+
+export const SwapHistory: React.FC<ISwapHistoryProps> = ({
+  successfulTransactions,
+}) => {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
@@ -76,7 +82,7 @@ export function SwapHistory() {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory]);
+  }, [account, getHistory, setCurrentHistory, successfulTransactions]);
 
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
@@ -115,7 +121,7 @@ export function SwapHistory() {
 
         return (
           <AssetRow
-            key={item.transactionHash}
+            key={`${item.transactionHash} pending`}
             data={data}
             itemFrom={assetFrom}
             itemTo={assetTo}
@@ -205,7 +211,7 @@ export function SwapHistory() {
       </div>
     </section>
   );
-}
+};
 
 interface AssetProps {
   data: any[] | any;

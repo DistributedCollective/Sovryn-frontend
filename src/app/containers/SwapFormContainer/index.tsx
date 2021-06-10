@@ -44,7 +44,13 @@ interface Option {
   label: string;
 }
 
-export function SwapFormContainer() {
+interface ISwapFormContainerProps {
+  onSuccess: () => void;
+}
+
+export const SwapFormContainer: React.FC<ISwapFormContainerProps> = ({
+  onSuccess,
+}) => {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { connect } = useWalletContext();
@@ -259,7 +265,7 @@ export function SwapFormContainer() {
         />
       </div>
 
-      <TxDialog tx={tx} />
+      <TxDialog tx={tx} onSuccess={onSuccess} />
     </>
   );
-}
+};
