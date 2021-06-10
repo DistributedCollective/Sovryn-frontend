@@ -1,4 +1,4 @@
-import { AmountInput } from 'form/AmountInput';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { translations } from 'locales/i18n';
 import React, { useMemo, useState } from 'react';
 import { Asset } from 'types';

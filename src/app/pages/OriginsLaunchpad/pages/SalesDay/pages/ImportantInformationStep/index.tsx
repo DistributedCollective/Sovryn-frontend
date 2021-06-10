@@ -3,7 +3,7 @@ import { DialogTitle, DialogWrapper, ListItem } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Checkbox } from '@blueprintjs/core';
-import { ActionButton } from 'form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface IImportantInformationStepProps {
   onSubmit?: () => void;
