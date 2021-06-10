@@ -1182,7 +1182,7 @@
         "pool": "Pool",
         "action": "Ação",
         "asset": "Criptoativo",
-        "liquidityAmount": "Quantidade de liquidez",
+        "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
       }
