@@ -25,6 +25,7 @@ export function IncreaseStakeForm(props: Props) {
   const txConf = {
     gas: 250000,
   };
+
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
@@ -140,8 +141,8 @@ export function IncreaseStakeForm(props: Props) {
           </div>
           <TxFeeCalculator
             args={[
-              props.amount.toString(),
-              Number(props.timestamp),
+              Number(props.amount).toFixed(0).toString(),
+              props.timestamp,
               account,
               ethGenesisAddress,
             ]}
