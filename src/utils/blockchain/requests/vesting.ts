@@ -22,7 +22,7 @@ export function vesting_withdraw(
     vestingAddress,
     VestingABI,
     'withdrawTokens',
-    [receiver, { from: owner }],
+    [receiver],
   );
 }
 
