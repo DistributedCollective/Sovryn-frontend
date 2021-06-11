@@ -300,6 +300,9 @@ function InnerStakePage() {
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
+            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+              {t(translations.stake.title)}
+            </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
               <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">

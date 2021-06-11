@@ -13,16 +13,12 @@ export function vesting_delegate(
   ]);
 }
 
-export function vesting_withdraw(
-  vestingAddress: string,
-  receiver: string,
-  owner: string,
-) {
+export function vesting_withdraw(vestingAddress: string, receiver: string) {
   return contractWriter.sendByAddress(
     vestingAddress,
     VestingABI,
     'withdrawTokens',
-    [receiver, { from: owner }],
+    [receiver],
   );
 }
 
