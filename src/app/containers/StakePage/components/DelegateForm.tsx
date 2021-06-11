@@ -38,7 +38,7 @@ export function DelegateForm(props: Props) {
             />
           </div>
           <TxFeeCalculator
-            args={[props.address.toLowerCase(), props.timestamp]}
+            args={[props.address.toLowerCase(), Number(props.timestamp)]}
             methodName="delegate"
             contractName="staking"
           />
