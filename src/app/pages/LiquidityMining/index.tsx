@@ -47,7 +47,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/xxxxx"
             linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Pink}
+            highlightColor={LootDropColors.Blue}
           />
           <LootDrop
             title="20K SOV Yield Farming"

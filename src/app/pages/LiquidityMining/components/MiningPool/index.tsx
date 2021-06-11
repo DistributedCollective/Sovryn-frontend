@@ -106,7 +106,7 @@ export function MiningPool({ pool }: Props) {
             LootDropColors.Yellow) ||
           (pool.supplyAssets[0].asset === Asset.BNB &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Pink) ||
+            LootDropColors.Blue) ||
           undefined
         }
       />
