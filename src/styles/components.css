@@ -169,6 +169,9 @@
   cursor: pointer;
   border: none;
 }
+.sliderMonth {
+  padding-left: 0.15rem;
+}
 .sliderMonth .slick-next,
 .sliderMonth .slick-prev {
   top: 10px;

@@ -220,7 +220,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalanceOf.value, account.toLowerCase(), nonce);
+        await staking_approve(sovBalanceOf.value);
         nonce += 1;
       }
       if (!stakeTx.loading) {
@@ -260,7 +260,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(weiAmount, account, nonce);
+        await staking_approve(weiAmount);
         nonce += 1;
       }
       if (!increaseTx.loading) {
