@@ -145,13 +145,28 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  ETH_lending: {
-    address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-    abi: LoanTokenLogicStandard,
-    blockNumber: 1406290,
-  },
+  // ETH_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
   ETH_amm: {
     address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
+  BNB_token: {
+    address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // BNB_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  BNB_amm: {
+    address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE', // todo
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
