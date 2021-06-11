@@ -2,18 +2,10 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { contractWriter } from 'utils/sovryn/contract-writer';
 import { contractReader } from 'utils/sovryn/contract-reader';
 
-export function staking_approve(
-  weiAmount: string,
-  account: string,
-  nonce: number,
-) {
+export function staking_approve(weiAmount: string) {
   return contractWriter.send('SOV_token', 'approve', [
     getContract('staking').address,
     weiAmount,
-    {
-      from: account,
-      nonce,
-    },
   ]);
 }
 

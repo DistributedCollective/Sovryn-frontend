@@ -84,7 +84,7 @@ export function ExtendStakeForm(props: Props) {
             />
           </div>
           <TxFeeCalculator
-            args={[props.prevExtend, props.timestamp]}
+            args={[Number(props.prevExtend), Number(props.timestamp)]}
             methodName="extendStakingDuration"
             contractName="staking"
           />

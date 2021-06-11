@@ -171,14 +171,14 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {avaliableYears.map((year, i) => {
           return (
-            <div className="tw-mr-4" key={i}>
+            <div className="tw-mr-5" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-5 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >
@@ -188,11 +188,11 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 pr-1">
+      <div className="sliderMonth tw-mt-5 pr-0">
         <Slider {...settingsSliderMonth}>
           {avaliableMonth.map((monthName: React.ReactNode, i) => {
             return (
-              <div className="tw-w-1/6" key={i}>
+              <div key={i}>
                 <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
                   {monthName}
                   {currentYearDates.map((item, i) => {
