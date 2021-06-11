@@ -18,4 +18,5 @@ export const AllocationPercentage = styled.div`
   width: 75%;
   background-color: #533f00;
   opacity: 85%;
+  border-radius: 10px;
 `;
