@@ -169,8 +169,8 @@ export class SovrynNetwork {
         });
 
         if (isWebsocket) {
-          const provider: WebsocketProvider = this._readWeb3
-            .currentProvider as WebsocketProvider;
+          const provider: WebsocketProvider = (this._readWeb3
+            .currentProvider as unknown) as WebsocketProvider;
 
           provider.on('end', () => {
             provider.removeAllListeners('end');
