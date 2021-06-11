@@ -39,11 +39,11 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="XXX SOV Yield Farming"
+            title="35k SOV Yield Farming"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'XXXX',
+              date: 'June 21',
             })}
             linkUrl="https://www.sovryn.app/blog/xxxxx"
             linkText={t(translations.liquidityMining.lootDropLink)}
