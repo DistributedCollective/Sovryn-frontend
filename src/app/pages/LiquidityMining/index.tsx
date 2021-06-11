@@ -39,33 +39,33 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="25K SOV Yield Farming"
+            title="20K SOV Yield Farming"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 14',
+              date: 'June 21',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
-            title="30K SOV"
+            title="25K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 14',
+              date: 'June 21',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="25K SOV"
+            title="20K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 14',
+              date: 'June 21',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
