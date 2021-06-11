@@ -45,7 +45,7 @@ export function LiquidityMining() {
             message={t(translations.liquidityMining.recalibration, {
               date: 'June 21',
             })}
-            linkUrl="https://www.sovryn.app/blog/xxxxx"
+            linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Blue}
           />
