@@ -24,7 +24,7 @@ import {
   staking_withdrawFee,
   staking_numTokenCheckpoints,
 } from 'utils/blockchain/requests/staking';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -220,7 +220,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalanceOf.value, account.toLowerCase(), nonce);
+        await staking_approve(sovBalanceOf.value);
         nonce += 1;
       }
       if (!stakeTx.loading) {
@@ -260,7 +260,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(weiAmount, account, nonce);
+        await staking_approve(weiAmount);
         nonce += 1;
       }
       if (!increaseTx.loading) {
@@ -300,6 +300,9 @@ function InnerStakePage() {
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
+            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+              {t(translations.stake.title)}
+            </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
               <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
@@ -591,16 +594,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             {contractToken.asset !== Asset.SOV ? (
               <Tooltip
                 content={
-                  <>
-                    {contractToken.asset} will be sent to the{' '}
-                    <a
-                      href="https://live.sovryn.app/lend"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      lending pool (live.sovryn.app/lend)
-                    </a>
-                  </>
+                  <>{contractToken.asset} will be sent to the lending pool.</>
                 }
               >
                 <>i{contractToken.asset} (?)</>
