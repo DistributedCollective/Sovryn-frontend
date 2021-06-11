@@ -39,7 +39,7 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="35k SOV Yield Farming"
+            title="35k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -50,7 +50,7 @@ export function LiquidityMining() {
             highlightColor={LootDropColors.Blue}
           />
           <LootDrop
-            title="20K SOV Yield Farming"
+            title="20K SOV"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
