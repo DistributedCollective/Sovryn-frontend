@@ -33,7 +33,6 @@ export function WithdrawVesting(props: Props) {
         await vesting_withdraw(
           props.vesting.toLowerCase(),
           address.toLowerCase(),
-          account.toLowerCase(),
         );
         props.onCloseModal();
         setSending(false);

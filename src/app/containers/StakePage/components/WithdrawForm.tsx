@@ -195,7 +195,11 @@ export function WithdrawForm(props: Props) {
 
               <div className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
                 <TxFeeCalculator
-                  args={[props.amount, props.until, account]}
+                  args={[
+                    props.withdrawAmount.toString(),
+                    Number(props.until),
+                    account,
+                  ]}
                   methodName="withdraw"
                   contractName="staking"
                 />
