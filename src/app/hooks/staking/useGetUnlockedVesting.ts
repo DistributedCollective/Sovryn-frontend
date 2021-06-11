@@ -56,7 +56,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
           end = new Date().getTime() / 1e3;
         }
 
-        for (let i = startDate + cliff; i < end; i += TWO_WEEKS) {
+        for (let i = startDate + cliff; i <= end; i += TWO_WEEKS) {
           const stake: string = (await contractReader.call(
             'staking',
             'getPriorUserStakeByDate',
