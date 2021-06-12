@@ -8,7 +8,7 @@
 
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
@@ -29,16 +29,20 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
+
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
+import { StakePage } from './containers/StakePage/Loadable';
 import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
-import { RewardPage } from './pages/RewardPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
+import { RewardPage } from './pages/RewardPage/Loadable';
+
+import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
-import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
+import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const title =
@@ -72,14 +76,18 @@ export function App() {
           <NetworkRibbon />
           <Switch>
             <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendBorrow} />
+            <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
-            <Route exact path="/liquidity" component={LiquidityMiningPage} />
+            <Redirect exact from="/liquidity" to="/yield-farm" />
+            <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
+            <Route exact path="/origins" component={OriginsLaunchpadPage} />
             <Route
               exact
               path="/optin-success"

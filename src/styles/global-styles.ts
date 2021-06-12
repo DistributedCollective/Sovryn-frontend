@@ -7,7 +7,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
     font-weight: 400;
-    letter-spacing: 1.2px;
   }
 
   body {
@@ -21,6 +20,10 @@ export const GlobalStyle = createGlobalStyle`
     ${media.lg`
     font-size: 16px;
     `}
+
+    &.originsLaunchpad {
+      background-color: #282828 !important;
+    }
   }
 
   #root {
@@ -67,9 +70,14 @@ input[type=number] {
   }
   h1 {
     font-size: 30px;
-    letter-spacing: 1.7px;
     font-weight: 500;
   }
+  h2 {
+    text-transform: inherit;
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin: 0;
+}
   h3 {
     font-size: 18px;
     font-weight: bold;
@@ -91,8 +99,6 @@ input[type=number] {
     }
   }
   button {
-    text-transform: uppercase;
-    font-weight: 600;
     padding: 0.23rem 4.2%4.2%;
   }
   .active {

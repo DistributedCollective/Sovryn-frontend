@@ -16,11 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { CollateralAssets } from '../CollateralAssets';
-import { FormGroup } from 'form/FormGroup';
-import { AmountInput } from 'form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { AmountInput } from 'app/components/Form/AmountInput';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { DialogButton } from 'form/DialogButton';
-import { ErrorBadge } from 'form/ErrorBadge';
+import { DialogButton } from 'app/components/Form/DialogButton';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 
@@ -146,7 +146,6 @@ export function ClosePositionDialog(props: Props) {
               }
             />
           )}
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}

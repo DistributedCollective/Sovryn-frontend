@@ -13,6 +13,7 @@ import { LootDropSectionWrapper } from '../../components/FinanceV2Components/Loo
 import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { HistoryTable } from './components/HistoryTable';
 import cn from 'classnames';
 
 const pools = LiquidityPoolDictionary.list();
@@ -38,24 +39,47 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="40K SOV Loot Drop"
+            title="25K SOV Yield Farming"
+            asset1={Asset.XUSD}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 14',
+            })}
+            linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Yellow}
+          />
+          <LootDrop
+            title="30K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
-            startDate="24/05/21"
-            endDate="30/05/21"
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 14',
+            })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="35K SOV Yield Farming"
+            title="25K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
-            startDate="26/05/21"
-            endDate="01/06/21"
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 14',
+            })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
+          />
+          <LootDrop
+            title="$37500 worth of MoC"
+            asset1={Asset.DOC}
+            asset2={Asset.RBTC}
+            startDate="02/06/21"
+            endDate="01/07/21"
+            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Pink}
           />
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
@@ -105,12 +129,12 @@ export function LiquidityMining() {
           ))}
         </div>
 
-        {/*<div className="tw-mt-10">*/}
-        {/*  <div className="tw-px-3 tw-text-lg">*/}
-        {/*    {t(translations.liquidityMining.historyTable.title)}*/}
-        {/*  </div>*/}
-        {/*  <HistoryTable />*/}
-        {/*</div>*/}
+        <div className="tw-mt-10">
+          <div className="tw-px-3 tw-text-lg">
+            {t(translations.liquidityMining.historyTable.title)}
+          </div>
+          <HistoryTable />
+        </div>
       </div>
 
       <Footer />

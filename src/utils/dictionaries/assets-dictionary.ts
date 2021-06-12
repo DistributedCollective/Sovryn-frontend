@@ -2,10 +2,12 @@ import { Asset } from 'types/asset';
 
 import docIcon from 'assets/images/tokens/doc.svg';
 import usdtIcon from 'assets/images/tokens/usdt.svg';
+import xusdIcon from 'assets/images/tokens/xusd.svg';
 import rbtcIcon from 'assets/images/tokens/rbtc.png';
 import bproIcon from 'assets/images/tokens/bpro.svg';
 import sovIcon from 'assets/images/tokens/sov.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
+import mocIcon from 'assets/images/tokens/moc.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -17,12 +19,17 @@ export class AssetsDictionary {
         new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon),
       ],
       [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
+      [Asset.XUSD, new AssetDetails(Asset.XUSD, 'XUSD', 'XUSD', 18, xusdIcon)],
       [Asset.ETH, new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon)],
+      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
+      [
+        Asset.MOC,
+        new AssetDetails(Asset.MOC, 'MoC', 'Money on Chain', 18, mocIcon),
+      ],
       [
         Asset.DOC,
         new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),
       ],
-      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
       [
         Asset.BPRO,
         new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
@@ -49,6 +56,13 @@ export class AssetsDictionary {
     return this.list().find(
       item =>
         item.tokenContract.address.toLowerCase() === address.toLowerCase(),
+    ) as AssetDetails;
+  }
+
+  public static getByAmmContractAddress(address: string): AssetDetails {
+    return this.list().find(
+      item =>
+        item.ammContract?.address?.toLowerCase() === address.toLowerCase(),
     ) as AssetDetails;
   }
 

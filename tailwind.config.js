@@ -25,6 +25,7 @@ module.exports = {
     },
     fontFamily: {
       body: ['Montserrat', 'sans-serif'],
+      orbitron: ['Orbitron', 'sans-serif'],
     },
     fontSize: {
       tiny: '.7rem',
@@ -36,6 +37,7 @@ module.exports = {
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
+      '4-5xl': '2.5rem',
       '5xl': '3rem',
       '6xl': '4rem',
       '7xl': '5rem',
@@ -47,6 +49,16 @@ module.exports = {
       gray: {
         1: '#333333',
         2: '#191919',
+        100: '#1f1f1f',
+        200: '#2F2F2F',
+        300: '#EDEDED',
+        600: '#F4F4F4',
+        700: '#191919',
+        800: '#282828',
+        900: '#686868',
+        dark: '#707070',
+        light: '#181818',
+        lighter: '#161616',
       },
       white: '#E9EAE9',
       black: '#000000',
@@ -108,20 +120,48 @@ module.exports = {
       Red: '#eb2106',
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
+      turquoise: '#4ECDC4',
+      theme: {
+        white: '#E9EAE9',
+        blue: '#2274A5',
+      },
     },
     extend: {
       maxWidth: {
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
+        '20.5rem': '20.5rem',
+        '50': '50%',
         '65': '65%',
         '70': '70%',
         '75': '75%',
         '77': '77%',
         '80': '80%',
+        '90': '90%',
       },
       width: {
+        '139': '34.75rem',
         '155': '38.75rem',
         '163': '40.75rem',
+      },
+      minWidth: {
+        '122': '30.5rem',
+      },
+      height: {
+        '88': '22rem',
+      },
+      lineHeight: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+      },
+      borderRadius: {
+        '10px': '0.625rem',
+      },
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
       },
     },
   },

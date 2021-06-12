@@ -12,6 +12,7 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types/asset';
+
 import {
   getContract,
   getTokenContractName,
@@ -138,15 +139,16 @@ class ContractWriter {
       );
     } else {
       const { address, abi } = getContract(contractName);
+
       return this.sendByAddress(address, abi, methodName, args, options);
     }
   }
 
   public async sendByAddress(
     address: string,
-    abi: AbiItem[],
+    abi: AbiItem[] | AbiItem | any,
     methodName: string,
-    args: Array<any>,
+    args: any[],
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
     return new Promise<string | RevertInstructionError>(

@@ -13,8 +13,7 @@ import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
 import '../assets/index.scss';
-import { Asset } from '../../../../types/asset';
-import { useSovryn_getRequiredCollateral } from '../../../hooks/protocol/useSovryn_getRequiredCollateral';
+import { Asset } from '../../../../types';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
 import { FieldGroup } from '../../../components/FieldGroup';
@@ -31,6 +30,7 @@ import { useLending_transactionLimit } from '../../../hooks/lending/useLending_t
 import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-pool-dictionary';
 import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
 import { useMaintenance } from '../../../hooks/useMaintenance';
+import { useLending_getDepositAmountForBorrow } from '../../../hooks/lending/useLending_getDepositAmountForBorrow';
 
 type Props = {
   currency: Asset;
@@ -81,12 +81,11 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const tokenToBorrow = currency;
   const initialLoanDuration = 60 * 60 * 24 * borrowDays;
 
-  const { value: requiredCollateral } = useSovryn_getRequiredCollateral(
+  const { value: requiredCollateral } = useLending_getDepositAmountForBorrow(
     tokenToBorrow,
     tokenToCollarate,
     borrowAmount,
-    '50000000000000000000',
-    true,
+    initialLoanDuration.toString(),
   );
 
   // Add buffer to collateralTokenSent of 0.2%, to prevent failing transaction

@@ -16,7 +16,9 @@ export function Promotion(props: Props) {
     <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-xl-row justify-content-xl-between align-items-xl-center">
       <div className="order-1 order-lg-0">
         <h1>{props.title}</h1>
-        <div className="content">{props.content}</div>
+        <div className="content tw-font-thin tw-leading-snug">
+          {props.content}
+        </div>
         <div>
           {props.href.startsWith('http') ? (
             <a href={props.href} target="_blank" rel="noreferrer noopener">

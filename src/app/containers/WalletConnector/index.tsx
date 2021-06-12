@@ -58,7 +58,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
       {!connected && !address ? (
         <StyledButton
           onClick={() => connect()}
-          className="tw-flex tw-justify-center tw-items-center"
+          className="tw-flex tw-justify-center tw-items-center tw-bg-ctaHover hover:tw-opacity-75"
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (

@@ -10,7 +10,7 @@ import {
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import {
   getLendingContractName,
@@ -20,7 +20,7 @@ import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePre
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
-import { DialogButton } from 'form/DialogButton';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { toWei } from 'web3-utils';
@@ -30,6 +30,8 @@ import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 // import { Slider } from '../../../BuySovPage/components/Slider';
+
+const maintenanceMargin = 15000000000000000000;
 
 export function TradeDialog() {
   const { t } = useTranslation();
@@ -114,7 +116,7 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label="Maintenance Margin:"
-              value={<>{weiToNumberFormat(15)}%</>}
+              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
               label="Est. Liquidation price:"
@@ -173,7 +175,6 @@ export function TradeDialog() {
             contractName={contractName}
             condition={true}
           />
-
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}

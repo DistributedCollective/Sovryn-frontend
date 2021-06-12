@@ -13,7 +13,7 @@ export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
     if (item) {
       return fixNumber(item.value.rate);
     } else {
-      return '0';
+      return '1000000000000000000';
     }
   }, [items, sourceAsset, destAsset]);
   return { value: value, error: null, loading: false };

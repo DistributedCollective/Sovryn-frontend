@@ -19,6 +19,7 @@ import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
+import { VestedHistory } from '../VestedHistory';
 
 export function WalletPage() {
   const { t } = useTranslation();
@@ -108,10 +109,18 @@ export function WalletPage() {
                 onClick={() => setActiveHistory(1)}
               />
             </div>
+            <div className="mr-2 ml-2">
+              <Tab
+                text={t(translations.vestedHistory.title)}
+                active={activeHistory === 2}
+                onClick={() => setActiveHistory(2)}
+              />
+            </div>
           </div>
           <div className="w-100">
             {activeHistory === 0 && <TopUpHistory />}
             {activeHistory === 1 && <SwapHistory />}
+            {activeHistory === 2 && <VestedHistory />}
           </div>
         </div>
       )}
