@@ -1,6 +1,6 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useCloseWithDeposit(

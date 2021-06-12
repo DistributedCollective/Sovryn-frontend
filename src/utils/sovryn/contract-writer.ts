@@ -11,7 +11,7 @@ import { ContractName } from '../types/contracts';
 import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
-import { Asset } from '../../types/asset';
+import { Asset } from '../../types';
 
 import {
   getContract,
