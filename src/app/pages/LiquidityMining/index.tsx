@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import cn from 'classnames';
 
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
@@ -14,12 +15,19 @@ import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { HistoryTable } from './components/HistoryTable';
-import cn from 'classnames';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 const pools = LiquidityPoolDictionary.list();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.ADD_LIQUIDITY]: addLiqLocked,
+    [States.REMOVE_LIQUIDITY]: removeLiqLocked,
+  } = checkMaintenances();
+
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
@@ -118,6 +126,23 @@ export function LiquidityMining() {
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
+        {(addLiqLocked || removeLiqLocked) && (
+          <div className="text-red tw-font-xl tw-text-center">
+            <Trans
+              i18nKey={translations.maintenance.liquidity}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-Red tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          </div>
+        )}
         <div
           className={cn(
             'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',

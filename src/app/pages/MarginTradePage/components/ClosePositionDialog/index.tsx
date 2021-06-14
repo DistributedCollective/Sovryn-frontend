@@ -12,7 +12,7 @@ import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-he
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
 import { Dialog } from '../../../../containers/Dialog/Loadable';
 import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { CollateralAssets } from '../CollateralAssets';
@@ -23,6 +23,7 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   item: ActiveLoan;
@@ -85,8 +86,8 @@ export function ClosePositionDialog(props: Props) {
     weiAmount,
   );
 
-  const { checkMaintenance } = useMaintenance();
-  const closeTradesLocked = checkMaintenance('closeTradesSwaps');
+  const { checkMaintenance, States } = useMaintenance();
+  const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
 
   const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
 
@@ -122,11 +123,23 @@ export function ClosePositionDialog(props: Props) {
             contractName="sovrynProtocol"
           />
 
-          {(closeTradesLocked?.maintenance_active || test.diff > 5) && (
+          {(closeTradesLocked || test.diff > 5) && (
             <ErrorBadge
               content={
-                closeTradesLocked?.maintenance_active ? (
-                  closeTradesLocked?.message
+                closeTradesLocked ? (
+                  <Trans
+                    i18nKey={translations.maintenance.closeMarginTrades}
+                    components={[
+                      <a
+                        href={discordInvite}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
                 ) : test.diff > 5 ? (
                   <>
                     <p className="tw-mb-1">
@@ -150,10 +163,7 @@ export function ClosePositionDialog(props: Props) {
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}
             disabled={
-              rest.loading ||
-              !valid ||
-              closeTradesLocked?.maintenance_active ||
-              test.diff > 5
+              rest.loading || !valid || closeTradesLocked || test.diff > 5
             }
             cancelLabel={t(translations.common.cancel)}
             onCancel={props.onCloseModal}

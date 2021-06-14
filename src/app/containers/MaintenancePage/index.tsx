@@ -3,27 +3,29 @@
  * MaintenancePage
  *
  */
-
 import React from 'react';
+
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import { media } from '../../../styles/media';
 import styled from 'styled-components/macro';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface Props {
   message: string;
 }
 
 export function MaintenancePage(props: Props) {
+  const { t } = useTranslation();
   return (
     <div
       className="align-items-center d-flex justify-content-center"
-      style={{ height: '100vh' }}
+      style={{ height: '100vh', marginTop: '-4.4rem' }}
     >
       <div className="text-center">
-        <StyledLogo src={logoSvg} />
+        <StyledLogo src={logoSvg} className="tw-mx-auto tw-mb-4" />
         <div className="font-size-lg">
-          {props.message ||
-            'Sovryn is under maintenance, please try again later'}
+          {props.message || t(translations.maintenance.full)}
         </div>
       </div>
     </div>

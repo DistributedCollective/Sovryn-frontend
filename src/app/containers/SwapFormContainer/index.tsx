@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -36,6 +36,9 @@ import { useAccount } from '../../hooks/useAccount';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 const s = translations.swapTradeForm;
 
@@ -52,6 +55,8 @@ export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { connect } = useWalletContext();
+  const { checkMaintenance, States } = useMaintenance();
+  const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
@@ -280,11 +285,29 @@ export function SwapFormContainer() {
             onClick={() => setDialogOpen(true)}
           />
         </div>
-
+        {swapLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.swapTrades}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <BuyButton
-          disabled={tx.loading || (!validate && isConnected)}
+          disabled={tx.loading || (!validate && isConnected) || swapLocked}
           onClick={() => onSwap()}
-          text={isConnected ? 'SWAP' : 'Engage Wallet'}
+          text={t(translations.swap.cta)}
         />
       </div>
 

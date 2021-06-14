@@ -54,6 +54,7 @@ import { useStakeStake } from '../../hooks/staking/useStakeStake';
 import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
 import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 const now = new Date();
 
@@ -126,6 +127,9 @@ function InnerStakePage() {
   const { extend, ...extendTx } = useStakeExtend();
   const { withdraw, ...withdrawTx } = useStakeWithdraw();
   const { delegate, ...delegateTx } = useStakeDelegate();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const stakingLocked = checkMaintenance(States.STAKING);
 
   useEffect(() => {
     if (timestamp && weiAmount && (stakeForm || increaseForm || extendForm)) {
@@ -335,7 +339,7 @@ function InnerStakePage() {
                     </>
                   }
                 />
-                {sovBalanceOf.value !== '0' ? (
+                {sovBalanceOf.value !== '0' && !stakingLocked ? (
                   <button
                     type="button"
                     className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
@@ -356,7 +360,13 @@ function InnerStakePage() {
                     hoverOpenDelay={0}
                     hoverCloseDelay={0}
                     interactionKind="hover"
-                    content={<>{t(translations.stake.noUnlockedSov)}</>}
+                    content={
+                      <>
+                        {stakingLocked
+                          ? t(translations.maintenance.staking)
+                          : t(translations.stake.noUnlockedSov)}
+                      </>
+                    }
                   >
                     <button
                       type="button"
@@ -542,6 +552,7 @@ function InnerStakePage() {
           </>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

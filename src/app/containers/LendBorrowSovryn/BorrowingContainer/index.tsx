@@ -45,8 +45,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
   const { t } = useTranslation();
-  const { checkMaintenance } = useMaintenance();
-  const borrowLocked = checkMaintenance('openLoansBorrows');
+  const { checkMaintenance, States } = useMaintenance();
+  const startBorrowLocked = checkMaintenance(States.START_BORROW);
 
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
@@ -227,7 +227,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             !isConnected ||
             txStateBorrow.loading ||
             !isSufficient ||
-            borrowLocked?.maintenance_active
+            startBorrowLocked
           }
           loading={txStateBorrow.loading}
           tooltip={
@@ -248,8 +248,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                   {t(translations.lendingPage.liquidity.borrow.line_3)}
                 </p>
               </>
-            ) : borrowLocked?.maintenance_active ? (
-              borrowLocked?.message
+            ) : startBorrowLocked ? (
+              <>{t(translations.maintenance.startBorrow)}</>
             ) : undefined
           }
         />

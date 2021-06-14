@@ -11,10 +11,10 @@ export function PriceHistory() {
   const [turnover, setTurnover] = useState(-1);
   useEffect(() => {
     axios.get(url + '/sov/current-price').then(({ data }) => {
-      setCurrentPrice(data.price * 1e8);
+      setCurrentPrice(data?.price * 1e8);
     });
     axios.get(url + '/sov/trading-volume').then(({ data }) => {
-      setTurnover(data.total.sov);
+      setTurnover(data?.total?.sov);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -31,7 +31,7 @@ export function PriceHistory() {
       </div> */}
       <div>
         {t(translations.spotTradingPage.priceHistory.turnover)}:{' '}
-        {turnover > -1 && (
+        {turnover !== null && turnover > -1 && (
           <b>{Number(turnover.toFixed(2)).toLocaleString()} SOV</b>
         )}
       </div>

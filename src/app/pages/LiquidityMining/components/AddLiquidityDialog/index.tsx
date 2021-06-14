@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -21,6 +21,9 @@ import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndAddLiquidityV2 } from '../../hooks/useMining_ApproveAndAddLiquidityV2';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   pool: LiquidityPool;
@@ -31,8 +34,9 @@ interface Props {
 
 export function AddLiquidityDialog({ pool, ...props }: Props) {
   const { t } = useTranslation();
-
   const canInteract = useCanInteract();
+  const { checkMaintenance, States } = useMaintenance();
+  const addliquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
   const [asset, setAsset] = useState(pool.poolAsset);
   const [amount, setAmount] = useState('0');
@@ -119,15 +123,36 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
             contractName="BTCWrapperProxy"
             className="tw-mt-6"
           />
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
-          <DialogButton
-            confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
-            onConfirm={() => handleConfirm()}
-            disabled={tx.loading || !valid || !canInteract}
-            className="tw-rounded-lg"
-          />
+
+          {addliquidityLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.addLiquidity}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+          {!addliquidityLocked && (
+            <DialogButton
+              confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
+              onConfirm={() => handleConfirm()}
+              disabled={
+                tx.loading || !valid || !canInteract || addliquidityLocked
+              }
+              className="tw-rounded-lg"
+            />
+          )}
         </div>
       </Dialog>
       <TxDialog
