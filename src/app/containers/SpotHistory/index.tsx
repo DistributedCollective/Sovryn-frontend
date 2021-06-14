@@ -25,6 +25,7 @@ import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
+import { useTradeHistoryRetry } from 'app/hooks/useTradeHistoryRetry';
 
 export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -35,6 +36,7 @@ export function SpotHistory() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
+  const retry = useTradeHistoryRetry();
 
   let cancelTokenSource;
   const getData = () => {
@@ -96,7 +98,7 @@ export function SpotHistory() {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory]);
+  }, [account, getHistory, setCurrentHistory, retry]);
 
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;

@@ -28,6 +28,7 @@ import { Pagination } from '../../components/Pagination';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
+import { useTradeHistoryRetry } from '../../hooks/useTradeHistoryRetry';
 
 export function SwapHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -39,6 +40,7 @@ export function SwapHistory() {
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
   const [hasOngoingTransactions, setHasOngoingTransactions] = useState(false);
+  const retry = useTradeHistoryRetry();
 
   let cancelTokenSource;
   const getData = () => {
@@ -77,7 +79,7 @@ export function SwapHistory() {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory]);
+  }, [account, getHistory, setCurrentHistory, retry]);
 
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
