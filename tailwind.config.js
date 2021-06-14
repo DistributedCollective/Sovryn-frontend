@@ -60,8 +60,11 @@ module.exports = {
         light: '#181818',
         lighter: '#161616',
       },
+
       white: '#E9EAE9',
       black: '#000000',
+      orange: '#E58415',
+      green: "#11E373",
 
       cta: '#fec004',
       ctaHover: '#FEC00440',
@@ -73,18 +76,11 @@ module.exports = {
 
       transparent: 'transparent',
       current: 'currentColor',
-      // primary: '#EDB305',
-      // secondary: '#2274A5',
-      // white: '#e9eae9',
-      // black: '#000000',
       dark: {
         1: '#575757',
         DEFAULT: '#191919',
         2: '#101010',
       },
-      // green: '#17C3B2',
-      // red: '#D74E09',
-
       // new
       Teal: '#4ecdc4',
       background: '#171717',
@@ -96,7 +92,6 @@ module.exports = {
       'sales-background': '#181818',
 
       // theme colors
-      // black: '#000',
       muted: '#656565',
       long: '#4ecdc4',
       short: '#cd4e4e',

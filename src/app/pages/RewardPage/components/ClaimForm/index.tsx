@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import cn from 'classnames';
+// import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Input } from 'app/components/Form/Input';
@@ -49,16 +49,8 @@ export function ClaimForm({ className, address }: Props) {
     );
   };
   return (
-    <div
-      className={cn(
-        className,
-        'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
-      )}
-    >
-      <div className="text-center tw-text-xl">
-        {t(translations.rewardPage.claimForm.title)}
-      </div>
-      <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
+    <div className="tw-bg-gray-800 tw-staking-box tw-rounded-3xl tw-px-16 tw-py-12">
+      <div className="md:tw-w-2/3 sm:tw-w-full tw-mx-auto">
         <div>
           <div className="tw-text-sm tw-mb-1">
             {t(translations.rewardPage.claimForm.availble)}
@@ -73,11 +65,11 @@ export function ClaimForm({ className, address }: Props) {
           <Button
             disabled={parseFloat(lockedBalance) === 0 || !lockedBalance}
             onClick={handleSubmit}
-            className="tw-w-full tw-mt-10"
+            className="tw-w-full tw-mt-12 tw-uppercase"
             text={t(translations.rewardPage.claimForm.cta)}
           />
 
-          <div className="tw-text-tiny tw-mt-4 tw-font-thin">
+          <div className="tw-text-tiny tw-mt-6 tw-font-thin">
             {t(translations.rewardPage.claimForm.note) + ' '}
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
