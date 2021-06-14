@@ -16,6 +16,7 @@ const assetsWithoutOracle = [
   Asset.ETH,
   Asset.MOC,
   Asset.XUSD,
+  Asset.BNB,
 ];
 
 /**
