@@ -80,6 +80,27 @@ const fastBtcDialogSlice = createSlice({
       state.deposit.address = '';
       state.deposit.receiver = '';
     },
+    // generate Fiat deposit address
+    generateFiatDepositAddress(state) {
+      state.deposit.loading = true;
+    },
+    generateFiatDepositAddressSuccess(
+      state,
+      { payload }: PayloadAction<{ btcadr: string; web3adr: string }>,
+    ) {
+      state.deposit.loading = false;
+      state.deposit.address = payload.btcadr;
+      state.deposit.receiver = payload.web3adr;
+    },
+    generateFiatDepositAddressFailed(
+      state,
+      { payload }: PayloadAction<string>,
+    ) {
+      toastError(payload, 'fast-btc');
+      state.deposit.loading = false;
+      state.deposit.address = '';
+      state.deposit.receiver = '';
+    },
     // get amount limits
     changeAmountInfo(
       state,
