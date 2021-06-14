@@ -6,6 +6,7 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import crypto from 'crypto';
 import {
   useWalletContext,
   WalletProvider as SovrynWallet,
@@ -33,6 +34,7 @@ import {
 import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
+import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 import { useLocation } from 'react-router-dom';
 
@@ -63,10 +65,10 @@ export function WalletProvider(props: Props) {
   }, [dispatch]);
 
   const options = useMemo(() => {
-    const customChain =
-      bridgeChainId !== null && location.pathname.startsWith('/cross-chain');
+    const inCorssChain = location.pathname.startsWith('/cross-chain');
+    const customChain = bridgeChainId !== null && inCorssChain;
     return {
-      showWrongNetworkRibbon: customChain,
+      showWrongNetworkRibbon: false,
       remember: !customChain,
       chainId: customChain ? bridgeChainId : currentChainId,
     };
@@ -84,16 +86,25 @@ export function WalletProvider(props: Props) {
 
 function WalletWatcher() {
   const dispatch = useDispatch();
-  const { address, chainId } = useWalletContext();
+  const { wallet, address, chainId } = useWalletContext();
+  const setEvent = useEvent();
+
   useEffect(() => {
+    if (address) {
+      setEvent({
+        category: 'Wallet',
+        action: 'Engaged',
+        label: `${
+          wallet?.wallet?.getWalletType() || 'unknown'
+        }:${crypto.createHash('md5').update(address).digest('hex')}`,
+      });
+    }
     dispatch(actions.accountChanged(address));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, address]);
+
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));
   }, [dispatch, chainId]);
-  return (
-    <div>
-      {chainId} / {address}
-    </div>
-  );
+  return null;
 }

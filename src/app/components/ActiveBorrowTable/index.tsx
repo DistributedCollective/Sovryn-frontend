@@ -115,7 +115,7 @@ export function ActiveBorrowTable(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="sovryn-border tw-p-4 tw-table-responsive">
+    <div className="tw-bg-primary sovryn-border tw-p-4 tw-table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

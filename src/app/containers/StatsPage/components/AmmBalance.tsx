@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
@@ -8,14 +8,16 @@ import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useInterval } from 'app/hooks/useInterval';
+import { AssetSymbolRenderer } from '../../../components/AssetSymbolRenderer';
+import { LiquidityPoolDictionary } from '../../../../utils/dictionaries/liquidity-pool-dictionary';
 
 interface Props {
   rate: number;
 }
 
 export function AmmBalance(props: Props) {
-  const assets = [Asset.SOV, Asset.USDT, Asset.DOC, Asset.BPRO];
   const { t } = useTranslation();
+  const assets = LiquidityPoolDictionary.pairTypeList();
   return (
     <div>
       <table className="w-100">
@@ -113,8 +115,10 @@ function Row(props) {
             </td>
           </tr>
           <tr className="border-bottom">
-            <td></td>
-            <td>BTC</td>
+            <td />
+            <td>
+              <AssetSymbolRenderer asset={Asset.RBTC} />
+            </td>
             <td className="text-right">
               {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>

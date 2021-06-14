@@ -2,13 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
-import { FormGroup } from 'form/FormGroup';
+import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { AmountInput } from 'form/AmountInput';
-import { DialogButton } from 'form/DialogButton';
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import {
@@ -17,7 +17,7 @@ import {
 } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { DummyInput } from 'form/Input';
+import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
@@ -32,6 +32,7 @@ interface Props {
   pool: LiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
+  onSuccess: () => void;
 }
 
 export function AddLiquidityDialogV1({ pool, ...props }: Props) {
@@ -115,7 +116,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               asset={token1}
             />
           </FormGroup>
-
           <DummyInput
             value={weiToNumberFormat(weiAmount2, 8)}
             appendElem={<AssetRenderer asset={token2} />}
@@ -127,9 +127,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               8,
             )}`}
           </div>
-
           {/*<ArrowDown />*/}
-
           {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
           {/*  <Input*/}
           {/*    value="0"*/}
@@ -137,7 +135,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
           {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
           {/*  />*/}
           {/*</FormGroup>*/}
-
           <TxFeeCalculator
             args={txFeeArgs}
             txConfig={{
@@ -147,11 +144,9 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             contractName="BTCWrapperProxy"
             className="tw-mt-6"
           />
-
           {/*{topupLocked?.maintenance_active && (*/}
           {/*  <ErrorBadge content={topupLocked?.message} />*/}
           {/*)}*/}
-
           <DialogButton
             confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
             onConfirm={() => handleConfirm()}
@@ -160,7 +155,11 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
           />
         </div>
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TxDialog
+        tx={tx}
+        onUserConfirmed={() => props.onCloseModal()}
+        onSuccess={props.onSuccess}
+      />
     </>
   );
 }

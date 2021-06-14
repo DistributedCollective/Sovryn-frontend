@@ -16,7 +16,7 @@
 
   .tw-header-link:hover,
   .tw-header-link:active {
-    @apply tw-text-primary tw-no-underline;
+    @apply tw-text-secondary tw-no-underline;
   }
 
   .tw-header-link.active {
@@ -85,9 +85,215 @@
     width: 100%;
   }
 
-
   .tw-mw-320 {
     @apply tw-w-full;
     max-width: 320px;
   }
+  /* staking */
+  .p-18 {
+    padding: 2rem;
+  }
+  .-ml-0\.25 {
+    margin-left: -0.063rem;
+  }
+  .-mt-0\.25 {
+    margin-top: -0.063rem;
+  }
+  .max-w-29 {
+    max-width: 29.3rem;
+  }
+
+  @media (min-width: 1200px) {
+    .max-w-130 {
+      max-width: 130px;
+    }
+    .max-h-12 {
+      max-height: 3.5rem;
+    }
+    .max-h-6 {
+      max-height: 6rem;
+    }
+    .p-18 {
+      padding: 3.9rem 4.4rem;
+    }
+    .leading-12 {
+      line-height: 3rem;
+    }
+  }
+
+  @media (min-width: 1700px) {
+    .max-w-15 {
+      max-width: 23.6rem;
+    }
+  }
+}
+
+.assetname {
+  min-width: 130px;
+}
+
+[disabled].hover\:bg-opacity-0:hover {
+  background: transparent !important;
+}
+
+.slick-slider {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+.slick-prev {
+  left: -25px;
+}
+.slick-next {
+  right: -25px;
+}
+.slick-next,
+.slick-prev {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 20px;
+  height: 25px;
+  padding: 0;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  cursor: pointer;
+  border: none;
+}
+.sliderMonth {
+  padding-left: 0.15rem;
+}
+.sliderMonth .slick-next,
+.sliderMonth .slick-prev {
+  top: 10px;
+}
+.sliderMonth .slick-list {
+  margin-right: 0.25rem;
+}
+.slick-arrow.slick-disabled svg {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.slick-next:before,
+.slick-prev:before {
+  font-family: slick;
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0.75;
+  color: theme('colors.white');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.slick-slider .slick-list,
+.slick-slider .slick-track {
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.slick-list {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+.slick-list,
+.slick-slider {
+  position: relative;
+  display: block;
+}
+.slick-slider .slick-list,
+.slick-slider .slick-track {
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.slick-initialized .slick-slide {
+  display: block;
+}
+.slick-slide {
+  display: none;
+  float: left;
+  height: 100%;
+  min-height: 1px;
+}
+.slick-slide div:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+.slick-slide:hover,
+.slick-slide:focus,
+.slick-slide:active {
+  border: none;
+  outline: none;
+}
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+}
+.slick-dots li {
+  margin: 0 2px;
+  list-style: none;
+}
+.slick-dots li button {
+  font-size: 0;
+  width: 10px;
+  height: 10px;
+  background: theme('colors.white');
+  border-radius: 100%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.slick-dots li:not(.slick-active) button:hover {
+  opacity: 0.7;
+}
+.slick-dots li.slick-active button {
+  background: theme('colors.theme.blue');
+}
+.assets {
+  min-width: 115px;
+}
+
+.bp3-tooltip2 {
+  -webkit-box-shadow: 0 0 0 1px rgb(16 22 26 / 10%),
+    0 2px 4px rgb(16 22 26 / 20%), 0 8px 24px rgb(16 22 26 / 20%);
+  box-shadow: 0 0 0 1px rgb(16 22 26 / 10%), 0 2px 4px rgb(16 22 26 / 20%),
+    0 8px 24px rgb(16 22 26 / 20%);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  padding: 10px 12px;
+  border-radius: 3px;
+  position: relative;
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  background: black;
+  color: #f5f8fa;
+}
+.bp3-toast.bp3-intent-success {
+  background-color: theme('colors.turquoise');
+}
+.bp3-overlay-content,
+.bp3-overlay-content:focus {
+  outline: none;
+}
+
+.tw-mw-320 {
+  max-width: 320px;
 }

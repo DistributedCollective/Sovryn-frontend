@@ -1,11 +1,15 @@
 /* --- STATE --- */
-import { Chain, Asset } from 'types';
+import type { Chain, Nullable } from 'types';
+import type { CrossBridgeAsset } from './types/cross-bridge-asset';
 
 export interface BridgeDepositPageState {
   step: DepositStep;
-  chain: Chain;
-  targetAsset: Asset;
-  sourceAsset: Asset; // todo aggregator tokens.
+  txStep: TxStep;
+  chain: Nullable<Chain>;
+  targetChain: Chain;
+  targetAsset: Nullable<CrossBridgeAsset>;
+  sourceAsset: Nullable<CrossBridgeAsset>;
+  receiver: string;
   amount: string;
 }
 
@@ -17,6 +21,12 @@ export enum DepositStep {
   CONFIRM,
   PROCESSING,
   COMPLETE,
+}
+
+export enum TxStep {
+  NONE,
+  APPROVE,
+  CONFIRM,
 }
 
 export type ContainerState = BridgeDepositPageState;

@@ -4,50 +4,78 @@
  *
  */
 
-import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
 
-import { reducer, sliceKey, actions } from '../../slice';
-
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
+import { actions } from '../../slice';
+import { Chain } from '../../../../../types';
+import { getBridgeChainId } from '../../utils/helpers';
 import { selectBridgeDepositPage } from '../../selectors';
+import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
+import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
+import { currentChainId } from '../../../../../utils/classifiers';
 
 interface Props {}
 
 export function ChainSelector(props: Props) {
-  const bridgeDepositPage = useSelector(selectBridgeDepositPage);
+  const { chain } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
 
-  const location = useLocation<any>();
   const walletContext = useWalletContext();
 
-  useEffect(() => {
-    return () => {
-      // Unset bridge seetings
-      dispatch(walletProviderActions.setBridgeChainId(null));
-      // dispatch(walletProviderActions.chainChanged(currentChainId));
-      console.log('back to portfolio?');
-    };
-  }, [dispatch]);
-
   const selectNetwork = useCallback(
-    (chainId: number) => {
-      console.log('select network');
-      dispatch(actions.selectNetwork({ chainId, walletContext }));
+    (chain: Chain) => {
+      dispatch(actions.selectNetwork({ chain, walletContext }));
     },
     [dispatch, walletContext],
+  );
+
+  const state = useMemo(() => {
+    if (
+      chain !== null &&
+      walletContext.wallet.providerType === 'injected' &&
+      walletContext.wallet.isConnected() &&
+      walletContext.wallet.chainId !== getBridgeChainId(chain as Chain)
+    ) {
+      return 'wrong-network';
+    }
+
+    return 'choose-network';
+  }, [walletContext, chain]);
+
+  const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
+    chain,
+  ]);
+
+  // It excludes current dapp chain (no RSK network), but i think it should be there in the end.
+  const networks = useMemo(
+    () =>
+      BridgeDictionary.listNetworks().filter(
+        item => item.chainId !== currentChainId,
+      ),
+    [],
   );
 
   return (
     <div>
       <h1>Select Network to deposit from</h1>
-      <div>
-        <button onClick={() => selectNetwork(1)}>ETH</button>
-        <button onClick={() => selectNetwork(101)}>BNB</button>
-      </div>
+      {state === 'wrong-network' && (
+        <>Switch your wallet to {network?.name} network.</>
+      )}
+      {state === 'choose-network' && (
+        <div className="tw-grid tw-gap-5 tw-grid-cols-4">
+          {networks.map(item => (
+            <button
+              key={item.chain}
+              onClick={() => selectNetwork(item.chain)}
+              className="tw-p-3 tw-bg-gray-800 hover:tw-bg-gray-900"
+            >
+              {item.name}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

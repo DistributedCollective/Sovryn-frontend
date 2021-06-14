@@ -1,5 +1,5 @@
 export enum Chain {
-  RSK,
-  ETH,
-  BSC,
+  RSK = 'rsk',
+  ETH = 'eth',
+  BSC = 'bsc',
 }

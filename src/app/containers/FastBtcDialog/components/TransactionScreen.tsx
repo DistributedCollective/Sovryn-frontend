@@ -43,7 +43,6 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
           <div className={styles.amountBlockBtc}>
             {toNumberFormat(tx.value, 4)} BTC
           </div>
-          {/*<div className={styles.amountBlockUsd}>≈ 3924 USD</div>*/}
         </div>
       </div>
 
@@ -81,10 +80,6 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
           </div>
 
           <div className="mt-4">
-            <div>
-              <strong>{t(translations.fastBtcDialog.transaction.fee)}</strong>{' '}
-              0.0006 BTC
-            </div>
             <div className="mt-2">
               <strong>{t(translations.fastBtcDialog.transaction.hash)}</strong>{' '}
               <LinkToExplorer

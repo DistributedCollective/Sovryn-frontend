@@ -215,19 +215,49 @@
     "buySov": "Buy SOV",
     "trade": "Trade",
     "swap": "Swap",
-    "marginTrade": "Margin Trading",
+    "marginTrade": "Margin",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
-    "liquidity": "Liquidity-mining",
+    "yieldFarm": "Yield Farm",
     "reward": "Reward SOV",
-    "staking": "Staking",
+    "staking": "Stake",
     "governance": "Governance",
+    "forum": "Forum",
     "wallet": "Portfolio",
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
-    "spotTrade": "Spot Trade"
+    "spotTrade": "Spot",
+    "origins": "Origins",
+    "rewards": "Rewards"
+  },
+  "originsLaunchpad": {
+    "upcomingSales": {
+      "title": "Upcoming Sales On Origins Launchpad",
+      "projectCard": {
+        "saleToken": "Sale Token",
+        "project": "Project",
+        "startDate": "Starts",
+        "startPrice": "Starts"
+      },
+      "inputLabel": "Enter Email Address",
+      "inputLabelName": "Name or Pseudonym",
+      "submitButton": "Sign up for Origins Updates",
+      "submitSuccess": "Successfully subscribed!"
+    },
+    "previousSales": {
+      "title": "Previous Sales On Origins",
+      "projectCard": {
+        "saleName": "Sale Name",
+        "saleAllocation": "Sale Allocation",
+        "totalRaised": "Total Raised",
+        "participatingWallets": "Participating Wallets",
+        "date": "Date",
+        "saleDuration": "Sale Duration",
+        "price": "Price"
+      }
+    }
   },
   "trandingPositionSelector": {
     "long": "Long",
@@ -291,6 +321,7 @@
       "protocol": "Protocol Contract",
       "lend": "Lending Contract",
       "amm": "Amm Contract",
+      "staked": "Bitocracy Staking Contract",
       "total": "Total"
     },
     "ammpool": {
@@ -319,6 +350,100 @@
     "minimumReceived": "Minimum received:",
     "send": "Send",
     "receive": "Receive"
+  },
+  "stake": {
+    "title": "Staking/Vesting",
+    "meta": "Staking/Vesting",
+    "connect": "Please connect with your wallet to use staking.",
+    "total": "Total staked SOV",
+    "votingPower": "Combined Voting Power",
+    "viewGovernance": "View Governance",
+    "addStake": "Add New Stake",
+    "feeTitle": "Total earned fees Available",
+    "noUnlockedSov": "You don't have unlocked SOV",
+    "txFee": "Tx Fee",
+    "sov": "SOV",
+    "delegation": {
+      "delegateTo": "Delegate To",
+      "delegatedTo": "Delegated To",
+      "noDelegate": "No delegate",
+      "address": "Enter or paste address"
+    },
+    "withdraw": {
+      "title": "Unstake SOV",
+      "amountCurrentlyStaked": "Amount Currently Staked",
+      "amountToUnstake": "Amount to Unstake",
+      "receiveSovAt": "Receive SOV at",
+      "unlockedSov": "Unlocked SOV",
+      "forfeit": "Early unstake forfeit",
+      "closeDialog": "Close Dialog",
+      "reallyUnstake": "Are you sure you want to unstake?",
+      "stakeUnlockUntil": "This stake is not scheduled to unlock until",
+      "penalty": "Unstaking now invokes a slashing penalty that will cost you",
+      "penaltyZero": "You will be slashed some of your SOV for withdrawing early",
+      "unstake": "Yes, Unstake"
+    },
+    "staking": {
+      "title": "Stake SOV",
+      "amountToStake": "Amount to Stake",
+      "votingPowerReceived": "Voting Power received"
+    },
+    "extending": {
+      "title": "Extend SOV Stake",
+      "previousUntil": "Previous until",
+      "amountToStake": "Amount to Stake",
+      "votingPowerReceived": "Voting Power received",
+      "willAddedVote": "Will be added to your vote",
+      "balance": "Balance"
+    },
+    "history": {
+      "title": "Staking History",
+      "asset": "Asset",
+      "stakedAmount": "Amount",
+      "stakingDate": "Date/Time",
+      "hash": "Transaction Hash",
+      "totalStaked": "Total Staked",
+      "viewHistory": "Click to view history",
+      "status": "Status"
+    },
+    "increase": {
+      "title": "Add to Stake",
+      "currentlyStaked": "Amount Currently Staked",
+      "amountToAdd": " Amount to Add",
+      "newVotingPower": "New Voting Power"
+    },
+    "currentStakes": {
+      "title": "Current Stakes",
+      "asset": "Asset",
+      "lockedAmount": "Locked Amount",
+      "votingPower": "Voting power",
+      "votingDelegation": "Voting Delegation",
+      "stakingPeriod": "Staking Period",
+      "unlockDate": "Unlock Date"
+    },
+    "currentVests": {
+      "title": "Current Vests",
+      "asset": "Voting Delegation",
+      "lockedAmount": "Locked Amount",
+      "votingPower": "Voting Delegation",
+      "stakingDate": "End Date",
+      "stakingPeriod": "Vesting Period",
+      "unlockDate": "Unlock Date",
+      "fees": "Fees Earned",
+      "noVestingContracts": "You don't have any vesting contracts."
+    },
+    "actions": {
+      "title": "Actions",
+      "increase": "Increase",
+      "extend": "Extend",
+      "unstake": "Unstake",
+      "delegate": "Delegate",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "withdraw": "Withdraw"
+    },
+    "loading": "Loading, please wait...",
+    "nostake": "No stakes yet."
   },
   "liquidity": {
     "title": "Liquidity",
@@ -756,6 +881,17 @@
       "to": "To",
       "amountReceived": "Amount Received",
       "status": "Status"
+    },
+    "emptyState": "History is empty."
+  },
+  "vestedHistory": {
+    "title": "Vested History",
+    "tableHeaders": {
+      "time": "Date/Time",
+      "vestingSchedule": "Vesting Schedule",
+      "amount": "Amount",
+      "hash": "Transaction Hash",
+      "status": "Status"
     }
   },
   "spotHistory": {
@@ -768,7 +904,8 @@
       "amountReceived": "Amount Received",
       "transactionFee": "Transaction Fee",
       "status": "Status"
-    }
+    },
+    "emptyState": "History is empty."
   },
   "topUpHistory": {
     "meta": {
@@ -988,6 +1125,17 @@
       "lockedRewards": "Locked Rewards:",
       "claimibleRewards": "Claimible Rewards",
       "OGRewards": "OG Rewards"
+    },
+    "historyTable": {
+      "tableHeaders": {
+        "time": "Date",
+        "type": "Type",
+        "amount": "Action",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      },
+      "emptyState": "History is empty.",
+      "loading": "Loading..."
     }
   },
   "marginTradePage": {
@@ -1036,6 +1184,8 @@
     }
   },
   "liquidityMining": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
@@ -1050,6 +1200,7 @@
     },
     "historyTable": {
       "title": "Liquidity History",
+      "emptyState": "History is empty.",
       "tableHeaders": {
         "time": "Date/Time",
         "pool": "Pool",
@@ -1061,7 +1212,7 @@
       }
     },
     "rowTable": {
-      "noLiquidityProvided": "You have no liquidity provided",
+      "noLiquidityProvided": "Add liquidity and earn income",
       "tableHeaders": {
         "totalEarned": "Total Earned",
         "balance": "Balance",
@@ -1083,7 +1234,8 @@
       }
     },
     "lootDropLink": "Learn more",
-    "chartOverlayText": "AER% Coming Soon!"
+    "chartOverlayText": "AER% Coming Soon!",
+    "recalibration": "Next recalibration on {{date}}"
   },
   "buySovPage": {
     "meta": {
@@ -1147,6 +1299,16 @@
         "title": "April  75k SOV BTC/SOV Pool Loot Drop",
         "text": " The SOV/BTC liquidity pool is open, giving you the chance to take part in our biggest Liquidity Provision giveaway yet.",
         "cta": "Here’s how you get in"
+      },
+      "p3": {
+        "title": "30K SOV SOV/RBTC Pool Loot Drop!",
+        "text": "Take your share of 30K SOV rewards by providing liquidity to the SOV/RBTC pool. Additional rolling weekly rewards will be announced shortly.",
+        "cta": "Earn now"
+      },
+      "p4": {
+        "title": "35K SOV ETHs/RBTC Pool Loot Drop",
+        "text": "In the first week, $1.2 million worth of SOV will be distributed to liquidity providers of the AMM. This super loot drop will last 7 days. Some quick maths indicate that early pool entrants will get somewhere in the region of 3000%!! The largest yield on ETH today. There will be further rewards for subsequent weeks which will be revised and announced towards the end of each week.",
+        "cta": "Earn now"
       }
     },
     "features": {

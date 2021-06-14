@@ -1,6 +1,7 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useCloseWithSwap(
   loanId,
@@ -19,7 +20,7 @@ export function useCloseWithSwap(
     send: () =>
       send(
         [loanId, receiver, swapAmount, returnTokenIsCollateral, loanDataBytes],
-        { from: account },
+        { from: account, gas: gasLimit[TxType.CLOSE_WITH_SWAP] },
         { type: TxType.CLOSE_WITH_SWAP },
       ),
     ...rest,

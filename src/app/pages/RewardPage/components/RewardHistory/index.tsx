@@ -32,11 +32,20 @@ export function RewardHistory({ account }: Props) {
       <table className="table sovryn-table align-middle">
         <thead className="">
           <tr className="">
-            <th>Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Transaction Hash</th>
-            <th>Status</th>
+            <th>{t(translations.rewardPage.historyTable.tableHeaders.time)}</th>
+            <th>{t(translations.rewardPage.historyTable.tableHeaders.type)}</th>
+            <th>
+              {t(translations.rewardPage.historyTable.tableHeaders.amount)}
+            </th>
+            <th>
+              {t(
+                translations.rewardPage.historyTable.tableHeaders
+                  .transactionHash,
+              )}
+            </th>
+            <th>
+              {t(translations.rewardPage.historyTable.tableHeaders.status)}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -44,7 +53,7 @@ export function RewardHistory({ account }: Props) {
             <tr key={'loading'}>
               <td colSpan={99}>
                 <SkeletonRow
-                  loadingText={t(translations.topUpHistory.loading)}
+                  loadingText={t(translations.rewardPage.historyTable.loading)}
                 />
               </td>
             </tr>
@@ -52,7 +61,9 @@ export function RewardHistory({ account }: Props) {
           {events.length === 0 && !loading && (
             <tr key={'empty'}>
               <td className="text-center" colSpan={99}>
-                <div className="tw-pt-6">History is empty.</div>
+                <div className="tw-pt-6">
+                  {t(translations.rewardPage.historyTable.emptyState)}
+                </div>
               </td>
             </tr>
           )}

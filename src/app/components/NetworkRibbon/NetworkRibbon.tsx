@@ -15,21 +15,30 @@ import { TutorialScreen } from './component/TutorialScreen';
 
 import './_networkRibbon.scss';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { useLocation } from 'react-router-dom';
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
   const { connected, wallet } = useWalletContext();
+  const location = useLocation();
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
 
   const isOpen = useMemo(() => {
-    if (bridgeChainId !== null) return false;
+    if (bridgeChainId !== null || location.pathname.startsWith('/cross-chain'))
+      return false;
     return (
       connected &&
       web3Wallets.includes(wallet.providerType) &&
       wallet.chainId !== currentChainId
     );
-  }, [bridgeChainId, connected, wallet.providerType, wallet.chainId]);
+  }, [
+    bridgeChainId,
+    location.pathname,
+    connected,
+    wallet.providerType,
+    wallet.chainId,
+  ]);
 
   const [startTut, setStart] = useState(false);
 

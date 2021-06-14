@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
 import { Nullable } from 'types';
 import { Asset } from 'types/asset';
-import { Select } from 'form/Select';
-import { Option } from 'form/Select/types';
+import { Select } from 'app/components/Form/Select';
+import { Option } from 'app/components/Form/Select/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { renderItem, valueRenderer } from 'form/AssetSelect/renderers';
+import {
+  renderItem,
+  valueRenderer,
+} from 'app/components/Form/AssetSelect/renderers';
 
 interface Props {
   value: Nullable<Asset> | undefined;

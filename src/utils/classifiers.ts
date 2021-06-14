@@ -1,12 +1,13 @@
 import { TxType } from '../store/global/transactions-store/types';
+import { AppMode } from '../types';
 
 export const chains = {
   mainnet: 30,
   testnet: 31,
 };
 
-export const currentNetwork =
-  String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
+export const currentNetwork: AppMode | string =
+  String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
 export const currentChainId = chains[currentNetwork];
 
@@ -43,6 +44,7 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
+  [TxType.CLOSE_WITH_SWAP]: 1000000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,

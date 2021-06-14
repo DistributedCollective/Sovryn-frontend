@@ -4,9 +4,9 @@
  *
  */
 
-import React, { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -15,6 +15,12 @@ import { actions as walletProviderActions } from 'app/containers/WalletProvider/
 import { reducer, sliceKey, actions } from './slice';
 import { selectBridgeDepositPage } from './selectors';
 import { bridgeDepositPageSaga } from './saga';
+import { DepositStep } from './types';
+import { ChainSelector } from './components/ChainSelector';
+import { SidebarSteps } from './components/SidebarSteps';
+import { TokenSelector } from './components/TokenSelector';
+import { AmountSelector } from './components/AmountSelector';
+import { ReviewStep } from './components/ReviewStep';
 
 interface Props {}
 
@@ -23,47 +29,59 @@ export function BridgeDepositPage(props: Props) {
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const bridgeDepositPage = useSelector(selectBridgeDepositPage);
+  const { step } = useSelector(selectBridgeDepositPage);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const location = useLocation<any>();
   const walletContext = useWalletContext();
 
   useEffect(() => {
+    if (!location.state?.receiver || !location.state?.asset) {
+      history.push('/wallet');
+    } else {
+      dispatch(actions.selectReceiver(location.state?.receiver));
+      dispatch(actions.selectTargetAsset(location.state?.asset));
+    }
+  }, [location.state, history, dispatch]);
+
+  useEffect(() => {
     return () => {
-      // Unset bridge seetings
+      // Unset bridge settings
       dispatch(walletProviderActions.setBridgeChainId(null));
       // dispatch(walletProviderActions.chainChanged(currentChainId));
       console.log('back to portfolio?');
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
-
-  const selectNetwork = useCallback(
-    (chainId: number) => {
-      console.log('select network');
-      dispatch(actions.selectNetwork({ chainId, walletContext }));
-    },
-    [dispatch, walletContext],
-  );
-
   return (
     <>
-      <div>
-        <Link to="/wallet">Back to portfolio.</Link>
+      <div className="tw-bg-black">
+        <pre>
+          <div>Receiver address: {location?.state?.receiver}</div>
+          <div>
+            User Address: {walletContext.address} // {walletContext.chainId}
+          </div>
+        </pre>
       </div>
-      <div>Receiver address: {location?.state?.receiver}</div>
-      <div>
-        User Address: {walletContext.address} // {walletContext.chainId}
-      </div>
-      <div>
-        <button onClick={() => selectNetwork(1)}>ETH</button>
-        <button onClick={() => selectNetwork(101)}>BNB</button>
-        <button onClick={() => selectNetwork(31)}>RSK</button>
+
+      <div className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5">
+        <div className="tw-w-4/12">
+          <SidebarSteps />
+          <div>
+            <Link to="/wallet">Back to portfolio.</Link>
+          </div>
+        </div>
+        <div className="tw-w-8/12">
+          {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
+          {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
+          {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
+          {step === DepositStep.REVIEW && <ReviewStep />}
+          {step === DepositStep.CONFIRM && <>Confirm</>}
+          {step === DepositStep.PROCESSING && <>Processing</>}
+          {step === DepositStep.COMPLETE && <>Complete</>}
+        </div>
       </div>
     </>
   );

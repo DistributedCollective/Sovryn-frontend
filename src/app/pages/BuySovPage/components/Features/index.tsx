@@ -34,7 +34,7 @@ export function Features() {
         }
         image={imgMining}
         cta={t(translations.buySovPage.features.mining.cta)}
-        href="/liquidity"
+        href="/yield-farm"
         reverse
       />
 
@@ -93,7 +93,7 @@ export function Features() {
         }
         image={imgMarketMaking}
         cta={t(translations.buySovPage.features.liquidity.cta)}
-        href="/liquidity"
+        href="/yield-farm"
       />
 
       <Feature
@@ -122,7 +122,6 @@ export function Features() {
 
 const How = styled.h1`
   font-size: 36px;
-  letter-spacing: 4.3px;
   line-height: 47px;
   text-transform: none;
 `;
