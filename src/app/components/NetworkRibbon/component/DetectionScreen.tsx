@@ -10,6 +10,7 @@ import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
 import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
+import { addRskMainnet } from 'utils/metamaskHelpers';
 
 import '../_networkRibbon.scss';
 
@@ -94,6 +95,12 @@ export function DetectionScreen(props: Props) {
                 <DetailTitle>https://explorer.rsk.co</DetailTitle>
               </SubRightDetails>
             </Details>
+            <button
+              onClick={addRskMainnet}
+              style={{ border: '1px solid white' }}
+            >
+              Or click here to setup the RSK Mainnet
+            </button>
           </div>
         )}
       </div>
