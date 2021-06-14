@@ -166,7 +166,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNB_amm: {
-    address: '0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20', // todo
+    address: '0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
