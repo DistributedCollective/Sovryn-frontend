@@ -174,10 +174,10 @@
       "switchAssets": "Alternar criptoativos"
     },
     "arbitrage": {
-      "best_rate": "Oportunidade de lucro rápido trocando até ",
+      "best_rate": "Oportunidade de arbitragem trocando até ",
       "for": "por até",
-      "popover_p1": "Atualmente na Sovryn, você pode trocar {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. Isso é {{earn}} {{toToken}} a mais do que o preço de mercado (dinheiro de graça!).",
-      "popover_p2": "Essa arbitragem é uma oportunidade para nossos usuários ganharem dinheiro extra vendendo seus {{fromToken}}, e ajuda a manter o sistema em equilíbrio."
+      "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. 
+      "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
     }
   },
   "amountField": {
