@@ -110,7 +110,7 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
           ready={state.ready}
           disabled={isWrongChainId}
           onClick={() => {
-            dispatch(actions.openFiatOnRamp());
+            dispatch(actions.generateFiatDepositAddress());
           }}
         />
       </div>
