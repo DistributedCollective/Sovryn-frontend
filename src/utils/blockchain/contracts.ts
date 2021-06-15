@@ -28,6 +28,7 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -267,5 +268,9 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
+  },
+  babelfishAggregator: {
+    address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
+    abi: BabelfishAggregatorAbi,
   },
 };

@@ -6,28 +6,16 @@ import { translations } from 'locales/i18n';
 import { AmountInput } from '../Form/AmountInput';
 import { Asset } from 'types';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
-import { useSwapNetwork_rateByPath } from 'app/hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from '../Dialogs/TxDialog';
 import { noop } from 'app/constants';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useCanInteract } from 'app/hooks/useCanInteract';
-import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
-import { maxMinusFee } from 'utils/helpers';
 import { BuyButton, Img } from './styled';
 import styles from 'app/components/Dialogs/dialog.module.css';
 import image from 'assets/images/arrow-down.svg';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
-
-const tokenAddress = (asset: Asset) => {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-};
-
-const gasLimit = 340000;
+import { useConvertToXUSD } from 'app/hooks/portfolio/useConvertToXUSD';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface IConversionDialogProps {
   isOpen: boolean;
@@ -41,38 +29,20 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
   const { t } = useTranslation();
   const [amount, setAmount] = useState<string>('');
   const connected = useCanInteract(true);
+  const { convert, ...convertTx } = useConvertToXUSD();
 
   const weiAmount = useWeiAmount(amount);
 
-  const { value: balance } = useAssetBalanceOf(Asset.USDT);
-
-  // IMPORTANT: Just a temporary solution until the design is ready, will be swapped for the bridge conversion
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(Asset.USDT),
-    tokenAddress(Asset.SOV),
-  );
-  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
-  const { minReturn } = useSlippage(rateByPath, 0.5);
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
-    path,
-    weiAmount,
-    minReturn,
+  const isSubmitEnabled = useMemo(
+    () =>
+      connected && bignumber(weiAmount).greaterThan(0) && !convertTx.loading,
+    [connected, convertTx.loading, weiAmount],
   );
 
-  const isValidAmount = useMemo(() => {
-    return (
-      bignumber(weiAmount).greaterThan(0) &&
-      bignumber(minReturn).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, Asset.USDT, gasLimit),
-      )
-    );
-  }, [balance, minReturn, weiAmount]);
-
-  const onBuySubmit = useCallback(() => {
-    send();
+  const onConversionSubmit = useCallback(() => {
+    convert(weiAmount);
     onClose();
-  }, [onClose, send]);
+  }, [convert, onClose, weiAmount]);
 
   return (
     <>
@@ -105,7 +75,7 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
             labelClassName="tw-text-sm"
           >
             <AmountInput
-              value={weiToFixed(rateByPath, 6)}
+              value={weiToFixed(weiAmount, 6)}
               onChange={noop}
               asset={Asset.XUSD}
               readonly={true}
@@ -117,15 +87,12 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
             <AssetSymbolRenderer asset={Asset.RBTC} />
           </div>
 
-          <BuyButton
-            disabled={tx.loading || !isValidAmount || !connected}
-            onClick={onBuySubmit}
-          >
+          <BuyButton disabled={!isSubmitEnabled} onClick={onConversionSubmit}>
             {t(translations.userAssets.convertDialog.cta)}
           </BuyButton>
         </div>
       </Dialog>
-      <TxDialog tx={tx} />
+      <TxDialog tx={convertTx} />
     </>
   );
 };
