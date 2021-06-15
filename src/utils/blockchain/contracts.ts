@@ -155,17 +155,17 @@ export const contracts = {
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
-  BNB_token: {
+  BNBS_token: {
     address: '0x6D9659bdF5b1A1dA217f7BbAf7dBAF8190E2e71B',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // BNB_lending: {
+  // BNBS_lending: {
   //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
   //   abi: LoanTokenLogicStandard,
   //   blockNumber: 1406290,
   // },
-  BNB_amm: {
+  BNBS_amm: {
     address: '0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,

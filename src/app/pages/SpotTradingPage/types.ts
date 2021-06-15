@@ -30,13 +30,13 @@ export enum SpotPairType {
   BPRO_MOC = 'BPRO_MOC',
   DOC_MOC = 'DOC_MOC',
   ETH_DOC = 'ETH_DOC',
-  SOV_BNB = 'SOV_BNB',
-  BNB_RBTC = 'BNB_RBTC',
-  BNB_ETH = 'BNB_ETH',
-  BNB_USDT = 'BNB_USDT',
-  BNB_XUSD = 'BNB_XUSD',
-  BNB_DOC = 'BNB_DOC',
-  BNB_MOC = 'BNB_MOC',
+  SOV_BNB = 'SOV_BNBS',
+  BNB_RBTC = 'BNBS_RBTC',
+  BNB_ETH = 'BNBS_ETH',
+  BNB_USDT = 'BNBS_USDT',
+  BNB_XUSD = 'BNBS_XUSD',
+  BNB_DOC = 'BNBS_DOC',
+  BNB_MOC = 'BNBS_MOC',
 }
 
 export const pairs = {
