@@ -24,7 +24,7 @@ import {
   staking_withdrawFee,
   staking_numTokenCheckpoints,
 } from 'utils/blockchain/requests/staking';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -220,7 +220,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalanceOf.value, account.toLowerCase(), nonce);
+        await staking_approve(sovBalanceOf.value);
         nonce += 1;
       }
       if (!stakeTx.loading) {
@@ -260,7 +260,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(weiAmount, account, nonce);
+        await staking_approve(weiAmount);
         nonce += 1;
       }
       if (!increaseTx.loading) {
@@ -413,6 +413,7 @@ function InnerStakePage() {
                   <DelegateForm
                     handleSubmit={handleDelegateSubmit}
                     address={address}
+                    timestamp={Number(timestamp)}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
@@ -553,9 +554,10 @@ interface FeeProps {
 function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   const account = useAccount();
   const { t } = useTranslation();
-  const token = (contractToken.asset + '_token') as any;
+  const token = (contractToken.asset +
+    (contractToken.asset === Asset.SOV ? '_token' : '_lending')) as any;
   const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token).address;
+  const tokenAddress = getContract(token)?.address;
   const currency = useStaking_getAccumulatedFees(account, tokenAddress);
   const dollarValue = useMemo(() => {
     if (currency.value === null) return '';
@@ -588,9 +590,21 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="tw-w-1/5">{contractToken.asset}</div>
+          <div className="w-1/5">
+            {contractToken.asset !== Asset.SOV ? (
+              <Tooltip
+                content={
+                  <>{contractToken.asset} will be sent to the lending pool.</>
+                }
+              >
+                <>i{contractToken.asset} (?)</>
+              </Tooltip>
+            ) : (
+              <>{contractToken.asset}</>
+            )}
+          </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(5)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
             <LoadableValue
               value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
               loading={dollars.loading}

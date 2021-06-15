@@ -7,7 +7,7 @@ import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
 import { Asset } from '../../../types/asset';
-import logoSvg from 'assets/images/sovryn-icon.svg';
+import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
@@ -20,6 +20,7 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
 import { eventReader } from 'utils/sovryn/event-reader';
 import { useAccount } from '../../hooks/useAccount';
+import { useVesting_getRewards } from '../../hooks/staking/useVesting_getRewards';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
 import { useVesting_getVesting } from '../../hooks/staking/useVesting_getVesting';
 import { useVesting_getTeamVesting } from '../../hooks/staking/useVesting_getTeamVesting';
@@ -32,9 +33,11 @@ export function VestedHistory() {
   const getStakes = useStaking_getStakes(account);
   const [loading, setLoading] = useState(false);
   const vesting = useVesting_getVesting(account);
+  const rewards = useVesting_getRewards(account);
   const vestingTeam = useVesting_getTeamVesting(account);
   const vestingOrigin = useVesting_getOriginVesting(account);
   const [eventsHistoryVesting, setEventsHistoryVesting] = useState<any>([]);
+  const [eventsHistoryRewards, setEventsHistoryRewards] = useState([]) as any;
   const [eventsHistoryVestingTeam, setEventsHistoryVestingTeam] = useState<any>(
     [],
   );
@@ -49,8 +52,9 @@ export function VestedHistory() {
     setCurrentHistory(
       [
         ...eventsHistoryVesting,
-        ...eventsHistoryVestingTeam,
         ...eventsHistoryVestingOrigin,
+        ...eventsHistoryVestingTeam,
+        ...eventsHistoryRewards,
       ].slice(offset, offset + pageLimit),
     );
   };
@@ -58,14 +62,30 @@ export function VestedHistory() {
   useEffect(() => {
     async function getHistory() {
       setLoading(true);
-      let genesys: void, team: void, origin: void;
+      let reward: void, genesis: void, team: void, origin: void;
+      if (rewards.value !== ethGenesisAddress) {
+        reward = await eventReader
+          .getPastEvents('staking', 'TokensStaked', {
+            staker: rewards.value,
+          })
+          .then(res => {
+            const newRes = res.map(v => ({ ...v, type: 'Reward SOV' }));
+            setEventsHistoryRewards(
+              (newRes as any).sort(
+                (x, y) =>
+                  new Date(y.eventDate).getTime() -
+                  new Date(x.eventDate).getTime(),
+              ),
+            );
+          });
+      }
       if (vesting.value !== ethGenesisAddress) {
-        genesys = await eventReader
+        genesis = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
             staker: vesting.value,
           })
           .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Genesys SOV' }));
+            const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
             setEventsHistoryVesting(
               (newRes as any).sort(
                 (x, y) =>
@@ -108,7 +128,9 @@ export function VestedHistory() {
           });
       }
       try {
-        Promise.all([genesys, team, origin]).then(_ => setLoading(false));
+        Promise.all([reward, genesis, team, origin]).then(_ =>
+          setLoading(false),
+        );
       } catch (e) {
         console.error(e);
         setLoading(false);
@@ -121,7 +143,9 @@ export function VestedHistory() {
     vestingTeam.value,
     vestingOrigin.value,
     vesting.value,
+    rewards.value,
     getStakes.value,
+    setEventsHistoryRewards,
   ]);
 
   return (
@@ -156,7 +180,8 @@ export function VestedHistory() {
               </td>
             </tr>
           )}
-          {eventsHistoryVesting.length === 0 &&
+          {eventsHistoryRewards.length === 0 &&
+            eventsHistoryVesting.length === 0 &&
             eventsHistoryVestingTeam.length === 0 &&
             eventsHistoryVestingOrigin.length === 0 &&
             !loading && (
@@ -176,6 +201,7 @@ export function VestedHistory() {
       {currentHistory && !loading && (
         <Pagination
           totalRecords={
+            eventsHistoryRewards.length +
             eventsHistoryVesting.length +
             eventsHistoryVestingTeam.length +
             eventsHistoryVestingOrigin.length

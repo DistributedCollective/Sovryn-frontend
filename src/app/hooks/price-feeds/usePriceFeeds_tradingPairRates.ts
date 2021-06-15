@@ -10,7 +10,14 @@ import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
-const assetsWithoutOracle = [Asset.SOV, Asset.CSOV, Asset.ETH, Asset.MOC];
+const assetsWithoutOracle = [
+  Asset.SOV,
+  Asset.CSOV,
+  Asset.ETH,
+  Asset.MOC,
+  Asset.XUSD,
+  Asset.BNB,
+];
 
 /**
  * use this only once

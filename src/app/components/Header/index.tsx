@@ -361,6 +361,13 @@ export function Header() {
                 content={
                   <BPMenu>
                     <MenuItem
+                      text={t(translations.mainMenu.staking)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/stake');
+                      }}
+                    />
+                    <MenuItem
                       icon={
                         <img
                           src={iconNewTab}
@@ -372,13 +379,6 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.staking)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => {
-                        history.push('/stake');
-                      }}
                     />
                     <MenuItem
                       icon={

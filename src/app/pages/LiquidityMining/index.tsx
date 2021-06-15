@@ -39,21 +39,45 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="30K SOV Yield Farming"
-            asset1={Asset.SOV}
+            title="35k SOV"
+            asset1={Asset.BNB}
             asset2={Asset.RBTC}
-            startDate="31/05/21"
-            endDate="07/06/21"
-            linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 21',
+            })}
+            linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Blue}
+          />
+          <LootDrop
+            title="20K SOV"
+            asset1={Asset.XUSD}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 21',
+            })}
+            linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
-            title="35K SOV Yield Farming"
+            title="25K SOV"
+            asset1={Asset.SOV}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 21',
+            })}
+            linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Purple}
+          />
+          <LootDrop
+            title="20K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
-            startDate="26/05/21"
-            endDate="07/06/21"
+            message={t(translations.liquidityMining.recalibration, {
+              date: 'June 21',
+            })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}

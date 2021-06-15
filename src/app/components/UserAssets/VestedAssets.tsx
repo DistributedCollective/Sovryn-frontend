@@ -148,8 +148,7 @@ function AssetRow({
   onWithdraw,
 }: AssetProps) {
   const { t } = useTranslation();
-  const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
-
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       return value;
