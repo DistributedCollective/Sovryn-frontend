@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
@@ -27,11 +27,21 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Dialog } from '../../containers/Dialog';
+import { Button } from '../Button';
+import { discordInvite } from 'utils/classifiers';
 
 export function UserAssets() {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.FASTBTC]: fastBtcLocked,
+    [States.TRANSACK]: transackLocked,
+  } = checkMaintenances();
+
   const assets = useMemo(
     () =>
       AssetsDictionary.list().filter(
@@ -93,8 +103,59 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
-      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <FastBtcDialog
+        isOpen={fastBtc && !fastBtcLocked}
+        onClose={() => setFastBtc(false)}
+      />
+      <TransackDialog
+        isOpen={transack && !(fastBtcLocked || transackLocked)}
+        onClose={() => setTransack(false)}
+      />
+      <Dialog
+        isOpen={
+          (fastBtcLocked && (fastBtc || transack)) ||
+          (transackLocked && transack)
+        }
+        onClose={() => {
+          setFastBtc(false);
+          setTransack(false);
+        }}
+      >
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+            {t(translations.common.maintenance)}
+          </h1>
+          <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
+            <Trans
+              i18nKey={
+                fastBtc
+                  ? translations.maintenance.fastBTC
+                  : translations.maintenance.transack
+              }
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          </div>
+          <div className="tw-text-center tw-mt-5">
+            <Button
+              text={t(translations.modal.close)}
+              inverted
+              onClick={() => {
+                setFastBtc(false);
+                setTransack(false);
+              }}
+            />
+          </div>
+        </div>
+      </Dialog>
     </>
   );
 }
