@@ -4,17 +4,20 @@
  *
  */
 
-import React, { useState, useCallback } from 'react';
-import { Stepper, StepItem } from './components/Stepper';
+import React, { useCallback, useState } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import ethIcon from 'assets/images/tokens/eth.svg';
-import { SelectNetwork } from './components/SelectNetwork';
-import { Review } from './components/Review';
+
+import ArrowBack from '../../../assets/images/genesis/arrow_back.svg';
 import { Confirm } from './components/Confirm';
-import { SelectToken } from './components/SelectToken';
-import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './styles.scss';
+import { Review } from './components/Review';
 import { SelectAmount } from './components/SelectAmount';
+import { SelectNetwork } from './components/SelectNetwork';
+import { SelectToken } from './components/SelectToken';
+import { StepItem, Stepper } from './components/Stepper';
+
+import './styles.scss';
 
 const initialSteps = [
   'Network',
@@ -25,12 +28,16 @@ const initialSteps = [
   'Processing',
   'Complete',
 ];
-
-export function Babelfish() {
+interface BabelFishProps {
+  isOpen: boolean;
+  onBack: () => void;
+}
+export function Babelfish({ isOpen, onBack }: BabelFishProps) {
   const [step, setStep] = useState(4);
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
+  const [isBack, setBack] = useState(isOpen);
   const updateStep = useCallback(
     (index, value) => {
       const prvSteps = [...steps];
@@ -80,9 +87,43 @@ export function Babelfish() {
   );
   return (
     <div
-      className="tw-flex tw-px-10 tw-h-full"
+      className={`tw-flex tw-px-10 tw-h-full ${
+        isBack ? 'ModalOpen' : 'ModalClosed'
+      }`}
       style={{ minHeight: 'calc(100vh - 4.4rem)' }}
     >
+      <div
+        className="tw-absolute tw-flex tw-flex-row tw-justify-center tw-items-center"
+        style={{ marginTop: '-3.5rem' }}
+      >
+        <img
+          alt="arrowback"
+          src={ArrowBack}
+          onClick={() => {
+            setBack(false);
+            setTimeout(function () {
+              onBack();
+            }, 400);
+          }}
+          style={{ height: '20px', width: '20px', marginRight: '10px' }}
+        />
+        <span
+          style={{
+            fontSize: '24px',
+            fontFamily: 'Montserrat',
+            fontWeight: 700,
+          }}
+          onClick={() => {
+            setBack(false);
+            setTimeout(function () {
+              onBack();
+            }, 400);
+          }}
+        >
+          {' '}
+          Back
+        </span>
+      </div>
       <div
         className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-center"
         style={{ minWidth: 300 }}

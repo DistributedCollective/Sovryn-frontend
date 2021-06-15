@@ -1,0 +1,22 @@
+.Modal {
+    position: fixed;
+    top: 30%;
+    left: 25%;
+    transition: all 0.3s ease-out;
+}
+.ModalOpen {
+    animation: openModal 0.4s ease-out forwards;
+}
+.ModalClosed {
+    animation: closeModal 0.4s ease-out forwards;
+}
+
+@keyframes openModal {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0);   }
+}
+
+@keyframes closeModal {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%);}
+}

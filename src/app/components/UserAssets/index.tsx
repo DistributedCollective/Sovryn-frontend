@@ -25,10 +25,13 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
-import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
 
-export function UserAssets() {
+interface UserAssetsProps {
+  onDeposit: () => void;
+}
+
+export function UserAssets({ onDeposit }: UserAssetsProps) {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
@@ -88,6 +91,7 @@ export function UserAssets() {
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
+                  onDepositClick={() => onDeposit()}
                 />
               ))}
           </tbody>
@@ -103,16 +107,16 @@ interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
   onTransack: () => void;
+  onDepositClick: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
+function AssetRow({ item, onFastBtc, onTransack, onDepositClick }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
-
   useEffect(() => {
     const get = async () => {
       setLoading(true);
@@ -185,13 +189,9 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
             <ActionLink
               text={t(translations.userAssets.actions.deposit)}
-              href={
-                currentNetwork === 'mainnet'
-                  ? 'https://bridge.sovryn.app'
-                  : 'https://bridge.test.sovryn.app'
-              }
               target="_blank"
               rel="noreferrer noopener"
+              onClick={() => onDepositClick()}
             />
           )}
           {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
