@@ -201,6 +201,7 @@
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
+    "notice_5": "Para saber das últimas atualizações ou discussões, participe do nosso servidor da <0>Discord</0>.",
     "optOut": "Desativar o Google Analytics",
     "buildID": "Build ID"
   },
@@ -344,6 +345,7 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
     "receive": "Receber"
