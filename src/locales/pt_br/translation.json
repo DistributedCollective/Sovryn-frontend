@@ -23,6 +23,31 @@
   "announcement": {
     "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
+  "maintenance": {
+    "full": "A Sovryn está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "openMarginTrades": "Desculpe, a opção de abrir operações com margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "addToMarginTrades": "Desculpe, a opção de adicionar margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "closeMarginTrades": "Desculpe, a opção de fechar operações com margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "buySov": "Desculpe, a opção de comprar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "spotTrades": "Desculpe, a opção de operar spot está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "swapTrades": "Desculpe, a opção de trocar criptos está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "depositLend": "Desculpe, a opção de emprestar criptoativos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawLend": "Desculpe, a opção de resgatar empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "startBorrow": "Desculpe, a opção de receber empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "stopBorrow": "Desculpe, a opção de devolver empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "addLiquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "removeLiquidity": "Desculpe, a opção de retirar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
+    "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "staking": "Desculpe, a opção de investir SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "unstaking": "Desculpe, a opção de desinvestir SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateVests": "Desculpe, delegating vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawVests": "Desculpe, withdrawing vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "claimRewards": "Desculpe, a opção de reivindicar recompensas está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+  },
   "homePage": {
     "title": "Página inicial",
     "meta": "Página inicial da Sovryn",
