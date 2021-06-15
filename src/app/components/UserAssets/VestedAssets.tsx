@@ -185,7 +185,7 @@ function AssetRow({
         />
       </td>
       <td className="tw-text-right">
-        {withdrawLocked && contract !== ethGenesisAddress ? (
+        {withdrawLocked ? (
           <Tooltip
             position="bottom"
             hoverOpenDelay={0}
