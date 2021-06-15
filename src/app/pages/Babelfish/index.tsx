@@ -7,10 +7,12 @@
 import React, { useState, useCallback } from 'react';
 import { Stepper, StepItem } from './components/Stepper';
 
+import leftArrowIcon from 'assets/images/tutorial/left_arrow.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
 import { SelectNetwork } from './components/SelectNetwork';
 import { Processing } from './components/Processing';
 import { Review } from './components/Review';
+import { ReturnRSK } from './components/ReturnRSK';
 import { Confirm } from './components/Confirm';
 import { SelectToken } from './components/SelectToken';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
@@ -70,7 +72,7 @@ export function Babelfish() {
 
   const handleStep = useCallback(
     nextStep => {
-      if (nextStep >= step) return;
+      if (nextStep >= step || step > 6 || finalStep) return;
 
       for (let i = step; i > nextStep - 1; i--) {
         updateStep(i - 1, null);
@@ -78,15 +80,24 @@ export function Babelfish() {
 
       setStep(nextStep);
     },
-    [step, updateStep],
+    [step, updateStep, finalStep],
   );
   return (
     <div
       className="tw-flex tw-px-10 tw-h-full"
       style={{ minHeight: 'calc(100vh - 4.4rem)' }}
     >
+      {step > 1 && step < 6 && (
+        <div
+          onClick={() => handleStep(step - 1)}
+          className="tw-cursor-pointer tw-flex tw-items-center tw-absolute tw-top-10 tw-left-10 tw-text-lg tw-font-semibold"
+        >
+          <img className="mr-3" src={leftArrowIcon} alt="Back" />
+          Back
+        </div>
+      )}
       <div
-        className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-center"
+        className="tw-relative tw-h-full tw-pl-10 tw-self-center"
         style={{ minWidth: 300 }}
       >
         <Stepper steps={steps} step={step} onClick={handleStep} />
@@ -100,35 +111,38 @@ export function Babelfish() {
             }
             classNames="fade"
           >
-            {!finalStep && (
-              <>
-                {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
-                {step === 2 && (
-                  <SelectToken
-                    setToken={token => {
-                      updateStep(1, token);
-                      setStep(3);
-                    }}
-                  />
-                )}
-                {step === 3 && (
-                  <SelectAmount
-                    updateAmount={amount => {
-                      updateStep(2, amount);
-                      setStep(4);
-                    }}
-                  />
-                )}
-                {step === 4 && <Review nextStep={() => setStep(5)} />}
-                {step === 5 && <Confirm nextStep={() => setStep(6)} />}
-                {(step === 6 || step === 7) && (
-                  <Processing
-                    onConfirm={() => setStep(7)}
-                    onClose={() => setFinalStep(true)}
-                  />
-                )}
-              </>
-            )}
+            <>
+              {!finalStep && (
+                <>
+                  {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
+                  {step === 2 && (
+                    <SelectToken
+                      setToken={token => {
+                        updateStep(1, token);
+                        setStep(3);
+                      }}
+                    />
+                  )}
+                  {step === 3 && (
+                    <SelectAmount
+                      updateAmount={amount => {
+                        updateStep(2, amount);
+                        setStep(4);
+                      }}
+                    />
+                  )}
+                  {step === 4 && <Review nextStep={() => setStep(5)} />}
+                  {step === 5 && <Confirm nextStep={() => setStep(6)} />}
+                  {(step === 6 || step === 7) && (
+                    <Processing
+                      onConfirm={() => setStep(7)}
+                      onClose={() => setFinalStep(true)}
+                    />
+                  )}
+                </>
+              )}
+              {finalStep && <ReturnRSK />}
+            </>
           </CSSTransition>
         </SwitchTransition>
         <div></div>

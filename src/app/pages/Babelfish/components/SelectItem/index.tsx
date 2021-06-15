@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import cn from 'classnames';
 
 type Props = {
-  onClick: Function;
+  onClick?: Function;
   children: React.ReactNode;
   disabled?: boolean;
   className?: string;
@@ -11,7 +11,9 @@ type Props = {
 export function SelectItem({ onClick, disabled, children, className }: Props) {
   return (
     <Item
-      onClick={() => !disabled && onClick()}
+      onClick={() => {
+        if (!disabled && onClick) onClick();
+      }}
       className={cn(
         'tw-py-4 tw-text-md tw-flex tw-flex-col tw-items-center tw-justify-center tw-cursor-pointer tw-transition tw-duration-700 tw-ease-in-out',
         { 'tw-opacity-25': disabled },
