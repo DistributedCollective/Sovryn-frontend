@@ -38,6 +38,7 @@ export function SwapHistory() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
+  const [hasOngoingTransactions, setHasOngoingTransactions] = useState(false);
 
   let cancelTokenSource;
   const getData = () => {
@@ -96,6 +97,10 @@ export function SwapHistory() {
         let assetFrom = [] as any;
         let assetTo = [] as any;
 
+        if (!hasOngoingTransactions) {
+          setHasOngoingTransactions(true);
+        }
+
         assetFrom = assets.find(
           currency => currency.asset === customData?.sourceToken,
         );
@@ -122,7 +127,7 @@ export function SwapHistory() {
           />
         );
       });
-  }, [assets, transactions]);
+  }, [assets, hasOngoingTransactions, transactions]);
 
   return (
     <section>
@@ -154,7 +159,7 @@ export function SwapHistory() {
                 </td>
               </tr>
             )}
-            {history.length === 0 && !loading && (
+            {!hasOngoingTransactions && history.length === 0 && !loading && (
               <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
                   {t(translations.swapHistory.emptyState)}

@@ -106,12 +106,12 @@ export function TradeForm() {
                 key: `${pair}`,
                 label: pairs[pair],
               }))}
-              filterable={false}
               onChange={value =>
                 dispatch(
                   actions.setPairType((value as unknown) as SpotPairType),
                 )
               }
+              filterable={true}
               itemRenderer={renderAssetPair}
               valueRenderer={(item: Option<string, Asset[], any>) => (
                 <Text ellipsize className="tw-text-center">
