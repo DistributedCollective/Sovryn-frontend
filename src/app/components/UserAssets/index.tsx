@@ -27,6 +27,7 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
+import { ConversionDialog } from './ConversionDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ export function UserAssets() {
 
   const [fastBtc, setFastBtc] = useState(false);
   const [transack, setTransack] = useState(false);
+  const [conversionDialog, setConversionDialog] = useState(false);
 
   return (
     <>
@@ -88,6 +90,7 @@ export function UserAssets() {
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
+                  onConvert={() => setConversionDialog(true)}
                 />
               ))}
           </tbody>
@@ -95,6 +98,10 @@ export function UserAssets() {
       </div>
       <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
       <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <ConversionDialog
+        isOpen={conversionDialog}
+        onClose={() => setConversionDialog(false)}
+      />
     </>
   );
 }
@@ -103,9 +110,10 @@ interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
   onTransack: () => void;
+  onConvert: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
+function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -180,6 +188,12 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
             <ActionButton
               text={t(translations.userAssets.actions.fastBtc)}
               onClick={() => onFastBtc()}
+            />
+          )}
+          {item.asset === Asset.USDT && (
+            <ActionButton
+              text={t(translations.userAssets.actions.convert)}
+              onClick={onConvert}
             />
           )}
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (

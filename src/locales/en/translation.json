@@ -866,12 +866,20 @@
     "actions": {
       "deposit": "Deposit",
       "fastBtc": "FastBTC",
+      "convert": "Convert to XUSD",
       "swap": "Swap",
       "trade": "Margin Trade",
       "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
+    },
+    "convertDialog": {
+      "title": "Convert",
+      "from": "From",
+      "to": "To",
+      "txFee": "Tx Fee",
+      "cta": "Convert to XUSD"
     }
   },
   "swapHistory": {
