@@ -9,6 +9,7 @@ import { Stepper, StepItem } from './components/Stepper';
 
 import ethIcon from 'assets/images/tokens/eth.svg';
 import { SelectNetwork } from './components/SelectNetwork';
+import { Processing } from './components/Processing';
 import { Review } from './components/Review';
 import { Confirm } from './components/Confirm';
 import { SelectToken } from './components/SelectToken';
@@ -27,7 +28,8 @@ const initialSteps = [
 ];
 
 export function Babelfish() {
-  const [step, setStep] = useState(4);
+  const [finalStep, setFinalStep] = useState(false);
+  const [step, setStep] = useState(1);
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
@@ -98,27 +100,35 @@ export function Babelfish() {
             }
             classNames="fade"
           >
-            <>
-              {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
-              {step === 2 && (
-                <SelectToken
-                  setToken={token => {
-                    updateStep(1, token);
-                    setStep(3);
-                  }}
-                />
-              )}
-              {step === 3 && (
-                <SelectAmount
-                  updateAmount={amount => {
-                    updateStep(2, amount);
-                    setStep(4);
-                  }}
-                />
-              )}
-              {step === 4 && <Review nextStep={() => setStep(5)} />}
-              {step === 5 && <Confirm nextStep={() => setStep(6)} />}
-            </>
+            {!finalStep && (
+              <>
+                {step === 1 && <SelectNetwork setNetwork={setNetwork} />}
+                {step === 2 && (
+                  <SelectToken
+                    setToken={token => {
+                      updateStep(1, token);
+                      setStep(3);
+                    }}
+                  />
+                )}
+                {step === 3 && (
+                  <SelectAmount
+                    updateAmount={amount => {
+                      updateStep(2, amount);
+                      setStep(4);
+                    }}
+                  />
+                )}
+                {step === 4 && <Review nextStep={() => setStep(5)} />}
+                {step === 5 && <Confirm nextStep={() => setStep(6)} />}
+                {(step === 6 || step === 7) && (
+                  <Processing
+                    onConfirm={() => setStep(7)}
+                    onClose={() => setFinalStep(true)}
+                  />
+                )}
+              </>
+            )}
           </CSSTransition>
         </SwitchTransition>
         <div></div>
