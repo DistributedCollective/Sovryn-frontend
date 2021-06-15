@@ -14,11 +14,11 @@ export function SelectNetwork({ setNetwork }: Props) {
       </div>
       <div className="tw-flex tw-gap-10 tw-px-2">
         <SelectItem onClick={() => setNetwork('ETH')}>
-          <img className="tw-mb-5" src={ethIcon} alt="ETH" />
+          <img className="tw-mb-5 tw-mt-2" src={ethIcon} alt="ETH" />
           ETH Network
         </SelectItem>
         <SelectItem onClick={() => setNetwork('BSC')}>
-          <img className="tw-mb-5" src={bscIcon} alt="BSC" />
+          <img className="tw-mb-5 tw-mt-2" src={bscIcon} alt="BSC" />
           BSC Network
         </SelectItem>
       </div>
