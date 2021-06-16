@@ -18,7 +18,7 @@ import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import type { AmmHistory } from './PoolChart';
+import type { AmmHistory } from './types';
 
 interface Props {
   pool: LiquidityPool;
