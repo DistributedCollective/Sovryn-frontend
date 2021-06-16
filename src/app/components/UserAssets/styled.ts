@@ -7,7 +7,6 @@ interface IBuyButtonProps {
 export const BuyButton = styled.button<IBuyButtonProps>`
   height: 3.125rem;
   width: 100%;
-  margin-top: 2.5rem;
   color: #000000;
   font-size: 1.25rem;
   line-height: 1.5rem;

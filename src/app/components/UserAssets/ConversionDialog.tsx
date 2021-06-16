@@ -13,9 +13,13 @@ import { bignumber } from 'mathjs';
 import { BuyButton, Img } from './styled';
 import styles from 'app/components/Dialogs/dialog.module.css';
 import image from 'assets/images/arrow-down.svg';
-import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { useConvertToXUSD } from 'app/hooks/portfolio/useConvertToXUSD';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
+import { useAccount } from 'app/hooks/useAccount';
 
 interface IConversionDialogProps {
   isOpen: boolean;
@@ -29,6 +33,7 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
   const { t } = useTranslation();
   const [amount, setAmount] = useState<string>('');
   const connected = useCanInteract(true);
+  const account = useAccount();
   const { convert, ...convertTx } = useConvertToXUSD();
 
   const weiAmount = useWeiAmount(amount);
@@ -43,6 +48,20 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
     convert(weiAmount);
     onClose();
   }, [convert, onClose, weiAmount]);
+
+  const txArgs = useMemo(
+    () => [getContract('USDT_token').address, weiAmount, account],
+    [account, weiAmount],
+  );
+
+  const txConfig = useMemo(
+    () => ({
+      from: account,
+      gas: gasLimit[TxType.CONVERT_RUSDT_TO_XUSD],
+      nonce: 1, // it doesn't matter for the calculation
+    }),
+    [account],
+  );
 
   return (
     <>
@@ -82,9 +101,14 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
             />
           </FormGroup>
 
-          <div className="tw-text-sm tw-font-thin tw-mt-8">
-            {t(translations.userAssets.convertDialog.txFee)}: 0.0006{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
+          <div className="tw-mt-8">
+            <TxFeeCalculator
+              args={txArgs}
+              txConfig={txConfig}
+              contractName="babelfishAggregator"
+              methodName="mintTo"
+              textClassName="tw-text-sm"
+            />
           </div>
 
           <BuyButton disabled={!isSubmitEnabled} onClick={onConversionSubmit}>

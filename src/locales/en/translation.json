@@ -878,7 +878,6 @@
       "title": "Convert",
       "from": "From",
       "to": "To",
-      "txFee": "Tx Fee",
       "cta": "Convert to XUSD"
     }
   },
