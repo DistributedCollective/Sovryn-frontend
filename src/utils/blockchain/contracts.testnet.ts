@@ -19,6 +19,7 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
@@ -84,11 +85,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
+  MOC_lending: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
   MOC_amm: {
     address: '0xc137aD4Ef759D9206b15105532c05c866cc89f31',
     abi: LiquidityPoolV1Converter,
@@ -107,6 +108,21 @@ export const contracts = {
   USDT_amm: {
     address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
     abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  XUSD_token: {
+    address: '0x849D38abD3962cb40d4887E4279ad0e4E5958e34',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // XUSD_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  XUSD_amm: {
+    address: '0xD449c0c468Cae235d3E320Ff48d05EbDdcde64c3',
+    abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
   BPRO_token: {
@@ -139,6 +155,21 @@ export const contracts = {
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
+  BNBS_token: {
+    address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // BNBS_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  BNBS_amm: {
+    address: '0x4B2b25526c42c4D5FC096d1f77589edCB21476e2',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
   CrowdSale: {
     address: '0x62BDB11190f538274bD55A4DC74fA4665e7CB752',
     abi: CrowdSaleAbi,
@@ -164,6 +195,11 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vesting: {
+    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    abi: VestingAbi,
+    blockNumber: 1218836,
+  },
   vestingRegistry: {
     address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
     abi: VestingRegistryAbi,
@@ -178,6 +214,10 @@ export const contracts = {
     address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
     abi: VestingRegistryOriginAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
+    abi: VestingRegistryAbi,
   },
   staking: {
     address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',

@@ -11,7 +11,7 @@ import { ContractName } from '../types/contracts';
 import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
-import { Asset } from '../../types/asset';
+import { Asset } from '../../types';
 
 import {
   getContract,
@@ -151,14 +151,10 @@ class ContractWriter {
     args: any[],
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
-    let params = args;
-    if (args && args.length && typeof args[args.length - 1] === 'object') {
-      params = args.slice(0, -1);
-    }
     return new Promise<string | RevertInstructionError>(
       async (resolve, reject) => {
         const data = this.getCustomContract(address, abi)
-          .methods[methodName](...params)
+          .methods[methodName](...args)
           .encodeABI();
 
         const nonce =
@@ -167,7 +163,7 @@ class ContractWriter {
 
         const gasLimit =
           options?.gas ||
-          (await this.estimateCustomGas(address, abi, methodName, params, {
+          (await this.estimateCustomGas(address, abi, methodName, args, {
             value: options?.value,
             gasPrice: options?.gasPrice,
             nonce,

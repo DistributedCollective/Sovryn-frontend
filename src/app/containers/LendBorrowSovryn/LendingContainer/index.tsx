@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { min, bignumber } from 'mathjs';
+import { bignumber } from 'mathjs';
 
 import { Asset } from 'types/asset';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
@@ -57,7 +57,9 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     if (type === ButtonType.DEPOSIT) {
       amount = maxMinusFee(userBalance, currency);
       if (maxAmount !== '0') {
-        amount = min(maxMinusFee(userBalance, currency), bignumber(maxAmount));
+        if (bignumber(amount).greaterThan(maxAmount)) {
+          amount = maxAmount;
+        }
       }
     } else if (type === ButtonType.REDEEM) {
       amount = depositedAssetBalance;

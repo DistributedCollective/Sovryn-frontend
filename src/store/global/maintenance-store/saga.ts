@@ -6,7 +6,7 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 
 function fetchState() {
   return axios
-    .get(backendUrl[currentChainId] + '/getMaintenance')
+    .get(backendUrl[currentChainId] + '/maintenance')
     .then(response => ({ response }))
     .catch(error => ({ error }));
 }

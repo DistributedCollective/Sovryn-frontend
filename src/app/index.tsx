@@ -29,7 +29,6 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-import { LiquidityPage } from './containers/LiquidityPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
@@ -39,10 +38,14 @@ import { SwapPage } from './containers/SwapPage/Loadable';
 import { Babelfish } from './pages/Babelfish/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
+
+import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -54,9 +57,9 @@ export function App() {
   useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
   const dispatch = useDispatch();
 
-  const { checkMaintenance } = useMaintenance();
-  const siteLocked = checkMaintenance('full');
-
+  const { checkMaintenance, States } = useMaintenance();
+  const siteLocked = checkMaintenance(States.FULL);
+  const { t } = useTranslation();
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -68,8 +71,8 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      {siteLocked?.maintenance_active ? (
-        <MaintenancePage message={siteLocked?.message} />
+      {siteLocked ? (
+        <MaintenancePage message={t(translations.maintenance.full)} />
       ) : (
         <WalletProvider>
           <NetworkRibbon />
@@ -84,7 +87,7 @@ export function App() {
             <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
-            <Route exact path="/yield-farm" component={LiquidityPage} />
+            <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route exact path="/origins" component={OriginsLaunchpadPage} />

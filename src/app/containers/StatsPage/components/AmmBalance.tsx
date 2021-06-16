@@ -9,21 +9,15 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useInterval } from 'app/hooks/useInterval';
 import { AssetSymbolRenderer } from '../../../components/AssetSymbolRenderer';
+import { LiquidityPoolDictionary } from '../../../../utils/dictionaries/liquidity-pool-dictionary';
 
 interface Props {
   rate: number;
 }
 
 export function AmmBalance(props: Props) {
-  const assets = [
-    Asset.SOV,
-    Asset.USDT,
-    Asset.ETH,
-    Asset.DOC,
-    Asset.MOC,
-    Asset.BPRO,
-  ];
   const { t } = useTranslation();
+  const assets = LiquidityPoolDictionary.pairTypeList();
   return (
     <div>
       <table className="w-100">

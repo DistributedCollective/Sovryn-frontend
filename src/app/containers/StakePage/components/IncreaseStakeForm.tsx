@@ -4,7 +4,9 @@ import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
-
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { useAccount } from 'app/hooks/useAccount';
+import { ethGenesisAddress } from 'utils/classifiers';
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   amount: string;
@@ -19,6 +21,11 @@ interface Props {
 
 export function IncreaseStakeForm(props: Props) {
   const { t } = useTranslation();
+  const account = useAccount();
+  const txConf = {
+    gas: 250000,
+  };
+
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
@@ -122,7 +129,7 @@ export function IncreaseStakeForm(props: Props) {
           >
             {t(translations.stake.increase.newVotingPower)}:
           </label>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 tw-mb-3">
             <input
               readOnly
               className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
@@ -132,9 +139,17 @@ export function IncreaseStakeForm(props: Props) {
               value={numberFromWei(props.votePower)}
             />
           </div>
-          <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            {t(translations.stake.txFee)}: 0.0006 rBTC
-          </p>
+          <TxFeeCalculator
+            args={[
+              Number(props.amount).toFixed(0).toString(),
+              props.timestamp,
+              account,
+              ethGenesisAddress,
+            ]}
+            txConfig={txConf}
+            methodName="stake"
+            contractName="staking"
+          />
         </div>
 
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
