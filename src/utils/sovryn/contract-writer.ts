@@ -128,6 +128,7 @@ class ContractWriter {
     args: Array<any>,
     options: TransactionConfig = {},
   ): Promise<string | RevertInstructionError> {
+    console.log(contractName, methodName, args, options);
     if (contractName.endsWith('_poolToken')) {
       const c = Sovryn.contracts[contractName];
       return this.sendByAddress(

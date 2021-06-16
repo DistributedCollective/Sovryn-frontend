@@ -14,10 +14,8 @@ export function weiToNumberFormat(value: any, decimals: number = 0) {
   return toNumberFormat(Number(fromWei(value || '0')), decimals);
 }
 
-export function toNumberFormat(value: number, decimals: number = 0) {
-  if (isNaN(value)) value = 0;
-
-  return value.toLocaleString('en-US', {
+export function toNumberFormat(value: number | string, decimals: number = 0) {
+  return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals,
   });
@@ -27,7 +25,7 @@ export function numberToUSD(value: number, decimals: number) {
   if (value === null) {
     return null;
   }
-  return value.toLocaleString('en-US', {
+  return value.toLocaleString(navigator.language, {
     style: 'currency',
     currency: 'USD',
     currencyDisplay: 'code',
@@ -38,7 +36,7 @@ export function numberToUSD(value: number, decimals: number) {
 
 export function numberToPercent(value: number, decimals: number) {
   return (
-    value.toLocaleString(undefined, {
+    value.toLocaleString(navigator.language, {
       maximumFractionDigits: decimals,
       minimumFractionDigits: decimals,
     }) + ' %'
@@ -52,7 +50,7 @@ export function formatAsBTCPrice(value, isLongPosition: boolean): number {
 }
 
 export function formatAsBTC(value, currency) {
-  return `${value.toLocaleString('en', {
+  return `${value.toLocaleString(navigator.language, {
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
   })}
@@ -60,7 +58,7 @@ export function formatAsBTC(value, currency) {
 }
 
 export function stringToPercent(value, decimals) {
-  return `${parseFloat(weiTo18(value)).toLocaleString('en', {
+  return `${parseFloat(weiTo18(value)).toLocaleString(navigator.language, {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   })} %`;

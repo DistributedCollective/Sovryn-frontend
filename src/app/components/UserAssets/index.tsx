@@ -5,10 +5,10 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
-import { ActionButton, ActionLink } from 'app/components/Form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -247,13 +247,8 @@ function AssetRow({ item, onFastBtc, onTransack, onDepositClick }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <ActionLink
-              text={t(translations.userAssets.actions.deposit)}
-              target="_blank"
-              rel="noreferrer noopener"
-              onClick={() => onDepositClick()}
-            />
+          {[Asset.ETH, Asset.XUSD].includes(item.asset) && (
+            <DepositLink asset={item.asset} />
           )}
           {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
             item.asset,
@@ -272,5 +267,19 @@ function AssetRow({ item, onFastBtc, onTransack, onDepositClick }: AssetProps) {
         </div>
       </td>
     </tr>
+  );
+}
+
+function DepositLink({ asset }: { asset: Asset }) {
+  const receiver = useAccount();
+  return (
+    <Link
+      to={{
+        pathname: '/cross-chain/deposit',
+        state: { receiver, asset },
+      }}
+    >
+      Deposit
+    </Link>
   );
 }

@@ -41,7 +41,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
-  const [isBack, setBack] = useState(isOpen);
+  const [isBack] = useState(isOpen);
   const updateStep = useCallback(
     (index, value) => {
       const prvSteps = [...steps];

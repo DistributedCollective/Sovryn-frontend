@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useWalletContext } from '@sovryn/react-wallet';
 import { web3Wallets } from '@sovryn/wallet';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { translations } from 'locales/i18n';
 
@@ -13,22 +14,34 @@ import { DetectionScreen } from './component/DetectionScreen';
 import { TutorialScreen } from './component/TutorialScreen';
 
 import './_networkRibbon.scss';
+import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { useLocation } from 'react-router-dom';
 
 export function NetworkRibbon(this: any) {
+  const { bridgeChainId } = useSelector(selectWalletProvider);
   const { connected, wallet } = useWalletContext();
+  const location = useLocation();
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
 
-  const getStatus = () =>
-    connected &&
-    web3Wallets.includes(wallet.providerType) &&
-    wallet.chainId !== currentChainId;
-  const [isConnect, setShow] = useState(getStatus());
+  const isOpen = useMemo(() => {
+    if (bridgeChainId !== null || location.pathname.startsWith('/cross-chain'))
+      return false;
+    return (
+      connected &&
+      web3Wallets.includes(wallet.providerType) &&
+      wallet.chainId !== currentChainId
+    );
+  }, [
+    bridgeChainId,
+    location.pathname,
+    connected,
+    wallet.providerType,
+    wallet.chainId,
+  ]);
+
   const [startTut, setStart] = useState(false);
-  useEffect(() => {
-    setShow(getStatus());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, wallet.chainId, wallet.providerType]);
+
   const handleTutDialog = () => {
     setStart(true);
   };
@@ -36,7 +49,7 @@ export function NetworkRibbon(this: any) {
     setStart(false);
   };
   return (
-    <NetworkDialog isOpen={isConnect} className="fw-700" size="normal">
+    <NetworkDialog isOpen={isOpen} className="fw-700" size="normal">
       <div className="py-2 font-family-montserrat">
         <div className="text-center title">
           {t(translations.wrongNetworkDialog.title)}{' '}

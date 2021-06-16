@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import crypto from 'crypto';
 import {
@@ -35,6 +35,8 @@ import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
+import { selectWalletProvider } from './selectors';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   children: React.ReactNode;
@@ -54,14 +56,26 @@ export function WalletProvider(props: Props) {
   useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
+  const { bridgeChainId } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(actions.testTransactions());
   }, [dispatch]);
 
+  const options = useMemo(() => {
+    const inCorssChain = location.pathname.startsWith('/cross-chain');
+    const customChain = bridgeChainId !== null && inCorssChain;
+    return {
+      showWrongNetworkRibbon: false,
+      remember: !customChain,
+      chainId: customChain ? bridgeChainId : currentChainId,
+    };
+  }, [bridgeChainId, location]);
+
   return (
-    <SovrynWallet chainId={currentChainId} remember>
+    <SovrynWallet options={options} remember>
       <WalletWatcher />
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
@@ -92,5 +106,5 @@ function WalletWatcher() {
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));
   }, [dispatch, chainId]);
-  return <></>;
+  return null;
 }
