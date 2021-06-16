@@ -29,6 +29,8 @@ import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 const s = translations.swapTradeForm;
 
@@ -36,8 +38,8 @@ const gasLimit = 340000;
 
 export function BuyForm() {
   const { t } = useTranslation();
-  const { checkMaintenance } = useMaintenance();
-  const swapsLocked = checkMaintenance('openTradesSwaps');
+  const { checkMaintenance, States } = useMaintenance();
+  const swapsLocked = checkMaintenance(States.SWAP_TRADES);
 
   const connected = useCanInteract(true);
   const [openSlippage, setOpenSlippage] = useState(false);
@@ -148,13 +150,33 @@ export function BuyForm() {
             </Slippage>
           </FieldGroup>
 
-          {swapsLocked?.maintenance_active && <div>{swapsLocked?.message}</div>}
+          {swapsLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.buySov}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-sm"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
 
-          <BuyButton
-            disabled={tx.loading || !validate || !connected}
-            onClick={() => send()}
-            text={t(translations.buySovPage.form.cta)}
-          />
+          {!swapsLocked && (
+            <BuyButton
+              disabled={tx.loading || !validate || !connected || swapsLocked}
+              onClick={() => send()}
+              text={t(translations.buySovPage.form.cta)}
+            />
+          )}
         </div>
       </Card>
 

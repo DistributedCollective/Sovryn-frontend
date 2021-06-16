@@ -59,13 +59,14 @@ const TabContainer: React.FC<Props> = ({
     currency,
     useWeiAmount(amountValue),
   );
-  const { checkMaintenance } = useMaintenance();
-  const depositLocked = checkMaintenance('openLoansBorrows');
-  const redeemLocked = checkMaintenance('closeLoansBorrows');
-  const depositDisabled =
-    currentButton === ButtonType.DEPOSIT && depositLocked?.maintenance_active;
-  const redeemDisabled =
-    currentButton === ButtonType.REDEEM && redeemLocked?.maintenance_active;
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.DEPOSIT_LEND]: depositLocked,
+    [States.WITHDRAW_LEND]: redeemLocked,
+  } = checkMaintenances();
+
+  const depositDisabled = currentButton === ButtonType.DEPOSIT && depositLocked;
+  const redeemDisabled = currentButton === ButtonType.REDEEM && redeemLocked;
 
   return (
     <>
@@ -100,9 +101,9 @@ const TabContainer: React.FC<Props> = ({
         disabled={depositDisabled || redeemDisabled}
         disabledMsg={
           depositDisabled
-            ? depositLocked?.message
+            ? t(translations.maintenance.depositLend)
             : redeemDisabled
-            ? redeemLocked?.message
+            ? t(translations.maintenance.withdrawLend)
             : undefined
         }
       />

@@ -15,6 +15,7 @@ import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidit
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface Props {
   pool: LiquidityPool;
@@ -27,6 +28,11 @@ export function MiningPool({ pool }: Props) {
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.ADD_LIQUIDITY]: addliquidityLocked,
+    [States.REMOVE_LIQUIDITY]: removeliquidityLocked,
+  } = checkMaintenances();
 
   const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
     setIsEmptyBalance,
@@ -65,14 +71,14 @@ export function MiningPool({ pool }: Props) {
           onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
-          disabled={!canInteract}
+          disabled={!canInteract || addliquidityLocked}
         />
         <ActionButton
           text={t(translations.liquidityMining.withdraw)}
           onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
-          disabled={!canInteract || isEmptyBalance}
+          disabled={!canInteract || isEmptyBalance || removeliquidityLocked}
         />
       </div>
     );
