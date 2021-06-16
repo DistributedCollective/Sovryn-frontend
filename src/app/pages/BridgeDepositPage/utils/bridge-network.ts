@@ -1,10 +1,19 @@
 import type { Chain } from 'types';
 import { ethers } from 'ethers';
+import type { TransactionRequest } from '@ethersproject/abstract-provider';
+import { walletService } from '@sovryn/react-wallet';
+import { web3Wallets } from '@sovryn/wallet';
 import { RpcNetwork } from '../../../../utils/blockchain/rpc-network';
 import { getBridgeChainId } from './helpers';
 import { BridgeNetworkDictionary } from '../dictionaries/bridge-network-dictionary';
 import { NetworkModel } from '../types/network-model';
+import { AssetModel } from '../types/asset-model';
+
 import multiCallAbi from 'utils/blockchain/abi/multiCall2.json';
+import erc20Abi from 'utils/blockchain/abi/erc20.json';
+import mAssetAbi from 'utils/blockchain/abi/BabelFish_MassetAbi.json';
+import bridgeAbi from 'utils/blockchain/abi/BridgeAbi.json';
+import { CrossBridgeAsset } from '../types/cross-bridge-asset';
 
 interface MultiCallData {
   address: string;
@@ -20,6 +29,99 @@ export class BridgeNetwork {
     Chain,
     Map<string, ethers.Contract>
   >();
+
+  public async nonce(chain: Chain) {
+    return this.getNode(chain).getTransactionCount(
+      walletService.address.toLowerCase(),
+    );
+  }
+
+  public async receipt(chain: Chain, transactionHash: string) {
+    return this.getNode(chain).getTransactionReceipt(transactionHash);
+  }
+
+  public async allowance(chain: Chain, asset: AssetModel, spender: string) {
+    return this.call(chain, asset.tokenContractAddress, erc20Abi, 'allowance', [
+      walletService.address.toLowerCase(),
+      spender.toLowerCase(),
+    ]).then(e => e.toString());
+  }
+
+  public approveData(
+    chain: Chain,
+    asset: AssetModel,
+    spender: string,
+    amount: string,
+  ) {
+    return this.encodeFunctionData(
+      chain,
+      asset.tokenContractAddress,
+      erc20Abi,
+      'approve',
+      [spender.toLowerCase(), amount],
+    );
+  }
+
+  public redeemToBridgeData(
+    chain: Chain,
+    contractAddress: string,
+    bAsset: string,
+    mAssetAmount: string,
+    recipient: string,
+  ) {
+    return this.encodeFunctionData(
+      chain,
+      contractAddress,
+      mAssetAbi,
+      'redeemToBridge',
+      [bAsset, mAssetAmount, recipient],
+    );
+  }
+
+  public receiveEthAtData(
+    chain: Chain,
+    bridgeContractAddress: string,
+    receiver: string,
+    data: string = '0x',
+  ) {
+    return this.encodeFunctionData(
+      chain,
+      bridgeContractAddress,
+      bridgeAbi,
+      'receiveEthAt',
+      [receiver, data],
+    );
+  }
+
+  public receiveTokensAtData(
+    chain: Chain,
+    bridgeContractAddress: string,
+    tokenAddress: string,
+    amount: string,
+    receiver: string,
+    data: string = '0x',
+  ) {
+    return this.encodeFunctionData(
+      chain,
+      bridgeContractAddress,
+      bridgeAbi,
+      'receiveTokensAt',
+      [tokenAddress, amount, receiver, data],
+    );
+  }
+
+  public balanceOfBridgeToken(
+    chain: Chain,
+    targetChain: Chain,
+    asset: AssetModel,
+    targetAsset: CrossBridgeAsset,
+  ) {
+    const tokenAddress =
+      asset.bridgeTokenAddresses.get(targetAsset) || asset.tokenContractAddress;
+    return this.encodeFunctionData(chain, tokenAddress, erc20Abi, 'balanceOf', [
+      asset.aggregatorContractAddress,
+    ]);
+  }
 
   public async multiCall(chain: Chain, callData: MultiCallData[]) {
     const network = BridgeNetworkDictionary.get(chain) as NetworkModel;
@@ -70,6 +172,40 @@ export class BridgeNetwork {
     return this.prepareContract(chain, address, abi).callStatic[fnName](
       ...args,
     );
+  }
+
+  public async send(chain: Chain, tx: TransactionRequest) {
+    tx.from = walletService.address.toLowerCase();
+
+    if (tx.nonce === undefined) {
+      tx.nonce = await this.nonce(chain);
+    }
+
+    if (tx.gasLimit === undefined) {
+      tx.gasLimit = await this.getNode(chain).estimateGas(tx);
+    }
+
+    if (tx.gasPrice === undefined) {
+      tx.gasPrice = await this.getNode(chain).getGasPrice();
+    }
+
+    console.log({ tx });
+
+    const signedTxOrTransactionHash = await walletService.signTransaction({
+      to: tx.to?.toLowerCase(),
+      value: String(tx?.value || '0'),
+      data: tx.data?.toString(),
+      gasPrice: tx.gasPrice.toString(),
+      nonce: Number(tx.nonce),
+      gasLimit: tx.gasLimit.toString(),
+      chainId: walletService.chainId,
+    });
+
+    if (web3Wallets.includes(walletService.providerType)) {
+      return signedTxOrTransactionHash;
+    } else {
+      return this.getProvider(chain).sendTransaction(signedTxOrTransactionHash);
+    }
   }
 
   public async estimateGas(

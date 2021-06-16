@@ -7,6 +7,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { web3Wallets } from '@sovryn/wallet';
 
 import { actions } from '../../slice';
 import { Chain } from '../../../../../types';
@@ -34,7 +35,7 @@ export function ChainSelector(props: Props) {
   const state = useMemo(() => {
     if (
       chain !== null &&
-      walletContext.wallet.providerType === 'injected' &&
+      web3Wallets.includes(walletContext.wallet.providerType) &&
       walletContext.wallet.isConnected() &&
       walletContext.wallet.chainId !== getBridgeChainId(chain as Chain)
     ) {
@@ -71,6 +72,7 @@ export function ChainSelector(props: Props) {
               onClick={() => selectNetwork(item.chain)}
               className="tw-p-3 tw-bg-gray-800 hover:tw-bg-gray-900"
             >
+              <img src={item.logo} alt={item.name} className="tw-w-8 tw-h-8" />
               {item.name}
             </button>
           ))}

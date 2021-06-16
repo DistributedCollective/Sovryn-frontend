@@ -19,6 +19,7 @@ export class AssetModel {
     public readonly isNative: boolean,
     public readonly group: CrossBridgeAsset,
     public readonly usesAggregator: boolean = false,
+    public readonly aggregatorMints: boolean = false,
     public readonly aggregatorContractAddress?: string,
     _bridgeTokenAddress?: string,
     _aggregatedTokens?: CrossBridgeAsset[],

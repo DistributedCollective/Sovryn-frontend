@@ -19,17 +19,17 @@ import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
-import { DepositStep } from '../../types';
 
 interface Props {}
 
 export function ReviewStep(props: Props) {
-  const { amount, chain, targetChain, sourceAsset } = useSelector(
+  const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
     selectBridgeDepositPage,
   );
   const dispatch = useDispatch();
-  const nextStep = useCallback(() => {
-    dispatch(actions.setStep(DepositStep.CONFIRM));
+
+  const handleSubmit = useCallback(() => {
+    dispatch(actions.submitForm());
   }, [dispatch]);
 
   const network = useMemo(
@@ -118,7 +118,12 @@ export function ReviewStep(props: Props) {
           </tbody>
         </table>
 
-        <Button text="Confirm Deposit" disabled={!valid} onClick={nextStep} />
+        <Button
+          text="Confirm Deposit"
+          disabled={!valid || tx.loading}
+          loading={tx.loading}
+          onClick={handleSubmit}
+        />
       </div>
     </div>
   );

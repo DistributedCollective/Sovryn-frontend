@@ -30,8 +30,12 @@ export function SidebarSteps() {
       }
       return (
         indexOfTest < indexOfStep &&
-        // Can't go back if in processing or complete state.
-        ![DepositStep.PROCESSING, DepositStep.COMPLETE].includes(step)
+        // Can't go back if in confirm, processing or complete state.
+        ![
+          DepositStep.CONFIRM,
+          DepositStep.PROCESSING,
+          DepositStep.COMPLETE,
+        ].includes(step)
       );
     },
     [step],

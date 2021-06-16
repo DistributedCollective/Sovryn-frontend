@@ -92,7 +92,6 @@ export function useBridgeLimits(
         },
       ])
       .then(result => {
-        console.log(result);
         setState(prevState => ({
           ...prevState,
           value: result as any,
@@ -101,7 +100,7 @@ export function useBridgeLimits(
         }));
       })
       .catch(error => {
-        console.error(error);
+        console.error('e', error);
         setState(prevState => ({
           ...prevState,
           value: emptyState,

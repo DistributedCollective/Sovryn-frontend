@@ -3,6 +3,10 @@ import { NetworkModel } from '../types/network-model';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
 import { currentNetwork } from '../../../../utils/classifiers';
 
+import rskLogo from './assets/chains/rsk.svg';
+import ethLogo from './assets/chains/eth.svg';
+import bscLogo from './assets/chains/bsc.svg';
+
 export class BridgeNetworkDictionary {
   public static readonly networks = [
     new NetworkModel(
@@ -10,7 +14,7 @@ export class BridgeNetworkDictionary {
       ChainId.RSK_MAINNET,
       'RSK',
       CrossBridgeAsset.RBTC,
-      '',
+      rskLogo,
       'https://mainnet.sovryn.app/rpc',
       'https://explorer.rsk.co',
       AppMode.MAINNET,
@@ -21,7 +25,7 @@ export class BridgeNetworkDictionary {
       ChainId.RSK_TESTNET,
       'RSK Testnet',
       CrossBridgeAsset.RBTC,
-      '',
+      rskLogo,
       'https://testnet.sovryn.app/rpc',
       'https://explorer.testnet.rsk.co',
       AppMode.TESTNET,
@@ -32,7 +36,7 @@ export class BridgeNetworkDictionary {
       ChainId.ETH_MAINNET,
       'Ethereum',
       CrossBridgeAsset.ETH,
-      '',
+      ethLogo,
       'https://rpc.eth.sovryn.app',
       'https://etherscan.io',
       AppMode.MAINNET,
@@ -43,7 +47,7 @@ export class BridgeNetworkDictionary {
       ChainId.ETH_TESTNET,
       'Ropsten',
       CrossBridgeAsset.ETH,
-      '',
+      ethLogo,
       `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       'https://ropsten.etherscan.io',
       AppMode.TESTNET,
@@ -54,7 +58,7 @@ export class BridgeNetworkDictionary {
       ChainId.BSC_MAINNET,
       'Binance Smart Chain',
       CrossBridgeAsset.BNB,
-      '',
+      bscLogo,
       'https://bsc-dataseed.binance.org',
       'https://bscscan.com',
       AppMode.MAINNET,
@@ -65,7 +69,7 @@ export class BridgeNetworkDictionary {
       ChainId.BSC_TESTNET,
       'Binance Smart Testnet',
       CrossBridgeAsset.BNB,
-      '',
+      bscLogo,
       'https://data-seed-prebsc-2-s3.binance.org:8545',
       'https://testnet.bscscan.com',
       AppMode.TESTNET,

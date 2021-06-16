@@ -21,11 +21,12 @@ import { FormGroup } from '../../../../components/Form/FormGroup';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
+import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 
 interface Props {}
 
 export function AmountSelector(props: Props) {
-  const { amount, chain, targetChain, sourceAsset } = useSelector(
+  const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
   const dispatch = useDispatch();
@@ -54,12 +55,23 @@ export function AmountSelector(props: Props) {
     asset,
   );
 
+  const bridgeBalance = useBridgeTokenBalance(
+    targetChain,
+    asset,
+    targetAsset as any,
+  );
+
   const valid = useMemo(() => {
     const bnAmount = bignumber(asset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
+    const testBridgeBalance =
+      bridgeBalance.value !== false
+        ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
+        : true;
     return (
       !limitsLoading &&
       !balance.loading &&
+      testBridgeBalance &&
       bnBalance.greaterThanOrEqualTo(bnAmount) &&
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
@@ -72,6 +84,7 @@ export function AmountSelector(props: Props) {
     asset,
     balance.loading,
     balance.value,
+    bridgeBalance.value,
     limits.returnData.dailyLimit,
     limits.returnData.getMaxTokensAllowed,
     limits.returnData.getMinPerToken,
@@ -158,6 +171,12 @@ export function AmountSelector(props: Props) {
               {asset.symbol}
             </td>
           </tr>
+          {bridgeBalance.value !== false && (
+            <tr>
+              <td>Aggregator Balance</td>
+              <td>{bridgeBalance.value}</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

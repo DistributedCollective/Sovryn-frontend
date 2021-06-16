@@ -31,6 +31,7 @@ export default [
     true,
     CrossBridgeAsset.ETHS,
     true,
+    true,
     ethsAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param
     [CrossBridgeAsset.ETHS],
@@ -44,6 +45,7 @@ export default [
     '0xff364ffa4962cb172203a5be01d17cf3fef02419',
     false,
     CrossBridgeAsset.XUSD,
+    true,
     true,
     xusdAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param
@@ -59,6 +61,7 @@ export default [
     false,
     CrossBridgeAsset.XUSD,
     true,
+    true,
     xusdAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param
     [CrossBridgeAsset.XUSD],
@@ -72,6 +75,7 @@ export default [
     '0x974cf21396D4D29F8e63Ac07eCfcbaB51a739bc9',
     false,
     CrossBridgeAsset.XUSD,
+    true,
     true,
     xusdAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param

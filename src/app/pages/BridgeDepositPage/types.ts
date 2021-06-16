@@ -4,13 +4,13 @@ import type { CrossBridgeAsset } from './types/cross-bridge-asset';
 
 export interface BridgeDepositPageState {
   step: DepositStep;
-  txStep: TxStep;
   chain: Nullable<Chain>;
   targetChain: Chain;
   targetAsset: Nullable<CrossBridgeAsset>;
   sourceAsset: Nullable<CrossBridgeAsset>;
   receiver: string;
   amount: string;
+  tx: TxState;
 }
 
 export enum DepositStep {
@@ -23,10 +23,22 @@ export enum DepositStep {
   COMPLETE,
 }
 
+export interface TxState {
+  loading: boolean;
+  hash: string;
+  approveHash: string;
+  step: TxStep;
+}
+
 export enum TxStep {
   NONE,
+  MAIN,
   APPROVE,
-  CONFIRM,
+  CONFIRM_TRANSFER,
+  PENDING_TRANSFER,
+  COMPLETED_TRANSFER,
+  FAILED_TRANSFER,
+  USER_DENIED,
 }
 
 export type ContainerState = BridgeDepositPageState;
