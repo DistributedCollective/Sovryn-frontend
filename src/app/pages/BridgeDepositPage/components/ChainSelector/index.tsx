@@ -64,7 +64,9 @@ export function ChainSelector(props: Props) {
         Select Network to deposit from
       </div>
       {state === 'wrong-network' && (
-        <>Switch your wallet to {network?.name} network.</>
+        <div className="tw-text-center">
+          Switch your wallet to {network?.name} network.
+        </div>
       )}
 
       {state === 'choose-network' && (
