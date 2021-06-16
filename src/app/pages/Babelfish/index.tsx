@@ -103,7 +103,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
             setBack(false);
             setTimeout(function () {
               onBack();
-            }, 400);
+            }, 600);
           }}
           style={{ height: '20px', width: '20px', marginRight: '10px' }}
         />
@@ -117,7 +117,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
             setBack(false);
             setTimeout(function () {
               onBack();
-            }, 400);
+            }, 600);
           }}
         >
           {' '}
