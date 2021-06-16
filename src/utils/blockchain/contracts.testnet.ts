@@ -111,7 +111,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   XUSD_token: {
-    address: '0x849D38abD3962cb40d4887E4279ad0e4E5958e34',
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
@@ -121,7 +121,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   XUSD_amm: {
-    address: '0xD449c0c468Cae235d3E320Ff48d05EbDdcde64c3',
+    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
