@@ -4,6 +4,7 @@ import { TradingPosition } from 'types/trading-position';
 import { RenderTradingPairName } from '../../app/components/Helpers';
 
 export enum TradingPairType {
+  RBTC_XUSD = 'RBTC_XUSD',
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',
   RBTC_SOV = 'RBTC_SOV',
@@ -15,11 +16,27 @@ export class TradingPairDictionary {
   /**
    * @deprecated
    */
-  public static longPositionTokens = [Asset.DOC, Asset.USDT];
+  public static longPositionTokens = [Asset.DOC, Asset.USDT, Asset.XUSD];
+
+  // Note: do not remove pairs from the list, set them as deprecated (last property in TradingPair constructor)
+  // if trading should be halted for them.
+  // Removing will break histories and open positions for that pair.
   public static pairs: Map<TradingPairType, TradingPair> = new Map<
     TradingPairType,
     TradingPair
   >([
+    [
+      TradingPairType.RBTC_XUSD,
+      new TradingPair(
+        TradingPairType.RBTC_XUSD,
+        RenderTradingPairName(Asset.RBTC, Asset.XUSD),
+        'RBTC/XUSD',
+        Asset.XUSD,
+        Asset.RBTC,
+        [Asset.RBTC, Asset.XUSD],
+        false,
+      ),
+    ],
     [
       TradingPairType.RBTC_USDT,
       new TradingPair(
@@ -29,6 +46,7 @@ export class TradingPairDictionary {
         Asset.USDT,
         Asset.RBTC,
         [Asset.RBTC, Asset.USDT],
+        false, // todo: change to true on june 21st.
       ),
     ],
     // [
@@ -51,6 +69,7 @@ export class TradingPairDictionary {
         Asset.DOC,
         Asset.RBTC,
         [Asset.RBTC, Asset.DOC],
+        false,
       ),
     ],
     [
@@ -62,6 +81,7 @@ export class TradingPairDictionary {
         Asset.USDT,
         Asset.BPRO,
         [Asset.BPRO, Asset.USDT],
+        false,
       ),
     ],
     [
