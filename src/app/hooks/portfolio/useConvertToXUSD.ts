@@ -20,7 +20,7 @@ export const useConvertToXUSD = () => {
 
       tx = await contractWriter.checkAndApprove(
         Asset.USDT,
-        getContract('USDT_token').address,
+        getContract('babelfishAggregator').address,
         weiAmount,
       );
 
