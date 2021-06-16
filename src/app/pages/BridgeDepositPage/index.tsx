@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
@@ -21,6 +22,8 @@ import { SidebarSteps } from './components/SidebarSteps';
 import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
+
+import './styles.scss';
 
 interface Props {}
 
@@ -74,13 +77,25 @@ export function BridgeDepositPage(props: Props) {
           </div>
         </div>
         <div className="tw-w-8/12">
-          {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
-          {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
-          {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
-          {step === DepositStep.REVIEW && <ReviewStep />}
-          {step === DepositStep.CONFIRM && <>Confirm</>}
-          {step === DepositStep.PROCESSING && <>Processing</>}
-          {step === DepositStep.COMPLETE && <>Complete</>}
+          <SwitchTransition>
+            <CSSTransition
+              key={step}
+              addEndListener={(node, done) =>
+                node.addEventListener('transitionend', done, false)
+              }
+              classNames="fade"
+            >
+              <>
+                {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
+                {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
+                {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
+                {step === DepositStep.REVIEW && <ReviewStep />}
+                {step === DepositStep.CONFIRM && <>Confirm</>}
+                {step === DepositStep.PROCESSING && <>Processing</>}
+                {step === DepositStep.COMPLETE && <>Complete</>}
+              </>
+            </CSSTransition>
+          </SwitchTransition>
         </div>
       </div>
     </>

@@ -13,7 +13,7 @@ import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
-import { Button } from '../../../../components/Form/Button';
+import { Button } from 'app/components/Button';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { AmountInput } from '../AmountInput';
@@ -82,9 +82,11 @@ export function AmountSelector(props: Props) {
 
   return (
     <div>
-      <h1>Enter amount to deposit ({sourceAsset})</h1>
+      <div className="tw-mb-20 tw-text-2xl tw-text-center">
+        Enter amount to deposit ({sourceAsset})
+      </div>
       <div className="tw-mw-320">
-        <FormGroup label="Amount">
+        <FormGroup label="Deposit Amount">
           <AmountInput
             value={value}
             onChange={val => setValue(val)}
@@ -97,7 +99,12 @@ export function AmountSelector(props: Props) {
             {asset.symbol}
           </p>
         </FormGroup>
-        <Button text="Next" disabled={!valid} onClick={selectAmount} />
+        <Button
+          className="tw-mt-10 tw-w-full"
+          text="Next"
+          disabled={!valid}
+          onClick={selectAmount}
+        />
       </div>
       <h2>Bridge Limit Table</h2>
       <table>

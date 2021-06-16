@@ -19,8 +19,6 @@ import { SelectAmount } from './components/SelectAmount';
 import { SelectToken } from './components/SelectToken';
 import { StepItem, Stepper } from './components/Stepper';
 
-import './styles.scss';
-
 const initialSteps = [
   'Network',
   'Token',
