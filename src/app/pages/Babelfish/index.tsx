@@ -4,8 +4,8 @@
  *
  */
 
-import React, { useState, useCallback } from 'react';
-import { Stepper, StepItem } from './components/Stepper';
+import React, { useCallback, useState } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import leftArrowIcon from 'assets/images/tutorial/left_arrow.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
@@ -13,11 +13,14 @@ import { SelectNetwork } from './components/SelectNetwork';
 import { Processing } from './components/Processing';
 import { Review } from './components/Review';
 import { ReturnRSK } from './components/ReturnRSK';
+
+import ArrowBack from '../../../assets/images/genesis/arrow_back.svg';
 import { Confirm } from './components/Confirm';
-import { SelectToken } from './components/SelectToken';
-import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './styles.scss';
 import { SelectAmount } from './components/SelectAmount';
+import { SelectToken } from './components/SelectToken';
+import { StepItem, Stepper } from './components/Stepper';
+
+import './styles.scss';
 
 const initialSteps = [
   'Network',
@@ -29,12 +32,17 @@ const initialSteps = [
   'Complete',
 ];
 
-export function Babelfish() {
+interface BabelFishProps {
+  isOpen: boolean;
+  onBack: () => void;
+}
+export function Babelfish({ isOpen, onBack }: BabelFishProps) {
   const [finalStep, setFinalStep] = useState(false);
   const [step, setStep] = useState(1);
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
+  const [isBack, setBack] = useState(isOpen);
   const updateStep = useCallback(
     (index, value) => {
       const prvSteps = [...steps];
@@ -84,7 +92,9 @@ export function Babelfish() {
   );
   return (
     <div
-      className="tw-flex tw-px-10 tw-h-full"
+      className={`tw-flex tw-px-10 tw-h-full ${
+        isBack ? 'ModalOpen' : 'ModalClosed'
+      }`}
       style={{ minHeight: 'calc(100vh - 4.4rem)' }}
     >
       {step > 1 && step < 6 && (
@@ -97,7 +107,39 @@ export function Babelfish() {
         </div>
       )}
       <div
-        className="tw-relative tw-h-full tw-pl-10 tw-self-center"
+        className="tw-absolute tw-flex tw-flex-row tw-justify-center tw-items-center"
+        style={{ marginTop: '-3.5rem' }}
+      >
+        <img
+          alt="arrowback"
+          src={ArrowBack}
+          onClick={() => {
+            setBack(false);
+            setTimeout(function () {
+              onBack();
+            }, 600);
+          }}
+          style={{ height: '20px', width: '20px', marginRight: '10px' }}
+        />
+        <span
+          style={{
+            fontSize: '24px',
+            fontFamily: 'Montserrat',
+            fontWeight: 700,
+          }}
+          onClick={() => {
+            setBack(false);
+            setTimeout(function () {
+              onBack();
+            }, 600);
+          }}
+        >
+          {' '}
+          Back
+        </span>
+      </div>
+      <div
+        className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-center"
         style={{ minWidth: 300 }}
       >
         <Stepper steps={steps} step={step} onClick={handleStep} />
