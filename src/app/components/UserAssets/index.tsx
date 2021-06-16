@@ -23,7 +23,11 @@ import {
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import {
+  useAccount,
+  useBlockSync,
+  useIsConnected,
+} from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
@@ -120,6 +124,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
+  const blockSync = useBlockSync();
 
   useEffect(() => {
     const get = async () => {
@@ -149,7 +154,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
       setLoading(false);
     };
     get().catch();
-  }, [item.asset, account]);
+  }, [item.asset, account, blockSync]);
 
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
