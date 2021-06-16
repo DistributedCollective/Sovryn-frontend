@@ -95,26 +95,25 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
         isBack ? 'ModalOpen' : 'ModalClosed'
       }`}
     >
-      <div
-        onClick={() => {
-          setBack(false);
-          setTimeout(function () {
-            onBack();
-          }, 600);
-        }}
-        className="tw-z-10 tw-cursor-pointer tw-flex tw-items-center tw-absolute tw-top-10 tw-left-10 tw-text-lg tw-font-semibold"
-      >
-        <img
-          alt="arrowback"
-          src={ArrowBack}
-          className="mr-3"
-          style={{ height: '20px', width: '20px' }}
-        />
-        Back
-      </div>
+      {step > 1 && step < 6 && (
+        <div
+          onClick={() => {
+            handleStep(step - 1);
+          }}
+          className="tw-z-10 tw-cursor-pointer tw-flex tw-items-center tw-absolute tw-top-10 tw-left-10 tw-text-lg tw-font-semibold"
+        >
+          <img
+            alt="arrowback"
+            src={ArrowBack}
+            className="mr-3"
+            style={{ height: '20px', width: '20px' }}
+          />
+          Back
+        </div>
+      )}
       <div
         className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-start tw-pl-8"
-        style={{ minWidth: 300 }}
+        style={{ minWidth: 200 }}
       >
         <Stepper steps={steps} step={step} onClick={handleStep} />
       </div>
