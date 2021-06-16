@@ -15,6 +15,7 @@ import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { currentChainId } from '../../../../../utils/classifiers';
+import { SelectBox } from '../SelectBox';
 
 interface Props {}
 
@@ -59,20 +60,29 @@ export function ChainSelector(props: Props) {
 
   return (
     <div>
-      <h1>Select Network to deposit from</h1>
+      <div className="tw-mb-20 tw-text-2xl tw-text-center">
+        Select Network to deposit from
+      </div>
       {state === 'wrong-network' && (
         <>Switch your wallet to {network?.name} network.</>
       )}
+
       {state === 'choose-network' && (
-        <div className="tw-grid tw-gap-5 tw-grid-cols-4">
+        <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
           {networks.map(item => (
-            <button
+            <SelectBox
               key={item.chain}
               onClick={() => selectNetwork(item.chain)}
-              className="tw-p-3 tw-bg-gray-800 hover:tw-bg-gray-900"
             >
-              {item.name}
-            </button>
+              <img
+                className="tw-mb-5 tw-mt-2"
+                src={item.logo}
+                alt={item.chain}
+              />
+              <div>
+                <span className="tw-uppercase">{item.chain} </span> Network
+              </div>
+            </SelectBox>
           ))}
         </div>
       )}

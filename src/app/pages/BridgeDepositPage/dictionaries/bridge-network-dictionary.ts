@@ -3,6 +3,9 @@ import { NetworkModel } from '../types/network-model';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
 import { currentNetwork } from '../../../../utils/classifiers';
 
+import bscIcon from 'assets/images/networks/bsc.svg';
+import ethIcon from 'assets/images/networks/eth.svg';
+
 export class BridgeNetworkDictionary {
   public static readonly networks = [
     new NetworkModel(
@@ -32,7 +35,7 @@ export class BridgeNetworkDictionary {
       ChainId.ETH_MAINNET,
       'Ethereum',
       CrossBridgeAsset.ETH,
-      '',
+      ethIcon,
       'https://rpc.eth.sovryn.app',
       'https://etherscan.io',
       AppMode.MAINNET,
@@ -43,7 +46,7 @@ export class BridgeNetworkDictionary {
       ChainId.ETH_TESTNET,
       'Ropsten',
       CrossBridgeAsset.ETH,
-      '',
+      ethIcon,
       `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       'https://ropsten.etherscan.io',
       AppMode.TESTNET,
@@ -54,7 +57,7 @@ export class BridgeNetworkDictionary {
       ChainId.BSC_MAINNET,
       'Binance Smart Chain',
       CrossBridgeAsset.BNB,
-      '',
+      bscIcon,
       'https://bsc-dataseed.binance.org',
       'https://bscscan.com',
       AppMode.MAINNET,
@@ -65,7 +68,7 @@ export class BridgeNetworkDictionary {
       ChainId.BSC_TESTNET,
       'Binance Smart Testnet',
       CrossBridgeAsset.BNB,
-      '',
+      bscIcon,
       'https://data-seed-prebsc-2-s3.binance.org:8545',
       'https://testnet.bscscan.com',
       AppMode.TESTNET,
