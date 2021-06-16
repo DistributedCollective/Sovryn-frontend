@@ -7,7 +7,6 @@
 import React, { useCallback, useState } from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import leftArrowIcon from 'assets/images/tutorial/left_arrow.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
 import { SelectNetwork } from './components/SelectNetwork';
 import { Processing } from './components/Processing';
@@ -92,59 +91,34 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
   );
   return (
     <div
-      className={`tw-flex tw-px-10 tw-h-full ${
+      className={`tw-flex tw-px-10 tw-h-screen tw-w-full tw-fixed tw-top-0 ${
         isBack ? 'ModalOpen' : 'ModalClosed'
       }`}
-      style={{ minHeight: 'calc(100vh - 4.4rem)' }}
     >
-      {step > 1 && step < 6 && (
-        <div
-          onClick={() => handleStep(step - 1)}
-          className="tw-cursor-pointer tw-flex tw-items-center tw-absolute tw-top-10 tw-left-10 tw-text-lg tw-font-semibold"
-        >
-          <img className="mr-3" src={leftArrowIcon} alt="Back" />
-          Back
-        </div>
-      )}
       <div
-        className="tw-absolute tw-flex tw-flex-row tw-justify-center tw-items-center"
-        style={{ marginTop: '-3.5rem' }}
+        onClick={() => {
+          setBack(false);
+          setTimeout(function () {
+            onBack();
+          }, 600);
+        }}
+        className="tw-z-10 tw-cursor-pointer tw-flex tw-items-center tw-absolute tw-top-10 tw-left-10 tw-text-lg tw-font-semibold"
       >
         <img
           alt="arrowback"
           src={ArrowBack}
-          onClick={() => {
-            setBack(false);
-            setTimeout(function () {
-              onBack();
-            }, 600);
-          }}
-          style={{ height: '20px', width: '20px', marginRight: '10px' }}
+          className="mr-3"
+          style={{ height: '20px', width: '20px' }}
         />
-        <span
-          style={{
-            fontSize: '24px',
-            fontFamily: 'Montserrat',
-            fontWeight: 700,
-          }}
-          onClick={() => {
-            setBack(false);
-            setTimeout(function () {
-              onBack();
-            }, 600);
-          }}
-        >
-          {' '}
-          Back
-        </span>
+        Back
       </div>
       <div
-        className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-center"
+        className="tw-relative tw-h-full tw-flex tw-items-center tw-justify-start tw-pl-8"
         style={{ minWidth: 300 }}
       >
         <Stepper steps={steps} step={step} onClick={handleStep} />
       </div>
-      <div className="tw-relative tw-flex-1 tw-flex tw-flex-col tw-justify-around tw-items-center">
+      <div className="tw-relative tw-flex-1 tw-flex tw-flex-col tw-justify-center tw-items-center">
         <SwitchTransition>
           <CSSTransition
             key={step}
