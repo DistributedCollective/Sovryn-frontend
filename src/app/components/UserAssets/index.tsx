@@ -31,11 +31,7 @@ import { Dialog } from '../../containers/Dialog';
 import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 
-interface UserAssetsProps {
-  onDeposit: () => void;
-}
-
-export function UserAssets({ onDeposit }: UserAssetsProps) {
+export function UserAssets() {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
@@ -101,7 +97,6 @@ export function UserAssets({ onDeposit }: UserAssetsProps) {
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
-                  onDepositClick={() => onDeposit()}
                 />
               ))}
           </tbody>
@@ -168,10 +163,9 @@ interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
   onTransack: () => void;
-  onDepositClick: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack, onDepositClick }: AssetProps) {
+function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
