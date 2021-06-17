@@ -3,6 +3,8 @@ import { BridgeModel } from '../../types/bridge-model';
 
 import ethToRskAssets from '../assets/eth-to-rsk.testnet';
 import bscToRskAssets from '../assets/bsc-to-rsk.testnet';
+import rskToEthAssets from '../assets/rsk-to-eth.testnet';
+import rskToBscAssets from '../assets/rsk-to-bsc.testnet';
 
 export default [
   // RSK/BSC
@@ -12,7 +14,7 @@ export default [
     ChainId.BSC_TESTNET,
     '0x2b2bcad081fa773dc655361d1bb30577caa556f8',
     '0xa9f2ccb27fe01479a1f21f3a236989c614f801bc',
-    [],
+    rskToBscAssets,
     AppMode.TESTNET,
   ),
   new BridgeModel(
@@ -31,7 +33,7 @@ export default [
     ChainId.ETH_TESTNET,
     '0xC0E7A7FfF4aBa5e7286D5d67dD016B719DCc9156',
     '0x918b9fd8c2e9cf5625ea00ca6cfa270a44050d01',
-    [],
+    rskToEthAssets,
     AppMode.TESTNET,
   ),
   new BridgeModel(
