@@ -84,26 +84,26 @@ export function ConfirmStep(props: Props) {
           <table>
             <tbody>
               <tr>
-                <td>Date/Time</td>
+                <td>Date/Time:</td>
                 <td>{new Date().toLocaleDateString()}</td>
               </tr>
               <tr>
-                <td>From</td>
+                <td>From:</td>
                 <td>{network.name}</td>
               </tr>
               <tr>
-                <td>Amount</td>
+                <td>Amount:</td>
                 <td>
                   {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
                   {asset.symbol}
                 </td>
               </tr>
               <tr>
-                <td>From</td>
+                <td>From:</td>
                 <td>{network.name}</td>
               </tr>
               <tr>
-                <td>Tx</td>
+                <td>Tx:</td>
                 <td>
                   <a
                     href={network.explorer + '/tx/' + tx.hash}
