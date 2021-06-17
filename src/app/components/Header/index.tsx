@@ -26,6 +26,7 @@ import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
+import { currentNetwork } from 'utils/classifiers';
 import './index.scss';
 
 export function Header() {
@@ -157,6 +158,13 @@ export function Header() {
     },
     { to: '/stake', title: t(translations.mainMenu.staking) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
+    {
+      to:
+        currentNetwork === 'mainnet'
+          ? 'https://bridge.sovryn.app'
+          : 'https://bridge.test.sovryn.app/',
+      title: t(translations.mainMenu.bridge),
+    },
     { to: '/origins', title: t(translations.mainMenu.origins) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
@@ -264,12 +272,12 @@ export function Header() {
             </div>
           </div>
           <div className="xl:tw-flex tw-flex-row tw-items-center">
-            <div className="tw-mr-20">
+            <div className="tw-mr-5 2xl:tw-mr-20">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5 xl:tw-space-x-10">
+            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10">
               <NavPopover
                 content={
                   <BPMenu>
@@ -309,7 +317,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -351,7 +359,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -401,7 +409,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1 tw-cursor-pointer">
+                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -423,7 +431,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1 tw-cursor-pointer">
+                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.rewards)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -433,6 +441,18 @@ export function Header() {
               <NavLink className="tw-header-link mr-4" to="/wallet">
                 {t(translations.mainMenu.wallet)}
               </NavLink>
+              <a
+                href={
+                  currentNetwork === 'mainnet'
+                    ? 'https://bridge.sovryn.app'
+                    : 'https://bridge.test.sovryn.app'
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tw-header-link"
+              >
+                {t(translations.mainMenu.bridge)}
+              </a>
               <NavLink className="tw-header-link" to="/origins">
                 {t(translations.mainMenu.origins)}
               </NavLink>
