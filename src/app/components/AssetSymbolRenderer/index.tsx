@@ -19,6 +19,11 @@ const symbolMap = {
       ETH<em>S</em>
     </>
   ),
+  [Asset.BNB]: (
+    <>
+      BNB<em>S</em>
+    </>
+  ),
 };
 
 export function getAssetSymbol(asset: Asset) {

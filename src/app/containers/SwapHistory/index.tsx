@@ -28,6 +28,7 @@ import { Pagination } from '../../components/Pagination';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
+import { useTradeHistoryRetry } from '../../hooks/useTradeHistoryRetry';
 
 export function SwapHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -38,6 +39,8 @@ export function SwapHistory() {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
+  const [hasOngoingTransactions, setHasOngoingTransactions] = useState(false);
+  const retry = useTradeHistoryRetry();
 
   let cancelTokenSource;
   const getData = () => {
@@ -76,7 +79,7 @@ export function SwapHistory() {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory]);
+  }, [account, getHistory, setCurrentHistory, retry]);
 
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
@@ -95,6 +98,10 @@ export function SwapHistory() {
         const { customData } = item;
         let assetFrom = [] as any;
         let assetTo = [] as any;
+
+        if (!hasOngoingTransactions) {
+          setHasOngoingTransactions(true);
+        }
 
         assetFrom = assets.find(
           currency => currency.asset === customData?.sourceToken,
@@ -122,7 +129,7 @@ export function SwapHistory() {
           />
         );
       });
-  }, [assets, transactions]);
+  }, [assets, hasOngoingTransactions, transactions]);
 
   return (
     <section>
@@ -154,7 +161,7 @@ export function SwapHistory() {
                 </td>
               </tr>
             )}
-            {history.length === 0 && !loading && (
+            {!hasOngoingTransactions && history.length === 0 && !loading && (
               <tr key={'empty'}>
                 <td className="text-center" colSpan={99}>
                   {t(translations.swapHistory.emptyState)}

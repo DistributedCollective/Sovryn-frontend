@@ -13,7 +13,8 @@
     "failed": "Failed",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "availableBalance": "Available Balance:"
+    "availableBalance": "Available Balance:",
+    "maintenance": "Under Maintenance"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -22,6 +23,31 @@
   "title": "Sovryn",
   "announcement": {
     "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+  },
+  "maintenance": {
+    "full": "Sovryn is currently under maintenance, please check our <0>discord</0> for updates.",
+    "openMarginTrades": "Sorry, opening margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "addToMarginTrades": "Sorry, adding to margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "closeMarginTrades": "Sorry, closing margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "buySov": "Sorry, buying SOV is currently under maintenance, please check our <0>discord</0> for updates.",
+    "spotTrades": "Sorry, spot trading is currently under maintenance, please check our <0>discord</0> for updates.",
+    "swapTrades": "Sorry, swaps are currently under maintenance, please check our <0>discord</0> for updates.",
+    "depositLend": "Sorry, lending deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "withdrawLend": "Sorry, lending withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "startBorrow": "Sorry, loan opening is currently under maintenance, please check our discord (link in footer) for updates.",
+    "stopBorrow": "Sorry, loan closing is currently under maintenance, please check our discord (link in footer) for updates.",
+    "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
+    "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
+    "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
+    "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "staking": "Sorry, adding to stakes is currently under maintenance, please check our discord (link in footer) for updates.",
+    "unstaking": "Sorry, unstaking is currently under maintenance, please check our discord (link in footer) for updates.",
+    "withdrawEarnedFees": "Sorry, withdrawing fees is currently under maintenance, please check our discord (link in footer) for updates.",
+    "delegateStakes": "Sorry, delegating stakes is currently under maintenance, please check our discord (link in footer) for updates.",
+    "delegateVests": "Sorry, delegating vests is currently under maintenance, please check our discord (link in footer) for updates.",
+    "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
+    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates."
   },
   "homePage": {
     "title": "Home Page",
@@ -202,6 +228,7 @@
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
     "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "notice_5": "For latest updates or discussion, head over to our <0>Discord</0> server.",
     "optOut": "Opt-out from Google Analytics",
     "buildID": "Build ID"
   },
@@ -347,6 +374,7 @@
   "swap": {
     "title": "Swap",
     "meta": "Swap",
+    "cta": "Swap",
     "minimumReceived": "Minimum received:",
     "send": "Send",
     "receive": "Receive"

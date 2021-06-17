@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
 import { Option } from 'app/components/Form/Select/types';
@@ -34,11 +34,16 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const dispatch = useDispatch();
+  const { checkMaintenance, States } = useMaintenance();
+  const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -106,12 +111,12 @@ export function TradeForm() {
                 key: `${pair}`,
                 label: pairs[pair],
               }))}
-              filterable={false}
               onChange={value =>
                 dispatch(
                   actions.setPairType((value as unknown) as SpotPairType),
                 )
               }
+              filterable={true}
               itemRenderer={renderAssetPair}
               valueRenderer={(item: Option<string, Asset[], any>) => (
                 <Text ellipsize className="tw-text-center">
@@ -160,19 +165,41 @@ export function TradeForm() {
             </div>
           </div>
         </div>
-
-        <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mx-auto">
-          <Button
-            text={t(
-              tradeType === TradingTypes.BUY
-                ? translations.spotTradingPage.tradeForm.buy_cta
-                : translations.spotTradingPage.tradeForm.sell_cta,
-            )}
-            tradingType={tradeType}
-            onClick={() => send()}
-            disabled={!validate || !connected}
-          />
+        <div className="tw-mt-12">
+          {spotLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.spotTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
+        {!spotLocked && (
+          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+            <Button
+              text={t(
+                tradeType === TradingTypes.BUY
+                  ? translations.spotTradingPage.tradeForm.buy_cta
+                  : translations.spotTradingPage.tradeForm.sell_cta,
+              )}
+              tradingType={tradeType}
+              onClick={() => send()}
+              disabled={!validate || !connected || spotLocked}
+            />
+          </div>
+        )}
       </div>
       <TxDialog tx={tx} />
     </>

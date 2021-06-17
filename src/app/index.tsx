@@ -29,7 +29,6 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
@@ -44,6 +43,8 @@ import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -55,9 +56,9 @@ export function App() {
   useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
   const dispatch = useDispatch();
 
-  const { checkMaintenance } = useMaintenance();
-  const siteLocked = checkMaintenance('full');
-
+  const { checkMaintenance, States } = useMaintenance();
+  const siteLocked = checkMaintenance(States.FULL);
+  const { t } = useTranslation();
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -69,8 +70,8 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      {siteLocked?.maintenance_active ? (
-        <MaintenancePage message={siteLocked?.message} />
+      {siteLocked ? (
+        <MaintenancePage message={t(translations.maintenance.full)} />
       ) : (
         <WalletProvider>
           <NetworkRibbon />

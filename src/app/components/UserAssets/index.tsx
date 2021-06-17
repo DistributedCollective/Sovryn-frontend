@@ -4,7 +4,7 @@
  *
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
@@ -15,7 +15,7 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
 import {
   numberToUSD,
@@ -27,11 +27,21 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Dialog } from '../../containers/Dialog';
+import { Button } from '../Button';
+import { discordInvite } from 'utils/classifiers';
 
 export function UserAssets() {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.FASTBTC]: fastBtcLocked,
+    [States.TRANSACK]: transackLocked,
+  } = checkMaintenances();
+
   const assets = useMemo(
     () =>
       AssetsDictionary.list().filter(
@@ -93,8 +103,59 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
-      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <FastBtcDialog
+        isOpen={fastBtc && !fastBtcLocked}
+        onClose={() => setFastBtc(false)}
+      />
+      <TransackDialog
+        isOpen={transack && !(fastBtcLocked || transackLocked)}
+        onClose={() => setTransack(false)}
+      />
+      <Dialog
+        isOpen={
+          (fastBtcLocked && (fastBtc || transack)) ||
+          (transackLocked && transack)
+        }
+        onClose={() => {
+          setFastBtc(false);
+          setTransack(false);
+        }}
+      >
+        <div className="tw-mw-320 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+            {t(translations.common.maintenance)}
+          </h1>
+          <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
+            <Trans
+              i18nKey={
+                fastBtc
+                  ? translations.maintenance.fastBTC
+                  : translations.maintenance.transack
+              }
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          </div>
+          <div className="tw-text-center tw-mt-5">
+            <Button
+              text={t(translations.modal.close)}
+              inverted
+              onClick={() => {
+                setFastBtc(false);
+                setTransack(false);
+              }}
+            />
+          </div>
+        </div>
+      </Dialog>
     </>
   );
 }
@@ -182,7 +243,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.ETH, Asset.XUSD].includes(item.asset) && (
+          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
             <ActionLink
               text={t(translations.userAssets.actions.deposit)}
               href={
@@ -194,18 +255,20 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               rel="noreferrer noopener"
             />
           )}
-          {![Asset.SOV, Asset.ETH, Asset.MOC].includes(item.asset) && (
+          {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
+            item.asset,
+          ) && (
             <ActionButton
               text={t(translations.userAssets.actions.trade)}
               onClick={() => history.push('/trade')}
             />
           )}
-          {![Asset.ETH].includes(item.asset) && (
-            <ActionButton
-              text={t(translations.userAssets.actions.swap)}
-              onClick={() => history.push('/swap')}
-            />
-          )}
+          {/*{![Asset.ETH].includes(item.asset) && (*/}
+          <ActionButton
+            text={t(translations.userAssets.actions.swap)}
+            onClick={() => history.push('/swap')}
+          />
+          {/*)}*/}
         </div>
       </td>
     </tr>

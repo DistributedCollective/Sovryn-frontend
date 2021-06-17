@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
 import {
@@ -24,6 +24,9 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { renderItemNH } from 'app/components/Form/Select/renderers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 const pairs: Options<
   TradingPairType,
@@ -36,6 +39,8 @@ const pairs: Options<
 export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
+  const { checkMaintenance, States } = useMaintenance();
+  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
   const { pairType, collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
@@ -117,21 +122,43 @@ export function TradeForm() {
             />
           </FormGroup>
         </div>
-
-        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mt-12 tw-mw-320 tw-mx-auto">
-          <Button
-            text={t(translations.marginTradePage.tradeForm.buttons.long)}
-            position={TradingPosition.LONG}
-            onClick={submit}
-            disabled={!validate || !connected}
-          />
-          <Button
-            text={t(translations.marginTradePage.tradeForm.buttons.short)}
-            position={TradingPosition.SHORT}
-            onClick={submit}
-            disabled={!validate || !connected}
-          />
+        <div className="tw-mt-12">
+          {openTradesLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.openMarginTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
+        {!openTradesLocked && (
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-320 tw-mx-auto">
+            <Button
+              text={t(translations.marginTradePage.tradeForm.buttons.long)}
+              position={TradingPosition.LONG}
+              onClick={submit}
+              disabled={!validate || !connected || openTradesLocked}
+            />
+            <Button
+              text={t(translations.marginTradePage.tradeForm.buttons.short)}
+              position={TradingPosition.SHORT}
+              onClick={submit}
+              disabled={!validate || !connected || openTradesLocked}
+            />
+          </div>
+        )}
       </div>
       <TradeDialog />
     </>
