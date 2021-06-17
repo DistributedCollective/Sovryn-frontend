@@ -29,6 +29,11 @@ import { media } from '../../../styles/media';
 import { currentNetwork } from 'utils/classifiers';
 import './index.scss';
 
+const bridgeURL =
+  currentNetwork === 'mainnet'
+    ? 'https://bridge.sovryn.app'
+    : 'https://bridge.test.sovryn.app/';
+
 export function Header() {
   const { t } = useTranslation();
   const history = useHistory();
@@ -159,10 +164,7 @@ export function Header() {
     { to: '/stake', title: t(translations.mainMenu.staking) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     {
-      to:
-        currentNetwork === 'mainnet'
-          ? 'https://bridge.sovryn.app'
-          : 'https://bridge.test.sovryn.app/',
+      to: bridgeURL,
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
@@ -442,11 +444,7 @@ export function Header() {
                 {t(translations.mainMenu.wallet)}
               </NavLink>
               <a
-                href={
-                  currentNetwork === 'mainnet'
-                    ? 'https://bridge.sovryn.app'
-                    : 'https://bridge.test.sovryn.app'
-                }
+                href={bridgeURL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tw-header-link"
