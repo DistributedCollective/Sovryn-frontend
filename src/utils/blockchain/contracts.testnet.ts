@@ -28,6 +28,9 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import FISHTokenAbi from './abi/FISH.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import LockedFundAbi from './abi/LockedFund.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -257,5 +260,17 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
+  },
+  FISH_token: {
+    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    abi: FISHTokenAbi,
+  },
+  originsBase: {
+    address: '0x2218581C27451786C3914E039D7e0Ff7Fb53F0a1',
+    abi: OriginsBaseAbi,
+  },
+  lockedFund: {
+    address: '0xF778Cbebb1e7b662499eC982Bd8395610c94a4f2',
+    abi: LockedFundAbi,
   },
 };
