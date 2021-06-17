@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import PageTransition from 'react-router-page-transition';
 
 import { translations } from '../../../locales/i18n';
 import { Footer } from '../../components/Footer';
@@ -17,30 +19,27 @@ import { Tab } from '../../components/Tab';
 import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { Babelfish } from '../../pages/Babelfish/index';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 import { VestedHistory } from '../VestedHistory';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 
-import './_overlay.scss';
-
 export function WalletPage() {
   const { t } = useTranslation();
   const [activeAssets, setActiveAssets] = useState(0);
   const [activeHistory, setActiveHistory] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDeposit, setDeposit] = useState(false);
   const connected = useIsConnected();
   const account = useAccount();
+  const history = useHistory();
+
   return (
     <>
       {isDeposit ? (
-        <Babelfish
-          isOpen={isDeposit}
-          onBack={() => {
-            setDeposit(false);
-          }}
-        />
+        <PageTransition timeout={300}>
+          {history.push('/babelfish')}
+        </PageTransition>
       ) : (
         <>
           <Helmet>
@@ -92,7 +91,7 @@ export function WalletPage() {
               <div className="tw-grid tw-gap-8 tw-grid-cols-12">
                 <div className="tw-col-span-12 tw-mt-2">
                   {activeAssets === 0 && (
-                    <UserAssets onDeposit={() => setDeposit(true)} />
+                    <UserAssets onDeposit={() => history.push('/babelfish')} />
                   )}
                   {activeAssets === 1 && <VestedAssets />}
                   {activeAssets === 2 && <SovGenerationNFTS />}

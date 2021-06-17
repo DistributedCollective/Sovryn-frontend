@@ -5,6 +5,7 @@
  */
 
 import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import ethIcon from 'assets/images/tokens/eth.svg';
@@ -18,7 +19,7 @@ import { SelectToken } from './components/SelectToken';
 import { StepItem, Stepper } from './components/Stepper';
 
 import './styles.scss';
-
+import '../../_overlay.scss';
 const initialSteps = [
   'Network',
   'Token',
@@ -28,16 +29,12 @@ const initialSteps = [
   'Processing',
   'Complete',
 ];
-interface BabelFishProps {
-  isOpen: boolean;
-  onBack: () => void;
-}
-export function Babelfish({ isOpen, onBack }: BabelFishProps) {
+export function Babelfish() {
   const [step, setStep] = useState(4);
   const [steps, setSteps] = useState<StepItem[]>(
     initialSteps.map(title => ({ title })),
   );
-  const [isBack, setBack] = useState(isOpen);
+  const history = useHistory();
   const updateStep = useCallback(
     (index, value) => {
       const prvSteps = [...steps];
@@ -87,9 +84,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
   );
   return (
     <div
-      className={`tw-flex tw-px-10 tw-h-full ${
-        isBack ? 'ModalOpen' : 'ModalClosed'
-      }`}
+      className={`tw-flex tw-px-10 tw-h-full page`}
       style={{ minHeight: 'calc(100vh - 4.4rem)' }}
     >
       <div
@@ -100,10 +95,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
           alt="arrowback"
           src={ArrowBack}
           onClick={() => {
-            setBack(false);
-            setTimeout(function () {
-              onBack();
-            }, 600);
+            history.goBack();
           }}
           style={{ height: '20px', width: '20px', marginRight: '10px' }}
         />
@@ -114,10 +106,7 @@ export function Babelfish({ isOpen, onBack }: BabelFishProps) {
             fontWeight: 700,
           }}
           onClick={() => {
-            setBack(false);
-            setTimeout(function () {
-              onBack();
-            }, 600);
+            history.goBack();
           }}
         >
           {' '}
