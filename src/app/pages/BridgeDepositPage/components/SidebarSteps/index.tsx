@@ -1,8 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../slice';
 import { DepositStep } from '../../types';
 import { selectBridgeDepositPage } from '../../selectors';
+import { StepItem, Stepper } from '../Stepper';
+import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
+import { Chain } from 'types';
+import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
+import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
+import { AssetModel } from '../../types/asset-model';
+import { toNumberFormat } from 'utils/display-text/format';
+import { bignumber } from 'mathjs';
+import walletIcon from 'assets/images/wallet-icon.svg';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -14,9 +23,74 @@ const stepOrder = [
   DepositStep.COMPLETE,
 ];
 
+const initialSteps: StepItem[] = [
+  { stepTitle: 'Network', value: DepositStep.CHAIN_SELECTOR },
+  { stepTitle: 'Token', value: DepositStep.TOKEN_SELECTOR },
+  { stepTitle: 'Amount', value: DepositStep.AMOUNT_SELECTOR },
+  { stepTitle: 'Review', value: DepositStep.REVIEW },
+  { stepTitle: 'Confirm', value: DepositStep.CONFIRM },
+  { stepTitle: 'Processing', value: DepositStep.PROCESSING },
+  { stepTitle: 'Complete', value: DepositStep.COMPLETE },
+];
+
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
+  const { chain, sourceAsset, targetChain, amount } = useSelector(
+    selectBridgeDepositPage,
+  );
+  const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
+    chain,
+  ]);
+
+  const asset = useMemo(
+    () =>
+      BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
+        sourceAsset as CrossBridgeAsset,
+      ) as AssetModel,
+    [chain, sourceAsset, targetChain],
+  );
+
+  const steps = useMemo<StepItem[]>(() => {
+    const prvSteps = [...initialSteps];
+    if (network) {
+      prvSteps[0].title = network?.chain;
+      prvSteps[0].icon = (
+        <img
+          className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+          src={network?.logo}
+          alt={network?.chain}
+        />
+      );
+    }
+    if (asset) {
+      prvSteps[1].title = asset?.symbol;
+      prvSteps[1].icon = (
+        <img
+          className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+          src={asset?.image}
+          alt={asset?.symbol}
+        />
+      );
+    }
+    const bnAmount = bignumber(amount || '0');
+    if (asset && bnAmount.greaterThan(0)) {
+      prvSteps[2].title = toNumberFormat(
+        asset.fromWei(amount),
+        asset.minDecimals,
+      );
+      prvSteps[2].icon = (
+        <img
+          className={'tw-object-contain tw-h-3 tw-w-3'}
+          src={walletIcon}
+          alt="wallet"
+        />
+      );
+    }
+
+    return prvSteps;
+  }, [network, asset, amount]);
+
   const dispatch = useDispatch();
   const { step } = useSelector(selectBridgeDepositPage);
 
@@ -45,36 +119,36 @@ export function SidebarSteps() {
     },
     [canOpen, dispatch],
   );
-
-  return (
-    <ul>
-      <li>
-        <button onClick={() => changeStep(DepositStep.CHAIN_SELECTOR)}>
-          Network
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.TOKEN_SELECTOR)}>
-          Token
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.AMOUNT_SELECTOR)}>
-          Amount
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.REVIEW)}>Review</button>
-      </li>
-      <li>
-        <button>Confirm</button>
-      </li>
-      <li>
-        <button>Processing</button>
-      </li>
-      <li>
-        <button>Complete</button>
-      </li>
-    </ul>
-  );
+  return <Stepper steps={steps} step={step} onClick={changeStep} />;
+  // return (
+  //   <ul>
+  //     <li>
+  //       <button onClick={() => changeStep(DepositStep.CHAIN_SELECTOR)}>
+  //         Network
+  //       </button>
+  //     </li>
+  //     <li>
+  //       <button onClick={() => changeStep(DepositStep.TOKEN_SELECTOR)}>
+  //         Token
+  //       </button>
+  //     </li>
+  //     <li>
+  //       <button onClick={() => changeStep(DepositStep.AMOUNT_SELECTOR)}>
+  //         Amount
+  //       </button>
+  //     </li>
+  //     <li>
+  //       <button onClick={() => changeStep(DepositStep.REVIEW)}>Review</button>
+  //     </li>
+  //     <li>
+  //       <button>Confirm</button>
+  //     </li>
+  //     <li>
+  //       <button>Processing</button>
+  //     </li>
+  //     <li>
+  //       <button>Complete</button>
+  //     </li>
+  //   </ul>
+  // );
 }

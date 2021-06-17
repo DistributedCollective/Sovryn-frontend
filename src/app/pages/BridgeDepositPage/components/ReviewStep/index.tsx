@@ -94,11 +94,11 @@ export function ReviewStep(props: Props) {
             </tr>
             <tr>
               <td>From</td>
-              <td>{network.name}</td>
+              <td>{network?.name}</td>
             </tr>
             <tr>
               <td>Token</td>
-              <td>{asset.symbol}</td>
+              <td>{asset?.symbol}</td>
             </tr>
             <tr>
               <td>Amount</td>

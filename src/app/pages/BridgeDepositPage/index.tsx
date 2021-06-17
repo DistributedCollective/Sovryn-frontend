@@ -18,12 +18,12 @@ import { selectBridgeDepositPage } from './selectors';
 import { bridgeDepositPageSaga } from './saga';
 import { DepositStep } from './types';
 import { ChainSelector } from './components/ChainSelector';
-import { SidebarSteps } from './components/SidebarSteps';
 import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 
 import './styles.scss';
+import { SidebarSteps } from './components/SidebarSteps';
 
 interface Props {}
 
@@ -70,12 +70,20 @@ export function BridgeDepositPage(props: Props) {
       </div>
 
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5">
-        <div className="tw-w-4/12">
+        {/* <div className="tw-w-4/12">
+          <SidebarSteps />
+       
+        </div> */}
+        <div
+          className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-start tw-pl-8"
+          style={{ minWidth: 200 }}
+        >
           <SidebarSteps />
           <div>
             <Link to="/wallet">Back to portfolio.</Link>
           </div>
         </div>
+
         <div className="tw-w-8/12">
           <SwitchTransition>
             <CSSTransition
