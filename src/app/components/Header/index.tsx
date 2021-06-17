@@ -319,7 +319,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -361,7 +361,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -411,7 +411,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -433,14 +433,17 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="tw-mr-1 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.rewards)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
 
-              <NavLink className="tw-header-link mr-4" to="/wallet">
+              <NavLink
+                className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                to="/wallet"
+              >
                 {t(translations.mainMenu.wallet)}
               </NavLink>
               <a
@@ -468,7 +471,7 @@ export function Header() {
             >
               {t(translations.mainMenu.help)}
             </a>
-            <div className="tw-mr-4">
+            <div className="2xl:tw-mr-4">
               <LanguageToggle />
             </div>
             <WalletConnector simpleView={false} />
