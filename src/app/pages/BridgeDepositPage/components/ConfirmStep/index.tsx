@@ -54,7 +54,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Please wait
           </div>
-          <p className="tw-mw-320 tw-text-center  tw-mt-12">
+          <p className="tw-mw-320 tw-text-center tw-mt-12">
             Preparing transaction.
           </p>
         </>
