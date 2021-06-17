@@ -17,6 +17,11 @@ import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { SelectBox } from '../SelectBox';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
+import { toNumberFormat } from 'utils/display-text/format';
+import { AssetModel } from '../../types/asset-model';
+import { bignumber } from 'mathjs';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 interface Props {}
 
@@ -85,24 +90,22 @@ export function TokenSelector(props: Props) {
 
   return (
     <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center">
+      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
         Select stablecoin to deposit
       </div>
       {sourceAssets.length > 0 ? (
         <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
-          {sourceAssets.map(item => (
-            <SelectBox
-              key={item.asset}
-              onClick={() => selectSourceAsset(item.asset)}
-            >
-              <img
-                src={item.image}
-                alt={item.symbol}
-                className="tw-w-14 tw-h-14 tw-mb-5 tw-mt-2"
+          {sourceAssets.map(item => {
+            return (
+              <TokenItem
+                key={item.asset}
+                sourceAsset={item.asset}
+                image={item.image}
+                symbol={item.symbol}
+                onClick={() => selectSourceAsset(item.asset)}
               />
-              {item.symbol}
-            </SelectBox>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <p>
@@ -110,6 +113,42 @@ export function TokenSelector(props: Props) {
           {network?.name} network. Try choosing another network or token.
         </p>
       )}
+    </div>
+  );
+}
+
+function TokenItem({ sourceAsset, image, symbol, onClick }) {
+  const { chain, targetChain } = useSelector(selectBridgeDepositPage);
+  const asset = useMemo(
+    () =>
+      BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
+        sourceAsset as CrossBridgeAsset,
+      ) as AssetModel,
+    [chain, sourceAsset, targetChain],
+  );
+
+  const balance = useTokenBalance(chain as any, asset);
+
+  return (
+    <div>
+      <SelectBox
+        onClick={onClick}
+        disabled={!bignumber(balance.value).greaterThan(0)}
+      >
+        <img src={image} alt={symbol} className="tw-w-16 tw-h-16" />
+      </SelectBox>
+      <div className="tw-flex tw-flex-col tw-items-center tw-mt-2">
+        <span className="tw-text-sm tw-font-light tw-mb-1">
+          Available Balance
+        </span>
+        <LoadableValue
+          value={`${toNumberFormat(
+            asset.fromWei(balance.value),
+            asset.minDecimals,
+          )} ${asset.symbol}`}
+          loading={balance.loading}
+        />
+      </div>
     </div>
   );
 }
