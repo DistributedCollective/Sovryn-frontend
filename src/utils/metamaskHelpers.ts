@@ -10,13 +10,13 @@ export const addRskMainnet = () =>
   addNetwork([
     {
       chainId: '0x1e',
-      chainName: 'RSK Mainnet',
+      chainName: 'RSK',
       nativeCurrency: {
         name: 'RSK BTC',
         symbol: 'RBTC',
         decimals: 18,
       },
-      rpcUrls: ['https://public-node.rsk.co'],
+      rpcUrls: ['https://mainnet.sovryn.app/rpc'],
       blockExplorerUrls: ['https://explorer.rsk.co'],
     },
   ]);
@@ -31,7 +31,7 @@ export const addRskTestnet = () =>
         symbol: 'tRBTC',
         decimals: 18,
       },
-      rpcUrls: ['https://public-node.testnet.rsk.co'],
+      rpcUrls: ['https://testnet.sovryn.app/rpc'],
       blockExplorerUrls: ['https://explorer.testnet.rsk.co'],
     },
   ]);
