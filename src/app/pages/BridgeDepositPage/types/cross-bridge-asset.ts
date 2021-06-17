@@ -10,6 +10,7 @@ export enum CrossBridgeAsset {
   XUSD = 'XUSD',
   USDT = 'USDT',
   USDC = 'USDC',
+  BUSD = 'BUSD',
   DAI = 'DAI',
   RUSDT = 'RUSDT',
 }

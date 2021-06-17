@@ -1,6 +1,9 @@
 import { AppMode, Chain, ChainId } from 'types';
 import { BridgeModel } from '../../types/bridge-model';
 
+import ethToRskAssets from '../assets/eth-to-rsk.mainnet';
+import bscToRskAssets from '../assets/bsc-to-rsk.mainnet';
+
 export default [
   // RSK / BSC
   new BridgeModel(
@@ -18,7 +21,7 @@ export default [
     ChainId.RSK_MAINNET,
     '0xdfc7127593c8af1a17146893f10e08528f4c2aa7',
     '0x05b68e70168e876b2025f837bc8e0b2312d5327d',
-    [],
+    bscToRskAssets,
     AppMode.MAINNET,
   ),
 
@@ -38,7 +41,7 @@ export default [
     ChainId.RSK_MAINNET,
     '0x33C0D33a0d4312562ad622F91d12B0AC47366EE1',
     '0x8DF20c2c85Bee0c3DA250dA96D892598C70aA1bE',
-    [],
+    ethToRskAssets,
     AppMode.MAINNET,
   ),
 ];

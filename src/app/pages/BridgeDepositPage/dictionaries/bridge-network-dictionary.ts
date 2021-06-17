@@ -3,9 +3,9 @@ import { NetworkModel } from '../types/network-model';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
 import { currentNetwork } from '../../../../utils/classifiers';
 
-import rskLogo from './assets/chains/rsk.svg';
-import ethLogo from './assets/chains/eth.svg';
-import bscLogo from './assets/chains/bsc.svg';
+import rskLogo from './bridges/icons/rsk.svg';
+import ethLogo from './bridges/icons/eth.svg';
+import bscLogo from './bridges/icons/bsc.svg';
 
 export class BridgeNetworkDictionary {
   public static readonly networks = [
