@@ -36,12 +36,16 @@ const initialSteps: StepItem[] = [
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
+  const dispatch = useDispatch();
+  const { step } = useSelector(selectBridgeDepositPage);
+
   const { chain, sourceAsset, targetChain, amount } = useSelector(
     selectBridgeDepositPage,
   );
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
     chain,
   ]);
+  const stepIndex = stepOrder.indexOf(step);
 
   const asset = useMemo(
     () =>
@@ -52,8 +56,8 @@ export function SidebarSteps() {
   );
 
   const steps = useMemo<StepItem[]>(() => {
-    const prvSteps = [...initialSteps];
-    if (network) {
+    const prvSteps = [...initialSteps.map(item => ({ ...item }))];
+    if (network && stepIndex > 0) {
       prvSteps[0].title = network?.chain;
       prvSteps[0].icon = (
         <img
@@ -63,7 +67,9 @@ export function SidebarSteps() {
         />
       );
     }
-    if (asset) {
+
+    if (stepIndex > 1 && asset) {
+      console.log('stepIndex: ', stepIndex);
       prvSteps[1].title = asset?.symbol;
       prvSteps[1].icon = (
         <img
@@ -74,7 +80,7 @@ export function SidebarSteps() {
       );
     }
     const bnAmount = bignumber(amount || '0');
-    if (asset && bnAmount.greaterThan(0)) {
+    if (asset && bnAmount.greaterThan(0) && stepIndex > 2) {
       prvSteps[2].title = toNumberFormat(
         asset.fromWei(amount),
         asset.minDecimals,
@@ -89,10 +95,7 @@ export function SidebarSteps() {
     }
 
     return prvSteps;
-  }, [network, asset, amount]);
-
-  const dispatch = useDispatch();
-  const { step } = useSelector(selectBridgeDepositPage);
+  }, [network, asset, amount, stepIndex]);
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {
