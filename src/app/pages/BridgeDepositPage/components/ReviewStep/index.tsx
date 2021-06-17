@@ -87,28 +87,28 @@ export function ReviewStep(props: Props) {
     <div className="tw-flex tw-flex-col tw-items-center">
       <div className="tw-mb-20 tw-text-2xl tw-text-center">Review deposit</div>
       <div className="tw-mw-320">
-        <Table className="tw-w-full">
+        <Table className="tw-mx-auto">
           <tbody>
             <tr>
-              <td>Date/Time</td>
+              <td>Date/Time:</td>
               <td>{new Date().toLocaleDateString()}</td>
             </tr>
             <tr>
-              <td>From</td>
+              <td>From:</td>
               <td>{network?.name}</td>
             </tr>
             <tr>
-              <td>Token</td>
+              <td>Token:</td>
               <td>{asset?.symbol}</td>
             </tr>
             <tr>
-              <td>Amount</td>
+              <td>Amount:</td>
               <td>
                 {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
               </td>
             </tr>
             <tr>
-              <td>Bridge Fee</td>
+              <td>Bridge Fee:</td>
               <td>
                 {toNumberFormat(
                   asset.fromWei(limits.returnData.getFeePerToken),
@@ -134,7 +134,7 @@ export function ReviewStep(props: Props) {
 
 const Table = styled.table`
   td {
-    padding: 0.5rem;
+    padding: 0.5rem 1.25rem;
     text-align: left;
   }
 `;
