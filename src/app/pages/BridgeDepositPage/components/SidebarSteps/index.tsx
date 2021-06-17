@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../slice';
 import { DepositStep } from '../../types';
 import { selectBridgeDepositPage } from '../../selectors';
+import { Link } from 'react-router-dom';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -51,34 +52,37 @@ export function SidebarSteps() {
   );
 
   return (
-    <ul>
-      <li>
-        <button onClick={() => changeStep(DepositStep.CHAIN_SELECTOR)}>
-          Network
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.TOKEN_SELECTOR)}>
-          Token
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.AMOUNT_SELECTOR)}>
-          Amount
-        </button>
-      </li>
-      <li>
-        <button onClick={() => changeStep(DepositStep.REVIEW)}>Review</button>
-      </li>
-      <li>
-        <button>Confirm</button>
-      </li>
-      <li>
-        <button>Processing</button>
-      </li>
-      <li>
-        <button>Complete</button>
-      </li>
-    </ul>
+    <>
+      <ul>
+        <li>
+          <button onClick={() => changeStep(DepositStep.CHAIN_SELECTOR)}>
+            Network
+          </button>
+        </li>
+        <li>
+          <button onClick={() => changeStep(DepositStep.TOKEN_SELECTOR)}>
+            Token
+          </button>
+        </li>
+        <li>
+          <button onClick={() => changeStep(DepositStep.AMOUNT_SELECTOR)}>
+            Amount
+          </button>
+        </li>
+        <li>
+          <button onClick={() => changeStep(DepositStep.REVIEW)}>Review</button>
+        </li>
+        <li>
+          <button>Confirm</button>
+        </li>
+        <li>
+          <button>Processing</button>
+        </li>
+        <li>
+          <button>Complete</button>
+        </li>
+      </ul>
+      <Link to="/wallet">Back to portfolio</Link>
+    </>
   );
 }

@@ -182,7 +182,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
             />
           )}
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <DepositLink asset={item.asset} />
+            <BridgeLink asset={item.asset} />
           )}
           {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
             item.asset,
@@ -204,16 +204,26 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
   );
 }
 
-function DepositLink({ asset }: { asset: Asset }) {
+function BridgeLink({ asset }: { asset: Asset }) {
   const receiver = useAccount();
   return (
-    <Link
-      to={{
-        pathname: '/cross-chain/deposit',
-        state: { receiver, asset },
-      }}
-    >
-      Deposit
-    </Link>
+    <>
+      <Link
+        to={{
+          pathname: '/cross-chain/deposit',
+          state: { receiver, asset },
+        }}
+      >
+        Deposit
+      </Link>
+      <Link
+        to={{
+          pathname: '/cross-chain/withdraw',
+          state: { receiver, asset },
+        }}
+      >
+        Withdraw
+      </Link>
+    </>
   );
 }

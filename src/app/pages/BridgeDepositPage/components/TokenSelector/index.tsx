@@ -15,6 +15,7 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { bridgeNetwork } from '../../utils/bridge-network';
 import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
+import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 
 interface Props {}
 
@@ -76,6 +77,10 @@ export function TokenSelector(props: Props) {
     }
   }, [chain, targetChain, targetAsset, sourceAssets]);
 
+  const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
+    chain,
+  ]);
+
   return (
     <div>
       <h1>Select Coin to Deposit</h1>
@@ -97,7 +102,10 @@ export function TokenSelector(props: Props) {
           ))}
         </div>
       ) : (
-        <p>Sorry, no supported deposit tokens for {targetAsset}.</p>
+        <p>
+          Sorry, no supported deposit tokens for {targetAsset} on{' '}
+          {network?.name} network. Try choosing another network or token.
+        </p>
       )}
     </div>
   );
