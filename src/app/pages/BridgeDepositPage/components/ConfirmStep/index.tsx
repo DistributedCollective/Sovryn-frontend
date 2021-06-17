@@ -17,6 +17,10 @@ import { DepositStep, TxStep } from '../../types';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { Button } from '../../../../components/Button';
+import { SelectBox } from '../SelectBox';
+import wMetamask from 'assets/wallets/metamask.svg';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import styled from 'styled-components/macro';
 
 interface Props {}
 
@@ -44,17 +48,31 @@ export function ConfirmStep(props: Props) {
     dispatch(actions.setStep(DepositStep.COMPLETE));
   }, [dispatch]);
   return (
-    <div>
+    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       {tx.step === TxStep.MAIN && (
         <>
-          <h1>Please wait</h1>
-          <p>Preparing transaction.</p>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            Please wait
+          </div>
+          <p className="tw-mw-320 tw-text-center  tw-mt-12">
+            Preparing transaction.
+          </p>
         </>
       )}
       {tx.step === TxStep.APPROVE && (
         <>
-          <h1>Allow Transaction</h1>
-          <p>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            Allow Transaction
+          </div>
+          <SelectBox onClick={() => {}}>
+            <img
+              className="tw-h-20 tw-mb-5 tw-mt-2"
+              src={wMetamask}
+              alt={'Metamask'}
+            />
+            <div>Metamask</div>
+          </SelectBox>
+          <p className="tw-mw-320 tw-mt-12 tw-text-center">
             Please approve {asset.fromWei(amount, asset.minDecimals)}{' '}
             {asset.symbol} to be spend by Sovryn smart-contracts in your{' '}
             {wallet.providerType} wallet.
@@ -63,8 +81,18 @@ export function ConfirmStep(props: Props) {
       )}
       {tx.step === TxStep.CONFIRM_TRANSFER && (
         <>
-          <h1>Confirm Transaction</h1>
-          <p>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            Confirm Transaction
+          </div>
+          <SelectBox onClick={() => {}}>
+            <img
+              className="tw-h-20 tw-mb-5 tw-mt-2"
+              src={wMetamask}
+              alt={'Metamask'}
+            />
+            <div>Metamask</div>
+          </SelectBox>
+          <p className="tw-mw-320 tw-mt-12 tw-text-center">
             Please confirm the trade transaction in your {wallet.providerType}{' '}
             wallet.
           </p>
@@ -76,12 +104,12 @@ export function ConfirmStep(props: Props) {
         TxStep.FAILED_TRANSFER,
       ].includes(tx.step) && (
         <>
-          <h1>
-            {tx.step === TxStep.PENDING_TRANSFER && <>Deposit in progress</>}
-            {tx.step === TxStep.COMPLETED_TRANSFER && <>Deposit completed</>}
-            {tx.step === TxStep.FAILED_TRANSFER && <>Deposit failed</>}
-          </h1>
-          <table>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            {tx.step === TxStep.PENDING_TRANSFER && <>Deposit in Progress...</>}
+            {tx.step === TxStep.COMPLETED_TRANSFER && <>Deposit Complete</>}
+            {tx.step === TxStep.FAILED_TRANSFER && <>Deposit Failed</>}
+          </div>
+          <Table>
             <tbody>
               <tr>
                 <td>Date/Time:</td>
@@ -105,27 +133,41 @@ export function ConfirmStep(props: Props) {
               <tr>
                 <td>Tx:</td>
                 <td>
-                  <a
-                    href={network.explorer + '/tx/' + tx.hash}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {tx.hash}
-                  </a>
+                  <LinkToExplorer
+                    txHash={tx.hash}
+                    className="text-gold font-weight-normal text-nowrap"
+                  />
                 </td>
               </tr>
             </tbody>
-          </table>
-          <Button text="Close" onClick={handleComplete} />
+          </Table>
+          <Button
+            className="tw-mt-10 tw-w-full"
+            text="Close"
+            onClick={handleComplete}
+          />
         </>
       )}
       {tx.step === TxStep.USER_DENIED && (
         <>
-          <h1>Transaction denied</h1>
-          <p>Rejected by user</p>
-          <Button text="Close" onClick={handleComplete} />
+          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            Transaction denied
+          </div>
+          <p className="tw-mw-320 tw-mt-12 tw-text-center">Rejected by user</p>
+          <Button
+            className="tw-mt-10 tw-w-full"
+            text="Close"
+            onClick={handleComplete}
+          />
         </>
       )}
     </div>
   );
 }
+
+const Table = styled.table`
+  td {
+    padding: 0.5rem 1.25rem;
+    text-align: left;
+  }
+`;

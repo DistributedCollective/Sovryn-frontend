@@ -84,7 +84,7 @@ export function ChainSelector(props: Props) {
                 Change to {network?.name}
               </div>
               <div className="tw-flex tw-flex-col tw-gap-12 tw-px-2 tw-items-center">
-                <SelectBox key={network?.chain} onClick={() => {}}>
+                <SelectBox onClick={() => {}}>
                   <img
                     className="tw-mb-5 tw-mt-2"
                     src={network?.logo}

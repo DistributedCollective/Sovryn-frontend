@@ -23,6 +23,7 @@ import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 interface Props {}
 
@@ -95,10 +96,10 @@ export function AmountSelector(props: Props) {
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center">
-      <div className="tw-flex tw-flex-col tw-items-center">
-        <div className="tw-mb-20 tw-text-2xl tw-text-center">
-          Enter amount to deposit ({sourceAsset})
+    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+      <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+          Enter amount to deposit
         </div>
         <div className="tw-mw-320">
           <FormGroup label="Deposit Amount">
@@ -118,55 +119,65 @@ export function AmountSelector(props: Props) {
         </div>
         <div className="text-center tw-mt-4 tw-mb-2">Daily deposit limits</div>
         <Table>
-          <tbody className="tw-text-right">
+          <tbody className="tw-text-right tw-text-sm">
             <tr>
-              <td>Fee</td>
+              <td>Min Amount:</td>
               <td>
-                {toNumberFormat(
-                  asset.fromWei(limits.returnData.getFeePerToken),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
+                <LoadableValue
+                  value={`${toNumberFormat(
+                    asset.fromWei(limits.returnData.getMinPerToken),
+                    asset.minDecimals,
+                  )} ${asset.symbol}`}
+                  loading={limitsLoading}
+                />
               </td>
             </tr>
             <tr>
-              <td>Min Amount</td>
+              <td>Max Amount:</td>
               <td>
-                {toNumberFormat(
-                  asset.fromWei(limits.returnData.getMinPerToken),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
+                <LoadableValue
+                  value={`${toNumberFormat(
+                    fromWei(limits.returnData.getMaxTokensAllowed),
+                    asset.minDecimals,
+                  )} ${asset.symbol}`}
+                  loading={limitsLoading}
+                />
               </td>
             </tr>
             <tr>
-              <td>Max Amount</td>
+              <td>Daily Limit:</td>
               <td>
-                {toNumberFormat(
-                  fromWei(limits.returnData.getMaxTokensAllowed),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
+                <LoadableValue
+                  value={`${toNumberFormat(
+                    fromWei(limits.returnData.dailyLimit),
+                    asset.minDecimals,
+                  )} ${asset.symbol}`}
+                  loading={limitsLoading}
+                />
               </td>
             </tr>
             <tr>
-              <td>Daily Limit</td>
+              <td>Daily Limit Spent:</td>
               <td>
-                {toNumberFormat(
-                  fromWei(limits.returnData.dailyLimit),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
+                <LoadableValue
+                  value={`${toNumberFormat(
+                    fromWei(limits.returnData.spentToday),
+                    asset.minDecimals,
+                  )} ${asset.symbol}`}
+                  loading={limitsLoading}
+                />
               </td>
             </tr>
             <tr>
-              <td>Daily Limit Spent</td>
+              <td>Fee:</td>
               <td>
-                {toNumberFormat(
-                  fromWei(limits.returnData.spentToday),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
+                <LoadableValue
+                  value={`${toNumberFormat(
+                    asset.fromWei(limits.returnData.getFeePerToken),
+                    asset.minDecimals,
+                  )} ${asset.symbol}`}
+                  loading={limitsLoading}
+                />
               </td>
             </tr>
             {bridgeBalance.value !== false && (

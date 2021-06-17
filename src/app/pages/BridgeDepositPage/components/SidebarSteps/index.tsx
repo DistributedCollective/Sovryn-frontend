@@ -37,9 +37,8 @@ const initialSteps: StepItem[] = [
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
   const dispatch = useDispatch();
-  const { step } = useSelector(selectBridgeDepositPage);
 
-  const { chain, sourceAsset, targetChain, amount } = useSelector(
+  const { chain, sourceAsset, targetChain, amount, step } = useSelector(
     selectBridgeDepositPage,
   );
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [

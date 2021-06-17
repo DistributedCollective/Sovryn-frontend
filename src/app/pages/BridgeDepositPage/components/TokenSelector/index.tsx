@@ -22,6 +22,7 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { AssetModel } from '../../types/asset-model';
 import { bignumber } from 'mathjs';
 import { LoadableValue } from 'app/components/LoadableValue';
+import cn from 'classnames';
 
 interface Props {}
 
@@ -128,16 +129,21 @@ function TokenItem({ sourceAsset, image, symbol, onClick }) {
   );
 
   const balance = useTokenBalance(chain as any, asset);
+  const isDisabled = useCallback(
+    () => !bignumber(balance.value).greaterThan(0),
+    [balance],
+  );
 
   return (
     <div>
-      <SelectBox
-        onClick={onClick}
-        disabled={!bignumber(balance.value).greaterThan(0)}
-      >
+      <SelectBox onClick={onClick} disabled={isDisabled()}>
         <img src={image} alt={symbol} className="tw-w-16 tw-h-16" />
       </SelectBox>
-      <div className="tw-flex tw-flex-col tw-items-center tw-mt-2">
+      <div
+        className={cn('tw-flex tw-flex-col tw-items-center tw-mt-2', {
+          'tw-opacity-25': isDisabled() && !balance.loading,
+        })}
+      >
         <span className="tw-text-sm tw-font-light tw-mb-1">
           Available Balance
         </span>

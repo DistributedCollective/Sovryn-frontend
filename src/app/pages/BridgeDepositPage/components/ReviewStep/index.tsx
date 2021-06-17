@@ -84,8 +84,10 @@ export function ReviewStep(props: Props) {
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center">
-      <div className="tw-mb-20 tw-text-2xl tw-text-center">Review deposit</div>
+    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+        Review deposit
+      </div>
       <div className="tw-mw-320">
         <Table className="tw-mx-auto">
           <tbody>
@@ -121,7 +123,7 @@ export function ReviewStep(props: Props) {
         </Table>
 
         <Button
-          className="tw-mt-10 tw-w-full"
+          className="tw-mt-20 tw-w-full"
           text={'Confirm Deposit'}
           disabled={!valid || tx.loading}
           loading={tx.loading}
