@@ -16,6 +16,7 @@ import { bridgeNetwork } from '../../utils/bridge-network';
 import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
+import { SelectBox } from '../SelectBox';
 
 interface Props {}
 
@@ -49,6 +50,7 @@ export function TokenSelector(props: Props) {
     [chain, targetAsset, targetChain],
   );
 
+  // todo this will be used for withdrawals later.
   useEffect(() => {
     const callData = sourceAssets
       .filter(item => item.usesAggregator && !item.aggregatorMints)
@@ -83,22 +85,23 @@ export function TokenSelector(props: Props) {
 
   return (
     <div>
-      <h1>Select Coin to Deposit</h1>
+      <div className="tw-mb-20 tw-text-2xl tw-text-center">
+        Select stablecoin to deposit
+      </div>
       {sourceAssets.length > 0 ? (
-        <div className="tw-grid tw-gap-5 tw-grid-cols-4">
+        <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
           {sourceAssets.map(item => (
-            <button
+            <SelectBox
               key={item.asset}
               onClick={() => selectSourceAsset(item.asset)}
-              className="tw-p-3 tw-bg-gray-800 hover:tw-bg-gray-900"
             >
               <img
                 src={item.image}
                 alt={item.symbol}
-                className="tw-w-8 tw-h-8"
+                className="tw-w-14 tw-h-14 tw-mb-5 tw-mt-2"
               />
               {item.symbol}
-            </button>
+            </SelectBox>
           ))}
         </div>
       ) : (

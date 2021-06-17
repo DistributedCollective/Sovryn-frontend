@@ -7,18 +7,21 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
+import styled from 'styled-components/macro';
+
 import type { Chain } from 'types';
+import { Button } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
-import { Button } from '../../../../components/Form/Button';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
+import { DepositStep } from '../../types';
 
 interface Props {}
 
@@ -82,10 +85,10 @@ export function ReviewStep(props: Props) {
   ]);
 
   return (
-    <div>
-      <h1>Review Deposit</h1>
+    <div className="tw-flex tw-flex-col tw-items-center">
+      <div className="tw-mb-20 tw-text-2xl tw-text-center">Review deposit</div>
       <div className="tw-mw-320">
-        <table>
+        <Table className="tw-w-full">
           <tbody>
             <tr>
               <td>Date/Time</td>
@@ -93,11 +96,11 @@ export function ReviewStep(props: Props) {
             </tr>
             <tr>
               <td>From</td>
-              <td>{network.name}</td>
+              <td>{network?.name}</td>
             </tr>
             <tr>
               <td>Token</td>
-              <td>{asset.symbol}</td>
+              <td>{asset?.symbol}</td>
             </tr>
             <tr>
               <td>Amount</td>
@@ -116,10 +119,11 @@ export function ReviewStep(props: Props) {
               </td>
             </tr>
           </tbody>
-        </table>
+        </Table>
 
         <Button
-          text="Confirm Deposit"
+          className="tw-mt-10 tw-w-full"
+          text={'Confirm Deposit'}
           disabled={!valid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
@@ -128,3 +132,10 @@ export function ReviewStep(props: Props) {
     </div>
   );
 }
+
+const Table = styled.table`
+  td {
+    padding: 0.5rem;
+    text-align: left;
+  }
+`;

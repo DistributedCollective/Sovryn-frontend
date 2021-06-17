@@ -172,7 +172,6 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const history = useHistory();
-
   useEffect(() => {
     const get = async () => {
       setLoading(true);

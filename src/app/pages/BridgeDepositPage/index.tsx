@@ -6,7 +6,9 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
@@ -16,7 +18,6 @@ import { selectBridgeDepositPage } from './selectors';
 import { bridgeDepositPageSaga } from './saga';
 import { DepositStep } from './types';
 import { ChainSelector } from './components/ChainSelector';
-import { SidebarSteps } from './components/SidebarSteps';
 import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
@@ -24,6 +25,9 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { CompleteStep } from './components/CompleteStep';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
+
+import './styles.scss';
+import { SidebarSteps } from './components/SidebarSteps';
 
 interface Props {}
 
@@ -72,18 +76,34 @@ export function BridgeDepositPage(props: Props) {
   return (
     <>
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5">
-        <div className="tw-w-4/12">
+        <div
+          className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-start tw-pl-8"
+          style={{ minWidth: 200 }}
+        >
           <SidebarSteps />
         </div>
+
         <div className="tw-w-8/12">
-          {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
-          {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
-          {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
-          {step === DepositStep.REVIEW && <ReviewStep />}
-          {[DepositStep.CONFIRM, DepositStep.PROCESSING].includes(step) && (
-            <ConfirmStep />
-          )}
-          {step === DepositStep.COMPLETE && <CompleteStep />}
+          <SwitchTransition>
+            <CSSTransition
+              key={step}
+              addEndListener={(node, done) =>
+                node.addEventListener('transitionend', done, false)
+              }
+              classNames="fade"
+            >
+              <>
+                {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
+                {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
+                {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
+                {step === DepositStep.REVIEW && <ReviewStep />}
+                {[DepositStep.CONFIRM, DepositStep.PROCESSING].includes(
+                  step,
+                ) && <ConfirmStep />}
+                {step === DepositStep.COMPLETE && <CompleteStep />}
+              </>
+            </CSSTransition>
+          </SwitchTransition>
         </div>
       </div>
     </>
