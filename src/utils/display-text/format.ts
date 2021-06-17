@@ -15,6 +15,7 @@ export function weiToNumberFormat(value: any, decimals: number = 0) {
 }
 
 export function toNumberFormat(value: number | string, decimals: number = 0) {
+  if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals,

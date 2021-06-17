@@ -87,8 +87,8 @@ export function LiquidityRemoveContainer() {
     '1',
   );
 
-  const { checkMaintenance } = useMaintenance();
-  const liquidityLocked = checkMaintenance('changeLiquidity');
+  const { checkMaintenance, States } = useMaintenance();
+  const liquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
   const handleWithdraw = useCallback(() => {
     tx.withdraw();
@@ -261,14 +261,13 @@ export function LiquidityRemoveContainer() {
               onClick={handleWithdraw}
               loading={tx.loading}
               disabled={
-                !isConnected ||
-                tx.loading ||
-                !amountValid() ||
-                liquidityLocked?.maintenance_active
+                !isConnected || tx.loading || !amountValid() || liquidityLocked
               }
               tooltip={
-                liquidityLocked?.maintenance_active ? (
-                  <div className="mw-tooltip">{liquidityLocked?.message}</div>
+                liquidityLocked ? (
+                  <div className="mw-tooltip">
+                    {t(translations.maintenance.removeLiquidity)}
+                  </div>
                 ) : undefined
               }
             />

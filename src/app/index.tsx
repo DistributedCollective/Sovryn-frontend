@@ -22,6 +22,8 @@ import {
 } from 'store/global/maintenance-store/slice';
 import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { MaintenancePage } from './containers/MaintenancePage';
@@ -29,7 +31,6 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
@@ -56,9 +57,9 @@ export function App() {
   useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
   const dispatch = useDispatch();
 
-  const { checkMaintenance } = useMaintenance();
-  const siteLocked = checkMaintenance('full');
-
+  const { checkMaintenance, States } = useMaintenance();
+  const siteLocked = checkMaintenance(States.FULL);
+  const { t } = useTranslation();
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -70,8 +71,8 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      {siteLocked?.maintenance_active ? (
-        <MaintenancePage message={siteLocked?.message} />
+      {siteLocked ? (
+        <MaintenancePage message={t(translations.maintenance.full)} />
       ) : (
         <WalletProvider>
           <NetworkRibbon />

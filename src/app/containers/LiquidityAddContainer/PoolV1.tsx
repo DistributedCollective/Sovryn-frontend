@@ -84,8 +84,8 @@ export function PoolV1(props: Props) {
     tx.deposit();
   }, [tx]);
 
-  const { checkMaintenance } = useMaintenance();
-  const liquidityLocked = checkMaintenance('changeLiquidity');
+  const { checkMaintenance, States } = useMaintenance();
+  const liquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
   const amountValid = () => {
     return !tokens
@@ -145,14 +145,13 @@ export function PoolV1(props: Props) {
             onClick={handleSupply}
             loading={tx.loading}
             disabled={
-              !isConnected ||
-              tx.loading ||
-              !amountValid() ||
-              liquidityLocked?.maintenance_active
+              !isConnected || tx.loading || !amountValid() || liquidityLocked
             }
             tooltip={
-              liquidityLocked?.maintenance_active ? (
-                <div className="mw-tooltip">{liquidityLocked?.message}</div>
+              liquidityLocked ? (
+                <div className="mw-tooltip">
+                  {t(translations.maintenance.addLiquidity)}
+                </div>
               ) : undefined
             }
           />

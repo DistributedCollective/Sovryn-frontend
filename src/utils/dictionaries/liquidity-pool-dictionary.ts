@@ -27,11 +27,11 @@ export class LiquidityPoolDictionary {
       new LiquidityPool(Asset.XUSD, [
         new LiquidityPoolSupplyAsset(Asset.XUSD, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
-          testnet: '0x151fB2e01ae09F2a7B8B6588ea792314ac146591',
+          testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
-          testnet: '0x151fB2e01ae09F2a7B8B6588ea792314ac146591',
+          testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
         }),
       ]).setVersion(1),
     ],
