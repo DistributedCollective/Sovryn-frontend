@@ -15,7 +15,7 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
 import {
   numberToUSD,
@@ -182,7 +182,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.ETH, Asset.XUSD].includes(item.asset) && (
+          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
             <ActionLink
               text={t(translations.userAssets.actions.deposit)}
               href={
@@ -194,18 +194,20 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               rel="noreferrer noopener"
             />
           )}
-          {![Asset.SOV, Asset.ETH, Asset.MOC].includes(item.asset) && (
+          {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
+            item.asset,
+          ) && (
             <ActionButton
               text={t(translations.userAssets.actions.trade)}
               onClick={() => history.push('/trade')}
             />
           )}
-          {![Asset.ETH].includes(item.asset) && (
-            <ActionButton
-              text={t(translations.userAssets.actions.swap)}
-              onClick={() => history.push('/swap')}
-            />
-          )}
+          {/*{![Asset.ETH].includes(item.asset) && (*/}
+          <ActionButton
+            text={t(translations.userAssets.actions.swap)}
+            onClick={() => history.push('/swap')}
+          />
+          {/*)}*/}
         </div>
       </td>
     </tr>

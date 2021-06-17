@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { Select as BP_Select } from '@blueprintjs/select';
-import { Text } from '@blueprintjs/core';
+import { MenuItem, Text } from '@blueprintjs/core';
 import { isMobile } from 'utils/helpers';
 import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
-import { areOptionsEqual, renderItem } from './renderers';
+import { areOptionsEqual, renderItem, filterItem } from './renderers';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
 
 interface Props<K = string, V = string, P = any> {
@@ -26,6 +26,7 @@ interface Props<K = string, V = string, P = any> {
 const Selector = BP_Select.ofType<Option>();
 
 export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
+  const { t } = useTranslation();
   const onItemSelect = useCallback(item => props.onChange(item.key, item), [
     props,
   ]);
@@ -46,11 +47,10 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
     <Selector
       className={classNames('tw-select-container', props.className)}
       items={props.options as any}
-      filterable={props.filterable}
+      filterable={props.filterable || false}
       inputProps={
         isMobile() && !props.inputFocus ? { autoFocus: false } : undefined
       }
-      // filterable={props.filterable}
       activeItem={selected as any}
       popoverProps={{
         // targetTagName: 'div',
@@ -59,11 +59,11 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
         usePortal: false,
         minimal: true,
       }}
-      // noResults={
-      //   <MenuItem disabled text={t(translations.form.select.noResults)} />
-      // }
+      noResults={
+        <MenuItem disabled text={t(translations.form.select.noResults)} />
+      }
       itemRenderer={props.itemRenderer as any}
-      // itemPredicate={filterItem}
+      itemPredicate={filterItem}
       onItemSelect={onItemSelect}
       itemsEqual={areOptionsEqual as any}
     >
@@ -113,4 +113,5 @@ Select.defaultProps = {
   innerClasses: 'tw-select-origin',
   valueRenderer: (item: Option) => <Text ellipsize>{item.label}</Text>,
   itemRenderer: renderItem,
+  filterable: false,
 };
