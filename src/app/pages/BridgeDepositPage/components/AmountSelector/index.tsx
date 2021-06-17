@@ -21,6 +21,7 @@ import { FormGroup } from '../../../../components/Form/FormGroup';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
+import styled from 'styled-components/macro';
 
 interface Props {}
 
@@ -81,24 +82,82 @@ export function AmountSelector(props: Props) {
   ]);
 
   return (
-    <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center">
-        Enter amount to deposit ({sourceAsset})
-      </div>
-      <div className="tw-mw-320">
-        <FormGroup label="Deposit Amount">
-          <AmountInput
-            value={value}
-            onChange={val => setValue(val)}
-            asset={asset}
-            maxAmount={balance.value}
-          />
-          <p>
-            Balance:{' '}
-            {toNumberFormat(asset.fromWei(balance.value), asset.minDecimals)}{' '}
-            {asset.symbol}
-          </p>
-        </FormGroup>
+    <div className="tw-flex tw-flex-col tw-items-center">
+      <div className="tw-flex tw-flex-col tw-items-center">
+        <div className="tw-mb-20 tw-text-2xl tw-text-center">
+          Enter amount to deposit ({sourceAsset})
+        </div>
+        <div className="tw-mw-320">
+          <FormGroup label="Deposit Amount">
+            <AmountInput
+              value={value}
+              onChange={val => setValue(val)}
+              asset={asset}
+              maxAmount={balance.value}
+            />
+            <p className="tw-mt-1">
+              Balance:{' '}
+              {toNumberFormat(asset.fromWei(balance.value), asset.minDecimals)}{' '}
+              {asset.symbol}
+            </p>
+          </FormGroup>
+        </div>
+        <div className="text-center tw-mt-4 tw-mb-2">Daily deposit limits</div>
+        <Table>
+          <tbody className="tw-text-right">
+            <tr>
+              <td>Fee</td>
+              <td>
+                {toNumberFormat(
+                  asset.fromWei(limits.returnData.getFeePerToken),
+                  asset.minDecimals,
+                )}{' '}
+                {asset.symbol}
+              </td>
+            </tr>
+            <tr>
+              <td>Min Amount</td>
+              <td>
+                {toNumberFormat(
+                  asset.fromWei(limits.returnData.getMinPerToken),
+                  asset.minDecimals,
+                )}{' '}
+                {asset.symbol}
+              </td>
+            </tr>
+            <tr>
+              <td>Max Amount</td>
+              <td>
+                {toNumberFormat(
+                  fromWei(limits.returnData.getMaxTokensAllowed),
+                  asset.minDecimals,
+                )}{' '}
+                {asset.symbol}
+              </td>
+            </tr>
+            <tr>
+              <td>Daily Limit</td>
+              <td>
+                {toNumberFormat(
+                  fromWei(limits.returnData.dailyLimit),
+                  asset.minDecimals,
+                )}{' '}
+                {asset.symbol}
+              </td>
+            </tr>
+            <tr>
+              <td>Daily Limit Spent</td>
+              <td>
+                {toNumberFormat(
+                  fromWei(limits.returnData.spentToday),
+                  asset.minDecimals,
+                )}{' '}
+                {asset.symbol}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+
         <Button
           className="tw-mt-10 tw-w-full"
           text="Next"
@@ -106,67 +165,12 @@ export function AmountSelector(props: Props) {
           onClick={selectAmount}
         />
       </div>
-      <h2>Bridge Limit Table</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Fee</td>
-            <td>
-              {toNumberFormat(
-                asset.fromWei(limits.returnData.getFeePerToken),
-                asset.minDecimals,
-              )}{' '}
-              {asset.symbol}
-            </td>
-          </tr>
-          <tr>
-            <td>Min Amount</td>
-            <td>
-              {toNumberFormat(
-                asset.fromWei(limits.returnData.getMinPerToken),
-                asset.minDecimals,
-              )}{' '}
-              {asset.symbol}
-            </td>
-          </tr>
-          <tr>
-            <td>Max Amount</td>
-            <td>
-              {toNumberFormat(
-                fromWei(limits.returnData.getMaxTokensAllowed),
-                asset.minDecimals,
-              )}{' '}
-              {asset.symbol}
-            </td>
-          </tr>
-          <tr>
-            <td>Daily Limit</td>
-            <td>
-              {toNumberFormat(
-                fromWei(limits.returnData.dailyLimit),
-                asset.minDecimals,
-              )}{' '}
-              {asset.symbol}
-            </td>
-          </tr>
-          <tr>
-            <td>Daily Limit Spent</td>
-            <td>
-              {toNumberFormat(
-                fromWei(limits.returnData.spentToday),
-                asset.minDecimals,
-              )}{' '}
-              {asset.symbol}
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   );
 }
+
+const Table = styled.table`
+  td {
+    padding: 0.25rem 0.5rem;
+  }
+`;

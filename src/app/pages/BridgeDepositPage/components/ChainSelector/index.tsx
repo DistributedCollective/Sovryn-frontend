@@ -60,33 +60,52 @@ export function ChainSelector(props: Props) {
 
   return (
     <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center">
-        Select Network to deposit from
-      </div>
       {state === 'wrong-network' && (
-        <div className="tw-text-center">
-          Switch your wallet to {network?.name} network.
-        </div>
+        <>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center">
+            Change to {network?.name}
+          </div>
+          <div className="tw-flex tw-flex-col tw-gap-10 tw-px-2 tw-items-center">
+            <SelectBox key={network?.chain} onClick={() => {}}>
+              <img
+                className="tw-mb-5 tw-mt-2"
+                src={network?.logo}
+                alt={network?.chain}
+              />
+              <div>
+                <span className="tw-uppercase">{network?.chain} </span> Network
+              </div>
+            </SelectBox>
+            <div className="tw-font-light tw-text-gold tw-underline">
+              How to connect to {network?.chain} with Metamask
+            </div>
+          </div>
+        </>
       )}
 
       {state === 'choose-network' && (
-        <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
-          {networks.map(item => (
-            <SelectBox
-              key={item.chain}
-              onClick={() => selectNetwork(item.chain)}
-            >
-              <img
-                className="tw-mb-5 tw-mt-2"
-                src={item.logo}
-                alt={item.chain}
-              />
-              <div>
-                <span className="tw-uppercase">{item.chain} </span> Network
-              </div>
-            </SelectBox>
-          ))}
-        </div>
+        <>
+          <div className="tw-mb-20 tw-text-2xl tw-text-center">
+            Select Network to deposit from
+          </div>
+          <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
+            {networks.map(item => (
+              <SelectBox
+                key={item.chain}
+                onClick={() => selectNetwork(item.chain)}
+              >
+                <img
+                  className="tw-mb-5 tw-mt-2"
+                  src={item.logo}
+                  alt={item.chain}
+                />
+                <div>
+                  <span className="tw-uppercase">{item.chain} </span> Network
+                </div>
+              </SelectBox>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
