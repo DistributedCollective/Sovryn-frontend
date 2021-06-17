@@ -30,7 +30,7 @@ export function getAssetSymbol(asset: Asset) {
   if (symbolMap.hasOwnProperty(asset)) {
     return symbolMap[asset];
   }
-  return AssetsDictionary.get(asset).symbol;
+  return AssetsDictionary.get(asset)?.symbol;
 }
 
 interface IAssetSymbolRenderer {
