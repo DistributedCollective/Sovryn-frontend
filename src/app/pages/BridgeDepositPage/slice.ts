@@ -84,6 +84,7 @@ const bridgeDepositPageSlice = createSlice({
     },
     pendingTransfer(state, { payload }: PayloadAction<string>) {
       state.tx.loading = true;
+      state.step = DepositStep.PROCESSING;
       state.tx.step = TxStep.PENDING_TRANSFER;
       state.tx.hash = payload;
     },

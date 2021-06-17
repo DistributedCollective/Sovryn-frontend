@@ -21,7 +21,6 @@ import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
-import { DepositStep } from '../../types';
 
 interface Props {}
 

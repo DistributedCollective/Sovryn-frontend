@@ -107,6 +107,7 @@ export function AmountSelector(props: Props) {
               onChange={val => setValue(val)}
               asset={asset}
               maxAmount={balance.value}
+              decimalPrecision={asset.minDecimals}
             />
             <p className="tw-mt-1">
               Balance:{' '}

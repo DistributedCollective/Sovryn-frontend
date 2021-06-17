@@ -6,8 +6,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { useLocation, useHistory } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
