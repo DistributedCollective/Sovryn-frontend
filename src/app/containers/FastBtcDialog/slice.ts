@@ -58,9 +58,6 @@ const fastBtcDialogSlice = createSlice({
     selectFiat(state) {
       state.step = Step.FIAT;
     },
-    openFiatOnRamp(state) {
-      state.step = Step.TRANSAK;
-    },
     // generate deposit address
     generateDepositAddress(state) {
       state.deposit.loading = true;
@@ -74,6 +71,28 @@ const fastBtcDialogSlice = createSlice({
       state.deposit.receiver = payload.web3adr;
     },
     generateDepositAddressFailed(state, { payload }: PayloadAction<string>) {
+      toastError(payload, 'fast-btc');
+      state.deposit.loading = false;
+      state.deposit.address = '';
+      state.deposit.receiver = '';
+    },
+    // generate Fiat deposit address
+    generateFiatDepositAddress(state) {
+      state.deposit.loading = true;
+    },
+    generateFiatDepositAddressSuccess(
+      state,
+      { payload }: PayloadAction<{ btcadr: string; web3adr: string }>,
+    ) {
+      state.deposit.loading = false;
+      state.deposit.address = payload.btcadr;
+      state.deposit.receiver = payload.web3adr;
+      state.step = Step.TRANSAK;
+    },
+    generateFiatDepositAddressFailed(
+      state,
+      { payload }: PayloadAction<string>,
+    ) {
       toastError(payload, 'fast-btc');
       state.deposit.loading = false;
       state.deposit.address = '';

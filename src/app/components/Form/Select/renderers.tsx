@@ -43,6 +43,9 @@ export const renderItemNH: ItemRenderer<Option> = (
   );
 };
 
+const normalize = (text: string) =>
+  text.replace('_', ' ').replace('-', ' ').replace(',', ' ');
+
 export const filterItem: ItemPredicate<Option> = (
   query,
   item,
@@ -55,7 +58,11 @@ export const filterItem: ItemPredicate<Option> = (
   if (exactMatch) {
     return normalizedTitle === normalizedQuery;
   } else {
-    return `${normalizedTitle} ${item.key}`.indexOf(normalizedQuery) >= 0;
+    const query = normalize(normalizedQuery);
+    const title = normalize(normalizedTitle);
+    const key = normalize(String(item.key).toLowerCase());
+
+    return `${title} ${key}`.indexOf(query) >= 0;
   }
 };
 

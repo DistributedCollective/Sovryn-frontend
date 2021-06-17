@@ -9,6 +9,7 @@ import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Nullable } from 'types';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   areOptionsEqual,
   filterItem,
@@ -111,7 +112,12 @@ export const renderItem: ItemRenderer<SelectItem> = (
       onClick={handleClick}
       text={
         <Text ellipsize>
-          <AssetRenderer asset={item.key} showImage imageSize={5} />
+          <div className="tw-flex tw-flex-items-center tw-justify-between">
+            <AssetRenderer asset={item.key} showImage imageSize={5} />{' '}
+            <div className="tw-text-xs tw-gray-100">
+              {weiToNumberFormat(item.value, 4)}
+            </div>
+          </div>
         </Text>
       }
     />

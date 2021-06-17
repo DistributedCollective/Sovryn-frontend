@@ -55,6 +55,19 @@ function* generateDepositAddress(socket) {
   }
 }
 
+function* generateFiatDepositAddress(socket) {
+  while (true) {
+    yield take(actions.generateFiatDepositAddress.type);
+    const { address } = yield select(selectWalletProvider);
+    const { res, err } = yield call(getBtcAddressRequest, socket, address);
+    if (res && res.btcadr) {
+      yield put(actions.generateFiatDepositAddressSuccess(res));
+    } else {
+      yield put(actions.generateFiatDepositAddressFailed(err?.error));
+    }
+  }
+}
+
 const getDepositHistoryRequest = (socket, address) =>
   new Promise(resolve => {
     socket.emit('getDepositHistory', address, res => {
@@ -78,7 +91,7 @@ function* watchSocketChannel() {
   const socket = yield call(createSocketConnection);
   yield fork(generateDepositAddress, socket);
   yield fork(getDepositHistory, socket);
-
+  yield fork(generateFiatDepositAddress, socket);
   const blockChannel = yield call(createWebSocketChannel, socket);
   try {
     yield put(actions.ready());
