@@ -201,7 +201,7 @@
     "arbitrage": {
       "best_rate": "Oportunidade de arbitragem trocando até ",
       "for": "por até",
-      "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. 
+      "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
     }
   },
@@ -267,7 +267,7 @@
         "startPrice": "Preço inicial"
       },
       "inputLabel": "Insira um endereço de e-mail",
-       "inputLabelName": "Nome ou apelido",
+      "inputLabelName": "Nome ou apelido",
       "submitButton": "Cadastre-se para novidades",
       "submitSuccess": "Cadastro realizado!"
     },
@@ -378,7 +378,7 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
-     "connect": "Conecte sua carteira para começar a investir.",
+    "connect": "Conecte sua carteira para começar a investir.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
@@ -1248,7 +1248,7 @@
     },
     "lootDropLink": "Saiba mais",
     "chartOverlayText": "AER% Em breve!",
-     "recalibration": "Próximo ajuste em {{date}}"
+    "recalibration": "Próximo ajuste em {{date}}"
   },
   "buySovPage": {
     "meta": {
