@@ -58,6 +58,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     const loanPool = LendingPoolDictionary.get(currency);
     const options = loanPool
       .getBorrowCollateral()
+      .filter(asset => asset !== Asset.SOV)
       .map(item => AssetsDictionary.get(item))
       .map(item => ({
         key: item.asset,
