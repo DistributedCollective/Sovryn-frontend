@@ -19,16 +19,23 @@ import { currentChainId } from '../../../../../utils/classifiers';
 import { SelectBox } from '../SelectBox';
 import styled from 'styled-components/macro';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-
+import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 interface Props {}
 
 export function ChainSelector(props: Props) {
   const { chain } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
+  const walletName = detectWeb3Wallet();
 
   const walletContext = useWalletContext();
+
+  const { ethereum } = window as any;
+  const chainId = parseInt(ethereum.chainId as string);
+  const currentNetwork =
+    networkList.find(item => item.chainId === chainId)?.chain || 0;
 
   const selectNetwork = useCallback(
     (chain: Chain) => {
@@ -77,8 +84,12 @@ export function ChainSelector(props: Props) {
             <>
               <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
                 <img className="tw-mr-2" src={error_alert} alt="err" />
-                We detected that you are on Etereum Mainnet Please switch to RSK
-                Mainnet in your Metamask wallet
+                <div>
+                  We detected that you are on{' '}
+                  <span className="tw-capitalize">{currentNetwork}</span> Please
+                  switch to {network?.name} in your{' '}
+                  <span className="tw-capitalize">{walletName}</span> wallet
+                </div>
               </WrongNetwork>
               <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
                 Change to {network?.name}

@@ -144,7 +144,7 @@ export function SidebarSteps() {
       {step < DepositStep.PROCESSING && (
         <div
           onClick={handleBack}
-          className="tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-xl tw-cursor-pointer tw-select-none"
+          className="tw-absolute tw--top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-xl tw-cursor-pointer tw-select-none"
         >
           <img
             alt="arrowback"
