@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { actions } from '../../slice';
 import { DepositStep } from '../../types';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -12,6 +13,7 @@ import { AssetModel } from '../../types/asset-model';
 import { toNumberFormat } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import walletIcon from 'assets/images/wallet-icon.svg';
+import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -37,6 +39,7 @@ const initialSteps: StepItem[] = [
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { chain, sourceAsset, targetChain, amount, step } = useSelector(
     selectBridgeDepositPage,
@@ -44,7 +47,6 @@ export function SidebarSteps() {
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
     chain,
   ]);
-  const stepIndex = stepOrder.indexOf(step);
 
   const asset = useMemo(
     () =>
@@ -56,7 +58,7 @@ export function SidebarSteps() {
 
   const steps = useMemo<StepItem[]>(() => {
     const prvSteps = [...initialSteps.map(item => ({ ...item }))];
-    if (network && stepIndex > 0) {
+    if (step > DepositStep.CHAIN_SELECTOR && network) {
       prvSteps[0].title = network?.name;
       prvSteps[0].icon = (
         <img
@@ -67,8 +69,7 @@ export function SidebarSteps() {
       );
     }
 
-    if (stepIndex > 1 && asset) {
-      console.log('stepIndex: ', stepIndex);
+    if (step > DepositStep.TOKEN_SELECTOR && asset) {
       prvSteps[1].title = asset?.symbol;
       prvSteps[1].icon = (
         <img
@@ -79,7 +80,11 @@ export function SidebarSteps() {
       );
     }
     const bnAmount = bignumber(amount || '0');
-    if (asset && bnAmount.greaterThan(0) && stepIndex > 2) {
+    if (
+      asset &&
+      bnAmount.greaterThan(0) &&
+      step > DepositStep.AMOUNT_SELECTOR
+    ) {
       prvSteps[2].title = toNumberFormat(
         asset.fromWei(amount),
         asset.minDecimals,
@@ -94,7 +99,7 @@ export function SidebarSteps() {
     }
 
     return prvSteps;
-  }, [network, asset, amount, stepIndex]);
+  }, [step, network, asset, amount]);
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {
@@ -125,5 +130,31 @@ export function SidebarSteps() {
     },
     [canOpen, dispatch],
   );
-  return <Stepper steps={steps} step={step} onClick={changeStep} />;
+
+  const handleBack = useCallback(() => {
+    if (step === DepositStep.CHAIN_SELECTOR) {
+      return history.push('/wallet');
+    } else {
+      changeStep(stepOrder[step - 1]);
+    }
+  }, [changeStep, history, step]);
+
+  return (
+    <>
+      {step < DepositStep.PROCESSING && (
+        <div
+          onClick={handleBack}
+          className="tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-xl tw-cursor-pointer tw-select-none"
+        >
+          <img
+            alt="arrowback"
+            src={ArrowBack}
+            style={{ height: '20px', width: '20px', marginRight: '10px' }}
+          />
+          Back
+        </div>
+      )}
+      <Stepper steps={steps} step={step} onClick={changeStep} />
+    </>
+  );
 }
