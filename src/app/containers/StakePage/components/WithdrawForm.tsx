@@ -1,5 +1,5 @@
 import React, { FormEvent, useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
 import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
@@ -8,6 +8,9 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawConfirmationForm } from './WithdrawConfimationForm';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -25,6 +28,8 @@ interface Props {
 export function WithdrawForm(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const unstakingLocked = checkMaintenance(States.UNSTAKING);
   const [forfeitWithdraw, setForfeitWithdraw] = useState<number>(0);
   const [forfeitPercent, setForfeitPercent] = useState<number>(0);
   const [loadingWithdraw, setLoadingWithdraw] = useState(false);
@@ -205,7 +210,25 @@ export function WithdrawForm(props: Props) {
                 />
               </div>
             </div>
-
+            {unstakingLocked && (
+              <ErrorBadge
+                content={
+                  <Trans
+                    i18nKey={translations.maintenance.unstakingModal}
+                    components={[
+                      <a
+                        href={discordInvite}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
+                }
+              />
+            )}
             <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
               {Number(props.until) > Math.round(new Date().getTime() / 1e3) ? (
                 <button
@@ -213,11 +236,15 @@ export function WithdrawForm(props: Props) {
                   className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
                     (!props.isValid ||
                       loadingWithdraw ||
-                      forfeitWithdraw === 0) &&
+                      forfeitWithdraw === 0 ||
+                      unstakingLocked) &&
                     'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
                   }`}
                   disabled={
-                    !props.isValid || loadingWithdraw || forfeitWithdraw === 0
+                    !props.isValid ||
+                    loadingWithdraw ||
+                    forfeitWithdraw === 0 ||
+                    unstakingLocked
                   }
                   onClick={e => {
                     e.preventDefault();
@@ -230,10 +257,10 @@ export function WithdrawForm(props: Props) {
                 <button
                   type="submit"
                   className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-                    !props.isValid &&
+                    (!props.isValid || unstakingLocked) &&
                     'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
                   }`}
-                  disabled={!props.isValid}
+                  disabled={!props.isValid || unstakingLocked}
                 >
                   {t(translations.stake.actions.confirm)}
                 </button>
