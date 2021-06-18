@@ -6,7 +6,6 @@ export class LendingPoolDictionary {
     [
       Asset.RBTC,
       new LendingPool('RBTC', Asset.RBTC, [
-        Asset.SOV,
         Asset.DOC,
         Asset.USDT,
         Asset.BPRO,
