@@ -482,6 +482,7 @@
     "title": "Liquidity",
     "meta": "Add liquidity",
     "pool": "Pool",
+    "aer": "AER",
     "currency": "Currency",
     "currencySelect": "Select currency",
     "poolSelect": "Select pool",
@@ -492,6 +493,7 @@
     "fee": "fee",
     "supply": "Supply",
     "withdraw": "Withdraw",
+    "totalLiquidity": "Total Liquidity",
     "transfer": "Transfer",
     "transferNote": "Please initiate the transfer of your liquidity to our new pools",
     "v1": {
