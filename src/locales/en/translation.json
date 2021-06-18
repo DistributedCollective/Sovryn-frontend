@@ -878,7 +878,18 @@
       "title": "Convert",
       "from": "From",
       "to": "To",
-      "cta": "Convert to XUSD"
+      "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
     }
   },
   "swapHistory": {

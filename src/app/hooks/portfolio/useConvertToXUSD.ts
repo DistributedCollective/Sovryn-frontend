@@ -35,7 +35,11 @@ export const useConvertToXUSD = () => {
           gas: gasLimit[TxType.CONVERT_RUSDT_TO_XUSD],
           nonce: tx?.nonce,
         },
-        { type: TxType.CONVERT_RUSDT_TO_XUSD },
+        {
+          type: TxType.CONVERT_RUSDT_TO_XUSD,
+          assetAmount: weiAmount,
+          customData: { date: new Date().getTime() / 1000 },
+        },
       );
     },
     ...rest,

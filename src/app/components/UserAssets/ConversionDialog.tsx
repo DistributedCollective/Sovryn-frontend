@@ -6,7 +6,7 @@ import { translations } from 'locales/i18n';
 import { AmountInput } from '../Form/AmountInput';
 import { Asset } from 'types';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
-import { TxDialog } from '../Dialogs/TxDialog';
+import { TxDialog } from './TxDialog/index';
 import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { bignumber } from 'mathjs';
