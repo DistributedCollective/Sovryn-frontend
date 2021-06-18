@@ -117,15 +117,7 @@ export function SwapFormContainer() {
   useEffect(() => {
     const newOptions = tokenBalance;
     if (newOptions) {
-      setSourceOptions(
-        newOptions.filter(option => {
-          if (targetToken === Asset.XUSD && xusdExcludes.includes(option.key))
-            return false;
-          if (xusdExcludes.includes(targetToken) && option.key === Asset.XUSD)
-            return false;
-          return option.key !== targetToken;
-        }),
-      );
+      setSourceOptions(newOptions);
     }
 
     if (
@@ -151,7 +143,31 @@ export function SwapFormContainer() {
       );
     }
 
-    if (
+    let defaultTo: Asset | null = null;
+    if (sourceToken === targetToken) {
+      switch (targetToken) {
+        case Asset.RBTC: {
+          defaultTo = Asset.SOV;
+          break;
+        }
+        case Asset.SOV:
+        default: {
+          defaultTo = Asset.RBTC;
+          break;
+        }
+      }
+    }
+
+    if (defaultTo && newOptions.find(item => item.key === defaultTo)) {
+      setTargetToken(defaultTo);
+    } else if (
+      //default to RBTC if invalid XUSD pair used
+      ((sourceToken === Asset.XUSD && xusdExcludes.includes(targetToken)) ||
+        (xusdExcludes.includes(sourceToken) && targetToken === Asset.XUSD)) &&
+      newOptions.find(item => item.key === Asset.RBTC)
+    ) {
+      setTargetToken(Asset.RBTC);
+    } else if (
       !newOptions.find(item => item.key === targetToken) &&
       newOptions.length
     ) {
