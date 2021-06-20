@@ -2,7 +2,7 @@
  *
  * TradingChart
  *
- * Implementation of TradingView Charting Library. Please check the following link
+ * Implementation of TradingView Charting Library (v18.043). Please check the following link
  * and make any relevant changes before updating the library version:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
@@ -15,6 +15,7 @@ import {
 
 import { Skeleton } from '../PageSkeleton';
 import Datafeed from './datafeed';
+import Storage from './storage';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -32,20 +33,26 @@ export function TradingChart(props: ChartContainerProps) {
 
   useEffect(() => {
     try {
-      // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor
+      // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
         debug: false,
         symbol: props.symbol,
         datafeed: Datafeed,
+        save_load_adapter: Storage,
+        study_count_limit: 2,
         interval: '30', //default time interval
         timeframe: '3D', //default range
         container_id: 'tv_chart_container', //id of DOM container
         library_path: '/charting_library/', //relative path of library in /public folder
         locale: 'en',
-        enabled_features: [], //full list of features here: https://github.com/tradingview/charting_library/wiki/Featuresets
+        load_last_chart: true, //last chart layout (if present)
+        enabled_features: [
+          'study_templates', //remove to disable storing of indicators
+          'side_toolbar_in_fullscreen_mode',
+        ], //full list of features here: https://github.com/tradingview/charting_library/wiki/Featuresets/c2ec34605fa84781048d32b87a2b08ef1466639a
         disabled_features: [
           'header_symbol_search',
-          'header_saveload',
+          //'header_saveload', //uncomment to disable storing of drawings
           'header_compare',
         ],
         autosize: true,
