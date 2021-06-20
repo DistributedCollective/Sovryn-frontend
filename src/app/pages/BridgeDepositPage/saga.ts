@@ -199,7 +199,7 @@ function* confirmTransfer() {
           receiver = asset.aggregatorContractAddress;
           extraData = ethers.utils.defaultAbiCoder.encode(
             ['address'],
-            [receiver],
+            [receiverAddress],
           );
         }
 
