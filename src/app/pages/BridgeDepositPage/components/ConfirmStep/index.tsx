@@ -13,7 +13,7 @@ import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { AssetModel } from '../../types/asset-model';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { DepositStep, TxStep } from '../../types';
+import { TxStep } from '../../types';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { Button } from '../../../../components/Button';
@@ -22,9 +22,17 @@ import wMetamask from 'assets/wallets/metamask.svg';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import styled from 'styled-components/macro';
 
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+
+import iconSuccess from 'assets/images/icon-success.svg';
+import iconRejected from 'assets/images/icon-rejected.svg';
+import iconPending from 'assets/images/icon-pending.svg';
+
 interface Props {}
 
 export function ConfirmStep(props: Props) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { wallet } = useWalletContext();
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
@@ -45,7 +53,7 @@ export function ConfirmStep(props: Props) {
     [chain, sourceAsset, targetChain],
   );
   const handleComplete = useCallback(() => {
-    dispatch(actions.setStep(DepositStep.COMPLETE));
+    dispatch(actions.returnToPortfolio());
   }, [dispatch]);
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
@@ -104,10 +112,36 @@ export function ConfirmStep(props: Props) {
         TxStep.FAILED_TRANSFER,
       ].includes(tx.step) && (
         <>
-          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+          <div className="tw-mb-8 tw-text-2xl tw-text-center tw-font-semibold">
             {tx.step === TxStep.PENDING_TRANSFER && <>Deposit in Progress...</>}
             {tx.step === TxStep.COMPLETED_TRANSFER && <>Deposit Complete</>}
             {tx.step === TxStep.FAILED_TRANSFER && <>Deposit Failed</>}
+          </div>
+          <div className="tw-mb-6 tw-text-center">
+            {tx.step === TxStep.PENDING_TRANSFER && (
+              <img
+                className="tw-h-14"
+                src={iconPending}
+                title={t(translations.common.pending)}
+                alt={t(translations.common.pending)}
+              />
+            )}
+            {tx.step === TxStep.COMPLETED_TRANSFER && (
+              <img
+                className="tw-h-14"
+                src={iconSuccess}
+                title={t(translations.common.confirmed)}
+                alt={t(translations.common.confirmed)}
+              />
+            )}
+            {tx.step === TxStep.FAILED_TRANSFER && (
+              <img
+                className="tw-h-14"
+                src={iconRejected}
+                title={t(translations.common.failed)}
+                alt={t(translations.common.failed)}
+              />
+            )}
           </div>
           <Table>
             <tbody>

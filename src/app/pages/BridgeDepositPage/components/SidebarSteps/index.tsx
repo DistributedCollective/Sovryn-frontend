@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { actions } from '../../slice';
 import { DepositStep } from '../../types';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -12,8 +11,12 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { AssetModel } from '../../types/asset-model';
 import { toNumberFormat } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
-import walletIcon from 'assets/images/wallet-icon.svg';
+import walletIcon from 'assets/images/account_balance_wallet.svg';
 import ArrowBack from 'assets/images/genesis/arrow_back.svg';
+import iconSuccess from 'assets/images/icon-success.svg';
+
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -39,7 +42,7 @@ const initialSteps: StepItem[] = [
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { t } = useTranslation();
 
   const { chain, sourceAsset, targetChain, amount, step } = useSelector(
     selectBridgeDepositPage,
@@ -59,8 +62,8 @@ export function SidebarSteps() {
   const steps = useMemo<StepItem[]>(() => {
     const prvSteps = [...initialSteps.map(item => ({ ...item }))];
     if (step > DepositStep.CHAIN_SELECTOR && network) {
-      prvSteps[0].title = network?.name;
-      prvSteps[0].icon = (
+      prvSteps[DepositStep.CHAIN_SELECTOR].title = network?.name;
+      prvSteps[DepositStep.CHAIN_SELECTOR].icon = (
         <img
           className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
           src={network?.logo}
@@ -70,8 +73,8 @@ export function SidebarSteps() {
     }
 
     if (step > DepositStep.TOKEN_SELECTOR && asset) {
-      prvSteps[1].title = asset?.symbol;
-      prvSteps[1].icon = (
+      prvSteps[DepositStep.TOKEN_SELECTOR].title = asset?.symbol;
+      prvSteps[DepositStep.TOKEN_SELECTOR].icon = (
         <img
           className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
           src={asset?.image}
@@ -85,21 +88,38 @@ export function SidebarSteps() {
       bnAmount.greaterThan(0) &&
       step > DepositStep.AMOUNT_SELECTOR
     ) {
-      prvSteps[2].title = toNumberFormat(
+      prvSteps[DepositStep.AMOUNT_SELECTOR].title = toNumberFormat(
         asset.fromWei(amount),
         asset.minDecimals,
       );
-      prvSteps[2].icon = (
-        <img
-          className={'tw-object-contain tw-h-3 tw-w-3'}
-          src={walletIcon}
-          alt="wallet"
-        />
+      prvSteps[DepositStep.AMOUNT_SELECTOR].icon = (
+        <div className="tw-h-full tw-w-full tw-rounded-full tw-bg-white tw-flex tw-items-center tw-justify-center">
+          <img
+            className={'tw-object-contain tw-h-3 tw-w-3'}
+            src={walletIcon}
+            alt="wallet"
+          />
+        </div>
+      );
+    }
+
+    if (step === DepositStep.COMPLETE) {
+      prvSteps[DepositStep.COMPLETE].icon = (
+        <div className="tw-bg-background tw-object-contain tw-h-4.5 tw-w-4.5 tw-rounded-full">
+          <img
+            className={
+              'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-background tw-border tw-border-background'
+            }
+            src={iconSuccess}
+            title={t(translations.common.confirmed)}
+            alt={t(translations.common.confirmed)}
+          />
+        </div>
       );
     }
 
     return prvSteps;
-  }, [step, network, asset, amount]);
+  }, [step, network, asset, amount, t]);
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {
@@ -133,18 +153,18 @@ export function SidebarSteps() {
 
   const handleBack = useCallback(() => {
     if (step === DepositStep.CHAIN_SELECTOR) {
-      return history.push('/wallet');
+      return dispatch(actions.returnToPortfolio());
     } else {
       changeStep(stepOrder[step - 1]);
     }
-  }, [changeStep, history, step]);
+  }, [changeStep, dispatch, step]);
 
   return (
     <>
       {step < DepositStep.PROCESSING && (
         <div
           onClick={handleBack}
-          className="tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-xl tw-cursor-pointer tw-select-none"
+          className="tw-absolute tw-top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none"
         >
           <img
             alt="arrowback"
@@ -154,7 +174,9 @@ export function SidebarSteps() {
           Back
         </div>
       )}
-      <Stepper steps={steps} step={step} onClick={changeStep} />
+      <div className="tw-mt-24">
+        <Stepper steps={steps} step={step} onClick={changeStep} />
+      </div>
     </>
   );
 }

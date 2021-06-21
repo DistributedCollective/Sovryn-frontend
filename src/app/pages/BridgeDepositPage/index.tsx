@@ -40,7 +40,9 @@ export function BridgeDepositPage(props: Props) {
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { step } = useSelector(selectBridgeDepositPage);
+  const { step, requestedReturnToPortfolio } = useSelector(
+    selectBridgeDepositPage,
+  );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,9 +83,10 @@ export function BridgeDepositPage(props: Props) {
       >
         <div
           className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-around tw-pl-8"
-          style={{ minWidth: 200, minHeight: 'calc(100vh - 4.4rem)' }}
+          style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarSteps />
+          <div></div>
         </div>
 
         <div
@@ -92,21 +95,27 @@ export function BridgeDepositPage(props: Props) {
         >
           <SwitchTransition>
             <CSSTransition
-              key={step}
+              key={step + (requestedReturnToPortfolio ? 1 : 0)}
               addEndListener={(node, done) =>
                 node.addEventListener('transitionend', done, false)
               }
               classNames="fade"
             >
               <>
-                {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
-                {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
-                {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
-                {step === DepositStep.REVIEW && <ReviewStep />}
-                {[DepositStep.CONFIRM, DepositStep.PROCESSING].includes(
-                  step,
-                ) && <ConfirmStep />}
-                {step === DepositStep.COMPLETE && <CompleteStep />}
+                {!requestedReturnToPortfolio && (
+                  <>
+                    {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
+                    {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
+                    {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
+                    {step === DepositStep.REVIEW && <ReviewStep />}
+                    {[
+                      DepositStep.CONFIRM,
+                      DepositStep.PROCESSING,
+                      DepositStep.COMPLETE,
+                    ].includes(step) && <ConfirmStep />}
+                  </>
+                )}
+                {requestedReturnToPortfolio && <CompleteStep />}
               </>
             </CSSTransition>
           </SwitchTransition>

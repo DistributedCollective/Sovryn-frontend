@@ -19,6 +19,7 @@ export const initialState: ContainerState = {
     hash: '',
     approveHash: '',
   },
+  requestedReturnToPortfolio: false,
 };
 
 const bridgeDepositPageSlice = createSlice({
@@ -91,6 +92,7 @@ const bridgeDepositPageSlice = createSlice({
     confirmedTransfer(state) {
       state.tx.loading = false;
       state.tx.step = TxStep.COMPLETED_TRANSFER;
+      state.step = DepositStep.COMPLETE;
     },
 
     failedTransfer(state) {
@@ -110,6 +112,9 @@ const bridgeDepositPageSlice = createSlice({
     forceTransferState(state, { payload }: PayloadAction<TxStep>) {
       state.tx.step = payload;
     },
+    returnToPortfolio(state) {
+      state.requestedReturnToPortfolio = true;
+    },
     init() {},
     close() {},
     reset(state) {
@@ -120,6 +125,7 @@ const bridgeDepositPageSlice = createSlice({
       state.sourceAsset = null;
       state.receiver = '';
       state.amount = '';
+      state.requestedReturnToPortfolio = false;
       state.tx = {
         step: TxStep.NONE,
         loading: false,

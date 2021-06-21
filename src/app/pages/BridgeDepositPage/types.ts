@@ -11,6 +11,7 @@ export interface BridgeDepositPageState {
   receiver: string;
   amount: string;
   tx: TxState;
+  requestedReturnToPortfolio: boolean;
 }
 
 export enum DepositStep {
