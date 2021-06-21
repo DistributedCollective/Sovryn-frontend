@@ -1,8 +1,8 @@
 /**
  * TradingChart "realtime" data stream.
  *
- * Implementation of TradingView Charting Library subscribeBars() and unsubscribeBars():
- * https://github.com/tradingview/charting_library/wiki/JS-Api#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
+ * Implementation of TradingView Charting Library (v18.043) subscribeBars() and unsubscribeBars():
+ * https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
  *
  * If the version of the library is updated, then modifications may
  * be necessary to this file and the datafeed.ts file in

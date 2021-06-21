@@ -35,6 +35,7 @@ const StyledButton = styled.button`
     props.disabled &&
     css`
       cursor: not-allowed;
+      opacity: 0.5;
     `}
 `;
 

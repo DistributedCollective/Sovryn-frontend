@@ -41,6 +41,8 @@ export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 
+export const chartStorageKey = 'sovryn.charts';
+
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
   [TxType.CLOSE_WITH_SWAP]: 1000000,
@@ -57,3 +59,5 @@ export const gasLimit = {
   [TxType.LM_DEPOSIT]: 150000,
   [TxType.LOCKED_SOV_CLAIM]: 3250000,
 };
+
+export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

@@ -8,6 +8,7 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import OptOutDialog from '../OptOutDialog';
+import { discordInvite } from 'utils/classifiers';
 
 export function Footer() {
   const { t } = useTranslation();
@@ -51,6 +52,21 @@ export function Footer() {
                 components={[
                   <a
                     href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-font-light tw-text-gold"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            </p>
+            <p className="tw-mb-1">
+              <Trans
+                i18nKey={translations.footer.notice_5}
+                components={[
+                  <a
+                    href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="tw-font-light tw-text-gold"

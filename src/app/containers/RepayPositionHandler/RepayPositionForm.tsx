@@ -23,6 +23,7 @@ import { useApproveAndCloseWithDeposit } from '../../hooks/trading/useApproveAnd
 import { LoadableValue } from '../../components/LoadableValue';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface Props {
   loan: ActiveLoan;
@@ -31,6 +32,8 @@ interface Props {
 export function RepayPositionForm({ loan }: Props) {
   const { t } = useTranslation();
   const canInteract = useIsConnected();
+  const { checkMaintenance, States } = useMaintenance();
+  const repayLocked = checkMaintenance(States.STOP_BORROW);
   const { asset } = AssetsDictionary.getByTokenContractAddress(loan.loanToken);
   const { asset: collateralAsset } = AssetsDictionary.getByTokenContractAddress(
     loan.collateralToken,
@@ -122,7 +125,10 @@ export function RepayPositionForm({ loan }: Props) {
         <TradeButton
           text={t(translations.repayPositionForm.button)}
           loading={closeTx.loading}
-          disabled={closeTx.loading || !valid || !canInteract}
+          disabled={closeTx.loading || !valid || !canInteract || repayLocked}
+          tooltip={
+            repayLocked ? t(translations.maintenance.stopBorrow) : undefined
+          }
           onClick={() => send()}
         />
       </div>
