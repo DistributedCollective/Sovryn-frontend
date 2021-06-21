@@ -4,7 +4,7 @@
  *
  */
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
@@ -26,6 +26,7 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   item: ActiveLoan;
@@ -52,8 +53,8 @@ export function AddToMarginDialog(props: Props) {
     props.item.loanId,
     weiAmount,
   );
-  const { checkMaintenance } = useMaintenance();
-  const topupLocked = checkMaintenance('openTradesSwaps');
+  const { checkMaintenance, States } = useMaintenance();
+  const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
   const handleConfirm = () => {
     send();
@@ -109,18 +110,29 @@ export function AddToMarginDialog(props: Props) {
             contractName="sovrynProtocol"
           />
 
-          {topupLocked?.maintenance_active && (
-            <ErrorBadge content={topupLocked?.message} />
+          {topupLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.addToMarginTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
           )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirm()}
-            disabled={
-              topupLocked?.maintenance_active ||
-              tx.loading ||
-              !valid ||
-              !canInteract
-            }
+            disabled={topupLocked || tx.loading || !valid || !canInteract}
             cancelLabel={t(translations.common.cancel)}
             onCancel={props.onCloseModal}
           />

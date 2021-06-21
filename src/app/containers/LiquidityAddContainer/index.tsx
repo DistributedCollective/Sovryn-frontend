@@ -54,8 +54,8 @@ export function LiquidityAddContainer() {
 
   const tx = useApproveAndAddLiquidity(pool, sourceToken, weiAmount, '1');
 
-  const { checkMaintenance } = useMaintenance();
-  const liquidityLocked = checkMaintenance('changeLiquidity');
+  const { checkMaintenance, States } = useMaintenance();
+  const liquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
   const handleSupply = useCallback(() => {
     tx.deposit();
@@ -147,11 +147,13 @@ export function LiquidityAddContainer() {
                   !isConnected ||
                   tx.loading ||
                   !amountValid() ||
-                  liquidityLocked?.maintenance_active
+                  liquidityLocked
                 }
                 tooltip={
-                  liquidityLocked?.maintenance_active ? (
-                    <div className="mw-tooltip">{liquidityLocked?.message}</div>
+                  liquidityLocked ? (
+                    <div className="mw-tooltip">
+                      {t(translations.maintenance.addLiquidity)}
+                    </div>
                   ) : undefined
                 }
               />
