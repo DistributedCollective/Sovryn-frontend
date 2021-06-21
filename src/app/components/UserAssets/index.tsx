@@ -109,13 +109,11 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <FastBtcDialog
-        isOpen={fastBtc && !fastBtcLocked}
-        onClose={() => setFastBtc(false)}
-      />
-      <TransackDialog
-        isOpen={transack && !(fastBtcLocked || transackLocked)}
-        onClose={() => setTransack(false)}
+      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
+      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <ConversionDialog
+        isOpen={conversionDialog}
+        onClose={() => setConversionDialog(false)}
       />
       <Dialog
         isOpen={
