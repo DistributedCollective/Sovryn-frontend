@@ -6,7 +6,7 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 
-const FOUR_WEEKS = 2419200;
+const TWO_WEEKS = 1209600;
 
 export function useGetUnlockedVesting(vestingAddress: string) {
   const account = useAccount();
@@ -56,7 +56,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
           end = new Date().getTime() / 1e3;
         }
 
-        for (let i = startDate + cliff; i < end; i += FOUR_WEEKS) {
+        for (let i = startDate + cliff; i <= end; i += TWO_WEEKS) {
           const stake: string = (await contractReader.call(
             'staking',
             'getPriorUserStakeByDate',

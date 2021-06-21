@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
@@ -32,6 +32,10 @@ import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
 import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
+import { useAccount } from '../../hooks/useAccount';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { Sovryn } from '../../../utils/sovryn';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 
 const s = translations.swapTradeForm;
 
@@ -56,43 +60,68 @@ export function SwapFormContainer() {
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
-
+  const account = useAccount();
   const weiAmount = useWeiAmount(amount);
-
   const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
     [],
   );
-
+  const [tokenBalance, setTokenBalance] = useState<any[]>([]);
   const xusdExcludes = [Asset.USDT, Asset.DOC];
 
-  const getOptions = useCallback(() => {
-    return (tokens
-      .map(item => {
-        const asset = AssetsDictionary.getByTokenContractAddress(item);
-        if (!asset) {
-          return null;
-        }
-        return {
-          key: asset.asset,
-          label: asset.symbol,
-        };
-      })
-      .filter(item => item !== null) as unknown) as Option[];
-  }, [tokens]);
+  useEffect(() => {
+    async function getOptions() {
+      try {
+        Promise.all(
+          tokens.map(async item => {
+            const asset = AssetsDictionary.getByTokenContractAddress(item);
+            if (!asset) {
+              return null;
+            }
+            let token: string = '';
+            if (account) {
+              if (asset.asset === Asset.RBTC) {
+                token = await Sovryn.getWeb3().eth.getBalance(account);
+              } else {
+                token = await contractReader.call(
+                  getTokenContractName(asset.asset),
+                  'balanceOf',
+                  [account],
+                );
+              }
+            }
+            return {
+              key: asset.asset,
+              label: asset.symbol,
+              value: token,
+            };
+          }),
+        ).then(result => {
+          setTokenBalance(result.filter(item => item !== null) as Option[]);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (tokens) {
+      getOptions();
+    }
+  }, [account, tokens]);
 
   useEffect(() => {
-    const newOptions = getOptions();
-    setSourceOptions(
-      newOptions.filter(option => {
-        if (targetToken === Asset.XUSD && xusdExcludes.includes(option.key))
-          return false;
-        if (xusdExcludes.includes(targetToken) && option.key === Asset.XUSD)
-          return false;
-        return option.key !== targetToken;
-      }),
-    );
+    const newOptions = tokenBalance;
+    if (newOptions) {
+      setSourceOptions(
+        newOptions.filter(option => {
+          if (targetToken === Asset.XUSD && xusdExcludes.includes(option.key))
+            return false;
+          if (xusdExcludes.includes(targetToken) && option.key === Asset.XUSD)
+            return false;
+          return option.key !== targetToken;
+        }),
+      );
+    }
 
     if (
       !newOptions.find(item => item.key === sourceToken) &&
@@ -101,20 +130,21 @@ export function SwapFormContainer() {
       setSourceToken(newOptions[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokens, targetToken]);
+  }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
-    const newOptions = getOptions();
-
-    setTargetOptions(
-      newOptions.filter(option => {
-        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
-          return false;
-        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
-          return false;
-        return option.key !== sourceToken;
-      }),
-    );
+    const newOptions = tokenBalance;
+    if (newOptions) {
+      setTargetOptions(
+        newOptions.filter(option => {
+          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+            return false;
+          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+            return false;
+          return option.key !== sourceToken;
+        }),
+      );
+    }
 
     if (
       !newOptions.find(item => item.key === targetToken) &&
@@ -123,7 +153,7 @@ export function SwapFormContainer() {
       setTargetToken(newOptions[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokens, sourceToken]);
+  }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),
@@ -145,13 +175,12 @@ export function SwapFormContainer() {
   useEffect(() => {
     const params: any = (state as any)?.params;
     if (params?.action && params?.action === 'swap' && params?.asset) {
-      const item = getOptions().find(item => item.key === params.asset);
+      const item = tokenBalance.find(item => item.key === params.asset);
       if (item) {
         setSourceToken(item.key);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, tokens]);
+  }, [state, tokens, tokenBalance]);
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;

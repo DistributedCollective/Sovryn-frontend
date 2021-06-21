@@ -30,6 +30,13 @@ export enum SpotPairType {
   BPRO_MOC = 'BPRO_MOC',
   DOC_MOC = 'DOC_MOC',
   ETH_DOC = 'ETH_DOC',
+  SOV_BNB = 'SOV_BNBS',
+  BNB_RBTC = 'BNBS_RBTC',
+  BNB_ETH = 'BNBS_ETH',
+  BNB_USDT = 'BNBS_USDT',
+  BNB_XUSD = 'BNBS_XUSD',
+  BNB_DOC = 'BNBS_DOC',
+  BNB_MOC = 'BNBS_MOC',
 }
 
 export const pairs = {
@@ -60,6 +67,13 @@ export const pairs = {
   [SpotPairType.ETH_MOC]: [Asset.ETH, Asset.MOC],
   [SpotPairType.ETH_DOC]: [Asset.ETH, Asset.DOC],
   [SpotPairType.DOC_MOC]: [Asset.DOC, Asset.MOC],
+  [SpotPairType.SOV_BNB]: [Asset.SOV, Asset.BNB],
+  [SpotPairType.BNB_RBTC]: [Asset.BNB, Asset.RBTC],
+  [SpotPairType.BNB_ETH]: [Asset.BNB, Asset.ETH],
+  [SpotPairType.BNB_USDT]: [Asset.BNB, Asset.USDT],
+  [SpotPairType.BNB_XUSD]: [Asset.BNB, Asset.XUSD],
+  [SpotPairType.BNB_DOC]: [Asset.BNB, Asset.DOC],
+  [SpotPairType.BNB_MOC]: [Asset.BNB, Asset.MOC],
 };
 
 export const pairList = [
@@ -90,6 +104,13 @@ export const pairList = [
   SpotPairType.ETH_MOC,
   SpotPairType.ETH_DOC,
   SpotPairType.DOC_MOC,
+  SpotPairType.SOV_BNB,
+  SpotPairType.BNB_RBTC,
+  SpotPairType.BNB_ETH,
+  SpotPairType.BNB_USDT,
+  SpotPairType.BNB_XUSD,
+  SpotPairType.BNB_DOC,
+  SpotPairType.BNB_MOC,
 ];
 
 export interface SpotTradingPageState {

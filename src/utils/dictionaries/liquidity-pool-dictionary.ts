@@ -49,6 +49,19 @@ export class LiquidityPoolDictionary {
       ]),
     ],
     [
+      Asset.BNB,
+      new LiquidityPool(Asset.BNB, [
+        new LiquidityPoolSupplyAsset(Asset.BNB, {
+          mainnet: '0x8f3d24ab3510294f1466aa105f78901b90d79d4d',
+          testnet: '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x8f3d24ab3510294f1466aa105f78901b90d79d4d',
+          testnet: '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
+        }),
+      ]).setVersion(1),
+    ],
+    [
       Asset.ETH,
       new LiquidityPool(Asset.ETH, [
         new LiquidityPoolSupplyAsset(Asset.ETH, {
