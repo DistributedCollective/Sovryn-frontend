@@ -474,6 +474,7 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
+    "aer": "AER",
     "currency": "Criptoativo",
     "currencySelect": "Selecionar criptoativo",
     "poolSelect": "Selecionar pool",
@@ -484,6 +485,7 @@
     "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
+    "totalLiquidity": "Liquidez total",
     "transfer": "Transferir",
     "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
