@@ -578,7 +578,8 @@
       "amount": "Amount to borrow",
       "tokenAssetCollateral": "Asset to collateralize and amount",
       "borrow": "Borrow",
-      "chooseDays": "Choose days"
+      "chooseDays": "Choose days",
+      "disabled": "This asset can't be borrowed."
     }
   },
   "activeUserBorrows": {
@@ -656,7 +657,8 @@
       "step3": "Select Custom RPC",
       "step4": "Input RSK Mainnet settings",
       "step5": "Click Save",
-      "step6": "Click Add Network"
+      "step6": "Click Add Network",
+      "connectButton": "Configure RSK in MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
@@ -899,12 +901,30 @@
     "actions": {
       "deposit": "Deposit",
       "fastBtc": "FastBTC",
+      "convert": "Convert to XUSD",
       "swap": "Swap",
       "trade": "Margin Trade",
       "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
+    },
+    "convertDialog": {
+      "title": "Convert",
+      "from": "From",
+      "to": "To",
+      "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
     }
   },
   "swapHistory": {

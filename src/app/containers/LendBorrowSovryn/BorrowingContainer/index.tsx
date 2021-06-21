@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -37,6 +37,26 @@ type Props = {
 };
 
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
+  const { t } = useTranslation();
+  const supportsBorrowing = useMemo(
+    () => LendingPoolDictionary.get(currency).getBorrowCollateral().length > 0,
+    [currency],
+  );
+
+  return (
+    <>
+      {supportsBorrowing ? (
+        <InnerBorrowContainer currency={currency} />
+      ) : (
+        <>{t(translations.lend.borrowingContainer.disabled)}</>
+      )}
+    </>
+  );
+};
+
+export default BorrowingContainer;
+
+const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
   const [borrowDays, setBorrowDays] = useState(28); // by default 28 days
@@ -257,5 +277,3 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     </>
   );
 };
-
-export default BorrowingContainer;
