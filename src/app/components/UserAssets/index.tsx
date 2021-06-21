@@ -23,13 +23,18 @@ import {
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import {
+  useAccount,
+  useBlockSync,
+  useIsConnected,
+} from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
 import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
+import { ConversionDialog } from './ConversionDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -51,6 +56,7 @@ export function UserAssets() {
 
   const [fastBtc, setFastBtc] = useState(false);
   const [transack, setTransack] = useState(false);
+  const [conversionDialog, setConversionDialog] = useState(false);
 
   return (
     <>
@@ -97,18 +103,17 @@ export function UserAssets() {
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
+                  onConvert={() => setConversionDialog(true)}
                 />
               ))}
           </tbody>
         </table>
       </div>
-      <FastBtcDialog
-        isOpen={fastBtc && !fastBtcLocked}
-        onClose={() => setFastBtc(false)}
-      />
-      <TransackDialog
-        isOpen={transack && !(fastBtcLocked || transackLocked)}
-        onClose={() => setTransack(false)}
+      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
+      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <ConversionDialog
+        isOpen={conversionDialog}
+        onClose={() => setConversionDialog(false)}
       />
       <Dialog
         isOpen={
@@ -155,6 +160,10 @@ export function UserAssets() {
           </div>
         </div>
       </Dialog>
+      <ConversionDialog
+        isOpen={conversionDialog}
+        onClose={() => setConversionDialog(false)}
+      />
     </>
   );
 }
@@ -163,15 +172,18 @@ interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
   onTransack: () => void;
+  onConvert: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
+function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
+  const blockSync = useBlockSync();
   const history = useHistory();
+
   useEffect(() => {
     const get = async () => {
       setLoading(true);
@@ -200,7 +212,7 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
       setLoading(false);
     };
     get().catch();
-  }, [item.asset, account]);
+  }, [item.asset, account, blockSync]);
 
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
@@ -241,23 +253,15 @@ function AssetRow({ item, onFastBtc, onTransack }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
+          {item.asset === Asset.USDT && (
+            <ActionButton
+              text={t(translations.userAssets.actions.convert)}
+              onClick={onConvert}
+            />
+          )}
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
             <BridgeLink asset={item.asset} />
           )}
-          {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
-            item.asset,
-          ) && (
-            <ActionButton
-              text={t(translations.userAssets.actions.trade)}
-              onClick={() => history.push('/trade')}
-            />
-          )}
-          {/*{![Asset.ETH].includes(item.asset) && (*/}
-          <ActionButton
-            text={t(translations.userAssets.actions.swap)}
-            onClick={() => history.push('/swap')}
-          />
-          {/*)}*/}
         </div>
       </td>
     </tr>

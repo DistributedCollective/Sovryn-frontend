@@ -3,10 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation, Trans } from 'react-i18next';
 import cn from 'classnames';
 
+import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
-import { translations } from 'locales/i18n';
-
 import { MiningPool } from './components/MiningPool';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
@@ -17,6 +16,8 @@ import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styl
 import { HistoryTable } from './components/HistoryTable';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { useFetch } from 'app/hooks/useFetch';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -34,6 +35,10 @@ export function LiquidityMining() {
     setHasOldPools,
   ]);
 
+  const { value: ammData } = useFetch(
+    `${backendUrl[currentChainId]}/amm/apy/all`,
+  );
+
   return (
     <>
       <Helmet>
@@ -47,44 +52,44 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="35k SOV"
+            title="15k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Blue}
           />
           <LootDrop
-            title="20K SOV"
+            title="15K SOV"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
-            title="25K SOV"
+            title="15K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="20K SOV"
+            title="15K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -161,7 +166,14 @@ export function LiquidityMining() {
           )}
         >
           {pools.map(item => (
-            <MiningPool key={item.poolAsset} pool={item} />
+            <MiningPool
+              key={item.poolAsset}
+              pool={item}
+              ammData={
+                ammData &&
+                ammData[item?.assetDetails?.ammContract?.address?.toLowerCase()]
+              }
+            />
           ))}
         </div>
 

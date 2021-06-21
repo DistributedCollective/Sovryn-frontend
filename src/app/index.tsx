@@ -22,8 +22,6 @@ import {
 } from 'store/global/maintenance-store/slice';
 import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
 import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 
 import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
 import { MaintenancePage } from './containers/MaintenancePage';
@@ -59,7 +57,6 @@ export function App() {
 
   const { checkMaintenance, States } = useMaintenance();
   const siteLocked = checkMaintenance(States.FULL);
-  const { t } = useTranslation();
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -72,7 +69,7 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       {siteLocked ? (
-        <MaintenancePage message={t(translations.maintenance.full)} />
+        <MaintenancePage />
       ) : (
         <WalletProvider>
           <NetworkRibbon />

@@ -19,6 +19,7 @@ interface Props {
   subText?: string;
   placeholder?: string;
   maxAmount?: string;
+  readonly?: boolean;
 }
 
 export function AmountInput({
@@ -29,6 +30,7 @@ export function AmountInput({
   asset,
   subText,
   maxAmount,
+  readonly,
 }: Props) {
   return (
     <>
@@ -38,11 +40,13 @@ export function AmountInput({
         type="number"
         placeholder={placeholder}
         appendElem={asset ? <AssetRenderer asset={asset} /> : null}
+        className="tw-rounded-lg"
+        readOnly={readonly}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
-      {(asset || maxAmount !== undefined) && (
+      {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
           asset={asset}
           maxAmount={maxAmount}
@@ -84,7 +88,7 @@ export function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value));
   };
   return (
-    <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-5px tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}
@@ -105,7 +109,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-sm tw-leading-none tw-px-2 tw-py-2 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
     >
       {props.text}
     </button>

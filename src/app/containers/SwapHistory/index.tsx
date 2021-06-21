@@ -260,7 +260,10 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       <td className="d-none d-lg-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(
+            Number(weiToFixed(Number(dollarValue) || 0, 4)),
+            4,
+          )}
           loading={dollars.loading}
         />
       </td>
