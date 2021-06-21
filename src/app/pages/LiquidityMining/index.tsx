@@ -52,44 +52,44 @@ export function LiquidityMining() {
       <div className="container mt-5 font-family-montserrat">
         <LootDropSectionWrapper>
           <LootDrop
-            title="35k SOV"
+            title="15k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Blue}
           />
           <LootDrop
-            title="20K SOV"
+            title="15K SOV"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
-            title="25K SOV"
+            title="15K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="20K SOV"
+            title="15K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 21',
+              date: 'June 28',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
