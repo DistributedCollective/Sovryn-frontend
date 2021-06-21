@@ -5,7 +5,7 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -182,7 +182,6 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
   const [tokens, setTokens] = useState('0');
   const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const blockSync = useBlockSync();
-  const history = useHistory();
 
   useEffect(() => {
     const get = async () => {
