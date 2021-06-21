@@ -18,6 +18,7 @@ import { Status } from './Status';
 import { WalletLogo, getWalletName } from './WalletLogo';
 import { Asset } from 'types';
 import { Title } from './Title';
+import babelfishLogo from 'assets/images/babelfish.svg';
 
 interface ITxDialogProps {
   tx: ResetTxResponseInterface;
@@ -160,6 +161,18 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
                 text={t(translations.common.close)}
                 className="tw-font-bold"
               />
+            </div>
+            <div className="tw-mt-8 tw-flex tw-flex-col">
+              <div>
+                <img
+                  src={babelfishLogo}
+                  alt="babelfish"
+                  className="tw-mx-auto"
+                />
+              </div>
+              <div className="tw-font-thin tw-text-sm tw-mx-auto tw-mt-1">
+                Powered by babelFish
+              </div>
             </div>
           </div>
         </>

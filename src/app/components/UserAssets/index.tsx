@@ -160,6 +160,10 @@ export function UserAssets() {
           </div>
         </div>
       </Dialog>
+      <ConversionDialog
+        isOpen={conversionDialog}
+        onClose={() => setConversionDialog(false)}
+      />
     </>
   );
 }
