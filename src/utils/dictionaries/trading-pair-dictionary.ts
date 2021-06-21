@@ -8,6 +8,7 @@ export enum TradingPairType {
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',
   RBTC_SOV = 'RBTC_SOV',
+  BPRO_XUSD = 'BPRO_XUSD',
   BPRO_USDT = 'BPRO_USDT',
   BPRO_DOC = 'BPRO_DOC',
 }
@@ -46,7 +47,7 @@ export class TradingPairDictionary {
         Asset.USDT,
         Asset.RBTC,
         [Asset.RBTC, Asset.USDT],
-        false, // todo: change to true on june 21st.
+        true,
       ),
     ],
     // [
@@ -73,6 +74,18 @@ export class TradingPairDictionary {
       ),
     ],
     [
+      TradingPairType.BPRO_XUSD,
+      new TradingPair(
+        TradingPairType.BPRO_XUSD,
+        RenderTradingPairName(Asset.BPRO, Asset.XUSD),
+        'BPRO/XUSD',
+        Asset.XUSD,
+        Asset.BPRO,
+        [Asset.BPRO, Asset.XUSD],
+        false,
+      ),
+    ],
+    [
       TradingPairType.BPRO_USDT,
       new TradingPair(
         TradingPairType.BPRO_USDT,
@@ -81,7 +94,7 @@ export class TradingPairDictionary {
         Asset.USDT,
         Asset.BPRO,
         [Asset.BPRO, Asset.USDT],
-        false,
+        true,
       ),
     ],
     [

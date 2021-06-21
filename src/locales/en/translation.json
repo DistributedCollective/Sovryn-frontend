@@ -578,7 +578,8 @@
       "amount": "Amount to borrow",
       "tokenAssetCollateral": "Asset to collateralize and amount",
       "borrow": "Borrow",
-      "chooseDays": "Choose days"
+      "chooseDays": "Choose days",
+      "disabled": "This asset can't be borrowed."
     }
   },
   "activeUserBorrows": {
