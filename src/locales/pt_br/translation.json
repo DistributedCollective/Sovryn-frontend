@@ -860,7 +860,7 @@
       "from": "De",
       "to": "Para",
       "txFee": "Taxa de transação",
-      "cta": "Converter para XUSD"
+      "cta": "Converter para XUSD",
       "txDialog": {
         "titleInProgress": "Transação em andamento",
         "titleCompleted": "Transação concluída",
