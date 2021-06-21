@@ -277,15 +277,15 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   FISH_token: {
-    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0x2218581C27451786C3914E039D7e0Ff7Fb53F0a1',
+    address: '0x4083f95624f7118996e3fA8D43B803F9F3aEE097',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0xF778Cbebb1e7b662499eC982Bd8395610c94a4f2',
+    address: '0xC2C12474e4A2456E40366Bd029f6deE80f9d2Dc1',
     abi: LockedFundAbi,
   },
 };
