@@ -1265,6 +1265,16 @@
     "chartOverlayText": "AER% Coming Soon!",
     "recalibration": "Next recalibration on {{date}}"
   },
+  "BridgeDepositPage": {
+    "chainSelector": {
+      "wrongNetwork": {
+        "title": "Change to {{network}}"
+      },
+      "chooseNetwork": {
+        "title": "Select Network to deposit from"
+      }
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "SOV trading is now live!",

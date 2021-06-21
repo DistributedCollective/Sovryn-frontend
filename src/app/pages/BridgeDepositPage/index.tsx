@@ -75,17 +75,19 @@ export function BridgeDepositPage(props: Props) {
 
   return (
     <>
-      <div className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5">
+      <div
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5"
+        style={{ marginTop: '-4.4rem' }}
+      >
         <div
           className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-around tw-pl-8"
           style={{ minWidth: 200, minHeight: 'calc(100vh - 4.4rem)' }}
         >
           <SidebarSteps />
-          <div></div>
         </div>
 
         <div
-          style={{ minHeight: 'calc(100vh - 4.4rem)' }}
+          style={{ minHeight: 'calc(100vh - 2.5rem)' }}
           className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-relative"
         >
           <SwitchTransition>

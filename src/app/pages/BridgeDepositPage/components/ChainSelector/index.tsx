@@ -22,6 +22,8 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface Props {}
 
@@ -29,6 +31,7 @@ export function ChainSelector(props: Props) {
   const { chain } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
   const walletName = detectWeb3Wallet();
+  const { t } = useTranslation();
 
   const walletContext = useWalletContext();
 
@@ -92,7 +95,11 @@ export function ChainSelector(props: Props) {
                 </div>
               </WrongNetwork>
               <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-                Change to {network?.name}
+                {t(
+                  translations.BridgeDepositPage.chainSelector.wrongNetwork
+                    .title,
+                  { network: network?.name },
+                )}
               </div>
               <div className="tw-flex tw-flex-col tw-gap-12 tw-px-2 tw-items-center">
                 <SelectBox onClick={() => {}}>
@@ -108,8 +115,8 @@ export function ChainSelector(props: Props) {
                 </SelectBox>
                 <div className="tw-font-light tw-text-gold tw-underline">
                   How to connect to{' '}
-                  <span className="tw-uppercase">{network?.chain}</span> with
-                  Metamask
+                  <span className="tw-uppercase">{network?.chain}</span> with{' '}
+                  <span className="tw-capitalize">{walletName}</span>
                 </div>
               </div>
             </>
@@ -118,7 +125,10 @@ export function ChainSelector(props: Props) {
           {state === 'choose-network' && (
             <>
               <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-                Select Network to deposit from
+                {t(
+                  translations.BridgeDepositPage.chainSelector.chooseNetwork
+                    .title,
+                )}
               </div>
               <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
                 {networks.map(item => (
