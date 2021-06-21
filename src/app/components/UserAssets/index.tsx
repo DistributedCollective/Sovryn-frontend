@@ -213,20 +213,6 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
               rel="noreferrer noopener"
             />
           )}
-          {![Asset.SOV, Asset.ETH, Asset.MOC, Asset.BNB, Asset.XUSD].includes(
-            item.asset,
-          ) && (
-            <ActionButton
-              text={t(translations.userAssets.actions.trade)}
-              onClick={() => history.push('/trade')}
-            />
-          )}
-          {/*{![Asset.ETH].includes(item.asset) && (*/}
-          <ActionButton
-            text={t(translations.userAssets.actions.swap)}
-            onClick={() => history.push('/swap')}
-          />
-          {/*)}*/}
         </div>
       </td>
     </tr>
