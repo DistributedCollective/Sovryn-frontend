@@ -44,7 +44,7 @@ export function PoolChart({ pool, history }: Props) {
       }
       const total: ChartData = history.balanceHistory?.map(i => [
         Date.parse(i.activity_date),
-        i.balance_btc,
+        i.balance_btc / 1e8,
       ]);
       setTotalHistory(total);
     }
