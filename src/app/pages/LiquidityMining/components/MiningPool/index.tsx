@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from 'react';
+import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
@@ -16,14 +18,16 @@ import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import type { AmmHistory } from './types';
 
 interface Props {
   pool: LiquidityPool;
+  ammData: AmmHistory;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool }: Props) {
+export function MiningPool({ pool, ammData }: Props) {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
@@ -88,7 +92,21 @@ export function MiningPool({ pool }: Props) {
     <div>
       <CardRow
         LeftSection={<LeftSection />}
-        ChartSection={<PoolChart pool={pool} />}
+        ChartSection={
+          ammData ? (
+            <PoolChart pool={pool} history={ammData} />
+          ) : (
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-center">
+              <span
+                className={cn(
+                  'tw-w-min tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center active',
+                )}
+              >
+                <Spinner size={40} className="tw-fill-current" />
+              </span>
+            </div>
+          )
+        }
         Actions={<Actions />}
         DataSection={
           <UserPoolInfo

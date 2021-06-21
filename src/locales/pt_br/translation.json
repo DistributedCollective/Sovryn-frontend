@@ -23,6 +23,31 @@
   "announcement": {
     "message": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
+  "maintenance": {
+    "full": "A Sovryn está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "openMarginTrades": "Desculpe, a opção de abrir operações com margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "addToMarginTrades": "Desculpe, a opção de adicionar margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "closeMarginTrades": "Desculpe, a opção de fechar operações com margem está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "buySov": "Desculpe, a opção de comprar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "spotTrades": "Desculpe, a opção de operar spot está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "swapTrades": "Desculpe, a opção de trocar criptos está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "depositLend": "Desculpe, a opção de emprestar criptoativos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawLend": "Desculpe, a opção de resgatar empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "startBorrow": "Desculpe, a opção de receber empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "stopBorrow": "Desculpe, a opção de devolver empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "addLiquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "removeLiquidity": "Desculpe, a opção de retirar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
+    "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "staking": "Desculpe, a opção de investir SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "unstaking": "Desculpe, a opção de desinvestir SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateVests": "Desculpe, delegating vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawVests": "Desculpe, withdrawing vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "claimRewards": "Desculpe, a opção de reivindicar recompensas está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+  },
   "homePage": {
     "title": "Página inicial",
     "meta": "Página inicial da Sovryn",
@@ -34,10 +59,10 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "A Sovryn foi atualizada para a versão <br/> <0>Build ID: {{buildId}}</0>",
-    "notice": "Para atualizar, feche a página da Sovryn",
-    "updateBtn": "ATUALIZAR",
-    "closeBtn": "Por favor, deixe-me concluir uma negociação"
+    "title": "A Sovryn foi atualizada para a <br/> <0>Versão: {{buildId}}</0>",
+    "notice": "Para concluir a atualização, feche a página da Sovryn",
+    "updateBtn": "Atualizar agora",
+    "closeBtn": "Atualizar mais tarde"
   },
   "tradingActivity": {
     "title": "Minhas operações",
@@ -174,10 +199,10 @@
       "switchAssets": "Alternar criptoativos"
     },
     "arbitrage": {
-      "best_rate": "Oportunidade de lucro rápido trocando até ",
+      "best_rate": "Oportunidade de arbitragem trocando até ",
       "for": "por até",
-      "popover_p1": "Atualmente na Sovryn, você pode trocar {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}. Isso é {{earn}} {{toToken}} a mais do que o preço de mercado (dinheiro de graça!).",
-      "popover_p2": "Essa arbitragem é uma oportunidade para nossos usuários ganharem dinheiro extra vendendo seus {{fromToken}}, e ajuda a manter o sistema em equilíbrio."
+      "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
+      "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
     }
   },
   "amountField": {
@@ -201,6 +226,7 @@
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
+    "notice_5": "Para saber das últimas atualizações ou discussões, participe do nosso servidor da <0>Discord</0>.",
     "optOut": "Desativar o Google Analytics",
     "buildID": "Build ID"
   },
@@ -241,7 +267,7 @@
         "startPrice": "Preço inicial"
       },
       "inputLabel": "Insira um endereço de e-mail",
-       "inputLabelName": "Nome ou apelido",
+      "inputLabelName": "Nome ou apelido",
       "submitButton": "Cadastre-se para novidades",
       "submitSuccess": "Cadastro realizado!"
     },
@@ -320,12 +346,13 @@
       "protocol": "Contrato de protocolo",
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
+      "staked": "Contrato Bitocracia",
       "total": "Total"
     },
     "ammpool": {
       "title": "SALDO AMM",
       "pool": "Pool",
-      "stakedBalance": "Saldo aplicado",
+      "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
@@ -343,6 +370,7 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
     "receive": "Receber"
@@ -350,12 +378,12 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
-     "connect": "Conecte sua carteira para começar a investir.",
+    "connect": "Conecte sua carteira para começar a investir.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
-    "feeTitle": "Taxas recebidas disponíveis",
+    "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não desbloqueou SOV",
     "txFee": "Taxa de transação",
     "sov": "SOV",
@@ -425,7 +453,7 @@
       "stakingDate": "Data final",
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
-      "fees": "Taxas recebidas",
+      "fees": "Dividendos recebidos",
       "noVestingContracts": "Não existem SOV reservados para você."
     },
     "actions": {
@@ -507,7 +535,7 @@
     "updated_success_user": "Seus dados foram atualizados."
   },
   "whiteListedNotification": {
-    "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou aplicado). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
+    "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou investido). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
   "limitsNotification": {
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
@@ -818,12 +846,20 @@
     "actions": {
       "deposit": "Bridge",
       "fastBtc": "FastBTC",
+      "convert": "Converter para XUSD",
       "swap": "Trocar",
       "trade": "Margem",
       "buy": "Comprar",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC",
       "withdraw": "Resgatar"
+    },
+    "convertDialog": {
+      "title": "Converter",
+      "from": "De",
+      "to": "Para",
+      "txFee": "Taxa de transação",
+      "cta": "Converter para XUSD"
     }
   },
   "swapHistory": {
@@ -1181,7 +1217,7 @@
         "pool": "Pool",
         "action": "Ação",
         "asset": "Criptoativo",
-        "liquidityAmount": "Quantidade de liquidez",
+        "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
       }
@@ -1212,7 +1248,7 @@
     },
     "lootDropLink": "Saiba mais",
     "chartOverlayText": "AER% Em breve!",
-     "recalibration": "Próximo ajuste em {{date}}"
+    "recalibration": "Próximo ajuste em {{date}}"
   },
   "buySovPage": {
     "meta": {

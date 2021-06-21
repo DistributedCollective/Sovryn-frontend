@@ -1,10 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import styled from 'styled-components/macro';
 import moment from 'moment-timezone';
 import iconReject from 'assets/images/failed-tx.svg';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+
 interface Props {
   forfeit: number;
   until: number;
@@ -13,6 +17,8 @@ interface Props {
 
 export function WithdrawConfirmationForm(props: Props) {
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const unstakingLocked = checkMaintenance(States.UNSTAKING);
   return (
     <>
       <button
@@ -59,11 +65,33 @@ export function WithdrawConfirmationForm(props: Props) {
           </>
         )}
       </div>
-
+      {unstakingLocked && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.unstakingModal}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
       <div className="md:tw-px-16 tw-mb-8">
         <button
           type="submit"
-          className="tw-uppercase tw-mb-5 tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out"
+          className={`tw-uppercase tw-mb-5 tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+            unstakingLocked &&
+            'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
+          }`}
+          disabled={unstakingLocked}
         >
           {t(translations.stake.withdraw.unstake)}
         </button>

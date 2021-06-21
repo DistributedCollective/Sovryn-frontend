@@ -43,8 +43,6 @@ import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -58,7 +56,6 @@ export function App() {
 
   const { checkMaintenance, States } = useMaintenance();
   const siteLocked = checkMaintenance(States.FULL);
-  const { t } = useTranslation();
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -71,7 +68,7 @@ export function App() {
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
       {siteLocked ? (
-        <MaintenancePage message={t(translations.maintenance.full)} />
+        <MaintenancePage />
       ) : (
         <WalletProvider>
           <NetworkRibbon />
