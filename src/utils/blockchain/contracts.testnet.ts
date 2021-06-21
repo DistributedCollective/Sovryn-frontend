@@ -28,6 +28,7 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -115,11 +116,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // XUSD_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
+  XUSD_lending: {
+    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   XUSD_amm: {
     address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
     abi: LiquidityPoolV1Converter,
@@ -272,5 +273,9 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
+  },
+  babelfishAggregator: {
+    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    abi: BabelfishAggregatorAbi,
   },
 };

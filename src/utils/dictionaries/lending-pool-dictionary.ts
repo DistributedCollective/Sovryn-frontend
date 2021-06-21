@@ -5,19 +5,48 @@ export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [
       Asset.RBTC,
-      new LendingPool('RBTC', Asset.RBTC, [Asset.DOC, Asset.USDT, Asset.BPRO]),
+      new LendingPool('RBTC', Asset.RBTC, [
+        Asset.XUSD,
+        Asset.DOC,
+        Asset.USDT,
+        Asset.BPRO,
+      ]),
+    ],
+    [
+      Asset.XUSD,
+      new LendingPool('XUSD', Asset.XUSD, [
+        Asset.RBTC,
+        Asset.USDT,
+        Asset.DOC,
+        Asset.BPRO,
+      ]),
     ],
     [
       Asset.DOC,
-      new LendingPool('DoC', Asset.DOC, [Asset.RBTC, Asset.USDT, Asset.BPRO]),
+      new LendingPool('DoC', Asset.DOC, [
+        Asset.RBTC,
+        Asset.XUSD,
+        Asset.USDT,
+        Asset.BPRO,
+      ]),
     ],
     [
       Asset.USDT,
-      new LendingPool('USDT', Asset.USDT, [Asset.RBTC, Asset.DOC, Asset.BPRO]),
+      new LendingPool('USDT', Asset.USDT, [
+        Asset.RBTC,
+        Asset.XUSD,
+        Asset.DOC,
+        Asset.BPRO,
+      ]),
     ],
     [
       Asset.BPRO,
-      new LendingPool('BPRO', Asset.BPRO, [Asset.RBTC, Asset.DOC, Asset.USDT]),
+      new LendingPool('BPRO', Asset.BPRO, [
+        Asset.RBTC,
+        Asset.XUSD,
+        Asset.DOC,
+        Asset.USDT,
+      ]),
     ],
   ]);
 
