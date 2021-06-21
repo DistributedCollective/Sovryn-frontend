@@ -56,4 +56,5 @@ export const gasLimit = {
   [TxType.ESCROW_SOV_DEPOSIT]: 100000,
   [TxType.LM_DEPOSIT]: 150000,
   [TxType.LOCKED_SOV_CLAIM]: 3250000,
+  [TxType.CONVERT_RUSDT_TO_XUSD]: 150000,
 };

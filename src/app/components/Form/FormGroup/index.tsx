@@ -9,12 +9,14 @@ interface FormGroupProps {
   id?: string;
   children: React.ReactNode;
   className?: string;
+  labelClassName?: string;
 }
 
 export function FormGroup({
   children,
   describe,
   className,
+  labelClassName,
   ...props
 }: FormGroupProps) {
   const [id, setId] = useState<string>(props.id || makeId());
@@ -26,7 +28,10 @@ export function FormGroup({
   return (
     <div className={cn('tw-form-group', className)}>
       {props.label && (
-        <label htmlFor={id} className="tw-form-group-label">
+        <label
+          htmlFor={id}
+          className={cn('tw-form-group-label', labelClassName)}
+        >
           {props.label}
         </label>
       )}
