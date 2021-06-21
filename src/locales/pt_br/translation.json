@@ -474,7 +474,7 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "aer": "AER",
+    "aer": "Juros anual",
     "currency": "Criptoativo",
     "currencySelect": "Selecionar criptoativo",
     "poolSelect": "Selecionar pool",
@@ -1261,7 +1261,7 @@
       }
     },
     "lootDropLink": "Saiba mais",
-    "chartOverlayText": "AER% Em breve!",
+    "chartOverlayText": "Juros anual% Em breve!",
     "recalibration": "Próximo ajuste em {{date}}"
   },
   "buySovPage": {
