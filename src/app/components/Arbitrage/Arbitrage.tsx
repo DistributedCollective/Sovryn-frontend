@@ -88,12 +88,12 @@ export function Arbitrage() {
                       fromToken: opportunity.fromToken,
                       toAmount: toNumberFormat(opportunity.toAmount, 6),
                       toToken: opportunity.toToken,
-                      earn: toNumberFormat(opportunity.earn, 6),
                     })}
                   </p>
                   <p>
                     {t(s.arbitrage.popover_p2, {
-                      fromToken: opportunity.fromToken,
+                      toToken: opportunity.toToken,
+                      earn: toNumberFormat(opportunity.earn, 6),
                     })}
                   </p>
                 </div>

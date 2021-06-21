@@ -3,6 +3,7 @@ import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
+import { Tooltip } from '@blueprintjs/core';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { actions } from 'app/containers/LendBorrowSovryn/slice';
@@ -14,7 +15,6 @@ import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from '../../hooks/useMaintenance';
-import styles from './ActiveBorrowTable.module.css';
 
 interface Props {
   data: any;
@@ -23,8 +23,8 @@ interface Props {
 export function ActiveBorrowTable(props: Props) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { checkMaintenance } = useMaintenance();
-  const repayLocked = checkMaintenance('closeLoansBorrows');
+  const { checkMaintenance, States } = useMaintenance();
+  const repayLocked = checkMaintenance(States.STOP_BORROW);
 
   const columns = React.useMemo(
     () => [
@@ -90,16 +90,26 @@ export function ActiveBorrowTable(props: Props) {
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
           <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
-            <div
-              className={`tw-mr-1 ${
-                repayLocked?.maintenance_active ? styles.disabled : ''
-              }`}
-            >
-              <StyledRepayButton
-                onClick={() => dispatch(actions.openRepayModal(item.loanId))}
-              >
-                {t(translations.activeBorrowTable.repayButton)}
-              </StyledRepayButton>
+            <div className="tw-mr-1">
+              {repayLocked ? (
+                <Tooltip
+                  position="bottom"
+                  hoverOpenDelay={0}
+                  hoverCloseDelay={0}
+                  interactionKind="hover"
+                  content={<>{t(translations.maintenance.stopBorrow)}</>}
+                >
+                  <StyledRepayButton className="tw-opacity-50 tw-cursor-not-allowed">
+                    {t(translations.activeBorrowTable.repayButton)}
+                  </StyledRepayButton>
+                </Tooltip>
+              ) : (
+                <StyledRepayButton
+                  onClick={() => dispatch(actions.openRepayModal(item.loanId))}
+                >
+                  {t(translations.activeBorrowTable.repayButton)}
+                </StyledRepayButton>
+              )}
             </div>
           </div>
         ),
@@ -115,7 +125,7 @@ export function ActiveBorrowTable(props: Props) {
     prepareRow,
   } = useTable({ columns, data }, useSortBy);
   return (
-    <div className="tw-bg-primary sovryn-border tw-p-4 tw-table-responsive">
+    <div className="sovryn-border tw-p-4 tw-table-responsive">
       <table {...getTableProps()} className="sovryn-table">
         <thead>
           {headerGroups.map(headerGroup => (

@@ -42,9 +42,11 @@ export function ActiveLoanTableContainer(props: Props) {
   const [expandedItem, setExpandedItem] = useState('');
   const [expandedId, setExpandedId] = useState('');
   const { t } = useTranslation();
-  const { checkMaintenance } = useMaintenance();
-  const openTradesLocked = checkMaintenance('openTradesSwaps');
-  const closeTradesLocked = checkMaintenance('closeTradesSwaps');
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.OPEN_MARGIN_TRADES]: openTradesLocked,
+    [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
+  } = checkMaintenances();
 
   const data = React.useMemo(() => {
     return props.data.map(item => {
@@ -119,14 +121,12 @@ export function ActiveLoanTableContainer(props: Props) {
         actions: (
           <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-end">
             <div
-              className={`tw-mr-1 ${
-                openTradesLocked?.maintenance_active ? styles.disabled : ''
-              }`}
+              className={`tw-mr-1 ${openTradesLocked ? styles.disabled : ''}`}
             >
               <Tooltip
                 content={
-                  openTradesLocked?.maintenance_active
-                    ? openTradesLocked?.message
+                  openTradesLocked
+                    ? t(translations.maintenance.openMarginTrades)
                     : t(translations.activeLoan.table.container.topUp)
                 }
               >
@@ -136,7 +136,7 @@ export function ActiveLoanTableContainer(props: Props) {
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
-                    if (!openTradesLocked?.maintenance_active) {
+                    if (!openTradesLocked) {
                       setPositionMarginModalOpen(true);
                       setSelectedItem(item);
                     }
@@ -144,15 +144,11 @@ export function ActiveLoanTableContainer(props: Props) {
                 />
               </Tooltip>
             </div>
-            <div
-              className={`${
-                closeTradesLocked?.maintenance_active ? styles.disabled : ''
-              }`}
-            >
+            <div className={`${closeTradesLocked ? styles.disabled : ''}`}>
               <Tooltip
                 content={
-                  closeTradesLocked?.maintenance_active
-                    ? closeTradesLocked?.message
+                  closeTradesLocked
+                    ? t(translations.maintenance.closeMarginTrades)
                     : t(translations.activeLoan.table.container.close)
                 }
               >
@@ -162,7 +158,7 @@ export function ActiveLoanTableContainer(props: Props) {
                   iconSize={20}
                   onClick={e => {
                     e.stopPropagation();
-                    if (!closeTradesLocked?.maintenance_active) {
+                    if (!closeTradesLocked) {
                       setPositionCloseModalOpen(true);
                       setSelectedItem(item);
                     }

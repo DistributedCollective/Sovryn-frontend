@@ -9,10 +9,10 @@ export type ContainerState = MaintenanceStoreState;
 export interface MaintenanceStates {
   [id: string]: Maintenance;
 }
+
 export interface Maintenance {
   id: number;
   name: string;
   label: string;
   maintenance_active: boolean;
-  message: string;
 }

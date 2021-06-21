@@ -18,6 +18,8 @@ import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStake
 import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIGHT_FACTOR';
 import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Tooltip } from '@blueprintjs/core';
 
 interface Stakes {
   onIncrease: (a: number, b: number) => void;
@@ -147,6 +149,13 @@ interface AssetProps {
 
 function AssetRow(props: AssetProps) {
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.STAKING]: stakingLocked,
+    [States.UNSTAKING]: unstakingLocked,
+    [States.DELEGATE_STAKES]: delegateStakesLocked,
+  } = checkMaintenances();
+
   const now = new Date();
   const [weight, setWeight] = useState('');
   const locked = Number(props.item[1]) > Math.round(now.getTime() / 1e3); //check if date is locked
@@ -229,40 +238,111 @@ function AssetRow(props: AssetProps) {
       </td>
       <td className="md:tw-text-left lg:tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-flex tw-flex-nowrap">
-          <button
-            type="button"
-            className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
-              !locked &&
-              'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
-            }`}
-            onClick={() => props.onIncrease(props.item[0], props.item[1])}
-            disabled={!locked}
-          >
-            {t(translations.stake.actions.increase)}
-          </button>
-          <button
-            type="button"
-            className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
-            onClick={() => props.onExtend(props.item[0], props.item[1])}
-          >
-            {t(translations.stake.actions.extend)}
-          </button>
-          <button
-            type="button"
-            className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
-            onClick={() => props.onUnstake(props.item[0], props.item[1])}
-          >
-            {t(translations.stake.actions.unstake)}
-          </button>
-          <button
-            className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
-              !locked && 'tw-opacity-50 tw-cursor-not-allowed'
-            }`}
-            onClick={() => props.onDelegate(props.item[1])}
-            disabled={!locked}
-          >
-            {t(translations.stake.actions.delegate)}
-          </button>
+          {stakingLocked ? (
+            <>
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>{t(translations.maintenance.staking)}</>}
+              >
+                <button
+                  type="button"
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                >
+                  {t(translations.stake.actions.increase)}
+                </button>
+              </Tooltip>
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>{t(translations.maintenance.staking)}</>}
+              >
+                <button
+                  type="button"
+                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                >
+                  {t(translations.stake.actions.extend)}
+                </button>
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
+                  !locked &&
+                  'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
+                }`}
+                onClick={() => props.onIncrease(props.item[0], props.item[1])}
+                disabled={!locked}
+              >
+                {t(translations.stake.actions.increase)}
+              </button>
+              <button
+                type="button"
+                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                onClick={() => props.onExtend(props.item[0], props.item[1])}
+              >
+                {t(translations.stake.actions.extend)}
+              </button>
+            </>
+          )}
+
+          {unstakingLocked ? (
+            <Tooltip
+              position="bottom"
+              hoverOpenDelay={0}
+              hoverCloseDelay={0}
+              interactionKind="hover"
+              content={<>{t(translations.maintenance.unstaking)}</>}
+            >
+              <button
+                type="button"
+                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+              >
+                {t(translations.stake.actions.unstake)}
+              </button>
+            </Tooltip>
+          ) : (
+            <button
+              type="button"
+              className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+              onClick={() => props.onUnstake(props.item[0], props.item[1])}
+            >
+              {t(translations.stake.actions.unstake)}
+            </button>
+          )}
+
+          {delegateStakesLocked ? (
+            <Tooltip
+              position="bottom"
+              hoverOpenDelay={0}
+              hoverCloseDelay={0}
+              interactionKind="hover"
+              content={<>{t(translations.maintenance.delegateStakes)}</>}
+            >
+              <button
+                type="button"
+                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+              >
+                {t(translations.stake.actions.delegate)}
+              </button>
+            </Tooltip>
+          ) : (
+            <button
+              className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
+                !locked && 'tw-opacity-50 tw-cursor-not-allowed'
+              }`}
+              onClick={() => props.onDelegate(props.item[1])}
+              disabled={!locked}
+            >
+              {t(translations.stake.actions.delegate)}
+            </button>
+          )}
         </div>
       </td>
     </tr>

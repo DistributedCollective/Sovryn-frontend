@@ -122,7 +122,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   XUSD_amm: {
-    address: '0xD449c0c468Cae235d3E320Ff48d05EbDdcde64c3',
+    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
