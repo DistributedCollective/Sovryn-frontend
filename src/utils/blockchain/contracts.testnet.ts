@@ -116,11 +116,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // XUSD_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
+  XUSD_lending: {
+    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   XUSD_amm: {
     address: '0xD449c0c468Cae235d3E320Ff48d05EbDdcde64c3',
     abi: LiquidityPoolV1Converter,

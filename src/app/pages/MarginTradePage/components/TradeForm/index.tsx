@@ -28,10 +28,12 @@ import { renderItemNH } from 'app/components/Form/Select/renderers';
 const pairs: Options<
   TradingPairType,
   React.ReactNode
-> = TradingPairDictionary.entries().map(([type, item]) => ({
-  key: type,
-  label: item.name,
-}));
+> = TradingPairDictionary.entries()
+  .filter(value => !value[1].deprecated)
+  .map(([type, item]) => ({
+    key: type,
+    label: item.name,
+  }));
 
 export function TradeForm() {
   const { t } = useTranslation();

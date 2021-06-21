@@ -15,6 +15,7 @@ export class TradingPair {
     public readonly longAsset: Asset,
     public readonly shortAsset: Asset,
     public readonly collaterals: Asset[],
+    public readonly deprecated: boolean = false,
   ) {
     this.shortDetails = AssetsDictionary.get(this.shortAsset);
     this.longDetails = AssetsDictionary.get(this.longAsset);
