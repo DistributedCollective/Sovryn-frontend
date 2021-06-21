@@ -73,39 +73,46 @@ export function TVL(props: Props) {
     },
   ];
 
-  const rows = rowData.map((row, key) => (
-    <>
-      {loading ? (
-        <SkeletonRow key={key} />
-      ) : (
-        row.btcValue &&
-        Number(row.btcValue) > 0 &&
-        row.usdValue &&
-        Number(row.usdValue) > 0 && (
-          <tr
-            key={key}
-            className={`${
-              row.contract === 'Total' ? 'font-weight-bold border-top' : ''
-            }`}
-          >
-            <td>{row.contract}</td>
-            <td>
-              {row.btcValue?.toLocaleString('en', {
-                maximumFractionDigits: 4,
-                minimumFractionDigits: 4,
-              }) || <div className="bp3-skeleton">&nbsp;</div>}
-            </td>
-            <td>
-              {row.usdValue?.toLocaleString('en', {
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-              }) || <div className="bp3-skeleton">&nbsp;</div>}
-            </td>
-          </tr>
-        )
-      )}
-    </>
-  ));
+  const rows = rowData.map((row, key) =>
+    loading ||
+    !(
+      row.btcValue &&
+      Number(row.btcValue) > 0 &&
+      row.usdValue &&
+      Number(row.usdValue) > 0
+    ) ? (
+      <tr key={key}>
+        <td>{row.contract}</td>
+        <td>
+          <SkeletonRow />
+        </td>
+        <td>
+          <SkeletonRow />
+        </td>
+      </tr>
+    ) : (
+      <tr
+        key={key}
+        className={`${
+          row.contract === 'Total' ? 'font-weight-bold border-top' : ''
+        }`}
+      >
+        <td>{row.contract}</td>
+        <td>
+          {row.btcValue?.toLocaleString('en', {
+            maximumFractionDigits: 4,
+            minimumFractionDigits: 4,
+          }) || <div className="bp3-skeleton">&nbsp;</div>}
+        </td>
+        <td>
+          {row.usdValue?.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          }) || <div className="bp3-skeleton">&nbsp;</div>}
+        </td>
+      </tr>
+    ),
+  );
 
   return (
     <div>
