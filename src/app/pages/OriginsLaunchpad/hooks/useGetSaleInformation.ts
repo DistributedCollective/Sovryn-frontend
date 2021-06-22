@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
 import { contractReader } from 'utils/sovryn/contract-reader';
-
-interface ISaleInformation {
-  minAmount: string;
-  maxAmount: string;
-  remainingTokens: number;
-  saleEnd: string;
-  depositRate: number;
-  participatingWallets: string;
-}
+import { ISaleInformation } from '../types';
 
 const timestampToString = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleString('en-GB', {

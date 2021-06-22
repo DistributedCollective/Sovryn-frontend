@@ -1,68 +1,58 @@
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { translations } from 'locales/i18n';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Asset } from 'types';
 import { BuyWrapper, BuyButton } from './styled';
 import { useTranslation } from 'react-i18next';
 import imgArrowDown from 'assets/images/arrow-down.svg';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from 'app/hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { bignumber } from 'mathjs';
-import { maxMinusFee } from 'utils/helpers';
 import { TxDialog } from '../TxDialog';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
-
-const tokenAddress = (asset: Asset) =>
-  AssetsDictionary.get(asset).getTokenContractAddress();
-
-const gasLimit = 340000;
+import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
 
 interface IBuySectionProps {
   saleName: string;
+  depositRate: number;
 }
 
-export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
+export const BuySection: React.FC<IBuySectionProps> = ({
+  saleName,
+  depositRate,
+}) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
   const [amount, setAmount] = useState('');
-  const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
+  const [tokenAmount, setTokenAmount] = useState(amount);
+  const weiTokenAmount = useWeiAmount(tokenAmount);
+
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
-
-  // The second asset needs to be changed
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(Asset.RBTC),
-    tokenAddress(Asset.SOV),
-  );
-
-  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
-
-  const { minReturn } = useSlippage(rateByPath, slippage);
-
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
-    path,
-    weiAmount,
-    minReturn,
-  );
 
   const isValidAmount = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(minReturn).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, Asset.RBTC, gasLimit),
-      )
+      bignumber(weiTokenAmount).greaterThan(0)
     );
-  }, [balance, minReturn, weiAmount]);
+  }, [weiAmount, weiTokenAmount]);
+
+  useEffect(() => setTokenAmount(`${Number(amount) * depositRate}`), [
+    amount,
+    depositRate,
+  ]);
+
+  const { buy, ...buyTx } = useApproveAndBuyToken();
+
+  const onBuyClick = useCallback(
+    () => buy(1, weiTokenAmount, 'FISH', weiAmount, Asset.RBTC),
+    [buy, weiAmount, weiTokenAmount],
+  );
+
+  console.log(buyTx);
 
   return (
     <BuyWrapper>
@@ -98,16 +88,16 @@ export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
             :
           </div>
           <AmountInput
-            value={weiToNumberFormat(rateByPath, 4)}
-            asset={Asset.SOV}
+            value={tokenAmount}
+            assetString={saleName}
             readonly={true}
             onChange={noop}
           />
         </div>
 
         <BuyButton
-          disabled={tx.loading || !isValidAmount || !connected}
-          onClick={() => send()}
+          disabled={buyTx.loading || !isValidAmount || !connected}
+          onClick={onBuyClick}
         >
           <span>
             {t(
@@ -117,7 +107,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
           </span>
         </BuyButton>
 
-        <TxDialog tx={tx} />
+        <TxDialog tx={buyTx} />
       </div>
     </BuyWrapper>
   );

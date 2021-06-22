@@ -95,7 +95,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
                 <div className="tw-mb-3.5">
                   {t(
                     translations.originsLaunchpad.saleDay.txDialog
-                      .minimumReceived,
+                      .amountReceived,
                   )}
                   :
                 </div>
@@ -115,16 +115,16 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
                 </div>
 
                 <div className="tw-mb-3.5">
-                  {weiToFixed(txData?.customData?.amount, 6)}{' '}
+                  {weiToFixed(txData?.customData?.sourceAmount, 6)}{' '}
                   <AssetSymbolRenderer
                     asset={txData?.customData?.sourceToken}
                   />
                 </div>
 
                 <div className="tw-mb-3.5">
-                  {weiToFixed(txData?.customData?.minReturn, 6)}{' '}
+                  {weiToFixed(txData?.customData?.destinationAmount, 6)}{' '}
                   <AssetSymbolRenderer
-                    asset={txData?.customData?.targetToken}
+                    assetString={txData?.customData?.destinationToken}
                   />
                 </div>
 

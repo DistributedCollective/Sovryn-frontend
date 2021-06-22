@@ -8,7 +8,8 @@ import { AssetSymbolRenderer } from '../AssetSymbolRenderer/index';
 type ImageSizes = 4 | 5 | 6 | 8 | 12;
 
 interface CurrencyProps {
-  asset: Asset;
+  asset?: Asset;
+  assetString?: string;
   showImage?: boolean;
   imageSize?: ImageSizes;
 }
@@ -20,14 +21,17 @@ export function AssetRenderer(props: CurrencyProps) {
 
   return (
     <span className="tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2">
-      {props.showImage && (
+      {props.showImage && props.asset && (
         <img
           className={cn('tw-object-contain', classNames)}
           src={AssetsDictionary.get(props.asset).logoSvg}
           alt={AssetsDictionary.get(props.asset).name}
         />
       )}
-      <AssetSymbolRenderer asset={props.asset} />
+      <AssetSymbolRenderer
+        asset={props.asset}
+        assetString={props.assetString}
+      />
     </span>
   );
 }

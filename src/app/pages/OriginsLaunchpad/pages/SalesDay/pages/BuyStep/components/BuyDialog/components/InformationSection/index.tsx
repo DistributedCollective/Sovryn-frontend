@@ -7,10 +7,11 @@ import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { AllocationRemaining } from './AllocationRemaining';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { useGetSaleInformation } from '../../../../../../../../hooks/useGetSaleInformation';
+import { ISaleInformation } from '../../../../../../../../types';
 
 interface IInformationSectionProps {
   saleName: string;
+  info: ISaleInformation;
 }
 
 const depositRateToSatoshis = (depositRate: number) =>
@@ -18,9 +19,9 @@ const depositRateToSatoshis = (depositRate: number) =>
 
 export const InformationSection: React.FC<IInformationSectionProps> = ({
   saleName,
+  info,
 }) => {
   const { t } = useTranslation();
-  const info = useGetSaleInformation(1);
 
   return (
     <BuyInformationWrapper>
@@ -37,11 +38,11 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
             • MIN:{' '}
             {info.minAmount === '0'
               ? '0'
-              : weiToNumberFormat(info?.minAmount, 4)}{' '}
+              : weiToNumberFormat(info.minAmount, 4)}{' '}
             <AssetSymbolRenderer asset={Asset.RBTC} />
           </div>
           <div>
-            • MAX: {weiToNumberFormat(info?.maxAmount, 4)}{' '}
+            • MAX: {weiToNumberFormat(info.maxAmount, 4)}{' '}
             <AssetSymbolRenderer asset={Asset.RBTC} />
           </div>
         </div>

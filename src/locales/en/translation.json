@@ -314,7 +314,7 @@
       "txDialog": {
         "dateTime": "Date/Time",
         "amountSent": "Amount Sent",
-        "minimumReceived": "Minimum Received",
+        "amountReceived": "Amount Received",
         "txHash": "Tx Hash"
       }
     }
