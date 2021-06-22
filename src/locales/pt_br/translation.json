@@ -394,18 +394,18 @@
       "address": "Insira ou cole o endereço"
     },
     "withdraw": {
-      "title": "Desinvestir SOV",
+      "title": "Resgatar SOV",
       "amountCurrentlyStaked": "Quantidade atualmente investida",
       "amountToUnstake": "Quantidade a ser resgatada",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
-      "forfeit": "Multa por resgatar investimento antes do prazo",
+      "forfeit": "Multa por resgatar SOV antes do prazo",
       "closeDialog": "Fechar janela",
-      "reallyUnstake": "Você tem certeza de que deseja resgatar o investimento?",
+      "reallyUnstake": "Você tem certeza de que deseja resgatar seus SOV?",
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
-      "penalty": "Resgatar investimento neste momento fará com que você receba uma penalidade",
+      "penalty": "Resgatar SOV neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
-      "unstake": "Ok, resgatar investimento"
+      "unstake": "Ok, resgatar SOV"
     },
     "staking": {
       "title": "Investir SOV",
