@@ -1302,6 +1302,13 @@
       }
     }
   },
+  "BridgeWithdrawPage": {
+    "chainSelector": {
+      "chooseNetwork": {
+        "title": "Select Network to withdraw {{asset}} to"
+      }
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "SOV trading is now live!",

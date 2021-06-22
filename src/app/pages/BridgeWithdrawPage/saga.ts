@@ -1,3 +1,5 @@
+// TODO: Almost everything is same as in deposit page - remove duplicates, reuse functions.
+
 import {
   call,
   cancel,
@@ -9,27 +11,26 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 import delay from '@redux-saga/delay-p';
-import { actions } from './slice';
-import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
-import {
-  getBridgeChain,
-  getBridgeChainId,
-  getSupportedBridgeChainIds,
-} from './utils/helpers';
+import { bignumber } from 'mathjs';
+import { ethers } from 'ethers';
 import { walletService } from '@sovryn/react-wallet';
 import { debug } from '@sovryn/common';
 import { eventChannel } from 'redux-saga';
-import { BridgeDepositPageState, DepositStep, TxStep } from './types';
+import { BridgeWithdrawPageState, WithdrawStep } from './types';
+import { actions } from './slice';
+import { selectBridgeWithdrawPage } from './selectors';
 import { Chain } from '../../../types';
-import { selectBridgeDepositPage } from './selectors';
-import { BridgeDictionary } from './dictionaries/bridge-dictionary';
-import { BridgeModel } from './types/bridge-model';
-import { AssetModel } from './types/asset-model';
-import { bridgeNetwork } from './utils/bridge-network';
-import { bignumber } from 'mathjs';
-import { ethers } from 'ethers';
+import { BridgeModel } from '../BridgeDepositPage/types/bridge-model';
+import { AssetModel } from '../BridgeDepositPage/types/asset-model';
+import {
+  getBridgeChain,
+  getSupportedBridgeChainIds,
+} from '../BridgeDepositPage/utils/helpers';
+import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
+import { BridgeDictionary } from '../BridgeDepositPage/dictionaries/bridge-dictionary';
+import { TxStep } from '../BridgeDepositPage/types';
 
-const { log } = debug('bridge/saga.ts');
+const { log } = debug('bridge.withdraw/saga.ts');
 
 function getSpenderAddress(
   chain: Chain,
@@ -45,13 +46,6 @@ function getSpenderAddress(
   }
 
   return undefined;
-}
-
-function* selectNetwork(data) {
-  const chainId = getBridgeChainId(data.payload.chain);
-  yield put(walletProviderActions.setBridgeChainId(chainId));
-  const context = data.payload.walletContext;
-  yield call([context, context.connect]);
 }
 
 function* watchWalletChannel() {
@@ -73,22 +67,22 @@ function createWalletChannel() {
       try {
         if (!walletService.isConnected()) {
           log('not connected');
-          emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+          emit(actions.setStep(WithdrawStep.CHAIN_SELECTOR));
         } else if (getBridgeChain(walletService.chainId) === Chain.RSK) {
           log('connected to rsk network');
-          emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+          emit(actions.setStep(WithdrawStep.CHAIN_SELECTOR));
         } else if (
           !getSupportedBridgeChainIds().includes(walletService.chainId)
         ) {
           log('unsupported bridge id', walletService.chainId);
-          emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+          emit(actions.setStep(WithdrawStep.CHAIN_SELECTOR));
         } else {
           log('connected to new chain');
-          emit(actions.setStep(DepositStep.TOKEN_SELECTOR));
+          emit(actions.setStep(WithdrawStep.TOKEN_SELECTOR));
         }
       } catch (e) {
         console.error(e);
-        emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+        emit(actions.setStep(WithdrawStep.CHAIN_SELECTOR));
       }
     };
     events.on('connected', connectedFn);
@@ -108,7 +102,7 @@ function* watchTransferSaga() {
 function* approveTransfer() {
   while (true) {
     yield take(actions.approveTokens.type);
-    const payload = yield select(selectBridgeDepositPage);
+    const payload = yield select(selectBridgeWithdrawPage);
 
     const nonce = yield call(
       [bridgeNetwork, bridgeNetwork.nonce],
@@ -120,8 +114,6 @@ function* approveTransfer() {
       payload.targetChain,
     ) as BridgeModel;
     const asset = bridge.getAsset(payload.sourceAsset as any) as AssetModel;
-
-    console.log('approveTransfer: asset is', asset);
 
     try {
       const data = bridgeNetwork.approveData(
@@ -152,7 +144,7 @@ function* approveTransfer() {
 function* confirmTransfer() {
   while (true) {
     const { payload: state } = yield take(actions.confirmTransfer.type);
-    const payload = yield select(selectBridgeDepositPage);
+    const payload = yield select(selectBridgeWithdrawPage);
 
     let nonce = state?.nonce;
 
@@ -180,8 +172,10 @@ function* confirmTransfer() {
         // Set tx receiver as aggregator contract address
         to = asset.aggregatorContractAddress as string;
         const bAsset = (
-          asset.bridgeTokenAddress || asset.tokenContractAddress
+          asset.bridgeTokenAddresses.get(payload.targetAsset) ||
+          asset.bridgeTokenAddress
         ).toLowerCase();
+
         txData = bridgeNetwork.redeemToBridgeData(
           bridge.chain,
           to,
@@ -259,7 +253,9 @@ function* pendingTransfer() {
 function* failedTransfer() {}
 
 function* submitTransferSaga() {
-  const payload: BridgeDepositPageState = yield select(selectBridgeDepositPage);
+  const payload: BridgeWithdrawPageState = yield select(
+    selectBridgeWithdrawPage,
+  );
   try {
     yield fork(approveTransfer);
     yield fork(confirmTransfer);
@@ -269,12 +265,12 @@ function* submitTransferSaga() {
 
     const bridge = BridgeDictionary.get(
       payload.chain as any,
-      payload.targetChain,
+      payload.targetChain as any,
     ) as BridgeModel;
     const asset = bridge.getAsset(payload.sourceAsset as any) as AssetModel;
 
     if (asset.isNative) {
-      yield put(actions.setStep(DepositStep.CONFIRM));
+      yield put(actions.setStep(WithdrawStep.CONFIRM));
       yield put(actions.confirmTransfer({}));
       return;
     }
@@ -287,7 +283,7 @@ function* submitTransferSaga() {
         bridge.bridgeContractAddress,
     );
 
-    yield put(actions.setStep(DepositStep.CONFIRM));
+    yield put(actions.setStep(WithdrawStep.CONFIRM));
 
     if (bignumber(allowance).lessThan(payload.amount)) {
       yield put(actions.approveTokens());
@@ -305,7 +301,7 @@ function* watchPendingTransaction() {
   let check = true;
   while (check) {
     try {
-      const { chain, tx } = yield select(selectBridgeDepositPage);
+      const { chain, tx } = yield select(selectBridgeWithdrawPage);
       const state = yield call(
         [bridgeNetwork, bridgeNetwork.receipt],
         chain,
@@ -330,7 +326,6 @@ function* watchPendingTransaction() {
 // End transfer sagas
 
 function* mainChannel() {
-  // yield takeLatest(actions.init.type, watchWalletChannel);
   while (yield take(actions.init.type)) {
     const task = yield fork(watchWalletChannel);
     yield take(actions.close.type);
@@ -338,8 +333,7 @@ function* mainChannel() {
   }
 }
 
-export function* bridgeDepositPageSaga() {
+export function* bridgeWithdrawPageSaga() {
   yield fork(mainChannel);
-  yield takeLatest(actions.selectNetwork.type, selectNetwork);
   yield takeLatest(actions.submitForm.type, watchTransferSaga);
 }

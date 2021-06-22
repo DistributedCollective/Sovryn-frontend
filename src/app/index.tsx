@@ -44,6 +44,7 @@ import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
+import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -91,6 +92,11 @@ export function App() {
               exact
               path="/cross-chain/deposit"
               component={BridgeDepositPage}
+            />
+            <Route
+              exact
+              path="/cross-chain/withdraw"
+              component={BridgeWithdrawPage}
             />
             <Route
               exact

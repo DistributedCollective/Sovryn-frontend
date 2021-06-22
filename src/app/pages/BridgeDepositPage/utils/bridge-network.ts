@@ -37,7 +37,9 @@ export class BridgeNetwork {
   }
 
   public async receipt(chain: Chain, transactionHash: string) {
-    return this.getNode(chain).getTransactionReceipt(transactionHash);
+    return this.getNode(chain)
+      .getTransactionReceipt(transactionHash)
+      .catch(e => console.error(e, transactionHash, chain));
   }
 
   public async allowance(chain: Chain, asset: AssetModel, spender: string) {
