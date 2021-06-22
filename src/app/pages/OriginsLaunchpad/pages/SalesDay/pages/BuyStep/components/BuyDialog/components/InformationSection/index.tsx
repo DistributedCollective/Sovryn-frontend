@@ -93,7 +93,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         )}
         value={
           <>
-            <AssetSymbolRenderer asset={Asset.RBTC} />
+            <AssetSymbolRenderer asset={info.depositToken} />
           </>
         }
       />

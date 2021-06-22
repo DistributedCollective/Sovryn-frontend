@@ -20,26 +20,31 @@ export const useApproveAndBuyToken = () => {
       destinationWeiAmount: string,
       destinationToken: Asset | string,
       sourceWeiAmount: string,
-      sourceToken: Asset | string,
+      sourceToken: Asset,
     ) => {
+      const isTokenSale = sourceToken !== Asset.RBTC;
+
       let tx: CheckAndApproveResult = {};
 
-      tx = await contractWriter.checkAndApprove(
-        Asset.RBTC,
-        getContract('originsBase').address,
-        sourceWeiAmount,
-      );
+      if (isTokenSale) {
+        tx = await contractWriter.checkAndApprove(
+          sourceToken,
+          getContract('originsBase').address,
+          sourceWeiAmount,
+        );
 
-      if (tx.rejected) {
-        return;
+        if (tx.rejected) {
+          return;
+        }
       }
 
       send(
-        [tierId, destinationWeiAmount],
+        [tierId, sourceWeiAmount],
         {
           from: account,
           gas: gasLimit[TxType.ORIGINS_SALE_BUY],
-          nonce: tx?.nonce,
+          ...(isTokenSale && { nonce: tx?.nonce }),
+          ...(!isTokenSale && { value: sourceWeiAmount }),
         },
         {
           type: TxType.ORIGINS_SALE_BUY,

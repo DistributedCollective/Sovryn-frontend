@@ -16,11 +16,13 @@ import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useAppro
 interface IBuySectionProps {
   saleName: string;
   depositRate: number;
+  sourceToken: Asset;
 }
 
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
+  sourceToken,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
@@ -31,7 +33,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const [tokenAmount, setTokenAmount] = useState(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
 
-  const { value: balance } = useAssetBalanceOf(Asset.RBTC);
+  //const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
   const isValidAmount = useMemo(() => {
     return (
@@ -48,11 +50,9 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const { buy, ...buyTx } = useApproveAndBuyToken();
 
   const onBuyClick = useCallback(
-    () => buy(1, weiTokenAmount, 'FISH', weiAmount, Asset.RBTC),
-    [buy, weiAmount, weiTokenAmount],
+    () => buy(1, weiTokenAmount, 'FISH', weiAmount, sourceToken),
+    [buy, sourceToken, weiAmount, weiTokenAmount],
   );
-
-  console.log(buyTx);
 
   return (
     <BuyWrapper>

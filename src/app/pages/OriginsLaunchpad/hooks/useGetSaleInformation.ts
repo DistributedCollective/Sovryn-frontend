@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Asset } from 'types';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { ISaleInformation } from '../types';
+import { DepositType, ISaleInformation, VerificationType } from '../types';
 
 const timestampToString = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleString('en-GB', {
@@ -16,6 +18,9 @@ export const useGetSaleInformation = (tierId: number) => {
     saleEnd: '',
     depositRate: 1,
     participatingWallets: '0',
+    depositToken: Asset.RBTC,
+    depositType: DepositType.RBTC,
+    verificationType: VerificationType.None,
   });
 
   useEffect(() => {
@@ -45,6 +50,22 @@ export const useGetSaleInformation = (tierId: number) => {
           participatingWallets: result,
         })),
       );
+  }, [tierId]);
+
+  useEffect(() => {
+    contractReader
+      .call('originsBase', 'readTierPartB', [tierId])
+      .then(result => {
+        setSaleInfo(prevValue => ({
+          ...prevValue,
+          depositToken:
+            result[1] === DepositType.RBTC
+              ? Asset.RBTC
+              : assetByTokenAddress(result[0]),
+          depositType: result[1],
+          verificationType: result[2],
+        }));
+      });
   }, [tierId]);
 
   return saleInfo;
