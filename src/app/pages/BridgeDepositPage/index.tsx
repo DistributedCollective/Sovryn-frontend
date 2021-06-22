@@ -21,7 +21,7 @@ import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 import { ConfirmStep } from './components/ConfirmStep';
-import { CompleteStep } from './components/CompleteStep';
+import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
 import babelfishIcon from 'assets/images/babelfish.svg';
@@ -115,7 +115,7 @@ export function BridgeDepositPage(props: Props) {
                     ].includes(step) && <ConfirmStep />}
                   </>
                 )}
-                {requestedReturnToPortfolio && <CompleteStep />}
+                {requestedReturnToPortfolio && <ReturnToPortfolio />}
               </>
             </CSSTransition>
           </SwitchTransition>

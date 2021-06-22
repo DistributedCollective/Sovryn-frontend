@@ -20,7 +20,7 @@ import { detectWeb3Wallet } from 'utils/helpers';
 
 interface Props {}
 
-export function CompleteStep(props: Props) {
+export function ReturnToPortfolio(props: Props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const walletName = detectWeb3Wallet();
@@ -29,7 +29,7 @@ export function CompleteStep(props: Props) {
     dispatch(actions.close());
   }, [dispatch]);
 
-  const { wallet } = useWalletContext();
+  const { wallet, connected, connect } = useWalletContext();
 
   const handleNetworkSwitch = useCallback(() => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
@@ -47,7 +47,29 @@ export function CompleteStep(props: Props) {
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
         Connect to RSK
       </div>
-      {wallet.chainId !== currentChainId && (
+      {!connected && (
+        <>
+          <SelectBox onClick={() => {}}>
+            <img
+              className="tw-h-20 tw-mb-5 tw-mt-2"
+              src={wMetamask}
+              alt={'Metamask'}
+            />
+            <div>Metamask</div>
+          </SelectBox>
+          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
+            To continue you need to connect to your{' '}
+            <span className="tw-capitalize">{walletName}</span>.
+          </p>
+
+          <Button
+            className="tw-w-full"
+            text="Connect Network"
+            onClick={() => connect()}
+          />
+        </>
+      )}
+      {connected && wallet.chainId !== currentChainId && (
         <>
           <SelectBox onClick={() => {}}>
             <img
