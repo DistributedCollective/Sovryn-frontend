@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import slipImage from 'assets/images/settings-white.svg';
 
 export const BuyWrapper = styled.div`
   width: 66%;
@@ -8,14 +7,6 @@ export const BuyWrapper = styled.div`
   background-color: #181818;
   box-shadow: -11px 0px 25px #00000026;
   padding: 4.75rem 2rem;
-`;
-
-export const SlippageButton = styled.button`
-  border: 0;
-  width: 18px;
-  height: 18px;
-  background: transparent url(${slipImage}) center center no-repeat;
-  background-size: 18px 18px;
 `;
 
 interface IBuyButtonProps {

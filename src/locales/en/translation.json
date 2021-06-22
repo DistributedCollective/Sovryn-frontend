@@ -299,7 +299,6 @@
         "buyDialog": {
           "enterAmount": "Enter Amount",
           "tokenReceived": "{{token}} Received",
-          "minimumReceived": "Minimum Received",
           "transactionFee": "Transaction Fee",
           "buyButton": "Buy {{token}}"
         },

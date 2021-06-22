@@ -2,7 +2,7 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { translations } from 'locales/i18n';
 import React, { useMemo, useState } from 'react';
 import { Asset } from 'types';
-import { BuyWrapper, SlippageButton, BuyButton } from './styled';
+import { BuyWrapper, BuyButton } from './styled';
 import { useTranslation } from 'react-i18next';
 import imgArrowDown from 'assets/images/arrow-down.svg';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
@@ -14,11 +14,8 @@ import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { bignumber } from 'mathjs';
 import { maxMinusFee } from 'utils/helpers';
-import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { TxDialog } from '../TxDialog';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 
@@ -36,7 +33,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
   const connected = useCanInteract(true);
 
   const [amount, setAmount] = useState('');
-  const [openSlippage, setOpenSlippage] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
 
@@ -109,24 +105,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
           />
         </div>
 
-        <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
-          <div className="tw-text-xs tw-font-extralight">
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .minimumReceived,
-            )}{' '}
-            <LoadableValue
-              loading={false}
-              value={weiToNumberFormat(minReturn, 4)}
-              tooltip={weiTo18(minReturn)}
-            />{' '}
-            SOV
-          </div>
-          <SlippageButton onClick={() => setOpenSlippage(true)}>
-            <span className="sr-only">Slippage</span>
-          </SlippageButton>
-        </div>
-
         <BuyButton
           disabled={tx.loading || !isValidAmount || !connected}
           onClick={() => send()}
@@ -138,14 +116,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({ saleName }) => {
             )}
           </span>
         </BuyButton>
-
-        <SlippageDialog
-          isOpen={openSlippage}
-          onClose={() => setOpenSlippage(false)}
-          amount={rateByPath}
-          value={slippage}
-          onChange={value => setSlippage(value)}
-        />
 
         <TxDialog tx={tx} />
       </div>

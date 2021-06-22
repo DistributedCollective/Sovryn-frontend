@@ -281,11 +281,11 @@ export const contracts = {
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0x4083f95624f7118996e3fA8D43B803F9F3aEE097',
+    address: '0x576E7dEce0d3A432a3Fe00DbE130707A7EBde5C1',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0xC2C12474e4A2456E40366Bd029f6deE80f9d2Dc1',
+    address: '0x0dAc53C5E204C949128e476917CDE7248da1f68E',
     abi: LockedFundAbi,
   },
 };

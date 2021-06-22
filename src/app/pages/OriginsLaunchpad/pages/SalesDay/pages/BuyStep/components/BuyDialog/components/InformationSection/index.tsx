@@ -6,15 +6,21 @@ import { Asset } from 'types';
 import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { AllocationRemaining } from './AllocationRemaining';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import { useGetSaleInformation } from '../../../../../../../../hooks/useGetSaleInformation';
 
 interface IInformationSectionProps {
   saleName: string;
 }
 
+const depositRateToSatoshis = (depositRate: number) =>
+  toNumberFormat(100000000 / depositRate);
+
 export const InformationSection: React.FC<IInformationSectionProps> = ({
   saleName,
 }) => {
   const { t } = useTranslation();
+  const info = useGetSaleInformation(1);
 
   return (
     <BuyInformationWrapper>
@@ -28,10 +34,15 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         </div>
         <div className="tw-text-xs">
           <div>
-            • MIN: 0.001 <AssetSymbolRenderer asset={Asset.RBTC} />
+            • MIN:{' '}
+            {info.minAmount === '0'
+              ? '0'
+              : weiToNumberFormat(info?.minAmount, 4)}{' '}
+            <AssetSymbolRenderer asset={Asset.RBTC} />
           </div>
           <div>
-            • MAX: 0.07 <AssetSymbolRenderer asset={Asset.RBTC} />
+            • MAX: {weiToNumberFormat(info?.maxAmount, 4)}{' '}
+            <AssetSymbolRenderer asset={Asset.RBTC} />
           </div>
         </div>
       </div>
@@ -49,7 +60,12 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .allocationRemaining,
         )}
-        value={<AllocationRemaining saleName={saleName} />}
+        value={
+          <AllocationRemaining
+            remainingTokens={info.remainingTokens}
+            saleName={saleName}
+          />
+        }
         className="tw-text-primary"
       />
 
@@ -58,7 +74,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .participatingWallets,
         )}
-        value="15,253"
+        value={`${info.participatingWallets}`}
       />
 
       <InfoItem
@@ -66,7 +82,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .price,
         )}
-        value="1000 Sats"
+        value={`${depositRateToSatoshis(info.depositRate)} Sats`}
       />
 
       <InfoItem
@@ -86,7 +102,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .tokenSaleEndTime,
         )}
-        value="8th Jan"
+        value={info.saleEnd}
         isLastItem={true}
       />
     </BuyInformationWrapper>
