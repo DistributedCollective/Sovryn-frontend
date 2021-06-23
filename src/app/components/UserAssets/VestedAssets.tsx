@@ -1,8 +1,3 @@
-/**
- *
- * UserAssets
- *
- */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core';
@@ -49,6 +44,22 @@ export function VestedAssets() {
     setAddress('');
   };
 
+  const userHasAnyVests = useMemo(
+    () =>
+      result.vestedValue !== '0' ||
+      result.originVestedValue !== '0' ||
+      result.teamVestedValue !== '0' ||
+      result.lmVestingContract !== ethGenesisAddress ||
+      result.babelFishVestedValue !== '0',
+    [
+      result.babelFishVestedValue,
+      result.lmVestingContract,
+      result.originVestedValue,
+      result.teamVestedValue,
+      result.vestedValue,
+    ],
+  );
+
   return (
     <>
       <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
@@ -68,7 +79,7 @@ export function VestedAssets() {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {!connected && (
+            {(!connected || result.loading) && (
               <>
                 <tr>
                   <td>
@@ -86,55 +97,70 @@ export function VestedAssets() {
                 </tr>
               </>
             )}
-            {connected && account && (
-              <>
-                <AssetRow
-                  item={item}
-                  title="Genesis SOV"
-                  value={result.vestedValue}
-                  loading={result.loading}
-                  contract={result.vestingContract}
-                  onWithdraw={onWithdraw}
-                />
-                <AssetRow
-                  item={item}
-                  title="Origins SOV"
-                  value={result.originVestedValue}
-                  loading={result.loading}
-                  contract={result.originVestingContract}
-                  onWithdraw={onWithdraw}
-                />
-                {result.teamVestedValue !== '0' && (
-                  <AssetRow
-                    item={item}
-                    title="Team SOV"
-                    value={result.teamVestedValue}
-                    loading={result.loading}
-                    contract={result.teamVestingContract}
-                    onWithdraw={onWithdraw}
-                  />
-                )}
-                {result.lmVestingContract !== ethGenesisAddress && (
-                  <AssetRow
-                    item={item}
-                    title="Reward SOV"
-                    value={result.lmVestedValue}
-                    loading={result.loading}
-                    contract={result.lmVestingContract}
-                    onWithdraw={onWithdraw}
-                  />
-                )}
-                {result.babelFishVestedValue !== '0' && (
-                  <OriginsSaleRow
-                    token="FISH"
-                    value={result.babelFishVestedValue}
-                    title="Origins FISH"
-                    logo={babelfishLogo}
-                    loading={result.loading}
-                  />
-                )}
-              </>
-            )}
+            {connected &&
+              account &&
+              !result.loading &&
+              (userHasAnyVests ? (
+                <>
+                  {result.vestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Genesis SOV"
+                      value={result.vestedValue}
+                      loading={result.loading}
+                      contract={result.vestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+
+                  {result.originVestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Origins SOV"
+                      value={result.originVestedValue}
+                      loading={result.loading}
+                      contract={result.originVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+
+                  {result.teamVestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Team SOV"
+                      value={result.teamVestedValue}
+                      loading={result.loading}
+                      contract={result.teamVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+                  {result.lmVestingContract !== ethGenesisAddress && (
+                    <AssetRow
+                      item={item}
+                      title="Reward SOV"
+                      value={result.lmVestedValue}
+                      loading={result.loading}
+                      contract={result.lmVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+                  {result.babelFishVestedValue !== '0' && (
+                    <OriginsSaleRow
+                      token="FISH"
+                      value={result.babelFishVestedValue}
+                      title="Origins FISH"
+                      logo={babelfishLogo}
+                      loading={result.loading}
+                    />
+                  )}
+                </>
+              ) : (
+                <tr>
+                  <td className="text-center" colSpan={99}>
+                    {t(translations.userAssets.emptyVestTable)}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

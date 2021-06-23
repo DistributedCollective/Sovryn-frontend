@@ -951,6 +951,7 @@
     "meta": {
       "title": "Connected Wallet"
     },
+    "emptyVestTable": "You don't have any current vest",
     "tableHeaders": {
       "asset": "Asset",
       "totalBalance": "Total Balance",
