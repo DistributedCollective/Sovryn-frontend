@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
 
@@ -35,6 +35,9 @@ import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useMining_ApproveAndRemoveLiquidityV1 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV1';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   pool: LiquidityPool;
@@ -47,6 +50,8 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
   const { t } = useTranslation();
 
   const canInteract = useCanInteract();
+  const { checkMaintenance, States } = useMaintenance();
+  const removeliquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
   const mainToken = useMemo(
     () =>
@@ -241,16 +246,36 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
             contractName="BTCWrapperProxy"
             className="tw-mt-6"
           />
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
 
-          <DialogButton
-            confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
-            onConfirm={() => handleConfirm()}
-            disabled={tx.loading || !valid || !canInteract}
-            className="tw-rounded-lg"
-          />
+          {removeliquidityLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.removeLiquidity}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+          {!removeliquidityLocked && (
+            <DialogButton
+              confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
+              onConfirm={() => handleConfirm()}
+              disabled={
+                tx.loading || !valid || !canInteract || removeliquidityLocked
+              }
+              className="tw-rounded-lg"
+            />
+          )}
         </div>
       </Dialog>
       <TxDialog

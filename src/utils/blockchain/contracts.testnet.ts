@@ -31,6 +31,7 @@ import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -114,17 +115,17 @@ export const contracts = {
     blockNumber: 1218833,
   },
   XUSD_token: {
-    address: '0x849D38abD3962cb40d4887E4279ad0e4E5958e34',
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // XUSD_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
+  XUSD_lending: {
+    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   XUSD_amm: {
-    address: '0xD449c0c468Cae235d3E320Ff48d05EbDdcde64c3',
+    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -291,5 +292,9 @@ export const contracts = {
   lockedFund: {
     address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
     abi: LockedFundAbi,
+  },
+  babelfishAggregator: {
+    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    abi: BabelfishAggregatorAbi,
   },
 };

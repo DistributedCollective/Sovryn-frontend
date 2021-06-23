@@ -1,12 +1,15 @@
 import React, { FormEvent } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { useAccount } from 'app/hooks/useAccount';
-import { ethGenesisAddress } from 'utils/classifiers';
+import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   amount: string;
@@ -22,6 +25,8 @@ interface Props {
 export function IncreaseStakeForm(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const stakingLocked = checkMaintenance(States.STAKING);
   const txConf = {
     gas: 250000,
   };
@@ -151,15 +156,33 @@ export function IncreaseStakeForm(props: Props) {
             contractName="staking"
           />
         </div>
-
+        {stakingLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.stakingModal}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
             className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-              !props.isValid &&
+              (!props.isValid || stakingLocked) &&
               'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
             }`}
-            disabled={!props.isValid}
+            disabled={!props.isValid || stakingLocked}
           >
             {t(translations.stake.actions.confirm)}
           </button>

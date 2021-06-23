@@ -29,7 +29,6 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
-
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
@@ -55,9 +54,8 @@ export function App() {
   useInjectSaga({ key: maintenanceSlice, saga: maintenanceStateSaga });
   const dispatch = useDispatch();
 
-  const { checkMaintenance } = useMaintenance();
-  const siteLocked = checkMaintenance('full');
-
+  const { checkMaintenance, States } = useMaintenance();
+  const siteLocked = checkMaintenance(States.FULL);
   usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
@@ -69,8 +67,8 @@ export function App() {
       <Helmet titleTemplate={`%s - ${title}`} defaultTitle={title}>
         <meta name="description" content="Sovryn Lending" />
       </Helmet>
-      {siteLocked?.maintenance_active ? (
-        <MaintenancePage message={siteLocked?.message} />
+      {siteLocked ? (
+        <MaintenancePage />
       ) : (
         <WalletProvider>
           <NetworkRibbon />

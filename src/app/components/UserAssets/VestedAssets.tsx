@@ -5,6 +5,7 @@
  */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { Asset } from '../../../types';
@@ -23,6 +24,7 @@ import { Skeleton } from '../PageSkeleton';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -156,6 +158,8 @@ function AssetRow({
   onWithdraw,
 }: AssetProps) {
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const withdrawLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
@@ -189,12 +193,28 @@ function AssetRow({
         />
       </td>
       <td className="tw-text-right">
-        <ActionButton
-          className="tw-inline-block"
-          text={t(translations.userAssets.actions.withdraw)}
-          disabled={contract === ethGenesisAddress || loading}
-          onClick={() => onWithdraw(contract)}
-        />
+        {withdrawLocked ? (
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            interactionKind="hover"
+            content={<>{t(translations.maintenance.withdrawVests)}</>}
+          >
+            <ActionButton
+              className="tw-inline-block tw-cursor-not-allowed"
+              text={t(translations.userAssets.actions.withdraw)}
+              disabled={contract === ethGenesisAddress || loading}
+            />
+          </Tooltip>
+        ) : (
+          <ActionButton
+            className="tw-inline-block"
+            text={t(translations.userAssets.actions.withdraw)}
+            disabled={contract === ethGenesisAddress || loading}
+            onClick={() => onWithdraw(contract)}
+          />
+        )}
       </td>
     </tr>
   );

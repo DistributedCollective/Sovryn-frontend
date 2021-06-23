@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -37,6 +37,26 @@ type Props = {
 };
 
 const BorrowingContainer: React.FC<Props> = ({ currency }) => {
+  const { t } = useTranslation();
+  const supportsBorrowing = useMemo(
+    () => LendingPoolDictionary.get(currency).getBorrowCollateral().length > 0,
+    [currency],
+  );
+
+  return (
+    <>
+      {supportsBorrowing ? (
+        <InnerBorrowContainer currency={currency} />
+      ) : (
+        <>{t(translations.lend.borrowingContainer.disabled)}</>
+      )}
+    </>
+  );
+};
+
+export default BorrowingContainer;
+
+const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState<string>('');
   const [borrowDays, setBorrowDays] = useState(28); // by default 28 days
@@ -45,8 +65,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
   const isConnected = useCanInteract();
   const borrowAmount = useWeiAmount(amount);
   const { t } = useTranslation();
-  const { checkMaintenance } = useMaintenance();
-  const borrowLocked = checkMaintenance('openLoansBorrows');
+  const { checkMaintenance, States } = useMaintenance();
+  const startBorrowLocked = checkMaintenance(States.START_BORROW);
 
   // BORROW
   const [collaterals, setCollaterals] = useState<any[]>([]);
@@ -227,7 +247,7 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
             !isConnected ||
             txStateBorrow.loading ||
             !isSufficient ||
-            borrowLocked?.maintenance_active
+            startBorrowLocked
           }
           loading={txStateBorrow.loading}
           tooltip={
@@ -248,8 +268,8 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
                   {t(translations.lendingPage.liquidity.borrow.line_3)}
                 </p>
               </>
-            ) : borrowLocked?.maintenance_active ? (
-              borrowLocked?.message
+            ) : startBorrowLocked ? (
+              <>{t(translations.maintenance.startBorrow)}</>
             ) : undefined
           }
         />
@@ -257,5 +277,3 @@ const BorrowingContainer: React.FC<Props> = ({ currency }) => {
     </>
   );
 };
-
-export default BorrowingContainer;

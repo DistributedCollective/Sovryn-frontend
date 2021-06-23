@@ -1,12 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { isAddress } from 'web3-utils';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { vesting_withdraw } from 'utils/blockchain/requests/vesting';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
-import { isAddress } from 'web3-utils';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+
 interface Props {
   vesting: string;
   onCloseModal: () => void;
@@ -15,6 +19,8 @@ interface Props {
 export function WithdrawVesting(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
   const { value, loading } = useGetUnlockedVesting(props.vesting);
@@ -86,14 +92,33 @@ export function WithdrawVesting(props: Props) {
             contractName="vesting"
           />
         </div>
-
+        {withdrawVestsLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.withdrawVestsModal}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
             className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-              !validate() && 'tw-bg-opacity-25'
+              (!validate() || withdrawVestsLocked) &&
+              'tw-bg-opacity-25 tw-cursor-not-allowed'
             }`}
-            disabled={!validate()}
+            disabled={!validate() || withdrawVestsLocked}
           >
             {t(translations.stake.actions.confirm)}
           </button>
