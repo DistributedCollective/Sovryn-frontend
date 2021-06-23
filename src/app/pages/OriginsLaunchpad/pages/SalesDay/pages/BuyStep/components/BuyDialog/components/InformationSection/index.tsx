@@ -8,6 +8,7 @@ import { InfoItem } from './InfoItem';
 import { AllocationRemaining } from './AllocationRemaining';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { ISaleInformation } from '../../../../../../../../types';
+import { btcInSatoshis } from 'app/constants';
 
 interface IInformationSectionProps {
   saleName: string;
@@ -15,7 +16,7 @@ interface IInformationSectionProps {
 }
 
 const depositRateToSatoshis = (depositRate: number) =>
-  toNumberFormat(100000000 / depositRate);
+  toNumberFormat(btcInSatoshis / depositRate);
 
 export const InformationSection: React.FC<IInformationSectionProps> = ({
   saleName,

@@ -6,6 +6,7 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { StatusImage } from './styled';
+import cn from 'classnames';
 
 const getStatusImage = (tx: TxStatus) => {
   if (tx === TxStatus.FAILED) return txFailed;
@@ -31,7 +32,10 @@ export const StatusComponent: React.FC<IStatusComponentProps> = ({
   <div className="tw-text-center tw-mx-auto tw-my-8">
     <StatusImage
       src={getStatusImage(status)}
-      className="tw-max-w-full"
+      className={cn(
+        'tw-max-w-full',
+        status === TxStatus.PENDING && 'tw-animate-spin',
+      )}
       alt="Status"
     />
     <p className="tw-text-base tw-tracking-normal tw-italic tw-mt-4">

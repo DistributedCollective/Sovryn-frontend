@@ -3,13 +3,15 @@ import { DialogWrapper } from './styled';
 import { InformationSection } from './components/InformationSection';
 import { BuySection } from './components/BuySection';
 import { useGetSaleInformation } from 'app/pages/OriginsLaunchpad/hooks/useGetSaleInformation';
+import { useGetActiveSaleTierId } from '../../../../../../hooks/useGetActiveSaleTierId';
 
 interface IBuyDialogProps {
   saleName: string;
 }
 
 export const BuyDialog: React.FC<IBuyDialogProps> = ({ saleName }) => {
-  const info = useGetSaleInformation(1);
+  const activeTierId = useGetActiveSaleTierId();
+  const info = useGetSaleInformation(activeTierId);
 
   return (
     <DialogWrapper>
