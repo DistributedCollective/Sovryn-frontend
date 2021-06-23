@@ -13,10 +13,14 @@ import { web3Wallets } from '@sovryn/wallet';
 import { Chain } from 'types';
 import { actions } from '../../slice';
 import { Button } from '../../../../components/Button';
-import { currentChainId } from '../../../../../utils/classifiers';
+import { currentChainId, currentNetwork } from 'utils/classifiers';
+import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { SelectBox } from '../SelectBox';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
+
+const addNetworkCallback =
+  currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
 
 interface Props {}
 
@@ -83,7 +87,13 @@ export function ReturnToPortfolio(props: Props) {
             To continue switch back to the RSK network in your{' '}
             <span className="tw-capitalize">{walletName}</span>.
           </p>
-
+          {walletName === 'metamask' && (
+            <Button
+              className="tw-w-full"
+              text="Switch Network"
+              onClick={addNetworkCallback}
+            />
+          )}
           {!web3Wallets.includes(wallet.providerType) && (
             <Button
               className="tw-w-full"

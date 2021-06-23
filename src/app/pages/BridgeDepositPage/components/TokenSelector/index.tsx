@@ -92,7 +92,7 @@ export function TokenSelector(props: Props) {
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        Select stablecoin to deposit
+        Select coin to deposit
       </div>
       {sourceAssets.length > 0 ? (
         <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
