@@ -4,21 +4,65 @@
  *
  */
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../../components/Header';
+import { useTranslation } from 'react-i18next';
+
+import { useAccount } from 'app/hooks/useAccount';
+import { translations } from 'locales/i18n';
+
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Footer } from '../../components/Footer';
-// import { RewardBox } from './components/RewardBox';
+import { Header } from '../../components/Header';
+// import { ClaimForm } from './components/RewardBox';
 // import { RewardHistory } from './components/RewardHistory';
 import { ClaimForm } from './components/ClaimForm';
-import { useAccount } from 'app/hooks/useAccount';
 
 export function RewardPage() {
   const { t } = useTranslation();
   const userAddress = useAccount();
+  const [lockedBlanace, setLocked] = useState(1);
+  const [unLockedBlanace, setUnLocked] = useState(1);
 
+  useEffect(() => {
+    const lockedBalance = async () => {
+      const locked = await contractReader.call(
+        'lockedSov',
+        'getLockedBalance ',
+        [userAddress],
+      );
+      return locked;
+    };
+    const unLockedBalance = async () => {
+      const unLocked = await contractReader.call(
+        'lockedSov',
+        'getUnlockedBalance ',
+        [userAddress],
+      );
+      return unLocked;
+    };
+    lockedBalance()
+      .then(e => {
+        setLocked(Number(e));
+      })
+      .catch(() => {
+        setLocked(0);
+      });
+    unLockedBalance()
+      .then(e => {
+        console.log('asdfasdf', e);
+        setUnLocked(Number(e));
+      })
+      .catch(() => {
+        setUnLocked(0);
+      });
+  }, [lockedBlanace, unLockedBlanace, userAddress]);
+  console.log('locked: ', lockedBlanace);
+  console.log('unlocked: ', unLockedBlanace);
+
+  // const lockedBalance = await contractReader.call('lockedSov', 'getLockedBalance ', [
+  //   userAddress,
+  // ]);
   return (
     <>
       <Helmet>
