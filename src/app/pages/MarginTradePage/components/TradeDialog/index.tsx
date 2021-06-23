@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 import { Dialog } from '../../../../containers/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,13 +32,16 @@ import { useTranslation, Trans } from 'react-i18next';
 // import { Slider } from '../../../BuySovPage/components/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, sovAffiliateCookie } from 'utils/classifiers';
+import { useCookie } from 'app/hooks/useCookie';
 
 const maintenanceMargin = 15000000000000000000;
 
 export function TradeDialog() {
+  const [referrer, setReferrer] = useState<string>();
   const { t } = useTranslation();
   const account = useAccount();
+  const { get: getCookie } = useCookie();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const { position, amount, pairType, collateral, leverage } = useSelector(
@@ -46,6 +49,13 @@ export function TradeDialog() {
   );
   // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const referralWallet = getCookie(sovAffiliateCookie);
+    if (referralWallet?.indexOf('0x') === 0 && referralWallet?.length === 42)
+      setReferrer(referralWallet);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
   const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
@@ -63,6 +73,7 @@ export function TradeDialog() {
     collateral,
     leverage,
     amount,
+    referrer,
   );
 
   const submit = () =>
@@ -73,8 +84,8 @@ export function TradeDialog() {
       collateral,
       leverage,
       amount,
+      ...(referrer ? [referrer] : []),
     });
-
   const txArgs = [
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
     toWei(String(leverage - 1), 'ether'),
@@ -82,6 +93,7 @@ export function TradeDialog() {
     useLoanTokens ? '0' : amount,
     getTokenContract(collateralToken).address,
     account, // trader
+    ...(referrer ? [referrer] : []),
     '0x',
   ];
 

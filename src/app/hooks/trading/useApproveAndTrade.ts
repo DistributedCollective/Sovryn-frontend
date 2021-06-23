@@ -2,6 +2,7 @@ import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useMarginTrade } from './useMarginTrade';
+import { useMarginTradeAffiliate } from './useMarginTradeAffiliate';
 import { useAccount } from '../useAccount';
 import {
   CheckAndApproveResult,
@@ -17,6 +18,7 @@ export function useApproveAndTrade(
   collateral: Asset,
   leverage: number,
   collateralTokenSent: string,
+  affiliateReferrer?: string,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
@@ -41,6 +43,19 @@ export function useApproveAndTrade(
     collateral === Asset.RBTC ? collateralTokenSent : '0',
   );
 
+  const { trade: affTrade, ...affRest } = useMarginTradeAffiliate(
+    loanToken,
+    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    toWei(String(leverage - 1), 'ether'),
+    useLoanTokens ? collateralTokenSent : '0',
+    useLoanTokens ? '0' : collateralTokenSent,
+    collateralToken,
+    account, // trader
+    affiliateReferrer,
+    '0x',
+    collateral === Asset.RBTC ? collateralTokenSent : '0',
+  );
+
   return {
     trade: async (customData?: object) => {
       let tx: CheckAndApproveResult = {};
@@ -54,8 +69,10 @@ export function useApproveAndTrade(
           return;
         }
       }
-      await trade(tx?.nonce, tx?.approveTx, customData);
+      affiliateReferrer
+        ? await affTrade(tx?.nonce, tx?.approveTx, customData)
+        : await trade(tx?.nonce, tx?.approveTx, customData);
     },
-    ...rest,
+    ...(affiliateReferrer ? affRest : rest),
   };
 }
