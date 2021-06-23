@@ -5,10 +5,9 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Chain } from 'types';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { actions } from '../../slice';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Button } from '../../../../components/Button';
@@ -28,12 +27,13 @@ import { NetworkModel } from '../../../BridgeDepositPage/types/network-model';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
+import { useHistory } from 'react-router-dom';
 
 interface Props {}
 
 export function ConfirmStep(props: Props) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const history = useHistory();
   const { wallet } = useWalletContext();
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
     selectBridgeWithdrawPage,
@@ -60,8 +60,8 @@ export function ConfirmStep(props: Props) {
     [chain, sourceAsset, targetChain],
   );
   const handleComplete = useCallback(() => {
-    dispatch(actions.returnToPortfolio());
-  }, [dispatch]);
+    history.push('/wallet');
+  }, [history]);
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       {tx.step === TxStep.MAIN && (

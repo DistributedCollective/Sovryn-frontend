@@ -20,7 +20,6 @@ import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 import { ConfirmStep } from './components/ConfirmStep';
-import { CompleteStep } from './components/CompleteStep';
 import { Asset, Chain } from '../../../types';
 import babelfishIcon from 'assets/images/babelfish.svg';
 
@@ -40,9 +39,7 @@ export function BridgeWithdrawPage(props: Props) {
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { step, requestedReturnToPortfolio } = useSelector(
-    selectBridgeWithdrawPage,
-  );
+  const { step } = useSelector(selectBridgeWithdrawPage);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
   const history = useHistory();
@@ -95,32 +92,25 @@ export function BridgeWithdrawPage(props: Props) {
         >
           <SwitchTransition>
             <CSSTransition
-              key={step + (requestedReturnToPortfolio ? 1 : 0)}
+              key={step}
               addEndListener={(node, done) =>
                 node.addEventListener('transitionend', done, false)
               }
               classNames="fade"
             >
               <>
-                {!requestedReturnToPortfolio && (
-                  <>
-                    {step === WithdrawStep.CHAIN_SELECTOR && <ChainSelector />}
-                    {step === WithdrawStep.TOKEN_SELECTOR && <TokenSelector />}
-                    {step === WithdrawStep.AMOUNT_SELECTOR && (
-                      <AmountSelector />
-                    )}
-                    {step === WithdrawStep.RECEIVER_SELECTOR && (
-                      <ReceiverSelector />
-                    )}
-                    {step === WithdrawStep.REVIEW && <ReviewStep />}
-                    {[
-                      WithdrawStep.CONFIRM,
-                      WithdrawStep.PROCESSING,
-                      WithdrawStep.COMPLETE,
-                    ].includes(step) && <ConfirmStep />}
-                  </>
+                {step === WithdrawStep.CHAIN_SELECTOR && <ChainSelector />}
+                {step === WithdrawStep.TOKEN_SELECTOR && <TokenSelector />}
+                {step === WithdrawStep.AMOUNT_SELECTOR && <AmountSelector />}
+                {step === WithdrawStep.RECEIVER_SELECTOR && (
+                  <ReceiverSelector />
                 )}
-                {requestedReturnToPortfolio && <CompleteStep />}
+                {step === WithdrawStep.REVIEW && <ReviewStep />}
+                {[
+                  WithdrawStep.CONFIRM,
+                  WithdrawStep.PROCESSING,
+                  WithdrawStep.COMPLETE,
+                ].includes(step) && <ConfirmStep />}
               </>
             </CSSTransition>
           </SwitchTransition>

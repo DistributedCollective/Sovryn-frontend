@@ -20,6 +20,7 @@ import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries
 import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
 import { BridgeDictionary } from 'app/pages/BridgeDepositPage/dictionaries/bridge-dictionary';
 import { AssetModel } from 'app/pages/BridgeDepositPage/types/asset-model';
+import { useHistory } from 'react-router-dom';
 
 const stepOrder = [
   WithdrawStep.CHAIN_SELECTOR,
@@ -47,6 +48,7 @@ const initialSteps: StepItem[] = [
 // unless we are confident that user didn't change anything)
 export function SidebarSteps() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { t } = useTranslation();
 
   const {
@@ -172,11 +174,11 @@ export function SidebarSteps() {
 
   const handleBack = useCallback(() => {
     if (step === WithdrawStep.CHAIN_SELECTOR) {
-      return dispatch(actions.returnToPortfolio());
+      return history.push('/wallet');
     } else {
       changeStep(stepOrder[step - 1]);
     }
-  }, [changeStep, dispatch, step]);
+  }, [changeStep, history, step]);
 
   return (
     <>

@@ -12,7 +12,6 @@ export interface BridgeWithdrawPageState {
   receiver: string;
   amount: string;
   tx: TxState;
-  requestedReturnToPortfolio: boolean;
 }
 
 export enum WithdrawStep {
