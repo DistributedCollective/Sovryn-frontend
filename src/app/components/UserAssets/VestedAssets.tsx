@@ -25,6 +25,8 @@ import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { OriginsSaleRow } from './OriginsSaleRow';
+import babelfishLogo from 'assets/images/babelfish.svg';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -96,7 +98,7 @@ export function VestedAssets() {
                 />
                 <AssetRow
                   item={item}
-                  title="Origin SOV"
+                  title="Origins SOV"
                   value={result.originVestedValue}
                   loading={result.loading}
                   contract={result.originVestingContract}
@@ -126,7 +128,8 @@ export function VestedAssets() {
                   <OriginsSaleRow
                     token="FISH"
                     value={result.babelFishVestedValue}
-                    title="Origins babelFish"
+                    title="Origins FISH"
+                    logo={babelfishLogo}
                     loading={result.loading}
                   />
                 )}
@@ -219,34 +222,3 @@ function AssetRow({
     </tr>
   );
 }
-
-interface IOriginsSaleRowProps {
-  token: string;
-  value: string;
-  title: string;
-  loading: boolean;
-}
-
-const OriginsSaleRow: React.FC<IOriginsSaleRowProps> = ({
-  token,
-  value,
-  title,
-  loading,
-}) => (
-  <tr key={token}>
-    <td>
-      <img
-        className="tw-inline tw-mr-2"
-        style={{ height: '40px' }}
-        //src={item.logoSvg}
-        alt={token}
-      />{' '}
-      {title}
-    </td>
-    <td className="tw-text-right">
-      <LoadableValue value={weiToNumberFormat(value, 4)} loading={loading} />
-    </td>
-    <td className="tw-text-right">N/A</td>
-    <td className="tw-text-right"></td>
-  </tr>
-);
