@@ -16,7 +16,7 @@ import { MenuItem, Popover, Menu as BPMenu, Position } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
-import { useCookies } from 'react-cookie';
+import { useCookie } from 'app/hooks/useCookie';
 import {
   actions as lendBorrowActions,
   reducer as lendBorrowReducer,
@@ -28,7 +28,7 @@ import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
-import { currentNetwork } from 'utils/classifiers';
+import { currentNetwork, sovAffiliateCookie } from 'utils/classifiers';
 import './index.scss';
 
 const bridgeURL =
@@ -40,17 +40,17 @@ export function Header() {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
+  const { set: setCookie } = useCookie();
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
-  const [, setCookie] = useCookies(['referral']);
 
   useEffect(() => {
     const ref = getParameterFromUrl(location.search, 'ref');
-    if (ref) {
-      setCookie('referral', ref);
-    }
-  }, [location.search, setCookie]);
+    if (ref) setCookie(sovAffiliateCookie, ref.toLowerCase());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });

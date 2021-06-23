@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -25,19 +25,12 @@ import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
-import { Cookies } from 'react-cookie';
 
 interface Props {}
 
 export function MarginTradePage(props: Props) {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
-
-  useEffect(() => {
-    const cookies = new Cookies();
-    const referral = cookies.get('referral');
-    console.log(referral);
-  }, []);
 
   const { pairType } = useSelector(selectMarginTradePage);
   const { t } = useTranslation();
