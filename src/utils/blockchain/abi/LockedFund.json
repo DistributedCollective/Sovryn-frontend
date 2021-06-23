@@ -240,21 +240,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_adminToRemove",
-        "type": "address"
-      }
-    ],
-    "name": "_removeAdmin",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "_newAdmin",
         "type": "address"
       }
@@ -502,6 +487,27 @@
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "getVestedBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_balance",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "getVestingDetails",
     "outputs": [
@@ -646,27 +652,6 @@
       {
         "internalType": "uint256",
         "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
-      }
-    ],
-    "name": "vestedBalance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "_balance",
         "type": "uint256"
       }
     ],

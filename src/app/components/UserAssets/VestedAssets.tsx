@@ -120,6 +120,14 @@ export function VestedAssets() {
                     onWithdraw={onWithdraw}
                   />
                 )}
+                {result.babelFishVestedValue !== '0' && (
+                  <OriginsSaleRow
+                    token="FISH"
+                    value={result.babelFishVestedValue}
+                    title="Origins babelFish"
+                    loading={result.loading}
+                  />
+                )}
               </>
             )}
           </tbody>
@@ -191,3 +199,34 @@ function AssetRow({
     </tr>
   );
 }
+
+interface IOriginsSaleRowProps {
+  token: string;
+  value: string;
+  title: string;
+  loading: boolean;
+}
+
+const OriginsSaleRow: React.FC<IOriginsSaleRowProps> = ({
+  token,
+  value,
+  title,
+  loading,
+}) => (
+  <tr key={token}>
+    <td>
+      <img
+        className="tw-inline tw-mr-2"
+        style={{ height: '40px' }}
+        //src={item.logoSvg}
+        alt={token}
+      />{' '}
+      {title}
+    </td>
+    <td className="tw-text-right">
+      <LoadableValue value={weiToNumberFormat(value, 4)} loading={loading} />
+    </td>
+    <td className="tw-text-right">N/A</td>
+    <td className="tw-text-right"></td>
+  </tr>
+);
