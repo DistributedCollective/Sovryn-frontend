@@ -13,6 +13,7 @@ export function useSwapsExternal_approveAndSwapExternal(
   returnToSender: string,
   sourceTokenAmount: string,
   requiredDestTokenAmount: string,
+  minReturn: string,
   swapData: string,
 ) {
   const { send, ...txState } = useSwapsExternal_swapExternal(
@@ -22,6 +23,7 @@ export function useSwapsExternal_approveAndSwapExternal(
     returnToSender,
     sourceTokenAmount,
     requiredDestTokenAmount,
+    minReturn,
     swapData,
   );
 
@@ -31,7 +33,7 @@ export function useSwapsExternal_approveAndSwapExternal(
       if (sourceToken !== Asset.RBTC) {
         tx = await contractWriter.checkAndApprove(
           sourceToken,
-          getContract('swapsExternal').address,
+          getContract('sovrynProtocol').address,
           sourceTokenAmount,
         );
         if (tx.rejected) {

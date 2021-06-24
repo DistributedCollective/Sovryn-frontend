@@ -69,6 +69,7 @@ export function TradeForm() {
     account,
     weiAmount,
     minReturn,
+    minReturn,
     '0x',
   );
 

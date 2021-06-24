@@ -163,6 +163,8 @@ export class SovrynNetwork {
         }
 
         this._readWeb3 = new Web3(web3Provider);
+        // @ts-ignore
+        this._readWeb3.eth.handleRevert = true;
 
         Array.from(Object.keys(appContracts)).forEach(key => {
           this.addReadContract(key, appContracts[key]);

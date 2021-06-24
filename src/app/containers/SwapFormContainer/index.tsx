@@ -186,6 +186,7 @@ export function SwapFormContainer() {
     account,
     weiAmount,
     minReturn,
+    minReturn,
     '0x',
   );
 

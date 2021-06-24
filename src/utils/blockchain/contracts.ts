@@ -29,11 +29,12 @@ import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
@@ -49,11 +50,6 @@ export const contracts = {
   swapNetwork: {
     address: '0x98aCE08D2b759a265ae326F010496bcD63C15afc',
     abi: SwapNetworkABI,
-    blockNumber: 2742574,
-  },
-  swapsExternal: {
-    address: '0x98aCE08D2b759a265ae326F010496bcD63C15afc', // todo
-    abi: SwapNetworkABI, // todo
     blockNumber: 2742574,
   },
   converterRegistry: {

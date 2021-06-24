@@ -10,9 +10,10 @@ export function useSwapsExternal_swapExternal(
   returnToSender: string,
   sourceTokenAmount: string,
   requiredDestTokenAmount: string,
+  minReturn: string,
   swapData: string,
 ) {
-  const { send, ...rest } = useSendContractTx('swapsExternal', 'swapExternal');
+  const { send, ...rest } = useSendContractTx('sovrynProtocol', 'swapExternal');
   return {
     send: (nonce?: number, approveTx?: string | null) => {
       return send(
@@ -23,6 +24,7 @@ export function useSwapsExternal_swapExternal(
           returnToSender,
           sourceTokenAmount,
           requiredDestTokenAmount,
+          minReturn,
           swapData,
         ],
         {

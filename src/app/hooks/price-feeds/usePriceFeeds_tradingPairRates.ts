@@ -36,9 +36,13 @@ export function usePriceFeeds_tradingPairRates() {
   const getSwapRate = useCallback(
     async (sourceAsset: Asset, destAsset: Asset, amount: string = '1') => {
       return await contractReader.call(
-        'swapsExternal',
+        'sovrynProtocol',
         'getSwapExpectedReturn',
-        [sourceAsset, destAsset, amount],
+        [
+          getTokenContract(sourceAsset).address,
+          getTokenContract(destAsset).address,
+          amount,
+        ],
       );
     },
     [],

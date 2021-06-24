@@ -8,7 +8,7 @@ export function useSwapsExternal_getSwapExpectedReturn(
   sourceTokenAmount: string,
 ) {
   return useCacheCallWithValue(
-    'swapsExternal',
+    'sovrynProtocol',
     'getSwapExpectedReturn',
     '0',
     getTokenContract(sourceToken).address,

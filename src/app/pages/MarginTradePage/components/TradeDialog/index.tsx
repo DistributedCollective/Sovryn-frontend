@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
-import { Dialog } from '../../../../containers/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
+import { toWei } from 'web3-utils';
+import { Dialog } from '../../../../containers/Dialog';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
@@ -23,13 +24,11 @@ import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
-import { toWei } from 'web3-utils';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import { useAccount } from '../../../../hooks/useAccount';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { translations } from '../../../../../locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
-// import { Slider } from '../../../BuySovPage/components/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';

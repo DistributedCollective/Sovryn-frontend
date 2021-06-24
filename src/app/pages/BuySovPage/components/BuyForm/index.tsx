@@ -64,6 +64,7 @@ export function BuyForm() {
     account,
     weiAmount,
     minReturn,
+    minReturn,
     '0x',
   );
 
