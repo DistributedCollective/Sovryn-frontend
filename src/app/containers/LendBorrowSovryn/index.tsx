@@ -16,7 +16,6 @@ import { TabType } from './types';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from '../RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
-// import { WhitelistedNotification } from '../../components/WhitelistedNotification/Loadable';
 
 type Props = {};
 
