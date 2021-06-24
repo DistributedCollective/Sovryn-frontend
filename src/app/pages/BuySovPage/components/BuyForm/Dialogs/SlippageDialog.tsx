@@ -78,19 +78,19 @@ export function SlippageDialog(props: Props) {
             </div>
           </Dummy>
         </FormGroup>
-      </div>
 
-      <div className="d-flex w-100 justify-content-between align-items-center">
-        <ConfirmButton
-          text={t(translations.common.confirm)}
-          onClick={() => confirm()}
-          className="mr-2"
-        />
-        <CloseButton
-          text={t(translations.common.cancel)}
-          onClick={() => cancel()}
-          className="ml-2"
-        />
+        <div className="d-flex w-100 justify-content-between align-items-center">
+          <ConfirmButton
+            text={t(translations.common.confirm)}
+            onClick={() => confirm()}
+            className="mr-2"
+          />
+          <CloseButton
+            text={t(translations.common.cancel)}
+            onClick={() => cancel()}
+            className="ml-2"
+          />
+        </div>
       </div>
     </Dialog>
   );

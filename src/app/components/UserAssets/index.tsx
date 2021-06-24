@@ -35,6 +35,7 @@ import { Dialog } from '../../containers/Dialog';
 import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
+import { useGetFishDollarValue } from 'app/pages/OriginsLaunchpad/hooks/useGetFishDollarValue';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -213,6 +214,8 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
     get().catch();
   }, [item.asset, account, blockSync]);
 
+  const fishDollarValue = useGetFishDollarValue(Number(tokens));
+
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       return tokens;
@@ -234,7 +237,15 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(
+            Number(
+              weiToFixed(
+                item.asset === Asset.FISH ? fishDollarValue.value : dollarValue,
+                4,
+              ),
+            ),
+            4,
+          )}
           loading={dollars.loading}
         />
       </td>
