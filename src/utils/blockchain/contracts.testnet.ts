@@ -286,11 +286,11 @@ export const contracts = {
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0x127557B259949DFdD43dc18952217CA707eaFD02',
+    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
+    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
     abi: LockedFundAbi,
   },
   babelfishAggregator: {
