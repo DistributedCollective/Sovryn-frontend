@@ -44,9 +44,14 @@ export function SidebarSteps() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { chain, sourceAsset, targetChain, amount, step } = useSelector(
-    selectBridgeDepositPage,
-  );
+  const {
+    chain,
+    sourceAsset,
+    targetChain,
+    amount,
+    step,
+    requestedReturnToPortfolio,
+  } = useSelector(selectBridgeDepositPage);
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
     chain,
   ]);
@@ -161,7 +166,7 @@ export function SidebarSteps() {
 
   return (
     <>
-      {step < DepositStep.PROCESSING && (
+      {step < DepositStep.CONFIRM && !requestedReturnToPortfolio && (
         <div
           onClick={handleBack}
           className="tw-absolute tw-top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none"

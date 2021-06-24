@@ -79,11 +79,10 @@ export function BridgeWithdrawPage(props: Props) {
         style={{ marginTop: '-4.4rem' }}
       >
         <div
-          className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-around tw-pl-8"
+          className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8"
           style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarSteps />
-          <div></div>
         </div>
 
         <div
