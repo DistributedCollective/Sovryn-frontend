@@ -13,7 +13,7 @@ export function useLending_burn(asset: Asset, weiAmount: string) {
   return {
     send: (nonce?: number, approveTx?: string | null) => {
       send(
-        [account, weiAmount],
+        [account, weiAmount, true],
         { from: account, nonce },
         { approveTransactionHash: approveTx, type: TxType.UNLEND },
       );

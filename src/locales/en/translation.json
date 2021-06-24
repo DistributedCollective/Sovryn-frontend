@@ -482,7 +482,7 @@
     "title": "Liquidity",
     "meta": "Add liquidity",
     "pool": "Pool",
-    "aer": "AER",
+    "apy": "APY",
     "currency": "Currency",
     "currencySelect": "Select currency",
     "poolSelect": "Select pool",
@@ -1289,7 +1289,7 @@
       }
     },
     "lootDropLink": "Learn more",
-    "chartOverlayText": "AER% Coming Soon!",
+    "chartOverlayText": "APY% Coming Soon!",
     "recalibration": "Next recalibration on {{date}}"
   },
   "buySovPage": {
