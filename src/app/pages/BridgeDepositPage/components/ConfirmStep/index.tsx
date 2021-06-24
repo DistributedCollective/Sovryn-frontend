@@ -120,7 +120,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-6 tw-text-center">
             {tx.step === TxStep.PENDING_TRANSFER && (
               <img
-                className="tw-h-14"
+                className="tw-h-14 tw-animate-spin"
                 src={iconPending}
                 title={t(translations.common.pending)}
                 alt={t(translations.common.pending)}
@@ -161,15 +161,11 @@ export function ConfirmStep(props: Props) {
                 </td>
               </tr>
               <tr>
-                <td>From:</td>
-                <td>{network.name}</td>
-              </tr>
-              <tr>
                 <td>Tx:</td>
                 <td>
                   <LinkToExplorer
                     txHash={tx.hash}
-                    className="text-gold font-weight-normal text-nowrap"
+                    className="text-gold font-weight-normal text-nowrap tw-text-xs"
                   />
                 </td>
               </tr>

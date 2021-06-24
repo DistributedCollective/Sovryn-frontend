@@ -178,7 +178,7 @@ export function ConfirmStep(props: Props) {
                 <td>
                   <LinkToExplorer
                     txHash={tx.hash}
-                    className="text-gold font-weight-normal text-nowrap"
+                    className="text-gold font-weight-normal text-nowrap tw-text-xs"
                   />
                 </td>
               </tr>
