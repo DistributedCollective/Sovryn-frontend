@@ -2,13 +2,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { FieldGroup } from '../../../../components/FieldGroup';
-import { InputField } from '../../../../components/InputField';
-import { translations } from '../../../../../locales/i18n';
-import { toastError, toastSuccess } from '../../../../../utils/toaster';
-import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
-import { validateEmail } from '../../../../../utils/helpers';
-import { SubscriptionForm } from './types';
+import { FieldGroup } from 'app/components/FieldGroup';
+import { InputField } from 'app/components/InputField';
+import { translations } from 'locales/i18n';
+import { toastError, toastSuccess } from 'utils/toaster';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import { validateEmail } from 'utils/helpers';
+import { SubscriptionForm } from '../../../../components/EmailSubscribeSection/types';
 
 export const EmailSubscribeSection: React.FC = () => {
   const { t } = useTranslation();
