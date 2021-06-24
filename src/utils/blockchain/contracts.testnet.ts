@@ -51,6 +51,11 @@ export const contracts = {
     abi: SwapNetworkABI,
     blockNumber: 1218795,
   },
+  swapsExternal: {
+    address: '0x61172B53423E205a399640e5283e51FE60EC2256', // todo
+    abi: SwapNetworkABI, // todo
+    blockNumber: 2742574,
+  },
   converterRegistry: {
     address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
     abi: ConverterRegistryABI,
