@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
 import { translations } from '../../../locales/i18n';
 
 export function ReferralHistory() {
   const { t } = useTranslation();
-  const affiliates = useGetContractPastEvents(
-    'sovrynProtocol',
+  const { events, loading } = useGetContractPastEvents(
+    'affiliates',
     'PayTradingFeeToAffiliate',
   );
-  console.log('affiliates', affiliates);
+
+  useEffect(() => {
+    console.log('PayTradingFeeToAffiliate', events, loading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events]);
 
   return (
     <section>

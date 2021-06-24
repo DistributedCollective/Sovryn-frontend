@@ -53,7 +53,7 @@ export function TradeDialog() {
   useEffect(() => {
     const referralWallet = getCookie(sovAffiliateCookie);
     if (referralWallet?.indexOf('0x') === 0 && referralWallet?.length === 42)
-      setReferrer(referralWallet);
+      setReferrer(referralWallet.toLowerCase());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

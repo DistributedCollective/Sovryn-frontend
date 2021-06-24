@@ -48,7 +48,7 @@ export function Header() {
 
   useEffect(() => {
     const ref = getParameterFromUrl(location.search, 'ref');
-    if (ref) setCookie(sovAffiliateCookie, ref.toLowerCase());
+    if (ref) setCookie(sovAffiliateCookie, ref);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 

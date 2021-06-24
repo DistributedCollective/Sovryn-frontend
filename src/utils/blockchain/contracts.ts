@@ -5,6 +5,7 @@
  */
 
 import bzxAbi from './abi/bzxAbi.json';
+import affiliates from './abi/affiliates.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import tokenAbi from './abi/abiTestToken.json';
@@ -35,6 +36,11 @@ export const contracts = {
     address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
     abi: bzxAbi,
     blockNumber: 2742418,
+  },
+  affiliates: {
+    address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
+    abi: affiliates,
+    blockNumber: 1953000, //TODO: update this from mainnet value
   },
   BTCWrapperProxy: {
     address: '0xa917BF723433d020a15629eba71f6C2a6B38e52d',
