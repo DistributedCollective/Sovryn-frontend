@@ -12,23 +12,26 @@ import {
   FacebookShareButton,
   TwitterShareButton,
 } from 'react-share';
-import { translations } from 'locales/i18n';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Text } from '@blueprintjs/core';
-import { toaster } from 'utils/toaster';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
-import { ReferralHistory } from '../../containers/ReferralHistory';
+import styled from 'styled-components/macro';
+
 import iconDuplicate from 'assets/images/icon-duplicate.svg';
 import iconTwitter from 'assets/images/icon-twitter.svg';
 import iconTelegram from 'assets/images/icon-telegram.svg';
 import iconLinkedin from 'assets/images/icon-linkedin.svg';
 import iconFacebook from 'assets/images/icon-facebook.svg';
 import refBanner from 'assets/images/referral_banner.svg';
-import styled from 'styled-components/macro';
+
+import { translations } from 'locales/i18n';
+import { toaster } from 'utils/toaster';
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
+import { ReferralHistory } from '../../containers/ReferralHistory';
 import { useAccount } from '../../hooks/useAccount';
 import { prettyTx } from 'utils/helpers';
 import { useIsConnected } from 'app/hooks/useAccount';
+import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliates_getReferralsList';
 
 export function ReferralPage() {
   const { t } = useTranslation();
@@ -57,6 +60,9 @@ export function ReferralPage() {
 function InnerReferralPage() {
   const { t } = useTranslation();
   const account = useAccount();
+  const referralUrl = `https://live.sovryn.app/?ref=${account}`;
+  const referralList = useAffiliates_getReferralsList(account.toLowerCase());
+
   return (
     <>
       <Header />
@@ -75,7 +81,7 @@ function InnerReferralPage() {
                 </div>
                 <div className="ref-link bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
                   <CopyToClipboard
-                    text={'http://live.sovryn.app/?ref=' + account + ''}
+                    text={referralUrl}
                     onCopy={() =>
                       toaster.show(
                         {
@@ -88,11 +94,7 @@ function InnerReferralPage() {
                   >
                     <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between tw-items-center">
                       <Text className="px-3" ellipsize>
-                        {prettyTx(
-                          'live.sovryn.app/?ref=' + account + '',
-                          24,
-                          4,
-                        )}
+                        {prettyTx(`live.sovryn.app/?ref=${account}`, 24, 4)}
                       </Text>
                       <div className="tw-ml-4 btn-copy">
                         <img src={iconDuplicate} alt="Copy" />
@@ -104,7 +106,7 @@ function InnerReferralPage() {
                   <TwitterShareButton
                     resetButtonStyle={false}
                     title="Stay Sovryn"
-                    url={'http://live.sovryn.app/?ref=' + account + ''}
+                    url={referralUrl}
                   >
                     <img src={iconTwitter} alt="iconTwitter" />
                   </TwitterShareButton>
@@ -112,7 +114,7 @@ function InnerReferralPage() {
                   <TelegramShareButton
                     resetButtonStyle={false}
                     title="Stay Sovryn"
-                    url={'http://live.sovryn.app/?ref=' + account + ''}
+                    url={referralUrl}
                   >
                     <img src={iconTelegram} alt="iconTelegram" />
                   </TelegramShareButton>
@@ -120,7 +122,7 @@ function InnerReferralPage() {
                   <LinkedinShareButton
                     resetButtonStyle={false}
                     title="Stay Sovryn"
-                    url={'http://live.sovryn.app/?ref=' + account + ''}
+                    url={referralUrl}
                   >
                     <img src={iconLinkedin} alt="iconLinkedin" />
                   </LinkedinShareButton>
@@ -128,7 +130,7 @@ function InnerReferralPage() {
                   <FacebookShareButton
                     resetButtonStyle={false}
                     title="Stay Sovryn"
-                    url={'http://live.sovryn.app/?ref=' + account + ''}
+                    url={referralUrl}
                   >
                     <img src={iconFacebook} alt="iconFacebook" />
                   </FacebookShareButton>
@@ -136,10 +138,12 @@ function InnerReferralPage() {
               </div>
               <div className="xl:tw-w-1/3">
                 <p className="ref-info">
-                  <Trans
-                    i18nKey={translations.referral.text}
-                    components={[<b>$SOV bonus rewards and .01% of fees</b>]}
-                  />
+                  <Trans i18nKey={translations.referral.text}>
+                    Expand your Sovryn Web Of Trust to earn
+                    <strong>$SOV bonus rewards and .01% of fees</strong> on
+                    every transaction made by new wallets created with your
+                    unique referral link.
+                  </Trans>
                   <br />
                   <a href="#!" target="_blank">
                     {t(translations.referral.terms)}
@@ -151,7 +155,15 @@ function InnerReferralPage() {
           <div className="tw-flex tw-flex-wrap xl:tw-flex-nowrap tw-items-stretch tw-justify-around ref-rewards">
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.totalRewardsEarned)}
+                {t(translations.referral.numberReferrals)}
+              </p>
+              <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
+                {referralList?.value?.length || 0}
+              </p>
+            </div>
+            <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
+              <p className="tw-text-lg tw--mt-1">
+                {t(translations.referral.rewardSOVEarned)}
               </p>
               <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                 10.023302 SOV
@@ -159,22 +171,10 @@ function InnerReferralPage() {
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.numberReferralsTraded)}
-              </p>
-              <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">2</p>
-            </div>
-            <div className="xl:tw-mx-2 tw-py-8 tw-px-8 xl:tw-px-0 tw-pb-6 tw-rounded-2xl xl:tw-w-1/5 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
-              <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.numberReferrals)}
-              </p>
-              <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">4</p>
-            </div>
-            <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 xl:tw-pl-16 xl:tw-pr-2 md:tw-w-1/2 tw-w-full tw-rounded-2xl xl:tw-w-1/6 tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
-              <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.ranking)}
+                {t(translations.referral.feesEarned)}
               </p>
               <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
-                {'>'}9999
+                0.023302 RBTC
               </p>
             </div>
           </div>
