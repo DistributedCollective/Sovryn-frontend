@@ -28,7 +28,6 @@ export function useLending_balanceOf(asset: Asset, owner: string) {
         'getUserPoolTokenBalance',
         [getLendingContract(asset).address, owner],
       );
-      console.log({ balance, balanceOfLM });
       return bignumber(balance).add(balanceOfLM).toString();
     };
 
