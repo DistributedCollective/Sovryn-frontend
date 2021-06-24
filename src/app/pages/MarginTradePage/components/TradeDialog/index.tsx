@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import cn from 'classnames';
 import { Dialog } from '../../../../containers/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -56,6 +57,10 @@ export function TradeDialog() {
     useLoanTokens,
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
+
+  // todo: test if assets and amounts are correct here after contract is deployed
+  // todo: leverage may require custom amount to be entered
+  const { diff } = useTrading_testRates(loanToken, collateralToken, amount);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -200,11 +205,14 @@ export function TradeDialog() {
                 }
               />
             )}
+            {diff > 5 && (
+              <ErrorBadge content="Liquidity is too low to open position, please try again later." />
+            )}
           </div>
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
-            disabled={openTradesLocked}
+            disabled={openTradesLocked || diff > 5}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
           />
