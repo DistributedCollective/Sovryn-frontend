@@ -128,11 +128,13 @@ module.exports = {
     },
     extend: {
       maxWidth: {
+        '7.5rem': '7.5rem',
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
         '20rem': '20rem',
         '20.5rem': '20.5rem',
         '28.75rem': '28.75rem',
+        '31.25rem': '31.25rem',
         '40': '40%',
         '45': '45%',
         '50': '50%',

@@ -20,6 +20,7 @@ export const BuyDialog: React.FC<IBuyDialogProps> = ({ saleName }) => {
         saleName={saleName}
         depositRate={info.depositRate}
         sourceToken={info.depositToken}
+        tierId={activeTierId}
       />
     </DialogWrapper>
   );

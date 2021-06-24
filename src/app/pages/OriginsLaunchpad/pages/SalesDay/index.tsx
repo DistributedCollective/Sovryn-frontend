@@ -10,25 +10,22 @@ import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
 
 interface ISalesDayProps {
+  tierId: number;
   saleName: string;
-  isAccessCodeEnabled: boolean;
 }
 
-export const SalesDay: React.FC<ISalesDayProps> = ({
-  saleName,
-  isAccessCodeEnabled,
-}) => {
+export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
   const { t } = useTranslation();
   const connected = useIsConnected();
 
-  // This is just a temporary solution for a prototype purposes
-  const [step, setStep] = useState(isAccessCodeEnabled ? 1 : 2);
+  const [step, setStep] = useState(1);
 
   const getActiveStep = (step: number) => {
     switch (step) {
       case 1:
         return (
           <AccessCodeVerificationStep
+            tierId={tierId}
             saleName={saleName}
             onVerified={() => setStep(2)}
           />

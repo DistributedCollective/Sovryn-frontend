@@ -49,13 +49,13 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         </div>
       </div>
 
-      <InfoItem
+      {/* <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .saleAllocation,
         )}
         value={`32,508,000 ${saleName}`}
-      />
+      /> */}
 
       <InfoItem
         label={t(

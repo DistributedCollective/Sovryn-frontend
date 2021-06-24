@@ -6,9 +6,11 @@ import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { Dashboard } from './pages/Dashboard/index';
 import { SalesDay } from './pages/SalesDay/index';
+import { useGetActiveSaleTierId } from './hooks/useGetActiveSaleTierId';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
+  const activeTierId = useGetActiveSaleTierId();
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -28,9 +30,11 @@ export const OriginsLaunchpad: React.FC = () => {
       <Header />
 
       <div className="container tw-pt-11 font-family-montserrat">
-        {/* <Dashboard /> */}
-        <SalesDay saleName="FISH" isAccessCodeEnabled={false} />
-
+        {activeTierId > 0 ? (
+          <SalesDay tierId={activeTierId} saleName="FISH" />
+        ) : (
+          <Dashboard />
+        )}
         <Footer />
       </div>
     </>

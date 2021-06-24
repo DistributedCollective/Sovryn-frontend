@@ -300,10 +300,10 @@
       },
       "accessCodeVerificationStep": {
         "dialogTitle": "Welcome to the {{token}} Origins Sale",
-        "instructions": "Please enter your access code in order to continue",
-        "inputLabel": "Enter access code",
-        "inputButton": "Submit Code",
-        "footer": "<0>Don’t have a code?</0>"
+        "verified": "You have been given whitelist access to participate in the FISH Origins sale.",
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Sale.",
+        "cta": "Continue",
+        "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
       "importantInformationStep": {
         "title": "Important Information about the Origins Sale Process",

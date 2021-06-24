@@ -34,6 +34,7 @@ export const StatusComponent: React.FC<IStatusComponentProps> = ({
       src={getStatusImage(status)}
       className={cn(
         'tw-max-w-full',
+        'tw-mx-auto',
         status === TxStatus.PENDING && 'tw-animate-spin',
       )}
       alt="Status"

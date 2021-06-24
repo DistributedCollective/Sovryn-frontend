@@ -6,7 +6,6 @@ import { BuyWrapper, BuyButton } from './styled';
 import { useTranslation } from 'react-i18next';
 import imgArrowDown from 'assets/images/arrow-down.svg';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
-import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { TxDialog } from '../TxDialog';
 import { noop } from 'app/constants';
@@ -17,12 +16,14 @@ interface IBuySectionProps {
   saleName: string;
   depositRate: number;
   sourceToken: Asset;
+  tierId: number;
 }
 
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
   sourceToken,
+  tierId,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
@@ -32,8 +33,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
 
   const [tokenAmount, setTokenAmount] = useState(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
-
-  //const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
   const isValidAmount = useMemo(() => {
     return (
@@ -50,8 +49,8 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const { buy, ...buyTx } = useApproveAndBuyToken();
 
   const onBuyClick = useCallback(
-    () => buy(1, weiTokenAmount, 'FISH', weiAmount, sourceToken),
-    [buy, sourceToken, weiAmount, weiTokenAmount],
+    () => buy(tierId, weiTokenAmount, saleName, weiAmount, sourceToken),
+    [buy, saleName, sourceToken, tierId, weiAmount, weiTokenAmount],
   );
 
   return (

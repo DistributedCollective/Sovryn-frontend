@@ -13,10 +13,11 @@ export const AllocationRemaining: React.FC<IAllocationRemainingProps> = ({
 }) => (
   <>
     <div className="tw-text-base tw-font-orbitron tw-font-medium tw-tracking-normal">
-      {weiToNumberFormat(remainingTokens)} {saleName} 25%
+      {weiToNumberFormat(remainingTokens)} {saleName}
+      {/* {weiToNumberFormat(remainingTokens)} {saleName} 25% */}
     </div>
-    <AllocationDiv>
+    {/* <AllocationDiv>
       <AllocationPercentage />
-    </AllocationDiv>
+    </AllocationDiv> */}
   </>
 );
