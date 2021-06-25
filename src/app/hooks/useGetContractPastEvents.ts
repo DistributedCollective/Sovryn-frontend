@@ -13,6 +13,7 @@ const filtersEventKeyMap = {
   Borrow: 'user',
   CloseWithSwap: 'user',
   CloseWithDeposit: 'user',
+  PayTradingFeeToAffiliate: 'referrer',
 };
 
 export function useGetContractPastEvents(

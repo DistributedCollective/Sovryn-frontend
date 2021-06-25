@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import {
   TelegramShareButton,
@@ -13,8 +13,9 @@ import {
   TwitterShareButton,
 } from 'react-share';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Text } from '@blueprintjs/core';
+import { Text, Tooltip } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
+import { EventData } from 'web3-eth-contract';
 
 import iconDuplicate from 'assets/images/icon-duplicate.svg';
 import iconTwitter from 'assets/images/icon-twitter.svg';
@@ -24,14 +25,28 @@ import iconFacebook from 'assets/images/icon-facebook.svg';
 import refBanner from 'assets/images/referral_banner.svg';
 
 import { translations } from 'locales/i18n';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { AssetDetails } from 'utils/models/asset-details';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { toaster } from 'utils/toaster';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ReferralHistory } from '../../containers/ReferralHistory';
-import { useAccount } from '../../hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { prettyTx } from 'utils/helpers';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliates_getReferralsList';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { CalculatedEvent } from 'app/containers/ReferralHistory';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+
+type CustomEventData = EventData & { eventDate: string };
+
+type EarnedFees = {
+  [asset: string]: number;
+};
 
 export function ReferralPage() {
   const { t } = useTranslation();
@@ -39,6 +54,7 @@ export function ReferralPage() {
   if (connected) {
     return <InnerReferralPage />;
   }
+
   return (
     <>
       <Header />
@@ -61,7 +77,60 @@ function InnerReferralPage() {
   const { t } = useTranslation();
   const account = useAccount();
   const referralUrl = `https://live.sovryn.app/?ref=${account}`;
-  const referralList = useAffiliates_getReferralsList(account.toLowerCase());
+  const referralList = useAffiliates_getReferralsList(account);
+  const assets = AssetsDictionary.list().filter(
+    item => ![Asset.CSOV, Asset.SOV].includes(item.asset),
+  );
+  const { events: pastEvents, loading } = useGetContractPastEvents(
+    'affiliates',
+    'PayTradingFeeToAffiliate',
+    { referrer: account },
+  );
+
+  const [events, setEvents] = useState<CalculatedEvent[]>([]);
+  const [sovEarned, setSovEarned] = useState<number>(0);
+  const [feesEarned, setFeesEarned] = useState<EarnedFees>({});
+
+  const parseEvents = useCallback((rawEvents: CustomEventData[] = []) => {
+    let feesTotal = assets.reduce(
+      (a, val: AssetDetails) => Object.assign(a, { [val.asset]: 0 }),
+      {},
+    );
+    let sovTotal = 0;
+    const parsed: CalculatedEvent[] = rawEvents.map((val: CustomEventData) => {
+      const tokenAsset = AssetsDictionary.getByTokenContractAddress(
+        val.returnValues.token,
+      ).asset;
+      if (feesTotal.hasOwnProperty(tokenAsset))
+        feesTotal[tokenAsset] += Number(val.returnValues.tradingFeeTokenAmount);
+      if (Number(val.returnValues.sovBonusAmountPaid) > 0)
+        sovTotal += Number(val.returnValues.sovBonusAmountPaid);
+      return {
+        blockNumber: val.blockNumber,
+        eventDate: val.eventDate,
+        transactionHash: val.transactionHash,
+        referrer: val.returnValues.referrer,
+        //trader: string;
+        token: tokenAsset,
+        tradingFeeTokenAmount: val.returnValues.tradingFeeTokenAmount,
+        tokenBonusAmount: val.returnValues.tokenBonusAmount,
+        sovBonusAmount: val.returnValues.sovBonusAmount,
+        sovBonusAmountPaid: val.returnValues.sovBonusAmountPaid,
+      };
+    });
+    setFeesEarned(feesTotal);
+    setSovEarned(sovTotal);
+    setEvents(parsed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    // console.log('PayTradingFeeToAffiliate', pastEvents, loading);
+    if (account) {
+      parseEvents(pastEvents as CustomEventData[]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, JSON.stringify(pastEvents)]);
 
   return (
     <>
@@ -165,23 +234,44 @@ function InnerReferralPage() {
               <p className="tw-text-lg tw--mt-1">
                 {t(translations.referral.rewardSOVEarned)}
               </p>
-              <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
-                10.023302 SOV
+              <p className="tw-text-2xl tw-mt-2 tw-mb-6">
+                {sovEarned > 0 ? (
+                  <Tooltip content={weiTo18(sovEarned)} className="tw-block">
+                    <div>{weiToNumberFormat(sovEarned, 12)} SOV</div>
+                  </Tooltip>
+                ) : (
+                  '0 SOV'
+                )}
               </p>
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
-              <p className="tw-text-lg tw--mt-1">
+              <p className="tw-text-lg tw-mt-1">
                 {t(translations.referral.feesEarned)}
               </p>
-              <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
-                0.023302 RBTC
+              <p className="xl:tw-text-base tw-text-sm tw-mt-2 tw-mb-6">
+                {Object.keys(feesEarned).map(
+                  key =>
+                    feesEarned[key] > 0 && (
+                      <div>
+                        <Tooltip
+                          content={weiTo18(feesEarned[key])}
+                          className="tw-block"
+                        >
+                          <div>
+                            {weiToNumberFormat(feesEarned[key], 14)}{' '}
+                            <AssetSymbolRenderer asset={key as Asset} />
+                          </div>
+                        </Tooltip>
+                      </div>
+                    ),
+                )}
               </p>
             </div>
           </div>
           <p className="tw-text-lg mt-5">
             {t(translations.referral.referralHistory)}
           </p>
-          <ReferralHistory />
+          <ReferralHistory items={events} />
         </div>
       </Main>
       <Footer />

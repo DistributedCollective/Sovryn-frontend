@@ -1482,6 +1482,7 @@
       "amount": "Amount",
       "hash": "Transaction Hash",
       "status": "Status"
-    }
+    },
+    "tableEmpty": "No referral events."
   }
 }
