@@ -223,10 +223,6 @@ export const contracts = {
     address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
     abi: VestingRegistryAbi,
   },
-  vestingRegistryBabelfish: {
-    address: '0xE402a46F372a461dD19ed34453253a0B5D1e0509',
-    abi: LockedFundAbi,
-  },
   staking: {
     address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
     abi: StakingAbi,

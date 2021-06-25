@@ -6,5 +6,5 @@ export const DialogWrapper = styled.div`
   box-shadow: 0px 3px 25px #00000033;
   border-radius: 1.25rem;
   margin-left: 2.5rem;
-  width: 49rem;
+  width: 51rem;
 `;
