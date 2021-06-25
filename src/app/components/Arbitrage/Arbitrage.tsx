@@ -1,77 +1,99 @@
-import React, { useState, useEffect } from 'react';
-import { backendUrl, currentChainId } from '../../../utils/classifiers';
-import axios from 'axios';
-import { symbolByTokenAddress } from 'utils/blockchain/contract-helpers';
+import React, { useMemo } from 'react';
+import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Popover, Icon } from '@blueprintjs/core';
+import { Icon, Popover } from '@blueprintjs/core';
+import { useSelector } from 'react-redux';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import { useFetch } from '../../hooks/useFetch';
+import { Asset } from '../../../types';
+import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import { fixNumber } from '../../../utils/helpers';
+import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
+import { toNumberFormat } from '../../../utils/display-text/format';
+import type { PoolData } from './models/pool-data';
+import type { Opportunity } from './models/opportunity';
 
 const s = translations.swapTradeForm;
 
+const minUsdForOpportunity = 10;
+
 export function Arbitrage() {
   const { t } = useTranslation();
-  const api = backendUrl[currentChainId];
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState({
-    USDT: {
-      oracleRate: '0',
-      negativeDelta: false,
-      rateToBalance: { amount: 0, from: '', to: '', rate: 0, earn: 0 },
-    },
-  });
+  const { assetRates } = useSelector(selectWalletProvider);
 
-  useEffect(() => {
-    axios
-      .get(api + '/amm/arbitrage')
-      .then(res => setData(res.data))
-      .catch(console.error);
-  }, [api]);
+  const { value: data } = useFetch<PoolData>(
+    backendUrl[currentChainId] + '/amm/arbitrage',
+    {},
+  );
 
-  useEffect(() => {
-    // Only show component if you can earn > 0.001 BTC or > 1 USDT
-    if (
-      (data.USDT.rateToBalance.earn > 0.001 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'RBTC') ||
-      (data.USDT.rateToBalance.earn > 10 &&
-        symbolByTokenAddress(data.USDT.rateToBalance.to) === 'USDT')
-    ) {
-      setShow(true);
-    }
-  }, [data]);
+  const opportunityArray = useMemo(
+    () =>
+      Object.values(data)
+        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .map(item => {
+          const toToken = assetByTokenAddress(item.rateToBalance.to);
+          const rate = assetRates.find(
+            item => item.source === toToken && item.target === Asset.USDT,
+          );
+          return {
+            fromToken: assetByTokenAddress(item.rateToBalance.from),
+            toToken,
+            fromAmount: item.rateToBalance.amount,
+            toAmount: item.rateToBalance.rate,
+            earn: item.rateToBalance.earn,
+            earnUsd: rate
+              ? Number(
+                  bignumber(fixNumber(rate.value.rate))
+                    .mul(item.rateToBalance.earn)
+                    .div(rate.value.precision)
+                    .toFixed(18),
+                )
+              : 0,
+          };
+        })
+        .sort((a, b) => b.earnUsd - a.earnUsd) as Opportunity[],
+    [data, assetRates],
+  );
 
-  const fromAmount = data.USDT.rateToBalance.amount.toFixed(4);
-  const fromToken = symbolByTokenAddress(data.USDT.rateToBalance.from);
-  const toAmount = data.USDT.rateToBalance.rate.toFixed(2);
-  const toToken = symbolByTokenAddress(data.USDT.rateToBalance.to);
+  const opportunity = useMemo(() => {
+    const items = opportunityArray.filter(
+      item => item.earnUsd > minUsdForOpportunity,
+    );
+    return items.length ? items[0] : null;
+  }, [opportunityArray]);
 
   return (
     <>
-      {show && (
+      {opportunity !== null && (
         <div className="my-3">
           <div className="text-white mb-5 p-3 rounded border border-gold ">
             {t(s.arbitrage.best_rate)}{' '}
             <span className="text-gold">
-              {fromAmount} {fromToken}
+              {toNumberFormat(opportunity.fromAmount, 6)}{' '}
+              <AssetSymbolRenderer asset={opportunity.fromToken} />
             </span>{' '}
             {t(s.arbitrage.for)}{' '}
             <span className="text-gold">
-              {toAmount} {toToken}
+              {toNumberFormat(opportunity.toAmount, 6)}{' '}
+              <AssetSymbolRenderer asset={opportunity.toToken} />
             </span>
             <Popover
               content={
                 <div className="px-5 py-4 font-weight-light">
                   <p>
                     {t(s.arbitrage.popover_p1, {
-                      fromAmount: fromAmount,
-                      fromToken: fromToken,
-                      toAmount: toAmount,
-                      toToken: toToken,
-                      earn: data.USDT.rateToBalance.earn.toFixed(4),
+                      fromAmount: toNumberFormat(opportunity.fromAmount, 6),
+                      fromToken: opportunity.fromToken,
+                      toAmount: toNumberFormat(opportunity.toAmount, 6),
+                      toToken: opportunity.toToken,
                     })}
                   </p>
                   <p>
                     {t(s.arbitrage.popover_p2, {
-                      fromToken: fromToken,
+                      toToken: opportunity.toToken,
+                      earn: toNumberFormat(opportunity.earn, 6),
                     })}
                   </p>
                 </div>

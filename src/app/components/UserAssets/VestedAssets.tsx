@@ -1,10 +1,6 @@
-/**
- *
- * UserAssets
- *
- */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { Asset } from '../../../types';
@@ -23,6 +19,9 @@ import { Skeleton } from '../PageSkeleton';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { OriginsSaleRow } from './OriginsSaleRow';
+import babelfishLogo from 'assets/images/babelfish.svg';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -45,6 +44,22 @@ export function VestedAssets() {
     setAddress('');
   };
 
+  const userHasAnyVests = useMemo(
+    () =>
+      result.vestedValue !== '0' ||
+      result.originVestedValue !== '0' ||
+      result.teamVestedValue !== '0' ||
+      result.lmVestingContract !== ethGenesisAddress ||
+      result.babelFishVestedValue !== '0',
+    [
+      result.babelFishVestedValue,
+      result.lmVestingContract,
+      result.originVestedValue,
+      result.teamVestedValue,
+      result.vestedValue,
+    ],
+  );
+
   return (
     <>
       <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
@@ -64,7 +79,7 @@ export function VestedAssets() {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {!connected && (
+            {(!connected || result.loading) && (
               <>
                 <tr>
                   <td>
@@ -82,46 +97,70 @@ export function VestedAssets() {
                 </tr>
               </>
             )}
-            {connected && account && (
-              <>
-                <AssetRow
-                  item={item}
-                  title="Genesis SOV"
-                  value={result.vestedValue}
-                  loading={result.loading}
-                  contract={result.vestingContract}
-                  onWithdraw={onWithdraw}
-                />
-                <AssetRow
-                  item={item}
-                  title="Origin SOV"
-                  value={result.originVestedValue}
-                  loading={result.loading}
-                  contract={result.originVestingContract}
-                  onWithdraw={onWithdraw}
-                />
-                {result.teamVestedValue !== '0' && (
-                  <AssetRow
-                    item={item}
-                    title="Team SOV"
-                    value={result.teamVestedValue}
-                    loading={result.loading}
-                    contract={result.teamVestingContract}
-                    onWithdraw={onWithdraw}
-                  />
-                )}
-                {result.lmVestingContract !== ethGenesisAddress && (
-                  <AssetRow
-                    item={item}
-                    title="Reward SOV"
-                    value={result.lmVestedValue}
-                    loading={result.loading}
-                    contract={result.lmVestingContract}
-                    onWithdraw={onWithdraw}
-                  />
-                )}
-              </>
-            )}
+            {connected &&
+              account &&
+              !result.loading &&
+              (userHasAnyVests ? (
+                <>
+                  {result.vestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Genesis SOV"
+                      value={result.vestedValue}
+                      loading={result.loading}
+                      contract={result.vestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+
+                  {result.originVestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Origins SOV"
+                      value={result.originVestedValue}
+                      loading={result.loading}
+                      contract={result.originVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+
+                  {result.teamVestedValue !== '0' && (
+                    <AssetRow
+                      item={item}
+                      title="Team SOV"
+                      value={result.teamVestedValue}
+                      loading={result.loading}
+                      contract={result.teamVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+                  {result.lmVestingContract !== ethGenesisAddress && (
+                    <AssetRow
+                      item={item}
+                      title="Reward SOV"
+                      value={result.lmVestedValue}
+                      loading={result.loading}
+                      contract={result.lmVestingContract}
+                      onWithdraw={onWithdraw}
+                    />
+                  )}
+                  {result.babelFishVestedValue !== '0' && (
+                    <OriginsSaleRow
+                      token="FISH"
+                      value={result.babelFishVestedValue}
+                      title="Origins FISH"
+                      logo={babelfishLogo}
+                      loading={result.loading}
+                    />
+                  )}
+                </>
+              ) : (
+                <tr>
+                  <td className="text-center" colSpan={99}>
+                    {t(translations.userAssets.emptyVestTable)}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -148,8 +187,9 @@ function AssetRow({
   onWithdraw,
 }: AssetProps) {
   const { t } = useTranslation();
-  const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
-
+  const { checkMaintenance, States } = useMaintenance();
+  const withdrawLocked = checkMaintenance(States.WITHDRAW_VESTS);
+  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       return value;
@@ -182,12 +222,28 @@ function AssetRow({
         />
       </td>
       <td className="tw-text-right">
-        <ActionButton
-          className="tw-inline-block"
-          text={t(translations.userAssets.actions.withdraw)}
-          disabled={contract === ethGenesisAddress || loading}
-          onClick={() => onWithdraw(contract)}
-        />
+        {withdrawLocked ? (
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            interactionKind="hover"
+            content={<>{t(translations.maintenance.withdrawVests)}</>}
+          >
+            <ActionButton
+              className="tw-inline-block tw-cursor-not-allowed"
+              text={t(translations.userAssets.actions.withdraw)}
+              disabled={contract === ethGenesisAddress || loading}
+            />
+          </Tooltip>
+        ) : (
+          <ActionButton
+            className="tw-inline-block"
+            text={t(translations.userAssets.actions.withdraw)}
+            disabled={contract === ethGenesisAddress || loading}
+            onClick={() => onWithdraw(contract)}
+          />
+        )}
       </td>
     </tr>
   );

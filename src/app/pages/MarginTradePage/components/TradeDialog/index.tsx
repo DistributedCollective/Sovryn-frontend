@@ -28,12 +28,19 @@ import { Asset } from '../../../../../types/asset';
 import { useAccount } from '../../../../hooks/useAccount';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { translations } from '../../../../../locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 // import { Slider } from '../../../BuySovPage/components/Slider';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
+
+const maintenanceMargin = 15000000000000000000;
 
 export function TradeDialog() {
   const { t } = useTranslation();
   const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -114,7 +121,7 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label="Maintenance Margin:"
-              value={<>{weiToNumberFormat(15)}%</>}
+              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
               label="Est. Liquidation price:"
@@ -173,9 +180,31 @@ export function TradeDialog() {
             contractName={contractName}
             condition={true}
           />
+          <div className="tw-mt-4">
+            {openTradesLocked && (
+              <ErrorBadge
+                content={
+                  <Trans
+                    i18nKey={translations.maintenance.openMarginTrades}
+                    components={[
+                      <a
+                        href={discordInvite}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
+                }
+              />
+            )}
+          </div>
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
+            disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
           />

@@ -101,7 +101,7 @@ export function CurrentPositionProfit({
                 {weiToNumberFormat(profit, 8)}{' '}
                 <AssetRenderer asset={destination} />
               </div>
-              &approx;{' '}
+              ≈{' '}
               <LoadableValue
                 value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
                 loading={dollarsLoading}

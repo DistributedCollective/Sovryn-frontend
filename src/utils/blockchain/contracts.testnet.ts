@@ -19,6 +19,7 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
@@ -27,6 +28,10 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import FISHTokenAbi from './abi/FISH.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import LockedFundAbi from './abi/LockedFund.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -84,11 +89,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
+  MOC_lending: {
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1218721,
+  },
   MOC_amm: {
     address: '0xc137aD4Ef759D9206b15105532c05c866cc89f31',
     abi: LiquidityPoolV1Converter,
@@ -107,6 +112,21 @@ export const contracts = {
   USDT_amm: {
     address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
     abi: LiquidityPoolV2Converter,
+    blockNumber: 1218833,
+  },
+  XUSD_token: {
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  XUSD_lending: {
+    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
+  XUSD_amm: {
+    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
+    abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
   BPRO_token: {
@@ -139,6 +159,21 @@ export const contracts = {
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
+  BNBS_token: {
+    address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // BNBS_lending: {
+  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  BNBS_amm: {
+    address: '0x4B2b25526c42c4D5FC096d1f77589edCB21476e2',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
   CrowdSale: {
     address: '0x62BDB11190f538274bD55A4DC74fA4665e7CB752',
     abi: CrowdSaleAbi,
@@ -164,6 +199,11 @@ export const contracts = {
     abi: SovrynNFTAbi,
     blockNumber: 1218836,
   },
+  vesting: {
+    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    abi: VestingAbi,
+    blockNumber: 1218836,
+  },
   vestingRegistry: {
     address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
     abi: VestingRegistryAbi,
@@ -178,6 +218,10 @@ export const contracts = {
     address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
     abi: VestingRegistryOriginAbi,
     blockNumber: 1218836,
+  },
+  vestingRegistry3: {
+    address: '0x52E4419b9D33C6e0ceb2e7c01D3aA1a04b21668C',
+    abi: VestingRegistryAbi,
   },
   staking: {
     address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
@@ -232,5 +276,21 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
+  },
+  FISH_token: {
+    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    abi: FISHTokenAbi,
+  },
+  originsBase: {
+    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    abi: OriginsBaseAbi,
+  },
+  lockedFund: {
+    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    abi: LockedFundAbi,
+  },
+  babelfishAggregator: {
+    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    abi: BabelfishAggregatorAbi,
   },
 };

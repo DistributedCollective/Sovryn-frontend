@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -27,18 +27,23 @@ import { useMining_ApproveAndAddLiquidityV1 } from '../../hooks/useMining_Approv
 import { useLiquidityMining_getExpectedV1TokenAmount } from '../../hooks/useLiquidityMining_getExpectedV1TokenAmount';
 import { useLiquidityMining_getExpectedV1PoolTokens } from '../../hooks/useLiquidityMining_getExpectedV1PoolTokens';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   pool: LiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
+  onSuccess: () => void;
 }
 
 export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   const { t } = useTranslation();
   usePoolToken(pool.poolAsset, pool.poolAsset);
-
   const canInteract = useCanInteract();
+  const { checkMaintenance, States } = useMaintenance();
+  const addliquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
   const token1 = pool.supplyAssets[0].asset;
   const token2 = pool.supplyAssets[1].asset;
@@ -75,10 +80,10 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     );
   }, [balance1, balance2, weiAmount1, weiAmount2]);
 
-  const errorMessage = useMemo(() => {
-    if (!hasSufficientBalance)
-      return t(translations.validationErrors.insufficientBalance);
-  }, [t, hasSufficientBalance]);
+  // const errorMessage = useMemo(() => {
+  //   if (!hasSufficientBalance)
+  //     return t(translations.validationErrors.insufficientBalance);
+  // }, [t, hasSufficientBalance]);
 
   const valid = useMemo(() => {
     return (
@@ -125,31 +130,18 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               asset={token1}
             />
           </FormGroup>
-          <div className="tw-relative">
-            <DummyInput
-              value={weiToNumberFormat(weiAmount2, 8)}
-              appendElem={<AssetRenderer asset={token2} />}
-              className="tw-mt-6 tw-h-9"
-            />
-            {errorMessage && (
-              <div
-                className={
-                  'tw-text-error tw-text-sm tw-text-center tw-absolute tw-flex tw-items-center tw-justify-center tw-bg-black tw-h-full tw-top-0 tw-w-full tw-input-wrapper readonly'
-                }
-              >
-                {errorMessage}
-              </div>
-            )}
-          </div>
+          <DummyInput
+            value={weiToNumberFormat(weiAmount2, 8)}
+            appendElem={<AssetRenderer asset={token2} />}
+            className="tw-mt-6 tw-h-9"
+          />
           <div className="tw-text-xs tw-font-thin tw-mt-1">
             {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
               balance2,
               8,
             )}`}
           </div>
-
           {/*<ArrowDown />*/}
-
           {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
           {/*  <Input*/}
           {/*    value="0"*/}
@@ -157,7 +149,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
           {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
           {/*  />*/}
           {/*</FormGroup>*/}
-
           <TxFeeCalculator
             args={txFeeArgs}
             txConfig={{
@@ -168,19 +159,42 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             className="tw-mt-6"
           />
 
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
-
-          <DialogButton
-            confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
-            onConfirm={() => handleConfirm()}
-            disabled={tx.loading || !valid || !canInteract}
-            className="tw-rounded-lg"
-          />
+          {addliquidityLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.addLiquidity}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+          {!addliquidityLocked && (
+            <DialogButton
+              confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
+              onConfirm={() => handleConfirm()}
+              disabled={
+                tx.loading || !valid || !canInteract || addliquidityLocked
+              }
+              className="tw-rounded-lg"
+            />
+          )}
         </div>
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TxDialog
+        tx={tx}
+        onUserConfirmed={() => props.onCloseModal()}
+        onSuccess={props.onSuccess}
+      />
     </>
   );
 }

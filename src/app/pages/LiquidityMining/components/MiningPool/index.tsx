@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from 'react';
+import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
@@ -15,22 +17,37 @@ import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidit
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import type { AmmHistory } from './types';
 
 interface Props {
   pool: LiquidityPool;
+  ammData: AmmHistory;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool }: Props) {
+export function MiningPool({ pool, ammData }: Props) {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.ADD_LIQUIDITY]: addliquidityLocked,
+    [States.REMOVE_LIQUIDITY]: removeliquidityLocked,
+  } = checkMaintenances();
 
   const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
     setIsEmptyBalance,
   ]);
+
+  const [successfulTransactions, setSuccessfulTransactions] = useState(0);
+
+  const onSuccessfulTransaction = useCallback(
+    () => setSuccessfulTransactions(prevValue => prevValue + 1),
+    [setSuccessfulTransactions],
+  );
 
   const LeftSection = () => {
     return (
@@ -54,18 +71,18 @@ export function MiningPool({ pool }: Props) {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
-          text={t(translations.common.deposit)}
+          text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
-          disabled={!canInteract}
+          disabled={!canInteract || addliquidityLocked}
         />
         <ActionButton
-          text={t(translations.common.withdraw)}
+          text={t(translations.liquidityMining.withdraw)}
           onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
-          disabled={!canInteract || isEmptyBalance}
+          disabled={!canInteract || isEmptyBalance || removeliquidityLocked}
         />
       </div>
     );
@@ -75,21 +92,45 @@ export function MiningPool({ pool }: Props) {
     <div>
       <CardRow
         LeftSection={<LeftSection />}
-        ChartSection={<PoolChart pool={pool} />}
+        ChartSection={
+          ammData ? (
+            <PoolChart pool={pool} history={ammData} />
+          ) : (
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-center">
+              <span
+                className={cn(
+                  'tw-w-min tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center active',
+                )}
+              >
+                <Spinner size={40} className="tw-fill-current" />
+              </span>
+            </div>
+          )
+        }
         Actions={<Actions />}
         DataSection={
-          <UserPoolInfo pool={pool} onNonEmptyBalance={onNonEmptyBalance} />
+          <UserPoolInfo
+            pool={pool}
+            onNonEmptyBalance={onNonEmptyBalance}
+            successfulTransactions={successfulTransactions}
+          />
         }
         leftColor={
           (pool.supplyAssets[0].asset === Asset.SOV &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Yellow) ||
+            LootDropColors.Purple) ||
           (pool.supplyAssets[0].asset === Asset.ETH &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Green) ||
           (pool.supplyAssets[0].asset === Asset.DOC &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Pink) ||
+          (pool.supplyAssets[0].asset === Asset.XUSD &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Yellow) ||
+          (pool.supplyAssets[0].asset === Asset.BNB &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Blue) ||
           undefined
         }
       />
@@ -101,11 +142,13 @@ export function MiningPool({ pool }: Props) {
                 pool={pool}
                 showModal={dialog === 'add'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialogV1
                 pool={pool}
                 showModal={dialog === 'remove'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
             </>
           )}
@@ -115,11 +158,13 @@ export function MiningPool({ pool }: Props) {
                 pool={pool}
                 showModal={dialog === 'add'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialog
                 pool={pool}
                 showModal={dialog === 'remove'}
                 onCloseModal={() => setDialog('none')}
+                onSuccess={onSuccessfulTransaction}
               />
             </>
           )}

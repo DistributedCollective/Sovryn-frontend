@@ -23,6 +23,19 @@ export class LiquidityPoolDictionary {
       ]).setVersion(1),
     ],
     [
+      Asset.XUSD,
+      new LiquidityPool(Asset.XUSD, [
+        new LiquidityPoolSupplyAsset(Asset.XUSD, {
+          mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
+          testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
+          testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
+        }),
+      ]).setVersion(1),
+    ],
+    [
       Asset.USDT,
       new LiquidityPool(Asset.USDT, [
         new LiquidityPoolSupplyAsset(Asset.USDT, {
@@ -34,6 +47,19 @@ export class LiquidityPoolDictionary {
           testnet: '0xfFBBF93Ecd27C8b500Bd35D554802F7F349A1E9B',
         }),
       ]),
+    ],
+    [
+      Asset.BNB,
+      new LiquidityPool(Asset.BNB, [
+        new LiquidityPoolSupplyAsset(Asset.BNB, {
+          mainnet: '0x8f3d24ab3510294f1466aa105f78901b90d79d4d',
+          testnet: '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x8f3d24ab3510294f1466aa105f78901b90d79d4d',
+          testnet: '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
+        }),
+      ]).setVersion(1),
     ],
     [
       Asset.ETH,

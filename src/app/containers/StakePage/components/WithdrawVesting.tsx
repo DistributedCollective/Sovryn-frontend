@@ -1,11 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { isAddress } from 'web3-utils';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { vesting_withdraw } from 'utils/blockchain/requests/vesting';
-import { isAddress } from 'web3-utils';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+
 interface Props {
   vesting: string;
   onCloseModal: () => void;
@@ -14,6 +19,8 @@ interface Props {
 export function WithdrawVesting(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
   const { value, loading } = useGetUnlockedVesting(props.vesting);
@@ -32,7 +39,6 @@ export function WithdrawVesting(props: Props) {
         await vesting_withdraw(
           props.vesting.toLowerCase(),
           address.toLowerCase(),
-          account.toLowerCase(),
         );
         props.onCloseModal();
         setSending(false);
@@ -75,24 +81,44 @@ export function WithdrawVesting(props: Props) {
           >
             {t(translations.stake.withdraw.unlockedSov)}:
           </label>
-          <div className="tw-flex tw-space-x-4">
+          <div className="tw-flex tw-space-x-4 tw-mb-3">
             <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
               {loading ? 'Loading...' : numberFromWei(value)}
             </div>
           </div>
-
-          <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            {t(translations.stake.txFee)}: 0.0006 rBTC
-          </p>
+          <TxFeeCalculator
+            args={[address.toLowerCase()]}
+            methodName="withdrawTokens"
+            contractName="vesting"
+          />
         </div>
-
+        {withdrawVestsLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.withdrawVestsModal}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
             className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-              !validate() && 'tw-bg-opacity-25'
+              (!validate() || withdrawVestsLocked) &&
+              'tw-bg-opacity-25 tw-cursor-not-allowed'
             }`}
-            disabled={!validate()}
+            disabled={!validate() || withdrawVestsLocked}
           >
             {t(translations.stake.actions.confirm)}
           </button>

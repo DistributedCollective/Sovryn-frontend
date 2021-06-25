@@ -1,11 +1,12 @@
-import React from 'react';
-import cn from 'classnames';
 import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
+import cn from 'classnames';
+import React from 'react';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 export interface ButtonProps {
   text: React.ReactNode;
+  title?: string;
   type?: ButtonType;
   className?: string;
   textClassName?: string;

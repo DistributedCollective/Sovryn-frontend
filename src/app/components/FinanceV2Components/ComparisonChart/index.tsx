@@ -37,7 +37,7 @@ const formatValues = value => {
 export default function ComparisonChart(props: ComparisonProps) {
   const options: ChartProps = {
     height: 150,
-    margin: [30, 45, 30, 40],
+    margin: [30, 45, 30, 45],
     labelColor: '#EDEDED',
     tooltipFormatter: props.tooltipFormatter,
     yAxisProps: {

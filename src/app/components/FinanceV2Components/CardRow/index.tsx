@@ -1,8 +1,5 @@
 import React from 'react';
 import { StyledCardRow } from './styled';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import cn from 'classnames';
 
 interface ICardRowProps {
   LeftSection?: React.ReactNode;
@@ -20,8 +17,6 @@ export const CardRow: React.FC<ICardRowProps> = ({
   leftColor,
   chartReady,
 }: ICardRowProps) => {
-  const { t } = useTranslation();
-
   return (
     <StyledCardRow
       className="tw-flex tw-flex-row tw-items-center tw-mb-3 tw-rounded-lg tw-py-2.5 tw-px-4 tw-relative tw-overflow-auto tw-justify-between"
@@ -29,20 +24,8 @@ export const CardRow: React.FC<ICardRowProps> = ({
     >
       {LeftSection && <div>{LeftSection}</div>}
       {ChartSection && (
-        <div
-          className={cn(
-            'tw-ml-2 tw-mr-3 tw-relative 2xl:tw-max-w-md 2xl:tw-ml-4 2xl:tw-mr-5 tw-flex-1',
-            { 'tw-pointer-events-none tw-max-w-13rem': !chartReady },
-          )}
-        >
-          {!chartReady && (
-            <div className="tw-absolute tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-text-white tw-font-extralight tw-text-lg 2xl:tw-text-2xl tw-z-10">
-              {t(translations.liquidityMining.chartOverlayText)}
-            </div>
-          )}
-          <div className={cn({ 'tw-opacity-20': !chartReady })}>
-            {ChartSection}{' '}
-          </div>
+        <div className="tw-mr-3 tw-relative tw-min-w-md tw-max-w-md 2xl:tw-max-w-lg">
+          {ChartSection}
         </div>
       )}
       {DataSection && <div>{DataSection}</div>}

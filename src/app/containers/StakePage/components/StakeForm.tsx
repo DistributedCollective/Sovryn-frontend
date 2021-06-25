@@ -1,10 +1,15 @@
 import React, { FormEvent } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
 import { numberFromWei, fromWei } from 'utils/blockchain/math-helpers';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
-import { StakingDateSelector } from '../../../components/StakingDateSelector';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { StakingDateSelector } from 'app/components/StakingDateSelector';
+import { useAccount } from 'app/hooks/useAccount';
+import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import '../../../components/Header/index.scss';
 
 interface Props {
@@ -23,6 +28,14 @@ interface Props {
 
 export function StakeForm(props: Props) {
   const { t } = useTranslation();
+  const account = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const stakingLocked = checkMaintenance(States.STAKING);
+
+  const txConf = {
+    gas: 250000,
+  };
+
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
@@ -114,7 +127,7 @@ export function StakeForm(props: Props) {
           >
             {t(translations.stake.staking.votingPowerReceived)}:
           </label>
-          <div className="tw-flex tw-space-x-4">
+          <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
               className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
@@ -124,18 +137,45 @@ export function StakeForm(props: Props) {
               value={numberFromWei(props.votePower)}
             />
           </div>
-          <p className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
-            {t(translations.stake.txFee)}: 0.0006 rBTC
-          </p>
+          <TxFeeCalculator
+            args={[
+              Number(props.amount).toFixed(0).toString(),
+              props.timestamp,
+              account,
+              ethGenesisAddress,
+            ]}
+            txConfig={txConf}
+            methodName="stake"
+            contractName="staking"
+          />
         </div>
+        {stakingLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.stakingModal}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
             className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-bg-opacity-1 tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
-              !props.isValid &&
+              (!props.isValid || stakingLocked) &&
               'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
             }`}
-            disabled={!props.isValid}
+            disabled={!props.isValid || stakingLocked}
           >
             {t(translations.stake.actions.confirm)}
           </button>

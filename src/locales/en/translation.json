@@ -13,7 +13,8 @@
     "failed": "Failed",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "availableBalance": "Available Balance:"
+    "availableBalance": "Available Balance:",
+    "maintenance": "Under Maintenance"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -22,6 +23,35 @@
   "title": "Sovryn",
   "announcement": {
     "message": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
+  },
+  "maintenance": {
+    "full": "Sovryn is currently under maintenance, please check our <0>discord</0> for updates.",
+    "openMarginTrades": "Sorry, opening margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "addToMarginTrades": "Sorry, adding to margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "closeMarginTrades": "Sorry, closing margin trades is currently under maintenance, please check our <0>discord</0> for updates.",
+    "buySov": "Sorry, buying SOV is currently under maintenance, please check our <0>discord</0> for updates.",
+    "spotTrades": "Sorry, spot trading is currently under maintenance, please check our <0>discord</0> for updates.",
+    "swapTrades": "Sorry, swaps are currently under maintenance, please check our <0>discord</0> for updates.",
+    "depositLend": "Sorry, lending deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "withdrawLend": "Sorry, lending withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "startBorrow": "Sorry, loan opening is currently under maintenance, please check our discord (link in footer) for updates.",
+    "stopBorrow": "Sorry, loan closing is currently under maintenance, please check our discord (link in footer) for updates.",
+    "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
+    "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
+    "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
+    "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "staking": "Sorry, adding to stakes is currently under maintenance, please check our discord (link in footer) for updates.",
+    "stakingModal": "Sorry, adding to stakes is currently under maintenance, please check our <0>discord</0> for updates.",
+    "unstaking": "Sorry, unstaking is currently under maintenance, please check our discord (link in footer) for updates.",
+    "unstakingModal": "Sorry, unstaking is currently under maintenance, please check our <0>discord</0> for updates.",
+    "withdrawEarnedFees": "Sorry, withdrawing fees is currently under maintenance, please check our discord (link in footer) for updates.",
+    "delegateStakes": "Sorry, delegating stakes is currently under maintenance, please check our discord (link in footer) for updates.",
+    "delegateVests": "Sorry, delegating vests is currently under maintenance, please check our discord (link in footer) for updates.",
+    "delegateModal": "Sorry, delegating is currently under maintenance, please check our <0>discord</0> for updates.",
+    "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
+    "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
+    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates."
   },
   "homePage": {
     "title": "Home Page",
@@ -174,10 +204,10 @@
       "switchAssets": "Switch Assets"
     },
     "arbitrage": {
-      "best_rate": "Make an instant profit by swapping up to",
+      "best_rate": "Arbitrage opportunity: swap up to",
       "for": "for up to",
-      "popover_p1": "Currently on Sovryn, you can trade {{fromAmount}} {{fromToken}} for {{toAmount}} {{toToken}}. This is {{earn}} {{toToken}} more than the market price (free money!).",
-      "popover_p2": "This arbitrage is an opportunity for our users to make extra money selling their {{fromToken}}, and helps to keep our AMM (automated market maker) in balance."
+      "popover_p1": "Users can help balance the Sovryn AMM (automated market maker) when arbitrage opportunities arise. Currently, up to {{fromAmount}} {{fromToken}} can be swapped for up to {{toAmount}} {{toToken}}.",
+      "popover_p2": "This is {{earn}} {{toToken}} more than the market price."
     }
   },
   "amountField": {
@@ -202,6 +232,7 @@
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
     "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
     "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "notice_5": "For latest updates or discussion, head over to our <0>Discord</0> server.",
     "optOut": "Opt-out from Google Analytics",
     "buildID": "Build ID"
   },
@@ -225,6 +256,7 @@
     "governance": "Governance",
     "forum": "Forum",
     "wallet": "Portfolio",
+    "bridge": "Bridge",
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
@@ -242,7 +274,9 @@
         "startPrice": "Starts"
       },
       "inputLabel": "Enter Email Address",
-      "submitButton": "Sign up for Origins Updates"
+      "inputLabelName": "Name or Pseudonym",
+      "submitButton": "Sign up for Origins Updates",
+      "submitSuccess": "Successfully subscribed!"
     },
     "previousSales": {
       "title": "Previous Sales On Origins",
@@ -254,6 +288,66 @@
         "date": "Date",
         "saleDuration": "Sale Duration",
         "price": "Price"
+      }
+    },
+    "saleDay": {
+      "title": "{{token}} Origins Sale",
+      "engageWalletScreen": {
+        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "buttonText": "Engage Wallet",
+        "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
+        "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
+      },
+      "accessCodeVerificationStep": {
+        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "verified": "You have been given whitelist access to participate in the FISH Origins sale.",
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Sale.",
+        "cta": "Continue",
+        "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
+      },
+      "importantInformationStep": {
+        "title": "Important Information about the Origins Sale Process",
+        "information": {
+          "1": "Welcome to the SOV pre-order sale. In anticipation of the SOV token generation event (TGE), we are offering our early community members the opportunity to obtain community SOV (cSOV), subject to a bitocracy vote at SOV TGE.",
+          "2": "Shortly after SOV TGE, which will mark the launch of Sovryn Bitocracy v.2, the Sovryn governance members will cast their votes approving or rejecting the conversion of cSOV to SOV on a 1:1 basis. If this vote passes, cSOV holders will have the option to convert their cSOV to SOV.",
+          "3": "SOV received upon conversion from cSOV will be subject to a 10 month vesting period from the date of the end of SOV public sale, whereby 1/10 will be released approximately every 4 weeks until all converted SOV are transferable at the end of month 10.",
+          "4": "Please note that this will not be an automatic process, and will require an active opt-in by cSOV holders.",
+          "5": "cSOV holders that do not wish to convert their cSOV to SOV, will have the option to receive a refund of the funds they deposited as part of the pre-order sale for a period of up to two months after SOV TGE.",
+          "6": "If a cSOV holder does not actively opt-in to the cSOV to SOV conversion, they will automatically receive a refund of their pre-sale deposit, two months after the SOV TGE."
+        },
+        "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+        "submitButtonText": "I Understand"
+      },
+      "buyStep": {
+        "buyInformationLabels": {
+          "depositLimits": "Deposit limits",
+          "saleAllocation": "Sale Allocation",
+          "allocationRemaining": "Allocation Remaining",
+          "participatingWallets": "Participating Wallets",
+          "price": "Price",
+          "acceptedCurrencies": "Accepted currencies",
+          "tokenSaleEndTime": "Token Sale End Time"
+        },
+        "buyDialog": {
+          "enterAmount": "Enter Amount",
+          "tokenReceived": "{{token}} Received",
+          "transactionFee": "Transaction Fee",
+          "buyButton": "Buy {{token}}"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
+          "instruction2": "Please allow up to xx mins for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>",
+          "nftInstruction1": "By participating in the xxxxx xxxxxx xxxxx you earn this exclusive NFT, only minted for participants of this sale.  It will grant you super powers in the coming months so be sure to listen for announcements in the babelFish and Sovryn Discord channels.",
+          "nftInstruction2": "You will be able to view your NFT in your Sovryn portfolio after they are airdropped on the xxxxxxx"
+        }
+      },
+      "txDialog": {
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "txHash": "Tx Hash"
       }
     }
   },
@@ -319,6 +413,7 @@
       "protocol": "Protocol Contract",
       "lend": "Lending Contract",
       "amm": "Amm Contract",
+      "staked": "Bitocracy Staking Contract",
       "total": "Total"
     },
     "ammpool": {
@@ -344,6 +439,7 @@
   "swap": {
     "title": "Swap",
     "meta": "Swap",
+    "cta": "Swap",
     "minimumReceived": "Minimum received:",
     "send": "Send",
     "receive": "Receive"
@@ -437,8 +533,7 @@
       "delegate": "Delegate",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "withdraw": "Withdraw",
-      "withdrawFees": "Withdraw Fees"
+      "withdraw": "Withdraw"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
@@ -447,6 +542,7 @@
     "title": "Liquidity",
     "meta": "Add liquidity",
     "pool": "Pool",
+    "apy": "APY",
     "currency": "Currency",
     "currencySelect": "Select currency",
     "poolSelect": "Select pool",
@@ -457,6 +553,7 @@
     "fee": "fee",
     "supply": "Supply",
     "withdraw": "Withdraw",
+    "totalLiquidity": "Total Liquidity",
     "transfer": "Transfer",
     "transferNote": "Please initiate the transfer of your liquidity to our new pools",
     "v1": {
@@ -541,7 +638,8 @@
       "amount": "Amount to borrow",
       "tokenAssetCollateral": "Asset to collateralize and amount",
       "borrow": "Borrow",
-      "chooseDays": "Choose days"
+      "chooseDays": "Choose days",
+      "disabled": "This asset can't be borrowed."
     }
   },
   "activeUserBorrows": {
@@ -619,7 +717,8 @@
       "step3": "Select Custom RPC",
       "step4": "Input RSK Mainnet settings",
       "step5": "Click Save",
-      "step6": "Click Add Network"
+      "step6": "Click Add Network",
+      "connectButton": "Configure RSK in MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
@@ -852,6 +951,7 @@
     "meta": {
       "title": "Connected Wallet"
     },
+    "emptyVestTable": "You don't have any current vest",
     "tableHeaders": {
       "asset": "Asset",
       "totalBalance": "Total Balance",
@@ -862,12 +962,30 @@
     "actions": {
       "deposit": "Deposit",
       "fastBtc": "FastBTC",
+      "convert": "Convert to XUSD",
       "swap": "Swap",
       "trade": "Margin Trade",
       "buy": "Buy",
       "claimSov": "Claim SOV",
       "redeemRBTC": "Redeem rBTC",
       "withdraw": "Withdraw"
+    },
+    "convertDialog": {
+      "title": "Convert",
+      "from": "From",
+      "to": "To",
+      "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
     }
   },
   "swapHistory": {
@@ -1218,6 +1336,8 @@
     }
   },
   "liquidityMining": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
@@ -1266,7 +1386,8 @@
       }
     },
     "lootDropLink": "Learn more",
-    "chartOverlayText": "AER% Coming Soon!"
+    "chartOverlayText": "APY% Coming Soon!",
+    "recalibration": "Next recalibration on {{date}}"
   },
   "buySovPage": {
     "meta": {
@@ -1332,8 +1453,8 @@
         "cta": "Here’s how you get in"
       },
       "p3": {
-        "title": "40K SOV SOV/RBTC Pool Loot Drop!",
-        "text": "Take your share of 40K SOV rewards by providing liquidity to the SOV/RBTC pool until 30th May. That’s 40K SOV in just 7 days! Additional rolling weekly rewards will be announced shortly.",
+        "title": "30K SOV SOV/RBTC Pool Loot Drop!",
+        "text": "Take your share of 30K SOV rewards by providing liquidity to the SOV/RBTC pool. Additional rolling weekly rewards will be announced shortly.",
         "cta": "Earn now"
       },
       "p4": {

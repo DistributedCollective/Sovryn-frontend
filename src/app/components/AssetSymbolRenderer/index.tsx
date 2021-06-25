@@ -19,19 +19,30 @@ const symbolMap = {
       ETH<em>S</em>
     </>
   ),
+  [Asset.BNB]: (
+    <>
+      BNB<em>S</em>
+    </>
+  ),
 };
 
 export function getAssetSymbol(asset: Asset) {
   if (symbolMap.hasOwnProperty(asset)) {
     return symbolMap[asset];
   }
-  return AssetsDictionary.get(asset).symbol;
+  return AssetsDictionary.get(asset)?.symbol || asset;
 }
 
 interface IAssetSymbolRenderer {
-  asset: Asset;
+  asset?: Asset;
+  assetString?: string;
 }
 
 export const AssetSymbolRenderer: React.FC<IAssetSymbolRenderer> = ({
   asset,
-}) => <span className={styles.symbol}>{getAssetSymbol(asset)}</span>;
+  assetString,
+}) => (
+  <span className={styles.symbol}>
+    {asset ? getAssetSymbol(asset) : assetString}
+  </span>
+);

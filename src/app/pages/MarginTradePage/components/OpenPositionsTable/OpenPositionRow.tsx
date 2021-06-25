@@ -21,6 +21,7 @@ import { ClosePositionDialog } from '../ClosePositionDialog';
 import { CurrentPositionProfit } from '../../../../components/CurrentPositionProfit';
 import { PositionBlock } from './PositionBlock';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface Props {
   item: ActiveLoan;
@@ -28,6 +29,12 @@ interface Props {
 
 export function OpenPositionRow({ item }: Props) {
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
+    [States.ADD_TO_MARGIN_TRADES]: addToMarginLocked,
+  } = checkMaintenances();
+
   const [showAddToMargin, setShowAddToMargin] = useState(false);
   const [showClosePosition, setShowClosePosition] = useState(false);
 
@@ -113,14 +120,36 @@ export function OpenPositionRow({ item }: Props) {
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}
-              className="tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4"
+              className={`tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4 ${
+                addToMarginLocked && 'tw-cursor-not-allowed'
+              }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+              disabled={addToMarginLocked}
+              title={
+                (addToMarginLocked &&
+                  t(translations.maintenance.addToMarginTrades).replace(
+                    /<\/?\d+>/g,
+                    '',
+                  )) ||
+                undefined
+              }
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
               onClick={() => setShowClosePosition(true)}
-              className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 2xl:tw-pl-4 tw-pr-0"
+              className={`tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 2xl:tw-pl-4 tw-pr-0 ${
+                closeTradesLocked && 'tw-cursor-not-allowed'
+              }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+              disabled={closeTradesLocked}
+              title={
+                (closeTradesLocked &&
+                  t(translations.maintenance.closeMarginTrades).replace(
+                    /<\/?\d+>/g,
+                    '',
+                  )) ||
+                undefined
+              }
             />
           </div>
           <AddToMarginDialog

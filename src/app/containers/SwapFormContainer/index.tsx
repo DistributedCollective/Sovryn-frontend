@@ -4,8 +4,8 @@
  *
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -31,6 +31,14 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
+import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
+import { useAccount } from '../../hooks/useAccount';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import { Sovryn } from '../../../utils/sovryn';
+import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 const s = translations.swapTradeForm;
 
@@ -47,6 +55,8 @@ export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { connect } = useWalletContext();
+  const { checkMaintenance, States } = useMaintenance();
+  const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
@@ -55,33 +65,60 @@ export function SwapFormContainer() {
   const [sourceOptions, setSourceOptions] = useState<any[]>([]);
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
-
+  const account = useAccount();
   const weiAmount = useWeiAmount(amount);
-
   const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
     [],
   );
-
-  const getOptions = useCallback(() => {
-    return (tokens
-      .map(item => {
-        const asset = AssetsDictionary.getByTokenContractAddress(item);
-        if (!asset) {
-          return null;
-        }
-        return {
-          key: asset.asset,
-          label: asset.symbol,
-        };
-      })
-      .filter(item => item !== null) as unknown) as Option[];
-  }, [tokens]);
+  const [tokenBalance, setTokenBalance] = useState<any[]>([]);
+  const xusdExcludes = [Asset.USDT, Asset.DOC];
 
   useEffect(() => {
-    const newOptions = getOptions();
-    setSourceOptions(newOptions);
+    async function getOptions() {
+      try {
+        Promise.all(
+          tokens.map(async item => {
+            const asset = AssetsDictionary.getByTokenContractAddress(item);
+            if (!asset) {
+              return null;
+            }
+            let token: string = '';
+            if (account) {
+              if (asset.asset === Asset.RBTC) {
+                token = await Sovryn.getWeb3().eth.getBalance(account);
+              } else {
+                token = await contractReader.call(
+                  getTokenContractName(asset.asset),
+                  'balanceOf',
+                  [account],
+                );
+              }
+            }
+            return {
+              key: asset.asset,
+              label: asset.symbol,
+              value: token,
+            };
+          }),
+        ).then(result => {
+          setTokenBalance(result.filter(item => item !== null) as Option[]);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (tokens) {
+      getOptions();
+    }
+  }, [account, tokens]);
+
+  useEffect(() => {
+    const newOptions = tokenBalance;
+    if (newOptions) {
+      setSourceOptions(newOptions);
+    }
 
     if (
       !newOptions.find(item => item.key === sourceToken) &&
@@ -90,20 +127,54 @@ export function SwapFormContainer() {
       setSourceToken(newOptions[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokens, targetToken]);
+  }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
-    const newOptions = getOptions();
-    setTargetOptions(newOptions.filter(option => option.key !== sourceToken));
+    const newOptions = tokenBalance;
+    if (newOptions) {
+      setTargetOptions(
+        newOptions.filter(option => {
+          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+            return false;
+          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+            return false;
+          return option.key !== sourceToken;
+        }),
+      );
+    }
 
-    if (
+    let defaultTo: Asset | null = null;
+    if (sourceToken === targetToken) {
+      switch (targetToken) {
+        case Asset.RBTC: {
+          defaultTo = Asset.SOV;
+          break;
+        }
+        case Asset.SOV:
+        default: {
+          defaultTo = Asset.RBTC;
+          break;
+        }
+      }
+    }
+
+    if (defaultTo && newOptions.find(item => item.key === defaultTo)) {
+      setTargetToken(defaultTo);
+    } else if (
+      //default to RBTC if invalid XUSD pair used
+      ((sourceToken === Asset.XUSD && xusdExcludes.includes(targetToken)) ||
+        (xusdExcludes.includes(sourceToken) && targetToken === Asset.XUSD)) &&
+      newOptions.find(item => item.key === Asset.RBTC)
+    ) {
+      setTargetToken(Asset.RBTC);
+    } else if (
       !newOptions.find(item => item.key === targetToken) &&
       newOptions.length
     ) {
       setTargetToken(newOptions[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokens, sourceToken]);
+  }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),
@@ -125,13 +196,12 @@ export function SwapFormContainer() {
   useEffect(() => {
     const params: any = (state as any)?.params;
     if (params?.action && params?.action === 'swap' && params?.asset) {
-      const item = getOptions().find(item => item.key === params.asset);
+      const item = tokenBalance.find(item => item.key === params.asset);
       if (item) {
         setSourceToken(item.key);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, tokens]);
+  }, [state, tokens, tokenBalance]);
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
@@ -155,16 +225,16 @@ export function SwapFormContainer() {
 
   return (
     <>
-      {dialogOpen && (
-        <SlippageDialog
-          isOpen={dialogOpen}
-          amount={rateByPath}
-          value={slippage}
-          asset={targetToken}
-          onClose={() => setDialogOpen(false)}
-          onChange={value => setSlippage(value)}
-        />
-      )}
+      <SlippageDialog
+        isOpen={dialogOpen}
+        amount={rateByPath}
+        value={slippage}
+        asset={targetToken}
+        onClose={() => setDialogOpen(false)}
+        onChange={value => setSlippage(value)}
+      />
+
+      <Arbitrage />
 
       <div className="swap-form-container">
         <div className="swap-form swap-form-send">
@@ -231,11 +301,29 @@ export function SwapFormContainer() {
             onClick={() => setDialogOpen(true)}
           />
         </div>
-
+        {swapLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.swapTrades}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
         <BuyButton
-          disabled={tx.loading || (!validate && isConnected)}
+          disabled={tx.loading || (!validate && isConnected) || swapLocked}
           onClick={() => onSwap()}
-          text={isConnected ? 'SWAP' : 'Engage Wallet'}
+          text={t(translations.swap.cta)}
         />
       </div>
 

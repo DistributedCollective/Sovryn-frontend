@@ -26,7 +26,13 @@ import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
+import { currentNetwork } from 'utils/classifiers';
 import './index.scss';
+
+const bridgeURL =
+  currentNetwork === 'mainnet'
+    ? 'https://bridge.sovryn.app'
+    : 'https://bridge.test.sovryn.app/';
 
 export function Header() {
   const { t } = useTranslation();
@@ -157,6 +163,10 @@ export function Header() {
     },
     { to: '/stake', title: t(translations.mainMenu.staking) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
+    {
+      to: bridgeURL,
+      title: t(translations.mainMenu.bridge),
+    },
     { to: '/origins', title: t(translations.mainMenu.origins) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
@@ -264,12 +274,12 @@ export function Header() {
             </div>
           </div>
           <div className="xl:tw-flex tw-flex-row tw-items-center">
-            <div className="tw-mr-20">
+            <div className="tw-mr-5 2xl:tw-mr-20">
               <Link to="/">
                 <StyledLogo src={logoSvg} />
               </Link>
             </div>
-            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-5 xl:tw-space-x-10">
+            <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10">
               <NavPopover
                 content={
                   <BPMenu>
@@ -309,7 +319,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -351,7 +361,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-3 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -360,6 +370,13 @@ export function Header() {
               <NavPopover
                 content={
                   <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.staking)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/stake');
+                      }}
+                    />
                     <MenuItem
                       icon={
                         <img
@@ -372,13 +389,6 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.staking)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => {
-                        history.push('/stake');
-                      }}
                     />
                     <MenuItem
                       icon={
@@ -401,7 +411,7 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -423,16 +433,27 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="mr-1 tw-cursor-pointer">
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
                     {t(translations.mainMenu.rewards)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
 
-              <NavLink className="tw-header-link mr-4" to="/wallet">
+              <NavLink
+                className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                to="/wallet"
+              >
                 {t(translations.mainMenu.wallet)}
               </NavLink>
+              <a
+                href={bridgeURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tw-header-link"
+              >
+                {t(translations.mainMenu.bridge)}
+              </a>
               <NavLink className="tw-header-link" to="/origins">
                 {t(translations.mainMenu.origins)}
               </NavLink>
@@ -450,7 +471,7 @@ export function Header() {
             >
               {t(translations.mainMenu.help)}
             </a>
-            <div className="tw-mr-4">
+            <div className="2xl:tw-mr-4">
               <LanguageToggle />
             </div>
             <WalletConnector simpleView={false} />

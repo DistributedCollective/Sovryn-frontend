@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { min, bignumber } from 'mathjs';
+import { bignumber } from 'mathjs';
 
 import { Asset } from 'types/asset';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
-import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
 import { useLending_approveAndLend } from 'app/hooks/lending/useLending_approveAndLend';
 import { useLending_approveAndUnlend } from 'app/hooks/lending/useLending_approveAndUnlend';
 import { useLending_transactionLimit } from 'app/hooks/lending/useLending_transactionLimit';
@@ -22,6 +21,7 @@ import { TxType } from '../../../../store/global/transactions-store/types';
 import { ButtonType } from '../types';
 import { maxMinusFee } from '../../../../utils/helpers';
 import { useLending_assetBalanceOf } from '../../../hooks/lending/useLending_assetBalanceOf';
+import { useLending_tokenPrice } from '../../../hooks/lending/useLending_tokenPrice';
 
 type Props = {
   currency: Asset;
@@ -38,11 +38,8 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     setAmount(e);
   };
 
+  const { value: tokenPrice } = useLending_tokenPrice(currency);
   const { value: userBalance } = useAssetBalanceOf(currency as Asset);
-  const { value: depositedBalance } = useLending_balanceOf(
-    currency as Asset,
-    useAccount(),
-  );
   const { value: depositedAssetBalance } = useLending_assetBalanceOf(
     currency as Asset,
     useAccount(),
@@ -57,7 +54,9 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
     if (type === ButtonType.DEPOSIT) {
       amount = maxMinusFee(userBalance, currency);
       if (maxAmount !== '0') {
-        amount = min(maxMinusFee(userBalance, currency), bignumber(maxAmount));
+        if (bignumber(amount).greaterThan(maxAmount)) {
+          amount = maxAmount;
+        }
       }
     } else if (type === ButtonType.REDEEM) {
       amount = depositedAssetBalance;
@@ -74,9 +73,10 @@ const LendingContainer: React.FC<Props> = ({ currency }) => {
 
   const withdrawAmount = useMemo(() => {
     return bignumber(weiAmount)
-      .mul(bignumber(depositedBalance).div(depositedAssetBalance))
+      .mul(bignumber(1).div(tokenPrice))
+      .mul(10 ** 18)
       .toFixed(0);
-  }, [weiAmount, depositedBalance, depositedAssetBalance]);
+  }, [weiAmount, tokenPrice]);
 
   // LENDING
   const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -32,17 +32,23 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
 import { Asset } from '../../../../../types';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 interface Props {
   pool: LiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
+  onSuccess: () => void;
 }
 
 export function RemoveLiquidityDialog({ pool, ...props }: Props) {
   const { t } = useTranslation();
 
   const canInteract = useCanInteract();
+  const { checkMaintenance, States } = useMaintenance();
+  const removeliquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
   const [asset, setAsset] = useState(pool.poolAsset);
   const [amount, setAmount] = useState('0');
@@ -164,19 +170,43 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
             contractName="BTCWrapperProxy"
             className="tw-mt-6"
           />
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
 
-          <DialogButton
-            confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
-            onConfirm={() => handleConfirm()}
-            disabled={tx.loading || !valid || !canInteract}
-            className="tw-rounded-lg"
-          />
+          {removeliquidityLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.removeLiquidity}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+          {!removeliquidityLocked && (
+            <DialogButton
+              confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
+              onConfirm={() => handleConfirm()}
+              disabled={
+                tx.loading || !valid || !canInteract || removeliquidityLocked
+              }
+              className="tw-rounded-lg"
+            />
+          )}
         </div>
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TxDialog
+        tx={tx}
+        onUserConfirmed={() => props.onCloseModal()}
+        onSuccess={props.onSuccess}
+      />
     </>
   );
 }

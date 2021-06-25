@@ -62,40 +62,57 @@ export function TVL(props: Props) {
       usdValue: data?.tvlAmm?.totalUsd || 0,
     },
     {
+      contract: t(translations.statsPage.tvl.staked),
+      btcValue: data?.tvlStaking?.totalBtc || 0,
+      usdValue: data?.tvlStaking?.totalUsd || 0,
+    },
+    {
       contract: t(translations.statsPage.tvl.total),
       btcValue: data?.total_btc || 0,
       usdValue: data?.total_usd || 0,
     },
   ];
 
-  const rows = rowData.map((row, key) => (
-    <>
-      {loading ? (
-        <SkeletonRow key={key} />
-      ) : (
-        <tr
-          key={key}
-          className={`${
-            row.contract === 'Total' ? 'font-weight-bold border-top' : ''
-          }`}
-        >
-          <td>{row.contract}</td>
-          <td>
-            {row.btcValue?.toLocaleString('en', {
-              maximumFractionDigits: 4,
-              minimumFractionDigits: 4,
-            }) || <div className="bp3-skeleton">&nbsp;</div>}
-          </td>
-          <td>
-            {row.usdValue?.toLocaleString('en', {
-              maximumFractionDigits: 2,
-              minimumFractionDigits: 2,
-            }) || <div className="bp3-skeleton">&nbsp;</div>}
-          </td>
-        </tr>
-      )}
-    </>
-  ));
+  const rows = rowData.map((row, key) =>
+    loading ||
+    !(
+      row.btcValue &&
+      Number(row.btcValue) > 0 &&
+      row.usdValue &&
+      Number(row.usdValue) > 0
+    ) ? (
+      <tr key={key}>
+        <td>{row.contract}</td>
+        <td>
+          <SkeletonRow />
+        </td>
+        <td>
+          <SkeletonRow />
+        </td>
+      </tr>
+    ) : (
+      <tr
+        key={key}
+        className={`${
+          row.contract === 'Total' ? 'font-weight-bold border-top' : ''
+        }`}
+      >
+        <td>{row.contract}</td>
+        <td>
+          {row.btcValue?.toLocaleString('en', {
+            maximumFractionDigits: 4,
+            minimumFractionDigits: 4,
+          }) || <div className="bp3-skeleton">&nbsp;</div>}
+        </td>
+        <td>
+          {row.usdValue?.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          }) || <div className="bp3-skeleton">&nbsp;</div>}
+        </td>
+      </tr>
+    ),
+  );
 
   return (
     <div>

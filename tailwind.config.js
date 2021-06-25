@@ -129,9 +129,15 @@ module.exports = {
     },
     extend: {
       maxWidth: {
+        '7.5rem': '7.5rem',
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
+        '20rem': '20rem',
         '20.5rem': '20.5rem',
+        '28.75rem': '28.75rem',
+        '31.25rem': '31.25rem',
+        '40': '40%',
+        '45': '45%',
         '50': '50%',
         '65': '65%',
         '70': '70%',
@@ -157,6 +163,7 @@ module.exports = {
         '5.5': '1.375rem',
       },
       borderRadius: {
+        '5px': '0.3125rem',
         '10px': '0.625rem',
       },
       keyframes: {

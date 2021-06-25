@@ -4,7 +4,7 @@
 
 ## Install & Start
 
-Make sure you use at least 10 version of node.js.
+Make sure you use at least version 10 of Node.js.
 
 Install packages:
 
@@ -14,7 +14,7 @@ yarn
 
 If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
 
-Start app for development:
+Start DApp for development:
 
 ```shell
 yarn start
@@ -26,11 +26,11 @@ Build for production:
 yarn build
 ```
 
-Dapp uses private repository as a dependency, for this reason you may need to create private access token for your account here https://github.com/settings/tokens.
+The DApp includes a private repository as a dependency, for this reason you may need to create private access token for your account here https://github.com/settings/tokens.
 You will need to choose `repo` scope for the token.
 Export token `export CI_USER_TOKEN='ghp_xxxxx'` and run `./bin/gh-pack` to apply it.
 Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
-If yarn install fails after these steps please ask for read access to charting-library repository.
+If yarn install fails after these steps please ask for read access to the charting-library repository.
 
 ## Contributing
 
@@ -40,7 +40,7 @@ If yarn install fails after these steps please ask for read access to charting-l
 
 ### Bug Reports
 
-To encourage active collaboration, Sovryn strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
+To foster active collaboration, Sovryn strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
 
 However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 
@@ -57,7 +57,7 @@ Sovryn's GitHub issue trackers are not intended to provide help or support. Inst
 
 ### Core Development Discussion
 
-You may propose new features or improvements of existing dapp behavior in the Sovryn Ideas issue board. If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
+You may propose new features or improvements of existing DApp behavior in the Sovryn Ideas issue board. If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
 Informal discussion regarding bugs, new features, and implementation of existing features takes place in the #sorcery channel of the Sovryn Discord server.
 
@@ -86,4 +86,3 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 ## Licence
 
 The Sovryn DApp is open-sourced software licensed under the [MIT license](LICENSE).
-

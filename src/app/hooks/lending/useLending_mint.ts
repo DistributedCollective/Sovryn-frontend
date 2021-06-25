@@ -14,7 +14,7 @@ export function useLending_mint(asset: Asset, weiAmount: string) {
     send: (nonce?: number, approveTx?: string | null) =>
       asset === Asset.RBTC
         ? send(
-            [account],
+            [account, true],
             { from: account, value: weiAmount, nonce },
             {
               approveTransactionHash: approveTx,
@@ -22,7 +22,7 @@ export function useLending_mint(asset: Asset, weiAmount: string) {
             },
           )
         : send(
-            [account, weiAmount],
+            [account, weiAmount, true],
             { from: account, nonce },
             {
               approveTransactionHash: approveTx,
