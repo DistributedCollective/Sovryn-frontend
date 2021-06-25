@@ -10,6 +10,7 @@ export interface ISaleInformation {
   depositToken: Asset;
   depositType: DepositType;
   verificationType: VerificationType;
+  totalSaleAllocation: number;
 }
 
 export enum DepositType {

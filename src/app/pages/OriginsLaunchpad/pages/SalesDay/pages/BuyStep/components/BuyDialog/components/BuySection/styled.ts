@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const BuyWrapper = styled.div`
-  width: 66%;
+  width: 64%;
   height: 100%;
   border-radius: 1.25rem;
   background-color: #181818;

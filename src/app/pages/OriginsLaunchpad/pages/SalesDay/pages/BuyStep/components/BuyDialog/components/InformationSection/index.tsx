@@ -49,13 +49,13 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         </div>
       </div>
 
-      {/* <InfoItem
+      <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .saleAllocation,
         )}
-        value={`32,508,000 ${saleName}`}
-      /> */}
+        value={`${weiToNumberFormat(info.totalSaleAllocation)} ${saleName}`}
+      />
 
       <InfoItem
         label={t(
@@ -64,6 +64,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         )}
         value={
           <AllocationRemaining
+            totalSaleAllocation={info.totalSaleAllocation}
             remainingTokens={info.remainingTokens}
             saleName={saleName}
           />
