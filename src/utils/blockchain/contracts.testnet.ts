@@ -125,7 +125,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
+    address: '0x346f086079d250E97Ad64C60CCaCbd64A5E50B79',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -155,7 +155,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE',
+    address: '0xa84f851b62aCc3af633ce9fB497893Bb2571e810',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -248,7 +248,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x38729759415b27F70D5ca91CE357c45214B95Cf4',
+    address: '0x36B3b4C34906f6C6B5148b8d228cF6cD90837297',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
