@@ -889,7 +889,7 @@
     "emptyState": "Você não tem histórico de resgates SOV."
   },
   "vestedHistory": {
-    "title": "SOV resgatados",
+    "title": "SOV",
     "tableHeaders": {
       "time": "Data e hora",
       "vestingSchedule": "Cronograma",
