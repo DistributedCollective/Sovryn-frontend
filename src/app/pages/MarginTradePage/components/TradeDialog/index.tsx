@@ -32,8 +32,13 @@ import { useTranslation, Trans } from 'react-i18next';
 // import { Slider } from '../../../BuySovPage/components/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite, sovAffiliateCookie } from 'utils/classifiers';
+import {
+  discordInvite,
+  sovAffiliateCookie,
+  ethGenesisAddress,
+} from 'utils/classifiers';
 import { useCookie } from 'app/hooks/useCookie';
+import { useAffiliates_getAffiliatesUserReferrer } from 'app/hooks/affiliates/useAffiliates_getAffiliatesUserReferrer';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -50,12 +55,29 @@ export function TradeDialog() {
   // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
+  const { value, loading, error } = useAffiliates_getAffiliatesUserReferrer(
+    account,
+  );
+
   useEffect(() => {
-    const referralWallet = getCookie(sovAffiliateCookie);
-    if (referralWallet?.indexOf('0x') === 0 && referralWallet?.length === 42)
-      setReferrer(referralWallet.toLowerCase());
+    if (!loading) {
+      if (error) {
+        console.log(error, value);
+        return;
+      }
+      const referralWallet =
+        value !== ethGenesisAddress ? value : getCookie(sovAffiliateCookie);
+
+      if (
+        referralWallet?.indexOf('0x') === 0 &&
+        referralWallet?.length === 42
+      ) {
+        console.log(referralWallet);
+        setReferrer(referralWallet.toLowerCase());
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [error, value, loading]);
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
   const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
@@ -86,6 +108,7 @@ export function TradeDialog() {
       amount,
       ...(referrer ? [referrer] : []),
     });
+
   const txArgs = [
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
     toWei(String(leverage - 1), 'ether'),

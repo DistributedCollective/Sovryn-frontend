@@ -34,6 +34,12 @@
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "token",
@@ -80,6 +86,12 @@
         "indexed": true,
         "internalType": "address",
         "name": "referrer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "trader",
         "type": "address"
       },
       {

@@ -41,6 +41,7 @@ import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliat
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { CalculatedEvent } from 'app/containers/ReferralHistory';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 type CustomEventData = EventData & { eventDate: string };
 
@@ -77,7 +78,7 @@ function InnerReferralPage() {
   const { t } = useTranslation();
   const account = useAccount();
   const referralUrl = `https://live.sovryn.app/?ref=${account}`;
-  const referralList = useAffiliates_getReferralsList(account);
+  const { value: referralList } = useAffiliates_getReferralsList(account);
   const assets = AssetsDictionary.list().filter(
     item => ![Asset.CSOV, Asset.SOV].includes(item.asset),
   );
@@ -110,7 +111,7 @@ function InnerReferralPage() {
         eventDate: val.eventDate,
         transactionHash: val.transactionHash,
         referrer: val.returnValues.referrer,
-        //trader: string;
+        trader: val.returnValues.trader,
         token: tokenAsset,
         tradingFeeTokenAmount: val.returnValues.tradingFeeTokenAmount,
         tokenBonusAmount: val.returnValues.tokenBonusAmount,
@@ -144,11 +145,11 @@ function InnerReferralPage() {
             </h1>
             <div className="xl:tw-flex pt-3">
               <div className="xl:tw-w-1/3"></div>
-              <div className="xl:tw-w-1/3 tw-text-center">
+              <div className="tw-text-center">
                 <div className="tw-text-center mb-3">
                   <b>{t(translations.referral.refLink)}</b>
                 </div>
-                <div className="ref-link bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
+                <div className="ref-link bg-secondary tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
                   <CopyToClipboard
                     text={referralUrl}
                     onCopy={() =>
@@ -161,11 +162,11 @@ function InnerReferralPage() {
                       )
                     }
                   >
-                    <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between tw-items-center">
-                      <Text className="px-3" ellipsize>
-                        {prettyTx(`live.sovryn.app/?ref=${account}`, 24, 4)}
+                    <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between tw-items-center tw-pl-6">
+                      <Text className="tw-font-thin" ellipsize>
+                        {prettyTx(`live.sovryn.app/?ref=${account}`, 28, 6)}
                       </Text>
-                      <div className="tw-ml-4 btn-copy">
+                      <div className="tw-ml-10 tw-rounded-r btn-copy">
                         <img src={iconDuplicate} alt="Copy" />
                       </div>
                     </div>
@@ -227,51 +228,71 @@ function InnerReferralPage() {
                 {t(translations.referral.numberReferrals)}
               </p>
               <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
-                {referralList?.value?.length || 0}
+                {referralList?.length || 0}
               </p>
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
                 {t(translations.referral.rewardSOVEarned)}
               </p>
-              <p className="tw-text-2xl tw-mt-2 tw-mb-6">
-                {sovEarned > 0 ? (
-                  <Tooltip content={weiTo18(sovEarned)} className="tw-block">
-                    <div>{weiToNumberFormat(sovEarned, 12)} SOV</div>
-                  </Tooltip>
-                ) : (
-                  '0 SOV'
-                )}
-              </p>
+              <div className="tw-text-2xl tw-mt-2 tw-mb-6">
+                <div className="tw-mb-3">
+                  {sovEarned > 0 ? (
+                    <Tooltip content={weiTo18(sovEarned)} className="tw-block">
+                      <div>{weiToNumberFormat(sovEarned, 12)} SOV</div>
+                    </Tooltip>
+                  ) : (
+                    '0 SOV'
+                  )}
+                </div>
+                <ActionButton
+                  text={t(translations.referral.claim)}
+                  onClick={() => {}}
+                  className="tw-block tw-w-1/2 tw-rounded-lg"
+                  textClassName="tw-text-base"
+                  disabled={true}
+                />
+              </div>
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
-              <p className="tw-text-lg tw-mt-1">
+              <p className="tw-text-lg">
                 {t(translations.referral.feesEarned)}
               </p>
-              <p className="xl:tw-text-base tw-text-sm tw-mt-2 tw-mb-6">
-                {Object.keys(feesEarned).map(
-                  key =>
-                    feesEarned[key] > 0 && (
-                      <div>
-                        <Tooltip
-                          content={weiTo18(feesEarned[key])}
-                          className="tw-block"
-                        >
-                          <div>
-                            {weiToNumberFormat(feesEarned[key], 14)}{' '}
-                            <AssetSymbolRenderer asset={key as Asset} />
-                          </div>
-                        </Tooltip>
-                      </div>
-                    ),
-                )}
-              </p>
+              <div className="xl:tw-text-base tw-text-sm tw-mt-2 tw-mb-6">
+                <div className="tw-mb-3">
+                  {loading || !feesEarned ? (
+                    <>
+                      <div className="bp3-skeleton tw-h-5" />
+                      <div className="bp3-skeleton tw-h-5 tw-mt-2" />
+                    </>
+                  ) : (
+                    Object.entries(feesEarned).map(
+                      ([key, fee]) =>
+                        fee > 0 && (
+                          <Tooltip content={weiTo18(fee)} className="tw-block">
+                            <>
+                              {weiToNumberFormat(fee, 14)}{' '}
+                              <AssetSymbolRenderer asset={key as Asset} />
+                            </>
+                          </Tooltip>
+                        ),
+                    )
+                  )}
+                </div>
+                <ActionButton
+                  text={t(translations.referral.claim)}
+                  onClick={() => {}}
+                  className="tw-block tw-w-1/2 tw-rounded-lg"
+                  textClassName="tw-text-base"
+                  disabled={true}
+                />
+              </div>
             </div>
           </div>
-          <p className="tw-text-lg mt-5">
+          <p className="tw-text-lg tw-mt-14 tw-mb-2">
             {t(translations.referral.referralHistory)}
           </p>
-          <ReferralHistory items={events} />
+          <ReferralHistory items={events} referralList={referralList} />
         </div>
       </Main>
       <Footer />

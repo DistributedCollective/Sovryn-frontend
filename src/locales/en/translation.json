@@ -1166,7 +1166,7 @@
     "claimForm": {
       "title": "Available Rewards",
       "availble": "Total Reward SOV Available:",
-      "cta": "claim",
+      "cta": "Claim",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
@@ -1475,14 +1475,18 @@
     "referralHistory": "Referral History",
     "terms": "Terms and Conditions",
     "text": "Expand your Sovryn Web Of Trust to earn <1>$SOV bonus rewards and .01% of fees</1> on every transaction made by new wallets created with your unique referral link.",
+    "claim": "Claim",
     "tableHeaders": {
       "date": "Date/Time",
       "type": "Type",
       "from": "From",
-      "amount": "Amount",
+      "sovAmount": "Reward SOV Earned",
+      "feesAmount": "Fees Earned",
       "hash": "Transaction Hash",
       "status": "Status"
     },
-    "tableEmpty": "No referral events."
+    "tableEmpty": "No referral events.",
+    "referralFrom": "Referral",
+    "referralUnknown": "Unknown Referral"
   }
 }

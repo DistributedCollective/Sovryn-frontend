@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortBy, useTable } from 'react-table';
 import { Tooltip } from '@blueprintjs/core';
@@ -18,7 +18,7 @@ export interface CalculatedEvent {
   eventDate: string;
   transactionHash: string;
   referrer: string;
-  //trader: string;
+  trader: string;
   token: Asset;
   tradingFeeTokenAmount: string;
   tokenBonusAmount: string;
@@ -26,72 +26,94 @@ export interface CalculatedEvent {
   sovBonusAmountPaid: string;
 }
 
-export function ReferralHistory(props: { items: CalculatedEvent[] }) {
+interface Props {
+  items: CalculatedEvent[];
+  referralList: string[];
+}
+
+export function ReferralHistory({ items, referralList }: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const pageLimit = 10;
 
   const data = React.useMemo(() => {
-    return props.items
+    return items
       .sort((a, b) => b.blockNumber - a.blockNumber)
       .slice(page * pageLimit - pageLimit, page * pageLimit)
-      .map(item => ({
-        item: item,
-        date: (
-          <>
-            <DisplayDate
-              timestamp={(Date.parse(item.eventDate) / 1e3).toString()}
-              timezoneOption="UTC"
-              timezoneLabel="UTC"
+      .map(item => {
+        const trader = referralList.indexOf(item.trader);
+        return {
+          item: item,
+          date: (
+            <>
+              <DisplayDate
+                timestamp={(Date.parse(item.eventDate) / 1e3).toString()}
+                timezoneOption="UTC"
+                timezoneLabel="UTC"
+              />
+            </>
+          ),
+          from: (
+            <>
+              {trader > -1
+                ? `${t(translations.referral.referralFrom)} #${trader + 1}`
+                : t(translations.referral.referralUnknown)}
+            </>
+          ),
+          sovAmount: (
+            <>
+              <Tooltip
+                content={weiTo18(item.sovBonusAmountPaid)}
+                className="tw-block"
+              >
+                <div>{weiToNumberFormat(item.sovBonusAmountPaid, 14)} SOV</div>
+              </Tooltip>
+            </>
+          ),
+          amount: (
+            <>
+              <Tooltip
+                content={weiTo18(item.tradingFeeTokenAmount)}
+                className="tw-block"
+              >
+                <div>
+                  {weiToNumberFormat(item.tradingFeeTokenAmount, 14)}{' '}
+                  <AssetSymbolRenderer asset={item.token} />
+                </div>
+              </Tooltip>
+            </>
+          ),
+          txHash: (
+            <LinkToExplorer
+              txHash={item.transactionHash}
+              className="tw-text-primary tw-truncate"
+              startLength={5}
+              endLength={5}
             />
-          </>
-        ),
-        //from: (<>{item.trader}</>),
-        from: <>Referral #xxx</>,
-        amount: (
-          <>
-            <Tooltip
-              content={weiTo18(item.tradingFeeTokenAmount)}
-              className="tw-block"
-            >
-              <div>
-                {weiToNumberFormat(item.tradingFeeTokenAmount, 14)}{' '}
-                <AssetSymbolRenderer asset={item.token} />
-              </div>
-            </Tooltip>
-            <Tooltip
-              content={weiTo18(item.sovBonusAmountPaid)}
-              className="tw-block"
-            >
-              <div>{weiToNumberFormat(item.sovBonusAmountPaid, 14)} SOV</div>
-            </Tooltip>
-          </>
-        ),
-        txHash: (
-          <LinkToExplorer
-            txHash={item.transactionHash}
-            className="tw-text-primary tw-truncate"
-            startLength={5}
-            endLength={5}
-          />
-        ),
-        status: <div>Confirmed</div>,
-      }))
+          ),
+          status: <div>Confirmed</div>,
+        };
+      })
       .filter(item => !!item);
-  }, [props.items, page, pageLimit]);
+  }, [items, page, referralList, t]);
 
   const columns = React.useMemo(
     () => [
       {
         Header: t(translations.referral.tableHeaders.date),
         accessor: 'date',
+        className: 'tw-p-8',
       },
       {
         Header: t(translations.referral.tableHeaders.from),
         accessor: 'from',
       },
       {
-        Header: t(translations.referral.tableHeaders.amount),
+        Header: t(translations.referral.tableHeaders.sovAmount),
+        accessor: 'sovAmount',
+      },
+      {
+        Header: t(translations.referral.tableHeaders.feesAmount),
         accessor: 'amount',
       },
       {
@@ -127,7 +149,7 @@ export function ReferralHistory(props: { items: CalculatedEvent[] }) {
               {headerGroup.headers.map(column => (
                 <th
                   {...column.getHeaderProps({
-                    className: column.className,
+                    className: column.headerClassName,
                     ...column.getSortByToggleProps(),
                   })}
                 >
@@ -165,9 +187,9 @@ export function ReferralHistory(props: { items: CalculatedEvent[] }) {
         </tbody>
       </table>
 
-      {props.items.length > 0 && (
+      {items.length > 0 && (
         <Pagination
-          totalRecords={props.items.length}
+          totalRecords={items.length}
           pageLimit={pageLimit}
           pageNeighbours={1}
           onChange={onPageChanged}
