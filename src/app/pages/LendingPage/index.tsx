@@ -9,6 +9,7 @@ import { Footer } from '../../components/Footer';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
+import { HistoryTable } from './components/HistoryTable';
 // import { Asset } from 'types';
 
 const LendingPage: React.FC = () => {
@@ -39,6 +40,13 @@ const LendingPage: React.FC = () => {
 
         <div className={'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32'}>
           <CurrencyContainer />
+        </div>
+
+        <div className="tw-mt-10">
+          <div className="tw-px-3 tw-text-lg">
+            {t(translations.liquidityMining.historyTable.title)}
+          </div>
+          <HistoryTable />
         </div>
       </div>
 
