@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import {
   TelegramShareButton,
@@ -79,8 +79,12 @@ function InnerReferralPage() {
   const account = useAccount();
   const referralUrl = `https://live.sovryn.app/?ref=${account}`;
   const { value: referralList } = useAffiliates_getReferralsList(account);
-  const assets = AssetsDictionary.list().filter(
-    item => ![Asset.CSOV, Asset.SOV].includes(item.asset),
+  const assets = useMemo(
+    () =>
+      AssetsDictionary.list().filter(
+        item => ![Asset.CSOV, Asset.SOV].includes(item.asset),
+      ),
+    [],
   );
   const { events: pastEvents, loading } = useGetContractPastEvents(
     'affiliates',
@@ -126,13 +130,13 @@ function InnerReferralPage() {
   }, []);
 
   useEffect(() => {
-    // console.log('PayTradingFeeToAffiliate', pastEvents, loading);
     if (account) {
       parseEvents(pastEvents as CustomEventData[]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, JSON.stringify(pastEvents)]);
 
+  const feesTotal = Object.values(feesEarned).reduce((a, curr) => a + curr, 0);
   return (
     <>
       <Header />
@@ -233,7 +237,7 @@ function InnerReferralPage() {
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.rewardSOVEarned)}
+                {t(translations.referral.rewardSOVEarned)}:
               </p>
               <div className="tw-text-2xl tw-mt-2 tw-mb-6">
                 <div className="tw-mb-3">
@@ -245,31 +249,28 @@ function InnerReferralPage() {
                     '0 SOV'
                   )}
                 </div>
-                <ActionButton
-                  text={t(translations.referral.claim)}
-                  onClick={() => {}}
-                  className="tw-block tw-w-1/2 tw-rounded-lg"
-                  textClassName="tw-text-base"
-                  disabled={true}
-                />
               </div>
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg">
-                {t(translations.referral.feesEarned)}
+                {t(translations.referral.feesEarned)}:
               </p>
-              <div className="xl:tw-text-base tw-text-sm tw-mt-2 tw-mb-6">
+              <div className="tw-mt-2 tw-mb-6">
                 <div className="tw-mb-3">
                   {loading || !feesEarned ? (
                     <>
                       <div className="bp3-skeleton tw-h-5" />
                       <div className="bp3-skeleton tw-h-5 tw-mt-2" />
                     </>
-                  ) : (
+                  ) : feesTotal > 0 ? (
                     Object.entries(feesEarned).map(
                       ([key, fee]) =>
                         fee > 0 && (
-                          <Tooltip content={weiTo18(fee)} className="tw-block">
+                          <Tooltip
+                            content={weiTo18(fee)}
+                            className="tw-block xl:tw-text-base tw-text-sm"
+                            key={key}
+                          >
                             <>
                               {weiToNumberFormat(fee, 14)}{' '}
                               <AssetSymbolRenderer asset={key as Asset} />
@@ -277,6 +278,10 @@ function InnerReferralPage() {
                           </Tooltip>
                         ),
                     )
+                  ) : (
+                    <div className="tw-text-lg">
+                      {`0 ${t(translations.referral.feesEarned)}`}
+                    </div>
                   )}
                 </div>
                 <ActionButton
@@ -284,7 +289,7 @@ function InnerReferralPage() {
                   onClick={() => {}}
                   className="tw-block tw-w-1/2 tw-rounded-lg"
                   textClassName="tw-text-base"
-                  disabled={true}
+                  disabled={true} //disabled till contracts updated to allow for withdrawing all fees at once
                 />
               </div>
             </div>

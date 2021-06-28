@@ -1469,7 +1469,7 @@
     "isConnected": "Please connect with your wallet to use referral system.",
     "refLink": "Share your unique referral link",
     "feesEarned": "Fees Earned",
-    "rewardSOVEarned": "Reward SOV Earned",
+    "rewardSOVEarned": "Liquid SOV Earned",
     "numberReferrals": "Number of referrals",
     "linkCopied": "Your link copied to clipboard",
     "referralHistory": "Referral History",
@@ -1480,7 +1480,7 @@
       "date": "Date/Time",
       "type": "Type",
       "from": "From",
-      "sovAmount": "Reward SOV Earned",
+      "sovAmount": "Liquid SOV Earned",
       "feesAmount": "Fees Earned",
       "hash": "Transaction Hash",
       "status": "Status"

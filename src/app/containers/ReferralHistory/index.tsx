@@ -8,6 +8,8 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Asset } from 'types';
 
+import iconSuccess from 'assets/images/icon-success.svg';
+
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Pagination } from 'app/components/Pagination';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
@@ -91,7 +93,18 @@ export function ReferralHistory({ items, referralList }: Props) {
               endLength={5}
             />
           ),
-          status: <div>Confirmed</div>,
+          status: (
+            <div className="d-flex tw-items-center">
+              <>{t(translations.common.confirmed)}</>
+              <div className="tw-ml-2">
+                <img
+                  src={iconSuccess}
+                  title={t(translations.common.confirmed)}
+                  alt={t(translations.common.confirmed)}
+                />
+              </div>
+            </div>
+          ),
         };
       })
       .filter(item => !!item);
