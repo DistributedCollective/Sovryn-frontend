@@ -18,10 +18,10 @@ const LendingPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t(translations.escrowPage.meta.title)}</title>
+        <title>{t(translations.lendingPage.meta.title)}</title>
         <meta
           name="description"
-          content={t(translations.escrowPage.meta.description)}
+          content={t(translations.lendingPage.meta.description)}
         />
       </Helmet>
       <Header />
@@ -44,7 +44,7 @@ const LendingPage: React.FC = () => {
 
         <div className="tw-mt-10">
           <div className="tw-px-3 tw-text-lg">
-            {t(translations.liquidityMining.historyTable.title)}
+            {t(translations.lendingPage.historyTable.title)}
           </div>
           <HistoryTable />
         </div>

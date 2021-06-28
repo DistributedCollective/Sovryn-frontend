@@ -1047,6 +1047,10 @@
   "lendingPage": {
     "deposit": "Deposit",
     "withdraw": "Withdraw",
+    "meta": {
+      "title": "Lend",
+      "description": "Lending Page"
+    },
     "tabs": {
       "deposit": "Deposit",
       "redeem": "Redeem"
@@ -1099,6 +1103,19 @@
         "amount": "Amount:",
         "reward": "Reward:",
         "depositBalance": "Your deposit: <0/> <1/>"
+      }
+    },
+    "historyTable": {
+      "title": "Lending History",
+      "emptyState": "History is empty.",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "lendingAmount": "Lending Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
       }
     }
   },

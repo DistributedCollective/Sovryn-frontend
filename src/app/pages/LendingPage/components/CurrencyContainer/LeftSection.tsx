@@ -48,19 +48,20 @@ const LeftSection: React.FC<Props> = ({ asset }) => {
 
   return (
     <div className="tw-flex tw-items-center tw-mr-4">
-      <PieChart
-        firstAsset={asset}
-        secondColor={secondColor}
-        firstPercentage={loading ? 100 : firstPercentage}
-        secondPercentage={loading ? 0 : 100 - firstPercentage}
-      />
+      {(loading || marketLiquidity) && (
+        <PieChart
+          firstAsset={asset}
+          secondColor={secondColor}
+          firstPercentage={loading ? 100 : firstPercentage}
+          secondPercentage={loading ? 0 : 100 - firstPercentage}
+        />
+      )}
       <div
         style={{ minWidth: 105 }}
         className="tw-flex tw-items-center tw-ml-4"
       >
         <AssetRenderer asset={asset} showImage />
       </div>
-
       <div className="tw-flex tw-flex-col tw-gap-y-4">
         <div className="tw-flex tw-items-center">
           <span

@@ -2,7 +2,7 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
 import { LiquidityPool } from 'utils/models/liquidity-pool';
-import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer/index';
+import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer';
 import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
@@ -30,13 +30,9 @@ export const TableRow: React.FC<ITableRowProps> = ({
         <DisplayDate timestamp={new Date(time).getTime().toString()} />
       </td>
       <td>
-        <TablePoolRenderer
-          asset={pool?.supplyAssets[0]?.asset}
-          secondaryAsset={pool?.supplyAssets[1]?.asset}
-        />
+        <TablePoolRenderer asset={asset} />
       </td>
       <td>{type}</td>
-      <td>{asset}</td>
       <td>
         {amount} {asset}
       </td>
