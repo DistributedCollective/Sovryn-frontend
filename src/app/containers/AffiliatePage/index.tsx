@@ -33,13 +33,13 @@ import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { toaster } from 'utils/toaster';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { ReferralHistory } from '../../containers/ReferralHistory';
+import { AffiliateHistory } from '../AfilliateHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { prettyTx } from 'utils/helpers';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliates_getReferralsList';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { CalculatedEvent } from 'app/containers/ReferralHistory';
+import { CalculatedEvent } from 'app/containers/AfilliateHistory';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
@@ -49,11 +49,11 @@ type EarnedFees = {
   [asset: string]: number;
 };
 
-export function ReferralPage() {
+export function AffiliatePage() {
   const { t } = useTranslation();
   const connected = useIsConnected();
   if (connected) {
-    return <InnerReferralPage />;
+    return <InnerAffiliatePage />;
   }
 
   return (
@@ -62,10 +62,10 @@ export function ReferralPage() {
       <Main>
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12 font-family-montserrat">
           <h1 className="tw-text-center tw-w-full mt-4 mb-5">
-            {t(translations.referral.title)}
+            {t(translations.affiliates.title)}
           </h1>
           <div className="w-full bg-gray-light text-center rounded-b shadow p-3">
-            <i>{t(translations.referral.isConnected)}</i>
+            <i>{t(translations.affiliates.isConnected)}</i>
           </div>
         </div>
       </Main>
@@ -74,7 +74,7 @@ export function ReferralPage() {
   );
 }
 
-function InnerReferralPage() {
+function InnerAffiliatePage() {
   const { t } = useTranslation();
   const account = useAccount();
   const referralUrl = `https://live.sovryn.app/?ref=${account}`;
@@ -145,13 +145,13 @@ function InnerReferralPage() {
           <Banner>
             <Img className="xl:tw-absolute" src={refBanner} alt="banner" />
             <h1 className="tw-text-center tw-w-full mt-4 mb-5">
-              {t(translations.referral.title)}
+              {t(translations.affiliates.title)}
             </h1>
             <div className="xl:tw-flex pt-3">
               <div className="xl:tw-w-1/3"></div>
               <div className="tw-text-center">
                 <div className="tw-text-center mb-3">
-                  <b>{t(translations.referral.refLink)}</b>
+                  <b>{t(translations.affiliates.refLink)}</b>
                 </div>
                 <div className="ref-link bg-secondary tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
                   <CopyToClipboard
@@ -159,7 +159,7 @@ function InnerReferralPage() {
                     onCopy={() =>
                       toaster.show(
                         {
-                          message: t(translations.referral.linkCopied),
+                          message: t(translations.affiliates.linkCopied),
                           intent: 'success',
                         },
                         'link-copy',
@@ -212,7 +212,7 @@ function InnerReferralPage() {
               </div>
               <div className="xl:tw-w-1/3">
                 <p className="ref-info">
-                  <Trans i18nKey={translations.referral.text}>
+                  <Trans i18nKey={translations.affiliates.text}>
                     Expand your Sovryn Web Of Trust to earn
                     <strong>$SOV bonus rewards and .01% of fees</strong> on
                     every transaction made by new wallets created with your
@@ -220,7 +220,7 @@ function InnerReferralPage() {
                   </Trans>
                   <br />
                   <a href="#!" target="_blank">
-                    {t(translations.referral.terms)}
+                    {t(translations.affiliates.terms)}
                   </a>
                 </p>
               </div>
@@ -229,7 +229,7 @@ function InnerReferralPage() {
           <div className="tw-flex tw-flex-wrap xl:tw-flex-nowrap tw-items-stretch tw-justify-around ref-rewards">
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.numberReferrals)}
+                {t(translations.affiliates.numberReferrals)}
               </p>
               <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                 {referralList?.length || 0}
@@ -237,7 +237,7 @@ function InnerReferralPage() {
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg tw--mt-1">
-                {t(translations.referral.rewardSOVEarned)}:
+                {t(translations.affiliates.rewardSOVEarned)}:
               </p>
               <div className="tw-text-2xl tw-mt-2 tw-mb-6">
                 <div className="tw-mb-3">
@@ -253,7 +253,7 @@ function InnerReferralPage() {
             </div>
             <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg">
-                {t(translations.referral.feesEarned)}:
+                {t(translations.affiliates.feesEarned)}:
               </p>
               <div className="tw-mt-2 tw-mb-6">
                 <div className="tw-mb-3">
@@ -280,12 +280,12 @@ function InnerReferralPage() {
                     )
                   ) : (
                     <div className="tw-text-lg">
-                      {`0 ${t(translations.referral.feesEarned)}`}
+                      {`0 ${t(translations.affiliates.feesEarned)}`}
                     </div>
                   )}
                 </div>
                 <ActionButton
-                  text={t(translations.referral.claim)}
+                  text={t(translations.affiliates.claim)}
                   onClick={() => {}}
                   className="tw-block tw-w-1/2 tw-rounded-lg"
                   textClassName="tw-text-base"
@@ -295,9 +295,9 @@ function InnerReferralPage() {
             </div>
           </div>
           <p className="tw-text-lg tw-mt-14 tw-mb-2">
-            {t(translations.referral.referralHistory)}
+            {t(translations.affiliates.referralHistory)}
           </p>
-          <ReferralHistory items={events} referralList={referralList} />
+          <AffiliateHistory items={events} referralList={referralList} />
         </div>
       </Main>
       <Footer />

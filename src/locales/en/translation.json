@@ -1464,7 +1464,7 @@
       "withdrawButton": "Withdraw"
     }
   },
-  "referral": {
+  "affiliates": {
     "title": "Join the SWOT Team and Earn Crypto",
     "isConnected": "Please connect with your wallet to use referral system.",
     "refLink": "Share your unique referral link",

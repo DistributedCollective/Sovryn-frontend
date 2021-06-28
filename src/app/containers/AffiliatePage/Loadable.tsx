@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for ReferralPage
+ * Asynchronously loads the component for AffiliatePage
  *
  */
 
@@ -8,8 +8,8 @@ import React from 'react';
 import { lazyLoad } from 'utils/loadable';
 import { PageSkeleton } from '../../components/PageSkeleton';
 
-export const ReferralPage = lazyLoad(
+export const AffiliatePage = lazyLoad(
   () => import('./index'),
-  module => module.ReferralPage,
+  module => module.AffiliatePage,
   { fallback: <PageSkeleton /> },
 );

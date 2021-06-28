@@ -33,7 +33,7 @@ interface Props {
   referralList: string[];
 }
 
-export function ReferralHistory({ items, referralList }: Props) {
+export function AffiliateHistory({ items, referralList }: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const pageLimit = 10;
@@ -58,8 +58,8 @@ export function ReferralHistory({ items, referralList }: Props) {
           from: (
             <>
               {trader > -1
-                ? `${t(translations.referral.referralFrom)} #${trader + 1}`
-                : t(translations.referral.referralUnknown)}
+                ? `${t(translations.affiliates.referralFrom)} #${trader + 1}`
+                : t(translations.affiliates.referralUnknown)}
             </>
           ),
           sovAmount: (
@@ -113,28 +113,28 @@ export function ReferralHistory({ items, referralList }: Props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: t(translations.referral.tableHeaders.date),
+        Header: t(translations.affiliates.tableHeaders.date),
         accessor: 'date',
         className: 'tw-p-8',
       },
       {
-        Header: t(translations.referral.tableHeaders.from),
+        Header: t(translations.affiliates.tableHeaders.from),
         accessor: 'from',
       },
       {
-        Header: t(translations.referral.tableHeaders.sovAmount),
+        Header: t(translations.affiliates.tableHeaders.sovAmount),
         accessor: 'sovAmount',
       },
       {
-        Header: t(translations.referral.tableHeaders.feesAmount),
+        Header: t(translations.affiliates.tableHeaders.feesAmount),
         accessor: 'amount',
       },
       {
-        Header: t(translations.referral.tableHeaders.hash),
+        Header: t(translations.affiliates.tableHeaders.hash),
         accessor: 'txHash',
       },
       {
-        Header: t(translations.referral.tableHeaders.status),
+        Header: t(translations.affiliates.tableHeaders.status),
         accessor: 'status',
       },
     ],
@@ -176,7 +176,7 @@ export function ReferralHistory({ items, referralList }: Props) {
           {!rows?.length && (
             <tr key="empty">
               <td className="text-center" colSpan={columns.length}>
-                {t(translations.referral.tableEmpty)}
+                {t(translations.affiliates.tableEmpty)}
               </td>
             </tr>
           )}
