@@ -30,7 +30,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
 
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
+      <div className="tw-ml-5 tw-w-full">
         <ActionButton
           text={t(translations.lendingPage.deposit)}
           onClick={() => setDialog('add')}
@@ -87,5 +87,11 @@ export default CurrencyRow;
 const ChartWrapper = styled.div`
   @media (max-width: 1350px) {
     display: none;
+  }
+  @media (min-width: 1350px) {
+    max-width: 20.5rem;
+  }
+  @media (min-width: 1500px) {
+    max-width: 30rem;
   }
 `;
