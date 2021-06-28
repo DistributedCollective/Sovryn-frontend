@@ -172,6 +172,14 @@ export function Header() {
       title: t(translations.mainMenu.governance),
     },
     { to: '/stake', title: t(translations.mainMenu.staking) },
+    {
+      to: 'https://forum.sovryn.app',
+      title: t(translations.mainMenu.forum),
+    },
+    {
+      to: '/affiliate',
+      title: t(translations.mainMenu.affiliate),
+    },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     {
       to: bridgeURL,
@@ -250,7 +258,7 @@ export function Header() {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
-      [SECTION_TYPE.REWARDS]: ['/reward'],
+      [SECTION_TYPE.REWARDS]: ['/reward', '/affiliate'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
     };
     return section && paths[section].includes(location.pathname);
@@ -430,6 +438,11 @@ export function Header() {
               <NavPopover
                 content={
                   <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.affiliate)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/affiliate')}
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.reward)}
                       className="bp3-popover-dismiss"
