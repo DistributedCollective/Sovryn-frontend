@@ -13,6 +13,7 @@ import { ContractName } from '../../../../../utils/types/contracts';
 import { useEstimateContractGas } from '../../../../hooks/useEstimateGas';
 import cn from 'classnames';
 import { gas } from '../../../../../utils/blockchain/gas-price';
+import { bignumber } from 'mathjs';
 
 interface Props {
   symbol?: string;
@@ -33,6 +34,13 @@ export function TxFeeCalculator(props: Props) {
     props.txConfig,
     props.condition,
   );
+  const gasData = React.useMemo(() => {
+    const data = props.txConfig?.gas
+      ? bignumber(props.txConfig?.gas).mul(gas.get())
+      : fromWei(value);
+    return data;
+  }, [props.txConfig, value]);
+
   return (
     <div
       className={cn(
@@ -50,10 +58,7 @@ export function TxFeeCalculator(props: Props) {
               loading={loading}
               tooltip={
                 <>
-                  {props.txConfig?.gas
-                    ? Number(props.txConfig?.gas) * Number(gas.get())
-                    : fromWei(value)}{' '}
-                  {props.symbol}
+                  {gasData} {props.symbol}
                   <br />
                   <small className="tw-text-muted">
                     (gas price:{' '}
