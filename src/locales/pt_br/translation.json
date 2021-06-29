@@ -8,7 +8,7 @@
     "confirm": "Confirmar",
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
-    "pending": "Pendente",
+    "pending": "Pendente", }
     "confirmed": "Confirmada",
     "failed": "Falhou",
     "deposit": "Depositar",
@@ -987,6 +987,19 @@
         "amount": "Quantidade:",
         "reward": "Recompensa:",
         "depositBalance": "Você emprestou: <0/> <1/>"
+    }
+  },
+  "historyTable": {
+      "title": "Histórico",
+      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "lendingAmount": "Quantidade emprestada",
+        "transactionHash": "ID transação",
+        "status": "Status"
       }
     }
   },
