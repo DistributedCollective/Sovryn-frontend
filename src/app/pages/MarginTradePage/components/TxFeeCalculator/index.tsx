@@ -36,7 +36,7 @@ export function TxFeeCalculator(props: Props) {
   );
   const gasData = React.useMemo(() => {
     const data = props.txConfig?.gas
-      ? bignumber(props.txConfig?.gas).mul(gas.get())
+      ? fromWei(bignumber(props.txConfig?.gas).mul(gas.get()))
       : fromWei(value);
     return data;
   }, [props.txConfig, value]);
