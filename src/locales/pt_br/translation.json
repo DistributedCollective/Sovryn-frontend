@@ -997,7 +997,7 @@
         "pool": "Pool",
         "action": "Ação",
         "asset": "Ativo",
-        "lendingAmount": "Quantidade emprestada",
+        "lendingAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
       }
