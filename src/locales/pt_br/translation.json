@@ -8,7 +8,7 @@
     "confirm": "Confirmar",
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
-    "pending": "Pendente", }
+    "pending": "Pendente", 
     "confirmed": "Confirmada",
     "failed": "Falhou",
     "deposit": "Depositar",
