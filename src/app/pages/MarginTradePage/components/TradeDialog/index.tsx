@@ -1,38 +1,40 @@
-import React, { useMemo } from 'react';
 import cn from 'classnames';
-import { Dialog } from '../../../../containers/Dialog';
+import React, { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMarginTradePage } from '../../selectors';
-import { actions } from '../../slice';
+import { toWei } from 'web3-utils';
+
+import { DialogButton } from 'app/components/Form/DialogButton';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { FormGroup } from 'app/components/Form/FormGroup';
+// import { useMaintenance } from '../../../BuySovPage/components/Slider';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+
+import { translations } from '../../../../../locales/i18n';
+import { Asset } from '../../../../../types/asset';
+import {
+  getLendingContractName,
+  getTokenContract,
+} from '../../../../../utils/blockchain/contract-helpers';
+import { fromWei } from '../../../../../utils/blockchain/math-helpers';
+import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { FormGroup } from 'app/components/Form/FormGroup';
-import { TxFeeCalculator } from '../TxFeeCalculator';
-import {
-  getLendingContractName,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
-import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
-import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
-import { LiquidationPrice } from '../LiquidationPrice';
-import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
-import { DialogButton } from 'app/components/Form/DialogButton';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
-import { toWei } from 'web3-utils';
-import { Asset } from '../../../../../types/asset';
-import { useAccount } from '../../../../hooks/useAccount';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { translations } from '../../../../../locales/i18n';
-import { useTranslation, Trans } from 'react-i18next';
-// import { Slider } from '../../../BuySovPage/components/Slider';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
+import { LoadableValue } from '../../../../components/LoadableValue';
+import { Dialog } from '../../../../containers/Dialog';
+import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
+import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
+import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
+import { useAccount } from '../../../../hooks/useAccount';
+import { selectMarginTradePage } from '../../selectors';
+import { actions } from '../../slice';
+import { LiquidationPrice } from '../LiquidationPrice';
+import { TxFeeCalculator } from '../TxFeeCalculator';
 
 const maintenanceMargin = 15000000000000000000;
 

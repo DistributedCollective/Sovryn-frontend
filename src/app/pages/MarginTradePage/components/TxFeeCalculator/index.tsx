@@ -1,5 +1,6 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
+
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { fromWei } from 'utils/blockchain/math-helpers';
@@ -11,6 +12,7 @@ import {
 import { ContractName } from '../../../../../utils/types/contracts';
 import { useEstimateContractGas } from '../../../../hooks/useEstimateGas';
 import cn from 'classnames';
+import { gas } from '../../../../../utils/blockchain/gas-price';
 
 interface Props {
   symbol?: string;
@@ -31,7 +33,6 @@ export function TxFeeCalculator(props: Props) {
     props.txConfig,
     props.condition,
   );
-
   return (
     <div
       className={cn(
@@ -49,7 +50,10 @@ export function TxFeeCalculator(props: Props) {
               loading={loading}
               tooltip={
                 <>
-                  {fromWei(value)} {props.symbol}
+                  {props.txConfig?.gas
+                    ? Number(props.txConfig?.gas) * Number(gas.get())
+                    : fromWei(value)}{' '}
+                  {props.symbol}
                   <br />
                   <small className="tw-text-muted">
                     (gas price:{' '}
