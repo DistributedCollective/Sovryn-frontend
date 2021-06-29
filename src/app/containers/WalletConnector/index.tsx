@@ -20,7 +20,7 @@ import { prettyTx } from 'utils/helpers';
 
 import { media } from '../../../styles/media';
 
-import '../LendBorrowSovryn/assets/index.scss';
+import '../../pages/BorrowPage/assets/index.scss';
 
 type Props = {
   simpleView: boolean;

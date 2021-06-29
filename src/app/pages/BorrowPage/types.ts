@@ -3,7 +3,6 @@ import { Asset } from 'types/asset';
 import { Nullable } from 'types';
 
 export interface LendBorrowSovrynState {
-  tab: TabType;
   asset: Asset;
   collateral: Nullable<Asset>;
   lendAmount: string;
