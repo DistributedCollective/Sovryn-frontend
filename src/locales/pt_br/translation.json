@@ -40,8 +40,8 @@
     "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "staking": "Desculpe, a opção de investir SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "unstaking": "Desculpe, a opção de desinvestir SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "unstaking": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateVests": "Desculpe, delegating vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
@@ -246,7 +246,7 @@
     "borrow": "Obter empréstimos",
     "yieldFarm": "Minerar liquidez",
     "reward": "Reivindicar SOV",
-    "staking": "Rentabilizar SOV",
+    "staking": "Token SOV",
     "governance": "Governança",
     "forum": "Fórum",
     "affiliate": "Indique",
@@ -379,7 +379,7 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
-    "connect": "Conecte sua carteira para começar a investir.",
+    "connect": "Conecte sua carteira e comece a rentabilizar seus SOV.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
@@ -409,7 +409,7 @@
       "unstake": "Ok, resgatar SOV"
     },
     "staking": {
-      "title": "Investir SOV",
+      "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
@@ -1384,9 +1384,9 @@
         "cta": "Emprestar"
       },
       "stake": {
-        "title": "Investindo seus SOV & Votando",
+        "title": "Rentabilizando seus SOV & Votando",
         "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
-        "cta": "Investir"
+        "cta": "Investir SOV"
       }
     },
     "title": "Compre SOV na Sovryn!",
