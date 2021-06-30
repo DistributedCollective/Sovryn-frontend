@@ -12,13 +12,13 @@ export const TableHeader: React.FC = () => {
           {t(translations.lendingPage.historyTable.tableHeaders.time)}
         </th>
         <th className="tw-text-sm">
-          {t(translations.lendingPage.historyTable.tableHeaders.pool)}
+          {t(translations.lendingPage.historyTable.tableHeaders.asset)}
         </th>
         <th className="tw-text-sm">
           {t(translations.lendingPage.historyTable.tableHeaders.action)}
         </th>
         <th className="tw-text-sm">
-          {t(translations.lendingPage.historyTable.tableHeaders.lendingAmount)}
+          {t(translations.lendingPage.historyTable.tableHeaders.amount)}
         </th>
         <th className="tw-text-sm">
           {t(
