@@ -442,15 +442,15 @@
       "asset": "Ativo",
       "lockedAmount": "Quantidade bloqueada",
       "votingPower": "Poder de voto",
-      "votingDelegation": "Delegação de votação",
+      "votingDelegation": "Voto delegado",
       "stakingPeriod": "Prazo do investimento",
       "unlockDate": "Data de desloqueio"
     },
     "currentVests": {
       "title": "Atualmente reservado",
-      "asset": "Delegação de votação",
+      "asset": "Voto delegado",
       "lockedAmount": "Quantidade bloqueada",
-      "votingPower": "Delegação de votação",
+      "votingPower": "Voto delegado",
       "stakingDate": "Data final",
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
