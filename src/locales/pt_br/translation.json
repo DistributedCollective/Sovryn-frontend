@@ -8,7 +8,7 @@
     "confirm": "Confirmar",
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
-    "pending": "Pendente",
+    "pending": "Pendente", 
     "confirmed": "Confirmada",
     "failed": "Falhou",
     "deposit": "Depositar",
@@ -40,8 +40,8 @@
     "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "staking": "Desculpe, a opção de investir SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "unstaking": "Desculpe, a opção de desinvestir SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "unstaking": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateVests": "Desculpe, delegating vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
@@ -245,10 +245,11 @@
     "lend": "Emprestar criptos",
     "borrow": "Obter empréstimos",
     "yieldFarm": "Minerar liquidez",
-    "reward": "Recompensas SOV",
+    "reward": "Reivindicar SOV",
     "staking": "Token SOV",
     "governance": "Governança",
     "forum": "Fórum",
+    "affiliate": "Indique",
     "wallet": "Portfólio",
     "stats": "Dados",
     "help": "Ajuda",
@@ -378,7 +379,7 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
-    "connect": "Conecte sua carteira para começar a investir.",
+    "connect": "Conecte sua carteira e comece a rentabilizar seus SOV.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
@@ -408,7 +409,7 @@
       "unstake": "Ok, resgatar SOV"
     },
     "staking": {
-      "title": "Investir SOV",
+      "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
@@ -960,7 +961,10 @@
     },
     "poolChart": {
       "totalLiquidity": "Liquidez total",
-      "apy": "{{asset}} Juros anual%"
+      "apy": "{{asset}} Juros anual",
+      "available": "Disponíveis",
+      "borrowed": "Emprestados"
+    },
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
@@ -984,6 +988,19 @@
         "amount": "Quantidade:",
         "reward": "Recompensa:",
         "depositBalance": "Você emprestou: <0/> <1/>"
+    }
+  },
+  "historyTable": {
+      "title": "Histórico",
+      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "lendingAmount": "Quantidade",
+        "transactionHash": "ID transação",
+        "status": "Status"
       }
     }
   },
@@ -1367,9 +1384,9 @@
         "cta": "Emprestar"
       },
       "stake": {
-        "title": "Investindo seus SOV & Votando",
+        "title": "Rentabilizando seus SOV & Votando",
         "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
-        "cta": "Investir"
+        "cta": "Rentabilizar SOV"
       }
     },
     "title": "Compre SOV na Sovryn!",
@@ -1398,5 +1415,67 @@
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser resgatado!",
     "cta": "Resgatar SOV"
+  },
+  "escrowPage": {
+    "meta": {
+      "title": "",
+      "description": ""
+    },
+    "infoBar": {
+      "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
+      "liquidityTarget": "Total Liquidity Target:",
+      "remainingToCollect": "Total Remaining to Collect:"
+    },
+    "form": {
+      "amount": "Enter amount:",
+      "reward": "Expected SOV Reward:",
+      "cta": "Deposit SOV"
+    },
+    "description": {
+      "title": "Uniswap Liquidity Pool Escrow",
+      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
+      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
+      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
+    },
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidity Provided",
+        "share": "Current Pool Share",
+        "totalFees": "Total Fees Collected",
+        "minimumRewards": "Minimum Rewards Collected",
+        "unlockDate": "Unlock Date",
+        "action": "Action"
+      },
+      "uniswapPool": "Uniswap Pool Token",
+      "addButton": "Add",
+      "withdrawButton": "Withdraw"
+     }
+  },
+  "affiliates": {
+    "title": "Traga seus amigos para a Sovryn e ganhe cripto",
+    "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
+    "refLink": "Compartilhe seu link de indicação",
+    "feesEarned": "Ganho",
+    "rewardSOVEarned": "SOV líquido ganho",
+    "numberReferrals": "Número de indicações",
+    "linkCopied": "Link copiado",
+    "referralHistory": "Histórico",
+    "terms": "Termos e condições",
+    "text": "Indique a Sovryn para seus amigos e ganhe <1>bônus de recompensa em $SOV e .01% das taxas cobradas</1> em cada transação feita por novas carteiras criadas com o seu link de indicação.",
+    "claim": "Reinvindicar",
+    "tableHeaders": {
+      "date": "Data e hora",
+      "type": "Tipo",
+      "from": "De",
+      "sovAmount": "SOV líquido ganho",
+      "feesAmount": "Ganho",
+      "hash": "ID transação",
+      "status": "Status"
+    },
+    "tableEmpty": "Você ainda não indicou ninguém.",
+    "referralFrom": "Indicação",
+    "referralUnknown": "Indicação desconhecida"
   }
 }
