@@ -1040,7 +1040,17 @@
     "walletHistory": "Wallet must be connected.",
     "loading": "Loading..."
   },
+  "validationErrors": {
+    "insufficientBalance": "insufficient funds available",
+    "minimumZero": "Minimum amount more than zero"
+  },
   "lendingPage": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "meta": {
+      "title": "Lend",
+      "description": "Lending Page"
+    },
     "tabs": {
       "deposit": "Deposit",
       "redeem": "Redeem"
@@ -1063,6 +1073,49 @@
         "line_1": "There is not enough {{currency}} in lending pool to borrow.",
         "line_2": "Currently pool has only {{amount}} {{currency}} available.",
         "line_3": "Pool will increase once users will repay their loans."
+      }
+    },
+    "poolChart": {
+      "totalLiquidity": "Total Liquidity",
+      "apy": "{{asset}} APY",
+      "available": "Available",
+      "borrowed": "Borrowed"
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Lend your {{asset}} and earn income",
+      "tableHeaders": {
+        "apy": "APY",
+        "yourDeposit": "Your Deposit",
+        "myProfit": "Profit",
+        "rewards": "Rewards"
+      }
+    },
+    "modal": {
+      "deposit": {
+        "title": "Deposit",
+        "cta": "Deposit",
+        "amount": "Amount:",
+        "apy": "APY <0/> variable"
+      },
+      "withdraw": {
+        "title": "Withdraw",
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:",
+        "depositBalance": "Your deposit: <0/> <1/>"
+      }
+    },
+    "historyTable": {
+      "title": "Lending History",
+      "emptyState": "History is empty.",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "lendingAmount": "Lending Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
       }
     }
   },

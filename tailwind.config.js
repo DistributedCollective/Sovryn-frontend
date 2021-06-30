@@ -105,6 +105,7 @@ module.exports = {
       teal: '#4ecdc4',
       gold: '#fec004',
       red: '#eb2106',
+      error: '#A52222',
       green: '#00ce7d',
       customOrange: '#ff9931',
       Gold: '#fec004',
@@ -146,6 +147,7 @@ module.exports = {
         '90': '90%',
       },
       width: {
+        '100': '25rem',
         '139': '34.75rem',
         '155': '38.75rem',
         '163': '40.75rem',

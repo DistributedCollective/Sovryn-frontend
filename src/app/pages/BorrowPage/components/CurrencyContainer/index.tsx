@@ -14,7 +14,9 @@ type Props = {
   setState: (key: Asset) => void;
 };
 
-const currencyRows = LendingPoolDictionary.list();
+const currencyRows = LendingPoolDictionary.list().filter(
+  pool => pool.getBorrowCollateral().length > 0,
+);
 
 const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   const { borrowAmount, lendAmount } = useSelector(selectLendBorrowSovryn);

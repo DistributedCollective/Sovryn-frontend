@@ -73,15 +73,25 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     [weiAmount1, weiAmount2],
     minReturn,
   );
+  const hasSufficientBalance = useMemo(() => {
+    return (
+      bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
+      bignumber(balance2).greaterThanOrEqualTo(weiAmount2)
+    );
+  }, [balance1, balance2, weiAmount1, weiAmount2]);
+
+  // const errorMessage = useMemo(() => {
+  //   if (!hasSufficientBalance)
+  //     return t(translations.validationErrors.insufficientBalance);
+  // }, [t, hasSufficientBalance]);
 
   const valid = useMemo(() => {
     return (
-      bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
+      hasSufficientBalance &&
       bignumber(weiAmount1).greaterThan(0) &&
-      bignumber(balance2).greaterThanOrEqualTo(weiAmount2) &&
       bignumber(weiAmount2).greaterThan(0)
     );
-  }, [balance1, balance2, weiAmount1, weiAmount2]);
+  }, [hasSufficientBalance, weiAmount1, weiAmount2]);
 
   const txFeeArgs = useMemo(() => {
     return [

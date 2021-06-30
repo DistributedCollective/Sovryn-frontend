@@ -3,6 +3,7 @@ import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { TxType } from 'store/global/transactions-store/types';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
+import { LendingPoolDictionary } from '../../../utils/dictionaries/lending-pool-dictionary';
 
 export function useLending_mint(asset: Asset, weiAmount: string) {
   const account = useAccount();
@@ -11,10 +12,12 @@ export function useLending_mint(asset: Asset, weiAmount: string) {
     asset === Asset.RBTC ? 'mintWithBTC' : 'mint',
   );
   return {
-    send: (nonce?: number, approveTx?: string | null) =>
+    send: (nonce?: number, approveTx?: string | null) => {
+      const { useLM } = LendingPoolDictionary.get(asset);
+
       asset === Asset.RBTC
         ? send(
-            [account, true],
+            [account, useLM],
             { from: account, value: weiAmount, nonce },
             {
               approveTransactionHash: approveTx,
@@ -22,13 +25,14 @@ export function useLending_mint(asset: Asset, weiAmount: string) {
             },
           )
         : send(
-            [account, weiAmount, true],
+            [account, weiAmount, useLM],
             { from: account, nonce },
             {
               approveTransactionHash: approveTx,
               type: TxType.LEND,
             },
-          ),
+          );
+    },
     ...rest,
   };
 }
