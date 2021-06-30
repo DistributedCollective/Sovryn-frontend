@@ -982,7 +982,7 @@
         "apy": "Juros anual <0/> variável"
       },
       "withdraw": {
-        "title": "Resgatar",
+        "title": "Resgatar ativo emprestado",
         "cta": "Resgatar",
         "amount": "Quantidade:",
         "reward": "Recompensa:",
