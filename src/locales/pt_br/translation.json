@@ -965,7 +965,6 @@
       "available": "Disponíveis",
       "borrowed": "Emprestados"
     },
-    },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
       "tableHeaders": {
