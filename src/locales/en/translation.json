@@ -1099,7 +1099,7 @@
       },
       "withdraw": {
         "title": "Redeem",
-        "cta": "Withdraw",
+        "cta": "Redeem",
         "amount": "Amount:",
         "reward": "Reward:",
         "depositBalance": "Your deposit: <0/> <1/>"
