@@ -1,15 +1,14 @@
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
-import { LiquidityPool } from 'utils/models/liquidity-pool';
 import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer';
 import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 
 interface ITableRowProps {
-  pool: LiquidityPool;
-  time: string;
+  time: number;
   type: string;
   amount: string;
   txHash: string;
@@ -17,7 +16,6 @@ interface ITableRowProps {
 }
 
 export const TableRow: React.FC<ITableRowProps> = ({
-  pool,
   time,
   type,
   amount,
@@ -34,7 +32,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>{type}</td>
       <td>
-        {amount} {asset}
+        {amount} <AssetSymbolRenderer asset={asset} />
       </td>
       <td>
         <LinkToExplorer

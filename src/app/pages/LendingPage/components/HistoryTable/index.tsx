@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { useAccount } from 'app/hooks/useAccount';
+import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
@@ -16,6 +16,7 @@ export const HistoryTable: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const blockSync = useBlockSync();
 
   let cancelTokenSource;
   const getData = () => {
@@ -54,12 +55,12 @@ export const HistoryTable: React.FC = () => {
       getHistory();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, page]);
+  }, [account, page, blockSync]);
 
-  const onPageChanged = data => {
+  const onPageChanged = useCallback(data => {
     const { currentPage } = data;
     setPage(currentPage);
-  };
+  }, []);
 
   return (
     <section>

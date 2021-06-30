@@ -30,7 +30,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
 
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full">
+      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
         <ActionButton
           text={t(translations.lendingPage.deposit)}
           onClick={() => setDialog('add')}

@@ -15,4 +15,13 @@ export enum ButtonType {
   REDEEM = 'redeem',
 }
 
+export interface LendingEvent {
+  asset_amount: string;
+  contract_address: string;
+  event: string;
+  time: number;
+  token_amount: string;
+  txHash: string;
+}
+
 export type ContainerState = LendingPageState;

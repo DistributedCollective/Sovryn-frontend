@@ -38,11 +38,11 @@ const LendingPage: React.FC = () => {
           />
         </LootDropSectionWrapper> */}
 
-        <div className={'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32'}>
+        <div className={'tw-max-w-screen-2xl tw-mx-auto tw-mt-5'}>
           <CurrencyContainer />
         </div>
 
-        <div className="tw-mt-10">
+        <div className="tw-mt-12">
           <div className="tw-px-3 tw-text-lg">
             {t(translations.lendingPage.historyTable.title)}
           </div>

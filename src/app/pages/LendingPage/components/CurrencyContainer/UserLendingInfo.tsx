@@ -17,6 +17,9 @@ import { useAccount } from 'app/hooks/useAccount';
 import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
+import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { Asset } from 'types';
 
 interface IUserLendingInfoProps {
   lendingPool: LendingPool;
@@ -32,6 +35,9 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const { t } = useTranslation();
   const account = useAccount();
   const asset = lendingPool.getAsset();
+  const { value: rewards } = useLiquidityMining_getUserAccumulatedReward(
+    getLendingContract(asset).address,
+  );
   const { value: profitCall, loading: pLoading } = useLending_profitOf(
     asset,
     account,
@@ -113,7 +119,9 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
               />
             </TableBodyData>
-            <TableBodyData>-</TableBodyData>
+            <TableBodyData>
+              {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />
+            </TableBodyData>
           </>
         )}
       </TableBody>

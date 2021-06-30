@@ -1077,7 +1077,7 @@
     },
     "poolChart": {
       "totalLiquidity": "Total Liquidity",
-      "apy": "{{asset}} APY%",
+      "apy": "{{asset}} APY",
       "available": "Available",
       "borrowed": "Borrowed"
     },

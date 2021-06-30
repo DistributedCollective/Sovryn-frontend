@@ -1,14 +1,15 @@
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import React from 'react';
-import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { LendingEvent } from '../../../types';
+
 interface ITableBodyProps {
-  items: any[];
-  loading: Boolean;
+  items: LendingEvent[];
+  loading: boolean;
 }
 
 export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
@@ -18,14 +19,10 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     <tbody className="mt-5">
       {items.map((item, index) => (
         <TableRow
-          key={`${item.poolAsset}/${index}`}
-          pool={LiquidityPoolDictionary.get(
-            AssetsDictionary.getByLoanContractAddress(item.contract_address)
-              ?.asset,
-          )}
+          key={`${item.contract_address}/${index}`}
           time={item.time}
           txHash={item.txHash}
-          amount={weiToFixed(item.asset_amount, 4)}
+          amount={weiTo4(item.asset_amount)}
           type={item.event}
           asset={
             AssetsDictionary.getByLoanContractAddress(item.contract_address)
