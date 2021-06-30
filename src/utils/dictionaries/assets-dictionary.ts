@@ -53,7 +53,7 @@ export class AssetsDictionary {
   public static getByLoanContractAddress(address: string): AssetDetails {
     return this.list().find(
       item =>
-        item.lendingContract.address.toLowerCase() === address.toLowerCase(),
+        item?.lendingContract?.address.toLowerCase() === address.toLowerCase(),
     ) as AssetDetails;
   }
 

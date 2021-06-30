@@ -1,7 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 
-export const RowTable: React.FC = ({ children }) => (
-  <div className="xl:tw-w-96 2xl:tw-w-139">
+type RowTableProps = {
+  className?: string;
+};
+export const RowTable: React.FC<RowTableProps> = ({ children, className }) => (
+  <div className={cn('xl:tw-w-139 2xl:tw-w-163', className)}>
     <table className="w-100">{children}</table>
   </div>
 );

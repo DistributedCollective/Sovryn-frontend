@@ -570,7 +570,7 @@
       "tokenAssetCollateral": "Criptoativo a ser colaterizado e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
-       "disabled": "Criptoativo não disponível para empréstimo."
+      "disabled": "Criptoativo não disponível para empréstimo."
     }
   },
   "activeUserBorrows": {
@@ -875,7 +875,7 @@
         "cta": "Fechar"
       }
     }
-  },  
+  },
   "swapHistory": {
     "title": "Trocas",
     "tableHeaders": {
@@ -984,6 +984,19 @@
         "amount": "Quantidade:",
         "reward": "Recompensa:",
         "depositBalance": "Você emprestou: <0/> <1/>"
+      }
+    },
+    "historyTable": {
+      "title": "Histórico",
+      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "lendingAmount": "Quantidade",
+        "transactionHash": "ID transação",
+        "status": "Status"
       }
     }
   },
@@ -1398,5 +1411,30 @@
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser resgatado!",
     "cta": "Resgatar SOV"
+  },
+  "affiliates": {
+    "title": "Traga seus amigos para a Sovryn e ganhe cripto",
+    "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
+    "refLink": "Compartilhe seu link de indicação",
+    "feesEarned": "Ganho",
+    "rewardSOVEarned": "SOV líquido ganho",
+    "numberReferrals": "Número de indicações",
+    "linkCopied": "Link copiado",
+    "referralHistory": "Histórico",
+    "terms": "Termos e condições",
+    "text": "Indique a Sovryn para seus amigos e ganhe <1>bônus de recompensa em $SOV e .01% das taxas cobradas</1> em cada transação feita por novas carteiras criadas com o seu link de indicação.",
+    "claim": "Reinvindicar",
+    "tableHeaders": {
+      "date": "Data e hora",
+      "type": "Tipo",
+      "from": "De",
+      "sovAmount": "SOV líquido ganho",
+      "feesAmount": "Ganho",
+      "hash": "ID transação",
+      "status": "Status"
+    },
+    "tableEmpty": "Você ainda não indicou ninguém.",
+    "referralFrom": "Indicação",
+    "referralUnknown": "Indicação desconhecida"
   }
 }
