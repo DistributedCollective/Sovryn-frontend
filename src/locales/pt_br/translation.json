@@ -476,8 +476,8 @@
     "meta": "Adicionar liquidez",
     "pool": "Pool",
     "aer": "Juros anual",
-    "currency": "Criptoativo",
-    "currencySelect": "Selecionar criptoativo",
+    "currency": "Ativo",
+    "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Saldo a retirar",
@@ -571,7 +571,7 @@
       "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
-      "disabled": "Criptoativo não disponível para empréstimo."
+      "disabled": "Ativo não disponível para empréstimo."
     }
   },
   "activeUserBorrows": {
