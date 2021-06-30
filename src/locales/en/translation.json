@@ -1052,7 +1052,7 @@
         "pool": "Pool",
         "action": "Action",
         "asset": "Asset",
-        "lendingAmount": "Lending Amount",
+        "amount": "Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
       }
