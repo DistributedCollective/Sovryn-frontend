@@ -1092,7 +1092,7 @@
     },
     "modal": {
       "deposit": {
-        "title": "Lend",
+        "title": "Lend asset",
         "cta": "Deposit",
         "amount": "Amount:",
         "apy": "APY <0/> variable"
