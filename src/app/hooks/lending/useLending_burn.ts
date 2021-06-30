@@ -3,6 +3,7 @@ import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { LendingPoolDictionary } from '../../../utils/dictionaries/lending-pool-dictionary';
 
 export function useLending_burn(asset: Asset, weiAmount: string) {
   const account = useAccount();
@@ -13,7 +14,7 @@ export function useLending_burn(asset: Asset, weiAmount: string) {
   return {
     send: (nonce?: number, approveTx?: string | null) => {
       send(
-        [account, weiAmount],
+        [account, weiAmount, LendingPoolDictionary.get(asset).useLM],
         { from: account, nonce },
         { approveTransactionHash: approveTx, type: TxType.UNLEND },
       );

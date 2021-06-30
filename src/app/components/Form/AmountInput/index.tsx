@@ -16,6 +16,7 @@ interface Props {
   onChange: (value: string) => void;
   decimalPrecision?: number;
   asset?: Asset;
+  assetString?: string;
   subText?: string;
   placeholder?: string;
   maxAmount?: string;
@@ -28,6 +29,7 @@ export function AmountInput({
   placeholder = toNumberFormat(0, 6),
   decimalPrecision = 6,
   asset,
+  assetString,
   subText,
   maxAmount,
   readonly,
@@ -39,7 +41,11 @@ export function AmountInput({
         onChange={onChange}
         type="number"
         placeholder={placeholder}
-        appendElem={asset ? <AssetRenderer asset={asset} /> : null}
+        appendElem={
+          asset || assetString ? (
+            <AssetRenderer asset={asset} assetString={assetString} />
+          ) : null
+        }
         className="tw-rounded-lg"
         readOnly={readonly}
       />

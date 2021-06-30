@@ -34,7 +34,7 @@ export function PoolChart({ pool, history }: Props) {
       ]);
       setAssetHistory(asset);
 
-      //only use btc data for v2 pools, as v1 pools are 50/50 and have same AER for both sides
+      //only use btc data for v2 pools, as v1 pools are 50/50 and have same APY for both sides
       if (btcAddress !== assetAddress && history.data[btcAddress]) {
         const btc: ChartData = history.data[btcAddress]?.map(i => [
           Date.parse(i.activity_date),
@@ -44,7 +44,7 @@ export function PoolChart({ pool, history }: Props) {
       }
       const total: ChartData = history.balanceHistory?.map(i => [
         Date.parse(i.activity_date),
-        i.balance_btc,
+        i.balance_btc / 1e8,
       ]);
       setTotalHistory(total);
     }
@@ -60,7 +60,7 @@ export function PoolChart({ pool, history }: Props) {
               btcHistory && btcHistory.length > 0
                 ? pool.poolAsset
                 : t(translations.liquidity.pool)
-            } ${t(translations.liquidity.aer)}`,
+            } ${t(translations.liquidity.apy)}`,
             color: getAssetColor(pool.poolAsset),
             data: assetHistory,
             numDecimals: 2,
@@ -69,7 +69,7 @@ export function PoolChart({ pool, history }: Props) {
           secondaryData={
             btcHistory?.length > 0
               ? {
-                  name: `rBTC ${t(translations.liquidity.aer)}`,
+                  name: `rBTC ${t(translations.liquidity.apy)}`,
                   color: '#FFAC3E',
                   data: btcHistory,
                   numDecimals: 2,

@@ -28,6 +28,9 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import FISHTokenAbi from './abi/FISH.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
@@ -122,7 +125,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0xd795296C1D3622950bb8bE26DB5Aacd0eF128f52',
+    address: '0x346f086079d250E97Ad64C60CCaCbd64A5E50B79',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -152,7 +155,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0xC8717501Bb0c6640069fcD8BF0DD13904F861abE',
+    address: '0xa84f851b62aCc3af633ce9fB497893Bb2571e810',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -245,7 +248,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x38729759415b27F70D5ca91CE357c45214B95Cf4',
+    address: '0x36B3b4C34906f6C6B5148b8d228cF6cD90837297',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -273,6 +276,18 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
+  },
+  FISH_token: {
+    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    abi: FISHTokenAbi,
+  },
+  originsBase: {
+    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    abi: OriginsBaseAbi,
+  },
+  lockedFund: {
+    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    abi: LockedFundAbi,
   },
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',

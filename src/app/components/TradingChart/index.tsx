@@ -39,7 +39,7 @@ export function TradingChart(props: ChartContainerProps) {
         symbol: props.symbol,
         datafeed: Datafeed,
         save_load_adapter: Storage,
-        study_count_limit: 2,
+        study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
         timeframe: '3D', //default range
         container_id: 'tv_chart_container', //id of DOM container

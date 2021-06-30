@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
+import cn from 'classnames';
 
 interface Props {
   value: string;
@@ -10,6 +11,7 @@ interface Props {
   invalid?: boolean;
   isOnDarkBackground?: boolean;
   inputClassName?: string;
+  wrapperClassName?: string;
 }
 
 export function InputField(props: Props) {
@@ -18,6 +20,10 @@ export function InputField(props: Props) {
       <StyledWrapper
         invalid={props.invalid!}
         isOnDarkBackground={props.isOnDarkBackground}
+        className={cn(
+          'tw-flex tw-flex-row tw-w-full tw-border tw-rounded tw-px-2 tw-py-1 tw-m-0',
+          props.wrapperClassName,
+        )}
       >
         <div className="tw-flex tw-items-center tw-flex-grow">
           <StyledInput
@@ -44,10 +50,7 @@ interface Wrapper {
   isOnDarkBackground?: boolean;
 }
 
-const StyledWrapper = styled.label.attrs(_ => ({
-  className:
-    'tw-flex tw-flex-row tw-w-full tw-border tw-rounded tw-px-2 tw-py-1 tw-m-0',
-}))`
+const StyledWrapper = styled.label`
   height: 48px;
   transition: 0.3s border-color;
   will-change: border-color;

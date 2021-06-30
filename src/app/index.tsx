@@ -31,12 +31,14 @@ import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { StatsPage } from './containers/StatsPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
-import { StakePage } from './containers/StakePage/Loadable';
-import { LendBorrow } from './containers/LendBorrowSovryn/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
-import { BuySovPage } from './pages/BuySovPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
+import { BorrowPage } from './pages/BorrowPage/Loadable';
+import { LendingPage } from './pages/LendingPage/Loadable';
+import { StakePage } from './containers/StakePage/Loadable';
+
+import { BuySovPage } from './pages/BuySovPage/Loadable';
 
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
@@ -80,7 +82,8 @@ export function App() {
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
-            <Route exact path="/lend" component={LendBorrow} />
+            <Route exact path="/lend" component={LendingPage} />
+            <Route exact path="/borrow" component={BorrowPage} />
             <Route exact path="/stake" component={StakePage} />
             <Route exact path="/stats" component={StatsPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
