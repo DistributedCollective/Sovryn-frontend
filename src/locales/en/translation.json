@@ -1045,8 +1045,8 @@
     "minimumZero": "Minimum amount more than zero"
   },
   "lendingPage": {
-    "deposit": "Deposit",
-    "withdraw": "Withdraw",
+    "deposit": "Lend",
+    "withdraw": "Redeem",
     "meta": {
       "title": "Lend",
       "description": "Lending Page"
@@ -1092,13 +1092,13 @@
     },
     "modal": {
       "deposit": {
-        "title": "Deposit",
+        "title": "Lend",
         "cta": "Deposit",
         "amount": "Amount:",
         "apy": "APY <0/> variable"
       },
       "withdraw": {
-        "title": "Withdraw",
+        "title": "Redeem",
         "cta": "Withdraw",
         "amount": "Amount:",
         "reward": "Reward:",
