@@ -976,7 +976,7 @@
     },
     "modal": {
       "deposit": {
-        "title": "Emprestar",
+        "title": "Emprestar ativo",
         "cta": "Depositar",
         "amount": "Quantidade:",
         "apy": "Juros anual <0/> variável"
