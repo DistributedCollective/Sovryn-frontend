@@ -1265,6 +1265,10 @@
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
+     },
+      "txType": {
+        "added": "Adicionar",
+        "removed": "Retirar"
       }
     },
     "rowTable": {
