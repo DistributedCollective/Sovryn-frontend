@@ -14,7 +14,11 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
-    "maintenance": "Under Maintenance"
+    "maintenance": "Under Maintenance",
+    "unit": {
+      "day": "{{count}} day",
+      "day_plural": "{{count}} days"
+    }
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
