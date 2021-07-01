@@ -1267,7 +1267,7 @@
         "status": "Status"
      },
       "txType": {
-        "added": "Adicionar",
+        "added": "Adicionar liquidez",
         "removed": "Retirar liquidez"
       }
     },
