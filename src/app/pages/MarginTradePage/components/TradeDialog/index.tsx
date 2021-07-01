@@ -46,7 +46,7 @@ import { TxFeeCalculator } from '../TxFeeCalculator';
 const maintenanceMargin = 15000000000000000000;
 
 export function TradeDialog() {
-  const [referrer, setReferrer] = useState<string>();
+  const [referrer, setReferrer] = useState<string | null>(null);
   const { t } = useTranslation();
   const account = useAccount();
   const { get: getCookie } = useCookie();
@@ -70,13 +70,13 @@ export function TradeDialog() {
       }
       const referralWallet =
         value !== ethGenesisAddress ? value : getCookie(sovAffiliateCookie);
-
       if (
         referralWallet?.indexOf('0x') === 0 &&
-        referralWallet?.length === 42
+        referralWallet?.length === 42 &&
+        referralWallet.toLowerCase() !== account.toLowerCase()
       ) {
         setReferrer(referralWallet.toLowerCase());
-      }
+      } else setReferrer(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, value, loading]);
@@ -97,7 +97,7 @@ export function TradeDialog() {
     collateral,
     leverage,
     amount,
-    referrer,
+    referrer || undefined,
   );
 
   const submit = () =>
