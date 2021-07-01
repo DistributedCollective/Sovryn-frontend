@@ -1392,6 +1392,10 @@
         "liquidityAmount": "Liquidity Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
+      },
+      "txType": {
+        "added": "Added",
+        "removed": "Removed"
       }
     },
     "rowTable": {
