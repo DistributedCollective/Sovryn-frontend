@@ -141,18 +141,18 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "oldValue",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "addresses",
+        "type": "address[]"
       },
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "newValue",
-        "type": "address"
+        "internalType": "uint256[]",
+        "name": "limits",
+        "type": "uint256[]"
       }
     ],
-    "name": "SetEarlyAccessToken",
+    "name": "SetTransactionLimits",
     "type": "event"
   },
   {
@@ -472,9 +472,71 @@
         "internalType": "uint256",
         "name": "burnAmount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
       }
     ],
     "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "redeemed",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "burnAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "loanAmountPaid",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "burnAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
+      }
+    ],
+    "name": "burnToBTC",
     "outputs": [
       {
         "internalType": "uint256",
@@ -789,6 +851,21 @@
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "liquidityMiningAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "internalType": "uint256",
@@ -1027,6 +1104,63 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "minted",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
+      }
+    ],
+    "name": "mintWithBTC",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "name",
@@ -1214,11 +1348,108 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_earlyAccessTokenAddress",
+        "name": "LMAddress",
         "type": "address"
       }
     ],
-    "name": "setEarlyAccessToken",
+    "name": "setLiquidityMiningAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_pauser",
+        "type": "address"
+      }
+    ],
+    "name": "setPauser",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "addresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "limits",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "setTransactionLimits",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "id",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bool",
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "loanToken",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "collateralToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minInitialMargin",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maintenanceMargin",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxLoanTerm",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct LoanParamsStruct.LoanParams[]",
+        "name": "loanParamsList",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "areTorqueLoans",
+        "type": "bool"
+      }
+    ],
+    "name": "setupLoanParams",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

@@ -8,7 +8,8 @@ export class LendingPool {
     private _name: string,
     private _asset: Asset,
     private _borrowCollateral: Asset[] = [],
-    public deprecated: boolean = false,
+    public readonly useLM: boolean,
+    public readonly deprecated: boolean = false,
   ) {
     this._assetDetails = AssetsDictionary.get(this._asset);
   }

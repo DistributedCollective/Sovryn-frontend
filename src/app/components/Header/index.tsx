@@ -6,7 +6,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
 import logoSvg from 'assets/images/sovryn-logo-white.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';
@@ -18,13 +17,11 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
 import { useCookie } from 'app/hooks/useCookie';
 import {
-  actions as lendBorrowActions,
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
-} from '../../containers/LendBorrowSovryn/slice';
+} from '../../pages/BorrowPage/slice';
+import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
 import { getParameterFromUrl } from 'utils/helpers';
-import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
-import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
@@ -42,7 +39,6 @@ export function Header() {
   const location = useLocation();
   const { set: setCookie } = useCookie();
 
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
 
@@ -155,16 +151,10 @@ export function Header() {
     {
       to: '/lend',
       title: t(translations.mainMenu.lend),
-      beforeOpen: () => {
-        dispatch(lendBorrowActions.changeTab(LendBorrowTabType.LEND));
-      },
     },
     {
-      to: '/lend',
+      to: '/borrow',
       title: t(translations.mainMenu.borrow),
-      beforeOpen: () => {
-        dispatch(lendBorrowActions.changeTab(LendBorrowTabType.BORROW));
-      },
     },
     { to: '/yield-farm', title: t(translations.mainMenu.yieldFarm) },
     {
@@ -349,22 +339,12 @@ export function Header() {
                     <MenuItem
                       text={t(translations.mainMenu.lend)}
                       className="bp3-popover-dismiss"
-                      onClick={() => {
-                        dispatch(
-                          lendBorrowActions.changeTab(LendBorrowTabType.LEND),
-                        );
-                        history.push('/lend');
-                      }}
+                      onClick={() => history.push('/lend')}
                     />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       className="bp3-popover-dismiss"
-                      onClick={() => {
-                        dispatch(
-                          lendBorrowActions.changeTab(LendBorrowTabType.BORROW),
-                        );
-                        history.push('/lend');
-                      }}
+                      onClick={() => history.push('/borrow')}
                     />
                     <MenuItem
                       text={t(translations.mainMenu.yieldFarm)}
