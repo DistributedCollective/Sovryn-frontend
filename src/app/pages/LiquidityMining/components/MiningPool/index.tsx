@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { Spinner } from 'app/components/Spinner';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
@@ -93,19 +92,7 @@ export function MiningPool({ pool, ammData }: Props) {
       <CardRow
         LeftSection={<LeftSection />}
         ChartSection={
-          ammData ? (
-            <PoolChart pool={pool} history={ammData} />
-          ) : (
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-center">
-              <span
-                className={cn(
-                  'tw-w-min tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center active',
-                )}
-              >
-                <Spinner size={40} className="tw-fill-current" />
-              </span>
-            </div>
-          )
+          ammData ? <PoolChart pool={pool} history={ammData} /> : <Spinner />
         }
         Actions={<Actions />}
         DataSection={
