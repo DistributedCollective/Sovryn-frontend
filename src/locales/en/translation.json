@@ -14,7 +14,11 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
-    "maintenance": "Under Maintenance"
+    "maintenance": "Under Maintenance",
+    "unit": {
+      "day": "{{count}} day",
+      "day_plural": "{{count}} days"
+    }
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -1325,6 +1329,16 @@
         "long": "Long",
         "short": "Short"
       }
+    },
+    "tradeDialog": {
+      "title": "Review Transaction",
+      "pair": "Trading Pair:",
+      "leverage": "Leverage:",
+      "asset": "Collateral:",
+      "direction": "Direction:",
+      "maintananceMargin": "Maintenance Margin:",
+      "liquidationPrice": "Est. Liquidation Price:",
+      "entryPrice": "Approx. Position Entry Price:"
     },
     "openPositions": "Open Positions",
     "tradingHistory": "Trading History"
