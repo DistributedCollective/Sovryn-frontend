@@ -17,10 +17,12 @@ export interface ComparisonProps {
   secondaryData?: Dataset;
   totalData?: Dataset;
   className?: string;
+  margin?: [number, number, number, number];
   tooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
 }
 
 const formatValues = value => {
+  if (value < 1000) return value;
   const suffixes = ['', 'k', 'M', 'B', 'T'];
   const suffixNum = Math.floor(String(value).length / 3);
   let shortValue: any = parseFloat(
@@ -37,7 +39,7 @@ const formatValues = value => {
 export default function ComparisonChart(props: ComparisonProps) {
   const options: ChartProps = {
     height: 150,
-    margin: [30, 45, 30, 45],
+    margin: props.margin || [30, 45, 30, 45],
     labelColor: '#EDEDED',
     tooltipFormatter: props.tooltipFormatter,
     yAxisProps: {
