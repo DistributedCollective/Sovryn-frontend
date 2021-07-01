@@ -72,7 +72,6 @@ export function TradeDialog() {
         referralWallet?.indexOf('0x') === 0 &&
         referralWallet?.length === 42
       ) {
-        console.log(referralWallet);
         setReferrer(referralWallet.toLowerCase());
       }
     }

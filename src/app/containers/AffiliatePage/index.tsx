@@ -41,7 +41,6 @@ import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliat
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { CalculatedEvent } from 'app/containers/AfilliateHistory';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { ActionButton } from 'app/components/Form/ActionButton';
 
 type CustomEventData = EventData & { eventDate: string };
 
@@ -284,13 +283,6 @@ function InnerAffiliatePage() {
                     </div>
                   )}
                 </div>
-                <ActionButton
-                  text={t(translations.affiliates.claim)}
-                  onClick={() => {}}
-                  className="tw-block tw-w-1/2 tw-rounded-lg"
-                  textClassName="tw-text-base"
-                  disabled={true} //disabled till contracts updated to allow for withdrawing all fees at once
-                />
               </div>
             </div>
           </div>
