@@ -13,7 +13,12 @@
     "failed": "Falhou",
     "deposit": "Depositar",
     "withdraw": "Resgatar",
-    "availableBalance": "Saldo disponível:"
+    "availableBalance": "Saldo disponível:",
+    "maintenance": "Em manutenção",
+    "unit": {
+      "day": "{{count}} dia",
+      "day_plural": "{{count}} dias"
+    }
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -1198,6 +1203,16 @@
         "long": "Comprado",
         "short": "Vendido"
       }
+    },
+     "tradeDialog": {
+      "title": "Revisar transação",
+      "pair": "Par de negociação:",
+      "leverage": "Alavancagem:",
+      "asset": "Colateral:",
+      "direction": "Direção:",
+      "maintananceMargin": "Margem de manutenção:",
+      "liquidationPrice": "Preço estimado de liquidação:",
+      "entryPrice": "Preço apróximado de entrada:"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Histórico"
