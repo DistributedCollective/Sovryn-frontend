@@ -1268,7 +1268,7 @@
      },
       "txType": {
         "added": "Adicionar",
-        "removed": "Retirar"
+        "removed": "Retirar liquidez"
       }
     },
     "rowTable": {
