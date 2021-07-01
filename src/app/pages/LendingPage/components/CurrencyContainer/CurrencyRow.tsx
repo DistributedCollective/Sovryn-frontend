@@ -10,6 +10,8 @@ import { UserLendingInfo } from './UserLendingInfo';
 import { LendingDialog } from '../LendingDialog';
 import LeftSection from './LeftSection';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { Asset } from 'types';
+import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 
 type Props = {
   lendingPool: LendingPool;
@@ -65,7 +67,7 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
             onNonEmptyBalance={onNonEmptyBalance}
           />
         }
-        leftColor={undefined}
+        leftColor={asset === Asset.XUSD ? LootDropColors.Yellow : undefined}
         chartReady={true}
       />
 
