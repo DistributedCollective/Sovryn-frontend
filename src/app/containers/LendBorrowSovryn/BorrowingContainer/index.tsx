@@ -31,6 +31,7 @@ import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-po
 import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
 import { useMaintenance } from '../../../hooks/useMaintenance';
 import { useLending_getDepositAmountForBorrow } from '../../../hooks/lending/useLending_getDepositAmountForBorrow';
+import { TxStatus } from 'store/global/transactions-store/types';
 
 type Props = {
   currency: Asset;
@@ -246,6 +247,8 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
             !valid ||
             !isConnected ||
             txStateBorrow.loading ||
+            txStateBorrow.status === TxStatus.PENDING_FOR_USER ||
+            txStateBorrow.status === TxStatus.PENDING ||
             !isSufficient ||
             startBorrowLocked
           }
