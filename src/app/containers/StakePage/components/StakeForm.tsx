@@ -55,7 +55,7 @@ export function StakeForm(props: Props) {
               id="amount"
               type="text"
               value={props.amount}
-              placeholder="Enter amount"
+              placeholder={t(translations.stake.staking.amountPlaceholder)}
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
             <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">

@@ -483,6 +483,7 @@
     "staking": {
       "title": "Stake SOV",
       "amountToStake": "Amount to Stake",
+      "amountPlaceholder": "Enter amount",
       "votingPowerReceived": "Voting Power received"
     },
     "extending": {
@@ -544,6 +545,11 @@
       "confirm": "Confirm",
       "cancel": "Cancel",
       "withdraw": "Withdraw"
+    },
+    "dateSelector": {
+      "noneAvailable": "No available dates.",
+      "selectDelegate": "Choose delegate period:",
+      "selectYear": "Select Year:"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
