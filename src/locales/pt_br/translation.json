@@ -908,7 +908,7 @@
     "title": "Histórico",
     "tableHeaders": {
       "time": "Data e hora",
-      "pair": "Par",
+      "pair": "Par negociado",
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
@@ -1192,7 +1192,7 @@
     },
     "tradeForm": {
       "labels": {
-        "pair": "Par:",
+        "pair": "Par de negociação:",
         "asset": "Colateral:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
