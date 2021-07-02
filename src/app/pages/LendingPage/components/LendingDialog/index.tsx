@@ -179,7 +179,11 @@ export function LendingDialog({
               value={amount}
               onChange={value => setAmount(value)}
               asset={currency}
-              maxAmount={type === 'add' ? userBalance : depositedAssetBalance}
+              maxAmount={
+                type === 'add'
+                  ? maxMinusFee(userBalance, currency, gasLimit)
+                  : depositedAssetBalance
+              }
             />
           </FormGroup>
 
