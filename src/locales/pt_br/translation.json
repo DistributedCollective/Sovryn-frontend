@@ -460,7 +460,13 @@
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
       "fees": "Dividendos recebidos",
-      "noVestingContracts": "Não existem SOV reservados para você."
+      "noVestingContracts": "Não existem SOV reservados para você.",
+      "assetType": {
+        "genesis": "SOV Gênese",
+        "origin": "SOV Origem",
+        "team": "SOV Team",
+        "reward": "SOV Recompensa"
+      }
     },
     "actions": {
       "title": "Ação",
