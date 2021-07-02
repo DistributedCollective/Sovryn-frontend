@@ -527,7 +527,13 @@
       "stakingPeriod": "Vesting Period",
       "unlockDate": "Unlock Date",
       "fees": "Fees Earned",
-      "noVestingContracts": "You don't have any vesting contracts."
+      "noVestingContracts": "You don't have any vesting contracts.",
+      "assetType": {
+        "genesis": "Genesis SOV",
+        "origin": "Origin SOV",
+        "team": "Team SOV",
+        "reward": "Reward SOV"
+      }
     },
     "actions": {
       "title": "Actions",
