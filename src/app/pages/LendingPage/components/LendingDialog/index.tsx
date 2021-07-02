@@ -32,6 +32,7 @@ import {
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 interface Props {
   currency: Asset;
@@ -143,6 +144,8 @@ export function LendingDialog({
 
   const contractName = getLendingContractName(currency);
   const tokenAddress = getTokenContract(currency).address;
+  const { useLM } = LendingPoolDictionary.get(currency);
+
   const getMethodName = useCallback(() => {
     if (type === 'add') {
       return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
@@ -153,12 +156,10 @@ export function LendingDialog({
   const txFeeArgs = useMemo(() => {
     if (type === 'add')
       return currency === Asset.RBTC
-        ? [tokenAddress]
-        : [tokenAddress, weiAmount];
-    return currency === Asset.RBTC
-      ? [tokenAddress]
-      : [tokenAddress, withdrawAmount];
-  }, [currency, tokenAddress, type, weiAmount, withdrawAmount]);
+        ? [tokenAddress, useLM]
+        : [tokenAddress, weiAmount, useLM];
+    return [tokenAddress, withdrawAmount, useLM];
+  }, [currency, tokenAddress, type, useLM, weiAmount, withdrawAmount]);
 
   const handleSubmit = () =>
     type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
@@ -265,7 +266,12 @@ export function LendingDialog({
           />
         </div>
       </Dialog>
-      <TxDialog tx={lendTx} onUserConfirmed={() => props.onCloseModal()} />
+      {type === 'add' && (
+        <TxDialog tx={lendTx} onSuccess={() => props.onCloseModal()} />
+      )}
+      {type === 'remove' && (
+        <TxDialog tx={unlendTx} onSuccess={() => props.onCloseModal()} />
+      )}
     </>
   );
 }
