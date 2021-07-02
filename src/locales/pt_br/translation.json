@@ -479,6 +479,11 @@
       "withdraw": "Resgatar",
       "withdrawFees": "Resgatar lucro"
     },
+      "dateSelector": {
+      "noneAvailable": "Sem datas disponíveis.",
+      "selectDelegate": "Escolha o período:",
+      "selectYear": "Selecionar ano:"
+    },
     "loading": "Carregando, por favor aguarde...",
     "nostake": "Você ainda não fez investimentos."
   },
