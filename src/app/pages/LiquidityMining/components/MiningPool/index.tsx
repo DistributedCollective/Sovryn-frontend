@@ -122,9 +122,6 @@ export function MiningPool({ pool, ammData }: Props) {
           (pool.supplyAssets[0].asset === Asset.ETH &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Green) ||
-          (pool.supplyAssets[0].asset === Asset.DOC &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Pink) ||
           (pool.supplyAssets[0].asset === Asset.XUSD &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Yellow) ||
