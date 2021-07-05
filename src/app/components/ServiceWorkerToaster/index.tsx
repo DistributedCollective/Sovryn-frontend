@@ -17,9 +17,9 @@ import axios from 'axios';
 interface Props {}
 
 //interval time to check sw
-const CHECK_TIME = 60e3; // 15 seconds
+const CHECK_TIME = 30e3; // 30 seconds
 const REOPEN_TIME = 120e3; // 120 seconds
-const swUrl = `${process.env.PUBLIC_URL}/version.json`;
+const versionUrl = `${process.env.PUBLIC_URL}/version.json`;
 
 export function ServiceWorkerToaster(props: Props) {
   const [update, setUpdate] = useState(false);
@@ -29,22 +29,21 @@ export function ServiceWorkerToaster(props: Props) {
   >();
   const [intervalId, setIntervalId] = useState<number | null>(null);
   const [closeBtn, setCloseBtn] = useState(true);
-  const [newSW, setNewSW] = useState('');
-  const [oldSW, setOldSW] = useState('');
+  const [nextCommit, setNextCommit] = useState('');
   const { t } = useTranslation();
 
-  const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
+  const currentCommit = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   let cancelTokenSource;
-  const fetchSw = first => {
+  const fetchVersion = async () => {
     if (cancelTokenSource) {
       cancelTokenSource.cancel();
     }
     cancelTokenSource = axios.CancelToken.source();
 
     // TODO: change with native fetch
-    axios
-      .get(swUrl, {
+    return axios
+      .get(versionUrl, {
         headers: {
           'Service-Worker': 'script',
           'Cache-Control': 'no-cache',
@@ -55,28 +54,27 @@ export function ServiceWorkerToaster(props: Props) {
       })
       .then(({ data }) => {
         if (!data) return;
-        console.log(data);
-        const hash = data.commit;
-        if (first) setOldSW(hash || '');
-        else setNewSW(hash || '');
+        setNextCommit(data.commit || '');
       })
       .catch(() => {});
   };
 
   useEffect(() => {
-    if (!oldSW && newSW) setOldSW(newSW);
-    if (oldSW && newSW && oldSW !== newSW) {
-      console.log('SWT: version missmatch');
+    if (
+      process.env.NODE_ENV === 'production' &&
+      currentCommit &&
+      nextCommit &&
+      currentCommit !== nextCommit
+    ) {
       if (swRegistration && swRegistration.update) {
-        console.log('SWT: SW.update called');
+        // Don't setShow(true) yet. Calling update triggers onUpdate below.
         swRegistration.update();
-        //Don't setShow(true) yet. Calling update triggers onUpdate below.
       } else {
         setShow(true);
       }
     }
     // eslint-disable-next-line
-  }, [oldSW, newSW]);
+  }, [swRegistration, setShow, nextCommit]);
 
   const updateSW = () => {
     setUpdate(true);
@@ -96,22 +94,22 @@ export function ServiceWorkerToaster(props: Props) {
     setCloseBtn(false);
     if (intervalId) clearInterval(intervalId);
     setTimeout(() => {
-      console.log('SWT: reshow');
       setShow(true);
     }, REOPEN_TIME);
   };
 
   useEffect(() => {
-    fetchSw(true);
+    fetchVersion();
     serviceWorker.register({
-      onUpdate: registration => {
+      onUpdate: async registration => {
         setSwRegistration(registration);
-        console.log('SWT: SW self update');
+        if (nextCommit === currentCommit) {
+          await fetchVersion();
+        }
         setShow(true);
       },
       onSuccess: registration => {
         setSwRegistration(registration);
-        console.log('SWT: SW ready');
       },
     });
 
@@ -119,9 +117,11 @@ export function ServiceWorkerToaster(props: Props) {
   }, []);
 
   useEffect(() => {
-    const intId = setInterval(() => fetchSw(false), CHECK_TIME);
-    setIntervalId(intId);
-    return () => clearInterval(intId);
+    if (process.env.NODE_ENV === 'production') {
+      const intId = setInterval(() => fetchVersion(), CHECK_TIME);
+      setIntervalId(intId);
+      return () => clearInterval(intId);
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -132,8 +132,18 @@ export function ServiceWorkerToaster(props: Props) {
         <p className="tw-text-white tw-mb-6">
           <Trans
             i18nKey={translations.serviceWorkerToaster.title}
-            components={[<strong></strong>]}
-            values={{ buildId: commitHash.substr(0, 7) }}
+            components={[
+              <strong></strong>,
+              <a
+                className="font-bold"
+                href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${nextCommit}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                id
+              </a>,
+            ]}
+            values={{ buildId: nextCommit.substr(0, 7) }}
           />
         </p>
         <p className="tw-mb-6">{t(translations.serviceWorkerToaster.notice)}</p>

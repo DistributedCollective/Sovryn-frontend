@@ -25,7 +25,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const CreateFilePlugin = require('create-file-webpack');
+const CreateFilePlugin = require('create-file-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -685,10 +685,10 @@ module.exports = function (webpackEnv) {
         }),
       isEnvProduction &&
         new CreateFilePlugin({
-          path: paths.appBuild,
+          filePath: paths.appBuild,
           fileName: 'version.json',
           content: JSON.stringify({
-            commit: Date.now() /*process.env.REACT_APP_GIT_COMMIT_ID*/,
+            commit: process.env.REACT_APP_GIT_COMMIT_ID,
           }),
         }),
     ].filter(Boolean),

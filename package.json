@@ -51,7 +51,7 @@
     "charting-library": "https://github.com/DistributedCollective/charting-library.git",
     "clsx": "1.1.1",
     "core-js": "3.7.0",
-    "create-file-webpack": "1.0.2",
+    "create-file-webpack-plugin": "1.0.1",
     "cross-env": "7.0.2",
     "css-loader": "3.4.2",
     "d3-array": "2.8.0",
