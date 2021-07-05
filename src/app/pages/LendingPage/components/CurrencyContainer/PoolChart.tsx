@@ -4,6 +4,7 @@ import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart'
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import { Spinner } from 'app/components/Spinner';
 import { LendingPool } from 'utils/models/lending-pool';
+import { abbreviateNumber } from 'utils/helpers';
 import { databaseRpcNodes } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
@@ -20,6 +21,29 @@ interface DataItem {
   supply_apr: number;
   supply: number;
 }
+
+const getUTCDateString = (date: Date): string => {
+  return `${date.getUTCFullYear()}-${
+    date.getUTCMonth() + 1
+  }-${date.getUTCDate()} ${String(date.getUTCHours()).padStart(
+    2,
+    '0',
+  )}:${String(date.getUTCMinutes()).padStart(2, '0')} UTC`;
+};
+
+const tooltipFormatter = function (this: any) {
+  return this.points?.reduce(function (s, point) {
+    const tooltipSuffix = point.series.userOptions?.tooltip?.valueSuffix;
+    return `${s}<br/>${point.series.name}: 
+      <span class='tw-font-bold'>
+        ${
+          point.y < 1000
+            ? point.y.toFixed(3)
+            : abbreviateNumber(Math.round(point.y), 3)
+        }${tooltipSuffix !== '%' ? ' ' : ''}${tooltipSuffix}
+      </span>`;
+  }, getUTCDateString(new Date(this.x)));
+};
 
 export function PoolChart(props: Props) {
   const { t } = useTranslation();
@@ -60,22 +84,6 @@ export function PoolChart(props: Props) {
     [data],
   );
 
-  const tooltipFormatter = function (this: any) {
-    const d = new Date(this.x);
-    return this.points?.reduce(
-      function (s, point) {
-        return `${s}<br/>${point.series.name}: ${point.y.toFixed(3)}${
-          point.series.userOptions?.tooltip?.valueSuffix
-        }`;
-      },
-      `<span class='tw-font-bold'>
-        ${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()} ${String(
-        d.getUTCHours(),
-      ).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')} UTC
-        </span>`,
-    );
-  };
-
   return (
     <>
       {data.length ? (
@@ -95,6 +103,7 @@ export function PoolChart(props: Props) {
             numDecimals: 3,
             suffix: `${asset}`,
           }}
+          margin={[30, 85, 30, 45]}
           tooltipFormatter={tooltipFormatter}
         />
       ) : (
