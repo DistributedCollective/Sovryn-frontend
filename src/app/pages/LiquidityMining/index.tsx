@@ -95,7 +95,7 @@ export function LiquidityMining() {
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          <LootDrop
+          {/* <LootDrop
             title="$37500 worth of MoC"
             asset1={Asset.DOC}
             asset2={Asset.RBTC}
@@ -104,7 +104,7 @@ export function LiquidityMining() {
             linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Pink}
-          />
+          /> */}
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
         {/*  <TopInfoWrapper>*/}
