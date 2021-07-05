@@ -25,6 +25,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const CreateFilePlugin = require('create-file-webpack');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -72,6 +73,7 @@ module.exports = function (webpackEnv) {
   // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
   // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
   // Get environment variables to inject into our app.
+  process.env.REACT_APP_GIT_COMMIT_ID = gitRevisionPlugin.commithash();
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 
   // common function to get style loaders
@@ -171,7 +173,7 @@ module.exports = function (webpackEnv) {
     ].filter(Boolean),
     output: {
       // The build folder.
-      path: isEnvProduction ? paths.appBuild : undefined,
+      path: paths.appBuild,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
@@ -621,22 +623,22 @@ module.exports = function (webpackEnv) {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
-      isEnvProduction &&
-        new WorkboxWebpackPlugin.GenerateSW({
-          clientsClaim: true,
-          exclude: [/\.map$/, /asset-manifest\.json$/],
-          importWorkboxFrom: 'cdn',
-          navigateFallback: paths.publicUrlOrPath + 'index.html',
-          navigateFallbackBlacklist: [
-            // Exclude URLs starting with /_, as they're likely an API call
-            new RegExp('^/_'),
-            // Exclude any URLs whose last part seems to be a file extension
-            // as they're likely a resource and not a SPA route.
-            // URLs containing a "?" character won't be blacklisted as they're likely
-            // a route with query params (e.g. auth callbacks).
-            new RegExp('/[^/?]+\\.[^/]+$'),
-          ],
-        }),
+      //isEnvProduction &&
+      new WorkboxWebpackPlugin.GenerateSW({
+        clientsClaim: true,
+        exclude: [/\.map$/, /asset-manifest\.json$/],
+        importWorkboxFrom: 'cdn',
+        navigateFallback: paths.publicUrlOrPath + 'index.html',
+        navigateFallbackBlacklist: [
+          // Exclude URLs starting with /_, as they're likely an API call
+          new RegExp('^/_'),
+          // Exclude any URLs whose last part seems to be a file extension
+          // as they're likely a resource and not a SPA route.
+          // URLs containing a "?" character won't be blacklisted as they're likely
+          // a route with query params (e.g. auth callbacks).
+          new RegExp('/[^/?]+\\.[^/]+$'),
+        ],
+      }),
       // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({
@@ -681,11 +683,14 @@ module.exports = function (webpackEnv) {
         new SriPlugin({
           hashFuncNames: ['sha256', 'sha384'],
         }),
-      new webpack.DefinePlugin({
-        'process.env.REACT_APP_GIT_COMMIT_ID': JSON.stringify(
-          gitRevisionPlugin.commithash(),
-        ),
-      }),
+      isEnvProduction &&
+        new CreateFilePlugin({
+          path: paths.appBuild,
+          fileName: 'version.json',
+          content: JSON.stringify({
+            commit: Date.now() /*process.env.REACT_APP_GIT_COMMIT_ID*/,
+          }),
+        }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.

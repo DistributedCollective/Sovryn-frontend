@@ -29,9 +29,10 @@ type Config = {
 
 export function register(config?: Config) {
   if (
-    process.env.NODE_ENV === 'production' &&
-    currentNetwork === 'mainnet' &&
-    'serviceWorker' in navigator
+    true ||
+    (process.env.NODE_ENV === 'production' &&
+      currentNetwork === 'mainnet' &&
+      'serviceWorker' in navigator)
   ) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -63,9 +64,9 @@ export function register(config?: Config) {
       }
     });
   }
-  if (currentNetwork !== 'mainnet') {
-    unregister();
-  }
+  // if (currentNetwork !== 'mainnet') {
+  //   unregister();
+  // }
 }
 
 function registerValidSW(swUrl: string, config?: Config) {
