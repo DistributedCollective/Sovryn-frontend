@@ -56,7 +56,7 @@ export function LiquidityMining() {
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 05',
+              date: 'July 12',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -67,7 +67,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 05',
+              date: 'July 12',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -78,7 +78,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 05',
+              date: 'July 12',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -89,13 +89,13 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 05',
+              date: 'July 12',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          <LootDrop
+          {/* <LootDrop
             title="$37500 worth of MoC"
             asset1={Asset.DOC}
             asset2={Asset.RBTC}
@@ -104,7 +104,7 @@ export function LiquidityMining() {
             linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Pink}
-          />
+          /> */}
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
         {/*  <TopInfoWrapper>*/}
