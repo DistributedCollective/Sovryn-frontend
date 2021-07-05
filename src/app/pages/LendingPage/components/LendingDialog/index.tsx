@@ -270,12 +270,8 @@ export function LendingDialog({
           />
         </div>
       </Dialog>
-      {type === 'add' && (
-        <TxDialog tx={lendTx} onSuccess={() => props.onCloseModal()} />
-      )}
-      {type === 'remove' && (
-        <TxDialog tx={unlendTx} onSuccess={() => props.onCloseModal()} />
-      )}
+      {type === 'add' && <TxDialog tx={lendTx} onSuccess={() => {}} />}
+      {type === 'remove' && <TxDialog tx={unlendTx} onSuccess={() => {}} />}
     </>
   );
 }
