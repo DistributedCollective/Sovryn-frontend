@@ -492,6 +492,7 @@
     "history": {
       "title": "Staking History",
       "asset": "Asset",
+      "action": "Action",
       "stakedAmount": "Amount",
       "stakingDate": "Date/Time",
       "hash": "Transaction Hash",
