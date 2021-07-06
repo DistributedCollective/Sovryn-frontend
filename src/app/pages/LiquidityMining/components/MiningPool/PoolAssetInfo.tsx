@@ -4,6 +4,7 @@ import type {
   LiquidityPoolSupplyAsset,
 } from 'utils/models/liquidity-pool';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
+import { useReserveWeight } from '../../../../hooks/useReserveWeight';
 import {
   getAmmContract,
   getAmmContractName,
@@ -26,10 +27,8 @@ interface Props {
 }
 
 export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
-  const weight = useCacheCallWithValue(
+  const weight = useReserveWeight(
     getAmmContractName(pool.poolAsset),
-    'reserveWeight',
-    '0',
     getTokenContract(supplyAsset.asset).address,
   );
 

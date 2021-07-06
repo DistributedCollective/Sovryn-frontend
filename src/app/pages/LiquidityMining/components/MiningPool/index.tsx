@@ -49,24 +49,6 @@ export function MiningPool({ pool, ammData }: Props) {
     [setSuccessfulTransactions],
   );
 
-  const LeftSection = () => {
-    return (
-      <div className="tw-flex tw-items-center tw-mr-4">
-        {/* Assets and balances */}
-        <div className="tw-flex tw-flex-col tw-justify-between">
-          {pool.supplyAssets.map((item, index) => (
-            <PoolAssetInfo
-              key={item.asset}
-              pool={pool}
-              supplyAsset={item}
-              className={index === 1 ? 'tw-mt-2.5' : ''}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   const Actions = () => {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
@@ -91,7 +73,23 @@ export function MiningPool({ pool, ammData }: Props) {
   return (
     <div>
       <CardRow
-        LeftSection={<LeftSection />}
+        LeftSection={
+          pool && (
+            <div className="tw-flex tw-items-center tw-mr-4">
+              {/* Assets and balances */}
+              <div className="tw-flex tw-flex-col tw-justify-between">
+                {pool.supplyAssets.map((item, index) => (
+                  <PoolAssetInfo
+                    key={item.asset}
+                    pool={pool}
+                    supplyAsset={item}
+                    className={index === 1 ? 'tw-mt-2.5' : ''}
+                  />
+                ))}
+              </div>
+            </div>
+          )
+        }
         ChartSection={
           ammData ? (
             <PoolChart pool={pool} history={ammData} />
