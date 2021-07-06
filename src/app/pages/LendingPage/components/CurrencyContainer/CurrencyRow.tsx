@@ -16,11 +16,18 @@ import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styl
 type Props = {
   lendingPool: LendingPool;
   lendingAmount: string;
+  depositLocked: boolean;
+  withdrawLocked: boolean;
 };
 
 export type DialogType = 'none' | 'add' | 'remove';
 
-const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
+const CurrencyRow: React.FC<Props> = ({
+  lendingPool,
+  lendingAmount,
+  depositLocked,
+  withdrawLocked,
+}) => {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
@@ -38,13 +45,14 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
           onClick={() => setDialog('add')}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
           textClassName="tw-text-base"
+          disabled={depositLocked}
         />
         <ActionButton
           text={t(translations.lendingPage.withdraw)}
           onClick={() => setDialog('remove')}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
-          disabled={isEmptyBalance}
+          disabled={isEmptyBalance || withdrawLocked}
         />
       </div>
     );
