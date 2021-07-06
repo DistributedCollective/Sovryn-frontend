@@ -160,10 +160,7 @@ export function VestingContract(props: Props) {
                   <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
                 </div>
                 <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                  {props.type === 'genesis' && 'Genesis SOV'}
-                  {props.type === 'origin' && 'Origin SOV'}
-                  {props.type === 'team' && 'Team SOV'}
-                  {props.type === 'reward' && 'Reward SOV'}
+                  {t(translations.stake.currentVests.assetType[props.type])}
                 </div>
               </div>
             </td>
