@@ -11,16 +11,24 @@ import { LendingDialog } from '../LendingDialog';
 import LeftSection from './LeftSection';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { Asset } from 'types';
+import { Tooltip } from '@blueprintjs/core';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 
 type Props = {
   lendingPool: LendingPool;
   lendingAmount: string;
+  depositLocked: boolean;
+  withdrawLocked: boolean;
 };
 
 export type DialogType = 'none' | 'add' | 'remove';
 
-const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
+const CurrencyRow: React.FC<Props> = ({
+  lendingPool,
+  lendingAmount,
+  depositLocked,
+  withdrawLocked,
+}) => {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>('none');
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
@@ -33,19 +41,58 @@ const CurrencyRow: React.FC<Props> = ({ lendingPool, lendingAmount }) => {
   const Actions = () => {
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
-        <ActionButton
-          text={t(translations.lendingPage.deposit)}
-          onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
-          textClassName="tw-text-base"
-        />
-        <ActionButton
-          text={t(translations.lendingPage.withdraw)}
-          onClick={() => setDialog('remove')}
-          className="tw-block tw-w-full tw-rounded-lg"
-          textClassName="tw-text-base"
-          disabled={isEmptyBalance}
-        />
+        {!depositLocked ? (
+          <ActionButton
+            text={t(translations.lendingPage.deposit)}
+            onClick={() => setDialog('add')}
+            className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+            textClassName="tw-text-base"
+            disabled={depositLocked}
+          />
+        ) : (
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            className="tw-block"
+            interactionKind="hover"
+            content={t(translations.maintenance.depositLend)}
+          >
+            <ActionButton
+              text={t(translations.lendingPage.deposit)}
+              onClick={() => setDialog('add')}
+              className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+              textClassName="tw-text-base"
+              disabled={depositLocked}
+            />
+          </Tooltip>
+        )}
+        {!withdrawLocked ? (
+          <ActionButton
+            text={t(translations.lendingPage.withdraw)}
+            onClick={() => setDialog('remove')}
+            className="tw-block tw-w-full tw-rounded-lg"
+            textClassName="tw-text-base"
+            disabled={isEmptyBalance || withdrawLocked}
+          />
+        ) : (
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            className="tw-block"
+            interactionKind="hover"
+            content={t(translations.maintenance.withdrawLend)}
+          >
+            <ActionButton
+              text={t(translations.lendingPage.withdraw)}
+              onClick={() => setDialog('remove')}
+              className="tw-block tw-w-full tw-rounded-lg"
+              textClassName="tw-text-base"
+              disabled={isEmptyBalance || withdrawLocked}
+            />
+          </Tooltip>
+        )}
       </div>
     );
   };
