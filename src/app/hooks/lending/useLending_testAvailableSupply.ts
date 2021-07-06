@@ -37,7 +37,7 @@ export function useLending_testAvailableSupply(
       max = bignumber(0);
     }
     setAvailableAmount(max.toFixed());
-    setIsSufficient(max.greaterThan(weiAmount || '0'));
+    setIsSufficient(max.greaterThanOrEqualTo(weiAmount || '0'));
   }, [supply, borrowed, weiAmount]);
 
   return {

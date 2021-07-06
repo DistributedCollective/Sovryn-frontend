@@ -6,7 +6,7 @@ import styled from 'styled-components/macro';
 import { Tooltip } from '@blueprintjs/core';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { actions } from 'app/containers/LendBorrowSovryn/slice';
+import { actions } from 'app/pages/BorrowPage/slice';
 
 import { InterestAPR } from '../ActiveUserLoanContainer/components/InterestAPR';
 import { DisplayDate } from '../ActiveUserLoanContainer/components/DisplayDate';

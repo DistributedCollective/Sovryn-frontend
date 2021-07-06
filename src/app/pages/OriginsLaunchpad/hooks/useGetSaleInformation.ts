@@ -21,6 +21,7 @@ export const useGetSaleInformation = (tierId: number) => {
     depositToken: Asset.RBTC,
     depositType: DepositType.RBTC,
     verificationType: VerificationType.None,
+    totalSaleAllocation: 0,
   });
 
   useEffect(() => {
@@ -64,6 +65,17 @@ export const useGetSaleInformation = (tierId: number) => {
               : assetByTokenAddress(result[0]),
           depositType: result[1],
           verificationType: result[2],
+        }));
+      });
+  }, [tierId]);
+
+  useEffect(() => {
+    contractReader
+      .call<number>('originsBase', 'getTotalTokenAllocationPerTier', [tierId])
+      .then(result => {
+        setSaleInfo(prevValue => ({
+          ...prevValue,
+          totalSaleAllocation: result,
         }));
       });
   }, [tierId]);
