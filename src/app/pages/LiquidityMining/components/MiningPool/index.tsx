@@ -1,23 +1,25 @@
-import React, { useCallback, useState } from 'react';
 import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
 import cn from 'classnames';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { translations } from '../../../../../locales/i18n';
+import { CardRow } from 'app/components/FinanceV2Components/CardRow';
+import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { AddLiquidityDialog } from '../AddLiquidityDialog';
-import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Asset } from 'types';
+
+import { translations } from '../../../../../locales/i18n';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
+import { useCanInteract } from '../../../../hooks/useCanInteract';
+import { AddLiquidityDialog } from '../AddLiquidityDialog';
+import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
+import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
+import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
 import { PoolAssetInfo } from './PoolAssetInfo';
 import { PoolChart } from './PoolChart';
 import { UserPoolInfo } from './UserPoolInfo';
-import { useCanInteract } from '../../../../hooks/useCanInteract';
-import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
-import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
-import { CardRow } from 'app/components/FinanceV2Components/CardRow';
-import { Asset } from 'types';
-import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { useMaintenance } from 'app/hooks/useMaintenance';
+
 import type { AmmHistory } from './types';
 
 interface Props {
