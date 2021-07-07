@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import i18next from 'i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { FormSelect } from '../../components/FormSelect';
-import { languageLocalStorageKey, languages } from '../../../locales/i18n';
+import {
+  languageLocalStorageKey,
+  languages,
+  walletLanguageLocalStorageKey,
+} from '../../../locales/i18n';
 
 export function LanguageToggle() {
   const [currentLang, setCurrentLang] = useState(
@@ -13,6 +17,7 @@ export function LanguageToggle() {
   const changeLanguage = lng => {
     i18next.changeLanguage(lng);
     reactLocalStorage.set(languageLocalStorageKey, lng);
+    reactLocalStorage.set(walletLanguageLocalStorageKey, lng);
     setCurrentLang(lng);
   };
 

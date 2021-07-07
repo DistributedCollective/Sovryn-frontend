@@ -33,6 +33,7 @@ const translationsJson = {
 export const languages = Object.keys(translationsJson);
 
 export const languageLocalStorageKey = 'i18nextLng_dapp';
+export const walletLanguageLocalStorageKey = 'i18nextLng'; // language key for @sovryn/react-wallet
 
 export type TranslationResource = typeof en;
 export type LanguageKey = keyof TranslationResource;
