@@ -18,6 +18,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useFetch } from 'app/hooks/useFetch';
 import { backendUrl, currentChainId } from 'utils/classifiers';
+import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -41,6 +42,7 @@ export function LiquidityMining() {
 
   return (
     <>
+      <LocalSharedArrayBuffer />
       <Helmet>
         <title>{t(translations.escrowPage.meta.title)}</title>
         <meta
