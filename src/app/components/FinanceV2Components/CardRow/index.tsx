@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { StyledCardRow } from './styled';
 
 interface ICardRowProps {
@@ -24,7 +25,7 @@ export const CardRow: React.FC<ICardRowProps> = ({
     >
       {LeftSection && <div>{LeftSection}</div>}
       {ChartSection && (
-        <div className="tw-mr-3 tw-relative tw-min-w-md tw-max-w-md 2xl:tw-max-w-lg">
+        <div className="tw-mr-3 tw-relative md:tw-w-100 tw-min-w-md tw-max-w-md 2xl:tw-max-w-lg">
           {ChartSection}
         </div>
       )}
