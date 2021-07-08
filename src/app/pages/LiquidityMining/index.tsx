@@ -1,24 +1,27 @@
+import cn from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation, Trans } from 'react-i18next';
-import cn from 'classnames';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { translations } from 'locales/i18n';
-import { Header } from 'app/components/Header';
-import { Footer } from 'app/components/Footer';
-import { MiningPool } from './components/MiningPool';
-import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
-import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
-import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { HistoryTable } from './components/HistoryTable';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
-import { useFetch } from 'app/hooks/useFetch';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { Footer } from 'app/components/Footer';
+import { Header } from 'app/components/Header';
 import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
+import { useFetch } from 'app/hooks/useFetch';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { translations } from 'locales/i18n';
+import { Asset } from 'types';
+import { discordInvite } from 'utils/classifiers';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+
+import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
+import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { useAccount } from '../../hooks/useAccount';
+import { AmmPoolsBanner } from './components/AmmPoolsBanner';
+import { HistoryTable } from './components/HistoryTable';
+import { MiningPool } from './components/MiningPool';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -29,7 +32,7 @@ export function LiquidityMining() {
     [States.ADD_LIQUIDITY]: addLiqLocked,
     [States.REMOVE_LIQUIDITY]: removeLiqLocked,
   } = checkMaintenances();
-
+  const account = useAccount();
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
@@ -183,10 +186,15 @@ export function LiquidityMining() {
           <div className="tw-px-3 tw-text-lg">
             {t(translations.liquidityMining.historyTable.title)}
           </div>
-          <HistoryTable />
+          {!account ? (
+            <SkeletonRow
+              loadingText={t(translations.topUpHistory.walletHistory)}
+            />
+          ) : (
+            <HistoryTable />
+          )}
         </div>
       </div>
-
       <Footer />
     </>
   );

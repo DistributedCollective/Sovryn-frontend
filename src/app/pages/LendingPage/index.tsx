@@ -1,19 +1,24 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
-import CurrencyContainer from './components/CurrencyContainer';
 import { Header } from 'app/components/Header';
-import { Footer } from '../../components/Footer';
-// import { LootDropSectionWrapper } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
+// import { translations } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 // import { LootDrop } from 'app/components/FinanceV2Components/LootDrop';
 // import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
+
+import { Footer } from '../../components/Footer';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { useAccount } from '../../hooks/useAccount';
+import CurrencyContainer from './components/CurrencyContainer';
 import { HistoryTable } from './components/HistoryTable';
+
 // import { Asset } from 'types';
 
 const LendingPage: React.FC = () => {
   const { t } = useTranslation();
+  const account = useAccount();
 
   return (
     <>
@@ -46,7 +51,13 @@ const LendingPage: React.FC = () => {
           <div className="tw-px-3 tw-text-lg">
             {t(translations.lendingPage.historyTable.title)}
           </div>
-          <HistoryTable />
+          {!account ? (
+            <SkeletonRow
+              loadingText={t(translations.topUpHistory.walletHistory)}
+            />
+          ) : (
+            <HistoryTable />
+          )}
         </div>
       </div>
 
