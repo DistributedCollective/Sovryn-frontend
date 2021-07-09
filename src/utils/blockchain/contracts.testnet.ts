@@ -245,7 +245,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x38729759415b27F70D5ca91CE357c45214B95Cf4',
+    address: '0x36B3b4C34906f6C6B5148b8d228cF6cD90837297',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
