@@ -11,7 +11,6 @@ import { AddressBadge } from '../../../components/AddressBadge';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { LoadableValue } from '../../../components/LoadableValue';
 import { useTranslation } from 'react-i18next';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
@@ -195,7 +194,7 @@ function AssetRow(props: AssetProps) {
         </div>
       </td>
       <td className="tw-text-left tw-font-normal">
-        {weiToNumberFormat(props.item[0])} {t(translations.stake.sov)}
+        {numberFromWei(props.item[0])} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
