@@ -2,7 +2,7 @@
   "common": {
     "back": "Voltar",
     "min": "mín",
-    "max": "max",
+    "max": "máx",
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
@@ -216,7 +216,7 @@
   },
   "amountField": {
     "placeholder": "Insira a quantidade",
-    "btn_max": "Max"
+    "btn_max": "Máx"
   },
   "wallet": {
     "btn": "Conectar carteira",
