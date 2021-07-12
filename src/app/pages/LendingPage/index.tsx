@@ -31,7 +31,7 @@ const LendingPage: React.FC = () => {
             title="15K SOV"
             asset1={Asset.XUSD}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 12',
+              date: 'July 19',
             })}
             linkUrl="https://wiki.sovryn.app/en/sovryn-dapp/lending#sov-loot-drops-on-lending-pools"
             linkText={t(translations.liquidityMining.lootDropLink)}
