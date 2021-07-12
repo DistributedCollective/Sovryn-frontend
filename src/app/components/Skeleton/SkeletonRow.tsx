@@ -1,13 +1,15 @@
 import React from 'react';
+import cn from 'classnames';
 
 interface Props {
   loadingText?: React.ReactNode;
+  className?: string;
 }
 
-export function SkeletonRow(props: Props) {
+export function SkeletonRow({ loadingText, className }: Props) {
   return (
-    <div className="tw-relative">
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-4 tw-mt-0">
+    <div className={cn('tw-relative', className)}>
+      <div className="tw-grid tw-gap-8 tw-grid-cols-4 tw-mt-0">
         <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
@@ -18,7 +20,7 @@ export function SkeletonRow(props: Props) {
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
       </div>
-      <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-6 tw-mt-6">
+      <div className="tw-grid tw-gap-8 tw-grid-cols-6 tw-mt-6">
         <div className="tw-col-span-3">
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
@@ -26,10 +28,10 @@ export function SkeletonRow(props: Props) {
           <div className="bp3-skeleton">&nbsp;</div>
         </div>
       </div>
-      {props.loadingText && (
+      {loadingText && (
         <div className="skeleton-overlay">
           <div className="tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center">
-            <>{props.loadingText}</>
+            <>{loadingText}</>
           </div>
         </div>
       )}
