@@ -18,17 +18,34 @@ export function useLending_balanceOf(asset: Asset, owner: string) {
 
   useEffect(() => {
     const run = async () => {
-      const balance: string = await contractReader.call(
-        getLendingContractName(asset),
-        'balanceOf',
-        [owner],
-      );
-      const balanceOfLM: string = await contractReader.call(
-        'liquidityMiningProxy',
-        'getUserPoolTokenBalance',
-        [getLendingContract(asset).address, owner],
-      );
-      return bignumber(balance).add(balanceOfLM).toString();
+      let balance: any;
+      let balanceOfLM: any;
+
+      try {
+        balance = await contractReader.call(
+          getLendingContractName(asset),
+          'balanceOf',
+          [owner],
+        );
+      } catch (err) {
+        console.log(`useLending_balanceOf balanceOf failed`);
+      }
+
+      try {
+        balanceOfLM = await contractReader.call(
+          'liquidityMiningProxy',
+          'getUserPoolTokenBalance',
+          [getLendingContract(asset).address, owner],
+        );
+      } catch (err) {
+        console.log(`useLending_balanceOf getUserPoolTokenBalance failed`);
+      }
+
+      let total: math.BigNumber = bignumber(0);
+      if (!isNaN(balance)) total = total.add(balance);
+      if (!isNaN(balanceOfLM)) total = total.add(balanceOfLM);
+
+      return total.toString();
     };
 
     if (!owner || owner === ethGenesisAddress) {
