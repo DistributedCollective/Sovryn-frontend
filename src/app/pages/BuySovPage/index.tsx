@@ -10,7 +10,6 @@ import styled from 'styled-components/macro';
 
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
-import PageHeader from '../../components/PageHeader';
 import { ArrowStep } from './components/ArrowStep';
 import { EngageWalletStep } from './components/EngageWallet';
 import { TopUpWallet } from './components/TopUpWallet';
@@ -18,33 +17,12 @@ import { BuyForm } from './components/BuyForm';
 import { Welcome } from './components/Welcome';
 import { InfoBar } from './components/InfoBar';
 
-import { Banner } from './components/Banner';
-import { Promotions } from './components/Promotions';
 import { Features } from './components/Features';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 
 export function BuySovPage() {
   const { t } = useTranslation();
-  const ref1 = useRef<HTMLDivElement>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const scrollTo = useCallback(() => {
-    if (ref.current) {
-      window.scrollTo({
-        top: ref.current.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  }, [ref]);
-
-  const bannerClick = useCallback(() => {
-    if (ref1.current) {
-      window.scrollTo({
-        top: ref1.current.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  }, [ref1]);
 
   return (
     <>
@@ -56,12 +34,7 @@ export function BuySovPage() {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
-        <Banner onClick={bannerClick} />
-
-        <div ref={ref1} />
-        <PageHeader content={t(translations.buySovPage.title)} />
-
+      <div className="container pt-5 font-family-montserrat">
         <InfoBar />
 
         <div className="w-100 d-xl-flex flex-row justify-content-center">
@@ -86,13 +59,6 @@ export function BuySovPage() {
           </div>
         </div>
 
-        <div className="w-100 text-center">
-          <Learn onClick={scrollTo}>{t(translations.buySovPage.earn)}</Learn>
-        </div>
-
-        <Promotions />
-
-        <div ref={ref} />
         <Features />
       </div>
       <Footer />
