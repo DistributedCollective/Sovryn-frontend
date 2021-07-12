@@ -189,6 +189,7 @@ export function LiquidityMining() {
           {!account ? (
             <SkeletonRow
               loadingText={t(translations.topUpHistory.walletHistory)}
+              className="tw-mt-2"
             />
           ) : (
             <HistoryTable />

@@ -54,6 +54,7 @@ const LendingPage: React.FC = () => {
           {!account ? (
             <SkeletonRow
               loadingText={t(translations.topUpHistory.walletHistory)}
+              className="tw-mt-2"
             />
           ) : (
             <HistoryTable />
