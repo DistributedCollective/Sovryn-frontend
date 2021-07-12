@@ -7,8 +7,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../Dialog/Loadable';
-import { selectLendBorrowSovryn } from '../LendBorrowSovryn/selectors';
-import { actions } from '../LendBorrowSovryn/slice';
+import { selectLendBorrowSovryn } from '../../pages/BorrowPage/selectors';
+import { actions } from '../../pages/BorrowPage/slice';
 import { useGetLoan } from '../../hooks/trading/useGetLoan';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { RepayPositionForm } from './RepayPositionForm';

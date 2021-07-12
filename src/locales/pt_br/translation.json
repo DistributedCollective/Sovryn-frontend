@@ -394,18 +394,18 @@
       "address": "Insira ou cole o endereço"
     },
     "withdraw": {
-      "title": "Desinvestir SOV",
+      "title": "Resgatar SOV",
       "amountCurrentlyStaked": "Quantidade atualmente investida",
       "amountToUnstake": "Quantidade a ser resgatada",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
-      "forfeit": "Multa por resgatar investimento antes do prazo",
+      "forfeit": "Multa por resgatar SOV antes do prazo",
       "closeDialog": "Fechar janela",
-      "reallyUnstake": "Você tem certeza de que deseja resgatar o investimento?",
+      "reallyUnstake": "Você tem certeza de que deseja resgatar seus SOV?",
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
-      "penalty": "Resgatar investimento neste momento fará com que você receba uma penalidade",
+      "penalty": "Resgatar SOV neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
-      "unstake": "Ok, resgatar investimento"
+      "unstake": "Ok, resgatar SOV"
     },
     "staking": {
       "title": "Investir SOV",
@@ -474,6 +474,7 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
+    "aer": "Juros anual",
     "currency": "Criptoativo",
     "currencySelect": "Selecionar criptoativo",
     "poolSelect": "Selecionar pool",
@@ -484,6 +485,7 @@
     "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
+    "totalLiquidity": "Liquidez total",
     "transfer": "Transferir",
     "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
@@ -567,7 +569,8 @@
       "amount": "Valor do empréstimo",
       "tokenAssetCollateral": "Criptoativo a ser colaterizado e quantidade",
       "borrow": "Obter empréstimo",
-      "chooseDays": "Quantidade de dias"
+      "chooseDays": "Quantidade de dias",
+      "disabled": "Criptoativo não disponível para empréstimo."
     }
   },
   "activeUserBorrows": {
@@ -859,7 +862,18 @@
       "from": "De",
       "to": "Para",
       "txFee": "Taxa de transação",
-      "cta": "Converter para XUSD"
+      "cta": "Converter para XUSD",
+      "txDialog": {
+        "titleInProgress": "Transação em andamento",
+        "titleCompleted": "Transação concluída",
+        "titleFailed": "Transação falhou",
+        "statusInProgress": "O processo de conversão pode demorar alguns minutos",
+        "dateTime": "Data e hora",
+        "amountSent": "Quantidade enviada",
+        "amountReceived": "Quantidade recebida",
+        "hash": "ID transação",
+        "cta": "Fechar"
+      }
     }
   },
   "swapHistory": {
@@ -970,6 +984,19 @@
         "amount": "Quantidade:",
         "reward": "Recompensa:",
         "depositBalance": "Você emprestou: <0/> <1/>"
+      }
+    },
+    "historyTable": {
+      "title": "Histórico",
+      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "lendingAmount": "Quantidade",
+        "transactionHash": "ID transação",
+        "status": "Status"
       }
     }
   },
@@ -1135,7 +1162,7 @@
       "title": "Recompensas",
       "availble": "Quantidade de SOV disponível:",
       "cta": "Reivindicar",
-      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgate após 1 mês.",
+      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de transferi-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
     "totalEarned": "Total ganho:",
@@ -1247,7 +1274,7 @@
       }
     },
     "lootDropLink": "Saiba mais",
-    "chartOverlayText": "APY% Em breve!",
+    "chartOverlayText": "Juros anual% Em breve!",
     "recalibration": "Próximo ajuste em {{date}}"
   },
   "buySovPage": {
@@ -1384,5 +1411,30 @@
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser resgatado!",
     "cta": "Resgatar SOV"
+  },
+  "affiliates": {
+    "title": "Traga seus amigos para a Sovryn e ganhe cripto",
+    "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
+    "refLink": "Compartilhe seu link de indicação",
+    "feesEarned": "Ganho",
+    "rewardSOVEarned": "SOV líquido ganho",
+    "numberReferrals": "Número de indicações",
+    "linkCopied": "Link copiado",
+    "referralHistory": "Histórico",
+    "terms": "Termos e condições",
+    "text": "Indique a Sovryn para seus amigos e ganhe <1>bônus de recompensa em $SOV e .01% das taxas cobradas</1> em cada transação feita por novas carteiras criadas com o seu link de indicação.",
+    "claim": "Reinvindicar",
+    "tableHeaders": {
+      "date": "Data e hora",
+      "type": "Tipo",
+      "from": "De",
+      "sovAmount": "SOV líquido ganho",
+      "feesAmount": "Ganho",
+      "hash": "ID transação",
+      "status": "Status"
+    },
+    "tableEmpty": "Você ainda não indicou ninguém.",
+    "referralFrom": "Indicação",
+    "referralUnknown": "Indicação desconhecida"
   }
 }

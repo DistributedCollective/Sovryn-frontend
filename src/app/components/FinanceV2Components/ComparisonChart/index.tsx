@@ -18,13 +18,16 @@ export interface ComparisonProps {
   secondaryData?: Dataset;
   totalData?: Dataset;
   className?: string;
+  margin?: [number, number, number, number];
+  tooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
 }
 
 export default function ComparisonChart(props: ComparisonProps) {
   const options: ChartProps = {
     height: 150,
-    margin: [30, 45, 30, 45],
+    margin: props.margin || [30, 45, 30, 45],
     labelColor: '#EDEDED',
+    tooltipFormatter: props.tooltipFormatter,
     yAxisProps: {
       suffix: '%',
     },

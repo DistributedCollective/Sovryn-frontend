@@ -105,6 +105,7 @@ module.exports = {
       teal: '#4ecdc4',
       gold: '#fec004',
       red: '#eb2106',
+      error: '#A52222',
       green: '#00ce7d',
       customOrange: '#ff9931',
       Gold: '#fec004',
@@ -128,9 +129,13 @@ module.exports = {
     },
     extend: {
       maxWidth: {
+        '7.5rem': '7.5rem',
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
+        '20rem': '20rem',
         '20.5rem': '20.5rem',
+        '28.75rem': '28.75rem',
+        '31.25rem': '31.25rem',
         '50': '50%',
         '65': '65%',
         '70': '70%',
@@ -140,6 +145,7 @@ module.exports = {
         '90': '90%',
       },
       width: {
+        '100': '25rem',
         '139': '34.75rem',
         '155': '38.75rem',
         '163': '40.75rem',

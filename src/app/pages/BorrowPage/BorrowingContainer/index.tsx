@@ -17,7 +17,6 @@ import { Asset } from '../../../../types';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
 import { FieldGroup } from '../../../components/FieldGroup';
-import { AmountField } from '../../AmountField';
 import { AssetWalletBalance } from '../../../components/AssetWalletBalance';
 import { DummyField } from '../../../components/DummyField/Loadable';
 import { weiTo4, weiToFixed } from '../../../../utils/blockchain/math-helpers';
@@ -31,6 +30,7 @@ import { LendingPoolDictionary } from '../../../../utils/dictionaries/lending-po
 import { useLending_testAvailableSupply } from '../../../hooks/lending/useLending_testAvailableSupply';
 import { useMaintenance } from '../../../hooks/useMaintenance';
 import { useLending_getDepositAmountForBorrow } from '../../../hooks/lending/useLending_getDepositAmountForBorrow';
+import { AmountField } from 'app/containers/AmountField';
 import { TxStatus } from 'store/global/transactions-store/types';
 
 type Props = {
