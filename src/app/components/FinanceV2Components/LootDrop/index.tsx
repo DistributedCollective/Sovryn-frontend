@@ -6,7 +6,7 @@ import { HighlightedBorder, LootDropColors, LootDropWrapper } from './styled';
 interface ILootDropProps {
   title: string | JSX.Element;
   asset1: Asset;
-  asset2: Asset;
+  asset2?: Asset;
   startDate?: string;
   endDate?: string;
   message?: string;
