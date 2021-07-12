@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Asset } from 'types/asset';
 import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
-import { useIsConnected } from 'app/hooks/useAccount';
+import { useBlockSync, useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -29,12 +29,13 @@ export function AssetWalletBalance(props: Props) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const { t } = useTranslation();
   const connected = useIsConnected();
+  const blockSync = useBlockSync();
 
   useEffect(() => {
     if (props.onBalance) {
       props.onBalance(value);
     }
-  }, [props, value]);
+  }, [props, value, blockSync]);
 
   return (
     <div>

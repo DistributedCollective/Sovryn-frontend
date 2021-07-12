@@ -188,3 +188,21 @@ export function getUSDSum(array: any[]) {
     return sum + value;
   }, 0);
 }
+
+export const abbreviateNumber = (
+  value: number,
+  decimals: number = 2,
+): string => {
+  if (value < 1000) return String(value);
+  const suffixes = ['', 'k', 'm', 'b', 't'];
+  const suffixNum = Math.floor(String(value).length / 3);
+  let shortValue: any = parseFloat(
+    (suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(
+      2 + decimals,
+    ),
+  );
+  if (shortValue % 1 !== 0) {
+    shortValue = shortValue.toFixed(decimals);
+  }
+  return shortValue + suffixes[suffixNum];
+};
