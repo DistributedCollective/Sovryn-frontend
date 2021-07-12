@@ -317,7 +317,7 @@ function InnerStakePage() {
                     balanceOf.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(balanceOf.value).toLocaleString()} SOV
+                  {weiToFixed(balanceOf.value, 4)} SOV
                 </p>
                 <Modal
                   show={stakeForm}
@@ -404,7 +404,7 @@ function InnerStakePage() {
                     voteBalance.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(voteBalance.value).toLocaleString()}
+                  {weiToFixed(voteBalance.value, 4)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <Link
@@ -615,7 +615,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             )}
           </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
               value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
               loading={dollars.loading}

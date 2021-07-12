@@ -8,7 +8,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
@@ -168,7 +168,7 @@ export function VestingContract(props: Props) {
               <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
                 {lockedAmount.value && (
                   <>
-                    {numberFromWei(lockedAmount.value)}{' '}
+                    {weiToFixed(lockedAmount.value, 4)}{' '}
                     {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
