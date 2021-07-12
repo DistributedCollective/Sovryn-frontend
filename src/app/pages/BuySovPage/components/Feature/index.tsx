@@ -52,6 +52,11 @@ const Article = styled.article`
   margin: 70px auto;
   font-size: 16px;
   font-weight: 400;
+
+  + ${() => Article} {
+    margin-top: 160px;
+  }
+
   h1 {
     text-transform: none;
     font-size: 26px;

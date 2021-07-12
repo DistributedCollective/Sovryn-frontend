@@ -37,7 +37,7 @@ export function BuySovPage() {
       <div className="container pt-5 font-family-montserrat">
         <InfoBar />
 
-        <div className="w-100 d-xl-flex flex-row justify-content-center">
+        <Onboarding className="w-100 mx-auto d-xl-flex flex-row justify-content-center">
           <div>
             <div className="w-100 d-md-flex flex-row justify-content-center align-items-center">
               <EngageWalletStep />
@@ -57,7 +57,7 @@ export function BuySovPage() {
             </Rotated>
             <BuyForm />
           </div>
-        </div>
+        </Onboarding>
 
         <Features />
       </div>
@@ -66,15 +66,9 @@ export function BuySovPage() {
   );
 }
 
-const Learn = styled.button`
-  border: 1px solid #e9eae9;
-  color: #e9eae9;
-  padding: 7px 41px;
-  margin: 90px auto 115px;
-  display: inline-block;
-  border-radius: 10px;
-  background: transparent;
-  text-transform: none;
+const Onboarding = styled.div`
+  max-width: 1200px;
+  margin-bottom: 170px;
 `;
 
 const Rotated = styled.div`
@@ -82,6 +76,7 @@ const Rotated = styled.div`
     transform: rotate(90deg);
   }
 `;
+
 const RotatedMob = styled.div`
   @media (max-width: 768px) {
     img {

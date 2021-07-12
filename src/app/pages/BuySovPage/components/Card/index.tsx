@@ -54,17 +54,11 @@ const Container = styled.article`
   ${props =>
     props.large &&
     css`
+      width: 100%;
+      min-width: 370px;
+      max-width: 450px;
       padding-bottom: 30px;
       margin: 0 auto;
-      @media (min-width: 768px) {
-        min-width: 450px;
-      }
-      @media (min-width: 1200px) {
-        min-width: 370px;
-      }
-      @media (min-width: 1300px) {
-        min-width: 450px;
-      }
     `}
 `;
 
