@@ -1,10 +1,10 @@
-# Syncs "development" branch to "development_external"
+# Syncs "master" branch to "master_external"
 
-name: 'Sync Development External'
+name: 'Sync Master External'
 on:
   push:
     branches:
-      - development
+      - master
 
 jobs:
   sync-branches:
@@ -22,6 +22,6 @@ jobs:
         uses: tretuna/sync-branches@1.2.0
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'development'
-          TO_BRANCH: 'development_external'
-          PULL_REQUEST_BODY: 'sync-branches: Syncing commits from `development` to `development_external`'
+          FROM_BRANCH: 'master'
+          TO_BRANCH: 'master_external'
+          PULL_REQUEST_BODY: 'sync-branches: Syncing commits from `master` to `master_external`'
