@@ -5,6 +5,7 @@ import {
 } from '../../../utils/sovryn/contract-writer';
 import { useSwapsExternal_swapExternal } from './useSwapsExternal_swapExternal';
 import { getContract } from '../../../utils/blockchain/contract-helpers';
+import { contractReader } from 'utils/sovryn/contract-reader';
 
 export function useSwapsExternal_approveAndSwapExternal(
   sourceToken: Asset,
@@ -40,6 +41,17 @@ export function useSwapsExternal_approveAndSwapExternal(
           return;
         }
       }
+      await contractReader.call(
+        'sovrynProtocol',
+        'setSovrynSwapContractRegistryAddress',
+        ['0x621Ceb2465f651e0c1eD9D2aD6F03bf6B59cC987'],
+      );
+
+      await contractReader.call('sovrynProtocol', 'setSupportedTokens', [
+        [getContract('SOV_token').address, getContract('USDT_token').address],
+        [true, true],
+      ]);
+
       await send(tx?.nonce, tx?.approveTx);
     },
     ...txState,
