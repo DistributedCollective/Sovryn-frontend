@@ -7,7 +7,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
-import logoSvg from 'assets/images/sovryn-logo-white.svg';
+import sovLogo from 'assets/images/sovryn-logo-alpha.png';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -266,7 +266,7 @@ export function Header() {
           <div className="xl:tw-flex tw-flex-row tw-items-center">
             <div className="tw-mr-5 2xl:tw-mr-20">
               <Link to="/">
-                <StyledLogo src={logoSvg} />
+                <StyledLogo src={sovLogo} />
               </Link>
             </div>
             <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10">
@@ -466,11 +466,11 @@ const StyledLogo = styled.img.attrs(_ => ({
   alt: '',
 }))`
   width: 130px;
-  height: 22px;
+  height: 32px;
   margin: 0 0 0 1rem;
   ${media.xl`
     width: 216px;
-    height: 38px;
+    height: 53px;
     margin: 0;
   `}
 `;
