@@ -29,7 +29,7 @@ export function HistoryEventsTable() {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
   const [eventsHistory, setEventsHistory] = useState<any>([]);
-  const [viewHistory, setViewHistory] = useState(false);
+  const [isHistoryLoading, seIsHistoryLoading] = useState(false);
   const [currentHistory, setCurrentHistory] = useState([]) as any;
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
@@ -38,12 +38,12 @@ export function HistoryEventsTable() {
   };
 
   const getHistory = useCallback(() => {
-    setViewHistory(true);
+    seIsHistoryLoading(true);
     axios
       .get(`${backendUrl[chainId]}/events/stake/${account}`)
       .then(({ data }) => {
         setEventsHistory(data.events);
-        setViewHistory(false);
+        seIsHistoryLoading(false);
       });
   }, [account, chainId]);
 
@@ -79,7 +79,7 @@ export function HistoryEventsTable() {
                 <HistoryTable items={currentHistory} />
               )}
 
-              {viewHistory ? (
+              {isHistoryLoading ? (
                 <tr>
                   <td colSpan={5} className="tw-text-center tw-font-normal">
                     <StyledLoading className="loading">
