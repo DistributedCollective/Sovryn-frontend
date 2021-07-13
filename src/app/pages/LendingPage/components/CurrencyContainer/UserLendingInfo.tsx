@@ -1,25 +1,24 @@
-import React, { useMemo, useEffect } from 'react';
+import { bignumber } from 'mathjs';
+import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
+import { TableBodyData, TableHeader } from 'app/components/FinanceV2Components/RowTable/styled';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
+import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
+import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
+import { useAccount } from 'app/hooks/useAccount';
+import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
+import { translations } from 'locales/i18n';
+import { Asset } from 'types';
+import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { LendingPool } from 'utils/models/lending-pool';
+
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
-import {
-  TableBodyData,
-  TableHeader,
-} from 'app/components/FinanceV2Components/RowTable/styled';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import { LendingPool } from 'utils/models/lending-pool';
-import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
-import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
-import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
-import { bignumber } from 'mathjs';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { useAccount } from 'app/hooks/useAccount';
-import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
-import { LoadableValue } from 'app/components/LoadableValue';
-import { AssetRenderer } from 'app/components/AssetRenderer';
-import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
-import { Asset } from 'types';
 
 interface IUserLendingInfoProps {
   lendingPool: LendingPool;
@@ -38,6 +37,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const { value: rewards } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
+  console.log('reward,', weiToFixed(rewards, 8));
   const { value: profitCall, loading: pLoading } = useLending_profitOf(
     asset,
     account,
