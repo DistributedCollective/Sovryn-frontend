@@ -496,7 +496,7 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "aer": "Juros anual",
+    "apy": "Juros anual",
     "currency": "Ativo",
     "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
