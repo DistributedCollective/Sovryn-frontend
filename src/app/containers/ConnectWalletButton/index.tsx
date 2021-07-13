@@ -40,7 +40,7 @@ export function ConnectWalletButton() {
           <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
             {imgSrc && <img src={imgSrc} alt={address} className="tw-mr-4" />}
             <div className="tw-flex tw-flex-row tw-justify-between">
-              <strong>{prettyTx(address)}</strong>
+              <strong>{prettyTx(address || '')}</strong>
               <Button
                 small
                 minimal

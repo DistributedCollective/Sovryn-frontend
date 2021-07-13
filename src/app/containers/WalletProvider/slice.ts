@@ -50,7 +50,7 @@ const walletProviderSlice = createSlice({
 
     chainChanged(
       state,
-      action: PayloadAction<{ chainId: number; networkId: number }>,
+      action: PayloadAction<{ chainId?: number; networkId?: number }>,
     ) {
       state.chainId = action.payload.chainId;
       state.networkId = action.payload.networkId;

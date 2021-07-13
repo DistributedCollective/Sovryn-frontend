@@ -27,7 +27,7 @@ export function useCanInteract(ignoreWhitelist: boolean = false) {
         item =>
           (item.status === TxStatus.PENDING ||
             item.status === TxStatus.PENDING_FOR_USER) &&
-          item.from.toLowerCase() === address.toLowerCase(),
+          item.from.toLowerCase() === address?.toLowerCase(),
       ).length <= 4
     );
   }, [tx, address]);

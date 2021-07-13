@@ -75,7 +75,7 @@ export function WalletProvider(props: Props) {
   }, [bridgeChainId, location]);
 
   return (
-    <SovrynWallet options={options} remember>
+    <SovrynWallet options={options}>
       <WalletWatcher />
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
@@ -99,7 +99,7 @@ function WalletWatcher() {
         }:${crypto.createHash('md5').update(address).digest('hex')}`,
       });
     }
-    dispatch(actions.accountChanged(address));
+    dispatch(actions.accountChanged(address || ''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, address]);
 
