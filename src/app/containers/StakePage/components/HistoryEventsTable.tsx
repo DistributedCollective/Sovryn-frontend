@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import axios from 'axios';
@@ -19,10 +19,6 @@ import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 import { useAccount } from '../../../hooks/useAccount';
-import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { useVesting_getVesting } from '../../../hooks/staking/useVesting_getVesting';
-import { useVesting_getTeamVesting } from '../../../hooks/staking/useVesting_getTeamVesting';
-import { useVesting_getOriginVesting } from '../../../hooks/staking/useVesting_getOriginVesting';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { backendUrl } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
@@ -31,11 +27,7 @@ import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
-  const getStakes = useStaking_getStakes(account);
-  const vesting = useVesting_getVesting(account);
   const { chainId } = useSelector(selectWalletProvider);
-  const vestingTeam = useVesting_getTeamVesting(account);
-  const vestingOrigin = useVesting_getOriginVesting(account);
   const [eventsHistory, setEventsHistory] = useState<any>([]);
   const [viewHistory, setViewHistory] = useState(false);
   const [currentHistory, setCurrentHistory] = useState([]) as any;
@@ -45,26 +37,15 @@ export function HistoryEventsTable() {
     setCurrentHistory(eventsHistory.slice(offset, offset + pageLimit));
   };
 
-  useEffect(() => {
-    async function getHistory() {
-      axios
-        .get(backendUrl[chainId] + '/events/stake/' + account + '')
-        .then(({ data }) => {
-          setEventsHistory(data.events);
-          setViewHistory(false);
-        });
-    }
-
-    if (viewHistory) getHistory();
-  }, [
-    account,
-    chainId,
-    viewHistory,
-    vestingTeam.value,
-    vestingOrigin.value,
-    vesting.value,
-    getStakes.value,
-  ]);
+  const getHistory = useCallback(() => {
+    setViewHistory(true);
+    axios
+      .get(`${backendUrl[chainId]}/events/stake/${account}`)
+      .then(({ data }) => {
+        setEventsHistory(data.events);
+        setViewHistory(false);
+      });
+  }, [account, chainId]);
 
   return (
     <>
@@ -123,7 +104,7 @@ export function HistoryEventsTable() {
                         <button
                           type="button"
                           className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
-                          onClick={() => setViewHistory(true)}
+                          onClick={getHistory}
                         >
                           {t(translations.stake.history.viewHistory)}
                         </button>
@@ -148,17 +129,17 @@ export function HistoryEventsTable() {
   );
 }
 
-interface HisoryAsset {
+interface HistoryAsset {
   item: any;
   index: number;
 }
 
-const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
+const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   const { t } = useTranslation();
   const SOV = AssetsDictionary.get(Asset.SOV);
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = useMemo(() => {
-    if (item.amount === undefined || null) return '';
+    if (!item.amount) return '';
     return bignumber(item.amount)
       .mul(dollars.value)
       .div(10 ** SOV.decimals)
@@ -236,7 +217,7 @@ const HistoryTable: React.FC<History> = ({ items }) => {
     <>
       {items.map((item, index) => {
         return (
-          <HisoryTableAsset
+          <HistoryTableAsset
             key={item.txHash + item.newBalance}
             item={item}
             index={index}
