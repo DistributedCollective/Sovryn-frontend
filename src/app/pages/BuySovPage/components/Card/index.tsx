@@ -1,20 +1,40 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 
-const H1 = styled.h1`
-  font-weight: 500;
+type H2Props = {
+  step: number;
+};
+
+const H2 = styled.h2<H2Props>`
+  display: block;
+  width: 100%;
   text-transform: none;
+  font-weight: 500 !important;
+  line-height: 26px !important;
   text-align: left;
-  margin-bottom: 28px;
-  .step {
-    font-size: 48px;
-    letter-spacing: 4.3px;
+  vertical-align: baseline;
+  margin-bottom: 35px !important;
+
+  padding-left: ${({ step }) => (step === 1 ? '40px' : '50px')};
+  text-indent: ${({ step }) => (step === 1 ? '-40px' : '-50px')};
+
+  * {
+    text-indent: initial;
   }
-  .title {
+
+  & > :first-child {
+    display: inline-block;
+    width: ${({ step }) => (step === 1 ? '30px' : '40px')};
+    font-size: 48px;
+    line-height: 48px;
+    letter-spacing: 0.21px;
+    margin-right: 10px;
+    text-align: right;
+  }
+
+  & > :not(:first-child) {
     font-size: 26px;
     letter-spacing: 0;
-    position: relative;
-    top: -5px;
   }
 `;
 
@@ -25,6 +45,7 @@ interface ContainerProps {
 
 const Container = styled.article`
   width: 298px;
+  max-width: 450px;
   min-height: 360px;
   font-size: 16px;
   font-weight: 400;
@@ -77,10 +98,10 @@ export function Card(props: Props) {
       large={props.large}
       className="d-block bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0"
     >
-      <H1 className="d-flex w-100 justify-content-start align-items-end disable-content">
-        <span className="step">{props.step}.</span>{' '}
-        <span className="title">{props.title}</span>
-      </H1>
+      <H2 step={props.step}>
+        <span>{props.step}.</span>
+        <span>{props.title}</span>
+      </H2>
       <div className="w-100 mb-3">{props.children}</div>
     </Container>
   );

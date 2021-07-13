@@ -37,9 +37,9 @@ export function BuySovPage() {
       <div className="container pt-5 font-family-montserrat">
         <InfoBar />
 
-        <Onboarding className="w-100 mx-auto d-xl-flex flex-row justify-content-center">
-          <div>
-            <div className="w-100 d-md-flex flex-row justify-content-center align-items-center">
+        <Onboarding className="w-100 max-w-100 mx-auto d-xl-flex flex-row justify-content-center">
+          <div className="flex-shrink-0 flex-grow-1">
+            <div className="w-100 d-flex flex-column md:tw-flex-row justify-content-center align-items-center">
               <EngageWalletStep />
               <RotatedMob className="d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
                 <ArrowStep />
@@ -51,7 +51,7 @@ export function BuySovPage() {
             </div>
             <Welcome />
           </div>
-          <div className="d-xl-flex flex-row justify-content-start align-items-center">
+          <div className="d-xl-flex flex-row justify-content-start align-items-center tw-flex-initial">
             <Rotated className="d-xl-none d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
               <ArrowStep />
             </Rotated>

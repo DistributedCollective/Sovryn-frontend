@@ -120,8 +120,8 @@ export function Features() {
   );
 }
 
-const How = styled.h1`
-  font-size: 36px;
-  line-height: 47px;
-  text-transform: none;
+const How = styled.h2`
+  font-size: 36px !important;
+  line-height: 47px !important;
+  text-transform: none !important;
 `;

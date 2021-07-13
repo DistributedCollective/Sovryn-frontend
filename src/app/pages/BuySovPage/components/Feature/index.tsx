@@ -16,7 +16,7 @@ export function Feature(props: Props) {
   return (
     <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
       <div className={`${props.reverse ? 'order-lg-1' : 'order-lg-0'} order-1`}>
-        <h1>{props.title}</h1>
+        <h3>{props.title}</h3>
         <div className="content tw-font-thin tw-leading-snug">
           {props.content}
         </div>
@@ -57,7 +57,7 @@ const Article = styled.article`
     margin-top: 160px;
   }
 
-  h1 {
+  h3 {
     text-transform: none;
     font-size: 26px;
     line-height: 32px;

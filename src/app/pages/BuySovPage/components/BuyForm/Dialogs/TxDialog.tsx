@@ -50,7 +50,7 @@ export function TxDialog(props: Props) {
     >
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
+          <h2>{t(translations.buySovPage.txDialog.pendingUser.title)}</h2>
           <WalletLogo wallet={wallet} />
           <p className="text-center mx-auto w-100" style={{ maxWidth: 266 }}>
             {t(translations.buySovPage.txDialog.pendingUser.text, {
@@ -70,7 +70,7 @@ export function TxDialog(props: Props) {
           >
             <span className="sr-only">Close Dialog</span>
           </button>
-          <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
+          <h2>{t(translations.buySovPage.txDialog.txStatus.title)}</h2>
           <StatusComponent status={props.tx.status} />
 
           {!!props.tx.txHash && (

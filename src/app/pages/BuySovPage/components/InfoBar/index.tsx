@@ -115,7 +115,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
   border-top: 1px solid #d9d9d9;
   padding-top: 10px;
   border-bottom: 1px solid #d9d9d9;
-  max-width: 1170px;
+  max-width: 1140px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 22px;
