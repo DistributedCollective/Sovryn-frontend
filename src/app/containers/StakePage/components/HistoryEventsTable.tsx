@@ -42,7 +42,7 @@ export function HistoryEventsTable() {
     axios
       .get(`${backendUrl[chainId]}/events/stake/${account}`)
       .then(({ data }) => {
-        setEventsHistory(data.events);
+        setEventsHistory(data?.events);
         seIsHistoryLoading(false);
       });
   }, [account, chainId]);
@@ -129,8 +129,18 @@ export function HistoryEventsTable() {
   );
 }
 
+type HistoryItem = {
+  action: string;
+  amount: string;
+  lockedUntil: number;
+  status?: string;
+  staker: string; //address
+  timestamp: number;
+  txHash: string;
+};
+
 interface HistoryAsset {
-  item: any;
+  item: HistoryItem;
   index: number;
 }
 
@@ -149,7 +159,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
     <tr>
       <td>
         {moment
-          .tz(new Date(item.time * 1e3), 'GMT')
+          .tz(new Date(item.timestamp * 1e3), 'GMT')
           .format('DD/MM/YYYY - h:mm:ss a z')}
       </td>
       <td>{item.action}</td>
@@ -187,7 +197,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
               <p className="m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
-              txHash={item.transaction_hash}
+              txHash={item.txHash}
               className="text-gold font-weight-normal text-nowrap"
             />
           </div>
