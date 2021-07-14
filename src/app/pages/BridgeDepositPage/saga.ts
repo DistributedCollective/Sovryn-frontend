@@ -50,8 +50,9 @@ function getSpenderAddress(
 function* selectNetwork(data) {
   const chainId = getBridgeChainId(data.payload.chain);
   yield put(walletProviderActions.setBridgeChainId(chainId));
-  const context = data.payload.walletContext;
-  yield call([context, context.connect]);
+  // const context = data.payload.walletContext;
+  // yield call([context, context.connect]);
+  yield put(actions.setStep(DepositStep.WALLET_SELECTOR));
 }
 
 function* watchWalletChannel() {
@@ -76,12 +77,12 @@ function createWalletChannel() {
           emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
         } else if (getBridgeChain(walletService.chainId) === Chain.RSK) {
           log('connected to rsk network');
-          emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+          emit(actions.setStep(DepositStep.WALLET_SELECTOR));
         } else if (
           !getSupportedBridgeChainIds().includes(walletService.chainId)
         ) {
           log('unsupported bridge id', walletService.chainId);
-          emit(actions.setStep(DepositStep.CHAIN_SELECTOR));
+          emit(actions.setStep(DepositStep.WALLET_SELECTOR));
         } else {
           log('connected to new chain');
           emit(actions.setStep(DepositStep.TOKEN_SELECTOR));

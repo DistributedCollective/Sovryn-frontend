@@ -16,6 +16,7 @@ export interface BridgeDepositPageState {
 
 export enum DepositStep {
   CHAIN_SELECTOR,
+  WALLET_SELECTOR,
   TOKEN_SELECTOR,
   AMOUNT_SELECTOR,
   REVIEW,

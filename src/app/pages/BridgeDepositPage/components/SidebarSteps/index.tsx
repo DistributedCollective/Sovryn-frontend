@@ -20,6 +20,7 @@ import { translations } from 'locales/i18n';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
+  DepositStep.WALLET_SELECTOR,
   DepositStep.TOKEN_SELECTOR,
   DepositStep.AMOUNT_SELECTOR,
   DepositStep.REVIEW,
@@ -30,6 +31,7 @@ const stepOrder = [
 
 const initialSteps: StepItem[] = [
   { stepTitle: 'Network', value: DepositStep.CHAIN_SELECTOR },
+  { stepTitle: 'Wallet', value: DepositStep.WALLET_SELECTOR },
   { stepTitle: 'Token', value: DepositStep.TOKEN_SELECTOR },
   { stepTitle: 'Amount', value: DepositStep.AMOUNT_SELECTOR },
   { stepTitle: 'Review', value: DepositStep.REVIEW },
