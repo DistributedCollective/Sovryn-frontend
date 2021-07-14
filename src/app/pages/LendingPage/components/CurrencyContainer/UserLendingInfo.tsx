@@ -10,7 +10,9 @@ import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
 import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useAccount } from 'app/hooks/useAccount';
+import { useLiquidityMining_getPoolId } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getPoolId';
 import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
+import { useLiquidityMining_getUserInfoList } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserInfoList';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
@@ -38,6 +40,11 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     getLendingContract(asset).address,
   );
   console.log('reward,', weiToFixed(rewards, 8));
+  console.log('userInfoList: ', useLiquidityMining_getUserInfoList());
+  console.log(
+    'PoolId: ',
+    useLiquidityMining_getPoolId(getLendingContract(asset).address),
+  );
   const { value: profitCall, loading: pLoading } = useLending_profitOf(
     asset,
     account,
