@@ -17,7 +17,9 @@ import { useLending_tokenPrice } from 'app/hooks/lending/useLending_tokenPrice';
 import { weiToFixed, weiTo18 } from 'utils/blockchain/math-helpers';
 import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useAccount } from 'app/hooks/useAccount';
+import { useLiquidityMining_getPoolId } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getPoolId';
 import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
+import { useLiquidityMining_getUserInfoList } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserInfoList';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
@@ -47,7 +49,6 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  console.log('reward,', weiToFixed(rewards, 8));
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
     account,
