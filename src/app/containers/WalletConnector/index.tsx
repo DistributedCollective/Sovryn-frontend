@@ -84,27 +84,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                     text={t(translations.wallet.copy_address)}
                   />
                 </CopyToClipboard>
-                <MenuItem
-                  icon="briefcase"
-                  text={t(translations.wallet.my_wallet)}
-                  onClick={() => history.push('/wallet')}
-                />
-                <MenuItem
-                  icon="people"
-                  text={t(translations.wallet.referrals)}
-                  onClick={() => history.push('/referral')}
-                />
-                <MenuDivider />
-                {/*<MenuItem*/}
-                {/*  icon="log-in"*/}
-                {/*  text={t(translations.wallet.changeWallet)}*/}
-                {/*  onClick={() => connect()}*/}
-                {/*/>*/}
-                <MenuItem
-                  icon="log-out"
-                  text={t(translations.wallet.disconnect)}
-                  onClick={() => disconnect()}
-                />
               </Menu>
             }
           >
