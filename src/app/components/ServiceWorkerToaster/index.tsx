@@ -3,7 +3,7 @@
  * ServiceWorkerToaster
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import * as serviceWorker from 'serviceWorker';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
@@ -12,16 +12,13 @@ import styled from 'styled-components/macro';
 import styles from './index.module.css';
 import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
-import axios from 'axios';
-
-interface Props {}
 
 //interval time to check sw
 const CHECK_TIME = 30e3; // 30 seconds
 const REOPEN_TIME = 120e3; // 120 seconds
 const versionUrl = `${process.env.PUBLIC_URL}/version.json`;
 
-export function ServiceWorkerToaster(props: Props) {
+export function ServiceWorkerToaster() {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const [swRegistration, setSwRegistration] = useState<
@@ -34,30 +31,22 @@ export function ServiceWorkerToaster(props: Props) {
 
   const currentCommit = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
-  let cancelTokenSource;
-  const fetchVersion = async () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
-    }
-    cancelTokenSource = axios.CancelToken.source();
-
-    // TODO: change with native fetch
-    return axios
-      .get(versionUrl, {
-        headers: {
-          'Service-Worker': 'script',
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: '0',
-        },
-        cancelToken: cancelTokenSource.token,
-      })
-      .then(({ data }) => {
+  const fetchVersion = useCallback(async () => {
+    return fetch(versionUrl, {
+      headers: {
+        'Service-Worker': 'script',
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
+    })
+      .then(async response => {
+        const data = await response.json();
         if (!data) return;
         setNextCommit(data.commit || '');
       })
       .catch(() => {});
-  };
+  }, [setNextCommit]);
 
   useEffect(() => {
     if (

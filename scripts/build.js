@@ -139,7 +139,6 @@ function build(previousFileSizes) {
         'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.',
       ),
     );
-    console.log();
   }
 
   if (process.env.NODE_ENV === 'production') {
