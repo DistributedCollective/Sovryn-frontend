@@ -303,6 +303,7 @@ module.exports = function (webpackEnv) {
       alias: {
         // Ensure singular react version in the bundle
         // Fixes yarn link issue with @sovryn/react-wallet
+        // https://github.com/facebook/react/issues/13991
         react: path.resolve(__dirname, '../node_modules', 'react'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
