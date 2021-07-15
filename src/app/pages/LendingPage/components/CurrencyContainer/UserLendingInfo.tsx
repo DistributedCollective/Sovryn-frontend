@@ -37,18 +37,18 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const asset = lendingPool.getAsset();
   const {
     value: rewards,
-    loading: rLoading,
+    loading: rewardsLoading,
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  const { value: profitCall, loading: pLoading } = useLending_profitOf(
+  const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
     account,
   );
-  const { value: balanceCall, loading: bLoading } = useLending_assetBalanceOf(
-    asset,
-    account,
-  );
+  const {
+    value: balanceCall,
+    loading: balanceLoading,
+  } = useLending_assetBalanceOf(asset, account);
 
   const balance = useMemo(() => {
     return bignumber(balanceCall).minus(profitCall).toString();
@@ -88,7 +88,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             className="tw-text-base"
           />
         </TableBodyData>
-        {balance === '0' && !pLoading && !bLoading && (
+        {balance === '0' && !profitLoading && !balanceLoading && (
           <td
             colSpan={3}
             className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
@@ -98,11 +98,11 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             })}
           </td>
         )}
-        {(balance !== '0' || pLoading || bLoading) && (
+        {(balance !== '0' || profitLoading || balanceLoading) && (
           <>
             <TableBodyData>
               <LoadableValue
-                loading={pLoading || bLoading}
+                loading={profitLoading || balanceLoading}
                 value={
                   <>
                     {weiToFixed(balance, 8)} <AssetRenderer asset={asset} />
@@ -113,7 +113,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             </TableBodyData>
             <TableBodyData>
               <LoadableValue
-                loading={pLoading}
+                loading={profitLoading}
                 value={
                   <ProfitLossRenderer
                     isProfit={bignumber(profitCall).greaterThanOrEqualTo(0)}
@@ -126,7 +126,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             </TableBodyData>
             <TableBodyData>
               <LoadableValue
-                loading={rLoading}
+                loading={rewardsLoading}
                 value={
                   <>
                     {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />

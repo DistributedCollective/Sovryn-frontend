@@ -87,12 +87,12 @@ export function LendingDialog({
   const [isTotalClicked, setIsTotalClicked] = useState<boolean | undefined>();
 
   const calculateWithdrawAmount = useCallback(() => {
-    let wAmount = weiAmount;
+    let withdrawAmount = weiAmount;
     //checking, if user want to withdraw full amount, this will update it
     if (isTotalClicked) {
-      wAmount = depositedAssetBalance;
+      withdrawAmount = depositedAssetBalance;
     }
-    return bignumber(wAmount)
+    return bignumber(withdrawAmount)
       .mul(bignumber(depositedBalance).div(depositedAssetBalance))
       .toFixed(0);
   }, [depositedAssetBalance, depositedBalance, isTotalClicked, weiAmount]);
@@ -175,6 +175,11 @@ export function LendingDialog({
   const handleSubmit = () =>
     type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
 
+  const handleChange = useCallback((newValue: string, isTotal?: boolean) => {
+    setAmount(newValue);
+    setIsTotalClicked(isTotal);
+  }, []);
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -188,10 +193,7 @@ export function LendingDialog({
           >
             <AmountInput
               value={amount}
-              onChange={(value, isTotal) => {
-                setAmount(value);
-                setIsTotalClicked(isTotal);
-              }}
+              onChange={(value, isTotal) => handleChange(value, isTotal)}
               asset={currency}
               maxAmount={
                 type === 'add'
