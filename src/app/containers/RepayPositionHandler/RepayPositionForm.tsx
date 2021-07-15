@@ -24,6 +24,7 @@ import { LoadableValue } from '../../components/LoadableValue';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { TxStatus } from 'store/global/transactions-store/types';
 
 interface Props {
   loan: ActiveLoan;
@@ -125,7 +126,14 @@ export function RepayPositionForm({ loan }: Props) {
         <TradeButton
           text={t(translations.repayPositionForm.button)}
           loading={closeTx.loading}
-          disabled={closeTx.loading || !valid || !canInteract || repayLocked}
+          disabled={
+            closeTx.loading ||
+            closeTx.status === TxStatus.PENDING_FOR_USER ||
+            closeTx.status === TxStatus.PENDING ||
+            !valid ||
+            !canInteract ||
+            repayLocked
+          }
           tooltip={
             repayLocked ? t(translations.maintenance.stopBorrow) : undefined
           }
