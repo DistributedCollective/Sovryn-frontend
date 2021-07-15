@@ -13,7 +13,7 @@ import { numberToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from '../../../components/LoadableValue';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -240,10 +240,10 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item, index }) => {
           .format('DD/MM/YYYY - h:mm:ss a z')}
       </td>
       <td className="tw-text-left tw-font-normal">
-        {weiToFixed(item.returnValues.amount, 4)} SOV
+        {weiTo4(item.returnValues.amount)} SOV
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
           loading={dollars.loading}
         />
       </td>
