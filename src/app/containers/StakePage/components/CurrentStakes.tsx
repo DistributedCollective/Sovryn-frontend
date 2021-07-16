@@ -159,6 +159,9 @@ function AssetRow(props: AssetProps) {
   const now = new Date();
   const [weight, setWeight] = useState('');
   const locked = Number(props.item[1]) > Math.round(now.getTime() / 1e3); //check if date is locked
+  const stakingPeriod = Math.abs(
+    moment().diff(moment(new Date(parseInt(props.item[1]) * 1e3)), 'days'),
+  );
   const [votingPower, setVotingPower] = useState<number>(0 as any);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
   const getWeight = useStaking_computeWeightByDate(
@@ -217,17 +220,7 @@ function AssetRow(props: AssetProps) {
         )}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-        {locked && (
-          <>
-            {Math.abs(
-              moment().diff(
-                moment(new Date(parseInt(props.item[1]) * 1e3)),
-                'days',
-              ),
-            )}{' '}
-            days
-          </>
-        )}
+        {locked && t(translations.common.unit.day, { count: stakingPeriod })}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
         <p className="tw-m-0">

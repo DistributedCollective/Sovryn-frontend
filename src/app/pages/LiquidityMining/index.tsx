@@ -1,23 +1,27 @@
+import cn from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation, Trans } from 'react-i18next';
-import cn from 'classnames';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { translations } from 'locales/i18n';
-import { Header } from 'app/components/Header';
-import { Footer } from 'app/components/Footer';
-import { MiningPool } from './components/MiningPool';
-import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
-import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
-import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { HistoryTable } from './components/HistoryTable';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import { Footer } from 'app/components/Footer';
+import { Header } from 'app/components/Header';
+import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
 import { useFetch } from 'app/hooks/useFetch';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { translations } from 'locales/i18n';
+import { Asset } from 'types';
+import { discordInvite } from 'utils/classifiers';
 import { backendUrl, currentChainId } from 'utils/classifiers';
+
+import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
+import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { useAccount } from '../../hooks/useAccount';
+import { AmmPoolsBanner } from './components/AmmPoolsBanner';
+import { HistoryTable } from './components/HistoryTable';
+import { MiningPool } from './components/MiningPool';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -28,7 +32,7 @@ export function LiquidityMining() {
     [States.ADD_LIQUIDITY]: addLiqLocked,
     [States.REMOVE_LIQUIDITY]: removeLiqLocked,
   } = checkMaintenances();
-
+  const account = useAccount();
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
@@ -41,6 +45,7 @@ export function LiquidityMining() {
 
   return (
     <>
+      <LocalSharedArrayBuffer />
       <Helmet>
         <title>{t(translations.escrowPage.meta.title)}</title>
         <meta
@@ -56,7 +61,7 @@ export function LiquidityMining() {
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'July 19',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -67,7 +72,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'July 19',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -78,7 +83,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'July 19',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -89,13 +94,13 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'July 19',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          <LootDrop
+          {/* <LootDrop
             title="$37500 worth of MoC"
             asset1={Asset.DOC}
             asset2={Asset.RBTC}
@@ -104,7 +109,7 @@ export function LiquidityMining() {
             linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Pink}
-          />
+          /> */}
         </LootDropSectionWrapper>
         {/*<TopInfoSectionWrapper>*/}
         {/*  <TopInfoWrapper>*/}
@@ -181,10 +186,16 @@ export function LiquidityMining() {
           <div className="tw-px-3 tw-text-lg">
             {t(translations.liquidityMining.historyTable.title)}
           </div>
-          <HistoryTable />
+          {!account ? (
+            <SkeletonRow
+              loadingText={t(translations.topUpHistory.walletHistory)}
+              className="tw-mt-2"
+            />
+          ) : (
+            <HistoryTable />
+          )}
         </div>
       </div>
-
       <Footer />
     </>
   );

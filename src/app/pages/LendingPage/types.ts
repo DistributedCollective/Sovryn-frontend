@@ -18,10 +18,15 @@ export enum ButtonType {
 export interface LendingEvent {
   asset_amount: string;
   contract_address: string;
-  event: string;
+  event: LendingEventType;
   time: number;
   token_amount: string;
   txHash: string;
+}
+
+export enum LendingEventType {
+  MINT = 'Mint',
+  BURN = 'Burn',
 }
 
 export type ContainerState = LendingPageState;

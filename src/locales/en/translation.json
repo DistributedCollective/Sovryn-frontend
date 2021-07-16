@@ -14,11 +14,15 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
-    "maintenance": "Under Maintenance"
+    "maintenance": "Under Maintenance",
+    "unit": {
+      "day": "{{count}} day",
+      "day_plural": "{{count}} days"
+    }
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
-    "interestApr": "Interest APR"
+    "interestApr": "Interest APY"
   },
   "title": "Sovryn",
   "announcement": {
@@ -377,7 +381,7 @@
       "positionSize": "Position Size",
       "profit": "Profit / Loss",
       "currentMargin": "Current Margin",
-      "interestApr": "Interest APR",
+      "interestApr": "Interest APY",
       "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
@@ -387,7 +391,7 @@
   },
   "expandedRowMobile": {
     "currentMargin": "Current Margin",
-    "interestAPR": "Interest APR",
+    "interestAPR": "Interest APY",
     "startPrice": "Start Price",
     "leverage": "Leverage",
     "startMargin": "Start Margin",
@@ -430,8 +434,8 @@
     "totalAssetSupplied": "Total Asset Supplied",
     "totalAssetBorrowed": "Total Asset Borrowed",
     "totalAvailable": "Total Available",
-    "supplyAPR": "Supply APR",
-    "borrowAPR": "Borrow APR"
+    "supplyAPR": "Supply APY",
+    "borrowAPR": "Borrow APY"
   },
   "pageNotFound": {
     "text": "Page not found.",
@@ -480,6 +484,7 @@
     "staking": {
       "title": "Stake SOV",
       "amountToStake": "Amount to Stake",
+      "amountPlaceholder": "Enter amount",
       "votingPowerReceived": "Voting Power received"
     },
     "extending": {
@@ -493,6 +498,7 @@
     "history": {
       "title": "Staking History",
       "asset": "Asset",
+      "action": "Action",
       "stakedAmount": "Amount",
       "stakingDate": "Date/Time",
       "hash": "Transaction Hash",
@@ -524,7 +530,13 @@
       "stakingPeriod": "Vesting Period",
       "unlockDate": "Unlock Date",
       "fees": "Fees Earned",
-      "noVestingContracts": "You don't have any vesting contracts."
+      "noVestingContracts": "You don't have any vesting contracts.",
+      "assetType": {
+        "genesis": "Genesis SOV",
+        "origin": "Origin SOV",
+        "team": "Team SOV",
+        "reward": "Reward SOV"
+      }
     },
     "actions": {
       "title": "Actions",
@@ -535,6 +547,11 @@
       "confirm": "Confirm",
       "cancel": "Cancel",
       "withdraw": "Withdraw"
+    },
+    "dateSelector": {
+      "noneAvailable": "No available dates.",
+      "selectDelegate": "Choose delegate period:",
+      "selectYear": "Select Year:"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
@@ -624,8 +641,8 @@
     "currency": {
       "lend": "Lend",
       "borrow": "Borrow",
-      "lendArp": "Lend APR",
-      "borrowArp": "Borrow APR"
+      "lendArp": "Lend APY",
+      "borrowArp": "Borrow APY"
     },
     "container": {
       "leftBtn": "Deposit",
@@ -685,7 +702,7 @@
       "headers": {
         "borrowAmount": "Borrowed",
         "collateralAmount": "Collateral",
-        "interestAPR": "Interest APR",
+        "interestAPR": "Interest APY",
         "timestamp": "Date"
       }
     },
@@ -1124,7 +1141,7 @@
     "headers": {
       "borrowAmount": "Borrowed",
       "collateralAmount": "Collateral",
-      "interestAPR": "Interest APR",
+      "interestAPR": "Interest APY",
       "endTimestamp": "Payback until"
     },
     "repayButton": "Repay"
@@ -1327,6 +1344,16 @@
         "short": "Short"
       }
     },
+    "tradeDialog": {
+      "title": "Review Transaction",
+      "pair": "Trading Pair:",
+      "leverage": "Leverage:",
+      "asset": "Collateral:",
+      "direction": "Direction:",
+      "maintananceMargin": "Maintenance Margin:",
+      "liquidationPrice": "Est. Liquidation Price:",
+      "entryPrice": "Approx. Position Entry Price:"
+    },
     "openPositions": "Open Positions",
     "tradingHistory": "Trading History"
   },
@@ -1379,6 +1406,10 @@
         "liquidityAmount": "Liquidity Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
+      },
+      "txType": {
+        "added": "Added",
+        "removed": "Removed"
       }
     },
     "rowTable": {
@@ -1530,7 +1561,7 @@
     "liquidationPrice": "Liquidation Price",
     "positionMargin": "Position Margin",
     "unrealizedPL": "Unrealized P&L",
-    "interestAPR": "Interest APR",
+    "interestAPR": "Interest APY",
     "actions": "Actions",
     "noData": "No data",
     "cta": {
