@@ -13,6 +13,7 @@ import { Footer } from '../../components/Footer';
 // import { RewardBox } from './components/RewardBox';
 import { ClaimForm } from './components/ClaimForm';
 import { useAccount } from 'app/hooks/useAccount';
+import { HistoryTable } from './components/HistoryTable';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -82,11 +83,15 @@ export function RewardPage() {
           />
         </div>
          */}
-        <div className="tw-mt-4 tw-flex tw-gap-8 tw-justify-center">
-          {/*<div className="tw-flex-1">*/}
-          {/*  <RewardHistory account={userAddress} />*/}
-          {/*</div>*/}
+
+        <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           <ClaimForm address={userAddress} />
+          <div className="tw-flex-1 tw-mt-12 tw-w-full">
+            <div className="tw-px-3 tw-text-lg">
+              {t(translations.rewardPage.historyTable.title)}
+            </div>
+            <HistoryTable />
+          </div>
         </div>
       </div>
       <Footer />
