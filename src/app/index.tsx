@@ -8,43 +8,36 @@
 
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
+import { actions as maintenanceActions, reducer as maintenanceReducer, maintenanceSlice } from 'store/global/maintenance-store/slice';
 import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
-import { useAppTheme } from './hooks/app/useAppTheme';
-import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import {
-  actions as maintenanceActions,
-  maintenanceSlice,
-  reducer as maintenanceReducer,
-} from 'store/global/maintenance-store/slice';
-import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
-import { useDispatch } from 'react-redux';
 
 import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { WalletProvider } from './containers/WalletProvider';
-
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { StatsPage } from './containers/StatsPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
-
-import { SwapPage } from './containers/SwapPage/Loadable';
-import { RewardPage } from './pages/RewardPage/Loadable';
-import { BorrowPage } from './pages/BorrowPage/Loadable';
-import { LendingPage } from './pages/LendingPage/Loadable';
+import { MaintenancePage } from './containers/MaintenancePage';
 import { StakePage } from './containers/StakePage/Loadable';
-
+import { StatsPage } from './containers/StatsPage/Loadable';
+import { SwapPage } from './containers/SwapPage/Loadable';
+import { WalletPage } from './containers/WalletPage/Loadable';
+import { WalletProvider } from './containers/WalletProvider';
+import { useAppTheme } from './hooks/app/useAppTheme';
+import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useMaintenance } from './hooks/useMaintenance';
+import { BorrowPage } from './pages/BorrowPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
-
+import { HomePage } from './pages/HomePage/Loadable';
+import { LendingPage } from './pages/LendingPage/Loadable';
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
-import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
-import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { RewardPage } from './pages/RewardPage/Loadable';
+import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -75,7 +68,7 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/" component={HomePage} />
             <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
