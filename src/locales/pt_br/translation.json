@@ -930,7 +930,8 @@
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de transação",
       "status": "Status"
-    }
+    },
+    "emptyState": "Você não tem histórico de operações Spot."
   },
   "topUpHistory": {
     "meta": {
