@@ -394,7 +394,7 @@
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
-    "noUnlockedSov": "Você não desbloqueou SOV",
+    "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "sov": "SOV",
     "delegation": {
