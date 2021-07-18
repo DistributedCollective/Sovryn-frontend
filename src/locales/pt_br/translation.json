@@ -394,7 +394,7 @@
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
-    "noUnlockedSov": "Você não desbloqueou SOV",
+    "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "sov": "SOV",
     "delegation": {
@@ -432,7 +432,7 @@
       "balance": "Saldo"
     },
     "history": {
-      "title": "Histórico de investimentos",
+      "title": "Histórico",
       "asset": "Ativo",
       "stakedAmount": "Quantidade",
       "stakingDate": "Data e hora",
@@ -930,7 +930,8 @@
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de transação",
       "status": "Status"
-    }
+    },
+    "emptyState": "Você não tem histórico de operações spot."
   },
   "topUpHistory": {
     "meta": {
