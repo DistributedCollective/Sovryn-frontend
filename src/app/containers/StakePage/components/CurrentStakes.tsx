@@ -11,12 +11,11 @@ import { AddressBadge } from '../../../components/AddressBadge';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { LoadableValue } from '../../../components/LoadableValue';
 import { useTranslation } from 'react-i18next';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
 import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIGHT_FACTOR';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Tooltip } from '@blueprintjs/core';
@@ -195,15 +194,15 @@ function AssetRow(props: AssetProps) {
         </div>
       </td>
       <td className="tw-text-left tw-font-normal">
-        {weiToNumberFormat(props.item[0])} {t(translations.stake.sov)}
+        {weiTo4(props.item[0])} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
           loading={dollars.loading}
         />
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-        {numberFromWei(votingPower).toFixed(2)}
+        {weiTo4(votingPower)}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
         {props.item[2].length && (

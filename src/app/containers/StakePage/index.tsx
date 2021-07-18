@@ -13,7 +13,7 @@ import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { getUSDSum } from 'utils/helpers';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -317,7 +317,7 @@ function InnerStakePage() {
                     balanceOf.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(balanceOf.value).toLocaleString()} SOV
+                  {weiTo4(balanceOf.value)} SOV
                 </p>
                 <Modal
                   show={stakeForm}
@@ -404,7 +404,7 @@ function InnerStakePage() {
                     voteBalance.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(voteBalance.value).toLocaleString()}
+                  {weiTo4(voteBalance.value)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <Link
@@ -594,7 +594,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   );
 
   useEffect(() => {
-    usdTotal(Number(weiToFixed(dollarValue, 4)));
+    usdTotal(Number(weiTo4(dollarValue)));
   }, [currency.value, dollarValue, usdTotal]);
 
   return (
@@ -615,9 +615,9 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             )}
           </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
               loading={dollars.loading}
             />
           </div>
