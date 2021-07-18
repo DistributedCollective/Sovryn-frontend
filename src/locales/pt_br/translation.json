@@ -931,7 +931,7 @@
       "transactionFee": "Taxa de transação",
       "status": "Status"
     },
-    "emptyState": "Você não tem histórico de operações Spot."
+    "emptyState": "Você não tem histórico de operações spot."
   },
   "topUpHistory": {
     "meta": {
