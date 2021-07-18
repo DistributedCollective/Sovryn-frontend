@@ -1,16 +1,10 @@
-/**
- *
- * StakePage
- *
- */
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
 import { getUSDSum } from 'utils/helpers';
 import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
@@ -407,12 +401,16 @@ function InnerStakePage() {
                   {weiTo4(voteBalance.value)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <Link
-                    to={'/'}
-                    className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block"
-                  >
-                    {t(translations.stake.viewGovernance)}
-                  </Link>
+                  <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                    <a
+                      href="https://bitocracy.sovryn.app/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:tw-no-underline"
+                    >
+                      {t(translations.stake.viewGovernance)}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
