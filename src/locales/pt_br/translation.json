@@ -439,7 +439,16 @@
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "stake": "Novo investimento SOV",
+        "unstake": "Resgatar investimento",
+        "feeWithdraw": "Resgatar dividendo",
+        "increase": "Aumentar",
+        "extend": "Estender,
+        "delegate": "Delegar",
+        "withdraw": "Resgatar SOV reservado"
+      }
     },
     "increase": {
       "title": "Aumentar quantidade",
@@ -523,7 +532,8 @@
   "formSelect": {
     "loading": "Abrindo, por favor aguarde.",
     "noresults": "Sem resultados.",
-    "placeholder": "Selecione algo"
+    "placeholder": "Escolha algo",
+    "selectTradePair": "Escolha um ativo"
   },
   "hintHowToTopUp": {
     "hintOne": "Você está conectado! Para negociar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
@@ -565,6 +575,7 @@
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
+    "title": "Emprestar",
     "history": {
       "title": "Histórico",
       "amount": "Valor do empréstimo",
@@ -1229,7 +1240,11 @@
       "direction": "Direção:",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço apróximado de entrada:"
+      "entryPrice": "Preço apróximado de entrada:",
+      "position": {
+        "long": "Comprado",
+        "short": "Vendido"
+      }
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Histórico"
