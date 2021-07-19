@@ -321,7 +321,12 @@ export function SwapFormContainer() {
           />
         )}
         <BuyButton
-          disabled={tx.loading || (!validate && isConnected) || swapLocked}
+          disabled={
+            tx.loading ||
+            !isConnected ||
+            (!validate && isConnected) ||
+            swapLocked
+          }
           onClick={() => onSwap()}
           text={t(translations.swap.cta)}
         />
