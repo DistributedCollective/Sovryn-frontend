@@ -22,7 +22,7 @@
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
-    "interestApr": "Interest APR"
+    "interestApr": "Interest APY"
   },
   "title": "Sovryn",
   "announcement": {
@@ -380,7 +380,7 @@
       "positionSize": "Position Size",
       "profit": "Profit / Loss",
       "currentMargin": "Current Margin",
-      "interestApr": "Interest APR",
+      "interestApr": "Interest APY",
       "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
@@ -390,7 +390,7 @@
   },
   "expandedRowMobile": {
     "currentMargin": "Current Margin",
-    "interestAPR": "Interest APR",
+    "interestAPR": "Interest APY",
     "startPrice": "Start Price",
     "leverage": "Leverage",
     "startMargin": "Start Margin",
@@ -433,8 +433,8 @@
     "totalAssetSupplied": "Total Asset Supplied",
     "totalAssetBorrowed": "Total Asset Borrowed",
     "totalAvailable": "Total Available",
-    "supplyAPR": "Supply APR",
-    "borrowAPR": "Borrow APR"
+    "supplyAPR": "Supply APY",
+    "borrowAPR": "Borrow APY"
   },
   "pageNotFound": {
     "text": "Page not found.",
@@ -497,6 +497,7 @@
     "history": {
       "title": "Staking History",
       "asset": "Asset",
+      "action": "Action",
       "stakedAmount": "Amount",
       "stakingDate": "Date/Time",
       "hash": "Transaction Hash",
@@ -639,8 +640,8 @@
     "currency": {
       "lend": "Lend",
       "borrow": "Borrow",
-      "lendArp": "Lend APR",
-      "borrowArp": "Borrow APR"
+      "lendArp": "Lend APY",
+      "borrowArp": "Borrow APY"
     },
     "container": {
       "leftBtn": "Deposit",
@@ -700,7 +701,7 @@
       "headers": {
         "borrowAmount": "Borrowed",
         "collateralAmount": "Collateral",
-        "interestAPR": "Interest APR",
+        "interestAPR": "Interest APY",
         "timestamp": "Date"
       }
     },
@@ -1139,7 +1140,7 @@
     "headers": {
       "borrowAmount": "Borrowed",
       "collateralAmount": "Collateral",
-      "interestAPR": "Interest APR",
+      "interestAPR": "Interest APY",
       "endTimestamp": "Payback until"
     },
     "repayButton": "Repay"
@@ -1560,7 +1561,7 @@
     "liquidationPrice": "Liquidation Price",
     "positionMargin": "Position Margin",
     "unrealizedPL": "Unrealized P&L",
-    "interestAPR": "Interest APR",
+    "interestAPR": "Interest APY",
     "actions": "Actions",
     "noData": "No data",
     "cta": {

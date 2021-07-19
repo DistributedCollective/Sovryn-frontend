@@ -95,7 +95,7 @@ export const contracts = {
     blockNumber: 1218721,
   },
   MOC_amm: {
-    address: '0xc137aD4Ef759D9206b15105532c05c866cc89f31',
+    address: '0x432CF15Df918Db95ECFfD3e849539364D432E392',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -170,7 +170,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0x4B2b25526c42c4D5FC096d1f77589edCB21476e2',
+    address: '0xE1b2151943C1C8ddc92Df15b4Bb0D4bEE7b867a3',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
