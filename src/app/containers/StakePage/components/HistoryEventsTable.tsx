@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import axios from 'axios';
 import moment from 'moment-timezone';
@@ -144,6 +144,27 @@ interface HistoryAsset {
   index: number;
 }
 
+const getActionName = action => {
+  switch (action) {
+    case 'Stake':
+      return <Trans i18nKey={translations.stake.history.actions.stake} />;
+    case 'Unstake':
+      return <Trans i18nKey={translations.stake.history.actions.unstake} />;
+    case 'Fee Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.feeWithdraw} />;
+    case 'Increase':
+      return <Trans i18nKey={translations.stake.history.actions.increase} />;
+    case 'Extend':
+      return <Trans i18nKey={translations.stake.history.actions.extend} />;
+    case 'Delegate':
+      return <Trans i18nKey={translations.stake.history.actions.delegate} />;
+    case 'Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.withdraw} />;
+    default:
+      return action;
+  }
+};
+
 const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   const { t } = useTranslation();
   const SOV = AssetsDictionary.get(Asset.SOV);
@@ -162,7 +183,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
           .tz(new Date(item.timestamp * 1e3), 'GMT')
           .format('DD/MM/YYYY - h:mm:ss a z')}
       </td>
-      <td>{item.action}</td>
+      <td>{getActionName(item.action)}</td>
       <td className="tw-text-left tw-font-normal">
         {item.action !== t(translations.stake.actions.delegate) ? (
           <>
