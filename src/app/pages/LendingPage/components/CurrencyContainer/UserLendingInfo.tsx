@@ -78,14 +78,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
       .add(profitCall)
       .toString();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    balanceCall,
-    profitCall,
-    balanceOfCall,
-    checkpointPrice,
-    tokenPrice,
-    asset,
-  ]);
+  }, [profitCall, balanceOfCall, checkpointPrice, tokenPrice, asset]);
 
   useEffect(() => {
     if (balance !== '0') {
