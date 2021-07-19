@@ -7,7 +7,6 @@ import { weiTo4 } from 'utils/blockchain/math-helpers';
 
 export interface RewardEvent {
   amount: string;
-  contract_address: string;
   event: RewardEventType;
   time: number;
   user: string;
@@ -29,7 +28,7 @@ interface ITableBodyProps {
 export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const { t } = useTranslation();
 
-  const getEvenetType = useCallback(
+  const getEventType = useCallback(
     type => {
       switch (type) {
         case RewardEventType.LIQUIDITY_MINING:
@@ -49,13 +48,13 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
 
   return (
     <tbody className="mt-5">
-      {items.map((item, index) => (
+      {items.map(item => (
         <TableRow
-          key={`${item.contract_address}/${index}`}
+          key={item.txHash}
           time={item.time}
           txHash={item.txHash}
           amount={weiTo4(item.amount)}
-          type={getEvenetType(item.event)}
+          type={getEventType(item.event)}
         />
       ))}
 
