@@ -422,6 +422,7 @@ function InnerStakePage() {
                     handleSubmit={handleDelegateSubmit}
                     address={address}
                     timestamp={Number(timestamp)}
+                    weiAmount={weiAmount}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
@@ -430,8 +431,9 @@ function InnerStakePage() {
               }
             />
             <CurrentStakes
-              onDelegate={a => {
-                setTimestamp(a);
+              onDelegate={(a, b) => {
+                setTimestamp(b);
+                setAmount(numberFromWei(a).toString());
                 setDelegateForm(!delegateForm);
               }}
               onExtend={(a, b) => {

@@ -24,7 +24,7 @@ interface Stakes {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
   onUnstake: (a: number, b: number) => void;
-  onDelegate: (a: number) => void;
+  onDelegate: (a: number, b: number) => void;
 }
 
 export function CurrentStakes(props: Stakes) {
@@ -143,7 +143,7 @@ interface AssetProps {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
   onUnstake: (a: number, b: number) => void;
-  onDelegate: (a: number) => void;
+  onDelegate: (a: number, b: number) => void;
 }
 
 function AssetRow(props: AssetProps) {
@@ -329,7 +329,7 @@ function AssetRow(props: AssetProps) {
               className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
                 !locked && 'tw-opacity-50 tw-cursor-not-allowed'
               }`}
-              onClick={() => props.onDelegate(props.item[1])}
+              onClick={() => props.onDelegate(props.item[0], props.item[1])}
               disabled={!locked}
             >
               {t(translations.stake.actions.delegate)}
