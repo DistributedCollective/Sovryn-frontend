@@ -30,7 +30,13 @@ The DApp includes a private repository as a dependency, for this reason you may 
 You will need to choose `repo` scope for the token.
 Export token `export CI_USER_TOKEN='ghp_xxxxx'` and run `./bin/gh-pack` to apply it.
 Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
-If yarn install fails after these steps please ask for read access to the charting-library repository.
+If yarn install fails after these steps please ask for read access to the charting-library repository (for external contributors please see the section below).
+
+## External Contributors
+
+Due to the terms of our licensing agreement with Trading View, we are unable to grant access to the charting-library repository to external contributors. In order to allow running of this repo locally, we have set up the `development_external` and `master_external` branches which exclude this dependency and is synched to the latest changes from `development`/`master` branches.
+
+Any new Pull Requests should target the non-external versions of these branches as outlined in the "Which Branch?" section below.
 
 ## Contributing
 
