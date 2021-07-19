@@ -1,10 +1,13 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
+import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
+import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIGHT_FACTOR';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -12,16 +15,36 @@ interface Props {
   timestamp: number;
   onChangeAddress: (value: string) => void;
   isValid: boolean;
+  weiAmount: string;
   onCloseModal: () => void;
 }
 
 export function DelegateForm(props: Props) {
+  const now = new Date();
+  const [weight, setWeight] = useState('');
+  const [votingPower, setVotingPower] = useState<number>(0 as any);
+  const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
+  const getWeight = useStaking_computeWeightByDate(
+    props.timestamp,
+    Math.round(now.getTime() / 1e3),
+  );
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.DELEGATE_STAKES]: delegateStakesLocked,
     [States.DELEGATE_VESTS]: delegateVestsLocked,
   } = checkMaintenances();
+
+  useEffect(() => {
+    setWeight(getWeight.value);
+    if (Number(WEIGHT_FACTOR.value) && Number(weight)) {
+      setVotingPower(
+        (Number(props.weiAmount) * Number(weight)) /
+          Number(WEIGHT_FACTOR.value),
+      );
+    }
+  }, [getWeight.value, weight, props.weiAmount, WEIGHT_FACTOR.value]);
+
   return (
     <>
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
@@ -45,11 +68,17 @@ export function DelegateForm(props: Props) {
               onChange={e => props.onChangeAddress(e.currentTarget.value)}
             />
           </div>
-          <TxFeeCalculator
-            args={[props.address.toLowerCase(), Number(props.timestamp)]}
-            methodName="delegate"
-            contractName="staking"
-          />
+          <div className="my-2">
+            {t(translations.stake.currentStakes.votingPower)}:{' '}
+            {weiTo4(votingPower)}
+          </div>
+          {props.address && (
+            <TxFeeCalculator
+              args={[props.address.toLowerCase(), Number(props.timestamp)]}
+              methodName="delegate"
+              contractName="staking"
+            />
+          )}
         </div>
         {(delegateStakesLocked || delegateVestsLocked) && (
           <ErrorBadge

@@ -1,16 +1,8 @@
-import {
-  Icon,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  Popover,
-  Spinner,
-} from '@blueprintjs/core';
+import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
 import { useWalletContext } from '@sovryn/react-wallet';
 import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
@@ -35,7 +27,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     disconnect,
   } = useWalletContext();
   const { t } = useTranslation();
-  const history = useHistory();
   const simpleView = props.simpleView;
   const simpleViewClass = simpleView ? 'simpleView' : '';
 
