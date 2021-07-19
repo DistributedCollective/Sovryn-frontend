@@ -25,6 +25,10 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -63,10 +67,9 @@ module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
 
-  // Variable used for enabling profiling in Production
+  // Variable used for enabling profiling
   // passed into alias object. Uses a flag if passed into the build command
-  const isEnvProductionProfile =
-    isEnvProduction && process.argv.includes('--profile');
+  const isEnvProfiling = process.argv.includes('--profile');
 
   // We will provide `paths.publicUrlOrPath` to our app
   // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -139,7 +142,7 @@ module.exports = function (webpackEnv) {
     return loaders;
   };
 
-  return {
+  const webpackConfig = {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -210,6 +213,7 @@ module.exports = function (webpackEnv) {
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
+          parallel: true,
           terserOptions: {
             parse: {
               // We want terser to parse ecma 8 code. However, we don't want it
@@ -237,8 +241,8 @@ module.exports = function (webpackEnv) {
               safari10: true,
             },
             // Added for profiling in devtools
-            keep_classnames: isEnvProductionProfile,
-            keep_fnames: isEnvProductionProfile,
+            keep_classnames: isEnvProfiling,
+            keep_fnames: isEnvProfiling,
             output: {
               ecma: 5,
               comments: false,
@@ -305,7 +309,7 @@ module.exports = function (webpackEnv) {
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
         // Allows for better profiling with ReactDevTools
-        ...(isEnvProductionProfile && {
+        ...(isEnvProfiling && {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
@@ -335,28 +339,19 @@ module.exports = function (webpackEnv) {
     },
     module: {
       strictExportPresence: true,
+      noParse: file => {
+        // ignore prebuild files
+        if (
+          [
+            path.join(__dirname, '../node_modules/@portis/web3/umd/index.js'),
+            path.join(__dirname, '../node_modules/highcharts/highcharts.js'),
+          ].includes(file)
+        )
+          return true;
+      },
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
-
-        // First, run the linter.
-        // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: {
-                cache: true,
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
-                resolvePluginsRelativeTo: __dirname,
-              },
-              loader: require.resolve('eslint-loader'),
-            },
-          ],
-          include: paths.appSrc,
-        },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -523,6 +518,16 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      new ESLintPlugin({
+        threads: true,
+        formatter: require.resolve('react-dev-utils/eslintFormatter'),
+        eslintPath: require.resolve('eslint'),
+      }),
+      isEnvProfiling &&
+        new BundleAnalyzerPlugin({
+          generateStatsFile: true,
+          analyzerMode: 'static',
+        }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -703,4 +708,11 @@ module.exports = function (webpackEnv) {
     // our own hints via the FileSizeReporter
     performance: false,
   };
+
+  if (isEnvProfiling) {
+    const smp = new SpeedMeasurePlugin();
+    return smp.wrap(webpackConfig);
+  }
+
+  return webpackConfig;
 };
