@@ -17,6 +17,11 @@
     @apply tw-text-white;
   }
 
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
   a,
   a:visited {
     @apply tw-text-primary tw-no-underline tw-underline;
