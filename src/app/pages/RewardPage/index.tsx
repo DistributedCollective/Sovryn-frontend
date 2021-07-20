@@ -1,68 +1,75 @@
+import axios from 'axios';
 /**
  *
  * RewardPage
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import { useAccount } from 'app/hooks/useAccount';
+import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 
-import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 // import { ClaimForm } from './components/RewardBox';
 // import { RewardHistory } from './components/RewardHistory';
 import { ClaimForm } from './components/ClaimForm';
 
+const pageSize = 6;
+
 export function RewardPage() {
   const { t } = useTranslation();
-  const userAddress = useAccount();
-  const [lockedBlanace, setLocked] = useState(1);
-  const [unLockedBlanace, setUnLocked] = useState(1);
+  const account = useAccount();
+  const url = backendUrl[currentChainId];
+  const blockSync = useBlockSync();
+  const [history, setHistory] = useState([]) as any;
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  let cancelTokenSource;
+  const getData = () => {
+    if (cancelTokenSource) {
+      cancelTokenSource.cancel();
+    }
+
+    cancelTokenSource = axios.CancelToken.source();
+    axios
+      .get(
+        `${url}/events/rewards/${account}?page=${page}&pageSize=${pageSize}`,
+        {
+          cancelToken: cancelTokenSource.token,
+        },
+      )
+      .then(res => {
+        const { events, pagination } = res.data;
+        setHistory(events || []);
+        setTotal(pagination.totalPages * pageSize);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setHistory([]);
+        setLoading(false);
+      });
+  };
+  const getHistory = useCallback(() => {
+    setLoading(true);
+    setHistory([]);
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, setHistory, url, page]);
 
   useEffect(() => {
-    const lockedBalance = async () => {
-      const locked = await contractReader.call(
-        'lockedSov',
-        'getLockedBalance ',
-        [userAddress],
-      );
-      return locked;
-    };
-    const unLockedBalance = async () => {
-      const unLocked = await contractReader.call(
-        'lockedSov',
-        'getUnlockedBalance ',
-        [userAddress],
-      );
-      return unLocked;
-    };
-    lockedBalance()
-      .then(e => {
-        setLocked(Number(e));
-      })
-      .catch(() => {
-        setLocked(0);
-      });
-    unLockedBalance()
-      .then(e => {
-        console.log('asdfasdf', e);
-        setUnLocked(Number(e));
-      })
-      .catch(() => {
-        setUnLocked(0);
-      });
-  }, [lockedBlanace, unLockedBlanace, userAddress]);
-  console.log('locked: ', lockedBlanace);
-  console.log('unlocked: ', unLockedBlanace);
-
-  // const lockedBalance = await contractReader.call('lockedSov', 'getLockedBalance ', [
-  //   userAddress,
-  // ]);
+    if (account) {
+      getHistory();
+      console.log('history: ', history);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, page, blockSync]);
   return (
     <>
       <Helmet>
@@ -167,7 +174,7 @@ export function RewardPage() {
               </div>
             </div>
             <div>
-              <ClaimForm address={userAddress} />
+              <ClaimForm address={account} />
             </div>
           </div>
         </div>
