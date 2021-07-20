@@ -16,6 +16,7 @@ export enum TxType {
   STAKING_WITHDRAW = 'staking-withdraw',
   STAKING_EXTEND = 'staking-extend',
   STAKING_DELEGATE = 'staking-delegate',
+  VESTING_DELEGATE = 'vesting-delegate',
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',

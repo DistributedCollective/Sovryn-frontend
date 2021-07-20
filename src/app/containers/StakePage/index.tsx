@@ -54,6 +54,7 @@ import { useStakeStake } from '../../hooks/staking/useStakeStake';
 import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
 import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
+import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
 const now = new Date();
@@ -106,11 +107,13 @@ function InnerStakePage() {
   const [extendForm, setExtendForm] = useState(false);
   const [until, setUntil] = useState<number>(0 as any);
   const [delegateForm, setDelegateForm] = useState(false);
+  const [isStakeDelegate, setIsStakeDelegate] = useState(true);
   const [withdrawForm, setWithdrawForm] = useState(false);
   const [increaseForm, setIncreaseForm] = useState(false);
   const voteBalance = useStaking_getCurrentVotes(account);
   const [lockDate, setLockDate] = useState<number>(0 as any);
   const [timestamp, setTimestamp] = useState<number>(0 as any);
+  const [vestingContractAddress, setVestingContractAddress] = useState('');
   const [votingPower, setVotingPower] = useState<number>(0 as any);
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
@@ -127,6 +130,10 @@ function InnerStakePage() {
   const { extend, ...extendTx } = useStakeExtend();
   const { withdraw, ...withdrawTx } = useStakeWithdraw();
   const { delegate, ...delegateTx } = useStakeDelegate();
+  const {
+    delegate: vestingDelegate,
+    ...vestingDelegateTx
+  } = useVestingDelegate(vestingContractAddress);
 
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
@@ -255,6 +262,19 @@ function InnerStakePage() {
       }
     },
     [address, timestamp, delegateForm, delegateTx.loading, delegate],
+  );
+
+  const handleVestingDelegateSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+      if (!vestingDelegateTx.loading) {
+        vestingDelegate(address.toLowerCase());
+        setLoading(false);
+        setDelegateForm(!delegateForm);
+      }
+    },
+    [vestingDelegateTx.loading, vestingDelegate, address, delegateForm],
   );
 
   const handleIncreaseStakeSubmit = useCallback(
@@ -421,7 +441,11 @@ function InnerStakePage() {
               content={
                 <>
                   <DelegateForm
-                    handleSubmit={handleDelegateSubmit}
+                    handleSubmit={e =>
+                      isStakeDelegate
+                        ? handleDelegateSubmit(e)
+                        : handleVestingDelegateSubmit(e)
+                    }
                     address={address}
                     timestamp={Number(timestamp)}
                     onChangeAddress={e => setAddress(e)}
@@ -434,6 +458,7 @@ function InnerStakePage() {
             <CurrentStakes
               onDelegate={a => {
                 setTimestamp(a);
+                setIsStakeDelegate(true);
                 setDelegateForm(!delegateForm);
               }}
               onExtend={(a, b) => {
@@ -467,8 +492,10 @@ function InnerStakePage() {
               }}
             />
             <CurrentVests
-              onDelegate={a => {
-                setTimestamp(a);
+              onDelegate={(timestamp, contractAddress) => {
+                setTimestamp(timestamp);
+                setIsStakeDelegate(false);
+                setVestingContractAddress(contractAddress);
                 setDelegateForm(!delegateForm);
               }}
             />
@@ -479,6 +506,7 @@ function InnerStakePage() {
           <TxDialog tx={extendTx} />
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
+          <TxDialog tx={vestingDelegateTx} />
           <>
             {balanceOf.value !== '0' && (
               <>
