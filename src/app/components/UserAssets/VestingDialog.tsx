@@ -53,7 +53,7 @@ export function VestingDialog(props: Props) {
         canEscapeKeyClose
       >
         <div className="custom-dialog-container">
-          <div className="custom-dialog font-family-montserrat">
+          <div className="custom-dialog tw-font-body">
             <div className={styles.container}>
               <div className={styles.wrapper}>
                 <h2 className={styles.title}>
@@ -62,15 +62,15 @@ export function VestingDialog(props: Props) {
                 <p>{t(translations.vestingDialog.subtitle)}</p>
                 <FieldGroup label={t(translations.vestingDialog.amount)}>
                   <DummyField>
-                    <div className="w-100 d-flex justify-content-between align-items-center position-relative">
-                      <div className="w-100 flex-grow-1 text-center">
+                    <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
+                      <div className="tw-w-full tw-flex-grow tw-text-center">
                         {loading
                           ? t(translations.vestingDialog.calculating)
                           : weiTo4(value)}
                       </div>
                       <div
                         className={classNames(
-                          'flex-shrink-1 flex-grow-0 position-absolute',
+                          'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                           styles.right,
                         )}
                       >
@@ -79,7 +79,7 @@ export function VestingDialog(props: Props) {
                     </div>
                   </DummyField>
                 </FieldGroup>
-                <div className="mx-auto text-center">
+                <div className="tw-mx-auto tw-text-center">
                   <img
                     src={arrowDown}
                     alt="Arrow Down"
@@ -103,13 +103,13 @@ export function VestingDialog(props: Props) {
                 displayAbsolute={false}
               />
 
-              <div className="d-flex flex-row justify-content-between align-items-center">
+              <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
                 <Button
                   text={t(translations.common.confirm)}
                   onClick={() => handleSubmit()}
-                  className={`mr-3 w-100 ${
+                  className={`tw-mr-4 tw-w-full ${
                     value === '0' ||
-                    (tx.loading && `opacity-25 cursor-not-allowed`)
+                    (tx.loading && `tw-opacity-25 tw-cursor-not-allowed`)
                   }`}
                   loading={tx.loading}
                   disabled={value === '0' || tx.loading}
@@ -118,7 +118,7 @@ export function VestingDialog(props: Props) {
                   text={t(translations.common.cancel)}
                   inverted
                   onClick={() => props.onClose()}
-                  className="ml-3 w-100"
+                  className="tw-ml-4 tw-w-full"
                 />
               </div>
             </div>
