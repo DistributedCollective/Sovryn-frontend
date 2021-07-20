@@ -40,17 +40,17 @@ export function PendingPositionRow({ item }: Props) {
           </div>
         </td>
         <td>
-          <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+          <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 p-0">
             <div>
               {item.status === TxStatus.FAILED && (
-                <p className="m-0">{t(translations.common.failed)}</p>
+                <p className="tw-m-0">{t(translations.common.failed)}</p>
               )}
               {item.status === TxStatus.PENDING && (
-                <p className="m-0">{t(translations.common.pending)}</p>
+                <p className="tw-m-0">{t(translations.common.pending)}</p>
               )}
               <LinkToExplorer
                 txHash={item.transactionHash}
-                className="text-gold font-weight-normal text-nowrap"
+                className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
               />
             </div>
             <div>

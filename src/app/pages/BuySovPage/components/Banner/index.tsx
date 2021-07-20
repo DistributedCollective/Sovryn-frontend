@@ -14,7 +14,7 @@ export function Banner(props: Props) {
     <>
       <Image />
       <H1>{t(translations.buySovPage.banner.title)}</H1>
-      <div className="text-center">
+      <div className="tw-text-center">
         <Button onClick={props.onClick}>
           {t(translations.buySovPage.banner.cta)}
         </Button>

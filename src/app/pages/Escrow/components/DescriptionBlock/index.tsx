@@ -7,7 +7,7 @@ export function DescriptionBlock() {
   const { t } = useTranslation();
   return (
     <Container className="font-family-montserrat">
-      <h1 className="text-capitalize">
+      <h1 className="tw-capitalize">
         {t(translations.escrowPage.description.title)}
       </h1>
       <p>{t(translations.escrowPage.description.line1)}</p>

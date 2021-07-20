@@ -15,18 +15,18 @@ export function AmmStats(props: Props) {
 
   return (
     <div>
-      <table className="w-100">
+      <table className="tw-w-full">
         <thead>
           <tr>
             <th className="">Pool</th>
             <th className="">Asset</th>
-            <th className="text-right">24 Hour Volume</th>
-            <th className="text-right">24 Hour Fees</th>
-            <th className="text-right">All Time Volume</th>
-            <th className="text-right">All Time Fees</th>
+            <th className="tw-text-right">24 Hour Volume</th>
+            <th className="tw-text-right">24 Hour Fees</th>
+            <th className="tw-text-right">All Time Volume</th>
+            <th className="tw-text-right">All Time Fees</th>
           </tr>
         </thead>
-        <tbody className="mt-5">
+        <tbody className="tw-mt-12">
           {assets.map((item, key) => (
             <Row key={key} asset={item} rate={props.rate} />
           ))}

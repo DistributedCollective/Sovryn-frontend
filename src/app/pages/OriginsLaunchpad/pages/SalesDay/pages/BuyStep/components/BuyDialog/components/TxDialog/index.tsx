@@ -141,11 +141,11 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
 
           {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
             <>
-              <p className="text-center">
+              <p className="tw-text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="text-center">
+                <p className="tw-text-center">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}

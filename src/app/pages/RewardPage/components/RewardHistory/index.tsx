@@ -60,7 +60,7 @@ export function RewardHistory({ account }: Props) {
           )}
           {events.length === 0 && !loading && (
             <tr key={'empty'}>
-              <td className="text-center" colSpan={99}>
+              <td className="tw-text-center" colSpan={99}>
                 <div className="tw-pt-6">
                   {t(translations.rewardPage.historyTable.emptyState)}
                 </div>

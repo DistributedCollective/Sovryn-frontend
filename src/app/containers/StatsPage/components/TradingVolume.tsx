@@ -74,7 +74,7 @@ export function TradingVolume(props: Props) {
   const rows = rowData.map((row, key) => (
     <div key={key} className="sovryn-border tw-mb-4 tw-mt-2">
       <div className="md:tw-w-1/3 tw-w-full">
-        <div className="text-center p-3">
+        <div className="tw-text-center tw-p-4">
           <h3>
             <div className="tw-p-4 tw-text-center tw-w-full">{row.title}</div>
           </h3>
