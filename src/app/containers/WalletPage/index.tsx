@@ -46,8 +46,8 @@ export function WalletPage() {
         className="tw-container tw-mx-auto tw-px-4"
         style={{ maxWidth: 1200 }}
       >
-        <div className="d-flex flex-wrap align-items-center justify-content-center mb-3">
-          <h2 className="flex-shrink-0 flex-grow-0 mb-2 ">
+        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-3">
+          <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
             {t(translations.userAssets.meta.title)}
           </h2>
         </div>
@@ -94,23 +94,23 @@ export function WalletPage() {
         )}
       </div>
       {connected && account && (
-        <div className="tw-container container-fluid mt-5">
-          <div className="d-flex flex-row align-items-center justify-content-start">
-            <div className="mr-2 ml-2">
+        <div className="tw-container tw-max-w-none tw-mt-12">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+            <div className="tw-mr-2 tw-ml-2">
               <Tab
                 text={t(translations.topUpHistory.meta.title)}
                 active={activeHistory === 0}
                 onClick={() => setActiveHistory(0)}
               />
             </div>
-            <div className="mr-2 ml-2">
+            <div className="tw-mr-2 tw-ml-2">
               <Tab
                 text={t(translations.swapHistory.title)}
                 active={activeHistory === 1}
                 onClick={() => setActiveHistory(1)}
               />
             </div>
-            <div className="mr-2 ml-2">
+            <div className="tw-mr-2 tw-ml-2">
               <Tab
                 text={t(translations.vestedHistory.title)}
                 active={activeHistory === 2}
@@ -118,7 +118,7 @@ export function WalletPage() {
               />
             </div>
           </div>
-          <div className="w-100">
+          <div className="tw-w-full">
             {activeHistory === 0 && <TopUpHistory />}
             {activeHistory === 1 && <SwapHistory />}
             {activeHistory === 2 && <VestedHistory />}

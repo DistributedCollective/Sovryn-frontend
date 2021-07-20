@@ -28,16 +28,16 @@ export function EscrowPage() {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
-        <div className="w-100 d-flex flex-col flex-lg-row align-items-lg-start">
-          <div className="w-100">
+      <div className="tw-container tw-mt-12 tw-font-body">
+        <div className="tw-w-full tw-flex tw-flex-col lg:tw-flex-row lg:tw-align-start">
+          <div className="tw-w-full">
             <InfoBar />
             <DescriptionBlock />
           </div>
           <EscrowForm />
         </div>
 
-        <div className="mt-5">
+        <div className="tw-mt-12">
           <PoolTable />
         </div>
       </div>

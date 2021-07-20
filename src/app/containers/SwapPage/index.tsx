@@ -34,9 +34,9 @@ export function SwapPage(props: Props) {
         <meta name="description" content={t(translations.swap.meta)} />
       </Helmet>
       <Header />
-      <div className="container swap-page">
-        <div className="row">
-          <div className="col-12">
+      <div className="tw-container swap-page">
+        <div className="tw-row">
+          <div className="tw-col-12">
             <SwapFormContainer />
           </div>
         </div>

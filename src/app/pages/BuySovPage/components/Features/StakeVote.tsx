@@ -24,7 +24,7 @@ export function StakeVote() {
           {t(translations.buySovPage.features.learnMore)}
         </a>
       </div>
-      <div className="container text-center">
+      <div className="tw-container tw-text-center">
         <a
           href="https://live.sovryn.app/stake"
           className="button"

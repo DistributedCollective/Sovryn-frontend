@@ -56,7 +56,7 @@ export function BuySovPage() {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-5 tw-font-body">
         <Banner onClick={bannerClick} />
 
         <div ref={ref1} />
@@ -64,29 +64,29 @@ export function BuySovPage() {
 
         <InfoBar />
 
-        <div className="w-100 d-xl-flex flex-row justify-content-center">
+        <div className="tw-w-full xl:tw-flex tw-flex-row tw-justify-center">
           <div>
-            <div className="w-100 d-md-flex flex-row justify-content-center align-items-center">
+            <div className="tw-w-full md:tw-flex tw-flex-row tw-justify-center tw-items-center">
               <EngageWalletStep />
-              <RotatedMob className="d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+              <RotatedMob className="tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
                 <ArrowStep />
               </RotatedMob>
               <TopUpWallet />
-              <div className="d-xl-flex d-none mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+              <div className="xl:tw-flex tw-hidden tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
                 <ArrowStep />
               </div>
             </div>
             <Welcome />
           </div>
-          <div className="d-xl-flex flex-row justify-content-start align-items-center">
-            <Rotated className="d-xl-none d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+          <div className="xl:tw-flex tw-flex-row tw-justify-start tw-items-center">
+            <Rotated className="xl:tw-hidden tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
               <ArrowStep />
             </Rotated>
             <BuyForm />
           </div>
         </div>
 
-        <div className="w-100 text-center">
+        <div className="tw-w-full tw-text-center">
           <Learn onClick={scrollTo}>{t(translations.buySovPage.earn)}</Learn>
         </div>
 
