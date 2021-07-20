@@ -442,7 +442,7 @@
       "viewHistory": "Ver histórico",
       "status": "Status",
       "actions": {
-        "stake": "Novo investimento SOV",
+        "stake": "Novo investimento",
         "unstake": "Resgatar investimento",
         "feeWithdraw": "Resgatar dividendo",
         "increase": "Aumentar",
