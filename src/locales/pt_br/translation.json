@@ -434,6 +434,7 @@
     "history": {
       "title": "Histórico",
       "asset": "Ativo",
+      "action": "Ação",
       "stakedAmount": "Quantidade",
       "stakingDate": "Data e hora",
       "hash": "ID transação",
