@@ -7,19 +7,20 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from '../../../locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { UserAssets } from '../../components/UserAssets';
+import { Header } from '../../components/Header';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
-import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
-import { OriginClaimBanner } from './components/OriginClaimBanner';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 import { VestedHistory } from '../VestedHistory';
+import { OriginClaimBanner } from './components/OriginClaimBanner';
 
 export function WalletPage() {
   const { t } = useTranslation();
