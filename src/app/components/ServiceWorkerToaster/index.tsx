@@ -117,8 +117,8 @@ export function ServiceWorkerToaster(props: Props) {
 
   return (
     <Dialog isOpen={show} className={styles.dialog}>
-      <div className="tw-container tw-mx-auto tw-px-4 text-center">
-        <StyledLogo className="mx-auto tw-mb-6" src={logoSvg} />
+      <div className="tw-container tw-mx-auto tw-px-4 tw-text-center">
+        <StyledLogo className="tw-mx-auto tw-mb-6" src={logoSvg} />
         <p className="tw-text-white tw-mb-6">
           <Trans
             i18nKey={translations.serviceWorkerToaster.title}
@@ -137,7 +137,7 @@ export function ServiceWorkerToaster(props: Props) {
           />
           {closeBtn && (
             <Button
-              className={styles.close + ' text-gold bg-transparent'}
+              className={styles.close + ' tw-text-gold tw-bg-transparent'}
               text={t(translations.serviceWorkerToaster.closeBtn)}
               onClick={() => closeDialog()}
             />

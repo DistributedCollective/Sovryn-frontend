@@ -35,13 +35,11 @@ export function SwapPage(props: Props) {
       </Helmet>
       <Header />
       <div className="tw-container swap-page">
-        <div className="tw-row">
-          <div className="tw-col-12">
-            <SwapFormContainer />
-          </div>
+        <div>
+          <SwapFormContainer />
         </div>
-        <div className="row">
-          <div className="col-12 swap-history-table-container">
+        <div>
+          <div className="swap-history-table-container">
             {!account ? (
               <SkeletonRow
                 loadingText={t(translations.topUpHistory.walletHistory)}

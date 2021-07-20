@@ -36,9 +36,9 @@ export function NetworkRibbon(this: any) {
     setStart(false);
   };
   return (
-    <NetworkDialog isOpen={isConnect} className="fw-700" size="normal">
-      <div className="py-2 font-family-montserrat">
-        <div className="text-center title">
+    <NetworkDialog isOpen={isConnect} className="tw-font-bold" size="normal">
+      <div className="tw-py-2 tw-font-body">
+        <div className="tw-text-center title">
           {t(translations.wrongNetworkDialog.title)}{' '}
         </div>
       </div>
