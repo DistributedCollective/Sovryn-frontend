@@ -75,7 +75,7 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 **Major** new features should always be sent to the development branch, which contains the upcoming release.
 
-If you are unsure if your feature qualifies as a major or minor, please ask Victor Creed in the #sorcery channel of the Sovryn Discord server.
+If you are unsure if your feature qualifies as a major or minor, please ask in the #sorcery channel of the Sovryn Discord server.
 
 ### Working With UI
 
@@ -83,7 +83,7 @@ All UI designs used for this repository should be available publically in [Googl
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within DApp, please send an e-mail to Victor Creed via creed-victor@protonmail.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within DApp, please submit your bug report to [Immunefi](https://immunefi.com/bounty/sovryn/) (there is bounty rewards). All security vulnerabilities will be promptly addressed.
 
 ## Code of Conduct
 
