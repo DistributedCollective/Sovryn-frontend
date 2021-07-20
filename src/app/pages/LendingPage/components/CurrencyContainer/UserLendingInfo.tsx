@@ -38,6 +38,8 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const { t } = useTranslation();
   const account = useAccount();
   const asset = lendingPool.getAsset();
+  const assetDecimals = lendingPool.getAssetDetails().decimals;
+
   const { value: rewards } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
@@ -51,7 +53,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   );
 
   const {
-    value: balanceOfCall,
+    value: totalBalance,
     loading: balanceOfLoading,
   } = useLending_balanceOf(asset, account);
 
@@ -73,12 +75,12 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const totalProfit = useMemo(() => {
     return bignumber(tokenPrice)
       .sub(checkpointPrice)
-      .mul(balanceOfCall)
-      .div(10e18)
+      .mul(totalBalance)
+      .div(Math.pow(10, assetDecimals + 1))
       .add(profitCall)
-      .toString();
+      .toFixed(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, balanceOfCall, checkpointPrice, tokenPrice, asset]);
+  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, asset]);
 
   useEffect(() => {
     if (balance !== '0') {
