@@ -2,8 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Header } from 'app/components/Header';
-import { translations } from '../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
+import { TotalValueLocked } from './components/TotalValueLocked';
 
 export function LandingPage() {
   const { t } = useTranslation();
@@ -46,7 +47,8 @@ export function LandingPage() {
 
           <div>Top Margin pairs</div>
         </div>
-        <div className="tw-text-center">TVL</div>
+
+        <TotalValueLocked />
       </div>
     </>
   );
