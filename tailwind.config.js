@@ -130,7 +130,7 @@ module.exports = {
     extend: {
       maxWidth: {
         '7.5rem': '7.5rem',
-        '8.75-rem': '8.75rem',
+        '8.75rem': '8.75rem',
         '13rem': '13rem',
         '20rem': '20rem',
         '20.5rem': '20.5rem',

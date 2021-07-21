@@ -93,7 +93,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
           <div className="tw-mt-12 tw-justify-center tw-items-center tw-flex tw-flex-row">
             <Button
               minimal
-              className="tw-text-gold button-round tw-font-lg tw-mx-auto"
+              className="button-round tw-text-gold tw-text-lg tw-mx-auto"
               text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />

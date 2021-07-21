@@ -263,16 +263,16 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         />
       </td>
       <td>
-        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!item.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {item.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {item.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={item.transaction_hash}

@@ -135,11 +135,11 @@ export function PoolV1(props: Props) {
           </div>
         ))}
         {/*<ExpectedPoolTokensV1 pool={props.pool} amounts={amounts} />*/}
-        <div className="mt-3">
+        <div className="tw-mt-4">
           <SendTxProgress {...tx} displayAbsolute={false} />
         </div>
 
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:justify-between lg:items-center">
           <TradeButton
             text={t(translations.liquidity.supply)}
             onClick={handleSupply}

@@ -447,7 +447,7 @@ export function Header() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-header-link d-none d-xl-block"
+              className="tw-header-link tw-hidden xl:tw-block"
             >
               {t(translations.mainMenu.help)}
             </a>

@@ -97,7 +97,7 @@ export function RemovePoolV1(props: Props) {
         <SendTxProgress {...tx} displayAbsolute={false} />
       </div>
 
-      <div className="tw-flex tw-flex-column lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
         <div className="tw-mb-4 lg:tw-mb-0">
           <div>
             <div className="tw-font-bold tw-text-muted tw-mb-2">

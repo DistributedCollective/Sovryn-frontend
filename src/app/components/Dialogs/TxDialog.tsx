@@ -249,7 +249,7 @@ const WLImage = styled.img`
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="tw-flex tw-flex-column tw-justify-center tw-items-center tw-overflow-hidden">
+    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
       <div className="tw-truncate">{getWalletName(wallet)}</div>
     </WLContainer>

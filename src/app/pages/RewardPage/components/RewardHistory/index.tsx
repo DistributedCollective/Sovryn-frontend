@@ -19,17 +19,17 @@ export function RewardHistory({ account }: Props) {
 
   const rows = events?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
-      <td className="align-middle">-</td>
-      <td className="align-middle">- SOV</td>
-      <td className="align-middle">-</td>
-      <td className="align-middle d-md-table-cell d-none">-</td>
-      <td className="align-middle d-md-table-cell d-none">-</td>
+      <td className="tw-align-middle">-</td>
+      <td className="tw-align-middle">- SOV</td>
+      <td className="tw-align-middle">-</td>
+      <td className="tw-align-middle md:tw-table-cell tw-hidden">-</td>
+      <td className="tw-align-middle md:tw-table-cell tw-hidden">-</td>
     </tr>
   ));
 
   return (
     <div>
-      <table className="table sovryn-table align-middle">
+      <table className="table sovryn-table tw-align-middle">
         <thead className="">
           <tr className="">
             <th>{t(translations.rewardPage.historyTable.tableHeaders.time)}</th>

@@ -60,7 +60,7 @@ export function ExpectedPoolTokensV1({ pool, amounts }: Props) {
 
   return (
     <div className="tw-border tw-shadow tw-my-4 tw-p-4 tw-bg-white tw-text-black">
-      <div className="font-weight-bold small">
+      <div className="tw-font-bold tw-text-sm">
         <LoadableValue
           loading={loading}
           value={
@@ -71,7 +71,7 @@ export function ExpectedPoolTokensV1({ pool, amounts }: Props) {
           tooltip={weiTo18(expectedPoolTokens)}
         />
       </div>
-      <div className="small">{t(translations.liquidity.token)}</div>
+      <div className="tw-text-sm">{t(translations.liquidity.token)}</div>
     </div>
   );
 }

@@ -104,7 +104,7 @@ export function BuyForm() {
         }
         large
       >
-        <div className="px-0 px-lg-4">
+        <div className="tw-px-0 lg:tw-px-8">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}
             labelColor="#E9EAE9"
@@ -125,7 +125,7 @@ export function BuyForm() {
           <ArrowDown />
 
           <FieldGroup label={t(s.fields.receive)} labelColor="#E9EAE9">
-            <Dummy className="d-flex justify-content-between align-items-center">
+            <Dummy className="tw-flex tw-justify-between tw-items-center">
               <div>
                 <LoadableValue
                   value={<>{weiToNumberFormat(rateByPath, 4)}</>}
@@ -134,7 +134,7 @@ export function BuyForm() {
               </div>
               <div>SOV</div>
             </Dummy>
-            <Slippage className="d-flex flex-row justify-content-between align-items-center">
+            <Slippage className="tw-flex tw-flex-row tw-justify-between tw-items-center">
               <div>
                 {t(translations.buySovPage.form.minimumReceived)}{' '}
                 <LoadableValue

@@ -146,7 +146,7 @@ export function LiquidityRemoveContainer() {
 
   return (
     <>
-      <div className="tw-grid tw--mx-4 tw-grid-cols-12">
+      <div className="tw-grid tw-mx-4 tw-grid-cols-12">
         <div className="lg:tw-col-span-3 tw-col-span-6 tw-px-4">
           <FieldGroup label={t(translations.liquidity.pool)}>
             <FormSelect

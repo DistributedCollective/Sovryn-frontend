@@ -71,7 +71,7 @@ export function DetectionScreen(props: Props) {
           </div>
         )}
       </div>
-      <div className="tw-flex tw-my-12 tw-flex-column tw-justify-center tw-items-center tw-text-center">
+      <div className="tw-flex tw-my-12 tw-flex-col tw-justify-center tw-items-center tw-text-center">
         <a onClick={props.onStart} className="titleTut tw-font-body tw-mb-4">
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,

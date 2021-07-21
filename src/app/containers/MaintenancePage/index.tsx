@@ -20,7 +20,7 @@ export function MaintenancePage(props) {
     >
       <div className="tw-text-center">
         <StyledLogo src={logoSvg} className="tw-mx-auto tw-mb-4" />
-        <div className="tw-font-lg">
+        <div className="tw-text-lg">
           <Trans
             i18nKey={translations.maintenance.full}
             components={[

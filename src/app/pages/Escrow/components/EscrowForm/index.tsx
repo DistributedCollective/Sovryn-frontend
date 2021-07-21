@@ -85,7 +85,7 @@ export function EscrowForm() {
 
   return (
     <>
-      <Container className="tw-flex tw-bg-black tw-flex-column tw-justify-start tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
+      <Container className="tw-flex tw-bg-black tw-flex-col tw-justify-start tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
         <div className="tw-w-full tw-px-0 lg:tw-px-8">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}

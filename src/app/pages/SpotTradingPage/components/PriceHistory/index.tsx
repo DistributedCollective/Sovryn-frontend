@@ -31,7 +31,7 @@ export function PriceHistory() {
   }, []);
 
   return (
-    <div className="py-2 tw-border-t-2 tw-border-b-2 tw-border-white tw-flex tw-align-center tw-justify-around tw-text-sm">
+    <div className="tw-py-2 tw-border-t-2 tw-border-b-2 tw-border-white tw-flex tw-align-center tw-justify-around tw-text-sm">
       <div>
         {t(translations.spotTradingPage.priceHistory.turnover)}:{' '}
         {turnover !== null && turnover > -1 && (

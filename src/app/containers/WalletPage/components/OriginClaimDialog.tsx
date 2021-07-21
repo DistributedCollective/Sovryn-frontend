@@ -121,7 +121,7 @@ export function OriginClaimDialog(props: Props) {
                     <Button
                       text="Check SOV"
                       onClick={() => props.onClose()}
-                      className="mx-auto"
+                      className="tw-mx-auto"
                     />
                   </div>
                 </>

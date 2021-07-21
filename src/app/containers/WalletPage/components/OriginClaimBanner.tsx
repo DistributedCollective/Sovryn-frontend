@@ -20,7 +20,7 @@ export function OriginClaimBanner() {
     <>
       {Number(value) !== 0 && (
         <Div>
-          <div className="d-flex flex-row justify-content-between align-items-center">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
             <div>{t(translations.claimOriginBanner.text)}</div>
             <div>
               <Button onClick={() => setOpen(open => !open)}>

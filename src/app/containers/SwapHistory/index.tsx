@@ -268,7 +268,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         />
       </td>
       <td>
-        <div className="tw-flex tw-items-center tw-justify-between p-0">
+        <div className="tw-flex tw-items-center tw-justify-between tw-p-0">
           <div>
             {!data.status && (
               <p className="tw-m-0">{t(translations.common.confirmed)}</p>
