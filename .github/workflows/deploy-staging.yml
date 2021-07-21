@@ -42,7 +42,7 @@ jobs:
           AWS_BUCKET_NAME:  '${{ secrets.AWS_S3_BUCKET }}'
           AWS_REGION: us-east-2
           SOURCE: build
-          TARGET: /
+#          TARGET:
           WITH_DELETE: true
 #          WITH_CLOUD_FRONT_INVALIDATION:
 #          AWS_CLOUDFRONT_DISTRIBUTION_ID:
