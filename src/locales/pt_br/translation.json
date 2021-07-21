@@ -420,7 +420,7 @@
     "staking": {
       "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
-      "amountPlaceholder": "Insira a  quantidade",
+      "amountPlaceholder": "Insira a quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
     "extending": {
