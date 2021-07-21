@@ -91,7 +91,7 @@ export function TxDialog(props: Props) {
             className="dialog-close"
             onClick={() => close()}
           >
-            <span className="sr-only">Close Dialog</span>
+            <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
           <StatusComponent status={props.tx.status} />

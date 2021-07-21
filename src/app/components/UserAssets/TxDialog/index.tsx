@@ -61,7 +61,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
       className={styles.dialog}
     >
       <CloseButton onClick={() => close()}>
-        <span className="sr-only">Close Dialog</span>
+        <span className="tw-sr-only">Close Dialog</span>
       </CloseButton>
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>

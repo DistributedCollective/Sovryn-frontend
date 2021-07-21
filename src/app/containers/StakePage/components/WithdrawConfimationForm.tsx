@@ -28,7 +28,7 @@ export function WithdrawConfirmationForm(props: Props) {
           props.onCloseModal();
         }}
       >
-        <span className="sr-only">
+        <span className="tw-sr-only">
           {t(translations.stake.withdraw.closeDialog)}
         </span>
       </button>

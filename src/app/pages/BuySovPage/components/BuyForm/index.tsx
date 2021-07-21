@@ -145,7 +145,7 @@ export function BuyForm() {
                 SOV.
               </div>
               <SlippageButton onClick={() => setOpenSlippage(true)}>
-                <span className="sr-only">Slippage</span>
+                <span className="tw-sr-only">Slippage</span>
               </SlippageButton>
             </Slippage>
           </FieldGroup>
