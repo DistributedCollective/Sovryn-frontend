@@ -533,6 +533,12 @@ module.exports = function (webpackEnv) {
     plugins: [
       new ESLintPlugin({
         threads: true,
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
+        context: path.resolve(__dirname, '../'),
+        overrideConfigFile: path.resolve(__dirname, '../.eslintrc.js'),
+        emitWarning: true,
+        emitError: true,
+        failOnError: true,
         formatter: require.resolve('react-dev-utils/eslintFormatter'),
         eslintPath: require.resolve('eslint'),
       }),
