@@ -11,10 +11,7 @@ jobs:
     concurrency:
       group: Staging
       cancel-in-progress: true
-    env:
-      AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-      AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-      REACT_APP_NETWORK: 'mainnet'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -34,15 +31,16 @@ jobs:
 #
 #      - name: Build
 #        run: yarn build
+#        env:
+#          REACT_APP_NETWORK: 'mainnet'
 
       - name: Deploy to S3
-        uses: reggionick/s3-deploy@v3
+        uses: jakejarvis/s3-sync-action@master
         with:
-          folder: public
-          bucket: ${{ secrets.S3_BUCKET }}
-          bucket-region: us-east-2
-          #            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          #            invalidation: /
-          delete-removed: true
-          no-cache: false
-          private: true
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: '${{ secrets.S3_BUCKET }}'
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_REGION: 'us-east-2'
+          SOURCE_DIR: 'public'
