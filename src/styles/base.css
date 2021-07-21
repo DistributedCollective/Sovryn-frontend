@@ -32,6 +32,10 @@
     @apply tw-text-primary tw-underline;
   }
 
+  th {
+    text-align: inherit;
+  }
+
   .tw-bg-primary {
     background: #171717 !important;
   }

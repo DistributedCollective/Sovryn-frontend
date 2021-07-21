@@ -193,10 +193,10 @@ export function LiquidityRemoveContainer() {
         />
       ) : (
         <>
-          <div className="border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
+          <div className="tw-border tw-my-4 tw-p-4 tw-bg-white tw-text-black">
             <div className="tw-grid tw-gap-8 tw-grid-cols-12">
               <div className="tw-col-span-6">
-                <div className="tw-font-bold small">
+                <div className="tw-font-bold tw-text-sm">
                   <LoadableValue
                     loading={targetLoading}
                     value={
@@ -207,12 +207,12 @@ export function LiquidityRemoveContainer() {
                     tooltip={weiTo18(targetValue[0])}
                   />
                 </div>
-                <div className="small">
+                <div className="tw-text-sm">
                   {t(translations.liquidity.amountTarget)}
                 </div>
               </div>
               <div className="tw-col-span-6">
-                <div className="tw-font-bold small">
+                <div className="tw-font-bold tw-text-sm">
                   <LoadableValue
                     loading={targetLoading}
                     value={
@@ -223,7 +223,9 @@ export function LiquidityRemoveContainer() {
                     tooltip={weiTo18(targetValue[1])}
                   />
                 </div>
-                <div className="small">{t(translations.liquidity.fee)}</div>
+                <div className="tw-text-sm">
+                  {t(translations.liquidity.fee)}
+                </div>
               </div>
             </div>
           </div>
