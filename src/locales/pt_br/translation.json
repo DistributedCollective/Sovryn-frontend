@@ -420,7 +420,7 @@
     "staking": {
       "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
-       "amountPlaceholder": "Insira a  quantidade",
+      "amountPlaceholder": "Insira a  quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
     "extending": {
@@ -432,6 +432,7 @@
       "balance": "Saldo"
     },
     "history": {
+      "loading": "Carregando...",
       "title": "Histórico",
       "asset": "Ativo",
       "action": "Ação",
@@ -494,7 +495,7 @@
       "withdraw": "Resgatar",
       "withdrawFees": "Resgatar lucro"
     },
-      "dateSelector": {
+    "dateSelector": {
       "noneAvailable": "Sem datas disponíveis.",
       "selectDelegate": "Escolha o período:",
       "selectYear": "Selecionar ano:"
@@ -1233,7 +1234,7 @@
         "short": "Vendido"
       }
     },
-     "tradeDialog": {
+    "tradeDialog": {
       "title": "Revisar transação",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
@@ -1298,7 +1299,7 @@
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
-     },
+      },
       "txType": {
         "added": "Adicionar liquidez",
         "removed": "Retirar liquidez"
