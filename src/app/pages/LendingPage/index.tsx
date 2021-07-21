@@ -37,7 +37,7 @@ const LendingPage: React.FC = () => {
             message={t(translations.liquidityMining.recalibration, {
               date: 'July 26',
             })}
-            linkUrl="https://wiki.sovryn.app/en/sovryn-dapp/lending#sov-loot-drops-on-lending-pools"
+            linkUrl="https://www.sovryn.app/blog/sov-is-diving-into-the-lending-pools"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />
