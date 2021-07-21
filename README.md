@@ -26,6 +26,8 @@ Build for production:
 yarn build
 ```
 
+### Private dependecies
+
 The DApp includes a private package as a dependency, for this reason you need get access to install it.
 If your github account doesn't have 2FA enabled you can run this and provide your github credentials:
 
@@ -49,7 +51,7 @@ To authenticate by adding your personal access token to your ~/.npmrc file, edit
 Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
 If yarn install fails after these steps please ask for read access to the charting-library repository (for external contributors please see the section below).
 
-## External Contributors
+#### External Contributors
 
 Due to the terms of our licensing agreement with Trading View, we are unable to grant access to the charting-library repository to external contributors. In order to allow running of this repo locally, we have set up the `development_external` and `master_external` branches which exclude this dependency and is synched to the latest changes from `development`/`master` branches.
 
