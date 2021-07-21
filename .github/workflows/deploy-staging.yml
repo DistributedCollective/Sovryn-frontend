@@ -6,10 +6,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: staging_environment
+      name: Staging
       url: https://staging.sovryn.app
     concurrency:
-      group: staging_environment,
+      group: Staging,
       cancel-in-progress: true
     env:
       NODE_AUTH_TOKEN: ${{ secrets.GPR_ACCESS_TOKEN }}
