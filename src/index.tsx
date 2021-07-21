@@ -1,3 +1,22 @@
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'react-redux';
+
+// Import root app
+import { App } from 'app';
+
+import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
+import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
+import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
+import { store } from './store/store';
+
+// Initialize languages
+import './locales/i18n';
+import './styles/index.css';
+// Import scss global styles
+import './styles/sass/styles.scss';
+import '@sovryn/react-wallet/index.css';
 /**
  * index.tsx
  *
@@ -10,28 +29,6 @@ import 'core-js/es/set';
 import 'raf/polyfill';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
-// Import scss global styles
-import './styles/sass/styles.scss';
-import './styles/index.css';
-import '@sovryn/react-wallet/index.css';
-
-// Import root app
-import { App } from 'app';
-
-import { HelmetProvider } from 'react-helmet-async';
-
-import { store } from './store/store';
-
-// Initialize languages
-import './locales/i18n';
-import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
-import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
-import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
 
 // if (process.env.REACT_APP_SENTRY_DSN) {
 //   import('./sentry').then(({ default: sentryInit }) => sentryInit());

@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { useAccount, useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 
+import BitcoinIcon from '../../../assets/reward/bitcoin.png';
+import SovrynIcon from '../../../assets/reward/Sovryn.png';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
