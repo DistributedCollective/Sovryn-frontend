@@ -152,9 +152,9 @@ const getActionName = action => {
       return <Trans i18nKey={translations.stake.history.actions.unstake} />;
     case 'Fee Withdraw':
       return <Trans i18nKey={translations.stake.history.actions.feeWithdraw} />;
-    case 'Increase':
+    case 'Increase Stake':
       return <Trans i18nKey={translations.stake.history.actions.increase} />;
-    case 'Extend':
+    case 'Extend Stake':
       return <Trans i18nKey={translations.stake.history.actions.extend} />;
     case 'Delegate':
       return <Trans i18nKey={translations.stake.history.actions.delegate} />;
