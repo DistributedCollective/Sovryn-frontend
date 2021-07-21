@@ -16,31 +16,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Setup node
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 'lts/erbium'
-#          cache: 'yarn'
-#          registry-url: 'https://npm.pkg.github.com'
-#          scope: '@distributedcollective'
-#
-#      - name: Install NPM dependencies
-#        run: yarn install
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.GPR_ACCESS_TOKEN }}
-#
-#      - name: Build
-#        run: yarn build
-#        env:
-#          REACT_APP_NETWORK: 'mainnet'
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/erbium'
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@distributedcollective'
+
+      - name: Install NPM dependencies
+        run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_ACCESS_TOKEN }}
+
+      - name: Build
+        run: yarn build
+        env:
+          REACT_APP_NETWORK: 'mainnet'
 
       - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
+        uses: raulanatol/aws-s3-docker-action@master
         env:
-          AWS_S3_BUCKET: '${{ secrets.S3_BUCKET }}'
           AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-          AWS_REGION: 'us-east-2'
-          SOURCE_DIR: 'public'
+          AWS_BUCKET_NAME:  '${{ secrets.AWS_S3_BUCKET }}'
+          AWS_REGION: us-east-2
+          SOURCE: build
+          TARGET: /
+          WITH_DELETE: true
+#          WITH_CLOUD_FRONT_INVALIDATION:
+#          AWS_CLOUDFRONT_DISTRIBUTION_ID:
+#          AWS_CLOUDFRONT_INVALIDATION_PATH:
