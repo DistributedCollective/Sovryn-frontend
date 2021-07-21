@@ -1452,6 +1452,12 @@
     "chartOverlayText": "APY% Coming Soon!",
     "recalibration": "Next recalibration on {{date}}"
   },
+  "landingPage": {
+    "meta": {
+      "title": "SOV trading is now live!",
+      "description": "SOV trading is now live!"
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "SOV trading is now live!",
