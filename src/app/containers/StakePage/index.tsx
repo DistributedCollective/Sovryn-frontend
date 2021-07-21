@@ -303,7 +303,7 @@ function InnerStakePage() {
             </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
               <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
-                <p className="tw-text-lg tw-mt-1">
+                <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
                 <p
@@ -372,7 +372,7 @@ function InnerStakePage() {
                 )}
               </div>
               <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
-                <p className="tw-text-lg tw-mt-1">
+                <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
                 <p className="tw-text-4-5xl tw-mt-2 tw-mb-6">
@@ -390,7 +390,7 @@ function InnerStakePage() {
                 })}
               </div>
               <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
-                <p className="tw-text-lg tw-mt-1">
+                <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
                 <p

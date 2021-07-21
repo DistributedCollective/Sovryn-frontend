@@ -203,7 +203,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
           </div>
         )}
         <div className="tw-col-span-12">
-          <div className="tw-grid tw-grid-cols-12 tw-mx-4">
+          <div className="tw-grid tw-grid-cols-12 tw--mx-4">
             <div className="tw-col-span-12 tw-text-muted tw-px-4">
               {
                 <>

@@ -11,7 +11,7 @@ export function PageSkeleton() {
   return (
     <>
       <div className="tw-container tw-mx-auto tw-px-4 tw-py-4">
-        <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
           <div className="tw-col-span-4">
             <Skeleton />
           </div>
@@ -22,7 +22,7 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
           <div className="tw-col-span-2">
             <Skeleton />
           </div>
@@ -36,12 +36,12 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
           <div className="tw-col-span-6 lg:tw-col-span-4">
             <Skeleton height="100%" />
           </div>
           <div className="tw-col-span-6 lg:tw-col-span-8">
-            <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
               <div className="tw-col-span-2">
                 <Skeleton />
               </div>
@@ -55,7 +55,7 @@ export function PageSkeleton() {
                 <Skeleton />
               </div>
             </div>
-            <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
               <div className="tw-col-span-2">
                 <Skeleton />
               </div>
@@ -69,7 +69,7 @@ export function PageSkeleton() {
                 <Skeleton />
               </div>
             </div>
-            <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
               <div className="tw-col-span-2">
                 <Skeleton />
               </div>
@@ -83,7 +83,7 @@ export function PageSkeleton() {
                 <Skeleton />
               </div>
             </div>
-            <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12">
+            <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12">
               <div className="tw-col-span-2">
                 <Skeleton />
               </div>
@@ -99,7 +99,7 @@ export function PageSkeleton() {
             </div>
           </div>
         </div>
-        <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
           <div className="tw-col-span-4">
             <Skeleton />
           </div>
@@ -107,7 +107,7 @@ export function PageSkeleton() {
             <Skeleton />
           </div>
         </div>
-        <div className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-mb-4">
+        <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-mb-4">
           <div className="tw-col-span-6">
             <Skeleton />
           </div>
@@ -125,7 +125,7 @@ export function ComponentSkeleton({ lines }: Props) {
     <div className="tw-container tw-mx-auto tw-px-4">
       {Array(lines).map((_, index) => (
         <div
-          className="tw-grid tw-gap-8 tw-mx-4 tw-grid-cols-12 tw-my-4"
+          className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-my-4"
           key={index}
         >
           {index % 2 !== 0 && (
