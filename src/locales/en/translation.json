@@ -1456,6 +1456,13 @@
     "meta": {
       "title": "SOV trading is now live!",
       "description": "SOV trading is now live!"
+    },
+    "welcomeTitle": "Welcome to Sovryn",
+    "welcomeMessage": "The decentralized bitcoin trading and lending platform",
+    "tradingVolume": {
+      "title": "24 hour volume",
+      "btc": "BTC",
+      "usd": "USD"
     }
   },
   "buySovPage": {
