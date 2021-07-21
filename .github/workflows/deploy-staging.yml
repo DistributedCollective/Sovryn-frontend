@@ -14,6 +14,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      CI_USER_TOKEN: ${{ secrets.CI_USER_TOKEN }}
       REACT_APP_NETWORK: 'mainnet'
     steps:
       - uses: actions/checkout@v2
