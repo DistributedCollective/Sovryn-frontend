@@ -27,10 +27,10 @@ jobs:
           cache: 'yarn'
 
       - name: Install NPM dependencies
-        run: yarn install
+        run: npm install
 
       - name: Build
-        run: yarn build
+        run: npm build
 
       - name: Deploy to S3
         uses: reggionick/s3-deploy@v3
