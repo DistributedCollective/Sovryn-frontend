@@ -1325,12 +1325,19 @@
       "OGRewards": "OG Rewards"
     },
     "historyTable": {
+      "title": "Reward History",
       "tableHeaders": {
         "time": "Date",
         "type": "Type",
         "amount": "Action",
         "transactionHash": "Transaction Hash",
         "status": "Status"
+      },
+      "event": {
+        "liquidityMining": "Liquidity Reward",
+        "vesting": "Vesting",
+        "staking": "Staking",
+        "referral": "Referrals Reward"
       },
       "emptyState": "History is empty.",
       "loading": "Loading..."
