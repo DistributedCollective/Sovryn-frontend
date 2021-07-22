@@ -22,7 +22,7 @@ export const StyledArrow = styled.div<IStyledArrowProps>`
   height: 50px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  top: 37%;
+  top: 30%;
 `;
 
 export const Dot = styled.li`

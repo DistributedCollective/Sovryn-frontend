@@ -25,7 +25,7 @@ const responsive = {
 
 export const PromotionsCarousel: React.FC = ({ children }) => {
   return (
-    <div className="tw-max-w-90 tw-mx-auto tw-relative">
+    <div className="tw-relative">
       <Carousel
         arrows
         responsive={responsive}
