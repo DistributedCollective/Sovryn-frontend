@@ -2,7 +2,7 @@ import type { Chain } from 'types';
 import { ethers } from 'ethers';
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import { walletService } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 import { RpcNetwork } from '../../../../utils/blockchain/rpc-network';
 import { getBridgeChainId } from './helpers';
 import { BridgeNetworkDictionary } from '../dictionaries/bridge-network-dictionary';
@@ -203,7 +203,7 @@ export class BridgeNetwork {
       chainId: walletService.chainId,
     });
 
-    if (web3Wallets.includes(walletService.providerType)) {
+    if (isWeb3Wallet(walletService.providerType as ProviderType)) {
       return signedTxOrTransactionHash;
     } else {
       return this.getProvider(chain).sendTransaction(signedTxOrTransactionHash);

@@ -1,13 +1,7 @@
-/**
- *
- * WalletSelector
- *
- */
-
 import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWalletContext, WalletConnectionView } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
 import { Icon } from '@blueprintjs/core';
 import { Chain } from '../../../../../types';
@@ -56,7 +50,7 @@ export function WalletSelector(props: Props) {
   const state = useMemo(() => {
     if (
       chain !== null &&
-      web3Wallets.includes(walletContext.wallet.providerType) &&
+      isWeb3Wallet(walletContext.wallet.providerType as ProviderType) &&
       walletContext.wallet.isConnected() &&
       walletContext.wallet.chainId !== getBridgeChainId(chain as Chain)
     ) {

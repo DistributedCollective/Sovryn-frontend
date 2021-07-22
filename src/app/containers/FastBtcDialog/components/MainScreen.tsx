@@ -1,6 +1,6 @@
-import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
-import React, { Dispatch, useMemo } from 'react';
+import { WalletContext } from '@sovryn/react-wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import React, { Dispatch, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../locales/i18n';
@@ -21,12 +21,12 @@ interface MainScreenProps {
 
 export function MainScreen({ state, dispatch }: MainScreenProps) {
   const { t } = useTranslation();
-  const { connected, wallet } = useWalletContext();
+  const { connected, wallet } = useContext(WalletContext);
 
   const isWrongChainId = useMemo(() => {
     return (
       connected &&
-      web3Wallets.includes(wallet.providerType) &&
+      isWeb3Wallet(wallet.providerType as ProviderType) &&
       wallet.chainId !== currentChainId
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
