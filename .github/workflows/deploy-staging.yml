@@ -1,0 +1,46 @@
+name: Deploy to staging
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging_environment
+      url: https://staging.sovryn.app
+    concurrency:
+      group: staging_environment,
+      cancel-in-progress: true
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      REACT_APP_NETWORK: 'mainnet'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Apply netrc creds for charting-library dependency
+        uses: little-core-labs/netrc-creds@master
+        with:
+          machine: github.com
+          login: ${{ secrets.CI_USER_TOKEN }}
+
+      - name: Install and Build
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/erbium'
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn build
+
+      - name: Deploy to S3
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: build
+          bucket: ${{ secrets.S3_BUCKET }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+          #            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          #            invalidation: /
+          delete-removed: true
+          no-cache: false
+          private: true

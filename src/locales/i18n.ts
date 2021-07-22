@@ -3,6 +3,12 @@ import { initReactI18next } from 'react-i18next';
 
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+import moment from 'moment';
+// moment locale en is not needed, it's the default.
+import 'moment/locale/es';
+import 'moment/locale/pt-br';
+import 'moment/locale/fr';
+
 import en from './en/translation.json';
 import es from './es/translation.json';
 import pt_br from './pt_br/translation.json';
@@ -16,13 +22,18 @@ const translationsJson = {
   es: {
     translation: es,
   },
-  pt_br: {
+  'pt-BR': {
     translation: pt_br,
   },
   fr: {
     translation: fr,
   },
 };
+
+export const languages = Object.keys(translationsJson);
+
+export const languageLocalStorageKey = 'i18nextLng_dapp';
+export const walletLanguageLocalStorageKey = 'i18nextLng'; // language key for @sovryn/react-wallet
 
 export type TranslationResource = typeof en;
 export type LanguageKey = keyof TranslationResource;
@@ -46,6 +57,11 @@ const convertLanguageJsonToObject = (obj: any, dict: {}, current?: string) => {
     }
   });
 };
+
+i18next.on('languageChanged', (lng: string) => {
+  moment.locale(lng);
+});
+
 export const i18n = i18next
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
@@ -61,7 +77,8 @@ export const i18n = i18next
         useSuspense: true,
       },
       fallbackLng: 'en',
-      whitelist: ['en', 'es', 'pt_br', 'fr'], // available languages for browser dector to pick from
+      supportedLngs: languages, // available languages for browser detector to pick from
+      load: 'currentOnly', // do not load pt when pt-BR is active
       debug:
         process.env.NODE_ENV !== 'production' &&
         process.env.NODE_ENV !== 'test',
@@ -69,8 +86,19 @@ export const i18n = i18next
       interpolation: {
         escapeValue: false, // not needed for react as it escapes by default
       },
+      detection: {
+        order: ['localStorage', 'navigator'],
+        // needs to be different from default to prevent overwrite by @sovryn/react-wallet
+        lookupLocalStorage: languageLocalStorageKey,
+        // don't cache automatically into localStrorage only on manual language change
+        caches: [],
+        excludeCacheFor: ['cimode'],
+      },
     },
-    () => {
+    err => {
+      if (err) {
+        console.error(err);
+      }
       convertLanguageJsonToObject(en, translations);
     },
   );

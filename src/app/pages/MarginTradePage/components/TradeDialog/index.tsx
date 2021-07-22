@@ -2,37 +2,38 @@ import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { toWei } from 'web3-utils';
-import { Dialog } from '../../../../containers/Dialog';
-import { selectMarginTradePage } from '../../selectors';
-import { actions } from '../../slice';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { FormGroup } from 'app/components/Form/FormGroup';
-import { TxFeeCalculator } from '../TxFeeCalculator';
-import {
-  getLendingContractName,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
-import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
-import { LiquidationPrice } from '../LiquidationPrice';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import { LoadableValue } from '../../../../components/LoadableValue';
 import { fromWei } from '../../../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../../../types';
+import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { translations } from '../../../../../locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
+import { LiquidationPrice } from '../LiquidationPrice';
+import { TxFeeCalculator } from '../TxFeeCalculator';
+import { TradingPosition } from 'types/trading-position';
+import { selectMarginTradePage } from '../../selectors';
+import { actions } from '../../slice';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import {
+  getLendingContractName,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
+import { Dialog } from 'app/containers/Dialog';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { TxDialog } from 'app/components/UserAssets/TxDialog';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -101,17 +102,27 @@ export function TradeDialog() {
       >
         <div className="tw-mw-320 tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
-            Review Transaction
+            {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
-            <LabelValuePair label="Trading Pair:" value={pair.name} />
             <LabelValuePair
-              label="Leverage:"
+              label={t(translations.marginTradePage.tradeDialog.pair)}
+              value={pair.name}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.leverage)}
               value={<>{toNumberFormat(leverage)}x</>}
             />
-            <LabelValuePair label="Direction:" value={position} />
             <LabelValuePair
-              label="Collateral:"
+              label={t(translations.marginTradePage.tradeDialog.direction)}
+              value={
+                position === TradingPosition.LONG
+                  ? t(translations.marginTradePage.tradeDialog.position.long)
+                  : t(translations.marginTradePage.tradeDialog.position.short)
+              }
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.asset)}
               value={
                 <>
                   <LoadableValue
@@ -124,11 +135,15 @@ export function TradeDialog() {
               }
             />
             <LabelValuePair
-              label="Maintenance Margin:"
+              label={t(
+                translations.marginTradePage.tradeDialog.maintananceMargin,
+              )}
               value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
-              label="Est. Liquidation price:"
+              label={t(
+                translations.marginTradePage.tradeDialog.liquidationPrice,
+              )}
               value={
                 <>
                   <LiquidationPrice
@@ -162,7 +177,10 @@ export function TradeDialog() {
           {/*  />*/}
           {/*</FormGroup>*/}
 
-          <FormGroup label="Approx. Position Entry Price:" className="tw-mt-8">
+          <FormGroup
+            label={t(translations.marginTradePage.tradeDialog.entryPrice)}
+            className="tw-mt-8"
+          >
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
                 <PricePrediction

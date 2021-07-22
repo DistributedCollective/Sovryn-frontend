@@ -1477,21 +1477,6 @@
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "registryAddress",
-        "type": "address"
-      }
-    ],
-    "name": "setSovrynSwapContractRegistryAddress",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "constant": true,
     "inputs": [],
     "name": "wrbtcToken",

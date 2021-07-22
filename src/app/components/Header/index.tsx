@@ -6,9 +6,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components/macro';
-import logoSvg from 'assets/images/sovryn-logo-white.svg';
+import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -17,12 +16,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
 import {
-  actions as lendBorrowActions,
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
-} from '../../containers/LendBorrowSovryn/slice';
-import { lendBorrowSovrynSaga } from '../../containers/LendBorrowSovryn/saga';
-import { TabType as LendBorrowTabType } from '../../containers/LendBorrowSovryn/types';
+} from '../../pages/BorrowPage/slice';
+import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { media } from '../../../styles/media';
@@ -38,7 +35,6 @@ export function Header() {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const node = useRef(null as any);
 
@@ -145,16 +141,10 @@ export function Header() {
     {
       to: '/lend',
       title: t(translations.mainMenu.lend),
-      beforeOpen: () => {
-        dispatch(lendBorrowActions.changeTab(LendBorrowTabType.LEND));
-      },
     },
     {
-      to: '/lend',
+      to: '/borrow',
       title: t(translations.mainMenu.borrow),
-      beforeOpen: () => {
-        dispatch(lendBorrowActions.changeTab(LendBorrowTabType.BORROW));
-      },
     },
     { to: '/yield-farm', title: t(translations.mainMenu.yieldFarm) },
     {
@@ -276,7 +266,7 @@ export function Header() {
           <div className="xl:tw-flex tw-flex-row tw-items-center">
             <div className="tw-mr-5 2xl:tw-mr-20">
               <Link to="/">
-                <StyledLogo src={logoSvg} />
+                <StyledLogo />
               </Link>
             </div>
             <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10">
@@ -331,22 +321,12 @@ export function Header() {
                     <MenuItem
                       text={t(translations.mainMenu.lend)}
                       className="bp3-popover-dismiss"
-                      onClick={() => {
-                        dispatch(
-                          lendBorrowActions.changeTab(LendBorrowTabType.LEND),
-                        );
-                        history.push('/lend');
-                      }}
+                      onClick={() => history.push('/lend')}
                     />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       className="bp3-popover-dismiss"
-                      onClick={() => {
-                        dispatch(
-                          lendBorrowActions.changeTab(LendBorrowTabType.BORROW),
-                        );
-                        history.push('/lend');
-                      }}
+                      onClick={() => history.push('/borrow')}
                     />
                     <MenuItem
                       text={t(translations.mainMenu.yieldFarm)}
@@ -482,15 +462,21 @@ export function Header() {
   );
 }
 
-const StyledLogo = styled.img.attrs(_ => ({
+const StyledLogo = styled(SovLogo).attrs(_ => ({
   alt: '',
 }))`
   width: 130px;
-  height: 22px;
+  height: 32px;
   margin: 0 0 0 1rem;
+
+  // custom font for "Alpha" logo text
+  #Alpha tspan {
+    font-family: Orbitron-Medium, Orbitron;
+  }
+
   ${media.xl`
     width: 216px;
-    height: 38px;
+    height: 53px;
     margin: 0;
   `}
 `;

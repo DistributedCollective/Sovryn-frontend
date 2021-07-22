@@ -1,33 +1,34 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import moment from 'moment-timezone';
-import logoSvg from 'assets/images/tokens/sov.svg';
-import { bignumber } from 'mathjs';
-import { weiToNumberFormat } from 'utils/display-text/format';
-import { contractReader } from 'utils/sovryn/contract-reader';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { ethGenesisAddress } from 'utils/classifiers';
-import { Modal } from '../../../components/Modal';
-import { Asset } from '../../../../types/asset';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { useAccount } from '../../../hooks/useAccount';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { numberToUSD } from 'utils/display-text/format';
-import { LoadableValue } from '../../../components/LoadableValue';
-import { AddressBadge } from '../../../components/AddressBadge';
-import { WithdrawVesting } from './WithdrawVesting';
-import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
-import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { useStaking_getAccumulatedFees } from '../../../hooks/staking/useStaking_getAccumulatedFees';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Tooltip } from '@blueprintjs/core';
+import { bignumber } from 'mathjs';
+import moment from 'moment-timezone';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import logoSvg from 'assets/images/tokens/sov.svg';
+import { translations } from 'locales/i18n';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
 } from 'utils/blockchain/requests/vesting';
+import { ethGenesisAddress } from 'utils/classifiers';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { numberToUSD } from 'utils/display-text/format';
+import { contractReader } from 'utils/sovryn/contract-reader';
+
+import { Asset } from '../../../../types/asset';
+import { AddressBadge } from '../../../components/AddressBadge';
+import { LoadableValue } from '../../../components/LoadableValue';
+import { Modal } from '../../../components/Modal';
+import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
+import { useStaking_getAccumulatedFees } from '../../../hooks/staking/useStaking_getAccumulatedFees';
+import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
+import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
+import { useAccount } from '../../../hooks/useAccount';
+import { WithdrawVesting } from './WithdrawVesting';
 
 interface Props {
   vestingAddress: string;
@@ -159,10 +160,7 @@ export function VestingContract(props: Props) {
                   <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
                 </div>
                 <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-                  {props.type === 'genesis' && 'Genesis SOV'}
-                  {props.type === 'origin' && 'Origin SOV'}
-                  {props.type === 'team' && 'Team SOV'}
-                  {props.type === 'reward' && 'Reward SOV'}
+                  {t(translations.stake.currentVests.assetType[props.type])}
                 </div>
               </div>
             </td>
@@ -170,11 +168,10 @@ export function VestingContract(props: Props) {
               <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
                 {lockedAmount.value && (
                   <>
-                    {weiToNumberFormat(lockedAmount.value)}{' '}
-                    {t(translations.stake.sov)}
+                    {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
-                      value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                      value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
                       loading={dollars.loading}
                     />
                   </>
@@ -215,16 +212,13 @@ export function VestingContract(props: Props) {
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
                 {moment
-                  .tz(new Date(parseInt(stakingPeriodStart) * 1e3), 'GMT')
+                  .tz(new Date(parseInt(unlockDate) * 1e3), 'GMT')
                   .format('DD/MM/YYYY - h:mm:ss a z')}
               </p>
             </td>
             <td>
               ≈{' '}
-              <LoadableValue
-                value={weiToNumberFormat(rbtcValue, 4)}
-                loading={rbtc.loading}
-              />{' '}
+              <LoadableValue value={weiTo4(rbtcValue)} loading={rbtc.loading} />{' '}
               RBTC
             </td>
             <td className="md:tw-text-left tw-hidden md:tw-table-cell">

@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import Chart, { ChartProps } from './Chart';
+import { abbreviateNumber } from 'utils/helpers';
 
 export interface Dataset {
   data: [number, number][]; //[timeInMs, value]
@@ -17,33 +18,24 @@ export interface ComparisonProps {
   secondaryData?: Dataset;
   totalData?: Dataset;
   className?: string;
+  margin?: [number, number, number, number];
+  tooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
 }
-
-const formatValues = value => {
-  const suffixes = ['', 'k', 'M', 'B', 'T'];
-  const suffixNum = Math.floor(String(value).length / 3);
-  let shortValue: any = parseFloat(
-    (suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(
-      2,
-    ),
-  );
-  if (shortValue % 1 !== 0) {
-    shortValue = shortValue.toFixed(1);
-  }
-  return shortValue + suffixes[suffixNum];
-};
 
 export default function ComparisonChart(props: ComparisonProps) {
   const options: ChartProps = {
     height: 150,
-    margin: [30, 45, 30, 45],
+    margin: props.margin || [30, 45, 30, 45],
     labelColor: '#EDEDED',
+    tooltipFormatter: props.tooltipFormatter,
     yAxisProps: {
       suffix: '%',
     },
     secondaryYAxisProps: {
       formatter: function (this: any) {
-        return '₿' + formatValues(this.value);
+        return `${abbreviateNumber(this.value)} ${
+          props.totalData?.suffix || ''
+        }`;
       },
     },
     datasetPrimary: {

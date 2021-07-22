@@ -1,6 +1,6 @@
 import { WalletProviderState } from 'app/containers/WalletProvider/types';
 import { FastBtcFormState } from 'app/containers/FastBtcForm/types';
-import { LendBorrowSovrynState } from 'app/containers/LendBorrowSovryn/types';
+import { LendBorrowSovrynState } from 'app/pages/BorrowPage/types';
 import { EventsStoreState } from '../store/global/events-store/types';
 import { TransactionsStoreState } from '../store/global/transactions-store/types';
 import { MaintenanceStoreState } from '../store/global/maintenance-store/types';
