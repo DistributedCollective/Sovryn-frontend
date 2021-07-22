@@ -2,9 +2,11 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Header } from 'app/components/Header';
-import { translations } from '../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
 import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
+import { TotalValueLocked } from './components/TotalValueLocked';
+import { Promotions } from './components/Promotions';
 
 export function LandingPage() {
   const { t } = useTranslation();
@@ -38,7 +40,9 @@ export function LandingPage() {
             <ArbitrageOpportunity />
           </div>
         </div>
-        <div className="tw-my-20 tw-text-center">Promotions</div>
+
+        <Promotions />
+
         <div className="tw-grid tw-grid-cols-2">
           <div>Lending Assets</div>
 
@@ -49,7 +53,8 @@ export function LandingPage() {
 
           <div>Top Margin pairs</div>
         </div>
-        <div className="tw-text-center">TVL</div>
+
+        <TotalValueLocked />
       </div>
     </>
   );

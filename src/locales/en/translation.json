@@ -1469,6 +1469,18 @@
       "swap": "swap",
       "swapUp": "Swap up to ",
       "for": "for up to "
+    },
+    "tvl": {
+      "title": "Total value locked",
+      "type": "Contract Type",
+      "btc": "Value (BTC)",
+      "usd": "Value (USD)",
+      "protocol": "Protocol Contract",
+      "lend": "Lending Contract",
+      "amm": "Amm Contract",
+      "staked": "Bitocracy Staking Contract",
+      "subtotal": "Subtotal",
+      "total": "Total"
     }
   },
   "buySovPage": {
