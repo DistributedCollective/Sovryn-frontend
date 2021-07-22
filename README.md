@@ -40,7 +40,7 @@ npm login --scope=@distributedcollective --registry=https://npm.pkg.github.com
 ```
 
 If your github account uses 2FA (npm login authentication fails) then you need to create personal access token.
-To authenticate by adding your personal access token to your ~/.npmrc file, edit the ~/.npmrc file for your project to include the following line, replacing TOKEN with your personal access token. Create a new ~/.npmrc file if one doesn't exist.
+To authenticate by adding your personal access token to your `~/.npmrc` file (**file in your machine's user folder, not project folder!**), edit the ~/.npmrc file for your project to include the following line, replacing TOKEN with your personal access token. Create a new ~/.npmrc file if one doesn't exist.
 
 ```
 //npm.pkg.github.com/:_authToken=TOKEN
