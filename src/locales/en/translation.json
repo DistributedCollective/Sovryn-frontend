@@ -1463,6 +1463,12 @@
       "title": "24 hour volume",
       "btc": "BTC",
       "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Arbitrage opportunity",
+      "swap": "swap",
+      "swapUp": "Swap up to ",
+      "for": "for up to "
     }
   },
   "buySovPage": {

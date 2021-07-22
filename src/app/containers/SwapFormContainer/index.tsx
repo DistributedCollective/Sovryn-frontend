@@ -201,6 +201,12 @@ export function SwapFormContainer() {
         setSourceToken(item.key);
       }
     }
+    if (params?.action && params?.action === 'swap' && params?.target) {
+      const item = tokenBalance.find(item => item.key === params.target);
+      if (item) {
+        setTargetToken(item.key);
+      }
+    }
   }, [state, tokens, tokenBalance]);
 
   const onSwapAssert = () => {

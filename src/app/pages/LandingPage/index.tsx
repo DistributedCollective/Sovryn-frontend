@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Header } from 'app/components/Header';
 import { translations } from '../../../locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
+import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
 
 export function LandingPage() {
   const { t } = useTranslation();
@@ -33,7 +34,9 @@ export function LandingPage() {
             <TradingVolume />
           </div>
 
-          <div>Arbitrage opportunity</div>
+          <div>
+            <ArbitrageOpportunity />
+          </div>
         </div>
         <div className="tw-my-20 tw-text-center">Promotions</div>
         <div className="tw-grid tw-grid-cols-2">
