@@ -1481,6 +1481,12 @@
       "staked": "Bitocracy Staking Contract",
       "subtotal": "Subtotal",
       "total": "Total"
+    },
+    "lendingAssets": {
+      "asset": "Asset",
+      "totalAvailable": "Total Available",
+      "supplyAPR": "Supply APR",
+      "borrowAPR": "Borrow APR"
     }
   },
   "buySovPage": {
