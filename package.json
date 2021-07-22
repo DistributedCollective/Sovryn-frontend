@@ -191,7 +191,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "changelog": "bash ./bin/changelog",
-    "preinstall": "node is-pages && mv .npmrc.pages .npmrc || echo \"Running normally.\""
+    "preinstall": "bash ./bin/gh-pack && echo \"Running normally.\" || yarn install"
   },
   "browserslist": {
     "production": [
