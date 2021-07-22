@@ -38,13 +38,11 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const { t } = useTranslation();
   const account = useAccount();
   const asset = lendingPool.getAsset();
-
+  const assetDecimals = lendingPool.getAssetDetails().decimals;
   const {
     value: rewards,
     loading: rewardsLoading,
   } = useLiquidityMining_getUserAccumulatedReward(
-
-  const assetDecimals = lendingPool.getAssetDetails().decimals;
     getLendingContract(asset).address,
   );
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
@@ -144,7 +142,12 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             </TableBodyData>
             <TableBodyData>
               <LoadableValue
-                loading={profitLoading}
+                loading={
+                  profitLoading ||
+                  balanceOfLoading ||
+                  checkpointLoading ||
+                  tokenPriceLoading
+                }
                 value={
                   <ProfitLossRenderer
                     isProfit={bignumber(totalProfit).greaterThanOrEqualTo(0)}
