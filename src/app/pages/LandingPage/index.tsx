@@ -5,6 +5,7 @@ import { Header } from 'app/components/Header';
 import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
 import { TotalValueLocked } from './components/TotalValueLocked';
+import { Promotions } from './components/Promotions';
 
 export function LandingPage() {
   const { t } = useTranslation();
@@ -36,7 +37,9 @@ export function LandingPage() {
 
           <div>Arbitrage opportunity</div>
         </div>
-        <div className="tw-my-20 tw-text-center">Promotions</div>
+
+        <Promotions />
+
         <div className="tw-grid tw-grid-cols-2">
           <div>Lending Assets</div>
 
