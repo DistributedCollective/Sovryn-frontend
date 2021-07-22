@@ -41,7 +41,7 @@ export function Screen2({ state, dispatch }: Props) {
               />
             </div>
           </div>
-          <div className="btcAddress--screen2 tw-bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer">
+          <div className="btcAddress--screen2 tw-bg-gray-200 tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer">
             <CopyToClipboard
               text={state.depositAddress}
               onCopy={() =>
