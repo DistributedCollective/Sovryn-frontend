@@ -19,6 +19,7 @@ interface Props {
   pageLimit: number;
   pageNeighbours: number;
   onChange: (value: ChangeEvent) => void;
+  className?: string;
 }
 
 export function Pagination(props: Props) {
@@ -152,7 +153,7 @@ export function Pagination(props: Props) {
 
   return (
     <>
-      <nav aria-label="Pagination">
+      <nav className={props.className} aria-label="Pagination">
         <StyledList>
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)
