@@ -26,13 +26,32 @@ Build for production:
 yarn build
 ```
 
-The DApp includes a private repository as a dependency, for this reason you may need to create private access token for your account here https://github.com/settings/tokens.
-You will need to choose `repo` scope for the token.
-Export token `export CI_USER_TOKEN='ghp_xxxxx'` and run `./bin/gh-pack` to apply it.
+### Private dependecies
+
+The DApp includes a private package as a dependency, for this reason you need get access to install it.
+If your github account doesn't have 2FA enabled you can run this and provide your github credentials:
+
+```
+npm login --scope=@distributedcollective --registry=https://npm.pkg.github.com
+
+> Username: [YOUR GITHUB USERNAME]
+> Password: [YOUR GITHUB PASSWORD]
+> EMAIL: [PUBLIC EMAIL ADDRESS]
+```
+
+If your github account uses 2FA (npm login authentication fails) then you need to create personal access token.
+To authenticate by adding your personal access token to your `~/.npmrc` file (**file in your machine's user folder, not project folder!**), edit the ~/.npmrc file for your project to include the following line, replacing TOKEN with your personal access token. Create a new ~/.npmrc file if one doesn't exist.
+
+```
+//npm.pkg.github.com/:_authToken=TOKEN
+```
+
+[Instruction on how to create personal token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) - you will need `read:packages` permission.
+
 Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
 If yarn install fails after these steps please ask for read access to the charting-library repository (for external contributors please see the section below).
 
-## External Contributors
+#### External Contributors
 
 Due to the terms of our licensing agreement with Trading View, we are unable to grant access to the charting-library repository to external contributors. In order to allow running of this repo locally, we have set up the `development_external` and `master_external` branches which exclude this dependency and is synched to the latest changes from `development`/`master` branches.
 
