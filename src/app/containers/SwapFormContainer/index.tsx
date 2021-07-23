@@ -27,7 +27,6 @@ import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
@@ -54,7 +53,6 @@ interface Option {
 export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
-  const { connect } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
@@ -210,11 +208,6 @@ export function SwapFormContainer() {
     setAmount(fromWei(rateByPath));
   };
 
-  const onSwap = () => {
-    if (isConnected) send();
-    else connect();
-  };
-
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
@@ -327,7 +320,7 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={() => onSwap()}
+          onClick={() => send()}
           text={t(translations.swap.cta)}
         />
       </div>
