@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { InfoRow } from './InfoRow';
 import { CardImage } from './styled';
 import cn from 'classnames';
