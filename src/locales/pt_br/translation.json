@@ -68,7 +68,7 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "A Sovryn foi atualizada para a <br/> <0>Versão: {{buildId}}</0>",
+    "title": "A Sovryn foi atualizada para a <br/> <0>Versão:</0> <1>{{buildId}}</1>",
     "notice": "Para concluir a atualização, feche a página da Sovryn",
     "updateBtn": "Atualizar agora",
     "closeBtn": "Atualizar mais tarde"
