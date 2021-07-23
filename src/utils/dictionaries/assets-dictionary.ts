@@ -44,7 +44,7 @@ export class AssetsDictionary {
         Asset.CSOV,
         new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
       ],
-      [Asset.FISH, new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon)],
+      //[Asset.FISH, new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon)],
     ],
   );
 
