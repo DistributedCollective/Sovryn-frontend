@@ -14,7 +14,11 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
-    "maintenance": "Under Maintenance"
+    "maintenance": "Under Maintenance",
+    "unit": {
+      "day": "{{count}} day",
+      "day_plural": "{{count}} days"
+    }
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -64,7 +68,7 @@
     "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
-    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "title": "Sovryn has been updated to <br/> <0>Build ID:</0> <1>{{buildId}}</1>",
     "notice": "Please close all tabs with Sovryn open to update",
     "updateBtn": "UPDATE",
     "closeBtn": "Please let me close a trade"
@@ -289,6 +293,66 @@
         "saleDuration": "Sale Duration",
         "price": "Price"
       }
+    },
+    "saleDay": {
+      "title": "{{token}} Origins Sale",
+      "engageWalletScreen": {
+        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "buttonText": "Engage Wallet",
+        "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
+        "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
+      },
+      "accessCodeVerificationStep": {
+        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "verified": "You have been given whitelist access to participate in the FISH Origins sale.",
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Sale.",
+        "cta": "Continue",
+        "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
+      },
+      "importantInformationStep": {
+        "title": "Important Information about the Origins Sale Process",
+        "information": {
+          "1": "Welcome to the SOV pre-order sale. In anticipation of the SOV token generation event (TGE), we are offering our early community members the opportunity to obtain community SOV (cSOV), subject to a bitocracy vote at SOV TGE.",
+          "2": "Shortly after SOV TGE, which will mark the launch of Sovryn Bitocracy v.2, the Sovryn governance members will cast their votes approving or rejecting the conversion of cSOV to SOV on a 1:1 basis. If this vote passes, cSOV holders will have the option to convert their cSOV to SOV.",
+          "3": "SOV received upon conversion from cSOV will be subject to a 10 month vesting period from the date of the end of SOV public sale, whereby 1/10 will be released approximately every 4 weeks until all converted SOV are transferable at the end of month 10.",
+          "4": "Please note that this will not be an automatic process, and will require an active opt-in by cSOV holders.",
+          "5": "cSOV holders that do not wish to convert their cSOV to SOV, will have the option to receive a refund of the funds they deposited as part of the pre-order sale for a period of up to two months after SOV TGE.",
+          "6": "If a cSOV holder does not actively opt-in to the cSOV to SOV conversion, they will automatically receive a refund of their pre-sale deposit, two months after the SOV TGE."
+        },
+        "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+        "submitButtonText": "I Understand"
+      },
+      "buyStep": {
+        "buyInformationLabels": {
+          "depositLimits": "Deposit limits",
+          "saleAllocation": "Sale Allocation",
+          "allocationRemaining": "Allocation Remaining",
+          "participatingWallets": "Participating Wallets",
+          "price": "Price",
+          "acceptedCurrencies": "Accepted currencies",
+          "tokenSaleEndTime": "Token Sale End Time"
+        },
+        "buyDialog": {
+          "enterAmount": "Enter Amount",
+          "tokenReceived": "{{token}} Received",
+          "transactionFee": "Transaction Fee",
+          "buyButton": "Buy {{token}}"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
+          "instruction2": "Please allow up to xx mins for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>",
+          "nftInstruction1": "By participating in the xxxxx xxxxxx xxxxx you earn this exclusive NFT, only minted for participants of this sale.  It will grant you super powers in the coming months so be sure to listen for announcements in the babelFish and Sovryn Discord channels.",
+          "nftInstruction2": "You will be able to view your NFT in your Sovryn portfolio after they are airdropped on the xxxxxxx"
+        }
+      },
+      "txDialog": {
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "txHash": "Tx Hash"
+      }
     }
   },
   "trandingPositionSelector": {
@@ -419,6 +483,7 @@
     "staking": {
       "title": "Stake SOV",
       "amountToStake": "Amount to Stake",
+      "amountPlaceholder": "Enter amount",
       "votingPowerReceived": "Voting Power received"
     },
     "extending": {
@@ -430,14 +495,25 @@
       "balance": "Balance"
     },
     "history": {
+      "loading": "Loading...",
       "title": "Staking History",
       "asset": "Asset",
+      "action": "Action",
       "stakedAmount": "Amount",
       "stakingDate": "Date/Time",
       "hash": "Transaction Hash",
       "totalStaked": "Total Staked",
       "viewHistory": "Click to view history",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "stake": "Stake",
+        "unstake": "Unstake",
+        "feeWithdraw": "Fee Withdraw",
+        "increase": "Increase",
+        "extend": "Extend",
+        "delegate": "Delegate",
+        "withdraw": "Withdraw"
+      }
     },
     "increase": {
       "title": "Add to Stake",
@@ -463,7 +539,13 @@
       "stakingPeriod": "Vesting Period",
       "unlockDate": "Unlock Date",
       "fees": "Fees Earned",
-      "noVestingContracts": "You don't have any vesting contracts."
+      "noVestingContracts": "You don't have any vesting contracts.",
+      "assetType": {
+        "genesis": "Genesis SOV",
+        "origin": "Origin SOV",
+        "team": "Team SOV",
+        "reward": "Reward SOV"
+      }
     },
     "actions": {
       "title": "Actions",
@@ -474,6 +556,11 @@
       "confirm": "Confirm",
       "cancel": "Cancel",
       "withdraw": "Withdraw"
+    },
+    "dateSelector": {
+      "noneAvailable": "No available dates.",
+      "selectDelegate": "Choose delegate period:",
+      "selectYear": "Select Year:"
     },
     "loading": "Loading, please wait...",
     "nostake": "No stakes yet."
@@ -510,7 +597,8 @@
   "formSelect": {
     "loading": "Loading, please wait.",
     "noresults": "No results.",
-    "placeholder": "Select something"
+    "placeholder": "Select something",
+    "selectTradePair": "Select trade pair"
   },
   "hintHowToTopUp": {
     "hintOne": "You're connected! To trade and lend with Sovryn, you will need some Bitcoin on the RSK platform.",
@@ -552,6 +640,7 @@
     "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "lend": {
+    "title": "Lend",
     "history": {
       "title": "Lending history",
       "amount": "Lend Amount",
@@ -891,6 +980,7 @@
     "meta": {
       "title": "Connected Wallet"
     },
+    "emptyVestTable": "You don't have any current vest",
     "tableHeaders": {
       "asset": "Asset",
       "totalBalance": "Total Balance",
@@ -1052,7 +1142,7 @@
         "pool": "Pool",
         "action": "Action",
         "asset": "Asset",
-        "amount": "Amount",
+        "lendingAmount": "Lending Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
       }
@@ -1235,12 +1325,19 @@
       "OGRewards": "OG Rewards"
     },
     "historyTable": {
+      "title": "Reward History",
       "tableHeaders": {
         "time": "Date",
         "type": "Type",
         "amount": "Action",
         "transactionHash": "Transaction Hash",
         "status": "Status"
+      },
+      "event": {
+        "liquidityMining": "Liquidity Reward",
+        "vesting": "Vesting",
+        "staking": "Staking",
+        "referral": "Referrals Reward"
       },
       "emptyState": "History is empty.",
       "loading": "Loading..."
@@ -1261,6 +1358,20 @@
         "txFee": "Tx Fee: <0/> {{symbol}}"
       },
       "buttons": {
+        "long": "Long",
+        "short": "Short"
+      }
+    },
+    "tradeDialog": {
+      "title": "Review Transaction",
+      "pair": "Trading Pair:",
+      "leverage": "Leverage:",
+      "asset": "Collateral:",
+      "direction": "Direction:",
+      "maintananceMargin": "Maintenance Margin:",
+      "liquidationPrice": "Est. Liquidation Price:",
+      "entryPrice": "Approx. Position Entry Price:",
+      "position": {
         "long": "Long",
         "short": "Short"
       }
@@ -1317,6 +1428,10 @@
         "liquidityAmount": "Liquidity Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
+      },
+      "txType": {
+        "added": "Added",
+        "removed": "Removed"
       }
     },
     "rowTable": {
