@@ -8,6 +8,7 @@ import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from './components/Promotions';
 import { LendingAssets } from './components/LendingAssets';
+import { AmmBalance } from './components/AmmBalance';
 
 export function LandingPage() {
   const { t } = useTranslation();
@@ -49,7 +50,9 @@ export function LandingPage() {
             <LendingAssets />
           </div>
 
-          <div>Top AMM POOLS</div>
+          <div>
+            <AmmBalance />
+          </div>
         </div>
         <div className="tw-grid tw-grid-cols-2 tw-my-20">
           <div>Top Spot pairs</div>

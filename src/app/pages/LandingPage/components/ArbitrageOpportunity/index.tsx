@@ -125,7 +125,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                     </div>
                   }
                   className="tw-ml-2"
-                  popoverClassName={'w-50 tw-r-0'}
+                  popoverClassName={'w-50 tw-r-0 tw-z-50'}
                 >
                   <Icon icon={'info-sign'} />
                 </Popover>

@@ -1487,6 +1487,14 @@
       "totalAvailable": "Total Available",
       "supplyAPR": "Supply APR",
       "borrowAPR": "Borrow APR"
+    },
+    "ammpool": {
+      "title": "Top AMM Pools",
+      "asset": "Asset",
+      "pool": "Pool",
+      "stakedBalance": "Staked Balance",
+      "contractBalance": "Contract Balance",
+      "imBalance": "Imbalance"
     }
   },
   "buySovPage": {
