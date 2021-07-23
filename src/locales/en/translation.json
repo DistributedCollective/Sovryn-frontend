@@ -532,7 +532,7 @@
     },
     "currentVests": {
       "title": "Current Vests",
-      "asset": "Voting Delegation",
+      "asset": "Vested Asset",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
