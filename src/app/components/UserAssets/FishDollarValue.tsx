@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LoadableValue } from '../LoadableValue';
 import { numberToUSD } from '../../../utils/display-text/format';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { useGetFishDollarValue } from 'app/pages/OriginsLaunchpad/hooks/useGetFishDollarValue';
 
 interface Props {
@@ -10,11 +10,11 @@ interface Props {
 }
 
 export function FishDollarValue({ tokens }: Props) {
-  const fishDollarValue = useGetFishDollarValue(Number(tokens));
+  const { value, loading } = useGetFishDollarValue(Number(tokens));
   return (
     <LoadableValue
-      value={numberToUSD(Number(weiToFixed(fishDollarValue.value, 4)), 4)}
-      loading={fishDollarValue.loading}
+      value={numberToUSD(Number(weiTo4(value)), 4)}
+      loading={loading}
     />
   );
 }

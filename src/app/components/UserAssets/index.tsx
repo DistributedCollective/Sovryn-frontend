@@ -9,7 +9,7 @@ import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton, ActionLink } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
@@ -238,7 +238,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
           <FishDollarValue tokens={tokens} />
         ) : (
           <LoadableValue
-            value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+            value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
             loading={dollars.loading}
           />
         )}
