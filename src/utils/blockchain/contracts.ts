@@ -28,6 +28,9 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import FISHTokenAbi from './abi/FISH.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
@@ -92,7 +95,7 @@ export const contracts = {
     blockNumber: 1218721,
   },
   MOC_amm: {
-    address: '0x52eD2aD69A44A431B393d28CE415c19348abAb16',
+    address: '0x9996E5F902d2d804E9eD0DdB1B628D1EBf6Bb6fE',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -268,6 +271,19 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
+  },
+  // these contracts are only deployed on testnet now so they need to be updated
+  FISH_token: {
+    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    abi: FISHTokenAbi,
+  },
+  originsBase: {
+    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90',
+    abi: OriginsBaseAbi,
+  },
+  lockedFund: {
+    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
+    abi: LockedFundAbi,
   },
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',

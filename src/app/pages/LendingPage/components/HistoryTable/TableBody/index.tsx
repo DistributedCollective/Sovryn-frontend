@@ -16,7 +16,7 @@ interface ITableBodyProps {
 export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const { t } = useTranslation();
 
-  const getEvenetType = useCallback(
+  const getEventType = useCallback(
     type => {
       switch (type) {
         case LendingEventType.MINT:
@@ -38,7 +38,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           time={item.time}
           txHash={item.txHash}
           amount={weiTo4(item.asset_amount)}
-          type={getEvenetType(item.event)}
+          type={getEventType(item.event)}
           asset={
             AssetsDictionary.getByLoanContractAddress(item.contract_address)
               ?.asset

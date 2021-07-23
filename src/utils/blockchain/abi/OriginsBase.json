@@ -1,0 +1,1369 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_owners",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_depositAddress",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_verifiedAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "AddressVerified",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_oldDepositAddr",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_newDepositAddr",
+        "type": "address"
+      }
+    ],
+    "name": "DepositAddressUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_oldLockedFund",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_newLockedFund",
+        "type": "address"
+      }
+    ],
+    "name": "LockedFundUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewTierCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnerAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_removedOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnerRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum OriginsStorage.DepositType",
+        "name": "_depositType",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProceedingWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_remainingToken",
+        "type": "uint256"
+      }
+    ],
+    "name": "RemainingTokenWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_depositRate",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_depositToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum OriginsStorage.DepositType",
+        "name": "_depositType",
+        "type": "uint8"
+      }
+    ],
+    "name": "TierDepositUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "TierSaleEnded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_updatedMaxAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "TierSaleUpdatedMaximum",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "TierSaleUpdatedMinimum",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_saleStartTS",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_saleEnd",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum OriginsStorage.SaleEndDurationOrTS",
+        "name": "_saleEndDurationOrTS",
+        "type": "uint8"
+      }
+    ],
+    "name": "TierTimeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_remainingTokens",
+        "type": "uint256"
+      }
+    ],
+    "name": "TierTokenAmountUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_minAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_maxAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "TierTokenLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum OriginsStorage.VerificationType",
+        "name": "_verificationType",
+        "type": "uint8"
+      }
+    ],
+    "name": "TierVerificationUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_vestOrLockCliff",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_vestOrLockDuration",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_unlockedTokenWithdrawTS",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_unlockedBP",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum OriginsStorage.TransferType",
+        "name": "_transferType",
+        "type": "uint8"
+      }
+    ],
+    "name": "TierVestOrLockUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tokensBought",
+        "type": "uint256"
+      }
+    ],
+    "name": "TokenBuy",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_newVerifier",
+        "type": "address"
+      }
+    ],
+    "name": "VerifierAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_removedVerifier",
+        "type": "address"
+      }
+    ],
+    "name": "VerifierRemoved",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "addOwner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_newVerifier",
+        "type": "address"
+      }
+    ],
+    "name": "addVerifier",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addressToBeVerified",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "addressVerification",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "buy",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "checkOwner",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "checkSaleEnded",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_status",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "checkVerifier",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_maxAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_remainingTokens",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleStartTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleEnd",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedBP",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockCliff",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockDuration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_depositRate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum OriginsStorage.DepositType",
+        "name": "_depositType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "enum OriginsStorage.VerificationType",
+        "name": "_verificationType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "enum OriginsStorage.SaleEndDurationOrTS",
+        "name": "_saleEndDurationOrTS",
+        "type": "uint8"
+      },
+      {
+        "internalType": "enum OriginsStorage.TransferType",
+        "name": "_transferType",
+        "type": "uint8"
+      }
+    ],
+    "name": "createTier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getDepositAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getLockDetails",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getOwners",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getParticipatingWalletCountPerTier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getTierCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTokensBoughtByAddressOnTier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTokensSoldPerTier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTotalTokenAllocationPerTier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getVerifiers",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "isAddressApproved",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_addressToBeVerified",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_tierID",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "multipleAddressAndTierVerification",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_addressToBeVerified",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "multipleAddressSingleTierVerification",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "readTierPartA",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_minAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_remainingTokens",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleStartTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleEnd",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedTokenWithdrawTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedBP",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockCliff",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockDuration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_depositRate",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      }
+    ],
+    "name": "readTierPartB",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "_depositToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_depositType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_verificationType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleEndDurationOrTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_transferType",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_ownerToRemove",
+        "type": "address"
+      }
+    ],
+    "name": "removeOwner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_verifierToRemove",
+        "type": "address"
+      }
+    ],
+    "name": "removeVerifier",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "_depositAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setDepositAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_lockedFund",
+        "type": "address"
+      }
+    ],
+    "name": "setLockedFund",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_depositRate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_depositToken",
+        "type": "address"
+      },
+      {
+        "internalType": "enum OriginsStorage.DepositType",
+        "name": "_depositType",
+        "type": "uint8"
+      }
+    ],
+    "name": "setTierDeposit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleStartTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleEnd",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum OriginsStorage.SaleEndDurationOrTS",
+        "name": "_saleEndDurationOrTS",
+        "type": "uint8"
+      }
+    ],
+    "name": "setTierTime",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_remainingTokens",
+        "type": "uint256"
+      }
+    ],
+    "name": "setTierTokenAmount",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setTierTokenLimit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum OriginsStorage.VerificationType",
+        "name": "_verificationType",
+        "type": "uint8"
+      }
+    ],
+    "name": "setTierVerification",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tierID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockCliff",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_vestOrLockDuration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedTokenWithdrawTS",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedBP",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum OriginsStorage.TransferType",
+        "name": "_transferType",
+        "type": "uint8"
+      }
+    ],
+    "name": "setTierVestOrLock",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addressToBeVerified",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_tierID",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "singleAddressMultipleTierVerification",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "withdrawSaleDeposit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useMemo, useState, useCallback } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import axios from 'axios';
 import moment from 'moment-timezone';
 import styled from 'styled-components/macro';
 import iconSuccess from 'assets/images/icon-success.svg';
@@ -13,35 +14,22 @@ import { numberToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from '../../../components/LoadableValue';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { ethGenesisAddress } from 'utils/classifiers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
-import { eventReader } from 'utils/sovryn/event-reader';
 import { useAccount } from '../../../hooks/useAccount';
-import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { useVesting_getVesting } from '../../../hooks/staking/useVesting_getVesting';
-import { useVesting_getTeamVesting } from '../../../hooks/staking/useVesting_getTeamVesting';
-import { useVesting_getOriginVesting } from '../../../hooks/staking/useVesting_getOriginVesting';
 import { TxStatus } from 'store/global/transactions-store/types';
+import { backendUrl } from 'utils/classifiers';
+import { useSelector } from 'react-redux';
+import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
-  const getStakes = useStaking_getStakes(account);
-  const vesting = useVesting_getVesting(account);
-  const vestingTeam = useVesting_getTeamVesting(account);
-  const vestingOrigin = useVesting_getOriginVesting(account);
+  const { chainId } = useSelector(selectWalletProvider);
   const [eventsHistory, setEventsHistory] = useState<any>([]);
-  const [eventsHistoryVesting, setEventsHistoryVesting] = useState<any>([]);
-  const [eventsHistoryVestingTeam, setEventsHistoryVestingTeam] = useState<any>(
-    [],
-  );
-  const [eventsHistoryVestingOrigin, setEventsHistoryVestingOrigin] = useState<
-    any
-  >([]);
-  const [viewHistory, setViewHistory] = useState(false);
+  const [isHistoryLoading, seIsHistoryLoading] = useState(false);
   const [currentHistory, setCurrentHistory] = useState([]) as any;
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
@@ -49,88 +37,15 @@ export function HistoryEventsTable() {
     setCurrentHistory(eventsHistory.slice(offset, offset + pageLimit));
   };
 
-  useEffect(() => {
-    async function getHistory() {
-      let genesis: void, team: void, origin: void;
-      const stake = await eventReader
-        .getPastEvents('staking', 'TokensStaked', {
-          staker: account,
-        })
-        .then(res => {
-          setEventsHistory(
-            (res as any).sort(
-              (x, y) =>
-                new Date(y.eventDate).getTime() -
-                new Date(x.eventDate).getTime(),
-            ),
-          );
-        });
-
-      if (vesting.value !== ethGenesisAddress) {
-        genesis = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vesting.value,
-          })
-          .then(res => {
-            setEventsHistoryVesting(
-              (res as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
-          });
-      }
-      if (vestingTeam.value !== ethGenesisAddress) {
-        team = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingTeam.value,
-          })
-          .then(res => {
-            setEventsHistoryVestingTeam(
-              (res as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
-          });
-      }
-      if (vestingOrigin.value !== ethGenesisAddress) {
-        origin = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingOrigin.value,
-          })
-          .then(res => {
-            setEventsHistoryVestingOrigin(
-              (res as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
-          });
-      }
-      try {
-        Promise.all([stake, genesis, team, origin]).then(_ =>
-          setViewHistory(false),
-        );
-        setViewHistory(false);
-      } catch (e) {
-        console.error(e);
-        setViewHistory(false);
-      }
-    }
-
-    if (viewHistory) getHistory();
-  }, [
-    account,
-    viewHistory,
-    vestingTeam.value,
-    vestingOrigin.value,
-    vesting.value,
-    getStakes.value,
-  ]);
+  const getHistory = useCallback(() => {
+    seIsHistoryLoading(true);
+    axios
+      .get(`${backendUrl[chainId]}/events/stake/${account}`)
+      .then(({ data }) => {
+        setEventsHistory(data?.events);
+        seIsHistoryLoading(false);
+      });
+  }, [account, chainId]);
 
   return (
     <>
@@ -144,6 +59,9 @@ export function HistoryEventsTable() {
               <tr>
                 <th className="tw-text-left assets">
                   {t(translations.stake.history.stakingDate)}
+                </th>
+                <th className="tw-text-left">
+                  {t(translations.stake.history.action)}
                 </th>
                 <th className="tw-text-left">
                   {t(translations.stake.history.stakedAmount)}
@@ -161,44 +79,35 @@ export function HistoryEventsTable() {
                 <HistoryTable items={currentHistory} />
               )}
 
-              {viewHistory ? (
+              {isHistoryLoading ? (
                 <tr>
                   <td colSpan={5} className="tw-text-center tw-font-normal">
                     <StyledLoading className="loading">
-                      <div className="loading__letter">L</div>
-                      <div className="loading__letter">o</div>
-                      <div className="loading__letter">a</div>
-                      <div className="loading__letter">d</div>
-                      <div className="loading__letter">i</div>
-                      <div className="loading__letter">n</div>
-                      <div className="loading__letter">g</div>
-                      <div className="loading__letter">.</div>
-                      <div className="loading__letter">.</div>
-                      <div className="loading__letter">.</div>
+                      {t(translations.stake.history.loading)
+                        .split('')
+                        .map((item, index) => (
+                          <div className="loading__letter" key={index}>
+                            {item}
+                          </div>
+                        ))}
                     </StyledLoading>
                   </td>
                 </tr>
               ) : (
                 <>
-                  {eventsHistory.length === 0 &&
-                    eventsHistoryVesting.length === 0 &&
-                    eventsHistoryVestingTeam.length === 0 &&
-                    eventsHistoryVestingOrigin.length === 0 && (
-                      <tr>
-                        <td
-                          colSpan={5}
-                          className="tw-text-center tw-font-normal"
+                  {eventsHistory.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="tw-text-center tw-font-normal">
+                        <button
+                          type="button"
+                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
+                          onClick={getHistory}
                         >
-                          <button
-                            type="button"
-                            className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
-                            onClick={() => setViewHistory(true)}
-                          >
-                            {t(translations.stake.history.viewHistory)}
-                          </button>
-                        </td>
-                      </tr>
-                    )}
+                          {t(translations.stake.history.viewHistory)}
+                        </button>
+                      </td>
+                    </tr>
+                  )}
                 </>
               )}
             </tbody>
@@ -217,40 +126,78 @@ export function HistoryEventsTable() {
   );
 }
 
-interface HisoryAsset {
-  item: any;
+type HistoryItem = {
+  action: string;
+  amount: string;
+  lockedUntil: number;
+  status?: string;
+  staker: string; //address
+  timestamp: number;
+  txHash: string;
+};
+
+interface HistoryAsset {
+  item: HistoryItem;
   index: number;
 }
 
-const HisoryTableAsset: React.FC<HisoryAsset> = ({ item, index }) => {
+const getActionName = action => {
+  switch (action) {
+    case 'Stake':
+      return <Trans i18nKey={translations.stake.history.actions.stake} />;
+    case 'Unstake':
+      return <Trans i18nKey={translations.stake.history.actions.unstake} />;
+    case 'Fee Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.feeWithdraw} />;
+    case 'Increase Stake':
+      return <Trans i18nKey={translations.stake.history.actions.increase} />;
+    case 'Extend Stake':
+      return <Trans i18nKey={translations.stake.history.actions.extend} />;
+    case 'Delegate':
+      return <Trans i18nKey={translations.stake.history.actions.delegate} />;
+    case 'Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.withdraw} />;
+    default:
+      return action;
+  }
+};
+
+const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   const { t } = useTranslation();
   const SOV = AssetsDictionary.get(Asset.SOV);
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = useMemo(() => {
-    if (item.returnVal.amount === undefined) return '';
-    return bignumber(item.returnVal.amount)
+    if (!item.amount) return '';
+    return bignumber(item.amount)
       .mul(dollars.value)
       .div(10 ** SOV.decimals)
       .toFixed(0);
-  }, [dollars.value, item.returnVal.amount, SOV.decimals]);
+  }, [dollars.value, item.amount, SOV.decimals]);
   return (
     <tr>
       <td>
         {moment
-          .tz(new Date(item.eventDate), 'GMT')
+          .tz(new Date(item.timestamp * 1e3), 'GMT')
           .format('DD/MM/YYYY - h:mm:ss a z')}
       </td>
+      <td>{getActionName(item.action)}</td>
       <td className="tw-text-left tw-font-normal">
-        {numberFromWei(item.returnValues.amount)} SOV
-        <br />≈{' '}
-        <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-          loading={dollars.loading}
-        />
+        {item.action !== t(translations.stake.actions.delegate) ? (
+          <>
+            {numberFromWei(item.amount)} SOV
+            <br />≈{' '}
+            <LoadableValue
+              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+              loading={dollars.loading}
+            />
+          </>
+        ) : (
+          <>-</>
+        )}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal tw-relative">
         <LinkToExplorer
-          txHash={item.transactionHash}
+          txHash={item.txHash}
           startLength={6}
           className="tw-text-theme-blue hover:tw-underline"
         />
@@ -268,7 +215,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item, index }) => {
               <p className="m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
-              txHash={item.transaction_hash}
+              txHash={item.txHash}
               className="text-gold font-weight-normal text-nowrap"
             />
           </div>
@@ -298,8 +245,8 @@ const HistoryTable: React.FC<History> = ({ items }) => {
     <>
       {items.map((item, index) => {
         return (
-          <HisoryTableAsset
-            key={item.transactionHash}
+          <HistoryTableAsset
+            key={item.txHash + item.newBalance}
             item={item}
             index={index}
           />
@@ -316,7 +263,7 @@ const StyledLoading = styled.div`
 
   & > div {
     animation-name: bounce;
-    animation-duration: 2s;
+    animation-duration: 4s;
     animation-iteration-count: infinite;
     &:nth-child(2) {
       animation-delay: 0.1s;
@@ -344,6 +291,48 @@ const StyledLoading = styled.div`
     }
     &:nth-child(10) {
       animation-delay: 1.2s;
+    }
+    &:nth-child(11) {
+      animation-delay: 1.4s;
+    }
+    &:nth-child(12) {
+      animation-delay: 1.6s;
+    }
+    &:nth-child(13) {
+      animation-delay: 1.8s;
+    }
+    &:nth-child(14) {
+      animation-delay: 2s;
+    }
+    &:nth-child(15) {
+      animation-delay: 2.2s;
+    }
+    &:nth-child(16) {
+      animation-delay: 2.4s;
+    }
+    &:nth-child(17) {
+      animation-delay: 2.6s;
+    }
+    &:nth-child(18) {
+      animation-delay: 2.8s;
+    }
+    &:nth-child(19) {
+      animation-delay: 3s;
+    }
+    &:nth-child(20) {
+      animation-delay: 3.2s;
+    }
+    &:nth-child(21) {
+      animation-delay: 3.4s;
+    }
+    &:nth-child(22) {
+      animation-delay: 3.6s;
+    }
+    &:nth-child(23) {
+      animation-delay: 3.8s;
+    }
+    &:nth-child(24) {
+      animation-delay: 4s;
     }
   }
   @keyframes bounce {

@@ -1,7 +1,9 @@
 import React from 'react';
-import styled from 'styled-components/macro';
-import banner from 'assets/sov/staking.svg';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/macro';
+
+import banner from 'assets/sov/staking.svg';
+
 import { translations } from '../../../../../locales/i18n';
 
 export function StakeVote() {
@@ -24,7 +26,7 @@ export function StakeVote() {
       </div>
       <div className="container text-center">
         <a
-          href="https://bitocracy.sovryn.app/stake"
+          href="https://live.sovryn.app/stake"
           className="button"
           target="_blank"
           rel="noreferrer noopener"
