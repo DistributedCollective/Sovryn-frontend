@@ -14,6 +14,9 @@ export const CardImageSection = styled.div`
   margin-bottom: 1.375rem;
   position: relative;
   padding: 1rem 5.6rem 1rem 1.625rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const CardTextSection = styled.div`
@@ -31,14 +34,9 @@ export const CardImage = styled.img`
   margin-right: 0.625rem;
 `;
 
-export const CardTextWrapper = styled.div`
-  position: absolute;
-  bottom: 1rem;
-`;
-
 export const CardTextTitle = styled.div`
   font-size: 1.75rem;
-  line-height: 1.5rem;
+  line-height: 2.25rem;
   letter-spacing: 0;
   font-weight: 600;
   margin-bottom: 0.625rem;
