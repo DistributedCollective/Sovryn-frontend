@@ -35,6 +35,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { TradingPosition } from 'types/trading-position';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -99,17 +100,27 @@ export function TradeDialog() {
       >
         <div className="tw-mw-320 tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
-            Review Transaction
+            {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
-            <LabelValuePair label="Trading Pair:" value={pair.name} />
             <LabelValuePair
-              label="Leverage:"
+              label={t(translations.marginTradePage.tradeDialog.pair)}
+              value={pair.name}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.leverage)}
               value={<>{toNumberFormat(leverage)}x</>}
             />
-            <LabelValuePair label="Direction:" value={position} />
             <LabelValuePair
-              label="Collateral:"
+              label={t(translations.marginTradePage.tradeDialog.direction)}
+              value={
+                position === TradingPosition.LONG
+                  ? t(translations.marginTradePage.tradeDialog.position.long)
+                  : t(translations.marginTradePage.tradeDialog.position.short)
+              }
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.asset)}
               value={
                 <>
                   <LoadableValue
@@ -122,11 +133,15 @@ export function TradeDialog() {
               }
             />
             <LabelValuePair
-              label="Maintenance Margin:"
+              label={t(
+                translations.marginTradePage.tradeDialog.maintananceMargin,
+              )}
               value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
-              label="Est. Liquidation price:"
+              label={t(
+                translations.marginTradePage.tradeDialog.liquidationPrice,
+              )}
               value={
                 <>
                   <LiquidationPrice
@@ -160,7 +175,10 @@ export function TradeDialog() {
           {/*  />*/}
           {/*</FormGroup>*/}
 
-          <FormGroup label="Approx. Position Entry Price:" className="tw-mt-8">
+          <FormGroup
+            label={t(translations.marginTradePage.tradeDialog.entryPrice)}
+            className="tw-mt-8"
+          >
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
                 <PricePrediction

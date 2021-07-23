@@ -4,12 +4,24 @@ import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { weiTo4 } from 'utils/blockchain/math-helpers';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { LendingEvent } from '../../../types';
-import { LendingEventType } from 'app/pages/LendingPage/types';
+
+export interface RewardEvent {
+  amount: string;
+  event: RewardEventType;
+  time: number;
+  user: string;
+  txHash: string;
+}
+
+export enum RewardEventType {
+  LIQUIDITY_MINING = 'liquidityMining',
+  VESTING = 'vesting',
+  STAKING = 'staking',
+  REFERRAL = 'referral',
+}
 
 interface ITableBodyProps {
-  items: LendingEvent[];
+  items: RewardEvent[];
   loading: boolean;
 }
 
@@ -19,10 +31,14 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const getEventType = useCallback(
     type => {
       switch (type) {
-        case LendingEventType.MINT:
-          return t(translations.lendingPage.deposit);
-        case LendingEventType.BURN:
-          return t(translations.lendingPage.withdraw);
+        case RewardEventType.LIQUIDITY_MINING:
+          return t(translations.rewardPage.historyTable.event.liquidityMining);
+        case RewardEventType.VESTING:
+          return t(translations.rewardPage.historyTable.event.vesting);
+        case RewardEventType.STAKING:
+          return t(translations.rewardPage.historyTable.event.staking);
+        case RewardEventType.REFERRAL:
+          return t(translations.rewardPage.historyTable.event.referral);
         default:
           return '';
       }
@@ -32,17 +48,13 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
 
   return (
     <tbody className="mt-5">
-      {items.map((item, index) => (
+      {items.map(item => (
         <TableRow
-          key={`${item.contract_address}/${index}`}
+          key={item.txHash}
           time={item.time}
           txHash={item.txHash}
-          amount={weiTo4(item.asset_amount)}
+          amount={weiTo4(item.amount)}
           type={getEventType(item.event)}
-          asset={
-            AssetsDictionary.getByLoanContractAddress(item.contract_address)
-              ?.asset
-          }
         />
       ))}
 

@@ -81,7 +81,7 @@ export function SwapAssetSelector(props: Props) {
               </span>
             </>
           ) : (
-            <Text ellipsize>Select trade pair</Text>
+            <Text ellipsize>{t(translations.formSelect.selectTradePair)}</Text>
           )}
         </span>
         <CaretElement>
