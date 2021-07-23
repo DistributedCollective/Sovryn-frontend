@@ -128,14 +128,16 @@ function Row(props) {
         <>
           <tr>
             <td rowSpan={2}>
-              <img
-                className="tw-inline tw-mr-1"
-                style={{ height: '30px' }}
-                src={logo}
-                alt=""
-              />
+              <span className="tw-flex tw-items-center">
+                <img
+                  className="tw-inline tw-mr-2"
+                  style={{ height: '30px' }}
+                  src={logo}
+                  alt=""
+                />
 
-              {data.ammPool}
+                {data.ammPool}
+              </span>
             </td>
             <td className="tw-pt-3">{data.ammPool}</td>
             <td className="tw-pt-3">

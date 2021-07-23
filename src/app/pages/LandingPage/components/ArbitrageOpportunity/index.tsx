@@ -72,7 +72,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                 src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
               />
               <StyledImage
-                className="tw--ml-4 tw-z-50"
+                className="tw--ml-4 tw-z-1"
                 src={AssetsDictionary.get(opportunity.toToken).logoSvg}
               />
 
@@ -125,7 +125,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                     </div>
                   }
                   className="tw-ml-2"
-                  popoverClassName={'w-50 tw-r-0 tw-z-50'}
+                  popoverClassName={'w-50 tw-transform tw-translate-x-full'}
                 >
                   <Icon icon={'info-sign'} />
                 </Popover>
