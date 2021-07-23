@@ -1489,6 +1489,7 @@
       "borrowAPR": "Borrow APR"
     },
     "promotions": {
+      "title": "Promotions",
       "sections": {
         "lending": "Lending",
         "borrowing": "Borrowing",

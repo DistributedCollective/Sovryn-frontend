@@ -25,23 +25,21 @@ const responsive = {
 
 export const PromotionsCarousel: React.FC = ({ children }) => {
   return (
-    <div className="tw-relative">
-      <Carousel
-        arrows
-        responsive={responsive}
-        draggable
-        focusOnSelect={false}
-        infinite
-        minimumTouchDrag={80}
-        renderDotsOutside
-        customLeftArrow={<CustomLeftArrow />}
-        customRightArrow={<CustomRightArrow />}
-        customDot={<CustomDot />}
-        showDots
-        swipeable
-      >
-        {children}
-      </Carousel>
-    </div>
+    <Carousel
+      arrows
+      responsive={responsive}
+      draggable
+      focusOnSelect={false}
+      infinite
+      minimumTouchDrag={80}
+      renderDotsOutside
+      customLeftArrow={<CustomLeftArrow />}
+      customRightArrow={<CustomRightArrow />}
+      customDot={<CustomDot />}
+      showDots
+      swipeable
+    >
+      {children}
+    </Carousel>
   );
 };
