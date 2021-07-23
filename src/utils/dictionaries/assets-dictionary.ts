@@ -9,7 +9,7 @@ import sovIcon from 'assets/images/tokens/sov.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
 import bnbIcon from 'assets/images/tokens/bnb.svg';
 import mocIcon from 'assets/images/tokens/moc.svg';
-import fishIcon from 'assets/images/tokens/babelfish.svg';
+//import fishIcon from 'assets/images/tokens/babelfish.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
