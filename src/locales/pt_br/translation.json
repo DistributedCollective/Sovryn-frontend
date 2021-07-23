@@ -2,7 +2,7 @@
   "common": {
     "back": "Voltar",
     "min": "mín",
-    "max": "max",
+    "max": "máx",
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
@@ -13,7 +13,12 @@
     "failed": "Falhou",
     "deposit": "Depositar",
     "withdraw": "Resgatar",
-    "availableBalance": "Saldo disponível:"
+    "availableBalance": "Saldo disponível:",
+    "maintenance": "Em manutenção",
+    "unit": {
+      "day": "{{count}} dia",
+      "day_plural": "{{count}} dias"
+    }
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -31,21 +36,25 @@
     "buySov": "Desculpe, a opção de comprar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "spotTrades": "Desculpe, a opção de operar spot está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "swapTrades": "Desculpe, a opção de trocar criptos está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "depositLend": "Desculpe, a opção de emprestar criptoativos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-    "withdrawLend": "Desculpe, a opção de resgatar empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "depositLend": "Desculpe, a opção de emprestar ativos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawLend": "Desculpe, a opção de resgatar ativo emprestado está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "startBorrow": "Desculpe, a opção de receber empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "stopBorrow": "Desculpe, a opção de devolver empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "addLiquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "removeLiquidity": "Desculpe, a opção de retirar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "staking": "Desculpe, a opção de investir SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "unstaking": "Desculpe, a opção de desinvestir SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "stakingModal": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "unstaking": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "unstakingModal": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-    "delegateVests": "Desculpe, delegating vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-    "withdrawVests": "Desculpe, withdrawing vests está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateVests": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "delegateModal": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "withdrawVests": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawVestsModal": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimRewards": "Desculpe, a opção de reivindicar recompensas está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
   },
   "homePage": {
@@ -59,7 +68,7 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "A Sovryn foi atualizada para a <br/> <0>Versão: {{buildId}}</0>",
+    "title": "A Sovryn foi atualizada para a <br/> <0>Versão:</0> <1>{{buildId}}</1>",
     "notice": "Para concluir a atualização, feche a página da Sovryn",
     "updateBtn": "Atualizar agora",
     "closeBtn": "Atualizar mais tarde"
@@ -106,7 +115,7 @@
       "title": "MINERAÇÃO DE LIQUIDEZ: USDT/BTC POOL",
       "connetWallet": "Conecte sua carteira para ver seu histórico de mineração de liquidez.",
       "provider": "*Este número pode aumentar ou diminuir dependendo de quanto liquidez outros fornecedores adiconarem ou removerem do pool",
-      "asset": "Criptoativo",
+      "asset": "Ativo",
       "sov": "25k SOV",
       "reward": "Recompensa",
       "pool": "Pool",
@@ -170,13 +179,13 @@
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Operar",
-      "swap": "Trocar criptoativos"
+      "swap": "Trocar ativos"
     }
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Criptoativo",
-      "currency_placeholder": "Escolha o criptoativo",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada"
     },
@@ -185,18 +194,18 @@
     },
     "liquidity": {
       "line_1": "Liquidez muito baixa para trocas.",
-      "line_2": "Tente com outro par de criptoativos ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
+      "line_2": "Tente com outro par de ativos ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   },
   "swapTradeForm": {
     "fields": {
-      "currency_placeholder": "Escolha o criptoativo",
+      "currency_placeholder": "Escolha o ativo",
       "send": "Você envia",
       "receive": "Você recebe"
     },
     "buttons": {
       "submit": "Realizar troca",
-      "switchAssets": "Alternar criptoativos"
+      "switchAssets": "Alternar ativos"
     },
     "arbitrage": {
       "best_rate": "Oportunidade de arbitragem trocando até ",
@@ -207,7 +216,7 @@
   },
   "amountField": {
     "placeholder": "Insira a quantidade",
-    "btn_max": "Max"
+    "btn_max": "Máx"
   },
   "wallet": {
     "btn": "Conectar carteira",
@@ -222,7 +231,7 @@
   },
   "footer": {
     "title": "Fornecido por <0>Bitcoin</0>",
-    "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus criptoativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+    "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
@@ -249,6 +258,7 @@
     "staking": "Token SOV",
     "governance": "Governança",
     "forum": "Fórum",
+    "affiliate": "Indique e ganhe",
     "wallet": "Portfólio",
     "stats": "Dados",
     "help": "Ajuda",
@@ -356,7 +366,7 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Criptoativos",
+    "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
@@ -378,13 +388,13 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
-    "connect": "Conecte sua carteira para começar a investir.",
+    "connect": "Conecte sua carteira e comece a rentabilizar seus SOV.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
-    "noUnlockedSov": "Você não desbloqueou SOV",
+    "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "sov": "SOV",
     "delegation": {
@@ -408,8 +418,9 @@
       "unstake": "Ok, resgatar SOV"
     },
     "staking": {
-      "title": "Investir SOV",
+      "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
+      "amountPlaceholder": "Insira a quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
     "extending": {
@@ -421,14 +432,25 @@
       "balance": "Saldo"
     },
     "history": {
-      "title": "Histórico de investimentos",
+      "loading": "Carregando...",
+      "title": "Histórico",
       "asset": "Ativo",
+      "action": "Ação",
       "stakedAmount": "Quantidade",
       "stakingDate": "Data e hora",
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "stake": "Novo investimento",
+        "unstake": "Resgatar investimento",
+        "feeWithdraw": "Resgatar dividendo",
+        "increase": "Aumentar",
+        "extend": "Estender",
+        "delegate": "Delegar",
+        "withdraw": "Resgatar SOV reservado"
+      }
     },
     "increase": {
       "title": "Aumentar quantidade",
@@ -438,23 +460,29 @@
     },
     "currentStakes": {
       "title": "Atualmente investido",
-      "asset": "Criptoativo",
+      "asset": "Ativo",
       "lockedAmount": "Quantidade bloqueada",
       "votingPower": "Poder de voto",
-      "votingDelegation": "Delegação de votação",
+      "votingDelegation": "Voto delegado",
       "stakingPeriod": "Prazo do investimento",
       "unlockDate": "Data de desloqueio"
     },
     "currentVests": {
       "title": "Atualmente reservado",
-      "asset": "Delegação de votação",
+      "asset": "Voto delegado",
       "lockedAmount": "Quantidade bloqueada",
-      "votingPower": "Delegação de votação",
+      "votingPower": "Voto delegado",
       "stakingDate": "Data final",
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
       "fees": "Dividendos recebidos",
-      "noVestingContracts": "Não existem SOV reservados para você."
+      "noVestingContracts": "Não existem SOV reservados para você.",
+      "assetType": {
+        "genesis": "SOV Gênese",
+        "origin": "SOV Origem",
+        "team": "SOV Team",
+        "reward": "SOV Recompensa"
+      }
     },
     "actions": {
       "title": "Ação",
@@ -467,6 +495,11 @@
       "withdraw": "Resgatar",
       "withdrawFees": "Resgatar lucro"
     },
+    "dateSelector": {
+      "noneAvailable": "Sem datas disponíveis.",
+      "selectDelegate": "Escolha o período:",
+      "selectYear": "Selecionar ano:"
+    },
     "loading": "Carregando, por favor aguarde...",
     "nostake": "Você ainda não fez investimentos."
   },
@@ -474,9 +507,9 @@
     "title": "Liquidez",
     "meta": "Adicionar liquidez",
     "pool": "Pool",
-    "aer": "Juros anual",
-    "currency": "Criptoativo",
-    "currencySelect": "Selecionar criptoativo",
+    "apy": "Juros anual",
+    "currency": "Ativo",
+    "currencySelect": "Selecionar ativo",
     "poolSelect": "Selecionar pool",
     "amount": "Insira a quantidade",
     "amountTarget": "Saldo a retirar",
@@ -501,7 +534,8 @@
   "formSelect": {
     "loading": "Abrindo, por favor aguarde.",
     "noresults": "Sem resultados.",
-    "placeholder": "Selecione algo"
+    "placeholder": "Escolha algo",
+    "selectTradePair": "Escolha um ativo"
   },
   "hintHowToTopUp": {
     "hintOne": "Você está conectado! Para negociar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
@@ -543,6 +577,7 @@
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
+    "title": "Emprestar",
     "history": {
       "title": "Histórico",
       "amount": "Valor do empréstimo",
@@ -567,10 +602,10 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "tokenAssetCollateral": "Criptoativo a ser colaterizado e quantidade",
+      "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
-      "disabled": "Criptoativo não disponível para empréstimo."
+      "disabled": "Ativo não disponível para empréstimo."
     }
   },
   "activeUserBorrows": {
@@ -588,12 +623,12 @@
     "title": "Aumentar posição",
     "topUpAmount": "Aumentar quantidade",
     "topUp": "Aumentar",
-    "currency": "Criptoativo"
+    "currency": "Ativo"
   },
   "liquidityRemoveContainer": {
     "fields": {
-      "currency": "Criptoativo",
-      "currency_placeholder": "Escolha o criptoativo",
+      "currency": "Ativo",
+      "currency_placeholder": "Escolha o ativo",
       "amount": "Insira a quantidade",
       "target_amount": "Quantidade desejada",
       "fee": "Lucro"
@@ -706,8 +741,8 @@
     },
     "speech_qr_code": "Leia o código QR com uma carteira compatível com a função wallet-connect",
     "input_settings": {
-      "title": "CONFIGURAÇÕES DO CRIPTOATIVO SOV",
-      "token_address": "Endereço do contrato do criptoativo",
+      "title": "CONFIGURAÇÕES DO ATIVO SOV",
+      "token_address": "Endereço do contrato do ativo",
       "symbol": "Símbolo",
       "decimals": "Decimais"
     },
@@ -782,7 +817,7 @@
       "closeButton": "Ok",
       "approve": {
         "title": "Aprovar gastos",
-        "description": "Confirme a transação na sua carteira para aprovar gastos de criptoativos neste contrato inteligente.",
+        "description": "Confirme a transação na sua carteira para aprovar gastos de ativos neste contrato inteligente.",
         "error": "Falha na solicitação de aprovação:"
       }
     }
@@ -824,8 +859,8 @@
       "description": "Informações sobre a carteira conectada"
     },
     "tabs": {
-      "userAssets": "Meus criptoativos",
-      "vestedAssets": "Reservados",
+      "userAssets": "Meus ativos",
+      "vestedAssets": "SOV reservados",
       "userNFTS": "NFTS"
     }
   },
@@ -840,7 +875,7 @@
       "title": "Carteira"
     },
     "tableHeaders": {
-      "asset": "Criptoativo",
+      "asset": "Ativo",
       "totalBalance": "Saldo total",
       "dollarBalance": "Saldo em dólar",
       "lockedAmount": "Quantidade bloqueada",
@@ -889,7 +924,7 @@
     "emptyState": "Você não tem histórico de resgates SOV."
   },
   "vestedHistory": {
-    "title": "SOV resgatados",
+    "title": "SOV",
     "tableHeaders": {
       "time": "Data e hora",
       "vestingSchedule": "Cronograma",
@@ -902,13 +937,14 @@
     "title": "Histórico",
     "tableHeaders": {
       "time": "Data e hora",
-      "pair": "Par",
+      "pair": "Par negociado",
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de transação",
       "status": "Status"
-    }
+    },
+    "emptyState": "Você não tem histórico de operações spot."
   },
   "topUpHistory": {
     "meta": {
@@ -916,7 +952,7 @@
     },
     "tableHeaders": {
       "time": "Data e hora",
-      "asset": "Criptoativo",
+      "asset": "Ativo",
       "amount": "Quantidade",
       "fee": "Taxa",
       "depositTx": "ID depósito BTC",
@@ -944,7 +980,7 @@
     },
     "tradeButtons": {
       "deposit": "Depositar e emprestar {{asset}}",
-      "redeem": "Resgatar empréstimo {{asset}}"
+      "redeem": "Resgatar {{asset}}"
     },
     "liquidity": {
       "redeem": {
@@ -960,7 +996,9 @@
     },
     "poolChart": {
       "totalLiquidity": "Liquidez total",
-      "apy": "{{asset}} Juros anual%"
+      "apy": "{{asset}} Juros anual",
+      "available": "Disponíveis",
+      "borrowed": "Emprestados"
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
@@ -973,13 +1011,13 @@
     },
     "modal": {
       "deposit": {
-        "title": "Emprestar",
+        "title": "Emprestar ativo",
         "cta": "Depositar",
         "amount": "Quantidade:",
         "apy": "Juros anual <0/> variável"
       },
       "withdraw": {
-        "title": "Resgatar empréstimo",
+        "title": "Resgatar ativo emprestado",
         "cta": "Resgatar",
         "amount": "Quantidade:",
         "reward": "Recompensa:",
@@ -1020,11 +1058,11 @@
   },
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
-    "withdrawIn": "Criptoativo:",
+    "withdrawIn": "Ativo:",
     "amountToClose": "Quantidade:",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
-      "line_2": "Tente resgatar usando outro criptoativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
+      "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
     }
   },
   "tradeConfirmationDialog": {
@@ -1055,7 +1093,7 @@
     "salesBtn": "Eu entendo",
     "generalAlert": {
       "p1": "A SOVRYN é uma plataforma descentralizada de negociação e empréstimo de bitcoins, a primeira desse tipo!",
-      "p2": "Esteja ciente de que somente você possui controle e acesso ao seus criptoativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
+      "p2": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
       "p3": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
       "p4_1": "Visite nosso ",
       "p4_2": "FAQ",
@@ -1082,7 +1120,7 @@
         },
         "price": {
           "title": "É mostrado o preço como se fosse ETH em vez de (r)BTC",
-          "description": "atulamente sugerimos você verificar o saldo dos seus criptoativos na aba portfólio da Sovryn."
+          "description": "atulamente sugerimos você verificar o saldo dos seus ativos na aba portfólio da Sovryn."
         }
       }
     }
@@ -1107,7 +1145,7 @@
     },
     "instructions": {
       "title": "Instruções:",
-      "point1": "Não deposite nenhum criptoativo que não seja BTC",
+      "point1": "Não deposite nenhum ativo que não seja BTC",
       "point2": "Não envie mais BTC do que o limite máximo",
       "point3": "Aguarde aproximandamente 60 minutos para que a transação seja processada",
       "point4": "Se o rBTC não estiver visível na sua carteira após 60 minutos, abra um ",
@@ -1162,7 +1200,7 @@
       "title": "Recompensas",
       "availble": "Quantidade de SOV disponível:",
       "cta": "Reivindicar",
-      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de transferi-los gradativamente a cada mês.",
+      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
     "totalEarned": "Total ganho:",
@@ -1184,7 +1222,7 @@
     },
     "tradeForm": {
       "labels": {
-        "pair": "Par:",
+        "pair": "Par de negociação:",
         "asset": "Colateral:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
@@ -1192,6 +1230,20 @@
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
       "buttons": {
+        "long": "Comprado",
+        "short": "Vendido"
+      }
+    },
+    "tradeDialog": {
+      "title": "Revisar transação",
+      "pair": "Par de negociação:",
+      "leverage": "Alavancagem:",
+      "asset": "Colateral:",
+      "direction": "Direção:",
+      "maintananceMargin": "Margem de manutenção:",
+      "liquidationPrice": "Preço estimado de liquidação:",
+      "entryPrice": "Preço apróximado de entrada:",
+      "position": {
         "long": "Comprado",
         "short": "Vendido"
       }
@@ -1243,10 +1295,14 @@
         "time": "Data e hora",
         "pool": "Pool",
         "action": "Ação",
-        "asset": "Criptoativo",
+        "asset": "Ativo",
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
+      },
+      "txType": {
+        "added": "Adicionar liquidez",
+        "removed": "Retirar liquidez"
       }
     },
     "rowTable": {
@@ -1356,7 +1412,7 @@
       "learnMore": "Saiba mais",
       "mining": {
         "title": "Minerando liquidez",
-        "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de criptoativos.",
+        "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de ativos.",
         "cta": "Minerar"
       },
       "marginTrading": {
@@ -1365,24 +1421,24 @@
         "cta": "Operar"
       },
       "swap": {
-        "title": "Realizando trocas de criptoativos",
-        "text": "Faça trocas entre os criptoativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
+        "title": "Realizando trocas de ativos",
+        "text": "Faça trocas entre os ativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
         "cta": "Trocar"
       },
       "liquidity": {
         "title": "Adicionando liquidez",
-        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos criptoativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
+        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
         "cta": "Adicionar"
       },
       "lending": {
-        "title": "Emprestando seus criptoativos",
-        "text": "Receba uma renda passiva emprestando seus criptoativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus criptoativos a qualquer momento.",
+        "title": "Emprestando seus ativos",
+        "text": "Receba uma renda passiva emprestando seus ativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus ativos a qualquer momento.",
         "cta": "Emprestar"
       },
       "stake": {
-        "title": "Investindo seus SOV & Votando",
-        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem um rendimento que a plataforma gera das taxas de transação cobradas dos usuários.",
-        "cta": "Investir"
+        "title": "Rentabilizando seus SOV & Votando",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem rendimentos que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "cta": "Rentabilizar SOV"
       }
     },
     "title": "Compre SOV na Sovryn!",
@@ -1412,6 +1468,43 @@
     "text": "Seu SOV está pronto para ser resgatado!",
     "cta": "Resgatar SOV"
   },
+  "escrowPage": {
+    "meta": {
+      "title": "",
+      "description": ""
+    },
+    "infoBar": {
+      "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
+      "liquidityTarget": "Total Liquidity Target:",
+      "remainingToCollect": "Total Remaining to Collect:"
+    },
+    "form": {
+      "amount": "Enter amount:",
+      "reward": "Expected SOV Reward:",
+      "cta": "Deposit SOV"
+    },
+    "description": {
+      "title": "Uniswap Liquidity Pool Escrow",
+      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
+      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
+      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
+    },
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidity Provided",
+        "share": "Current Pool Share",
+        "totalFees": "Total Fees Collected",
+        "minimumRewards": "Minimum Rewards Collected",
+        "unlockDate": "Unlock Date",
+        "action": "Action"
+      },
+      "uniswapPool": "Uniswap Pool Token",
+      "addButton": "Add",
+      "withdrawButton": "Withdraw"
+    }
+  },
   "affiliates": {
     "title": "Traga seus amigos para a Sovryn e ganhe cripto",
     "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
@@ -1422,7 +1515,7 @@
     "linkCopied": "Link copiado",
     "referralHistory": "Histórico",
     "terms": "Termos e condições",
-    "text": "Indique a Sovryn para seus amigos e ganhe <1>bônus de recompensa em $SOV e .01% das taxas cobradas</1> em cada transação feita por novas carteiras criadas com o seu link de indicação.",
+    "text": "Convide seus amigos e ganhe <1>recompensas em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
     "claim": "Reinvindicar",
     "tableHeaders": {
       "date": "Data e hora",

@@ -34,9 +34,15 @@ export function getAssetSymbol(asset: Asset) {
 }
 
 interface IAssetSymbolRenderer {
-  asset: Asset;
+  asset?: Asset;
+  assetString?: string;
 }
 
 export const AssetSymbolRenderer: React.FC<IAssetSymbolRenderer> = ({
   asset,
-}) => <span className={styles.symbol}>{getAssetSymbol(asset)}</span>;
+  assetString,
+}) => (
+  <span className={styles.symbol}>
+    {asset ? getAssetSymbol(asset) : assetString}
+  </span>
+);

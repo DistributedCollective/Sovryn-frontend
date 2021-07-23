@@ -1,12 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
-import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
-import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { RowTable } from 'app/components/FinanceV2Components/RowTable';
+import { TableBody } from 'app/components/FinanceV2Components/RowTable/TableBody';
 import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 import { LendingPool } from 'utils/models/lending-pool';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
@@ -15,7 +15,7 @@ import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
 import { useLending_checkpointPrice } from 'app/hooks/lending/useLending_checkpointPrice';
 import { useLending_tokenPrice } from 'app/hooks/lending/useLending_tokenPrice';
 import { bignumber } from 'mathjs';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiToFixed, weiTo18 } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
@@ -39,18 +39,20 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const account = useAccount();
   const asset = lendingPool.getAsset();
   const assetDecimals = lendingPool.getAssetDetails().decimals;
-
-  const { value: rewards } = useLiquidityMining_getUserAccumulatedReward(
+  const {
+    value: rewards,
+    loading: rewardsLoading,
+  } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  const { value: profitCall, loading: pLoading } = useLending_profitOf(
+  const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
     account,
   );
-  const { value: balanceCall, loading: bLoading } = useLending_assetBalanceOf(
-    asset,
-    account,
-  );
+  const {
+    value: balanceCall,
+    loading: balanceLoading,
+  } = useLending_assetBalanceOf(asset, account);
 
   const {
     value: totalBalance,
@@ -115,7 +117,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             className="tw-text-base"
           />
         </TableBodyData>
-        {balance === '0' && !pLoading && !bLoading && (
+        {balance === '0' && !profitLoading && !balanceLoading && (
           <td
             colSpan={3}
             className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
@@ -125,23 +127,23 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
             })}
           </td>
         )}
-        {(balance !== '0' || pLoading || bLoading || balanceOfLoading) && (
+        {(balance !== '0' || profitLoading || balanceLoading) && (
           <>
             <TableBodyData>
               <LoadableValue
-                loading={pLoading || bLoading}
+                loading={profitLoading || balanceLoading}
                 value={
                   <>
                     {weiToFixed(balance, 8)} <AssetRenderer asset={asset} />
                   </>
                 }
+                tooltip={<>{weiTo18(balance)}</>}
               />
             </TableBodyData>
             <TableBodyData>
               <LoadableValue
                 loading={
-                  pLoading ||
-                  bLoading ||
+                  profitLoading ||
                   balanceOfLoading ||
                   checkpointLoading ||
                   tokenPriceLoading
@@ -153,10 +155,19 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                     asset={asset}
                   />
                 }
+                tooltip={<>{weiTo18(profitCall)}</>}
               />
             </TableBodyData>
             <TableBodyData>
-              {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />
+              <LoadableValue
+                loading={rewardsLoading}
+                value={
+                  <>
+                    {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />
+                  </>
+                }
+                tooltip={<>{weiTo18(rewards)}</>}
+              />
             </TableBodyData>
           </>
         )}

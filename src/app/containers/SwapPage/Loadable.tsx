@@ -4,8 +4,9 @@
  *
  */
 import React from 'react';
-import { lazyLoad } from 'utils/loadable';
+
 import { PageSkeleton } from 'app/components/PageSkeleton';
+import { lazyLoad } from 'utils/loadable';
 
 export const SwapPage = lazyLoad(
   () => import('./index'),

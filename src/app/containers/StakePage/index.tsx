@@ -1,19 +1,13 @@
-/**
- *
- * StakePage
- *
- */
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
 import { getUSDSum } from 'utils/helpers';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -337,7 +331,7 @@ function InnerStakePage() {
                     balanceOf.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(balanceOf.value).toLocaleString()} SOV
+                  {weiTo4(balanceOf.value)} SOV
                 </p>
                 <Modal
                   show={stakeForm}
@@ -424,15 +418,19 @@ function InnerStakePage() {
                     voteBalance.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(voteBalance.value).toLocaleString()}
+                  {weiTo4(voteBalance.value)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <Link
-                    to={'/'}
-                    className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block"
-                  >
-                    {t(translations.stake.viewGovernance)}
-                  </Link>
+                  <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                    <a
+                      href="https://bitocracy.sovryn.app/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:tw-no-underline"
+                    >
+                      {t(translations.stake.viewGovernance)}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -448,6 +446,7 @@ function InnerStakePage() {
                     }
                     address={address}
                     timestamp={Number(timestamp)}
+                    weiAmount={weiAmount}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
@@ -456,9 +455,10 @@ function InnerStakePage() {
               }
             />
             <CurrentStakes
-              onDelegate={a => {
-                setTimestamp(a);
+              onDelegate={(a, b) => {
+                setTimestamp(b);
                 setIsStakeDelegate(true);
+                setAmount(numberFromWei(a).toString());
                 setDelegateForm(!delegateForm);
               }}
               onExtend={(a, b) => {
@@ -622,7 +622,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   );
 
   useEffect(() => {
-    usdTotal(Number(weiToFixed(dollarValue, 4)));
+    usdTotal(Number(weiTo4(dollarValue)));
   }, [currency.value, dollarValue, usdTotal]);
 
   return (
@@ -643,9 +643,9 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             )}
           </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
               loading={dollars.loading}
             />
           </div>

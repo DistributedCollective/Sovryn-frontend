@@ -11,7 +11,7 @@ import cn from 'classnames';
 import {
   widget,
   IChartingLibraryWidget,
-} from 'charting-library/src/charting_library/charting_library.min';
+} from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
 
 import { Skeleton } from '../PageSkeleton';
 import Datafeed from './datafeed';
