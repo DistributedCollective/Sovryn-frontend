@@ -1213,6 +1213,24 @@
       "lockedRewards": "Recompensas bloqueadas:",
       "claimibleRewards": "Recompensas reinvidicáveis",
       "OGRewards": "Recompensas OG"
+     },
+    "historyTable": {
+      "title": "Histórico",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "type": "Tipo",
+        "amount": "Ação",
+        "transactionHash": "ID transação",
+        "status": "Status"
+      },
+      "event": {
+        "liquidityMining": "Recompensa liquidez",
+        "vesting": "SOV reservado",
+        "staking": "Investimento SOV",
+        "referral": "Recompensa indicação"
+      },
+      "emptyState": "Você não tem histórico de recompensas.",
+      "loading": "Carregando..."
     }
   },
   "marginTradePage": {
