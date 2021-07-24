@@ -75,7 +75,7 @@
   },
   "tradingActivity": {
     "title": "Minhas operações",
-    "walletNote": "Primeiro conecte sua carteira!",
+    "walletNote": "A carteira precisa estar conectada.",
     "tabs": {
       "activeTrades": "Abertas",
       "tradingHistory": "Concluídas"
@@ -643,7 +643,7 @@
       "active": "A devolver",
       "history": "Devolvidos"
     },
-    "walletNote": "Primeiro conecte sua carteira!"
+    "walletNote": "A carteira precisa estar conectada."
   },
   "borrowHistory": {
     "table": {
