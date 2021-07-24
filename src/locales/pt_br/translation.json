@@ -1013,7 +1013,8 @@
       "deposit": {
         "title": "Emprestar ativo",
         "cta": "Depositar",
-        "amount": "Quantidade:",
+        "amount": "Quantidade",
+        "max": "(Máx {{limit}} {{asset}})",
         "apy": "Juros anual <0/> variável"
       },
       "withdraw": {

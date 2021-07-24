@@ -1123,7 +1123,8 @@
       "deposit": {
         "title": "Deposit",
         "cta": "Deposit",
-        "amount": "Amount:",
+        "amount": "Amount",
+        "max": "(Max {{limit}} {{asset}})",
         "apy": "APY <0/> variable"
       },
       "withdraw": {
