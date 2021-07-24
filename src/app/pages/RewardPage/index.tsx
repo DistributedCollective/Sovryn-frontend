@@ -14,6 +14,7 @@ import { Footer } from '../../components/Footer';
 import { ClaimForm } from './components/ClaimForm';
 import { useAccount } from 'app/hooks/useAccount';
 import { HistoryTable } from './components/HistoryTable';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -90,7 +91,16 @@ export function RewardPage() {
             <div className="tw-px-3 tw-text-lg">
               {t(translations.rewardPage.historyTable.title)}
             </div>
-            <HistoryTable />
+            {!userAddress ? (
+              <SkeletonRow
+                loadingText={t(
+                  translations.rewardPage.historyTable.walletHistory,
+                )}
+                className="tw-mt-2"
+              />
+            ) : (
+              <HistoryTable />
+            )}
           </div>
         </div>
       </div>
