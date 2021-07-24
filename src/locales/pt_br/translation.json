@@ -469,7 +469,7 @@
     },
     "currentVests": {
       "title": "Atualmente reservado",
-      "asset": "Voto delegado",
+      "asset": "Ativo",
       "lockedAmount": "Quantidade bloqueada",
       "votingPower": "Voto delegado",
       "stakingDate": "Data final",
