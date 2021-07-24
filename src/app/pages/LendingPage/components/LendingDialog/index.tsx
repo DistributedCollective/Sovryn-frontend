@@ -180,6 +180,14 @@ export function LendingDialog({
     setIsTotalClicked(isTotal);
   }, []);
 
+  const maxDepositText =
+    Number(maxAmount) > 0
+      ? ` ${t(translations.lendingPage.modal.deposit.max, {
+          limit: weiToNumberFormat(maxAmount, 4),
+          asset: currency,
+        })}`
+      : '';
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -187,9 +195,14 @@ export function LendingDialog({
           <h1 className="tw-text-white tw-text-center tw-tracking-normal">
             {t(modalTranslation.title)}
           </h1>
-
           <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.amount)}
+            label={
+              type === 'add'
+                ? `${t(
+                    translations.lendingPage.modal.deposit.amount,
+                  )}${maxDepositText}:`
+                : t(translations.lendingPage.modal.withdraw.amount)
+            }
           >
             <AmountInput
               value={amount}

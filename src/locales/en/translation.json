@@ -1123,7 +1123,8 @@
       "deposit": {
         "title": "Deposit",
         "cta": "Deposit",
-        "amount": "Amount:",
+        "amount": "Amount",
+        "max": "(Max {{limit}} {{asset}})",
         "apy": "APY <0/> variable"
       },
       "withdraw": {
@@ -1339,6 +1340,7 @@
         "staking": "Staking",
         "referral": "Referrals Reward"
       },
+      "walletHistory": "Wallet must be connected.",
       "emptyState": "History is empty.",
       "loading": "Loading..."
     }
