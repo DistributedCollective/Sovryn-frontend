@@ -155,7 +155,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                     asset={asset}
                   />
                 }
-                tooltip={<>{weiTo18(profitCall)}</>}
+                tooltip={<>{weiTo18(totalProfit)}</>}
               />
             </TableBodyData>
             <TableBodyData>
