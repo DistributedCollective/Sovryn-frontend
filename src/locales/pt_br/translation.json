@@ -1230,6 +1230,7 @@
         "staking": "Investimento SOV",
         "referral": "Recompensa indicação"
       },
+      "walletHistory": "A carteira precisa estar conectada.",
       "emptyState": "Você não tem histórico de recompensas.",
       "loading": "Carregando..."
     }
