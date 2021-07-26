@@ -10,8 +10,6 @@ import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { bignumber } from 'mathjs';
 import moment from 'moment';
 
-// const countdownDate = new Date('2021-05-06T00:00:00'); // todo
-
 const countdownRenderer = ({
   formatted: { days, hours, minutes, seconds },
   completed,

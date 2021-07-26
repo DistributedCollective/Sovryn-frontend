@@ -33,10 +33,6 @@ import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Load
 import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
 import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
 
-// if (process.env.REACT_APP_SENTRY_DSN) {
-//   import('./sentry').then(({ default: sentryInit }) => sentryInit());
-// }
-
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 interface Props {

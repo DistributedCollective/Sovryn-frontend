@@ -7,7 +7,6 @@ import { toWei } from 'web3-utils';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
-// import { useMaintenance } from '../../../BuySovPage/components/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 
@@ -47,7 +46,6 @@ export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -155,26 +153,6 @@ export function TradeDialog() {
               }
             />
           </div>
-          {/*<LabelValuePair*/}
-          {/*  label="Renewal Date:"*/}
-          {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
-          {/*/>*/}
-
-          {/*<FormGroup*/}
-          {/*  className="tw-mt-8"*/}
-          {/*  label={t(translations.buySovPage.slippageDialog.tolerance)}*/}
-          {/*>*/}
-          {/*  <Slider*/}
-          {/*    value={slippage}*/}
-          {/*    onChange={e => setSlippage(e)}*/}
-          {/*    min={0.1}*/}
-          {/*    max={1}*/}
-          {/*    stepSize={0.05}*/}
-          {/*    labelRenderer={value => <>{value}%</>}*/}
-          {/*    labelValues={[0.1, 0.25, 0.5, 0.75, 1]}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
-
           <FormGroup
             label={t(translations.marginTradePage.tradeDialog.entryPrice)}
             className="tw-mt-8"

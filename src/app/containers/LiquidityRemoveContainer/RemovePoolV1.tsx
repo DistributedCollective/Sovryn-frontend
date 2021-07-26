@@ -28,21 +28,7 @@ export function RemovePoolV1(props: Props) {
   const { t } = useTranslation();
   const isConnected = useIsConnected();
 
-  // const poolAddress = usePoolToken(
-  //   props.poolData.getAsset(),
-  //   props.poolData.getAsset(),
-  // );
-
   const weiAmount = useWeiAmount(props.value);
-
-  // const {
-  //   value: targetValue,
-  //   loading: targetLoading,
-  // } = useRemoveLiquidityReturnAndFee(
-  //   props.poolData.getAsset(),
-  //   poolAddress.value,
-  //   weiAmount,
-  // );
 
   const tx = useApproveAndRemoveV1Liquidity(
     props.poolData.getAsset(),
@@ -66,33 +52,6 @@ export function RemovePoolV1(props: Props) {
 
   return (
     <>
-      {/*<div className="border my-3 p-3 bg-white text-black">*/}
-      {/*  <div className="row">*/}
-      {/*    <div className="col">*/}
-      {/*      <div className="font-weight-bold small">*/}
-      {/*        <LoadableValue*/}
-      {/*          loading={targetLoading}*/}
-      {/*          value={<Text ellipsize>{weiTo4(targetValue[0])} XXX</Text>}*/}
-      {/*          tooltip={weiTo18(targetValue[0])}*/}
-      {/*        />*/}
-      {/*      </div>*/}
-      {/*      <div className="small">*/}
-      {/*        {t(translations.liquidity.amountTarget)}*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*    <div className="col">*/}
-      {/*      <div className="font-weight-bold small">*/}
-      {/*        <LoadableValue*/}
-      {/*          loading={targetLoading}*/}
-      {/*          value={<Text ellipsize>{weiTo4(targetValue[1])} XXX</Text>}*/}
-      {/*          tooltip={weiTo18(targetValue[1])}*/}
-      {/*        />*/}
-      {/*      </div>*/}
-      {/*      <div className="small">{t(translations.liquidity.fee)}</div>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
-
       <div className="mt-3">
         <SendTxProgress {...tx} displayAbsolute={false} />
       </div>

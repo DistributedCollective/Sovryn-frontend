@@ -41,8 +41,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
   const [asset, setAsset] = useState(pool.poolAsset);
   const [amount, setAmount] = useState('0');
   const weiAmount = useWeiAmount(amount);
-  // We are hard-coding 5% slippage here
-  // const { minReturn } = useSlippage(weiAmount, 5);
+
   const minReturn = '1';
 
   const { value: balance } = useAssetBalanceOf(asset);
@@ -102,21 +101,6 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
               asset={asset}
             />
           </FormGroup>
-          {/*<ArrowDown />*/}
-          {/*<FormGroup label="Estimated Fees Earned (Year):">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={asset} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
-          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
           <TxFeeCalculator
             args={txFeeArgs}
             methodName="addLiquidityToV2"
