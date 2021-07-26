@@ -14,7 +14,6 @@ export const Dashboard: React.FC = () => {
       </div>
       <div className="tw-mt-16">
         <UpcomingSalesCardSection />
-        {/* <EmailSubscribeSection /> */}
       </div>
 
       <div className="tw-mt-36 tw-mb-60">
