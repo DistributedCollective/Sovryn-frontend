@@ -1033,7 +1033,7 @@
     "title": "Vested History",
     "tableHeaders": {
       "time": "Date/Time",
-      "vestingSchedule": "Vesting Schedule",
+      "vestingSchedule": "Type",
       "amount": "Amount",
       "hash": "Transaction Hash",
       "status": "Status"
