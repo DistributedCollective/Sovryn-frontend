@@ -40,8 +40,8 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
 }
 
-// Copy Tradingview Chart library to /public folder
-const copyLibs = require('./copy-chart-libs');
+// Copy Tradingview Chart library to /public folder - removed for `external` branches
+//const copyLibs = require('./copy-chart-libs');
 
 // Generate configuration
 const config = configFactory(process.env.NODE_ENV);
@@ -59,7 +59,7 @@ checkBrowsers(paths.appPath, isInteractive)
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
-    await copyLibs();
+    //await copyLibs();
     // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build

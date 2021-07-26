@@ -12,9 +12,9 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 
-// Copy Tradingview Chart library to /public folder
-const copyLibs = require('./copy-chart-libs');
-copyLibs();
+// Copy Tradingview Chart library to /public folder - removed for `external` branches
+//const copyLibs = require('./copy-chart-libs');
+//copyLibs();
 
 const fs = require('fs');
 const chalk = require('react-dev-utils/chalk');
