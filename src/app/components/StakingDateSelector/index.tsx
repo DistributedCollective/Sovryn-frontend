@@ -11,6 +11,8 @@ import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
 import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
 import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../locales/i18n';
 
 const maxPeriods = 78;
 
@@ -32,6 +34,7 @@ interface Props {
 }
 
 export function StakingDateSelector(props: Props) {
+  const { t } = useTranslation();
   const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
   const [dates, setDates] = useState<Date[]>([]);
   const [currentYearDates, setCurrenYearDates] = useState<any>([]);
@@ -165,7 +168,9 @@ export function StakingDateSelector(props: Props) {
     <>
       {avaliableYears.length > 0 && (
         <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
-          {props.delegate ? <>Choose delegate period:</> : <>Select Year:</>}
+          {props.delegate
+            ? t(translations.stake.dateSelector.selectDelegate)
+            : t(translations.stake.dateSelector.selectYear)}
         </label>
       )}
       <div className="tw-flex tw-flex-row">
@@ -226,7 +231,7 @@ export function StakingDateSelector(props: Props) {
       </div>
       {avaliableYears.length <= 0 && (
         <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
-          No avaliable dates.
+          {t(translations.stake.dateSelector.noneAvailable)}
         </p>
       )}
     </>

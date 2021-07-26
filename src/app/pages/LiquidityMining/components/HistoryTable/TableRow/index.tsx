@@ -1,6 +1,8 @@
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { LiquidityPool } from 'utils/models/liquidity-pool';
 import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer/index';
 import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
@@ -24,6 +26,8 @@ export const TableRow: React.FC<ITableRowProps> = ({
   txHash,
   asset,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <tr className="tw-text-xs">
       <td>
@@ -35,7 +39,12 @@ export const TableRow: React.FC<ITableRowProps> = ({
           secondaryAsset={pool?.supplyAssets[1]?.asset}
         />
       </td>
-      <td>{type}</td>
+      <td>
+        {type === 'Added'
+          ? t(translations.liquidityMining.historyTable.txType.added)
+          : type === 'Removed' &&
+            t(translations.liquidityMining.historyTable.txType.removed)}
+      </td>
       <td>{asset}</td>
       <td>
         {amount} {asset}
