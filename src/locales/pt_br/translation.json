@@ -874,6 +874,7 @@
     "meta": {
       "title": "Carteira"
     },
+    "emptyVestTable": "Não existem SOV reservados para você",
     "tableHeaders": {
       "asset": "Ativo",
       "totalBalance": "Saldo total",
