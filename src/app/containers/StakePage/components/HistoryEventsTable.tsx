@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import axios from 'axios';
 import moment from 'moment-timezone';
@@ -83,16 +83,13 @@ export function HistoryEventsTable() {
                 <tr>
                   <td colSpan={5} className="tw-text-center tw-font-normal">
                     <StyledLoading className="loading">
-                      <div className="loading__letter">L</div>
-                      <div className="loading__letter">o</div>
-                      <div className="loading__letter">a</div>
-                      <div className="loading__letter">d</div>
-                      <div className="loading__letter">i</div>
-                      <div className="loading__letter">n</div>
-                      <div className="loading__letter">g</div>
-                      <div className="loading__letter">.</div>
-                      <div className="loading__letter">.</div>
-                      <div className="loading__letter">.</div>
+                      {t(translations.stake.history.loading)
+                        .split('')
+                        .map((item, index) => (
+                          <div className="loading__letter" key={index}>
+                            {item}
+                          </div>
+                        ))}
                     </StyledLoading>
                   </td>
                 </tr>
@@ -144,6 +141,27 @@ interface HistoryAsset {
   index: number;
 }
 
+const getActionName = action => {
+  switch (action) {
+    case 'Stake':
+      return <Trans i18nKey={translations.stake.history.actions.stake} />;
+    case 'Unstake':
+      return <Trans i18nKey={translations.stake.history.actions.unstake} />;
+    case 'Fee Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.feeWithdraw} />;
+    case 'Increase Stake':
+      return <Trans i18nKey={translations.stake.history.actions.increase} />;
+    case 'Extend Stake':
+      return <Trans i18nKey={translations.stake.history.actions.extend} />;
+    case 'Delegate':
+      return <Trans i18nKey={translations.stake.history.actions.delegate} />;
+    case 'Withdraw':
+      return <Trans i18nKey={translations.stake.history.actions.withdraw} />;
+    default:
+      return action;
+  }
+};
+
 const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   const { t } = useTranslation();
   const SOV = AssetsDictionary.get(Asset.SOV);
@@ -162,7 +180,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
           .tz(new Date(item.timestamp * 1e3), 'GMT')
           .format('DD/MM/YYYY - h:mm:ss a z')}
       </td>
-      <td>{item.action}</td>
+      <td>{getActionName(item.action)}</td>
       <td className="tw-text-left tw-font-normal">
         {item.action !== t(translations.stake.actions.delegate) ? (
           <>
@@ -245,7 +263,7 @@ const StyledLoading = styled.div`
 
   & > div {
     animation-name: bounce;
-    animation-duration: 2s;
+    animation-duration: 4s;
     animation-iteration-count: infinite;
     &:nth-child(2) {
       animation-delay: 0.1s;
@@ -273,6 +291,48 @@ const StyledLoading = styled.div`
     }
     &:nth-child(10) {
       animation-delay: 1.2s;
+    }
+    &:nth-child(11) {
+      animation-delay: 1.4s;
+    }
+    &:nth-child(12) {
+      animation-delay: 1.6s;
+    }
+    &:nth-child(13) {
+      animation-delay: 1.8s;
+    }
+    &:nth-child(14) {
+      animation-delay: 2s;
+    }
+    &:nth-child(15) {
+      animation-delay: 2.2s;
+    }
+    &:nth-child(16) {
+      animation-delay: 2.4s;
+    }
+    &:nth-child(17) {
+      animation-delay: 2.6s;
+    }
+    &:nth-child(18) {
+      animation-delay: 2.8s;
+    }
+    &:nth-child(19) {
+      animation-delay: 3s;
+    }
+    &:nth-child(20) {
+      animation-delay: 3.2s;
+    }
+    &:nth-child(21) {
+      animation-delay: 3.4s;
+    }
+    &:nth-child(22) {
+      animation-delay: 3.6s;
+    }
+    &:nth-child(23) {
+      animation-delay: 3.8s;
+    }
+    &:nth-child(24) {
+      animation-delay: 4s;
     }
   }
   @keyframes bounce {
