@@ -90,7 +90,7 @@ export const contracts = {
     blockNumber: 202559,
   },
   MOC_lending: {
-    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f', // todo
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
@@ -270,7 +270,7 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
+    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {

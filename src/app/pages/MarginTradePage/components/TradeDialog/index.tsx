@@ -12,7 +12,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 
 import { translations } from '../../../../../locales/i18n';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import {
   getLendingContractName,
   getTokenContract,
@@ -60,12 +60,15 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
+  const minReturn = '1';
+
   const { trade, ...tx } = useApproveAndTrade(
     pair,
     position,
     collateral,
     leverage,
     amount,
+    minReturn,
   );
 
   const submit = () =>
@@ -85,6 +88,7 @@ export function TradeDialog() {
     useLoanTokens ? '0' : amount,
     getTokenContract(collateralToken).address,
     account, // trader
+    minReturn,
     '0x',
   ];
 
