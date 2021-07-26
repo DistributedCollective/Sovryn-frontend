@@ -126,7 +126,7 @@ export function UserAssets() {
           setTransack(false);
         }}
       >
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-w-full tw-max-w-xs tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
             {t(translations.common.maintenance)}
           </h1>
