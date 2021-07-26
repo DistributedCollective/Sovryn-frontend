@@ -928,7 +928,7 @@
     "title": "SOV",
     "tableHeaders": {
       "time": "Data e hora",
-      "vestingSchedule": "Cronograma",
+      "vestingSchedule": "Ativo",
       "amount": "Quantidade",
       "hash": "ID transação",
       "status": "Status"
