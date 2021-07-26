@@ -28,13 +28,11 @@ import { SidebarSteps } from './components/SidebarSteps';
 import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset';
 import { ReceiverSelector } from './components/ReceiverSelector';
 
-interface Props {}
-
 const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
-export function BridgeWithdrawPage(props: Props) {
+export function BridgeWithdrawPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
