@@ -10,7 +10,7 @@ import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
@@ -35,7 +35,7 @@ import { Dialog } from '../../containers/Dialog';
 import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
-import { useGetFishDollarValue } from 'app/pages/OriginsLaunchpad/hooks/useGetFishDollarValue';
+import { FishDollarValue } from './FishDollarValue';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -214,8 +214,6 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
     get().catch();
   }, [item.asset, account, blockSync]);
 
-  const fishDollarValue = useGetFishDollarValue(Number(tokens));
-
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
       return tokens;
@@ -236,18 +234,14 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        <LoadableValue
-          value={numberToUSD(
-            Number(
-              weiToFixed(
-                item.asset === Asset.FISH ? fishDollarValue.value : dollarValue,
-                4,
-              ),
-            ),
-            4,
-          )}
-          loading={dollars.loading}
-        />
+        {item.asset === Asset.FISH ? (
+          <FishDollarValue tokens={tokens} />
+        ) : (
+          <LoadableValue
+            value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+            loading={dollars.loading}
+          />
+        )}
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">

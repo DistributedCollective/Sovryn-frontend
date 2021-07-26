@@ -93,6 +93,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
 
     if (!account) {
       setState([]);
+      onDataNotPresent();
       return;
     }
     getData().catch(console.error);

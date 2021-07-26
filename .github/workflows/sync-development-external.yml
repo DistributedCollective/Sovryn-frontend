@@ -24,4 +24,4 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'development'
           TO_BRANCH: 'development_external'
-          PULL_REQUEST_BODY: 'sync-branches: Syncing commits from {FROM_BRANCH} to {TO_BRANCH}'
+          PULL_REQUEST_BODY: 'sync-branches: Syncing commits from `development` to `development_external`'

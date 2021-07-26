@@ -20,7 +20,7 @@
     "hintTwo": "Consigue instrucciones de cómo conectarse con <0>Metamask</0> o <1>Nifty</1> y a continuación, conecta tu cartera:"
   },
   "serviceWorkerToaster": {
-    "title": "Sovryn se ha actualizado a <br/> <0>Build ID: {{buildId}}</0>",
+    "title": "Sovryn se ha actualizado a <br/> <0>Build ID:</0> <1>{{buildId}}</1>",
     "notice": "Cierre todas las pestañas con Sovryn abierto para actualizar",
     "updateBtn": "ACTUALIZAR",
     "closeBtn": "Por favor déjame cerrar una operación"

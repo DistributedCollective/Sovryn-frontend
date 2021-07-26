@@ -1,16 +1,8 @@
-import {
-  Icon,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  Popover,
-  Spinner,
-} from '@blueprintjs/core';
+import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
 import { useWalletContext } from '@sovryn/react-wallet';
 import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
@@ -35,7 +27,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     connecting,
   } = useWalletContext();
   const { t } = useTranslation();
-  const history = useHistory();
   const simpleView = props.simpleView;
   const simpleViewClass = simpleView ? 'simpleView' : '';
 
@@ -84,27 +75,6 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                     text={t(translations.wallet.copy_address)}
                   />
                 </CopyToClipboard>
-                <MenuItem
-                  icon="briefcase"
-                  text={t(translations.wallet.my_wallet)}
-                  onClick={() => history.push('/wallet')}
-                />
-                <MenuItem
-                  icon="people"
-                  text={t(translations.wallet.referrals)}
-                  onClick={() => history.push('/referral')}
-                />
-                <MenuDivider />
-                {/*<MenuItem*/}
-                {/*  icon="log-in"*/}
-                {/*  text={t(translations.wallet.changeWallet)}*/}
-                {/*  onClick={() => connect()}*/}
-                {/*/>*/}
-                <MenuItem
-                  icon="log-out"
-                  text={t(translations.wallet.disconnect)}
-                  onClick={() => disconnect()}
-                />
               </Menu>
             }
           >

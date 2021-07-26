@@ -32,6 +32,7 @@ import {
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 interface Props {
   currency: Asset;
@@ -53,7 +54,6 @@ export function LendingDialog({
   const modalTranslation =
     translations.lendingPage.modal[type === 'add' ? 'deposit' : 'withdraw'];
   const [amount, setAmount] = useState<string>('');
-  // const isConnected = useIsConnected();
 
   const weiAmount = useWeiAmount(amount);
 
@@ -84,14 +84,26 @@ export function LendingDialog({
     isGreaterThanZero,
     hasSufficientBalance,
   ]);
+  const [isTotalClicked, setIsTotalClicked] = useState<boolean | undefined>();
 
-  const withdrawAmount = useMemo(
-    () =>
-      bignumber(weiAmount)
-        .mul(bignumber(depositedBalance).div(depositedAssetBalance))
-        .toFixed(0),
-    [weiAmount, depositedBalance, depositedAssetBalance],
+  const calculateWithdrawAmount = useCallback(() => {
+    let withdrawAmount = weiAmount;
+    //checking, if user want to withdraw full amount, this will update it
+    if (isTotalClicked) {
+      withdrawAmount = depositedAssetBalance;
+    }
+    return bignumber(withdrawAmount)
+      .mul(bignumber(depositedBalance).div(depositedAssetBalance))
+      .toFixed(0);
+  }, [depositedAssetBalance, depositedBalance, isTotalClicked, weiAmount]);
+
+  const [withdrawAmount, setWithdrawAmount] = useState(
+    calculateWithdrawAmount(),
   );
+
+  useEffect(() => {
+    setWithdrawAmount(calculateWithdrawAmount());
+  }, [calculateWithdrawAmount]);
 
   // LENDING
   const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);
@@ -143,6 +155,8 @@ export function LendingDialog({
 
   const contractName = getLendingContractName(currency);
   const tokenAddress = getTokenContract(currency).address;
+  const { useLM } = LendingPoolDictionary.get(currency);
+
   const getMethodName = useCallback(() => {
     if (type === 'add') {
       return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
@@ -153,15 +167,26 @@ export function LendingDialog({
   const txFeeArgs = useMemo(() => {
     if (type === 'add')
       return currency === Asset.RBTC
-        ? [tokenAddress]
-        : [tokenAddress, weiAmount];
-    return currency === Asset.RBTC
-      ? [tokenAddress]
-      : [tokenAddress, withdrawAmount];
-  }, [currency, tokenAddress, type, weiAmount, withdrawAmount]);
+        ? [tokenAddress, useLM]
+        : [tokenAddress, weiAmount, useLM];
+    return [tokenAddress, withdrawAmount, useLM];
+  }, [currency, tokenAddress, type, useLM, weiAmount, withdrawAmount]);
 
   const handleSubmit = () =>
     type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
+
+  const handleChange = useCallback((newValue: string, isTotal?: boolean) => {
+    setAmount(newValue);
+    setIsTotalClicked(isTotal);
+  }, []);
+
+  const maxDepositText =
+    Number(maxAmount) > 0
+      ? ` ${t(translations.lendingPage.modal.deposit.max, {
+          limit: weiToNumberFormat(maxAmount, 4),
+          asset: currency,
+        })}`
+      : '';
 
   return (
     <>
@@ -170,21 +195,28 @@ export function LendingDialog({
           <h1 className="tw-text-white tw-text-center tw-tracking-normal">
             {t(modalTranslation.title)}
           </h1>
-
           <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.amount)}
+            label={
+              type === 'add'
+                ? `${t(
+                    translations.lendingPage.modal.deposit.amount,
+                  )}${maxDepositText}:`
+                : t(translations.lendingPage.modal.withdraw.amount)
+            }
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={(value, isTotal) => handleChange(value, isTotal)}
               asset={currency}
-              maxAmount={type === 'add' ? userBalance : depositedAssetBalance}
+              maxAmount={
+                type === 'add'
+                  ? maxMinusFee(userBalance, currency, gasLimit)
+                  : depositedAssetBalance
+              }
             />
           </FormGroup>
 
           <div className="tw-mb-4 tw-mt-2">
-            {/* {type === 'add' && <AvailableBalance asset={currency} />} */}
-
             {type === 'add' && (
               <div
                 className={cn('tw-text-error tw-text-sm tw-text-center', {
@@ -237,26 +269,12 @@ export function LendingDialog({
               </div>
             </>
           )}
-
-          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
-
           <TxFeeCalculator
             args={txFeeArgs}
             methodName={getMethodName()}
             contractName={contractName}
             className="tw-mt-6"
           />
-
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
-
           <DialogButton
             confirmLabel={t(modalTranslation.cta)}
             onConfirm={handleSubmit}
@@ -265,7 +283,8 @@ export function LendingDialog({
           />
         </div>
       </Dialog>
-      <TxDialog tx={lendTx} onUserConfirmed={() => props.onCloseModal()} />
+      {type === 'add' && <TxDialog tx={lendTx} onSuccess={() => {}} />}
+      {type === 'remove' && <TxDialog tx={unlendTx} onSuccess={() => {}} />}
     </>
   );
 }
