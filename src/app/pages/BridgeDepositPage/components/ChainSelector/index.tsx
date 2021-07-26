@@ -1,44 +1,27 @@
 /**
  *
- * BridgeDepositPage
+ * ChainSelector
  *
  */
 
 import React, { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
 
 import { actions } from '../../slice';
 import { Chain } from '../../../../../types';
-import { getBridgeChainId } from '../../utils/helpers';
-import { selectBridgeDepositPage } from '../../selectors';
-import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { currentChainId } from '../../../../../utils/classifiers';
 import { SelectBox } from '../SelectBox';
-import styled from 'styled-components/macro';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import networkList from '../../../../components/NetworkRibbon/component/network.json';
-import error_alert from 'assets/images/error_outline-24px.svg';
-import { detectWeb3Wallet } from 'utils/helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 interface Props {}
 
 export function ChainSelector(props: Props) {
-  const { chain } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
-  const walletName = detectWeb3Wallet();
-  const { t } = useTranslation();
-
   const walletContext = useWalletContext();
-
-  const { ethereum } = window as any;
-  const chainId = parseInt(ethereum.chainId as string);
-  const currentNetwork =
-    networkList.find(item => item.chainId === chainId)?.chain || 0;
+  const { t } = useTranslation();
 
   const selectNetwork = useCallback(
     (chain: Chain) => {
@@ -46,23 +29,6 @@ export function ChainSelector(props: Props) {
     },
     [dispatch, walletContext],
   );
-
-  const state = useMemo(() => {
-    if (
-      chain !== null &&
-      web3Wallets.includes(walletContext.wallet.providerType) &&
-      walletContext.wallet.isConnected() &&
-      walletContext.wallet.chainId !== getBridgeChainId(chain as Chain)
-    ) {
-      return 'wrong-network';
-    }
-
-    return 'choose-network';
-  }, [walletContext, chain]);
-
-  const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
-    chain,
-  ]);
 
   // It excludes current dapp chain (no RSK network), but i think it should be there in the end.
   const networks = useMemo(
@@ -74,97 +40,20 @@ export function ChainSelector(props: Props) {
   );
 
   return (
-    <SwitchTransition>
-      <CSSTransition
-        key={state}
-        addEndListener={(node, done) =>
-          node.addEventListener('transitionend', done, false)
-        }
-        classNames="fade"
-      >
-        <div>
-          {state === 'wrong-network' && (
-            <>
-              <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
-                <img className="tw-mr-2" src={error_alert} alt="err" />
-                <div>
-                  We detected that you are on{' '}
-                  <span className="tw-capitalize">{currentNetwork}</span> Please
-                  switch to {network?.name} in your{' '}
-                  <span className="tw-capitalize">{walletName}</span> wallet
-                </div>
-              </WrongNetwork>
-              <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-                {t(
-                  translations.BridgeDepositPage.chainSelector.wrongNetwork
-                    .title,
-                  { network: network?.name },
-                )}
-              </div>
-              <div className="tw-flex tw-flex-col tw-gap-12 tw-px-2 tw-items-center">
-                <SelectBox onClick={() => {}}>
-                  <img
-                    className="tw-mb-5 tw-mt-2"
-                    src={network?.logo}
-                    alt={network?.chain}
-                  />
-                  <div>
-                    <span className="tw-uppercase">{network?.chain} </span>{' '}
-                    Network
-                  </div>
-                </SelectBox>
-                <div className="tw-font-light tw-text-gold tw-underline">
-                  How to connect to{' '}
-                  <span className="tw-uppercase">{network?.chain}</span> with{' '}
-                  <span className="tw-capitalize">{walletName}</span>
-                </div>
-              </div>
-            </>
-          )}
-
-          {state === 'choose-network' && (
-            <>
-              <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-                {t(
-                  translations.BridgeDepositPage.chainSelector.chooseNetwork
-                    .title,
-                )}
-              </div>
-              <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
-                {networks.map(item => (
-                  <SelectBox
-                    key={item.chain}
-                    onClick={() => selectNetwork(item.chain)}
-                  >
-                    <img
-                      className="tw-mb-5 tw-mt-2"
-                      src={item.logo}
-                      alt={item.chain}
-                    />
-                    <div>
-                      <span className="tw-uppercase">{item.chain} </span>{' '}
-                      Network
-                    </div>
-                  </SelectBox>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </CSSTransition>
-    </SwitchTransition>
+    <div>
+      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+        {t(translations.BridgeDepositPage.chainSelector.chooseNetwork.title)}
+      </div>
+      <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
+        {networks.map(item => (
+          <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
+            <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
+            <div>
+              <span className="tw-uppercase">{item.chain} </span> Network
+            </div>
+          </SelectBox>
+        ))}
+      </div>
+    </div>
   );
 }
-export const WrongNetwork = styled.div`
-  width: 500px;
-  max-width: 90vw;
-  background: #e9eae9;
-  border: 1px solid #707070;
-  border-radius: 10px;
-  opacity: 0.75;
-  color: #a52222;
-  left: 0;
-  right: 0;
-  transform: translateX(100px);
-  margin: auto;
-`;

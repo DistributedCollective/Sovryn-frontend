@@ -29,10 +29,10 @@ type Props = {
 const WalletConnectorContainer: React.FC<Props> = props => {
   const {
     connected,
-    loading: connecting,
     address,
     connect,
     disconnect,
+    connecting,
   } = useWalletContext();
   const { t } = useTranslation();
   const history = useHistory();
@@ -74,7 +74,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             content={
               <Menu>
                 <CopyToClipboard
-                  text={address}
+                  text={`${address}`}
                   onCopy={() =>
                     toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
                   }
@@ -111,7 +111,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             <>
               <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
-                  <span>{prettyTx(address, 4, 4)}</span>
+                  <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
                     <img
                       className="tw-rounded"

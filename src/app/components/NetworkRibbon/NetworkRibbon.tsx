@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { translations } from 'locales/i18n';
 
 import { currentChainId } from '../../../utils/classifiers';
@@ -19,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
-  const { connected, wallet } = useWalletContext();
+  const { connected, wallet } = useContext(WalletContext);
   const location = useLocation();
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
@@ -29,7 +27,7 @@ export function NetworkRibbon(this: any) {
       return false;
     return (
       connected &&
-      web3Wallets.includes(wallet.providerType) &&
+      isWeb3Wallet(wallet.providerType as ProviderType) &&
       wallet.chainId !== currentChainId
     );
   }, [

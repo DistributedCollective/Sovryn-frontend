@@ -17,6 +17,7 @@ import { selectBridgeDepositPage } from './selectors';
 import { bridgeDepositPageSaga } from './saga';
 import { DepositStep } from './types';
 import { ChainSelector } from './components/ChainSelector';
+import { WalletSelector } from './components/WalletSelector';
 import { TokenSelector } from './components/TokenSelector';
 import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
@@ -104,6 +105,7 @@ export function BridgeDepositPage(props: Props) {
                 {!requestedReturnToPortfolio && (
                   <>
                     {step === DepositStep.CHAIN_SELECTOR && <ChainSelector />}
+                    {step === DepositStep.WALLET_SELECTOR && <WalletSelector />}
                     {step === DepositStep.TOKEN_SELECTOR && <TokenSelector />}
                     {step === DepositStep.AMOUNT_SELECTOR && <AmountSelector />}
                     {step === DepositStep.REVIEW && <ReviewStep />}

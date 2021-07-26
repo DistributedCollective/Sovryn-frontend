@@ -6,7 +6,7 @@ import { translations } from 'locales/i18n';
 
 export function EngageButton() {
   const { t } = useTranslation();
-  const { connect, loading } = useWalletContext();
+  const { connect, connecting: loading } = useWalletContext();
   return (
     <button
       type="button"
