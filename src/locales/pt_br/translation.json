@@ -1221,7 +1221,7 @@
       "tableHeaders": {
         "time": "Data e hora",
         "type": "Tipo",
-        "amount": "Ação",
+        "amount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
       },
