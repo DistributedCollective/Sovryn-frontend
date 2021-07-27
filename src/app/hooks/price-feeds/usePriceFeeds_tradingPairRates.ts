@@ -19,6 +19,8 @@ const assetsWithoutOracle = [
   Asset.BNB,
 ];
 
+const excludeAssets = [Asset.FISH];
+
 /**
  * use this only once
  */
@@ -48,7 +50,9 @@ export function usePriceFeeds_tradingPairRates() {
   );
 
   const getRates = useCallback(async () => {
-    const assets = AssetsDictionary.list().map(item => item.asset);
+    const assets = AssetsDictionary.list()
+      .filter(item => !excludeAssets.includes(item.asset))
+      .map(item => item.asset);
     const items: CachedAssetRate[] = [];
     for (let i = 0; i < assets.length; i++) {
       const source = assets[i];

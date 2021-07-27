@@ -9,6 +9,7 @@ export function useVestedStaking_balanceOf(address: string) {
   const [teamVestedValue, setTeamVestedValue] = useState('0');
   const [originVestedValue, setOriginVestedValue] = useState('0');
   const [lmVestedValue, setLMVestedValue] = useState('0');
+  const [babelFishVestedValue, setBabelFishVestedValue] = useState('0');
   const [error, setError] = useState<any>(null);
 
   const [vestingContract, setVestingContract] = useState(ethGenesisAddress);
@@ -75,6 +76,19 @@ export function useVestedStaking_balanceOf(address: string) {
         setLMVestedValue(String(lmVested));
       }
 
+      const adr5 = await contractReader.call('lockedFund', 'getVestedBalance', [
+        address,
+      ]);
+
+      if (adr5 && adr5 !== '0') {
+        const babelFishVested = await contractReader.call<string>(
+          'lockedFund',
+          'getVestedBalance',
+          [adr5],
+        );
+        setBabelFishVestedValue(String(babelFishVested));
+      }
+
       if (
         adr1 === adr2 &&
         adr2 === adr3 &&
@@ -113,5 +127,6 @@ export function useVestedStaking_balanceOf(address: string) {
     originVestingContract,
     lmVestedValue,
     lmVestingContract,
+    babelFishVestedValue,
   };
 }

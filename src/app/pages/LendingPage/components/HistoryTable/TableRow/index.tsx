@@ -6,6 +6,7 @@ import { TableTransactionStatus } from '../../../../../components/FinanceV2Compo
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+
 interface ITableRowProps {
   time: number;
   type: string;

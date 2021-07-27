@@ -5,22 +5,27 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { useCloseWithSwap } from '../../../../hooks/protocol/useCloseWithSwap';
-import { useAccount } from '../../../../hooks/useAccount';
-import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
-import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
-import { Dialog } from '../../../../containers/Dialog/Loadable';
-import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
-import { useTranslation, Trans } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
-import { CollateralAssets } from '../CollateralAssets';
-import { FormGroup } from 'app/components/Form/FormGroup';
+import { Trans, useTranslation } from 'react-i18next';
+
 import { AmountInput } from 'app/components/Form/AmountInput';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { FormGroup } from 'app/components/Form/FormGroup';
+
+import { translations } from '../../../../../locales/i18n';
+import { TxType } from '../../../../../store/global/transactions-store/types';
+import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
+import { gasLimit } from '../../../../../utils/classifiers';
+import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { Dialog } from '../../../../containers/Dialog/Loadable';
+import { useCloseWithSwap } from '../../../../hooks/protocol/useCloseWithSwap';
+import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
+import { useMaintenance } from '../../../../hooks/useMaintenance';
+import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { CollateralAssets } from '../CollateralAssets';
+
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { discordInvite } from 'utils/classifiers';
@@ -121,6 +126,7 @@ export function ClosePositionDialog(props: Props) {
             args={args}
             methodName="closeWithSwap"
             contractName="sovrynProtocol"
+            txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
           />
 
           {(closeTradesLocked || test.diff > 5) && (

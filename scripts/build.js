@@ -1,6 +1,6 @@
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.BABEL_ENV = 'production';
-process.env.NODE_ENV = 'production';
+process.env.BABEL_ENV = process.env.NODE_ENV || 'production';
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -44,7 +44,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const copyLibs = require('./copy-chart-libs');
 
 // Generate configuration
-const config = configFactory('production');
+const config = configFactory(process.env.NODE_ENV);
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
@@ -139,10 +139,13 @@ function build(previousFileSizes) {
         'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.',
       ),
     );
-    console.log();
   }
 
-  console.log('Creating an optimized production build...');
+  if (process.env.NODE_ENV === 'production') {
+    console.log('Creating an optimized production build...');
+  } else {
+    console.log('Creating a development build...');
+  }
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {

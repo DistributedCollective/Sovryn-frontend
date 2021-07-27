@@ -84,9 +84,10 @@ export function WalletPage() {
           </div>
         ) : (
           <div className="tw-grid tw-gap-8 tw-grid-cols-12">
-            <div className="tw-col-span-12 tw-mt-2">
+            <div className="tw-col-span-12">
               <SkeletonRow
                 loadingText={t(translations.topUpHistory.walletHistory)}
+                className="tw-mt-2"
               />
             </div>
           </div>

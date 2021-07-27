@@ -152,6 +152,7 @@ export function Header() {
       title: t(translations.mainMenu.governance),
     },
     { to: '/stake', title: t(translations.mainMenu.staking) },
+    { to: '/reward', title: t(translations.mainMenu.reward) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     {
       to: bridgeURL,
