@@ -8,7 +8,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { bignumber } from 'mathjs';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 // const countdownDate = new Date('2021-05-06T00:00:00'); // todo
 
@@ -70,7 +70,7 @@ export function InfoBar() {
                     <Tooltip
                       content={
                         <>
-                          {moment(Number(releaseTime.value) * 1e3).format(
+                          {dayjs(Number(releaseTime.value) * 1e3).format(
                             'YYYY-MM-DD HH:mm:ss',
                           )}
                         </>
