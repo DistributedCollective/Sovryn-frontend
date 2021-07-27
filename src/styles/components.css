@@ -85,9 +85,9 @@
     width: 100%;
   }
 
-  .tw-mw-320 {
+  .tw-mw-340 {
     @apply tw-w-full;
-    max-width: 320px;
+    max-width: 340px;
   }
   /* staking */
   .p-18 {
@@ -294,6 +294,6 @@
   outline: none;
 }
 
-.tw-mw-320 {
-  max-width: 320px;
+.tw-mw-340 {
+  max-width: 340px;
 }
