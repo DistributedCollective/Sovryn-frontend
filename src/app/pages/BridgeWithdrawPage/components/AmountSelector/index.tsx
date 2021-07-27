@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
@@ -25,9 +19,7 @@ import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalanc
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
 
-interface Props {}
-
-export function AmountSelector(props: Props) {
+export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeWithdrawPage,
   );

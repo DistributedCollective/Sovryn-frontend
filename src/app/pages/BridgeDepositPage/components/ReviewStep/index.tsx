@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
@@ -22,9 +16,7 @@ import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 
-interface Props {}
-
-export function ReviewStep(props: Props) {
+export function ReviewStep() {
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
     selectBridgeDepositPage,
   );

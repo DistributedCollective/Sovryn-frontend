@@ -113,7 +113,6 @@ class ContractWriter {
     } catch (e) {
       dispatch(txActions.setLoading(false));
       dispatch(txActions.setTransactionRequestDialogError(e.message));
-      console.error('approve error?:', e);
       return {
         approveTx: null,
         nonce,

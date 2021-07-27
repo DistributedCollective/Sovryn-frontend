@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -18,13 +12,12 @@ import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { SelectBox } from '../SelectBox';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
+import { noop } from '../../../../constants';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
 
-interface Props {}
-
-export function ReturnToPortfolio(props: Props) {
+export function ReturnToPortfolio() {
   const dispatch = useDispatch();
   const history = useHistory();
   const walletName = detectWeb3Wallet();
@@ -53,7 +46,7 @@ export function ReturnToPortfolio(props: Props) {
       </div>
       {!connected && (
         <>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}
@@ -75,7 +68,7 @@ export function ReturnToPortfolio(props: Props) {
       )}
       {connected && wallet.chainId !== currentChainId && (
         <>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}
@@ -106,7 +99,7 @@ export function ReturnToPortfolio(props: Props) {
 
       {wallet.chainId === currentChainId && (
         <>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}

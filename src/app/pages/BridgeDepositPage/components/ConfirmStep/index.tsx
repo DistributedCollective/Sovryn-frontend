@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
@@ -28,10 +22,9 @@ import { translations } from 'locales/i18n';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
+import { noop } from '../../../../constants';
 
-interface Props {}
-
-export function ConfirmStep(props: Props) {
+export function ConfirmStep() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { wallet } = useWalletContext();
@@ -72,7 +65,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Allow Transaction
           </div>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}
@@ -92,7 +85,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Confirm Transaction
           </div>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}

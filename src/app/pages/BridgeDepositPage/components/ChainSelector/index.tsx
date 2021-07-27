@@ -1,9 +1,3 @@
-/**
- *
- * ChainSelector
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -16,9 +10,7 @@ import { SelectBox } from '../SelectBox';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-interface Props {}
-
-export function ChainSelector(props: Props) {
+export function ChainSelector() {
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
   const { t } = useTranslation();

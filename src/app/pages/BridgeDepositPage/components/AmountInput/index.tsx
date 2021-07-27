@@ -1,5 +1,5 @@
 import { bignumber } from 'mathjs';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   stringToFixedPrecision,
   toNumberFormat,
@@ -66,19 +66,22 @@ export function AmountSelector(props: AmountSelectorProps) {
     return '0';
   }, [props.maxAmount]);
 
-  const handleChange = (percent: number) => {
-    let value = '0';
-    if (percent === 100) {
-      value = balance;
-    } else if (percent === 0) {
-      value = '0';
-    } else {
-      value = bignumber(balance)
-        .mul(percent / 100)
-        .toString();
-    }
-    props.onChange(props.asset.fromWei(value));
-  };
+  const handleChange = useCallback(
+    (percent: number) => {
+      let value = '0';
+      if (percent === 100) {
+        value = balance;
+      } else if (percent === 0) {
+        value = '0';
+      } else {
+        value = bignumber(balance)
+          .mul(percent / 100)
+          .toString();
+      }
+      props.onChange(props.asset.fromWei(value));
+    },
+    [balance, props],
+  );
   return (
     <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
       {amounts.map(value => (

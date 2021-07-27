@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Chain } from 'types';
@@ -28,10 +22,9 @@ import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { useHistory } from 'react-router-dom';
+import { noop } from '../../../../constants';
 
-interface Props {}
-
-export function ConfirmStep(props: Props) {
+export function ConfirmStep() {
   const { t } = useTranslation();
   const history = useHistory();
   const { wallet } = useWalletContext();
@@ -79,7 +72,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Allow Transaction
           </div>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}
@@ -99,7 +92,7 @@ export function ConfirmStep(props: Props) {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Confirm Transaction
           </div>
-          <SelectBox onClick={() => {}}>
+          <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
               src={wMetamask}
