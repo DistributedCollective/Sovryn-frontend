@@ -35,6 +35,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { TradingPosition } from 'types/trading-position';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -112,7 +113,11 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.direction)}
-              value={position}
+              value={
+                position === TradingPosition.LONG
+                  ? t(translations.marginTradePage.tradeDialog.position.long)
+                  : t(translations.marginTradePage.tradeDialog.position.short)
+              }
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.asset)}

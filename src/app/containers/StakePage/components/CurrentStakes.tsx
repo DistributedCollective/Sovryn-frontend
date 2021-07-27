@@ -11,12 +11,11 @@ import { AddressBadge } from '../../../components/AddressBadge';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { LoadableValue } from '../../../components/LoadableValue';
 import { useTranslation } from 'react-i18next';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
 import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIGHT_FACTOR';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Tooltip } from '@blueprintjs/core';
@@ -25,7 +24,7 @@ interface Stakes {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
   onUnstake: (a: number, b: number) => void;
-  onDelegate: (a: number) => void;
+  onDelegate: (a: number, b: number) => void;
 }
 
 export function CurrentStakes(props: Stakes) {
@@ -144,7 +143,7 @@ interface AssetProps {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
   onUnstake: (a: number, b: number) => void;
-  onDelegate: (a: number) => void;
+  onDelegate: (a: number, b: number) => void;
 }
 
 function AssetRow(props: AssetProps) {
@@ -195,15 +194,15 @@ function AssetRow(props: AssetProps) {
         </div>
       </td>
       <td className="tw-text-left tw-font-normal">
-        {weiToNumberFormat(props.item[0])} {t(translations.stake.sov)}
+        {weiTo4(props.item[0])} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
           loading={dollars.loading}
         />
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-        {numberFromWei(votingPower).toFixed(2)}
+        {weiTo4(votingPower)}
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
         {props.item[2].length && (
@@ -330,7 +329,7 @@ function AssetRow(props: AssetProps) {
               className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
                 !locked && 'tw-opacity-50 tw-cursor-not-allowed'
               }`}
-              onClick={() => props.onDelegate(props.item[1])}
+              onClick={() => props.onDelegate(props.item[0], props.item[1])}
               disabled={!locked}
             >
               {t(translations.stake.actions.delegate)}

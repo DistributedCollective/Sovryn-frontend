@@ -68,14 +68,14 @@
     "hintTwo": "Veja instruções sobre como configurar a <0>Metamask</0> ou <1>Nifty</1> e conectar sua carteira:"
   },
   "serviceWorkerToaster": {
-    "title": "A Sovryn foi atualizada para a <br/> <0>Versão: {{buildId}}</0>",
+    "title": "A Sovryn foi atualizada para a <br/> <0>Versão:</0> <1>{{buildId}}</1>",
     "notice": "Para concluir a atualização, feche a página da Sovryn",
     "updateBtn": "Atualizar agora",
     "closeBtn": "Atualizar mais tarde"
   },
   "tradingActivity": {
     "title": "Minhas operações",
-    "walletNote": "Primeiro conecte sua carteira!",
+    "walletNote": "A carteira precisa estar conectada.",
     "tabs": {
       "activeTrades": "Abertas",
       "tradingHistory": "Concluídas"
@@ -394,7 +394,7 @@
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
-    "noUnlockedSov": "Você não desbloqueou SOV",
+    "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "sov": "SOV",
     "delegation": {
@@ -420,7 +420,7 @@
     "staking": {
       "title": "Rentabilizar SOV",
       "amountToStake": "Quantidade",
-       "amountPlaceholder": "Insira a  quantidade",
+      "amountPlaceholder": "Insira a quantidade",
       "votingPowerReceived": "Poder de voto recebido"
     },
     "extending": {
@@ -432,14 +432,25 @@
       "balance": "Saldo"
     },
     "history": {
-      "title": "Histórico de investimentos",
+      "loading": "Carregando...",
+      "title": "Histórico",
       "asset": "Ativo",
+      "action": "Ação",
       "stakedAmount": "Quantidade",
       "stakingDate": "Data e hora",
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "stake": "Novo investimento",
+        "unstake": "Resgatar investimento",
+        "feeWithdraw": "Resgatar dividendo",
+        "increase": "Aumentar",
+        "extend": "Estender",
+        "delegate": "Delegar",
+        "withdraw": "Resgatar SOV reservado"
+      }
     },
     "increase": {
       "title": "Aumentar quantidade",
@@ -458,7 +469,7 @@
     },
     "currentVests": {
       "title": "Atualmente reservado",
-      "asset": "Voto delegado",
+      "asset": "Ativo",
       "lockedAmount": "Quantidade bloqueada",
       "votingPower": "Voto delegado",
       "stakingDate": "Data final",
@@ -484,7 +495,7 @@
       "withdraw": "Resgatar",
       "withdrawFees": "Resgatar lucro"
     },
-      "dateSelector": {
+    "dateSelector": {
       "noneAvailable": "Sem datas disponíveis.",
       "selectDelegate": "Escolha o período:",
       "selectYear": "Selecionar ano:"
@@ -523,7 +534,8 @@
   "formSelect": {
     "loading": "Abrindo, por favor aguarde.",
     "noresults": "Sem resultados.",
-    "placeholder": "Selecione algo"
+    "placeholder": "Escolha algo",
+    "selectTradePair": "Escolha um ativo"
   },
   "hintHowToTopUp": {
     "hintOne": "Você está conectado! Para negociar e emprestar com a Sovryn, você vai precisar de alguns bitcoins na rede RSK.",
@@ -565,6 +577,7 @@
     "text": "A Sovryn acaba de aumentar os limites de transação (oba!). Isso significa que agora você pode negociar com qualquer valor. Esteja ciente, no entanto, como os limites acabaram de ser removidos, a liquidez do sistema pode estar atualmente baixa."
   },
   "lend": {
+    "title": "Emprestar",
     "history": {
       "title": "Histórico",
       "amount": "Valor do empréstimo",
@@ -630,7 +643,7 @@
       "active": "A devolver",
       "history": "Devolvidos"
     },
-    "walletNote": "Primeiro conecte sua carteira!"
+    "walletNote": "A carteira precisa estar conectada."
   },
   "borrowHistory": {
     "table": {
@@ -861,6 +874,7 @@
     "meta": {
       "title": "Carteira"
     },
+    "emptyVestTable": "Não existem SOV reservados para você",
     "tableHeaders": {
       "asset": "Ativo",
       "totalBalance": "Saldo total",
@@ -914,7 +928,7 @@
     "title": "SOV",
     "tableHeaders": {
       "time": "Data e hora",
-      "vestingSchedule": "Cronograma",
+      "vestingSchedule": "Tipo",
       "amount": "Quantidade",
       "hash": "ID transação",
       "status": "Status"
@@ -930,7 +944,8 @@
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de transação",
       "status": "Status"
-    }
+    },
+    "emptyState": "Você não tem histórico de operações spot."
   },
   "topUpHistory": {
     "meta": {
@@ -999,7 +1014,8 @@
       "deposit": {
         "title": "Emprestar ativo",
         "cta": "Depositar",
-        "amount": "Quantidade:",
+        "amount": "Quantidade",
+        "max": "(Máx {{limit}} {{asset}})",
         "apy": "Juros anual <0/> variável"
       },
       "withdraw": {
@@ -1199,6 +1215,25 @@
       "lockedRewards": "Recompensas bloqueadas:",
       "claimibleRewards": "Recompensas reinvidicáveis",
       "OGRewards": "Recompensas OG"
+    },
+    "historyTable": {
+      "title": "Histórico",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "type": "Tipo",
+        "amount": "Quantidade",
+        "transactionHash": "ID transação",
+        "status": "Status"
+      },
+      "event": {
+        "liquidityMining": "Recompensa liquidez",
+        "vesting": "SOV reservado",
+        "staking": "Investimento SOV",
+        "referral": "Recompensa indicação"
+      },
+      "walletHistory": "A carteira precisa estar conectada.",
+      "emptyState": "Você não tem histórico de recompensas.",
+      "loading": "Carregando..."
     }
   },
   "marginTradePage": {
@@ -1220,7 +1255,7 @@
         "short": "Vendido"
       }
     },
-     "tradeDialog": {
+    "tradeDialog": {
       "title": "Revisar transação",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
@@ -1228,7 +1263,11 @@
       "direction": "Direção:",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço apróximado de entrada:"
+      "entryPrice": "Preço apróximado de entrada:",
+      "position": {
+        "long": "Comprado",
+        "short": "Vendido"
+      }
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Histórico"
@@ -1281,7 +1320,7 @@
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
-     },
+      },
       "txType": {
         "added": "Adicionar liquidez",
         "removed": "Retirar liquidez"
@@ -1419,7 +1458,7 @@
       },
       "stake": {
         "title": "Rentabilizando seus SOV & Votando",
-        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem rendimentos que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
         "cta": "Rentabilizar SOV"
       }
     },
