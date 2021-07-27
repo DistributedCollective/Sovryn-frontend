@@ -3886,14 +3886,14 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/react-wallet@~2.0.0-alpha.0":
-  version "2.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.0.0-alpha.0.tgz#4ebae8b10d244526a5ad5b0db71b56a0744827cf"
-  integrity sha512-vSJ9Siiw9yu6VDF+RYQGniFKRH6wXeUAgr5Avn7QSvThqXPkkNHpEE8Gi72qGCLSAGgomoOzWxnva2ohtbrn1g==
+"@sovryn/react-wallet@~2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.0.0.tgz#f46f774248c740150204723a5ff1e8f24fe4159c"
+  integrity sha512-+NxExCvo2vRfb+gJebYpHTnZa8KdP7EhR+sEvSc+KoOy+XnIo/5k5y6NZ2NUbixSLpWfMdRLjlVUwCWG+pOHFg==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"
-    "@sovryn/wallet" "^2.0.0-alpha.0"
+    "@sovryn/wallet" "^2.0.0"
     "@types/classnames" "^2.2.11"
     "@types/react-copy-to-clipboard" "^5.0.0"
     classnames "^2.2.6"
@@ -3909,10 +3909,10 @@
     web3 "^1.3.6"
     web3-core "^1.3.6"
 
-"@sovryn/wallet@^2.0.0-alpha.0":
-  version "2.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.0.0-alpha.0.tgz#54273ab099bb9ad84ae7d083057d90d59f2bf82c"
-  integrity sha512-bHCaVI5/iSY3kb2G136A98RhuNtNCCLGFLdAYFA4c006JTsUL9xxp/OKHeUlUVsZikGQG/BarSDyG3jj/a7zzg==
+"@sovryn/wallet@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.0.0.tgz#a36d76748c85c1ab0ae9ecf982df8a27e254ecb6"
+  integrity sha512-Cs3yv/Rvu1wRtwKWrVZfh+CDt3qxLquw5DVA2q+JOFMXy+xA8Z0rz6hmsseHFepeUj7fzfFGb4IWGVM2CjD+lw==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.53.0"
     "@ledgerhq/hw-transport" "^5.51.1"
