@@ -191,8 +191,6 @@ export class BridgeNetwork {
       tx.gasPrice = await this.getNode(chain).getGasPrice();
     }
 
-    console.log({ tx });
-
     const signedTxOrTransactionHash = await walletService.signTransaction({
       to: tx.to?.toLowerCase(),
       value: String(tx?.value || '0'),

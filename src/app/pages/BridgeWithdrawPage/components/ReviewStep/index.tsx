@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
@@ -23,9 +17,7 @@ import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalanc
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { prettyTx } from '../../../../../utils/helpers';
 
-interface Props {}
-
-export function ReviewStep(props: Props) {
+export function ReviewStep() {
   const {
     amount,
     chain,

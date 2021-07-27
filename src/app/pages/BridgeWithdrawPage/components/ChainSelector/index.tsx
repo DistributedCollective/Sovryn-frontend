@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -18,9 +12,7 @@ import { BridgeDictionary } from '../../../BridgeDepositPage/dictionaries/bridge
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
 
-interface Props {}
-
-export function ChainSelector(props: Props) {
+export function ChainSelector() {
   const { sourceAsset, chain } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();

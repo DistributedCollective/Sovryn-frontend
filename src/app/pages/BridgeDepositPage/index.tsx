@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -30,21 +24,17 @@ import babelfishIcon from 'assets/images/babelfish.svg';
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 
-interface Props {}
-
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
-export function BridgeDepositPage(props: Props) {
+export function BridgeDepositPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { step, requestedReturnToPortfolio } = useSelector(
     selectBridgeDepositPage,
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
   const history = useHistory();
 

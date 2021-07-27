@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
@@ -16,17 +10,9 @@ import { bridgeNetwork } from '../../utils/bridge-network';
 import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import { SelectBox } from '../SelectBox';
-import { useTokenBalance } from '../../hooks/useTokenBalance';
-import { toNumberFormat } from 'utils/display-text/format';
-import { AssetModel } from '../../types/asset-model';
-import { bignumber } from 'mathjs';
-import { LoadableValue } from 'app/components/LoadableValue';
-import cn from 'classnames';
+import { TokenItem } from './TokenItem';
 
-interface Props {}
-
-export function TokenSelector(props: Props) {
+export function TokenSelector() {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
@@ -114,47 +100,6 @@ export function TokenSelector(props: Props) {
           {network?.name} network. Try choosing another network or token.
         </p>
       )}
-    </div>
-  );
-}
-
-function TokenItem({ sourceAsset, image, symbol, onClick }) {
-  const { chain, targetChain } = useSelector(selectBridgeDepositPage);
-  const asset = useMemo(
-    () =>
-      BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
-        sourceAsset as CrossBridgeAsset,
-      ) as AssetModel,
-    [chain, sourceAsset, targetChain],
-  );
-
-  const balance = useTokenBalance(chain as any, asset);
-  const isDisabled = useCallback(
-    () => !bignumber(balance.value).greaterThan(0),
-    [balance],
-  );
-
-  return (
-    <div>
-      <SelectBox onClick={onClick} disabled={isDisabled()}>
-        <img src={image} alt={symbol} className="tw-w-16 tw-h-16" />
-      </SelectBox>
-      <div
-        className={cn('tw-flex tw-flex-col tw-items-center tw-mt-2', {
-          'tw-opacity-25': isDisabled() && !balance.loading,
-        })}
-      >
-        <span className="tw-text-sm tw-font-light tw-mb-1">
-          Available Balance
-        </span>
-        <LoadableValue
-          value={`${toNumberFormat(
-            asset.fromWei(balance.value),
-            asset.minDecimals,
-          )} ${asset.symbol}`}
-          loading={balance.loading}
-        />
-      </div>
     </div>
   );
 }

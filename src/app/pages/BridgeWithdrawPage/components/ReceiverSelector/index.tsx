@@ -1,9 +1,3 @@
-/**
- *
- * BridgeDepositPage
- *
- */
-
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { Chain } from 'types';
@@ -16,9 +10,7 @@ import networkList from '../../../../components/NetworkRibbon/component/network.
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
 
-interface Props {}
-
-export function ReceiverSelector(props: Props) {
+export function ReceiverSelector() {
   const { targetChain, targetAsset, receiver } = useSelector(
     selectBridgeWithdrawPage,
   );
