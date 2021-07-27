@@ -88,9 +88,6 @@ export function OriginClaimDialog(props: Props) {
                     </svg>
                   </div>
 
-                  {/*<p className="text-center mb-4">*/}
-                  {/*  Please check your email for confirmation*/}
-                  {/*</p>*/}
                   <p className="text-center">
                     You will now be able to see your vested SOV
                     <br />
