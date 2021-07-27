@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import { SwapFormContainer } from '../SwapFormContainer';
@@ -53,6 +54,7 @@ export function SwapPage(props: Props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
