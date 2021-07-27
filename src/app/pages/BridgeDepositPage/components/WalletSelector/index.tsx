@@ -94,7 +94,7 @@ export function WalletSelector(props: Props) {
               </div>
             </SelectBox>
             <div
-              className="cursor-pointer d-flex align-items-center justify-content-center titleTut font-family-montserrat"
+              className="tw-cursor-pointer d-flex align-items-center justify-content-center titleTut font-family-montserrat"
               onClick={() => walletContext.disconnect()}
             >
               <Icon
@@ -106,11 +106,16 @@ export function WalletSelector(props: Props) {
               {t(translations.wallet.disconnect)}
             </div>
 
-            <div className="tw-font-light tw-text-gold tw-underline">
+            <a
+              href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline"
+            >
               How to connect to{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
-            </div>
+            </a>
           </div>
         </>
       )}
