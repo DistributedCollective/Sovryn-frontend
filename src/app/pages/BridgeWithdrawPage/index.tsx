@@ -67,7 +67,7 @@ export function BridgeWithdrawPage() {
   return (
     <>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg"
         style={{ marginTop: '-4.4rem' }}
       >
         <div
