@@ -1,0 +1,24 @@
+.wrapper {
+    height: 40px;
+    background-color: #222222;
+    border: 1px solid #575757;
+    border-radius: 10px;
+    padding: 7px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.wrapperContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrowDown {
+    width: 21px;
+    height: 13px;
+    background: url("./arrow-down.svg") center center no-repeat;
+    background-size: 21px 13px;
+    margin-left: 15px;
+}
