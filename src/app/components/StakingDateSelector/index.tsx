@@ -37,30 +37,35 @@ export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
   const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
   const [dates, setDates] = useState<Date[]>([]);
-  const [currentYearDates, setCurrenYearDates] = useState<any>([]);
+  const [currentYearDates, setCurrenYearDates] = useState<DateItem[]>([]);
   const [filteredDates, setFilteredDates] = useState<DateItem[]>([]);
-  const [itemDisabled, setItemDisabled] = useState<any>([]);
+  const [itemDisabled, setItemDisabled] = useState<DateItem[]>([]);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
 
-  const [dateWithoutStake, avaliableYears, avaliableMonth] = useMemo(() => {
-    const dateWithoutStake = filteredDates.reduce((unique: any, o: any) => {
-      let isFound = itemDisabled.some((b: { key: any }) => {
-        return b.key === o.key;
-      });
-      if (!isFound) unique.push(o);
-      return unique;
-    }, []);
+  const [dateWithoutStake, availableYears, availableMonth] = useMemo(() => {
+    const dateWithoutStake = filteredDates.reduce(
+      (uniqueItems: DateItem[], item: DateItem) => {
+        const isDisabled = itemDisabled.some((b: DateItem) => {
+          return b.key === item.key;
+        });
+        if (!isDisabled) {
+          uniqueItems.push(item);
+        }
+        return uniqueItems;
+      },
+      [],
+    );
 
-    const avaliableYears = dateWithoutStake
+    const availableYears = dateWithoutStake
       .map(yearDate => dayjs(yearDate.date).format('YYYY'))
       .filter((year, index, arr) => arr.indexOf(year) === index);
 
-    const avaliableMonth = currentYearDates
+    const availableMonth = currentYearDates
       .map(yearDate => dayjs(yearDate.date).format('MMM'))
       .filter((month, index, arr) => arr.indexOf(month) === index);
-    return [dateWithoutStake, avaliableYears, avaliableMonth];
+    return [dateWithoutStake, availableYears, availableMonth];
   }, [currentYearDates, filteredDates, itemDisabled]);
 
   const getDatesByYear = useCallback(
@@ -170,7 +175,7 @@ export function StakingDateSelector(props: Props) {
 
   return (
     <>
-      {avaliableYears.length > 0 && (
+      {availableYears.length > 0 && (
         <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
           {props.delegate
             ? t(translations.stake.dateSelector.selectDelegate)
@@ -178,7 +183,7 @@ export function StakingDateSelector(props: Props) {
         </label>
       )}
       <div className="tw-flex tw-flex-row">
-        {avaliableYears.map((year, i) => {
+        {availableYears.map((year, i) => {
           return (
             <div className="tw-mr-5" key={i}>
               <button
@@ -199,7 +204,7 @@ export function StakingDateSelector(props: Props) {
       </div>
       <div className="sliderMonth tw-mt-5 pr-0">
         <Slider {...settingsSliderMonth}>
-          {avaliableMonth.map((monthName: React.ReactNode, i) => {
+          {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
                 <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
@@ -233,7 +238,7 @@ export function StakingDateSelector(props: Props) {
           })}
         </Slider>
       </div>
-      {avaliableYears.length <= 0 && (
+      {availableYears.length <= 0 && (
         <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
           {t(translations.stake.dateSelector.noneAvailable)}
         </p>
