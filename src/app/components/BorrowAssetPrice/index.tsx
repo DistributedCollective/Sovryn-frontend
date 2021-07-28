@@ -15,12 +15,12 @@ interface Props {
 }
 
 export function BorrowAssetPrice(props: Props) {
-  const { value, loading } = useBorrowAssetPrice(props.asset, Asset.DOC);
+  const { asset, onChange } = props;
+  const { value, loading } = useBorrowAssetPrice(asset, Asset.DOC);
 
   useEffect(() => {
-    props.onChange(value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, props.onChange]);
+    onChange(value);
+  }, [value, onChange]);
 
   return (
     <LoadableValue

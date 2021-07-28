@@ -170,16 +170,16 @@ export function ActiveLoanTableContainer(props: Props) {
         ),
       };
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data, t]);
+  }, [props.data, t, openTradesLocked, closeTradesLocked]);
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.
-    if (selectedItem && selectedItem.loanId) {
-      const loan = props.data.find(item => item.loanId === selectedItem.loanId);
-      setSelectedItem(loan);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSelectedItem(selectedItem => {
+      if (selectedItem) {
+        return props.data.find(item => item.loanId === selectedItem.loanId);
+      }
+      return selectedItem;
+    });
   }, [props.data]);
 
   useEffect(() => {

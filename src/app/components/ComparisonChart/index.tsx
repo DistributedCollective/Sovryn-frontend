@@ -42,17 +42,27 @@ interface ComparisonProps {
 }
 
 export default function ComparisonChart(props: ComparisonProps) {
+  const {
+    height,
+    datasetPrimary,
+    datasetSecondary,
+    datasetTertiary,
+    title,
+    className,
+    tooltipFormatter,
+  } = props;
+
   const [options, setOptions] = useState<Highcharts.Options>({
     credits: {
       enabled: false,
     },
     title: {
-      text: props.title,
+      text: title,
     },
     series: [
-      props.datasetPrimary,
-      ...(props.datasetSecondary ? [props.datasetSecondary] : []),
-      ...(props.datasetTertiary ? [props.datasetTertiary] : []),
+      datasetPrimary,
+      ...(datasetSecondary ? [datasetSecondary] : []),
+      ...(datasetTertiary ? [datasetTertiary] : []),
     ],
     plotOptions: {
       areaspline: {
@@ -63,7 +73,7 @@ export default function ComparisonChart(props: ComparisonProps) {
       },
     },
     chart: {
-      height: props.height,
+      height: height,
       backgroundColor: '#2D2D2D',
       margin: [-10, 5, 40, 40],
     },
@@ -118,33 +128,31 @@ export default function ComparisonChart(props: ComparisonProps) {
     },
     tooltip: {
       shared: true,
-      formatter: props.tooltipFormatter,
+      formatter: tooltipFormatter,
     },
   });
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       title: {
-        text: props.title,
+        text: title,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.title]);
+    }));
+  }, [setOptions, title]);
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       chart: {
         ...options.chart,
-        height: props.height,
+        height: height,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.height]);
+    }));
+  }, [setOptions, height]);
 
   return (
-    <div className={classnames(props.className)}>
+    <div className={classnames(className)}>
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );

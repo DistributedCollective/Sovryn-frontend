@@ -26,35 +26,43 @@ interface Props {
 }
 
 export function BorrowLiquidationPrice(props: Props) {
+  const {
+    asset,
+    assetLong,
+    leverage,
+    position,
+    labelColor,
+    onPriceChange,
+  } = props;
+
   const { t } = useTranslation();
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
-    props.asset,
-    props.assetLong,
+    asset,
+    assetLong,
   );
 
   const {
     value: longToUsd,
     loading: loadingLongToUsdPrice,
-  } = useBorrowAssetPrice(props.assetLong, Asset.USDT);
+  } = useBorrowAssetPrice(assetLong, Asset.USDT);
 
   const { value, loading: loadingLiq } = useBorrowLiquidationPrice(
-    props.asset,
+    asset,
     bignumber(price).mul(bignumber(longToUsd).div(1e18)).toFixed(0),
-    props.leverage,
-    props.position,
+    leverage,
+    position,
   );
 
   useEffect(() => {
-    if (props.onPriceChange) {
-      props.onPriceChange(value);
+    if (onPriceChange) {
+      onPriceChange(value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.onPriceChange, value]);
+  }, [onPriceChange, value]);
 
   return (
     <FieldGroup
       label={t(translations.global.liquidationPrice)}
-      labelColor={props.labelColor}
+      labelColor={labelColor}
     >
       <DummyField>
         <LoadableValue

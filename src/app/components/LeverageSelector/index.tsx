@@ -17,22 +17,19 @@ interface Props {
 }
 
 export function LeverageSelector(props: Props) {
+  const { min, max, value, onChange, position } = props;
   const { t } = useTranslation();
 
-  const items = Array.from(
-    Array(props.max + 1 - props.min),
-    (_, i) => i + props.min,
-  );
+  const items = Array.from(Array(max + 1 - min), (_, i) => i + min);
 
   // In case active leverage becomes unavailable, set leverage to first available.
   useEffect(() => {
-    if (!items.includes(props.value)) {
-      props.onChange(items[0]);
+    if (!items.includes(value)) {
+      onChange(items[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
+  }, [items, onChange, value]);
 
-  const color = props.position === 'LONG' ? 'var(--teal)' : 'var(--Muted_red)';
+  const color = position === 'LONG' ? 'var(--teal)' : 'var(--Muted_red)';
 
   const active = {
     color: color,
@@ -55,11 +52,11 @@ export function LeverageSelector(props: Props) {
         <div className="tw-inline-flex tw-justify-between tw-items-start tw-w-full">
           {items.map(item => (
             <ThemeProvider
-              theme={props.value === item ? active : inactive}
+              theme={value === item ? active : inactive}
               key={item}
             >
               <div>
-                <Button onClick={() => props.onChange(item)} className="btn">
+                <Button onClick={() => onChange(item)} className="btn">
                   {item}X
                 </Button>
               </div>
