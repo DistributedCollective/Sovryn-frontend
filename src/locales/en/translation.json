@@ -722,6 +722,7 @@
   "wrongNetworkDialog": {
     "title": "Change to RSK Network",
     "networkAlert": "We detected that you are on {{name}} network.",
+    "networkAlertUnknown": "We detected that you are on a different network.",
     "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",

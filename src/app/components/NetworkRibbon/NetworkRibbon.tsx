@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useWalletContext } from '@sovryn/react-wallet';
 import { web3Wallets } from '@sovryn/wallet';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
@@ -19,24 +18,26 @@ export function NetworkRibbon(this: any) {
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
 
-  const getStatus = () =>
-    connected &&
-    web3Wallets.includes(wallet.providerType) &&
-    wallet.chainId !== currentChainId;
-  const [isConnect, setShow] = useState(getStatus());
+  const getStatus = useCallback(
+    () =>
+      connected &&
+      web3Wallets.includes(wallet.providerType) &&
+      wallet.chainId !== currentChainId,
+    [connected, wallet],
+  );
+
+  const [show, setShow] = useState(getStatus());
   const [startTut, setStart] = useState(false);
+
   useEffect(() => {
     setShow(getStatus());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, wallet.chainId, wallet.providerType]);
-  const handleTutDialog = () => {
-    setStart(true);
-  };
-  const handleBack = () => {
-    setStart(false);
-  };
+  }, [connected, wallet.chainId, wallet.providerType, getStatus]);
+
+  const handleTutDialog = useCallback(() => setStart(true), []);
+  const handleBack = useCallback(() => setStart(false), []);
+
   return (
-    <NetworkDialog isOpen={isConnect} className="fw-700" size="normal">
+    <NetworkDialog isOpen={show} className="fw-700" size="normal">
       <div className="py-2 font-family-montserrat">
         <div className="text-center title">
           {t(translations.wrongNetworkDialog.title)}{' '}

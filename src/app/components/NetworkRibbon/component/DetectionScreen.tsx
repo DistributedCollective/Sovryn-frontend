@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -30,8 +29,7 @@ export function DetectionScreen(props: Props) {
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
-  // eslint-disable-next-line array-callback-return
-  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
+  const netName = netData.find(item => item.chainId === chainId)?.chain;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
@@ -47,9 +45,11 @@ export function DetectionScreen(props: Props) {
           <img src={error_alert} alt="1" />
         </div>
         <div className="text-left subtitle">
-          {t(translations.wrongNetworkDialog.networkAlert, {
-            name: netName,
-          })}
+          {netName
+            ? t(translations.wrongNetworkDialog.networkAlert, {
+                name: netName,
+              })
+            : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
             string: walletName,
@@ -72,21 +72,21 @@ export function DetectionScreen(props: Props) {
         )}
       </div>
       <div className="d-flex my-5 flex-column justify-content-center align-items-center text-center">
-        <a
+        <button
           onClick={props.onStart}
           className="titleTut font-family-montserrat mb-3"
         >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
-        </a>
-        <a
-          className="d-flex align-items-center justify-content-center titleTut font-family-montserrat"
+        </button>
+        <button
+          className="titleTut d-flex align-items-center justify-content-center font-family-montserrat"
           onClick={() => disconnect()}
         >
           <Icon icon="log-out" className="tw-text-gold mr-1" iconSize={12} />{' '}
           {t(translations.wallet.disconnect)}
-        </a>
+        </button>
       </div>
     </>
   );
