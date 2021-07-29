@@ -63,8 +63,7 @@ export function RewardPool(props: Props) {
       clearInterval(interval);
       cancelDataRequest.current && cancelDataRequest.current();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api, props.user]);
+  }, [getData, props.rate]);
 
   return (
     <div className="col-8 mx-auto">

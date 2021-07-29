@@ -12,8 +12,7 @@ import { currentNetwork } from '../../../utils/classifiers';
 interface Props {}
 
 export function LimitsNotification(props: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   if (currentNetwork !== 'mainnet') return <></>;
 

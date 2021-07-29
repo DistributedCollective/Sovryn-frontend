@@ -15,14 +15,15 @@ interface Props {
 }
 
 export function BalanceV1(props: Props) {
-  const { value, loading } = useAssetBalanceOf(props.asset);
+  const { asset, onBalance } = props;
+
+  const { value, loading } = useAssetBalanceOf(asset);
 
   useEffect(() => {
-    if (props.onBalance) {
-      props.onBalance(value);
+    if (onBalance) {
+      onBalance(value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.asset, value]);
+  }, [value, onBalance]);
 
   return (
     <LoadableValue

@@ -47,7 +47,6 @@ export function WithdrawVesting(props: Props) {
         setSending(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, account, props.vesting],
   );
 

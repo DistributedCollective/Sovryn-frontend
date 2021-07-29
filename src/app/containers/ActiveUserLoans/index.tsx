@@ -19,7 +19,6 @@ interface Props {
 export function ActiveUserLoans(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { value, loading } = useGetActiveLoans(
     account,
     0,

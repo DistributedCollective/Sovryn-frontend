@@ -16,7 +16,6 @@ import { Footer } from '../../components/Footer';
 const s = translations.tradingPage;
 
 export function MarketingPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
   return (

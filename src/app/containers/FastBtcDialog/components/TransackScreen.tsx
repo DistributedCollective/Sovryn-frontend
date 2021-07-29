@@ -30,7 +30,6 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
       web3Wallets.includes(wallet.providerType) &&
       wallet.chainId !== currentChainId
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, wallet.chainId, wallet.providerType]);
 
   return (

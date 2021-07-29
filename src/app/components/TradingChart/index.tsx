@@ -69,7 +69,6 @@ export function TradingChart(props: ChartContainerProps) {
         ],
       };
 
-      // eslint-disable-next-line
       const myChart = new widget(widgetOptions);
       setChart(myChart);
       myChart.onChartReady(() => {
@@ -77,13 +76,15 @@ export function TradingChart(props: ChartContainerProps) {
       });
 
       return () => {
-        chart?.remove();
+        myChart.remove();
         setHasCharts(false);
         setChart(null);
       };
     } catch (e) {
       setHasCharts(false);
     }
+
+    // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,8 +93,7 @@ export function TradingChart(props: ChartContainerProps) {
       chart.chart().setSymbol(props.symbol, () => {
         console.log('changed symbol');
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.symbol]);
+  }, [chart, props.symbol]);
 
   return (
     <div

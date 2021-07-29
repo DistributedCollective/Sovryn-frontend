@@ -42,14 +42,11 @@ export function SOVPoolData(props: Props) {
     }
   }, [api, props.user]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
+  useInterval(getData, props.rate * 1e3);
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.user]);
+  }, [getData, props.user]);
 
   return (
     <div className="col-12">
