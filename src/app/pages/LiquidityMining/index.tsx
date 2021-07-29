@@ -47,11 +47,7 @@ export function LiquidityMining() {
     <>
       <LocalSharedArrayBuffer />
       <Helmet>
-        <title>{t(translations.escrowPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.escrowPage.meta.description)}
-        />
+        <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">

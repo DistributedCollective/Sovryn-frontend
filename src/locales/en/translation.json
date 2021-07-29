@@ -671,6 +671,11 @@
       "disabled": "This asset can't be borrowed."
     }
   },
+  "borrow": {
+    "meta": {
+      "title": "Borrow"
+    }
+  },
   "activeUserBorrows": {
     "text": "You do not have any active loans."
   },
@@ -1407,6 +1412,9 @@
   "liquidityMining": {
     "deposit": "Deposit",
     "withdraw": "Withdraw",
+    "meta": {
+      "title": "Yield Farm"
+    },
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
