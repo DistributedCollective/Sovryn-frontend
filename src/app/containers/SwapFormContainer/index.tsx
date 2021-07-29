@@ -171,7 +171,7 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
-  }, [tokens, sourceToken, targetToken, tokenBalance, xusdExcludes]);
+  }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),

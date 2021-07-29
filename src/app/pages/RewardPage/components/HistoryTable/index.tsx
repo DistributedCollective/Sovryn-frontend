@@ -4,7 +4,7 @@ import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
-import axios, { Canceler, CancelTokenSource } from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 
 const pageSize = 6;
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';

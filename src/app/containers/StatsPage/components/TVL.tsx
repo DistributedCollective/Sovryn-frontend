@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
