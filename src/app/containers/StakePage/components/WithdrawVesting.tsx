@@ -17,6 +17,8 @@ interface Props {
 }
 
 export function WithdrawVesting(props: Props) {
+  const { vesting, onCloseModal } = props;
+
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
@@ -36,18 +38,15 @@ export function WithdrawVesting(props: Props) {
       e.preventDefault();
       setSending(true);
       try {
-        await vesting_withdraw(
-          props.vesting.toLowerCase(),
-          address.toLowerCase(),
-        );
-        props.onCloseModal();
+        await vesting_withdraw(vesting.toLowerCase(), address.toLowerCase());
+        onCloseModal();
         setSending(false);
       } catch (e) {
         console.error(e);
         setSending(false);
       }
     },
-    [address, account, props.vesting],
+    [address, vesting, onCloseModal],
   );
 
   return (
@@ -123,7 +122,7 @@ export function WithdrawVesting(props: Props) {
           </button>
           <button
             type="button"
-            onClick={() => props.onCloseModal()}
+            onClick={() => onCloseModal()}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}

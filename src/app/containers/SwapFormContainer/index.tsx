@@ -50,6 +50,8 @@ interface Option {
   label: string;
 }
 
+const xusdExcludes = [Asset.USDT, Asset.DOC];
+
 export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
@@ -71,7 +73,6 @@ export function SwapFormContainer() {
     [],
   );
   const [tokenBalance, setTokenBalance] = useState<any[]>([]);
-  const xusdExcludes = [Asset.USDT, Asset.DOC];
 
   useEffect(() => {
     async function getOptions() {
@@ -124,7 +125,6 @@ export function SwapFormContainer() {
     ) {
       setSourceToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
@@ -171,8 +171,7 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokens, sourceToken, targetToken, tokenBalance]);
+  }, [tokens, sourceToken, targetToken, tokenBalance, xusdExcludes]);
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),

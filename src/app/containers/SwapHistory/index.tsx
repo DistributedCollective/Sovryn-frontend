@@ -1,6 +1,12 @@
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import { bignumber } from 'mathjs';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -42,16 +48,17 @@ export function SwapHistory() {
   const [hasOngoingTransactions, setHasOngoingTransactions] = useState(false);
   const retry = useTradeHistoryRetry();
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
+  let cancelTokenSource = useRef<CancelTokenSource>();
+
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
     }
 
-    cancelTokenSource = axios.CancelToken.source();
+    cancelTokenSource.current = axios.CancelToken.source();
     axios
       .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.token,
+        cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
         setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
@@ -63,7 +70,7 @@ export function SwapHistory() {
         setCurrentHistory([]);
         setLoading(false);
       });
-  };
+  }, [url, account]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
@@ -71,15 +78,14 @@ export function SwapHistory() {
     setCurrentHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, setCurrentHistory]);
+  }, [getData]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory, retry]);
+  }, [account, getHistory, retry]);
 
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;

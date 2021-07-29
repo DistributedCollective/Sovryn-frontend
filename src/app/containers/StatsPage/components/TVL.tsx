@@ -36,14 +36,7 @@ export function TVL(props: Props) {
       .catch(e => console.error(e));
   }, [url]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   const rowData = [
     {

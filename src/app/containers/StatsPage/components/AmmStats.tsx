@@ -62,14 +62,7 @@ function Row(props) {
       .catch(e => console.error(e));
   }, [url, props.asset]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   return (
     <>
