@@ -31,8 +31,7 @@ export function useBorrowInterestRate(
       }
     }
     setTotalDeposit(_totalDeposit);
-    // eslint-disable-next-line
-  }, [JSON.stringify(result), weiAmount]);
+  }, [result?.rate, result?.precision, weiAmount]);
 
   useEffect(() => {
     setBorrowAmount(

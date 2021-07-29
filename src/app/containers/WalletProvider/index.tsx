@@ -86,8 +86,7 @@ function WalletWatcher() {
       });
     }
     dispatch(actions.accountChanged(address));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, address]);
+  }, [dispatch, address, setEvent, wallet?.wallet]);
 
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));

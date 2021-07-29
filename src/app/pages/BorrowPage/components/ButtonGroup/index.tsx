@@ -39,45 +39,10 @@ const ButtonGroup: React.FC<Props> = ({
   const { value: rewards } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  // const { value: interestCall } = useLending_supplyInterestRate(asset);
-
-  // const [profit, setProfit] = useState(profitCall);
-  // const [ticker, setTicker] = useState('0');
-
-  // useEffect(() => {
-  //   setProfit('0');
-  // }, [currency]);
 
   const balance = useMemo(() => {
     return bignumber(balanceCall).minus(profitCall).toString();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceCall, profitCall, currency]);
-
-  // useEffect(() => {
-  //   setTicker(
-  //     bignumber(balance)
-  //       .mul(
-  //         bignumber(interestCall).div(100).div(31536000 /* seconds in year */),
-  //       )
-  //       .div(10 ** 18)
-  //       .toFixed(0),
-  //   );
-  // }, [balance, interestCall]);
-
-  // useEffect(() => {
-  //   const ms = 1000;
-  //   const diff = bignumber(ticker).div(1000).div(ms);
-  //   let value = bignumber(profitCall).add(profit);
-  //   console.log('add profit', value);
-  //   const interval = setInterval(() => {
-  //     value = value.add(diff);
-  //     setProfit(value.toFixed(0));
-  //   }, ms);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [profitCall, ticker, currency]);
+  }, [balanceCall, profitCall]);
 
   useEffect(() => {
     setCurrentButton(key);

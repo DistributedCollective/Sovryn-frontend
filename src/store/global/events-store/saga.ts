@@ -1,6 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { actions as walletActions } from 'app/containers/WalletProvider/slice';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { eventReader } from 'utils/sovryn/event-reader';
