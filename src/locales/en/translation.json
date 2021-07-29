@@ -460,6 +460,7 @@
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
     "sov": "SOV",
+    "days": "days",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",
@@ -478,7 +479,8 @@
       "stakeUnlockUntil": "This stake is not scheduled to unlock until",
       "penalty": "Unstaking now invokes a slashing penalty that will cost you",
       "penaltyZero": "You will be slashed some of your SOV for withdrawing early",
-      "unstake": "Yes, Unstake"
+      "unstake": "Yes, Unstake",
+      "loading": "Loading..."
     },
     "staking": {
       "title": "Stake SOV",
