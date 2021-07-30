@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-
+import moment from 'moment';
 import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart';
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import { Spinner } from 'app/components/Spinner';
@@ -23,18 +23,14 @@ interface DataItem {
 }
 
 const getUTCDateString = (date: Date): string => {
-  return `${date.getUTCFullYear()}-${
-    date.getUTCMonth() + 1
-  }-${date.getUTCDate()} ${String(date.getUTCHours()).padStart(
-    2,
-    '0',
-  )}:${String(date.getUTCMinutes()).padStart(2, '0')} UTC`;
+  const offset = date.getTimezoneOffset();
+  return `${moment(date).format('L LT')} <b>UTC ${offset / 60}</b>`;
 };
 
 const tooltipFormatter = function (this: any) {
   return this.points?.reduce(function (s, point) {
     const tooltipSuffix = point.series.userOptions?.tooltip?.valueSuffix;
-    return `${s}<br/>${point.series.name}: 
+    return `${s}<br/>${point.series.name}:
       <span class='tw-font-bold'>
         ${
           point.y < 1000
