@@ -6,13 +6,13 @@ import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
 import { Chain } from 'types';
 import { actions } from '../../slice';
-import { Button } from '../../../../components/Button';
 import { currentChainId, currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { SelectBox } from '../SelectBox';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { noop } from '../../../../constants';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -41,7 +41,7 @@ export function ReturnToPortfolio() {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-80">
         Connect to RSK
       </div>
       {!connected && (
@@ -59,8 +59,8 @@ export function ReturnToPortfolio() {
             <span className="tw-capitalize">{walletName}</span>.
           </p>
 
-          <Button
-            className="tw-w-full"
+          <ActionButton
+            className="tw-font-semibold tw-w-80 tw-rounded-xl"
             text="Connect Network"
             onClick={() => connect()}
           />
@@ -81,15 +81,15 @@ export function ReturnToPortfolio() {
             <span className="tw-capitalize">{walletName}</span>.
           </p>
           {walletName === 'metamask' && (
-            <Button
-              className="tw-w-full"
+            <ActionButton
+              className="tw-font-semibold tw-w-80 tw-rounded-xl"
               text="Switch Network"
               onClick={addNetworkCallback}
             />
           )}
           {!isWeb3Wallet(wallet.providerType as ProviderType) && (
-            <Button
-              className="tw-w-full"
+            <ActionButton
+              className="tw-font-semibold tw-w-80 tw-rounded-xl"
               text="Switch Network"
               onClick={handleNetworkSwitch}
             />
@@ -108,8 +108,9 @@ export function ReturnToPortfolio() {
             <div className="tw-capitalize">{walletName}</div>
           </SelectBox>
           <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">All Set</p>
-          <Button
-            className="tw-w-full"
+
+          <ActionButton
+            className="tw-font-semibold tw-w-80 tw-rounded-xl"
             text="Return to Portfolio"
             onClick={() => history.push('/wallet')}
           />

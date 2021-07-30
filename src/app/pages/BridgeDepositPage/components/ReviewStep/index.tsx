@@ -118,7 +118,7 @@ export function ReviewStep() {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-full"
+          className="tw-mt-20 tw-w-80"
           text={'Confirm Deposit'}
           disabled={!valid || tx.loading}
           loading={tx.loading}

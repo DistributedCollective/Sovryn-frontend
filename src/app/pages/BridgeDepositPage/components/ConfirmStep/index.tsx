@@ -10,7 +10,6 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { TxStep } from '../../types';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
-import { Button } from '../../../../components/Button';
 import { SelectBox } from '../SelectBox';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -23,6 +22,7 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { noop } from '../../../../constants';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function ConfirmStep() {
   const { t } = useTranslation();
@@ -164,8 +164,9 @@ export function ConfirmStep() {
               </tr>
             </tbody>
           </Table>
-          <Button
-            className="tw-mt-10 tw-w-full"
+
+          <ActionButton
+            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
             text="Close"
             onClick={handleComplete}
           />
@@ -177,8 +178,9 @@ export function ConfirmStep() {
             Transaction denied
           </div>
           <p className="tw-mw-320 tw-mt-12 tw-text-center">Rejected by user</p>
-          <Button
-            className="tw-mt-10 tw-w-full"
+
+          <ActionButton
+            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
             text="Close"
             onClick={handleComplete}
           />

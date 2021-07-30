@@ -8,7 +8,6 @@ import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
-import { Button } from 'app/components/Button';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { AmountInput } from '../AmountInput';
@@ -18,6 +17,8 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { Button } from '@blueprintjs/core';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -181,8 +182,8 @@ export function AmountSelector() {
           </tbody>
         </Table>
 
-        <Button
-          className="tw-mt-10 tw-w-full"
+        <ActionButton
+          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text="Next"
           disabled={!valid}
           onClick={selectAmount}
