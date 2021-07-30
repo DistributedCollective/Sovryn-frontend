@@ -45,35 +45,53 @@ export function useVestedStaking_balanceOf(address: string) {
       );
 
       if (adr1 !== ethGenesisAddress) {
-        const vested = await contractReader.call('staking', 'balanceOf', [
-          adr1,
-        ]);
-        setVestingContract(String(adr1));
-        setVestedValue(String(vested));
+        try {
+          const vested = await contractReader.call('staking', 'balanceOf', [
+            adr1,
+          ]);
+          setVestingContract(String(adr1));
+          setVestedValue(String(vested));
+        } catch (error) {
+          setError(error);
+        }
       }
 
       if (adr2 !== ethGenesisAddress) {
-        const teamVested = await contractReader.call('staking', 'balanceOf', [
-          adr2,
-        ]);
-        setTeamVestingContract(String(adr2));
-        setTeamVestedValue(String(teamVested));
+        try {
+          const teamVested = await contractReader.call('staking', 'balanceOf', [
+            adr2,
+          ]);
+          setTeamVestingContract(String(adr2));
+          setTeamVestedValue(String(teamVested));
+        } catch (error) {
+          setError(error);
+        }
       }
 
       if (adr3 !== ethGenesisAddress) {
-        const originVested = await contractReader.call('staking', 'balanceOf', [
-          adr3,
-        ]);
-        setOriginVestingContract(String(adr3));
-        setOriginVestedValue(String(originVested));
+        try {
+          const originVested = await contractReader.call(
+            'staking',
+            'balanceOf',
+            [adr3],
+          );
+          setOriginVestingContract(String(adr3));
+          setOriginVestedValue(String(originVested));
+        } catch (error) {
+          setError(error);
+        }
       }
 
       if (adr4 !== ethGenesisAddress) {
-        const lmVested = await contractReader.call('staking', 'balanceOf', [
-          adr4,
-        ]);
-        setLMVestingContract(String(adr4));
-        setLMVestedValue(String(lmVested));
+        try {
+          const lmVested = await contractReader.call('staking', 'balanceOf', [
+            adr4,
+          ]);
+          setLMVestingContract(String(adr4));
+          setLMVestedValue(String(lmVested));
+        } catch (error) {
+          setError(error);
+        }
       }
 
       const adr5 = await contractReader.call('lockedFund', 'getVestedBalance', [
@@ -81,12 +99,16 @@ export function useVestedStaking_balanceOf(address: string) {
       ]);
 
       if (adr5 && adr5 !== '0') {
-        const babelFishVested = await contractReader.call<string>(
-          'lockedFund',
-          'getVestedBalance',
-          [adr5],
-        );
-        setBabelFishVestedValue(String(babelFishVested));
+        try {
+          const babelFishVested = await contractReader.call<string>(
+            'lockedFund',
+            'getVestedBalance',
+            [adr5],
+          );
+          setBabelFishVestedValue(String(babelFishVested));
+        } catch (error) {
+          setError(error);
+        }
       }
 
       if (
