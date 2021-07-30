@@ -6,7 +6,7 @@
  * and make any relevant changes before updating the library version:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import cn from 'classnames';
 import {
   widget,
@@ -81,6 +81,7 @@ export function TradingChart(props: ChartContainerProps) {
         setChart(null);
       };
     } catch (e) {
+      console.error(e);
       setHasCharts(false);
     }
 
@@ -88,12 +89,13 @@ export function TradingChart(props: ChartContainerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (chart)
+  useLayoutEffect(() => {
+    if (chart && hasCharts) {
       chart.chart().setSymbol(props.symbol, () => {
         console.log('changed symbol');
       });
-  }, [chart, props.symbol]);
+    }
+  }, [chart, hasCharts, props.symbol]);
 
   return (
     <div
