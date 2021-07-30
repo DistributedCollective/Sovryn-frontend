@@ -4,7 +4,6 @@ import { Chain } from 'types';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
-import { Button } from '../../../../components/Button';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import styled from 'styled-components/macro';
@@ -23,6 +22,7 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { useHistory } from 'react-router-dom';
 import { noop } from '../../../../constants';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function ConfirmStep() {
   const { t } = useTranslation();
@@ -122,7 +122,7 @@ export function ConfirmStep() {
           <div className="tw-mb-6 tw-text-center">
             {tx.step === TxStep.PENDING_TRANSFER && (
               <img
-                className="tw-h-14"
+                className="tw-h-14 tw-animate-spin"
                 src={iconPending}
                 title={t(translations.common.pending)}
                 alt={t(translations.common.pending)}
@@ -177,8 +177,8 @@ export function ConfirmStep() {
               </tr>
             </tbody>
           </Table>
-          <Button
-            className="tw-mt-10 tw-w-full"
+          <ActionButton
+            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
             text="Close"
             onClick={handleComplete}
           />
@@ -190,8 +190,8 @@ export function ConfirmStep() {
             Transaction denied
           </div>
           <p className="tw-mw-320 tw-mt-12 tw-text-center">Rejected by user</p>
-          <Button
-            className="tw-mt-10 tw-w-full"
+          <ActionButton
+            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
             text="Close"
             onClick={handleComplete}
           />

@@ -126,10 +126,10 @@ export function SidebarSteps() {
 
     if (step === WithdrawStep.COMPLETE) {
       prvSteps[WithdrawStep.COMPLETE].icon = (
-        <div className="tw-bg-background tw-object-contain tw-h-4.5 tw-w-4.5 tw-rounded-full">
+        <div className="tw-bg-gray_bg tw-object-contain tw-h-4.5 tw-w-4.5 tw-rounded-full">
           <img
             className={
-              'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-background tw-border tw-border-background'
+              'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-gray_bg tw-border tw-border-gray_bg'
             }
             src={iconSuccess}
             title={t(translations.common.confirmed)}

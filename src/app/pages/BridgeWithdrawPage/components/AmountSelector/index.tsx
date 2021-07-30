@@ -6,7 +6,6 @@ import type { Chain } from 'types';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { Button } from 'app/components/Button';
 import { AmountInput } from '../AmountInput';
 import { FormGroup } from '../../../../components/Form/FormGroup';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
@@ -18,6 +17,7 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalance';
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -200,8 +200,8 @@ export function AmountSelector() {
           </tbody>
         </Table>
 
-        <Button
-          className="tw-mt-10 tw-w-full"
+        <ActionButton
+          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text="Next"
           disabled={!valid}
           onClick={selectAmount}

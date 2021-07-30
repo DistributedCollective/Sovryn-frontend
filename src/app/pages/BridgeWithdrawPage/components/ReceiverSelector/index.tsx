@@ -4,11 +4,11 @@ import type { Chain } from 'types';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { Button } from 'app/components/Button';
 import { FormGroup } from '../../../../components/Form/FormGroup';
 import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function ReceiverSelector() {
   const { targetChain, targetAsset, receiver } = useSelector(
@@ -42,20 +42,20 @@ export function ReceiverSelector() {
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           Enter receiving {currentNetwork} wallet address
         </div>
-        <div className="tw-mw-320">
+        <div className="tw-w-80">
           <FormGroup label={`Receiving ${targetAsset} Address`}>
             <Input value={value} onChange={val => setValue(val)} />
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-4 tw-mb-2">
+        <div className="text-center tw-mt-10 tw-mb-2">
           Please check and confirm
         </div>
-        <div className="text-center tw-mt-4 tw-mb-2">
+        {/* <div className="text-center tw-mt-4 tw-mb-2">
           Your {targetAsset} will be send there!
-        </div>
+        </div> */}
 
-        <Button
-          className="tw-mt-10 tw-w-full"
+        <ActionButton
+          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text="Next"
           disabled={!valid}
           onClick={selectReceiver}
