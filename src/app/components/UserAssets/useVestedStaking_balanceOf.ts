@@ -25,90 +25,63 @@ export function useVestedStaking_balanceOf(address: string) {
     setLoading(true);
 
     const get = async () => {
-      const adr1 = await contractReader.call('vestingRegistry', 'getVesting', [
-        address,
-      ]);
-      const adr2 = await contractReader.call(
-        'vestingRegistry',
-        'getTeamVesting',
-        [address],
-      );
-      const adr3 = await contractReader.call(
-        'vestingRegistryOrigin',
-        'getVesting',
-        [address],
-      );
-      const adr4 = await contractReader.call(
-        'vestingRegistryLM',
-        'getVesting',
-        [address],
-      );
+      const adr1 = await contractReader
+        .call('vestingRegistry', 'getVesting', [address])
+        .catch(reason => setError(reason));
+
+      const adr2 = await contractReader
+        .call('vestingRegistry', 'getTeamVesting', [address])
+        .catch(reason => setError(reason));
+
+      const adr3 = await contractReader
+        .call('vestingRegistryOrigin', 'getVesting', [address])
+        .catch(reason => setError(reason));
+
+      const adr4 = await contractReader
+        .call('vestingRegistryLM', 'getVesting', [address])
+        .catch(reason => setError(reason));
 
       if (adr1 !== ethGenesisAddress) {
-        try {
-          const vested = await contractReader.call('staking', 'balanceOf', [
-            adr1,
-          ]);
-          setVestingContract(String(adr1));
-          setVestedValue(String(vested));
-        } catch (error) {
-          setError(error);
-        }
+        const vested = await contractReader
+          .call('staking', 'balanceOf', [adr1])
+          .catch(reason => setError(reason));
+        setVestingContract(String(adr1));
+        setVestedValue(String(vested));
       }
 
       if (adr2 !== ethGenesisAddress) {
-        try {
-          const teamVested = await contractReader.call('staking', 'balanceOf', [
-            adr2,
-          ]);
-          setTeamVestingContract(String(adr2));
-          setTeamVestedValue(String(teamVested));
-        } catch (error) {
-          setError(error);
-        }
+        const teamVested = await contractReader
+          .call('staking', 'balanceOf', [adr2])
+          .catch(reason => setError(reason));
+        setTeamVestingContract(String(adr2));
+        setTeamVestedValue(String(teamVested));
       }
 
       if (adr3 !== ethGenesisAddress) {
-        try {
-          const originVested = await contractReader.call(
-            'staking',
-            'balanceOf',
-            [adr3],
-          );
-          setOriginVestingContract(String(adr3));
-          setOriginVestedValue(String(originVested));
-        } catch (error) {
-          setError(error);
-        }
+        const originVested = await contractReader
+          .call('staking', 'balanceOf', [adr3])
+          .catch(reason => setError(reason));
+        setOriginVestingContract(String(adr3));
+        setOriginVestedValue(String(originVested));
       }
 
       if (adr4 !== ethGenesisAddress) {
-        try {
-          const lmVested = await contractReader.call('staking', 'balanceOf', [
-            adr4,
-          ]);
-          setLMVestingContract(String(adr4));
-          setLMVestedValue(String(lmVested));
-        } catch (error) {
-          setError(error);
-        }
+        const lmVested = await contractReader
+          .call('staking', 'balanceOf', [adr4])
+          .catch(reason => setError(reason));
+        setLMVestingContract(String(adr4));
+        setLMVestedValue(String(lmVested));
       }
 
-      const adr5 = await contractReader.call('lockedFund', 'getVestedBalance', [
-        address,
-      ]);
+      const adr5 = await contractReader
+        .call('lockedFund', 'getVestedBalance', [address])
+        .catch(reason => setError(reason));
 
       if (adr5 && adr5 !== '0') {
-        try {
-          const babelFishVested = await contractReader.call<string>(
-            'lockedFund',
-            'getVestedBalance',
-            [adr5],
-          );
-          setBabelFishVestedValue(String(babelFishVested));
-        } catch (error) {
-          setError(error);
-        }
+        const babelFishVested = await contractReader
+          .call<string>('lockedFund', 'getVestedBalance', [adr5])
+          .catch(reason => setError(reason));
+        setBabelFishVestedValue(String(babelFishVested));
       }
 
       if (
