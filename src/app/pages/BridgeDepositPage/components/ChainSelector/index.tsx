@@ -41,7 +41,8 @@ export function ChainSelector() {
           <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
             <div>
-              <span className="tw-uppercase">{item.chain} </span> Network
+              <span className="tw-uppercase">{item.chain} </span>{' '}
+              {t(translations.BridgeDepositPage.network)}
             </div>
           </SelectBox>
         ))}

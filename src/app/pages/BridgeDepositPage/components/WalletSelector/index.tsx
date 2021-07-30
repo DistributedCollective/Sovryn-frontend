@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useWalletContext, WalletConnectionView } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
-import { Icon } from '@blueprintjs/core';
 import { Chain } from '../../../../../types';
 import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
@@ -70,10 +69,13 @@ export function WalletSelector(props: Props) {
           <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
             <img className="tw-mr-2" src={error_alert} alt="err" />
             <div>
-              We detected that you are on{' '}
-              <span className="tw-capitalize">{currentNetwork}</span> Please
-              switch to {network?.name} in your{' '}
-              <span className="tw-capitalize">{walletName}</span> wallet
+              {t(translations.BridgeDepositPage.walletSelector.wrongNetwork)}{' '}
+              <span className="tw-capitalize">{currentNetwork}</span>
+              {t(translations.BridgeDepositPage.walletSelector.switch, {
+                network: network?.name,
+              })}
+              <span className="tw-capitalize">{walletName}</span>{' '}
+              {t(translations.BridgeDepositPage.walletSelector.wallet)}
             </div>
           </WrongNetwork>
           <div className="tw-mb-20 tw-mt-10 tw-text-2xl tw-text-center tw-font-semibold">
@@ -90,29 +92,17 @@ export function WalletSelector(props: Props) {
                 alt={network?.chain}
               />
               <div>
-                <span className="tw-uppercase">{network?.chain} </span> Network
+                <span className="tw-uppercase">{network?.chain} </span>{' '}
+                {t(translations.BridgeDepositPage.network)}
               </div>
             </SelectBox>
-            <div
-              className="tw-cursor-pointer d-flex align-items-center justify-content-center titleTut font-family-montserrat"
-              onClick={() => walletContext.disconnect()}
-            >
-              <Icon
-                icon="log-out"
-                className="tw-text-gold mr-1"
-                iconSize={12}
-              />
-
-              {t(translations.wallet.disconnect)}
-            </div>
-
             <a
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
               className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline"
             >
-              How to connect to{' '}
+              {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
             </a>

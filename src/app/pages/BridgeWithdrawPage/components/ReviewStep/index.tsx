@@ -16,6 +16,8 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalance';
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { prettyTx } from '../../../../../utils/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function ReviewStep() {
   const {
@@ -28,6 +30,7 @@ export function ReviewStep() {
     tx,
   } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -101,31 +104,33 @@ export function ReviewStep() {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        Review {currentAsset.symbol} Withdraw
+        {t(translations.BridgeWithdrawPage.reviewStep.title, {
+          symbol: currentAsset.symbol,
+        })}
       </div>
       <div className="tw-mw-320">
         <Table className="tw-mx-auto">
           <tbody>
             <tr>
-              <td>Date/Time:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.dateTime)}:</td>
               <td>{new Date().toLocaleDateString()}</td>
             </tr>
             <tr>
-              <td>From:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.from)}:</td>
               <td>{currentNetwork?.name}</td>
             </tr>
             <tr>
-              <td>To:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.to)}:</td>
               <td>{network?.name}</td>
             </tr>
             <tr>
-              <td>Token:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.token)}:</td>
               <td>
                 {currentAsset?.symbol} -&gt; {asset?.symbol}
               </td>
             </tr>
             <tr>
-              <td>Amount:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.amount)}:</td>
               <td>
                 {toNumberFormat(
                   currentAsset.fromWei(amount),
@@ -134,7 +139,7 @@ export function ReviewStep() {
               </td>
             </tr>
             <tr>
-              <td>Receiver:</td>
+              <td>{t(translations.BridgeWithdrawPage.reviewStep.receiver)}:</td>
               <td>
                 <a
                   href={network.explorer + '/address/' + receiver}
@@ -146,7 +151,9 @@ export function ReviewStep() {
               </td>
             </tr>
             <tr>
-              <td>Bridge Fee:</td>
+              <td>
+                {t(translations.BridgeWithdrawPage.reviewStep.bridgeFee)}:
+              </td>
               <td>
                 {toNumberFormat(
                   currentAsset.fromWei(limits.returnData.getFeePerToken),

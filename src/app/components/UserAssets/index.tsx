@@ -274,6 +274,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
 
 function BridgeLink({ asset }: { asset: Asset }) {
   const receiver = useAccount();
+  const { t } = useTranslation();
   return (
     <>
       <Link
@@ -282,7 +283,7 @@ function BridgeLink({ asset }: { asset: Asset }) {
           state: { receiver, asset },
         }}
       >
-        Deposit
+        {t(translations.common.deposit)}
       </Link>
       <Link
         to={{
@@ -290,7 +291,7 @@ function BridgeLink({ asset }: { asset: Asset }) {
           state: { receiver, asset },
         }}
       >
-        Withdraw
+        {t(translations.common.withdraw)}
       </Link>
     </>
   );

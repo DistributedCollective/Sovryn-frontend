@@ -23,6 +23,8 @@ import babelfishIcon from 'assets/images/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -35,6 +37,7 @@ export function BridgeDepositPage() {
   const { step, requestedReturnToPortfolio } = useSelector(
     selectBridgeDepositPage,
   );
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -112,7 +115,7 @@ export function BridgeDepositPage() {
           </SwitchTransition>
           <div className="tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
-            Powered by babelFish
+            {t(translations.BridgeDepositPage.poweredBy)}
           </div>
         </div>
       </div>

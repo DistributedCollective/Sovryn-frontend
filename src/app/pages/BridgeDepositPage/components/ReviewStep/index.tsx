@@ -15,12 +15,15 @@ import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function ReviewStep() {
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
     selectBridgeDepositPage,
   );
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -78,31 +81,31 @@ export function ReviewStep() {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        Review deposit
+        {t(translations.BridgeDepositPage.reviewStep.title)}
       </div>
       <div className="tw-mw-320">
         <Table className="tw-mx-auto">
           <tbody>
             <tr>
-              <td>Date/Time:</td>
+              <td>{t(translations.BridgeDepositPage.reviewStep.dateTime)}:</td>
               <td>{new Date().toLocaleDateString()}</td>
             </tr>
             <tr>
-              <td>From:</td>
+              <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
               <td>{network?.name}</td>
             </tr>
             <tr>
-              <td>Token:</td>
+              <td>{t(translations.BridgeDepositPage.reviewStep.token)}:</td>
               <td>{asset?.symbol}</td>
             </tr>
             <tr>
-              <td>Amount:</td>
+              <td>{t(translations.BridgeDepositPage.reviewStep.amount)}:</td>
               <td>
                 {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
               </td>
             </tr>
             <tr>
-              <td>Bridge Fee:</td>
+              <td>{t(translations.BridgeDepositPage.reviewStep.bridgeFee)}:</td>
               <td>
                 {toNumberFormat(
                   asset.fromWei(limits.returnData.getFeePerToken),

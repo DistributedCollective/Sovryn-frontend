@@ -21,6 +21,8 @@ import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset';
 import { ReceiverSelector } from './components/ReceiverSelector';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -35,6 +37,7 @@ export function BridgeWithdrawPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const location = useLocation<any>();
 
@@ -107,7 +110,7 @@ export function BridgeWithdrawPage() {
           </SwitchTransition>
           <div className="tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
-            Powered by babelFish
+            {t(translations.BridgeDepositPage.poweredBy)}
           </div>
         </div>
       </div>

@@ -1463,6 +1463,8 @@
     "recalibration": "Next recalibration on {{date}}"
   },
   "BridgeDepositPage": {
+    "poweredBy": "Powered by babelFish",
+    "network": "Network",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Change to {{network}}"
@@ -1470,6 +1472,20 @@
       "chooseNetwork": {
         "title": "Select Network to deposit from"
       }
+    },
+    "reviewStep": {
+      "title": "Review Deposit",
+      "dateTime": "Date/Time",
+      "from": "From",
+      "token": "Token",
+      "amount": "Amount",
+      "bridgeFee": "Bridge Fee"
+    },
+    "walletSelector": {
+      "wrongNetwork": "We detected that you are on",
+      "switch": "Please switch to {{network}} in your",
+      "wallet": "wallet",
+      "howToConnect": "How to connect to"
     }
   },
   "BridgeWithdrawPage": {
@@ -1477,6 +1493,16 @@
       "chooseNetwork": {
         "title": "Select Network to withdraw {{asset}} to"
       }
+    },
+    "reviewStep": {
+      "title": "Review {{symbol}} Withdraw",
+      "dateTime": "Date/Time",
+      "from": "From",
+      "to": "To",
+      "token": "Token",
+      "amount": "Amount",
+      "receiver": "Receiver",
+      "bridgeFee": "Bridge Fee"
     }
   },
   "buySovPage": {

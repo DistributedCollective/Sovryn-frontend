@@ -11,8 +11,11 @@ import { SelectBox } from '../SelectBox';
 import cn from 'classnames';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function TokenItem({ sourceAsset, image, symbol, onClick }) {
+  const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeDepositPage);
   const asset = useMemo(
     () =>
@@ -39,7 +42,7 @@ export function TokenItem({ sourceAsset, image, symbol, onClick }) {
         })}
       >
         <span className="tw-text-sm tw-font-light tw-mb-1">
-          Available Balance
+          {t(translations.common.availableBalance)}
         </span>
         <LoadableValue
           value={`${toNumberFormat(

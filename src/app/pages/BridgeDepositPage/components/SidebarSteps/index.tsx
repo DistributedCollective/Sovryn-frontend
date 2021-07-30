@@ -178,7 +178,7 @@ export function SidebarSteps() {
             src={ArrowBack}
             style={{ height: '20px', width: '20px', marginRight: '10px' }}
           />
-          Back
+          {t(translations.common.back)}
         </div>
       )}
       <div className="tw-mt-24">
