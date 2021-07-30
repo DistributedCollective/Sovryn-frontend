@@ -28,7 +28,7 @@ export function useVestedStaking_balanceOf(address: string) {
       const adr1 = await contractReader
         .call('vestingRegistry', 'getVesting', [address])
         .catch(reason => setError(reason));
-
+      
       const adr2 = await contractReader
         .call('vestingRegistry', 'getTeamVesting', [address])
         .catch(reason => setError(reason));
