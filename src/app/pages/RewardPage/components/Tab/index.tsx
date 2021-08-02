@@ -13,7 +13,7 @@ export function Tab(props: Props) {
   return (
     <StyledTab active={props.active} onClick={() => props.onClick()}>
       <Text ellipsize>{props.text}</Text>
-      <Text ellipsize>{props.amount}</Text>
+      <Text >{props.amount}</Text>
     </StyledTab>
   );
 }
@@ -37,6 +37,8 @@ const StyledTab = styled.button.attrs(_ => ({
   align-items: center;
   justify-content: center;
   height: 80px;
+  width: 100%;
+  background-color: rgba(34, 34, 34, 0.5);
   &:hover {
     color: var(--LightGrey);
   }
@@ -44,6 +46,7 @@ const StyledTab = styled.button.attrs(_ => ({
     props.active &&
     css`
       font-weight: 400;
+      background-color: rgba(34, 34, 34, 1);
       &:hover {
         color: var(--white);
       }

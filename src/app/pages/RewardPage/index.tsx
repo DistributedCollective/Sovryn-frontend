@@ -14,6 +14,7 @@ import { translations } from 'locales/i18n';
 
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
+import { RewardForm } from './components/RewardForm'
 import { Tab } from './components/Tab';
 
 // import { ClaimForm } from './components/RewardBox';
@@ -42,8 +43,8 @@ export function RewardPage() {
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           {/* <ClaimForm address={userAddress} /> */}
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
-            <div className="tw-mr-2 tw-ml-2">
+          <div className="tw-flex tw-w-1/2 tw-flex-row tw-items-center tw-justify-start">
+            <div className="tw-w-full">
               <Tab
                 text={t(translations.walletPage.tabs.userAssets)}
                 amount="21.274693 SOV"
@@ -51,7 +52,7 @@ export function RewardPage() {
                 onClick={() => setActiveAssets(0)}
               />
             </div>
-            <div className="tw-mr-2 tw-ml-2">
+            <div className="tw-w-full">
               <Tab
                 text={t(translations.walletPage.tabs.vestedAssets)}
                 active={activeAssets === 1}
@@ -59,7 +60,7 @@ export function RewardPage() {
                 amount="32.274693 SOV"
               />
             </div>
-            <div>
+            <div className="tw-w-full">
               <Tab
                 text={t(translations.walletPage.tabs.userNFTS)}
                 active={activeAssets === 2}
@@ -68,7 +69,9 @@ export function RewardPage() {
               />
             </div>
           </div>
-          <div className="tw-flex-1 tw-mt-12 tw-w-full"></div>
+          <div className="tw-flex-1 tw-w-1/2 tw-flex tw-justify-center tw-align-center">
+            {activeAssets === 0 && <RewardForm />}
+          </div>
         </div>
       </div>
       <Footer />

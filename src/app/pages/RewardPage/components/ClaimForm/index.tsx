@@ -1,3 +1,4 @@
+import cn from 'classnames';
 /**
  *
  * ClaimForm
@@ -5,22 +6,23 @@
  */
 
 import React from 'react';
-import cn from 'classnames';
-import { useTranslation, Trans } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import { Input } from 'app/components/Form/Input';
+import { Trans, useTranslation } from 'react-i18next';
+
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Asset } from 'types';
 import { Button } from 'app/components/Button';
-import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { TxType } from 'store/global/transactions-store/types';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { gasLimit } from 'utils/classifiers';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { Input } from 'app/components/Form/Input';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { translations } from 'locales/i18n';
+import { TxType } from 'store/global/transactions-store/types';
+import { Asset } from 'types';
+import { gasLimit } from 'utils/classifiers';
 import { discordInvite } from 'utils/classifiers';
+
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 
 interface Props {
   className?: object;
@@ -59,24 +61,21 @@ export function ClaimForm({ className, address }: Props) {
     <div
       className={cn(
         className,
-        'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
+        'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
-      <div className="text-center tw-text-xl">
+      <div className="tw-text-xs">
         {t(translations.rewardPage.claimForm.title)}
       </div>
-      <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
+      <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
         <div>
-          <div className="tw-text-sm tw-mb-1">
-            {t(translations.rewardPage.claimForm.availble)}
-          </div>
           <Input
             value={weiToNumberFormat(lockedBalance, 4)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
         </div>
-        <div className={!rewardsLocked ? 'tw-mt-10' : undefined}>
+        <div className="tw-mt-16">
           {rewardsLocked && (
             <ErrorBadge
               content={
