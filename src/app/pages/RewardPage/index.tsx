@@ -74,6 +74,7 @@ export function RewardPage() {
           </div>
         </div>
       </div>
+      
       <Footer />
     </>
   );
