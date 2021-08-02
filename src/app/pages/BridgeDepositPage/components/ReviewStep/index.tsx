@@ -24,6 +24,7 @@ export function ReviewStep() {
   );
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const trans = translations.BridgeDepositPage.reviewStep;
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -81,31 +82,31 @@ export function ReviewStep() {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        {t(translations.BridgeDepositPage.reviewStep.title)}
+        {t(trans.title)}
       </div>
       <div className="tw-mw-320">
         <Table className="tw-mx-auto">
           <tbody>
             <tr>
-              <td>{t(translations.BridgeDepositPage.reviewStep.dateTime)}:</td>
+              <td>{t(trans.dateTime)}:</td>
               <td>{new Date().toLocaleDateString()}</td>
             </tr>
             <tr>
-              <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
+              <td>{t(trans.from)}:</td>
               <td>{network?.name}</td>
             </tr>
             <tr>
-              <td>{t(translations.BridgeDepositPage.reviewStep.token)}:</td>
+              <td>{t(trans.token)}:</td>
               <td>{asset?.symbol}</td>
             </tr>
             <tr>
-              <td>{t(translations.BridgeDepositPage.reviewStep.amount)}:</td>
+              <td>{t(trans.amount)}:</td>
               <td>
                 {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
               </td>
             </tr>
             <tr>
-              <td>{t(translations.BridgeDepositPage.reviewStep.bridgeFee)}:</td>
+              <td>{t(trans.bridgeFee)}:</td>
               <td>
                 {toNumberFormat(
                   asset.fromWei(limits.returnData.getFeePerToken),
@@ -119,7 +120,7 @@ export function ReviewStep() {
 
         <Button
           className="tw-mt-20 tw-w-80"
-          text={'Confirm Deposit'}
+          text={t(trans.confirmDeposit)}
           disabled={!valid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}

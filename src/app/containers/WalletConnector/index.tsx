@@ -63,19 +63,24 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             placement={'bottom'}
             content={
-              <Menu>
-                <CopyToClipboard
-                  text={`${address}`}
-                  onCopy={() =>
-                    toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
-                  }
-                >
-                  <MenuItem
-                    icon="duplicate"
-                    text={t(translations.wallet.copy_address)}
-                  />
-                </CopyToClipboard>
-              </Menu>
+              address ? (
+                <Menu>
+                  <CopyToClipboard
+                    text={address}
+                    onCopy={() =>
+                      toastSuccess(
+                        <>{t(translations.onCopy.address)}</>,
+                        'copy',
+                      )
+                    }
+                  >
+                    <MenuItem
+                      icon="duplicate"
+                      text={t(translations.wallet.copy_address)}
+                    />
+                  </CopyToClipboard>
+                </Menu>
+              ) : undefined
             }
           >
             <>

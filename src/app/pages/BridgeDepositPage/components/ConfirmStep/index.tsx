@@ -26,6 +26,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 
 export function ConfirmStep() {
   const { t } = useTranslation();
+  const trans = translations.BridgeDepositPage.confirmStep;
   const dispatch = useDispatch();
   const { wallet } = useWalletContext();
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
@@ -53,17 +54,17 @@ export function ConfirmStep() {
       {tx.step === TxStep.MAIN && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            Please wait
+            {t(trans.pleaseWait)}
           </div>
           <p className="tw-w-80 tw-text-center tw-mt-12">
-            Preparing transaction.
+            {t(trans.preparingTransaction)}.
           </p>
         </>
       )}
       {tx.step === TxStep.APPROVE && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            Allow Transaction
+            {t(trans.allowTransaction)}
           </div>
           <SelectBox onClick={noop}>
             <img
@@ -74,16 +75,18 @@ export function ConfirmStep() {
             <div>Metamask</div>
           </SelectBox>
           <p className="tw-w-80 tw-mt-12 tw-text-center">
-            Please approve {asset.fromWei(amount, asset.minDecimals)}{' '}
-            {asset.symbol} to be spend by Sovryn smart-contracts in your{' '}
-            {wallet.providerType} wallet.
+            {t(trans.approve, {
+              from: asset.fromWei(amount, asset.minDecimals),
+              symbol: asset.symbol,
+              providerType: wallet.providerType,
+            })}
           </p>
         </>
       )}
       {tx.step === TxStep.CONFIRM_TRANSFER && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            Confirm Transaction
+            {t(trans.confirmTransaction)}
           </div>
           <SelectBox onClick={noop}>
             <img
@@ -94,8 +97,7 @@ export function ConfirmStep() {
             <div>Metamask</div>
           </SelectBox>
           <p className="tw-w-80 tw-mt-12 tw-text-center">
-            Please confirm the trade transaction in your {wallet.providerType}{' '}
-            wallet.
+            {t(trans.confirm, { providerType: wallet.providerType })}
           </p>
         </>
       )}
@@ -106,9 +108,15 @@ export function ConfirmStep() {
       ].includes(tx.step) && (
         <>
           <div className="tw-mb-8 tw-text-2xl tw-text-center tw-font-semibold">
-            {tx.step === TxStep.PENDING_TRANSFER && <>Deposit in Progress...</>}
-            {tx.step === TxStep.COMPLETED_TRANSFER && <>Deposit Complete</>}
-            {tx.step === TxStep.FAILED_TRANSFER && <>Deposit Failed</>}
+            {tx.step === TxStep.PENDING_TRANSFER && (
+              <> {t(trans.depositInProgress)}...</>
+            )}
+            {tx.step === TxStep.COMPLETED_TRANSFER && (
+              <>{t(trans.depositComplete)}</>
+            )}
+            {tx.step === TxStep.FAILED_TRANSFER && (
+              <>{t(trans.depositFailed)}</>
+            )}
           </div>
           <div className="tw-mb-6 tw-text-center">
             {tx.step === TxStep.PENDING_TRANSFER && (
@@ -139,22 +147,24 @@ export function ConfirmStep() {
           <Table>
             <tbody>
               <tr>
-                <td>Date/Time:</td>
+                <td>
+                  {t(translations.BridgeDepositPage.reviewStep.dateTime)}:
+                </td>
                 <td>{new Date().toLocaleDateString()}</td>
               </tr>
               <tr>
-                <td>From:</td>
+                <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
                 <td>{network.name}</td>
               </tr>
               <tr>
-                <td>Amount:</td>
+                <td>{t(translations.BridgeDepositPage.reviewStep.amount)}:</td>
                 <td>
                   {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
                   {asset.symbol}
                 </td>
               </tr>
               <tr>
-                <td>Tx:</td>
+                <td>{t(translations.BridgeDepositPage.reviewStep.tx)}:</td>
                 <td>
                   <LinkToExplorer
                     txHash={tx.hash}
@@ -167,7 +177,7 @@ export function ConfirmStep() {
 
           <ActionButton
             className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-            text="Close"
+            text={t(translations.common.close)}
             onClick={handleComplete}
           />
         </>
@@ -175,13 +185,15 @@ export function ConfirmStep() {
       {tx.step === TxStep.USER_DENIED && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            Transaction denied
+            {t(trans.transactionDenied)}
           </div>
-          <p className="tw-w-80 tw-mt-12 tw-text-center">Rejected by user</p>
+          <p className="tw-w-80 tw-mt-12 tw-text-center">
+            {t(trans.rejectedByUser)}
+          </p>
 
           <ActionButton
             className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-            text="Close"
+            text={t(translations.common.close)}
             onClick={handleComplete}
           />
         </>

@@ -13,11 +13,15 @@ import wMetamask from 'assets/wallets/metamask.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { noop } from '../../../../constants';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
 
 export function ReturnToPortfolio() {
+  const { t } = useTranslation();
+  const trans = translations.BridgeDepositPage.returnToPortfolio;
   const dispatch = useDispatch();
   const history = useHistory();
   const walletName = detectWeb3Wallet();
@@ -32,17 +36,10 @@ export function ReturnToPortfolio() {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
   }, [dispatch]);
 
-  // todo: this makes dapp unresponsive sometimes, check for leak in wallet lib.
-  // useEffect(() => {
-  //   if (wallet.chainId === currentChainId) {
-  //     history.push('/wallet');
-  //   }
-  // }, [history, wallet.chainId]);
-
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-80">
-        Connect to RSK
+        {t(trans.title)}
       </div>
       {!connected && (
         <>
@@ -55,13 +52,13 @@ export function ReturnToPortfolio() {
             <div>Metamask</div>
           </SelectBox>
           <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
-            To continue you need to connect to your{' '}
+            {t(trans.notConnected)}{' '}
             <span className="tw-capitalize">{walletName}</span>.
           </p>
 
           <ActionButton
             className="tw-font-semibold tw-w-80 tw-rounded-xl"
-            text="Connect Network"
+            text={t(trans.connectNetwork)}
             onClick={() => connect()}
           />
         </>
@@ -77,20 +74,20 @@ export function ReturnToPortfolio() {
             <div>Metamask</div>
           </SelectBox>
           <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
-            To continue switch back to the RSK network in your{' '}
+            {t(trans.wrongNetwork)}{' '}
             <span className="tw-capitalize">{walletName}</span>.
           </p>
           {walletName === 'metamask' && (
             <ActionButton
               className="tw-font-semibold tw-w-80 tw-rounded-xl"
-              text="Switch Network"
+              text={t(trans.switchNetwork)}
               onClick={addNetworkCallback}
             />
           )}
           {!isWeb3Wallet(wallet.providerType as ProviderType) && (
             <ActionButton
               className="tw-font-semibold tw-w-80 tw-rounded-xl"
-              text="Switch Network"
+              text={t(trans.switchNetwork)}
               onClick={handleNetworkSwitch}
             />
           )}
@@ -107,11 +104,13 @@ export function ReturnToPortfolio() {
             />
             <div className="tw-capitalize">{walletName}</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">All Set</p>
+          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
+            {t(trans.connected)}
+          </p>
 
           <ActionButton
             className="tw-font-semibold tw-w-80 tw-rounded-xl"
-            text="Return to Portfolio"
+            text={t(trans.return)}
             onClick={() => history.push('/wallet')}
           />
         </>

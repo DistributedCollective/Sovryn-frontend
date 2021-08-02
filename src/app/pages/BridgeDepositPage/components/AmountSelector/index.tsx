@@ -17,13 +17,15 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { Button } from '@blueprintjs/core';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const asset = useMemo(
@@ -92,7 +94,7 @@ export function AmountSelector() {
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-          Enter amount to deposit
+          {t(translations.BridgeDepositPage.amountSelector.title)}
         </div>
         <div className="tw-mw-320">
           <FormGroup label="Deposit Amount">
@@ -104,17 +106,21 @@ export function AmountSelector() {
               decimalPrecision={asset.minDecimals}
             />
             <p className="tw-mt-1">
-              Balance:{' '}
+              {t(translations.BridgeDepositPage.amountSelector.balance)}:{' '}
               {toNumberFormat(asset.fromWei(balance.value), asset.minDecimals)}{' '}
               {asset.symbol}
             </p>
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-4 tw-mb-2">Daily deposit limits</div>
+        <div className="text-center tw-mt-4 tw-mb-2">
+          {t(translations.BridgeDepositPage.amountSelector.dailyDepositLimits)}
+        </div>
         <Table>
           <tbody className="tw-text-right tw-text-sm">
             <tr>
-              <td>Min Amount:</td>
+              <td>
+                {t(translations.BridgeDepositPage.amountSelector.minAmount)}:
+              </td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -126,7 +132,9 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Max Amount:</td>
+              <td>
+                {t(translations.BridgeDepositPage.amountSelector.maxAmount)}:
+              </td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -138,7 +146,9 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Daily Limit:</td>
+              <td>
+                {t(translations.BridgeDepositPage.amountSelector.dailyLimit)}:
+              </td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -150,7 +160,12 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Daily Limit Spent:</td>
+              <td>
+                {t(
+                  translations.BridgeDepositPage.amountSelector.dailyLimitSpent,
+                )}
+                :
+              </td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -162,7 +177,7 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Fee:</td>
+              <td> {t(translations.BridgeDepositPage.amountSelector.fee)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -175,7 +190,12 @@ export function AmountSelector() {
             </tr>
             {bridgeBalance.value !== false && (
               <tr>
-                <td>Aggregator Balance</td>
+                <td>
+                  {t(
+                    translations.BridgeDepositPage.amountSelector
+                      .aggregatorBalance,
+                  )}
+                </td>
                 <td>{bridgeBalance.value}</td>
               </tr>
             )}
@@ -184,7 +204,7 @@ export function AmountSelector() {
 
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-          text="Next"
+          text={t(translations.common.next)}
           disabled={!valid}
           onClick={selectAmount}
         />

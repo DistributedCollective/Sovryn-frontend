@@ -11,12 +11,15 @@ import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { TokenItem } from './TokenItem';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export function TokenSelector() {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (chain === null) {
@@ -78,7 +81,7 @@ export function TokenSelector() {
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        Select coin to deposit
+        {t(translations.BridgeDepositPage.tokenSelector.title)}
       </div>
       {sourceAssets.length > 0 ? (
         <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
@@ -96,8 +99,10 @@ export function TokenSelector() {
         </div>
       ) : (
         <p>
-          Sorry, no supported deposit tokens for {targetAsset} on{' '}
-          {network?.name} network. Try choosing another network or token.
+          {t(translations.BridgeDepositPage.tokenSelector.notSupported, {
+            targetAsset,
+            network: network?.name,
+          })}
         </p>
       )}
     </div>
