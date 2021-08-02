@@ -25,16 +25,14 @@ interface Props {
   onPriceChange?: (value: string) => void;
 }
 
-export function BorrowLiquidationPrice(props: Props) {
-  const {
-    asset,
-    assetLong,
-    leverage,
-    position,
-    labelColor,
-    onPriceChange,
-  } = props;
-
+export function BorrowLiquidationPrice({
+  asset,
+  assetLong,
+  leverage,
+  position,
+  labelColor,
+  onPriceChange,
+}: Props) {
   const { t } = useTranslation();
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
     asset,

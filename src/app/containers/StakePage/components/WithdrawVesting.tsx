@@ -120,7 +120,7 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
           </button>
           <button
             type="button"
-            onClick={() => onCloseModal()}
+            onClick={onCloseModal}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}
