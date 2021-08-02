@@ -4,21 +4,28 @@
  *
  */
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
-// import { RewardBox } from './components/RewardBox';
-import { ClaimForm } from './components/ClaimForm';
-import { useAccount } from 'app/hooks/useAccount';
-import { HistoryTable } from './components/HistoryTable';
+import { useTranslation } from 'react-i18next';
+
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { useAccount, useIsConnected } from 'app/hooks/useAccount';
+import { translations } from 'locales/i18n';
+
+import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header';
+import { Tab } from './components/Tab';
+
+// import { ClaimForm } from './components/RewardBox';
+// import { ClaimForm } from './components/ClaimForm';
+// import { HistoryTable } from './components/HistoryTable';
 
 export function RewardPage() {
   const { t } = useTranslation();
-  const userAddress = useAccount();
+  const [activeAssets, setActiveAssets] = useState(0);
+  const [activeHistory, setActiveHistory] = useState(0);
+  const connected = useIsConnected();
+  const account = useAccount();
 
   return (
     <>
@@ -33,75 +40,35 @@ export function RewardPage() {
       <Header />
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        {/*<h2 className="mb-4 tw-text-2xl tw-font-semibold">
-          {t(translations.rewardPage.totalEarned) + ' '} 0 SOV
-        </h2>
-        <div className="tw-grid tw-grid-cols-3 tw-gap-8">
-          <RewardBox
-            title={t(translations.rewardPage.topData.referralRewards)}
-            items={[
-              { key: t(translations.rewardPage.topData.referrals), value: 0 },
-              {
-                key: t(translations.rewardPage.topData.availableRewards),
-                value: '0 SOV',
-              },
-              {
-                key: t(translations.rewardPage.topData.totalRewards),
-                value: '0 SOV',
-              },
-            ]}
-          />
-          <RewardBox
-            title={t(translations.rewardPage.topData.liquidityRewards)}
-            items={[
-              {
-                key: t(translations.rewardPage.topData.lockedRewards),
-                value: '0 SOV',
-              },
-              {
-                key: t(translations.rewardPage.topData.claimibleRewards),
-                value: '0 SOV',
-              },
-              {
-                key: t(translations.rewardPage.topData.totalRewards),
-                value: '0 SOV',
-              },
-            ]}
-          />
-          <RewardBox
-            title={t(translations.rewardPage.topData.OGRewards)}
-            items={[
-              {
-                key: t(translations.rewardPage.topData.availableRewards),
-                value: '0 SOV',
-              },
-
-              {
-                key: t(translations.rewardPage.topData.totalRewards),
-                value: '0 SOV',
-              },
-            ]}
-          />
-        </div>
-         */}
-
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
-          <ClaimForm address={userAddress} />
-          <div className="tw-flex-1 tw-mt-12 tw-w-full">
-            <div className="tw-px-3 tw-text-lg">
-              {t(translations.rewardPage.historyTable.title)}
-            </div>
-            {!userAddress ? (
-              <SkeletonRow
-                loadingText={t(
-                  translations.rewardPage.historyTable.walletHistory,
-                )}
-                className="tw-mt-2"
+          {/* <ClaimForm address={userAddress} /> */}
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+            <div className="tw-mr-2 tw-ml-2">
+              <Tab
+                text={t(translations.walletPage.tabs.userAssets)}
+                amount="21.274693 SOV"
+                active={activeAssets === 0}
+                onClick={() => setActiveAssets(0)}
               />
-            ) : (
-              <HistoryTable />
-            )}
+            </div>
+            <div className="tw-mr-2 tw-ml-2">
+              <Tab
+                text={t(translations.walletPage.tabs.vestedAssets)}
+                active={activeAssets === 1}
+                onClick={() => setActiveAssets(1)}
+                amount="32.274693 SOV"
+              />
+            </div>
+            <div>
+              <Tab
+                text={t(translations.walletPage.tabs.userNFTS)}
+                active={activeAssets === 2}
+                onClick={() => setActiveAssets(2)}
+                amount="0.02918284 RBTC"
+              />
+            </div>
           </div>
+          <div className="tw-flex-1 tw-mt-12 tw-w-full"></div>
         </div>
       </div>
       <Footer />
