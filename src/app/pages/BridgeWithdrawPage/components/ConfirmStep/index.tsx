@@ -56,13 +56,13 @@ export function ConfirmStep() {
     history.push('/wallet');
   }, [history]);
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       {tx.step === TxStep.MAIN && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Please wait
           </div>
-          <p className="tw-mw-320 tw-text-center tw-mt-12">
+          <p className="tw-w-80 tw-text-center tw-mt-12">
             Preparing transaction.
           </p>
         </>
@@ -80,7 +80,7 @@ export function ConfirmStep() {
             />
             <div>Metamask</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-mt-12 tw-text-center">
+          <p className="tw-w-80 tw-mt-12 tw-text-center">
             Please approve {asset.fromWei(amount, asset.minDecimals)}{' '}
             {asset.symbol} to be spend by Sovryn smart-contracts in your{' '}
             {wallet.providerType} wallet.
@@ -100,7 +100,7 @@ export function ConfirmStep() {
             />
             <div>Metamask</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-mt-12 tw-text-center">
+          <p className="tw-w-80 tw-mt-12 tw-text-center">
             Please confirm the trade transaction in your {wallet.providerType}{' '}
             wallet.
           </p>
@@ -189,7 +189,7 @@ export function ConfirmStep() {
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
             Transaction denied
           </div>
-          <p className="tw-mw-320 tw-mt-12 tw-text-center">Rejected by user</p>
+          <p className="tw-w-80 tw-mt-12 tw-text-center">Rejected by user</p>
           <ActionButton
             className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
             text="Close"
