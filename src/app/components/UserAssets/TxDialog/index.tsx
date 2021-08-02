@@ -25,10 +25,7 @@ interface ITxDialogProps {
   onUserConfirmed?: () => void;
 }
 
-export const TxDialog: React.FC<ITxDialogProps> = ({
-  tx,
-  onUserConfirmed,
-}: ITxDialogProps) => {
+export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
   const { t } = useTranslation();
   const { address } = useWalletContext();
 

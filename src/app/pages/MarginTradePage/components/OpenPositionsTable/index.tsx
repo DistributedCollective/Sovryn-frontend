@@ -15,7 +15,7 @@ interface Props {
   perPage: number;
 }
 
-export function OpenPositionsTable(props: Props) {
+export function OpenPositionsTable({ perPage }: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
@@ -30,9 +30,8 @@ export function OpenPositionsTable(props: Props) {
   );
 
   const items = useMemo(
-    () =>
-      value.slice(page * props.perPage - props.perPage, page * props.perPage),
-    [props.perPage, page, value],
+    () => value.slice(page * perPage - perPage, page * perPage),
+    [perPage, page, value],
   );
 
   const isEmpty = !loading && !items.length && !transactions.length;
@@ -120,7 +119,7 @@ export function OpenPositionsTable(props: Props) {
       {value.length > 0 && (
         <Pagination
           totalRecords={value.length}
-          pageLimit={props.perPage}
+          pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}
         />

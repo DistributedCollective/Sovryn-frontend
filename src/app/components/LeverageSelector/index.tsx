@@ -3,7 +3,7 @@
  * LeverageSelector
  *
  */
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { ThemeProvider } from 'styled-components/macro';
 import { translations } from 'locales/i18n';
@@ -29,6 +29,10 @@ export function LeverageSelector({
     () => Array.from(Array(max + 1 - min), (_, i) => i + min),
     [min, max],
   );
+
+  const bindOnChange = useCallback((value: number) => () => onChange(value), [
+    onChange,
+  ]);
 
   // In case active leverage becomes unavailable, set leverage to first available.
   useEffect(() => {
@@ -64,7 +68,7 @@ export function LeverageSelector({
               key={item}
             >
               <div>
-                <Button onClick={() => onChange(item)} className="btn">
+                <Button onClick={bindOnChange(item)} className="btn">
                   {item}X
                 </Button>
               </div>
