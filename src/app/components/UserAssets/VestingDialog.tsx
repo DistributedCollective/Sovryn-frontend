@@ -9,7 +9,7 @@ import { translations } from '../../../locales/i18n';
 import { TxType } from '../../../store/global/transactions-store/types';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import arrowDown from '../../containers/WalletPage/components/arrow-down.svg';
-import styles from '../../containers/WalletPage/components/dialog.module.css';
+import styles from '../../containers/WalletPage/components/dialog.module.scss';
 import { useGetUnlockedVesting } from '../../hooks/staking/useGetUnlockedVesting';
 import { useAccount } from '../../hooks/useAccount';
 import { useSendToContractAddressTx } from '../../hooks/useSendToContractAddressTx';

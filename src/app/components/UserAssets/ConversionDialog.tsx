@@ -11,7 +11,7 @@ import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { bignumber } from 'mathjs';
 import { BuyButton, Img } from './styled';
-import styles from 'app/components/Dialogs/dialog.module.css';
+import styles from 'app/components/Dialogs/dialog.module.scss';
 import image from 'assets/images/arrow-down.svg';
 import { useConvertToXUSD } from 'app/hooks/portfolio/useConvertToXUSD';
 import { weiToFixed } from 'utils/blockchain/math-helpers';

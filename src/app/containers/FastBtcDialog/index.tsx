@@ -15,7 +15,7 @@ import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { MainScreen } from './components/MainScreen';
 import { TransackScreen } from './components/TransackScreen';
 import { TransactionScreen } from './components/TransactionScreen';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import { fastBtcDialogSaga } from './saga';
 import { selectFastBtcDialog } from './selectors';
 import { actions, reducer, sliceKey } from './slice';

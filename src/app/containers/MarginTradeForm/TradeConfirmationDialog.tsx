@@ -9,7 +9,7 @@ import { weiToNumberFormat } from '../../../utils/display-text/format';
 import { Asset } from '../../../types/asset';
 import { PricePrediction } from './PricePrediction';
 import { useTrading_resolvePairTokens } from '../../hooks/trading/useTrading_resolvePairTokens';
-import styles from './TradeConfirmationDialog.module.css';
+import styles from './TradeConfirmationDialog.module.scss';
 import { Classes, Icon, Overlay } from '@blueprintjs/core';
 import {
   ResetTxResponseInterface,

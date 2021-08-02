@@ -9,7 +9,7 @@ import { translations } from '../../../../locales/i18n';
 import { Asset } from '../../../../types';
 import { currentChainId } from '../../../../utils/classifiers';
 import { AssetRenderer } from '../../../components/AssetRenderer';
-import styles from '../index.module.css';
+import styles from '../index.module.scss';
 import { actions } from '../slice';
 import { FastBtcDialogState, Step } from '../types';
 import { FiatButton } from './FiatButton';

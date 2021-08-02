@@ -6,7 +6,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import styles from './Html5Banner.module.css';
+import styles from './Html5Banner.module.scss';
 
 interface Props {}
 

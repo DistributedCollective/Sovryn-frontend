@@ -3,7 +3,7 @@ import { Overlay } from '@blueprintjs/core/lib/esm/components/overlay/overlay';
 import classNames from 'classnames';
 import * as React from 'react';
 
-import styles from './index.module.css';
+import styles from './index.module.scss';
 
 type DialogSize = 'normal' | 'large' | 'small';
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import { currentChainId } from '../../../../utils/classifiers';
 import { AddressQrCode, URIType } from '../../../components/Form/AddressQrCode';
-import styles from '../index.module.css';
+import styles from '../index.module.scss';
 import { actions } from '../slice';
 import { FastBtcDialogState, Step } from '../types';
 import { BTCButton } from './BTCButton';

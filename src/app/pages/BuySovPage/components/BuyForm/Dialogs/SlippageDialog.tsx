@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { Dialog } from '../../../../../containers/Dialog';
 import { weiToNumberFormat } from '../../../../../../utils/display-text/format';
 import { useSlippage } from '../useSlippage';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
 import { CloseButton } from '../../Button/close';
 import { LoadableValue } from '../../../../../components/LoadableValue';

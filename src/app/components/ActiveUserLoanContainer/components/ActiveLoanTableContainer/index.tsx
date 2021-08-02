@@ -28,7 +28,7 @@ import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dicti
 import { CurrentPositionPrice } from '../../../CurrentPositionPrice';
 import { CurrentPositionProfit } from '../../../CurrentPositionProfit';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
-import styles from './ActiveLoanTableContainer.module.css';
+import styles from './ActiveLoanTableContainer.module.scss';
 
 interface Props {
   data: any;

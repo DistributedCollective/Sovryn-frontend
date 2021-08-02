@@ -4,7 +4,7 @@ import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
