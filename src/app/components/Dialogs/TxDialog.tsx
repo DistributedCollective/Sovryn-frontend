@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -28,17 +28,11 @@ interface Props {
   onSuccess?: () => void;
 }
 
-export function TxDialog(props: Props) {
-  const { tx, onUserConfirmed, onSuccess } = props;
-
+export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
   const { t } = useTranslation();
   const { address } = useWalletContext();
-  const close = () => {
-    tx && tx.reset();
-  };
-  const confirm = () => {
-    tx.reset();
-  };
+
+  const close = useCallback(() => tx.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
@@ -65,7 +59,7 @@ export function TxDialog(props: Props) {
     <Dialog
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
-      onClose={() => close()}
+      onClose={close}
       className={styles.dialog}
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
@@ -83,11 +77,7 @@ export function TxDialog(props: Props) {
         tx.status,
       ) && (
         <>
-          <button
-            data-close=""
-            className="dialog-close"
-            onClick={() => close()}
-          >
+          <button data-close="" className="dialog-close" onClick={close}>
             <span className="sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
@@ -123,9 +113,7 @@ export function TxDialog(props: Props) {
 
           <div style={{ maxWidth: 200 }} className="mx-auto w-100">
             <ConfirmButton
-              onClick={() =>
-                tx.status === TxStatus.CONFIRMED ? confirm() : close()
-              }
+              onClick={close}
               text={t(translations.common.close)}
             />
           </div>

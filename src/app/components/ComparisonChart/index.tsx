@@ -4,7 +4,6 @@
  *
  */
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames';
 import * as Highcharts from 'highcharts';
 import highchartsBoost from 'highcharts/modules/boost';
 import HighchartsReact from 'highcharts-react-official';
@@ -41,17 +40,15 @@ interface ComparisonProps {
   tooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
 }
 
-export default function ComparisonChart(props: ComparisonProps) {
-  const {
-    height,
-    datasetPrimary,
-    datasetSecondary,
-    datasetTertiary,
-    title,
-    className,
-    tooltipFormatter,
-  } = props;
-
+export default function ComparisonChart({
+  height,
+  datasetPrimary,
+  datasetSecondary,
+  datasetTertiary,
+  title,
+  className,
+  tooltipFormatter,
+}: ComparisonProps) {
   const [options, setOptions] = useState<Highcharts.Options>({
     credits: {
       enabled: false,
@@ -152,7 +149,7 @@ export default function ComparisonChart(props: ComparisonProps) {
   }, [setOptions, height]);
 
   return (
-    <div className={classnames(className)}>
+    <div className={className}>
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );

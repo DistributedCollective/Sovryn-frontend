@@ -16,16 +16,14 @@ interface Props {
   onCloseModal: () => void;
 }
 
-export function WithdrawVesting(props: Props) {
-  const { vesting, onCloseModal } = props;
-
+export function WithdrawVesting({ vesting, onCloseModal }: Props) {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
-  const { value, loading } = useGetUnlockedVesting(props.vesting);
+  const { value, loading } = useGetUnlockedVesting(vesting);
 
   const validate = () => {
     return (

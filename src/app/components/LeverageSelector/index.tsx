@@ -3,7 +3,7 @@
  * LeverageSelector
  *
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { ThemeProvider } from 'styled-components/macro';
 import { translations } from 'locales/i18n';
@@ -16,11 +16,19 @@ interface Props {
   position: string;
 }
 
-export function LeverageSelector(props: Props) {
-  const { min, max, value, onChange, position } = props;
+export function LeverageSelector({
+  min,
+  max,
+  value,
+  onChange,
+  position,
+}: Props) {
   const { t } = useTranslation();
 
-  const items = Array.from(Array(max + 1 - min), (_, i) => i + min);
+  const items = useMemo(
+    () => Array.from(Array(max + 1 - min), (_, i) => i + min),
+    [min, max],
+  );
 
   // In case active leverage becomes unavailable, set leverage to first available.
   useEffect(() => {

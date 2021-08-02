@@ -22,13 +22,11 @@ interface ITxDialogProps {
   onUserConfirmed?: () => void;
 }
 
-export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
-  const { tx, onUserConfirmed } = props;
-
+export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
   const { t } = useTranslation();
   const { address } = useWalletContext();
+
   const close = useCallback(() => tx?.reset(), [tx]);
-  const confirm = useCallback(() => tx?.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
@@ -51,10 +49,10 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
     <Dialog
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
-      onClose={() => close()}
+      onClose={close}
       className={styles.dialog}
     >
-      <CloseButton onClick={() => close()}>
+      <CloseButton onClick={close}>
         <span className="sr-only">Close Dialog</span>
       </CloseButton>
       {tx.status === TxStatus.PENDING_FOR_USER && (
@@ -151,9 +149,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
 
           <div className="tw-w-full">
             <ConfirmButton
-              onClick={() =>
-                tx.status === TxStatus.CONFIRMED ? confirm() : close()
-              }
+              onClick={close}
               text={t(translations.common.close)}
               className="tw-font-bold"
             />

@@ -14,13 +14,10 @@ interface Props {
   onChange: (amount: string) => void;
 }
 
-export function BorrowAssetPrice(props: Props) {
-  const { asset, onChange } = props;
+export function BorrowAssetPrice({ asset, onChange }: Props) {
   const { value, loading } = useBorrowAssetPrice(asset, Asset.DOC);
 
-  useEffect(() => {
-    onChange(value);
-  }, [value, onChange]);
+  useEffect(() => onChange(value), [value, onChange]);
 
   return (
     <LoadableValue

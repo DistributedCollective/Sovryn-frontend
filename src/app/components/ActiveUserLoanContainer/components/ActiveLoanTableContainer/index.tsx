@@ -174,12 +174,11 @@ export function ActiveLoanTableContainer(props: Props) {
 
   useEffect(() => {
     // Resets selected item in modals if items was changed.
-    setSelectedItem(selectedItem => {
-      if (selectedItem) {
-        return props.data.find(item => item.loanId === selectedItem.loanId);
-      }
-      return selectedItem;
-    });
+    setSelectedItem(selectedItem =>
+      selectedItem
+        ? props.data.find(item => item.loanId === selectedItem.loanId)
+        : selectedItem,
+    );
   }, [props.data]);
 
   useEffect(() => {

@@ -9,9 +9,7 @@ import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { translations } from '../../../locales/i18n';
 import { currentNetwork } from '../../../utils/classifiers';
 
-interface Props {}
-
-export function LimitsNotification(props: Props) {
+export function LimitsNotification() {
   const { t } = useTranslation();
 
   if (currentNetwork !== 'mainnet') return <></>;

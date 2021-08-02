@@ -14,16 +14,10 @@ interface Props {
   onBalance?: (value: string) => void;
 }
 
-export function BalanceV1(props: Props) {
-  const { asset, onBalance } = props;
-
+export function BalanceV1({ asset, onBalance }: Props) {
   const { value, loading } = useAssetBalanceOf(asset);
 
-  useEffect(() => {
-    if (onBalance) {
-      onBalance(value);
-    }
-  }, [value, onBalance]);
+  useEffect(() => onBalance?.(value), [value, onBalance]);
 
   return (
     <LoadableValue

@@ -53,11 +53,7 @@ export function BorrowLiquidationPrice(props: Props) {
     position,
   );
 
-  useEffect(() => {
-    if (onPriceChange) {
-      onPriceChange(value);
-    }
-  }, [onPriceChange, value]);
+  useEffect(() => onPriceChange?.(value), [onPriceChange, value]);
 
   return (
     <FieldGroup

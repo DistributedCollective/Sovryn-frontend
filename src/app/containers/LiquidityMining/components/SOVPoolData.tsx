@@ -42,11 +42,7 @@ export function SOVPoolData(props: Props) {
     }
   }, [api, props.user]);
 
-  useInterval(getData, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-  }, [getData, props.user]);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   return (
     <div className="col-12">
