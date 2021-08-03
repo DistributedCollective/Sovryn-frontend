@@ -24,5 +24,6 @@
   "jest.runAllTestsFirst": false,
   "files.eol": "\n",
   "eslint.alwaysShowStatus": true,
-  "eslint.packageManager": "yarn"
+  "eslint.packageManager": "yarn",
+  "css.customData": ["./.vscode/postcss-custom-data.json"]
 }
