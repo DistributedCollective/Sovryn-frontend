@@ -1277,7 +1277,7 @@
       }
     },
     "openPositions": "Posições abertas",
-    "tradingHistory": "Histórico"
+    "tradingHistory": "Posições fechadas"
   },
   "spotTradingPage": {
     "meta": {
