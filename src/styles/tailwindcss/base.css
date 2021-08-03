@@ -1,8 +1,22 @@
 @layer base {
-  body {
-    @apply tw-bg-dark tw-text-white tw-font-body;
-    font-variant-numeric: tabular-nums;
+  html, body {
+    @apply tw-h-full tw-w-full tw-font-normal;
   }
+
+  body {
+    @apply tw-bg-background tw-text-foreground tw-font-body tw-text-xs tw-leading-normal;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 0.45px currentcolor;
+  }
+
+  @screen lg {
+    body {
+      @apply tw-text-base tw-leading-normal;
+    }
+  }
+  
 
   * {
     @apply tw-font-body;
