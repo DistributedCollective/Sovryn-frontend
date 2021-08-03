@@ -12,8 +12,9 @@ import netData from './network.json';
 import { currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 
-import '../_networkRibbon.scss';
+import styles from '../NetworkRibbon.module.scss';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import classNames from 'classnames';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -46,7 +47,7 @@ export function DetectionScreen(props: Props) {
         <div className="tw-mr-2">
           <img src={error_alert} alt="1" />
         </div>
-        <div className="tw-text-left subtitle">
+        <div className={classNames(styles.subtitle, 'tw-text-left')}>
           {t(translations.wrongNetworkDialog.networkAlert, {
             name: netName,
           })}
@@ -72,13 +73,19 @@ export function DetectionScreen(props: Props) {
         )}
       </div>
       <div className="tw-flex tw-my-12 tw-flex-col tw-justify-center tw-items-center tw-text-center">
-        <a onClick={props.onStart} className="titleTut tw-font-body tw-mb-4">
+        <a
+          onClick={props.onStart}
+          className={classNames(styles.titleTut, 'tw-font-body tw-mb-4')}
+        >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
         </a>
         <a
-          className="tw-flex tw-items-center tw-justify-center titleTut tw-font-body"
+          className={classNames(
+            styles.titleTut,
+            'tw-flex tw-items-center tw-justify-center tw-font-body',
+          )}
           onClick={() => disconnect()}
         >
           <Icon icon="log-out" className="tw-text-gold tw-mr-1" iconSize={12} />{' '}

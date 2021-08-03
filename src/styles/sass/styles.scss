@@ -7,6 +7,8 @@
 @import '~@blueprintjs/core/src/blueprint';
 @import '~@blueprintjs/select/lib/css/blueprint-select.css';
 
+@import 'blueprint-override.scss';
+
 @import 'new-design';
 @import 'wallet-tutorial';
 @import '_mobile-wallet-tutorial';

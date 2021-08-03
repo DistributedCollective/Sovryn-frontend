@@ -2,11 +2,7 @@ import { Classes, Overlay } from '@blueprintjs/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-/**
- *
- * FastBtcDialog
- *
- */
+
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,8 +16,6 @@ import { fastBtcDialogSaga } from './saga';
 import { selectFastBtcDialog } from './selectors';
 import { actions, reducer, sliceKey } from './slice';
 import { Step } from './types';
-
-import './_overlayfix.scss';
 
 interface Props {
   isOpen: boolean;

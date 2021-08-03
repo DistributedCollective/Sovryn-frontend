@@ -10,7 +10,6 @@ import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import '../../../components/Header/index.scss';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;

@@ -1,0 +1,24 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+
+  &.open {
+    height: 100vh;
+  }
+}
+
+// blueprintjs override
+:global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
+  border: none;
+  background-color: black !important;
+  overflow: hidden;
+  & .bp3-menu {
+    padding: 0;
+    & a {
+      font-weight: normal;
+    }
+  }
+}

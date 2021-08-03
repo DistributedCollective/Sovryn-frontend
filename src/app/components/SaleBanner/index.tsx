@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 
-import './SaleBanner.scss';
+import styles from './SaleBanner.module.scss';
 import samurai from './assets/banner-samurai.svg';
 
 export function SaleBanner() {
@@ -18,30 +19,45 @@ export function SaleBanner() {
   }
 
   return (
-    <div className="banner-container">
-      <div className="banner tw-py-4">
-        <div className="info-container">
-          <h2 className="tw-uppercase title-container tw-black-font">
+    <div className={styles.bannerContainer}>
+      <div className={classNames(styles.banner, 'tw-py-4')}>
+        <div className={styles.infoContainer}>
+          <h2
+            className={classNames(
+              styles.titleContainer,
+              'tw-uppercase tw-black-font',
+            )}
+          >
             <>SOV* Genesis Pre-Order is Over!</>
           </h2>
-          <div className="sub-info-container">
-            <p className="sub-info-text tw-black-font">Sold out!</p>
+          <div className={styles.subInfoContainer}>
+            <p className={classNames(styles.subInfoText, 'tw-black-font')}>
+              Sold out!
+            </p>
           </div>
-          <div className="button-container">
+          <div className={styles.buttonContainer}>
             <Link
-              className="button button-nav button-black button-white button-container"
+              className={classNames(
+                styles.button,
+                styles.buttonNav,
+                styles.buttonBlack,
+                styles.buttonWhite,
+                styles.buttonContainer,
+              )}
               to="/genesis"
             >
-              <span className="button-text tw-whitespace-nowrap">
-                Learn More
-              </span>
+              <span className="tw-whitespace-nowrap">Learn More</span>
             </Link>
           </div>
         </div>
-        <div className="picture-container">
-          <img className="banner-samurai" src={samurai} alt="banner-samurai" />
+        <div className={styles.pictureContainer}>
+          <img
+            className={styles.bannerSamurai}
+            src={samurai}
+            alt="banner-samurai"
+          />
         </div>
-        <div className="close-button-container">
+        <div className={styles.closeButtonContainer}>
           <Button
             minimal
             color="black"
