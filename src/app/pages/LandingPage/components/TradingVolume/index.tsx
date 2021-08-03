@@ -9,10 +9,16 @@ import { VolumeValue } from './styled';
 import { translations } from 'locales/i18n';
 
 interface ITradingVolumeProps {
+  tvlLoading: boolean;
+  tvlValueBtc?: number;
+  tvlValueUsd?: number;
   refreshInterval?: number;
 }
 
 export const TradingVolume: React.FC<ITradingVolumeProps> = ({
+  tvlLoading,
+  tvlValueBtc,
+  tvlValueUsd,
   refreshInterval = 30000,
 }) => {
   const { t } = useTranslation();
@@ -22,6 +28,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   const cancelDataRequest = useRef<Canceler>();
 
   const getData = useCallback(() => {
+    setLoading(true);
     cancelDataRequest.current && cancelDataRequest.current();
 
     const cancelToken = new axios.CancelToken(c => {
@@ -46,37 +53,67 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   }, []);
 
   return (
-    <div>
-      <div className="tw-text-2xl tw-font-semibold tw-tracking-normal tw-uppercase tw-mb-6">
-        {t(translations.landingPage.tradingVolume.title)}
-      </div>
-      <div className="tw-flex">
-        <div className="tw-mr-20">
-          <div className="tw-font-extralight tw-mb-2.5">
-            {t(translations.landingPage.tradingVolume.btc)}
-          </div>
-          {loading ? (
-            <SkeletonRow />
-          ) : (
-            <VolumeValue>
-              {data?.total.btc.twentyFourHours.toFixed(4)}
-            </VolumeValue>
-          )}
+    <div className="tw-rounded-20px tw-bg-black tw-mr-12 tw-flex">
+      <div className="tw-px-14 tw-py-11 tw-text-center tw-w-1/2">
+        <div className="tw-text-2xl tw-font-semibold tw-tracking-normal tw-uppercase tw-mb-6">
+          {t(translations.landingPage.tradingVolume.tvlTitle)}
         </div>
 
         <div>
-          <div className="tw-font-extralight tw-mb-2.5">
-            {t(translations.landingPage.tradingVolume.usd)}
-          </div>
+          {tvlLoading ? (
+            <SkeletonRow />
+          ) : (
+            <VolumeValue>
+              {tvlValueBtc?.toFixed(4)}{' '}
+              {t(translations.landingPage.tradingVolume.btc)}
+            </VolumeValue>
+          )}
+
+          {tvlLoading ? (
+            <SkeletonRow />
+          ) : (
+            <>
+              ≈{' '}
+              <span>
+                {tvlValueUsd?.toLocaleString('en', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                {t(translations.landingPage.tradingVolume.usd)}
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="tw-px-14 tw-py-11 tw-text-center tw-w-1/2">
+        <div className="tw-text-2xl tw-font-semibold tw-tracking-normal tw-uppercase tw-mb-6">
+          {t(translations.landingPage.tradingVolume.dayVolumeTitle)}
+        </div>
+
+        <div>
           {loading ? (
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {data?.total.usd.twentyFourHours.toLocaleString('en', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              {data?.total.btc.twentyFourHours.toFixed(4)}{' '}
+              {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
+          )}
+
+          {loading ? (
+            <SkeletonRow />
+          ) : (
+            <>
+              ≈{' '}
+              <span>
+                {data?.total.usd.twentyFourHours.toLocaleString('en', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                {t(translations.landingPage.tradingVolume.usd)}
+              </span>
+            </>
           )}
         </div>
       </div>

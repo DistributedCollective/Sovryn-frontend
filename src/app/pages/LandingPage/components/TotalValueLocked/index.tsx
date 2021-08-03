@@ -1,58 +1,19 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { backendUrl, currentChainId } from 'utils/classifiers';
-import axios, { Canceler } from 'axios';
-import { useInterval } from 'app/hooks/useInterval';
 import { TvlData } from 'app/containers/StatsPage/types';
 import { DataRow } from './DataRow';
 
 interface ITotalValueLockedProps {
-  refreshInterval?: number;
+  loading: boolean;
+  data?: TvlData;
 }
 
 export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
-  refreshInterval = 30000,
+  loading,
+  data,
 }) => {
   const { t } = useTranslation();
-  const url = backendUrl[currentChainId];
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<TvlData>();
-
-  const cancelDataRequest = useRef<Canceler>();
-
-  const getData = useCallback(() => {
-    setLoading(true);
-    cancelDataRequest.current && cancelDataRequest.current();
-
-    const cancelToken = new axios.CancelToken(c => {
-      cancelDataRequest.current = c;
-    });
-    axios
-      .get(url + '/tvl', {
-        cancelToken,
-      })
-      .then(res => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch(e => console.error(e));
-  }, [url]);
-
-  useInterval(() => {
-    getData();
-  }, refreshInterval);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const rowCoreData = useMemo(
     () => [

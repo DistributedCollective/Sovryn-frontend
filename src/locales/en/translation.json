@@ -1460,7 +1460,8 @@
     "welcomeTitle": "Welcome to Sovryn",
     "welcomeMessage": "The decentralized bitcoin trading and lending platform",
     "tradingVolume": {
-      "title": "24 hour volume",
+      "dayVolumeTitle": "24 Hour Volume",
+      "tvlTitle": "Total Value Locked",
       "btc": "BTC",
       "usd": "USD"
     },
