@@ -18,11 +18,15 @@ import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalanc
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
+  const { t } = useTranslation();
+  const trans = translations.BridgeWithdrawPage.amountSelector;
   const dispatch = useDispatch();
 
   const currentAsset = useMemo(
@@ -99,7 +103,7 @@ export function AmountSelector() {
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-          Enter amount to withdraw
+          {t(trans.title)}
         </div>
         <div className="tw-mw-320">
           <FormGroup label="Deposit Amount">
@@ -111,7 +115,7 @@ export function AmountSelector() {
               decimalPrecision={currentAsset.minDecimals}
             />
             <p className="tw-mt-1">
-              Balance:{' '}
+              {t(trans.balance)}:{' '}
               {toNumberFormat(
                 currentAsset.fromWei(balance.value),
                 currentAsset.minDecimals,
@@ -120,11 +124,14 @@ export function AmountSelector() {
             </p>
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-4 tw-mb-2">Daily bridge limits</div>
+        <div className="text-center tw-mt-4 tw-mb-2">
+          {' '}
+          {t(trans.dailyBridgeLimits)}
+        </div>
         <Table>
           <tbody className="tw-text-right tw-text-sm">
             <tr>
-              <td>Min Amount:</td>
+              <td> {t(trans.minAmount)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -136,7 +143,7 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Max Amount:</td>
+              <td> {t(trans.maxAmount)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -148,7 +155,7 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Daily Limit:</td>
+              <td> {t(trans.dailyLimit)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -160,7 +167,7 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Daily Limit Spent:</td>
+              <td> {t(trans.dailyLimitSpent)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -172,7 +179,7 @@ export function AmountSelector() {
               </td>
             </tr>
             <tr>
-              <td>Fee:</td>
+              <td> {t(trans.fee)}:</td>
               <td>
                 <LoadableValue
                   value={`${toNumberFormat(
@@ -185,7 +192,7 @@ export function AmountSelector() {
             </tr>
             {bridgeBalance.value !== false && (
               <tr>
-                <td>Aggregator Balance</td>
+                <td> {t(trans.aggregatorBalance)}</td>
                 <td>
                   <LoadableValue
                     value={`${toNumberFormat(
@@ -202,7 +209,7 @@ export function AmountSelector() {
 
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-          text="Next"
+          text={t(translations.common.next)}
           disabled={!valid}
           onClick={selectAmount}
         />

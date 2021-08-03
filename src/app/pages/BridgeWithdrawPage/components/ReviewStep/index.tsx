@@ -167,7 +167,7 @@ export function ReviewStep() {
 
         <Button
           className="tw-mt-20 tw-w-80 "
-          text={'Confirm Withdraw'}
+          text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
           disabled={!valid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}

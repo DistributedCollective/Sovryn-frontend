@@ -10,7 +10,12 @@ import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries
 import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+
 export function ReceiverSelector() {
+  const { t } = useTranslation();
+  const trans = translations.BridgeWithdrawPage.receiverSelector;
   const { targetChain, targetAsset, receiver } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -40,23 +45,22 @@ export function ReceiverSelector() {
     <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
       <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-          Enter receiving {currentNetwork} wallet address
+          {t(trans.title, { currentNetwork })}
+          {}
         </div>
         <div className="tw-w-80">
           <FormGroup label={`Receiving ${targetAsset} Address`}>
             <Input value={value} onChange={val => setValue(val)} />
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-10 tw-mb-2">
-          Please check and confirm
-        </div>
+        <div className="text-center tw-mt-10 tw-mb-2">{t(trans.confirm)}</div>
         {/* <div className="text-center tw-mt-4 tw-mb-2">
           Your {targetAsset} will be send there!
         </div> */}
 
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-          text="Next"
+          text={t(translations.common.next)}
           disabled={!valid}
           onClick={selectReceiver}
         />

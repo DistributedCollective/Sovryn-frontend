@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -14,6 +16,8 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
 
 export function TokenSelector() {
+  const { t } = useTranslation();
+
   const { chain, targetChain, targetAsset, sourceAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -95,7 +99,7 @@ export function TokenSelector() {
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        Select coin to withdraw to
+        {t(translations.BridgeWithdrawPage.tokenSelector.title)}
       </div>
       {targetAssets.length > 0 ? (
         <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
@@ -114,8 +118,10 @@ export function TokenSelector() {
         </div>
       ) : (
         <p>
-          Sorry, no supported withdraw tokens for {sourceAsset} on{' '}
-          {network?.name} network. Try choosing another network or token.
+          {t(translations.BridgeWithdrawPage.tokenSelector.notSupported, {
+            sourceAsset,
+            network: network?.name,
+          })}
         </p>
       )}
     </div>
