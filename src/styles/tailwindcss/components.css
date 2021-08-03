@@ -1,4 +1,4 @@
-@import 'tailwindcss/components/index.css';
+@import './components/index.css';
 
 @layer components {
   .tw-link {

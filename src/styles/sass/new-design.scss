@@ -184,25 +184,12 @@
   }
 }
 
-input {
-  font-family: var(--secondary-font);
-  font-weight: 400;
-}
-
 .font-size-lg {
   font-size: 19px;
 }
 
 .font-size-xl {
   font-size: 38px;
-}
-
-.font-family-work-sans {
-  font-family: var(--secondary-font);
-}
-
-.font-family-rowdies {
-  font-family: var(--primary-font);
 }
 
 .bp3-dialog {
@@ -279,11 +266,6 @@ input {
   @media (min-width: theme('screens.md')) {
     width: 360px !important;
   }
-}
-
-.web3modal-modal-card {
-  @extend .sovryn-border;
-  @extend .font-family-work-sans;
 }
 
 //new styles for Sovryn
