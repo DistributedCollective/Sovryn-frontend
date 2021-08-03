@@ -14,7 +14,7 @@ import { translations } from 'locales/i18n';
 
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
-import { RewardForm } from './components/RewardForm'
+import { RewardForm } from './components/RewardForm';
 import { Tab } from './components/Tab';
 
 // import { ClaimForm } from './components/RewardBox';
