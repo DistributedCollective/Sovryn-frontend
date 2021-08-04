@@ -37,7 +37,7 @@ export function ReturnToPortfolio() {
   }, [dispatch]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-80">
         {t(trans.title)}
       </div>
@@ -51,7 +51,7 @@ export function ReturnToPortfolio() {
             />
             <div>Metamask</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
+          <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.notConnected)}{' '}
             <span className="tw-capitalize">{walletName}</span>.
           </p>
@@ -73,7 +73,7 @@ export function ReturnToPortfolio() {
             />
             <div>Metamask</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
+          <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.wrongNetwork)}{' '}
             <span className="tw-capitalize">{walletName}</span>.
           </p>
@@ -104,7 +104,7 @@ export function ReturnToPortfolio() {
             />
             <div className="tw-capitalize">{walletName}</div>
           </SelectBox>
-          <p className="tw-mw-320 tw-text-center tw-mt-12 tw-mb-5">
+          <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.connected)}
           </p>
 

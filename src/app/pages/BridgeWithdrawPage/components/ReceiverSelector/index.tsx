@@ -42,8 +42,8 @@ export function ReceiverSelector() {
   }, [value]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
-      <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           {t(trans.title, { currentNetwork })}
         </div>

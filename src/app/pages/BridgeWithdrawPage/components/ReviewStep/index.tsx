@@ -102,13 +102,13 @@ export function ReviewStep() {
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
         {t(translations.BridgeWithdrawPage.reviewStep.title, {
           symbol: currentAsset.symbol,
         })}
       </div>
-      <div className="tw-mw-320">
+      <div className="tw-w-80">
         <Table className="tw-mx-auto">
           <tbody>
             <tr>

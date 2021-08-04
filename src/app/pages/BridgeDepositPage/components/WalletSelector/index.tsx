@@ -66,7 +66,7 @@ export function WalletSelector() {
   ]);
 
   return (
-    <WalletWrapper>
+    <WalletWrapper className="tw-relative tw-p-8">
       {state === 'wrong-network' && (
         <>
           <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
@@ -156,6 +156,5 @@ export const WrongNetwork = styled.div`
   color: #a52222;
   left: 0;
   right: 0;
-  transform: translateX(100px);
   margin: auto;
 `;

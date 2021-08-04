@@ -25,6 +25,7 @@ import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -72,19 +73,25 @@ export function BridgeDepositPage() {
   return (
     <>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
         <div
-          className="tw-relative tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8"
+          className={cn(
+            'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
+            { invisible: requestedReturnToPortfolio },
+          )}
           style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarSteps />
         </div>
 
         <div
-          style={{ minHeight: 'calc(100vh - 2.5rem)' }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-relative"
+          style={{
+            minHeight: 'calc(100% - 2.5rem)',
+            minWidth: 'calc(100% - 2.5rem)',
+          }}
+          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-absolute tw-pb-20"
         >
           <SwitchTransition>
             <CSSTransition
@@ -113,11 +120,14 @@ export function BridgeDepositPage() {
               </>
             </CSSTransition>
           </SwitchTransition>
-          <div className="tw-flex tw-flex-col tw-items-center">
+        </div>
+
+        {!requestedReturnToPortfolio && (
+          <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
             {t(translations.BridgeDepositPage.poweredBy)}
           </div>
-        </div>
+        )}
       </div>
     </>
   );
