@@ -15,7 +15,7 @@
   border: none;
   background-color: black !important;
   overflow: hidden;
-  & .bp3-menu {
+  & :global(.bp3-menu) {
     padding: 0;
     & a {
       font-weight: normal;

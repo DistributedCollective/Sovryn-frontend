@@ -4,8 +4,6 @@ import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { FieldGroup } from 'app/components/FieldGroup';
 import { AmountField } from 'app/containers/AmountField';
 
-import '../../assets/index.scss';
-
 type Props = {
   amountName: string;
   amountValue: string;

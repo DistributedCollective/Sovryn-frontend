@@ -5,11 +5,12 @@ import { AssetWalletBalance } from 'app/components/AssetWalletBalance';
 import { SendTxProgress } from 'app/components/SendTxProgress';
 import { TradeButton } from 'app/components/TradeButton';
 
-import '../../assets/index.scss';
+import styles from '../../index.module.scss';
 import { ButtonType } from '../../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { weiTo4 } from '../../../../../utils/blockchain/math-helpers';
+import classNames from 'classnames';
 
 type Props = {
   currency: Asset;
@@ -52,7 +53,12 @@ const AccountBalance: React.FC<Props> = ({
         type={txState.type}
         displayAbsolute={false}
       />
-      <div className="account-balance-container tw-relative tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between">
+      <div
+        className={classNames(
+          styles.accountBalanceContainer,
+          'tw-relative tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between',
+        )}
+      >
         <div className="tw-mb-6 md:tw-mb-0">
           <AssetWalletBalance asset={currency} />
         </div>

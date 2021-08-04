@@ -345,25 +345,6 @@ header {
   }
 }
 
-.simpleView {
-  .engage-wallet {
-    height: 50px;
-    padding: 2px 0 2px 10px;
-    font-size: 22px;
-
-    span {
-      & > span:first-child {
-        min-width: 250px;
-      }
-    }
-
-    .logout {
-      height: 50px;
-      padding: 17px 12px;
-    }
-  }
-}
-
 .sov-title {
   font-family: $font-family-montserrat;
   font-weight: 400;
