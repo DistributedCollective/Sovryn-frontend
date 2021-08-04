@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { translations } from '../../../locales/i18n';
-import { Slider } from '../../pages/BuySovPage/components/Slider';
+import { Slider } from '../Form/Slider';
 
 interface Props {
   value: number;

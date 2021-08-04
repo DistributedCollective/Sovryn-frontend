@@ -7,12 +7,12 @@ import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
 import { CloseButton } from '../../Button/close';
 import { LoadableValue } from '../../../../../components/LoadableValue';
-import { Slider } from '../../Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { Asset } from 'types/asset';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from '../../../../../components/AssetRenderer';
+import { Slider } from '../../../../../components/Form/Slider';
 
 interface Props {
   isOpen: boolean;
