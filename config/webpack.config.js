@@ -510,6 +510,7 @@ module.exports = function (webpackEnv) {
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
+                  localsConvention: 'camelCase',
                 },
                 'sass-loader',
               ),
