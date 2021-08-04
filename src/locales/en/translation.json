@@ -1466,6 +1466,7 @@
   "BridgeDepositPage": {
     "poweredBy": "Powered by babelFish",
     "network": "Network",
+    "changeWallet": "Want to use a different wallet?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Change to {{network}}"

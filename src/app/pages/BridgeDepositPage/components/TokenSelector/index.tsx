@@ -13,11 +13,13 @@ import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dicti
 import { TokenItem } from './TokenItem';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useWalletContext } from '@sovryn/react-wallet';
 
 export function TokenSelector() {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
+  const walletContext = useWalletContext();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -33,6 +35,11 @@ export function TokenSelector() {
     },
     [dispatch],
   );
+
+  const disconnect = useCallback(() => {
+    walletContext.disconnect();
+    dispatch(actions.setStep(DepositStep.WALLET_SELECTOR));
+  }, [dispatch, walletContext]);
 
   // It excludes current dapp chain (no RSK network), but i think it should be there in the end.
   const sourceAssets = useMemo(
@@ -105,6 +112,13 @@ export function TokenSelector() {
           })}
         </p>
       )}
+
+      <div
+        onClick={() => disconnect()}
+        className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-20"
+      >
+        {t(translations.BridgeDepositPage.changeWallet)}
+      </div>
     </div>
   );
 }

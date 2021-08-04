@@ -100,11 +100,6 @@ export function WalletSelector() {
               </div>
             </SelectBox>
 
-            <Button
-              onClick={() => walletContext.disconnect()}
-              text="Choose another wallet"
-            />
-
             <a
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
@@ -115,6 +110,13 @@ export function WalletSelector() {
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
             </a>
+
+            <div
+              onClick={() => walletContext.disconnect()}
+              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-10"
+            >
+              {t(translations.BridgeDepositPage.changeWallet)}
+            </div>
           </div>
         </>
       )}

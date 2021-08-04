@@ -46,7 +46,6 @@ export function ReceiverSelector() {
       <div className="tw-flex tw-flex-col tw-items-center tw-mw-320">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           {t(trans.title, { currentNetwork })}
-          {}
         </div>
         <div className="tw-w-80">
           <FormGroup label={`Receiving ${targetAsset} Address`}>
@@ -54,9 +53,6 @@ export function ReceiverSelector() {
           </FormGroup>
         </div>
         <div className="text-center tw-mt-10 tw-mb-2">{t(trans.confirm)}</div>
-        {/* <div className="text-center tw-mt-4 tw-mb-2">
-          Your {targetAsset} will be send there!
-        </div> */}
 
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
