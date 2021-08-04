@@ -7,20 +7,20 @@ import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { Asset } from '../../../../../types';
 import { TradingPosition } from 'types/trading-position';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { TradeProfit } from 'app/components/TradeProfit';
 import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Pagination } from '../../../../components/Pagination';
 
 type EventType = 'buy' | 'sell';
-
 interface CustomEvent {
   blockNumber: number;
   loanId: string;
@@ -95,8 +95,12 @@ function normalizeEvent(event: EventData): CustomEvent {
   }
 }
 
-function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
+function calculateProfits(
+  events: CustomEvent[],
+  loanEvents: any,
+): CalculatedEvent | null {
   events = events.reverse();
+
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
 
@@ -104,11 +108,8 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     return null;
   }
 
-  const positionSize = opens
-    .reduce(
-      (previous, current) => previous.add(current.positionSize),
-      bignumber('0'),
-    )
+  const positionSize = bignumber(loanEvents.Trade[0].position_size)
+    .mul(10 ** 10)
     .toString();
   const openSize = closes.reduce(
     (previous, current) => previous.minus(current.positionSize),
@@ -130,30 +131,32 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   );
 
   const prettyPrice = amount => {
-    return events[0].loanToken === pair.shortAsset
-      ? amount
-      : toWei(
+    return events[0].loanToken !== pair.shortAsset
+      ? toWei(
           bignumber(1)
             .div(amount)
-            .mul(10 ** 18),
-        );
+            .mul(10 ** 8),
+        )
+      : toWei(bignumber(amount).div(10 ** 8));
   };
 
-  const entryPrice = prettyPrice(opens[0].price);
-  const closePrice = prettyPrice(closes[closes.length - 1].price);
+  const entryPrice = prettyPrice(loanEvents.Trade[0].entry_price);
+  const closePrice = prettyPrice(loanEvents.CloseWithSwap[0].exit_price);
 
+  //LONG position
   let change = bignumber(bignumber(closePrice).minus(entryPrice))
     .div(entryPrice)
     .toNumber();
+
+  //SHORT position
   if (events[0].position === TradingPosition.SHORT) {
     change = bignumber(bignumber(entryPrice).minus(closePrice))
       .div(entryPrice)
       .toNumber();
   }
 
-  const profit = bignumber(change)
-    .mul(bignumber(positionSize) /*.mul(bignumber(leverage).div(1e18))*/)
-    .toFixed(0);
+  //Profit P&L
+  const profit = bignumber(change).mul(bignumber(positionSize)).toFixed(0);
 
   return {
     loanId: events[0].loanId,
@@ -208,16 +211,22 @@ export function TradingHistory() {
       const entries = Object.entries(items);
 
       const closeEntries: CalculatedEvent[] = [];
-      entries.forEach(([, /*loanId*/ events]) => {
+      entries.forEach(([loanId, events]) => {
         // exclude entries that does not have sell events
         if (events.filter(item => item.type === 'sell').length > 0) {
-          const calculation = calculateProfits(events);
-          if (calculation) {
-            closeEntries.push(calculation);
-          }
+          fetch(backendUrl[currentChainId] + '/loanEvents?loanId=' + loanId)
+            .then(response => {
+              return response.json();
+            })
+            .then(loanEvents => {
+              const calculation = calculateProfits(events, loanEvents);
+              if (calculation) {
+                closeEntries.push(calculation);
+              }
+            })
+            .catch(console.error);
         }
       });
-
       setEvents(closeEntries);
     },
     [],

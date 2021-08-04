@@ -59,6 +59,7 @@ export type Bar = {
   volume?: number;
 };
 
+// eslint-disable-next-line
 export default {
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => {
