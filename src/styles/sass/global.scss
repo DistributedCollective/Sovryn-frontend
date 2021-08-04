@@ -1,30 +1,3 @@
-// TODO remove headline styles once the Headline Component is done.
-h1 {
-  font-size: 30px;
-  font-weight: 500;
-}
-
-h2 {
-  text-transform: inherit;
-  font-weight: 600;
-  font-size: 1.75rem;
-  margin: 0;
-}
-
-h3 {
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: 2.77px;
-  color: inherit;
-}
-
-h4 {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 2.92px;
-  color: var(--Grey_text);
-}
-
 // global-styles.tsx
 body.originsLaunchpad {
   @apply tw-bg-gray-800;
