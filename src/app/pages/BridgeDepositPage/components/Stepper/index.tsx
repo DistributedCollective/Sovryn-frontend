@@ -1,11 +1,19 @@
 import React from 'react';
-import cn from 'classnames';
+import { Step } from './Step';
+
+export interface StepItem {
+  stepTitle: string;
+  value: number;
+  title?: string;
+  icon?: React.ReactChild;
+}
 
 type Props = {
   onClick: Function;
   step: number;
   steps: StepItem[];
 };
+
 export function Stepper({ steps, step, onClick }: Props) {
   const activeIndex = steps.findIndex(item => item.value === step);
   return (
@@ -40,67 +48,5 @@ export function Stepper({ steps, step, onClick }: Props) {
         ))}
       </ul>
     </div>
-  );
-}
-
-export interface StepItem {
-  stepTitle: string;
-  value: number;
-  title?: string;
-  icon?: React.ReactChild;
-}
-
-interface StepProps {
-  step: StepItem;
-  current?: Boolean;
-  active?: Boolean;
-  isFirst?: Boolean;
-  onClick: Function;
-}
-
-function Step({ step, current, active, isFirst, onClick }: StepProps) {
-  return (
-    <li
-      className={cn(
-        'tw-flex tw-items-center tw-mb-11 tw-cursor-pointer tw-transition tw-duration-700 tw-ease-in-out',
-        {
-          'tw-opacity-25': !active,
-          'tw-font-bold': current,
-        },
-      )}
-      onClick={() => onClick()}
-    >
-      <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-transform tw-relative tw-mr-4 tw-border-transparent">
-        {!isFirst && (
-          <span
-            className="tw-h-9 bg-white tw-absolute tw--top-1.5 tw-left-0 tw-right-0 tw-mx-auto tw-transform tw--translate-y-full tw--translate-x-1/2"
-            style={{ width: 1 }}
-          ></span>
-        )}
-        <span
-          className={cn(
-            'tw-absolute tw-border-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
-            {
-              'tw-transform tw-scale-125': !!active,
-              'tw-scale-0': step?.icon,
-              'tw-scale-100': !step?.icon,
-            },
-          )}
-        ></span>
-
-        <span
-          className={cn(
-            'tw-absolute tw-flex tw-items-center tw-justify-center tw-transform tw-border-white tw-w-4 tw-h-4 tw-rounded-full tw-transition tw-duration-700 tw-ease-in-out',
-            {
-              'tw-scale-0': !step?.icon,
-              'tw-scale-125': step?.icon,
-            },
-          )}
-        >
-          {step?.icon}
-        </span>
-      </span>
-      {step?.title || step.stepTitle}
-    </li>
   );
 }

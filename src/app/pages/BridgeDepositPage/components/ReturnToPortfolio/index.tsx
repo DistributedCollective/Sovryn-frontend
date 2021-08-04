@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 
 import { Chain } from 'types';
 import { actions } from '../../slice';
@@ -84,7 +84,7 @@ export function ReturnToPortfolio() {
               onClick={addNetworkCallback}
             />
           )}
-          {!isWeb3Wallet(wallet.providerType as ProviderType) && (
+          {!isWeb3Wallet(wallet.providerType!) && (
             <ActionButton
               className="tw-font-semibold tw-w-80 tw-rounded-xl"
               text={t(trans.switchNetwork)}

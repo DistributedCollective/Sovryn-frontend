@@ -1,5 +1,5 @@
 import { WalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 import React, { Dispatch, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -26,7 +26,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
   const isWrongChainId = useMemo(() => {
     return (
       connected &&
-      isWeb3Wallet(wallet.providerType as ProviderType) &&
+      isWeb3Wallet(wallet.providerType!) &&
       wallet.chainId !== currentChainId
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

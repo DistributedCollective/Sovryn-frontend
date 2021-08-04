@@ -1499,7 +1499,8 @@
       "dailyLimit": "Daily Limit",
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
-      "aggregatorBalance": "Aggregator Balance"
+      "aggregatorBalance": "Aggregator Balance",
+      "depositAmount": "Deposit Amount"
     },
     "confirmStep": {
       "pleaseWait": "Please wait",
@@ -1555,7 +1556,8 @@
       "dailyLimit": "Daily Limit",
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
-      "aggregatorBalance": "Aggregator Balance"
+      "aggregatorBalance": "Aggregator Balance",
+      "withdrawAmount": "Withdraw Amount"
     },
     "confirmStep": {
       "pleaseWait": "Please wait",

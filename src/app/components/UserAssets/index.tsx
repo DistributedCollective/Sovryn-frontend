@@ -5,7 +5,6 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -36,6 +35,7 @@ import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { FishDollarValue } from './FishDollarValue';
+import { BridgeLink } from './BridgeLink';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -269,30 +269,5 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
         </div>
       </td>
     </tr>
-  );
-}
-
-function BridgeLink({ asset }: { asset: Asset }) {
-  const receiver = useAccount();
-  const { t } = useTranslation();
-  return (
-    <>
-      <Link
-        to={{
-          pathname: '/cross-chain/deposit',
-          state: { receiver, asset },
-        }}
-      >
-        {t(translations.common.deposit)}
-      </Link>
-      <Link
-        to={{
-          pathname: '/cross-chain/withdraw',
-          state: { receiver, asset },
-        }}
-      >
-        {t(translations.common.withdraw)}
-      </Link>
-    </>
   );
 }

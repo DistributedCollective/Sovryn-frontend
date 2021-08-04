@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 import { WalletContext } from '@sovryn/react-wallet';
 import { translations } from 'locales/i18n';
 
@@ -27,7 +27,7 @@ export function NetworkRibbon(this: any) {
       return false;
     return (
       connected &&
-      isWeb3Wallet(wallet.providerType as ProviderType) &&
+      isWeb3Wallet(wallet.providerType!) &&
       wallet.chainId !== currentChainId
     );
   }, [

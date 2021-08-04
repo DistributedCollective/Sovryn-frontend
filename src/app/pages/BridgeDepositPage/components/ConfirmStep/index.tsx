@@ -13,7 +13,7 @@ import { NetworkModel } from '../../types/network-model';
 import { SelectBox } from '../SelectBox';
 import wMetamask from 'assets/wallets/metamask.svg';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import styled from 'styled-components/macro';
+import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -49,139 +49,158 @@ export function ConfirmStep() {
   const handleComplete = useCallback(() => {
     dispatch(actions.returnToPortfolio());
   }, [dispatch]);
+
+  const renderInitialSteps = () => {
+    return (
+      <>
+        {' '}
+        {tx.step === TxStep.MAIN && (
+          <>
+            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+              {t(trans.pleaseWait)}
+            </div>
+            <p className="tw-w-80 tw-text-center tw-mt-12">
+              {t(trans.preparingTransaction)}.
+            </p>
+          </>
+        )}
+        {tx.step === TxStep.APPROVE && (
+          <>
+            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+              {t(trans.allowTransaction)}
+            </div>
+            <SelectBox onClick={noop}>
+              <img
+                className="tw-h-20 tw-mb-5 tw-mt-2"
+                src={wMetamask}
+                alt={'Metamask'}
+              />
+              <div>Metamask</div>
+            </SelectBox>
+            <p className="tw-w-80 tw-mt-12 tw-text-center">
+              {t(trans.approve, {
+                from: asset.fromWei(amount, asset.minDecimals),
+                symbol: asset.symbol,
+                providerType: wallet.providerType,
+              })}
+            </p>
+          </>
+        )}
+        {tx.step === TxStep.CONFIRM_TRANSFER && (
+          <>
+            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+              {t(trans.confirmTransaction)}
+            </div>
+            <SelectBox onClick={noop}>
+              <img
+                className="tw-h-20 tw-mb-5 tw-mt-2"
+                src={wMetamask}
+                alt={'Metamask'}
+              />
+              <div>Metamask</div>
+            </SelectBox>
+            <p className="tw-w-80 tw-mt-12 tw-text-center">
+              {t(trans.confirm, { providerType: wallet.providerType })}
+            </p>
+          </>
+        )}
+      </>
+    );
+  };
+
+  const renderTransferSteps = () => {
+    return (
+      <>
+        {[
+          TxStep.PENDING_TRANSFER,
+          TxStep.COMPLETED_TRANSFER,
+          TxStep.FAILED_TRANSFER,
+        ].includes(tx.step) && (
+          <>
+            <div className="tw-mb-8 tw-text-2xl tw-text-center tw-font-semibold">
+              {tx.step === TxStep.PENDING_TRANSFER && (
+                <> {t(trans.depositInProgress)}...</>
+              )}
+              {tx.step === TxStep.COMPLETED_TRANSFER && (
+                <>{t(trans.depositComplete)}</>
+              )}
+              {tx.step === TxStep.FAILED_TRANSFER && (
+                <>{t(trans.depositFailed)}</>
+              )}
+            </div>
+            <div className="tw-mb-6 tw-text-center">
+              {tx.step === TxStep.PENDING_TRANSFER && (
+                <img
+                  className="tw-h-14 tw-animate-spin"
+                  src={iconPending}
+                  title={t(translations.common.pending)}
+                  alt={t(translations.common.pending)}
+                />
+              )}
+              {tx.step === TxStep.COMPLETED_TRANSFER && (
+                <img
+                  className="tw-h-14"
+                  src={iconSuccess}
+                  title={t(translations.common.confirmed)}
+                  alt={t(translations.common.confirmed)}
+                />
+              )}
+              {tx.step === TxStep.FAILED_TRANSFER && (
+                <img
+                  className="tw-h-14"
+                  src={iconRejected}
+                  title={t(translations.common.failed)}
+                  alt={t(translations.common.failed)}
+                />
+              )}
+            </div>
+            <Table>
+              <tbody>
+                <tr>
+                  <td>
+                    {t(translations.BridgeDepositPage.reviewStep.dateTime)}:
+                  </td>
+                  <td>{new Date().toLocaleDateString()}</td>
+                </tr>
+                <tr>
+                  <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
+                  <td>{network.name}</td>
+                </tr>
+                <tr>
+                  <td>
+                    {t(translations.BridgeDepositPage.reviewStep.amount)}:
+                  </td>
+                  <td>
+                    {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
+                    {asset.symbol}
+                  </td>
+                </tr>
+                <tr>
+                  <td>{t(translations.BridgeDepositPage.reviewStep.tx)}:</td>
+                  <td>
+                    <LinkToExplorer
+                      txHash={tx.hash}
+                      className="text-gold font-weight-normal text-nowrap tw-text-xs"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+
+            <ActionButton
+              className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+              text={t(translations.common.close)}
+              onClick={handleComplete}
+            />
+          </>
+        )}
+      </>
+    );
+  };
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      {tx.step === TxStep.MAIN && (
-        <>
-          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            {t(trans.pleaseWait)}
-          </div>
-          <p className="tw-w-80 tw-text-center tw-mt-12">
-            {t(trans.preparingTransaction)}.
-          </p>
-        </>
-      )}
-      {tx.step === TxStep.APPROVE && (
-        <>
-          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            {t(trans.allowTransaction)}
-          </div>
-          <SelectBox onClick={noop}>
-            <img
-              className="tw-h-20 tw-mb-5 tw-mt-2"
-              src={wMetamask}
-              alt={'Metamask'}
-            />
-            <div>Metamask</div>
-          </SelectBox>
-          <p className="tw-w-80 tw-mt-12 tw-text-center">
-            {t(trans.approve, {
-              from: asset.fromWei(amount, asset.minDecimals),
-              symbol: asset.symbol,
-              providerType: wallet.providerType,
-            })}
-          </p>
-        </>
-      )}
-      {tx.step === TxStep.CONFIRM_TRANSFER && (
-        <>
-          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-            {t(trans.confirmTransaction)}
-          </div>
-          <SelectBox onClick={noop}>
-            <img
-              className="tw-h-20 tw-mb-5 tw-mt-2"
-              src={wMetamask}
-              alt={'Metamask'}
-            />
-            <div>Metamask</div>
-          </SelectBox>
-          <p className="tw-w-80 tw-mt-12 tw-text-center">
-            {t(trans.confirm, { providerType: wallet.providerType })}
-          </p>
-        </>
-      )}
-      {[
-        TxStep.PENDING_TRANSFER,
-        TxStep.COMPLETED_TRANSFER,
-        TxStep.FAILED_TRANSFER,
-      ].includes(tx.step) && (
-        <>
-          <div className="tw-mb-8 tw-text-2xl tw-text-center tw-font-semibold">
-            {tx.step === TxStep.PENDING_TRANSFER && (
-              <> {t(trans.depositInProgress)}...</>
-            )}
-            {tx.step === TxStep.COMPLETED_TRANSFER && (
-              <>{t(trans.depositComplete)}</>
-            )}
-            {tx.step === TxStep.FAILED_TRANSFER && (
-              <>{t(trans.depositFailed)}</>
-            )}
-          </div>
-          <div className="tw-mb-6 tw-text-center">
-            {tx.step === TxStep.PENDING_TRANSFER && (
-              <img
-                className="tw-h-14 tw-animate-spin"
-                src={iconPending}
-                title={t(translations.common.pending)}
-                alt={t(translations.common.pending)}
-              />
-            )}
-            {tx.step === TxStep.COMPLETED_TRANSFER && (
-              <img
-                className="tw-h-14"
-                src={iconSuccess}
-                title={t(translations.common.confirmed)}
-                alt={t(translations.common.confirmed)}
-              />
-            )}
-            {tx.step === TxStep.FAILED_TRANSFER && (
-              <img
-                className="tw-h-14"
-                src={iconRejected}
-                title={t(translations.common.failed)}
-                alt={t(translations.common.failed)}
-              />
-            )}
-          </div>
-          <Table>
-            <tbody>
-              <tr>
-                <td>
-                  {t(translations.BridgeDepositPage.reviewStep.dateTime)}:
-                </td>
-                <td>{new Date().toLocaleDateString()}</td>
-              </tr>
-              <tr>
-                <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
-                <td>{network.name}</td>
-              </tr>
-              <tr>
-                <td>{t(translations.BridgeDepositPage.reviewStep.amount)}:</td>
-                <td>
-                  {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
-                  {asset.symbol}
-                </td>
-              </tr>
-              <tr>
-                <td>{t(translations.BridgeDepositPage.reviewStep.tx)}:</td>
-                <td>
-                  <LinkToExplorer
-                    txHash={tx.hash}
-                    className="text-gold font-weight-normal text-nowrap tw-text-xs"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-
-          <ActionButton
-            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
-            text={t(translations.common.close)}
-            onClick={handleComplete}
-          />
-        </>
-      )}
+      {renderInitialSteps()}
+      {renderTransferSteps()}
       {tx.step === TxStep.USER_DENIED && (
         <>
           <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -201,10 +220,3 @@ export function ConfirmStep() {
     </div>
   );
 }
-
-const Table = styled.table`
-  td {
-    padding: 0.5rem 1.25rem;
-    text-align: left;
-  }
-`;

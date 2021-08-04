@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import styled from 'styled-components/macro';
 
 import type { Chain } from 'types';
 import { Button } from 'app/components/Button';
@@ -18,6 +17,7 @@ import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimit
 import { prettyTx } from '../../../../../utils/helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { Table } from '../styled';
 
 export function ReviewStep() {
   const {
@@ -54,7 +54,7 @@ export function ReviewStep() {
 
   const currentAsset = useMemo(
     () =>
-      BridgeDictionary.get(chain as Chain, targetChain as Chain)?.getAsset(
+      BridgeDictionary.get(chain!, targetChain!)?.getAsset(
         sourceAsset as CrossBridgeAsset,
       ) as AssetModel,
     [chain, sourceAsset, targetChain],
@@ -76,7 +76,7 @@ export function ReviewStep() {
     currentAsset,
   );
 
-  const valid = useMemo(() => {
+  const isValid = useMemo(() => {
     const bnAmount = bignumber(amount || '0');
     const bnBalance = bignumber(balance.value || '0');
     return (
@@ -168,7 +168,7 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80 "
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          disabled={!valid || tx.loading}
+          disabled={!isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
@@ -176,10 +176,3 @@ export function ReviewStep() {
     </div>
   );
 }
-
-const Table = styled.table`
-  td {
-    padding: 0.5rem 1.25rem;
-    text-align: left;
-  }
-`;

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { selectTransactionArray } from '../../store/global/transactions-store/selectors';
 import { TxStatus } from '../../store/global/transactions-store/types';
@@ -32,15 +32,17 @@ export function useCanInteract(ignoreWhitelist: boolean = false) {
     );
   }, [tx, address]);
 
-  const testChain = useMemo(() => {
-    if (!connected) return false;
-    if (!isWeb3Wallet(wallet.providerType as ProviderType)) return true;
+  const isTestChain = useMemo(() => {
+    if (!connected) {
+      return false;
+    }
+    if (!isWeb3Wallet(wallet.providerType!)) return true;
     return wallet.chainId === currentChainId;
   }, [connected, wallet.providerType, wallet.chainId]);
 
   if (ignoreWhitelist) {
-    return connected && testTxCount && testChain;
+    return connected && testTxCount && isTestChain;
   }
 
-  return testWhitelist && testTxCount && testChain && connected;
+  return testWhitelist && testTxCount && isTestChain && connected;
 }

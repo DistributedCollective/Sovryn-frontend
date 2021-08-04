@@ -12,6 +12,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { rskWalletAddressLength } from 'app/constants';
 
 export function ReceiverSelector() {
   const { t } = useTranslation();
@@ -28,8 +29,7 @@ export function ReceiverSelector() {
 
   const currentNetwork =
     networkList.find(item => item.chainId === network?.chainId)?.name ||
-    network?.name ||
-    'Test';
+    network?.name;
 
   const [value, setValue] = useState(receiver);
 
@@ -38,7 +38,7 @@ export function ReceiverSelector() {
   }, [dispatch, value]);
 
   const valid = useMemo(() => {
-    return value && value.length === 42;
+    return value && value.length === rskWalletAddressLength;
   }, [value]);
 
   return (

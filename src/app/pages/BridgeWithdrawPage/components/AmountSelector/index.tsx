@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 import styled from 'styled-components/macro';
-import type { Chain } from 'types';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -31,15 +30,15 @@ export function AmountSelector() {
 
   const currentAsset = useMemo(
     () =>
-      BridgeDictionary.get(chain as Chain, targetChain as Chain)?.getAsset(
-        sourceAsset as CrossBridgeAsset,
+      BridgeDictionary.get(chain!, targetChain!)?.getAsset(
+        sourceAsset!,
       ) as AssetModel,
     [chain, sourceAsset, targetChain],
   );
 
   const withdrawAsset = useMemo(
     () =>
-      BridgeDictionary.get(targetChain as Chain, chain as Chain)?.getAsset(
+      BridgeDictionary.get(targetChain!, chain!)?.getAsset(
         targetAsset as CrossBridgeAsset,
       ) as AssetModel,
     [chain, targetAsset, targetChain],
@@ -53,21 +52,21 @@ export function AmountSelector() {
     dispatch(actions.selectAmount(currentAsset.toWei(value || '0')));
   }, [dispatch, currentAsset, value]);
 
-  const balance = useTokenBalance(chain as any, currentAsset);
+  const balance = useTokenBalance(chain!, currentAsset);
 
   const { value: limits, loading: limitsLoading } = useBridgeLimits(
-    chain as any,
-    targetChain as any,
+    chain!,
+    targetChain!,
     currentAsset,
   );
 
   const bridgeBalance = useBridgeTokenBalance(
     chain,
     currentAsset,
-    targetAsset as any,
+    targetAsset!,
   );
 
-  const valid = useMemo(() => {
+  const isValid = useMemo(() => {
     const bnAmount = bignumber(currentAsset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
     const testBridgeBalance =
@@ -106,7 +105,7 @@ export function AmountSelector() {
           {t(trans.title)}
         </div>
         <div className="tw-mw-320">
-          <FormGroup label="Deposit Amount">
+          <FormGroup label={t(trans.withdrawAmount)}>
             <AmountInput
               value={value}
               onChange={val => setValue(val)}
@@ -210,7 +209,7 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!valid}
+          disabled={!isValid}
           onClick={selectAmount}
         />
       </div>

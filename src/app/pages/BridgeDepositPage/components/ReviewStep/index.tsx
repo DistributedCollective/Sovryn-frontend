@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import styled from 'styled-components/macro';
+import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
-import type { Chain } from 'types';
 import { Button } from 'app/components/Button';
 
 import { actions } from '../../slice';
@@ -40,7 +39,7 @@ export function ReviewStep() {
 
   const asset = useMemo(
     () =>
-      BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
+      BridgeDictionary.get(chain!, targetChain)?.getAsset(
         sourceAsset as CrossBridgeAsset,
       ) as AssetModel,
     [chain, sourceAsset, targetChain],
@@ -54,7 +53,7 @@ export function ReviewStep() {
     asset,
   );
 
-  const valid = useMemo(() => {
+  const isValid = useMemo(() => {
     const bnAmount = bignumber(amount || '0');
     const bnBalance = bignumber(balance.value || '0');
     return (
@@ -121,7 +120,7 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
-          disabled={!valid || tx.loading}
+          disabled={!isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
@@ -129,10 +128,3 @@ export function ReviewStep() {
     </div>
   );
 }
-
-const Table = styled.table`
-  td {
-    padding: 0.5rem 1.25rem;
-    text-align: left;
-  }
-`;

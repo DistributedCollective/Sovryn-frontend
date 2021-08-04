@@ -19,9 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
 
-interface Props {}
-
-export function WalletSelector(props: Props) {
+export function WalletSelector() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { ethereum } = window as any;

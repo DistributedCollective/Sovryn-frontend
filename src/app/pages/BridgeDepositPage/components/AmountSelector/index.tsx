@@ -2,12 +2,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 import styled from 'styled-components/macro';
-import type { Chain } from 'types';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
-import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { AmountInput } from '../AmountInput';
@@ -30,8 +28,8 @@ export function AmountSelector() {
 
   const asset = useMemo(
     () =>
-      BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
-        sourceAsset as CrossBridgeAsset,
+      BridgeDictionary.get(chain!, targetChain)?.getAsset(
+        sourceAsset!,
       ) as AssetModel,
     [chain, sourceAsset, targetChain],
   );
@@ -44,21 +42,17 @@ export function AmountSelector() {
     dispatch(actions.selectAmount(asset.toWei(value || '0')));
   }, [dispatch, asset, value]);
 
-  const balance = useTokenBalance(chain as any, asset);
+  const balance = useTokenBalance(chain!, asset);
 
   const { value: limits, loading: limitsLoading } = useBridgeLimits(
-    chain as any,
-    targetChain as any,
+    chain!,
+    targetChain!,
     asset,
   );
 
-  const bridgeBalance = useBridgeTokenBalance(
-    targetChain,
-    asset,
-    targetAsset as any,
-  );
+  const bridgeBalance = useBridgeTokenBalance(targetChain, asset, targetAsset!);
 
-  const valid = useMemo(() => {
+  const isValid = useMemo(() => {
     const bnAmount = bignumber(asset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
     const testBridgeBalance =
@@ -97,7 +91,11 @@ export function AmountSelector() {
           {t(translations.BridgeDepositPage.amountSelector.title)}
         </div>
         <div className="tw-mw-320">
-          <FormGroup label="Deposit Amount">
+          <FormGroup
+            label={t(
+              translations.BridgeDepositPage.amountSelector.depositAmount,
+            )}
+          >
             <AmountInput
               value={value}
               onChange={val => setValue(val)}
@@ -205,7 +203,7 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!valid}
+          disabled={!isValid}
           onClick={selectAmount}
         />
       </div>
