@@ -105,7 +105,7 @@ export function TokenSelector() {
           })}
         </div>
       ) : (
-        <p>
+        <p className="tw-w-80 tw-text-center">
           {t(translations.BridgeDepositPage.tokenSelector.notSupported, {
             targetAsset,
             network: network?.name,
