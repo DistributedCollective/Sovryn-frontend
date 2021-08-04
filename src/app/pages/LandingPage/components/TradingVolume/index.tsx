@@ -5,7 +5,7 @@ import axios, { Canceler } from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { VolumeValue } from './styled';
+import { Title, VolumeValue } from './styled';
 import { translations } from 'locales/i18n';
 
 interface ITradingVolumeProps {
@@ -19,7 +19,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   tvlLoading,
   tvlValueBtc,
   tvlValueUsd,
-  refreshInterval = 30000,
+  refreshInterval = 300000,
 }) => {
   const { t } = useTranslation();
   const url = backendUrl[currentChainId];
@@ -53,11 +53,9 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   }, []);
 
   return (
-    <div className="tw-rounded-20px tw-bg-black tw-mr-12 tw-flex">
-      <div className="tw-px-14 tw-py-11 tw-text-center tw-w-1/2">
-        <div className="tw-text-2xl tw-font-semibold tw-tracking-normal tw-uppercase tw-mb-6">
-          {t(translations.landingPage.tradingVolume.tvlTitle)}
-        </div>
+    <div className="tw-rounded-20px tw-bg-black tw-mr-12 tw-flex tw-py-5">
+      <div className="tw-px-14 tw-py-6 tw-text-center tw-w-1/2 tw-border-r tw-border-white">
+        <Title>{t(translations.landingPage.tradingVolume.tvlTitle)}</Title>
 
         <div>
           {tvlLoading ? (
@@ -74,7 +72,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
           ) : (
             <>
               ≈{' '}
-              <span>
+              <span className="tw-tracking-wider">
                 {tvlValueUsd?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -86,10 +84,10 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
         </div>
       </div>
 
-      <div className="tw-px-14 tw-py-11 tw-text-center tw-w-1/2">
-        <div className="tw-text-2xl tw-font-semibold tw-tracking-normal tw-uppercase tw-mb-6">
+      <div className="tw-px-14 tw-py-6 tw-text-center tw-w-1/2">
+        <Title>
           {t(translations.landingPage.tradingVolume.dayVolumeTitle)}
-        </div>
+        </Title>
 
         <div>
           {loading ? (
@@ -106,7 +104,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
           ) : (
             <>
               ≈{' '}
-              <span>
+              <span className="tw-tracking-wider">
                 {data?.total.usd.twentyFourHours.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,

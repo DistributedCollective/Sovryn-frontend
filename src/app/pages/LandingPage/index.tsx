@@ -13,6 +13,7 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
+import { WelcomeTitle } from './styled';
 
 const url = backendUrl[currentChainId];
 
@@ -21,7 +22,7 @@ interface ILandingPageProps {
 }
 
 export const LandingPage: React.FC<ILandingPageProps> = ({
-  refreshInterval = 30000,
+  refreshInterval = 300000,
 }) => {
   const { t } = useTranslation();
 
@@ -71,11 +72,11 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-20">
         <div className="tw-flex">
           <div className="tw-w-7/12">
-            <div className="tw-tracking-normal tw-uppercase tw-mb-20">
-              <div className="tw-text-4xl tw-font-semibold tw-mb-5">
+            <div className="tw-tracking-normal tw-mb-12">
+              <WelcomeTitle>
                 {t(translations.landingPage.welcomeTitle)}
-              </div>
-              <div className="tw-text-base tw-font-light">
+              </WelcomeTitle>
+              <div className="tw-text-base tw-capitalize">
                 {t(translations.landingPage.welcomeMessage)}
               </div>
             </div>
