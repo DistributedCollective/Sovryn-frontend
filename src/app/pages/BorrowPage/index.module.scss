@@ -319,7 +319,7 @@
   padding: 20px;
   text-align: center;
 
-  .bp3-numeric-input {
+  :global(.bp3-numeric-input) {
     margin: 10px 0;
   }
 }

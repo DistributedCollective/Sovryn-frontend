@@ -1,12 +1,42 @@
 // fix for blueprint overlay covering scrollbar - https://github.com/palantir/blueprint/issues/1008
 .bp3-overlay-backdrop {
   display: none;
+  background: rgba(72, 72, 72, 0.92);
 }
+
 .bp3-overlay-open {
   background-color: rgba(16, 22, 26, 0.7);
 }
 
-
 article.bp3-dialog h1 {
   @apply tw-text-white;
+}
+
+.bp3-tooltip2 {
+  -webkit-box-shadow: 0 0 0 1px rgba(16, 22, 26, 10%),
+    0 2px 4px rgba(16, 22, 26, 20%), 0 8px 24px rgba(16, 22, 26, 20%);
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 10%), 0 2px 4px rgba(16, 22, 26, 20%),
+    0 8px 24px rgba(16, 22, 26, 20%);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  padding: 10px 12px;
+  border-radius: 3px;
+  position: relative;
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  background: black;
+  color: #f5f8fa;
+}
+.bp3-toast.bp3-intent-success {
+  background-color: theme('colors.turquoise');
+}
+.bp3-overlay-content,
+.bp3-overlay-content:focus {
+  outline: none;
+}
+
+.tw-block span.bp3-popover-target {
+  display: block;
 }
