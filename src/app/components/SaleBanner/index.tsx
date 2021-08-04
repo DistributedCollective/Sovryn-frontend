@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 
-import styles from './SaleBanner.module.scss';
+import styles from './index.module.scss';
 import samurai from './assets/banner-samurai.svg';
 
 export function SaleBanner() {
@@ -25,15 +25,13 @@ export function SaleBanner() {
           <h2
             className={classNames(
               styles.titleContainer,
-              'tw-uppercase tw-black-font',
+              'tw-uppercase tw-text-black tw-font-bold',
             )}
           >
             <>SOV* Genesis Pre-Order is Over!</>
           </h2>
           <div className={styles.subInfoContainer}>
-            <p className={classNames(styles.subInfoText, 'tw-black-font')}>
-              Sold out!
-            </p>
+            <p className={styles.subInfoText}>Sold out!</p>
           </div>
           <div className={styles.buttonContainer}>
             <Link
