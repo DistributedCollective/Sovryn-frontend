@@ -14,13 +14,6 @@ body.originsLaunchpad {
   }
 }
 
-.active {
-  border-bottom: 1px solid var(--Teal);
-  h4 {
-    color: var(--Teal);
-  }
-}
-
 .bordered {
   border: 1px solid var(--Grey_text);
 }
@@ -48,9 +41,6 @@ body.originsLaunchpad {
   z-index: 30;
 }
 
-.tw-cursor-pointer {
-  cursor: pointer;
-}
 .opaque {
   opacity: 0.2;
 }

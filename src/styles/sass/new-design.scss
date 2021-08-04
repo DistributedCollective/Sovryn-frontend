@@ -184,14 +184,6 @@
   }
 }
 
-.font-size-lg {
-  font-size: 19px;
-}
-
-.font-size-xl {
-  font-size: 38px;
-}
-
 .bp3-dialog {
   @extend .sovryn-border;
   @apply tw-p-3;
@@ -298,16 +290,6 @@ button.button-width {
   max-width: 200px;
 }
 
-.is-pointer {
-  cursor: pointer;
-}
-
-.image-responsive {
-  max-width: 333px;
-  border-radius: 6px;
-  position: relative;
-}
-
 .image-bordered:before {
   content: '';
   position: absolute;
@@ -318,31 +300,6 @@ button.button-width {
   right: -10px;
   bottom: -10px;
   border-radius: 16px;
-}
-
-header {
-  background: black;
-
-  & > div:first-child {
-    min-height: 70px;
-  }
-
-  .hamburger {
-    width: 48px;
-    height: 48px;
-    text-align: center;
-    padding-left: 0;
-    color: var(--white);
-    background: none;
-    border: none;
-  }
-
-  select {
-    font-size: 16px;
-    font-family: $font-family-montserrat;
-    font-weight: 100;
-    background-color: transparent;
-  }
 }
 
 .sov-title {

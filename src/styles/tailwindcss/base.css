@@ -22,6 +22,11 @@
     @apply tw-font-body;
   }
 
+  :focus {
+    outline: 0 !important;
+    outline-offset: 0;
+  }
+
   h1,
   h2,
   h3,
