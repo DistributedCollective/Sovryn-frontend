@@ -1,0 +1,13 @@
+@layer components {
+  .tw-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+  .tw-circle .tw-circle-red {
+    background-color: var(--red);
+  }
+  .tw-circle .tw.circle-green {
+    background-color: var(--green);
+  }
+}

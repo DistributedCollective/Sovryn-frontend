@@ -5,3 +5,8 @@
 .bp3-overlay-open {
   background-color: rgba(16, 22, 26, 0.7);
 }
+
+
+article.bp3-dialog h1 {
+  @apply tw-text-white;
+}

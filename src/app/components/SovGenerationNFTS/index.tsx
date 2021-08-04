@@ -71,7 +71,7 @@ export function SovGenerationNFTS() {
           <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
             <div className="image-bordered">
               <img
-                className="tw-w-full tw-h-full tw-image-responsive"
+                className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                 src={bfntImg}
                 alt="Staying Sovryn for 10 halvings"
               />
@@ -88,7 +88,7 @@ export function SovGenerationNFTS() {
               >
                 <div className="image-bordered">
                   <img
-                    className="tw-w-full tw-h-full tw-image-responsive"
+                    className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                     src={item.image}
                     alt=""
                   />
@@ -124,7 +124,7 @@ export function SovGenerationNFTS() {
         })}
         {/* <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
           <div className="image-bordered">
-            <img className="tw-w-full tw-h-full tw-image-responsive" src={sov_2} alt="" />
+            <img className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md" src={sov_2} alt="" />
           </div>
           <div className="sov-table">
             <table className="table">
