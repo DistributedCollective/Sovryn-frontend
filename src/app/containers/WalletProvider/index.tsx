@@ -71,6 +71,8 @@ export function WalletProvider(props: Props) {
       showWrongNetworkRibbon: false,
       remember: !customChain,
       chainId: customChain ? bridgeChainId : currentChainId,
+      enableSoftwareWallet:
+        process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true',
     };
   }, [bridgeChainId, location]);
 
