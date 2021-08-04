@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWalletContext, WalletConnectionView } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
@@ -18,6 +18,7 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
+import { Button } from 'app/components/Button';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -35,9 +36,13 @@ export function WalletSelector() {
     networkList.find(item => item.chainId === chainId)?.chain || 0;
 
   useEffect(() => {
-    walletContext.disconnect();
+    // Keep injected web3 wallet connected, disconnect all other wallet providers.
+    if (walletContext.provider !== ProviderType.WEB3) {
+      walletContext.disconnect();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (!bridgeChainId) {
       dispatch(actions.setStep(DepositStep.CHAIN_SELECTOR));
@@ -68,10 +73,10 @@ export function WalletSelector() {
             <img className="tw-mr-2" src={error_alert} alt="err" />
             <div>
               {t(translations.BridgeDepositPage.walletSelector.wrongNetwork)}{' '}
-              <span className="tw-capitalize">{currentNetwork}</span>
+              <span className="tw-capitalize">{currentNetwork}</span>{' '}
               {t(translations.BridgeDepositPage.walletSelector.switch, {
                 network: network?.name,
-              })}
+              })}{' '}
               <span className="tw-capitalize">{walletName}</span>{' '}
               {t(translations.BridgeDepositPage.walletSelector.wallet)}
             </div>
@@ -94,6 +99,12 @@ export function WalletSelector() {
                 {t(translations.BridgeDepositPage.network)}
               </div>
             </SelectBox>
+
+            <Button
+              onClick={() => walletContext.disconnect()}
+              text="Choose another wallet"
+            />
+
             <a
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
@@ -113,6 +124,9 @@ export function WalletSelector() {
           onStep={step => console.log('step: ', step)}
           onCompleted={step => console.log('step: ', step)}
           hideInstructionLink={true}
+          enableSoftwareWallet={
+            process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true'
+          }
         />
       )}
     </WalletWrapper>
