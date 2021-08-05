@@ -49,6 +49,27 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
+  const {
+    value: userInfoList,
+    loading: userInfoListLoading,
+  } = useLiquidityMining_getUserInfoList();
+  const {
+    value: poolID,
+    loading: poolIDLoading,
+  } = useLiquidityMining_getPoolId(getLendingContract(asset).address);
+
+  const recentRewardSOV = useMemo(
+    () =>
+      userInfoListLoading === false &&
+      poolIDLoading === false &&
+      userInfoList &&
+      userInfoList[poolID] &&
+      userInfoList[poolID][2]
+        ? userInfoList[poolID][2]
+        : 0,
+    [userInfoList, poolID, userInfoListLoading, poolIDLoading],
+  );
+
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
     account,
@@ -167,10 +188,13 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 loading={rewardsLoading}
                 value={
                   <>
-                    {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />
+                    {weiToFixed(bignumber(rewards).add(recentRewardSOV), 8)}{' '}
+                    <AssetRenderer asset={Asset.SOV} />
                   </>
                 }
-                tooltip={<>{weiTo18(rewards)}</>}
+                tooltip={
+                  <>{weiTo18(bignumber(rewards).add(recentRewardSOV))}</>
+                }
               />
             </TableBodyData>
           </>
