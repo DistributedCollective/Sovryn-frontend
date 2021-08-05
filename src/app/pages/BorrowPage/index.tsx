@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -14,15 +14,26 @@ import { selectLendBorrowSovryn } from './selectors';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 
-type Props = {};
+const BorrowPage: React.FC = () => {
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
+  const [linkAsset] = useState(location.state?.asset);
 
-const BorrowPage: React.FC<Props> = props => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: lendBorrowSovrynSaga });
 
   const state = useSelector(selectLendBorrowSovryn);
   const dispatch = useDispatch();
+
+  useEffect(() => linkAsset && history.replace(location.pathname), [
+    history,
+    linkAsset,
+    location.pathname,
+    location.state,
+  ]);
 
   return (
     <>
@@ -31,7 +42,7 @@ const BorrowPage: React.FC<Props> = props => {
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div>
             <CurrencyContainer
-              state={state.asset}
+              state={linkAsset || state.asset}
               setState={asset => dispatch(actions.changeAsset(asset))}
             />
           </div>

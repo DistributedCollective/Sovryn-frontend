@@ -1495,7 +1495,9 @@
         "lending": "Lending",
         "borrowing": "Borrowing",
         "yieldFarming": "Yield Farming",
-        "marginTrading": "Margin Trading"
+        "marginTrading": "Margin Trading",
+        "swap": "Swap",
+        "spotTrading": "Spot Trading"
       }
     },
     "ammpool": {

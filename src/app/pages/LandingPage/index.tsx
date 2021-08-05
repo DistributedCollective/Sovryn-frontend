@@ -43,7 +43,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         cancelToken,
       })
       .then(res => {
-        console.log(res.data);
         setTvlData(res.data);
         setTvlLoading(false);
       })

@@ -1,50 +1,82 @@
+import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Asset } from 'types';
+import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import {
   CardImageSection,
   CardItem,
   CardTextSection,
-  CardImage,
   CardTextTitle,
 } from './styled';
-import { Asset } from 'types';
-import { AppSection } from './types';
-import { getSectionData, getBackgroundImageUrl } from './utils';
+import { AppSection, PromotionColor } from './types';
+import {
+  getSectionTitle,
+  getBackgroundImageUrl,
+  getLinkPathname,
+} from './utils';
 
 interface IPromotionCardProps {
   appSection: AppSection;
-  asset: Asset;
+  backgroundColor: PromotionColor;
   title: string;
   duration: string;
   text: string;
+  linkAsset?: Asset;
+  linkTargetAsset?: Asset;
+  linkMarginPairType?: TradingPairType;
+  linkSpotTradingPairType?: SpotPairType;
 }
 
 export const PromotionCard: React.FC<IPromotionCardProps> = ({
   appSection,
-  asset,
+  backgroundColor,
   title,
   duration,
   text,
+  linkAsset,
+  linkTargetAsset,
+  linkMarginPairType,
+  linkSpotTradingPairType,
 }) => {
-  const { imageUrl: sectionImageUrl, title: sectionTitle } = getSectionData(
-    appSection,
-  );
+  const sectionTitle = getSectionTitle(appSection);
+  const linkPathname = getLinkPathname(appSection);
 
   return (
     <CardItem>
-      <CardImageSection
-        style={{ backgroundImage: `url(${getBackgroundImageUrl(asset)})` }}
+      <Link
+        to={{
+          pathname: `/${linkPathname}`,
+          state: {
+            asset: linkAsset,
+            target: linkTargetAsset,
+            tradingPair: linkMarginPairType,
+            spotTradingPair: linkSpotTradingPairType,
+          },
+        }}
+        className="tw-no-underline"
       >
-        <div className="tw-flex tw-items-center">
-          <CardImage src={sectionImageUrl} />
-          <span className="tw-leading-4 tw-self-end tw-font-light">
-            . {sectionTitle}
-          </span>
-        </div>
-        <div>
-          <CardTextTitle>{title}</CardTextTitle>
-          <div className="tw-text-xs tw-font-extralight">{duration}</div>
-        </div>
-      </CardImageSection>
+        <CardImageSection
+          style={{
+            backgroundImage: `url(${getBackgroundImageUrl(backgroundColor)})`,
+          }}
+        >
+          <div className="tw-flex tw-justify-between">
+            <div className="tw-w-24"></div>
+            <div>
+              <div className="tw-mb-5">
+                <span className="tw-leading-4 tw-self-end tw-font-light">
+                  {sectionTitle}
+                </span>
+              </div>
+              <div className="tw-max-w-15rem tw-flex tw-flex-col tw-justify-between">
+                <CardTextTitle>{title}</CardTextTitle>
+                <div className="tw-text-xs tw-font-extralight">{duration}</div>
+              </div>
+            </div>
+          </div>
+        </CardImageSection>
+      </Link>
       <CardTextSection>{text}</CardTextSection>
     </CardItem>
   );

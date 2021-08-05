@@ -38,13 +38,17 @@ const pairs: Options<
     label: item.name,
   }));
 
-export function TradeForm() {
+interface ITradeFormProps {
+  pairType: TradingPairType;
+}
+
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
-  const { pairType, collateral, leverage } = useSelector(selectMarginTradePage);
+  const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState<string>('');
@@ -165,4 +169,4 @@ export function TradeForm() {
       <TradeDialog />
     </>
   );
-}
+};

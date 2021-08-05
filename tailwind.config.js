@@ -132,6 +132,7 @@ module.exports = {
         '7.5rem': '7.5rem',
         '8.75-rem': '8.75rem',
         '13rem': '13rem',
+        '15rem': '15rem',
         '20rem': '20rem',
         '20.5rem': '20.5rem',
         '28.75rem': '28.75rem',

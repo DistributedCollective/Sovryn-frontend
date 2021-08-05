@@ -9,14 +9,13 @@ export const CardItem = styled.div`
 export const CardImageSection = styled.div`
   height: 11.9375rem;
   width: 100%;
-  border: 1px solid #e9eae9;
-  border-radius: 0.5rem;
   margin-bottom: 1.375rem;
   position: relative;
-  padding: 1rem 5.6rem 1rem 1.625rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #ffffff;
 `;
 
 export const CardTextSection = styled.div`
@@ -39,5 +38,4 @@ export const CardTextTitle = styled.div`
   line-height: 2.25rem;
   letter-spacing: 0;
   font-weight: 600;
-  margin-bottom: 0.625rem;
 `;

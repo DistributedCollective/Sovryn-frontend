@@ -96,11 +96,8 @@ export const ArbitrageOpportunity: React.FC = () => {
                     history.push({
                       pathname: '/swap',
                       state: {
-                        params: {
-                          action: 'swap',
-                          asset: opportunity.fromToken,
-                          target: opportunity.toToken,
-                        },
+                        asset: opportunity.fromToken,
+                        target: opportunity.toToken,
                       },
                     });
                   }}

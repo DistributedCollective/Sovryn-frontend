@@ -1,76 +1,103 @@
 import React from 'react';
-import imgRbtc from 'assets/images/promoCards/RBTC_Card.png';
-import imgSov from 'assets/images/promoCards/SOV_Card.png';
-import imgDoc from 'assets/images/promoCards/DoC_Card.png';
-import imgSectionMargin from 'assets/images/promoCards/Margin_Icon.png';
-import imgSectionLend from 'assets/images/promoCards/Lending_Icon.png';
-import imgSectionBorrow from 'assets/images/promoCards/Borrowing_Icon.png';
-import imgSectionYield from 'assets/images/promoCards/Yield_Icon.png';
-import { Asset } from 'types';
-import { AppSection, ISectionData } from './types';
+import imgOrangeBg from 'assets/images/promoCards/Orange.svg';
+import imgBlueBg from 'assets/images/promoCards/Blue.svg';
+import imgDarkYellowBg from 'assets/images/promoCards/DarkYellow.svg';
+import imgLightGreenBg from 'assets/images/promoCards/LightGreen.svg';
+import imgYellowBg from 'assets/images/promoCards/Yellow.svg';
+import imgDarkBlueBg from 'assets/images/promoCards/DarkBlue.svg';
+import imgGreenBg from 'assets/images/promoCards/Green.svg';
+import imgGreyBg from 'assets/images/promoCards/Grey.svg';
+import imgPinkBg from 'assets/images/promoCards/Pink.svg';
+import imgPurpleBg from 'assets/images/promoCards/Purple.svg';
+import imgTurquoiseBg from 'assets/images/promoCards/Turquoise.svg';
+import { AppSection, PromotionColor } from './types';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-export const getSectionData = (section: AppSection): ISectionData => {
+export const getSectionTitle = (section: AppSection): JSX.Element => {
   switch (section) {
     case AppSection.Lend:
-      return {
-        imageUrl: imgSectionLend,
-        title: (
-          <Trans
-            i18nKey={translations.landingPage.promotions.sections.lending}
-          />
-        ),
-      };
+      return (
+        <Trans i18nKey={translations.landingPage.promotions.sections.lending} />
+      );
+
     case AppSection.Borrow:
-      return {
-        imageUrl: imgSectionBorrow,
-        title: (
-          <Trans
-            i18nKey={translations.landingPage.promotions.sections.borrowing}
-          />
-        ),
-      };
+      return (
+        <Trans
+          i18nKey={translations.landingPage.promotions.sections.borrowing}
+        />
+      );
+
     case AppSection.MarginTrade:
-      return {
-        imageUrl: imgSectionMargin,
-        title: (
-          <Trans
-            i18nKey={translations.landingPage.promotions.sections.marginTrading}
-          />
-        ),
-      };
+      return (
+        <Trans
+          i18nKey={translations.landingPage.promotions.sections.marginTrading}
+        />
+      );
+
     case AppSection.YieldFarm:
-      return {
-        imageUrl: imgSectionYield,
-        title: (
-          <Trans
-            i18nKey={translations.landingPage.promotions.sections.yieldFarming}
-          />
-        ),
-      };
+      return (
+        <Trans
+          i18nKey={translations.landingPage.promotions.sections.yieldFarming}
+        />
+      );
+
+    case AppSection.Spot:
+      return (
+        <Trans
+          i18nKey={translations.landingPage.promotions.sections.spotTrading}
+        />
+      );
 
     default:
-      return {
-        imageUrl: imgSectionLend,
-        title: (
-          <Trans
-            i18nKey={translations.landingPage.promotions.sections.lending}
-          />
-        ),
-      };
+      return (
+        <Trans i18nKey={translations.landingPage.promotions.sections.swap} />
+      );
   }
 };
 
-export const getBackgroundImageUrl = (asset: Asset): string => {
-  switch (asset) {
-    case Asset.RBTC:
-      return imgRbtc;
-    case Asset.DOC:
-      return imgDoc;
-    case Asset.SOV:
-      return imgSov;
+export const getBackgroundImageUrl = (color: PromotionColor): string => {
+  switch (color) {
+    case PromotionColor.Orange:
+      return imgOrangeBg;
+    case PromotionColor.Blue:
+      return imgBlueBg;
+    case PromotionColor.DarkYellow:
+      return imgDarkYellowBg;
+    case PromotionColor.LightGreen:
+      return imgLightGreenBg;
+    case PromotionColor.Yellow:
+      return imgYellowBg;
+    case PromotionColor.DarkBlue:
+      return imgDarkBlueBg;
+    case PromotionColor.Green:
+      return imgGreenBg;
+    case PromotionColor.Grey:
+      return imgGreyBg;
+    case PromotionColor.Pink:
+      return imgPinkBg;
+    case PromotionColor.Purple:
+      return imgPurpleBg;
+    case PromotionColor.Turquoise:
+      return imgTurquoiseBg;
     default:
-      return imgRbtc;
+      return imgOrangeBg;
+  }
+};
+
+export const getLinkPathname = (section: AppSection): string => {
+  switch (section) {
+    case AppSection.Borrow:
+      return 'borrow';
+    case AppSection.Lend:
+      return 'lend';
+    case AppSection.MarginTrade:
+      return 'trade';
+    case AppSection.YieldFarm:
+      return 'yield-farm';
+    case AppSection.Spot:
+      return 'spot';
+    default:
+      return 'swap';
   }
 };

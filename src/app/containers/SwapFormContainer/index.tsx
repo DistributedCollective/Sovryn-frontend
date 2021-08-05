@@ -1,12 +1,6 @@
-/**
- *
- * SwapFormContainer
- *
- */
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -39,6 +33,7 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 const s = translations.swapTradeForm;
 
@@ -191,23 +186,28 @@ export function SwapFormContainer() {
     minReturn,
   );
 
-  const { state } = useLocation();
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
 
   useEffect(() => {
-    const params: any = (state as any)?.params;
-    if (params?.action && params?.action === 'swap' && params?.asset) {
-      const item = tokenBalance.find(item => item.key === params.asset);
+    if (location.state?.asset) {
+      const item = tokenBalance.find(
+        item => item.key === location.state?.asset,
+      );
       if (item) {
         setSourceToken(item.key);
       }
     }
-    if (params?.action && params?.action === 'swap' && params?.target) {
-      const item = tokenBalance.find(item => item.key === params.target);
+    if (location.state?.target) {
+      const item = tokenBalance.find(
+        item => item.key === location.state?.target,
+      );
       if (item) {
         setTargetToken(item.key);
+        history.replace(location.pathname);
       }
     }
-  }, [state, tokens, tokenBalance]);
+  }, [tokens, tokenBalance, location.state, location.pathname, history]);
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
