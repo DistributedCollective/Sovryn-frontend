@@ -118,7 +118,7 @@ export function ActiveLoanTableDesktop(props: Props) {
                     }
                   }}
                   className={`tw-cursor-pointer ${
-                    props.expandedId && !expanded && 'opaque'
+                    props.expandedId && !expanded && 'tw-opacity-20'
                   }`}
                 >
                   <td>

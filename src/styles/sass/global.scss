@@ -14,35 +14,8 @@ body.originsLaunchpad {
   }
 }
 
-.bordered {
-  border: 1px solid var(--Grey_text);
-}
-
-.data-container {
-  background-color: var(--Field_bg);
-  padding: 8px 14px;
-  &.bordered {
-    border: 1px solid var(--Grey_text);
-  }
-}
-
-.data-label {
-  padding: 8px 0;
-  color: var(--Grey_text);
-  font-size: 85%;
-}
-.modal-title {
-  font-size: 22px;
-  font-weight: 300;
-  letter-spacing: 0.49px;
-  text-transform: capitalize;
-}
 #WEB3_CONNECT_MODAL_ID > div {
   z-index: 30;
-}
-
-.opaque {
-  opacity: 0.2;
 }
 
 .mw-tooltip {
