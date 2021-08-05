@@ -4083,10 +4083,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/react-wallet@2.0.1-alpha.1":
-  version "2.0.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.0.1-alpha.1.tgz#168f01b5a0ec145d20a9efcbd9c9fd15febd1553"
-  integrity sha512-fjjtQ0zhskBq4ymP+6gZElWx8dQxcGKTx5eqcnCT680Y4gt5tF6QTUB966bo2Uh+Nj13YwRrMJh2hxRVc9yX1A==
+"@sovryn/react-wallet@2.0.1-alpha.2":
+  version "2.0.1-alpha.2"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.0.1-alpha.2.tgz#7633ea94dc1be2591d5ec9f3912d4d8f1d0d1725"
+  integrity sha512-HYuwdGkQuFKrgwysml9q2ipoOSm66MgPlKOX6RK+76hTrRhMZfYyI/zPRNrOttDp7906hhOvxPDylaczIyjBtw==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"

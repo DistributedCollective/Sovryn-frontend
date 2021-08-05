@@ -9,12 +9,15 @@ import { actions } from '../../slice';
 import { currentChainId, currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { SelectBox } from '../SelectBox';
-import wMetamask from 'assets/wallets/metamask.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { noop } from '../../../../constants';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import {
+  getWalletName,
+  getWalletImage,
+} from 'app/components/UserAssets/TxDialog/WalletLogo';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -46,14 +49,14 @@ export function ReturnToPortfolio() {
           <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
-              src={wMetamask}
-              alt={'Metamask'}
+              src={getWalletImage(walletName)}
+              alt={walletName}
             />
-            <div>Metamask</div>
+            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.notConnected)}{' '}
-            <span className="tw-capitalize">{walletName}</span>.
+            <span className="tw-capitalize">{getWalletName(walletName)}</span>.
           </p>
 
           <ActionButton
@@ -68,14 +71,14 @@ export function ReturnToPortfolio() {
           <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
-              src={wMetamask}
-              alt={'Metamask'}
+              src={getWalletImage(walletName)}
+              alt={walletName}
             />
-            <div>Metamask</div>
+            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.wrongNetwork)}{' '}
-            <span className="tw-capitalize">{walletName}</span>.
+            <span className="tw-capitalize">{getWalletName(walletName)}</span>.
           </p>
           {walletName === 'metamask' && (
             <ActionButton
@@ -99,10 +102,10 @@ export function ReturnToPortfolio() {
           <SelectBox onClick={noop}>
             <img
               className="tw-h-20 tw-mb-5 tw-mt-2"
-              src={wMetamask}
-              alt={'Metamask'}
+              src={getWalletImage(walletName)}
+              alt={walletName}
             />
-            <div className="tw-capitalize">{walletName}</div>
+            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.connected)}

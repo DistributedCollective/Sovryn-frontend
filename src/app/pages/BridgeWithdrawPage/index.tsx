@@ -33,7 +33,7 @@ export function BridgeWithdrawPage() {
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { step } = useSelector(selectBridgeWithdrawPage);
+  const { step, sourceAsset } = useSelector(selectBridgeWithdrawPage);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
   const history = useHistory();
@@ -112,10 +112,12 @@ export function BridgeWithdrawPage() {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
-          <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
-          {t(translations.BridgeDepositPage.poweredBy)}
-        </div>
+        {sourceAsset === 'XUSD' && (
+          <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
+            <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
+            {t(translations.BridgeDepositPage.poweredBy)}
+          </div>
+        )}
       </div>
     </>
   );

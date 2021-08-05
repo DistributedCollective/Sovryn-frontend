@@ -35,7 +35,7 @@ export function BridgeDepositPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
-  const { step, requestedReturnToPortfolio } = useSelector(
+  const { step, requestedReturnToPortfolio, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
   const { t } = useTranslation();
@@ -121,8 +121,7 @@ export function BridgeDepositPage() {
             </CSSTransition>
           </SwitchTransition>
         </div>
-
-        {!requestedReturnToPortfolio && (
+        {!requestedReturnToPortfolio && targetAsset === 'XUSD' && (
           <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
             {t(translations.BridgeDepositPage.poweredBy)}

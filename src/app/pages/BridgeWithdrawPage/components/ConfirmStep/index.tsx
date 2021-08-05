@@ -4,7 +4,10 @@ import { Chain } from 'types';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
-import wMetamask from 'assets/wallets/metamask.svg';
+import {
+  getWalletName,
+  getWalletImage,
+} from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Table } from '../styled';
 
@@ -23,11 +26,13 @@ import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { useHistory } from 'react-router-dom';
 import { noop } from '../../../../constants';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 export function ConfirmStep() {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.confirmStep;
   const history = useHistory();
+  const walletName = detectWeb3Wallet();
   const { wallet } = useWalletContext();
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
     selectBridgeWithdrawPage,
@@ -78,10 +83,10 @@ export function ConfirmStep() {
             <SelectBox onClick={noop}>
               <img
                 className="tw-h-20 tw-mb-5 tw-mt-2"
-                src={wMetamask}
-                alt={'Metamask'}
+                src={getWalletImage(walletName)}
+                alt={walletName}
               />
-              <div>Metamask</div>
+              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.approve, {
@@ -100,10 +105,10 @@ export function ConfirmStep() {
             <SelectBox onClick={noop}>
               <img
                 className="tw-h-20 tw-mb-5 tw-mt-2"
-                src={wMetamask}
-                alt={'Metamask'}
+                src={getWalletImage(walletName)}
+                alt={walletName}
               />
-              <div>Metamask</div>
+              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.confirm, { providerType: wallet.providerType })}
