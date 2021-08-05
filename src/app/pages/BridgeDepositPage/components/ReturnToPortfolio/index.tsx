@@ -37,7 +37,8 @@ export function ReturnToPortfolio() {
 
   const handleNetworkSwitch = useCallback(() => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
-  }, [dispatch]);
+    history.push('/wallet');
+  }, [dispatch, history]);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
