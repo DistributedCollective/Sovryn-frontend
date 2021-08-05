@@ -68,13 +68,16 @@ export const ArbitrageOpportunity: React.FC = () => {
         {opportunityArray.map(opportunity => {
           return (
             <div className="tw-flex tw-items-center tw-my-4">
-              <StyledImage
-                src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
-              />
-              <StyledImage
-                className="tw--ml-4 tw-z-1"
-                src={AssetsDictionary.get(opportunity.toToken).logoSvg}
-              />
+              <div className="tw-bg-background tw-rounded-full tw-z-10">
+                <StyledImage
+                  src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
+                />
+              </div>
+              <div className="tw-bg-background tw-rounded-full tw--ml-3">
+                <StyledImage
+                  src={AssetsDictionary.get(opportunity.toToken).logoSvg}
+                />
+              </div>
 
               <div className="tw-font-light text-white tw-ml-2.5 tw-flex-1">
                 {t(translations.landingPage.arbitrageOpportunity.swapUp)}{' '}
