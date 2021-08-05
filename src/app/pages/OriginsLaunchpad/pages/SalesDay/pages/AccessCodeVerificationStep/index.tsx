@@ -68,7 +68,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               }
               components={[
                 <a
-                  href="#"
+                  href="#!"
                   target="_blank"
                   rel="noreferrer noopener"
                   className="tw-text-secondary tw-text-underline"

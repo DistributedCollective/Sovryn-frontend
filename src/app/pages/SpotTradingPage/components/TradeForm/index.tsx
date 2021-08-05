@@ -98,7 +98,7 @@ export function TradeForm() {
         />
       )}
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
 
           <FormGroup
@@ -187,7 +187,7 @@ export function TradeForm() {
           )}
         </div>
         {!spotLocked && (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+          <div className="tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
             <Button
               text={t(
                 tradeType === TradingTypes.BUY

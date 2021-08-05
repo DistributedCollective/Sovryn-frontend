@@ -8,7 +8,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
@@ -168,11 +168,10 @@ export function VestingContract(props: Props) {
               <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
                 {lockedAmount.value && (
                   <>
-                    {weiToNumberFormat(lockedAmount.value)}{' '}
-                    {t(translations.stake.sov)}
+                    {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
-                      value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                      value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
                       loading={dollars.loading}
                     />
                   </>
@@ -219,10 +218,7 @@ export function VestingContract(props: Props) {
             </td>
             <td>
               ≈{' '}
-              <LoadableValue
-                value={weiToNumberFormat(rbtcValue, 4)}
-                loading={rbtc.loading}
-              />{' '}
+              <LoadableValue value={weiTo4(rbtcValue)} loading={rbtc.loading} />{' '}
               RBTC
             </td>
             <td className="md:tw-text-left tw-hidden md:tw-table-cell">

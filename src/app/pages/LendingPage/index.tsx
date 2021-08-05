@@ -2,18 +2,18 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-import { Header } from 'app/components/Header';
-import { Footer } from '../../components/Footer';
-import { LootDropSectionWrapper } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 import { LootDrop } from 'app/components/FinanceV2Components/LootDrop';
+import { LootDropSectionWrapper } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { Header } from 'app/components/Header';
 import { translations } from 'locales/i18n';
+import { Asset } from 'types';
 
+import { Footer } from '../../components/Footer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import CurrencyContainer from './components/CurrencyContainer';
 import { HistoryTable } from './components/HistoryTable';
-import { Asset } from 'types';
 
 const LendingPage: React.FC = () => {
   const { t } = useTranslation();
@@ -35,9 +35,9 @@ const LendingPage: React.FC = () => {
             title="15K SOV"
             asset1={Asset.XUSD}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'July 19',
+              date: 'August 2',
             })}
-            linkUrl="https://wiki.sovryn.app/en/sovryn-dapp/lending#sov-loot-drops-on-lending-pools"
+            linkUrl="https://www.sovryn.app/blog/sov-is-diving-into-the-lending-pools"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Yellow}
           />

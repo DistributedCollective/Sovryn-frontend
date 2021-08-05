@@ -68,7 +68,7 @@
     "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
-    "title": "Sovryn has been updated to <br/> <0>Build ID: {{buildId}}</0>",
+    "title": "Sovryn has been updated to <br/> <0>Build ID:</0> <1>{{buildId}}</1>",
     "notice": "Please close all tabs with Sovryn open to update",
     "updateBtn": "UPDATE",
     "closeBtn": "Please let me close a trade"
@@ -495,14 +495,25 @@
       "balance": "Balance"
     },
     "history": {
+      "loading": "Loading...",
       "title": "Staking History",
       "asset": "Asset",
+      "action": "Action",
       "stakedAmount": "Amount",
       "stakingDate": "Date/Time",
       "hash": "Transaction Hash",
       "totalStaked": "Total Staked",
       "viewHistory": "Click to view history",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "stake": "Stake",
+        "unstake": "Unstake",
+        "feeWithdraw": "Fee Withdraw",
+        "increase": "Increase",
+        "extend": "Extend",
+        "delegate": "Delegate",
+        "withdraw": "Withdraw"
+      }
     },
     "increase": {
       "title": "Add to Stake",
@@ -521,7 +532,7 @@
     },
     "currentVests": {
       "title": "Current Vests",
-      "asset": "Voting Delegation",
+      "asset": "Vested Asset",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
@@ -586,7 +597,8 @@
   "formSelect": {
     "loading": "Loading, please wait.",
     "noresults": "No results.",
-    "placeholder": "Select something"
+    "placeholder": "Select something",
+    "selectTradePair": "Select trade pair"
   },
   "hintHowToTopUp": {
     "hintOne": "You're connected! To trade and lend with Sovryn, you will need some Bitcoin on the RSK platform.",
@@ -628,6 +640,7 @@
     "text": "Sovryn has just lifted transaction limits (hooray!). This means you can now take any position size. Please be aware, however, since the limits were only just removed, liquidity in the system may be low initially."
   },
   "lend": {
+    "title": "Lend",
     "history": {
       "title": "Lending history",
       "amount": "Lend Amount",
@@ -1020,7 +1033,7 @@
     "title": "Vested History",
     "tableHeaders": {
       "time": "Date/Time",
-      "vestingSchedule": "Vesting Schedule",
+      "vestingSchedule": "Type",
       "amount": "Amount",
       "hash": "Transaction Hash",
       "status": "Status"
@@ -1110,7 +1123,8 @@
       "deposit": {
         "title": "Deposit",
         "cta": "Deposit",
-        "amount": "Amount:",
+        "amount": "Amount",
+        "max": "(Max {{limit}} {{asset}})",
         "apy": "APY <0/> variable"
       },
       "withdraw": {
@@ -1296,7 +1310,7 @@
     "claimForm": {
       "title": "Available Rewards",
       "availble": "Total Reward SOV Available:",
-      "cta": "claim",
+      "cta": "Claim",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
@@ -1312,13 +1326,21 @@
       "OGRewards": "OG Rewards"
     },
     "historyTable": {
+      "title": "Reward History",
       "tableHeaders": {
         "time": "Date",
         "type": "Type",
-        "amount": "Action",
+        "amount": "Amount",
         "transactionHash": "Transaction Hash",
         "status": "Status"
       },
+      "event": {
+        "liquidityMining": "Liquidity Reward",
+        "vesting": "Vesting",
+        "staking": "Staking",
+        "referral": "Referrals Reward"
+      },
+      "walletHistory": "Wallet must be connected.",
       "emptyState": "History is empty.",
       "loading": "Loading..."
     }
@@ -1350,7 +1372,11 @@
       "direction": "Direction:",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Approx. Position Entry Price:"
+      "entryPrice": "Approx. Position Entry Price:",
+      "position": {
+        "long": "Long",
+        "short": "Short"
+      }
     },
     "openPositions": "Open Positions",
     "tradingHistory": "Trading History"
