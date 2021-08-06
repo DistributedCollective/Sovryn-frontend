@@ -25,6 +25,7 @@ export const Promotions: React.FC = () => {
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
             linkAsset={Asset.BPRO}
+            learnMoreLink="http://www.test.com"
           />
 
           <PromotionCard
@@ -33,7 +34,8 @@ export const Promotions: React.FC = () => {
             title="25K SOV rewards"
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkAsset={Asset.SOV}
+            linkAsset={Asset.RBTC}
+            learnMoreLink="http://www.test.com"
           />
 
           <PromotionCard
@@ -43,6 +45,7 @@ export const Promotions: React.FC = () => {
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
             linkAsset={Asset.DOC}
+            learnMoreLink="http://www.test.com"
           />
 
           <PromotionCard
@@ -52,6 +55,7 @@ export const Promotions: React.FC = () => {
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
             linkMarginPairType={TradingPairType.RBTC_DOC}
+            learnMoreLink="http://www.test.com"
           />
 
           <PromotionCard
@@ -62,6 +66,7 @@ export const Promotions: React.FC = () => {
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
             linkAsset={Asset.BPRO}
             linkTargetAsset={Asset.XUSD}
+            learnMoreLink="http://www.test.com"
           />
 
           <PromotionCard
@@ -71,6 +76,7 @@ export const Promotions: React.FC = () => {
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
             linkSpotTradingPairType={SpotPairType.SOV_BNB}
+            learnMoreLink="http://www.test.com"
           />
         </PromotionsCarousel>
       </div>
