@@ -1444,7 +1444,7 @@
       "to": "Para",
       "token": "Cripto",
       "amount": "Quantidade",
-      "receiver": "Receiver",
+      "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
       "tx": "Tx",
       "confirm": "Confirmar saque"
