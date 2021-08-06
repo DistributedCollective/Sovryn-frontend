@@ -1402,7 +1402,7 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Aggregator Balance",
-      "depositAmount": "Deposit Amount"
+      "depositAmount": "Desejo depositar:"
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
