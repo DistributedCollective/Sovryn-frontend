@@ -1480,7 +1480,7 @@
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja sacar",
-      "notSupported": "Desculpe, não suportamos saque para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto."
+      "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto."
     }
   },
   "buySovPage": {
