@@ -8,7 +8,7 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { VestingContract } from './VestingContract';
 
 interface Props {
-  onDelegate: (a: number) => void;
+  onDelegate: (timestamp: number, vestingAddress: string) => void;
 }
 
 export function CurrentVests(props: Props) {
@@ -75,7 +75,9 @@ export function CurrentVests(props: Props) {
                   key={item.address}
                   vestingAddress={item.address}
                   type={item.type}
-                  onDelegate={props.onDelegate}
+                  onDelegate={timestamp =>
+                    props.onDelegate(timestamp, item.address)
+                  }
                 />
               ))}
             </tbody>

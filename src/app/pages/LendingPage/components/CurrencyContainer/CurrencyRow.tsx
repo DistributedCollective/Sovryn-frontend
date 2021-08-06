@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { LendingPool } from 'utils/models/lending-pool';
 import { translations } from 'locales/i18n';
 import styled from 'styled-components/macro';
+import { useIsConnected } from '../../../../hooks/useAccount';
 
 import { PoolChart } from './PoolChart';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
@@ -31,6 +32,7 @@ const CurrencyRow: React.FC<Props> = ({
   withdrawLocked,
   linkAsset,
 }) => {
+  const connected = useIsConnected();
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>(
     lendingPool.getAsset() === linkAsset ? 'add' : 'none',
@@ -52,7 +54,7 @@ const CurrencyRow: React.FC<Props> = ({
             onClick={() => setDialog('add')}
             className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
             textClassName="tw-text-base"
-            disabled={depositLocked}
+            disabled={depositLocked || !connected}
           />
         ) : (
           <Tooltip
@@ -78,7 +80,7 @@ const CurrencyRow: React.FC<Props> = ({
             onClick={() => setDialog('remove')}
             className="tw-block tw-w-full tw-rounded-lg"
             textClassName="tw-text-base"
-            disabled={isEmptyBalance || withdrawLocked}
+            disabled={isEmptyBalance || withdrawLocked || !connected}
           />
         ) : (
           <Tooltip
