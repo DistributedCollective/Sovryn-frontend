@@ -1459,7 +1459,7 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount"
+      "withdrawAmount": "Desejo sacar:"
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
