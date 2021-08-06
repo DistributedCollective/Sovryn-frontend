@@ -63,7 +63,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
           state: {
             asset: linkAsset,
             target: linkTargetAsset,
-            tradingPair: linkMarginPairType,
+            marginTradingPair: linkMarginPairType,
             spotTradingPair: linkSpotTradingPairType,
           },
         }}
