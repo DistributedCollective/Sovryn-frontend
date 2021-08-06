@@ -27,6 +27,8 @@ interface IPromotionCardProps {
   title: string;
   duration: string;
   text: string;
+  logoAsset1: Asset;
+  logoAsset2?: Asset;
   learnMoreLink?: string;
   linkAsset?: Asset;
   linkTargetAsset?: Asset;
@@ -40,6 +42,8 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   title,
   duration,
   text,
+  logoAsset1,
+  logoAsset2,
   learnMoreLink,
   linkAsset,
   linkTargetAsset,
@@ -72,16 +76,16 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
         >
           <div className="tw-flex tw-justify-between tw-h-full">
             <div className="tw-w-24">
-              {linkAsset && (
-                <div className="tw-flex tw-items-center">
-                  {/* <div className="tw-bg-background tw-rounded-full tw-z-10">
-                    <AssetLogo src={AssetsDictionary.get(linkAsset).logoSvg} />
-                  </div>
-                  <div className="tw-bg-background tw-rounded-full tw--ml-3">
-                    <AssetLogo src={AssetsDictionary.get(linkAsset).logoSvg} />
-                  </div> */}
+              <div className="tw-flex tw-items-center">
+                <div className="tw-z-10">
+                  <AssetLogo src={AssetsDictionary.get(logoAsset1).logoSvg} />
                 </div>
-              )}
+                {logoAsset2 && (
+                  <div className="tw--ml-6">
+                    <AssetLogo src={AssetsDictionary.get(logoAsset2).logoSvg} />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="tw-relative">
               <SectionTitle>{sectionTitle}</SectionTitle>
