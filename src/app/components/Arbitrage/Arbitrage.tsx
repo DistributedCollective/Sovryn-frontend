@@ -9,7 +9,7 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { useFetch } from '../../hooks/useFetch';
 import { Asset } from '../../../types';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { fixNumber } from '../../../utils/helpers';
+import { fixNumber, isEmpty } from '../../../utils/helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
@@ -31,7 +31,16 @@ export function Arbitrage() {
   const opportunityArray = useMemo(
     () =>
       Object.values(data)
-        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .filter(item => {
+          const rateToBalance = item?.rateToBalance;
+          return (
+            rateToBalance &&
+            !isEmpty(rateToBalance.earn) &&
+            !isEmpty(rateToBalance.amount) &&
+            !isEmpty(rateToBalance.rate) &&
+            rateToBalance.to
+          );
+        })
         .map(item => {
           const toToken = assetByTokenAddress(item.rateToBalance.to);
           const rate = assetRates.find(
