@@ -1,0 +1,92 @@
+// swap btn
+.swap-btn-container {
+  max-width: 250px;
+  margin: auto;
+  margin-top: 23px;
+  .swap-btn-helper {
+    font-size: 12px;
+    color: #e9eae9;
+    text-align: center;
+    img {
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  }
+  .swap-btn {
+    background: #17c3b2;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    width: 250px;
+    margin: auto;
+    margin-top: 17px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0;
+  }
+}
+
+// swap form
+.swap-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: theme('screens.lg')) {
+    flex-direction: row;
+  }
+
+  .swap-form {
+    background: #111111;
+    border-radius: 20px;
+    border: 1px solid #444444;
+    padding: 30px 36px 50px;
+    width: 387px;
+    min-height: 388px;
+    
+    .title {
+      opacity: 1;
+      color: #e9eae9;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 53px;
+      text-align: center;
+      margin-bottom: 41px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .available-balance {
+      color: #e9eae9;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .amount {
+      margin-top: 31px;
+    }
+  }
+  .swap-revert-wrapper {
+    margin: 0 62px;
+    width: 227px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(90deg);
+
+    @media (min-width: theme('screens.lg')) {
+      transform: none;
+    }
+
+    .swap-revert {
+      width: 170px;
+      height: 133px;
+      background: center center no-repeat;
+      background-size: 100% 100%;
+      cursor: pointer;
+    }
+  }
+}

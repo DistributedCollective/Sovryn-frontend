@@ -28,7 +28,10 @@ export function SwapSlippageModal(props: Props) {
     >
       <div className="custom-dialog-container">
         <div
-          className={`custom-dialog tw-font-body ${styles.swapConfirmDialog}`}
+          className={classNames(
+            styles.swapConfirmDialog,
+            'custom-dialog tw-font-body',
+          )}
         >
           <div className={styles.container}>
             <h2 className={styles.title}>Adjust slippage</h2>
@@ -38,11 +41,7 @@ export function SwapSlippageModal(props: Props) {
                 <AmountField
                   value={props.minReceivedAmount}
                   onChange={() => {}}
-                  rightElement={
-                    <div className="swap-form__amount-type">
-                      {props.receivedToken}
-                    </div>
-                  }
+                  rightElement={<div>{props.receivedToken}</div>}
                 />
               </div>
             </div>
