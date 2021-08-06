@@ -1,0 +1,19 @@
+<svg id="Group_3957" data-name="Group 3957" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="38" height="38" viewBox="0 0 38 38">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_2935" data-name="Path 2935" d="M710.12-1312.38l-1.1,1.556,1.925,2.807.262-.518,9.011-17.689Zm-1.087-4-3.809-.008,2.81,3.848a.545.545,0,0,0,.835,0l1.256-1.712.471-.622c.052-.052.052-.1.1-.155.315-1.246.527-2.492-.829-2.806a1.512,1.512,0,0,1,.1.467A.889.889,0,0,1,709.032-1316.38ZM697-1326.271l11.068,21.936a.541.541,0,0,0,.939,0l1.519-2.957-1.976-2.964Zm14.118,10.778,4.238-5.7-6.94-.015a.988.988,0,0,1-.989-.988c-2.505.566-3.082,1.811-3.5,3.835l5.113.011h.1C711.8-1318.244,711.851-1316.946,711.118-1315.493Zm-7.351-2.871c.109-2.6,1.053-4.464,4.5-4.768h.156l8.348.018,1.36-1.867a.519.519,0,0,0-.416-.831l-18.418-.037a.526.526,0,0,0-.419.83Z" transform="translate(-697 1326.271)" fill="none" clip-rule="evenodd"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Path_2934" data-name="Path 2934" d="M625-1286.619h95.9V-1327H625Z" transform="translate(-625 1327)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_3951" data-name="Group 3951" transform="translate(6.942 9.862)" clip-path="url(#clip-path)">
+    <g id="Group_3950" data-name="Group 3950" transform="translate(-36.342 -0.368)" clip-path="url(#clip-path-2)">
+      <path id="Path_2933" data-name="Path 2933" d="M692-1331.271h28.266v27.257H692Z" transform="translate(-658.181 1329.115)" fill="#fff"/>
+    </g>
+  </g>
+  <g id="Ellipse_357" data-name="Ellipse 357" fill="none" stroke="#fff" stroke-width="3">
+    <circle cx="19" cy="19" r="19" stroke="none"/>
+    <circle cx="19" cy="19" r="17.5" fill="none"/>
+  </g>
+</svg>
