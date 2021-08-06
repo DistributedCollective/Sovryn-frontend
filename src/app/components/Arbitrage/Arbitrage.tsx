@@ -19,7 +19,7 @@ const s = translations.swapTradeForm;
 
 const minUsdForOpportunity = 10;
 
-const isValidArbitrage = arbitrage => {
+export const isValidArbitrage = arbitrage => {
   const rateToBalance = arbitrage?.rateToBalance;
   return (
     rateToBalance &&

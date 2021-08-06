@@ -18,6 +18,7 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useHistory } from 'react-router-dom';
+import { isValidArbitrage } from 'app/components/Arbitrage/Arbitrage';
 
 export const ArbitrageOpportunity: React.FC = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ export const ArbitrageOpportunity: React.FC = () => {
   const opportunityArray = useMemo(
     () =>
       Object.values(data)
-        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .filter(isValidArbitrage)
         .map(item => {
           const toToken = assetByTokenAddress(item.rateToBalance.to);
           const rate = assetRates.find(
