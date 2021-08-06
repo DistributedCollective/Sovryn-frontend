@@ -6,13 +6,18 @@ const H1 = styled.h1`
   text-transform: none;
   text-align: left;
   margin-bottom: 28px;
-  .step {
+
+  > .step {
     font-size: 48px;
     letter-spacing: 4.3px;
   }
-  .title {
+
+  > .title {
     font-size: 26px;
+    line-height: 24px;
+    font-weight: 600;
     letter-spacing: 0;
+    text-transform: none;
     position: relative;
     top: -5px;
   }
