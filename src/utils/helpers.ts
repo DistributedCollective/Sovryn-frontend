@@ -207,4 +207,4 @@ export const abbreviateNumber = (
   return shortValue + suffixes[suffixNum];
 };
 
-export const isNullOrUndefined = val => val === undefined || val == null;
+export const isNullOrUndefined = val => val === undefined || val === null;
