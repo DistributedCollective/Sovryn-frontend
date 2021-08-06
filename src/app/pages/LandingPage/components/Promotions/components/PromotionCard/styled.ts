@@ -11,7 +11,7 @@ export const CardImageSection = styled.div`
   width: 100%;
   margin-bottom: 1.375rem;
   position: relative;
-  padding: 1rem;
+  padding: 1.125rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,7 +35,18 @@ export const CardImage = styled.img`
 
 export const CardTextTitle = styled.div`
   font-size: 1.75rem;
-  line-height: 2.25rem;
+  line-height: 1.875rem;
   letter-spacing: 0;
   font-weight: 600;
+`;
+
+export const SectionTitle = styled.div`
+  line-height: 3.4375rem;
+  font-weight: 300;
+  letter-spacing: 0;
+`;
+
+export const AssetLogo = styled.img`
+  width: 55.81px;
+  height: 54.67px;
 `;

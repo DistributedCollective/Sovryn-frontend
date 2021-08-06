@@ -1491,6 +1491,7 @@
     },
     "promotions": {
       "title": "Promotions",
+      "learnMore": "Learn more",
       "sections": {
         "lending": "Lending",
         "borrowing": "Borrowing",
