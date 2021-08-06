@@ -1364,6 +1364,125 @@
     "chartOverlayText": "Juros anual% Em breve!",
     "recalibration": "Próximo ajuste em {{date}}"
   },
+  "BridgeDepositPage": {
+    "poweredBy": "Fornecido por babelFish",
+    "network": "Rede",
+    "changeWallet": "Deseja usar outra carteira?",
+    "chainSelector": {
+      "wrongNetwork": {
+        "title": "Mude para a rede {{network}}"
+      },
+      "chooseNetwork": {
+        "title": "Em qual rede está o ativo que você deseja depositar?"
+      }
+    },
+    "reviewStep": {
+      "title": "Revisar depósito",
+      "dateTime": "Data e hora",
+      "from": "De",
+      "token": "Cripto",
+      "amount": "Quantidade",
+      "bridgeFee": "Taxa de serviço",
+      "tx": "Tx",
+      "confirmDeposit": "Confirmar depósito"
+    },
+    "walletSelector": {
+      "wrongNetwork": "Nós detectamos que você está na rede",
+      "switch": "Por favor mude para a rede {{network}} na sua",
+      "wallet": "carteira",
+      "howToConnect": "Como conectar na"
+    },
+    "amountSelector": {
+      "title": "Insira a quantidade a ser depositada",
+      "balance": "Saldo",
+      "dailyDepositLimits": "Limite diário de depósito",
+      "minAmount": "Quantidade mínima",
+      "maxAmount": "Quantidade máxima",
+      "dailyLimit": "Limite diário",
+      "dailyLimitSpent": "Limite diário usado",
+      "fee": "Taxa",
+      "aggregatorBalance": "Aggregator Balance",
+      "depositAmount": "Deposit Amount"
+    },
+    "confirmStep": {
+      "pleaseWait": "Por favor aguarde",
+      "preparingTransaction": "Preparando transação",
+      "allowTransaction": "Permitir transação",
+      "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn smart-contracts na sua carteira {{providerType}}.",
+      "confirmTransaction": "Confirmar transação",
+      "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
+      "depositInProgress": "Depósito em andamento",
+      "depositComplete": "Depósito concluído",
+      "depositFailed": "Depósito falhou",
+      "transactionDenied": "Transação negada",
+      "rejectedByUser": "Rejeitada pelo usuário"
+    },
+    "returnToPortfolio": {
+      "title": "Conectar na RSK",
+      "connectNetwork": "Conectar",
+      "notConnected": "Para continuar você precisa conectar na sua",
+      "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
+      "switchNetwork": "Mudar rede",
+      "connected": "Tudo certo",
+      "return": "Voltar para o portfólio"
+    },
+    "tokenSelector": {
+      "title": "Qual cripto você deseja depositar?",
+      "notSupported": "Desculpe, não suportamos depósitos para {{targetAsset}} na rede {{network}}. Tente outra rede ou cripto."
+    }
+  },
+  "BridgeWithdrawPage": {
+    "chainSelector": {
+      "chooseNetwork": {
+        "title": "Para qual rede você deseja sacar seus {{asset}}?"
+      }
+    },
+    "reviewStep": {
+      "title": "Revisar saque {{symbol}}",
+      "dateTime": "Data e hora",
+      "from": "De",
+      "to": "Para",
+      "token": "Cripto",
+      "amount": "Quantidade",
+      "receiver": "Receiver",
+      "bridgeFee": "Taxa de serviço",
+      "tx": "Tx",
+      "confirm": "Confirmar saque"
+    },
+    "amountSelector": {
+      "title": "Insira a quantidade a ser sacada",
+      "balance": "Saldo",
+      "dailyBridgeLimits": "Limite diário do serviço",
+      "minAmount": "Quantidade mínima",
+      "maxAmount": "Quantidade máxima",
+      "dailyLimit": "Limite diário",
+      "dailyLimitSpent": "Limite diário usado",
+      "fee": "Taxa",
+      "aggregatorBalance": "Aggregator Balance",
+      "withdrawAmount": "Withdraw Amount"
+    },
+    "confirmStep": {
+      "pleaseWait": "Por favor aguarde",
+      "preparingTransaction": "Preparando transação",
+      "allowTransaction": "Permitir transação",
+      "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn smart-contracts na sua carteira {{providerType}}.",
+      "confirmTransaction": "Confirmar transação",
+      "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
+      "withdrawInProgress": "Saque em andamento",
+      "withdrawComplete": "Saque concluído",
+      "withdrawFailed": "Saque falhou",
+      "transactionDenied": "Transação negada",
+      "rejectedByUser": "Rejeitada pelo usuário"
+    },
+    "receiverSelector": {
+      "title": "Insira o endereço de recebimento da {{currentNetwork}}",
+      "confirm": "Por favor verifique e confirme"
+    },
+    "tokenSelector": {
+      "title": "Qual cripto você deseja sacar",
+      "notSupported": "Desculpe, não suportamos saque para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto."
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "Negociações com SOV estão abertas!",
