@@ -1475,7 +1475,7 @@
       "rejectedByUser": "Rejeitada pelo usuário"
     },
     "receiverSelector": {
-      "title": "Insira o endereço de recebimento da {{currentNetwork}}",
+      "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
       "confirm": "Por favor verifique e confirme"
     },
     "tokenSelector": {
