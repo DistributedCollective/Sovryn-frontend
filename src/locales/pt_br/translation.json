@@ -1451,7 +1451,7 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser sacada",
-      "balance": "Saldo",
+      "balance": "Meu saldo",
       "dailyBridgeLimits": "Limite diário do serviço",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
