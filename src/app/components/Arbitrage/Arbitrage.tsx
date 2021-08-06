@@ -9,7 +9,7 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { useFetch } from '../../hooks/useFetch';
 import { Asset } from '../../../types';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { fixNumber, isEmpty } from '../../../utils/helpers';
+import { fixNumber, isNullOrUndefined } from '../../../utils/helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
@@ -35,9 +35,9 @@ export function Arbitrage() {
           const rateToBalance = item?.rateToBalance;
           return (
             rateToBalance &&
-            !isEmpty(rateToBalance.earn) &&
-            !isEmpty(rateToBalance.amount) &&
-            !isEmpty(rateToBalance.rate) &&
+            !isNullOrUndefined(rateToBalance.earn) &&
+            !isNullOrUndefined(rateToBalance.amount) &&
+            !isNullOrUndefined(rateToBalance.rate) &&
             rateToBalance.to
           );
         })
