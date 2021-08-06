@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { bignumber } from 'mathjs';
-import { Tooltip } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
 import { useTranslation } from 'react-i18next';
 import { TradingPosition } from '../../../types/trading-position';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import { toWei } from 'utils/blockchain/math-helpers';
+import { TradingPair } from 'utils/models/trading-pair';
 import {
   toNumberFormat,
   weiToNumberFormat,
@@ -11,60 +14,98 @@ import { Asset } from '../../../types/asset';
 import { translations } from '../../../locales/i18n';
 
 interface Props {
+  asset: Asset;
   entryPrice: string;
   closePrice: string;
-  profit: string;
   position: TradingPosition;
-  asset: Asset;
+  positionSize: string;
+  loanId: string;
+  loanToken: string;
+  pair: TradingPair;
 }
 
 export function TradeProfit(props: Props) {
-  let change = bignumber(bignumber(props.closePrice).minus(props.entryPrice))
-    .div(props.entryPrice)
-    .mul(100)
-    .toNumber();
-  if (props.position === TradingPosition.SHORT) {
-    change = bignumber(bignumber(props.entryPrice).minus(props.closePrice))
-      .div(props.entryPrice)
-      .mul(100)
-      .toNumber();
-  }
+  const [profit, setProfit] = useState<string>('');
+  const [profitDirection, setProfitDirection] = useState<number>(0);
+  const prettyPrice = amount => {
+    return props.loanToken !== props.pair.shortAsset
+      ? toWei(
+          bignumber(1)
+            .div(amount)
+            .mul(10 ** 8),
+        )
+      : toWei(bignumber(amount).div(10 ** 8));
+  };
+
+  fetch(backendUrl[currentChainId] + '/loanEvents?loanId=' + props.loanId)
+    .then(response => {
+      return response.json();
+    })
+    .then(loanEvents => {
+      const entryPrice = prettyPrice(loanEvents.Trade[0].entry_price);
+      const closePrice = prettyPrice(loanEvents.CloseWithSwap[0].exit_price);
+
+      //LONG position
+      let change = bignumber(bignumber(closePrice).minus(entryPrice))
+        .div(entryPrice)
+        .mul(100)
+        .toNumber();
+
+      //SHORT position
+      if (props.position === TradingPosition.SHORT) {
+        change = bignumber(bignumber(entryPrice).minus(closePrice))
+          .div(entryPrice)
+          .mul(100)
+          .toNumber();
+      }
+      setProfit(
+        bignumber(change)
+          .mul(bignumber(props.positionSize))
+          .div(100)
+          .toFixed(0),
+      );
+      setProfitDirection(change);
+    })
+    .catch(console.error);
 
   return (
     <div>
-      <Tooltip
+      <Tooltip2
         content={
           <>
-            <Change change={Number(change)} />
+            <Change profitDirection={Number(profitDirection)} />
           </>
         }
       >
-        <span className={change < 0 ? 'tw-text-red' : 'tw-text-green'}>
-          {change > 0 && '+'}
-          {weiToNumberFormat(props.profit, 8)} {props.asset}
+        <span className={profitDirection < 0 ? 'tw-text-red' : 'tw-text-green'}>
+          {profitDirection > 0 && '+'}
+          {weiToNumberFormat(profit, 8)} {props.asset}
         </span>
-      </Tooltip>
+      </Tooltip2>
     </div>
   );
 }
 
-function Change({ change }: { change: number }) {
+function Change({ profitDirection }: { profitDirection: number }) {
   const { t } = useTranslation();
-  if (change > 0) {
+  if (profitDirection > 0) {
     return (
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.up)}
-        <span className="tw-text-green">{toNumberFormat(change, 2)}</span>%
+        <span className="tw-text-green">
+          {toNumberFormat(profitDirection, 2)}
+        </span>{' '}
+        %
       </>
     );
   }
-  if (change < 0) {
+  if (profitDirection < 0) {
     return (
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.down)}
         <span className="tw-text-red">
-          {toNumberFormat(Math.abs(change), 2)}
-        </span>
+          {toNumberFormat(Math.abs(profitDirection), 2)}
+        </span>{' '}
         %
       </>
     );

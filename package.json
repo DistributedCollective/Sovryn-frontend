@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@blueprintjs/core": "3.42.0",
+    "@blueprintjs/popover2": "0.11.1",
     "@blueprintjs/select": "3.13.7",
     "@distributedcollective/charting-library": "1.0.0",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
