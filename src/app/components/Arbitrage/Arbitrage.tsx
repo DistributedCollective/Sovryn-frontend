@@ -19,6 +19,17 @@ const s = translations.swapTradeForm;
 
 const minUsdForOpportunity = 10;
 
+const isValidArbitrage = arbitrage => {
+  const rateToBalance = arbitrage?.rateToBalance;
+  return (
+    rateToBalance &&
+    !isNullOrUndefined(rateToBalance.earn) &&
+    !isNullOrUndefined(rateToBalance.amount) &&
+    !isNullOrUndefined(rateToBalance.rate) &&
+    rateToBalance.to
+  );
+};
+
 export function Arbitrage() {
   const { t } = useTranslation();
   const { assetRates } = useSelector(selectWalletProvider);
@@ -31,16 +42,7 @@ export function Arbitrage() {
   const opportunityArray = useMemo(
     () =>
       Object.values(data)
-        .filter(item => {
-          const rateToBalance = item?.rateToBalance;
-          return (
-            rateToBalance &&
-            !isNullOrUndefined(rateToBalance.earn) &&
-            !isNullOrUndefined(rateToBalance.amount) &&
-            !isNullOrUndefined(rateToBalance.rate) &&
-            rateToBalance.to
-          );
-        })
+        .filter(isValidArbitrage)
         .map(item => {
           const toToken = assetByTokenAddress(item.rateToBalance.to);
           const rate = assetRates.find(
