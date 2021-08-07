@@ -1380,7 +1380,7 @@
       "title": "Revisar depósito",
       "dateTime": "Data e hora",
       "from": "De",
-      "token": "Cripto",
+      "token": "Token",
       "amount": "Quantidade",
       "bridgeFee": "Taxa de serviço",
       "tx": "ID transação",
