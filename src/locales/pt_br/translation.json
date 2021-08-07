@@ -1442,7 +1442,7 @@
       "dateTime": "Data e hora",
       "from": "De",
       "to": "Para",
-      "token": "Cripto",
+      "token": "Token",
       "amount": "Quantidade",
       "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
