@@ -1383,7 +1383,7 @@
       "token": "Cripto",
       "amount": "Quantidade",
       "bridgeFee": "Taxa de serviço",
-      "tx": "Tx",
+      "tx": "ID transação",
       "confirmDeposit": "Confirmar depósito"
     },
     "walletSelector": {
