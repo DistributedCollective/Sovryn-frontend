@@ -1446,7 +1446,7 @@
       "amount": "Quantidade",
       "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
-      "tx": "Tx",
+      "tx": "ID transação",
       "confirm": "Confirmar saque"
     },
     "amountSelector": {
