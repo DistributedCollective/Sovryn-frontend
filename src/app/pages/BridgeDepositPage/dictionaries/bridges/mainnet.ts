@@ -6,7 +6,7 @@ import bscToRskAssets from '../assets/bsc-to-rsk.mainnet';
 import rskToEthAssets from '../assets/rsk-to-eth.mainnet';
 import rskToBscAssets from '../assets/rsk-to-bsc.mainnet';
 
-export default [
+const mainnetBridges = [
   // RSK / BSC
   new BridgeModel(
     Chain.RSK,
@@ -47,3 +47,5 @@ export default [
     AppMode.MAINNET,
   ),
 ];
+
+export default mainnetBridges;

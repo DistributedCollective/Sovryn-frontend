@@ -8,7 +8,7 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.mainnet';
 import { bnbsAggregatorRSK } from './bsc-to-rsk.mainnet';
 
-export default [
+const rskToBscAssets = [
   new AssetModel(
     CrossBridgeAsset.SOV,
     'SOV',
@@ -87,3 +87,5 @@ export default [
     ]),
   ),
 ];
+
+export default rskToBscAssets;
