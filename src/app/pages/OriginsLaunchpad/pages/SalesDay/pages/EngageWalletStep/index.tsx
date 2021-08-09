@@ -14,7 +14,7 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
   saleName,
 }) => {
   const { t } = useTranslation();
-  const { loading: connecting, connect } = useWalletContext();
+  const { connecting, connect } = useWalletContext();
 
   const onEngageClick = useCallback(() => connect(), [connect]);
 

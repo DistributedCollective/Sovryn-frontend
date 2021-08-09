@@ -98,7 +98,7 @@ export function TradeDialog() {
         isOpen={!!position}
         onClose={() => dispatch(actions.closeTradingModal())}
       >
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
@@ -229,6 +229,7 @@ export function TradeDialog() {
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
+            className="tw-max-w-50"
           />
         </div>
       </Dialog>
