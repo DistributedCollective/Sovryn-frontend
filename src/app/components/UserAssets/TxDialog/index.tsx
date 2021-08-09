@@ -171,7 +171,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
                 />
               </div>
               <div className="tw-font-thin tw-text-sm tw-mx-auto tw-mt-1">
-                Powered by babelFish
+                {t(translations.BridgeDepositPage.poweredBy)}
               </div>
             </div>
           </div>

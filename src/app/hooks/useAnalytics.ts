@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
-import { useCookie } from 'app/hooks/useCookie';
+import { getCookie } from 'app/hooks/useCookie';
 import { sovAnalyticsCookie } from 'utils/classifiers';
-
-const { get } = useCookie();
 
 const analyticsAllowed = () =>
   process.env.REACT_APP_GOOGLE_ANALYTICS &&
-  !(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value);
+  !(getCookie(sovAnalyticsCookie.name) === sovAnalyticsCookie.value);
 
 const initGA = () => {
   if (!window.hasOwnProperty('ga') || !window.hasOwnProperty('gtag')) {

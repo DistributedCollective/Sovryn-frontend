@@ -8,9 +8,8 @@ const prettierOptions = JSON.parse(
 module.exports = {
   extends: [
     'react-app',
+    // react and @typescript-react are now merged into prettier
     'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
   ],
   plugins: ['prettier'],
   rules: {

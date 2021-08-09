@@ -44,16 +44,6 @@ export function useVestedStaking_balanceOf(address: string) {
         [address],
       );
 
-      const babelFishVested = await contractReader.call<string>(
-        'lockedFund',
-        'getVestedBalance',
-        [address],
-      );
-
-      if (babelFishVested !== '0') {
-        setBabelFishVestedValue(babelFishVested);
-      }
-
       if (adr1 !== ethGenesisAddress) {
         const vested = await contractReader.call('staking', 'balanceOf', [
           adr1,
@@ -84,6 +74,19 @@ export function useVestedStaking_balanceOf(address: string) {
         ]);
         setLMVestingContract(String(adr4));
         setLMVestedValue(String(lmVested));
+      }
+
+      const adr5 = await contractReader.call('lockedFund', 'getVestedBalance', [
+        address,
+      ]);
+
+      if (adr5 && adr5 !== '0') {
+        const babelFishVested = await contractReader.call<string>(
+          'lockedFund',
+          'getVestedBalance',
+          [adr5],
+        );
+        setBabelFishVestedValue(String(babelFishVested));
       }
 
       if (
