@@ -335,7 +335,7 @@ const RightBlock = styled.div`
 `;
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0',
 }))`
   border: none;
   margin: 0 5px;
@@ -358,7 +358,7 @@ const NavRound = styled.button.attrs(_ => ({
 
 const NavBtn = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
 }))`
   border: none;
   margin: 0 5px;

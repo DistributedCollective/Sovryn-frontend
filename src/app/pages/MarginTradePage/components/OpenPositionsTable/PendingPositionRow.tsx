@@ -40,7 +40,7 @@ export function PendingPositionRow({ item }: Props) {
           </div>
         </td>
         <td>
-          <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 p-0">
+          <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
             <div>
               {item.status === TxStatus.FAILED && (
                 <p className="tw-m-0">{t(translations.common.failed)}</p>
