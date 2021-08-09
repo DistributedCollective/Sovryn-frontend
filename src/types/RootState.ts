@@ -7,6 +7,8 @@ import { MaintenanceStoreState } from '../store/global/maintenance-store/types';
 import { FastBtcDialogState } from 'app/containers/FastBtcDialog/types';
 import { MarginTradePageState } from 'app/pages/MarginTradePage/types';
 import { SpotTradingPageState } from 'app/pages/SpotTradingPage/types';
+import { BridgeDepositPageState } from 'app/pages/BridgeDepositPage/types';
+import { BridgeWithdrawPageState } from 'app/pages/BridgeWithdrawPage/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -23,5 +25,7 @@ export interface RootState {
   fastBtcDialog?: FastBtcDialogState;
   marginTradePage?: MarginTradePageState;
   spotTradingPage?: SpotTradingPageState;
+  bridgeDepositPage?: BridgeDepositPageState;
+  bridgeWithdrawPage?: BridgeWithdrawPageState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

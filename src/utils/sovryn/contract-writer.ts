@@ -3,7 +3,7 @@ import { RevertInstructionError } from 'web3-core-helpers';
 import Contract from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { walletService } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 import { actions as txActions } from 'store/global/transactions-store/slice';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
@@ -113,7 +113,6 @@ class ContractWriter {
     } catch (e) {
       dispatch(txActions.setLoading(false));
       dispatch(txActions.setTransactionRequestDialogError(e.message));
-      console.error('approve error?:', e);
       return {
         approveTx: null,
         nonce,
@@ -183,7 +182,7 @@ class ContractWriter {
           );
 
           // Browser wallets (extensions) signs and broadcasts transactions themselves
-          if (web3Wallets.includes(walletService.providerType)) {
+          if (isWeb3Wallet(walletService.providerType as ProviderType)) {
             resolve(signedTxOrTransactionHash);
           } else {
             // Broadcast signed transaction and retrieve txHash.

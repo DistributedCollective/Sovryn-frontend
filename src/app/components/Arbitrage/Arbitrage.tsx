@@ -9,7 +9,7 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { useFetch } from '../../hooks/useFetch';
 import { Asset } from '../../../types';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { fixNumber } from '../../../utils/helpers';
+import { fixNumber, isNullOrUndefined } from '../../../utils/helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
@@ -18,6 +18,17 @@ import type { Opportunity } from './models/opportunity';
 const s = translations.swapTradeForm;
 
 const minUsdForOpportunity = 10;
+
+const isValidArbitrage = arbitrage => {
+  const rateToBalance = arbitrage?.rateToBalance;
+  return (
+    rateToBalance &&
+    !isNullOrUndefined(rateToBalance.earn) &&
+    !isNullOrUndefined(rateToBalance.amount) &&
+    !isNullOrUndefined(rateToBalance.rate) &&
+    rateToBalance.to
+  );
+};
 
 export function Arbitrage() {
   const { t } = useTranslation();
@@ -31,7 +42,7 @@ export function Arbitrage() {
   const opportunityArray = useMemo(
     () =>
       Object.values(data)
-        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .filter(isValidArbitrage)
         .map(item => {
           const toToken = assetByTokenAddress(item.rateToBalance.to);
           const rate = assetRates.find(
