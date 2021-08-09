@@ -10,7 +10,7 @@ import { stringToFixedPrecision } from 'utils/display-text/format';
 
 interface Props {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
   asset?: Asset;
   assetString?: string;
@@ -65,7 +65,7 @@ const amounts = [10, 25, 50, 75, 100];
 interface AmountSelectorProps {
   asset?: Asset;
   maxAmount?: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, isTotal: boolean) => void;
 }
 
 function AmountSelector(props: AmountSelectorProps) {
@@ -79,8 +79,10 @@ function AmountSelector(props: AmountSelectorProps) {
 
   const handleChange = (percent: number) => {
     let value = '0';
+    let isTotal = false;
     if (percent === 100) {
       value = balance;
+      isTotal = true;
     } else if (percent === 0) {
       value = '0';
     } else {
@@ -88,7 +90,7 @@ function AmountSelector(props: AmountSelectorProps) {
         .mul(percent / 100)
         .toString();
     }
-    props.onChange(fromWei(value));
+    props.onChange(fromWei(value), isTotal);
   };
   return (
     <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-5px tw-divide-x tw-divide-secondary">

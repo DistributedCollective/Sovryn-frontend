@@ -453,13 +453,18 @@
         "internalType": "uint256",
         "name": "burnAmount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
       }
     ],
     "name": "burn",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "loanAmountPaid",
+        "name": "redeemed",
         "type": "uint256"
       }
     ],

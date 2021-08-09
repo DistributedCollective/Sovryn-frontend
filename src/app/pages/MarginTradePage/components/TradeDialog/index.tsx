@@ -16,7 +16,7 @@ import {
 } from 'utils/classifiers';
 
 import { translations } from '../../../../../locales/i18n';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import {
   getLendingContractName,
   getTokenContract,
@@ -42,6 +42,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { TradingPosition } from 'types/trading-position';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -91,12 +92,15 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
+  const minReturn = '1';
+
   const { trade, ...tx } = useApproveAndTrade(
     pair,
     position,
     collateral,
     leverage,
     amount,
+    minReturn,
     referrer || undefined,
   );
 
@@ -108,6 +112,7 @@ export function TradeDialog() {
       collateral,
       leverage,
       amount,
+      minReturn,
       ...(referrer ? [referrer] : []),
     });
 
@@ -118,6 +123,7 @@ export function TradeDialog() {
     useLoanTokens ? '0' : amount,
     getTokenContract(collateralToken).address,
     account, // trader
+    minReturn,
     ...(referrer ? [referrer] : []),
     '0x',
   ];
@@ -147,7 +153,11 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.direction)}
-              value={position}
+              value={
+                position === TradingPosition.LONG
+                  ? t(translations.marginTradePage.tradeDialog.position.long)
+                  : t(translations.marginTradePage.tradeDialog.position.short)
+              }
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.asset)}

@@ -170,6 +170,7 @@ export function Header() {
       to: '/affiliate',
       title: t(translations.mainMenu.affiliate),
     },
+    { to: '/reward', title: t(translations.mainMenu.reward) },
     { to: '/wallet', title: t(translations.mainMenu.wallet) },
     {
       to: bridgeURL,
