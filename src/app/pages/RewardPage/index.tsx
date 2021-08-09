@@ -10,24 +10,29 @@ import { useTranslation } from 'react-i18next';
 
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useAccount, useIsConnected } from 'app/hooks/useAccount';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
 
+import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { RewardForm } from './components/RewardForm';
 import { Tab } from './components/Tab';
 
-// import { ClaimForm } from './components/RewardBox';
-// import { ClaimForm } from './components/ClaimForm';
-// import { HistoryTable } from './components/HistoryTable';
-
 export function RewardPage() {
   const { t } = useTranslation();
   const [activeAssets, setActiveAssets] = useState(0);
-  const [activeHistory, setActiveHistory] = useState(0);
-  const connected = useIsConnected();
-  const account = useAccount();
-
+  // const [activeHistory, setActiveHistory] = useState(0);
+  // const connected = useIsConnected();
+  const address = useAccount();
+  const { value: lockedBalance } = useCacheCallWithValue(
+    'lockedSov',
+    'getLockedBalance',
+    '',
+    address,
+  );
+  const rewardSov =
+    parseFloat(weiTo18(lockedBalance)).toFixed(6).toString() + ' SOV';
   return (
     <>
       <Helmet>
@@ -46,15 +51,15 @@ export function RewardPage() {
           <div className="tw-flex tw-w-1/2 tw-flex-row tw-items-center tw-justify-start">
             <div className="tw-w-full">
               <Tab
-                text={t(translations.walletPage.tabs.userAssets)}
-                amount="21.274693 SOV"
+                text={t(translations.rewardPage.sov.reward)}
+                amount={rewardSov}
                 active={activeAssets === 0}
                 onClick={() => setActiveAssets(0)}
               />
             </div>
             <div className="tw-w-full">
               <Tab
-                text={t(translations.walletPage.tabs.vestedAssets)}
+                text={t(translations.rewardPage.sov.liquid)}
                 active={activeAssets === 1}
                 onClick={() => setActiveAssets(1)}
                 amount="32.274693 SOV"
@@ -62,7 +67,7 @@ export function RewardPage() {
             </div>
             <div className="tw-w-full">
               <Tab
-                text={t(translations.walletPage.tabs.userNFTS)}
+                text={t(translations.rewardPage.sov.fee)}
                 active={activeAssets === 2}
                 onClick={() => setActiveAssets(2)}
                 amount="0.02918284 RBTC"

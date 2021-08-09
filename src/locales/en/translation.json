@@ -1315,6 +1315,11 @@
       "learn": "Learn more"
     },
     "totalEarned": "Total Rewards Earned:",
+    "sov": {
+      "reward":"Reward SOV",
+      "liquid":"Liquid SOV",
+      "fee": "Fees Earned"
+    },
     "topData": {
       "referralRewards": "Referral Rewards",
       "referrals": "Number of referrals:",

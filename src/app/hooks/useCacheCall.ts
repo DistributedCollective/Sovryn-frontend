@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ContractName } from 'utils/types/contracts';
+
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { ContractName } from 'utils/types/contracts';
+
 import { Nullable } from '../../types';
 import { useBlockSync } from './useAccount';
 

@@ -12,8 +12,12 @@ interface Props {
 export function Tab(props: Props) {
   return (
     <StyledTab active={props.active} onClick={() => props.onClick()}>
-      <Text ellipsize>{props.text}</Text>
-      <Text >{props.amount}</Text>
+      <TopTitle>
+        <Text>{props.text}</Text>
+      </TopTitle>
+      <AmountTitle>
+        <Text>{props.amount}</Text>
+      </AmountTitle>
     </StyledTab>
   );
 }
@@ -21,6 +25,15 @@ export function Tab(props: Props) {
 interface StyledProps {
   active: boolean;
 }
+const TopTitle = styled.div`
+  color: '#E9EAE9';
+  font-size: 16px;
+`;
+const AmountTitle = styled.div`
+  color: '#E9EAE9';
+  font-size: 24px;
+  font-weight: bold;
+`;
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
   className: 'btn',

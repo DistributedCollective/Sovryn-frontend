@@ -1,4 +1,3 @@
-import { info } from 'console';
 /**
  *
  * RewardForm
@@ -9,15 +8,36 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 
-import { InfoBox } from 'app/components/InfoBox';
 import { useAccount } from 'app/hooks/useAccount';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
 import { translations } from 'locales/i18n';
+import { getAmmContract } from 'utils/blockchain/contract-helpers';
+import { eventReader } from 'utils/sovryn/event-reader';
 
+import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending-pool-dictionary';
+import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
+import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { ClaimForm } from '../ClaimForm';
 
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
+  const pools = LiquidityPoolDictionary.list();
+  const lendingPools = LendingPoolDictionary.list();
+  const poolAddress = Array();
+  const lendReward = useGetContractPastEvents('lockedSov', 'Deposited');
+  console.log('lendReward: ', lendReward);
+  // eslint-disable-next-line array-callback-return
+  pools.map(info => {
+    const address = getAmmContract(info.getAsset()).address;
+    poolAddress.push(address);
+  });
+    // for (var i = 0; i < poolAddress.length; i++) {
+    //   const {
+    //     value: lockedBalance,
+    //   } = useLiquidityMining_getUserAccumulatedReward(poolAddress[i]);
+    // }
   return (
     <ContainerBox>
       <Box>
