@@ -2733,7 +2733,7 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sovryn/common@^1.0.16":
+"@sovryn/common@1.0.16", "@sovryn/common@^1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@sovryn/common/-/common-1.0.16.tgz#969776aa26fec8b8554af957063739537a1b5942"
   integrity sha512-htBu/sws5FosbOOv9tCCvz4fMxMe5MIHG7K5ZT3EQVS7VKayFloJ4JAucCtAADYyjEXM8RNY5dQJlHKe78zmdg==
