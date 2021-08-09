@@ -1,10 +1,10 @@
 import type { RevertInstructionError } from 'web3-core-helpers';
 import type { TransactionConfig } from 'web3-core';
 import type { AbiItem } from 'web3-utils';
-import { debug } from '@sovryn/common';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
+import { debug } from '../debug';
 
 const { error } = debug('reader');
 
