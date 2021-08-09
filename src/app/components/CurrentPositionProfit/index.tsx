@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
+import { Tooltip2 } from '@blueprintjs/popover2';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 import {
   numberToUSD,
   toNumberFormat,
@@ -20,34 +22,15 @@ interface Props {
   amount: string;
   startPrice: number;
   isLong: boolean;
+  loanId: string;
 }
-
-const calculateProfit = (
-  isLong: boolean,
-  currentPrice: number,
-  startPrice: number,
-  amount: string,
-): [string, number] => {
-  let profit = '0';
-
-  let diff = 1;
-  if (isLong) {
-    diff = (currentPrice - startPrice) / currentPrice;
-    profit = bignumber(amount).mul(diff).toFixed(0);
-  } else {
-    diff = (startPrice - currentPrice) / startPrice;
-    profit = bignumber(amount).mul(diff).toFixed(0);
-  }
-
-  return [profit, diff];
-};
 
 export function CurrentPositionProfit({
   source,
   destination,
   amount,
-  startPrice,
   isLong,
+  loanId,
 }: Props) {
   const { t } = useTranslation();
   const { loading, price } = useCurrentPositionPrice(
@@ -57,7 +40,24 @@ export function CurrentPositionProfit({
     isLong,
   );
 
-  const [profit, diff] = calculateProfit(isLong, price, startPrice, amount);
+  const [profit, setProfit] = useState<string>('0');
+  const [profitDirection, setProfitDirection] = useState<number>(0);
+
+  fetch(backendUrl[currentChainId] + '/loanEvents?loanId=' + loanId)
+    .then(response => {
+      return response.json();
+    })
+    .then(loanEvents => {
+      const entryPrice = loanEvents.Trade[0].entry_price;
+      if (isLong) {
+        setProfitDirection((price - entryPrice) / price);
+        setProfit(bignumber(amount).mul(profitDirection).toFixed(0));
+      } else {
+        setProfitDirection((entryPrice - price) / entryPrice);
+        setProfit(bignumber(amount).mul(profitDirection).toFixed(0));
+      }
+    })
+    .catch(console.error);
 
   const [dollarValue, dollarsLoading] = useGetProfitDollarValue(
     destination,
@@ -65,21 +65,23 @@ export function CurrentPositionProfit({
   );
 
   function Change() {
-    if (diff > 0) {
+    if (profitDirection > 0) {
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="tw-text-green">{toNumberFormat(diff * 100, 2)}</span>
+          <span className="tw-text-green">
+            {toNumberFormat(profitDirection * 100, 2)}
+          </span>
           %
         </>
       );
     }
-    if (diff < 0) {
+    if (profitDirection < 0) {
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.down)}
           <span className="tw-text-red">
-            {toNumberFormat(Math.abs(diff * 100), 2)}
+            {toNumberFormat(Math.abs(profitDirection * 100), 2)}
           </span>
           %
         </>
@@ -90,31 +92,38 @@ export function CurrentPositionProfit({
     );
   }
   return (
-    <>
-      <LoadableValue
-        loading={loading}
-        value={
-          <>
-            <span className={diff < 0 ? 'tw-text-red' : 'tw-text-green'}>
-              <div>
-                {diff > 0 && '+'}
-                {weiToNumberFormat(profit, 8)}{' '}
-                <AssetRenderer asset={destination} />
-              </div>
-              ≈{' '}
-              <LoadableValue
-                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-                loading={dollarsLoading}
-              />
-            </span>
-          </>
-        }
-        tooltip={
+    <div>
+      <Tooltip2
+        content={
           <>
             <Change />
           </>
         }
-      />
-    </>
+      >
+        <LoadableValue
+          loading={loading}
+          value={
+            <>
+              <span
+                className={
+                  profitDirection < 0 ? 'tw-text-red' : 'tw-text-green'
+                }
+              >
+                <div>
+                  {profitDirection > 0 && '+'}
+                  {weiToNumberFormat(profit, 8)}{' '}
+                  <AssetRenderer asset={destination} />
+                </div>
+                ≈{' '}
+                <LoadableValue
+                  value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                  loading={dollarsLoading}
+                />
+              </span>
+            </>
+          }
+        />
+      </Tooltip2>
+    </div>
   );
 }

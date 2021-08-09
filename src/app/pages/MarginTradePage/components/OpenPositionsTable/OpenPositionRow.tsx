@@ -102,6 +102,7 @@ export function OpenPositionRow({ item }: Props) {
         <td>
           <div className="tw-whitespace-nowrap">
             <CurrentPositionProfit
+              loanId={item.loanId}
               source={loanAsset}
               destination={collateralAsset}
               amount={item.collateral}

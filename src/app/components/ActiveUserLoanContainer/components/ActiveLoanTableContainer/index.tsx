@@ -96,6 +96,7 @@ export function ActiveLoanTableContainer(props: Props) {
         leverage,
         profit: (
           <CurrentPositionProfit
+            loanId={item.loanId}
             source={loanAsset}
             destination={collateralAsset}
             amount={amount}

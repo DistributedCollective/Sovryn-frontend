@@ -18,7 +18,6 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
-import { Button } from 'app/components/Button';
 
 export function WalletSelector() {
   const { t } = useTranslation();
