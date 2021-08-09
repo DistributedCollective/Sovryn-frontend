@@ -48,6 +48,7 @@ export function Input({
     >
       <input
         className={cn('tw-input', inputClassName)}
+        lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
         {...props}

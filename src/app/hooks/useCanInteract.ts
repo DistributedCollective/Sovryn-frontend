@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 import { selectTransactionArray } from '../../store/global/transactions-store/selectors';
 import { TxStatus } from '../../store/global/transactions-store/types';
@@ -27,20 +27,22 @@ export function useCanInteract(ignoreWhitelist: boolean = false) {
         item =>
           (item.status === TxStatus.PENDING ||
             item.status === TxStatus.PENDING_FOR_USER) &&
-          item.from.toLowerCase() === address.toLowerCase(),
+          item.from.toLowerCase() === address?.toLowerCase(),
       ).length <= 4
     );
   }, [tx, address]);
 
-  const testChain = useMemo(() => {
-    if (!connected) return false;
-    if (!web3Wallets.includes(wallet.providerType)) return true;
+  const isTestChain = useMemo(() => {
+    if (!connected) {
+      return false;
+    }
+    if (!isWeb3Wallet(wallet.providerType!)) return true;
     return wallet.chainId === currentChainId;
   }, [connected, wallet.providerType, wallet.chainId]);
 
   if (ignoreWhitelist) {
-    return connected && testTxCount && testChain;
+    return connected && testTxCount && isTestChain;
   }
 
-  return testWhitelist && testTxCount && testChain && connected;
+  return testWhitelist && testTxCount && isTestChain && connected;
 }

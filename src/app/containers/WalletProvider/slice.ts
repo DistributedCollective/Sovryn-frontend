@@ -2,12 +2,14 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { currentChainId } from 'utils/classifiers';
 import { CachedAssetRate, ContainerState } from './types';
+import { Nullable } from 'types';
 
 // The initial state of the WalletConnector container
 export const initialState: ContainerState = {
   address: '',
   chainId: currentChainId,
   networkId: currentChainId,
+  bridgeChainId: null,
   connected: false,
   connecting: false,
   blockNumber: 0,
@@ -42,9 +44,13 @@ const walletProviderSlice = createSlice({
       state.address = action.payload || '';
     },
 
+    setBridgeChainId(state, { payload }: PayloadAction<Nullable<number>>) {
+      state.bridgeChainId = payload;
+    },
+
     chainChanged(
       state,
-      action: PayloadAction<{ chainId: number; networkId: number }>,
+      action: PayloadAction<{ chainId?: number; networkId?: number }>,
     ) {
       state.chainId = action.payload.chainId;
       state.networkId = action.payload.networkId;
