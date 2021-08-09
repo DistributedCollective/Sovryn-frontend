@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import crypto from 'crypto';
 import {
@@ -35,6 +35,8 @@ import { fastBtcFormSaga } from '../FastBtcForm/saga';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
+import { selectWalletProvider } from './selectors';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   children: React.ReactNode;
@@ -54,14 +56,28 @@ export function WalletProvider(props: Props) {
   useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
+  const { bridgeChainId } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(actions.testTransactions());
   }, [dispatch]);
 
+  const options = useMemo(() => {
+    const isCrossChain = location.pathname.startsWith('/cross-chain');
+    const customChain = bridgeChainId !== null && isCrossChain;
+    return {
+      showWrongNetworkRibbon: false,
+      remember: !customChain,
+      chainId: customChain ? bridgeChainId : currentChainId,
+      enableSoftwareWallet:
+        process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true',
+    };
+  }, [bridgeChainId, location]);
+
   return (
-    <SovrynWallet chainId={currentChainId} remember>
+    <SovrynWallet options={options}>
       <WalletWatcher />
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
@@ -85,12 +101,12 @@ function WalletWatcher() {
         }:${crypto.createHash('md5').update(address).digest('hex')}`,
       });
     }
-    dispatch(actions.accountChanged(address));
+    dispatch(actions.accountChanged(address || ''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, address]);
 
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));
   }, [dispatch, chainId]);
-  return <></>;
+  return null;
 }

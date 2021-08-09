@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
-import { ActionButton, ActionLink } from 'app/components/Form/ActionButton';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -28,7 +28,6 @@ import {
   useIsConnected,
 } from '../../hooks/useAccount';
 import { AssetRenderer } from '../AssetRenderer/';
-import { currentNetwork } from '../../../utils/classifiers';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
@@ -36,6 +35,7 @@ import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { FishDollarValue } from './FishDollarValue';
+import { BridgeLink } from './BridgeLink';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -264,16 +264,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
             />
           )}
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <ActionLink
-              text={t(translations.userAssets.actions.deposit)}
-              href={
-                currentNetwork === 'mainnet'
-                  ? 'https://bridge.sovryn.app'
-                  : 'https://bridge.test.sovryn.app'
-              }
-              target="_blank"
-              rel="noreferrer noopener"
-            />
+            <BridgeLink asset={item.asset} />
           )}
         </div>
       </td>
