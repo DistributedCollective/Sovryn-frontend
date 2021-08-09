@@ -205,7 +205,7 @@ export function VestingContract(props: Props) {
                       'days',
                     ),
                   )}{' '}
-                  days
+                  {t(translations.stake.days)}
                 </p>
               )}
             </td>

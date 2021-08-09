@@ -67,7 +67,7 @@ export function SpotTradingPage() {
           </div>
         </div>
         <div className="tw-mt-10">
-          <div className="tw-px-3">Spot History</div>
+          <div className="tw-px-3">{t(translations.spotHistory.title)}</div>
           {!account ? (
             <SkeletonRow
               loadingText={t(translations.topUpHistory.walletHistory)}
