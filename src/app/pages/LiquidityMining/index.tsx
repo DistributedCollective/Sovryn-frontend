@@ -47,11 +47,7 @@ export function LiquidityMining() {
     <>
       <LocalSharedArrayBuffer />
       <Helmet>
-        <title>{t(translations.escrowPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.escrowPage.meta.description)}
-        />
+        <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <Header />
       <div className="container mt-5 font-family-montserrat">
@@ -61,7 +57,7 @@ export function LiquidityMining() {
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 9',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -72,7 +68,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 9',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -83,7 +79,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 9',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -94,7 +90,7 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 9',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
