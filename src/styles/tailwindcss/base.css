@@ -56,7 +56,13 @@
     text-align: inherit;
   }
 
+
+
   /* TODO: remove headline styles once the Headline Component is done. */
+  h1, h2, h3, h4 {
+    text-transform: uppercase;
+  }
+  
   h1 {
     font-size: 30px;
     font-weight: 500;
