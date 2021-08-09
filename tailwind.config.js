@@ -102,6 +102,7 @@ module.exports = {
       short: '#cd4e4e',
       'dark-gray': '#656565',
       'light-gray': '#656565',
+      gray_bg: '#404040',
       teal: '#4ecdc4',
       gold: '#fec004',
       red: '#eb2106',

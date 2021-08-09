@@ -38,13 +38,15 @@ export function HistoryEventsTable() {
   };
 
   const getHistory = useCallback(() => {
-    seIsHistoryLoading(true);
-    axios
-      .get(`${backendUrl[chainId]}/events/stake/${account}`)
-      .then(({ data }) => {
-        setEventsHistory(data?.events);
-        seIsHistoryLoading(false);
-      });
+    if (chainId) {
+      seIsHistoryLoading(true);
+      axios
+        .get(`${backendUrl[chainId]}/events/stake/${account}`)
+        .then(({ data }) => {
+          setEventsHistory(data?.events);
+          seIsHistoryLoading(false);
+        });
+    }
   }, [account, chainId]);
 
   return (
