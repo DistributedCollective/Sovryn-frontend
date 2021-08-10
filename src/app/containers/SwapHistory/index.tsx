@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import iconPending from 'assets/images/icon-pending.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
-// import ReactPaginate from 'react-paginate';
 import iconSuccess from 'assets/images/icon-success.svg';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';

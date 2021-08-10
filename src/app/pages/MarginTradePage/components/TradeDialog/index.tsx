@@ -155,7 +155,9 @@ export function TradeDialog() {
               }
             />
           </div>
-          {/*<LabelValuePair*/}
+
+          {/* TODO: enable Slippage and Renewal Date (https://github.com/DistributedCollective/Sovryn-frontend/issues/1568)*/}
+          {/* <LabelValuePair*/}
           {/*  label="Renewal Date:"*/}
           {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
           {/*/>*/}
@@ -173,7 +175,7 @@ export function TradeDialog() {
           {/*    labelRenderer={value => <>{value}%</>}*/}
           {/*    labelValues={[0.1, 0.25, 0.5, 0.75, 1]}*/}
           {/*  />*/}
-          {/*</FormGroup>*/}
+          {/*</FormGroup> */}
 
           <FormGroup
             label={t(translations.marginTradePage.tradeDialog.entryPrice)}
