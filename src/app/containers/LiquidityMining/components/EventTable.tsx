@@ -11,9 +11,9 @@ export interface Props {
 export function EventTable(props: Props) {
   const rows = props.data?.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
-      <td className="align-middle">{item.type}</td>
+      <td className="tw-align-middle">{item.type}</td>
       {!props.sov && (
-        <td className="align-middle">
+        <td className="tw-align-middle">
           {item.reserve_amount.hasOwnProperty('value')
             ? item.reserve_amount.value
             : item.reserve_amount}
@@ -21,11 +21,11 @@ export function EventTable(props: Props) {
       )}
       {props.sov && (
         <>
-          <td className="align-middle">{item.sov_amount}</td>
-          <td className="align-middle">{item.btc_amount}</td>
+          <td className="tw-align-middle">{item.sov_amount}</td>
+          <td className="tw-align-middle">{item.btc_amount}</td>
         </>
       )}
-      <td className="align-middle d-md-table-cell d-none">
+      <td className="tw-align-middle md:tw-table-cell tw-hidden">
         {item.block_number}
       </td>
     </tr>
@@ -48,21 +48,21 @@ export function EventTable(props: Props) {
 
   const totalRows = totalData.map((item, key) => (
     <tr key={key} style={{ height: '50px' }}>
-      <td className="align-middle font-weight-bold">{item.title}</td>
-      <td className="align-middle font-weight-bold">{item.value}</td>
-      <td className="align-middle font-weight-bold d-none d-md-table-cell"></td>
+      <td className="tw-align-middle tw-font-bold">{item.title}</td>
+      <td className="tw-align-middle tw-font-bold">{item.value}</td>
+      <td className="tw-align-middle tw-font-bold tw-hidden md:tw-table-cell"></td>
     </tr>
   ));
   return (
     <div>
-      <table className="table sovryn-table align-middle">
+      <table className="table sovryn-table tw-align-middle">
         <thead className="">
           <tr className="">
             <th></th>
             {!props.sov && <th>Amount</th>}
             {props.sov && <th>SOV Amount</th>}
             {props.sov && <th>BTC Amount</th>}
-            <th className="d-none d-md-table-cell">Block number</th>
+            <th className="tw-hidden md:tw-table-cell">Block number</th>
           </tr>
         </thead>
         <tbody>

@@ -56,7 +56,7 @@ export function PoolTable() {
   }, [totalDeposit.value, liquidityProvided.value]);
 
   return (
-    <div className="border rounded-lg p-3">
+    <div className="tw-border tw-rounded-lg tw-p-3">
       <table className="sovryn-table">
         <thead>
           <tr>

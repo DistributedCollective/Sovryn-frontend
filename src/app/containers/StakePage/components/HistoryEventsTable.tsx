@@ -38,13 +38,15 @@ export function HistoryEventsTable() {
   };
 
   const getHistory = useCallback(() => {
-    seIsHistoryLoading(true);
-    axios
-      .get(`${backendUrl[chainId]}/events/stake/${account}`)
-      .then(({ data }) => {
-        setEventsHistory(data?.events);
-        seIsHistoryLoading(false);
-      });
+    if (chainId) {
+      seIsHistoryLoading(true);
+      axios
+        .get(`${backendUrl[chainId]}/events/stake/${account}`)
+        .then(({ data }) => {
+          setEventsHistory(data?.events);
+          seIsHistoryLoading(false);
+        });
+    }
   }, [account, chainId]);
 
   return (
@@ -54,7 +56,7 @@ export function HistoryEventsTable() {
           {t(translations.stake.history.title)}
         </p>
         <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">
-          <StyledTable className="w-full">
+          <StyledTable className="tw-w-full">
             <thead>
               <tr>
                 <th className="tw-text-left assets">
@@ -66,15 +68,15 @@ export function HistoryEventsTable() {
                 <th className="tw-text-left">
                   {t(translations.stake.history.stakedAmount)}
                 </th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
                   {t(translations.stake.history.hash)}
                 </th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
                   {t(translations.stake.history.status)}
                 </th>
               </tr>
             </thead>
-            <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
+            <tbody className="tw-mt-5 tw-font-body tw-text-xs">
               {currentHistory.length > 0 && (
                 <HistoryTable items={currentHistory} />
               )}
@@ -100,7 +102,7 @@ export function HistoryEventsTable() {
                       <td colSpan={5} className="tw-text-center tw-font-normal">
                         <button
                           type="button"
-                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
+                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-body"
                           onClick={getHistory}
                         >
                           {t(translations.stake.history.viewHistory)}
@@ -204,20 +206,20 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
         />
       </td>
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!item.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {item.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {item.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={item.txHash}
-              className="text-gold font-weight-normal text-nowrap"
+              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
             />
           </div>
           <div>

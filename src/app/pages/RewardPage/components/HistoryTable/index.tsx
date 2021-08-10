@@ -67,8 +67,8 @@ export const HistoryTable: React.FC = () => {
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <TableHeader />
           <TableBody items={history} loading={loading} />
         </table>

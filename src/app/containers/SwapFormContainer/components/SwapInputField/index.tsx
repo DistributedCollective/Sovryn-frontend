@@ -16,7 +16,7 @@ export function InputField(props: Props) {
   return (
     <>
       <StyledWrapper invalid={props.invalid!} isLight={props.isLight!}>
-        <div className="d-flex align-items-center flex-grow-1">
+        <div className="tw-flex tw-items-center tw-flex-grow">
           <StyledInput
             type={props.type}
             value={props.value}

@@ -107,7 +107,7 @@ export function LiquidityMining() {
           {t(translations.marketingPage.liquidity.connetWallet)}
         </div>
       )}
-      <h1 className="w-100 text-center mb-3 mt-5 pt-5 border-top">
+      <h1 className="tw-w-full tw-text-center tw-mb-4 tw-mt-12 tw-pt-12 tw-border-top">
         Liquidity Mining: SOV/BTC Pool
       </h1>
       <SOVPoolData

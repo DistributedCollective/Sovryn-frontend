@@ -62,7 +62,7 @@ export function SovGenerationNFTS() {
   ];
 
   return (
-    <div className="sovryn-border tw-p-4 tw-mb-12 pb-5">
+    <div className="sovryn-border tw-p-4 tw-mb-12 tw-pb-12">
       <p className="tw-text-center sov-title tw-mb-12">
         SOV Generation 01 NFT's
       </p>

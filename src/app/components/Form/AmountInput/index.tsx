@@ -6,7 +6,10 @@ import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
-import { stringToFixedPrecision } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  toNumberFormat,
+} from 'utils/display-text/format';
 
 interface Props {
   value: string;
@@ -23,7 +26,7 @@ interface Props {
 export function AmountInput({
   value,
   onChange,
-  placeholder = '0.000000',
+  placeholder = toNumberFormat(0, 6),
   decimalPrecision = 6,
   asset,
   assetString,
@@ -68,7 +71,7 @@ interface AmountSelectorProps {
   onChange: (value: string, isTotal: boolean) => void;
 }
 
-function AmountSelector(props: AmountSelectorProps) {
+export function AmountSelector(props: AmountSelectorProps) {
   const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
   const balance = useMemo(() => {
     if (props.maxAmount !== undefined) {
@@ -110,7 +113,7 @@ interface AmountButtonProps {
   onClick?: () => void;
 }
 
-function AmountSelectorButton(props: AmountButtonProps) {
+export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}

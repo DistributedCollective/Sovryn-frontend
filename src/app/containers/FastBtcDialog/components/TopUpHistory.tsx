@@ -78,7 +78,7 @@ export function TopUpHistory() {
           <tbody className="tw-mt-12">
             {state.history.items.length === 0 && !state.history.loading && (
               <tr>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   {t(translations.topUpHistory.emptyState)}
                 </td>
               </tr>

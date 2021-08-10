@@ -6,7 +6,7 @@ interface Wrapper {
 }
 
 export const StyledWrapper = styled.label.attrs(_ => ({
-  className: 'd-flex flex-row w-100 px-2 py-1 m-0',
+  className: 'tw-flex tw-flex-row tw-w-full tw-px-2 tw-py-1 tw-m-0',
 }))`
   height: 40px;
   transition: 0.3s border-color;

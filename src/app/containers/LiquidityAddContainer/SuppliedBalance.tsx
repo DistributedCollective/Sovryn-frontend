@@ -30,10 +30,10 @@ export function SuppliedBalance({ pool, asset }: Props) {
   );
 
   return (
-    <div className="border shadow tw-my-4 tw-p-4 tw-bg-white tw-text-black">
+    <div className="tw-border tw-shadow tw-my-4 tw-p-4 tw-bg-white tw-text-black">
       <div className="tw-grid tw-gap-8 tw-grid-cols-12">
         <div className="tw-col-span-12">
-          <div className="tw-font-bold small">
+          <div className="tw-font-bold tw-text-sm">
             <LoadableValue
               loading={sourceTokenLoading}
               value={
@@ -44,7 +44,7 @@ export function SuppliedBalance({ pool, asset }: Props) {
               tooltip={weiTo18(sourceTokenValue[0])}
             />
           </div>
-          <div className="small">
+          <div className="tw-text-sm">
             {t(translations.liquidity.suppliedBalance)}
           </div>
         </div>

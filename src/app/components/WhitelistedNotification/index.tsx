@@ -11,7 +11,7 @@ export function WhitelistedNotification() {
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-mt-6 tw-mb-6">
-      <div className="bg-info sovryn-border tw-rounded tw-p-4 tw-flex tw-flex-row tw-justify-start tw-items-center">
+      <div className="tw-bg-info sovryn-border tw-rounded tw-p-4 tw-flex tw-flex-row tw-justify-start tw-items-center">
         <div className="tw-ml-4 tw-mr-6">
           <Icon icon="warning-sign" iconSize={26} />
         </div>
@@ -21,7 +21,7 @@ export function WhitelistedNotification() {
             components={[
               <a
                 href="https://wiki.sovryn.app/"
-                className="font-weight-light text-gold"
+                className="tw-font-light tw-text-gold"
                 target="_blank"
                 rel="noreferrer noopener"
               >

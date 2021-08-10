@@ -202,7 +202,7 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 pr-0">
+      <div className="sliderMonth tw-mt-5 tw-pr-0">
         <Slider {...settingsSliderMonth}>
           {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
