@@ -87,7 +87,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             />
           </div>
 
-          <div>
+          <div className="tw-w-5/12">
             <ArbitrageOpportunity />
           </div>
         </div>

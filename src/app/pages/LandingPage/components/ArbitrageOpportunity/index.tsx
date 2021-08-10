@@ -66,6 +66,15 @@ export const ArbitrageOpportunity: React.FC = () => {
         <div className="tw-flex-1 tw-h-px tw-bg-white" />
       </div>
       <div className="tw-flex tw-flex-col tw-mt-5">
+        {!opportunityArray.length && (
+          <>
+            <div className="tw-flex tw-items-center tw-my-4" />
+            <div className="tw-flex tw-items-center tw-my-4 tw-text-center tw-w-full">
+              There are currently no arbitrage opportunities…
+            </div>
+            <div className="tw-flex tw-items-center tw-my-4" />
+          </>
+        )}
         {opportunityArray.map(opportunity => {
           return (
             <div className="tw-flex tw-items-center tw-my-4">
