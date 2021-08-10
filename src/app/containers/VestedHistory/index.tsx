@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
@@ -233,9 +233,10 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
   return (
     <tr>
       <td>
-        {moment
-          .tz(new Date(item.eventDate), 'GMT')
-          .format('DD/MM/YYYY - h:mm:ss a z')}
+        {dayjs
+          .tz(parseInt(item.eventDate) * 1e3, 'UTC')
+          .tz(dayjs.tz.guess())
+          .format('L - LTS Z')}
       </td>
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <div className="assetname tw-flex tw-items-center">

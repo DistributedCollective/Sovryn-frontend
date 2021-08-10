@@ -117,16 +117,6 @@ export function NotificationForm(props: Props) {
     setShowForm(false);
   };
 
-  // function resetForm() {
-  //   setLoading(true);
-  //   setShowForm(false);
-  //   setResponse('');
-  //   getUser();
-  //   setLoading(false);
-  //   state.name = '';
-  //   state.email = '';
-  // }
-
   return (
     <>
       <div
@@ -147,13 +137,6 @@ export function NotificationForm(props: Props) {
           onClick={() => setShowForm(true)}
         />
       </div>
-      {/* <CustomDialog
-        show={showForm}
-        title={t(translations.notificationFormContainer.dialog.title)}
-        onClose={() => resetForm()}
-        content={
-        }
-      /> */}
       <Dialog isOpen={showForm} onClose={onClickClose}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-white tw-tracking-normal">

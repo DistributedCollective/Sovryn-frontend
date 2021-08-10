@@ -1,6 +1,6 @@
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -199,21 +199,17 @@ export function VestingContract(props: Props) {
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (
                 <p className={`tw-m-0 ${!unlockDate && 'tw-skeleton'}`}>
-                  {Math.abs(
-                    moment().diff(
-                      moment(new Date(parseInt(unlockDate) * 1e3)),
-                      'days',
-                    ),
-                  )}{' '}
+                  {Math.abs(dayjs().diff(parseInt(unlockDate) * 1e3, 'days'))}{' '}
                   days
                 </p>
               )}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               <p className={`tw-m-0 ${!stakingPeriodStart && 'tw-skeleton'}`}>
-                {moment
-                  .tz(new Date(parseInt(unlockDate) * 1e3), 'GMT')
-                  .format('DD/MM/YYYY - h:mm:ss a z')}
+                {dayjs
+                  .tz(parseInt(unlockDate) * 1e3, 'UTC')
+                  .tz(dayjs.tz.guess())
+                  .format('L - LTS Z')}
               </p>
             </td>
             <td>
