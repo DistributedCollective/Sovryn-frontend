@@ -9,8 +9,8 @@ import { translations } from '../../../../../locales/i18n';
 export function Promotions() {
   const { t } = useTranslation();
   return (
-    <article className="container">
-      <H1 className="text-center">
+    <article className="tw-container">
+      <H1 className="tw-text-center">
         {t(translations.buySovPage.promotions.title)}
       </H1>
 

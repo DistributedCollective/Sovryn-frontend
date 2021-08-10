@@ -137,19 +137,19 @@ export function TutorialScreen(props: Props) {
   return (
     <>
       <BackButton onClick={props.onBack} />
-      <div className="d-flex flex-row justify-content-center align-items-center my-4 py-3">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-my-8 tw-py-4">
         <LeftBlock>
-          <div className="rounded p-2 text-center">
+          <div className="tw-rounded tw-p-4 tw-text-center">
             <img
               key={step}
               src={steps[step].image}
               alt={steps[step].title}
-              className="mx-auto tutorial-image"
+              className="tw-mx-auto tutorial-image"
             />
           </div>
-          <div className="d-flex flex-row justify-content-center align-items-center mt-1">
+          <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
             <NavBtn onClick={handleBack}>
-              <Icon icon="caret-left" iconSize={24} className="text-white" />
+              <Icon icon="caret-left" iconSize={24} className="tw-text-white" />
             </NavBtn>
             {steps.map((_, i) => (
               <NavRound
@@ -159,36 +159,40 @@ export function TutorialScreen(props: Props) {
               />
             ))}
             <NavBtn onClick={handleNext}>
-              <Icon icon="caret-right" iconSize={24} className="text-white" />
+              <Icon
+                icon="caret-right"
+                iconSize={24}
+                className="tw-text-white"
+              />
             </NavBtn>
           </div>
         </LeftBlock>
         <RightBlock>
           <StepTitle>{steps[step].step}</StepTitle>
-          <SettingsTitle className="mt-3">{steps[step].title}</SettingsTitle>
+          <SettingsTitle className="tw-mt-4">{steps[step].title}</SettingsTitle>
           {step === 3 && props.walletType === 'metamask' && (
             <>
-              <SettingsTitle className="mt-5">
+              <SettingsTitle className="tw-mt-12">
                 RSK Mainnet Settings
               </SettingsTitle>
               <Details>
                 <SubDetails>
-                  <DetailTitle className="mt-3">Network Name:</DetailTitle>
-                  <DetailTitle className="mt-3">New RPC Url:</DetailTitle>
-                  <DetailTitle className="mt-3">Chain Id:</DetailTitle>
-                  <DetailTitle className="mt-3">Symbol:</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">Network Name:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">New RPC Url:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">Chain Id:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">Symbol:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     Block Explorer URL:
                   </DetailTitle>
                 </SubDetails>
                 <SubDetails>
-                  <DetailTitle className="mt-3">RSK Mainnet</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">RSK Mainnet</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     https://public-node.rsk.co
                   </DetailTitle>
-                  <DetailTitle className="mt-3">30</DetailTitle>
-                  <DetailTitle className="mt-3">RBTC</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">30</DetailTitle>
+                  <DetailTitle className="tw-mt-4">RBTC</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     https://explorer.rsk.co
                   </DetailTitle>
                 </SubDetails>
@@ -261,7 +265,7 @@ const RightBlock = styled.div`
 `;
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0',
 }))`
   border: none;
   margin: 0 5px;
@@ -284,7 +288,7 @@ const NavRound = styled.button.attrs(_ => ({
 
 const NavBtn = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
 }))`
   border: none;
   margin: 0 5px;

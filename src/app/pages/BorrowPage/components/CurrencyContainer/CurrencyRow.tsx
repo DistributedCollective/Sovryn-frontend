@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import clsx from 'clsx';
@@ -19,6 +19,7 @@ type Props = {
   lendingAmount: string;
   borrowAmount: string;
   active: boolean;
+  onClick: MouseEventHandler;
 };
 
 const CurrencyRow: React.FC<Props> = ({
@@ -26,15 +27,17 @@ const CurrencyRow: React.FC<Props> = ({
   lendingAmount,
   borrowAmount,
   active,
+  onClick,
 }) => {
   const { t } = useTranslation();
 
   return (
     <div
       className={clsx(
-        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted',
+        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted tw-cursor-pointer',
         active && 'currency-container__active',
       )}
+      onClick={onClick}
     >
       <div className="tw-flex tw-flex- tw-justify-start tw-items-center currency currency-title lg:tw-w-3/6 tw-mb-4 lg:tw-mb-0 tw-px-4">
         <StyledImage src={lendingPool.getAssetDetails().logoSvg} />

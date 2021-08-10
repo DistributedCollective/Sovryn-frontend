@@ -54,7 +54,7 @@ export function LiquidityMining() {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
             title="15k SOV"
@@ -105,7 +105,7 @@ export function LiquidityMining() {
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (
-          <div className="text-red tw-font-xl tw-text-center">
+          <div className="tw-text-red tw-text-xl tw-text-center">
             <Trans
               i18nKey={translations.maintenance.liquidity}
               components={[

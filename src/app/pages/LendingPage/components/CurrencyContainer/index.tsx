@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 
 import CurrencyRow from './CurrencyRow';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -19,7 +18,7 @@ const CurrencyContainer: React.FC = () => {
   } = checkMaintenances();
 
   return (
-    <Container className="tw-flex tw-flex-col tw-w-full tw-p-0">
+    <div className="tw-flex tw-flex-col tw-w-full tw-p-0 tw-mx-auto">
       {currencyRows.map(info => {
         return (
           <CurrencyRow
@@ -31,7 +30,7 @@ const CurrencyContainer: React.FC = () => {
           />
         );
       })}
-    </Container>
+    </div>
   );
 };
 

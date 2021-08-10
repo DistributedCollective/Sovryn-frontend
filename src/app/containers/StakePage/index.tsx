@@ -73,7 +73,7 @@ export function StakePage() {
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="tw-w-full bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
+            <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
               <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
@@ -391,7 +391,7 @@ function InnerStakePage() {
                   </Tooltip>
                 )}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -629,7 +629,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="w-1/5">
+          <div className="tw-w-1/5">
             {contractToken.asset !== Asset.SOV ? (
               <Tooltip
                 content={
@@ -652,7 +652,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
           <button
             onClick={handleWithdrawFee}
             type="button"
-            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
+            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>
