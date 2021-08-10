@@ -18,10 +18,8 @@ export function useBorrowInterestRate(
   // Calculate loan tokens we depositing.
   useEffect(() => {
     let _totalDeposit = '0'; // loanTo
-    // let totalDeposit = props.loanTokenSent;
 
     if (weiAmount !== '0') {
-      // props.collateralTokenSent != '0'
       if (result.rate !== '0') {
         _totalDeposit = bignumber(weiAmount)
           .mul(result.rate)

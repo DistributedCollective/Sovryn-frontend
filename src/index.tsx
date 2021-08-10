@@ -34,10 +34,6 @@ import { store } from './store/store';
 import './locales/i18n';
 import './locales/dayjs';
 
-// if (process.env.REACT_APP_SENTRY_DSN) {
-//   import('./sentry').then(({ default: sentryInit }) => sentryInit());
-// }
-
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 interface Props {

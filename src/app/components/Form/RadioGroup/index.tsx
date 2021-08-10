@@ -4,8 +4,6 @@ import cn from 'classnames';
 export const RadioContext = createContext<any>(null);
 
 export function useRadioContext() {
-  // we could use array destructuring if we want
-  // const [state, onChange] = React.useContext(RadioContext);
   const context = useContext(RadioContext);
   if (!context) {
     throw new Error(
