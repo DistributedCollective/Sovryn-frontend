@@ -16,7 +16,7 @@ export function PreOrderBanner() {
         rel="noreferrer noopener"
         target="_blank"
       >
-        <span className="sr-only">Join Wait-list</span>
+        <span className="tw-sr-only">Join Wait-list</span>
       </a>
     </div>
   );

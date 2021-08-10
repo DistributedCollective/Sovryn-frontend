@@ -110,7 +110,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           )}
 
           {isWrongChainId && (
-            <p className="text-center">
+            <p className="tw-text-center">
               {t(translations.fastBtcDialog.instructions.chainId)}
             </p>
           )}

@@ -114,9 +114,11 @@ function getWalletImage(wallet) {
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
+    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
+      <div className="tw-whitespace-nowrap tw-truncate">
+        {getWalletName(wallet)}
+      </div>
     </WLContainer>
   );
 }

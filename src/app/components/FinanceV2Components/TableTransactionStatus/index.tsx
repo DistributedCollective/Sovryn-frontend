@@ -65,12 +65,12 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
   return (
     <div
       className={cn(
-        'd-flex align-items-center justify-content-start tw-gap-4 col-md-12 p-0',
+        'tw-flex tw-items-center tw-justify-start tw-gap-4 md:tw-w-full tw-p-0',
         wrapperClassName,
       )}
     >
       <div>
-        <p className={cn('m-0 tw-text-xs', textClassName)}>{text}</p>
+        <p className={cn('tw-m-0 tw-text-xs', textClassName)}>{text}</p>
       </div>
       <div className={iconClassName}>{icon}</div>
     </div>

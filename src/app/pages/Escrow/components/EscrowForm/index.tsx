@@ -85,8 +85,8 @@ export function EscrowForm() {
 
   return (
     <>
-      <Container className="d-block flex-shrink-0 bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0">
-        <div className="w-100 px-0 px-lg-4">
+      <Container className="tw-flex tw-bg-black tw-flex-col tw-justify-start tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
+        <div className="tw-w-full tw-px-0 lg:tw-px-8">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}
             labelColor="#E9EAE9"
@@ -116,15 +116,15 @@ export function EscrowForm() {
             label={t(translations.escrowPage.form.reward)}
             labelColor="#E9EAE9"
           >
-            <Dummy className="d-flex justify-content-between align-items-center">
-              <div className="w-100 text-center">
+            <Dummy className="tw-flex tw-justify-between tw-items-center">
+              <div className="tw-w-full tw-text-center">
                 {weiToNumberFormat(reward, 4)}
               </div>
               <div>SOV</div>
             </Dummy>
           </FieldGroup>
 
-          <div className="mt-5" />
+          <div className="tw-mt-12" />
 
           <Button
             disabled={tx.loading || !validate || !connected}

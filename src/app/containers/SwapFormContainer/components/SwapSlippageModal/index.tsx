@@ -28,7 +28,7 @@ export function SwapSlippageModal(props: Props) {
     >
       <div className="custom-dialog-container">
         <div
-          className={`custom-dialog font-family-montserrat ${styles.swapConfirmDialog}`}
+          className={`custom-dialog tw-font-body ${styles.swapConfirmDialog}`}
         >
           <div className={styles.container}>
             <h2 className={styles.title}>Adjust slippage</h2>
@@ -49,7 +49,7 @@ export function SwapSlippageModal(props: Props) {
             <div className={styles.btnActionWrapper}>
               <button
                 className={classNames(
-                  'd-flex flex-row align-items-center justify-content-center',
+                  'tw-flex tw-flex-row tw-items-center tw-justify-center',
                   styles.button,
                   styles.confirmButton,
                 )}
@@ -59,7 +59,7 @@ export function SwapSlippageModal(props: Props) {
               </button>
               <button
                 className={classNames(
-                  'd-flex flex-row align-items-center justify-content-center',
+                  'tw-flex tw-flex-row tw-items-center tw-justify-center',
                   styles.button,
                   styles.cancelButton,
                 )}

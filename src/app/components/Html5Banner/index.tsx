@@ -72,7 +72,7 @@ export function Html5Banner(props: Props) {
         title="Sale"
       />
       <Link to="/genesis" className={classNames(styles.link, styles.banner)}>
-        <span className="sr-only">Open this add.</span>
+        <span className="tw-sr-only">Open this add.</span>
       </Link>
     </div>
   );

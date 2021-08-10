@@ -148,25 +148,25 @@ export function SpotHistory() {
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.pair)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.orderType)}</th>
               <th>{t(translations.spotHistory.tableHeaders.amountPaid)}</th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.status)}</th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {loading && (
               <tr key={'loading'}>
                 <td colSpan={99}>
@@ -178,7 +178,7 @@ export function SpotHistory() {
             )}
             {history.length === 0 && !loading && (
               <tr key={'empty'}>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   {t(translations.spotHistory.emptyState)}
                 </td>
               </tr>
@@ -228,12 +228,12 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
 
   return (
     <tr>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <AssetRenderer asset={order.pairAsset[0]} />-
         <AssetRenderer asset={order.pairAsset[1]} />
       </td>
@@ -254,7 +254,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         {numberFromWei(data.returnVal._fromAmount)}{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -263,20 +263,20 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
 
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!data.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {data.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {data.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={data.transaction_hash}
-              className="text-gold font-weight-normal text-nowrap"
+              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
               startLength={5}
               endLength={5}
             />

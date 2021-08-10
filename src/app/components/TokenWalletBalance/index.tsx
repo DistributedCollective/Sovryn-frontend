@@ -39,7 +39,7 @@ export function TokenWalletBalance(props: Props) {
       {!connected && (
         <button
           onClick={() => connect()}
-          className="bg-transparent btn-link text-white border-0 d-block text-left text-nowrap"
+          className="tw-bg-transparent tw-text-white tw-border-0 tw-block tw-text-left tw-text-nowrap hover:underline"
         >
           {t(translations.assetWalletBalance.connect)}
         </button>

@@ -67,19 +67,19 @@ export function RewardPool(props: Props) {
   }, [api, props.user]);
 
   return (
-    <div className="col-8 mx-auto">
+    <div className="tw-w-2/3 wt-mx-auto">
       {props.isConnected && (
         <>
-          <h3 className="w-100 text-center mt-5 mb-3">
+          <h3 className="tw-w-full tw-text-center tw-mt-12 tw-mb-4">
             {t(translations.marketingPage.liquidity.rewardPool)}
           </h3>
           {data && data.length > 0 ? (
-            <div className="w-100 text-center">
+            <div className="tw-w-full tw-text-center">
               <RewardTable data={data || []} />
               {t(translations.marketingPage.liquidity.rewardPoolNote)}
             </div>
           ) : (
-            <div className="w-100 text-center mt-5">
+            <div className="tw-w-full tw-text-center tw-mt-12">
               {t(translations.marketingPage.liquidity.noAsset, {
                 asset: 'SOV/RBTC',
               })}

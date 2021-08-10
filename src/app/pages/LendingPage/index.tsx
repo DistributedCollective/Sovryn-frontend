@@ -29,7 +29,7 @@ const LendingPage: React.FC = () => {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
             title="15K SOV"
