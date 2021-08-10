@@ -27,7 +27,6 @@ export function RewardForm() {
   const lendingPools = LendingPoolDictionary.list();
   const poolAddress = Array();
   const lendReward = useGetContractPastEvents('lockedSov', 'Deposited');
-  console.log('lendReward: ', lendReward);
   // eslint-disable-next-line array-callback-return
   pools.map(info => {
     const address = getAmmContract(info.getAsset()).address;
