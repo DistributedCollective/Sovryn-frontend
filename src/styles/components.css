@@ -85,6 +85,10 @@
     width: 100%;
   }
 
+  .tw-mw-340 {
+    @apply tw-w-full;
+    max-width: 340px;
+  }
   /* staking */
   .-ml-0\.25 {
     margin-left: -0.063rem;

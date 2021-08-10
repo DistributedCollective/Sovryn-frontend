@@ -155,7 +155,7 @@ export function NotificationForm(props: Props) {
         }
       /> */}
       <Dialog isOpen={showForm} onClose={onClickClose}>
-        <div className="tw-w-full tw-max-w-xs tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-white tw-tracking-normal">
             {t(translations.notificationFormContainer.dialog.title)}
           </h1>

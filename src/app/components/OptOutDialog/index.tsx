@@ -38,7 +38,7 @@ export default function OptOutDialog(props: OptOutProps) {
   return (
     <>
       <Dialog isOpen={props.open} onClose={props.onClose}>
-        <div className="tw-w-full tw-max-w-xs tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center">
             {t(translations.analyticsDialog.title)}
           </h1>

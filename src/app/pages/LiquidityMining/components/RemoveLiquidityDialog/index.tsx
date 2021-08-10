@@ -127,7 +127,7 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-w-full tw-max-w-xs tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-white tw-text-center tw-tracking-normal">
             {t(translations.liquidityMining.modals.withdraw.title)}
           </h1>
