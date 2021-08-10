@@ -101,15 +101,15 @@ export function PoolV1(props: Props) {
   usePoolToken(props.pool.getAsset(), props.pool.getAsset());
   return (
     <>
-      <div className="position-relative">
+      <div className="tw-relative">
         {tokens.map(item => (
-          <div className="row" key={item.key}>
-            <div className="col-lg-3 col-6 order-lg-1">
+          <div className="tw-grid tw-grid-cols-12" key={item.key}>
+            <div className="lg:tw-col-span-3 tw-col-span-6 lg:tw-order-1">
               <FieldGroup label={t(translations.liquidity.currency)}>
                 <DummyField>{item.label}</DummyField>
               </FieldGroup>
             </div>
-            <div className="col-lg-3 col-6 order-lg-3">
+            <div className="lg:tw-col-span-3 tw-col-span-6 lg:tw-order-3">
               <FieldGroup label={t(translations.liquidity.v1.balance)}>
                 <DummyField>
                   <BalanceV1
@@ -119,7 +119,7 @@ export function PoolV1(props: Props) {
                 </DummyField>
               </FieldGroup>
             </div>
-            <div className="col-lg-6 col-12 order-lg-2">
+            <div className="lg:tw-col-span-6 tw-col-span-12 lg:tw-order-2">
               <FieldGroup label={t(translations.liquidity.amount)}>
                 <AmountField
                   onChange={setAmount(item.key)}
@@ -135,11 +135,11 @@ export function PoolV1(props: Props) {
           </div>
         ))}
         {/*<ExpectedPoolTokensV1 pool={props.pool} amounts={amounts} />*/}
-        <div className="mt-3">
+        <div className="tw-mt-4">
           <SendTxProgress {...tx} displayAbsolute={false} />
         </div>
 
-        <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+        <div className="tw-flex tw-flex-col lg:tw-flex-row lg:justify-between lg:items-center">
           <TradeButton
             text={t(translations.liquidity.supply)}
             onClick={handleSupply}

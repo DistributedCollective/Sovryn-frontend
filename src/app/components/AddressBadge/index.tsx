@@ -3,8 +3,8 @@
  * AddressBadge
  *
  */
-import React, { useCallback, useEffect, useState } from 'react';
-import { useWalletContext } from '@sovryn/react-wallet';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
+import { WalletContext } from '@sovryn/react-wallet';
 import { blockExplorers, currentChainId } from '../../../utils/classifiers';
 
 interface Props {
@@ -35,7 +35,7 @@ export function AddressBadge(props: Props) {
 
   const [txHash, setTxHash] = useState(handleTx());
   const [url, setUrl] = useState(getUrl());
-  const { chainId } = useWalletContext();
+  const { chainId } = useContext(WalletContext);
 
   useEffect(() => {
     setTxHash(handleTx());

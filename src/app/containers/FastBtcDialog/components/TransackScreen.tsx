@@ -1,12 +1,12 @@
 import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 import React, { Dispatch, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
 
 import WhiteAlert from '../../../../assets/images/error_white.svg';
 import { translations } from '../../../../locales/i18n';
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { currentChainId } from '../../../../utils/classifiers';
 import { AssetRenderer } from '../../../components/AssetRenderer';
 import styles from '../index.module.css';
@@ -27,7 +27,7 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
   const isWrongChainId = useMemo(() => {
     return (
       connected &&
-      web3Wallets.includes(wallet.providerType) &&
+      isWeb3Wallet(wallet.providerType!) &&
       wallet.chainId !== currentChainId
     );
   }, [connected, wallet.chainId, wallet.providerType]);
@@ -98,7 +98,7 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
       )}
 
       {isWrongChainId && (
-        <p className="text-center">
+        <p className="tw-text-center">
           {t(translations.fastBtcDialog.instructions.chainId)}
         </p>
       )}

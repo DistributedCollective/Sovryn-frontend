@@ -64,9 +64,9 @@ function Tab(props: TabProps) {
       : faArrowAltCircleDown;
   let classes = props.active
     ? props.type === TradingPosition.LONG
-      ? 'bg-long'
-      : 'bg-short'
-    : 'bg-muted';
+      ? 'tw-bg-long'
+      : 'tw-bg-short'
+    : 'tw-bg-muted';
 
   return (
     <button
@@ -76,7 +76,7 @@ function Tab(props: TabProps) {
       onClick={() => props.onClick(props.type)}
     >
       <FontAwesomeIcon icon={icon} className="tw-mr-1 lg:tw-mr-3" />
-      <Text ellipsize tagName="span" className="font-size-lg">
+      <Text ellipsize tagName="span" className="tw-text-lg">
         {props.text}
       </Text>
     </button>

@@ -100,8 +100,8 @@ export function TradingChart(props: ChartContainerProps) {
   return (
     <div
       className={cn(
-        'tw-w-full tw-h-full d-flex tw-rounded tw-overflow-hidden',
-        hasCharts && 'border',
+        'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
+        hasCharts && 'tw-border',
       )}
       style={{ minWidth: 270, minHeight: 500 }}
     >
@@ -110,34 +110,34 @@ export function TradingChart(props: ChartContainerProps) {
           id="tv_chart_container"
           className={cn(
             'tv-chart-container tw-flex-grow',
-            !hasCharts && 'd-none',
+            !hasCharts && 'tw-hidden',
           )}
         />
         <div
           className={cn(
-            'tw-w-full tw-h-full align-content-end',
-            hasCharts ? 'd-none' : 'd-flex',
+            'tw-w-full tw-h-full tw-content-end tw-gap-4',
+            hasCharts ? 'tw-hidden' : 'tw-flex',
           )}
         >
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="50%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="30%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="80%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="70%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="65%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="30%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="55%" />
           </div>
         </div>

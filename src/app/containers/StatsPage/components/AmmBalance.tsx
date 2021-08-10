@@ -20,23 +20,23 @@ export function AmmBalance(props: Props) {
   const assets = LiquidityPoolDictionary.pairTypeList();
   return (
     <div>
-      <table className="w-100">
+      <table className="tw-w-full">
         <thead>
           <tr>
             <th className="">{t(translations.statsPage.ammpool.pool)}</th>
             <th className="">{t(translations.statsPage.asset)}</th>
-            <th className="text-right">
+            <th className="tw-text-right">
               {t(translations.statsPage.ammpool.stakedBalance)}
             </th>
-            <th className="text-right">
+            <th className="tw-text-right">
               {t(translations.statsPage.ammpool.contractBalance)}
             </th>
-            <th className="text-right">
+            <th className="tw-text-right">
               {t(translations.statsPage.ammpool.imBalance)}
             </th>
           </tr>
         </thead>
-        <tbody className="mt-5">
+        <tbody className="tw-mt-12">
           {assets.map((item, key) => (
             <Row key={key} asset={item} rate={props.rate} />
           ))}
@@ -87,42 +87,42 @@ function Row(props) {
       {data && (
         <>
           <tr>
-            <td className="font-weight-bold">{data.ammPool}</td>
+            <td className="tw-font-bold">{data.ammPool}</td>
             <td>{data.ammPool}</td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(
                 data.stakedBalanceToken,
                 decimals[data.ammPool],
               ) || <div className="bp3-skeleton">&nbsp;</div>}
             </td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(
                 data.contractBalanceToken,
                 decimals[data.ammPool],
               ) || <div className="bp3-skeleton">&nbsp;</div>}
             </td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
                 <div className="bp3-skeleton">&nbsp;</div>
               )}
             </td>
           </tr>
-          <tr className="border-bottom">
+          <tr className="tw-border-b">
             <td />
             <td>
               <AssetSymbolRenderer asset={Asset.RBTC} />
             </td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
               )}
             </td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(data.contractBalanceBtc, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
               )}
             </td>
-            <td className="text-right">
+            <td className="tw-text-right">
               {formatNumber(data.btcDelta, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
               )}

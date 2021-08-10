@@ -87,7 +87,7 @@ export function TVL(props: Props) {
       <tr
         key={key}
         className={`${
-          row.contract === 'Total' ? 'font-weight-bold border-top' : ''
+          row.contract === 'Total' ? 'tw-font-bold tw-border-t' : ''
         }`}
       >
         <td>{row.contract}</td>
@@ -109,7 +109,7 @@ export function TVL(props: Props) {
 
   return (
     <div>
-      <table className="w-100">
+      <table className="tw-w-full">
         <thead>
           <tr>
             <th className="">{t(translations.statsPage.tvl.type)}</th>
@@ -117,7 +117,7 @@ export function TVL(props: Props) {
             <th className="">{t(translations.statsPage.tvl.usd)}</th>
           </tr>
         </thead>
-        <tbody className="mt-5">{rows}</tbody>
+        <tbody className="tw-mt-12">{rows}</tbody>
       </table>
     </div>
   );

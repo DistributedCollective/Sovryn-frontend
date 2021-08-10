@@ -111,7 +111,7 @@ export function TransackDialog(props: Props) {
       <div className="custom-dialog-container">
         <div
           className={classNames(
-            'custom-dialog font-family-montserrat',
+            'custom-dialog tw-font-body',
             styles.dialogContainer,
           )}
         >

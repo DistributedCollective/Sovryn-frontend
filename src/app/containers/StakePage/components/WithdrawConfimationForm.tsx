@@ -3,7 +3,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import styled from 'styled-components/macro';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import iconReject from 'assets/images/failed-tx.svg';
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -28,7 +28,7 @@ export function WithdrawConfirmationForm(props: Props) {
           props.onCloseModal();
         }}
       >
-        <span className="sr-only">
+        <span className="tw-sr-only">
           {t(translations.stake.withdraw.closeDialog)}
         </span>
       </button>
@@ -43,23 +43,24 @@ export function WithdrawConfirmationForm(props: Props) {
           {t(translations.stake.withdraw.stakeUnlockUntil)}:
         </p>
         <div className="tw-text-center tw-text-xl tw-font-normal tw-mb-8 tw-mt-4">
-          {moment
-            .tz(new Date(parseInt(props.until.toString()) * 1e3), 'GMT')
-            .format('DD/MM/YYYY - h:mm:ss a z')}
+          {dayjs
+            .tz(props.until * 1e3, 'UTC')
+            .tz(dayjs.tz.guess())
+            .format('L - LTS Z')}
         </div>
 
         {props.forfeit === 0 ? (
           <>
-            <p className="text-red text-center">
+            <p className="tw-text-red tw-text-center">
               {t(translations.stake.withdraw.penaltyZero)}
             </p>
           </>
         ) : (
           <>
-            <p className="text-red text-center">
+            <p className="tw-text-red tw-text-center">
               {t(translations.stake.withdraw.penalty)}:
             </p>
-            <div className="text-center text-lg font-semibold">
+            <div className="tw-text-center tw-text-lg tw-font-semibold">
               {numberFromWei(props.forfeit).toFixed(2) + ' SOV'}
             </div>
           </>

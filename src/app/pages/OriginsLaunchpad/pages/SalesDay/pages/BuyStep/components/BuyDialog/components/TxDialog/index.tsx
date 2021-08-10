@@ -53,7 +53,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
       className={styles.dialog}
     >
       <CloseButton onClick={close}>
-        <span className="sr-only">Close Dialog</span>
+        <span className="tw-sr-only">Close Dialog</span>
       </CloseButton>
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
@@ -136,11 +136,11 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="text-center">
+              <p className="tw-text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="text-center">
+                <p className="tw-text-center">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}

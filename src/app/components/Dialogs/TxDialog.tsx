@@ -66,7 +66,10 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
-          <p className="text-center mx-auto w-100" style={{ maxWidth: 266 }}>
+          <p
+            className="tw-text-center tw-mx-auto tw-w-full"
+            style={{ maxWidth: 266 }}
+          >
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -78,7 +81,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
       ) && (
         <>
           <button data-close="" className="dialog-close" onClick={close}>
-            <span className="sr-only">Close Dialog</span>
+            <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
           <StatusComponent status={tx.status} />
@@ -92,7 +95,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
                 <LinkToExplorer
                   txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="text-blue"
+                  className="tw-text-blue"
                 />
               </ExplorerLink>
             </StyledHashContainer>
@@ -100,18 +103,18 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="text-center">
+              <p className="tw-text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="text-center">
+                <p className="tw-text-center">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="mx-auto w-100">
+          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
             <ConfirmButton
               onClick={close}
               text={t(translations.common.close)}
@@ -234,9 +237,9 @@ const WLImage = styled.img`
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
+    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
+      <div className="tw-truncate">{getWalletName(wallet)}</div>
     </WLContainer>
   );
 }

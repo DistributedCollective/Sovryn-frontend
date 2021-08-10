@@ -13,8 +13,8 @@ interface Props {
 
 export function Promotion(props: Props) {
   return (
-    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-xl-row justify-content-xl-between align-items-xl-center">
-      <div className="order-1 order-lg-0">
+    <Article className="tw-flex tw-w-full tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-justify-between xl:tw-items-center">
+      <div className="tw-order-1 lg:order-0">
         <h1>{props.title}</h1>
         <div className="content tw-font-thin tw-leading-snug">
           {props.content}
@@ -33,7 +33,7 @@ export function Promotion(props: Props) {
         src={props.image}
         alt="Item"
         style={props.imageStyle}
-        className="img order-0 order-lg-1"
+        className="img tw-order-0 lg:tw-order-1"
       />
     </Article>
   );
