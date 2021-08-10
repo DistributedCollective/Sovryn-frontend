@@ -22,14 +22,6 @@ function createSocketConnection() {
 function createWebSocketChannel(receiverAddress, socket) {
   return eventChannel(emit => {
     if (receiverAddress) {
-      //   // get deposit address
-      //   socket.emit('getDepositAddress', receiverAddress, (err, res) => {
-      //     if (res && res.btcadr) {
-      //       emit(actions.getDepositAddressSuccess(res));
-      //     } else {
-      //       emit(actions.getDepositAddressFailed(err.error));
-      //     }
-      //   });
       getHistory(receiverAddress);
     }
     socket.emit('initAddress', receiverAddress, (err, res) => {

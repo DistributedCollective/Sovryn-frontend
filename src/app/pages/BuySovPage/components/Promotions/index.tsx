@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-// import imgPromotion1 from 'assets/sov/promotion-1.svg';
-// import imgPromotion2 from 'assets/sov/promotion-2.svg';
 import imgPromotion3 from 'assets/sov/promotion-3.svg';
 import imgPromotion4 from 'assets/sov/promotion-4.svg';
 import { Promotion } from './promotion';
@@ -15,22 +13,6 @@ export function Promotions() {
       <H1 className="tw-text-center">
         {t(translations.buySovPage.promotions.title)}
       </H1>
-
-      {/* <Promotion
-        title={t(translations.buySovPage.promotions.p1.title)}
-        content={<>{t(translations.buySovPage.promotions.p1.text)}</>}
-        cta={t(translations.buySovPage.promotions.p1.cta)}
-        href="https://sovryn.app/blog/sovryn-go-brrrrrr.html"
-        image={imgPromotion2}
-      />
-
-      <Promotion
-        title={t(translations.buySovPage.promotions.p2.title)}
-        content={<>{t(translations.buySovPage.promotions.p2.text)}</>}
-        cta={t(translations.buySovPage.promotions.p2.cta)}
-        href="https://twitter.com/SovrynBTC/status/1381112432945459201"
-        image={imgPromotion1}
-      /> */}
 
       <Promotion
         title={t(translations.buySovPage.promotions.p3.title)}

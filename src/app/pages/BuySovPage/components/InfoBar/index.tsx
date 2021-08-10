@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-// import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
@@ -63,19 +62,6 @@ export function InfoBar() {
   return (
     <>
       <StyledInfoBar>
-        {/*<div className="col">*/}
-        {/*  <Text ellipsize tagName="p">*/}
-        {/*    {t(translations.buySovPage.stats.totalSupply)}*/}
-        {/*  </Text>*/}
-        {/*  <Text ellipsize tagName="p">*/}
-        {/*    <LoadableValue*/}
-        {/*      loading={totalSupplyLoading}*/}
-        {/*      value={weiToNumberFormat(totalSupply, 2)}*/}
-        {/*      tooltip={weiTo18(totalSupply)}*/}
-        {/*    />{' '}*/}
-        {/*    SOV*/}
-        {/*  </Text>*/}
-        {/*</div>*/}
         <div className="">
           <Text ellipsize tagName="p">
             {t(translations.buySovPage.stats.circulatingSupply)}
