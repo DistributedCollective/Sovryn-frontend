@@ -1,3 +1,4 @@
+import cn from 'classnames';
 /**
  *
  * ClaimForm
