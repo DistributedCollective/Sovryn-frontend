@@ -7,13 +7,13 @@ import { TradingVolume } from './components/TradingVolume';
 import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from './components/Promotions';
-import { LendingAssets } from './components/LendingAssets';
 import { AmmBalance } from './components/AmmBalance';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { WelcomeTitle } from './styled';
+import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 
 const url = backendUrl[currentChainId];
 
@@ -94,20 +94,12 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
 
         <Promotions />
 
-        <div className="tw-grid tw-grid-cols-2">
-          <div>
-            <LendingAssets />
-          </div>
-
-          <div>
-            <AmmBalance />
-          </div>
+        <div className="tw-font-semibold tw-mb-6">
+          {t(translations.landingPage.lendBorrow)}
         </div>
-        <div className="tw-grid tw-grid-cols-2 tw-my-20">
-          <div>Top Spot pairs</div>
+        <LendingStats />
 
-          <div>Top Margin pairs</div>
-        </div>
+        <AmmBalance />
 
         <TotalValueLocked loading={tvlLoading} data={tvlData} />
       </div>

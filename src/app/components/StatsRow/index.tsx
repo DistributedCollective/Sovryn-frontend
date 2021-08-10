@@ -23,11 +23,11 @@ export function StatsRow(props: Props) {
         <td className="tw-text-left tw-whitespace-nowrap">
           <img
             className="tw-inline"
-            style={{ height: '40px' }}
+            style={{ width: '38px' }}
             src={logo}
-            alt=""
-          />{' '}
-          <strong>{props.asset}</strong>
+            alt={props.asset}
+          />
+          <strong className="tw-ml-4">{props.asset}</strong>
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap">
@@ -35,7 +35,6 @@ export function StatsRow(props: Props) {
             contract={lendingContract}
             data="totalAssetSupply"
             displayType="normal"
-            prepend={props.asset}
           />
         </td>
 
@@ -44,20 +43,18 @@ export function StatsRow(props: Props) {
             contract={lendingContract}
             data="totalAssetBorrow"
             displayType="normal"
-            prepend={props.asset}
           />
         </td>
 
-        <td className="tw-text-right tw-whitespace-nowrap">
+        <td className="tw-text-right tw-whitespace-nowrap tw-font-semibold">
           <StatsRowData
             contract={lendingContract}
             data="marketLiquidity"
             displayType="normal"
-            prepend={props.asset}
           />
         </td>
 
-        <td className="tw-text-right tw-whitespace-nowrap">
+        <td className="tw-text-right tw-whitespace-nowrap tw-font-semibold tw-text-gold">
           <StatsRowData
             contract={lendingContract}
             data="supplyInterestRate"
@@ -66,7 +63,7 @@ export function StatsRow(props: Props) {
           />
         </td>
 
-        <td className="tw-text-right tw-whitespace-nowrap">
+        <td className="tw-text-right tw-whitespace-nowrap tw-font-semibold tw-text-gold">
           <StatsRowData
             contract={lendingContract}
             data="borrowInterestRate"

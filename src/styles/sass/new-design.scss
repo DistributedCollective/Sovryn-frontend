@@ -98,7 +98,7 @@
 
 .sovryn-table {
   font-family: $font-family-montserrat;
-  font-weight: 100;
+  font-weight: normal;
   width: 100%;
   font-size: 14px;
   letter-spacing: 0;
@@ -147,7 +147,7 @@
     height: 80px;
 
     td {
-      padding: 0 30px;
+      padding: 0 22px;
       color: var(--light-gray);
       @media (max-width: 441px) {
         padding: 0 15px;

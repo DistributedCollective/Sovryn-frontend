@@ -1494,12 +1494,6 @@
       "subtotal": "Subtotal",
       "total": "Total"
     },
-    "lendingAssets": {
-      "asset": "Asset",
-      "totalAvailable": "Total Available",
-      "supplyAPR": "Supply APR",
-      "borrowAPR": "Borrow APR"
-    },
     "promotions": {
       "title": "Promotions",
       "learnMore": "Learn more",
@@ -1512,6 +1506,7 @@
         "spotTrading": "Spot Trading"
       }
     },
+    "lendBorrow": "LEND & BORROW ASSETS",
     "ammpool": {
       "title": "Top AMM Pools",
       "asset": "Asset",
