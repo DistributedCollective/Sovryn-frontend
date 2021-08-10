@@ -75,12 +75,6 @@ export function Screen2({ state, dispatch }: Props) {
               <li>
                 {t(translations.common.max)}: {state.maxDepositAmount} BTC
               </li>
-              {/*<li>*/}
-              {/*  {t(s.fee)} 1.00 USD*{' '}*/}
-              {/*  <span className="small">*/}
-              {/*    <em>{t(s.feeExplainer)}</em>*/}
-              {/*  </span>*/}
-              {/*</li>*/}
             </ul>
           </div>
           <div>

@@ -16,6 +16,8 @@ import { translations } from 'locales/i18n';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
+import { ClaimForm } from './components/ClaimForm';
+import { HistoryTable } from './components/HistoryTable';
 import { RewardForm } from './components/RewardForm';
 import { Tab } from './components/Tab';
 
