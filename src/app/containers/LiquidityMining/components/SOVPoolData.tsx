@@ -52,9 +52,9 @@ export function SOVPoolData(props: Props) {
   }, [props.user]);
 
   return (
-    <div className="col-12">
-      <Div className="mt-3">
-        <Label className="text-center">
+    <div className="tw-w-full">
+      <Div className="tw-mt-4">
+        <Label className="tw-text-center">
           75K SOV
           <br />
           {t(translations.marketingPage.liquidity.reward)}
@@ -62,7 +62,7 @@ export function SOVPoolData(props: Props) {
           {t(translations.marketingPage.liquidity.pool)}
         </Label>
       </Div>
-      <div className="row my-3">
+      <div className="tw-my-4">
         <RewardPool
           user={props.user}
           txList={props.txList}
@@ -72,7 +72,7 @@ export function SOVPoolData(props: Props) {
 
       {props.isConnected && (
         <>
-          <h3 className="w-100 text-center mt-5 mb-3">
+          <h3 className="tw-w-full tw-text-center tw-mt-12 tw-mb-4">
             {t(translations.marketingPage.liquidity.miningEvent)}
           </h3>
           {data && data.length > 0 ? (
@@ -84,7 +84,7 @@ export function SOVPoolData(props: Props) {
               totalRemaining=""
             />
           ) : (
-            <div className="w-100 text-center mt-5">
+            <div className="tw-w-full tw-text-center tw-mt-12">
               {t(translations.marketingPage.liquidity.noAsset, {
                 asset: 'SOV/BTC',
               })}

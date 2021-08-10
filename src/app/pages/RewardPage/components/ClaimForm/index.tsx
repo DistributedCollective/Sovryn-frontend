@@ -1,4 +1,3 @@
-import cn from 'classnames';
 /**
  *
  * ClaimForm
@@ -64,7 +63,7 @@ export function ClaimForm({ className, address }: Props) {
         'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
-      <div className="tw-text-xs">
+      <div className="tw-text-center tw-text-xl">
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">

@@ -93,23 +93,23 @@ export function RemovePoolV1(props: Props) {
       {/*  </div>*/}
       {/*</div>*/}
 
-      <div className="mt-3">
+      <div className="tw-mt-4">
         <SendTxProgress {...tx} displayAbsolute={false} />
       </div>
 
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
-        <div className="mb-3 mb-lg-0">
+      <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+        <div className="tw-mb-4 lg:tw-mb-0">
           <div>
-            <div className="font-weight-bold text-muted mb-2">
+            <div className="tw-font-bold tw-text-muted tw-mb-2">
               {t(translations.assetWalletBalance.suppliedBalance)}
             </div>
             {!isConnected && (
               <span>{t(translations.assetWalletBalance.accountBalance)}</span>
             )}
             {isConnected && (
-              <div className="d-flex flex-row justify-content-start align-items-center">
-                <span className="text-muted">{props.symbol}</span>
-                <span className="text-white font-weight-bold ml-2">
+              <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
+                <span className="tw-text-muted">{props.symbol}</span>
+                <span className="tw-text-white tw-font-bold tw-ml-2">
                   <LoadableValue
                     value={weiToFixed(props.balance.value, 4)}
                     loading={props.balance.loading}

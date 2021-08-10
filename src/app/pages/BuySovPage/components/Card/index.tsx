@@ -81,13 +81,13 @@ export function Card(props: Props) {
     <Container
       disabled={props.disabled}
       large={props.large}
-      className="d-block bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0"
+      className="tw-bg-black tw-flex tw-flex-col tw-justify-start tw-items-center tw-flex-grow-0 tw-flex-shrink-0"
     >
-      <H1 className="d-flex w-100 justify-content-start align-items-end disable-content">
+      <H1 className="tw-flex tw-w-full tw-justify-start tw-items-end disable-content">
         <span className="step">{props.step}.</span>{' '}
         <span className="title">{props.title}</span>
       </H1>
-      <div className="w-100 mb-3">{props.children}</div>
+      <div className="tw-w-full tw-mb-4">{props.children}</div>
     </Container>
   );
 }

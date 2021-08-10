@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 import { bignumber } from 'mathjs';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { translations } from '../../../../../locales/i18n';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useAccount } from '../../../../hooks/useAccount';
@@ -56,7 +56,7 @@ export function PoolTable() {
   }, [totalDeposit.value, liquidityProvided.value]);
 
   return (
-    <div className="border rounded-lg p-3">
+    <div className="tw-border tw-rounded-lg tw-p-3">
       <table className="sovryn-table">
         <thead>
           <tr>
@@ -115,7 +115,7 @@ export function PoolTable() {
 }
 
 function formatDate(timestamp: string) {
-  return moment(Number(timestamp) * 1e3).format('DD-MM-YY');
+  return dayjs(Number(timestamp) * 1e3).format('DD-MM-YY');
 }
 
 const Button = styled.button`

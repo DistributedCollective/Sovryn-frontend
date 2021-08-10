@@ -20,7 +20,7 @@ interface Props {
 }
 export function RewardBox({ className, title, items }: Props) {
   return (
-    <Box className={cn(className, 'p-3 rounded-lg')}>
+    <Box className={cn(className, 'tw-p-4 tw-rounded-lg')}>
       <div className="tw-text-xl tw-font-semibold">{title}</div>
       <div className="tw-px-2 tw-pt-2 tw-flex tw-justify-between">
         {items.map((item, i) => {

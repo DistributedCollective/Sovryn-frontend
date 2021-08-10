@@ -48,7 +48,7 @@ export function LeverageSelector(props: Props) {
 
   return (
     <div className="tw-grid tw-grid-cols-12 tw-flex tw-flex-col lg:tw-flex-row lg:tw-items-center">
-      <div className="tw-col-span-12 lg:tw-col-span-4 tw-font-bold font-size-lg tw-mb-4 lg:tw-mb-0">
+      <div className="tw-col-span-12 lg:tw-col-span-4 tw-font-bold tw-text-lg tw-mb-4 lg:tw-mb-0">
         <LeverageText>{t(translations.leverageSelector.text)}</LeverageText>
       </div>
       <div className="tw-col-span-12 lg:tw-col-span-8">

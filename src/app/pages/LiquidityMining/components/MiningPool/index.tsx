@@ -50,7 +50,7 @@ export function MiningPool({ pool, ammData }: Props) {
 
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
+      <div className="tw-ml-5 tw-w-full tw-max-w-8.75rem">
         <ActionButton
           text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}

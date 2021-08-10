@@ -9,5 +9,5 @@ import React from 'react';
 interface Props {}
 
 export function SandboxPage(props: Props) {
-  return <div className="bg-blue" />;
+  return <div className="tw-bg-blue" />;
 }
