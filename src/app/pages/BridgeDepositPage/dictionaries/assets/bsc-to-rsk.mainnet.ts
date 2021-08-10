@@ -11,7 +11,7 @@ import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.mainnet';
 
 export const bnbsAggregatorRSK = '0xafD905Fe2EdBF5A7367A73B0F1e6a62Cb5E27D3e';
 
-export default [
+const bscToRskAssets = [
   new AssetModel(
     CrossBridgeAsset.BSOV,
     'bSOV',
@@ -114,3 +114,5 @@ export default [
     [CrossBridgeAsset.XUSD],
   ),
 ];
+
+export default bscToRskAssets;
