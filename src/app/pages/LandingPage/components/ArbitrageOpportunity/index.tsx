@@ -78,12 +78,12 @@ export const ArbitrageOpportunity: React.FC = () => {
         {opportunityArray.map(opportunity => {
           return (
             <div className="tw-flex tw-items-center tw-my-4">
-              <div className="tw-bg-background tw-rounded-full tw-z-10">
+              <div className="tw-rounded-full tw-z-10">
                 <StyledImage
                   src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
                 />
               </div>
-              <div className="tw-bg-background tw-rounded-full tw--ml-3">
+              <div className="tw-rounded-full tw--ml-3">
                 <StyledImage
                   src={AssetsDictionary.get(opportunity.toToken).logoSvg}
                 />

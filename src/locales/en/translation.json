@@ -1508,7 +1508,7 @@
     },
     "lendBorrow": "LEND & BORROW ASSETS",
     "ammpool": {
-      "title": "Top AMM Pools",
+      "title": "AMM Pools",
       "asset": "Asset",
       "pool": "Pool",
       "stakedBalance": "Staked Balance",

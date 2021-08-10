@@ -11,66 +11,47 @@ import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer'
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { AmmBalanceRow } from 'app/containers/StatsPage/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { Pagination } from 'app/components/Pagination';
 
 interface Props {
   rate: number;
 }
 
-const PAGE_LIMIT = 4;
-
 export function AmmBalance(props: Props) {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(1);
   const assets = LiquidityPoolDictionary.pairTypeList();
 
-  const onPageChanged = data => {
-    setCurrentPage(data.currentPage);
-  };
-
   return (
-    <div>
-      <div className="tw-text-base tw-tracking-wider">
+    <div className="tw-mt-12">
+      <div className="tw-font-semibold tw-mb-6">
         {t(translations.landingPage.ammpool.title)}
       </div>
 
       <div className="tw-mt-7 tw-overflow-auto">
         <table
-          className="tw-text-left tw-w-full tw-border-separate"
-          style={{ borderSpacing: 12 }}
+          className="tw-text-left tw-border-separate tw-w-full sovryn-table"
+          style={{ borderSpacing: 0 }}
         >
           <thead>
             <tr>
               <th>{t(translations.landingPage.ammpool.pool)}</th>
               <th>{t(translations.landingPage.ammpool.asset)}</th>
-              <th>{t(translations.landingPage.ammpool.stakedBalance)}</th>
-              <th>{t(translations.landingPage.ammpool.contractBalance)}</th>
-              <th>{t(translations.landingPage.ammpool.imBalance)}</th>
+              <th className="tw-text-right">
+                {t(translations.landingPage.ammpool.stakedBalance)}
+              </th>
+              <th className="tw-text-right">
+                {t(translations.landingPage.ammpool.contractBalance)}
+              </th>
+              <th className="tw-text-right">
+                {t(translations.landingPage.ammpool.imBalance)}
+              </th>
             </tr>
           </thead>
           <tbody className="mt-5">
             {assets.map((item, i) => (
-              <Row
-                hide={
-                  i < (currentPage - 1) * PAGE_LIMIT ||
-                  i >= currentPage * PAGE_LIMIT
-                }
-                key={item}
-                asset={item}
-                rate={props.rate}
-              />
+              <Row key={item} asset={item} rate={props.rate} />
             ))}
           </tbody>
         </table>
-        {assets.length > 0 && (
-          <Pagination
-            className="tw--mt-6"
-            totalRecords={assets.length}
-            pageLimit={PAGE_LIMIT}
-            pageNeighbours={1}
-            onChange={onPageChanged}
-          />
-        )}
       </div>
     </div>
   );
@@ -86,6 +67,7 @@ function Row(props) {
   const [data, setData] = useState<AmmBalanceRow>();
   const cancelDataRequest = useRef<Canceler>();
   const logo = AssetsDictionary.get(props.asset).logoSvg;
+  const rbtcLogo = AssetsDictionary.get(Asset.RBTC).logoSvg;
 
   const getData = useCallback(() => {
     cancelDataRequest.current && cancelDataRequest.current();
@@ -126,53 +108,63 @@ function Row(props) {
       {data && (
         <>
           <tr>
-            <td rowSpan={2}>
+            <td>
               <span className="tw-flex tw-items-center">
                 <img
-                  className="tw-inline tw-mr-2"
-                  style={{ height: '30px' }}
+                  className="tw-z-10"
+                  style={{ width: '40px' }}
                   src={logo}
                   alt=""
                 />
-
-                {data.ammPool}
+                <img
+                  className="tw-mr-2 tw--ml-4"
+                  style={{ width: '40px' }}
+                  src={rbtcLogo}
+                  alt=""
+                />
               </span>
             </td>
-            <td className="tw-pt-3">{data.ammPool}</td>
-            <td className="tw-pt-3">
-              {formatNumber(
-                data.stakedBalanceToken,
-                decimals[data.ammPool],
-              ) || <div className="bp3-skeleton">&nbsp;</div>}
+            <td>
+              <div>{data.ammPool}</div>
+              <div>
+                <AssetSymbolRenderer asset={Asset.RBTC} />
+              </div>
             </td>
-            <td className="tw-pt-3">
-              {formatNumber(
-                data.contractBalanceToken,
-                decimals[data.ammPool],
-              ) || <div className="bp3-skeleton">&nbsp;</div>}
+            <td className="tw-text-right">
+              <div>
+                {formatNumber(
+                  data.stakedBalanceToken,
+                  decimals[data.ammPool],
+                ) || <div className="bp3-skeleton">&nbsp;</div>}
+              </div>
+              <div>
+                {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
+                  <div className="bp3-skeleton">&nbsp;</div>
+                )}
+              </div>
             </td>
-            <td className="tw-pt-3">
+            <td className="tw-text-right">
+              <div>
+                {formatNumber(
+                  data.contractBalanceToken,
+                  decimals[data.ammPool],
+                ) || <div className="bp3-skeleton">&nbsp;</div>}
+              </div>
+              <div>
+                <div>
+                  {formatNumber(data.contractBalanceBtc, decimals.BTC) || (
+                    <div className="bp3-skeleton">&nbsp;</div>
+                  )}
+                </div>
+                <div>
+                  {formatNumber(data.btcDelta, decimals.BTC) || (
+                    <div className="bp3-skeleton">&nbsp;</div>
+                  )}
+                </div>
+              </div>
+            </td>
+            <td className="tw-text-right">
               {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
-                <div className="bp3-skeleton">&nbsp;</div>
-              )}
-            </td>
-          </tr>
-          <tr>
-            <td className="tw-pb-3">
-              <AssetSymbolRenderer asset={Asset.RBTC} />
-            </td>
-            <td className="tw-pb-3">
-              {formatNumber(data.stakedBalanceBtc, decimals.BTC) || (
-                <div className="bp3-skeleton">&nbsp;</div>
-              )}
-            </td>
-            <td className="tw-pb-3">
-              {formatNumber(data.contractBalanceBtc, decimals.BTC) || (
-                <div className="bp3-skeleton">&nbsp;</div>
-              )}
-            </td>
-            <td className="tw-pb-3">
-              {formatNumber(data.btcDelta, decimals.BTC) || (
                 <div className="bp3-skeleton">&nbsp;</div>
               )}
             </td>
