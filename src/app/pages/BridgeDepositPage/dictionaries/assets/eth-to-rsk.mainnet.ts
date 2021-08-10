@@ -9,7 +9,7 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 export const xusdAggregatorRSK = '0x1440d19436bEeaF8517896bffB957a88EC95a00F';
 export const ethsAggregatorRSK = '0x4bF113905d7F69202106f613308bb02c84aaDF2F';
 
-export default [
+const ethToRskAssets = [
   new AssetModel(
     CrossBridgeAsset.ESOV,
     'eSOV',
@@ -82,3 +82,5 @@ export default [
     [CrossBridgeAsset.XUSD],
   ),
 ];
+
+export default ethToRskAssets;

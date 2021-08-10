@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useWalletContext, WalletConnectionView } from '@sovryn/react-wallet';
+import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
 import { Chain } from '../../../../../types';
@@ -18,7 +18,6 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
-import { Button } from 'app/components/Button';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -31,7 +30,7 @@ export function WalletSelector() {
 
   const walletName = detectWeb3Wallet();
 
-  const walletContext = useWalletContext();
+  const walletContext = useContext(WalletContext);
   const currentNetwork =
     networkList.find(item => item.chainId === chainId)?.chain || 0;
 
