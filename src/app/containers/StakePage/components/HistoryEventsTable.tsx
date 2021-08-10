@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import axios from 'axios';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import styled from 'styled-components/macro';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
@@ -178,9 +178,10 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   return (
     <tr>
       <td>
-        {moment
-          .tz(new Date(item.timestamp * 1e3), 'GMT')
-          .format('DD/MM/YYYY - h:mm:ss a z')}
+        {dayjs
+          .tz(item.timestamp * 1e3, 'UTC')
+          .tz(dayjs.tz.guess())
+          .format('L - LTS Z')}
       </td>
       <td>{getActionName(item.action)}</td>
       <td className="tw-text-left tw-font-normal">
