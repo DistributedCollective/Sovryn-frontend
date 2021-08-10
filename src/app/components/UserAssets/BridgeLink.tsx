@@ -15,20 +15,22 @@ export function BridgeLink({ asset }: Props) {
   return (
     <>
       <Link
+        className="tw-btn-action"
         to={{
           pathname: '/cross-chain/deposit',
           state: { receiver, asset },
         }}
       >
-        {t(translations.common.deposit)}
+        <span>{t(translations.common.deposit)}</span>
       </Link>
       <Link
+        className="tw-btn-action"
         to={{
           pathname: '/cross-chain/withdraw',
           state: { receiver, asset },
         }}
       >
-        {t(translations.common.withdraw)}
+        <span>{t(translations.common.withdraw)}</span>
       </Link>
     </>
   );
