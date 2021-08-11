@@ -14,7 +14,6 @@ export const MobileBrowsersWarningDialog: React.FC = () => {
   const [checked, setChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(isMobile());
 
-  // eslint-disable-next-line prettier/prettier
   const onCheckboxClick = useCallback(
     () => setChecked(prevValue => !prevValue),
     [setChecked],
@@ -27,28 +26,28 @@ export const MobileBrowsersWarningDialog: React.FC = () => {
       isOpen={isOpen}
       onClose={noop}
       isCloseButtonShown={false}
-      className="w-auto text-center"
+      className="tw-w-auto tw-text-center"
     >
-      <WarningContainer className="pt-2 px-4 text-center">
-        <img src={logo} alt="Sovryn" className="mx-auto mb-5" />
+      <WarningContainer className="tw-pt-2 tw-px-8 tw-text-center">
+        <img src={logo} alt="Sovryn" className="tw-mx-auto tw-mb-12" />
 
         <WarningTextContent>
           <p>
             {t(translations.mobileBrowsersWarningDialog.content.paragraph1)}
           </p>
-          <p className="mt-4">
+          <p className="tw-mt-8">
             {t(translations.mobileBrowsersWarningDialog.content.paragraph2)}
           </p>
         </WarningTextContent>
 
-        <div className="mt-5 mb-4">
+        <div className="tw-mt-12 tw-mb-8">
           <Checkbox
             checked={checked}
             onChange={onCheckboxClick}
             label={t(translations.mobileBrowsersWarningDialog.acceptTerms)}
-            className="text-left"
+            className="tw-text-left"
           />
-          <div className="mt-4">
+          <div className="tw-mt-8">
             <SalesButton
               text={t(translations.mobileBrowsersWarningDialog.salesBtn)}
               onClick={handleClose}

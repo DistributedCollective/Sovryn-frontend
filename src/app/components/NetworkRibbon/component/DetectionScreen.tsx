@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -30,8 +29,7 @@ export function DetectionScreen(props: Props) {
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
-  // eslint-disable-next-line array-callback-return
-  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
+  const netName = netData.find(item => item.chainId === chainId)?.chain;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
@@ -42,51 +40,53 @@ export function DetectionScreen(props: Props) {
   const { disconnect } = useWalletContext();
   return (
     <>
-      <div className="d-flex my-3 justify-content-center flex-row pt-3 pb-5 font-family-montserrat">
-        <div className="mr-2">
+      <div className="tw-flex tw-my-4 tw-justify-center tw-flex-row tw-pt-4 tw-pb-12 tw-font-body">
+        <div className="tw-mr-2">
           <img src={error_alert} alt="1" />
         </div>
-        <div className="text-left subtitle">
-          {t(translations.wrongNetworkDialog.networkAlert, {
-            name: netName,
-          })}
+        <div className="tw-text-left subtitle">
+          {netName
+            ? t(translations.wrongNetworkDialog.networkAlert, {
+                name: netName,
+              })
+            : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
             string: walletName,
           })}
         </div>
       </div>
-      <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
-        <div className="d-flex flex-row justify-content-center align-items-center logo">
-          <img alt="1" src={logo} className="text-center" />
+      <div className="tw-flex tw-mt-4 tw-mb-12 tw-justify-center tw-flex-row tw-pb-12 tw-font-body">
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center logo">
+          <img alt="1" src={logo} className="tw-text-center" />
         </div>
         {props.walletType === 'metamask' && (
           <div className="tw-flex tw-items-center tw-ml-12">
             <ActionButton
               text={t(translations.wrongNetworkDialog.metamask.connectButton)}
               onClick={addNetworkCallback}
-              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
-              textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5 tw-font-semibold"
+              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-lg tw-bg-primary tw-bg-opacity-5"
+              textClassName="tw-text-lg tw-tracking-normal tw-leading-6 tw-font-semibold"
             />
           </div>
         )}
       </div>
-      <div className="d-flex my-5 flex-column justify-content-center align-items-center text-center">
-        <a
+      <div className="tw-flex tw-my-12 tw-flex-col tw-justify-center tw-items-center tw-text-center">
+        <button
           onClick={props.onStart}
-          className="titleTut font-family-montserrat mb-3"
+          className="titleTut tw-font-body tw-mb-4"
         >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
-        </a>
-        <a
-          className="d-flex align-items-center justify-content-center titleTut font-family-montserrat"
+        </button>
+        <button
+          className="tw-flex tw-items-center tw-justify-center titleTut tw-font-body"
           onClick={() => disconnect()}
         >
-          <Icon icon="log-out" className="tw-text-gold mr-1" iconSize={12} />{' '}
+          <Icon icon="log-out" className="tw-text-gold tw-mr-1" iconSize={12} />{' '}
           {t(translations.wallet.disconnect)}
-        </a>
+        </button>
       </div>
     </>
   );

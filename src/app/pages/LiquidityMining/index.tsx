@@ -54,7 +54,7 @@ export function LiquidityMining() {
         />
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
             title="15k SOV"
@@ -100,55 +100,12 @@ export function LiquidityMining() {
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          {/* <LootDrop
-            title="$37500 worth of MoC"
-            asset1={Asset.DOC}
-            asset2={Asset.RBTC}
-            startDate="02/06/21"
-            endDate="01/07/21"
-            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Pink}
-          /> */}
         </LootDropSectionWrapper>
-        {/*<TopInfoSectionWrapper>*/}
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Liquidity Provided" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="3.5827"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Fees" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="0.2857"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Rewards" />*/}
-        {/*    <TopInfoContent amount="23.4323" asset={Asset.SOV} />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="All time Fees Earned" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="34.3928"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-        {/*</TopInfoSectionWrapper>*/}
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (
-          <div className="text-red tw-font-xl tw-text-center">
+          <div className="tw-text-red tw-text-xl tw-text-center">
             <Trans
               i18nKey={translations.maintenance.liquidity}
               components={[
