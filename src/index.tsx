@@ -18,7 +18,6 @@ import { Provider } from 'react-redux';
 // Import scss global styles
 import './styles/sass/styles.scss';
 import './styles/index.css';
-import '@sovryn/react-wallet/index.css';
 
 // Import root app
 import { App } from 'app';
