@@ -9,8 +9,8 @@ import { translations } from '../../../../../locales/i18n';
 export function StakeVote() {
   const { t } = useTranslation();
   return (
-    <Article className="w-100">
-      <h1 className="d-block text-center">
+    <Article className="tw-w-full">
+      <h1 className="tw-block tw-text-center">
         {t(translations.buySovPage.features.stake.title)}
       </h1>
       <Banner src={banner} alt="Banner" />
@@ -24,7 +24,7 @@ export function StakeVote() {
           {t(translations.buySovPage.features.learnMore)}
         </a>
       </div>
-      <div className="container text-center">
+      <div className="tw-container tw-text-center">
         <a
           href="https://live.sovryn.app/stake"
           className="button"

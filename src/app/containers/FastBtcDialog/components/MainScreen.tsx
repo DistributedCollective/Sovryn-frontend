@@ -110,7 +110,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           )}
 
           {isWrongChainId && (
-            <p className="text-center">
+            <p className="tw-text-center">
               {t(translations.fastBtcDialog.instructions.chainId)}
             </p>
           )}
@@ -127,16 +127,6 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
                 }}
               />
             )}
-            {/*{state.step === Step.MAIN && (*/}
-            {/*  <FiatButton*/}
-            {/*    loading={state.deposit.loading}*/}
-            {/*    ready={state.ready}*/}
-            {/*    onClick={() => {*/}
-            {/*      dispatch(actions.generateDepositAddress());*/}
-            {/*      dispatch(actions.selectFiat());*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*)}*/}
           </div>
         </div>
       </div>

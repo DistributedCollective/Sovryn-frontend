@@ -166,7 +166,7 @@ export function Pagination(props: Props) {
                     onClick={handleMoveLeft}
                   >
                     <img src={iconBack} alt="Previous" />
-                    <span className="sr-only">Previous</span>
+                    <span className="tw-sr-only">Previous</span>
                   </a>
                 </li>
               );
@@ -180,7 +180,7 @@ export function Pagination(props: Props) {
                     onClick={handleMoveRight}
                   >
                     <img src={iconBack} className="icon-rotated" alt="Next" />
-                    <span className="sr-only">Next</span>
+                    <span className="tw-sr-only">Next</span>
                   </a>
                 </li>
               );

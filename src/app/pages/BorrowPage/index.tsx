@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
-
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import CurrencyContainer from './components/CurrencyContainer';
@@ -51,10 +49,10 @@ const BorrowPage: React.FC = () => {
           </div>
         </div>
       </main>
-      <Container className="tw-mt-6">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-mt-6">
         <BorrowActivity />
         <RepayPositionHandler />
-      </Container>
+      </div>
       <Footer />
     </>
   );

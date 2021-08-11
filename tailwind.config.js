@@ -131,7 +131,7 @@ module.exports = {
     extend: {
       maxWidth: {
         '7.5rem': '7.5rem',
-        '8.75-rem': '8.75rem',
+        '8.75rem': '8.75rem',
         '13rem': '13rem',
         '15rem': '15rem',
         '20rem': '20rem',
@@ -188,6 +188,11 @@ module.exports = {
     function ({ addComponents }) {
       addComponents({
         '.container': {
+          width: '100%',
+          paddingRight: '1rem',
+          paddingLeft: '1rem',
+          marginRight: 'auto',
+          marginLeft: 'auto',
           maxWidth: '100%',
           '@screen sm': {
             maxWidth: '540px',
