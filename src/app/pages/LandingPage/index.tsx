@@ -14,6 +14,7 @@ import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
+import { Footer } from './components/Footer';
 
 const url = backendUrl[currentChainId];
 
@@ -68,18 +69,17 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         />
       </Helmet>
       <Header />
-      <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-20">
+      <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-16 tw-px-4">
+        <div className="tw-tracking-normal">
+          <WelcomeTitle>
+            {t(translations.landingPage.welcomeTitle)}
+          </WelcomeTitle>
+          <div className="tw-text-base tw-capitalize">
+            {t(translations.landingPage.welcomeMessage)}
+          </div>
+        </div>
         <div className="tw-flex">
-          <div className="tw-w-7/12">
-            <div className="tw-tracking-normal tw-mb-12">
-              <WelcomeTitle>
-                {t(translations.landingPage.welcomeTitle)}
-              </WelcomeTitle>
-              <div className="tw-text-base tw-capitalize">
-                {t(translations.landingPage.welcomeMessage)}
-              </div>
-            </div>
-
+          <div className="tw-w-7/12 tw-pt-12">
             <TradingVolume
               tvlValueBtc={tvlData?.total_btc}
               tvlValueUsd={tvlData?.total_usd}
@@ -93,16 +93,18 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         </div>
 
         <Promotions />
+        <div className="tw-max-w-screen-xl tw-mx-auto">
+          <div className="tw-font-semibold tw-mb-6">
+            {t(translations.landingPage.lendBorrow)}
+          </div>
+          <LendingStats />
 
-        <div className="tw-font-semibold tw-mb-6">
-          {t(translations.landingPage.lendBorrow)}
+          <AmmBalance />
+
+          <TotalValueLocked loading={tvlLoading} data={tvlData} />
         </div>
-        <LendingStats />
-
-        <AmmBalance />
-
-        <TotalValueLocked loading={tvlLoading} data={tvlData} />
       </div>
+      <Footer />
     </>
   );
 };

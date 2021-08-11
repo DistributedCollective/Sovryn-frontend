@@ -19,6 +19,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useHistory } from 'react-router-dom';
 import { isValidArbitrage } from 'app/components/Arbitrage/Arbitrage';
+import cn from 'classnames';
 
 export const ArbitrageOpportunity: React.FC = () => {
   const { t } = useTranslation();
@@ -75,9 +76,17 @@ export const ArbitrageOpportunity: React.FC = () => {
             <div className="tw-flex tw-items-center tw-my-4" />
           </>
         )}
-        {opportunityArray.map(opportunity => {
+        {opportunityArray.map((opportunity, i) => {
           return (
-            <div className="tw-flex tw-items-center tw-my-4">
+            <div
+              key={opportunity.fromToken + opportunity.toToken}
+              className={cn(
+                'tw-flex tw-items-center tw-h-16 tw-px-5 tw-rounded-10px',
+                {
+                  'tw-bg-gray-100': i % 2 === 0,
+                },
+              )}
+            >
               <div className="tw-rounded-full tw-z-10">
                 <StyledImage
                   src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
@@ -102,19 +111,6 @@ export const ArbitrageOpportunity: React.FC = () => {
                 </span>
               </div>
               <div className="tw-flex tw-items-center">
-                <ActionButton
-                  className="tw-uppercase tw-ml-2"
-                  text={t(translations.landingPage.arbitrageOpportunity.swap)}
-                  onClick={() => {
-                    history.push({
-                      pathname: '/swap',
-                      state: {
-                        asset: opportunity.fromToken,
-                        target: opportunity.toToken,
-                      },
-                    });
-                  }}
-                />
                 <Popover
                   content={
                     <div className="px-5 py-4 font-weight-light">
@@ -139,6 +135,20 @@ export const ArbitrageOpportunity: React.FC = () => {
                 >
                   <Icon icon={'info-sign'} />
                 </Popover>
+
+                <ActionButton
+                  className="tw-uppercase tw-ml-2"
+                  text={t(translations.landingPage.arbitrageOpportunity.swap)}
+                  onClick={() => {
+                    history.push({
+                      pathname: '/swap',
+                      state: {
+                        asset: opportunity.fromToken,
+                        target: opportunity.toToken,
+                      },
+                    });
+                  }}
+                />
               </div>
             </div>
           );

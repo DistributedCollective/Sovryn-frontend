@@ -53,7 +53,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
   );
 
   return (
-    <div className="tw-w-10/12 tw-mx-auto">
+    <div className="tw-mt-24">
       <div className="tw-uppercase tw-font-semibold tw-mb-12">
         {t(translations.landingPage.tvl.title)}
       </div>
