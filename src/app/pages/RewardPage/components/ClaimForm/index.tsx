@@ -16,7 +16,7 @@ import { Input } from 'app/components/Form/Input';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { translations } from 'locales/i18n';
-import { TxType } from 'store/global/transactions-store/types';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { gasLimit } from 'utils/classifiers';
 import { discordInvite } from 'utils/classifiers';
@@ -100,7 +100,9 @@ export function ClaimForm({ className, address }: Props) {
               disabled={
                 parseFloat(lockedBalance) === 0 ||
                 !lockedBalance ||
-                rewardsLocked
+                rewardsLocked ||
+                tx.status === TxStatus.PENDING ||
+                tx.status === TxStatus.PENDING_FOR_USER
               }
               onClick={handleSubmit}
               className="tw-w-full tw-mb-4"
