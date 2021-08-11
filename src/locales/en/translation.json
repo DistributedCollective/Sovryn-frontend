@@ -1579,7 +1579,8 @@
     },
     "tokenSelector": {
       "title": "Select coin to withdraw to",
-      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token."
+      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
+      "maxWithdrawal": "Max Withdrawal:"
     }
   },
   "buySovPage": {
