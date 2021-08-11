@@ -71,8 +71,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
 
   const balance = useMemo(() => {
     return bignumber(balanceCall).minus(profitCall).toString();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceCall, profitCall, asset]);
+  }, [balanceCall, profitCall]);
 
   const totalProfit = useMemo(() => {
     return bignumber(tokenPrice)
@@ -81,8 +80,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
       .div(Math.pow(10, assetDecimals + 1))
       .add(profitCall)
       .toFixed(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, asset]);
+  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
 
   useEffect(() => {
     if (balance !== '0') {

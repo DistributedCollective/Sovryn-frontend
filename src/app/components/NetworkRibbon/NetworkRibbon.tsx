@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { isWeb3Wallet } from '@sovryn/wallet';
@@ -40,12 +40,9 @@ export function NetworkRibbon(this: any) {
 
   const [startTut, setStart] = useState(false);
 
-  const handleTutDialog = () => {
-    setStart(true);
-  };
-  const handleBack = () => {
-    setStart(false);
-  };
+  const handleTutDialog = useCallback(() => setStart(true), []);
+  const handleBack = useCallback(() => setStart(false), []);
+
   return (
     <NetworkDialog isOpen={isOpen} className="fw-700" size="normal">
       <div className="py-2 font-family-montserrat">

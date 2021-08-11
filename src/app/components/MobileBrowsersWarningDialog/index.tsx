@@ -14,7 +14,6 @@ export const MobileBrowsersWarningDialog: React.FC = () => {
   const [checked, setChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(isMobile());
 
-  // eslint-disable-next-line prettier/prettier
   const onCheckboxClick = useCallback(
     () => setChecked(prevValue => !prevValue),
     [setChecked],

@@ -26,14 +26,12 @@ export default function OptOutDialog(props: OptOutProps) {
 
   useEffect(() => {
     setOptIn(!(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [get]);
 
   useEffect(() => {
     if (props.open)
       setOptIn(!(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open, get]);
 
   return (
     <>

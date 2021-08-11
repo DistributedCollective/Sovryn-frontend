@@ -29,15 +29,13 @@ export function usePoolToken(pool: Asset, asset: Asset) {
     if (value !== ethGenesisAddress) {
       console.log(`${pool}_${asset} v2 poolToken: `, value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, pool, asset]);
 
   useEffect(() => {
     if (anchor !== ethGenesisAddress) {
       console.log(`${pool}_${asset} v1 poolToken: `, anchor);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor]);
+  }, [anchor, pool, asset]);
 
   return { value: useLocalPoolToken(pool, asset), loading, error };
 }
