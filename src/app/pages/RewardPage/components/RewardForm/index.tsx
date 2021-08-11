@@ -9,15 +9,17 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
 
 import { useAccount } from 'app/hooks/useAccount';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
 import { translations } from 'locales/i18n';
+import { Chain } from 'types';
 import { getAmmContract } from 'utils/blockchain/contract-helpers';
-import { eventReader } from 'utils/sovryn/event-reader';
 
+import { contracts as mainContract } from '../../../../../utils/blockchain/contracts';
+import { contracts as testContract } from '../../../../../utils/blockchain/contracts.testnet';
+import { blockExplorers, currentChainId } from '../../../../../utils/classifiers';
 import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending-pool-dictionary';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
+import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
 
 export function RewardForm() {
@@ -26,12 +28,45 @@ export function RewardForm() {
   const pools = LiquidityPoolDictionary.list();
   const lendingPools = LendingPoolDictionary.list();
   const poolAddress = Array();
+  const poolAbi = Array();
+  var contracts;
+  if (currentChainId === 31) {
+    contracts = testContract;
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    contracts = mainContract;
+  }
   const lendReward = useGetContractPastEvents('lockedSov', 'Deposited');
   // eslint-disable-next-line array-callback-return
   pools.map(info => {
+    console.log("versionL: ", info.getVersion())
     const address = getAmmContract(info.getAsset()).address;
+    const abi = getAmmContract(info.getAsset()).abi;
     poolAddress.push(address);
+    poolAbi.push(abi);
   });
+  console.log('userAddres: ', userAddress);
+  console.log('poolAddress: ', poolAddress[0]);
+  if (userAddress !== '') {
+    bridgeNetwork
+      .multiCall(Chain.RSK, [
+        {
+          address: contracts.liquidityMiningProxy.address,
+          abi: contracts.liquidityMiningProxy.abi,
+          fnName: 'getUserAccumulatedReward',
+          args: [poolAddress[0], userAddress],
+          key: 'getReward1',
+          parser: value => value[0].toString(),
+        },
+      ])
+      .then(result => {
+        console.log('result: ', result);
+      })
+      .catch(error => {
+        console.error('e', error);
+      });
+  }
+
     // for (var i = 0; i < poolAddress.length; i++) {
     //   const {
     //     value: lockedBalance,
