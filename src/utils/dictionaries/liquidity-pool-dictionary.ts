@@ -76,16 +76,20 @@ export class LiquidityPoolDictionary {
     ],
     [
       Asset.MOC,
-      new LiquidityPool(Asset.MOC, [
-        new LiquidityPoolSupplyAsset(Asset.MOC, {
-          mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
-          testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
-        }),
-        new LiquidityPoolSupplyAsset(Asset.RBTC, {
-          mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
-          testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
-        }),
-      ]).setVersion(1),
+      new LiquidityPool(
+        Asset.MOC,
+        [
+          new LiquidityPoolSupplyAsset(Asset.MOC, {
+            mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
+            testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
+          }),
+          new LiquidityPoolSupplyAsset(Asset.RBTC, {
+            mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
+            testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
+          }),
+        ],
+        false,
+      ).setVersion(1),
     ],
     [
       Asset.DOC,

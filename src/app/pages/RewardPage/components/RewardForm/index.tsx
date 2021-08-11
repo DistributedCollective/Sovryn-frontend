@@ -4,74 +4,81 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
+import { bignumber } from 'mathjs';
 
 import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { Chain } from 'types';
-import { getAmmContract } from 'utils/blockchain/contract-helpers';
-
-import { contracts as mainContract } from '../../../../../utils/blockchain/contracts';
-import { contracts as testContract } from '../../../../../utils/blockchain/contracts.testnet';
-import { blockExplorers, currentChainId } from '../../../../../utils/classifiers';
-import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending-pool-dictionary';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
-import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
+import { ethGenesisAddress } from '../../../../../utils/classifiers';
 
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
-  const pools = LiquidityPoolDictionary.list();
-  const lendingPools = LendingPoolDictionary.list();
-  const poolAddress = Array();
-  const poolAbi = Array();
-  var contracts;
-  if (currentChainId === 31) {
-    contracts = testContract;
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    contracts = mainContract;
-  }
-  const lendReward = useGetContractPastEvents('lockedSov', 'Deposited');
-  // eslint-disable-next-line array-callback-return
-  pools.map(info => {
-    console.log("versionL: ", info.getVersion())
-    const address = getAmmContract(info.getAsset()).address;
-    const abi = getAmmContract(info.getAsset()).abi;
-    poolAddress.push(address);
-    poolAbi.push(abi);
-  });
-  console.log('userAddres: ', userAddress);
-  console.log('poolAddress: ', poolAddress[0]);
-  if (userAddress !== '') {
-    bridgeNetwork
-      .multiCall(Chain.RSK, [
-        {
-          address: contracts.liquidityMiningProxy.address,
-          abi: contracts.liquidityMiningProxy.abi,
-          fnName: 'getUserAccumulatedReward',
-          args: [poolAddress[0], userAddress],
-          key: 'getReward1',
-          parser: value => value[0].toString(),
-        },
-      ])
-      .then(result => {
-        console.log('result: ', result);
-      })
-      .catch(error => {
-        console.error('e', error);
-      });
-  }
 
-    // for (var i = 0; i < poolAddress.length; i++) {
-    //   const {
-    //     value: lockedBalance,
-    //   } = useLiquidityMining_getUserAccumulatedReward(poolAddress[i]);
-    // }
+  useEffect(() => {
+    const ammPools = LiquidityPoolDictionary.list().filter(
+      item => item.hasSovRewards,
+    );
+
+    if (userAddress !== '' && userAddress !== ethGenesisAddress) {
+      const pools = ammPools.flatMap(item =>
+        item.version === 1
+          ? [item.supplyAssets[0]]
+          : [item.supplyAssets[0], item.supplyAssets[1]],
+      );
+
+      bridgeNetwork
+        .multiCall<{ [key: string]: string }>(
+          Chain.RSK,
+          pools.flatMap((item, index) => {
+            return [
+              {
+                address: getContract('liquidityMiningProxy').address,
+                abi: getContract('liquidityMiningProxy').abi,
+                fnName: 'getUserAccumulatedReward',
+                args: [item.getContractAddress(), userAddress],
+                key: `getUserAccumulatedReward_${index}_${item.asset}`,
+                parser: value => value[0].toString(),
+              },
+              {
+                address: getContract('liquidityMiningProxy').address,
+                abi: getContract('liquidityMiningProxy').abi,
+                fnName: 'getUserInfo',
+                args: [item.getContractAddress(), userAddress],
+                key: `getUserInfo_${index}_${item.asset}`,
+                parser: value => value[0].accumulatedReward.toString(),
+              },
+            ];
+          }),
+        )
+        .then(result => {
+          console.log('result: ', result);
+          const total = Object.values(result.returnData)
+            .reduce(
+              (previousValue, currentValue) => previousValue.add(currentValue),
+              bignumber(0),
+            )
+            .toFixed(0);
+          console.log('total: ', total);
+        })
+        .catch(error => {
+          console.error('e', error);
+        });
+    }
+  }, [userAddress]);
+
+  // for (var i = 0; i < poolAddress.length; i++) {
+  //   const {
+  //     value: lockedBalance,
+  //   } = useLiquidityMining_getUserAccumulatedReward(poolAddress[i]);
+  // }
   return (
     <ContainerBox>
       <Box>
