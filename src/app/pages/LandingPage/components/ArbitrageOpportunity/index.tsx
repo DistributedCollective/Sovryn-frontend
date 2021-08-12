@@ -67,92 +67,131 @@ export const ArbitrageOpportunity: React.FC = () => {
         <div className="tw-flex-1 tw-h-px tw-bg-white" />
       </div>
       <div className="tw-flex tw-flex-col tw-mt-5">
-        {!opportunityArray.length && (
-          <>
-            <div className="tw-flex tw-items-center tw-my-4" />
-            <div className="tw-flex tw-items-center tw-my-4 tw-text-center tw-w-full">
-              There are currently no arbitrage opportunities…
-            </div>
-            <div className="tw-flex tw-items-center tw-my-4" />
-          </>
-        )}
-        {opportunityArray.map((opportunity, i) => {
-          return (
-            <div
-              key={opportunity.fromToken + opportunity.toToken}
-              className={cn(
-                'tw-flex tw-items-center tw-h-16 tw-px-5 tw-rounded-10px',
-                {
-                  'tw-bg-gray-100': i % 2 === 0,
-                },
-              )}
-            >
-              <div className="tw-rounded-full tw-z-10">
-                <StyledImage
-                  src={AssetsDictionary.get(opportunity.fromToken).logoSvg}
-                />
-              </div>
-              <div className="tw-rounded-full tw--ml-3">
-                <StyledImage
-                  src={AssetsDictionary.get(opportunity.toToken).logoSvg}
-                />
-              </div>
+        <table
+          className="tw-text-left tw-border-separate tw-w-full sovryn-table"
+          style={{ borderSpacing: 0 }}
+        >
+          <tbody>
+            {!opportunityArray.length && (
+              <>
+                <tr className="tw-h-16">
+                  <td></td>
+                </tr>
+                <tr className="tw-h-16">
+                  <td className="tw-text-center">
+                    {t(
+                      translations.landingPage.arbitrageOpportunity.noArbitrage,
+                    )}
+                  </td>
+                </tr>
+                <tr className="tw-h-16">
+                  <td></td>
+                </tr>
+              </>
+            )}
 
-              <div className="tw-font-light text-white tw-ml-2.5 tw-flex-1">
-                {t(translations.landingPage.arbitrageOpportunity.swapUp)}{' '}
-                <span>
-                  {toNumberFormat(opportunity.fromAmount, 6)}{' '}
-                  <AssetSymbolRenderer asset={opportunity.fromToken} />
-                </span>{' '}
-                {t(translations.landingPage.arbitrageOpportunity.for)}{' '}
-                <span>
-                  {toNumberFormat(opportunity.toAmount, 6)}{' '}
-                  <AssetSymbolRenderer asset={opportunity.toToken} />
-                </span>
-              </div>
-              <div className="tw-flex tw-items-center">
-                <Popover
-                  content={
-                    <div className="px-5 py-4 font-weight-light">
-                      <p>
-                        {t(translations.swapTradeForm.arbitrage.popover_p1, {
-                          fromAmount: toNumberFormat(opportunity.fromAmount, 6),
-                          fromToken: opportunity.fromToken,
-                          toAmount: toNumberFormat(opportunity.toAmount, 6),
-                          toToken: opportunity.toToken,
-                        })}
-                      </p>
-                      <p>
-                        {t(translations.swapTradeForm.arbitrage.popover_p2, {
-                          toToken: opportunity.toToken,
-                          earn: toNumberFormat(opportunity.earn, 6),
-                        })}
-                      </p>
+            {opportunityArray.map((opportunity, i) => {
+              return (
+                <tr className="tw-h-16">
+                  <td>
+                    <div
+                      key={opportunity.fromToken + opportunity.toToken}
+                      className={cn('tw-flex tw-items-center')}
+                    >
+                      <div className="tw-rounded-full tw-z-10">
+                        <StyledImage
+                          src={
+                            AssetsDictionary.get(opportunity.fromToken).logoSvg
+                          }
+                        />
+                      </div>
+                      <div className="tw-rounded-full tw--ml-3">
+                        <StyledImage
+                          src={
+                            AssetsDictionary.get(opportunity.toToken).logoSvg
+                          }
+                        />
+                      </div>
+
+                      <div className="tw-font-light text-white tw-ml-2.5 tw-flex-1">
+                        {t(
+                          translations.landingPage.arbitrageOpportunity.swapUp,
+                        )}{' '}
+                        <span>
+                          {toNumberFormat(opportunity.fromAmount, 6)}{' '}
+                          <AssetSymbolRenderer asset={opportunity.fromToken} />
+                        </span>{' '}
+                        {t(translations.landingPage.arbitrageOpportunity.for)}{' '}
+                        <span>
+                          {toNumberFormat(opportunity.toAmount, 6)}{' '}
+                          <AssetSymbolRenderer asset={opportunity.toToken} />
+                        </span>
+                      </div>
+                      <div className="tw-flex tw-items-center">
+                        <Popover
+                          content={
+                            <div className="px-5 py-4 font-weight-light">
+                              <p>
+                                {t(
+                                  translations.swapTradeForm.arbitrage
+                                    .popover_p1,
+                                  {
+                                    fromAmount: toNumberFormat(
+                                      opportunity.fromAmount,
+                                      6,
+                                    ),
+                                    fromToken: opportunity.fromToken,
+                                    toAmount: toNumberFormat(
+                                      opportunity.toAmount,
+                                      6,
+                                    ),
+                                    toToken: opportunity.toToken,
+                                  },
+                                )}
+                              </p>
+                              <p>
+                                {t(
+                                  translations.swapTradeForm.arbitrage
+                                    .popover_p2,
+                                  {
+                                    toToken: opportunity.toToken,
+                                    earn: toNumberFormat(opportunity.earn, 6),
+                                  },
+                                )}
+                              </p>
+                            </div>
+                          }
+                          className="tw-ml-2"
+                          popoverClassName={
+                            'w-50 tw-transform tw-translate-x-full'
+                          }
+                        >
+                          <Icon icon={'info-sign'} />
+                        </Popover>
+
+                        <ActionButton
+                          className="tw-uppercase tw-ml-2"
+                          text={t(
+                            translations.landingPage.arbitrageOpportunity.swap,
+                          )}
+                          onClick={() => {
+                            history.push({
+                              pathname: '/swap',
+                              state: {
+                                asset: opportunity.fromToken,
+                                target: opportunity.toToken,
+                              },
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
-                  }
-                  className="tw-ml-2"
-                  popoverClassName={'w-50 tw-transform tw-translate-x-full'}
-                >
-                  <Icon icon={'info-sign'} />
-                </Popover>
-
-                <ActionButton
-                  className="tw-uppercase tw-ml-2"
-                  text={t(translations.landingPage.arbitrageOpportunity.swap)}
-                  onClick={() => {
-                    history.push({
-                      pathname: '/swap',
-                      state: {
-                        asset: opportunity.fromToken,
-                        target: opportunity.toToken,
-                      },
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );

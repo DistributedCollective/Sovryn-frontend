@@ -105,8 +105,8 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
             btcValue={data?.total_btc || 0}
             usdValue={data?.total_usd || 0}
             loading={loading}
-            className="tw-border-t tw-border-white tw-font-semibold"
-            contractClassName="tw-text-white tw-uppercase tw-border-t tw-border-white"
+            className="tw-border-t tw-border-b tw-border-white tw-font-semibold tw-text-lg"
+            contractClassName="tw-text-white tw-uppercase tw-border-t tw-border-b tw-border-white tw-text-lg"
           />
         </tbody>
       </table>

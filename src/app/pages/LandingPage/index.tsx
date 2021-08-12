@@ -14,7 +14,7 @@ import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
-import { Footer } from './components/Footer';
+import { Footer } from 'app/components/Footer';
 
 const url = backendUrl[currentChainId];
 

@@ -1481,7 +1481,8 @@
       "title": "Arbitrage opportunity",
       "swap": "swap",
       "swapUp": "Swap up to ",
-      "for": "for up to "
+      "for": "for up to ",
+      "noArbitrage": "There are currently no arbitrage opportunities…"
     },
     "tvl": {
       "title": "Total value locked",
@@ -1492,7 +1493,7 @@
       "lend": "Lending Contract",
       "amm": "Amm Contract",
       "staked": "Bitocracy Staking Contract",
-      "subtotal": "Subtotal",
+      "subtotal": "Sub total",
       "total": "Total"
     },
     "promotions": {
