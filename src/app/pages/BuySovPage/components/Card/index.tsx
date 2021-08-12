@@ -6,7 +6,9 @@ type H2Props = {
 };
 
 const H2 = styled.h2<H2Props>`
-  display: block;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
   width: 100%;
   text-transform: none;
   font-weight: 500 !important;
@@ -15,26 +17,21 @@ const H2 = styled.h2<H2Props>`
   vertical-align: baseline;
   margin-bottom: 35px !important;
 
-  padding-left: ${({ step }) => (step === 1 ? '40px' : '50px')};
-  text-indent: ${({ step }) => (step === 1 ? '-40px' : '-50px')};
-
-  * {
-    text-indent: initial;
-  }
-
   & > :first-child {
     display: inline-block;
-    width: ${({ step }) => (step === 1 ? '30px' : '40px')};
     font-size: 48px;
     line-height: 48px;
     letter-spacing: 0.21px;
     margin-right: 10px;
     text-align: right;
+    font-feature-settings: normal;
+    font-variant-numeric: normal;
   }
 
   & > :not(:first-child) {
     font-size: 26px;
     letter-spacing: 0;
+    margin-bottom: 3px;
   }
 `;
 
