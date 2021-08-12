@@ -53,7 +53,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   }, []);
 
   return (
-    <div className="tw-rounded-20px tw-bg-black tw-mr-12 tw-flex tw-py-5">
+    <div className="tw-rounded-20px tw-bg-black md:tw-mr-12 tw-flex tw-py-5">
       <div className="tw-px-14 tw-py-6 tw-text-center tw-w-1/2 tw-border-r tw-border-white">
         <Title>{t(translations.landingPage.tradingVolume.tvlTitle)}</Title>
 

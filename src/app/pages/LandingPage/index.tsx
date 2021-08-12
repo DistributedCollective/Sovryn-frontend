@@ -78,8 +78,8 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             {t(translations.landingPage.welcomeMessage)}
           </div>
         </div>
-        <div className="tw-flex">
-          <div className="tw-w-7/12 tw-pt-12">
+        <div className="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
+          <div className="tw-w-full md:tw-w-7/12 tw-pt-12">
             <TradingVolume
               tvlValueBtc={tvlData?.total_btc}
               tvlValueUsd={tvlData?.total_usd}
@@ -87,7 +87,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             />
           </div>
 
-          <div className="tw-w-5/12">
+          <div className="tw-w-full md:tw-w-5/12">
             <ArbitrageOpportunity />
           </div>
         </div>
@@ -97,11 +97,15 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           <div className="tw-font-semibold tw-mb-8">
             {t(translations.landingPage.lendBorrow)}
           </div>
-          <LendingStats />
+          <div className="tw-w-full tw-overflow-auto">
+            <LendingStats />
+          </div>
 
           <AmmBalance />
 
-          <TotalValueLocked loading={tvlLoading} data={tvlData} />
+          <div className="tw-w-full tw-overflow-auto">
+            <TotalValueLocked loading={tvlLoading} data={tvlData} />
+          </div>
         </div>
       </div>
       <Footer />
