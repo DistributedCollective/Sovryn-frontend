@@ -200,7 +200,7 @@ export function VestingContract(props: Props) {
               {locked && (
                 <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
                   {Math.abs(dayjs().diff(parseInt(unlockDate) * 1e3, 'days'))}{' '}
-                  days
+                  {t(translations.stake.days)}
                 </p>
               )}
             </td>
