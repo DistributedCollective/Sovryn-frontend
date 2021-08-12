@@ -1382,7 +1382,7 @@
       "swap": "swap",
       "swapUp": "Swap up to ",
       "for": "for up to ",
-      "noArbitrage": "There are currently no arbitrage opportunities…"
+      "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
     },
     "tvl": {
       "title": "Total value locked",
