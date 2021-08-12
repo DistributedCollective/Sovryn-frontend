@@ -366,7 +366,7 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Ativo",
+    "asset": "Ativos",
     "totalAssetSupplied": "Fornecidos",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
