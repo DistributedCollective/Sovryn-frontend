@@ -94,7 +94,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
 
         <Promotions />
         <div className="tw-max-w-screen-xl tw-mx-auto">
-          <div className="tw-font-semibold tw-mb-6">
+          <div className="tw-font-semibold tw-mb-8">
             {t(translations.landingPage.lendBorrow)}
           </div>
           <LendingStats />

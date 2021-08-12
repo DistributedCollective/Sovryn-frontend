@@ -21,8 +21,8 @@ export function AmmBalance(props: Props) {
   const assets = LiquidityPoolDictionary.pairTypeList();
 
   return (
-    <div className="tw-mt-12">
-      <div className="tw-font-semibold tw-mb-6">
+    <div className="tw-mt-24">
+      <div className="tw-font-semibold tw-mb-8">
         {t(translations.landingPage.ammpool.title)}
       </div>
 

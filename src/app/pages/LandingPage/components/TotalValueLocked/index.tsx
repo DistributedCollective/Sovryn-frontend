@@ -53,27 +53,30 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
   );
 
   return (
-    <div className="tw-mt-24">
-      <div className="tw-uppercase tw-font-semibold tw-mb-12">
+    <div className="tw-my-24">
+      <div className="tw-uppercase tw-font-semibold tw-mb-8">
         {t(translations.landingPage.tvl.title)}
       </div>
 
-      <table className="tw-text-left tw-w-full">
-        <thead className="tw-h-20">
+      <table
+        className="tw-text-left tw-w-full sovryn-table tw-border-separate"
+        style={{ borderSpacing: '0 10px' }}
+      >
+        <thead>
           <tr>
-            <th className="tw-font-semibold">
+            <th className="tw-font-semibold tw-border-b tw-border-white">
               {t(translations.landingPage.tvl.type)}
             </th>
-            <th className="tw-font-semibold">
+            <th className="tw-font-semibold tw-text-right tw-border-b tw-border-white">
               {t(translations.landingPage.tvl.btc)}
             </th>
-            <th className="tw-font-semibold">
+            <th className="tw-font-semibold tw-text-right tw-border-b tw-border-white">
               {t(translations.landingPage.tvl.usd)}
             </th>
           </tr>
         </thead>
         <tbody className="mt-5">
-          {rowCoreData.map(row => (
+          {rowCoreData.map((row, i) => (
             <DataRow
               contractName={row.contract}
               btcValue={row.btcValue}
@@ -87,11 +90,9 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
             btcValue={subtotalBtcValue}
             usdValue={subtotalUsdValue}
             loading={loading}
-            className="tw-border-t tw-border-white"
-            contractClassName="tw-text-white"
+            className="tw-border-t tw-border-b tw-border-white tw-border-opacity-30 tw-font-semibold"
+            contractClassName="tw-text-white tw-border-t tw-border-opacity-30 tw-border-b tw-border-white"
           />
-
-          <tr className="tw-h-8" />
 
           <DataRow
             contractName={t(translations.landingPage.tvl.staked)}
@@ -105,7 +106,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
             usdValue={data?.total_usd || 0}
             loading={loading}
             className="tw-border-t tw-border-white tw-font-semibold"
-            contractClassName="tw-text-white tw-uppercase"
+            contractClassName="tw-text-white tw-uppercase tw-border-t tw-border-white"
           />
         </tbody>
       </table>

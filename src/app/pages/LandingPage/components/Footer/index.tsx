@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
   const [optDialogOpen, setOptDialogOpen] = useState<boolean>(false);
 
   return (
-    <footer className="tw-mt-4 tw-bg-gray-100 tw-text-white tw-pt-4 ">
+    <footer className="tw-mt-4 tw-bg-gray-100 tw-text-white tw-pt-4">
       <h6 className="tw-font-normal tw-text-base tw-text-center tw-w-full">
         <Trans
           i18nKey={translations.footer.title}

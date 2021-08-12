@@ -8,6 +8,7 @@ import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getLendingContractName } from 'utils/blockchain/contract-helpers';
 import { StatsRowData } from '../StatsRowData';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   asset: Asset;
@@ -16,7 +17,25 @@ interface Props {
 export function StatsRow(props: Props) {
   const logo = AssetsDictionary.get(props.asset).logoSvg;
   const lendingContract = getLendingContractName(props.asset);
+  const history = useHistory();
 
+  const lend = () => {
+    history.push({
+      pathname: '/lend',
+      state: {
+        asset: props.asset,
+      },
+    });
+  };
+
+  const borrow = () => {
+    history.push({
+      pathname: '/borrow',
+      state: {
+        asset: props.asset,
+      },
+    });
+  };
   return (
     <>
       <tr>
@@ -55,21 +74,25 @@ export function StatsRow(props: Props) {
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap tw-font-semibold tw-text-gold">
-          <StatsRowData
-            contract={lendingContract}
-            data="supplyInterestRate"
-            displayType="percentage"
-            prepend="%"
-          />
+          <div className="tw-cursor-pointer" onClick={() => lend()}>
+            <StatsRowData
+              contract={lendingContract}
+              data="supplyInterestRate"
+              displayType="percentage"
+              prepend="%"
+            />
+          </div>
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap tw-font-semibold tw-text-gold">
-          <StatsRowData
-            contract={lendingContract}
-            data="borrowInterestRate"
-            displayType="percentage"
-            prepend="%"
-          />
+          <div className="tw-cursor-pointer" onClick={() => borrow()}>
+            <StatsRowData
+              contract={lendingContract}
+              data="borrowInterestRate"
+              displayType="percentage"
+              prepend="%"
+            />
+          </div>
         </td>
       </tr>
     </>

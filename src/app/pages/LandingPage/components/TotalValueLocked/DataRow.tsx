@@ -23,11 +23,11 @@ export const DataRow: React.FC<IDataRowProps> = ({
   loading ||
   !(btcValue && Number(btcValue) > 0 && usdValue && Number(usdValue) > 0) ? (
     <tr className={cn('tw-h-16', className)} key={contractName}>
-      <td>{contractName}</td>
-      <td>
+      <td className={className}>{contractName}</td>
+      <td className={className}>
         <SkeletonRow />
       </td>
-      <td>
+      <td className={className}>
         <SkeletonRow />
       </td>
     </tr>
@@ -37,13 +37,13 @@ export const DataRow: React.FC<IDataRowProps> = ({
       key={contractName}
     >
       <ContractName className={contractClassName}>{contractName}</ContractName>
-      <td>
+      <td className={cn(className, 'tw-text-right')}>
         {btcValue?.toLocaleString('en', {
           maximumFractionDigits: 4,
           minimumFractionDigits: 4,
         }) || <div className="bp3-skeleton">&nbsp;</div>}
       </td>
-      <td>
+      <td className={cn('tw-text-right', className)}>
         {usdValue?.toLocaleString('en', {
           maximumFractionDigits: 2,
           minimumFractionDigits: 2,
