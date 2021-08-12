@@ -67,8 +67,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     if (!pair.collaterals.includes(collateral)) {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
-    // eslint-disable-next-line
-  }, [pair.collaterals]);
+  }, [pair.collaterals, collateral, dispatch]);
 
   const submit = e => dispatch(actions.submit(e));
 

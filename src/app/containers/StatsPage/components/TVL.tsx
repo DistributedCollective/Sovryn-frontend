@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
@@ -36,14 +36,7 @@ export function TVL(props: Props) {
       .catch(e => console.error(e));
   }, [url]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   const rowData = [
     {
