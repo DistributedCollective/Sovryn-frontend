@@ -26,7 +26,7 @@ export const ArbitrageOpportunity: React.FC = () => {
   const history = useHistory();
   const { assetRates } = useSelector(selectWalletProvider);
 
-  const { value: data } = useFetch<PoolData>(
+  const { value: data, loading } = useFetch<PoolData>(
     backendUrl[currentChainId] + '/amm/arbitrage',
     {},
   );
@@ -72,7 +72,7 @@ export const ArbitrageOpportunity: React.FC = () => {
           style={{ borderSpacing: 0 }}
         >
           <tbody>
-            {!opportunityArray.length && (
+            {!opportunityArray.length && !loading && (
               <>
                 <tr className="tw-h-16">
                   <td></td>
@@ -130,7 +130,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                       <div className="tw-flex tw-items-center">
                         <Popover
                           content={
-                            <div className="px-5 py-4 font-weight-light">
+                            <div className="tw-px-5 tw-py-4 tw-font-weight-light">
                               <p>
                                 {t(
                                   translations.swapTradeForm.arbitrage
@@ -163,7 +163,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                           }
                           className="tw-ml-2"
                           popoverClassName={
-                            'w-50 tw-transform tw-translate-x-full'
+                            'tw-w-1/2 tw-transform tw-translate-x-full'
                           }
                         >
                           <Icon icon={'info-sign'} />

@@ -54,7 +54,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
 
   return (
     <div className="tw-rounded-20px tw-bg-black md:tw-mr-12 tw-flex tw-py-5">
-      <div className="tw-px-14 tw-py-6 tw-text-center tw-w-1/2 tw-border-r tw-border-white">
+      <div className="tw-px-14 tw-py-2 tw-text-center tw-w-1/2 tw-border-r tw-border-white tw-flex tw-items-center tw-justify-center tw-flex-col">
         <Title>{t(translations.landingPage.tradingVolume.tvlTitle)}</Title>
 
         <div>
@@ -67,9 +67,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             </VolumeValue>
           )}
 
-          {tvlLoading ? (
-            <SkeletonRow />
-          ) : (
+          {tvlLoading ? null : (
             <>
               ≈{' '}
               <span className="tw-tracking-wider">
@@ -84,7 +82,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
         </div>
       </div>
 
-      <div className="tw-px-14 tw-py-6 tw-text-center tw-w-1/2">
+      <div className="tw-px-14 tw-py-2 tw-text-center tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-flex-col">
         <Title>
           {t(translations.landingPage.tradingVolume.dayVolumeTitle)}
         </Title>
@@ -99,9 +97,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             </VolumeValue>
           )}
 
-          {loading ? (
-            <SkeletonRow />
-          ) : (
+          {loading ? null : (
             <>
               ≈{' '}
               <span className="tw-tracking-wider">

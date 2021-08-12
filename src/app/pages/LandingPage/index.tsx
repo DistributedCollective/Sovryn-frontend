@@ -79,7 +79,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
         </div>
         <div className="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
-          <div className="tw-w-full md:tw-w-7/12 tw-pt-12">
+          <div className="tw-w-full md:tw-w-7/12 tw-pt-11">
             <TradingVolume
               tvlValueBtc={tvlData?.total_btc}
               tvlValueUsd={tvlData?.total_usd}

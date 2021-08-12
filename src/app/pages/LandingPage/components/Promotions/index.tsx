@@ -13,7 +13,7 @@ export const Promotions: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="tw-my-20 tw-border-b tw-border-solid tw-border-white">
+    <div className="tw-my-14 tw-border-b tw-border-solid tw-border-white">
       <Title>{t(translations.landingPage.promotions.title)}</Title>
 
       <div className="tw-relative tw-mb-8">
