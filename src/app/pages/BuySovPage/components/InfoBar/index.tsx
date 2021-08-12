@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-// import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';

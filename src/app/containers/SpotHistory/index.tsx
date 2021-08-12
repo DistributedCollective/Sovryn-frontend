@@ -1,5 +1,11 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {
+  useCallback,
+  useMemo,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
+import axios, { CancelTokenSource } from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import iconSuccess from 'assets/images/icon-success.svg';
@@ -31,23 +37,24 @@ export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [history, setHistory] = useState<any[]>([]);
+  const [currentHistory, setCurrentHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
   const retry = useTradeHistoryRetry();
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
-    }
+  const cancelTokenSource = useRef<CancelTokenSource>();
 
-    cancelTokenSource = axios.CancelToken.source();
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
+    }
+    cancelTokenSource.current = axios.CancelToken.source();
+
     axios
       .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.token,
+        cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
         setHistory(
@@ -82,7 +89,7 @@ export function SpotHistory() {
         setCurrentHistory([]);
         setLoading(false);
       });
-  };
+  }, [account, url]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
@@ -90,21 +97,23 @@ export function SpotHistory() {
     setCurrentHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, setCurrentHistory]);
+  }, [getData]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory, retry]);
+  }, [account, getHistory, retry]);
 
-  const onPageChanged = data => {
-    const { currentPage, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    setCurrentHistory(history.slice(offset, offset + pageLimit));
-  };
+  const onPageChanged = useCallback(
+    data => {
+      const { currentPage, pageLimit } = data;
+      const offset = (currentPage - 1) * pageLimit;
+      setCurrentHistory(history.slice(offset, offset + pageLimit));
+    },
+    [history],
+  );
 
   const onGoingTransactions = useMemo(() => {
     return transactions
@@ -148,25 +157,25 @@ export function SpotHistory() {
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.pair)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.orderType)}</th>
               <th>{t(translations.spotHistory.tableHeaders.amountPaid)}</th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.status)}</th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {loading && (
               <tr key={'loading'}>
                 <td colSpan={99}>
@@ -178,7 +187,7 @@ export function SpotHistory() {
             )}
             {history.length === 0 && !loading && (
               <tr key={'empty'}>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   {t(translations.spotHistory.emptyState)}
                 </td>
               </tr>
@@ -228,12 +237,12 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
 
   return (
     <tr>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <DisplayDate
           timestamp={new Date(data.timestamp).getTime().toString()}
         />
       </td>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <AssetRenderer asset={order.pairAsset[0]} />-
         <AssetRenderer asset={order.pairAsset[1]} />
       </td>
@@ -254,7 +263,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         {numberFromWei(data.returnVal._fromAmount)}{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
-      <td className="d-none d-lg-table-cell">
+      <td className="tw-hidden lg:tw-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
           value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
@@ -263,20 +272,20 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
 
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!data.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {data.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {data.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={data.transaction_hash}
-              className="text-gold font-weight-normal text-nowrap"
+              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
               startLength={5}
               endLength={5}
             />

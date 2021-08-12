@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { Spinner } from 'app/components/Spinner';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
@@ -49,27 +48,9 @@ export function MiningPool({ pool, ammData }: Props) {
     [setSuccessfulTransactions],
   );
 
-  const LeftSection = () => {
-    return (
-      <div className="tw-flex tw-items-center tw-mr-4">
-        {/* Assets and balances */}
-        <div className="tw-flex tw-flex-col tw-justify-between">
-          {pool.supplyAssets.map((item, index) => (
-            <PoolAssetInfo
-              key={item.asset}
-              pool={pool}
-              supplyAsset={item}
-              className={index === 1 ? 'tw-mt-2.5' : ''}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
+      <div className="tw-ml-5 tw-w-full tw-max-w-8.75rem">
         <ActionButton
           text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
@@ -91,21 +72,25 @@ export function MiningPool({ pool, ammData }: Props) {
   return (
     <div>
       <CardRow
-        LeftSection={<LeftSection />}
-        ChartSection={
-          ammData ? (
-            <PoolChart pool={pool} history={ammData} />
-          ) : (
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-center">
-              <span
-                className={cn(
-                  'tw-w-min tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center active',
-                )}
-              >
-                <Spinner size={40} className="tw-fill-current" />
-              </span>
+        LeftSection={
+          pool && (
+            <div className="tw-flex tw-items-center tw-mr-4">
+              {/* Assets and balances */}
+              <div className="tw-flex tw-flex-col tw-justify-between">
+                {pool.supplyAssets.map((item, index) => (
+                  <PoolAssetInfo
+                    key={item.asset}
+                    pool={pool}
+                    supplyAsset={item}
+                    className={index === 1 ? 'tw-mt-2.5' : ''}
+                  />
+                ))}
+              </div>
             </div>
           )
+        }
+        ChartSection={
+          ammData ? <PoolChart pool={pool} history={ammData} /> : <Spinner />
         }
         Actions={<Actions />}
         DataSection={
@@ -122,9 +107,6 @@ export function MiningPool({ pool, ammData }: Props) {
           (pool.supplyAssets[0].asset === Asset.ETH &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Green) ||
-          (pool.supplyAssets[0].asset === Asset.DOC &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Pink) ||
           (pool.supplyAssets[0].asset === Asset.XUSD &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Yellow) ||

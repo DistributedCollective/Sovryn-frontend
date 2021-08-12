@@ -38,7 +38,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
         </i>
       </div>
 
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
         <div className={styles.amountBlock}>
           <div className={styles.amountBlockBtc}>
             {toNumberFormat(tx.value, 4)} BTC
@@ -46,9 +46,9 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
         </div>
       </div>
 
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
         <div className={styles.txData}>
-          <div className="px-1">
+          <div className="tw-px-1">
             <div>
               <strong>{t(translations.fastBtcDialog.transaction.from)}</strong>{' '}
               {prettyTx(state.deposit.address)}
@@ -79,21 +79,21 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
             </div>
           </div>
 
-          <div className="mt-4">
-            <div className="mt-2">
+          <div className="tw-mt-8">
+            <div className="tw-mt-2">
               <strong>{t(translations.fastBtcDialog.transaction.hash)}</strong>{' '}
               <LinkToExplorer
                 txHash={tx.txHash}
                 realBtc={state.txId === TxId.DEPOSIT}
-                className="text-gold font-weight-light"
+                className="tw-text-gold tw-font-light"
               />
             </div>
           </div>
 
-          <div className="mt-5 justify-content-center items-center d-flex flex-row">
+          <div className="tw-mt-12 tw-justify-center tw-items-center tw-flex tw-flex-row">
             <Button
               minimal
-              className="text-gold button-round font-size-lg mx-auto"
+              className="button-round tw-text-gold tw-text-lg tw-mx-auto"
               text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />

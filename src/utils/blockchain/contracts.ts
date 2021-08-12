@@ -89,13 +89,13 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  MOC_lending: {
-    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-    abi: LoanTokenLogicStandard,
-    blockNumber: 1218721,
-  },
+  // MOC_lending: {
+  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1218721,
+  // },
   MOC_amm: {
-    address: '0x52eD2aD69A44A431B393d28CE415c19348abAb16',
+    address: '0x34031D1cd14e2C80B0268B47eFf49643375aFaeb',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },

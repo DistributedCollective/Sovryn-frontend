@@ -131,6 +131,8 @@ export default function Chart(props: ChartProps) {
         y: props.xAxisProps?.y || 25,
         style: {
           color: props.labelColor || '#EDEDED',
+          textOverflow: 'none',
+          whiteSpace: 'nowrap',
         },
       },
     },
@@ -144,6 +146,8 @@ export default function Chart(props: ChartProps) {
           format: `{value}${props.yAxisProps?.suffix}`,
           style: {
             color: props.labelColor || '#EDEDED',
+            textOverflow: 'none',
+            whiteSpace: 'nowrap',
           },
         },
         gridLineColor: 'rgba(233, 234, 233, 0.25)',
@@ -157,9 +161,11 @@ export default function Chart(props: ChartProps) {
               labels: {
                 x: props.secondaryYAxisProps?.x || 5,
                 format: `{value}${props.secondaryYAxisProps?.suffix}`,
-                formatter: props.secondaryYAxisProps?.formatter,
+                formatter: props.secondaryYAxisProps?.formatter, //overrides 'format' if present
                 style: {
                   color: props.labelColor || '#EDEDED',
+                  textOverflow: 'none',
+                  whiteSpace: 'nowrap',
                 },
               },
               opposite: true,
@@ -273,35 +279,32 @@ export default function Chart(props: ChartProps) {
   });
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       title: {
         text: props.title,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.title]);
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       chart: {
         ...options.chart,
         height: props.height,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.height]);
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       chart: {
         ...options.chart,
         width: props.width,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.width]);
 
   return (

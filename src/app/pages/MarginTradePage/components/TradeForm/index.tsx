@@ -63,8 +63,7 @@ export function TradeForm() {
     if (!pair.collaterals.includes(collateral)) {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
-    // eslint-disable-next-line
-  }, [pair.collaterals]);
+  }, [pair.collaterals, collateral, dispatch]);
 
   const submit = e => dispatch(actions.submit(e));
 
@@ -80,7 +79,7 @@ export function TradeForm() {
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.pair)}
             className="tw-mb-6"
@@ -146,7 +145,7 @@ export function TradeForm() {
           )}
         </div>
         {!openTradesLocked && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-320 tw-mx-auto">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             <Button
               text={t(translations.marginTradePage.tradeForm.buttons.long)}
               position={TradingPosition.LONG}

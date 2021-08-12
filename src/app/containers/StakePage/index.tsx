@@ -1,19 +1,13 @@
-/**
- *
- * StakePage
- *
- */
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
+
 import { translations } from 'locales/i18n';
 import { getUSDSum } from 'utils/helpers';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -54,6 +48,7 @@ import { useStakeStake } from '../../hooks/staking/useStakeStake';
 import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
 import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
+import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
 const now = new Date();
@@ -78,7 +73,7 @@ export function StakePage() {
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="tw-w-full bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
+            <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
               <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
@@ -106,11 +101,13 @@ function InnerStakePage() {
   const [extendForm, setExtendForm] = useState(false);
   const [until, setUntil] = useState<number>(0 as any);
   const [delegateForm, setDelegateForm] = useState(false);
+  const [isStakeDelegate, setIsStakeDelegate] = useState(true);
   const [withdrawForm, setWithdrawForm] = useState(false);
   const [increaseForm, setIncreaseForm] = useState(false);
   const voteBalance = useStaking_getCurrentVotes(account);
   const [lockDate, setLockDate] = useState<number>(0 as any);
   const [timestamp, setTimestamp] = useState<number>(0 as any);
+  const [vestingContractAddress, setVestingContractAddress] = useState('');
   const [votingPower, setVotingPower] = useState<number>(0 as any);
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
@@ -127,6 +124,10 @@ function InnerStakePage() {
   const { extend, ...extendTx } = useStakeExtend();
   const { withdraw, ...withdrawTx } = useStakeWithdraw();
   const { delegate, ...delegateTx } = useStakeDelegate();
+  const {
+    delegate: vestingDelegate,
+    ...vestingDelegateTx
+  } = useVestingDelegate(vestingContractAddress);
 
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
@@ -257,6 +258,19 @@ function InnerStakePage() {
     [address, timestamp, delegateForm, delegateTx.loading, delegate],
   );
 
+  const handleVestingDelegateSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+      setLoading(true);
+      if (!vestingDelegateTx.loading) {
+        vestingDelegate(address.toLowerCase());
+        setLoading(false);
+        setDelegateForm(!delegateForm);
+      }
+    },
+    [vestingDelegateTx.loading, vestingDelegate, address, delegateForm],
+  );
+
   const handleIncreaseStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
@@ -317,7 +331,7 @@ function InnerStakePage() {
                     balanceOf.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(balanceOf.value).toLocaleString()} SOV
+                  {weiTo4(balanceOf.value)} SOV
                 </p>
                 <Modal
                   show={stakeForm}
@@ -377,7 +391,7 @@ function InnerStakePage() {
                   </Tooltip>
                 )}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -404,15 +418,19 @@ function InnerStakePage() {
                     voteBalance.loading && 'skeleton'
                   }`}
                 >
-                  {numberFromWei(voteBalance.value).toLocaleString()}
+                  {weiTo4(voteBalance.value)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <Link
-                    to={'/'}
-                    className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block"
-                  >
-                    {t(translations.stake.viewGovernance)}
-                  </Link>
+                  <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                    <a
+                      href="https://bitocracy.sovryn.app/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:tw-no-underline"
+                    >
+                      {t(translations.stake.viewGovernance)}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -421,9 +439,14 @@ function InnerStakePage() {
               content={
                 <>
                   <DelegateForm
-                    handleSubmit={handleDelegateSubmit}
+                    handleSubmit={e =>
+                      isStakeDelegate
+                        ? handleDelegateSubmit(e)
+                        : handleVestingDelegateSubmit(e)
+                    }
                     address={address}
                     timestamp={Number(timestamp)}
+                    weiAmount={weiAmount}
                     onChangeAddress={e => setAddress(e)}
                     isValid={validateDelegateForm()}
                     onCloseModal={() => setDelegateForm(!delegateForm)}
@@ -432,8 +455,10 @@ function InnerStakePage() {
               }
             />
             <CurrentStakes
-              onDelegate={a => {
-                setTimestamp(a);
+              onDelegate={(a, b) => {
+                setTimestamp(b);
+                setIsStakeDelegate(true);
+                setAmount(numberFromWei(a).toString());
                 setDelegateForm(!delegateForm);
               }}
               onExtend={(a, b) => {
@@ -467,8 +492,10 @@ function InnerStakePage() {
               }}
             />
             <CurrentVests
-              onDelegate={a => {
-                setTimestamp(a);
+              onDelegate={(timestamp, contractAddress) => {
+                setTimestamp(timestamp);
+                setIsStakeDelegate(false);
+                setVestingContractAddress(contractAddress);
                 setDelegateForm(!delegateForm);
               }}
             />
@@ -479,6 +506,7 @@ function InnerStakePage() {
           <TxDialog tx={extendTx} />
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
+          <TxDialog tx={vestingDelegateTx} />
           <>
             {balanceOf.value !== '0' && (
               <>
@@ -594,14 +622,14 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   );
 
   useEffect(() => {
-    usdTotal(Number(weiToFixed(dollarValue, 4)));
+    usdTotal(Number(weiTo4(dollarValue)));
   }, [currency.value, dollarValue, usdTotal]);
 
   return (
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="w-1/5">
+          <div className="tw-w-1/5">
             {contractToken.asset !== Asset.SOV ? (
               <Tooltip
                 content={
@@ -615,16 +643,16 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
             )}
           </div>
           <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(6)} ≈{' '}
+            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
               loading={dollars.loading}
             />
           </div>
           <button
             onClick={handleWithdrawFee}
             type="button"
-            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-montserrat tw-tracking-normal"
+            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>

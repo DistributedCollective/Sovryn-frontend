@@ -1,24 +1,27 @@
+import cn from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation, Trans } from 'react-i18next';
-import cn from 'classnames';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { translations } from 'locales/i18n';
-import { Header } from 'app/components/Header';
-import { Footer } from 'app/components/Footer';
-import { MiningPool } from './components/MiningPool';
-import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { AmmPoolsBanner } from './components/AmmPoolsBanner';
-import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
-import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
-import { Asset } from 'types';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { HistoryTable } from './components/HistoryTable';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
-import { useFetch } from 'app/hooks/useFetch';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { Footer } from 'app/components/Footer';
+import { Header } from 'app/components/Header';
 import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
+import { useFetch } from 'app/hooks/useFetch';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { translations } from 'locales/i18n';
+import { Asset } from 'types';
+import { discordInvite } from 'utils/classifiers';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+
+import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
+import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
+import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
+import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
+import { useAccount } from '../../hooks/useAccount';
+import { AmmPoolsBanner } from './components/AmmPoolsBanner';
+import { HistoryTable } from './components/HistoryTable';
+import { MiningPool } from './components/MiningPool';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -29,7 +32,7 @@ export function LiquidityMining() {
     [States.ADD_LIQUIDITY]: addLiqLocked,
     [States.REMOVE_LIQUIDITY]: removeLiqLocked,
   } = checkMaintenances();
-
+  const account = useAccount();
   const [hasOldPools, setHasOldPools] = useState(true);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
@@ -44,21 +47,17 @@ export function LiquidityMining() {
     <>
       <LocalSharedArrayBuffer />
       <Helmet>
-        <title>{t(translations.escrowPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.escrowPage.meta.description)}
-        />
+        <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
             title="15k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -69,7 +68,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -80,7 +79,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -91,61 +90,18 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'June 28',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          <LootDrop
-            title="$37500 worth of MoC"
-            asset1={Asset.DOC}
-            asset2={Asset.RBTC}
-            startDate="02/06/21"
-            endDate="01/07/21"
-            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Pink}
-          />
         </LootDropSectionWrapper>
-        {/*<TopInfoSectionWrapper>*/}
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Liquidity Provided" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="3.5827"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Fees" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="0.2857"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Rewards" />*/}
-        {/*    <TopInfoContent amount="23.4323" asset={Asset.SOV} />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="All time Fees Earned" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="34.3928"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-        {/*</TopInfoSectionWrapper>*/}
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (
-          <div className="text-red tw-font-xl tw-text-center">
+          <div className="tw-text-red tw-text-xl tw-text-center">
             <Trans
               i18nKey={translations.maintenance.liquidity}
               components={[
@@ -183,10 +139,16 @@ export function LiquidityMining() {
           <div className="tw-px-3 tw-text-lg">
             {t(translations.liquidityMining.historyTable.title)}
           </div>
-          <HistoryTable />
+          {!account ? (
+            <SkeletonRow
+              loadingText={t(translations.topUpHistory.walletHistory)}
+              className="tw-mt-2"
+            />
+          ) : (
+            <HistoryTable />
+          )}
         </div>
       </div>
-
       <Footer />
     </>
   );

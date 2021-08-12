@@ -1,7 +1,3 @@
-/**
- * Component Generator
- */
-
 import { Actions, PlopGenerator } from 'node-plop';
 import path from 'path';
 

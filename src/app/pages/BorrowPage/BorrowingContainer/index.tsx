@@ -31,6 +31,7 @@ import { useLending_testAvailableSupply } from '../../../hooks/lending/useLendin
 import { useMaintenance } from '../../../hooks/useMaintenance';
 import { useLending_getDepositAmountForBorrow } from '../../../hooks/lending/useLending_getDepositAmountForBorrow';
 import { AmountField } from 'app/containers/AmountField';
+import { TxStatus } from 'store/global/transactions-store/types';
 
 type Props = {
   currency: Asset;
@@ -83,19 +84,18 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
         key: item.asset,
         label: item.symbol,
       }));
-    setCollaterals(options);
-    if (
-      !options.find(item => item.key === tokenToCollarate) &&
-      options.length
-    ) {
-      setTokenToCollarate(options[0].key);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency]);
 
-  // reset amount to if currency was changed
-  useEffect(() => {
     setAmount('');
+    setCollaterals(options);
+    setTokenToCollarate(tokenToCollarate => {
+      if (
+        !options.find(item => item.key === tokenToCollarate) &&
+        options.length
+      ) {
+        return options[0].key;
+      }
+      return tokenToCollarate;
+    });
   }, [currency]);
 
   const tokenToBorrow = currency;
@@ -246,6 +246,8 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
             !valid ||
             !isConnected ||
             txStateBorrow.loading ||
+            txStateBorrow.status === TxStatus.PENDING_FOR_USER ||
+            txStateBorrow.status === TxStatus.PENDING ||
             !isSufficient ||
             startBorrowLocked
           }

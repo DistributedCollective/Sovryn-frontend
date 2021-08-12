@@ -46,11 +46,11 @@ export function SlippageDialog(props: Props) {
       className={styles.dialog}
     >
       <button data-close="" onClick={() => props.onClose()}>
-        <span className="sr-only">Close Dialog</span>
+        <span className="tw-sr-only">Close Dialog</span>
       </button>
       <h2>{t(translations.buySovPage.slippageDialog.title)}</h2>
 
-      <div className="px-4">
+      <div className="tw-px-4">
         <FormGroup label={t(translations.buySovPage.slippageDialog.tolerance)}>
           <Slider
             value={value}
@@ -66,7 +66,7 @@ export function SlippageDialog(props: Props) {
         <FormGroup
           label={t(translations.buySovPage.slippageDialog.minimumReceived)}
         >
-          <Dummy className="d-flex justify-content-between align-items-center">
+          <Dummy className="tw-flex tw-justify-between tw-items-center">
             <div>
               <LoadableValue
                 value={<>{weiToNumberFormat(minReturn, 6)}</>}
@@ -79,16 +79,16 @@ export function SlippageDialog(props: Props) {
           </Dummy>
         </FormGroup>
 
-        <div className="d-flex w-100 justify-content-between align-items-center">
+        <div className="tw-flex tw-w-full tw-justify-between tw-items-center">
           <ConfirmButton
             text={t(translations.common.confirm)}
             onClick={() => confirm()}
-            className="mr-2"
+            className="tw-mr-2"
           />
           <CloseButton
             text={t(translations.common.cancel)}
             onClick={() => cancel()}
-            className="ml-2"
+            className="tw-ml-2"
           />
         </div>
       </div>

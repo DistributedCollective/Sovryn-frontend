@@ -34,25 +34,25 @@ export function BuySovPage() {
         />
       </Helmet>
       <Header />
-      <div className="container pt-5 font-family-montserrat">
+      <div className="tw-container tw-pt-5 tw-font-body">
         <InfoBar />
 
-        <Onboarding className="w-100 max-w-100 mx-auto d-xl-flex flex-row justify-content-center">
-          <div className="flex-shrink-0 flex-grow-1">
-            <div className="w-100 d-flex flex-column md:tw-flex-row justify-content-center align-items-center">
+        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center">
+          <div className="tw-flex-shrink-0 tw-flex-grow-1">
+            <div className="tw-w-full md:tw-flex tw-flex-row tw-justify-center tw-items-center">
               <EngageWalletStep />
-              <RotatedMob className="d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+              <RotatedMob className="tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
                 <ArrowStep />
               </RotatedMob>
               <TopUpWallet />
-              <div className="d-xl-flex d-none mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+              <div className="xl:tw-flex tw-hidden tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
                 <ArrowStep />
               </div>
             </div>
             <Welcome />
           </div>
-          <div className="d-xl-flex flex-row justify-content-start align-items-center tw-flex-initial">
-            <Rotated className="d-xl-none d-flex mx-1 justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+          <div className="xl:tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-initial">
+            <Rotated className="xl:tw-hidden tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
               <ArrowStep />
             </Rotated>
             <BuyForm />

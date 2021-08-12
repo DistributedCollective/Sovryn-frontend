@@ -6,7 +6,7 @@ import { HighlightedBorder, LootDropColors, LootDropWrapper } from './styled';
 interface ILootDropProps {
   title: string | JSX.Element;
   asset1: Asset;
-  asset2: Asset;
+  asset2?: Asset;
   startDate?: string;
   endDate?: string;
   message?: string;
@@ -31,7 +31,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
       <div className="tw-text-2xl tw-tracking-normal tw-mb-2.5 tw-text-center">
         {title}
       </div>
-      <div className="tw-text-sm tw-tracking-normal tw-text-center text-font-bolder">
+      <div className="tw-text-sm tw-tracking-normal tw-text-center tw-font-bold">
         <div>
           <AssetSymbolRenderer asset={asset1} />
           {asset2 && (

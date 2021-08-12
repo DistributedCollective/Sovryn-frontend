@@ -14,7 +14,7 @@ export function Features() {
   const { t } = useTranslation();
   return (
     <>
-      <div className="w-100 text-center">
+      <div className="tw-w-full tw-text-center">
         <How>{t(translations.buySovPage.features.title)}</How>
       </div>
 

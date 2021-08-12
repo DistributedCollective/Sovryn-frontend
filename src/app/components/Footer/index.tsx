@@ -78,7 +78,7 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="tw-mb-6 small">
+        <div className="tw-mb-6 tw-text-xs">
           <div
             className="tw-cursor-pointer hover:tw-underline tw-font-light tw-text-gold"
             onClick={e => setOptDialogOpen(true)}
@@ -87,7 +87,7 @@ export function Footer() {
           </div>
         </div>
         {commitHash && (
-          <div className="small tw-text-white">
+          <div className="tw-text-xs tw-text-white">
             {t(translations.footer.buildID)}:{' '}
             <a
               href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
@@ -99,7 +99,7 @@ export function Footer() {
             </a>
           </div>
         )}
-        <div className="small tw-text-lightGrey tw-mb-1">
+        <div className="tw-text-xs tw-text-lightGrey tw-mb-1">
           Charts powered by{' '}
           <a
             href="https://www.highcharts.com"

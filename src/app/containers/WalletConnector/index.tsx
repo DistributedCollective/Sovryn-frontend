@@ -1,16 +1,8 @@
-import {
-  Icon,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  Popover,
-  Spinner,
-} from '@blueprintjs/core';
+import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
 import { useWalletContext } from '@sovryn/react-wallet';
 import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
@@ -29,13 +21,12 @@ type Props = {
 const WalletConnectorContainer: React.FC<Props> = props => {
   const {
     connected,
-    loading: connecting,
     address,
     connect,
     disconnect,
+    connecting,
   } = useWalletContext();
   const { t } = useTranslation();
-  const history = useHistory();
   const simpleView = props.simpleView;
   const simpleViewClass = simpleView ? 'simpleView' : '';
 
@@ -72,46 +63,30 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             placement={'bottom'}
             content={
-              <Menu>
-                <CopyToClipboard
-                  text={address}
-                  onCopy={() =>
-                    toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
-                  }
-                >
-                  <MenuItem
-                    icon="duplicate"
-                    text={t(translations.wallet.copy_address)}
-                  />
-                </CopyToClipboard>
-                <MenuItem
-                  icon="briefcase"
-                  text={t(translations.wallet.my_wallet)}
-                  onClick={() => history.push('/wallet')}
-                />
-                <MenuItem
-                  icon="people"
-                  text={t(translations.wallet.referrals)}
-                  onClick={() => history.push('/referral')}
-                />
-                <MenuDivider />
-                {/*<MenuItem*/}
-                {/*  icon="log-in"*/}
-                {/*  text={t(translations.wallet.changeWallet)}*/}
-                {/*  onClick={() => connect()}*/}
-                {/*/>*/}
-                <MenuItem
-                  icon="log-out"
-                  text={t(translations.wallet.disconnect)}
-                  onClick={() => disconnect()}
-                />
-              </Menu>
+              address ? (
+                <Menu>
+                  <CopyToClipboard
+                    text={address}
+                    onCopy={() =>
+                      toastSuccess(
+                        <>{t(translations.onCopy.address)}</>,
+                        'copy',
+                      )
+                    }
+                  >
+                    <MenuItem
+                      icon="duplicate"
+                      text={t(translations.wallet.copy_address)}
+                    />
+                  </CopyToClipboard>
+                </Menu>
+              ) : undefined
             }
           >
             <>
               <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
-                  <span>{prettyTx(address, 4, 4)}</span>
+                  <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
                     <img
                       className="tw-rounded"

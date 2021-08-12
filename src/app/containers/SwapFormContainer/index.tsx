@@ -27,7 +27,6 @@ import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
@@ -51,10 +50,11 @@ interface Option {
   label: string;
 }
 
+const xusdExcludes = [Asset.USDT, Asset.DOC];
+
 export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
-  const { connect } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
@@ -73,7 +73,6 @@ export function SwapFormContainer() {
     [],
   );
   const [tokenBalance, setTokenBalance] = useState<any[]>([]);
-  const xusdExcludes = [Asset.USDT, Asset.DOC];
 
   useEffect(() => {
     async function getOptions() {
@@ -126,7 +125,6 @@ export function SwapFormContainer() {
     ) {
       setSourceToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
@@ -173,7 +171,6 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: path } = useSwapNetwork_conversionPath(
@@ -208,11 +205,6 @@ export function SwapFormContainer() {
     setSourceToken(targetToken);
     setTargetToken(_sourceToken);
     setAmount(fromWei(rateByPath));
-  };
-
-  const onSwap = () => {
-    if (isConnected) send();
-    else connect();
   };
 
   const validate = useMemo(() => {
@@ -321,8 +313,13 @@ export function SwapFormContainer() {
           />
         )}
         <BuyButton
-          disabled={tx.loading || (!validate && isConnected) || swapLocked}
-          onClick={() => onSwap()}
+          disabled={
+            tx.loading ||
+            !isConnected ||
+            (!validate && isConnected) ||
+            swapLocked
+          }
+          onClick={() => send()}
           text={t(translations.swap.cta)}
         />
       </div>

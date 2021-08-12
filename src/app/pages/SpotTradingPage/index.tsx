@@ -8,13 +8,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import cn from 'classnames';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { reducer, sliceKey } from './slice';
 import { selectSpotTradingPage } from './selectors';
 import { spotTradingPageSaga } from './saga';
 import { translations } from '../../../locales/i18n';
-import cn from 'classnames';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -22,6 +22,8 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { SpotHistory } from 'app/containers/SpotHistory';
 import { PriceHistory } from './components/PriceHistory';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { useAccount } from 'app/hooks/useAccount';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -29,6 +31,7 @@ export function SpotTradingPage() {
 
   const { t } = useTranslation();
   const { pairType } = useSelector(selectSpotTradingPage);
+  const account = useAccount();
 
   return (
     <>
@@ -64,8 +67,15 @@ export function SpotTradingPage() {
           </div>
         </div>
         <div className="tw-mt-10">
-          <div className="tw-px-3">Spot History</div>
-          <SpotHistory />
+          <div className="tw-px-3">{t(translations.spotHistory.title)}</div>
+          {!account ? (
+            <SkeletonRow
+              loadingText={t(translations.topUpHistory.walletHistory)}
+              className="tw-mt-2"
+            />
+          ) : (
+            <SpotHistory />
+          )}
         </div>
       </div>
       <Footer />
