@@ -28,7 +28,6 @@ import { MaintenancePage } from './containers/MaintenancePage';
 import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { StatsPage } from './containers/StatsPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 
@@ -86,7 +85,6 @@ export function App() {
             <Route exact path="/lend" component={LendingPage} />
             <Route exact path="/borrow" component={BorrowPage} />
             <Route exact path="/stake" component={StakePage} />
-            <Route exact path="/stats" component={StatsPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
             <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />

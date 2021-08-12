@@ -13,6 +13,7 @@ import { AmmBalanceRow } from 'app/containers/StatsPage/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import arrowForward from 'assets/images/arrow_forward.svg';
 import { useHistory } from 'react-router-dom';
+import { useFetch } from 'app/hooks/useFetch';
 
 interface Props {
   rate: number;
@@ -22,6 +23,9 @@ export function AmmBalance(props: Props) {
   const { t } = useTranslation();
   const history = useHistory();
   const assets = LiquidityPoolDictionary.pairTypeList();
+  const { value: ammData } = useFetch(
+    `${backendUrl[currentChainId]}/amm/apy/all`,
+  );
 
   return (
     <div className="tw-mt-24">
@@ -57,7 +61,12 @@ export function AmmBalance(props: Props) {
           </thead>
           <tbody className="mt-5">
             {assets.map((item, i) => (
-              <Row key={item} asset={item} rate={props.rate} />
+              <Row
+                key={item}
+                asset={item}
+                rate={props.rate}
+                ammData={ammData}
+              />
             ))}
           </tbody>
         </table>
@@ -75,9 +84,9 @@ function Row(props) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AmmBalanceRow>();
   const cancelDataRequest = useRef<Canceler>();
-  const asset = AssetsDictionary.get(props.asset).asset;
-  const logo = AssetsDictionary.get(props.asset).logoSvg;
+  const assetDetails = AssetsDictionary.get(props.asset);
   const rbtcLogo = AssetsDictionary.get(Asset.RBTC).logoSvg;
+  const pool = LiquidityPoolDictionary.get(props.asset);
 
   const getData = useCallback(() => {
     cancelDataRequest.current && cancelDataRequest.current();
@@ -123,7 +132,7 @@ function Row(props) {
                 <img
                   className="tw-z-10"
                   style={{ width: '40px' }}
-                  src={logo}
+                  src={assetDetails.logoSvg}
                   alt=""
                 />
                 <img
@@ -133,13 +142,13 @@ function Row(props) {
                   alt=""
                 />
                 <div>
-                  <AssetSymbolRenderer asset={asset} />
+                  <AssetSymbolRenderer asset={assetDetails.asset} />
                 </div>
               </span>
             </td>
             <td>
               <div>
-                <AssetSymbolRenderer asset={asset} />
+                <AssetSymbolRenderer asset={assetDetails.asset} />
               </div>
               <div>
                 <AssetSymbolRenderer asset={Asset.RBTC} />
@@ -174,16 +183,21 @@ function Row(props) {
               </div>
             </td>
             <td className="tw-text-right">
-              <div>
-                {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
-                  <div className="bp3-skeleton">&nbsp;</div>
-                )}
-              </div>
-              <div>
-                {formatNumber(data.btcDelta, decimals.BTC) || (
-                  <div className="bp3-skeleton">&nbsp;</div>
-                )}
-              </div>
+              {pool.version === 1 && <div>-</div>}
+              {pool.version !== 1 && (
+                <>
+                  <div>
+                    {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
+                      <div className="bp3-skeleton">&nbsp;</div>
+                    )}
+                  </div>
+                  <div>
+                    {formatNumber(data.btcDelta, decimals.BTC) || (
+                      <div className="bp3-skeleton">&nbsp;</div>
+                    )}
+                  </div>
+                </>
+              )}
             </td>
           </tr>
         </>
