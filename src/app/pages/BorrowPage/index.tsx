@@ -1,4 +1,8 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import CurrencyContainer from './components/CurrencyContainer';
@@ -13,9 +17,8 @@ import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 
-type Props = {};
-
-const BorrowPage: React.FC<Props> = props => {
+const BorrowPage: React.FC = () => {
+  const { t } = useTranslation();
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: lendBorrowSovrynSaga });
 
@@ -25,6 +28,9 @@ const BorrowPage: React.FC<Props> = props => {
   return (
     <>
       <Header />
+      <Helmet>
+        <title>{t(translations.borrow.meta.title)}</title>
+      </Helmet>
       <main className="tw-container tw-mx-auto tw-mt-4 tw-px-4">
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div>

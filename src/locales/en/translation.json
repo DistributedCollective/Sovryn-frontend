@@ -461,6 +461,7 @@
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
     "sov": "SOV",
+    "days": "days",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",
@@ -479,7 +480,8 @@
       "stakeUnlockUntil": "This stake is not scheduled to unlock until",
       "penalty": "Unstaking now invokes a slashing penalty that will cost you",
       "penaltyZero": "You will be slashed some of your SOV for withdrawing early",
-      "unstake": "Yes, Unstake"
+      "unstake": "Yes, Unstake",
+      "loading": "Loading..."
     },
     "staking": {
       "title": "Stake SOV",
@@ -670,6 +672,11 @@
       "borrow": "Borrow",
       "chooseDays": "Choose days",
       "disabled": "This asset can't be borrowed."
+    }
+  },
+  "borrow": {
+    "meta": {
+      "title": "Borrow"
     }
   },
   "activeUserBorrows": {
@@ -1409,6 +1416,9 @@
   "liquidityMining": {
     "deposit": "Deposit",
     "withdraw": "Withdraw",
+    "meta": {
+      "title": "Yield Farm"
+    },
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",

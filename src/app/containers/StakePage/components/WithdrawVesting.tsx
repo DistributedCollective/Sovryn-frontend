@@ -79,7 +79,9 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
           </label>
           <div className="tw-flex tw-space-x-4 tw-mb-3">
             <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
-              {loading ? 'Loading...' : numberFromWei(value)}
+              {loading
+                ? t(translations.stake.withdraw.loading)
+                : numberFromWei(value)}
             </div>
           </div>
           <TxFeeCalculator
