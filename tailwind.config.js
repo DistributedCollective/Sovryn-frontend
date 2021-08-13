@@ -43,7 +43,6 @@ module.exports = {
       '7xl': '5rem',
     },
     colors: {
-      // new
       primary: '#fec004',
       'primary-hover': '#fec00440',
       secondary: '#2274A5',
@@ -70,19 +69,12 @@ module.exports = {
 
       transparent: 'transparent',
       current: 'currentColor',
-      // primary: '#EDB305',
-      // secondary: '#2274A5',
-      // white: '#e9eae9',
-      // black: '#000000',
       dark: {
         1: '#575757',
         DEFAULT: '#191919',
         2: '#101010',
       },
-      // green: '#17C3B2',
-      // red: '#D74E09',
 
-      // new
       Teal: '#4ecdc4',
       foreground: '#D9D9D9',
       background: '#171717',
@@ -93,8 +85,6 @@ module.exports = {
 
       'sales-background': '#181818',
 
-      // theme colors
-      // black: '#000',
       muted: '#656565',
       long: '#4ecdc4',
       short: '#cd4e4e',
@@ -119,9 +109,6 @@ module.exports = {
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
       turquoise: '#4ECDC4',
-      theme: {
-        white: '#E9EAE9',
-      },
     },
     extend: {
       maxWidth: {

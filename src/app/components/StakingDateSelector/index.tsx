@@ -176,7 +176,7 @@ export function StakingDateSelector(props: Props) {
   return (
     <>
       {availableYears.length > 0 && (
-        <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
+        <label className="tw-block tw-mt-8 tw-text-white tw-text-md tw-font-medium tw-mb-2">
           {props.delegate
             ? t(translations.stake.dateSelector.selectDelegate)
             : t(translations.stake.dateSelector.selectYear)}
