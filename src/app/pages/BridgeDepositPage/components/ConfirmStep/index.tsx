@@ -184,7 +184,7 @@ export function ConfirmStep() {
                   <td>
                     <LinkToExplorer
                       txHash={tx.hash}
-                      className="text-gold font-weight-normal text-nowrap tw-text-xs"
+                      className="text-primary font-weight-normal text-nowrap tw-text-xs"
                     />
                   </td>
                 </tr>

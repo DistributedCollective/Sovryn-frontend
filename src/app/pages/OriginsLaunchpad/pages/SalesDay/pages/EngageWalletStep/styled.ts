@@ -8,7 +8,7 @@ export const EngageButton = styled.button`
   height: 3.125rem;
   padding: 0.875rem 3.25rem;
   font-weight: 100;
-  color: #fec004;
+  color: theme('colors.primary');
   font-size: 1.125rem;
   letter-spacing: 0;
   text-transform: capitalize;

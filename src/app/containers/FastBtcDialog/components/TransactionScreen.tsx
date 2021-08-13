@@ -85,7 +85,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
               <LinkToExplorer
                 txHash={tx.txHash}
                 realBtc={state.txId === TxId.DEPOSIT}
-                className="tw-text-gold tw-font-light"
+                className="tw-text-primary tw-font-light"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
           <div className="tw-mt-12 tw-justify-center tw-items-center tw-flex tw-flex-row">
             <Button
               minimal
-              className="button-round tw-text-gold tw-text-lg tw-mx-auto"
+              className="button-round tw-text-primary tw-text-lg tw-mx-auto"
               text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />

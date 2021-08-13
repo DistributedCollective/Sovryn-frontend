@@ -69,10 +69,10 @@ const Article = styled.article`
 
   a {
     text-decoration: underline;
-    color: #fec004;
+    color: theme('colors.primary');
     font-weight: 400;
     &:hover {
-      color: #fec004;
+      color: theme('colors.primary');
       text-decoration: none;
     }
   }

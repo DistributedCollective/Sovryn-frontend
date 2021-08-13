@@ -131,7 +131,7 @@ export function TopUpHistory() {
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   )}
                 </td>
@@ -143,7 +143,7 @@ export function TopUpHistory() {
                   {item.type === 'transfer' && (
                     <LinkToExplorer
                       txHash={item.txHash}
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   )}
                 </td>

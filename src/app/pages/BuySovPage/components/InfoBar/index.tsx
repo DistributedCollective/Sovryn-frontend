@@ -146,7 +146,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
     }
   }
   & .last {
-    color: #fec004;
+    color: theme('colors.primary');
     & .title {
       font-weight: 300;
       letter-spacing: 0.6px;

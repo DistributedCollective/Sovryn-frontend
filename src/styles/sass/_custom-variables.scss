@@ -3,7 +3,6 @@
   --background: #171717;
   --secondary-bg: #414042;
   --component-bg: #0b223b;
-  --Gold: #fec004;
   --Field_bg: #05182e;
   --Green: #00ce7d;
   --Red: #eb2106;
@@ -21,7 +20,7 @@
   --red: #eb2106;
   --green: #00ce7d;
   --teal: #4ecdc4;
-  --gold: #fec004;
+  --gold: theme('colors.primary');
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
   --gold35: rgba(254, 192, 4, 0.35);

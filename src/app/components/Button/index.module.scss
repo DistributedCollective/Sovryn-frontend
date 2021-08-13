@@ -1,6 +1,6 @@
 .button {
-    background: #FEC004;
-    border: 1px solid #FEC004;
+    background: theme('colors.primary');
+    border: 1px solid theme('colors.primary');
     color: #000000;
     border-radius: 10px;
     transition: background 0.3s, color 0.3s, border 0.3s;
@@ -18,7 +18,7 @@
 
 .button.inverted {
     background: #000000;
-    color: #FEC004;
+    color: theme('colors.primary');
 }
 
 .button.inverted:hover {

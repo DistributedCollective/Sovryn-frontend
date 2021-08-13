@@ -9,7 +9,7 @@ export const BuyInformationWrapper = styled.div`
 export const AllocationDiv = styled.div`
   width: 100%;
   height: 5px;
-  background-color: #fec004;
+  background-color: theme('colors.primary');
   border-radius: 10px;
 `;
 

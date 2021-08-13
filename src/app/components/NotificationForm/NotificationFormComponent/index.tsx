@@ -124,7 +124,7 @@ const StyledButton = styled.button`
     opacity: 0.7;
   }
   &:hover:not(:disabled) {
-    color: var(--Gold);
+    color: var(--gold);
   }
   ${media.lg`
   font-size: 14px

@@ -281,7 +281,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
             )}
             <LinkToExplorer
               txHash={item.transaction_hash}
-              className="tw-text-gold tw-font-normal tw-text-nowrap"
+              className="tw-text-primary tw-font-normal tw-text-nowrap"
             />
           </div>
           <div>

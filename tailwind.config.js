@@ -45,6 +45,7 @@ module.exports = {
     colors: {
       // new
       primary: '#fec004',
+      'primary-hover': '#fec00440',
       secondary: '#2274A5',
       gray: {
         1: '#333333',
@@ -62,9 +63,6 @@ module.exports = {
       },
       white: '#E9EAE9',
       black: '#000000',
-
-      cta: '#fec004',
-      ctaHover: '#FEC00440',
       input: '#2274A5',
       tradingLong: '#17C3B2',
       tradingShort: '#D74E09',
@@ -105,12 +103,10 @@ module.exports = {
       'light-gray': '#656565',
       gray_bg: '#404040',
       teal: '#4ecdc4',
-      gold: '#fec004',
       red: '#eb2106',
       error: '#A52222',
       green: '#00ce7d',
       customOrange: '#ff9931',
-      Gold: '#fec004',
       customTeal: '#4ecdc4',
       lightGrey: '#a9bacd',
       MediumGrey: '#7b96b5',

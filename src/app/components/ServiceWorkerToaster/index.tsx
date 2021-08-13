@@ -146,7 +146,7 @@ export function ServiceWorkerToaster() {
           />
           {closeBtn && (
             <Button
-              className={styles.close + ' tw-text-gold tw-bg-transparent'}
+              className={styles.close + ' tw-text-primary tw-bg-transparent'}
               text={t(translations.serviceWorkerToaster.closeBtn)}
               onClick={() => closeDialog()}
             />

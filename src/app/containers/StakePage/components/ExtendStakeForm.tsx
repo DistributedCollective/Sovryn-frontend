@@ -134,7 +134,7 @@ export function ExtendStakeForm(props: Props) {
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
-            className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+            className={`tw-uppercase tw-w-full tw-text-black tw-bg-primary tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
               (!props.isValid || stakingLocked) &&
               'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
             }`}
@@ -145,7 +145,7 @@ export function ExtendStakeForm(props: Props) {
           <button
             type="button"
             onClick={() => props.onCloseModal()}
-            className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+            className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}
           </button>

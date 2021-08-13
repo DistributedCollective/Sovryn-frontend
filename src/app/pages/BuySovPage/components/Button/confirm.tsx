@@ -15,12 +15,12 @@ const StyledButton = styled.button`
   height: 50px;
   width: 100%;
   margin-top: 40px;
-  border: 1px solid #fec004;
+  border: 1px solid theme('colors.primary');
   color: #000;
   padding: 11px;
   font-size: 20px;
   font-weight: 900;
-  background: #fec004;
+  background: theme('colors.primary');
   border-radius: 10px;
   text-transform: none;
   line-height: 1;

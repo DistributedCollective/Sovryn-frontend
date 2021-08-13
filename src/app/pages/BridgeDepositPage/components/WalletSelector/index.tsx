@@ -103,7 +103,7 @@ export function WalletSelector() {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline"
+              className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline"
             >
               {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}

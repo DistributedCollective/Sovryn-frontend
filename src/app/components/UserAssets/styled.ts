@@ -11,7 +11,7 @@ export const BuyButton = styled.button<IBuyButtonProps>`
   font-size: 1.25rem;
   line-height: 1.5rem;
   font-weight: 700;
-  background: #fec004;
+  background: theme('colors.primary');
   border-radius: 0.5rem;
   transition: opacity 0.3s;
   text-transform: uppercase;

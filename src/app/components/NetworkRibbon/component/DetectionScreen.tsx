@@ -88,7 +88,11 @@ export function DetectionScreen(props: Props) {
           )}
           onClick={() => disconnect()}
         >
-          <Icon icon="log-out" className="tw-text-gold tw-mr-1" iconSize={12} />{' '}
+          <Icon
+            icon="log-out"
+            className="tw-text-primary tw-mr-1"
+            iconSize={12}
+          />{' '}
           {t(translations.wallet.disconnect)}
         </button>
       </div>

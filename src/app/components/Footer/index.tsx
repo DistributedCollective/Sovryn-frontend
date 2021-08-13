@@ -54,7 +54,7 @@ export function Footer() {
                     href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-font-light tw-text-gold"
+                    className="tw-font-light tw-text-primary"
                   >
                     x
                   </a>,
@@ -69,7 +69,7 @@ export function Footer() {
                     href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-font-light tw-text-gold"
+                    className="tw-font-light tw-text-primary"
                   >
                     x
                   </a>,
@@ -80,7 +80,7 @@ export function Footer() {
         </div>
         <div className="tw-mb-6 tw-text-xs">
           <div
-            className="tw-cursor-pointer hover:tw-underline tw-font-light tw-text-gold"
+            className="tw-cursor-pointer hover:tw-underline tw-font-light tw-text-primary"
             onClick={e => setOptDialogOpen(true)}
           >
             {t(translations.footer.optOut)}

@@ -113,7 +113,7 @@ export function OriginClaimDialog(props: Props) {
                     <div className="tw-mr-8">Tx Hash:</div>
                     <LinkToExplorer
                       txHash={tx.txHash}
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   </div>
 

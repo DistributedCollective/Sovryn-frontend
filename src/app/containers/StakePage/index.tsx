@@ -356,7 +356,7 @@ function InnerStakePage() {
                 {sovBalanceOf.value !== '0' && !stakingLocked ? (
                   <button
                     type="button"
-                    className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
+                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
                     onClick={() => {
                       setTimestamp(0);
                       setAmount('');
@@ -384,7 +384,7 @@ function InnerStakePage() {
                   >
                     <button
                       type="button"
-                      className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold  tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
+                      className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary  tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
                     >
                       {t(translations.stake.addStake)}
                     </button>
@@ -421,7 +421,7 @@ function InnerStakePage() {
                   {weiTo4(voteBalance.value)}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                  <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
                       href="https://bitocracy.sovryn.app/"
                       rel="noopener noreferrer"
@@ -652,7 +652,7 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
           <button
             onClick={handleWithdrawFee}
             type="button"
-            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
+            className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>

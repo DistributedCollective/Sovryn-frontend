@@ -17,7 +17,7 @@
 .titleTut {
   font-size: 12px;
   line-height: 18px;
-  color: #FEC004;
+  color: theme('colors.primary');
   font-weight: 500;
   text-decoration: underline;
   width: 35%;
@@ -25,6 +25,6 @@
 
   &:hover {
     text-decoration: none;
-    color: #FEC004;
+    color: theme('colors.primary');
   }
 }

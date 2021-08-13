@@ -50,12 +50,13 @@ const Div = styled.div`
   `}
 `;
 
-const Button = styled.button`
+const Button = styled.button.attrs(_ => ({
+  className: 'tw-bg-primary',
+}))`
   margin-left: 25px;
   border: 0;
   border-radius: 10px;
   white-space: nowrap;
-  background-color: #fec004;
   color: #000;
   font-size: 20px;
   font-family: 900;

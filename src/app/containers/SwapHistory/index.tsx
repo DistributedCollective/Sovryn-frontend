@@ -286,7 +286,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
             )}
             <LinkToExplorer
               txHash={data.transaction_hash}
-              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
+              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
             />
           </div>
           <div className="tw-hidden sm:tw-block lg:tw-hidden xl:tw-block">
