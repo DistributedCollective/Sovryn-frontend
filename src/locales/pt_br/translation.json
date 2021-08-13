@@ -1410,7 +1410,7 @@
     },
     "lendBorrow": "LEND & BORROW ASSETS",
     "ammpool": {
-      "title": "AMM Pools",
+      "title": "Pools AMM",
       "asset": "Ativo",
       "pool": "Pool",
       "stakedBalance": "Saldo investido",
