@@ -81,7 +81,7 @@ export function ClaimForm({ className, address }: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-underline hover:tw-no-underline"
+                      className="tw-text-red tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,

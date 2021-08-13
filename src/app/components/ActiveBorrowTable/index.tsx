@@ -15,6 +15,7 @@ import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from '../../hooks/useMaintenance';
+import classNames from 'classnames';
 
 interface Props {
   data: any;
@@ -182,11 +183,15 @@ export function ActiveBorrowTable(props: Props) {
   );
 }
 
-const StyledRepayButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--green);
+const StyledRepayButton = styled.button.attrs(({ className }) => ({
+  className: classNames(
+    className,
+    'tw-bg-primary tw-text-green tw-border-green',
+  ),
+  type: 'button',
+}))`
+  border: 2px solid;
   width: 77px;
   height: 32px;
-  color: var(--green);
-  background-color: var(--primary);
   border-radius: 8px;
 `;

@@ -3,8 +3,6 @@
   --secondary-bg: #414042;
   --component-bg: #0b223b;
   --Field_bg: #05182e;
-  --Green: #00ce7d;
-  --Red: #eb2106;
   --Grey_text: #586c86;
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
@@ -12,11 +10,9 @@
 
   --black: #000;
   --dark-gray: #656565;
-  --light-gray: #D9D9D9;
+  --light-gray: #ece6e6;
   --white: #fff;
   --black: #000;
-  --red: #eb2106;
-  --green: #00ce7d;
   --gold: theme('colors.primary');
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
@@ -48,18 +44,14 @@ $white: $body-color;
 //$indigo:  #6610f2 !default;
 //$purple:  #6f42c1 !default;
 //$pink:    #e83e8c !default;
-$red: #eb2106;
 //$orange:  #fd7e14 !default;
 //$yellow:  #ffc107 !default;
-$green: #00ce7d;
 //$cyan:    #17a2b8 !default;
 
 $primary: $body-bg;
 $secondary: #2d2d2d;
-$success: $green;
 //$info:          $cyan !default;
 //$warning:       $yellow !default;
-$danger: $red;
 $light: $body-color;
 $dark: $body-bg;
 

@@ -181,7 +181,7 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-red tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,

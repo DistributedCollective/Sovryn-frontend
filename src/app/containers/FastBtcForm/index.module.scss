@@ -24,10 +24,10 @@
     height: 15px;
     border-radius: 50%;
     &.circle-red {
-      background-color: var(--red);
+      @apply tw-bg-red;
     }
     &.circle-green {
-      background-color: var(--green);
+      @apply tw-bg-green;
     }
   }
 }

@@ -5,9 +5,9 @@
     border-radius: 50%;
   }
   .tw-circle .tw-circle-red {
-    background-color: var(--red);
+    @apply tw-bg-red;
   }
   .tw-circle .tw.circle-green {
-    background-color: var(--green);
+    @apply tw-bg-green;
   }
 }

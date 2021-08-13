@@ -79,7 +79,6 @@ module.exports = {
       background: '#171717',
       'secondary-bg': '#414042',
       Field_bg: '#05182e',
-      Green: '#00ce7d',
       LightGrey: '#a9bacd',
 
       'sales-background': '#181818',
@@ -92,10 +91,13 @@ module.exports = {
       'dark-gray': '#656565',
       'light-gray': '#656565',
       gray_bg: '#404040',
+
       red: '#eb2106',
-      error: '#A52222',
       green: '#00ce7d',
-      customOrange: '#ff9931',
+
+      error: '#A52222',
+      info: '#17a2b8',
+
       lightGrey: '#a9bacd',
       MediumGrey: '#7b96b5',
       Grey_text: '#586c86',
@@ -104,8 +106,6 @@ module.exports = {
       fieldBackground: '#05182e',
       'component-bg': '#0b223b',
       TabGrey: '#213b58',
-      Red: '#eb2106',
-      info: '#17a2b8',
     },
     extend: {
       maxWidth: {
