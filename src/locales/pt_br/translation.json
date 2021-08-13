@@ -1414,7 +1414,7 @@
       "asset": "Ativo",
       "pool": "Pool",
       "stakedBalance": "Saldo investido",
-      "contractBalance": "Contract Balance",
+      "contractBalance": "Saldo do contrato",
       "imBalance": "Imbalance"
     }
   },
