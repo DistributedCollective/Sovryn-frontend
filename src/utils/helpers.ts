@@ -2,7 +2,7 @@ import { utils } from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
-import { Asset } from '../types/asset';
+import { Asset } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 
@@ -212,3 +212,5 @@ export const abbreviateNumber = (
   }
   return shortValue + suffixes[suffixNum];
 };
+
+export const isNullOrUndefined = val => val === undefined || val === null;
