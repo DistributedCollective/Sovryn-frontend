@@ -1,6 +1,6 @@
 import { TransactionConfig } from 'web3-core';
 import { RevertInstructionError } from 'web3-core-helpers';
-import { Contract } from 'web3-eth-contract';
+import Web3Contract, { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { walletService } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
@@ -12,7 +12,6 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types';
-
 import {
   getContract,
   getTokenContractName,
@@ -247,7 +246,8 @@ class ContractWriter {
   public getCustomContract(address: string, abi: AbiItem[]) {
     address = address.toLowerCase();
     if (!this.contracts.hasOwnProperty(address)) {
-      this.contracts[address] = new Contract(abi, address);
+      // had to be done, library has invalid typings.
+      this.contracts[address] = new (Web3Contract as any)(abi, address);
     }
     return this.contracts[address];
   }

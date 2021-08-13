@@ -32,6 +32,7 @@ import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -273,6 +274,10 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   // these contracts are only deployed on testnet now so they need to be updated
+  stakingRewards: {
+    address: '0x1eA58878654Cd537912c2cC6F2c58319d72BDE2c',
+    abi: stakingRewardsProxyAbi,
+  },
   FISH_token: {
     address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
     abi: FISHTokenAbi,

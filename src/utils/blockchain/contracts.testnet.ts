@@ -28,6 +28,7 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
@@ -224,7 +225,8 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
+    address: '0x13371a73cCE52a850bcFe55a08c8B46B28B42760',
+    // address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3', // TODO: bring it back after testing is done
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -276,6 +278,10 @@ export const contracts = {
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
+  },
+  stakingRewards: {
+    address: '0x1eA58878654Cd537912c2cC6F2c58319d72BDE2c', // todo: current version is for testing only (1d intervals)
+    abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
     address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',

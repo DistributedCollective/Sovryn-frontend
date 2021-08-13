@@ -38,6 +38,7 @@ export enum TxType {
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
+  STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
   ORIGINS_SALE_BUY = 'origins_sale_buy',
   CONVERT_RUSDT_TO_XUSD = 'convert_rusdt_to_xusd',
 }

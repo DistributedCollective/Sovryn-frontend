@@ -1323,6 +1323,11 @@
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
+    "stakingForm": {
+      "title": "Staking Rewards",
+      "available": "Total Reward SOV Available:",
+      "cta": "Claim"
+    },
     "totalEarned": "Total Rewards Earned:",
     "topData": {
       "referralRewards": "Referral Rewards",
