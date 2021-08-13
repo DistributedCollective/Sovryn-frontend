@@ -1,6 +1,6 @@
 import { TransactionConfig } from 'web3-core';
 import { RevertInstructionError } from 'web3-core-helpers';
-import Contract from 'web3-eth-contract';
+import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { walletService } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
@@ -29,7 +29,7 @@ export interface CheckAndApproveResult {
 
 class ContractWriter {
   private sovryn: SovrynNetwork;
-  private contracts: { [address: string]: Contract.Contract } = {};
+  private contracts: { [address: string]: Contract } = {};
 
   constructor() {
     this.sovryn = Sovryn;
@@ -247,7 +247,6 @@ class ContractWriter {
   public getCustomContract(address: string, abi: AbiItem[]) {
     address = address.toLowerCase();
     if (!this.contracts.hasOwnProperty(address)) {
-      // @ts-ignore wrong typings for contract?
       this.contracts[address] = new Contract(abi, address);
     }
     return this.contracts[address];

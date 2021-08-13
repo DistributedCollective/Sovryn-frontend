@@ -1,5 +1,11 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {
+  useCallback,
+  useMemo,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
+import axios, { CancelTokenSource } from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import iconSuccess from 'assets/images/icon-success.svg';
@@ -31,23 +37,24 @@ export function SpotHistory() {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [history, setHistory] = useState<any[]>([]);
+  const [currentHistory, setCurrentHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
   const retry = useTradeHistoryRetry();
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
-    }
+  const cancelTokenSource = useRef<CancelTokenSource>();
 
-    cancelTokenSource = axios.CancelToken.source();
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
+    }
+    cancelTokenSource.current = axios.CancelToken.source();
+
     axios
       .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.token,
+        cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
         setHistory(
@@ -82,7 +89,7 @@ export function SpotHistory() {
         setCurrentHistory([]);
         setLoading(false);
       });
-  };
+  }, [account, url]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
@@ -90,21 +97,23 @@ export function SpotHistory() {
     setCurrentHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, setCurrentHistory]);
+  }, [getData]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory, retry]);
+  }, [account, getHistory, retry]);
 
-  const onPageChanged = data => {
-    const { currentPage, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    setCurrentHistory(history.slice(offset, offset + pageLimit));
-  };
+  const onPageChanged = useCallback(
+    data => {
+      const { currentPage, pageLimit } = data;
+      const offset = (currentPage - 1) * pageLimit;
+      setCurrentHistory(history.slice(offset, offset + pageLimit));
+    },
+    [history],
+  );
 
   const onGoingTransactions = useMemo(() => {
     return transactions

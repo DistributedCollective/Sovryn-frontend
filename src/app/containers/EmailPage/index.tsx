@@ -20,7 +20,6 @@ interface Props {
 }
 
 export function EmailPage(props: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
   const text = {
