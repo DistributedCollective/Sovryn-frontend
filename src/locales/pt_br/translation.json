@@ -1385,7 +1385,7 @@
       "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
     },
     "tvl": {
-      "title": "Total value locked",
+      "title": "Valor total na Sovryn",
       "type": "Contract Type",
       "btc": "Valor (BTC)",
       "usd": "Valor (USD)",
