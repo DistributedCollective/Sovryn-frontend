@@ -1379,9 +1379,9 @@
     },
     "arbitrageOpportunity": {
       "title": "Oportunidade de arbitragem",
-      "swap": "swap",
-      "swapUp": "Swap up to ",
-      "for": "for up to ",
+      "swap": "trocar",
+      "swapUp": "Trocar ",
+      "for": "por até ",
       "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
     },
     "tvl": {
