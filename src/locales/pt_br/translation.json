@@ -1386,7 +1386,7 @@
     },
     "tvl": {
       "title": "Valor total na Sovryn",
-      "type": "Contract Type",
+      "type": "Tipo de contrato",
       "btc": "Valor (BTC)",
       "usd": "Valor (USD)",
       "protocol": "Protocol Contract",
