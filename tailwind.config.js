@@ -43,9 +43,13 @@ module.exports = {
       '7xl': '5rem',
     },
     colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
       primary: '#fec004',
       'primary-hover': '#fec00440',
       secondary: '#2274A5',
+      white: '#E9EAE9',
+      black: '#000000',
       gray: {
         1: '#333333',
         2: '#191919',
@@ -60,15 +64,11 @@ module.exports = {
         light: '#181818',
         lighter: '#161616',
       },
-      white: '#E9EAE9',
-      black: '#000000',
-      tradingLong: '#17C3B2',
-      tradingShort: '#D74E09',
-      overlay: '#333333',
+      lightGrey: '#a9bacd',
+      Grey_text: '#586c86',
+      muted: '#656565',
+      gray_bg: '#404040',
       dAppBackground: '#191919',
-
-      transparent: 'transparent',
-      current: 'currentColor',
       dark: {
         1: '#575757',
         DEFAULT: '#191919',
@@ -77,35 +77,17 @@ module.exports = {
 
       foreground: '#D9D9D9',
       background: '#171717',
-      'secondary-bg': '#414042',
-      Field_bg: '#05182e',
-      LightGrey: '#a9bacd',
-
-      'sales-background': '#181818',
-
-      muted: '#656565',
 
       long: '#4ecdc4',
+      tradingLong: '#17C3B2',
       short: '#cd4e4e',
-
-      'dark-gray': '#656565',
-      'light-gray': '#656565',
-      gray_bg: '#404040',
+      tradingShort: '#D74E09',
 
       red: '#eb2106',
       green: '#00ce7d',
 
       error: '#A52222',
       info: '#17a2b8',
-
-      lightGrey: '#a9bacd',
-      MediumGrey: '#7b96b5',
-      Grey_text: '#586c86',
-      primaryBackground: '#192b41',
-      secondaryBackground: '#414042',
-      fieldBackground: '#05182e',
-      'component-bg': '#0b223b',
-      TabGrey: '#213b58',
     },
     extend: {
       maxWidth: {

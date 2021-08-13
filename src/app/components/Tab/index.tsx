@@ -21,7 +21,7 @@ interface StyledProps {
 }
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'btn',
+  className: 'btn hover:tw-text-lightGrey',
 }))`
   color: var(--light-gray);
   padding: 5px 10px;
@@ -30,9 +30,6 @@ const StyledTab = styled.button.attrs(_ => ({
   font-weight: 100;
   font-family: Montserrat;
   text-transform: none;
-  &:hover {
-    color: var(--LightGrey);
-  }
   ${(props: StyledProps) =>
     props.active &&
     css`

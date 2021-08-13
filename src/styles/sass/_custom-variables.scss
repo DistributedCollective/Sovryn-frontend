@@ -1,13 +1,4 @@
 :root {
-  --background: #171717;
-  --secondary-bg: #414042;
-  --component-bg: #0b223b;
-  --Field_bg: #05182e;
-  --Grey_text: #586c86;
-  --LightGrey: #a9bacd;
-  --MediumGrey: #7b96b5;
-  --TabGrey: #213b58;
-
   --black: #000;
   --dark-gray: #656565;
   --light-gray: #ece6e6;
@@ -16,51 +7,15 @@
   --gold: theme('colors.primary');
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
-  --gold35: rgba(254, 192, 4, 0.35);
   --gold50: rgba(254, 192, 4, 0.5);
   --primary: #171717;
   --secondary: #2d2d2d;
 
-  --dark: var(--primary);
-
-  --body-bg: var(--primary);
-  --body-color: var(--white);
-
-  --primary-font: 'Rowdies', cursive;
   --secondary-font: 'Work Sans', sans-serif;
-
-  --sales-background: #181818;
 }
 
-$body-bg: #171717;
-$body-color: #fff;
-
+$white: #fff;
 $dark-gray: #656565;
-$light-gray: #979797;
+$dark: #171717;
 
-$black: #000;
-$white: $body-color;
-//$blue:    #007bff !default;
-//$indigo:  #6610f2 !default;
-//$purple:  #6f42c1 !default;
-//$pink:    #e83e8c !default;
-//$orange:  #fd7e14 !default;
-//$yellow:  #ffc107 !default;
-//$cyan:    #17a2b8 !default;
-
-$primary: $body-bg;
-$secondary: #2d2d2d;
-//$info:          $cyan !default;
-//$warning:       $yellow !default;
-$light: $body-color;
-$dark: $body-bg;
-
-$border-radius: 5px;
-$font-family-base: 'Rowdies', cursive;
 $font-family-montserrat: 'Montserrat', sans-serif;
-
-//$font-size-base: 18px;
-//$font-size-sm: 14px;
-//$font-size-lg: 24px;
-
-/* FOR BLUEPRINT CUSTOMIZATION */
