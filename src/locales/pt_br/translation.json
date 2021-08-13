@@ -1415,7 +1415,7 @@
       "pool": "Pool",
       "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
-      "imBalance": "Imbalance"
+      "imBalance": "Desequilíbrio"
     }
   },
   "BridgeDepositPage": {
