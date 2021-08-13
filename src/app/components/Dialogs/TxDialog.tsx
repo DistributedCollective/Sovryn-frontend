@@ -192,14 +192,14 @@ const StyledHash = styled.div`
   }
 `;
 
-const ExplorerLink = styled.div`
+const ExplorerLink = styled.div.attrs(_ => ({
+  className: 'tw-text-secondary',
+}))`
   text-align: center;
   a {
-    color: #2274a5 !important;
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }

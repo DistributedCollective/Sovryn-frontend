@@ -119,14 +119,14 @@ export function WithdrawForm(props: Props) {
                   {t(translations.stake.sov)}
                 </span>
               </div>
-              <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
+              <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4">
                 <div
                   onClick={() => {
                     let num = (Number(props.amount) / 10).toFixed(2);
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   10%
                 </div>
@@ -136,7 +136,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   25%
                 </div>
@@ -146,7 +146,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   50%
                 </div>
@@ -156,7 +156,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   75%
                 </div>
@@ -165,7 +165,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(props.amount));
                     getEvent(Number(props.amount));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-theme-blue tw-tracking-tighter"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
                 >
                   100%
                 </div>

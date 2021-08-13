@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { MenuItem, Menu as BPMenu, Position } from '@blueprintjs/core';
+import { MenuItem, Menu as BPMenu, Position, Popover } from '@blueprintjs/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { translations } from 'locales/i18n';
@@ -23,7 +23,7 @@ import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { currentNetwork } from 'utils/classifiers';
 import styles from './index.module.scss';
-import { StyledBurger, StyledLogo, StyledMenu, StyledPopover } from './styled';
+import { StyledBurger, StyledLogo, StyledMenu } from './styled';
 
 const bridgeURL =
   currentNetwork === 'mainnet'
@@ -130,7 +130,7 @@ export function Header() {
 
   const NavPopover = ({ content, children }) => {
     return (
-      <StyledPopover
+      <Popover
         interactionKind="hover"
         minimal={true}
         popoverClassName={styles.headerNavPopover}
@@ -138,9 +138,10 @@ export function Header() {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
+        className="hover:tw-text-secondary"
       >
         {children}
-      </StyledPopover>
+      </Popover>
     );
   };
 

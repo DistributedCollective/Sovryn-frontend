@@ -185,7 +185,7 @@ export function VestingContract(props: Props) {
                     <AddressBadge
                       txHash={delegate}
                       startLength={6}
-                      className={`tw-text-theme-blue hover:tw-underline ${
+                      className={`tw-text-secondary hover:tw-underline ${
                         delegateLoading && 'tw-skeleton'
                       }`}
                     />

@@ -264,7 +264,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.transactionHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>

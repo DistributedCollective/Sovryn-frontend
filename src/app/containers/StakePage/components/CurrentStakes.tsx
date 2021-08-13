@@ -209,7 +209,7 @@ function AssetRow(props: AssetProps) {
           <AddressBadge
             txHash={props.item[2]}
             startLength={6}
-            className="tw-text-theme-blue"
+            className="tw-text-secondary"
           />
         )}
         {!props.item[2].length && (

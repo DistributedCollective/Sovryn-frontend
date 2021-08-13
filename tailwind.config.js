@@ -63,7 +63,6 @@ module.exports = {
       },
       white: '#E9EAE9',
       black: '#000000',
-      input: '#2274A5',
       tradingLong: '#17C3B2',
       tradingShort: '#D74E09',
       overlay: '#333333',
@@ -122,7 +121,6 @@ module.exports = {
       turquoise: '#4ECDC4',
       theme: {
         white: '#E9EAE9',
-        blue: '#2274A5',
       },
     },
     extend: {

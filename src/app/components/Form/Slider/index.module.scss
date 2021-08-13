@@ -13,7 +13,7 @@
 }
 
 .host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
-  background-color: #2274a5;
+  @apply tw-bg-secondary;
 }
 
 .host :global(.bp3-slider-handle) {

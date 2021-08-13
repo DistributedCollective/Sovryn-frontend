@@ -192,8 +192,8 @@ export function StakingDateSelector(props: Props) {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
-                  selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
+                  selectedYear === year && 'tw-bg-opacity-30 tw-bg-secondary'
                 }`}
               >
                 {year}
@@ -219,10 +219,10 @@ export function StakingDateSelector(props: Props) {
                             setSelectedDay(dayjs(item.date).format('D'));
                             setSelectedMonth(dayjs(item.date).format('MMM'));
                           }}
-                          className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                          className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
                             selectedDay === dayjs(item.date).format('D') &&
                             selectedMonth === dayjs(item.date).format('MMM') &&
-                            'tw-bg-opacity-30 tw-bg-theme-blue'
+                            'tw-bg-opacity-30 tw-bg-secondary'
                           }`}
                         >
                           {dayjs(item.date).format('D')}

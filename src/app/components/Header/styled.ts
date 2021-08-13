@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import { Popover } from '@blueprintjs/core';
 import { ReactComponent as SovLogo } from '../../../assets/images/sovryn-logo-alpha.svg';
 import { media } from '../../../styles/media';
 
@@ -95,10 +94,4 @@ export const StyledLogo = styled(SovLogo).attrs(_ => ({
     height: 53px;
     margin: 0;
   `}
-`;
-
-export const StyledPopover = styled(Popover)`
-  &:hover {
-    color: #2274a5;
-  }
 `;

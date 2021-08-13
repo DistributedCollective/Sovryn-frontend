@@ -202,7 +202,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.txHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>

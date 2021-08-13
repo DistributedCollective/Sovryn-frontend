@@ -243,10 +243,10 @@
   list-style: none;
 }
 .slick-dots li button {
+  @apply tw-bg-secondary;
   font-size: 0;
   width: 10px;
   height: 10px;
-  background: theme('colors.white');
   border-radius: 100%;
   cursor: pointer;
   transition: background 0.3s;
@@ -255,7 +255,7 @@
   opacity: 0.7;
 }
 .slick-dots li.slick-active button {
-  background: theme('colors.theme.blue');
+  @apply tw-bg-secondary;
 }
 .assets {
   min-width: 115px;
