@@ -1387,7 +1387,7 @@
     "tvl": {
       "title": "Total value locked",
       "type": "Contract Type",
-      "btc": "Value (BTC)",
+      "btc": "Valor (BTC)",
       "usd": "Value (USD)",
       "protocol": "Protocol Contract",
       "lend": "Lending Contract",
