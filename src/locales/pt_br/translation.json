@@ -1411,7 +1411,7 @@
     "lendBorrow": "LEND & BORROW ASSETS",
     "ammpool": {
       "title": "AMM Pools",
-      "asset": "Asset",
+      "asset": "Ativo",
       "pool": "Pool",
       "stakedBalance": "Staked Balance",
       "contractBalance": "Contract Balance",
