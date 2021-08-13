@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
-
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
+import axios, { CancelTokenSource } from 'axios';
 
 const pageSize = 6;
 
@@ -17,19 +16,18 @@ export const HistoryTable: React.FC = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const blockSync = useBlockSync();
+  const cancelTokenSource = useRef<CancelTokenSource>();
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
     }
-
-    cancelTokenSource = axios.CancelToken.source();
+    cancelTokenSource.current = axios.CancelToken.source();
     axios
       .get(
         `${url}/events/rewards/${account}?page=${page}&pageSize=${pageSize}`,
         {
-          cancelToken: cancelTokenSource.token,
+          cancelToken: cancelTokenSource.current.token,
         },
       )
       .then(res => {
@@ -43,22 +41,20 @@ export const HistoryTable: React.FC = () => {
         setHistory([]);
         setLoading(false);
       });
-  };
+  }, [url, account, page]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
     setHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, page]);
+  }, [setHistory, getData]);
 
   useEffect(() => {
     if (account) {
       getHistory();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, page, blockSync]);
+  }, [account, getHistory, blockSync]);
 
   const onPageChanged = useCallback(data => {
     const { currentPage } = data;

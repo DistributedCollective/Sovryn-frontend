@@ -25,8 +25,7 @@ export function NetworkDialog(props: Props) {
     >
       <div className={Classes.DIALOG_CONTAINER}>
         <article
-          // eslint-disable-next-line jsx-a11y/aria-role
-          role="modal"
+          role="dialog"
           className={classNames(
             Classes.DIALOG,
             styles.dialog,

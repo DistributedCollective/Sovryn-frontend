@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -41,12 +41,9 @@ export function NetworkRibbon(this: any) {
 
   const [startTut, setStart] = useState(false);
 
-  const handleTutDialog = () => {
-    setStart(true);
-  };
-  const handleBack = () => {
-    setStart(false);
-  };
+  const handleTutDialog = useCallback(() => setStart(true), []);
+  const handleBack = useCallback(() => setStart(false), []);
+
   return (
     <NetworkDialog isOpen={isOpen} className="tw-font-bold" size="normal">
       <div className="tw-py-2 tw-font-body">

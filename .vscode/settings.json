@@ -25,5 +25,10 @@
   "files.eol": "\n",
   "eslint.alwaysShowStatus": true,
   "eslint.packageManager": "yarn",
-  "css.customData": ["./.vscode/postcss-custom-data.json"]
+  "css.customData": ["./.vscode/postcss-custom-data.json"],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ]
 }

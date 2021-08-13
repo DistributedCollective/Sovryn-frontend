@@ -65,9 +65,7 @@ export class SovrynNetwork {
       return;
     }
     const contract = this.makeContract(this._writeWeb3, contractConfig);
-    // @ts-ignore
     this.writeContracts[contractName] = contract;
-    // @ts-ignore
     this.writeContractList.push(contract);
   }
 
@@ -82,9 +80,7 @@ export class SovrynNetwork {
       return;
     }
     const contract = this.makeContract(this._readWeb3, contractConfig);
-    // @ts-ignore
     this.contracts[contractName] = contract;
-    // @ts-ignore
     this.contractList.push(contract);
   }
 
@@ -99,9 +95,7 @@ export class SovrynNetwork {
       return;
     }
     const contract = this.makeContract(this._databaseWeb3, contractConfig);
-    // @ts-ignore
     this.databaseContracts[contractName] = contract;
-    // @ts-ignore
     this.databaseContractList.push(contract);
   }
 

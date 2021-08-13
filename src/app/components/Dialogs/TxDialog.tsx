@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -28,47 +28,41 @@ interface Props {
   onSuccess?: () => void;
 }
 
-export function TxDialog(props: Props) {
+export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
   const { t } = useTranslation();
   const { address } = useWalletContext();
-  const close = () => {
-    props.tx && props.tx.reset();
-  };
-  const confirm = () => {
-    props.tx.reset();
-  };
+
+  const close = useCallback(() => tx.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
-  const oldStatus = usePrevious(props.tx.status);
+  const oldStatus = usePrevious(tx.status);
 
   useEffect(() => {
     if (
       oldStatus === TxStatus.PENDING_FOR_USER &&
-      props.tx.status === TxStatus.PENDING &&
-      props.onUserConfirmed
+      tx.status === TxStatus.PENDING &&
+      onUserConfirmed
     ) {
-      props.onUserConfirmed();
+      onUserConfirmed();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.tx.status]);
+  }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
-    if (props.tx.status === TxStatus.CONFIRMED && props.onSuccess) {
-      props.onSuccess();
+    if (tx.status === TxStatus.CONFIRMED && onSuccess) {
+      onSuccess();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.tx.status]);
+  }, [tx.status, onSuccess]);
 
   return (
     <Dialog
       isCloseButtonShown={false}
-      isOpen={props.tx.status !== TxStatus.NONE}
-      onClose={() => close()}
+      isOpen={tx.status !== TxStatus.NONE}
+      onClose={close}
       className={styles.dialog}
     >
-      {props.tx.status === TxStatus.PENDING_FOR_USER && (
+      {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
@@ -83,27 +77,23 @@ export function TxDialog(props: Props) {
         </>
       )}
       {[TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
-        props.tx.status,
+        tx.status,
       ) && (
         <>
-          <button
-            data-close=""
-            className="dialog-close"
-            onClick={() => close()}
-          >
+          <button data-close="" className="dialog-close" onClick={close}>
             <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <StatusComponent status={props.tx.status} />
+          <StatusComponent status={tx.status} />
 
-          {!!props.tx.txHash && (
+          {!!tx.txHash && (
             <StyledHashContainer>
               <StyledHash>
-                <strong>Hash:</strong> {prettyTx(props.tx.txHash)}
+                <strong>Hash:</strong> {prettyTx(tx.txHash)}
               </StyledHash>
               <ExplorerLink>
                 <LinkToExplorer
-                  txHash={props.tx.txHash}
+                  txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
                   className="tw-text-blue"
                 />
@@ -111,7 +101,7 @@ export function TxDialog(props: Props) {
             </StyledHashContainer>
           )}
 
-          {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
+          {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
               <p className="tw-text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
@@ -126,9 +116,7 @@ export function TxDialog(props: Props) {
 
           <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
             <ConfirmButton
-              onClick={() =>
-                props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
-              }
+              onClick={close}
               text={t(translations.common.close)}
             />
           </div>

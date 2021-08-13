@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
@@ -16,7 +16,7 @@ export function useSwapNetwork_resolveRate(
   const [data, setData] = useState('0');
   const [loading, setLoading] = useState<any>('0');
 
-  const getRate = async () => {
+  const getRate = useCallback(async () => {
     const path = await contractReader.call('swapNetwork', 'conversionPath', [
       getTokenContract(sourceAsset).address,
       getTokenContract(destAsset).address,
@@ -26,7 +26,7 @@ export function useSwapNetwork_resolveRate(
       weiAmount,
     ]);
     return typeof rate == 'string' ? bignumber(parseInt(rate)).toFixed(0) : '0';
-  };
+  }, [sourceAsset, destAsset, weiAmount]);
 
   useEffect(() => {
     setLoading(true);
@@ -39,8 +39,7 @@ export function useSwapNetwork_resolveRate(
         console.error(e);
         setLoading(false);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceAsset, destAsset, weiAmount, syncBlockNumber]);
+  }, [getRate, syncBlockNumber]);
 
   return { loading, rate: data };
 }

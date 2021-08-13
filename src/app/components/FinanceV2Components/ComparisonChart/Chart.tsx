@@ -279,35 +279,32 @@ export default function Chart(props: ChartProps) {
   });
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       title: {
         text: props.title,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.title]);
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       chart: {
         ...options.chart,
         height: props.height,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.height]);
 
   useEffect(() => {
-    setOptions({
+    setOptions(options => ({
       ...options,
       chart: {
         ...options.chart,
         width: props.width,
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }));
   }, [props.width]);
 
   return (

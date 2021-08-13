@@ -15,10 +15,16 @@
 }
 
 .titleTut {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 18px;
-  color: #ffc107;
-  font-weight: 200;
+  color: #FEC004;
+  font-weight: 500;
   text-decoration: underline;
   width: 35%;
+  padding: 0;
+
+  &:hover {
+    text-decoration: none;
+    color: #FEC004;
+  }
 }

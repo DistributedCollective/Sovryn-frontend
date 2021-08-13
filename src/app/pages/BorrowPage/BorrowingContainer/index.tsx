@@ -84,19 +84,18 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
         key: item.asset,
         label: item.symbol,
       }));
-    setCollaterals(options);
-    if (
-      !options.find(item => item.key === tokenToCollarate) &&
-      options.length
-    ) {
-      setTokenToCollarate(options[0].key);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency]);
 
-  // reset amount to if currency was changed
-  useEffect(() => {
     setAmount('');
+    setCollaterals(options);
+    setTokenToCollarate(tokenToCollarate => {
+      if (
+        !options.find(item => item.key === tokenToCollarate) &&
+        options.length
+      ) {
+        return options[0].key;
+      }
+      return tokenToCollarate;
+    });
   }, [currency]);
 
   const tokenToBorrow = currency;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
+import classNames from 'classnames';
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
@@ -11,10 +11,9 @@ import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
 import { currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 import styles from '../NetworkRibbon.module.scss';
-import { ActionButton } from 'app/components/Form/ActionButton';
-import classNames from 'classnames';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -31,8 +30,7 @@ export function DetectionScreen(props: Props) {
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
-  // eslint-disable-next-line array-callback-return
-  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
+  const netName = netData.find(item => item.chainId === chainId)?.chain;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
@@ -48,9 +46,11 @@ export function DetectionScreen(props: Props) {
           <img src={error_alert} alt="1" />
         </div>
         <div className={classNames(styles.subtitle, 'tw-text-left')}>
-          {t(translations.wrongNetworkDialog.networkAlert, {
-            name: netName,
-          })}
+          {netName
+            ? t(translations.wrongNetworkDialog.networkAlert, {
+                name: netName,
+              })
+            : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
             string: walletName,
@@ -73,15 +73,15 @@ export function DetectionScreen(props: Props) {
         )}
       </div>
       <div className="tw-flex tw-my-12 tw-flex-col tw-justify-center tw-items-center tw-text-center">
-        <a
+        <button
           onClick={props.onStart}
           className={classNames(styles.titleTut, 'tw-font-body tw-mb-4')}
         >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
-        </a>
-        <a
+        </button>
+        <button
           className={classNames(
             styles.titleTut,
             'tw-flex tw-items-center tw-justify-center tw-font-body',
@@ -90,7 +90,7 @@ export function DetectionScreen(props: Props) {
         >
           <Icon icon="log-out" className="tw-text-gold tw-mr-1" iconSize={12} />{' '}
           {t(translations.wallet.disconnect)}
-        </a>
+        </button>
       </div>
     </>
   );

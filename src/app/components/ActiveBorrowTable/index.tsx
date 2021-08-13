@@ -115,8 +115,8 @@ export function ActiveBorrowTable(props: Props) {
         ),
       };
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data, dispatch, t]);
+  }, [props.data, dispatch, t, repayLocked]);
+
   const {
     getTableProps,
     getTableBodyProps,
