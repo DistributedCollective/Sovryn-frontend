@@ -1413,7 +1413,7 @@
       "title": "AMM Pools",
       "asset": "Ativo",
       "pool": "Pool",
-      "stakedBalance": "Staked Balance",
+      "stakedBalance": "Saldo investido",
       "contractBalance": "Contract Balance",
       "imBalance": "Imbalance"
     }
