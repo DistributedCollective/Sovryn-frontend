@@ -36,16 +36,9 @@ function createBlockChannels({ web3 }) {
       })
       .on('data', blockHeader => {
         emit(actions.blockReceived(blockHeader));
-        // emit({
-        //   type: 'BLOCK_RECEIVED',
-        //   blockHeader,
-        //   web3,
-        //   syncAlways,
-        // });
       })
       .on('error', error => {
         emit(actions.blockFailed(error.message));
-        // emit({ type: 'BLOCKS_FAILED', error });
         emit(END);
       });
 
@@ -130,7 +123,6 @@ function* processBlock({ block, address }) {
   } catch (error) {
     console.error('Error in block processing:');
     console.error(error);
-    // yield put({ type: 'BLOCK_FAILED', error });
   }
 }
 

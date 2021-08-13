@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
@@ -38,7 +38,7 @@ export function ExtendStakeForm(props: Props) {
         {t(translations.stake.extending.previousUntil)}:
         <br />
         <span className="tw-font-bold">
-          {moment(new Date(props.prevExtend * 1e3)).format('DD.MM.YYYY')}
+          {dayjs(props.prevExtend * 1e3).format('L')}
         </span>
       </div>
       <form onSubmit={props.handleSubmit}>
