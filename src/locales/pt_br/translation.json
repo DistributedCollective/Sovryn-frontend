@@ -1380,7 +1380,7 @@
     "arbitrageOpportunity": {
       "title": "Oportunidade de arbitragem",
       "swap": "trocar",
-      "swapUp": "Trocar ",
+      "swapUp": "Trocar até ",
       "for": "por até ",
       "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
     },
