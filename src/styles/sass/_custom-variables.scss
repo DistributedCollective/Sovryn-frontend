@@ -1,12 +1,10 @@
 :root {
-  --Teal: #4ecdc4;
   --background: #171717;
   --secondary-bg: #414042;
   --component-bg: #0b223b;
   --Field_bg: #05182e;
   --Green: #00ce7d;
   --Red: #eb2106;
-  --Muted_red: #cd4e4e;
   --Grey_text: #586c86;
   --LightGrey: #a9bacd;
   --MediumGrey: #7b96b5;
@@ -19,7 +17,6 @@
   --black: #000;
   --red: #eb2106;
   --green: #00ce7d;
-  --teal: #4ecdc4;
   --gold: theme('colors.primary');
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
@@ -52,11 +49,9 @@ $white: $body-color;
 //$purple:  #6f42c1 !default;
 //$pink:    #e83e8c !default;
 $red: #eb2106;
-$muted_red: #cd4e4e;
 //$orange:  #fd7e14 !default;
 //$yellow:  #ffc107 !default;
 $green: #00ce7d;
-$teal: #4ecdc4;
 //$cyan:    #17a2b8 !default;
 
 $primary: $body-bg;
