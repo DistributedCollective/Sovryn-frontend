@@ -1402,7 +1402,7 @@
       "sections": {
         "lending": "Emprestar",
         "borrowing": "Obter empréstimos",
-        "yieldFarming": "Yield Farming",
+        "yieldFarming": "Minerar liquidez",
         "marginTrading": "Margin Trading",
         "swap": "Swap",
         "spotTrading": "Spot Trading"
