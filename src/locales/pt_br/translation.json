@@ -1390,7 +1390,7 @@
       "btc": "Valor (BTC)",
       "usd": "Valor (USD)",
       "protocol": "Contrato de protocolo",
-      "lend": "Lending Contract",
+      "lend": "Contrato de empréstimo",
       "amm": "Amm Contract",
       "staked": "Contrato Bitocracia",
       "subtotal": "Sub total",
