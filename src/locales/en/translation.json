@@ -1335,6 +1335,8 @@
       "availableRewards": "Available Rewards:",
       "totalRewards": "Total Rewards Earned:",
       "liquidityRewards": "Liquidity Rewards",
+      "lendingRewards": "Lending Rewards",
+      "tradingRewards": "Trading Rewards",
       "lockedRewards": "Locked Rewards:",
       "claimibleRewards": "Claimible Rewards",
       "OGRewards": "OG Rewards"

@@ -1,30 +1,38 @@
+import { bignumber } from 'mathjs';
 /**
  *
  * RewardForm
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
-import { bignumber } from 'mathjs';
 
 import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
+
+import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
+import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
-import { ethGenesisAddress } from '../../../../../utils/classifiers';
 
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
+  const [liquidityRewards, setLiqRewards] = useState(0);
+  const [lendingRewards, setLendingRewards] = useState(0);
 
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
       item => item.hasSovRewards,
+    );
+    const lendingPools = LendingPoolDictionary.list().filter(
+      item => item.useLM,
     );
 
     if (userAddress !== '' && userAddress !== ethGenesisAddress) {
@@ -33,7 +41,7 @@ export function RewardForm() {
           ? [item.supplyAssets[0]]
           : [item.supplyAssets[0], item.supplyAssets[1]],
       );
-
+      // const lpools = lendingPools.flatMap(item => [item.])
       bridgeNetwork
         .multiCall<{ [key: string]: string }>(
           Chain.RSK,
@@ -66,19 +74,49 @@ export function RewardForm() {
               bignumber(0),
             )
             .toFixed(0);
+          const rewards = parseFloat(weiTo18(total));
+          setLiqRewards(rewards);
           console.log('total: ', total);
+        })
+        .catch(error => {
+          console.error('e', error);
+        });
+      bridgeNetwork
+        .multiCall<{ [key: string]: string }>(
+          Chain.RSK,
+          lendingPools.flatMap((item, index) => {
+            return [
+              {
+                address: getContract('liquidityMiningProxy').address,
+                abi: getContract('liquidityMiningProxy').abi,
+                fnName: 'getUserAccumulatedReward',
+                args: [
+                  item.getAssetDetails().lendingContract.address,
+                  userAddress,
+                ],
+                key: `getUserAccumulatedReward_${index}_${item.getAsset}`,
+                parser: value => value[0].toString(),
+              },
+            ];
+          }),
+        )
+        .then(result => {
+          console.log('result1: ', result);
+          const total = Object.values(result.returnData)
+            .reduce(
+              (previousValue, currentValue) => previousValue.add(currentValue),
+              bignumber(0),
+            )
+            .toFixed(0);
+          const rewards = parseFloat(weiTo18(total));
+          setLendingRewards(rewards);
+          console.log('total1: ', total);
         })
         .catch(error => {
           console.error('e', error);
         });
     }
   }, [userAddress]);
-
-  // for (var i = 0; i < poolAddress.length; i++) {
-  //   const {
-  //     value: lockedBalance,
-  //   } = useLiquidityMining_getUserAccumulatedReward(poolAddress[i]);
-  // }
   return (
     <ContainerBox>
       <Box>
@@ -107,7 +145,7 @@ export function RewardForm() {
       <RewardInfoBox>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
           <InfoTitle>
-            {t(translations.rewardPage.topData.referralRewards)}
+            {t(translations.rewardPage.topData.liquidityRewards)}
           </InfoTitle>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>
@@ -116,7 +154,9 @@ export function RewardForm() {
                 <InfoSubAvaTitle>
                   {t(translations.rewardPage.topData.availableRewards)}
                 </InfoSubAvaTitle>
-                <InfoContent>15.2976 SOV</InfoContent>
+                <InfoContent>
+                  {liquidityRewards.toFixed(6) + ' SOV'}
+                </InfoContent>
               </div>
               <div className="mb-3">
                 <InfoSubTotalTitle>
@@ -129,7 +169,7 @@ export function RewardForm() {
         </div>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
           <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.liquidityRewards)}
+            {t(translations.rewardPage.topData.lendingRewards)}
           </div>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-white tw-mr-5"></div>
@@ -138,7 +178,7 @@ export function RewardForm() {
                 <InfoSubAvaTitle>
                   {t(translations.rewardPage.topData.availableRewards)}
                 </InfoSubAvaTitle>
-                <InfoContent>15.2976 SOV</InfoContent>
+                <InfoContent>{lendingRewards.toFixed(6) + ' SOV'}</InfoContent>
               </div>
               <div className="mb-3">
                 <InfoSubTotalTitle>
@@ -151,7 +191,7 @@ export function RewardForm() {
         </div>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
           <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.OGRewards)}
+            {t(translations.rewardPage.topData.tradingRewards)}
           </div>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-green tw-mr-5"></div>
