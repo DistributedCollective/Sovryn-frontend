@@ -1408,7 +1408,7 @@
         "spotTrading": "Operar spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE CRIPTOS",
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
       "title": "Pools AMM",
       "asset": "Ativo",
