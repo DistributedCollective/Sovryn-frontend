@@ -1411,7 +1411,7 @@
     "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
       "title": "Pools AMM",
-      "asset": "Ativo",
+      "asset": "Ativos",
       "pool": "Pool",
       "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
