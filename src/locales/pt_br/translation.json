@@ -1412,7 +1412,7 @@
     "ammpool": {
       "title": "Pools AMM",
       "asset": "Ativos",
-      "pool": "Pool",
+      "pool": "Pools",
       "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
