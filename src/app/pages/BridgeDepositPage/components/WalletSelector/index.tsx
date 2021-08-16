@@ -19,7 +19,11 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { switchNetwork } from 'utils/metamaskHelpers';
+import {
+  switchNetwork,
+  addNetwork,
+  metamaskDefaultChains,
+} from 'utils/metamaskHelpers';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -67,11 +71,23 @@ export function WalletSelector() {
   ]);
 
   const changeNetwork = () => {
-    switchNetwork([
-      {
-        chainId: `0x${network?.chainId.toString(16)}`,
-      },
-    ]);
+    const chainId = `0x${network?.chainId.toString(16)}`;
+    if (metamaskDefaultChains.includes(network?.chainId!)) {
+      switchNetwork([
+        {
+          chainId,
+        },
+      ]);
+    } else {
+      addNetwork([
+        {
+          chainId,
+          chainName: network?.chain,
+          rpcUrls: [network?.rpc],
+          blockExplorerUrls: [network?.explorer],
+        },
+      ]);
+    }
   };
 
   return (

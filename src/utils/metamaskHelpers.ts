@@ -1,4 +1,6 @@
-const addNetwork = (params: any) => {
+export const metamaskDefaultChains = [1, 3, 4, 5, 42];
+
+export const addNetwork = (params: any) => {
   const { ethereum } = window as any;
 
   ethereum
