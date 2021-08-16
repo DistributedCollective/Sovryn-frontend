@@ -9,27 +9,31 @@ import {
   valueRenderer,
 } from 'app/components/Form/AssetSelect/renderers';
 
-interface Props {
-  value?: Nullable<Asset>;
-  onChange: (value: Asset, item: Option) => void;
+interface IAssetSelectProps {
+  value: Nullable<Asset>;
+  onChange: (value: Asset, item: Option<Asset, string, string>) => void;
   options: Asset[];
-  placeholder?: React.ReactNode;
 }
 
-export function AssetSelect(props: Props) {
-  const options = useMemo(() => {
-    return props.options.map(item => {
+export const AssetSelect: React.FC<IAssetSelectProps> = ({
+  value,
+  onChange,
+  options,
+}) => {
+  const selectOptions = useMemo(() => {
+    return options.map(item => {
       const asset = AssetsDictionary.get(item);
       return { key: item, label: asset.symbol, data: asset.logoSvg };
     });
-  }, [props.options]);
+  }, [options]);
+
   return (
     <Select
-      value={props.value as any}
-      onChange={(value, option) => props.onChange(value as Asset, option)}
-      options={options}
+      value={value}
+      onChange={(value, option) => onChange(value, option)}
+      options={selectOptions}
       itemRenderer={renderItem}
       valueRenderer={valueRenderer}
     />
   );
-}
+};
