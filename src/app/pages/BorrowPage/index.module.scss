@@ -3,7 +3,7 @@
 .nav-item {
   color: white;
   font-weight: 100;
-  font-family: $font-family-montserrat;
+  font-family: theme('fontFamily.body');
 
   &.active {
     font-weight: 600;

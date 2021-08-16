@@ -44,7 +44,7 @@ article.bp3-dialog h1 {
 .bp3-dialog {
   @extend .sovryn-border;
   @apply tw-p-3;
-  font-family: var(--secondary-font);
+  font-family: theme('fontFamily.body');
   background-color: theme('colors.dAppBackground');
 }
 
@@ -90,7 +90,7 @@ article.bp3-dialog h1 {
 
     & .bp3-menu-item {
       color: var(--white);
-      font-family: var(--secondary-font);
+      font-family: theme('fontFamily.body');
 
       &.bp3-active {
         background-color: var(--dark-gray);

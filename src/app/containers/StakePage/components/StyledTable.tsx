@@ -5,7 +5,6 @@ export const StyledTable = styled.table`
   font-weight: 100;
   width: 100%;
   font-size: 14px;
-  font-family: 'Work Sans';
 
   &.sovryn-table-mobile {
     font-size: 12px;
