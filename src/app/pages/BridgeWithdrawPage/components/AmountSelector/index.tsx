@@ -81,30 +81,32 @@ export function AmountSelector() {
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
       bnAmount.lessThanOrEqualTo(limits.returnData.getMaxTokensAllowed) &&
+      bnAmount.greaterThan(limits.returnData.getFeePerToken) &&
       bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
         bnAmount.add(limits.returnData.spentToday),
       )
     );
   }, [
     currentAsset,
-    balance.loading,
-    balance.value,
-    bridgeBalance.value,
-    limits.returnData.dailyLimit,
-    limits.returnData.getMaxTokensAllowed,
-    limits.returnData.getMinPerToken,
-    limits.returnData.spentToday,
-    limitsLoading,
     value,
+    balance.value,
+    balance.loading,
+    bridgeBalance.value,
+    limitsLoading,
+    limits.returnData.getMinPerToken,
+    limits.returnData.getMaxTokensAllowed,
+    limits.returnData.getFeePerToken,
+    limits.returnData.dailyLimit,
+    limits.returnData.spentToday,
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           {t(trans.title)}
         </div>
-        <div className="tw-w-80">
+        <div className="tw-w-96">
           <FormGroup label={t(trans.withdrawAmount)}>
             <AmountInput
               value={value}
@@ -207,7 +209,7 @@ export function AmountSelector() {
         </Table>
 
         <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+          className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
           disabled={!isValid}
           onClick={selectAmount}

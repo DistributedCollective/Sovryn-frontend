@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
@@ -18,6 +18,12 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import {
+  switchNetwork,
+  addNetwork,
+  metamaskDefaultChains,
+} from 'utils/metamaskHelpers';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -64,6 +70,30 @@ export function WalletSelector() {
     chain,
   ]);
 
+  const changeNetwork = useCallback(() => {
+    if (!network) return;
+
+    const { chain, rpc, explorer } = network;
+    const chainId = `0x${network?.chainId.toString(16)}`;
+
+    if (metamaskDefaultChains.includes(network?.chainId!)) {
+      switchNetwork([
+        {
+          chainId,
+        },
+      ]);
+    } else {
+      addNetwork([
+        {
+          chainId,
+          chainName: chain,
+          rpcUrls: [rpc],
+          blockExplorerUrls: [explorer],
+        },
+      ]);
+    }
+  }, [network]);
+
   return (
     <WalletWrapper className="tw-relative tw-p-8">
       {state === 'wrong-network' && (
@@ -109,6 +139,17 @@ export function WalletSelector() {
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
             </a>
+
+            {walletName === 'metamask' && (
+              <ActionButton
+                className="tw-font-semibold tw-w-80 tw-rounded-xl"
+                text={t(
+                  translations.BridgeDepositPage.returnToPortfolio
+                    .switchNetwork,
+                )}
+                onClick={changeNetwork}
+              />
+            )}
 
             <div
               onClick={() => walletContext.disconnect()}
