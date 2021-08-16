@@ -10,7 +10,7 @@ import {
 } from 'app/components/Form/AssetSelect/renderers';
 
 interface Props {
-  value: Nullable<Asset> | undefined;
+  value?: Nullable<Asset>;
   onChange: (value: Asset, item: Option) => void;
   options: Asset[];
   placeholder?: React.ReactNode;
@@ -26,10 +26,8 @@ export function AssetSelect(props: Props) {
   return (
     <Select
       value={props.value as any}
-      onChange={(value, option) =>
-        props.onChange(value as Asset, option as any)
-      }
-      options={options as any}
+      onChange={(value, option) => props.onChange(value as Asset, option)}
+      options={options}
       itemRenderer={renderItem}
       valueRenderer={valueRenderer}
     />
