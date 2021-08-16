@@ -81,21 +81,23 @@ export function AmountSelector() {
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
       bnAmount.lessThanOrEqualTo(limits.returnData.getMaxTokensAllowed) &&
+      bnAmount.greaterThan(limits.returnData.getFeePerToken) &&
       bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
         bnAmount.add(limits.returnData.spentToday),
       )
     );
   }, [
     currentAsset,
-    balance.loading,
-    balance.value,
-    bridgeBalance.value,
-    limits.returnData.dailyLimit,
-    limits.returnData.getMaxTokensAllowed,
-    limits.returnData.getMinPerToken,
-    limits.returnData.spentToday,
-    limitsLoading,
     value,
+    balance.value,
+    balance.loading,
+    bridgeBalance.value,
+    limitsLoading,
+    limits.returnData.getMinPerToken,
+    limits.returnData.getMaxTokensAllowed,
+    limits.returnData.getFeePerToken,
+    limits.returnData.dailyLimit,
+    limits.returnData.spentToday,
   ]);
 
   return (
