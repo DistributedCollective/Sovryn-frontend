@@ -25,7 +25,7 @@ interface Props {
 
 export function DetectionScreen(props: Props) {
   var logo: any = null;
-  const { ethereum } = window as any;
+  const { ethereum } = window;
   const { t } = useTranslation();
   const chainId = parseInt(ethereum.chainId as string);
   const walletName =
