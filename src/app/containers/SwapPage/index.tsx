@@ -26,11 +26,6 @@ export function SwapPage(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
 
-  useEffect(() => {
-    const bodyElement = document.getElementsByTagName('body')[0];
-    bodyElement.style.background = '#161616';
-  }, []);
-
   return (
     <>
       <Helmet>

@@ -4,16 +4,13 @@
 }
 
 .container {
-  background-color: #000000;
-  color: #d9d9d9;
+  @apply tw-relative tw-w-full 
+    tw-text-foreground tw-tracking-normal
+    tw-bg-black tw-rounded-2xl;
   max-width: 1000px;
-  width: 100%;
-  border-radius: 15px;
-  position: relative;
-  letter-spacing: 0;
 }
 
-.alertBlock{ 
+.alertBlock {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,26 +90,26 @@
 }
 
 .instructionsTitle {
+  @apply tw-text-gray-600;
   margin-top: 20px;
   margin-bottom: 10px;
   font-size: 16px;
   line-height: 19px;
   font-weight: 400;
-  color: #F4F4F4;
 }
 
 .supportLink {
-  color: #E9EAE9 !important;
+  @apply tw-text-sov-white;
   text-decoration: underline;
   font-weight: 400;
 }
 
 .instructionsValue {
+  @apply tw-text-sov-white;
   margin-bottom: 35px;
   font-size: 14px;
   line-height: 20px;
   font-weight: 100;
-  color: #E9EAE9;
 }
 
 .buttons {
@@ -126,11 +123,11 @@
 }
 
 .txFee {
+  @apply tw-text-white;
   font-size: 14px;
   line-height: 18px;
   font-weight: 400;
   margin: 20px 0 35px;
-  color: #ffffff;
 }
 
 .right {
@@ -138,7 +135,7 @@
 }
 
 .close {
-  color: #fff;
+  @apply tw-text-white;
   opacity: 0.7;
   cursor: pointer;
   float: right;

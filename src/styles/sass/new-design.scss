@@ -124,7 +124,7 @@
     tr {
       &:nth-child(odd) {
         td {
-          background-color: #282828;
+          @apply tw-bg-gray-800;
 
           &:first-child {
             border-radius: 6px 0 0 6px;
@@ -263,10 +263,11 @@ button.button-width {
 
     th,
     td {
+      @apply 
+      tw-font-body tw-text-gray-dark
+        tw-border tw-border-black;
       padding: 5px;
       vertical-align: middle;
-      border: 1px solid black;
-      color: #707070;
       font-family: theme('fontFamily.body');
       font-size: 14px;
       line-height: 18px;
@@ -322,11 +323,11 @@ button.button-width {
 }
 
 .btn-trading[disabled] {
+  @apply tw-bg-muted;
   opacity: 0.5;
   cursor: not-allowed;
-  background: #656565 !important;
   &:hover {
-    background: #656565 !important;
+    @apply tw-bg-muted;
   }
 }
 

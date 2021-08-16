@@ -8,7 +8,6 @@ import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import styled from 'styled-components/macro';
 import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
@@ -18,6 +17,7 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
+import styles from './index.module.scss';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -65,10 +65,10 @@ export function WalletSelector() {
   ]);
 
   return (
-    <WalletWrapper className="tw-relative tw-p-8">
+    <div className={styles.host}>
       {state === 'wrong-network' && (
         <>
-          <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
+          <div className={styles.wrongNetwork}>
             <img className="tw-mr-2" src={error_alert} alt="err" />
             <div>
               {t(translations.BridgeDepositPage.walletSelector.wrongNetwork)}{' '}
@@ -79,7 +79,7 @@ export function WalletSelector() {
               <span className="tw-capitalize">{walletName}</span>{' '}
               {t(translations.BridgeDepositPage.walletSelector.wallet)}
             </div>
-          </WrongNetwork>
+          </div>
           <div className="tw-mb-20 tw-mt-10 tw-text-2xl tw-text-center tw-font-semibold">
             {t(
               translations.BridgeDepositPage.chainSelector.wrongNetwork.title,
@@ -130,30 +130,6 @@ export function WalletSelector() {
           }
         />
       )}
-    </WalletWrapper>
+    </div>
   );
 }
-export const WalletWrapper = styled.div`
-  h1 {
-    color: #d9d9d9;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: 600 !important;
-    font-family: Montserrat, sans-serif !important;
-    text-transform: capitalize;
-    margin-bottom: 1rem;
-  }
-`;
-
-export const WrongNetwork = styled.div`
-  width: 500px;
-  max-width: 90vw;
-  background: #e9eae9;
-  border: 1px solid #707070;
-  border-radius: 10px;
-  opacity: 0.75;
-  color: #a52222;
-  left: 0;
-  right: 0;
-  margin: auto;
-`;

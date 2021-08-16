@@ -1,11 +1,10 @@
 .container {
-    background-color: #000000;
-    color: #D9D9D9;
+    @apply tw-relative tw-w-full 
+      tw-text-foreground tw-tracking-normal
+      tw-bg-black tw-rounded-2xl;
+      
     width: 468px;
     padding: 30px;
-    border-radius: 15px;
-    position: relative;
-    letter-spacing: 0;
 }
 
 .close {

@@ -1,4 +1,3 @@
-
 .simpleView {
   .engage-wallet {
     height: 50px;
@@ -19,28 +18,26 @@
 }
 
 .engage-wallet {
-  background: #383838;
-  height: 40px;
-  padding: 2px 0 2px 10px;
-  border-radius: 8px;
-  font-weight: 100;
+  @apply tw-h-10 tw-py-0.5 tw-pr-0 tw-pl-2.5
+    tw-text-primary tw-font-thin tw-font-body tw-tracking-normal
+    tw-bg-gray-900 tw-rounded-lg
+    tw-cursor-pointer;
+
+  background-color: #383838;
   font-size: 14px;
-  font-family: theme('fontFamily.body');
   min-width: 165px;
-  letter-spacing: 0;
 
   .logout {
-    height: 40px;
-    padding: 12px 12px;
-    background: #686868;
-    cursor: pointer;
-    transition: background 0.3s;
-    color: theme('colors.primary');
-    border-radius: 0 8px 8px 0;
+    @apply tw-h-10 tw-p-3 
+      tw-text-primary 
+      tw-bg-gray-900 tw-rounded-l-none tw-rounded-r-lg
+      tw-cursor-pointer;
+
+    transition: background-color 0.3s;
     margin-left: 0.7rem;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.36);
+      background-color: rgba(0, 0, 0, 0.36);
     }
   }
 }
