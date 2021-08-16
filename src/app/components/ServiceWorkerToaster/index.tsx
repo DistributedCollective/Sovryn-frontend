@@ -118,7 +118,7 @@ export function ServiceWorkerToaster() {
     <Dialog isOpen={show} className={styles.dialog}>
       <div className="tw-container tw-mx-auto tw-px-4 tw-text-center">
         <StyledLogo className="tw-mx-auto tw-mb-6" src={logoSvg} />
-        <p className="tw-text-white tw-mb-6">
+        <p className="tw-text-sov-white tw-mb-6">
           <Trans
             i18nKey={translations.serviceWorkerToaster.title}
             components={[

@@ -48,7 +48,8 @@ module.exports = {
       primary: '#fec004',
       'primary-hover': '#fec00440',
       secondary: '#2274A5',
-      white: '#E9EAE9',
+      white: '#ffffff',
+      'sov-white': '#E9EAE9',
       black: '#000000',
       gray: {
         1: '#333333',

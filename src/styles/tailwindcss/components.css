@@ -9,7 +9,7 @@
 
   .tw-header-link,
   .tw-header-link:visited {
-    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-no-underline tw-transition;
+    @apply tw-font-body tw-normal-case tw-no-underline tw-text-sov-white tw-text-base tw-no-underline tw-transition;
   }
 
   .tw-header-link:hover,
@@ -18,7 +18,7 @@
   }
 
   .tw-header-link.active {
-    @apply tw-text-white tw-font-medium tw-no-underline;
+    @apply tw-text-sov-white tw-font-medium tw-no-underline;
   }
 
   /* form button styles */
@@ -181,7 +181,7 @@
   font-size: 20px;
   line-height: 1;
   opacity: 0.75;
-  color: theme('colors.white');
+  color: theme('colors.sov-white');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -60,5 +60,5 @@ export function AddressBadge(props: Props) {
 AddressBadge.defaultProps = {
   startLength: 10,
   endLength: 4,
-  className: 'tw-ml-1 tw-text-white',
+  className: 'tw-ml-1 tw-text-sov-white',
 };

@@ -7,11 +7,11 @@
   }
   .tw-qrcode-label {
     @apply tw-mb-2.5;
-    @apply tw-font-medium tw-text-base tw-text-white;
+    @apply tw-font-medium tw-text-base tw-text-sov-white;
   }
   .tw-qrcode-wrapper {
     border-radius: 10px;
-    @apply tw-h-full tw-bg-white tw-text-center;
+    @apply tw-h-full tw-bg-sov-white tw-text-center;
   }
   .tw-qrcode-wrapper svg {
     border-radius: 10px;
@@ -20,7 +20,7 @@
     margin: 0 82px 24px 82px;
   }
   .tw-qrcode-wrapper path:first-child {
-    @apply tw-fill-current tw-text-white;
+    @apply tw-fill-current tw-text-sov-white;
   }
   .tw-qrcode-wrapper path:nth-child(2) {
     @apply tw-fill-current tw-text-black;

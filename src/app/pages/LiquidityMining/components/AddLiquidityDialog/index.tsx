@@ -79,7 +79,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-text-white tw-text-center tw-tracking-normal">
+          <h1 className="tw-text-sov-white tw-text-center tw-tracking-normal">
             {t(translations.liquidityMining.modals.deposit.title)}
           </h1>
 

@@ -100,7 +100,7 @@ export function SidebarSteps() {
         asset.minDecimals,
       );
       prvSteps[DepositStep.AMOUNT_SELECTOR].icon = (
-        <div className="tw-h-full tw-w-full tw-rounded-full tw-bg-white tw-flex tw-items-center tw-justify-center">
+        <div className="tw-h-full tw-w-full tw-rounded-full tw-bg-sov-white tw-flex tw-items-center tw-justify-center">
           <img
             className={'tw-object-contain tw-h-3 tw-w-3'}
             src={walletIcon}

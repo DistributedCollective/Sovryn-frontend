@@ -28,7 +28,7 @@
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.white');
+    stroke: theme('colors.sov-white');
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-track {

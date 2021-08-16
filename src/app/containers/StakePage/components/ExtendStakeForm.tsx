@@ -44,7 +44,7 @@ export function ExtendStakeForm(props: Props) {
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
           <label
-            className="tw-leading-4 tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2"
+            className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="amount"
           >
             {t(translations.stake.extending.amountToStake)}:
@@ -52,12 +52,12 @@ export function ExtendStakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
               readOnly
-              className="tw-appearance-none tw-border tw-border-solid tw-border-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-border-solid tw-border-sov-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amount"
               type="text"
               defaultValue={props.amount}
             />
-            <span className="tw-text-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
@@ -73,7 +73,7 @@ export function ExtendStakeForm(props: Props) {
           />
 
           <label
-            className="tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+            className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
             {t(translations.stake.extending.votingPowerReceived)}:

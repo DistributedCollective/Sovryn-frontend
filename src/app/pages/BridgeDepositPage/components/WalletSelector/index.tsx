@@ -112,7 +112,7 @@ export function WalletSelector() {
 
             <div
               onClick={() => walletContext.disconnect()}
-              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-10"
+              className="tw-cursor-pointer tw-font-semibold tw-text-sov-white tw-underline tw-text-center tw-mt-10"
             >
               {t(translations.BridgeDepositPage.changeWallet)}
             </div>

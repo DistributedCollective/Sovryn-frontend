@@ -53,14 +53,14 @@ export function DelegateForm(props: Props) {
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
           <label
-            className="tw-leading-4 tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2"
+            className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="address"
           >
             {t(translations.stake.delegation.delegateTo)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative tw-mb-3">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="address"
               type="text"
               value={props.address}

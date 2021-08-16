@@ -45,7 +45,7 @@ export function AssetWalletBalance(props: Props) {
       {!connected && (
         <button
           onClick={() => connect()}
-          className="tw-bg-transparent tw-text-white tw-border-0 tw-block tw-text-left tw-whitespace-nowrap hover:tw-underline"
+          className="tw-bg-transparent tw-text-sov-white tw-border-0 tw-block tw-text-left tw-whitespace-nowrap hover:tw-underline"
         >
           {t(translations.assetWalletBalance.connect)}
         </button>
@@ -55,7 +55,7 @@ export function AssetWalletBalance(props: Props) {
           <span className="tw-text-muted">
             <AssetRenderer asset={props.asset} />
           </span>
-          <span className="tw-text-white tw-font-bold tw-ml-2">
+          <span className="tw-text-sov-white tw-font-bold tw-ml-2">
             <LoadableValue
               value={weiToFixed(value, 4)}
               loading={loading}

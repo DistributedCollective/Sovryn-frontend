@@ -55,14 +55,14 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
       <form onSubmit={submitForm}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
           <label
-            className="tw-leading-4 tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2"
+            className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="address"
           >
             {t(translations.stake.withdraw.receiveSovAt)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="address"
               type="text"
               value={address}
@@ -72,13 +72,13 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
           </div>
 
           <label
-            className="tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+            className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
             {t(translations.stake.withdraw.unlockedSov)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-mb-3">
-            <div className="tw-border tw-text-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
+            <div className="tw-border tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
               {loading
                 ? t(translations.stake.withdraw.loading)
                 : numberFromWei(value)}

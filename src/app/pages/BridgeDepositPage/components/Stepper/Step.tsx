@@ -26,13 +26,13 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
       <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-transform tw-relative tw-mr-4 tw-border-transparent">
         {!isFirst && (
           <span
-            className="tw-h-9 bg-white tw-absolute tw--top-1.5 tw-left-0 tw-right-0 tw-mx-auto tw-transform tw--translate-y-full tw--translate-x-1/2"
+            className="tw-h-9 bg-sov-white tw-absolute tw--top-1.5 tw-left-0 tw-right-0 tw-mx-auto tw-transform tw--translate-y-full tw--translate-x-1/2"
             style={{ width: 1 }}
           ></span>
         )}
         <span
           className={cn(
-            'tw-absolute tw-border-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
+            'tw-absolute tw-border-sov-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-sov-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
             {
               'tw-transform tw-scale-125': !!active,
               'tw-scale-0': step?.icon,
@@ -43,7 +43,7 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
 
         <span
           className={cn(
-            'tw-absolute tw-flex tw-items-center tw-justify-center tw-transform tw-border-white tw-w-4 tw-h-4 tw-rounded-full tw-transition tw-duration-700 tw-ease-in-out',
+            'tw-absolute tw-flex tw-items-center tw-justify-center tw-transform tw-border-sov-white tw-w-4 tw-h-4 tw-rounded-full tw-transition tw-duration-700 tw-ease-in-out',
             {
               'tw-scale-0': !step?.icon,
               'tw-scale-125': step?.icon,

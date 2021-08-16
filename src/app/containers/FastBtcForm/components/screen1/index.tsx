@@ -40,7 +40,12 @@ export function Screen1({ state, dispatch }: Props) {
             </>
           )}
           <div className="address-link tw-flex-shrink-0 tw-flex-grow-0">
-            <Button small minimal className="tw-text-white" icon="log-out" />
+            <Button
+              small
+              minimal
+              className="tw-text-sov-white"
+              icon="log-out"
+            />
           </div>
         </div>
       </div>

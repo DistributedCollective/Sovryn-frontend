@@ -5,10 +5,10 @@
     height: 3.75rem;
     letter-spacing: 0.1rem;
     @apply tw-block tw-overflow-ellipsis tw-overflow-hidden tw-whitespace-nowrap;
-    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-text-sov-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
     @apply tw-px-6 tw-py-2;
     @apply tw-transition;
-    @apply tw-text-white;
+    @apply tw-text-sov-white;
     @apply tw-border-0 tw-rounded;
     background: #17c3b2;
   }
@@ -27,7 +27,7 @@
   }
 
   .tw-btn-engage .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.white');
+    stroke: theme('colors.sov-white');
   }
 
   .tw-btn-engage .bp3-spinner .bp3-spinner-track {

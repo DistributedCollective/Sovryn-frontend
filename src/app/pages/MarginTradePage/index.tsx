@@ -68,7 +68,7 @@ export function MarginTradePage(props: Props) {
                 {t(translations.marginTradePage.openPositions)}
                 <NotificationForm className="tw-ml-2 tw-inline-block" />
               </h1>
-              <div className="tw-px-5 tw-pb-5 tw-border tw-border-white tw-rounded-lg">
+              <div className="tw-px-5 tw-pb-5 tw-border tw-border-sov-white tw-rounded-lg">
                 <OpenPositionsTable />
               </div>
             </article>

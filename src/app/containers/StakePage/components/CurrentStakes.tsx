@@ -77,7 +77,7 @@ export function CurrentStakes(props: Stakes) {
       </p>
       <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
         <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
-          <StyledTable className="tw-w-full tw-text-white">
+          <StyledTable className="tw-w-full tw-text-sov-white">
             <thead>
               <tr>
                 <th className="tw-text-left assets">

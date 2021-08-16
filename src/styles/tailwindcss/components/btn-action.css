@@ -29,7 +29,7 @@
     }
 
     .tw-btn-action .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.white');
+        stroke: theme('colors.sov-white');
     }
 
     .tw-btn-action .bp3-spinner .bp3-spinner-track {

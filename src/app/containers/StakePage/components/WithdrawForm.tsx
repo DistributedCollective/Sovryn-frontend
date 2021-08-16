@@ -79,7 +79,7 @@ export function WithdrawForm(props: Props) {
             </h3>
             <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
               <label
-                className="tw-leading-4 tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2"
+                className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
                 htmlFor="amount"
               >
                 {t(translations.stake.withdraw.amountCurrentlyStaked)}:
@@ -87,25 +87,25 @@ export function WithdrawForm(props: Props) {
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
                   readOnly
-                  className="tw-appearance-none tw-border tw-border-solid tw-border-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+                  className="tw-appearance-none tw-border tw-border-solid tw-border-sov-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
                   id="amount"
                   type="text"
                   defaultValue={props.amount}
                 />
-                <span className="tw-text-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+                <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
                   {t(translations.stake.sov)}
                 </span>
               </div>
 
               <label
-                className="tw-leading-4 tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+                className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                 htmlFor="amountAdd"
               >
                 {t(translations.stake.withdraw.amountToUnstake)}:
               </label>
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
-                  className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+                  className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
                   id="amountAdd"
                   type="text"
                   placeholder="Enter amount"
@@ -173,7 +173,7 @@ export function WithdrawForm(props: Props) {
               {Number(props.until) > Math.round(new Date().getTime() / 1e3) && (
                 <>
                   <label
-                    className="tw-block tw-text-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+                    className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                     htmlFor="unstake"
                   >
                     {t(translations.stake.withdraw.forfeit)}:
@@ -181,7 +181,7 @@ export function WithdrawForm(props: Props) {
                   <div className="tw-flex tw-space-x-4">
                     <input
                       readOnly
-                      className={`tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline ${
+                      className={`tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline ${
                         loadingWithdraw && 'tw-skeleton'
                       }`}
                       id="unstake"
@@ -198,7 +198,7 @@ export function WithdrawForm(props: Props) {
                 </>
               )}
 
-              <div className="tw-block tw-text-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
+              <div className="tw-block tw-text-sov-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
                 <TxFeeCalculator
                   args={[
                     props.withdrawAmount.toString(),

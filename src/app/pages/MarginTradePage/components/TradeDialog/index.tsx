@@ -99,7 +99,7 @@ export function TradeDialog() {
         onClose={() => dispatch(actions.closeTradingModal())}
       >
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">

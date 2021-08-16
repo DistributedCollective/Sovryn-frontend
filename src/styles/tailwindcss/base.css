@@ -33,7 +33,7 @@
   h4,
   h5,
   h6 {
-    @apply tw-text-white tw-font-medium;
+    @apply tw-text-sov-white tw-font-medium;
     line-height: 1.2;
   }
 

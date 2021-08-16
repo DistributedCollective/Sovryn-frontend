@@ -16,7 +16,7 @@
     @apply tw-items-center;
     @apply tw-pt-4 tw-pb-4 tw-pl-10 tw-pr-3;
     @apply tw-cursor-pointer;
-    @apply tw-font-medium tw-text-base tw-text-white;
+    @apply tw-font-medium tw-text-base tw-text-sov-white;
   }
 
   .tw-select-origin .tw-select-origin-content {
@@ -24,7 +24,7 @@
 
   .tw-select-origin .tw-select-origin-caret {
     @apply tw-ml-4;
-    @apply tw-fill-current tw-text-white;
+    @apply tw-fill-current tw-text-sov-white;
   }
 
   .tw-select-container .bp3-transition-container {

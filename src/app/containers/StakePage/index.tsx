@@ -70,7 +70,7 @@ export function StakePage() {
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
             <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
@@ -318,7 +318,7 @@ function InnerStakePage() {
       <main>
         <div className="tw-bg-gray-700 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">

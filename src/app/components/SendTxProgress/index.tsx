@@ -104,7 +104,7 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`tw-bg-white tw-text-black tw-p-6 tw-rounded tw-flex tw-flex-row tw-justify-between ${
+      className={`tw-bg-sov-white tw-text-black tw-p-6 tw-rounded tw-flex tw-flex-row tw-justify-between ${
         props.displayAbsolute ? 'tw-absolute tw-p-6' : 'tw-my-4 tw-px-4 tw-py-2'
       }`}
       style={{

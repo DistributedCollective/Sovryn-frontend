@@ -149,7 +149,11 @@ export function TutorialScreen(props: Props) {
           </div>
           <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
             <NavBtn onClick={handleBack}>
-              <Icon icon="caret-left" iconSize={24} className="tw-text-white" />
+              <Icon
+                icon="caret-left"
+                iconSize={24}
+                className="tw-text-sov-white"
+              />
             </NavBtn>
             {steps.map((_, i) => (
               <NavRound
@@ -162,7 +166,7 @@ export function TutorialScreen(props: Props) {
               <Icon
                 icon="caret-right"
                 iconSize={24}
-                className="tw-text-white"
+                className="tw-text-sov-white"
               />
             </NavBtn>
           </div>
