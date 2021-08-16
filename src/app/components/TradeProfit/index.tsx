@@ -6,10 +6,8 @@ import { TradingPosition } from '../../../types/trading-position';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPair } from 'utils/models/trading-pair';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../utils/display-text/format';
+import { useAccount } from '../../hooks/useAccount';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { Asset } from '../../../types/asset';
 import { translations } from '../../../locales/i18n';
 
@@ -19,12 +17,12 @@ interface Props {
   closePrice: string;
   position: TradingPosition;
   positionSize: string;
-  loanId: string;
   loanToken: string;
   pair: TradingPair;
 }
 
 export function TradeProfit(props: Props) {
+  const account = useAccount();
   const [profit, setProfit] = useState<string>('');
   const [profitDirection, setProfitDirection] = useState<number>(0);
   const prettyPrice = amount => {
@@ -37,11 +35,13 @@ export function TradeProfit(props: Props) {
       : toWei(bignumber(amount).div(10 ** 8));
   };
 
-  fetch(backendUrl[currentChainId] + '/loanEvents?loanId=' + props.loanId)
+  fetch(backendUrl[currentChainId] + '/trade/loan/0x4e49f3b55c35773375a84812344b9669d93f84ae9cf7614b8977cc7d5cdf1736')
     .then(response => {
       return response.json();
     })
     .then(loanEvents => {
+      console.log('loanEvents history', loanEvents);
+
       const entryPrice = prettyPrice(loanEvents.Trade[0].entry_price);
       const closePrice = prettyPrice(loanEvents.CloseWithSwap[0].exit_price);
 

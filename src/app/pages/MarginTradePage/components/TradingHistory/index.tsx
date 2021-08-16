@@ -294,7 +294,6 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
           profit: (
             <TradeProfit
               positionSize={item.positionSize}
-              loanId={item.loanId}
               pair={pair}
               loanToken={item.loanToken}
               closePrice={item.closePrice}

@@ -29,7 +29,6 @@ export function OpenPositionsTable(props: Props) {
     false,
     false,
   );
-
   const items = useMemo(
     () =>
       value.slice(page * props.perPage - props.perPage, page * props.perPage),

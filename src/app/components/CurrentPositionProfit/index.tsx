@@ -9,6 +9,7 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
+import { useAccount } from 'app/hooks/useAccount';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
 import { bignumber } from 'mathjs';
@@ -39,15 +40,18 @@ export function CurrentPositionProfit({
     amount,
     isLong,
   );
+  const account = useAccount();
 
   const [profit, setProfit] = useState<string>('0');
   const [profitDirection, setProfitDirection] = useState<number>(0);
 
-  fetch(backendUrl[currentChainId] + '/loanEvents?loanId=' + loanId)
+  fetch(backendUrl[currentChainId] + '/events/trade/' + account)
     .then(response => {
       return response.json();
     })
     .then(loanEvents => {
+      console.log('loanEvents2', loanEvents);
+
       const entryPrice = loanEvents.Trade[0].entry_price;
       if (isLong) {
         setProfitDirection((price - entryPrice) / price);
