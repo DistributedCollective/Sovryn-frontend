@@ -1,14 +1,18 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import axios, { CancelTokenSource } from 'axios';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
-import { Pagination } from 'app/components/Pagination';
-import axios, { CancelTokenSource } from 'axios';
 
 const pageSize = 6;
-
-export const HistoryTable: React.FC = () => {
+interface RewardProps {
+  rewardType: number;
+}
+export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState([]) as any;
@@ -25,10 +29,10 @@ export const HistoryTable: React.FC = () => {
     cancelTokenSource.current = axios.CancelToken.source();
     axios
       .get(
-        `${url}/events/rewards/${account}?page=${page}&pageSize=${pageSize}`,
-        {
-          cancelToken: cancelTokenSource.current.token,
-        },
+        `${url}/v1/event-history/rewardsNew/${account}?page=${page}&pageSize=${pageSize}`,
+        // {
+        //   cancelToken: cancelTokenSource.current.token,
+        // },
       )
       .then(res => {
         const { events, pagination } = res.data;

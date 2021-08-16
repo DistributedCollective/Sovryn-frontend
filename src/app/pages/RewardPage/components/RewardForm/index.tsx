@@ -41,7 +41,6 @@ export function RewardForm() {
           ? [item.supplyAssets[0]]
           : [item.supplyAssets[0], item.supplyAssets[1]],
       );
-      // const lpools = lendingPools.flatMap(item => [item.])
       bridgeNetwork
         .multiCall<{ [key: string]: string }>(
           Chain.RSK,
@@ -67,7 +66,6 @@ export function RewardForm() {
           }),
         )
         .then(result => {
-          console.log('result: ', result);
           const total = Object.values(result.returnData)
             .reduce(
               (previousValue, currentValue) => previousValue.add(currentValue),
@@ -76,7 +74,6 @@ export function RewardForm() {
             .toFixed(0);
           const rewards = parseFloat(weiTo18(total));
           setLiqRewards(rewards);
-          console.log('total: ', total);
         })
         .catch(error => {
           console.error('e', error);
@@ -101,7 +98,6 @@ export function RewardForm() {
           }),
         )
         .then(result => {
-          console.log('result1: ', result);
           const total = Object.values(result.returnData)
             .reduce(
               (previousValue, currentValue) => previousValue.add(currentValue),
@@ -110,7 +106,6 @@ export function RewardForm() {
             .toFixed(0);
           const rewards = parseFloat(weiTo18(total));
           setLendingRewards(rewards);
-          console.log('total1: ', total);
         })
         .catch(error => {
           console.error('e', error);

@@ -79,6 +79,21 @@ export function RewardPage() {
           <div className="tw-flex-1 tw-w-1/2 tw-flex tw-justify-center tw-align-center">
             {activeAssets === 0 && <RewardForm />}
           </div>
+          <div className="tw-flex-1 tw-mt-12 tw-w-full">
+            <div className="tw-px-3 tw-text-lg">
+              {t(translations.rewardPage.historyTable.title)}
+            </div>
+            {!address ? (
+              <SkeletonRow
+                loadingText={t(
+                  translations.rewardPage.historyTable.walletHistory,
+                )}
+                className="tw-mt-2"
+              />
+            ) : (
+              <HistoryTable rewardType={activeAssets}/>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

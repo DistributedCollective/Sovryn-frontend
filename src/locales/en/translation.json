@@ -1342,7 +1342,7 @@
       "OGRewards": "OG Rewards"
     },
     "historyTable": {
-      "title": "Reward History",
+      "title": "Reward SOV History",
       "tableHeaders": {
         "time": "Date",
         "type": "Type",
