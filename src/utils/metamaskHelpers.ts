@@ -35,3 +35,11 @@ export const addRskTestnet = () =>
       blockExplorerUrls: ['https://explorer.testnet.rsk.co'],
     },
   ]);
+
+export const switchNetwork = (params: any) => {
+  const { ethereum } = window as any;
+
+  ethereum
+    .request({ method: 'wallet_switchEthereumChain', params })
+    .catch((error: Error) => console.log(`Error: ${error.message}`));
+};

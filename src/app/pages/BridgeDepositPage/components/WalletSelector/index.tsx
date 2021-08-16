@@ -18,6 +18,8 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import { switchNetwork } from 'utils/metamaskHelpers';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -64,6 +66,14 @@ export function WalletSelector() {
     chain,
   ]);
 
+  const changeNetwork = () => {
+    switchNetwork([
+      {
+        chainId: `0x${network?.chainId.toString(16)}`,
+      },
+    ]);
+  };
+
   return (
     <WalletWrapper className="tw-relative tw-p-8">
       {state === 'wrong-network' && (
@@ -109,6 +119,17 @@ export function WalletSelector() {
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
             </a>
+
+            {walletName === 'metamask' && (
+              <ActionButton
+                className="tw-font-semibold tw-w-80 tw-rounded-xl"
+                text={t(
+                  translations.BridgeDepositPage.returnToPortfolio
+                    .switchNetwork,
+                )}
+                onClick={changeNetwork}
+              />
+            )}
 
             <div
               onClick={() => walletContext.disconnect()}
