@@ -1,9 +1,6 @@
 :root {
-  --black: #000;
-  --dark-gray: #656565;
   --light-gray: #ece6e6;
   --white: #fff;
-  --black: #000;
   --gold: theme('colors.primary');
   --gold5: rgba(254, 192, 4, 0.05);
   --gold25: rgba(254, 192, 4, 0.25);
@@ -11,9 +8,3 @@
   --primary: #171717;
   --secondary: #2d2d2d;
 }
-
-$white: #fff;
-$dark-gray: #656565;
-$dark: #171717;
-
-$font-family-montserrat: 'Montserrat', sans-serif;

@@ -8,19 +8,19 @@
 }
 
 .sovryn-border-left {
-  border-left: 1px solid $white;
+  border-left: 1px solid theme('colors.white');
 }
 
 .sovryn-border-top {
-  border-top: 1px solid $white;
+  border-top: 1px solid theme('colors.white');
 }
 
 .sovryn-border-bottom {
-  border-bottom: 1px solid $white;
+  border-bottom: 1px solid theme('colors.white');
 }
 
 .sovryn-border-right {
-  border-right: 1px solid $white;
+  border-right: 1px solid theme('colors.white');
 }
 
 .sovryn-tabs {
@@ -34,7 +34,7 @@
     border-left: 1px;
     border-style: solid;
     border-radius: 0 8px 8px 8px;
-    border-color: $white;
+    border-color: theme('colors.white');
     z-index: 1;
   }
 
@@ -44,26 +44,26 @@
 
     & .nav-item {
       font-size: 15px;
-      color: $dark-gray;
+      color: theme('colors.muted');
       margin-right: 5px;
       border-right: 5px;
       border-top: 1px;
       border-left: 1px;
       border-bottom: 0;
       border-style: solid;
-      border-color: $dark-gray;
+      border-color: theme('colors.muted');
       border-radius: 8px 8px 0 0;
       margin-bottom: -1px;
-      border-bottom: 1px solid $white;
+      border-bottom: 1px solid theme('colors.white');
 
       @media (min-width: theme('screens.lg')) {
         font-size: 22px;
       }
 
       &.active {
-        color: $white;
-        border-color: $white;
-        border-bottom: 1px solid $dark;
+        color: theme('colors.white');
+        border-color: theme('colors.white');
+        border-bottom: 1px solid theme('colors.background');
       }
 
       &:not(.active) {
@@ -97,7 +97,7 @@
 }
 
 .sovryn-table {
-  font-family: $font-family-montserrat;
+  font-family: theme('fontFamily.body');
   font-weight: 100;
   width: 100%;
   font-size: 14px;
@@ -189,7 +189,7 @@ button.button-round {
   border: 1px solid;
   margin-left: 15px;
   border-radius: 25px !important;
-  font-family: $font-family-montserrat;
+  font-family: theme('fontFamily.body');
   font-weight: 100;
   font-size: 14px;
   text-transform: none;
@@ -227,7 +227,7 @@ button.button-width {
 }
 
 .sov-title {
-  font-family: $font-family-montserrat;
+  font-family: theme('fontFamily.body');
   font-weight: 400;
   font-size: 28px;
 }
@@ -267,7 +267,7 @@ button.button-width {
       vertical-align: middle;
       border: 1px solid black;
       color: #707070;
-      font-family: $font-family-montserrat;
+      font-family: theme('fontFamily.body');
       font-size: 14px;
       line-height: 18px;
       letter-spacing: 0;

@@ -93,7 +93,7 @@ article.bp3-dialog h1 {
       font-family: theme('fontFamily.body');
 
       &.bp3-active {
-        background-color: var(--dark-gray);
+        background-color: theme('colors.muted');
       }
     }
   }

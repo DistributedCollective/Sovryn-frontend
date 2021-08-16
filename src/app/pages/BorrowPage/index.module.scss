@@ -195,11 +195,11 @@
 
 .withdraw-content {
   background: var(--white);
-  color: var(--black);
+  color: theme('colors.black');
   border-radius: 8px;
 
   & h4 {
-    color: var(--black);
+    color: theme('colors.black');
     font-size: 18px;
   }
 }
