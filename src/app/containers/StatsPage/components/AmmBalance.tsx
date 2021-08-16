@@ -94,8 +94,12 @@ function Row(props) {
       {data && (
         <>
           <tr>
-            <td className="font-weight-bold">{data.ammPool}</td>
-            <td>{data.ammPool}</td>
+            <td className="font-weight-bold">
+              <AssetSymbolRenderer asset={data.ammPool as Asset} />
+            </td>
+            <td>
+              <AssetSymbolRenderer asset={data.ammPool as Asset} />
+            </td>
             <td className="text-right">
               {formatNumber(
                 data.stakedBalanceToken,
