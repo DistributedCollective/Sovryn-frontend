@@ -101,12 +101,12 @@ export function AmountSelector() {
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           {t(trans.title)}
         </div>
-        <div className="tw-w-80">
+        <div className="tw-w-96">
           <FormGroup label={t(trans.withdrawAmount)}>
             <AmountInput
               value={value}
@@ -209,7 +209,7 @@ export function AmountSelector() {
         </Table>
 
         <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+          className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
           disabled={!isValid}
           onClick={selectAmount}

@@ -1,8 +1,8 @@
 export const metamaskDefaultChains = [1, 3, 4, 5, 42];
 
-export const addNetwork = (params: any) => {
-  const { ethereum } = window as any;
+const { ethereum } = window as any;
 
+export const addNetwork = (params: any) => {
   ethereum
     .request({ method: 'wallet_addEthereumChain', params })
     .catch((error: Error) => console.log(`Error: ${error.message}`));
@@ -39,8 +39,6 @@ export const addRskTestnet = () =>
   ]);
 
 export const switchNetwork = (params: any) => {
-  const { ethereum } = window as any;
-
   ethereum
     .request({ method: 'wallet_switchEthereumChain', params })
     .catch((error: Error) => console.log(`Error: ${error.message}`));

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
@@ -70,8 +70,12 @@ export function WalletSelector() {
     chain,
   ]);
 
-  const changeNetwork = () => {
+  const changeNetwork = useCallback(() => {
+    if (!network) return;
+
+    const { chain, rpc, explorer } = network;
     const chainId = `0x${network?.chainId.toString(16)}`;
+
     if (metamaskDefaultChains.includes(network?.chainId!)) {
       switchNetwork([
         {
@@ -82,13 +86,13 @@ export function WalletSelector() {
       addNetwork([
         {
           chainId,
-          chainName: network?.chain,
-          rpcUrls: [network?.rpc],
-          blockExplorerUrls: [network?.explorer],
+          chainName: chain,
+          rpcUrls: [rpc],
+          blockExplorerUrls: [explorer],
         },
       ]);
     }
-  };
+  }, [network]);
 
   return (
     <WalletWrapper className="tw-relative tw-p-8">
