@@ -29,7 +29,7 @@ export const OriginsLaunchpad: React.FC = () => {
       </Helmet>
       <Header />
 
-      <div className="container tw-pt-11 font-family-montserrat">
+      <div className="tw-container tw-pt-11 tw-font-body">
         {activeTierId > 0 ? (
           <SalesDay tierId={activeTierId} saleName="FISH" />
         ) : (

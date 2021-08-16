@@ -30,7 +30,6 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
       isWeb3Wallet(wallet.providerType!) &&
       wallet.chainId !== currentChainId
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, wallet.chainId, wallet.providerType]);
 
   return (
@@ -99,7 +98,7 @@ export function TransackScreen({ state, dispatch }: TransackScreenProps) {
       )}
 
       {isWrongChainId && (
-        <p className="text-center">
+        <p className="tw-text-center">
           {t(translations.fastBtcDialog.instructions.chainId)}
         </p>
       )}

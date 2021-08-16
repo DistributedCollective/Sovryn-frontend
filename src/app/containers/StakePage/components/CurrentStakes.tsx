@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { Asset } from '../../../../types/asset';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useAccount } from '../../../hooks/useAccount';
 import { numberToUSD } from 'utils/display-text/format';
@@ -159,7 +159,7 @@ function AssetRow(props: AssetProps) {
   const [weight, setWeight] = useState('');
   const locked = Number(props.item[1]) > Math.round(now.getTime() / 1e3); //check if date is locked
   const stakingPeriod = Math.abs(
-    moment().diff(moment(new Date(parseInt(props.item[1]) * 1e3)), 'days'),
+    dayjs().diff(parseInt(props.item[1]) * 1e3, 'days'),
   );
   const [votingPower, setVotingPower] = useState<number>(0 as any);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
@@ -223,9 +223,10 @@ function AssetRow(props: AssetProps) {
       </td>
       <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
         <p className="tw-m-0">
-          {moment
-            .tz(new Date(parseInt(props.item[1]) * 1e3), 'GMT')
-            .format('DD/MM/YYYY - h:mm:ss a z')}
+          {dayjs
+            .tz(parseInt(props.item[1]) * 1e3, 'UTC')
+            .tz(dayjs.tz.guess())
+            .format('L - LTS Z')}
         </p>
       </td>
       <td className="md:tw-text-left lg:tw-text-right tw-hidden md:tw-table-cell">

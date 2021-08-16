@@ -37,7 +37,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
       <td>
         <LinkToExplorer
           txHash={txHash}
-          className="text-gold font-weight-normal text-nowrap"
+          className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
           startLength={5}
           endLength={5}
         />

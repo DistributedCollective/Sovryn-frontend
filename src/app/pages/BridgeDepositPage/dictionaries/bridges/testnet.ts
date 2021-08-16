@@ -6,7 +6,7 @@ import bscToRskAssets from '../assets/bsc-to-rsk.testnet';
 import rskToEthAssets from '../assets/rsk-to-eth.testnet';
 import rskToBscAssets from '../assets/rsk-to-bsc.testnet';
 
-export default [
+const testnetBridges = [
   // RSK/BSC
   new BridgeModel(
     Chain.RSK,
@@ -46,3 +46,5 @@ export default [
     AppMode.TESTNET,
   ),
 ];
+
+export default testnetBridges;

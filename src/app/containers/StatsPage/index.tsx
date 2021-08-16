@@ -27,7 +27,7 @@ export function StatsPage() {
           <h1 className="tw-text-center tw-w-full">
             {t(translations.statsPage.titles.transactionVolume)}
           </h1>
-          <div className="tw-ty-5 tw-mx-3">
+          <div className="tw-ty-5">
             <TradingVolume />
           </div>
           <h1 className="tw-text-center tw-w-full">

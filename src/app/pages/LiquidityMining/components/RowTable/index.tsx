@@ -10,11 +10,9 @@ import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
-// import { ProfitLossRenderer } from '../../../../components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
-// import { bignumber } from 'mathjs';
 
 interface ILiquidityMiningRowTableProps {
   pool: LiquidityPool;
@@ -52,15 +50,9 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
           <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.balance)}
           </TableHeader>
-          {/* <TableHeader>
-            {t(translations.liquidityMining.rowTable.tableHeaders.pl)}
-          </TableHeader> */}
           <TableHeader>
             {t(translations.liquidityMining.rowTable.tableHeaders.rewards)}
           </TableHeader>
-          {/* <TableHeader>
-            {t(translations.liquidityMining.rowTable.tableHeaders.totalEarned)}
-          </TableHeader> */}
         </tr>
       </thead>
 
@@ -98,43 +90,9 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                 />
               </div>
             </TableBodyData>
-            {/* <TableBodyData>
-              <LoadableValue
-                loading={plnLoading}
-                value={
-                  <ProfitLossRenderer
-                    isProfit={bignumber(pln1).greaterThanOrEqualTo(0)}
-                    amount={weiToNumberFormat(bignumber(pln1).abs(), 6)}
-                    asset={asset1}
-                  />
-                }
-              />
-              <LoadableValue
-                loading={plnLoading}
-                value={
-                  <ProfitLossRenderer
-                    isProfit={bignumber(pln2).greaterThanOrEqualTo(0)}
-                    amount={weiToNumberFormat(bignumber(pln2).abs(), 6)}
-                    asset={asset2}
-                  />
-                }
-              />
-            </TableBodyData> */}
             <TableBodyData>
               <PoolTokenRewards pool={pool} />
             </TableBodyData>
-            {/* <TableBodyData>
-              <LoadableValue
-                loading={loading1 || loading2 || plnLoading}
-                value={
-                  <ProfitLossRenderer
-                    isProfit={bignumber(totalEarned).greaterThanOrEqualTo(0)}
-                    amount={weiToNumberFormat(bignumber(totalEarned).abs(), 6)}
-                    asset={Asset.RBTC}
-                  />
-                }
-              />
-            </TableBodyData> */}
           </>
         )}
       </TableBody>

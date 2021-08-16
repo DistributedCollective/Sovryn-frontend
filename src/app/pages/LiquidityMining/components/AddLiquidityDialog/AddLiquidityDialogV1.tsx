@@ -80,11 +80,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     );
   }, [balance1, balance2, weiAmount1, weiAmount2]);
 
-  // const errorMessage = useMemo(() => {
-  //   if (!hasSufficientBalance)
-  //     return t(translations.validationErrors.insufficientBalance);
-  // }, [t, hasSufficientBalance]);
-
   const valid = useMemo(() => {
     return (
       hasSufficientBalance &&
@@ -141,14 +136,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               8,
             )}`}
           </div>
-          {/*<ArrowDown />*/}
-          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
           <TxFeeCalculator
             args={txFeeArgs}
             txConfig={{

@@ -101,7 +101,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x9996E5F902d2d804E9eD0DdB1B628D1EBf6Bb6fE',
+    address: '0x34031D1cd14e2C80B0268B47eFf49643375aFaeb',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
