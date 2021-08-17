@@ -21,7 +21,7 @@ interface Props {
   sovBalanceOf: CacheCallResponse;
   isValid: boolean;
   kickoff: CacheCallResponse;
-  stakes: undefined;
+  stakes: string[];
   votePower?: number;
   onCloseModal: () => void;
 }

@@ -19,7 +19,7 @@ interface Props {
   isValid: boolean;
   kickoff: CacheCallResponse;
   balanceOf: CacheCallResponse;
-  stakes: undefined;
+  stakes: string[];
   votePower?: number;
   prevExtend: number;
   onCloseModal: () => void;

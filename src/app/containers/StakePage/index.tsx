@@ -6,7 +6,6 @@ import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import { getUSDSum } from 'utils/helpers';
 import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
@@ -50,10 +49,12 @@ import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
 import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ContractName } from 'utils/types/contracts';
+import { AssetDetails } from 'utils/models/asset-details';
 
 const now = new Date();
 
-export function StakePage() {
+export const StakePage: React.FC = () => {
   const { t } = useTranslation();
 
   const isConnected = useIsConnected();
@@ -82,9 +83,9 @@ export function StakePage() {
       <Footer />
     </>
   );
-}
+};
 
-function InnerStakePage() {
+const InnerStakePage: React.FC = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const [amount, setAmount] = useState('');
@@ -93,30 +94,32 @@ function InnerStakePage() {
   const kickoffTs = useStaking_kickoffTs();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
-  const getStakes = useStaking_getStakes(account);
+  const { dates } = useStaking_getStakes(account).value;
   const balanceOf = useStaking_balanceOf(account);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
   const [stakeAmount, setStakeAmount] = useState(0);
   const [stakeForm, setStakeForm] = useState(false);
   const [extendForm, setExtendForm] = useState(false);
-  const [until, setUntil] = useState<number>(0 as any);
+  const [until, setUntil] = useState(0);
   const [delegateForm, setDelegateForm] = useState(false);
   const [isStakeDelegate, setIsStakeDelegate] = useState(true);
   const [withdrawForm, setWithdrawForm] = useState(false);
   const [increaseForm, setIncreaseForm] = useState(false);
   const voteBalance = useStaking_getCurrentVotes(account);
-  const [lockDate, setLockDate] = useState<number>(0 as any);
-  const [timestamp, setTimestamp] = useState<number>(0 as any);
+  const [lockDate, setLockDate] = useState(0);
+  const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
-  const [votingPower, setVotingPower] = useState<number>(0 as any);
-  const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
+  const [votingPower, setVotingPower] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
-  const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
+  const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
+    undefined,
+  );
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
     Math.round(now.getTime() / 1e3),
   );
-  const [usdTotal, setUsdTotal] = useState(0) as any;
+  const [usdTotal, setUsdTotal] = useState(0);
   const assets = AssetsDictionary.list();
   const sovBalanceOf = useAssetBalanceOf(Asset.SOV);
   const { increase, ...increaseTx } = useStakeIncrease();
@@ -303,12 +306,6 @@ function InnerStakePage() {
     [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
 
-  let usdTotalValue = [] as any;
-  const updateUsdTotal = e => {
-    usdTotalValue.push(e);
-    setUsdTotal(getUSDSum(usdTotalValue));
-  };
-
   return (
     <>
       <Helmet>
@@ -346,7 +343,7 @@ function InnerStakePage() {
                         sovBalanceOf={sovBalanceOf}
                         isValid={validateStakeForm()}
                         kickoff={kickoffTs}
-                        stakes={getStakes.value['dates']}
+                        stakes={dates}
                         votePower={votingPower}
                         onCloseModal={() => setStakeForm(!stakeForm)}
                       />
@@ -402,7 +399,7 @@ function InnerStakePage() {
                   if (item.asset === 'CSOV') return '';
                   return (
                     <FeeBlock
-                      usdTotal={e => updateUsdTotal(e)}
+                      usdTotal={setUsdTotal}
                       key={i}
                       contractToken={item}
                     />
@@ -535,7 +532,7 @@ function InnerStakePage() {
                     show={extendForm}
                     content={
                       <>
-                        {kickoffTs.value !== '0' && (
+                        {kickoffTs.value !== '0' && prevTimestamp && (
                           <ExtendStakeForm
                             handleSubmit={handleExtendTimeSubmit}
                             amount={amount}
@@ -544,7 +541,7 @@ function InnerStakePage() {
                             sovBalanceOf={sovBalanceOf}
                             kickoff={kickoffTs}
                             isValid={validateExtendTimeForm()}
-                            stakes={getStakes.value['dates']}
+                            stakes={dates}
                             balanceOf={balanceOf}
                             votePower={votingPower}
                             prevExtend={prevTimestamp}
@@ -583,20 +580,21 @@ function InnerStakePage() {
       <Footer />
     </>
   );
+};
+
+interface IFeeBlockProps {
+  contractToken: AssetDetails;
+  usdTotal: (value: number) => void;
 }
 
-interface FeeProps {
-  contractToken: any;
-  usdTotal: (e: any) => void;
-}
-
-function FeeBlock({ contractToken, usdTotal }: FeeProps) {
+const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
   const account = useAccount();
   const { t } = useTranslation();
-  const token = (contractToken.asset +
-    (contractToken.asset === Asset.SOV ? '_token' : '_lending')) as any;
+  const token =
+    contractToken.asset +
+    (contractToken.asset === Asset.SOV ? '_token' : '_lending');
   const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token)?.address;
+  const tokenAddress = getContract(token as ContractName)?.address;
   const currency = useStaking_getAccumulatedFees(account, tokenAddress);
   const dollarValue = useMemo(() => {
     if (currency.value === null) return '';
@@ -621,9 +619,11 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
     [tokenAddress, account],
   );
 
-  useEffect(() => {
-    usdTotal(Number(weiTo4(dollarValue)));
-  }, [currency.value, dollarValue, usdTotal]);
+  useEffect(() => usdTotal(Number(weiTo4(dollarValue))), [
+    currency.value,
+    dollarValue,
+    usdTotal,
+  ]);
 
   return (
     <>
@@ -660,4 +660,4 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
       )}
     </>
   );
-}
+};
