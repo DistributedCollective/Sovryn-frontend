@@ -1,10 +1,10 @@
 :root {
-  --light-gray: #ece6e6;
-  --white: #fff;
+  --white: theme('colors.white');
   --gold: theme('colors.primary');
-  --gold5: rgba(254, 192, 4, 0.05);
-  --gold25: rgba(254, 192, 4, 0.25);
-  --gold50: rgba(254, 192, 4, 0.5);
+  --gold5: theme('colors.primary-05');
+  --gold25: theme('colors.primary-25');
+  --gold50: theme('colors.primary-50');
+  --light-gray: #ece6e6;
   --primary: #171717;
   --secondary: #2d2d2d;
 }

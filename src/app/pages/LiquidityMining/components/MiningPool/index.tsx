@@ -54,7 +54,7 @@ export function MiningPool({ pool, ammData }: Props) {
         <ActionButton
           text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-hover hover:tw-opacity-75"
+          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract || addliquidityLocked}
         />
