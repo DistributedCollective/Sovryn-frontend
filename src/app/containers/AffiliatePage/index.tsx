@@ -143,16 +143,16 @@ function InnerAffiliatePage() {
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12 font-family-montserrat">
           <Banner>
             <Img className="xl:tw-absolute" src={refBanner} alt="banner" />
-            <h1 className="tw-text-center tw-w-full mt-4 mb-5">
+            <h1 className="tw-text-center tw-w-full tw-mt-4 tw-mb-5">
               {t(translations.affiliates.title)}
             </h1>
-            <div className="xl:tw-flex pt-3">
+            <div className="xl:tw-flex tw-pt-3">
               <div className="xl:tw-w-1/3"></div>
               <div className="tw-text-center">
-                <div className="tw-text-center mb-3">
+                <div className="tw-text-center tw-mb-3">
                   <b>{t(translations.affiliates.refLink)}</b>
                 </div>
-                <div className="ref-link bg-secondary tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
+                <div className="ref-link tw-bg-gray-200 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer tw-text-white tw-rounded">
                   <CopyToClipboard
                     text={referralUrl}
                     onCopy={() =>
