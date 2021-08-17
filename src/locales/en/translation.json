@@ -1558,7 +1558,9 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount"
+      "withdrawAmount": "Withdraw Amount",
+      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
+      "insufficientDaily": "Insufficient daily limit remaining."
     },
     "confirmStep": {
       "pleaseWait": "Please wait",

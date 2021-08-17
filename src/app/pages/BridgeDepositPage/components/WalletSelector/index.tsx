@@ -116,7 +116,7 @@ export function WalletSelector() {
               { network: network?.name },
             )}
           </div>
-          <div className="tw-flex tw-flex-col tw-gap-6 tw-px-2 tw-items-center">
+          <div className="tw-flex tw-flex-col tw-gap-2 tw-px-2 tw-items-center">
             <SelectBox onClick={() => {}}>
               <img
                 className="tw-mb-5 tw-mt-2"
@@ -133,7 +133,7 @@ export function WalletSelector() {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline"
+              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline tw-my-2"
             >
               {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
@@ -142,7 +142,7 @@ export function WalletSelector() {
 
             {walletName === 'metamask' && (
               <ActionButton
-                className="tw-font-semibold tw-w-80 tw-rounded-xl"
+                className="tw-font-semibold tw-w-80 tw-rounded-xl tw-my-2"
                 text={t(
                   translations.BridgeDepositPage.returnToPortfolio
                     .switchNetwork,
@@ -153,7 +153,7 @@ export function WalletSelector() {
 
             <div
               onClick={() => walletContext.disconnect()}
-              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-10"
+              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-8"
             >
               {t(translations.BridgeDepositPage.changeWallet)}
             </div>

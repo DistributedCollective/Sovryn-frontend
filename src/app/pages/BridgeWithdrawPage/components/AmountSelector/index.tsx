@@ -66,38 +66,46 @@ export function AmountSelector() {
     targetAsset!,
   );
 
+  const bnAmount = useMemo(() => {
+    return bignumber(currentAsset.toWei(value || '0'));
+  }, [currentAsset, value]);
+
+  const checkBridgeBalance = useMemo(() => {
+    return bridgeBalance.value !== false
+      ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
+      : true;
+  }, [bnAmount, bridgeBalance.value]);
+
+  const checkSpentToday = useMemo(() => {
+    return bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
+      bnAmount.add(limits.returnData.spentToday),
+    );
+  }, [bnAmount, limits.returnData.dailyLimit, limits.returnData.spentToday]);
+
   const isValid = useMemo(() => {
-    const bnAmount = bignumber(currentAsset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
-    const testBridgeBalance =
-      bridgeBalance.value !== false
-        ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
-        : true;
+
     return (
       !limitsLoading &&
       !balance.loading &&
-      testBridgeBalance &&
+      checkBridgeBalance &&
       bnBalance.greaterThanOrEqualTo(bnAmount) &&
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
       bnAmount.lessThanOrEqualTo(limits.returnData.getMaxTokensAllowed) &&
       bnAmount.greaterThan(limits.returnData.getFeePerToken) &&
-      bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
-        bnAmount.add(limits.returnData.spentToday),
-      )
+      checkSpentToday
     );
   }, [
-    currentAsset,
-    value,
+    bnAmount,
     balance.value,
     balance.loading,
-    bridgeBalance.value,
     limitsLoading,
+    checkBridgeBalance,
     limits.returnData.getMinPerToken,
     limits.returnData.getMaxTokensAllowed,
     limits.returnData.getFeePerToken,
-    limits.returnData.dailyLimit,
-    limits.returnData.spentToday,
+    checkSpentToday,
   ]);
 
   return (
@@ -115,13 +123,20 @@ export function AmountSelector() {
               maxAmount={balance.value}
               decimalPrecision={currentAsset.minDecimals}
             />
-            <p className="tw-mt-1">
+            <p className="tw-mt-1 tw-mb-1 tw-relative">
               {t(trans.balance)}:{' '}
               {toNumberFormat(
                 currentAsset.fromWei(balance.value),
                 currentAsset.minDecimals,
               )}{' '}
               {currentAsset.symbol}
+              {(!checkBridgeBalance || !checkSpentToday) && (
+                <div className="tw-absolute tw-b-0 tw-l-0 tw-text-Red">
+                  {!checkBridgeBalance
+                    ? t(trans.insufficientAggregator)
+                    : t(trans.insufficientDaily)}
+                </div>
+              )}
             </p>
           </FormGroup>
         </div>
