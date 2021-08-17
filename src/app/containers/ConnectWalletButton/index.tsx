@@ -1,24 +1,17 @@
-/**
- *
- * ConnectWalletButton
- *
- */
-
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as blockies from 'blockies-ts';
 import { Button } from '@blueprintjs/core';
-import { Sovryn } from '../../../utils/sovryn';
 import { prettyTx } from '../../../utils/helpers';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { Nullable } from 'types';
 
 export function ConnectWalletButton() {
   const { connected, address, connect, disconnect } = useWalletContext();
 
   const { t } = useTranslation();
-  const [imgSrc, setImgSrc] = useState<string>(null as any);
+  const [imgSrc, setImgSrc] = useState<Nullable<string>>(null);
 
   useEffect(() => {
     if (address) {
