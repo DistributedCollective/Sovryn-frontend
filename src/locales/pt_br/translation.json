@@ -1415,7 +1415,8 @@
       "pool": "Pools",
       "stakedBalance": "Saldo investido",
       "contractBalance": "Saldo do contrato",
-      "imBalance": "Desequilíbrio"
+      "imBalance": "Desequilíbrio",
+      "apy": "Juros anual"
      },
     "banner": {
       "originsFish": "Venda do token FISH ",
