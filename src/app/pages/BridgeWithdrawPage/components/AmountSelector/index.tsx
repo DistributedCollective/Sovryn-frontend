@@ -66,45 +66,55 @@ export function AmountSelector() {
     targetAsset!,
   );
 
+  const bnAmount = useMemo(() => {
+    return bignumber(currentAsset.toWei(value || '0'));
+  }, [currentAsset, value]);
+
+  const checkBridgeBalance = useMemo(() => {
+    return bridgeBalance.value !== false
+      ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
+      : true;
+  }, [bnAmount, bridgeBalance.value]);
+
+  const checkSpentToday = useMemo(() => {
+    return bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
+      bnAmount.add(limits.returnData.spentToday),
+    );
+  }, [bnAmount, limits.returnData.dailyLimit, limits.returnData.spentToday]);
+
   const isValid = useMemo(() => {
-    const bnAmount = bignumber(currentAsset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
-    const testBridgeBalance =
-      bridgeBalance.value !== false
-        ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
-        : true;
+
     return (
       !limitsLoading &&
       !balance.loading &&
-      testBridgeBalance &&
+      checkBridgeBalance &&
       bnBalance.greaterThanOrEqualTo(bnAmount) &&
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
       bnAmount.lessThanOrEqualTo(limits.returnData.getMaxTokensAllowed) &&
-      bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
-        bnAmount.add(limits.returnData.spentToday),
-      )
+      bnAmount.greaterThan(limits.returnData.getFeePerToken) &&
+      checkSpentToday
     );
   }, [
-    currentAsset,
-    balance.loading,
+    bnAmount,
     balance.value,
-    bridgeBalance.value,
-    limits.returnData.dailyLimit,
-    limits.returnData.getMaxTokensAllowed,
-    limits.returnData.getMinPerToken,
-    limits.returnData.spentToday,
+    balance.loading,
     limitsLoading,
-    value,
+    checkBridgeBalance,
+    limits.returnData.getMinPerToken,
+    limits.returnData.getMaxTokensAllowed,
+    limits.returnData.getFeePerToken,
+    checkSpentToday,
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
         <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
           {t(trans.title)}
         </div>
-        <div className="tw-w-80">
+        <div className="tw-w-96">
           <FormGroup label={t(trans.withdrawAmount)}>
             <AmountInput
               value={value}
@@ -113,13 +123,20 @@ export function AmountSelector() {
               maxAmount={balance.value}
               decimalPrecision={currentAsset.minDecimals}
             />
-            <p className="tw-mt-1">
+            <p className="tw-mt-1 tw-mb-1 tw-relative">
               {t(trans.balance)}:{' '}
               {toNumberFormat(
                 currentAsset.fromWei(balance.value),
                 currentAsset.minDecimals,
               )}{' '}
               {currentAsset.symbol}
+              {(!checkBridgeBalance || !checkSpentToday) && (
+                <div className="tw-absolute tw-b-0 tw-l-0 tw-text-Red">
+                  {!checkBridgeBalance
+                    ? t(trans.insufficientAggregator)
+                    : t(trans.insufficientDaily)}
+                </div>
+              )}
             </p>
           </FormGroup>
         </div>
@@ -207,7 +224,7 @@ export function AmountSelector() {
         </Table>
 
         <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+          className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
           disabled={!isValid}
           onClick={selectAmount}
