@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useWalletContext, WalletConnectionView } from '@sovryn/react-wallet';
+import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
 import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
 import { Chain } from '../../../../../types';
@@ -18,7 +18,12 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
-import { Button } from 'app/components/Button';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import {
+  switchNetwork,
+  addNetwork,
+  metamaskDefaultChains,
+} from 'utils/metamaskHelpers';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -31,7 +36,7 @@ export function WalletSelector() {
 
   const walletName = detectWeb3Wallet();
 
-  const walletContext = useWalletContext();
+  const walletContext = useContext(WalletContext);
   const currentNetwork =
     networkList.find(item => item.chainId === chainId)?.chain || 0;
 
@@ -65,6 +70,30 @@ export function WalletSelector() {
     chain,
   ]);
 
+  const changeNetwork = useCallback(() => {
+    if (!network) return;
+
+    const { chain, rpc, explorer } = network;
+    const chainId = `0x${network?.chainId.toString(16)}`;
+
+    if (metamaskDefaultChains.includes(network?.chainId!)) {
+      switchNetwork([
+        {
+          chainId,
+        },
+      ]);
+    } else {
+      addNetwork([
+        {
+          chainId,
+          chainName: chain,
+          rpcUrls: [rpc],
+          blockExplorerUrls: [explorer],
+        },
+      ]);
+    }
+  }, [network]);
+
   return (
     <WalletWrapper className="tw-relative tw-p-8">
       {state === 'wrong-network' && (
@@ -87,7 +116,7 @@ export function WalletSelector() {
               { network: network?.name },
             )}
           </div>
-          <div className="tw-flex tw-flex-col tw-gap-6 tw-px-2 tw-items-center">
+          <div className="tw-flex tw-flex-col tw-gap-2 tw-px-2 tw-items-center">
             <SelectBox onClick={() => {}}>
               <img
                 className="tw-mb-5 tw-mt-2"
@@ -104,16 +133,27 @@ export function WalletSelector() {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline"
+              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline tw-my-2"
             >
               {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
               <span className="tw-capitalize">{walletName}</span>
             </a>
 
+            {walletName === 'metamask' && (
+              <ActionButton
+                className="tw-font-semibold tw-w-80 tw-rounded-xl tw-my-2"
+                text={t(
+                  translations.BridgeDepositPage.returnToPortfolio
+                    .switchNetwork,
+                )}
+                onClick={changeNetwork}
+              />
+            )}
+
             <div
               onClick={() => walletContext.disconnect()}
-              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-10"
+              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-8"
             >
               {t(translations.BridgeDepositPage.changeWallet)}
             </div>

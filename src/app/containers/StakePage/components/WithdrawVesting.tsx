@@ -16,14 +16,14 @@ interface Props {
   onCloseModal: () => void;
 }
 
-export function WithdrawVesting(props: Props) {
+export function WithdrawVesting({ vesting, onCloseModal }: Props) {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
-  const { value, loading } = useGetUnlockedVesting(props.vesting);
+  const { value, loading } = useGetUnlockedVesting(vesting);
 
   const validate = () => {
     return (
@@ -36,19 +36,15 @@ export function WithdrawVesting(props: Props) {
       e.preventDefault();
       setSending(true);
       try {
-        await vesting_withdraw(
-          props.vesting.toLowerCase(),
-          address.toLowerCase(),
-        );
-        props.onCloseModal();
+        await vesting_withdraw(vesting.toLowerCase(), address.toLowerCase());
+        onCloseModal();
         setSending(false);
       } catch (e) {
         console.error(e);
         setSending(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, account, props.vesting],
+    [address, vesting, onCloseModal],
   );
 
   return (
@@ -83,7 +79,9 @@ export function WithdrawVesting(props: Props) {
           </label>
           <div className="tw-flex tw-space-x-4 tw-mb-3">
             <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
-              {loading ? 'Loading...' : numberFromWei(value)}
+              {loading
+                ? t(translations.stake.withdraw.loading)
+                : numberFromWei(value)}
             </div>
           </div>
           <TxFeeCalculator
@@ -124,7 +122,7 @@ export function WithdrawVesting(props: Props) {
           </button>
           <button
             type="button"
-            onClick={() => props.onCloseModal()}
+            onClick={onCloseModal}
             className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}

@@ -47,21 +47,17 @@ export function LiquidityMining() {
     <>
       <LocalSharedArrayBuffer />
       <Helmet>
-        <title>{t(translations.escrowPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.escrowPage.meta.description)}
-        />
+        <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <Header />
-      <div className="container mt-5 font-family-montserrat">
+      <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
             title="15k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 2',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -72,7 +68,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 2',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -83,7 +79,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 2',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -94,61 +90,18 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 2',
+              date: 'August 16',
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />
-          {/* <LootDrop
-            title="$37500 worth of MoC"
-            asset1={Asset.DOC}
-            asset2={Asset.RBTC}
-            startDate="02/06/21"
-            endDate="01/07/21"
-            linkUrl="https://forum.sovryn.app/t/draft-sip-17-money-on-chain-s-moc-listing-and-incentivization-strategy/714"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Pink}
-          /> */}
         </LootDropSectionWrapper>
-        {/*<TopInfoSectionWrapper>*/}
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Liquidity Provided" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="3.5827"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Fees" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="0.2857"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="Available Rewards" />*/}
-        {/*    <TopInfoContent amount="23.4323" asset={Asset.SOV} />*/}
-        {/*  </TopInfoWrapper>*/}
-
-        {/*  <TopInfoWrapper>*/}
-        {/*    <TopInfoTitle title="All time Fees Earned" />*/}
-        {/*    <TopInfoContent*/}
-        {/*      isApproximation={true}*/}
-        {/*      amount="34.3928"*/}
-        {/*      asset={Asset.RBTC}*/}
-        {/*    />*/}
-        {/*  </TopInfoWrapper>*/}
-        {/*</TopInfoSectionWrapper>*/}
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (
-          <div className="text-red tw-font-xl tw-text-center">
+          <div className="tw-text-red tw-text-xl tw-text-center">
             <Trans
               i18nKey={translations.maintenance.liquidity}
               components={[

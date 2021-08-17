@@ -5,7 +5,7 @@ import { AssetModel } from '../../types/asset-model';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.mainnet';
 
-export default [
+const rskToEthAssets = [
   new AssetModel(
     CrossBridgeAsset.SOV,
     'SOV',
@@ -28,7 +28,7 @@ export default [
     18,
     4,
     '0x1D931Bf8656d795E50eF6D639562C5bD8Ac2B78f',
-    true,
+    false,
     CrossBridgeAsset.ETHS,
     true,
     false,
@@ -60,3 +60,5 @@ export default [
     ]),
   ),
 ];
+
+export default rskToEthAssets;

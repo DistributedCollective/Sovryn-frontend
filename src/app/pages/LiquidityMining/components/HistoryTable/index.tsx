@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount } from 'app/hooks/useAccount';
@@ -17,18 +17,18 @@ export const HistoryTable: React.FC = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
+  let cancelTokenSource = useRef<CancelTokenSource>();
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
     }
 
-    cancelTokenSource = axios.CancelToken.source();
+    cancelTokenSource.current = axios.CancelToken.source();
     axios
       .get(
         `${url}/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
         {
-          cancelToken: cancelTokenSource.token,
+          cancelToken: cancelTokenSource.current.token,
         },
       )
       .then(res => {
@@ -42,32 +42,30 @@ export const HistoryTable: React.FC = () => {
         setHistory([]);
         setLoading(false);
       });
-  };
+  }, [url, account, page]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
     setHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, page]);
+  }, [getData]);
 
   useEffect(() => {
     if (account) {
       getHistory();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, page]);
+  }, [account, getHistory]);
 
-  const onPageChanged = data => {
+  const onPageChanged = useCallback(data => {
     const { currentPage } = data;
     setPage(currentPage);
-  };
+  }, []);
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <TableHeader />
           <TableBody items={history} loading={loading} />
         </table>

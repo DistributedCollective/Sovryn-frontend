@@ -48,8 +48,7 @@ export function PoolChart({ pool, history }: Props) {
       ]);
       setTotalHistory(total);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history]);
+  }, [history, pool]);
 
   return (
     <>
