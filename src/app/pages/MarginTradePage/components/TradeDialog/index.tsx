@@ -247,7 +247,7 @@ export function TradeDialog() {
           <TxFeeCalculator
             args={txArgs}
             txConfig={txConf}
-            methodName="marginTrade"
+            methodName={referrer ? 'marginTradeAffiliate' : 'marginTrade'}
             contractName={contractName}
             condition={true}
           />
