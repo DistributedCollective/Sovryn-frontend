@@ -5,5 +5,4 @@ export const WelcomeTitle = styled.div`
   line-height: 3rem;
   font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 1rem;
 `;

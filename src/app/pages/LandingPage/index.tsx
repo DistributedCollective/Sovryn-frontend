@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Header } from 'app/components/Header';
 import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
-import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
+// import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
+import { Banner } from './components/Banner';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from './components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
@@ -74,12 +75,12 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           <WelcomeTitle>
             {t(translations.landingPage.welcomeTitle)}
           </WelcomeTitle>
-          <div className="tw-text-base tw-capitalize">
-            {t(translations.landingPage.welcomeMessage)}
-          </div>
         </div>
-        <div className="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row">
-          <div className="tw-w-full md:tw-w-7/12 tw-pt-11">
+        <div className="tw-flex tw-flex-col md:tw-flex-row">
+          <div className="tw-w-full md:tw-w-7/12">
+            <div className="tw-text-base tw-capitalize tw-mt-4 tw-mb-10">
+              {t(translations.landingPage.welcomeMessage)}
+            </div>
             <TradingVolume
               tvlValueBtc={tvlData?.total_btc}
               tvlValueUsd={tvlData?.total_usd}
@@ -88,7 +89,8 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-w-full md:tw-w-5/12">
-            <ArbitrageOpportunity />
+            {/* <ArbitrageOpportunity /> */}
+            <Banner />
           </div>
         </div>
 

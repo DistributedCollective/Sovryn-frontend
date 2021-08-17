@@ -28,6 +28,7 @@ module.exports = {
       orbitron: ['Orbitron', 'sans-serif'],
     },
     fontSize: {
+      xxs: '0.563rem',
       tiny: '.7rem',
       xs: '.75rem',
       sm: '.875rem',
@@ -123,6 +124,7 @@ module.exports = {
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
       turquoise: '#4ECDC4',
+      turquoise2: '#8EDBDB',
       theme: {
         white: '#E9EAE9',
         blue: '#2274A5',
