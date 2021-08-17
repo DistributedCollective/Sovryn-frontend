@@ -55,7 +55,7 @@ export function AmmBalance(props: Props) {
                 {t(translations.landingPage.ammpool.contractBalance)}
               </th>
               <th className="tw-text-right">
-                {t(translations.landingPage.ammpool.imBalance)}
+                {t(translations.landingPage.ammpool.apy)}
               </th>
             </tr>
           </thead>
@@ -80,13 +80,16 @@ AmmBalance.defaultProps = {
 };
 
 function Row(props) {
+  const history = useHistory();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AmmBalanceRow>();
+  const [apy, setApy] = useState<number | null>(null);
   const cancelDataRequest = useRef<Canceler>();
   const assetDetails = AssetsDictionary.get(props.asset);
   const rbtcLogo = AssetsDictionary.get(Asset.RBTC).logoSvg;
   const pool = LiquidityPoolDictionary.get(props.asset);
+  const contractAddress = pool.getPoolAsset(Asset.RBTC)?.getContractAddress();
 
   const getData = useCallback(() => {
     cancelDataRequest.current && cancelDataRequest.current();
@@ -98,10 +101,16 @@ function Row(props) {
       .get(`${url}/amm/pool-balance/${props.asset}`, { cancelToken })
       .then(res => {
         setData(res.data);
+        const yesterdayApy = res.data.yesterdayApy.find(
+          item => item.pool_token === contractAddress,
+        );
+        if (yesterdayApy) {
+          setApy(yesterdayApy.apy);
+        }
         setLoading(false);
       })
       .catch(e => console.error(e));
-  }, [url, props.asset]);
+  }, [url, props.asset, contractAddress]);
 
   useInterval(() => {
     getData();
@@ -182,22 +191,19 @@ function Row(props) {
                 </div>
               </div>
             </td>
-            <td className="tw-text-right">
-              {pool.version === 1 && <div>-</div>}
-              {pool.version !== 1 && (
-                <>
-                  <div>
-                    {formatNumber(data.tokenDelta, decimals[data.ammPool]) || (
-                      <div className="bp3-skeleton">&nbsp;</div>
-                    )}
-                  </div>
-                  <div>
-                    {formatNumber(data.btcDelta, decimals.BTC) || (
-                      <div className="bp3-skeleton">&nbsp;</div>
-                    )}
-                  </div>
-                </>
-              )}
+            <td
+              onClick={() => {
+                history.push({
+                  pathname: '/yield-farm',
+                  state: {
+                    asset: props.asset,
+                  },
+                });
+              }}
+              className="tw-text-right tw-font-semibold tw-text-gold tw-cursor-pointer"
+            >
+              {apy !== null && <div>{formatNumber(apy, 2)} %</div>}
+              {apy === null && <div>-</div>}
             </td>
           </tr>
         </>

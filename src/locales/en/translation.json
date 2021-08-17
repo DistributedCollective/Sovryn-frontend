@@ -1515,7 +1515,8 @@
       "pool": "Pool",
       "stakedBalance": "Staked Balance",
       "contractBalance": "Contract Balance",
-      "imBalance": "Imbalance"
+      "imBalance": "Imbalance",
+      "apy": "APY"
     },
     "banner": {
       "originsFish": "Origins FISH token sale",
