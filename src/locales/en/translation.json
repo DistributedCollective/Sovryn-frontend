@@ -1516,6 +1516,18 @@
       "stakedBalance": "Staked Balance",
       "contractBalance": "Contract Balance",
       "imBalance": "Imbalance"
+    },
+    "banner": {
+      "originsFish": "Origins FISH token sale",
+      "liveNow": "LIVE NOW!",
+      "buyNow": "Buy Now",
+      "learnMore": "Learn More",
+      "timer": {
+        "days": "DAYS",
+        "hours": "HOURS",
+        "mins": "MINS",
+        "secs": "SECS"
+      }
     }
   },
   "BridgeDepositPage": {

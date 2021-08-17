@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
 import { Header } from 'app/components/Header';
+import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
 // import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
@@ -16,6 +16,7 @@ import { useInterval } from 'app/hooks/useInterval';
 import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
+import babelfishBanner from 'assets/images/banner/babelFish-promo.svg';
 
 const url = backendUrl[currentChainId];
 
@@ -90,7 +91,14 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
 
           <div className="tw-w-full md:tw-w-5/12">
             {/* <ArbitrageOpportunity /> */}
-            <Banner />
+            <Banner
+              title={t(translations.landingPage.banner.originsFish)}
+              //remember month starts from 0
+              date={Date.UTC(2021, 7, 26, 14, 0)}
+              image={babelfishBanner}
+              learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-UTC-26-08-2021"
+              buyLink="/origins"
+            />
           </div>
         </div>
 
