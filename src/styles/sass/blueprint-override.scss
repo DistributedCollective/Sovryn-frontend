@@ -112,14 +112,10 @@ article.bp3-dialog h1 {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 
-  @media (min-width: theme('screens.md')) {
+  @screen md {
     width: 360px !important;
   }
 }
-
-
-
-
 
 .bp3-control {
   & input:checked {

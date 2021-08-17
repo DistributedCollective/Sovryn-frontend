@@ -87,37 +87,6 @@
     @apply tw-w-full;
     max-width: 340px;
   }
-  /* staking */
-  .-ml-0\.25 {
-    margin-left: -0.063rem;
-  }
-  .-mt-0\.25 {
-    margin-top: -0.063rem;
-  }
-  .max-w-29 {
-    max-width: 29.3rem;
-  }
-
-  @media (min-width: 1200px) {
-    .max-w-130 {
-      max-width: 130px;
-    }
-    .max-h-12 {
-      max-height: 3.5rem;
-    }
-    .max-h-6 {
-      max-height: 6rem;
-    }
-    .leading-12 {
-      line-height: 3rem;
-    }
-  }
-
-  @media (min-width: 1700px) {
-    .max-w-15 {
-      max-width: 23.6rem;
-    }
-  }
 }
 
 .assetname {

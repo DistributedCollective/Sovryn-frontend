@@ -69,7 +69,7 @@
     justify-content: center;
     transform: rotate(90deg);
 
-    @media (min-width: theme('screens.lg')) {
+    @screen lg {
       transform: none;
     }
 
