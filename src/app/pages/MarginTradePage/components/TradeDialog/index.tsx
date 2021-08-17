@@ -183,7 +183,7 @@ export function TradeDialog() {
           >
             <Slider
               value={slippage}
-              onChange={e => setSlippage(e)}
+              onChange={setSlippage}
               min={0.1}
               max={1}
               stepSize={0.05}
