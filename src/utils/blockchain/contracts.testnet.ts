@@ -225,7 +225,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0x13371a73cCE52a850bcFe55a08c8B46B28B42760',
+    address: '0x38B0f49Dfe345EAF9B691718F8fE725835a17Bfb',
     // address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3', // TODO: bring it back after testing is done
     abi: StakingAbi,
     blockNumber: 1218836,
@@ -280,7 +280,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x1eA58878654Cd537912c2cC6F2c58319d72BDE2c', // todo: current version is for testing only (1d intervals)
+    address: '0x128844463910C8724144e6Bb99F1AfaF202882AC', // todo: current version is for testing only (1d intervals)
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
