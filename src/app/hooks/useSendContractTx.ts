@@ -134,7 +134,7 @@ export function useSendContractTx(
           TxStatus.PENDING_FOR_USER,
           TxStatus.CONFIRMED,
           TxStatus.FAILED,
-        ].includes(txId as any)
+        ].includes(txId as TxStatus)
       ? txId
       : TxStatus.PENDING,
     loading: loading,
