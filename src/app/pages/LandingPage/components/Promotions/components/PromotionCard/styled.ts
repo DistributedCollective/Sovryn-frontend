@@ -16,6 +16,7 @@ export const CardImageSection = styled.div`
   flex-direction: column;
   justify-content: space-between;
   color: #ffffff;
+  position: relative;
 `;
 
 export const CardTextSection = styled.div`

@@ -70,7 +70,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
           {tvlLoading ? null : (
             <>
               ≈{' '}
-              <span className="tw-tracking-wider">
+              <span className="tw-tracking-normal">
                 {tvlValueUsd?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -100,7 +100,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
           {loading ? null : (
             <>
               ≈{' '}
-              <span className="tw-tracking-wider">
+              <span className="tw-tracking-normal">
                 {data?.total.usd.twentyFourHours.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,

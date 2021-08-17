@@ -20,6 +20,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import arrowForward from 'assets/images/arrow_forward.svg';
 
 interface IPromotionCardProps {
   appSection: AppSection;
@@ -98,6 +99,11 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
               </div>
             </div>
           </div>
+          <img
+            className="tw-absolute tw-bottom-5  tw-right-6 tw-cursor-pointer tw-h-4"
+            src={arrowForward}
+            alt={title}
+          />
         </CardImageSection>
       </Link>
       <CardTextSection>

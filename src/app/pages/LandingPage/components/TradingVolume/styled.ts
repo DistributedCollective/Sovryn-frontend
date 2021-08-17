@@ -4,7 +4,7 @@ export const VolumeValue = styled.div`
   font-size: 1.5rem;
   color: #fed559;
   line-height: 1.8rem;
-  letter-spacing: 0.075rem;
+  letter-spacing: 0;
   font-weight: 600;
 `;
 

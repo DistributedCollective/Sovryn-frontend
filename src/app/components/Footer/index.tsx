@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-px-4 tw-mt-5">
         <div className="tw-flex-1">
           <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-white">
-            <div className="tw-font-light">
+            <div className="tw-font-light tw-text-xs">
               <p className="tw-mb-0">
                 <Trans i18nKey={translations.footer.notice_1} />
               </p>
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
           </div>
           <div className="tw-text-base">
             <div
-              className="tw-cursor-pointer hover:tw-underline tw-font-normal tw-text-gold tw-underline tw-mt-6"
+              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-gold tw-underline tw-mt-6"
               onClick={e => setOptDialogOpen(true)}
             >
               {t(translations.footer.optOut)}
@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
             className="tw-w-40 tw-absolute tw--top-8 tw-right-0"
           />
           {commitHash && (
-            <div className="tw-text-white tw-w-full tw-text-right">
+            <div className="tw-text-white tw-w-full tw-text-right tw-mb-2">
               {t(translations.footer.buildID)}:{' '}
               <a
                 href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
               </a>
             </div>
           )}
-          <div className="tw-text-xs tw-text-white tw-w-full tw-text-right">
+          <div className="tw-text-tiny tw-text-white tw-w-full tw-text-right">
             Charts powered by{' '}
             <a
               href="https://www.highcharts.com"
