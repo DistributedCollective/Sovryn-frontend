@@ -134,6 +134,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "prevModuleContractAddress",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newModuleContractAddress",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "module",
+        "type": "bytes32"
+      }
+    ],
+    "name": "ProtocolModuleContractReplaced",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "user",
         "type": "address"
       },
@@ -628,6 +653,27 @@
         "internalType": "address[]",
         "name": "tokensList",
         "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address"
+      }
+    ],
+    "name": "getAffiliatesTokenRewardsValueInRbtc",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "rbtcTotalAmount",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -1192,11 +1238,31 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "pause",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
         "internalType": "address",
         "name": "referrer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "trader",
         "type": "address"
       },
       {
