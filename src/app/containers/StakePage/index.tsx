@@ -121,7 +121,9 @@ const InnerStakePage: React.FC = () => {
   );
   const [usdTotal, setUsdTotal] = useState(0);
   const assets = AssetsDictionary.list();
-  const sovBalanceOf = useAssetBalanceOf(Asset.SOV);
+  const { value: sovBalance, loading: sovBalanceLoading } = useAssetBalanceOf(
+    Asset.SOV,
+  );
   const { increase, ...increaseTx } = useStakeIncrease();
   const { stake, ...stakeTx } = useStakeStake();
   const { extend, ...extendTx } = useStakeExtend();
@@ -165,8 +167,8 @@ const InnerStakePage: React.FC = () => {
 
     if (!num || isNaN(num) || num <= 0) return false;
     if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
-    return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf, timestamp, stakeTx.loading]);
+    return num * 1e18 <= Number(sovBalance);
+  }, [loading, amount, sovBalance, timestamp, stakeTx.loading]);
 
   const validateDelegateForm = useCallback(() => {
     if (loading) return false;
@@ -178,8 +180,8 @@ const InnerStakePage: React.FC = () => {
     if (loading || increaseTx.loading) return false;
     const num = Number(amount);
     if (!num || isNaN(num) || num <= 0) return false;
-    return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf, increaseTx.loading]);
+    return num * 1e18 <= Number(sovBalance);
+  }, [loading, amount, sovBalance, increaseTx.loading]);
 
   const validateWithdrawForm = useCallback(
     amount => {
@@ -228,7 +230,7 @@ const InnerStakePage: React.FC = () => {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalanceOf.value);
+        await staking_approve(sovBalance);
         nonce += 1;
       }
       if (!stakeTx.loading) {
@@ -239,7 +241,7 @@ const InnerStakePage: React.FC = () => {
     },
     [
       weiAmount,
-      sovBalanceOf.value,
+      sovBalance,
       account,
       timestamp,
       stakeForm,
@@ -340,7 +342,7 @@ const InnerStakePage: React.FC = () => {
                         timestamp={timestamp}
                         onChangeAmount={e => setAmount(e)}
                         onChangeTimestamp={e => setTimestamp(e)}
-                        sovBalanceOf={sovBalanceOf}
+                        sovBalance={sovBalance}
                         isValid={validateStakeForm()}
                         kickoff={kickoffTs}
                         stakes={dates}
@@ -350,7 +352,7 @@ const InnerStakePage: React.FC = () => {
                     </>
                   }
                 />
-                {sovBalanceOf.value !== '0' && !stakingLocked ? (
+                {sovBalance !== '0' && !stakingLocked ? (
                   <button
                     type="button"
                     className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
@@ -517,7 +519,7 @@ const InnerStakePage: React.FC = () => {
                           amount={amount}
                           timestamp={timestamp}
                           onChangeAmount={e => setAmount(e)}
-                          sovBalanceOf={sovBalanceOf}
+                          sovBalance={sovBalance}
                           isValid={validateIncreaseForm()}
                           balanceOf={balanceOf}
                           votePower={votingPower}
@@ -538,7 +540,8 @@ const InnerStakePage: React.FC = () => {
                             amount={amount}
                             timestamp={0}
                             onChangeTimestamp={e => setTimestamp(e)}
-                            sovBalanceOf={sovBalanceOf}
+                            sovBalance={sovBalance}
+                            isSovBalanceLoading={sovBalanceLoading}
                             kickoff={kickoffTs}
                             isValid={validateExtendTimeForm()}
                             stakes={dates}
@@ -563,7 +566,6 @@ const InnerStakePage: React.FC = () => {
                           amount={amount}
                           until={timestamp}
                           onChangeAmount={e => setWithdrawAmount(e)}
-                          sovBalanceOf={sovBalanceOf}
                           balanceOf={balanceOf}
                           isValid={validateWithdrawForm(amount)}
                           onCloseModal={() => setWithdrawForm(!withdrawForm)}

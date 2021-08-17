@@ -15,7 +15,8 @@ interface Props {
   amount: string;
   timestamp?: number;
   onChangeTimestamp: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
+  isSovBalanceLoading: boolean;
   isValid: boolean;
   kickoff: CacheCallResponse;
   balanceOf: CacheCallResponse;
@@ -97,10 +98,10 @@ export function ExtendStakeForm(props: Props) {
             {t(translations.stake.extending.balance)}:{' '}
             <span
               className={`tw-text-gray-900 ${
-                props.sovBalanceOf.loading && 'skeleton'
+                props.isSovBalanceLoading && 'skeleton'
               }`}
             >
-              {numberFromWei(props.sovBalanceOf.value).toLocaleString()}
+              {numberFromWei(props.sovBalance).toLocaleString()}
             </span>{' '}
             {t(translations.stake.sov)}
             {Number(props.votePower) > 0 && (
