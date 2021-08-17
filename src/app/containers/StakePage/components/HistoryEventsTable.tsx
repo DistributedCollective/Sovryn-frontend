@@ -24,13 +24,23 @@ import { backendUrl } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 
+type HistoryItem = {
+  action: string;
+  amount: string;
+  lockedUntil: number;
+  status?: string;
+  staker: string; //address
+  timestamp: number;
+  txHash: string;
+};
+
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
-  const [eventsHistory, setEventsHistory] = useState<any>([]);
+  const [eventsHistory, setEventsHistory] = useState<HistoryItem[]>([]);
   const [isHistoryLoading, seIsHistoryLoading] = useState(false);
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [currentHistory, setCurrentHistory] = useState<HistoryItem[]>([]);
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
     const offset = (currentPage - 1) * pageLimit;
@@ -125,16 +135,6 @@ export function HistoryEventsTable() {
     </>
   );
 }
-
-type HistoryItem = {
-  action: string;
-  amount: string;
-  lockedUntil: number;
-  status?: string;
-  staker: string; //address
-  timestamp: number;
-  txHash: string;
-};
 
 interface HistoryAsset {
   item: HistoryItem;
@@ -237,7 +237,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
 };
 
 interface History {
-  items: any;
+  items: HistoryItem[];
 }
 
 const HistoryTable: React.FC<History> = ({ items }) => {
@@ -246,7 +246,7 @@ const HistoryTable: React.FC<History> = ({ items }) => {
       {items.map((item, index) => {
         return (
           <HistoryTableAsset
-            key={item.txHash + item.newBalance}
+            key={item.txHash + item.action}
             item={item}
             index={index}
           />

@@ -133,7 +133,7 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
                 return (
                   <AssetRow
                     item={item}
-                    key={item[1]}
+                    key={item.unlockDate}
                     onIncrease={props.onIncrease}
                     onExtend={props.onExtend}
                     onUnstake={props.onUnstake}
