@@ -38,6 +38,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { prettyTx } from 'utils/helpers';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { useAffiliates_getReferralsList } from 'app/hooks/affiliates/useAffiliates_getReferralsList';
+import { useAffiliates_getAffiliatesTokenRewardsValueInRbtc } from 'app/hooks/affiliates/useAffiliates_getAffiliatesTokenRewardsValueInRbtc';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { CalculatedEvent } from 'app/containers/AfilliateHistory';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
@@ -90,6 +91,10 @@ function InnerAffiliatePage() {
     'PayTradingFeeToAffiliate',
     { referrer: account },
   );
+  const {
+    value: rewardsInBtc,
+    loading: rewardsBtcLoading,
+  } = useAffiliates_getAffiliatesTokenRewardsValueInRbtc(account);
 
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
   const [sovEarned, setSovEarned] = useState<number>(0);
@@ -250,11 +255,11 @@ function InnerAffiliatePage() {
                 </div>
               </div>
             </div>
-            <div className="xl:tw-mx-2 tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
+            <div className="xl:tw-mx-2 tw-px-8 tw-pt-8 tw-rounded-2xl xl:tw-w-1/3 md:tw-w-1/2 tw-w-full tw-text-center xl:tw-text-left tw-mb-5 xl:tw-mb-0">
               <p className="tw-text-lg">
                 {t(translations.affiliates.feesEarned)}:
               </p>
-              <div className="tw-mt-2 tw-mb-6">
+              <div className="tw-mt-2 tw-inline-block">
                 <div className="tw-mb-3">
                   {loading || !feesEarned ? (
                     <>
@@ -262,21 +267,44 @@ function InnerAffiliatePage() {
                       <div className="bp3-skeleton tw-h-5 tw-mt-2" />
                     </>
                   ) : feesTotal > 0 ? (
-                    Object.entries(feesEarned).map(
-                      ([key, fee]) =>
-                        fee > 0 && (
+                    <>
+                      <div className="tw-mb-1">
+                        {Object.entries(feesEarned).map(
+                          ([key, fee]) =>
+                            fee > 0 && (
+                              <Tooltip
+                                content={weiTo18(fee)}
+                                className="tw-block xl:tw-text-base tw-text-sm"
+                                key={key}
+                              >
+                                <>
+                                  {'  '}
+                                  {weiToNumberFormat(fee, 14)}{' '}
+                                  <AssetSymbolRenderer asset={key as Asset} />
+                                </>
+                              </Tooltip>
+                            ),
+                        )}
+                      </div>
+                      <div className="tw-text-center tw-text-2xl">≈</div>
+                      <div className="tw-mt-1">
+                        {rewardsBtcLoading ? (
+                          <>
+                            <div className="bp3-skeleton tw-h-5" />
+                          </>
+                        ) : (
                           <Tooltip
-                            content={weiTo18(fee)}
+                            content={weiTo18(rewardsInBtc)}
                             className="tw-block xl:tw-text-base tw-text-sm"
-                            key={key}
                           >
                             <>
-                              {weiToNumberFormat(fee, 14)}{' '}
-                              <AssetSymbolRenderer asset={key as Asset} />
+                              {weiToNumberFormat(rewardsInBtc, 14)}{' '}
+                              <AssetSymbolRenderer asset={Asset.RBTC} />
                             </>
                           </Tooltip>
-                        ),
-                    )
+                        )}
+                      </div>
+                    </>
                   ) : (
                     <div className="tw-text-lg">
                       {`0 ${t(translations.affiliates.feesEarned)}`}
