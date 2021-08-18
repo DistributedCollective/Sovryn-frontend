@@ -76,7 +76,7 @@ export function AmmBalance(props: Props) {
 }
 
 AmmBalance.defaultProps = {
-  rate: 30,
+  rate: 60,
 };
 
 function Row(props) {
@@ -84,12 +84,10 @@ function Row(props) {
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AmmBalanceRow>();
-  const [apy, setApy] = useState<number | null>(null);
   const cancelDataRequest = useRef<Canceler>();
   const assetDetails = AssetsDictionary.get(props.asset);
   const rbtcLogo = AssetsDictionary.get(Asset.RBTC).logoSvg;
   const pool = LiquidityPoolDictionary.get(props.asset);
-  const contractAddress = pool.getPoolAsset(Asset.RBTC)?.getContractAddress();
 
   const getData = useCallback(() => {
     cancelDataRequest.current && cancelDataRequest.current();
@@ -101,16 +99,10 @@ function Row(props) {
       .get(`${url}/amm/pool-balance/${props.asset}`, { cancelToken })
       .then(res => {
         setData(res.data);
-        const yesterdayApy = res.data.yesterdayApy.find(
-          item => item.pool_token === contractAddress,
-        );
-        if (yesterdayApy) {
-          setApy(yesterdayApy.apy);
-        }
         setLoading(false);
       })
       .catch(e => console.error(e));
-  }, [url, props.asset, contractAddress]);
+  }, [url, props.asset]);
 
   useInterval(() => {
     getData();
@@ -202,8 +194,20 @@ function Row(props) {
               }}
               className="tw-text-right tw-font-semibold tw-text-gold tw-cursor-pointer"
             >
-              {apy !== null && <div>{formatNumber(apy, 2)} %</div>}
-              {apy === null && <div>-</div>}
+              {pool.getVersion() === 1 && (
+                <div>{formatNumber(data?.yesterdayApy[0]?.apy, 2)} %</div>
+              )}
+
+              {pool.getVersion() === 2 && (
+                <>
+                  {data?.yesterdayApy[0] && (
+                    <div>{formatNumber(data?.yesterdayApy[0]?.apy, 2)} %</div>
+                  )}
+                  {data?.yesterdayApy[1] && (
+                    <div>{formatNumber(data?.yesterdayApy[1]?.apy, 2)} %</div>
+                  )}
+                </>
+              )}
             </td>
           </tr>
         </>
