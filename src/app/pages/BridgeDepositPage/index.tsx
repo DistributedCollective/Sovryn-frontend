@@ -26,6 +26,7 @@ import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
+import UserWallet from './components/UserWallet';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -35,9 +36,12 @@ export function BridgeDepositPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
-  const { step, requestedReturnToPortfolio, targetAsset } = useSelector(
-    selectBridgeDepositPage,
-  );
+  const {
+    step,
+    requestedReturnToPortfolio,
+    targetAsset,
+    receiver,
+  } = useSelector(selectBridgeDepositPage);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -76,6 +80,7 @@ export function BridgeDepositPage() {
         className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
+        <UserWallet address={receiver} />
         <div
           className={cn(
             'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
@@ -85,7 +90,6 @@ export function BridgeDepositPage() {
         >
           <SidebarSteps />
         </div>
-
         <div
           style={{
             minHeight: 'calc(100% - 2.5rem)',
