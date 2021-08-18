@@ -194,16 +194,17 @@ function Row(props) {
               }}
               className="tw-text-right tw-font-semibold tw-text-gold tw-cursor-pointer"
             >
-              {pool.getVersion() === 1 && (
-                <div>{formatNumber(data?.yesterdayApy[0]?.apy, 2)} %</div>
-              )}
+              {pool.getVersion() === 1 &&
+                !isNaN(data?.yesterdayApy[0]?.apy) && (
+                  <div>{formatNumber(data?.yesterdayApy[0]?.apy, 2)} %</div>
+                )}
 
               {pool.getVersion() === 2 && (
                 <>
-                  {data?.yesterdayApy[0] && (
+                  {!isNaN(data?.yesterdayApy[0]?.apy) && (
                     <div>{formatNumber(data?.yesterdayApy[0]?.apy, 2)} %</div>
                   )}
-                  {data?.yesterdayApy[1] && (
+                  {!isNaN(data?.yesterdayApy[1]?.apy) && (
                     <div>{formatNumber(data?.yesterdayApy[1]?.apy, 2)} %</div>
                   )}
                 </>
