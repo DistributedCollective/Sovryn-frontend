@@ -12,32 +12,12 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
 export function usePoolToken(pool: Asset, asset: Asset) {
-  const { value, loading, error } = useCacheCallWithValue(
+  const { loading, error } = useCacheCallWithValue(
     getAmmContractName(pool),
     'poolToken',
     ethGenesisAddress,
     getTokenContract(asset).address,
   );
-
-  const { value: anchor } = useCacheCallWithValue(
-    getAmmContractName(pool),
-    'anchor',
-    ethGenesisAddress,
-  );
-
-  useEffect(() => {
-    if (value !== ethGenesisAddress) {
-      console.log(`${pool}_${asset} v2 poolToken: `, value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  useEffect(() => {
-    if (anchor !== ethGenesisAddress) {
-      console.log(`${pool}_${asset} v1 poolToken: `, anchor);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor]);
 
   return { value: useLocalPoolToken(pool, asset), loading, error };
 }
