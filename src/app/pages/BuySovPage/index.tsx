@@ -101,8 +101,8 @@ export function BuySovPage() {
 }
 
 const Learn = styled.button`
-  border: 1px solid #e9eae9;
-  color: #e9eae9;
+  border: 1px solid #e8e8e8;
+  color: #e8e8e8;
   padding: 7px 41px;
   margin: 90px auto 115px;
   display: inline-block;

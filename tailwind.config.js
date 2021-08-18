@@ -54,7 +54,7 @@ module.exports = {
       'secondary-50': '#2274a580',
       'secondary-75': '#2274a5C0',
       white: '#ffffff',
-      'sov-white': '#E9EAE9',
+      'sov-white': '#e8e8e8',
       black: '#000000',
       'gray-1': '#161616',
       'gray-2': '#1f1f1f',

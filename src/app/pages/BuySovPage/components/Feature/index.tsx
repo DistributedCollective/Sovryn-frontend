@@ -87,7 +87,7 @@ const Article = styled.article`
     height: 40px;
     background: #2274a5;
     border: 1px solid #2274a5;
-    color: #e9eae9;
+    color: #e8e8e8;
     font-size: 16px;
     line-height: 1;
     font-weight: 500;
@@ -99,7 +99,7 @@ const Article = styled.article`
     margin-top: 40px;
     &:hover {
       opacity: 0.75;
-      color: #e9eae9;
+      color: #e8e8e8;
     }
   }
 

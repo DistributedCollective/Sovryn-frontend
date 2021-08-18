@@ -66,8 +66,8 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
                   data-name="Path 2946"
                   d="M99.026,15.924,88.13,5v8.193H68.986v5.462H88.13v8.193Z"
                   transform="translate(35.312 -65.486) rotate(90)"
-                  fill="#e9eae9"
-                  stroke="#e9eae9"
+                  fill="#e8e8e8"
+                  stroke="#e8e8e8"
                   strokeWidth="7"
                 />
               </svg>

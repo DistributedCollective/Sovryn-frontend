@@ -9,7 +9,7 @@ export const StyledButton = styled.button.attrs(attrs => ({
   background-color: #222222;
   border: 1px solid #575757;
   border-radius: 8px;
-  color: #e9eae9;
+  color: #e8e8e8;
   font-family: Montserrat-SemiBold;
   font-size: 16px;
   font-family: 'Montserrat', sans-serif;

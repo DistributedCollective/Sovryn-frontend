@@ -98,7 +98,7 @@ export function SlippageDialog(props: Props) {
 
 const Dummy = styled.div`
   border: 1px solid #575757;
-  color: #e9eae9;
+  color: #e8e8e8;
   height: 48px;
   padding: 11px 21px;
   font-weight: 500;

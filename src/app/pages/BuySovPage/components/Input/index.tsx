@@ -48,7 +48,7 @@ const StyledWrapper = styled.label.attrs(_ => ({
   transition: 0.3s border-color;
   will-change: border-color;
   color: #000;
-  background: #e9eae9;
+  background: #e8e8e8;
   font-weight: 500;
   ${(props: Wrapper) =>
     props.invalid &&
@@ -58,7 +58,7 @@ const StyledWrapper = styled.label.attrs(_ => ({
 `;
 
 const StyledInput = styled.input`
-  background-color: #e9eae9;
+  background-color: #e8e8e8;
   width: 100%;
   color: #000;
   font-size: 16px;

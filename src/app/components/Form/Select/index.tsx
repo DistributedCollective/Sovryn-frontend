@@ -99,7 +99,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
               data-name="Path 2912"
               d="M24.974,8.59,16.75,16.8,8.526,8.59,6,11.116l10.75,10.75L27.5,11.116Z"
               transform="translate(-6 -8.59)"
-              fill="#e9eae9"
+              fill="#e8e8e8"
             />
           </svg>
         </div>

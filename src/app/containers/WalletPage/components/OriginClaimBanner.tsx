@@ -39,7 +39,7 @@ const Div = styled.div`
   background-color: rgba(254, 192, 4, 0.25);
   padding: 31px;
   font-weight: 500;
-  border: 1px solid #e9eae9;
+  border: 1px solid #e8e8e8;
   border-radius: 8px;
   line-height: 1;
   font-size: 16px;
