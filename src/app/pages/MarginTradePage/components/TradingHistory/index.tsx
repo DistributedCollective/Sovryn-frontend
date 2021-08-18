@@ -186,7 +186,6 @@ export function TradingHistory() {
 
   const loading = tradeStates.loading || closeStates.loading;
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
-
   const mergeEvents = useCallback(
     (closeEvents: EventData[] = [], tradeEvents: EventData[] = []) => {
       const mergedEvents = [...closeEvents, ...tradeEvents].sort(
@@ -259,7 +258,6 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const pageLimit = 10;
-
   const data = React.useMemo(() => {
     return props.items
       .slice(page * pageLimit - pageLimit, page * pageLimit)
@@ -295,6 +293,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
             <TradeProfit
               positionSize={item.positionSize}
               pair={pair}
+              loanId={item.loanId}
               loanToken={item.loanToken}
               closePrice={item.closePrice}
               entryPrice={item.entryPrice}

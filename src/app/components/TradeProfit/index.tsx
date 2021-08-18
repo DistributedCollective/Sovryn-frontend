@@ -19,6 +19,7 @@ interface Props {
   positionSize: string;
   loanToken: string;
   pair: TradingPair;
+  loanId: string;
 }
 
 export function TradeProfit(props: Props) {
@@ -35,36 +36,38 @@ export function TradeProfit(props: Props) {
       : toWei(bignumber(amount).div(10 ** 8));
   };
 
-  fetch(backendUrl[currentChainId] + '/trade/loan/0x4e49f3b55c35773375a84812344b9669d93f84ae9cf7614b8977cc7d5cdf1736')
+  fetch(backendUrl[currentChainId] + '/events/trade/' + account)
     .then(response => {
       return response.json();
     })
     .then(loanEvents => {
-      console.log('loanEvents history', loanEvents);
+      loanEvents.events.forEach(events => {
+        if (events.loanId === props.loanId) {
+          const entryPrice = prettyPrice(events.data[0].collateralToLoanRate);
+          const closePrice = prettyPrice(
+            events.data.slice(-1).pop().collateralToLoanRate,
+          ); // getting the last element in data
+          const positionSize = events.data[0].positionSize;
 
-      const entryPrice = prettyPrice(loanEvents.Trade[0].entry_price);
-      const closePrice = prettyPrice(loanEvents.CloseWithSwap[0].exit_price);
+          //LONG position
+          let change = bignumber(bignumber(closePrice).minus(entryPrice))
+            .div(entryPrice)
+            .mul(100)
+            .toNumber();
 
-      //LONG position
-      let change = bignumber(bignumber(closePrice).minus(entryPrice))
-        .div(entryPrice)
-        .mul(100)
-        .toNumber();
-
-      //SHORT position
-      if (props.position === TradingPosition.SHORT) {
-        change = bignumber(bignumber(entryPrice).minus(closePrice))
-          .div(entryPrice)
-          .mul(100)
-          .toNumber();
-      }
-      setProfit(
-        bignumber(change)
-          .mul(bignumber(props.positionSize))
-          .div(100)
-          .toFixed(0),
-      );
-      setProfitDirection(change);
+          //SHORT position
+          if (props.position === TradingPosition.SHORT) {
+            change = bignumber(bignumber(entryPrice).minus(closePrice))
+              .div(entryPrice)
+              .mul(100)
+              .toNumber();
+          }
+          setProfit(
+            bignumber(change).mul(bignumber(positionSize)).div(100).toFixed(0),
+          );
+          setProfitDirection(change);
+        }
+      });
     })
     .catch(console.error);
 
