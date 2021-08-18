@@ -35,7 +35,7 @@ export function StakingRewardsClaimForm({ className, address }: Props) {
     'stakingRewards',
     'getStakerCurrentReward',
     { lastWithdrawalInterval: '0', amount: '0' },
-    address,
+    true,
   );
 
   const handleSubmit = () => {
