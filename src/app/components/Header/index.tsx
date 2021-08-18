@@ -224,14 +224,12 @@ export function Header() {
     TRADE: 'trade',
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
-    REWARDS: 'rewards',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
-      [SECTION_TYPE.REWARDS]: ['/reward'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
     };
     return section && paths[section].includes(location.pathname);
@@ -398,28 +396,12 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavPopover
-                content={
-                  <BPMenu>
-                    <MenuItem
-                      text={t(translations.mainMenu.reward)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => history.push('/reward')}
-                    />
-                  </BPMenu>
-                }
+              <NavLink
+                className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                to="/reward"
               >
-                <div
-                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
-                  }`}
-                >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
-                    {t(translations.mainMenu.rewards)}
-                  </span>
-                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                </div>
-              </NavPopover>
+                {t(translations.mainMenu.rewards)}
+              </NavLink>
 
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
