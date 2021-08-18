@@ -9,14 +9,13 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { useAccount, useIsConnected } from 'app/hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
 
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
-import { ClaimForm } from './components/ClaimForm';
 import { HistoryTable } from './components/HistoryTable';
 import { RewardForm } from './components/RewardForm';
 import { Tab } from './components/Tab';
@@ -91,7 +90,7 @@ export function RewardPage() {
                 className="tw-mt-2"
               />
             ) : (
-              <HistoryTable rewardType={activeAssets}/>
+              <HistoryTable rewardType={activeAssets} />
             )}
           </div>
         </div>

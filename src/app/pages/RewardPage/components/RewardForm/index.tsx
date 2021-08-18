@@ -18,15 +18,22 @@ import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionar
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
+import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
+
+// import RewardChart from '../RewardChart';
 
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
   const [liquidityRewards, setLiqRewards] = useState(0);
   const [lendingRewards, setLendingRewards] = useState(0);
-
+  const rewardSov = useGetContractPastEvents(
+    'liquidityMiningProxy',
+    'RewardClaimed',
+  );
+  console.log('rewardSov: ', rewardSov);
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
       item => item.hasSovRewards,
@@ -66,6 +73,7 @@ export function RewardForm() {
           }),
         )
         .then(result => {
+          console.log('result', result);
           const total = Object.values(result.returnData)
             .reduce(
               (previousValue, currentValue) => previousValue.add(currentValue),
@@ -120,7 +128,7 @@ export function RewardForm() {
         </div>
         <Divider />
         <div className="tw-w-1/2 tw-flex w-flex-row tw-justify-center tw-align-center">
-          <div></div>
+          <div>{/* <RewardChart height={100} /> */}</div>
           <div className="lg:tw-mr-5">
             <div className="tw-text-xs mb-2 tw-flex tw-items-center">
               <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>

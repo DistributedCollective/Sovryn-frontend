@@ -1,10 +1,12 @@
-import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
-import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
-import { TxStatus } from 'store/global/transactions-store/types';
+
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
+
+import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
 
 interface ITableRowProps {
   time: number;
@@ -22,7 +24,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
   return (
     <tr className="tw-text-xs">
       <td>
-        <DisplayDate timestamp={new Date(time).getTime().toString()} />
+        <DisplayDate timestamp={new Date(Number(time)).getTime().toString()} />
       </td>
       <td>{type}</td>
       <td>

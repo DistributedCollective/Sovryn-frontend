@@ -1,15 +1,16 @@
-import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import React, { useCallback } from 'react';
-import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../../../../locales/i18n';
+
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { weiTo4 } from 'utils/blockchain/math-helpers';
+
+import { translations } from '../../../../../../locales/i18n';
+import { TableRow } from '../TableRow/index';
 
 export interface RewardEvent {
   amount: string;
   event: RewardEventType;
-  time: number;
-  user: string;
+  timestamp: number;
   txHash: string;
 }
 
@@ -45,13 +46,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     },
     [t],
   );
-
   return (
     <tbody className="tw-mt-12">
       {items.map(item => (
         <TableRow
           key={item.txHash}
-          time={item.time}
+          time={item.timestamp}
           txHash={item.txHash}
           amount={weiTo4(item.amount)}
           type={getEventType(item.event)}

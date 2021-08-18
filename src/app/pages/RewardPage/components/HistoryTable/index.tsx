@@ -1,5 +1,5 @@
-import axios, { CancelTokenSource } from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
@@ -20,19 +20,11 @@ export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const blockSync = useBlockSync();
-  const cancelTokenSource = useRef<CancelTokenSource>();
 
-  const getData = useCallback(() => {
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
-    cancelTokenSource.current = axios.CancelToken.source();
+  const getRewardData = useCallback(() => {
     axios
       .get(
         `${url}/v1/event-history/rewardsNew/${account}?page=${page}&pageSize=${pageSize}`,
-        // {
-        //   cancelToken: cancelTokenSource.current.token,
-        // },
       )
       .then(res => {
         const { events, pagination } = res.data;
@@ -46,13 +38,51 @@ export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
         setLoading(false);
       });
   }, [url, account, page]);
-
+  const getLiqData = useCallback(() => {
+    axios
+      .get(
+        `${url}/v1/event-history/liquidSov/${account}?page=${page}&pageSize=${pageSize}`,
+      )
+      .then(res => {
+        const { events, pagination } = res.data;
+        setHistory(events || []);
+        setTotal(pagination.totalPages * pageSize);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setHistory([]);
+        setLoading(false);
+      });
+  }, [url, account, page]);
+  const getEarnedData = useCallback(() => {
+    axios
+      .get(
+        `${url}/v1/event-history/feesEarned/${account}?page=${page}&pageSize=${pageSize}`,
+      )
+      .then(res => {
+        const { events, pagination } = res.data;
+        setHistory(events || []);
+        setTotal(pagination.totalPages * pageSize);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setHistory([]);
+        setLoading(false);
+      });
+  }, [url, account, page]);
   const getHistory = useCallback(() => {
     setLoading(true);
     setHistory([]);
-
-    getData();
-  }, [setHistory, getData]);
+    if (rewardType === 0) {
+      getRewardData();
+    } else if (rewardType === 1) {
+      getLiqData();
+    } else if (rewardType === 2) {
+      getEarnedData();
+    }
+  }, [setHistory, getRewardData, getLiqData, getEarnedData, rewardType]);
 
   useEffect(() => {
     if (account) {
