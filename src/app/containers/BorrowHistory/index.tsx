@@ -56,7 +56,7 @@ export function BorrowHistory(props: Props) {
   const data = React.useMemo(() => {
     return events.map(item => {
       const timestamp = String(
-        // EventData is wrongly typed in web3-eth-contract
+        // EventData is incorrectly typed in web3-eth-contract
         new Date((item as any).eventDate).getTime() / 1e3,
       );
       return {

@@ -10,6 +10,7 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { Sovryn } from 'utils/sovryn';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import { AbiItem } from 'web3-utils';
 
 export function usePoolToken(pool: Asset, asset: Asset) {
   const { loading, error } = useCacheCallWithValue(
@@ -42,7 +43,7 @@ export function useLocalPoolToken(pool: Asset, asset: Asset) {
       ) {
         Sovryn.addWriteContract(contractName, {
           address: value,
-          abi: TokenAbi as any,
+          abi: TokenAbi as AbiItem[],
         });
       }
       if (
@@ -52,7 +53,7 @@ export function useLocalPoolToken(pool: Asset, asset: Asset) {
       ) {
         Sovryn.addReadContract(contractName, {
           address: value,
-          abi: TokenAbi as any,
+          abi: TokenAbi as AbiItem[],
         });
       }
     }
