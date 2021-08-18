@@ -4,7 +4,7 @@
   border: 1px;
   border-radius: 8px;
   border-style: solid;
-  border-color: var(--light-gray);
+  border-color: var(--sov-white);
 }
 
 .sovryn-border-left {
@@ -80,14 +80,14 @@
 .sovryn-tabs .custom-stats-tab {
   border: none !important;
   &.charts-active {
-    color: var(--gold);
+    color: var(--primary);
   }
 }
 
 @mixin table-header {
   font-family: inherit;
   font-weight: inherit;
-  color: var(--light-gray);
+  color: var(--sov-white);
   font-size: 16px;
   padding: 0 22px;
   height: 45px;
@@ -148,7 +148,7 @@
 
     td {
       padding: 0 30px;
-      color: var(--light-gray);
+      color: var(--sov-white);
       @media (max-width: 441px) {
         padding: 0 15px;
       }

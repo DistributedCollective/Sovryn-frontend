@@ -51,7 +51,7 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
             value={`${uri || ''}${address}`}
             renderAs="svg"
             bgColor="var(--white)"
-            fgColor="var(--primary)"
+            fgColor="var(--gray-1)"
             includeMargin={false}
             className="rounded"
           />

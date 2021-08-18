@@ -116,7 +116,7 @@ export function NotificationFormComponent(props: Props) {
 
 const StyledButton = styled.button`
   color: var(--white);
-  background-color: var(--primary);
+  background-color: var(--gray-1);
   border-radius: 20px;
   padding: 5px 30px;
   font-size: 12px;
@@ -124,7 +124,7 @@ const StyledButton = styled.button`
     opacity: 0.7;
   }
   &:hover:not(:disabled) {
-    color: var(--gold);
+    color: var(--primary);
   }
   ${media.lg`
   font-size: 14px

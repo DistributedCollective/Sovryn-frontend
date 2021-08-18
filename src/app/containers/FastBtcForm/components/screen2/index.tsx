@@ -35,7 +35,7 @@ export function Screen2({ state, dispatch }: Props) {
                 value={state.depositAddress}
                 renderAs="svg"
                 bgColor="var(--white)"
-                fgColor="var(--primary)"
+                fgColor="var(--gray-1)"
                 includeMargin={true}
                 className="tw-rounded tw-w-3/4 tw-h-3/4"
               />

@@ -20,13 +20,13 @@ const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
 }))`
   color: var(--white);
-  background-color: var(--primary);
+  background-color: var(--gray-1);
   padding: 3px 10px;
   border-radius: 20px;
   border: 1px solid var(--white);
   font-size: 12px;
   :hover {
-    color: var(--gold);
+    color: var(--primary);
   }
   margin-left: 10px;
   @media (max-width: 768px) {

@@ -105,9 +105,9 @@ const Article = styled.article`
 
   a {
     text-decoration: underline;
-    color: theme('colors.primary');
+    color: var(--primary);
     &:hover {
-      color: theme('colors.primary');
+      color: var(--primary);
       text-decoration: none;
     }
   }

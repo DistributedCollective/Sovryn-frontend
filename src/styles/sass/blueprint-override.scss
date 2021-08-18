@@ -57,7 +57,7 @@ article.bp3-dialog h1 {
       & .bp3-input-group {
         & input {
           background-color: transparent;
-          border: 1px solid var(--light-gray);
+          border: 1px solid var(--sov-white);
           color: var(--white);
         }
       }
@@ -101,11 +101,11 @@ article.bp3-dialog h1 {
 
 .bp3-toast {
   @extend .sovryn-border;
-  background-color: var(--primary);
+  background-color: var(--gray-1);
 }
 
 .bp3-drawer {
-  background-color: var(--primary);
+  background-color: var(--gray-1);
   color: var(--white);
   width: 100% !important;
   border-right: 5px solid var(--white);
@@ -120,13 +120,13 @@ article.bp3-dialog h1 {
 .bp3-control {
   & input:checked {
     & ~ .bp3-control-indicator {
-      background-color: var(--gold);
+      background-color: var(--primary);
     }
   }
 
   &:hover input:checked {
     & ~ .bp3-control-indicator {
-      background-color: var(--gold);
+      background-color: var(--primary);
     }
   }
 }

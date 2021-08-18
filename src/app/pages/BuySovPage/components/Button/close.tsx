@@ -15,8 +15,8 @@ const StyledButton = styled.button`
   height: 50px;
   width: 100%;
   margin-top: 40px;
-  border: 1px solid theme('colors.primary');
-  color: theme('colors.primary');
+  border: 1px solid var(--primary);
+  color: var(--primary);
   padding: 11px;
   font-size: 20px;
   font-weight: 900;

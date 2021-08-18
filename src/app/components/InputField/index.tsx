@@ -57,7 +57,7 @@ const StyledWrapper = styled.label`
   ${(props: Wrapper) =>
     props.invalid &&
     css`
-      border-color: var(--danger) !important;
+      border-color: var(--error) !important;
     `}
   ${(props: Wrapper) =>
     props.isOnDarkBackground &&
@@ -73,12 +73,12 @@ const StyledInput = styled.input`
   font-size: 16px;
   letter-spacing: 0;
   ::-webkit-input-placeholder {
-    color: var(--light-gray);
+    color: var(--sov-white);
   }
   :-ms-input-placeholder {
-    color: var(--light-gray);
+    color: var(--sov-white);
   }
   ::placeholder {
-    color: var(--light-gray);
+    color: var(--sov-white);
   }
 `;
