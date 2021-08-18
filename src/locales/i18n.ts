@@ -38,7 +38,9 @@ export const walletLanguageLocalStorageKey = 'i18nextLng'; // language key for @
 export type TranslationResource = typeof en;
 export type LanguageKey = keyof TranslationResource;
 
-export const translations: ConvertedToObjectType<TranslationResource> = {} as any;
+export const translations: ConvertedToObjectType<TranslationResource> = {} as ConvertedToObjectType<
+  TranslationResource
+>;
 
 /*
  * Converts the static JSON file into an object where keys are identical
