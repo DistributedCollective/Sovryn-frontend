@@ -10,16 +10,15 @@ import { Pagination } from '../../../../components/Pagination';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { useTradeHistoryRetry } from 'app/hooks/useTradeHistoryRetry';
+
 interface Props {
   perPage: number;
 }
 
-export function OpenPositionsTable(props: Props) {
+export function OpenPositionsTable({ perPage }: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
-  const retry = useTradeHistoryRetry();
 
   const { value, loading } = useGetActiveLoans(
     useAccount(),
@@ -30,10 +29,8 @@ export function OpenPositionsTable(props: Props) {
     false,
   );
   const items = useMemo(
-    () =>
-      value.slice(page * props.perPage - props.perPage, page * props.perPage),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.perPage, page, value, retry],
+    () => value.slice(page * perPage - perPage, page * perPage),
+    [perPage, page, value],
   );
 
   const isEmpty = !loading && !items.length && !transactions.length;
@@ -121,7 +118,7 @@ export function OpenPositionsTable(props: Props) {
       {value.length > 0 && (
         <Pagination
           totalRecords={value.length}
-          pageLimit={props.perPage}
+          pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}
         />

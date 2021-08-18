@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
@@ -29,24 +29,23 @@ export function usePageViews() {
       ReactGA.set({ page: location.pathname });
       ReactGA.pageview(location.pathname);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 }
 
 export function useEvent() {
-  return (options: ReactGA.EventArgs) => {
+  return useCallback((options: ReactGA.EventArgs) => {
     if (analyticsAllowed()) {
       initGA();
       ReactGA.event(options);
     }
-  };
+  }, []);
 }
 
 export function useTiming() {
-  return (options: ReactGA.TimingArgs) => {
+  return useCallback((options: ReactGA.TimingArgs) => {
     if (analyticsAllowed()) {
       initGA();
       ReactGA.timing(options);
     }
-  };
+  }, []);
 }

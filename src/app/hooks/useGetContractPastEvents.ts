@@ -54,8 +54,7 @@ export function useGetContractPastEvents(
         setEvents([]);
         setLoading(false);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractName, event, address, syncBlockNumber]);
+  }, [getEvents, address, syncBlockNumber]);
 
   return { events, loading };
 }

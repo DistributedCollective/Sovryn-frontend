@@ -22,6 +22,9 @@ import '@sovryn/react-wallet/index.css';
 
 // Import root app
 import { App } from 'app';
+import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
+import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
+import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -29,13 +32,7 @@ import { store } from './store/store';
 
 // Initialize languages
 import './locales/i18n';
-import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
-import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
-import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
-
-// if (process.env.REACT_APP_SENTRY_DSN) {
-//   import('./sentry').then(({ default: sentryInit }) => sentryInit());
-// }
+import './locales/dayjs';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 

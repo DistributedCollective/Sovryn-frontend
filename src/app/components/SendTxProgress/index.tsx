@@ -47,7 +47,6 @@ export function SendTxProgress(props: Props) {
   const [display, setDisplay] = useState(false);
 
   const [tx, setTx] = useState<Transaction>();
-  // const [approveTx, setApproveTx] = useState<Transaction>();
   const transactions = useSelector(selectTransactions);
 
   useEffect(() => {
