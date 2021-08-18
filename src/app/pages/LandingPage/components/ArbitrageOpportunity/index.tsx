@@ -11,7 +11,6 @@ import { fixNumber } from 'utils/helpers';
 import { bignumber } from 'mathjs';
 import { Opportunity } from 'app/components/Arbitrage/models/opportunity';
 import { Asset } from 'types';
-import { StyledImage } from './styled';
 import { Icon, Popover } from '@blueprintjs/core';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -99,14 +98,22 @@ export const ArbitrageOpportunity: React.FC = () => {
                       className={cn('tw-flex tw-items-center')}
                     >
                       <div className="tw-rounded-full tw-z-10">
-                        <StyledImage
+                        <img
+                          className="tw-w-8 tw-h-8 tw-object-scale-down"
+                          alt={
+                            AssetsDictionary.get(opportunity.fromToken).asset
+                          }
                           src={
                             AssetsDictionary.get(opportunity.fromToken).logoSvg
                           }
                         />
                       </div>
                       <div className="tw-rounded-full tw--ml-3">
-                        <StyledImage
+                        <img
+                          className="tw-w-8 tw-h-8 tw-object-scale-down"
+                          alt={
+                            AssetsDictionary.get(opportunity.toToken).logoSvg
+                          }
                           src={
                             AssetsDictionary.get(opportunity.toToken).logoSvg
                           }
