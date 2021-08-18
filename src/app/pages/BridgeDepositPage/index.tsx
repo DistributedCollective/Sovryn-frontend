@@ -73,7 +73,7 @@ export function BridgeDepositPage() {
   return (
     <>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg tw-relative"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
         <div

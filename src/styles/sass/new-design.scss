@@ -44,14 +44,14 @@
 
     & .nav-item {
       font-size: 15px;
-      color: theme('colors.muted');
+      color: theme('colors.gray-6');
       margin-right: 5px;
       border-right: 5px;
       border-top: 1px;
       border-left: 1px;
       border-bottom: 0;
       border-style: solid;
-      border-color: theme('colors.muted');
+      border-color: theme('colors.gray-6');
       border-radius: 8px 8px 0 0;
       margin-bottom: -1px;
       border-bottom: 1px solid theme('colors.white');
@@ -63,7 +63,7 @@
       &.active {
         color: theme('colors.white');
         border-color: theme('colors.white');
-        border-bottom: 1px solid theme('colors.background');
+        border-bottom: 1px solid theme('colors.gray-1');
       }
 
       &:not(.active) {
@@ -124,7 +124,7 @@
     tr {
       &:nth-child(odd) {
         td {
-          @apply tw-bg-gray-800;
+          @apply tw-bg-gray-3;
 
           &:first-child {
             border-radius: 6px 0 0 6px;
@@ -263,7 +263,7 @@ button.button-width {
 
     th,
     td {
-      @apply tw-font-body tw-text-gray-dark
+      @apply tw-font-body tw-text-gray-6
         tw-border tw-border-black;
       padding: 5px;
       vertical-align: middle;
@@ -322,11 +322,11 @@ button.button-width {
 }
 
 .btn-trading[disabled] {
-  @apply tw-bg-muted;
+  @apply tw-bg-gray-6;
   opacity: 0.5;
   cursor: not-allowed;
   &:hover {
-    @apply tw-bg-muted;
+    @apply tw-bg-gray-6;
   }
 }
 

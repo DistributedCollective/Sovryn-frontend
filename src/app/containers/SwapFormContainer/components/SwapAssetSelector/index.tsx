@@ -114,9 +114,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
         <Text ellipsize>
           <div className="tw-flex tw-flex-items-center tw-justify-between">
             <AssetRenderer asset={item.key} showImage imageSize={5} />{' '}
-            <div className="tw-text-xs tw-gray-100">
-              {weiToNumberFormat(item.value, 4)}
-            </div>
+            <div className="tw-text-xs">{weiToNumberFormat(item.value, 4)}</div>
           </div>
         </Text>
       }

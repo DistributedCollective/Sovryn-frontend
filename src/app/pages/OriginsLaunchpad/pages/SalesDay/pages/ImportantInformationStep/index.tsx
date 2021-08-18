@@ -91,7 +91,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                 .submitButtonText,
             )}
             onClick={onSubmit}
-            className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-background tw-bg-opacity-5"
+            className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-gray-1 tw-bg-opacity-5"
             textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-5.5"
             disabled={!checked}
           />

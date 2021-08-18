@@ -68,12 +68,12 @@ export function StakePage() {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
+        <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
             <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
+            <div className="tw-w-full tw-bg-gray-1 tw-text-center tw-rounded-b tw-shadow tw-p-3">
               <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
@@ -316,13 +316,13 @@ function InnerStakePage() {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
+        <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
             <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
             <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-3 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
@@ -356,7 +356,7 @@ function InnerStakePage() {
                 {sovBalanceOf.value !== '0' && !stakingLocked ? (
                   <button
                     type="button"
-                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
+                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary hover:tw-text-gray-1 tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
                     onClick={() => {
                       setTimestamp(0);
                       setAmount('');
@@ -391,7 +391,7 @@ function InnerStakePage() {
                   </Tooltip>
                 )}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-3 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -409,7 +409,7 @@ function InnerStakePage() {
                   );
                 })}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="xl:tw-mx-2 tw-bg-gray-3 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>

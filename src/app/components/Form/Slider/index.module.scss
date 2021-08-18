@@ -8,7 +8,7 @@
 }
 
 .host :global(.bp3-slider-progress) {
-  @apply tw-h-2.5 tw-bg-gray-dark;
+  @apply tw-h-2.5 tw-bg-gray-6;
 }
 
 .host :global(.bp3-slider-progress):global(.bp3-intent-primary) {

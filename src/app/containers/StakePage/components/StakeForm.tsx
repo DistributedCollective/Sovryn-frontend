@@ -129,7 +129,7 @@ export function StakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
-              className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-border tw-border-gray-3 tw-border-opacity-100 tw-border-solid tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="voting-power"
               type="text"
               placeholder="0"

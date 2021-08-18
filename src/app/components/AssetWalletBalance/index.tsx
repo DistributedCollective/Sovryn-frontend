@@ -39,7 +39,7 @@ export function AssetWalletBalance(props: Props) {
 
   return (
     <div>
-      <div className="tw-font-bold tw-text-muted tw-mb-2">
+      <div className="tw-font-bold tw-text-gray-6 tw-mb-2">
         {t(translations.assetWalletBalance.accountBalance)}
       </div>
       {!connected && (
@@ -52,7 +52,7 @@ export function AssetWalletBalance(props: Props) {
       )}
       {connected && (
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-          <span className="tw-text-muted">
+          <span className="tw-text-gray-6">
             <AssetRenderer asset={props.asset} />
           </span>
           <span className="tw-text-sov-white tw-font-bold tw-ml-2">

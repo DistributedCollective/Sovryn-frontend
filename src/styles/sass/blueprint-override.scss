@@ -45,14 +45,14 @@ article.bp3-dialog h1 {
   @extend .sovryn-border;
   @apply tw-p-3;
   font-family: theme('fontFamily.body');
-  background-color: theme('colors.dAppBackground');
+  background-color: theme('colors.gray-1');
 }
 
 .bp3-popover {
   &.bp3-select-popover {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      background-color: theme('colors.dAppBackground');
+      background-color: theme('colors.gray-1');
 
       & .bp3-input-group {
         & input {
@@ -72,7 +72,7 @@ article.bp3-dialog h1 {
   &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      background-color: theme('colors.dAppBackground');
+      background-color: theme('colors.gray-1');
     }
 
     & .bp3-popover-arrow {
@@ -93,7 +93,7 @@ article.bp3-dialog h1 {
       font-family: theme('fontFamily.body');
 
       &.bp3-active {
-        background-color: theme('colors.muted');
+        background-color: theme('colors.gray-6');
       }
     }
   }

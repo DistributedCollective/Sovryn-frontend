@@ -5,7 +5,7 @@
   }
 
   body {
-    @apply tw-bg-background tw-text-foreground tw-font-body tw-text-xs tw-leading-normal;
+    @apply tw-bg-gray-1 tw-text-sov-white tw-font-body tw-text-xs tw-leading-normal;
     font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -86,6 +86,6 @@
     font-size: 19px;
     font-weight: 600;
     letter-spacing: 2.92px;
-    @apply tw-text-Grey_text
+    @apply tw-text-gray-7;
   }
 }

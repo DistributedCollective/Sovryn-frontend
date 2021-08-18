@@ -26,7 +26,7 @@
 }
 
 .main-container {
-  @apply tw-w-full tw-h-screen tw-overflow-auto tw-bg-background;
+  @apply tw-w-full tw-h-screen tw-overflow-auto tw-bg-gray-1;
   padding: 4vh 7vw;
   background-image: url('assets/img/bg@3x.png');
   background-size: contain;
@@ -140,13 +140,13 @@
 
   .nav-tabs,
   .nav-tabs .nav-item.show .nav-link {
-    @apply tw-bg-background;
+    @apply tw-bg-gray-1;
     color: #f89b2b;
 
     &:hover,
     &:active,
     &:focus {
-      @apply tw-bg-background;
+      @apply tw-bg-gray-1;
       color: #495057;
     }
   }
@@ -157,7 +157,7 @@
   }
 
   .nav-link.active {
-    @apply tw-bg-background;
+    @apply tw-bg-gray-1;
     color: #f89b2b;
     border-color: #dee2e6 #dee2e6 #dee2e6;
   }
@@ -165,7 +165,7 @@
   &:hover,
   &:active,
   &:focus {
-    @apply tw-bg-background;
+    @apply tw-bg-gray-1;
   }
 }
 
@@ -185,7 +185,7 @@
   }
 
   & button.disabled {
-    @apply tw-bg-muted tw-border tw-border-muted;
+    @apply tw-bg-gray-6 tw-border tw-border-gray-6;
   }
 }
 

@@ -4,7 +4,7 @@
   :global(h1) {
     @apply tw-mb-4 tw-text-center 
       tw-text-2xl tw-font-semibold tw-font-body tw-capitalize 
-      tw-text-foreground;
+      tw-text-sov-white;
   }
 }
 
@@ -12,7 +12,7 @@
   @apply tw-flex tw-items-center tw-fixed 
     tw-top-4 tw-left-0 tw-right-0 tw-px-8 tw-py-4 tw-m-auto
     tw-text-sm tw-text-error 
-    tw-opacity-75 tw-bg-sov-white tw-border tw-border-gray-dark tw-rounded-10px;
+    tw-opacity-75 tw-bg-sov-white tw-border tw-border-gray-6 tw-rounded-10px;
 
   width: 500px;
   max-width: 90vw;

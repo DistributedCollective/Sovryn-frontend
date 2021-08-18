@@ -34,7 +34,7 @@ export function ExtendStakeForm(props: Props) {
       <h3 className="tw-text-center tw-mb-10 tw-leading-10 tw-text-3xl">
         {t(translations.stake.extending.title)}
       </h3>
-      <div className="tw-text-gray-5 tw-mb-4 md:tw-px-9 tw-tracking-normal tw-text-xs">
+      <div className="tw-mb-4 md:tw-px-9 tw-tracking-normal tw-text-xs">
         {t(translations.stake.extending.previousUntil)}:
         <br />
         <span className="tw-font-bold">
@@ -81,7 +81,7 @@ export function ExtendStakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
-              className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-border tw-border-gray-3 tw-border-opacity-100 tw-border-solid tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="voting-power"
               type="text"
               placeholder="0"
@@ -93,10 +93,10 @@ export function ExtendStakeForm(props: Props) {
             methodName="extendStakingDuration"
             contractName="staking"
           />
-          <div className="tw-text-gray-700 tw-text-xs tw-mt-3 tw-hidden">
+          <div className="tw-text-gray-1 tw-text-xs tw-mt-3 tw-hidden">
             {t(translations.stake.extending.balance)}:{' '}
             <span
-              className={`tw-text-gray-900 ${
+              className={`tw-text-gray-6 ${
                 props.sovBalanceOf.loading && 'tw-skeleton'
               }`}
             >

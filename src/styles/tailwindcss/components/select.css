@@ -9,7 +9,7 @@
   .tw-select-origin {
     background-color: #222222;
     @apply tw-h-10;
-    @apply tw-border tw-border-solid tw-border-dark-1;
+    @apply tw-border tw-border-solid tw-border-gray-6;
     @apply tw-rounded-lg;
     @apply tw-flex;
     @apply tw-justify-between;

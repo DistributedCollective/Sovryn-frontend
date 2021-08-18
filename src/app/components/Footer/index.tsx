@@ -18,7 +18,7 @@ export function Footer() {
   return (
     <footer className="tw-mt-4">
       <div className="tw-container tw-py-4 tw-mx-auto tw-px-4">
-        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-lightGrey">
+        <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-gray-9">
           <h6 className="tw-font-normal tw-text-base tw-mb-6">
             <Trans
               i18nKey={translations.footer.title}
@@ -99,13 +99,13 @@ export function Footer() {
             </a>
           </div>
         )}
-        <div className="tw-text-xs tw-text-lightGrey tw-mb-1">
+        <div className="tw-text-xs tw-text-gray-9 tw-mb-1">
           Charts powered by{' '}
           <a
             href="https://www.highcharts.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="tw-font-normal tw-text-lightGrey"
+            className="tw-font-normal tw-text-gray-9"
           >
             Highcharts
           </a>

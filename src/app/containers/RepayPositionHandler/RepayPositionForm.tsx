@@ -91,7 +91,7 @@ export function RepayPositionForm({ loan }: Props) {
       >
         <DummyField>
           {weiTo18(loan.principal)}&nbsp;
-          <span className="tw-text-muted"> {asset}</span>
+          <span className="tw-text-gray-6"> {asset}</span>
         </DummyField>
       </FieldGroup>
 
@@ -105,7 +105,7 @@ export function RepayPositionForm({ loan }: Props) {
           onChange={value => setAmount(value)}
           onMaxClicked={onMaxClicked}
         />
-        <small className="tw-text-muted">
+        <small className="tw-text-gray-6">
           {t(translations.repayPositionForm.labels.amountToReceive)}
           {': '}
           <LoadableValue

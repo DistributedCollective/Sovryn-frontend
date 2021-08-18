@@ -20,7 +20,7 @@
 .engage-wallet {
   @apply tw-h-10 tw-py-0.5 tw-pr-0 tw-pl-2.5
     tw-text-primary tw-font-thin tw-font-body tw-tracking-normal
-    tw-bg-gray-900 tw-rounded-lg
+    tw-bg-gray-6 tw-rounded-lg
     tw-cursor-pointer;
 
   background-color: #383838;
@@ -30,7 +30,7 @@
   .logout {
     @apply tw-h-10 tw-p-3 
       tw-text-primary 
-      tw-bg-gray-900 tw-rounded-l-none tw-rounded-r-lg
+      tw-bg-gray-6 tw-rounded-l-none tw-rounded-r-lg
       tw-cursor-pointer;
 
     transition: background-color 0.3s;

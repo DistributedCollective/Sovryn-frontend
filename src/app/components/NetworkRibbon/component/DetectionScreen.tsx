@@ -66,7 +66,7 @@ export function DetectionScreen(props: Props) {
             <ActionButton
               text={t(translations.wrongNetworkDialog.metamask.connectButton)}
               onClick={addNetworkCallback}
-              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-lg tw-bg-background tw-bg-opacity-5"
+              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-lg tw-bg-gray-1 tw-bg-opacity-5"
               textClassName="tw-text-lg tw-tracking-normal tw-leading-6 tw-font-semibold"
             />
           </div>

@@ -23,7 +23,7 @@
   }
 
   .tw-input-wrapper.readonly {
-    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-dark-1;
+    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6;
   }
   .tw-input-wrapper.readonly .tw-input {
     @apply tw-text-sov-white;

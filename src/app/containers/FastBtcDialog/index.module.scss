@@ -5,7 +5,7 @@
 
 .container {
   @apply tw-relative tw-w-full 
-    tw-text-foreground tw-tracking-normal
+    tw-text-sov-white tw-tracking-normal
     tw-bg-black tw-rounded-2xl;
   max-width: 1000px;
 }
@@ -90,7 +90,7 @@
 }
 
 .instructionsTitle {
-  @apply tw-text-gray-600;
+  @apply tw-text-sov-white;
   margin-top: 20px;
   margin-bottom: 10px;
   font-size: 16px;

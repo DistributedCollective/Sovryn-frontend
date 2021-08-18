@@ -10,10 +10,10 @@
     }
 
     .tw-table tbody tr:nth-child(even) {
-      @apply tw-bg-gray-700;
+      @apply tw-bg-gray-1;
     }
     .tw-table tbody tr:nth-child(odd) {
-      @apply tw-bg-gray-100;
+      @apply tw-bg-gray-2;
     }
 
     .tw-table tbody tr:first-child td:first-child {

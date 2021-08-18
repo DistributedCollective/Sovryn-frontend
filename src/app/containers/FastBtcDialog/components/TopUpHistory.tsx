@@ -117,7 +117,7 @@ export function TopUpHistory() {
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
                     <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
-                    <small className="tw-text-muted">
+                    <small className="tw-text-gray-6">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
                   </div>
