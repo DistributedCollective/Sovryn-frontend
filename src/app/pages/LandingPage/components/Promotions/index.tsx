@@ -35,7 +35,7 @@ export const Promotions: React.FC = () => {
             title="25K SOV rewards"
             duration="Until 11/05/21, 12.00 UTC"
             text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkAsset={Asset.RBTC}
+            linkAsset={Asset.SOV}
             learnMoreLink="http://www.test.com"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}

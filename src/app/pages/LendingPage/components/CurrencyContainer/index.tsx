@@ -6,6 +6,7 @@ import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useLocation, useHistory } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 const currencyRows = LendingPoolDictionary.list();
 
@@ -21,6 +22,7 @@ const CurrencyContainer: React.FC = () => {
     [States.DEPOSIT_LEND]: depositLendLocked,
     [States.WITHDRAW_LEND]: withdrawLendLocked,
   } = checkMaintenances();
+  const connected = useIsConnected();
 
   useEffect(() => linkAsset && history.replace(location.pathname), [
     history,
@@ -39,7 +41,7 @@ const CurrencyContainer: React.FC = () => {
             lendingAmount={info.getAsset() ? weiLendAmount : '0'}
             depositLocked={depositLendLocked}
             withdrawLocked={withdrawLendLocked}
-            linkAsset={linkAsset}
+            linkAsset={depositLendLocked || !connected ? undefined : linkAsset}
           />
         );
       })}
