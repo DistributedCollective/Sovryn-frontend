@@ -94,8 +94,10 @@ export function AffiliateHistory({ items, referralList }: Props) {
             />
           ),
           status: (
-            <div className="d-flex tw-items-center">
-              <>{t(translations.common.confirmed)}</>
+            <div className="tw-flex tw-items-center tw-justify-start tw-gap-4 md:tw-w-full tw-p-0">
+              <div className="tw-m-0 tw-text-xs">
+                {t(translations.common.confirmed)}
+              </div>
               <div className="tw-ml-2">
                 <img
                   src={iconSuccess}
