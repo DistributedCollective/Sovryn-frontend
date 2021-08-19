@@ -11,7 +11,7 @@
 .wrongNetwork {
   @apply tw-flex tw-items-center tw-fixed 
     tw-top-4 tw-left-0 tw-right-0 tw-px-8 tw-py-4 tw-m-auto
-    tw-text-sm tw-text-error 
+    tw-text-sm tw-text-warning 
     tw-opacity-75 tw-bg-sov-white tw-border tw-border-gray-6 tw-rounded-10px;
 
   width: 500px;

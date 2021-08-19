@@ -239,7 +239,7 @@ export function StakingDateSelector(props: Props) {
         </Slider>
       </div>
       {availableYears.length <= 0 && (
-        <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
+        <p className="tw-block tw-mt-4 tw-text-warning tw-text-sm tw-font-medium tw-mb-2">
           {t(translations.stake.dateSelector.noneAvailable)}
         </p>
       )}

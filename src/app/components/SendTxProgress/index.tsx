@@ -91,7 +91,7 @@ export function SendTxProgress(props: Props) {
   let subText = getDescription(props.status, props.type);
 
   if (props.status === TxStatus.FAILED) {
-    color = 'tw-text-red';
+    color = 'tw-text-warning';
     if (!props.txHash) {
       mainText = getTitle('denied', props.type);
       subText = getDescription('denied', props.type);

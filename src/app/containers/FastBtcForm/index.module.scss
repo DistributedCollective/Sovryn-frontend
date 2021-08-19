@@ -24,10 +24,10 @@
     height: 15px;
     border-radius: 50%;
     &.circle-red {
-      @apply tw-bg-red;
+      @apply tw-bg-warning;
     }
     &.circle-green {
-      @apply tw-bg-green;
+      @apply tw-bg-success;
     }
   }
 }

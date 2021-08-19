@@ -39,7 +39,7 @@ export function WithdrawConfirmationForm(props: Props) {
         <StyledStatus>
           <img src={iconReject} alt="attention" className="tw-m-auto" />
         </StyledStatus>
-        <p className="tw-text-red tw-text-center">
+        <p className="tw-text-warning tw-text-center">
           {t(translations.stake.withdraw.stakeUnlockUntil)}:
         </p>
         <div className="tw-text-center tw-text-xl tw-font-normal tw-mb-8 tw-mt-4">
@@ -51,13 +51,13 @@ export function WithdrawConfirmationForm(props: Props) {
 
         {props.forfeit === 0 ? (
           <>
-            <p className="tw-text-red tw-text-center">
+            <p className="tw-text-warning tw-text-center">
               {t(translations.stake.withdraw.penaltyZero)}
             </p>
           </>
         ) : (
           <>
-            <p className="tw-text-red tw-text-center">
+            <p className="tw-text-warning tw-text-center">
               {t(translations.stake.withdraw.penalty)}:
             </p>
             <div className="tw-text-center tw-text-lg tw-font-semibold">
@@ -76,7 +76,7 @@ export function WithdrawConfirmationForm(props: Props) {
                   href={discordInvite}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="tw-text-red tw-text-xs tw-underline hover:tw-no-underline"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                 >
                   x
                 </a>,

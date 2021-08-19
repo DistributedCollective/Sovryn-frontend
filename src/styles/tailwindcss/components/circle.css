@@ -4,10 +4,10 @@
     height: 15px;
     border-radius: 50%;
   }
-  .tw-circle .tw-circle-red {
-    @apply tw-bg-red;
+  .tw-circle .tw-circle-warning {
+    @apply tw-bg-warning;
   }
   .tw-circle .tw.circle-green {
-    @apply tw-bg-green;
+    @apply tw-bg-success;
   }
 }

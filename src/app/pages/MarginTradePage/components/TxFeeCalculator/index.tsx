@@ -68,7 +68,7 @@ export function TxFeeCalculator(props: Props) {
                   <small className="tw-text-gray-6">
                     (gas limit: {gasLimit} units)
                   </small>
-                  {error && <p className="tw-text-red">{error}</p>}
+                  {error && <p className="tw-text-warning">{error}</p>}
                 </>
               }
             />,

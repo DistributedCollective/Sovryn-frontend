@@ -101,7 +101,7 @@ export function LiquidityMining() {
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (
-          <div className="tw-text-red tw-text-xl tw-text-center">
+          <div className="tw-text-warning tw-text-xl tw-text-center">
             <Trans
               i18nKey={translations.maintenance.liquidity}
               components={[
@@ -109,7 +109,7 @@ export function LiquidityMining() {
                   href={discordInvite}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="tw-text-red tw-underline hover:tw-no-underline"
+                  className="tw-text-warning tw-underline hover:tw-no-underline"
                 >
                   x
                 </a>,

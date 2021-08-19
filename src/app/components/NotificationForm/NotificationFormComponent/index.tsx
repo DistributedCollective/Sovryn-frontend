@@ -106,7 +106,7 @@ export function NotificationFormComponent(props: Props) {
         </div>
         {props.response !== 'success' && props.response && (
           <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-p-4">
-            <p className="tw-text-red-500">{t(s.dialog.error)}</p>
+            <p className="tw-text-warning">{t(s.dialog.error)}</p>
           </div>
         )}
       </div>

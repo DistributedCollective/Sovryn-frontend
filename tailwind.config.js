@@ -43,18 +43,19 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+
       primary: '#fec004',
       'primary-05': '#fec0040d',
       'primary-25': '#fec00440',
       'primary-50': '#fec00480',
       'primary-75': '#fec004C0',
+
       secondary: '#2274a5',
       'secondary-05': '#2274a50d',
       'secondary-25': '#2274a540',
       'secondary-50': '#2274a580',
       'secondary-75': '#2274a5C0',
-      white: '#ffffff',
-      'sov-white': '#e8e8e8',
+
       black: '#000000',
       'gray-1': '#161616',
       'gray-2': '#1f1f1f',
@@ -65,15 +66,14 @@ module.exports = {
       'gray-7': '#8e8e8e',
       'gray-8': '#a2a2a2',
       'gray-9': '#c4c4c4',
+      white: '#ffffff',
+      'sov-white': '#e8e8e8',
 
       'trade-long': '#17C3B2',
       'trade-short': '#D74E09',
 
-      red: '#eb2106',
-      green: '#00ce7d',
-
-      error: '#A52222',
-      info: '#17a2b8',
+      success: '#27A522',
+      warning: '#A52222',
     },
     borderColor: theme => ({
       ...theme('colors'),

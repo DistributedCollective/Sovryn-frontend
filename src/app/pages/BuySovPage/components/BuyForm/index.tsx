@@ -160,7 +160,7 @@ export function BuyForm() {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-red tw-text-sm"
+                      className="tw-text-warning tw-text-sm"
                     >
                       x
                     </a>,
