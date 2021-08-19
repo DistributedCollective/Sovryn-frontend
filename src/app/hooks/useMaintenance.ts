@@ -36,14 +36,14 @@ export function useMaintenance() {
   const maintenanceStates: MaintenanceStates = useSelector(selectMaintenance);
 
   const checkMaintenance = (name: States): boolean => {
-    return maintenanceStates[name]?.maintenance_active;
+    return false; //maintenanceStates[name]?.maintenance_active;
   };
 
   const checkMaintenances = (): MaintenanceResult => {
     return Object.keys(maintenanceStates).reduce(
       (res, curr) =>
         Object.assign(res, {
-          [curr]: maintenanceStates[curr]?.maintenance_active,
+          [curr]: false, //maintenanceStates[curr]?.maintenance_active,
         }),
       {} as MaintenanceResult,
     );
