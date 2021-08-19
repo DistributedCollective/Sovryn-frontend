@@ -1,39 +1,25 @@
-import { Text } from '@blueprintjs/core';
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 
-interface Props {
+interface ITabProps {
   text: string;
   amount: string;
   active: boolean;
   onClick: () => void;
 }
 
-export function Tab(props: Props) {
+export const Tab: React.FC<ITabProps> = ({ text, amount, active, onClick }) => {
   return (
-    <StyledTab active={props.active} onClick={() => props.onClick()}>
-      <TopTitle>
-        <Text>{props.text}</Text>
-      </TopTitle>
-      <AmountTitle>
-        <Text>{props.amount}</Text>
-      </AmountTitle>
+    <StyledTab active={active} onClick={onClick}>
+      <div>{text}</div>
+      <div className="tw-text-2xl tw-font-semibold">{amount}</div>
     </StyledTab>
   );
-}
+};
 
 interface StyledProps {
   active: boolean;
 }
-const TopTitle = styled.div`
-  color: '#E9EAE9';
-  font-size: 16px;
-`;
-const AmountTitle = styled.div`
-  color: '#E9EAE9';
-  font-size: 24px;
-  font-weight: bold;
-`;
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
   className: 'btn',

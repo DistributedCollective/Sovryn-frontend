@@ -1,9 +1,3 @@
-/**
- *
- * RewardPage
- *
- */
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -51,36 +45,38 @@ export function RewardPage() {
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           {/* <ClaimForm address={userAddress} /> */}
-          <div className="tw-flex tw-w-1/2 tw-flex-row tw-items-center tw-justify-start">
-            <div className="tw-w-full">
-              <Tab
-                text={t(translations.rewardPage.sov.reward)}
-                amount={rewardSov}
-                active={activeAssets === 0}
-                onClick={() => setActiveAssets(0)}
-              />
+          <div className="tw-w-230">
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.reward)}
+                  amount={rewardSov}
+                  active={activeAssets === 0}
+                  onClick={() => setActiveAssets(0)}
+                />
+              </div>
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.liquid)}
+                  active={activeAssets === 1}
+                  onClick={() => setActiveAssets(1)}
+                  amount="32.274693 SOV"
+                />
+              </div>
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.fee)}
+                  active={activeAssets === 2}
+                  onClick={() => setActiveAssets(2)}
+                  amount="0.02918284 RBTC"
+                />
+              </div>
             </div>
-            <div className="tw-w-full">
-              <Tab
-                text={t(translations.rewardPage.sov.liquid)}
-                active={activeAssets === 1}
-                onClick={() => setActiveAssets(1)}
-                amount="32.274693 SOV"
-              />
+            <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
+              {activeAssets === 0 && <RewardForm />}
+              {activeAssets === 1 && <LiquidForm />}
+              {activeAssets === 2 && <FeeForm />}
             </div>
-            <div className="tw-w-full">
-              <Tab
-                text={t(translations.rewardPage.sov.fee)}
-                active={activeAssets === 2}
-                onClick={() => setActiveAssets(2)}
-                amount="0.02918284 RBTC"
-              />
-            </div>
-          </div>
-          <div className="tw-flex-1 tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-            {activeAssets === 0 && <RewardForm />}
-            {activeAssets === 1 && <LiquidForm />}
-            {activeAssets === 2 && <FeeForm />}
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">

@@ -1,7 +1,6 @@
 import { bignumber } from 'mathjs';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { css } from 'styled-components/macro';
 
 import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
@@ -15,6 +14,14 @@ import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liqui
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
+import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
+import {
+  Box,
+  ContainerBox,
+  Divider,
+  PieChart,
+  RewardDetailsWrapper,
+} from '../../styled';
 
 export function RewardForm() {
   const userAddress = useAccount();
@@ -117,7 +124,6 @@ export function RewardForm() {
         </div>
         <Divider />
         <div className="tw-w-1/2">
-          {/* <div><RewardChart height={100} /></div> */}
           <div className="tw-flex tw-items-center tw-justify-evenly">
             <PieChart
               firstPercentage={10}
@@ -141,173 +147,28 @@ export function RewardForm() {
           </div>
         </div>
       </Box>
-      <RewardInfoBox>
-        <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
-          <InfoTitle>
-            {t(translations.rewardPage.topData.liquidityRewards)}
-          </InfoTitle>
-          <div className="tw-flex tw-items-start">
-            <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>
-            <div>
-              <div className="mb-3">
-                <InfoSubAvaTitle>
-                  {t(translations.rewardPage.topData.availableRewards)}
-                </InfoSubAvaTitle>
-                <InfoContent>
-                  {liquidityRewards.toFixed(6) + ' SOV'}
-                </InfoContent>
-              </div>
-              <div className="mb-3">
-                <InfoSubTotalTitle>
-                  {t(translations.rewardPage.topData.totalRewards)}
-                </InfoSubTotalTitle>
-                <InfoSubTotalContent>73.5927 SOV</InfoSubTotalContent>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
-          <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.lendingRewards)}
-          </div>
-          <div className="tw-flex tw-items-start">
-            <div className="tw-p-2 tw-bg-white tw-mr-5"></div>
-            <div>
-              <div className="mb-3">
-                <InfoSubAvaTitle>
-                  {t(translations.rewardPage.topData.availableRewards)}
-                </InfoSubAvaTitle>
-                <InfoContent>{lendingRewards.toFixed(6) + ' SOV'}</InfoContent>
-              </div>
-              <div className="mb-3">
-                <InfoSubTotalTitle>
-                  {t(translations.rewardPage.topData.totalRewards)}
-                </InfoSubTotalTitle>
-                <InfoSubTotalContent>73.5927 SOV</InfoSubTotalContent>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
-          <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.tradingRewards)}
-          </div>
-          <div className="tw-flex tw-items-start">
-            <div className="tw-p-2 tw-bg-green tw-mr-5"></div>
-            <div>
-              <div className="mb-3">
-                <InfoSubAvaTitle>
-                  {t(translations.rewardPage.topData.availableRewards)}
-                </InfoSubAvaTitle>
-                <InfoContent>15.2976 SOV</InfoContent>
-              </div>
-              <div className="mb-3">
-                <InfoSubTotalTitle>
-                  {t(translations.rewardPage.topData.totalRewards)}
-                </InfoSubTotalTitle>
-                <InfoSubTotalContent>73.5927 SOV</InfoSubTotalContent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </RewardInfoBox>
+      <RewardDetailsWrapper>
+        <RewardsDetail
+          color={RewardsDetailColor.Grey}
+          title={t(translations.rewardPage.topData.tradingRewards)}
+          availableAmount={5.0}
+          totalEarnedAmount={23.842027}
+        />
+
+        <RewardsDetail
+          color={RewardsDetailColor.Green}
+          title={t(translations.rewardPage.topData.lendingRewards)}
+          availableAmount={10.0}
+          totalEarnedAmount={23.810427}
+        />
+
+        <RewardsDetail
+          color={RewardsDetailColor.Yellow}
+          title={t(translations.rewardPage.topData.liquidityRewards)}
+          availableAmount={10.0}
+          totalEarnedAmount={23.843927}
+        />
+      </RewardDetailsWrapper>
     </ContainerBox>
   );
 }
-
-interface IPieChartProps {
-  backgroundColor?: string;
-  firstPercentage: number;
-  secondPercentage: number;
-  thirdPercentage?: number;
-}
-
-const PieChart = styled.div<IPieChartProps>`
-  width: 9.375rem;
-  height: 9.375rem;
-  background: radial-gradient(
-      circle closest-side,
-      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')} 0,
-      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')}
-        82%,
-      transparent 82%,
-      transparent 100%,
-      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')} 0
-    ),
-    conic-gradient(
-      #e9eae9 0,
-      #e9eae9 ${props => props.firstPercentage}%,
-      #00ce7d 0,
-      #00ce7d ${props => props.firstPercentage + props.secondPercentage}%,
-      ${props =>
-        props.thirdPercentage
-          ? css`
-      #fec004 0,
-      #fec004 100%
-      `
-          : css`
-    #00ce7d 100%
-    `}
-    );
-`;
-
-const ContainerBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-const Box = styled.div`
-  background-color: #222222;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-const InfoTitle = styled.div`
-  color: '#E9EAE9';
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 2.25rem;
-`;
-const InfoContent = styled.div`
-  color: '#E9EAE9';
-  font-size: 20px;
-  font-weight: 600;
-`;
-const InfoSubAvaTitle = styled.div`
-  color: '#E9EAE9';
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-`;
-const InfoSubTotalTitle = styled.div`
-  color: 'rgba(237,237,237,0.65)';
-  font-size: 10px;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-`;
-const InfoSubTotalContent = styled.div`
-  color: 'rgba(237,237,237,0.65)';
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-`;
-const RewardInfoBox = styled.div`
-  /* background-color: #222222; */
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  font-family: 'Montserrat';
-`;
-const Divider = styled.div`
-  width: 0px;
-  border-width: 1px;
-  height: 150px;
-  border-color: #e9eae9;
-`;
