@@ -1,10 +1,4 @@
 import { bignumber } from 'mathjs';
-/**
- *
- * RewardForm
- *
- */
-
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
@@ -21,8 +15,6 @@ import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liqui
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
-
-// import RewardChart from '../RewardChart';
 
 export function FeeForm() {
   const userAddress = useAccount();
@@ -125,7 +117,6 @@ export function FeeForm() {
         </div>
         <Divider />
         <div className="tw-w-1/2 tw-flex w-flex-row tw-justify-center tw-align-center">
-          <div>{/* <RewardChart height={100} /> */}</div>
           <div className="lg:tw-mr-5">
             <div className="tw-text-xs mb-2 tw-flex tw-items-center">
               <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>

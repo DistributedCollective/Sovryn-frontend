@@ -1,13 +1,7 @@
 import { bignumber } from 'mathjs';
-/**
- *
- * RewardForm
- *
- */
-
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 
 import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
@@ -21,8 +15,6 @@ import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liqui
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import { ClaimForm } from '../ClaimForm';
-
-// import RewardChart from '../RewardChart';
 
 export function RewardForm() {
   const userAddress = useAccount();
@@ -124,20 +116,27 @@ export function RewardForm() {
           <ClaimForm address={userAddress} />
         </div>
         <Divider />
-        <div className="tw-w-1/2 tw-flex w-flex-row tw-justify-center tw-align-center">
-          <div>{/* <RewardChart height={100} /> */}</div>
-          <div className="lg:tw-mr-5">
-            <div className="tw-text-xs mb-2 tw-flex tw-items-center">
-              <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>
-              50.00% - Liquidity Rewards
-            </div>
-            <div className="tw-text-xs mb-2 tw-flex tw-items-center">
-              <div className="tw-p-2 tw-bg-white tw-mr-5"></div>
-              16.66% - Lending Rewards
-            </div>
-            <div className="tw-text-xs mb-2 tw-flex tw-items-center">
-              <div className="tw-p-2 tw-bg-green tw-mr-5"></div>
-              33.33% - Trading Rewards
+        <div className="tw-w-1/2">
+          {/* <div><RewardChart height={100} /></div> */}
+          <div className="tw-flex tw-items-center tw-justify-evenly">
+            <PieChart
+              firstPercentage={10}
+              secondPercentage={40}
+              thirdPercentage={50}
+            />
+            <div>
+              <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
+                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
+                10% - Lending Rewards
+              </div>
+              <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
+                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green"></div>
+                40% - Trading Rewards
+              </div>
+              <div className="tw-text-xs mb-2 tw-flex tw-items-center">
+                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-gold"></div>
+                50% - Liquidity Rewards
+              </div>
             </div>
           </div>
         </div>
@@ -215,6 +214,42 @@ export function RewardForm() {
     </ContainerBox>
   );
 }
+
+interface IPieChartProps {
+  backgroundColor?: string;
+  firstPercentage: number;
+  secondPercentage: number;
+  thirdPercentage?: number;
+}
+
+const PieChart = styled.div<IPieChartProps>`
+  width: 9.375rem;
+  height: 9.375rem;
+  background: radial-gradient(
+      circle closest-side,
+      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')} 0,
+      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')}
+        82%,
+      transparent 82%,
+      transparent 100%,
+      ${props => (props.backgroundColor ? props.backgroundColor : '#222222')} 0
+    ),
+    conic-gradient(
+      #e9eae9 0,
+      #e9eae9 ${props => props.firstPercentage}%,
+      #00ce7d 0,
+      #00ce7d ${props => props.firstPercentage + props.secondPercentage}%,
+      ${props =>
+        props.thirdPercentage
+          ? css`
+      #fec004 0,
+      #fec004 100%
+      `
+          : css`
+    #00ce7d 100%
+    `}
+    );
+`;
 
 const ContainerBox = styled.div`
   width: 100%;
