@@ -1,11 +1,11 @@
 :root {
   --primary: theme('colors.primary');
-  --primary-5: theme('colors.primary-05');
+  --primary-5: theme('colors.primary-5');
   --primary-25: theme('colors.primary-25');
   --primary-50: theme('colors.primary-50');
   --white: theme('colors.white');
   --sov-white: theme('colors.sov-white');
   --gray-1: theme('colors.gray-1');
   --gray-3: theme('colors.gray-3');
-  --error: theme('colors.warning');
+  --warning: theme('colors.warning');
 }

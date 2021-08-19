@@ -53,7 +53,7 @@ const StyledWrapper = styled.label.attrs(_ => ({
   ${(props: Wrapper) =>
     props.invalid &&
     css`
-      border-color: var(--error) !important;
+      border-color: var(--warning) !important;
     `}
 `;
 

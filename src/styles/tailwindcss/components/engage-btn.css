@@ -9,8 +9,7 @@
     @apply tw-px-6 tw-py-2;
     @apply tw-transition;
     @apply tw-text-sov-white;
-    @apply tw-border-0 tw-rounded;
-    background: #17c3b2;
+    @apply tw-bg-trade-long tw-border-0 tw-rounded;
   }
 
   .tw-btn-engage:hover {
