@@ -19,11 +19,10 @@
 
 .engage-wallet {
   @apply tw-h-10 tw-py-0.5 tw-pr-0 tw-pl-2.5
-    tw-font-thin tw-font-body tw-tracking-normal
-    tw-bg-gray-6 tw-rounded-lg
+    tw-text-xs tw-font-thin tw-font-body tw-tracking-normal
+    tw-bg-gray-4 tw-rounded-lg
     tw-cursor-pointer;
 
-  background-color: #383838;
   font-size: 14px;
   min-width: 165px;
 

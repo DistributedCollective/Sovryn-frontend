@@ -39,9 +39,8 @@
   }
 
   .swap-form {
-    background: #111111;
+    @apply tw-bg-black tw-border tw-border-gray-5;
     border-radius: 20px;
-    border: 1px solid #444444;
     padding: 30px 36px 50px;
     width: 387px;
     min-height: 388px;

@@ -1,23 +1,19 @@
 @import '../../../styles/sass/custom-variables';
 
 .nav-item {
-  color: white;
-  font-weight: 100;
-  font-family: theme('fontFamily.body');
+  @apply tw-text-white tw-font-thin tw-font-body;
 
   &.active {
-    font-weight: 600;
-    text-decoration: none;
+    @apply tw-font-semibold tw-no-underline;
 
     &:hover {
-      color: white;
+      @apply tw-text-white;
     }
   }
 
   &:hover,
   &:active {
-    color: #fec006;
-    text-decoration: none;
+    @apply tw-text-primary tw-no-underline;
   }
 }
 
@@ -40,13 +36,12 @@
 }
 
 .currency-container {
-  border-color: var(--gray);
+  @apply tw-border-gray-5;
   will-change: border-color, height;
   transition: border-color 0.3s, height 0.3s;
 
   &.active {
-    border-color: var(--white);
-    color: var(--white) !important;
+    @apply tw-text-white tw-border-white;
   }
 }
 
@@ -88,7 +83,7 @@
   &:focus {
     //background: rgba(236, 236, 236, 0.23) !important;
     & .bp3-icon > svg:not([fill]) {
-      fill: #fec006;
+      @apply tw-fill-current tw-text-primary;
     }
   }
 }
@@ -113,62 +108,6 @@
   }
 }
 
-
-.nav-tabs {
-  width: 99%;
-}
-
-.tabs__green {
-  .nav-tabs,
-  .nav-tabs .nav-item.show .nav-link {
-    color: #88c6a3 !important;
-  }
-
-  .nav-item:hover,
-  .nav-item:active {
-    color: #88c6a3 !important;
-  }
-
-  .nav-link.active {
-    color: #88c6a3 !important;
-  }
-}
-
-.tabs {
-  background: none !important;
-  font-size: 22px;
-
-  .nav-tabs,
-  .nav-tabs .nav-item.show .nav-link {
-    @apply tw-bg-gray-1;
-    color: #f89b2b;
-
-    &:hover,
-    &:active,
-    &:focus {
-      @apply tw-bg-gray-1;
-      color: #495057;
-    }
-  }
-
-  .nav-item:hover,
-  .nav-item:active {
-    color: #f89b2b;
-  }
-
-  .nav-link.active {
-    @apply tw-bg-gray-1;
-    color: #f89b2b;
-    border-color: #dee2e6 #dee2e6 #dee2e6;
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    @apply tw-bg-gray-1;
-  }
-}
-
 .deposit-button-group {
   display: flex;
   flex-wrap: nowrap;
@@ -190,53 +129,19 @@
 }
 
 .withdraw-content {
-  background: var(--white);
-  color: theme('colors.black');
-  border-radius: 8px;
+  @apply tw-text-black
+    tw-bg-white tw-rounded-lg;
 
   & h4 {
-    color: theme('colors.black');
-    font-size: 18px;
+    @apply tw-text-lg tw-text-black;
   }
 }
-
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  background: none;
-}
-
-.deposit-button-group.nav-pills .nav-link {
-  width: 50%;
-}
-
-.nav-pills a {
-  color: #fff;
-}
-
 
 .empty-history {
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.account-balance-container__green {
-  & button {
-    background: #88c6a3 !important;
-  }
-}
-
-.account-balance-container {
-  & .account-balance {
-    & p {
-      font-size: 14px;
-      margin: 0;
-      padding: 0;
-      color: #979797;
-      font-weight: bold;
-    }
-  }
 }
 
 .popover-borrow {

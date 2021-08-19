@@ -1,26 +1,7 @@
 @import './custom-variables';
 
 .sovryn-border {
-  border: 1px;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: var(--sov-white);
-}
-
-.sovryn-border-left {
-  border-left: 1px solid theme('colors.white');
-}
-
-.sovryn-border-top {
-  border-top: 1px solid theme('colors.white');
-}
-
-.sovryn-border-bottom {
-  border-bottom: 1px solid theme('colors.white');
-}
-
-.sovryn-border-right {
-  border-right: 1px solid theme('colors.white');
+  @apply tw-border tw-border-sov-white tw-rounded-lg;
 }
 
 .sovryn-tabs {
@@ -78,17 +59,16 @@
 }
 
 .sovryn-tabs .custom-stats-tab {
-  border: none !important;
+  @apply tw-border-0;
   &.charts-active {
-    color: var(--primary);
+    @apply tw-text-primary;
   }
 }
 
 @mixin table-header {
+  @apply tw-text-base tw-text-sov-white;
   font-family: inherit;
   font-weight: inherit;
-  color: var(--sov-white);
-  font-size: 16px;
   padding: 0 22px;
   height: 45px;
   @media (max-width: 441px) {
@@ -147,8 +127,8 @@
     height: 80px;
 
     td {
+      @apply tw-text-sov-white;
       padding: 0 30px;
-      color: var(--sov-white);
       @media (max-width: 441px) {
         padding: 0 15px;
       }
@@ -215,20 +195,14 @@ button.button-width {
 }
 
 .image-bordered:before {
+  @apply tw-absolute tw--inset-2.5 
+    tw-bg-white tw-rounded-2xl
+    tw-overflow-hidden;
   content: '';
-  position: absolute;
-  background: white;
-  overflow: hidden;
-  left: -10px;
-  top: -10px;
-  right: -10px;
-  bottom: -10px;
-  border-radius: 16px;
 }
 
 .sov-title {
-  font-family: theme('fontFamily.body');
-  font-weight: 400;
+  @apply tw-font-body tw-font-normal;
   font-size: 28px;
 }
 
@@ -239,9 +213,9 @@ button.button-width {
   bottom: 30px;
 
   .table {
-    margin: 0;
-    background: white;
-    text-align: left;
+    @apply tw-m-0
+      tw-text-left
+      tw-bg-white;
 
     tr {
       height: auto;
@@ -263,14 +237,9 @@ button.button-width {
 
     th,
     td {
-      @apply tw-font-body tw-text-gray-6
+      @apply tw-font-body tw-text-sm tw-tracking-normal tw-align-middle tw-text-gray-6
         tw-border tw-border-black;
       padding: 5px;
-      vertical-align: middle;
-      font-family: theme('fontFamily.body');
-      font-size: 14px;
-      line-height: 18px;
-      letter-spacing: 0;
     }
   }
 }
