@@ -250,8 +250,8 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         <span
           className={
             order.orderType === TradingTypes.BUY
-              ? 'tw-text-tradingLong'
-              : 'tw-text-tradingShort'
+              ? 'tw-text-trade-long'
+              : 'tw-text-trade-short'
           }
         >
           {order.orderType === TradingTypes.BUY

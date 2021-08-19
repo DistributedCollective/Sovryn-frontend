@@ -186,7 +186,7 @@ export function ActiveBorrowTable(props: Props) {
 const StyledRepayButton = styled.button.attrs(({ className }) => ({
   className: classNames(
     className,
-    'tw-bg-primary tw-text-green tw-border-green',
+    'tw-bg-gray-1 tw-text-green tw-border-green',
   ),
   type: 'button',
 }))`

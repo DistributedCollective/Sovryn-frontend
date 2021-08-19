@@ -66,10 +66,8 @@ module.exports = {
       'gray-8': '#a2a2a2',
       'gray-9': '#c4c4c4',
 
-      long: '#4ecdc4',
-      tradingLong: '#17C3B2',
-      short: '#cd4e4e',
-      tradingShort: '#D74E09',
+      'trade-long': '#17C3B2',
+      'trade-short': '#D74E09',
 
       red: '#eb2106',
       green: '#00ce7d',
