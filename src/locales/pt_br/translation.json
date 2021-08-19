@@ -1526,7 +1526,9 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Desejo sacar:"
+      "withdrawAmount": "Desejo sacar:",
+      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
+      "insufficientDaily": "Insufficient daily limit remaining."
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
@@ -1548,7 +1550,7 @@
     "tokenSelector": {
       "title": "Qual cripto você deseja sacar",
       "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
-      "maxWithdrawal": "Limite máximo:"
+      "maxWithdrawal": "Máximo permitido:"
     }
   },
   "buySovPage": {
