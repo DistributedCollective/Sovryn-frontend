@@ -16,7 +16,9 @@ import { translations } from 'locales/i18n';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
+import { FeeForm } from './components/FeeForm';
 import { HistoryTable } from './components/HistoryTable';
+import { LiquidForm } from './components/LiquidForm';
 import { RewardForm } from './components/RewardForm';
 import { Tab } from './components/Tab';
 
@@ -77,6 +79,8 @@ export function RewardPage() {
           </div>
           <div className="tw-flex-1 tw-w-1/2 tw-flex tw-justify-center tw-align-center">
             {activeAssets === 0 && <RewardForm />}
+            {activeAssets === 1 && <LiquidForm />}
+            {activeAssets === 2 && <FeeForm />}
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">

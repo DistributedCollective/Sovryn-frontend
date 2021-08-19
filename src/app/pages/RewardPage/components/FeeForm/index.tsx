@@ -24,7 +24,7 @@ import { ClaimForm } from '../ClaimForm';
 
 // import RewardChart from '../RewardChart';
 
-export function RewardForm() {
+export function FeeForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
   const [liquidityRewards, setLiqRewards] = useState(0);
@@ -144,9 +144,7 @@ export function RewardForm() {
       </Box>
       <RewardInfoBox>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
-          <InfoTitle>
-            {t(translations.rewardPage.topData.liquidityRewards)}
-          </InfoTitle>
+          <InfoTitle>{t(translations.rewardPage.fee.stakingFee)}</InfoTitle>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-gold tw-mr-5"></div>
             <div>
@@ -169,7 +167,7 @@ export function RewardForm() {
         </div>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
           <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.lendingRewards)}
+            {t(translations.rewardPage.fee.referralFee)}
           </div>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-white tw-mr-5"></div>
@@ -191,7 +189,7 @@ export function RewardForm() {
         </div>
         <div className="xl:tw-mx-1 tw-w-1/3 tw-bg-gray-800 tw-staking-box tw-p-4 tw-rounded-lg tw-text-sm tw-mb-4 lg:tw-mb-0">
           <div className="tw-text-xl tw-font-semibold tw-mb-9">
-            {t(translations.rewardPage.topData.tradingRewards)}
+            {t(translations.rewardPage.fee.tradingRebate)}
           </div>
           <div className="tw-flex tw-items-start">
             <div className="tw-p-2 tw-bg-green tw-mr-5"></div>

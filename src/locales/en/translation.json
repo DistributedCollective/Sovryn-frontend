@@ -1325,8 +1325,8 @@
     },
     "totalEarned": "Total Rewards Earned:",
     "sov": {
-      "reward":"Reward SOV",
-      "liquid":"Liquid SOV",
+      "reward": "Reward SOV",
+      "liquid": "Liquid SOV",
       "fee": "Fees Earned"
     },
     "topData": {
@@ -1339,7 +1339,13 @@
       "tradingRewards": "Trading Rewards",
       "lockedRewards": "Locked Rewards:",
       "claimibleRewards": "Claimible Rewards",
-      "OGRewards": "OG Rewards"
+      "stakingReward": "Staking Rewards",
+      "referralReward": "Referral Rewards"
+    },
+    "fee": {
+      "stakingFee": "Staking Fees",
+      "referralFee": "Referral Fees",
+      "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
       "title": "Reward SOV History",
