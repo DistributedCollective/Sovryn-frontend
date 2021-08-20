@@ -14,8 +14,6 @@ import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 
-const maxPeriods = 78;
-
 interface DateItem {
   key: number;
   label: string;
@@ -43,6 +41,7 @@ export function StakingDateSelector(props: Props) {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
+  const MAX_PERIODS = 78;
 
   const [dateWithoutStake, availableYears, availableMonth] = useMemo(() => {
     const dateWithoutStake = filteredDates.reduce(
@@ -127,13 +126,23 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let lastDate = dayjs(props.kickoffTs * 1e3);
-      for (let i = 1; i <= maxPeriods; i++) {
-        const date = lastDate.add(2, 'weeks');
-        lastDate = date;
-        dates.push(date.toDate());
-        if ((props.prevExtend as any) <= date.unix()) {
-          datesFutured.push(date.clone().toDate());
+      const fromDate = new Date(); //getting current time in seconds
+      let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed
+      let currentDate = Math.round(fromDate.getTime() / 1e3);
+      //getting the last posible date in the contract that low then current date
+      for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
+        const intervalDate = contractDateDeployed.add(2, 'week');
+        contractDateDeployed = intervalDate;
+      }
+
+      for (let i = 1; i < MAX_PERIODS; i++) {
+        if (contractDateDeployed.unix() > currentDate) {
+          const date = contractDateDeployed.add(2, 'week');
+          contractDateDeployed = date;
+          dates.push(date.toDate());
+          if (props.prevExtend && props.prevExtend <= date.unix()) {
+            datesFutured.push(date.clone().toDate());
+          }
         }
       }
       if (datesFutured.length) {
@@ -185,7 +194,7 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-5" key={i}>
+            <div className="tw-mr-2" key={i}>
               <button
                 type="button"
                 onClick={() => {
