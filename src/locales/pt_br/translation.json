@@ -274,7 +274,7 @@
         "saleToken": "Token à venda",
         "project": "Projeto",
         "startDate": "Data de início",
-        "startPrice": "Preço inicial"
+        "startPrice": "Preço"
       },
       "inputLabel": "Insira um endereço de e-mail",
       "inputLabelName": "Nome ou apelido",
