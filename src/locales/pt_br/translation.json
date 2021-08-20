@@ -1429,6 +1429,14 @@
         "mins": "MINUTOS",
         "secs": "SEGUNDOS"
       }
+    },
+    "cryptocurrencyPrices": {
+      "title": "PREÇOS ATIVOS",
+      "asset": "Ativos",
+      "price": "Preço",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Valor de mercado"
     }
   },
   "BridgeDepositPage": {
