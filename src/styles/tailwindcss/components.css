@@ -30,7 +30,7 @@
     @apply tw-px-6 tw-py-2;
     @apply tw-border lg:tw-rounded;
     @apply tw-transition;
-    @apply tw-bg-primary tw-bg-opacity-5;
+    @apply tw-bg-primary tw-bg-opacity-10;
     @apply hover:tw-bg-opacity-25;
   }
 

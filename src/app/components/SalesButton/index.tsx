@@ -8,7 +8,7 @@ export const StyledButton = styled.button.attrs(_ => ({
   className: 'tw-flex tw-flex-row tw-justify-center tw-items-center',
 }))`
   border: 1px solid var(--primary);
-  background: var(--primary-5);
+  background: var(--primary-10);
   border-radius: 10px;
   color: var(--primary);
   min-width: 48px;
