@@ -159,6 +159,7 @@ export function Header() {
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
+    { to: '/origins/claim', title: t(translations.mainMenu.origins) },
     { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
@@ -224,6 +225,7 @@ export function Header() {
     TRADE: 'trade',
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
+    ORIGINS: 'origins',
   };
 
   const isSectionOpen = (section: string) => {
@@ -231,6 +233,7 @@ export function Header() {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
+      [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -417,9 +420,33 @@ export function Header() {
               >
                 {t(translations.mainMenu.bridge)}
               </a>
-              <NavLink className="tw-header-link" to="/origins">
-                {t(translations.mainMenu.origins)}
-              </NavLink>
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.launchpad)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/origins')}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.claim)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/origins/claim')}
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.ORIGINS) && 'tw-font-bold'
+                  }`}
+                >
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                    {t(translations.mainMenu.origins)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
               <NavLink className="tw-header-link" to="/stats">
                 {t(translations.mainMenu.stats)}
               </NavLink>
