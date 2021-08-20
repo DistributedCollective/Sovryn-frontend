@@ -6,13 +6,14 @@ import { useAccount } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
+import { LiquidityMiningEvent, LiquidityMiningHistory } from './types';
 
 const pageSize = 6;
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
+  const [history, setHistory] = useState<LiquidityMiningEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -25,7 +26,7 @@ export const HistoryTable: React.FC = () => {
 
     cancelTokenSource = axios.CancelToken.source();
     axios
-      .get(
+      .get<LiquidityMiningHistory>(
         `${url}/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
         {
           cancelToken: cancelTokenSource.token,
@@ -33,7 +34,7 @@ export const HistoryTable: React.FC = () => {
       )
       .then(res => {
         const { events, pagination } = res.data;
-        setHistory(events || []);
+        setHistory(events);
         setTotal(pagination.totalPages * pageSize);
         setLoading(false);
       })

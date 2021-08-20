@@ -469,12 +469,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_unlockedTokenWithdrawTS",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
         "name": "_unlockedBP",
         "type": "uint256"
       },
@@ -728,24 +722,24 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.DepositType",
+        "internalType": "uint256",
         "name": "_depositType",
-        "type": "uint8"
+        "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.VerificationType",
+        "internalType": "uint256",
         "name": "_verificationType",
-        "type": "uint8"
+        "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.SaleEndDurationOrTS",
+        "internalType": "uint256",
         "name": "_saleEndDurationOrTS",
-        "type": "uint8"
+        "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.TransferType",
+        "internalType": "uint256",
         "name": "_transferType",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "createTier",
@@ -1043,11 +1037,6 @@
       },
       {
         "internalType": "uint256",
-        "name": "_unlockedTokenWithdrawTS",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_unlockedBP",
         "type": "uint256"
       },
@@ -1191,9 +1180,9 @@
         "type": "address"
       },
       {
-        "internalType": "enum OriginsStorage.DepositType",
+        "internalType": "uint256",
         "name": "_depositType",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "setTierDeposit",
@@ -1221,9 +1210,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.SaleEndDurationOrTS",
+        "internalType": "uint256",
         "name": "_saleEndDurationOrTS",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "setTierTime",
@@ -1286,9 +1275,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.VerificationType",
+        "internalType": "uint256",
         "name": "_verificationType",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "setTierVerification",
@@ -1317,18 +1306,13 @@
       },
       {
         "internalType": "uint256",
-        "name": "_unlockedTokenWithdrawTS",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_unlockedBP",
         "type": "uint256"
       },
       {
-        "internalType": "enum OriginsStorage.TransferType",
+        "internalType": "uint256",
         "name": "_transferType",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "setTierVestOrLock",

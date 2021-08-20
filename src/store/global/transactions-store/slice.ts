@@ -11,7 +11,7 @@ export const initialState: ContainerState = {
     open: false,
     type: TxType.NONE,
     amount: '0',
-    asset: null as any,
+    asset: null,
     error: null,
   },
 };
@@ -51,7 +51,7 @@ const slice = createSlice({
     closeTransactionRequestDialog(state) {
       state.requestDialog.open = false;
       state.requestDialog.type = TxType.NONE;
-      state.requestDialog.asset = null as any;
+      state.requestDialog.asset = null;
       state.requestDialog.amount = '0';
     },
     setTransactionRequestDialogError(

@@ -30,12 +30,12 @@ export const useGetSaleInformation = (tierId: number) => {
       .then(result => {
         setSaleInfo(prevValue => ({
           ...prevValue,
-          minAmount: result[0],
-          maxAmount: result[1],
-          remainingTokens: result[2],
-          saleStart: result[3],
-          saleEnd: timestampToString(result[4]),
-          depositRate: result[9],
+          minAmount: result['_minAmount'],
+          maxAmount: result['_maxAmount'],
+          remainingTokens: result['_remainingTokens'],
+          saleStart: result['_saleStartTS'],
+          saleEnd: timestampToString(result['_saleEnd']),
+          depositRate: result['_depositRate'],
         }));
       });
   }, [tierId]);
@@ -60,11 +60,11 @@ export const useGetSaleInformation = (tierId: number) => {
         setSaleInfo(prevValue => ({
           ...prevValue,
           depositToken:
-            result[1] === DepositType.RBTC
+            result['_depositType'] === DepositType.RBTC
               ? Asset.RBTC
-              : assetByTokenAddress(result[0]),
-          depositType: result[1],
-          verificationType: result[2],
+              : assetByTokenAddress(result['_depositToken']),
+          depositType: result['_depositType'],
+          verificationType: result['_verificationType'],
         }));
       });
   }, [tierId]);

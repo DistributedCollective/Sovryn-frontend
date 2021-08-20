@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import VestingAbi from 'utils/blockchain/abi/Vesting.json';
+import { AbiItem } from 'web3-utils';
 
 import { translations } from '../../../locales/i18n';
 import { TxType } from '../../../store/global/transactions-store/types';
@@ -33,7 +34,7 @@ export function VestingDialog(props: Props) {
 
   const { send, ...tx } = useSendToContractAddressTx(
     props.address,
-    VestingAbi as any,
+    VestingAbi as AbiItem[],
     'withdrawTokens',
   );
   const handleSubmit = useCallback(() => {
