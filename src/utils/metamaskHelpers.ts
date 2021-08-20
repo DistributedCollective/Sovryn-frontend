@@ -1,5 +1,5 @@
 const addNetwork = (params: any) => {
-  const { ethereum } = window as any;
+  const { ethereum } = window;
 
   ethereum
     .request({ method: 'wallet_addEthereumChain', params })

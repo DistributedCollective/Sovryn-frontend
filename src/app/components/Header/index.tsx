@@ -1,8 +1,3 @@
-/**
- *
- * Header
- *
- */
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +31,7 @@ export function Header() {
   const history = useHistory();
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const node = useRef(null as any);
+  const node = useRef(null);
 
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
@@ -169,10 +164,9 @@ export function Header() {
     let link: {
       to: string;
       title: string;
-      exact: boolean;
       onClick?: () => void;
       beforeOpen?: () => void;
-    } = item as any;
+    } = item;
 
     if (link.to.startsWith('http')) {
       return (

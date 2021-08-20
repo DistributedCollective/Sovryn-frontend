@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface DataItem {
-  timestamp: Date;
+  timestamp: string;
   supply_apr: number;
   supply: number;
 }
@@ -74,13 +74,12 @@ export function PoolChart(props: Props) {
   }, [asset, chainId, props.pool]);
 
   const supplyApr: [number, number][] = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
     [data],
   );
 
   const totalLiq: [number, number][] = useMemo(
-    () => (data as any[]).map(i => [Date.parse(i.timestamp), i.supply / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply / 1e8]),
     [data],
   );
 

@@ -1,8 +1,3 @@
-/**
- *
- * StakingDateSelector
- *
- */
 import React, { useCallback, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import moment from 'moment';
@@ -27,7 +22,7 @@ interface Props {
   onClick: (value: number) => void;
   value?: number;
   startTs?: number;
-  stakes?: undefined;
+  stakes?: string[];
   prevExtend?: number;
   autoselect?: boolean;
   delegate?: boolean;
@@ -37,26 +32,29 @@ export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
   const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
   const [dates, setDates] = useState<Date[]>([]);
-  const [currentYearDates, setCurrenYearDates] = useState<any>([]);
+  const [currentYearDates, setCurrenYearDates] = useState<DateItem[]>([]);
   const [filteredDates, setFilteredDates] = useState<DateItem[]>([]);
-  const [itemDisabled, setItemDisabled] = useState<any>([]);
+  const [itemDisabled, setItemDisabled] = useState<DateItem[]>([]);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
 
-  const dateWithoutStake = filteredDates.reduce((unique: any, o: any) => {
-    let isFound = itemDisabled.some((b: { key: any }) => {
-      return b.key === o.key;
-    });
-    if (!isFound) unique.push(o);
-    return unique;
-  }, []);
+  const dateWithoutStake = filteredDates.reduce(
+    (unique: DateItem[], o: DateItem) => {
+      let isFound = itemDisabled.some((b: { key: number }) => {
+        return b.key === o.key;
+      });
+      if (!isFound) unique.push(o);
+      return unique;
+    },
+    [],
+  );
 
-  const avaliableYears = dateWithoutStake
+  const availableYears = dateWithoutStake
     .map(yearDate => moment(yearDate.date).format('YYYY'))
     .filter((year, index, arr) => arr.indexOf(year) === index);
 
-  const avaliableMonth = currentYearDates
+  const availableMonth = currentYearDates
     .map(yearDate => moment(yearDate.date).format('MMM'))
     .filter((month, index, arr) => arr.indexOf(month) === index);
 
@@ -94,24 +92,16 @@ export function StakingDateSelector(props: Props) {
       })),
     );
 
-    if (props.stakes && !props.delegate) {
-      setItemDisabled(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: moment(new Date(item * 1e3)).format('DD.MM.YYYY'),
-          date: new Date(item * 1e3),
-        })),
-      );
-    }
+    if (props.stakes) {
+      const mappedStakes = props.stakes.map(item => ({
+        key: Number(item) * 1e3,
+        label: moment(new Date(Number(item) * 1e3)).format('DD.MM.YYYY'),
+        date: new Date(Number(item) * 1e3),
+      }));
 
-    if (props.delegate) {
-      setFilteredDates(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: moment(new Date(item * 1e3)).format('DD.MM.YYYY'),
-          date: new Date(item * 1e3),
-        })),
-      );
+      props.delegate
+        ? setFilteredDates(mappedStakes)
+        : setItemDisabled(mappedStakes);
     }
   }, [dates, props.startTs, props.stakes, props.delegate]);
 
@@ -123,7 +113,7 @@ export function StakingDateSelector(props: Props) {
       for (let i = 1; i <= maxPeriods; i++) {
         const date = lastDate.add(2, 'weeks');
         dates.push(date.clone().toDate());
-        if ((props.prevExtend as any) <= date.unix()) {
+        if (props.prevExtend && props.prevExtend <= date.unix()) {
           datesFutured.push(date.clone().toDate());
         }
       }
@@ -166,7 +156,7 @@ export function StakingDateSelector(props: Props) {
 
   return (
     <>
-      {avaliableYears.length > 0 && (
+      {availableYears.length > 0 && (
         <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
           {props.delegate
             ? t(translations.stake.dateSelector.selectDelegate)
@@ -174,7 +164,7 @@ export function StakingDateSelector(props: Props) {
         </label>
       )}
       <div className="tw-flex tw-flex-row">
-        {avaliableYears.map((year, i) => {
+        {availableYears.map((year, i) => {
           return (
             <div className="tw-mr-5" key={i}>
               <button
@@ -195,7 +185,7 @@ export function StakingDateSelector(props: Props) {
       </div>
       <div className="sliderMonth tw-mt-5 pr-0">
         <Slider {...settingsSliderMonth}>
-          {avaliableMonth.map((monthName: React.ReactNode, i) => {
+          {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
                 <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
@@ -229,7 +219,7 @@ export function StakingDateSelector(props: Props) {
           })}
         </Slider>
       </div>
-      {avaliableYears.length <= 0 && (
+      {availableYears.length <= 0 && (
         <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
           {t(translations.stake.dateSelector.noneAvailable)}
         </p>

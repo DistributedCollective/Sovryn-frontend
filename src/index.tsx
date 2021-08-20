@@ -20,6 +20,10 @@ import './styles/sass/styles.scss';
 import './styles/index.css';
 import '@sovryn/react-wallet/index.css';
 
+// Import global types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as GlobalTypes from './global';
+
 // Import root app
 import { App } from 'app';
 
