@@ -103,7 +103,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     return bignumber(tokenPrice)
       .sub(checkpointPrice)
       .mul(totalBalance)
-      .div(Math.pow(10, assetDecimals + 1))
+      .div(Math.pow(10, assetDecimals))
       .add(profitCall)
       .toFixed(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
