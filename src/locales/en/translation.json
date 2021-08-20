@@ -1539,6 +1539,14 @@
         "mins": "MINS",
         "secs": "SECS"
       }
+    },
+    "cryptocurrencyPrices": {
+      "title": "CRYPTOCURRENCY PRICES BY 24H CHANGE",
+      "asset": "Asset",
+      "price": "Price",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Market Cap"
     }
   },
   "BridgeDepositPage": {
