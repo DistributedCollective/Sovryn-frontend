@@ -1043,11 +1043,6 @@
       },
       {
         "internalType": "uint256",
-        "name": "_unlockedTokenWithdrawTS",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_unlockedBP",
         "type": "uint256"
       },
