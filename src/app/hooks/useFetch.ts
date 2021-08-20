@@ -10,7 +10,7 @@ interface Response<T> {
 export function useFetch<T = any>(
   url: string,
   defaultValue: Partial<T> | null = null,
-  condition: boolean | undefined = undefined,
+  condition?: boolean,
 ): Response<T> {
   const [state, setState] = useState<Response<T>>({
     value: defaultValue as any,
