@@ -17,6 +17,8 @@ import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
 import babelfishBanner from 'assets/images/banner/babelFish-promo.svg';
+import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
+import { IPairsData } from './components/CryptocurrencyPrices/types';
 
 const url = backendUrl[currentChainId];
 
@@ -31,8 +33,11 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
 
   const [tvlLoading, setTvlLoading] = useState(false);
   const [tvlData, setTvlData] = useState<TvlData>();
+  const [pairsLoading, setPairsLoading] = useState(false);
+  const [pairsData, setPairsData] = useState<IPairsData>();
 
   const cancelDataRequest = useRef<Canceler>();
+  const cancelPairsDataRequest = useRef<Canceler>();
 
   const getTvlData = useCallback(() => {
     setTvlLoading(true);
@@ -52,12 +57,32 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       .catch(e => console.error(e));
   }, []);
 
+  const getPairsData = useCallback(() => {
+    setPairsLoading(true);
+    cancelPairsDataRequest.current && cancelPairsDataRequest.current();
+
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
+    axios
+      .get(url + '/api/v1/trading-pairs/summary', {
+        cancelToken,
+      })
+      .then(res => {
+        setPairsData(res.data);
+        setPairsLoading(false);
+      })
+      .catch(e => console.error(e));
+  }, []);
+
   useInterval(() => {
     getTvlData();
+    getPairsData();
   }, refreshInterval);
 
   useEffect(() => {
     getTvlData();
+    getPairsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,6 +111,9 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
               tvlValueBtc={tvlData?.total_btc}
               tvlValueUsd={tvlData?.total_usd}
               tvlLoading={tvlLoading}
+              volumeBtc={pairsData?.total_volume_btc}
+              volumeUsd={pairsData?.total_volume_usd}
+              volumeLoading={pairsLoading}
             />
           </div>
 
@@ -104,9 +132,17 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
 
         <Promotions />
         <div className="tw-max-w-screen-xl tw-mx-auto">
-          <div className="tw-font-semibold tw-mb-8">
+          <div className="tw-w-full tw-overflow-auto">
+            <CryptocurrencyPrices
+              pairs={pairsData?.pairs}
+              isLoading={pairsLoading}
+            />
+          </div>
+
+          <div className="tw-font-semibold tw-mb-8 tw-mt-24">
             {t(translations.landingPage.lendBorrow)}
           </div>
+
           <div className="tw-w-full tw-overflow-auto">
             <LendingStats />
           </div>
