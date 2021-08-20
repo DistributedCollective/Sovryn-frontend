@@ -1,8 +1,8 @@
 .simpleView {
   .engage-wallet {
+    @apply tw-px-0.5 tw-pt-0 tw-pb-2.5
+      tw-text-2xl;
     height: 50px;
-    padding: 2px 0 2px 10px;
-    font-size: 22px;
 
     span {
       & > span:first-child {
@@ -19,11 +19,10 @@
 
 .engage-wallet {
   @apply tw-h-10 tw-py-0.5 tw-pr-0 tw-pl-2.5
-    tw-text-xs tw-font-thin tw-font-body tw-tracking-normal
+    tw-text-sm tw-font-thin tw-font-body tw-tracking-normal
     tw-bg-gray-4 tw-rounded-lg
     tw-cursor-pointer;
 
-  font-size: 14px;
   min-width: 165px;
 
   .logout {
@@ -36,7 +35,7 @@
     margin-left: 0.7rem;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.36);
+      @apply tw-bg-black tw-bg-opacity-25;
     }
   }
 }

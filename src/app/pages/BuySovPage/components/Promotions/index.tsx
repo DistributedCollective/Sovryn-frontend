@@ -35,7 +35,7 @@ export function Promotions() {
 
 const H1 = styled.h1`
   margin-bottom: 20px;
-  font-size: 36px;
+  font-size: 2.5rem;
   font-weight: 700;
   text-transform: none;
 `;

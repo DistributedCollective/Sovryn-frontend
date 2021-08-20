@@ -222,19 +222,19 @@ const SubDetails = styled.div`
   /* justify-content: start; */
 `;
 const SettingsTitle = styled.div`
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const StepTitle = styled.div`
-  font-size: 26px;
+  font-size: 1.75rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const DetailTitle = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   text-align: left;
   color: white;

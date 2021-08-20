@@ -50,15 +50,12 @@
   align-items: center;
 
   & p {
-    font-size: 30px;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin: 0 0 0 0;
-    padding: 0;
+    @apply tw-m-0 tw-p-0
+      tw-text-3xl tw-font-semibold tw-uppercase;
   }
 
   & > span {
-    font-size: 14px;
+    @apply tw-text-sm;
   }
 
   & > div {
@@ -70,8 +67,7 @@
 
 .currency-title {
   & h3 {
-    font-size: 30px;
-    font-weight: 300;
+    @apply tw-text-3xl tw-font-light;
   }
 }
 
@@ -114,12 +110,11 @@
   justify-content: space-between;
 
   & button {
-    width: 100%;
-    font-weight: 700;
-    font-size: 12px;
+    @apply tw-w-full
+      tw-text-xs tw-font-bold;
 
     @media screen and (min-width: 900px) {
-      font-size: 22px;
+      @apply tw-text-2xl;
     }
   }
 

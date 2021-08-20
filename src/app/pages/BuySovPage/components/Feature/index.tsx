@@ -60,7 +60,7 @@ const Article = styled.article`
   font-weight: 400;
   h1 {
     text-transform: none;
-    font-size: 26px;
+    font-size: 24px;
     line-height: 32px;
     font-weight: 700;
     margin-bottom: 32px;

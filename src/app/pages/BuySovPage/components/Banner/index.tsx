@@ -46,13 +46,12 @@ const H1 = styled.h1`
   display: block;
   margin: 0 auto 70px;
   text-align: center;
-  font-size: 56px;
+  font-size: 3.25rem;
   font-weight: 900;
   text-transform: none;
-  line-height: 47px;
+  line-height: 1;
   @media (max-width: 640px) {
-    font-size: 35px;
-    line-height: 42px;
+    font-size: 2.5rem;
     margin: 0 auto 30px;
   }
 `;

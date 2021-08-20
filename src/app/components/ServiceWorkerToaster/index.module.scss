@@ -5,7 +5,7 @@
 }
 
 .close {
-  font-size: 10px;
+  @apply tw-text-tiny;
   height: 25px;
   border-radius: 5px;
 }

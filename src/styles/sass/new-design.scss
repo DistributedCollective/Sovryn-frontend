@@ -4,67 +4,6 @@
   @apply tw-border tw-border-sov-white tw-rounded-lg;
 }
 
-.sovryn-tabs {
-  background: none !important;
-
-  .tab-content {
-    padding: 15px;
-    border-bottom: 5px;
-    border-right: 5px;
-    border-top: 1px;
-    border-left: 1px;
-    border-style: solid;
-    border-radius: 0 8px 8px 8px;
-    border-color: theme('colors.white');
-    z-index: 1;
-  }
-
-  .nav-tabs {
-    border-bottom: 0;
-    flex-wrap: nowrap;
-
-    & .nav-item {
-      font-size: 15px;
-      color: theme('colors.gray-6');
-      margin-right: 5px;
-      border-right: 5px;
-      border-top: 1px;
-      border-left: 1px;
-      border-bottom: 0;
-      border-style: solid;
-      border-color: theme('colors.gray-6');
-      border-radius: 8px 8px 0 0;
-      margin-bottom: -1px;
-      border-bottom: 1px solid theme('colors.white');
-
-      @screen lg {
-        font-size: 22px;
-      }
-
-      &.active {
-        color: theme('colors.white');
-        border-color: theme('colors.white');
-        border-bottom: 1px solid theme('colors.gray-1');
-      }
-
-      &:not(.active) {
-        flex: 1;
-        max-width: fit-content;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-}
-
-.sovryn-tabs .custom-stats-tab {
-  @apply tw-border-0;
-  &.charts-active {
-    @apply tw-text-primary;
-  }
-}
-
 @mixin table-header {
   @apply tw-text-base tw-text-sov-white;
   font-family: inherit;
@@ -77,17 +16,11 @@
 }
 
 .sovryn-table {
-  font-family: theme('fontFamily.body');
-  font-weight: 100;
-  width: 100%;
-  font-size: 14px;
-  letter-spacing: 0;
+  @apply tw-w-full
+    tw-text-sm tw-font-thin tw-font-body tw-tracking-normal;
 
   &.sovryn-table-mobile {
-    font-size: 12px;
-    @media (max-width: 441px) {
-      font-size: 11px;
-    }
+    @apply tw-text-xs;
   }
 
   .table-header div {
@@ -153,7 +86,7 @@
   }
 
   .sub-header div {
-    font-size: 8px;
+    @apply tw-text-tiny;
   }
 
   &.sovryn-table-mobile {
@@ -166,14 +99,9 @@
 
 //new styles for Sovryn
 button.button-round {
-  border: 1px solid;
-  margin-left: 15px;
-  border-radius: 25px !important;
-  font-family: theme('fontFamily.body');
-  font-weight: 100;
-  font-size: 14px;
-  text-transform: none;
-  padding: 8px 20px;
+  @apply tw-px-5 tw-py-2 tw-ml-4
+    tw-border tw-rounded-3xl
+    tw-text-sm tw-font-thin tw-font-body tw-normal-case;
   transition: background 0.3s;
 
   &:hover {
@@ -202,8 +130,7 @@ button.button-width {
 }
 
 .sov-title {
-  @apply tw-font-body tw-font-normal;
-  font-size: 28px;
+  @apply tw-text-3xl tw-font-body tw-font-normal;
 }
 
 .sov-table {
@@ -223,8 +150,7 @@ button.button-width {
       &:last-child {
         td {
           div {
-            text-align: center;
-            font-size: 9px;
+            @apply tw-text-tiny tw-text-center;
           }
         }
       }

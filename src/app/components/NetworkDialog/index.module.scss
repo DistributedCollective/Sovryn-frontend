@@ -90,12 +90,7 @@
 }
 
 .dialog h1 {
-  font-size: 23px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: none;
-  margin-bottom: 35px;
-  margin-top: 15px;
+  @apply tw-mt-4 tw-mb-9 tw-text-2xl tw-font-bold tw-text-center tw-normal-case;
 }
 
 .dialog,

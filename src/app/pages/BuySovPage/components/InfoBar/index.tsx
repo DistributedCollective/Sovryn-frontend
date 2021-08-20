@@ -120,7 +120,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
   margin-right: auto;
   margin-bottom: 38px;
   p {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 300;
     margin-bottom: 0;
     &:last-child {

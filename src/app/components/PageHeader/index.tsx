@@ -33,7 +33,7 @@ const H1 = styled.h1`
   letter-spacing: 0;
   margin: 0;
   text-transform: none;
-  ${media.md`font-size: 36px; line-height: 47px; text-align: center;`}
+  ${media.md`font-size: 2.5rem; line-height: 1.25; text-align: center;`}
 `;
 
 interface Props {

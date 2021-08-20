@@ -12,17 +12,12 @@
   }
 
   .swap-btn {
-    @apply tw-bg-trade-long;
+    @apply tw-flex tw-items-center tw-justify-center
+      tw-p-0 tw-mx-auto tw-mt-4
+      tw-text-xl tw-font-bold
+      tw-bg-trade-long tw-rounded-lg;
     height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
     width: 250px;
-    margin: auto;
-    margin-top: 17px;
-    font-size: 20px;
-    font-weight: bold;
     padding: 0;
   }
 }

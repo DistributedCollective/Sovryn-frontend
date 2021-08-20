@@ -64,28 +64,18 @@
   }
   
   h1 {
-    font-size: 30px;
-    font-weight: 500;
+    @apply tw-text-4xl tw-font-semibold;
   }
 
   h2 {
-    text-transform: inherit;
-    font-weight: 600;
-    font-size: 1.75rem;
-    margin: 0;
+    @apply tw-m-0 tw-text-3xl tw-font-semibold tw-normal-case;
   }
 
   h3 {
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 2.77px;
-    color: inherit;
+    @apply tw-m-0 tw-text-base tw-font-semibold;
   }
 
   h4 {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: 2.92px;
-    @apply tw-text-gray-7;
+    @apply tw-m-0 tw-text-base tw-font-medium tw-text-gray-7;
   }
 }

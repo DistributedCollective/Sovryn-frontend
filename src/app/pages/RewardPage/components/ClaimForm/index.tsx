@@ -105,7 +105,7 @@ export function ClaimForm({ className, address }: Props) {
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
+          <div className="tw-text-xs tw-font-thin">
             {t(translations.rewardPage.claimForm.note) + ' '}
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"

@@ -8,9 +8,6 @@ export const StyledTable = styled.table`
 
   &.sovryn-table-mobile {
     font-size: 12px;
-    @media (max-width: 335px) {
-      font-size: 11px;
-    }
   }
   .table-header div {
     font-weight: 300;

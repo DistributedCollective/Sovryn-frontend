@@ -28,17 +28,16 @@ module.exports = {
       orbitron: ['Orbitron', 'sans-serif'],
     },
     fontSize: {
-      tiny: '.7rem',
-      xs: '.75rem',
-      sm: '.875rem',
-      base: '1rem',
-      lg: '1.125rem',
-      xl: '1.25rem',
-      '2xl': '1.5rem',
-      '3xl': '1.875rem',
-      '4xl': '2.25rem',
-      '4-5xl': '2.5rem',
-      '5xl': '3rem',
+      tiny: '.625rem', //  10px
+      xs: '.75rem', //     12px
+      sm: '.875rem', //    14px
+      base: '1rem', //     16px
+      lg: '1.125rem', //   18px
+      xl: '1.25rem', //    20px
+      '2xl': '1.5rem', //  24px
+      '3xl': '1.75rem', // 28px
+      '4xl': '2.5rem', //  40px
+      '5xl': '3.25rem', // 52px
     },
     colors: {
       transparent: 'transparent',

@@ -327,7 +327,7 @@ function InnerStakePage() {
                   {t(translations.stake.total)}
                 </p>
                 <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
+                  className={`xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6 ${
                     balanceOf.loading && 'tw-skeleton'
                   }`}
                 >
@@ -395,7 +395,7 @@ function InnerStakePage() {
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
-                <p className="tw-text-4-5xl tw-mt-2 tw-mb-6">
+                <p className="tw-text-4xl tw-mt-2 tw-mb-6">
                   ≈ {numberToUSD(usdTotal, 4)}
                 </p>
                 {assets.map((item, i) => {
@@ -414,7 +414,7 @@ function InnerStakePage() {
                   {t(translations.stake.votingPower)}
                 </p>
                 <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
+                  className={`xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6 ${
                     voteBalance.loading && 'tw-skeleton'
                   }`}
                 >

@@ -6,9 +6,9 @@ export const TitleImage = styled.img`
 `;
 
 export const TitleContent = styled.div`
-  font-size: 2.4375rem;
+  font-size: 2.5rem;
   font-weight: 600;
-  line-height: 2.3125rem;
+  line-height: 2.5rem;
   letter-spacing: 0;
   margin-left: 2rem;
   text-transform: uppercase;
