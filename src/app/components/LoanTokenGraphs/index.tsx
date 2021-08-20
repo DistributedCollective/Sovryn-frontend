@@ -1,8 +1,3 @@
-/**
- *
- * LoanTokenGraphs
- *
- */
 import React, { useEffect, useState, useMemo } from 'react';
 import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { LendingPool } from 'utils/models/lending-pool';
@@ -15,9 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 interface DataItem {
-  date: Date;
-  supply_apr: number;
   supply: number;
+  supply_apr: number;
+  borrow_apr: number;
+  timestamp: string;
 }
 
 interface Props {
@@ -71,14 +67,12 @@ function BarsGraph({ width, data }: BarsProps) {
   const height = 150;
 
   const supplyApr = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
     [data],
   );
 
   const borrowApr = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.borrow_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.borrow_apr / 1e8]),
     [data],
   );
 

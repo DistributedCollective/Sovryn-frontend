@@ -88,11 +88,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
 
   useEffect(() => {
     const get = async () => {
-      const converterBalance = (await contractReader.call(
+      const converterBalance = await contractReader.call<string>(
         getTokenContractName(mainToken.asset),
         'balanceOf',
         [getAmmContract(pool.poolAsset).address],
-      )) as any;
+      );
 
       return bignumber(poolTokenBalance)
         .div(supply)
@@ -107,11 +107,11 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
 
   useEffect(() => {
     const get = async () => {
-      const converterBalance = (await contractReader.call(
+      const converterBalance = await contractReader.call<string>(
         getTokenContractName(sideToken.asset),
         'balanceOf',
         [getAmmContract(pool.poolAsset).address],
-      )) as any;
+      );
 
       return bignumber(poolTokenBalance)
         .div(supply)
