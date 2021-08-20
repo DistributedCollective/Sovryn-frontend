@@ -38,7 +38,6 @@ export function StakingDateSelector(props: Props) {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
-
   const dateWithoutStake = filteredDates.reduce(
     (unique: DateItem[], o: DateItem) => {
       let isFound = itemDisabled.some((b: { key: number }) => {
@@ -109,14 +108,25 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let lastDate = moment(props.kickoffTs * 1e3).clone();
-      for (let i = 1; i <= maxPeriods; i++) {
-        const date = lastDate.add(2, 'weeks');
-        dates.push(date.clone().toDate());
-        if (props.prevExtend && props.prevExtend <= date.unix()) {
-          datesFutured.push(date.clone().toDate());
+      let contractDateDeployed = moment(props.kickoffTs * 1e3); // date when contract has been deployed ~ 1613220308
+      let currentDate = Math.round(new Date().getTime() / 1e3);
+      //getting the last posible date in the contract that low then current date
+      for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
+        const intervalDate = contractDateDeployed.add(2, 'weeks');
+        contractDateDeployed = intervalDate;
+      }
+      for (let i = 1; i < maxPeriods; i++) {
+        if (contractDateDeployed.unix() >= currentDate) {
+          const date = contractDateDeployed.add(2, 'weeks');
+          contractDateDeployed = date;
+          dates.push(date.clone().toDate());
+
+          if (props.prevExtend && props.prevExtend <= date.unix()) {
+            datesFutured.push(date.clone().toDate());
+          }
         }
       }
+
       if (datesFutured.length) {
         setDates(datesFutured);
       } else {
