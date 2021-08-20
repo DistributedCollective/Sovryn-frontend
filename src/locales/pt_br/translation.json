@@ -367,7 +367,7 @@
       "imBalance": "Desequilíbrio"
     },
     "asset": "Ativos",
-    "totalAssetSupplied": "Fornecidos",
+    "totalAssetSupplied": "Total",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
     "supplyAPR": "Juros anual (credor)",
@@ -520,7 +520,7 @@
     "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
-    "totalLiquidity": "Liquidez total",
+    "totalLiquidity": "Total",
     "transfer": "Transferir",
     "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
@@ -1003,7 +1003,7 @@
       }
     },
     "poolChart": {
-      "totalLiquidity": "Liquidez total",
+      "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
       "available": "Disponíveis",
       "borrowed": "Emprestados"
