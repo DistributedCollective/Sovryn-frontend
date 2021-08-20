@@ -66,7 +66,7 @@ const Button = styled.button`
   border: 1px solid #17c3b2;
   border-radius: 8px;
   color: #ffffff;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 900;
   letter-spacing: 2px;
   transition: opacity 0.3s;

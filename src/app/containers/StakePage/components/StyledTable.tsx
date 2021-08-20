@@ -4,15 +4,15 @@ import { media } from '../../../../styles/media';
 export const StyledTable = styled.table`
   font-weight: 100;
   width: 100%;
-  font-size: 14px;
+  font-size: 0.875rem;
 
   &.sovryn-table-mobile {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   .table-header div {
     font-weight: 300;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 0 22px;
     height: 45px;
   }
@@ -22,7 +22,7 @@ export const StyledTable = styled.table`
     th {
       font-weight: 300;
       color: white;
-      font-size: 14px;
+      font-size: 0.875rem;
       padding: 0 5px;
       height: 45px;
     }
@@ -99,7 +99,7 @@ export const StyledTable = styled.table`
       > td {
         font-weight: 300;
         color: white;
-        font-size: 16px;
+        font-size: 1rem;
         height: 45px;
         padding-top: 20px;
       }

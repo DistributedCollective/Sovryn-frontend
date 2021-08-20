@@ -21,7 +21,7 @@ const Div = styled.div`
   background-color: var(--gray-3);
   color: var(--white);
   padding: 10px 14px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0;
   height: 48px;

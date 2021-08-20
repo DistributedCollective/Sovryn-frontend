@@ -119,7 +119,7 @@ const StyledButton = styled.button`
   background-color: var(--gray-1);
   border-radius: 20px;
   padding: 5px 30px;
-  font-size: 12px;
+  font-size: 0.75rem;
   &:disabled {
     opacity: 0.7;
   }
@@ -127,6 +127,6 @@ const StyledButton = styled.button`
     color: var(--primary);
   }
   ${media.lg`
-  font-size: 14px
+  font-size: 0.875rem
   `}
 `;

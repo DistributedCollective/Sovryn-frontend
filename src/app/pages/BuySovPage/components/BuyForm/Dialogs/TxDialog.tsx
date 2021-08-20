@@ -156,7 +156,7 @@ const StyledStatus = styled.div`
     height: 100px;
   }
   p {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
   }
 `;
@@ -169,7 +169,7 @@ const StyledHashContainer = styled.div`
 
 const StyledHash = styled.div`
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 300;
   margin-bottom: 35px;
   strong {
@@ -208,7 +208,7 @@ const WLContainer = styled.div`
   border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`

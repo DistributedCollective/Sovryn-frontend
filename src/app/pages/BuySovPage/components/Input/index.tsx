@@ -61,7 +61,7 @@ const StyledInput = styled.input`
   background-color: #e8e8e8;
   width: 100%;
   color: #000;
-  font-size: 16px;
+  font-size: 1rem;
   padding-left: 40px;
   font-weight: 500;
   letter-spacing: 0;

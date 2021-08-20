@@ -42,11 +42,11 @@ const Div = styled.div`
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   line-height: 1;
-  font-size: 16px;
+  font-size: 1rem;
   ${media.lg`
     padding-left: 100px;
     padding-right: 100px;
-    font-size: 24px;
+    font-size: 1.5rem;
   `}
 `;
 
@@ -58,7 +58,7 @@ const Button = styled.button.attrs(_ => ({
   border-radius: 10px;
   white-space: nowrap;
   color: #000;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: 900;
   padding: 13px 24px;
   line-height: 1;

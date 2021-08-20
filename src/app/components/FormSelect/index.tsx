@@ -110,7 +110,7 @@ const StyledSelection = styled.button.attrs(_ => ({
   width: 100%;
   color: ${(props: StyledProps) =>
     props.active ? `var(--white)` : `var(--sov-white)`};
-  font-size: 16px;
+  font-size: 1rem;
   letter-spacing: 0;
   text-transform: none;
   font-weight: normal;

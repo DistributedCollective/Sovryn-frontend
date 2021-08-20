@@ -8,12 +8,12 @@ const H1 = styled.h1`
   margin-bottom: 28px;
 
   > .step {
-    font-size: 48px;
+    font-size: 2.5rem;
     letter-spacing: 4.3px;
   }
 
   > .title {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 24px;
     font-weight: 600;
     letter-spacing: 0;
@@ -31,7 +31,7 @@ interface ContainerProps {
 const Container = styled.article`
   width: 298px;
   min-height: 360px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   border-radius: 20px;
   padding: 15px 30px;
@@ -39,7 +39,7 @@ const Container = styled.article`
     width: 100%;
   }
   a {
-    font-size: 16px;
+    font-size: 1rem;
     color: #2274a5;
     font-weight: 300;
     text-decoration: underline;

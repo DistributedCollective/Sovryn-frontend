@@ -43,5 +43,5 @@ const Label = styled(Text).attrs(_ => ({
     css`
       color: ${props.color};
     `}
-  font-size: 14px;
+  font-size: 0.875rem;
 `;

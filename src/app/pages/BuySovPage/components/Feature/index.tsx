@@ -56,11 +56,11 @@ export function Feature(props: Props) {
 const Article = styled.article`
   max-width: 1200px;
   margin: 70px auto;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   h1 {
     text-transform: none;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 32px;
     font-weight: 700;
     margin-bottom: 32px;
@@ -88,7 +88,7 @@ const Article = styled.article`
     background: #2274a5;
     border: 1px solid #2274a5;
     color: #e8e8e8;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1;
     font-weight: 500;
     display: inline-block;

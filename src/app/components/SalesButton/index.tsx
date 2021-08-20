@@ -16,7 +16,7 @@ export const StyledButton = styled.button.attrs(_ => ({
   font-family: 'Montserrat';
   font-weight: 300;
   letter-spacing: 0px;
-  font-size: 18px;
+  font-size: 1.125rem;
   text-align: center;
   text-transform: inherit;
   transition: background 0.3s;

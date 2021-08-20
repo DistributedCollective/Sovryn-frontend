@@ -42,11 +42,11 @@ export function Promotion(props: Props) {
 const Article = styled.article`
   max-width: 1200px;
   margin: 0 auto 70px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   h1 {
     text-transform: none;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 32px;
     font-weight: 700;
     margin-bottom: 32px;

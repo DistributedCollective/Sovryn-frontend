@@ -41,8 +41,8 @@
     min-height: 388px;
 
     .title {
-      @apply tw-text-sov-white tw-font-body tw-uppercase tw-text-center tw-font-extrabold tw-opacity-100;
-      font-size: 53px;
+      @apply tw-mb-10 
+        tw-text-5xl tw-text-sov-white tw-font-body tw-uppercase tw-text-center tw-font-extrabold tw-opacity-100;
       margin-bottom: 41px;
     }
 

@@ -28,7 +28,7 @@ export const StyledMenu = styled.nav<StyledProps>`
     list-style-type: none;
   }
   a {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     padding: 1.5rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;

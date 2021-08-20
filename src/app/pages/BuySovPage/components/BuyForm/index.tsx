@@ -198,7 +198,7 @@ function tokenAddress(asset: Asset) {
 }
 
 const Slippage = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;

@@ -11,7 +11,7 @@ export const StyledButton = styled.button.attrs(attrs => ({
   border-radius: 8px;
   color: #e8e8e8;
   font-family: Montserrat-SemiBold;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: 'Montserrat', sans-serif;
 `;
 

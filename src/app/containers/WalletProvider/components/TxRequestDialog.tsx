@@ -82,7 +82,7 @@ const WLContainer = styled.div`
   border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`

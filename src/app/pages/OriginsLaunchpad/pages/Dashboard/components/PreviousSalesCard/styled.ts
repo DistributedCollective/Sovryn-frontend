@@ -12,7 +12,7 @@ export const CardImage = styled.div`
 
 export const InfoRowValue = styled.div`
   font-family: 'Orbitron', 'sans-serif';
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   letter-spacing: 0;
   line-height: 1rem;
   margin-top: 0.25rem;
