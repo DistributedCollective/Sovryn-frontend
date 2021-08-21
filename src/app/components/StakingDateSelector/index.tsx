@@ -126,9 +126,8 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      const fromDate = new Date(); //getting current time in seconds
       let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed
-      let currentDate = Math.round(fromDate.getTime() / 1e3);
+      let currentDate = Math.round(new Date().getTime() / 1e3); //getting current time in seconds
       //getting the last posible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
         const intervalDate = contractDateDeployed.add(2, 'week');
@@ -139,9 +138,9 @@ export function StakingDateSelector(props: Props) {
         if (contractDateDeployed.unix() > currentDate) {
           const date = contractDateDeployed.add(2, 'week');
           contractDateDeployed = date;
-          dates.push(date.toDate());
-          if (props.prevExtend && props.prevExtend <= date.unix()) {
-            datesFutured.push(date.clone().toDate());
+          if (!props.prevExtend) dates.push(date.toDate());
+          if (props.prevExtend && props.prevExtend < date.unix()) {
+            datesFutured.push(date.toDate());
           }
         }
       }
@@ -194,14 +193,14 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-2" key={i}>
+            <div className="tw-mr-3" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >
