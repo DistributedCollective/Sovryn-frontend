@@ -270,7 +270,7 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
+    address: '0x6B94DA2d05039173d017359553D685aCfBaa782f',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
