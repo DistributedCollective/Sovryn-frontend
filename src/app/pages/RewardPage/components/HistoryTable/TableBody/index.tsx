@@ -48,9 +48,9 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   );
   return (
     <tbody className="tw-mt-12">
-      {items.map(item => (
+      {items.map((item, index) => (
         <TableRow
-          key={item.txHash}
+          key={index}
           time={item.timestamp}
           txHash={item.txHash}
           amount={weiTo4(item.amount)}
