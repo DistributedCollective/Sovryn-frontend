@@ -28,8 +28,12 @@ export function RewardForm() {
   const { t } = useTranslation();
   const [liquidityRewards, setLiqRewards] = useState(0);
   const [lendingRewards, setLendingRewards] = useState(0);
-  const rewardSov = useGetContractPastEvents('lockedSov', 'Deposited');
-  console.log('rewardSov: ', rewardSov);
+  const { events: rewardSov, loading } = useGetContractPastEvents(
+    'lockedSov',
+    'Deposited',
+  );
+  console.log('rewardSov: ', rewardSov, loading);
+
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
       item => item.hasSovRewards,
