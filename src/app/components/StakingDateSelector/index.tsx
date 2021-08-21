@@ -119,8 +119,7 @@ export function StakingDateSelector(props: Props) {
         if (contractDateDeployed.unix() >= currentDate) {
           const date = contractDateDeployed.add(2, 'weeks');
           contractDateDeployed = date;
-          dates.push(date.clone().toDate());
-
+          if (!props.prevExtend) dates.push(date.toDate());
           if (props.prevExtend && props.prevExtend <= date.unix()) {
             datesFutured.push(date.clone().toDate());
           }
