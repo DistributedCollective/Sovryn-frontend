@@ -1402,7 +1402,7 @@
       "sections": {
         "lending": "Emprestar criptos",
         "borrowing": "Obter empréstimos",
-        "yieldFarming": "Minerar liquidez",
+        "yieldFarming": "Minerando liquidez",
         "marginTrading": "Operando margem",
         "swap": "Trocando criptos",
         "spotTrading": "Operando spot"
