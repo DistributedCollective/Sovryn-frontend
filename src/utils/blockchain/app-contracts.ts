@@ -1,9 +1,10 @@
 import { contracts } from 'utils/blockchain/contracts';
 
+import { currentNetwork } from 'utils/classifiers';
 import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 
-const FIRST_BLOCK = 2758025;
+const FIRST_BLOCK = currentNetwork === 'mainnet' ? 2758025 : 1000000;
 
 const fixContracts = () => {
   const newObj = {};
