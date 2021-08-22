@@ -24,6 +24,7 @@ import iconLinkedin from 'assets/images/icon-linkedin.svg';
 import iconFacebook from 'assets/images/icon-facebook.svg';
 import refBanner from 'assets/images/referral_banner.svg';
 
+import './module.scss';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -61,11 +62,10 @@ export function AffiliatePage() {
       <Header />
       <Main>
         <div className="tw-container tw-mx-auto tw-px-4 tw-mt-12 font-family-montserrat">
-          <h1 className="tw-text-center tw-w-full mt-4 mb-5">
-            {t(translations.affiliates.title)}
-          </h1>
-          <div className="w-full bg-gray-light text-center rounded-b shadow p-3">
-            <i>{t(translations.affiliates.isConnected)}</i>
+          <div className="tw-w-full bg-gray-light tw-text-center tw-rounded-b shadow p-3">
+            <div className="tw-text-center">
+              {t(translations.affiliates.isConnected)}
+            </div>
           </div>
         </div>
       </Main>
@@ -222,10 +222,11 @@ function InnerAffiliatePage() {
                     every transaction made by new wallets created with your
                     unique referral link.
                   </Trans>
-                  <br />
-                  <a href="#!" target="_blank">
-                    {t(translations.affiliates.terms)}
-                  </a>
+                  <div className="tw-my-2">
+                    <a href="#!" target="_blank">
+                      {t(translations.affiliates.terms)}
+                    </a>
+                  </div>
                 </p>
               </div>
             </div>

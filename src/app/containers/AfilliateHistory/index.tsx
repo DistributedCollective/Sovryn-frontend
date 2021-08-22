@@ -177,7 +177,7 @@ export function AffiliateHistory({ items, referralList }: Props) {
         <tbody {...getTableBodyProps()}>
           {!rows?.length && (
             <tr key="empty">
-              <td className="text-center" colSpan={columns.length}>
+              <td className="tw-text-center" colSpan={columns.length}>
                 {t(translations.affiliates.tableEmpty)}
               </td>
             </tr>
