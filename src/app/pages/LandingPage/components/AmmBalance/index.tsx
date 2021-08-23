@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
 import { SkeletonRow } from '../../../../components/Skeleton/SkeletonRow';
@@ -79,6 +79,13 @@ AmmBalance.defaultProps = {
   rate: 60,
 };
 
+const decimals = {
+  BTC: 4,
+  BPRO: 4,
+  USDT: 2,
+  DOC: 2,
+};
+
 function Row(props) {
   const history = useHistory();
   const url = backendUrl[currentChainId];
@@ -104,21 +111,13 @@ function Row(props) {
       .catch(e => console.error(e));
   }, [url, props.asset]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const decimals = {
-    BTC: 4,
-    BPRO: 4,
-    USDT: 2,
-    DOC: 2,
-  };
+  useInterval(
+    () => {
+      getData();
+    },
+    props.rate * 1e3,
+    { immediate: true },
+  );
 
   if (props.hide) return null;
 

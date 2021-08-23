@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Header } from 'app/components/Header';
 import { useTranslation } from 'react-i18next';
@@ -75,16 +75,14 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       .catch(e => console.error(e));
   }, []);
 
-  useInterval(() => {
-    getTvlData();
-    getPairsData();
-  }, refreshInterval);
-
-  useEffect(() => {
-    getTvlData();
-    getPairsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(
+    () => {
+      getTvlData();
+      getPairsData();
+    },
+    refreshInterval,
+    { immediate: true },
+  );
 
   return (
     <>
@@ -118,7 +116,10 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-w-full md:tw-w-5/12">
-            {/* <ArbitrageOpportunity /> */}
+            {/* 
+              Should un comment this and remove Banner once the sale is over.
+              <ArbitrageOpportunity /> 
+            */}
             <Banner
               title={t(translations.landingPage.banner.originsFish)}
               //remember month starts from 0
