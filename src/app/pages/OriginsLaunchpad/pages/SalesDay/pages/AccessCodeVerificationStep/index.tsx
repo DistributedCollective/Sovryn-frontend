@@ -53,7 +53,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                 )}
                 onClick={onVerified}
                 className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-gray-1 tw-bg-opacity-10"
-                textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
+                textClassName="tw-text-lg tw-tracking-normal tw-leading-snug"
               />
             </div>
           )}

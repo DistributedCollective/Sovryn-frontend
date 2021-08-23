@@ -138,10 +138,6 @@ module.exports = {
       height: {
         '88': '22rem',
       },
-      lineHeight: {
-        '4.5': '1.125rem',
-        '5.5': '1.375rem',
-      },
       borderRadius: {
         '5px': '0.3125rem',
         '10px': '0.625rem',
