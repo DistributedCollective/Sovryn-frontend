@@ -1378,7 +1378,7 @@
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
-      "direction": "Direction:",
+      "direction": "Pair:",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
@@ -1387,8 +1387,8 @@
         "short": "Short"
       }
     },
-    "openPositions": "Open Positions",
-    "tradingHistory": "Trading History"
+    "openPositions": "Open positions",
+    "tradingHistory": "Margin order history"
   },
   "spotTradingPage": {
     "meta": {

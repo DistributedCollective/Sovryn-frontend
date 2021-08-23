@@ -1,13 +1,8 @@
-/**
- *
- * MarginTradePage
- *
- */
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { Tab } from '../../components/Tab';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
@@ -24,11 +19,9 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
-import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
+// import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 
-interface Props {}
-
-export function MarginTradePage(props: Props) {
+export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
 
@@ -38,6 +31,7 @@ export function MarginTradePage(props: Props) {
   const pair = TradingPairDictionary.get(pairType);
 
   const connected = useIsConnected();
+  const [activeTab, setActiveTab] = useState(0);
 
   return (
     <>
@@ -63,22 +57,25 @@ export function MarginTradePage(props: Props) {
 
         {connected && (
           <>
-            <article className="tw-w-full tw-mt-10">
-              <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
-                {t(translations.marginTradePage.openPositions)}
-                <NotificationForm className="tw-ml-2 tw-inline-block" />
-              </h1>
-              <div className="tw-px-5 tw-pb-5 tw-border tw-border-white tw-rounded-lg">
-                <OpenPositionsTable />
-              </div>
-            </article>
+            {/* <NotificationForm className="tw-ml-2 tw-inline-block" /> */}
 
-            <article className="tw-w-full tw-mt-24 tw-px-5">
-              <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
-                {t(translations.marginTradePage.tradingHistory)}
-              </h1>
-              <TradingHistory />
-            </article>
+            <div className="tw-flex tw-items-center tw-mt-3 tw-text-sm">
+              <Tab
+                text={t(translations.marginTradePage.openPositions)}
+                active={activeTab === 0}
+                onClick={() => setActiveTab(0)}
+              />
+              <Tab
+                text={t(translations.marginTradePage.tradingHistory)}
+                active={activeTab === 1}
+                onClick={() => setActiveTab(1)}
+              />
+            </div>
+
+            <div className="tw-w-full tw-px-5">
+              {activeTab === 0 && <OpenPositionsTable />}
+              {activeTab === 1 && <TradingHistory />}
+            </div>
           </>
         )}
       </div>
