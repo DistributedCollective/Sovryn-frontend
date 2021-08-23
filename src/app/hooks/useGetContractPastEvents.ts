@@ -14,6 +14,7 @@ const filtersEventKeyMap = {
   Borrow: 'user',
   CloseWithSwap: 'user',
   CloseWithDeposit: 'user',
+  RewardClaimed: 'user',
   Deposited: '_userAddress',
 };
 
