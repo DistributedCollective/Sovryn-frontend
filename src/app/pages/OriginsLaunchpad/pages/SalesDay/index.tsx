@@ -8,6 +8,7 @@ import { AccessCodeVerificationStep } from './pages/AccessCodeVerificationStep/i
 import { useIsConnected } from 'app/hooks/useAccount';
 import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
+import { useGetSaleInformation } from '../../hooks/useGetSaleInformation';
 
 interface ISalesDayProps {
   tierId: number;
@@ -17,6 +18,7 @@ interface ISalesDayProps {
 export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
   const { t } = useTranslation();
   const connected = useIsConnected();
+  const info = useGetSaleInformation(tierId);
 
   const [step, setStep] = useState(1);
 
@@ -31,9 +33,18 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
           />
         );
       case 2:
-        return <ImportantInformationStep onSubmit={() => setStep(3)} />;
+        return (
+          <ImportantInformationStep
+            maxAmount={info.maxAmount}
+            depositRate={info.depositRate}
+            tierId={tierId}
+            onSubmit={() => setStep(3)}
+          />
+        );
       case 3:
-        return <BuyStep saleName={saleName} />;
+        return (
+          <BuyStep tierId={tierId} saleInformation={info} saleName={saleName} />
+        );
       default:
         return <EngageWalletStep saleName={saleName} />;
     }
