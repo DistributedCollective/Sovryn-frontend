@@ -52,7 +52,7 @@ export function ClaimForm({ className, address }: Props) {
 
   const handleSubmit = () => {
     send(
-      [],
+      [address],
       {
         from: address,
         // gas: gasLimit[TxType.LOCKED_FUND_WAITED_CLAIM],
