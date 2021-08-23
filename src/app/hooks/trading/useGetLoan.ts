@@ -28,7 +28,6 @@ export function useGetLoan() {
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    // @ts-ignore
     web3ContractRef.current = getWeb3Contract(
       appContracts.sovrynProtocol.address,
       appContracts.sovrynProtocol.abi,

@@ -69,7 +69,10 @@ export function VestedHistory() {
             staker: rewards.value,
           })
           .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Reward SOV' }));
+            const newRes = res.map(v => ({
+              ...v,
+              type: t(translations.stake.currentVests.assetType.reward),
+            }));
             setEventsHistoryRewards(
               (newRes as any).sort(
                 (x, y) =>
@@ -146,6 +149,7 @@ export function VestedHistory() {
     rewards.value,
     getStakes.value,
     setEventsHistoryRewards,
+    t,
   ]);
 
   return (

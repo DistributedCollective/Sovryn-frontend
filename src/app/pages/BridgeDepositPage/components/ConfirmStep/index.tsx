@@ -184,6 +184,7 @@ export function ConfirmStep() {
                   <td>
                     <LinkToExplorer
                       txHash={tx.hash}
+                      chainId={network.chainId}
                       className="text-gold font-weight-normal text-nowrap tw-text-xs"
                     />
                   </td>

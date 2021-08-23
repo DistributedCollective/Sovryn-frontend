@@ -35,7 +35,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
       {items.map((item, index) => (
         <TableRow
           key={`${item.contract_address}/${index}`}
-          time={item.time}
+          time={Number(item.time)}
           txHash={item.txHash}
           amount={weiTo4(item.asset_amount)}
           type={getEventType(item.event)}
