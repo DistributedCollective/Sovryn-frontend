@@ -87,7 +87,7 @@ export function BridgeWithdrawPage() {
             minHeight: 'calc(100% - 2.5rem)',
             minWidth: 'calc(100% - 2.5rem)',
           }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-absolute tw-pb-20"
+          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
         >
           <SwitchTransition>
             <CSSTransition
