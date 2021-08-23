@@ -310,17 +310,27 @@
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
       "importantInformationStep": {
-        "title": "Important Information about the Origins Sale Process",
-        "information": {
-          "1": "Welcome to the SOV pre-order sale. In anticipation of the SOV token generation event (TGE), we are offering our early community members the opportunity to obtain community SOV (cSOV), subject to a bitocracy vote at SOV TGE.",
-          "2": "Shortly after SOV TGE, which will mark the launch of Sovryn Bitocracy v.2, the Sovryn governance members will cast their votes approving or rejecting the conversion of cSOV to SOV on a 1:1 basis. If this vote passes, cSOV holders will have the option to convert their cSOV to SOV.",
-          "3": "SOV received upon conversion from cSOV will be subject to a 10 month vesting period from the date of the end of SOV public sale, whereby 1/10 will be released approximately every 4 weeks until all converted SOV are transferable at the end of month 10.",
-          "4": "Please note that this will not be an automatic process, and will require an active opt-in by cSOV holders.",
-          "5": "cSOV holders that do not wish to convert their cSOV to SOV, will have the option to receive a refund of the funds they deposited as part of the pre-order sale for a period of up to two months after SOV TGE.",
-          "6": "If a cSOV holder does not actively opt-in to the cSOV to SOV conversion, they will automatically receive a refund of their pre-sale deposit, two months after the SOV TGE."
+        "privateSale": {
+          "title": "Important Information about the the FISH Private Sale Process and Terms",
+          "information": {
+            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH Sale! Welcome and thanks for your support!",
+            "2": "FISH available for purchase per wallet: {{rbtcAmount}} rBTC, equivalent to {{fishAmount}} FISH - Do not transfer more than this amount. Amounts sent in excess of this amount will be automatically returned to the address from which they were sent.",
+            "3": "FISH purchased as part of this sale, will vest linearly for 10 months. FISH markets are available on Sovryn and up to 40% of liquidity mining rewards will commence in Q3. FISH can be used to vote in BabelFish governance as soon as it begins to vest. For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
         },
-        "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
-        "submitButtonText": "I Understand"
+        "publicSale": {
+          "title": "Important Information about the the FISH Public Sale Process and Terms",
+          "information": {
+            "1": "Welcome to the BabelFish FISH token sale. Thank you kindly for your support!",
+            "2": "FISH available for purchase per wallet: {{rbtcAmount}} rBTC, equivalent to {{fishAmount}} FISH - Do not transfer more than this amount. Amounts sent in excess of this amount will be automatically returned to the address from which they were sent.",
+            "3": "Half the FISH purchased will vest upon completion of the sale, the other half will vest linearly for 10 consecutive months.",
+            "4": "FISH markets are available on Sovryn and up to 40% of liquidity mining rewards will commence in Q3. FISH can be used to vote in BabelFish governance as soon as it begins to vest. For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        }
       },
       "buyStep": {
         "buyInformationLabels": {

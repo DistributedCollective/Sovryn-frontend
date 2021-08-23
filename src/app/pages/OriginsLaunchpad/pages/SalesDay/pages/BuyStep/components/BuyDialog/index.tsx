@@ -2,26 +2,26 @@ import React from 'react';
 import { DialogWrapper } from './styled';
 import { InformationSection } from './components/InformationSection';
 import { BuySection } from './components/BuySection';
-import { useGetSaleInformation } from 'app/pages/OriginsLaunchpad/hooks/useGetSaleInformation';
-import { useGetActiveSaleTierId } from '../../../../../../hooks/useGetActiveSaleTierId';
+import { ISaleInformation } from 'app/pages/OriginsLaunchpad/types';
 
 interface IBuyDialogProps {
   saleName: string;
+  saleInformation: ISaleInformation;
+  tierId: number;
 }
 
-export const BuyDialog: React.FC<IBuyDialogProps> = ({ saleName }) => {
-  const activeTierId = useGetActiveSaleTierId();
-  const info = useGetSaleInformation(activeTierId);
-
-  return (
-    <DialogWrapper>
-      <InformationSection saleName={saleName} info={info} />
-      <BuySection
-        saleName={saleName}
-        depositRate={info.depositRate}
-        sourceToken={info.depositToken}
-        tierId={activeTierId}
-      />
-    </DialogWrapper>
-  );
-};
+export const BuyDialog: React.FC<IBuyDialogProps> = ({
+  saleName,
+  saleInformation,
+  tierId,
+}) => (
+  <DialogWrapper>
+    <InformationSection saleName={saleName} info={saleInformation} />
+    <BuySection
+      saleName={saleName}
+      depositRate={saleInformation.depositRate}
+      sourceToken={saleInformation.depositToken}
+      tierId={tierId}
+    />
+  </DialogWrapper>
+);
