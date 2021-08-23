@@ -1,6 +1,6 @@
 .button {
   @apply tw-text-xl tw-leading-6 tw-text-black tw-font-bold
-    tw-bg-primary tw-border tw-border-primary tw-rounded-10px
+    tw-bg-primary tw-border tw-border-primary tw-rounded-xl
     tw-cursor-pointer;
   transition: background-color 0.3s, color 0.3s, border 0.3s;
   height: 50px;

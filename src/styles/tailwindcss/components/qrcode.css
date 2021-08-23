@@ -10,14 +10,13 @@
     @apply tw-font-medium tw-text-base tw-text-sov-white;
   }
   .tw-qrcode-wrapper {
-    border-radius: 10px;
-    @apply tw-h-full tw-bg-sov-white tw-text-center;
+    @apply tw-h-full 
+      tw-bg-sov-white tw-rounded-xl
+      tw-text-center;
   }
   .tw-qrcode-wrapper svg {
-    border-radius: 10px;
-    @apply tw-w-full tw-h-full tw-py-6;
-    width: 158px;
-    margin: 0 82px 24px 82px;
+    @apply tw-w-10 tw-h-full tw-py-6 tw-mx-20 tw-mt-0 tw-mb-6
+      tw-rounded-xl;
   }
   .tw-qrcode-wrapper path:first-child {
     @apply tw-fill-current tw-text-sov-white;

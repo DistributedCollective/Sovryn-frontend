@@ -135,12 +135,8 @@ module.exports = {
       minWidth: {
         '122': '30.5rem',
       },
-      height: {
-        '88': '22rem',
-      },
       borderRadius: {
-        '5px': '0.3125rem',
-        '10px': '0.625rem',
+        '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps
       },
       keyframes: {
         spin: {

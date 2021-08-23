@@ -212,17 +212,16 @@
   list-style: none;
 }
 .slick-dots li button {
-  @apply tw-bg-secondary;
+  @apply tw-w-2.5 tw-h-2.5
+    tw-bg-secondary tw-rounded-full
+    tw-cursor-pointer;
   font-size: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  cursor: pointer;
   transition: background 0.3s;
 }
 .slick-dots li:not(.slick-active) button:hover {
-  opacity: 0.7;
+  @apply tw-opacity-70;
 }
+
 .slick-dots li.slick-active button {
   @apply tw-bg-secondary;
 }

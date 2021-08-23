@@ -1,11 +1,7 @@
 .dialog {
-  @apply tw-bg-secondary-75 tw-border-secondary tw-opacity-100;
-  border: 9px solid;
-  border-radius: 20px;
+  @apply tw-opacity-100 tw-bg-secondary-75 tw-border-8 tw-border-secondary tw-rounded-3xl;
 }
 
 .close {
-  @apply tw-text-tiny;
-  height: 25px;
-  border-radius: 5px;
+  @apply tw-h-6 tw-text-tiny tw-rounded-md;
 }

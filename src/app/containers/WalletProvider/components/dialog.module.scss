@@ -1,20 +1,15 @@
 .dialog {
     @apply tw-relative
+      tw-p-8
       tw-font-body
-      tw-bg-black tw-border-0;
+      tw-bg-black tw-border-0 tw-rounded-3xl;
 
-    border-radius: 20px!important;
-    padding: 30px!important;
     max-width: 468px;
 }
 
 .dialog h1 {
-    margin-bottom: 40px;
-    text-transform: none;
-    text-align: center;
-    font-size: 1.75rem;
-    line-height: 1.25;
-    font-weight: 600;
+  @apply tw-mb-10
+    tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case;
 }
 
 .dialog button[data-close] {

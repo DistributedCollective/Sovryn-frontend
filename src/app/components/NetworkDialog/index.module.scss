@@ -42,10 +42,8 @@
 
 @screen md {
   .dialog {
-    padding: 30px 30px 30px;
-    margin: 15px !important;
-    border-radius: 20px !important;
-    min-height: 0;
+    @apply tw-min-h-0 tw-p-8 tw-m-4
+      tw-rounded-3xl;
   }
 
   .dialog_small {

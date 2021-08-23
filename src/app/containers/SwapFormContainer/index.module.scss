@@ -34,9 +34,8 @@
   }
 
   .swap-form {
-    @apply tw-bg-black tw-border tw-border-gray-5;
-    border-radius: 20px;
-    padding: 30px 36px 50px;
+    @apply tw-px-9 tw-pt-8 tw-pb-12 
+      tw-bg-black tw-border tw-border-gray-5 tw-rounded-3xl;
     width: 387px;
     min-height: 388px;
 
@@ -52,15 +51,13 @@
     }
 
     .amount {
-      margin-top: 31px;
+      @apply tw-pt-8;
     }
   }
   .swap-revert-wrapper {
-    margin: 0 62px;
+    @apply tw-flex tw-items-center tw-justify-center 
+      tw-mx-16 tw-my-0;
     width: 227px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transform: rotate(90deg);
 
     @screen lg {

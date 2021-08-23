@@ -1,11 +1,8 @@
 .top-up-container {
   @media screen and (max-width: 767px) {
     & :global(.bp3-dialog) {
-      width: 100%;
-      height: 100vh;
-      border: 0;
-      border-radius: 0;
-      margin: 0;
+      @apply tw-w-full tw-h-screen tw-m-0
+        tw-border-0 tw-rounded-none;
     }
   }
 
@@ -20,9 +17,10 @@
   }
 
   .circle {
+    @apply tw-rounded-full;
     width: 15px;
     height: 15px;
-    border-radius: 50%;
+    
     &.circle-red {
       @apply tw-bg-warning;
     }

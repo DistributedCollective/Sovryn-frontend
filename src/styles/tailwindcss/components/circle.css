@@ -1,8 +1,8 @@
 @layer components {
   .tw-circle {
+    @apply tw-rounded-full;
     width: 15px;
     height: 15px;
-    border-radius: 50%;
   }
   .tw-circle .tw-circle-warning {
     @apply tw-bg-warning;

@@ -21,9 +21,9 @@ article.bp3-dialog h1 {
   transform: scale(1);
 }
 .bp3-tooltip2 .bp3-popover2-content {
-  padding: 10px 12px;
-  border-radius: 3px;
-  position: relative;
+  @apply tw-relative
+    tw-px-3 tw-py-2.5
+    tw-rounded;
 }
 .bp3-tooltip2 .bp3-popover2-content {
   @apply tw-text-sov-white tw-bg-black;

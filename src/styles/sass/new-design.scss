@@ -40,15 +40,15 @@
           @apply tw-bg-gray-3;
 
           &:first-child {
-            border-radius: 6px 0 0 6px;
+            @apply tw-rounded-l-md;
           }
 
           &:last-child {
-            border-radius: 0 6px 6px 0;
+            @apply tw-rounded-r-md;
           }
 
           &:only-child {
-            border-radius: 6px;
+            @apply tw-rounded-md;
           }
         }
       }
@@ -57,18 +57,18 @@
 
   tbody tr,
   div.mobile-row {
-    height: 80px;
+    @apply tw-h-20;
 
     td {
-      @apply tw-text-sov-white;
-      padding: 0 30px;
+      @apply tw-px-8 tw-py-0
+        tw-text-sov-white;
       @media (max-width: 441px) {
-        padding: 0 15px;
+        @apply tw-px-4;
       }
     }
 
     &:first-of-type {
-      border-top: none;
+      @apply tw-border-t-0
     }
 
     &.table-header {
@@ -76,13 +76,13 @@
 
       > td {
         @include table-header;
-        padding-top: 20px;
+        @apply tw-pt-5;
       }
     }
   }
 
   .mobile-row {
-    align-content: center;
+    @apply tw-content-center;
   }
 
   .sub-header div {
@@ -91,8 +91,7 @@
 
   &.sovryn-table-mobile {
     [class^='col'] {
-      padding-left: 5px;
-      padding-right: 5px;
+      @apply tw-px-1.5;
     }
   }
 }
