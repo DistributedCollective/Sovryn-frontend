@@ -6,8 +6,6 @@ import { Asset } from 'types';
 import { Title } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
-import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 
 export const Promotions: React.FC = () => {
   const { t } = useTranslation();
@@ -21,72 +19,56 @@ export const Promotions: React.FC = () => {
           <PromotionCard
             appSection={AppSection.Lend}
             backgroundColor={PromotionColor.Yellow}
-            title="35K SOV rewards"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
             linkAsset={Asset.XUSD}
-            learnMoreLink="http://www.test.com"
+            learnMoreLink="https://www.sovryn.app/blog/sov-is-diving-into-the-lending-pools"
             logoAsset1={Asset.XUSD}
           />
 
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.LightGreen}
-            title="25K SOV rewards"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkAsset={Asset.SOV}
-            learnMoreLink="http://www.test.com"
+            backgroundColor={PromotionColor.Blue}
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide a 1:1 ratio of BNB and rBTC to the BNB/BTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards. Learn more"
+            learnMoreLink="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
+            logoAsset1={Asset.BNB}
+            logoAsset2={Asset.RBTC}
+          />
+
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Yellow}
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            learnMoreLink="https://www.sovryn.app/blog/xusd-go-brrrrr"
+            logoAsset1={Asset.XUSD}
+            logoAsset2={Asset.RBTC}
+          />
+
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Purple}
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            learnMoreLink="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
           />
 
           <PromotionCard
-            appSection={AppSection.Borrow}
-            backgroundColor={PromotionColor.Blue}
-            title="40K SOV rewards"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkAsset={Asset.DOC}
-            learnMoreLink="http://www.test.com"
-            logoAsset1={Asset.DOC}
-          />
-
-          <PromotionCard
-            appSection={AppSection.MarginTrade}
-            backgroundColor={PromotionColor.DarkYellow}
-            title="1000% Yield for ETH/BTC LP's"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkMarginPairType={TradingPairType.RBTC_DOC}
-            learnMoreLink="http://www.test.com"
-            logoAsset1={Asset.RBTC}
-            logoAsset2={Asset.DOC}
-          />
-
-          <PromotionCard
-            appSection={AppSection.Swap}
-            backgroundColor={PromotionColor.Turquoise}
-            title="1000% Yield for ETH/BTC LP's"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkAsset={Asset.BPRO}
-            linkTargetAsset={Asset.XUSD}
-            learnMoreLink="http://www.test.com"
-            logoAsset1={Asset.BPRO}
-            logoAsset2={Asset.XUSD}
-          />
-
-          <PromotionCard
-            appSection={AppSection.Spot}
-            backgroundColor={PromotionColor.Orange}
-            title="10% Yield for ETH/BTC LP's"
-            duration="Until 11/05/21, 12.00 UTC"
-            text="Provide a 1:1 ratio of SOV and BTC the SOV/BTC AMM liquidity pool and instantly start accruing your share of 40,000 SOV rewards."
-            linkSpotTradingPairType={SpotPairType.SOV_BNB}
-            learnMoreLink="http://www.test.com"
-            logoAsset1={Asset.SOV}
-            logoAsset2={Asset.BNB}
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Green}
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
+            logoAsset1={Asset.ETH}
+            logoAsset2={Asset.RBTC}
           />
         </PromotionsCarousel>
       </div>
