@@ -9,7 +9,7 @@ export function LendingStats() {
   const assets = LendingPoolDictionary.assetList();
 
   return (
-    <table className="tw-w-full sovryn-table">
+    <table className="tw-w-full sovryn-table tw-min-w-150">
       <thead>
         <tr>
           <th>{t(translations.statsPage.asset)}</th>

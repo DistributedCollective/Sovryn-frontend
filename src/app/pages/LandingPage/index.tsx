@@ -103,7 +103,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </WelcomeTitle>
         </div>
         <div className="tw-flex tw-flex-col md:tw-flex-row">
-          <div className="tw-w-full md:tw-w-7/12">
+          <div className="tw-w-full md:tw-w-7/12 tw-mb-5 md:tw-mb-0">
             <div className="tw-text-base tw-capitalize tw-mt-4 tw-mb-10">
               {t(translations.landingPage.welcomeMessage)}
             </div>

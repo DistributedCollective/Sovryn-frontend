@@ -29,11 +29,11 @@ export const Banner: React.FC<IBannerProps> = ({
     <div className="tw-relative tw-w-full tw-h-full">
       <img
         src={image}
-        className="tw-w-full tw-h-full tw-object-cover tw-object-left tw-rounded-2xl tw-border tw-border-solid tw-border-turquoise2"
+        className="tw-w-full tw-h-full tw-object-cover tw-object-left tw-rounded-2xl tw-border tw-border-solid tw-border-turquoise2 tw-min-h-240"
         alt={title}
       />
       <div className="tw-absolute tw-w-full tw-h-full tw-top-0 tw-left-0 tw-p-4">
-        <div className="tw-text-center tw-text-white tw-text-3xl tw-font-semibold">
+        <div className="tw-text-center tw-text-white tw-text-xl md:tw-text-3xl tw-font-semibold">
           {title}
         </div>
         <div className="tw-flex tw-flex-col tw-items-end tw-mt-4">

@@ -41,7 +41,7 @@ export function AmmBalance(props: Props) {
 
       <div className="tw-mt-7 tw-overflow-auto">
         <table
-          className="tw-text-left tw-border-separate tw-w-full sovryn-table"
+          className="tw-text-left tw-border-separate tw-w-full sovryn-table tw-min-w-150"
           style={{ borderSpacing: 0 }}
         >
           <thead>

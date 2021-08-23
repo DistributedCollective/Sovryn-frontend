@@ -34,7 +34,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
         {t(translations.landingPage.cryptocurrencyPrices.title)}
       </div>
 
-      <table className="tw-w-full sovryn-table">
+      <table className="tw-w-full sovryn-table tw-min-w-150">
         <thead>
           <tr>
             <th>{t(translations.landingPage.cryptocurrencyPrices.asset)}</th>

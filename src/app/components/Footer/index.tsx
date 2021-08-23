@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
           </div>
           <div className="tw-text-base">
             <div
-              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-gold tw-underline tw-mt-6"
+              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-gold tw-underline tw-mt-3 md:tw-mt-6 tw-mb-3 md:tw-mb-0"
               onClick={e => setOptDialogOpen(true)}
             >
               {t(translations.footer.optOut)}
@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
           <img
             src={footerLogo}
             alt="Sovryn"
-            className="tw-w-40 tw-absolute tw--top-8 tw-right-0"
+            className="tw-w-20 md:tw-w-40 tw-absolute tw--top-8 tw-right-0"
           />
           {commitHash && (
             <div className="tw-text-white tw-w-full tw-text-right tw-mb-2">
