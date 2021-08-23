@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -16,7 +16,6 @@ import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { gasLimit } from 'utils/classifiers';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -33,28 +32,37 @@ export function ClaimForm({ className, address }: Props) {
 
   const { send, ...tx } = useSendContractTx(
     'lockedFund',
-    'createVestingAndStake',
+    'withdrawWaitedUnlockedBalance',
   );
 
-  const { value: lockedBalance } = useCacheCallWithValue(
+  const { value: getWaitedTS } = useCacheCallWithValue(
     'lockedFund',
-    'getLockedBalance',
-    '',
+    'getWaitedTS',
+    '0',
+  );
+
+  const { value: balance } = useCacheCallWithValue(
+    'lockedFund',
+    'getWaitedUnlockedBalance',
+    '0',
     address,
   );
+
+  const unlockTime = useMemo(() => Number(getWaitedTS) * 1000, [getWaitedTS]);
 
   const handleSubmit = () => {
     send(
       [],
       {
         from: address,
-        gas: gasLimit[TxType.LOCKED_SOV_CLAIM],
+        // gas: gasLimit[TxType.LOCKED_FUND_WAITED_CLAIM],
       },
       {
-        type: TxType.LOCKED_SOV_CLAIM,
+        type: TxType.LOCKED_FUND_WAITED_CLAIM,
       },
     );
   };
+
   return (
     <div
       className={cn(
@@ -63,17 +71,17 @@ export function ClaimForm({ className, address }: Props) {
       )}
     >
       <div className="text-center tw-text-xl">
-        {t(translations.rewardPage.claimForm.title)}
+        {t(translations.originsClaim.claimForm.title)}
       </div>
       <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
         <div>
           <div className="tw-text-sm tw-mb-1">
-            {t(translations.rewardPage.claimForm.availble)}
+            {t(translations.originsClaim.claimForm.availble)}
           </div>
           <Input
-            value={weiToNumberFormat(lockedBalance, 4)}
+            value={weiToNumberFormat(balance, 4)}
             readOnly={true}
-            appendElem={<AssetRenderer asset={Asset.SOV} />}
+            appendElem={<AssetRenderer asset={Asset.FISH} />}
           />
         </div>
         <div className={!rewardsLocked ? 'tw-mt-10' : undefined}>
@@ -81,7 +89,7 @@ export function ClaimForm({ className, address }: Props) {
             <ErrorBadge
               content={
                 <Trans
-                  i18nKey={translations.maintenance.claimRewards}
+                  i18nKey={translations.maintenance.claimOrigins}
                   components={[
                     <a
                       href={discordInvite}
@@ -99,26 +107,21 @@ export function ClaimForm({ className, address }: Props) {
           {!rewardsLocked && (
             <Button
               disabled={
-                parseFloat(lockedBalance) === 0 ||
-                !lockedBalance ||
-                rewardsLocked
+                parseFloat(balance) === 0 ||
+                !balance ||
+                rewardsLocked ||
+                new Date().getTime() < unlockTime
               }
               onClick={handleSubmit}
               className="tw-w-full tw-mb-4"
-              text={t(translations.rewardPage.claimForm.cta)}
+              text={t(translations.originsClaim.claimForm.cta)}
             />
           )}
 
           <div className="tw-text-tiny tw-font-thin">
-            {t(translations.rewardPage.claimForm.note) + ' '}
-            <a
-              href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="tw-text-secondary tw-underline"
-            >
-              {t(translations.rewardPage.claimForm.learn)}
-            </a>
+            {t(translations.originsClaim.claimForm.note, {
+              date: new Date(unlockTime).toLocaleString(),
+            })}
           </div>
         </div>
       </div>

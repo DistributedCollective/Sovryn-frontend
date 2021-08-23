@@ -44,12 +44,6 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                   .information[2],
               )}
             </ListItem>
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[3],
-              )}
-            </ListItem>
           </div>
 
           <div className="tw-text-left tw-max-w-40">
