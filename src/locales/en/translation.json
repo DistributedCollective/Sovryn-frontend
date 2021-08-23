@@ -55,7 +55,8 @@
     "delegateModal": "Sorry, delegating is currently under maintenance, please check our <0>discord</0> for updates.",
     "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
-    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates."
+    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates."
   },
   "homePage": {
     "title": "Home Page",
@@ -266,6 +267,8 @@
     "bitocracy": "Bitocracy",
     "spotTrade": "Spot",
     "origins": "Origins",
+    "launchpad": "Launchpad",
+    "claim": "Claim",
     "rewards": "Rewards"
   },
   "originsLaunchpad": {
@@ -367,6 +370,18 @@
         "amountReceived": "Amount Received",
         "txHash": "Tx Hash"
       }
+    }
+  },
+  "originsClaim": {
+    "meta": {
+      "title": "Origins Claim",
+      "description": "Claim your Origins Purchases"
+    },
+    "claimForm": {
+      "title": "Liquid Balance",
+      "availble": "Total Liquid FISH Available:",
+      "cta": "Claim",
+      "note": "Withdrawal will be available at {{date}}."
     }
   },
   "trandingPositionSelector": {
