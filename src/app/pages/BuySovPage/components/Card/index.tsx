@@ -14,7 +14,7 @@ const H1 = styled.h1`
 
   > .title {
     font-size: 1.5rem;
-    line-height: 24px;
+    line-height: 1;
     font-weight: 600;
     letter-spacing: 0;
     text-transform: none;

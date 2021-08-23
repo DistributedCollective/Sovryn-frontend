@@ -47,7 +47,7 @@ const Article = styled.article`
   h1 {
     text-transform: none;
     font-size: 1.5rem;
-    line-height: 32px;
+    line-height: 1.375;
     font-weight: 700;
     margin-bottom: 32px;
   }

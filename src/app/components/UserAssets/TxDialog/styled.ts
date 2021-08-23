@@ -42,7 +42,7 @@ export const WLImage = styled.img`
 
 export const TitleWrapper = styled.div`
   font-size: 1.75rem;
-  line-height: 2.125rem;
+  line-height: 1.25;
   letter-spacing: 0;
   font-weight: 600;
   margin: 0 auto;
