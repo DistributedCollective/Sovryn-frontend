@@ -40,7 +40,7 @@ const Div = styled.div`
   padding: 31px;
   font-weight: 500;
   border: 1px solid #e8e8e8;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   line-height: 1;
   font-size: 1rem;
   ${media.lg`
@@ -55,7 +55,7 @@ const Button = styled.button.attrs(_ => ({
 }))`
   margin-left: 25px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   white-space: nowrap;
   color: #000;
   font-size: 1.25rem;

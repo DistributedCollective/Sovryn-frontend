@@ -22,7 +22,7 @@ const StyledButton = styled.button.attrs(_ => ({
   color: var(--white);
   background-color: var(--gray-1);
   padding: 3px 10px;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: 1px solid var(--white);
   font-size: 0.75rem;
   :hover {

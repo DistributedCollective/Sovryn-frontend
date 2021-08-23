@@ -218,6 +218,6 @@ const Dummy = styled.div`
   height: 40px;
   padding: 11px 21px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   line-height: 1;
 `;

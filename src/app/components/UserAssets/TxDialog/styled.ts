@@ -31,7 +31,7 @@ export const WLContainer = styled.div`
   overflow: hidden;
   width: 10rem;
   height: 10rem;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: 5px solid #e8e8e8;
   margin: 0 auto 4.375rem;
   padding: 1.3rem 2.1rem 1rem 2.1rem;

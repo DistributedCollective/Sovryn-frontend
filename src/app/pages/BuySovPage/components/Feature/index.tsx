@@ -92,7 +92,7 @@ const Article = styled.article`
     line-height: 1;
     font-weight: 500;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     text-decoration: none;
     text-align: center;
     padding: 11px;

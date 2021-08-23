@@ -36,15 +36,15 @@ export const StyledTable = styled.table`
       }
       td {
         &:first-child {
-          border-radius: 6px 0 0 6px;
+          border-radius: 0.375rem 0 0 0.375rem;
         }
 
         &:last-child {
-          border-radius: 0 6px 6px 0;
+          border-radius: 0 0.375rem 0.375rem 0;
         }
 
         &:only-child {
-          border-radius: 6px;
+          border-radius: 0.375rem;
         }
       }
     }
@@ -66,15 +66,15 @@ export const StyledTable = styled.table`
         td {
           background-color: #101010;
           &:first-child {
-            border-radius: 6px 0 0 6px;
+            border-radius: 0.375rem 0 0 0.375rem;
           }
 
           &:last-child {
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 0.375rem 0.375rem 0;
           }
 
           &:only-child {
-            border-radius: 6px;
+            border-radius: 0.375rem;
           }
         }
       }

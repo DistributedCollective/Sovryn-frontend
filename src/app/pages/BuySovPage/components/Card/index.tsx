@@ -33,7 +33,7 @@ const Container = styled.article`
   min-height: 360px;
   font-size: 1rem;
   font-weight: 400;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   padding: 15px 30px;
   @media (max-width: 768px) {
     width: 100%;

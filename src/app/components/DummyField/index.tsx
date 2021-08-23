@@ -17,7 +17,7 @@ export function DummyField(props: Props) {
 }
 
 const Div = styled.div`
-  border-radius: 5px;
+  border-radius: 0.375rem;
   background-color: var(--gray-3);
   color: var(--white);
   padding: 10px 14px;

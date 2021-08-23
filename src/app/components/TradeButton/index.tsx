@@ -73,7 +73,7 @@ interface StyledButtonProps {
 const StyledButton = styled.button`
   color: ${(props: StyledButtonProps) => props.textColor};
   background-color: var(--gray-1);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   padding: 11px 22px;
   font-size: 0.75rem;
   text-decoration: none;

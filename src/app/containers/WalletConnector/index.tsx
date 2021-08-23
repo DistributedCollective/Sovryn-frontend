@@ -143,7 +143,7 @@ const StyledButton = styled.button.attrs(({ className }) => ({
     letter-spacing: -1px;
     text-transform: capitalize;
     transition: all .3s;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     &:hover {
       background: rgba(254,192,4, 0.25) !important;
     }

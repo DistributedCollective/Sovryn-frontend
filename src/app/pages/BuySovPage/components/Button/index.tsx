@@ -20,7 +20,7 @@ const StyledButton = styled.button`
   font-size: 1rem;
   font-weight: 500;
   background: rgba(254, 192, 4, 0.05);
-  border-radius: 10px;
+  border-radius: 0.75rem;
   text-transform: none;
   line-height: 1;
   transition: background 0.3s;

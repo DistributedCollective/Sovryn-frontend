@@ -106,7 +106,7 @@ const Learn = styled.button`
   padding: 7px 41px;
   margin: 90px auto 115px;
   display: inline-block;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   background: transparent;
   text-transform: none;
 `;

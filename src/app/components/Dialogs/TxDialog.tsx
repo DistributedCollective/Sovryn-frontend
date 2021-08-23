@@ -221,7 +221,7 @@ function StatusComponent({ status }: { status: TxStatus }) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {

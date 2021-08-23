@@ -60,7 +60,7 @@ export const StyledBurger = styled.button<StyledProps>`
     width: 2rem;
     height: 0.25rem;
     background: white;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;

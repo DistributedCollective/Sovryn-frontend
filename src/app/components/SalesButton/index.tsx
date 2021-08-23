@@ -9,7 +9,7 @@ export const StyledButton = styled.button.attrs(_ => ({
 }))`
   border: 1px solid var(--primary);
   background: var(--primary-10);
-  border-radius: 10px;
+  border-radius: 0.75rem;
   color: var(--primary);
   min-width: 48px;
   height: 48px;
