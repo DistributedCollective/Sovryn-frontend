@@ -304,7 +304,10 @@
       },
       "accessCodeVerificationStep": {
         "dialogTitle": "Welcome to the {{token}} Origins Sale",
-        "verified": "You have been given whitelist access to participate in the FISH Origins sale.",
+        "verified": {
+          "privateSale": "You have been given whitelist access to participate in the FISH Origins sale.",
+          "publicSale": "You have been given access to participate in the FISH Origins sale."
+        },
         "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Sale.",
         "cta": "Continue",
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"

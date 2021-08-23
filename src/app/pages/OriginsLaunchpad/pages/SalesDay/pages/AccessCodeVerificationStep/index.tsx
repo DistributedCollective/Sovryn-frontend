@@ -36,7 +36,9 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             {isVerified
               ? t(
                   translations.originsLaunchpad.saleDay
-                    .accessCodeVerificationStep.verified,
+                    .accessCodeVerificationStep.verified[
+                    tierId === 2 ? 'publicSale' : 'privateSale'
+                  ],
                 )
               : t(
                   translations.originsLaunchpad.saleDay
