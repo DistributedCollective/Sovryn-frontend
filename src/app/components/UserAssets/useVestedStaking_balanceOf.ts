@@ -77,7 +77,7 @@ export function useVestedStaking_balanceOf(address: string) {
         .call<string>('lockedFund', 'getVestedBalance', [address])
         .catch(reason => setError(reason));
 
-      setBabelFishVestedValue(String(babelFishVested));
+      setBabelFishVestedValue(String(babelFishVested || 0));
 
       if (
         adr1 === adr2 &&
