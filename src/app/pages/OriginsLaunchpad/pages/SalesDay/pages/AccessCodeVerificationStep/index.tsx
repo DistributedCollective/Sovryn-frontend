@@ -61,7 +61,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
           )}
         </div>
 
-        {!isVerified && (
+        {/* {!isVerified && (
           <div>
             <Trans
               i18nKey={
@@ -80,7 +80,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               ]}
             />
           </div>
-        )}
+        )} */}
       </DialogWrapper>
     </>
   );
