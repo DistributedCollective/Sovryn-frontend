@@ -1569,7 +1569,9 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount"
+      "withdrawAmount": "Withdraw Amount",
+      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
+      "insufficientDaily": "Daily limit exceeded."
     },
     "confirmStep": {
       "pleaseWait": "Please wait",
@@ -1590,7 +1592,8 @@
     },
     "tokenSelector": {
       "title": "Select coin to withdraw to",
-      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token."
+      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
+      "maxWithdrawal": "Max Withdrawal:"
     }
   },
   "buySovPage": {

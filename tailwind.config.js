@@ -166,6 +166,7 @@ module.exports = {
       borderRadius: {
         '5px': '0.3125rem',
         '10px': '0.625rem',
+        '50%': '50%',
       },
       keyframes: {
         spin: {

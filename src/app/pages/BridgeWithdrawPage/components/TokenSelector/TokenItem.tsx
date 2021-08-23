@@ -39,7 +39,7 @@ export function TokenItem({ sourceAsset, balance, image, symbol, onClick }) {
         })}
       >
         <span className="tw-text-sm tw-font-light tw-mb-1">
-          {t(translations.common.availableBalance)}
+          {t(translations.BridgeWithdrawPage.tokenSelector.maxWithdrawal)}
         </span>
         <LoadableValue
           value={`${toNumberFormat(balance, asset.minDecimals)} ${
