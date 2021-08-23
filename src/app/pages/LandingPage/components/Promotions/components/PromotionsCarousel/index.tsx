@@ -6,9 +6,14 @@ import { CustomRightArrow } from './CustomRightArrow';
 import { CustomDot } from './CustomDot';
 
 const responsive = {
-  desktop: {
-    breakpoint: { max: 4800, min: 1200 },
+  large: {
+    breakpoint: { max: 4800, min: 1536 },
     items: 4,
+    slidesToSlide: 2,
+  },
+  desktop: {
+    breakpoint: { max: 1536, min: 1199 },
+    items: 3,
     slidesToSlide: 2,
   },
   tablet: {
