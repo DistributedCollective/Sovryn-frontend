@@ -13,22 +13,18 @@ import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
+import { Box, ContainerBox, Divider, PieChart, RewardDetailsWrapper } from '../../styled';
 import { ClaimForm } from '../ClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
-import {
-  Box,
-  ContainerBox,
-  Divider,
-  PieChart,
-  RewardDetailsWrapper,
-} from '../../styled';
 
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
   const [liquidityRewards, setLiqRewards] = useState(0);
   const [lendingRewards, setLendingRewards] = useState(0);
-  const rewardSov = useGetContractPastEvents('lockedSov', 'Deposited');
+  const rewardSov = useGetContractPastEvents('lockedSov', 'Deposited', {
+    _userAddress: userAddress,
+  });
   console.log('rewardSov: ', rewardSov);
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
