@@ -125,7 +125,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
               //remember month starts from 0
               date={Date.UTC(2021, 7, 26, 14, 0)}
               image={babelfishBanner}
-              learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-UTC-26-08-2021"
+              learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-utc-26-08-2021"
               buyLink="/origins"
             />
           </div>
