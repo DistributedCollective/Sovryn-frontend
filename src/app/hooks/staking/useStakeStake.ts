@@ -10,7 +10,7 @@ export function useStakeStake() {
     stake: (weiAmount: string, timestamp: number, nonce: number) => {
       send(
         [weiAmount, timestamp, account, ethGenesisAddress],
-        { from: account, nonce: nonce, gas: 250000 },
+        { from: account, nonce: nonce, gas: 450000 },
         {
           type: TxType.STAKING_STAKE,
         },

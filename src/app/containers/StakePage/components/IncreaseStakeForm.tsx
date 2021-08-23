@@ -28,7 +28,7 @@ export function IncreaseStakeForm(props: Props) {
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
   const txConf = {
-    gas: 250000,
+    gas: 450000,
   };
 
   return (
