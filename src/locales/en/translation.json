@@ -276,7 +276,7 @@
         "saleToken": "Sale Token",
         "project": "Project",
         "startDate": "Starts",
-        "startPrice": "Starts"
+        "startPrice": "Price"
       },
       "inputLabel": "Enter Email Address",
       "inputLabelName": "Name or Pseudonym",

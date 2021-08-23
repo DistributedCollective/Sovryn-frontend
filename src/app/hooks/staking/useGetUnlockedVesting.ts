@@ -5,6 +5,7 @@ import { useAccount, useBlockSync } from '../useAccount';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
+import { Nullable } from 'types';
 
 const TWO_WEEKS = 1209600;
 
@@ -13,7 +14,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
   const syncBlock = useBlockSync();
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('0');
-  const [err, setError] = useState<string>(null as any);
+  const [err, setError] = useState<Nullable<string>>(null);
   useEffect(() => {
     const run = async () => {
       let value = '0';
@@ -22,7 +23,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
         const startDate = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            VestingABI as any,
+            VestingABI,
             'startDate',
             [],
           ),
@@ -30,7 +31,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
         const cliff = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            VestingABI as any,
+            VestingABI,
             'cliff',
             [],
           ),
@@ -47,7 +48,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
           end = Number(
             await contractReader.callByAddress(
               vestingAddress,
-              VestingABI as any,
+              VestingABI,
               'endDate',
               [],
             ),

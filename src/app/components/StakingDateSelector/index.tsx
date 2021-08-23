@@ -1,8 +1,3 @@
-/**
- *
- * StakingDateSelector
- *
- */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
 import dayjs from 'dayjs';
@@ -27,7 +22,7 @@ interface Props {
   onClick: (value: number) => void;
   value?: number;
   startTs?: number;
-  stakes?: undefined;
+  stakes?: string[];
   prevExtend?: number;
   autoselect?: boolean;
   delegate?: boolean;
@@ -102,24 +97,16 @@ export function StakingDateSelector(props: Props) {
       })),
     );
 
-    if (props.stakes && !props.delegate) {
-      setItemDisabled(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: dayjs(new Date(item * 1e3)).format('L'),
-          date: new Date(item * 1e3),
-        })),
-      );
-    }
+    if (props.stakes) {
+      const mappedStakes = props.stakes.map(item => ({
+        key: Number(item) * 1e3,
+        label: dayjs(new Date(Number(item) * 1e3)).format('L'),
+        date: new Date(Number(item) * 1e3),
+      }));
 
-    if (props.delegate) {
-      setFilteredDates(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: dayjs(new Date(item * 1e3)).format('L'),
-          date: new Date(item * 1e3),
-        })),
-      );
+      props.delegate
+        ? setFilteredDates(mappedStakes)
+        : setItemDisabled(mappedStakes);
     }
   }, [dates, props.startTs, props.stakes, props.delegate]);
 
@@ -127,15 +114,24 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let lastDate = dayjs(props.kickoffTs * 1e3);
-      for (let i = 1; i <= maxPeriods; i++) {
-        const date = lastDate.add(2, 'weeks');
-        lastDate = date;
-        dates.push(date.toDate());
-        if ((props.prevExtend as any) <= date.unix()) {
-          datesFutured.push(date.clone().toDate());
+      let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed ~ 1613220308
+      let currentDate = Math.round(new Date().getTime() / 1e3);
+      //getting the last posible date in the contract that low then current date
+      for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
+        const intervalDate = contractDateDeployed.add(2, 'weeks');
+        contractDateDeployed = intervalDate;
+      }
+      for (let i = 1; i < maxPeriods; i++) {
+        if (contractDateDeployed.unix() >= currentDate) {
+          const date = contractDateDeployed.add(2, 'weeks');
+          contractDateDeployed = date;
+          if (!props.prevExtend) dates.push(date.toDate());
+          if (props.prevExtend && props.prevExtend <= date.unix()) {
+            datesFutured.push(date.clone().toDate());
+          }
         }
       }
+
       if (datesFutured.length) {
         setDates(datesFutured);
       } else {

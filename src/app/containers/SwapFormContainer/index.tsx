@@ -191,6 +191,7 @@ export function SwapFormContainer() {
   const { state } = useLocation();
 
   useEffect(() => {
+    // This will be changed to a specific type once new landing page is merged
     const params: any = (state as any)?.params;
     if (params?.action && params?.action === 'swap' && params?.asset) {
       const item = tokenBalance.find(item => item.key === params.asset);
