@@ -22,6 +22,7 @@ export const BuyDialog: React.FC<IBuyDialogProps> = ({
       depositRate={saleInformation.depositRate}
       sourceToken={saleInformation.depositToken}
       tierId={tierId}
+      maxAmount={saleInformation.maxAmount}
     />
   </DialogWrapper>
 );

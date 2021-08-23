@@ -346,7 +346,8 @@
           "enterAmount": "Enter Amount",
           "tokenReceived": "{{token}} Received",
           "transactionFee": "Transaction Fee",
-          "buyButton": "Buy {{token}}"
+          "buyButton": "Buy {{token}}",
+          "isOverMaxLimit": "You cannot deposit more than max limit"
         },
         "instructions": {
           "title": "Instructions",

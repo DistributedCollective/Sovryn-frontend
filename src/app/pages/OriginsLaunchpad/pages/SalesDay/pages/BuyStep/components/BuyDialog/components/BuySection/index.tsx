@@ -11,12 +11,14 @@ import { TxDialog } from '../TxDialog';
 import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface IBuySectionProps {
   saleName: string;
   depositRate: number;
   sourceToken: Asset;
   tierId: number;
+  maxAmount: string;
 }
 
 export const BuySection: React.FC<IBuySectionProps> = ({
@@ -24,11 +26,13 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   depositRate,
   sourceToken,
   tierId,
+  maxAmount,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
   const [amount, setAmount] = useState('');
+  const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
   const weiAmount = useWeiAmount(amount);
 
   const [tokenAmount, setTokenAmount] = useState(amount);
@@ -37,14 +41,20 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const isValidAmount = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiTokenAmount).greaterThan(0)
+      bignumber(weiTokenAmount).greaterThan(0) &&
+      !isOverMaxLimit
     );
-  }, [weiAmount, weiTokenAmount]);
+  }, [isOverMaxLimit, weiAmount, weiTokenAmount]);
 
   useEffect(() => setTokenAmount(`${Number(amount) * depositRate}`), [
     amount,
     depositRate,
   ]);
+
+  useEffect(
+    () => setIsOverMaxLimit(bignumber(weiAmount).greaterThan(maxAmount)),
+    [weiAmount, maxAmount],
+  );
 
   const { buy, ...buyTx } = useApproveAndBuyToken();
 
@@ -69,6 +79,18 @@ export const BuySection: React.FC<IBuySectionProps> = ({
             onChange={value => setAmount(value)}
             asset={Asset.RBTC}
           />
+          {isOverMaxLimit && (
+            <ErrorBadge
+              content={
+                <span>
+                  {t(
+                    translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                      .isOverMaxLimit,
+                  )}
+                </span>
+              }
+            />
+          )}
         </div>
 
         <img
