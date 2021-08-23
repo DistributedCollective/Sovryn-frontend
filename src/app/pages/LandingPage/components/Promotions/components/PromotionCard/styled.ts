@@ -4,6 +4,8 @@ export const CardItem = styled.div`
   width: 23.1875rem;
   margin-top: 2.5rem;
   margin-bottom: 3.125rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const CardImageSection = styled.div`
