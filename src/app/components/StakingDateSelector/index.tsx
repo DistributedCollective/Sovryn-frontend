@@ -9,8 +9,6 @@ import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 
-const maxPeriods = 78;
-
 interface DateItem {
   key: number;
   label: string;
@@ -27,6 +25,8 @@ interface Props {
   autoselect?: boolean;
   delegate?: boolean;
 }
+
+const MAX_PERIODS = 78;
 
 export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
@@ -114,20 +114,21 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed ~ 1613220308
-      let currentDate = Math.round(new Date().getTime() / 1e3);
+      let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed
+      let currentDate = Math.round(new Date().getTime() / 1e3); //getting current time in seconds
       //getting the last posible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
-        const intervalDate = contractDateDeployed.add(2, 'weeks');
+        const intervalDate = contractDateDeployed.add(2, 'week');
         contractDateDeployed = intervalDate;
       }
-      for (let i = 1; i < maxPeriods; i++) {
-        if (contractDateDeployed.unix() >= currentDate) {
-          const date = contractDateDeployed.add(2, 'weeks');
+
+      for (let i = 1; i < MAX_PERIODS; i++) {
+        if (contractDateDeployed.unix() > currentDate) {
+          const date = contractDateDeployed.add(2, 'week');
           contractDateDeployed = date;
           if (!props.prevExtend) dates.push(date.toDate());
-          if (props.prevExtend && props.prevExtend <= date.unix()) {
-            datesFutured.push(date.clone().toDate());
+          if (props.prevExtend && props.prevExtend < date.unix()) {
+            datesFutured.push(date.toDate());
           }
         }
       }
@@ -181,14 +182,14 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-5" key={i}>
+            <div className="tw-mr-3" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >

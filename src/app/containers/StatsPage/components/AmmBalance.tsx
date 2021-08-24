@@ -65,7 +65,6 @@ function Row(props) {
     axios
       .get(`${url}/amm/pool-balance/${props.asset}`, { cancelToken })
       .then(res => {
-        console.log(res);
         setData(res.data);
         setLoading(false);
       })

@@ -1474,6 +1474,81 @@
     "chartOverlayText": "APY% Coming Soon!",
     "recalibration": "Next recalibration on {{date}}"
   },
+  "landingPage": {
+    "meta": {
+      "title": "SOV trading is now live!",
+      "description": "SOV trading is now live!"
+    },
+    "welcomeTitle": "Welcome to Sovryn",
+    "welcomeMessage": "The decentralized bitcoin trading and lending platform",
+    "tradingVolume": {
+      "dayVolumeTitle": "24 Hour Volume",
+      "tvlTitle": "Total Value Locked",
+      "btc": "BTC",
+      "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Arbitrage opportunity",
+      "swap": "swap",
+      "swapUp": "Swap up to ",
+      "for": "for up to ",
+      "noArbitrage": "There are currently no arbitrage opportunities…"
+    },
+    "tvl": {
+      "title": "Total value locked",
+      "type": "Contract Type",
+      "btc": "Value (BTC)",
+      "usd": "Value (USD)",
+      "protocol": "Protocol Contract",
+      "lend": "Lending Contract",
+      "amm": "Amm Contract",
+      "staked": "Bitocracy Staking Contract",
+      "subtotal": "Sub total",
+      "total": "Total"
+    },
+    "promotions": {
+      "title": "Promotions",
+      "learnMore": "Learn more",
+      "sections": {
+        "lending": "Lending",
+        "borrowing": "Borrowing",
+        "yieldFarming": "Yield Farming",
+        "marginTrading": "Margin Trading",
+        "swap": "Swap",
+        "spotTrading": "Spot Trading"
+      }
+    },
+    "lendBorrow": "LEND & BORROW ASSETS",
+    "ammpool": {
+      "title": "AMM Pools",
+      "asset": "Asset",
+      "pool": "Pool",
+      "stakedBalance": "Staked Balance",
+      "contractBalance": "Contract Balance",
+      "imBalance": "Imbalance",
+      "apy": "APY"
+    },
+    "banner": {
+      "originsFish": "Origins FISH token pre-sale",
+      "liveNow": "LIVE NOW!",
+      "buyNow": "Buy Now",
+      "learnMore": "Learn More",
+      "timer": {
+        "days": "DAYS",
+        "hours": "HOURS",
+        "mins": "MINS",
+        "secs": "SECS"
+      }
+    },
+    "cryptocurrencyPrices": {
+      "title": "CRYPTOCURRENCY PRICES BY 24H CHANGE",
+      "asset": "Asset",
+      "price": "Price",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Market Cap"
+    }
+  },
   "BridgeDepositPage": {
     "poweredBy": "Powered by babelFish",
     "network": "Network",
@@ -1696,7 +1771,7 @@
       "lending": {
         "title": "Lending",
         "text": "Earn a passive income by lending your assets directly to borrowers or to margin traders and decrease your exposure to wider market performances and fluctuations. Sovryn’s non-custodial solution keeps you in control of your funds, and you are free to withdraw your assets at any time.",
-        "cta": "Trade"
+        "cta": "Lend"
       },
       "stake": {
         "title": "Stake & Vote",
