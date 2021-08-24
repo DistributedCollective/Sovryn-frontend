@@ -55,7 +55,11 @@ export function VestedHistory() {
         ...eventsHistoryVestingOrigin,
         ...eventsHistoryVestingTeam,
         ...eventsHistoryRewards,
-      ].slice(offset, offset + pageLimit),
+      ]
+        .sort(
+          (x, y) => dayjs(y.eventDate).valueOf() - dayjs(x.eventDate).valueOf(),
+        )
+        .slice(offset, offset + pageLimit),
     );
   };
 
@@ -73,13 +77,7 @@ export function VestedHistory() {
               ...v,
               type: t(translations.stake.currentVests.assetType.reward),
             }));
-            setEventsHistoryRewards(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryRewards(newRes);
           });
       }
       if (vesting.value !== ethGenesisAddress) {
@@ -89,13 +87,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
-            setEventsHistoryVesting(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVesting(newRes);
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
@@ -105,13 +97,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
-            setEventsHistoryVestingTeam(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingTeam(newRes);
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
@@ -121,13 +107,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
-            setEventsHistoryVestingOrigin(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingOrigin(newRes);
           });
       }
       try {
@@ -238,7 +218,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
     <tr>
       <td>
         {dayjs
-          .tz(parseInt(item.eventDate) * 1e3, 'UTC')
+          .tz(item.eventDate, 'UTC')
           .tz(dayjs.tz.guess())
           .format('L - LTS Z')}
       </td>
