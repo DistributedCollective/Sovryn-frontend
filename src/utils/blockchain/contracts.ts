@@ -275,7 +275,7 @@ export const contracts = {
   },
   // these contracts are only deployed on testnet now so they need to be updated
   stakingRewards: {
-    address: '0x1eA58878654Cd537912c2cC6F2c58319d72BDE2c',
+    address: '0x8304FB3614c728B712e94F9D4DF6719fede6517F',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
