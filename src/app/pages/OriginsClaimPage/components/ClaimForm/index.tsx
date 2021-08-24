@@ -19,7 +19,10 @@ interface IClaimFormProps {
   address: string;
   className?: string;
 }
-export function ClaimForm({ className, address }: IClaimFormProps) {
+export const ClaimForm: React.FC<IClaimFormProps> = ({
+  className,
+  address,
+}) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
@@ -121,4 +124,4 @@ export function ClaimForm({ className, address }: IClaimFormProps) {
       <TxDialog tx={tx} />
     </div>
   );
-}
+};
