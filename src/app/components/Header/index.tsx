@@ -82,7 +82,6 @@ export function Header() {
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
-    { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
@@ -336,9 +335,6 @@ export function Header() {
               </a>
               <NavLink className="tw-header-link" to="/origins">
                 {t(translations.mainMenu.origins)}
-              </NavLink>
-              <NavLink className="tw-header-link" to="/stats">
-                {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
           </div>

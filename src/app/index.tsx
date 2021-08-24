@@ -28,7 +28,6 @@ import { MaintenancePage } from './containers/MaintenancePage';
 import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
-import { StatsPage } from './containers/StatsPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
 import { WalletPage } from './containers/WalletPage/Loadable';
 
@@ -38,6 +37,7 @@ import { BorrowPage } from './pages/BorrowPage/Loadable';
 import { LendingPage } from './pages/LendingPage/Loadable';
 import { StakePage } from './containers/StakePage/Loadable';
 
+import { LandingPage } from './pages/LandingPage/Loadable';
 import { BuySovPage } from './pages/BuySovPage/Loadable';
 
 import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
@@ -77,7 +77,7 @@ export function App() {
         <WalletProvider>
           <NetworkRibbon />
           <Switch>
-            <Route exact path="/" component={BuySovPage} />
+            <Route exact path="/" component={LandingPage} />
             <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
             <Route exact path="/swap" component={SwapPage} />
@@ -85,7 +85,6 @@ export function App() {
             <Route exact path="/lend" component={LendingPage} />
             <Route exact path="/borrow" component={BorrowPage} />
             <Route exact path="/stake" component={StakePage} />
-            <Route exact path="/stats" component={StatsPage} />
             <Redirect exact from="/liquidity" to="/yield-farm" />
             <Route exact path="/yield-farm" component={LiquidityMiningPage} />
             <Route exact path="/reward" component={RewardPage} />

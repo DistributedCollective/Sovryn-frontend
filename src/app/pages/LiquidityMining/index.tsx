@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -23,6 +23,8 @@ import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
 import { getNextMonday } from '../../../utils/dateHelpers';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -30,6 +32,8 @@ const date = getNextMonday();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.ADD_LIQUIDITY]: addLiqLocked,
@@ -37,6 +41,7 @@ export function LiquidityMining() {
   } = checkMaintenances();
   const account = useAccount();
   const [hasOldPools, setHasOldPools] = useState(true);
+  const [linkAsset] = useState(location.state?.asset);
 
   const onOldPoolsNotPresent = useCallback(() => setHasOldPools(false), [
     setHasOldPools,
@@ -45,6 +50,13 @@ export function LiquidityMining() {
   const { value: ammData } = useFetch(
     `${backendUrl[currentChainId]}/amm/apy/all`,
   );
+
+  useEffect(() => linkAsset && history.replace(location.pathname), [
+    history,
+    linkAsset,
+    location.pathname,
+    location.state,
+  ]);
 
   return (
     <>
@@ -134,6 +146,7 @@ export function LiquidityMining() {
                 ammData &&
                 ammData[item?.assetDetails?.ammContract?.address?.toLowerCase()]
               }
+              linkAsset={location.state?.asset}
             />
           ))}
         </div>
