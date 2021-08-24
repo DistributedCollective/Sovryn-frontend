@@ -68,11 +68,11 @@ function ReserveStakedBalanceV1({ pool, supplyAsset }: Props) {
 
   useEffect(() => {
     const getBalance = async () => {
-      return (await contractReader.call(
+      return await contractReader.call<string>(
         getTokenContractName(supplyAsset.asset),
         'balanceOf',
         [getAmmContract(pool.poolAsset).address],
-      )) as any;
+      );
     };
 
     setLoading(true);
