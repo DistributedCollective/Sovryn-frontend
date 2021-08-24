@@ -1,19 +1,26 @@
+import axios from 'axios';
 import { bignumber } from 'mathjs';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAccount } from 'app/hooks/useAccount';
+import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
-import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
-import { Box, ContainerBox, Divider, PieChart, RewardDetailsWrapper } from '../../styled';
+import {
+  Box,
+  ContainerBox,
+  Divider,
+  PieChart,
+  RewardDetailsWrapper,
+} from '../../styled';
 import { ClaimForm } from '../ClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 
@@ -22,11 +29,33 @@ export function RewardForm() {
   const { t } = useTranslation();
   const [liquidityRewards, setLiqRewards] = useState(0);
   const [lendingRewards, setLendingRewards] = useState(0);
-  const { events: rewardSov, loading } = useGetContractPastEvents(
-    'lockedSov',
-    'Deposited',
-  );
-  console.log('rewardSov: ', rewardSov, loading);
+  const url = backendUrl[currentChainId];
+  const [tradRewards, setTradeRewards] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const blockSync = useBlockSync();
+  const getRewardData = useCallback(() => {
+    axios
+      .get(`${url}/v1/event-history/availableTradingRewards/${userAddress}`)
+      .then(res => {
+        const { events } = res.data;
+        console.log('res: ', res.data);
+        const rewards = parseFloat(weiTo18(events[0].sum));
+        setTradeRewards(rewards);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setLoading(false);
+      });
+  }, [url, userAddress]);
+  // const { events: lendSov, loading } = useGetContractPastEvents(
+  //   'lockedSov',
+  //   'Deposited',
+  // );
+  // const { events: liqSov } = useGetContractPastEvents(
+  //   'liquidityMiningProxy',
+  //   'RewardClaimed',
+  // );
 
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
@@ -35,7 +64,7 @@ export function RewardForm() {
     const lendingPools = LendingPoolDictionary.list().filter(
       item => item.useLM,
     );
-
+    getRewardData();
     if (userAddress !== '' && userAddress !== ethGenesisAddress) {
       const pools = ammPools.flatMap(item =>
         item.version === 1
@@ -113,7 +142,7 @@ export function RewardForm() {
           console.error('e', error);
         });
     }
-  }, [userAddress]);
+  }, [getRewardData, userAddress]);
   return (
     <ContainerBox>
       <Box>
@@ -149,21 +178,21 @@ export function RewardForm() {
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.topData.tradingRewards)}
-          availableAmount={5.0}
+          availableAmount={tradRewards.toFixed(6)}
           totalEarnedAmount={23.842027}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Green}
           title={t(translations.rewardPage.topData.lendingRewards)}
-          availableAmount={10.0}
+          availableAmount={lendingRewards.toFixed(6)}
           totalEarnedAmount={23.810427}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.topData.liquidityRewards)}
-          availableAmount={10.0}
+          availableAmount={liquidityRewards.toFixed(6)}
           totalEarnedAmount={23.843927}
         />
       </RewardDetailsWrapper>

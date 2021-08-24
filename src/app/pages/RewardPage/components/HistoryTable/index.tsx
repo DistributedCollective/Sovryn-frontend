@@ -27,8 +27,8 @@ export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
         `${url}/v1/event-history/rewardsNew/${account}?page=${page}&pageSize=${pageSize}`,
       )
       .then(res => {
-        console.log('res: ', res);
         const { events, pagination } = res.data;
+        console.log('res: ', res.data);
         setHistory(events || []);
         setTotal(pagination.totalPages * pageSize);
         setLoading(false);
