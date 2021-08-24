@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { ethGenesisAddress } from '../../../utils/classifiers';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { ethGenesisAddress } from 'utils/classifiers';
 
 export function useVestedStaking_balanceOf(address: string) {
   const [loading, setLoading] = useState(true);
@@ -20,6 +20,7 @@ export function useVestedStaking_balanceOf(address: string) {
     ethGenesisAddress,
   );
   const [lmVestingContract, setLMVestingContract] = useState(ethGenesisAddress);
+  const [bfVestingContract, setBfVestingContract] = useState(ethGenesisAddress);
 
   useEffect(() => {
     setLoading(true);
@@ -78,17 +79,12 @@ export function useVestedStaking_balanceOf(address: string) {
       }
 
       if (adr5 !== ethGenesisAddress) {
-        const lmVested = await contractReader
-          .call('staking', 'balanceOf', [adr5]) // bbf staking contract?
+        const babelfishVested = await contractReader
+          .call('staking', 'balanceOf', [adr5])
           .catch(reason => setError(reason));
-        setBabelFishVestedValue(String(lmVested));
+        setBfVestingContract(String(adr5));
+        setBabelFishVestedValue(String(babelfishVested));
       }
-
-      // const babelFishVested = await contractReader
-      //   .call<string>('lockedFund', 'getVestedBalance', [address])
-      //   .catch(reason => setError(reason));
-      //
-      // setBabelFishVestedValue(String(babelFishVested || 0));
 
       if (
         adr1 === adr2 &&
@@ -118,6 +114,7 @@ export function useVestedStaking_balanceOf(address: string) {
       .add(vestedValue)
       .add(originVestedValue)
       .add(lmVestedValue)
+      .add(babelFishVestedValue)
       .toString(),
     loading,
     error,
@@ -130,5 +127,6 @@ export function useVestedStaking_balanceOf(address: string) {
     lmVestedValue,
     lmVestingContract,
     babelFishVestedValue,
+    bfVestingContract,
   };
 }

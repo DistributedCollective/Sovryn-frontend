@@ -6,6 +6,7 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ClaimForm } from './components/ClaimForm';
 import { useAccount } from 'app/hooks/useAccount';
+import { VestForm } from './components/VestForm';
 
 export const OriginsClaimPage: React.FC = () => {
   const { t } = useTranslation();
@@ -23,8 +24,9 @@ export const OriginsClaimPage: React.FC = () => {
 
       <Header />
 
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
+      <div className="tw-container tw-my-12 tw-mx-auto tw-px-6">
+        <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col lg:tw-flex-row lg:tw-items-center lg:tw-justify-center lg:tw-space-x-8 tw-space-y-8 lg:tw-space-y-0">
+          <VestForm address={userAddress} />
           <ClaimForm address={userAddress} />
         </div>
       </div>

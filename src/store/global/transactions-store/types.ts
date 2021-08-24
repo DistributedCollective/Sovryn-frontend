@@ -41,6 +41,7 @@ export enum TxType {
   ORIGINS_SALE_BUY = 'origins_sale_buy',
   CONVERT_RUSDT_TO_XUSD = 'convert_rusdt_to_xusd',
   LOCKED_FUND_WAITED_CLAIM = 'locked_fund_waited_claim',
+  LOCKED_FUND_CREATE_STAKE = 'locked_fund_create_stake',
 }
 
 export enum TxStatus {

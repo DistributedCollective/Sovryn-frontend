@@ -389,6 +389,13 @@
       "availble": "Total Liquid FISH Available:",
       "cta": "Claim",
       "note": "Withdrawal will be available at {{date}}."
+    },
+    "vestForm": {
+      "title": "Locked Balance",
+      "availble": "Total Locked FISH Available:",
+      "cta": "Start Vesting",
+      "note": "Tokens will be vested for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
     }
   },
   "trandingPositionSelector": {
