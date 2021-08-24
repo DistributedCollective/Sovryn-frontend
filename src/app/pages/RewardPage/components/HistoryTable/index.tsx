@@ -5,7 +5,7 @@ import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
-import { TableBody } from './TableBody';
+import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 
 const pageSize = 6;
@@ -15,7 +15,7 @@ interface RewardProps {
 export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
+  const [history, setHistory] = useState<RewardEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);

@@ -28,6 +28,7 @@ module.exports = {
       orbitron: ['Orbitron', 'sans-serif'],
     },
     fontSize: {
+      xxs: '0.563rem',
       tiny: '.7rem',
       xs: '.75rem',
       sm: '.875rem',
@@ -108,6 +109,7 @@ module.exports = {
       red: '#eb2106',
       error: '#A52222',
       green: '#00ce7d',
+      green_light: '#5BD56B',
       customOrange: '#ff9931',
       Gold: '#fec004',
       customTeal: '#4ecdc4',
@@ -120,9 +122,11 @@ module.exports = {
       'component-bg': '#0b223b',
       TabGrey: '#213b58',
       Red: '#eb2106',
+      red_light: '#E35F5F',
       Muted_red: '#cd4e4e',
       info: '#17a2b8',
       turquoise: '#4ECDC4',
+      turquoise2: '#8EDBDB',
       theme: {
         white: '#E9EAE9',
         blue: '#2274A5',
@@ -133,6 +137,7 @@ module.exports = {
         '7.5rem': '7.5rem',
         '8.75rem': '8.75rem',
         '13rem': '13rem',
+        '15rem': '15rem',
         '20rem': '20rem',
         '20.5rem': '20.5rem',
         '28.75rem': '28.75rem',
@@ -156,6 +161,10 @@ module.exports = {
       },
       minWidth: {
         '122': '30.5rem',
+        '150': '37.5rem',
+      },
+      minHeight: {
+        '240': '15rem',
       },
       height: {
         '88': '22rem',
@@ -167,6 +176,8 @@ module.exports = {
       borderRadius: {
         '5px': '0.3125rem',
         '10px': '0.625rem',
+        '20px': '1.25rem',
+        '50%': '50%',
       },
       keyframes: {
         spin: {

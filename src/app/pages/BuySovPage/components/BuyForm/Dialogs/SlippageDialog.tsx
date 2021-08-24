@@ -48,7 +48,7 @@ export function SlippageDialog(props: Props) {
       <button data-close="" onClick={() => props.onClose()}>
         <span className="tw-sr-only">Close Dialog</span>
       </button>
-      <h1>{t(translations.buySovPage.slippageDialog.title)}</h1>
+      <h2>{t(translations.buySovPage.slippageDialog.title)}</h2>
 
       <div className="tw-px-4">
         <FormGroup label={t(translations.buySovPage.slippageDialog.tolerance)}>

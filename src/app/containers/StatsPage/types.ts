@@ -38,6 +38,12 @@ export type TvlContract =
   | 'tvlLending'
   | 'tvlStaking';
 
+type AmmAPY = {
+  activity_date: string;
+  apy: number;
+  pool: string;
+  pool_token: string;
+};
 export type AmmBalanceRow = {
   ammPool: string;
   ammRateBtc: number;
@@ -48,4 +54,5 @@ export type AmmBalanceRow = {
   stakedBalanceBtc: number;
   stakedBalanceToken: number;
   tokenDelta: number;
+  yesterdayApy: AmmAPY[];
 };

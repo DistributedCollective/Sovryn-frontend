@@ -69,7 +69,7 @@ export function VestingContract(props: Props) {
       .toFixed(0);
   }, [dollars.value, lockedAmount, SOV.decimals]);
 
-  const token = (props.type === 'genesis' ? 'CSOV_token' : 'SOV_token') as any;
+  const token = props.type === 'genesis' ? 'CSOV_token' : 'SOV_token';
   const tokenAddress = getContract(token).address;
   const currency = useStaking_getAccumulatedFees(
     props.vestingAddress,
@@ -89,11 +89,11 @@ export function VestingContract(props: Props) {
       try {
         setVestLoading(true);
         Promise.all([
-          vesting_getStartDate(props.vestingAddress).then(res =>
-            setStakingPeriodStart(res as any),
+          vesting_getStartDate(props.vestingAddress).then(
+            res => typeof res === 'string' && setStakingPeriodStart(res),
           ),
-          vesting_getEndDate(props.vestingAddress).then(res =>
-            setUnlockDate(res as any),
+          vesting_getEndDate(props.vestingAddress).then(
+            res => typeof res === 'string' && setUnlockDate(res),
           ),
         ]).then(_ => setVestLoading(false));
         setVestLoading(false);

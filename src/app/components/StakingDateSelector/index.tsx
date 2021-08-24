@@ -1,8 +1,3 @@
-/**
- *
- * StakingDateSelector
- *
- */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
 import dayjs from 'dayjs';
@@ -13,8 +8,6 @@ import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-
-const maxPeriods = 78;
 
 interface DateItem {
   key: number;
@@ -27,113 +20,111 @@ interface Props {
   onClick: (value: number) => void;
   value?: number;
   startTs?: number;
-  stakes?: undefined;
+  stakes?: string[];
   prevExtend?: number;
   autoselect?: boolean;
   delegate?: boolean;
 }
 
+const MAX_PERIODS = 78;
+const ms = 1e3;
+
 export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
-  const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
   const [dates, setDates] = useState<Date[]>([]);
+  const currentDate = useMemo(() => {
+    return new Date();
+  }, []);
+
+  const currentUserOffset = currentDate.getTimezoneOffset() / 60;
+  const onItemSelect = (item: { key: number }) =>
+    props.onClick(
+      Number(dayjs(item.key).subtract(currentUserOffset, 'hour')) / ms,
+    );
   const [currentYearDates, setCurrenYearDates] = useState<DateItem[]>([]);
   const [filteredDates, setFilteredDates] = useState<DateItem[]>([]);
-  const [itemDisabled, setItemDisabled] = useState<DateItem[]>([]);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
-
-  const [dateWithoutStake, availableYears, availableMonth] = useMemo(() => {
-    const dateWithoutStake = filteredDates.reduce(
-      (uniqueItems: DateItem[], item: DateItem) => {
-        const isDisabled = itemDisabled.some((b: DateItem) => {
-          return b.key === item.key;
-        });
-        if (!isDisabled) {
-          uniqueItems.push(item);
-        }
-        return uniqueItems;
-      },
-      [],
-    );
-
-    const availableYears = dateWithoutStake
+  const [availableYears, availableMonth] = useMemo(() => {
+    const availableYears = filteredDates
       .map(yearDate => dayjs(yearDate.date).format('YYYY'))
       .filter((year, index, arr) => arr.indexOf(year) === index);
 
     const availableMonth = currentYearDates
       .map(yearDate => dayjs(yearDate.date).format('MMM'))
       .filter((month, index, arr) => arr.indexOf(month) === index);
-    return [dateWithoutStake, availableYears, availableMonth];
-  }, [currentYearDates, filteredDates, itemDisabled]);
+    return [availableYears, availableMonth];
+  }, [currentYearDates, filteredDates]);
 
   const getDatesByYear = useCallback(
     year => {
       let theBigDay = new Date();
       theBigDay.setFullYear(year);
       return setCurrenYearDates(
-        dateWithoutStake.filter(
+        filteredDates.filter(
           item => new Date(item.date).getFullYear() === theBigDay.getFullYear(),
         ),
       );
     },
-    [dateWithoutStake],
+    [filteredDates],
   );
 
   useEffect(() => {
-    let filtered: Date[] = [];
-    if (!!props.startTs) {
-      filtered = dates.filter(
-        item => item.getTime() > ((props.startTs as unknown) as number),
-      );
-    } else {
-      const closestAllowed = dayjs().add(14, 'days').valueOf();
-      filtered = dates.filter(item => {
-        return item.getTime() > closestAllowed;
-      });
-    }
-
     setFilteredDates(
-      filtered.map(item => ({
+      dates.map(item => ({
         key: item.getTime(),
         label: item.toLocaleDateString(),
         date: item,
       })),
     );
 
-    if (props.stakes && !props.delegate) {
-      setItemDisabled(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: dayjs(new Date(item * 1e3)).format('L'),
-          date: new Date(item * 1e3),
-        })),
-      );
-    }
-
-    if (props.delegate) {
-      setFilteredDates(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: dayjs(new Date(item * 1e3)).format('L'),
-          date: new Date(item * 1e3),
-        })),
-      );
+    if (props.stakes) {
+      const mappedStakes = props.stakes.map(item => ({
+        key: Number(item) * ms,
+        label: dayjs(new Date(Number(item) * ms)).format('L'),
+        date: new Date(Number(item) * ms),
+      }));
+      props.delegate && setFilteredDates(mappedStakes);
     }
   }, [dates, props.startTs, props.stakes, props.delegate]);
 
   useEffect(() => {
     if (props.kickoffTs) {
+      const contractDate = dayjs(props.kickoffTs * ms).toDate();
+      const contractOffset = contractDate.getTimezoneOffset() / 60;
+      const currentUserOffset = currentDate.getTimezoneOffset() / 60;
+
+      let contractDateDeployed = dayjs(props.kickoffTs * ms).add(
+        contractOffset,
+        'hour',
+      ); // get contract date in UTC-0
+      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); //get user offset
+
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let lastDate = dayjs(props.kickoffTs * 1e3);
-      for (let i = 1; i <= maxPeriods; i++) {
-        const date = lastDate.add(2, 'weeks');
-        lastDate = date;
-        dates.push(date.toDate());
-        if ((props.prevExtend as any) <= date.unix()) {
-          datesFutured.push(date.clone().toDate());
+      //getting the last posible date in the contract that low then current date
+      for (let i = 1; contractDateDeployed.unix() < userDateUTC.unix(); i++) {
+        const intervalDate = contractDateDeployed.add(2, 'week');
+        contractDateDeployed = intervalDate;
+      }
+
+      for (let i = 1; i < MAX_PERIODS; i++) {
+        if (contractDateDeployed.unix() > userDateUTC.unix()) {
+          const date = contractDateDeployed.add(2, 'week');
+          contractDateDeployed = date;
+          if (!props.prevExtend) dates.push(date.toDate());
+          if (
+            props.prevExtend &&
+            dayjs(props.prevExtend * ms)
+              .add(contractOffset, 'hour')
+              .toDate()
+              .getTime() /
+              ms <
+              date.unix()
+          ) {
+            datesFutured.push(date.toDate());
+          }
         }
       }
       if (datesFutured.length) {
@@ -142,7 +133,7 @@ export function StakingDateSelector(props: Props) {
         setDates(dates);
       }
     }
-  }, [props.kickoffTs, props.value, props.prevExtend]);
+  }, [props.kickoffTs, props.value, props.prevExtend, currentDate]);
 
   const SampleNextArrow = props => {
     const { className, style, onClick } = props;
@@ -185,14 +176,14 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-5" key={i}>
+            <div className="tw-mr-3" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >
@@ -225,7 +216,9 @@ export function StakingDateSelector(props: Props) {
                             'tw-bg-opacity-30 tw-bg-theme-blue'
                           }`}
                         >
-                          {dayjs(item.date).format('D')}
+                          {dayjs(item.date)
+                            .subtract(currentUserOffset, 'hour')
+                            .format('D')}
                         </div>
                       );
                     } else {
