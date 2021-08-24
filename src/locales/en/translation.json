@@ -388,13 +388,14 @@
       "title": "Liquid Balance",
       "availble": "Total Liquid FISH Available:",
       "cta": "Claim",
-      "note": "Withdrawal will be available at {{date}}."
+      "note": "Withdrawal will be available at {{date}}.",
+      "unlockedNote": "You will instantly receive {{amount}} FISH tokens to your wallet."
     },
     "vestForm": {
       "title": "Locked Balance",
       "availble": "Total Locked FISH Available:",
       "cta": "Start Vesting",
-      "note": "Tokens will be vested for 10 months with a 1 month cliff.",
+      "note": "{{amount}} FISH tokens will be vested for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     }
   },
@@ -589,7 +590,8 @@
         "genesis": "Genesis SOV",
         "origin": "Origin SOV",
         "team": "Team SOV",
-        "reward": "Reward SOV"
+        "reward": "Reward SOV",
+        "fish": "Origins FISH"
       }
     },
     "actions": {

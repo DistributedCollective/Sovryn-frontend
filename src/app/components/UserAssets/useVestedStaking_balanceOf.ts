@@ -80,7 +80,7 @@ export function useVestedStaking_balanceOf(address: string) {
 
       if (adr5 !== ethGenesisAddress) {
         const babelfishVested = await contractReader
-          .call('staking', 'balanceOf', [adr5])
+          .call('FISH_staking', 'balanceOf', [adr5])
           .catch(reason => setError(reason));
         setBfVestingContract(String(adr5));
         setBabelFishVestedValue(String(babelfishVested));

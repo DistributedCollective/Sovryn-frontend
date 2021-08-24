@@ -14,6 +14,7 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { bignumber } from 'mathjs';
 
 interface IClaimFormProps {
   address: string;
@@ -27,29 +28,57 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
 
-  const { send, ...tx } = useSendContractTx(
-    'lockedFund',
-    'withdrawWaitedUnlockedBalance',
-  );
-
   const { value: getWaitedTS } = useCacheCallWithValue(
     'lockedFund',
     'getWaitedTS',
     '0',
   );
 
-  const { value: balance } = useCacheCallWithValue(
+  const { value: getWaitedUnlockedBalance } = useCacheCallWithValue(
     'lockedFund',
     'getWaitedUnlockedBalance',
     '0',
     address,
   );
 
+  const { value: getVestedBalance } = useCacheCallWithValue(
+    'lockedFund',
+    'getVestedBalance',
+    '0',
+    address,
+  );
+
+  const balance = useMemo(
+    () => bignumber(getVestedBalance).add(getWaitedUnlockedBalance).toFixed(0),
+    [getVestedBalance, getWaitedUnlockedBalance],
+  );
+
   const unlockTime = useMemo(() => Number(getWaitedTS) * 1000, [getWaitedTS]);
+
+  const [fn, args] = useMemo(() => {
+    let fn = 'withdrawWaitedUnlockedBalance';
+    let args: string[] = [address];
+    if (
+      parseFloat(getVestedBalance) > 0 &&
+      parseFloat(getWaitedUnlockedBalance) > 0
+    ) {
+      fn = 'withdrawAndStakeTokens';
+      args = [address];
+    } else if (parseFloat(getVestedBalance) > 0) {
+      fn = 'withdrawWaitedUnlockedBalance';
+      args = [address];
+    } else if (parseFloat(getWaitedUnlockedBalance) > 0) {
+      fn = 'createVestingAndStake';
+      args = [];
+    }
+    return [fn, args];
+  }, [getVestedBalance, getWaitedUnlockedBalance, address]);
+
+  const { send, ...tx } = useSendContractTx('lockedFund', fn);
 
   const handleSubmit = useCallback(() => {
     send(
-      [address],
+      args,
       {
         from: address,
       },
@@ -57,7 +86,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
         type: TxType.LOCKED_FUND_WAITED_CLAIM,
       },
     );
-  }, [address, send]);
+  }, [args, address, send]);
 
   return (
     <div
@@ -118,6 +147,20 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
             {t(translations.originsClaim.claimForm.note, {
               date: new Date(unlockTime).toLocaleString(),
             })}
+            {parseFloat(getWaitedUnlockedBalance) > 0 && (
+              <div className="tw-mt-1">
+                {t(translations.originsClaim.claimForm.unlockedNote, {
+                  amount: weiToNumberFormat(getWaitedUnlockedBalance, 4),
+                })}
+              </div>
+            )}
+            {parseFloat(getVestedBalance) > 0 && (
+              <div className="tw-mt-1">
+                {t(translations.originsClaim.vestForm.note, {
+                  amount: weiToNumberFormat(getVestedBalance, 4),
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>

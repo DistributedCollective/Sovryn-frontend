@@ -276,6 +276,10 @@ export const contracts = {
     address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
     abi: FISHTokenAbi,
   },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97', // todo
+    abi: StakingAbi,
+  },
   originsBase: {
     address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90', // todo
     abi: OriginsBaseAbi,

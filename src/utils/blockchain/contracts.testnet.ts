@@ -281,6 +281,11 @@ export const contracts = {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
+    abi: StakingAbi,
+    blockNumber: 1218836,
+  },
   originsBase: {
     address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
