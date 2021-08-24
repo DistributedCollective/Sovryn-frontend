@@ -41,11 +41,14 @@ export function usePriceFeeds_rateByPath() {
         if (target === source) {
           continue;
         }
-        const result = await getRate(source, target);
+        const { precision, rate } = await getRate(source, target);
         items.push({
           source,
           target,
-          value: result as any,
+          value: {
+            precision,
+            rate: typeof rate === 'string' ? rate : String(rate),
+          },
         });
       }
     }
