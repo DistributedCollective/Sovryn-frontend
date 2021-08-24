@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import VestingAbi from 'utils/blockchain/abi/Vesting.json';
+import { AbiItem } from 'web3-utils';
 
 import { translations } from '../../../locales/i18n';
 import { TxType } from '../../../store/global/transactions-store/types';
@@ -33,12 +34,16 @@ export function VestingDialog(props: Props) {
 
   const { send, ...tx } = useSendToContractAddressTx(
     props.address,
-    VestingAbi as any,
+    VestingAbi as AbiItem[],
     'withdrawTokens',
   );
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
-      send([address], { from: account }, { type: TxType.SOV_WITHDRAW_VESTING });
+      send(
+        [address.toLowerCase()],
+        { from: account },
+        { type: TxType.SOV_WITHDRAW_VESTING },
+      );
     }
   }, [account, address, send, tx]);
 
@@ -88,7 +93,7 @@ export function VestingDialog(props: Props) {
                 </div>
                 <FieldGroup label={t(translations.vestingDialog.receiver)}>
                   <InputField
-                    onChange={value => setAddress(value)}
+                    onChange={event => setAddress(event.target.value)}
                     value={address}
                   />
                 </FieldGroup>

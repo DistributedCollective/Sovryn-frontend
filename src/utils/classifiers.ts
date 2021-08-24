@@ -12,10 +12,14 @@ export const currentNetwork: AppMode | string =
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
+  1: 'https://etherscan.io',
+  3: 'https://ropsten.etherscan.io',
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
   btc_30: 'https://live.blockcypher.com/btc',
   btc_31: 'https://live.blockcypher.com/btc-testnet',
+  56: 'https://bscscan.com',
+  97: 'https://testnet.bscscan.com',
 };
 
 export const readNodes = {
@@ -46,7 +50,7 @@ export const chartStorageKey = 'sovryn.charts';
 
 export const gasLimit = {
   [TxType.TRADE]: 1750000,
-  [TxType.CLOSE_WITH_SWAP]: 1000000,
+  [TxType.CLOSE_WITH_SWAP]: 1500000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,

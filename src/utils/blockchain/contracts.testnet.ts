@@ -96,7 +96,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x1D8ee38d4ab6457f5b4E79fAa77A89EfEEa05018',
+    address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -126,7 +126,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x720848d6A8fd68728444F5F7b36F66a5C1255c6b',
+    address: '0x169B7A8Fc9615797e118B464b4fF1f594Dcad7a4',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -156,7 +156,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0x9dc1f6441D930AF3f6520ADDA393C5545f14061d',
+    address: '0xf46DC974edD1754D4815AaE44Ab4542fF39B898D',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -171,7 +171,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0x157F2d3702AF9AFF74fF1Ec9329850E596626f33',
+    address: '0x4F87d545B6E747433a80a6AA0dbEc962478aB271',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -250,7 +250,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x27E029719598c68708D238B5eA0A5188700acFe4',
+    address: '0x1Cecc8B488abcF9A0932E54328dD51980cbe86Ea',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -272,7 +272,7 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
+    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
@@ -285,15 +285,15 @@ export const contracts = {
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
-    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
   },
   babelfishAggregator: {

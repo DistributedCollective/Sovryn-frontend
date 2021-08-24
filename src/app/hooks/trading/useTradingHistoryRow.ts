@@ -3,6 +3,7 @@ import { EventData } from 'web3-eth-contract';
 import { weiTo4, weiToFixed } from 'utils/blockchain/math-helpers';
 import { symbolByTokenAddress } from '../../../utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
+import { Nullable } from 'types';
 
 interface Props {
   items: EventData[];
@@ -11,8 +12,8 @@ interface Props {
 interface ItemState {
   prepared: boolean;
   loanId: string;
-  loanToken: string;
-  collateralToken: string;
+  loanToken: Nullable<string>;
+  collateralToken: Nullable<string>;
   position: string;
   leverage: string;
   entryPrice: string;
@@ -24,8 +25,8 @@ export function useTradingHistoryRow(props: Props) {
   const [state, setState] = useState<ItemState>({
     prepared: false,
     loanId: '0x0',
-    loanToken: null as any,
-    collateralToken: null as any,
+    loanToken: null,
+    collateralToken: null,
     position: '0',
     leverage: '0',
     entryPrice: '0',

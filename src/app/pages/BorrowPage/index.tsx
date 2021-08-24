@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -16,14 +16,27 @@ import { selectLendBorrowSovryn } from './selectors';
 import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 
 const BorrowPage: React.FC = () => {
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
+  const [linkAsset] = useState(location.state?.asset);
+
   const { t } = useTranslation();
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: lendBorrowSovrynSaga });
 
   const state = useSelector(selectLendBorrowSovryn);
   const dispatch = useDispatch();
+
+  useEffect(() => linkAsset && history.replace(location.pathname), [
+    history,
+    linkAsset,
+    location.pathname,
+    location.state,
+  ]);
 
   return (
     <>
@@ -35,7 +48,7 @@ const BorrowPage: React.FC = () => {
         <div className="tw-grid lg:tw-gap-8 tw-grid-cols-1 lg:tw-grid-cols-2">
           <div>
             <CurrencyContainer
-              state={state.asset}
+              state={linkAsset || state.asset}
               setState={asset => dispatch(actions.changeAsset(asset))}
             />
           </div>
