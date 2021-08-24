@@ -1437,7 +1437,7 @@
       "24h": "24h%",
       "7d": "7d%",
       "marketCap": "Valor de mercado",
-      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na sidechain RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
+      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na sidechain RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na sidechain RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
       "circulatingSupply": "Em circulação"
     }
   },
