@@ -1,8 +1,3 @@
-/**
- *
- * UserAssets
- *
- */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
