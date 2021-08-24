@@ -1,8 +1,3 @@
-/**
- *
- * Header
- *
- */
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +30,7 @@ export function Header() {
   const history = useHistory();
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const node = useRef(null as any);
+  const node = useRef(null);
 
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
@@ -88,7 +83,6 @@ export function Header() {
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
-    { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
@@ -98,10 +92,9 @@ export function Header() {
     let link: {
       to: string;
       title: string;
-      exact: boolean;
       onClick?: () => void;
       beforeOpen?: () => void;
-    } = item as any;
+    } = item;
 
     if (link.to.startsWith('http')) {
       return (
@@ -149,14 +142,12 @@ export function Header() {
     TRADE: 'trade',
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
-    REWARDS: 'rewards',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
-      [SECTION_TYPE.REWARDS]: ['/reward'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
     };
     return section && paths[section].includes(location.pathname);
@@ -323,28 +314,12 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavPopover
-                content={
-                  <BPMenu>
-                    <MenuItem
-                      text={t(translations.mainMenu.reward)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => history.push('/reward')}
-                    />
-                  </BPMenu>
-                }
+              <NavLink
+                className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                to="/reward"
               >
-                <div
-                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.REWARDS) && 'font-weight-bold'
-                  }`}
-                >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
-                    {t(translations.mainMenu.rewards)}
-                  </span>
-                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                </div>
-              </NavPopover>
+                {t(translations.mainMenu.rewards)}
+              </NavLink>
 
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
@@ -362,9 +337,6 @@ export function Header() {
               </a>
               <NavLink className="tw-header-link" to="/origins">
                 {t(translations.mainMenu.origins)}
-              </NavLink>
-              <NavLink className="tw-header-link" to="/stats">
-                {t(translations.mainMenu.stats)}
               </NavLink>
             </div>
           </div>

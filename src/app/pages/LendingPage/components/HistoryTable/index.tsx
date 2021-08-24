@@ -6,13 +6,14 @@ import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
+import { LendingEvent } from '../../types';
 
 const pageSize = 6;
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<LendingEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);

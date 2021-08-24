@@ -8,32 +8,22 @@ import React, {
 import axios, { CancelTokenSource } from 'axios';
 import { useTranslation } from 'react-i18next';
 
-import iconSuccess from 'assets/images/icon-success.svg';
-import iconRejected from 'assets/images/icon-rejected.svg';
-import iconPending from 'assets/images/icon-pending.svg';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { numberToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Pagination } from '../../components/Pagination';
 import { useAccount } from '../../hooks/useAccount';
-import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { translations } from '../../../locales/i18n';
-import { LoadableValue } from '../../components/LoadableValue';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { AssetRenderer } from 'app/components/AssetRenderer';
-import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
+import { getOrder } from 'app/pages/SpotTradingPage/types';
 import { useTradeHistoryRetry } from 'app/hooks/useTradeHistoryRetry';
+import { AssetRow } from './AssetRow';
 
-export function SpotHistory() {
+export const SpotHistory: React.FC = () => {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
@@ -124,13 +114,11 @@ export function SpotHistory() {
       )
       .map(item => {
         const { customData } = item;
-        let assetFrom = [] as any;
-        let assetTo = [] as any;
 
-        assetFrom = assets.find(
+        const assetFrom = assets.find(
           currency => currency.asset === customData?.sourceToken,
         );
-        assetTo = assets.find(
+        const assetTo = assets.find(
           currency => currency.asset === customData?.targetToken,
         );
 
@@ -148,8 +136,8 @@ export function SpotHistory() {
           <AssetRow
             key={item.transactionHash}
             data={data}
-            itemFrom={assetFrom}
-            itemTo={assetTo}
+            itemFrom={assetFrom!}
+            itemTo={assetTo!}
           />
         );
       });
@@ -216,114 +204,13 @@ export function SpotHistory() {
       </div>
     </section>
   );
-}
+};
 
-interface AssetProps {
-  data: any[] | any;
-  itemFrom: AssetDetails;
-  itemTo: AssetDetails;
-}
-
-function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
-  const { t } = useTranslation();
-
-  const [dollarValue, dollarsLoading] = useGetProfitDollarValue(
-    itemTo.asset,
-    data.returnVal._toAmount,
-  );
-
-  const order = getOrder(itemFrom.asset, itemTo.asset);
-  if (!order) return null;
-
-  return (
-    <tr>
-      <td className="tw-hidden lg:tw-table-cell">
-        <DisplayDate
-          timestamp={new Date(data.timestamp).getTime().toString()}
-        />
-      </td>
-      <td className="tw-hidden lg:tw-table-cell">
-        <AssetRenderer asset={order.pairAsset[0]} />-
-        <AssetRenderer asset={order.pairAsset[1]} />
-      </td>
-      <td className="tw-font-bold">
-        <span
-          className={
-            order.orderType === TradingTypes.BUY
-              ? 'tw-text-trade-long'
-              : 'tw-text-trade-short'
-          }
-        >
-          {order.orderType === TradingTypes.BUY
-            ? t(translations.spotTradingPage.tradeForm.buy)
-            : t(translations.spotTradingPage.tradeForm.sell)}
-        </span>
-      </td>
-      <td>
-        {numberFromWei(data.returnVal._fromAmount)}{' '}
-        <AssetRenderer asset={itemFrom.asset} />
-      </td>
-      <td className="tw-hidden lg:tw-table-cell">
-        <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
-        <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-          loading={dollarsLoading}
-        />
-      </td>
-
-      <td>
-        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
-          <div>
-            {!data.status && (
-              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
-            )}
-            {data.status === TxStatus.FAILED && (
-              <p className="tw-m-0">{t(translations.common.failed)}</p>
-            )}
-            {data.status === TxStatus.PENDING && (
-              <p className="tw-m-0">{t(translations.common.pending)}</p>
-            )}
-            <LinkToExplorer
-              txHash={data.transaction_hash}
-              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
-              startLength={5}
-              endLength={5}
-            />
-          </div>
-          <div className="tw-hidden 2xl:tw-block">
-            {!data.status && (
-              <img
-                src={iconSuccess}
-                title={t(translations.common.confirmed)}
-                alt={t(translations.common.confirmed)}
-              />
-            )}
-            {data.status === TxStatus.FAILED && (
-              <img
-                src={iconRejected}
-                title={t(translations.common.failed)}
-                alt={t(translations.common.failed)}
-              />
-            )}
-            {data.status === TxStatus.PENDING && (
-              <img
-                src={iconPending}
-                title={t(translations.common.pending)}
-                alt={t(translations.common.pending)}
-              />
-            )}
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-}
-
-function extractAssets(fromToken, toToken) {
+const extractAssets = (fromToken, toToken) => {
   const assets = AssetsDictionary.list();
 
-  let assetFrom = [] as any;
-  let assetTo = [] as any;
+  let assetFrom = {} as AssetDetails;
+  let assetTo = {} as AssetDetails;
 
   assets.map(currency => {
     if (getContractNameByAddress(fromToken)?.includes(currency.asset)) {
@@ -339,4 +226,4 @@ function extractAssets(fromToken, toToken) {
     assetFrom,
     assetTo,
   };
-}
+};

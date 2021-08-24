@@ -1,14 +1,8 @@
-/**
- *
- * SwapAssetSelector
- *
- */
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Nullable } from 'types';
+import { Asset } from 'types';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   areOptionsEqual,
@@ -24,7 +18,7 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 const Selector = Select.ofType<SelectItem>();
 
 interface Props {
-  value: Nullable<any>;
+  value: Asset;
   items: Array<SelectItem>;
   placeholder: string;
   onChange: (customer: SelectItem) => void;

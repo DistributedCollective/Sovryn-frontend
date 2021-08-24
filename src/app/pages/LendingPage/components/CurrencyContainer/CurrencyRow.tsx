@@ -20,6 +20,7 @@ type Props = {
   lendingAmount: string;
   depositLocked: boolean;
   withdrawLocked: boolean;
+  linkAsset?: Asset;
 };
 
 export type DialogType = 'none' | 'add' | 'remove';
@@ -29,16 +30,20 @@ const CurrencyRow: React.FC<Props> = ({
   lendingAmount,
   depositLocked,
   withdrawLocked,
+  linkAsset,
 }) => {
   const connected = useIsConnected();
   const { t } = useTranslation();
-  const [dialog, setDialog] = useState<DialogType>('none');
+  const [dialog, setDialog] = useState<DialogType>(
+    lendingPool.getAsset() === linkAsset ? 'add' : 'none',
+  );
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
-  const asset = lendingPool.getAsset();
 
   const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
     setIsEmptyBalance,
   ]);
+
+  const asset = lendingPool.getAsset();
 
   const Actions = () => {
     return (

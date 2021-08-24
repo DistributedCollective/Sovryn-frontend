@@ -1,16 +1,9 @@
-/**
- *
- * TradingPage
- *
- */
-
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
-import PageHeader from '../../components/PageHeader';
 import { ArrowStep } from './components/ArrowStep';
 import { EngageWalletStep } from './components/EngageWallet';
 import { TopUpWallet } from './components/TopUpWallet';
@@ -18,33 +11,12 @@ import { BuyForm } from './components/BuyForm';
 import { Welcome } from './components/Welcome';
 import { InfoBar } from './components/InfoBar';
 
-import { Banner } from './components/Banner';
-import { Promotions } from './components/Promotions';
 import { Features } from './components/Features';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 
 export function BuySovPage() {
   const { t } = useTranslation();
-  const ref1 = useRef<HTMLDivElement>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const scrollTo = useCallback(() => {
-    if (ref.current) {
-      window.scrollTo({
-        top: ref.current.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  }, [ref]);
-
-  const bannerClick = useCallback(() => {
-    if (ref1.current) {
-      window.scrollTo({
-        top: ref1.current.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  }, [ref1]);
 
   return (
     <>
@@ -56,16 +28,11 @@ export function BuySovPage() {
         />
       </Helmet>
       <Header />
-      <div className="tw-container tw-mt-5 tw-font-body">
-        <Banner onClick={bannerClick} />
-
-        <div ref={ref1} />
-        <PageHeader content={t(translations.buySovPage.title)} />
-
+      <div className="tw-container tw-pt-5 tw-font-body">
         <InfoBar />
 
-        <div className="tw-w-full xl:tw-flex tw-flex-row tw-justify-center">
-          <div>
+        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center">
+          <div className="tw-flex-shrink-0 tw-flex-grow-1">
             <div className="tw-w-full md:tw-flex tw-flex-row tw-justify-center tw-items-center">
               <EngageWalletStep />
               <RotatedMob className="tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
@@ -78,21 +45,14 @@ export function BuySovPage() {
             </div>
             <Welcome />
           </div>
-          <div className="xl:tw-flex tw-flex-row tw-justify-start tw-items-center">
+          <div className="xl:tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-initial">
             <Rotated className="xl:tw-hidden tw-flex tw-mx-1 tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
               <ArrowStep />
             </Rotated>
             <BuyForm />
           </div>
-        </div>
+        </Onboarding>
 
-        <div className="tw-w-full tw-text-center">
-          <Learn onClick={scrollTo}>{t(translations.buySovPage.earn)}</Learn>
-        </div>
-
-        <Promotions />
-
-        <div ref={ref} />
         <Features />
       </div>
       <Footer />
@@ -100,15 +60,9 @@ export function BuySovPage() {
   );
 }
 
-const Learn = styled.button`
-  border: 1px solid #e8e8e8;
-  color: #e8e8e8;
-  padding: 7px 41px;
-  margin: 90px auto 115px;
-  display: inline-block;
-  border-radius: 0.75rem;
-  background: transparent;
-  text-transform: none;
+const Onboarding = styled.div`
+  max-width: 1200px;
+  margin-bottom: 170px;
 `;
 
 const Rotated = styled.div`
@@ -116,6 +70,7 @@ const Rotated = styled.div`
     transform: rotate(90deg);
   }
 `;
+
 const RotatedMob = styled.div`
   @media (max-width: 768px) {
     img {

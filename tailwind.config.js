@@ -112,6 +112,7 @@ module.exports = {
         '7.5rem': '7.5rem',
         '8.75rem': '8.75rem',
         '13rem': '13rem',
+        '15rem': '15rem',
         '20rem': '20rem',
         '20.5rem': '20.5rem',
         '28.75rem': '28.75rem',
@@ -134,6 +135,7 @@ module.exports = {
       },
       minWidth: {
         '122': '30.5rem',
+        '150': '37.5rem',
       },
       borderRadius: {
         '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps

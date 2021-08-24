@@ -10,9 +10,9 @@ export function StakeVote() {
   const { t } = useTranslation();
   return (
     <Article className="tw-w-full">
-      <h1 className="tw-block tw-text-center">
+      <h2 className="tw-block tw-text-center">
         {t(translations.buySovPage.features.stake.title)}
-      </h1>
+      </h2>
       <Banner src={banner} alt="Banner" />
       <div className="content tw-font-thin tw-leading-snug">
         {t(translations.buySovPage.features.stake.text)}{' '}
@@ -43,7 +43,7 @@ const Article = styled.article`
   margin: 300px auto 70px;
   font-size: 1rem;
   font-weight: 400;
-  h1 {
+  h2 {
     text-transform: none;
     font-size: 2.5rem;
     line-height: 1.25;

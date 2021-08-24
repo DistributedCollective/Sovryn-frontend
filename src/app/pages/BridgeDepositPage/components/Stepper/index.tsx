@@ -21,7 +21,7 @@ export function Stepper({ steps, step, onClick }: Props) {
       <ul className="tw-relative">
         <div className="tw-relative tw-flex">
           <div
-            className="lg:tw-mt-0.5 tw-h-full tw-absolute tw-transition-transform tw-duration-700 tw-ease-in-out"
+            className="tw-h-full tw-absolute tw-transition-transform tw-duration-700 tw-ease-in-out tw-flex tw-items-center"
             style={{
               transform: `translateY(${100 * activeIndex}%)`,
             }}

@@ -2,7 +2,6 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/macro';
 import { Tooltip } from '@blueprintjs/core';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -15,7 +14,6 @@ import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from '../../hooks/useMaintenance';
-import classNames from 'classnames';
 
 interface Props {
   data: any;

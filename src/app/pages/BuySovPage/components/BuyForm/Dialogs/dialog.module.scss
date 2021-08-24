@@ -12,6 +12,10 @@
     tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case;
 }
 
+.dialog h2 {
+  text-align: center;
+}
+
 .dialog button[data-close] {
   width: 42px;
   height: 42px;

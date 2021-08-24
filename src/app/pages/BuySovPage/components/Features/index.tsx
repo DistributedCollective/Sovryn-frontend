@@ -120,7 +120,7 @@ export function Features() {
   );
 }
 
-const How = styled.h1`
+const How = styled.h2`
   font-size: 2.5rem;
   line-height: 1.25;
   text-transform: none;

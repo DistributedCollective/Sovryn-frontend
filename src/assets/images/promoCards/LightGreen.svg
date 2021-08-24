@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="371" height="191" viewBox="0 0 371 191">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="0.551" x2="0.024" y2="0.556" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0b0b0b"/>
+      <stop offset="1" stop-color="#5e6c5d"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3551" data-name="Rectangle 3551" width="371" height="191" rx="9" transform="translate(5394 307)" fill="#3b3b3b"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Path_6201" data-name="Path 6201" d="M9,0H362a9,9,0,0,1,9,9V182a9,9,0,0,1-9,9H9a9,9,0,0,1-9-9V9A9,9,0,0,1,9,0Z" transform="translate(6746 2023)" fill="#1d1d1d" stroke="#f5e884" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_6651" data-name="Group 6651" transform="translate(-1278 1811)">
+    <g id="Path_6199" data-name="Path 6199" transform="translate(1278 -1811)" fill="url(#linear-gradient)">
+      <path d="M 362 190.5 L 9 190.5 C 4.313090801239014 190.5 0.5 186.6869049072266 0.5 182 L 0.5 9 C 0.5 4.313090801239014 4.313090801239014 0.5 9 0.5 L 362 0.5 C 366.6869201660156 0.5 370.5 4.313090801239014 370.5 9 L 370.5 182 C 370.5 186.6869049072266 366.6869201660156 190.5 362 190.5 Z" stroke="none"/>
+      <path d="M 9 1 C 4.58880615234375 1 1 4.58880615234375 1 9 L 1 182 C 1 186.4111938476562 4.58880615234375 190 9 190 L 362 190 C 366.4111938476562 190 370 186.4111938476562 370 182 L 370 9 C 370 4.58880615234375 366.4111938476562 1 362 1 L 9 1 M 9 0 L 362 0 C 366.9705505371094 0 371 4.029449462890625 371 9 L 371 182 C 371 186.9705505371094 366.9705505371094 191 362 191 L 9 191 C 4.029449462890625 191 0 186.9705505371094 0 182 L 0 9 C 0 4.029449462890625 4.029449462890625 0 9 0 Z" stroke="none" fill="#95ca8f"/>
+    </g>
+    <g id="Mask_Group_96" data-name="Mask Group 96" transform="translate(-5468 -3834)" clip-path="url(#clip-path-2)">
+      <path id="Path_6200" data-name="Path 6200" d="M21.183,0H87L85.525,194h-101.8Z" transform="translate(6826 2215.5) rotate(180)" fill="#95ca8f"/>
+    </g>
+  </g>
+</svg>

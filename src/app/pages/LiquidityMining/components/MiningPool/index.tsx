@@ -22,13 +22,16 @@ import type { AmmHistory } from './types';
 interface Props {
   pool: LiquidityPool;
   ammData: AmmHistory;
+  linkAsset?: Asset;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool, ammData }: Props) {
+export function MiningPool({ pool, ammData, linkAsset }: Props) {
   const { t } = useTranslation();
-  const [dialog, setDialog] = useState<DialogType>('none');
+  const [dialog, setDialog] = useState<DialogType>(
+    pool.poolAsset === linkAsset ? 'add' : 'none',
+  );
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
   const { checkMaintenances, States } = useMaintenance();

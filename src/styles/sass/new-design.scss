@@ -17,7 +17,7 @@
 
 .sovryn-table {
   @apply tw-w-full
-    tw-text-sm tw-font-thin tw-font-body tw-tracking-normal;
+    tw-text-sm tw-font-normal tw-font-body tw-tracking-normal;
 
   &.sovryn-table-mobile {
     @apply tw-text-xs;
@@ -60,7 +60,7 @@
     @apply tw-h-20;
 
     td {
-      @apply tw-px-8 tw-py-0
+      @apply tw-px-5 tw-py-0
         tw-text-sov-white;
       @media (max-width: 441px) {
         @apply tw-px-4;

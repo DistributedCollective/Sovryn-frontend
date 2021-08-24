@@ -15,7 +15,7 @@ interface Props {
   amount: string;
   timestamp?: number;
   onChangeAmount: (value: string) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
   balanceOf: CacheCallResponse;
   isValid: boolean;
   votePower?: number;
@@ -28,7 +28,7 @@ export function IncreaseStakeForm(props: Props) {
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
   const txConf = {
-    gas: 250000,
+    gas: 450000,
   };
 
   return (
@@ -80,7 +80,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.1).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.1).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -90,7 +90,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.25).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.25).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -100,7 +100,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.5).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.5).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -110,7 +110,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.75).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.75).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -119,9 +119,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  numberFromWei(props.sovBalanceOf.value).toString(),
-                )
+                props.onChangeAmount(numberFromWei(props.sovBalance).toString())
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
             >

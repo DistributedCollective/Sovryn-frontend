@@ -23,6 +23,8 @@ import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset'
 import { ReceiverSelector } from './components/ReceiverSelector';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import UserWallet from '../BridgeDepositPage/components/UserWallet';
+import { useAccount } from '../../hooks/useAccount';
 
 const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -32,9 +34,8 @@ export function BridgeWithdrawPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { step, sourceAsset } = useSelector(selectBridgeWithdrawPage);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const account = useAccount();
   const dispatch = useDispatch();
   const history = useHistory();
   const { t } = useTranslation();
@@ -73,6 +74,7 @@ export function BridgeWithdrawPage() {
         className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
+        <UserWallet address={account} />
         <div
           className="tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8"
           style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
@@ -85,7 +87,7 @@ export function BridgeWithdrawPage() {
             minHeight: 'calc(100% - 2.5rem)',
             minWidth: 'calc(100% - 2.5rem)',
           }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-absolute tw-pb-20"
+          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
         >
           <SwitchTransition>
             <CSSTransition
