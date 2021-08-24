@@ -76,7 +76,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
           </tr>
         </thead>
         <tbody className="mt-5">
-          {rowCoreData.map(row => (
+          {rowCoreData.map((row, i) => (
             <DataRow
               key={row.contract}
               contractName={row.contract}
