@@ -22,13 +22,12 @@ export interface ActiveLoan {
 }
 
 export function useGetLoan() {
-  const web3ContractRef = useRef<Contract>(null);
+  const web3ContractRef = useRef<Contract | null>(null);
   const [value, setValue] = useState<ActiveLoan | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    // @ts-ignore
     web3ContractRef.current = getWeb3Contract(
       appContracts.sovrynProtocol.address,
       appContracts.sovrynProtocol.abi,

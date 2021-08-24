@@ -3,7 +3,7 @@
  * AssetWalletBalance
  *
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Asset } from 'types/asset';
 import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
@@ -11,7 +11,7 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useBlockSync, useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
  * @constructor
  */
 export function AssetWalletBalance(props: Props) {
-  const { connect } = useWalletContext();
+  const { connect } = useContext(WalletContext);
   const { value, loading } = useAssetBalanceOf(props.asset);
   const { t } = useTranslation();
   const connected = useIsConnected();
@@ -45,7 +45,7 @@ export function AssetWalletBalance(props: Props) {
       {!connected && (
         <button
           onClick={() => connect()}
-          className="bg-transparent btn-link text-white border-0 d-block text-left text-nowrap"
+          className="tw-bg-transparent tw-text-white tw-border-0 tw-block tw-text-left tw-whitespace-nowrap hover:tw-underline"
         >
           {t(translations.assetWalletBalance.connect)}
         </button>

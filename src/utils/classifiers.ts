@@ -1,20 +1,25 @@
 import { TxType } from '../store/global/transactions-store/types';
+import { AppMode } from '../types';
 
 export const chains = {
   mainnet: 30,
   testnet: 31,
 };
 
-export const currentNetwork =
-  String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
+export const currentNetwork: AppMode | string =
+  String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
+  1: 'https://etherscan.io',
+  3: 'https://ropsten.etherscan.io',
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
   btc_30: 'https://live.blockcypher.com/btc',
   btc_31: 'https://live.blockcypher.com/btc-testnet',
+  56: 'https://bscscan.com',
+  97: 'https://testnet.bscscan.com',
 };
 
 export const readNodes = {

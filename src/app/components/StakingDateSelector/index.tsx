@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Icon } from '@blueprintjs/core';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
 import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
@@ -8,8 +8,6 @@ import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-
-const maxPeriods = 78;
 
 interface DateItem {
   key: number;
@@ -28,6 +26,8 @@ interface Props {
   delegate?: boolean;
 }
 
+const MAX_PERIODS = 78;
+
 export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
   const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
@@ -38,24 +38,30 @@ export function StakingDateSelector(props: Props) {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
-  const dateWithoutStake = filteredDates.reduce(
-    (unique: DateItem[], o: DateItem) => {
-      let isFound = itemDisabled.some((b: { key: number }) => {
-        return b.key === o.key;
-      });
-      if (!isFound) unique.push(o);
-      return unique;
-    },
-    [],
-  );
 
-  const availableYears = dateWithoutStake
-    .map(yearDate => moment(yearDate.date).format('YYYY'))
-    .filter((year, index, arr) => arr.indexOf(year) === index);
+  const [dateWithoutStake, availableYears, availableMonth] = useMemo(() => {
+    const dateWithoutStake = filteredDates.reduce(
+      (uniqueItems: DateItem[], item: DateItem) => {
+        const isDisabled = itemDisabled.some((b: DateItem) => {
+          return b.key === item.key;
+        });
+        if (!isDisabled) {
+          uniqueItems.push(item);
+        }
+        return uniqueItems;
+      },
+      [],
+    );
 
-  const availableMonth = currentYearDates
-    .map(yearDate => moment(yearDate.date).format('MMM'))
-    .filter((month, index, arr) => arr.indexOf(month) === index);
+    const availableYears = dateWithoutStake
+      .map(yearDate => dayjs(yearDate.date).format('YYYY'))
+      .filter((year, index, arr) => arr.indexOf(year) === index);
+
+    const availableMonth = currentYearDates
+      .map(yearDate => dayjs(yearDate.date).format('MMM'))
+      .filter((month, index, arr) => arr.indexOf(month) === index);
+    return [dateWithoutStake, availableYears, availableMonth];
+  }, [currentYearDates, filteredDates, itemDisabled]);
 
   const getDatesByYear = useCallback(
     year => {
@@ -77,9 +83,9 @@ export function StakingDateSelector(props: Props) {
         item => item.getTime() > ((props.startTs as unknown) as number),
       );
     } else {
-      const now = Date.now() + 1.21e9; // added 14 days in ms
+      const closestAllowed = dayjs().add(14, 'days').valueOf();
       filtered = dates.filter(item => {
-        return item.getTime() > now;
+        return item.getTime() > closestAllowed;
       });
     }
 
@@ -94,7 +100,7 @@ export function StakingDateSelector(props: Props) {
     if (props.stakes) {
       const mappedStakes = props.stakes.map(item => ({
         key: Number(item) * 1e3,
-        label: moment(new Date(Number(item) * 1e3)).format('DD.MM.YYYY'),
+        label: dayjs(new Date(Number(item) * 1e3)).format('L'),
         date: new Date(Number(item) * 1e3),
       }));
 
@@ -108,20 +114,21 @@ export function StakingDateSelector(props: Props) {
     if (props.kickoffTs) {
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let contractDateDeployed = moment(props.kickoffTs * 1e3); // date when contract has been deployed ~ 1613220308
-      let currentDate = Math.round(new Date().getTime() / 1e3);
+      let contractDateDeployed = dayjs(props.kickoffTs * 1e3); // date when contract has been deployed
+      let currentDate = Math.round(new Date().getTime() / 1e3); //getting current time in seconds
       //getting the last posible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() <= currentDate; i++) {
-        const intervalDate = contractDateDeployed.add(2, 'weeks');
+        const intervalDate = contractDateDeployed.add(2, 'week');
         contractDateDeployed = intervalDate;
       }
-      for (let i = 1; i < maxPeriods; i++) {
-        if (contractDateDeployed.unix() >= currentDate) {
-          const date = contractDateDeployed.add(2, 'weeks');
+
+      for (let i = 1; i < MAX_PERIODS; i++) {
+        if (contractDateDeployed.unix() > currentDate) {
+          const date = contractDateDeployed.add(2, 'week');
           contractDateDeployed = date;
           if (!props.prevExtend) dates.push(date.toDate());
-          if (props.prevExtend && props.prevExtend <= date.unix()) {
-            datesFutured.push(date.clone().toDate());
+          if (props.prevExtend && props.prevExtend < date.unix()) {
+            datesFutured.push(date.toDate());
           }
         }
       }
@@ -175,14 +182,14 @@ export function StakingDateSelector(props: Props) {
       <div className="tw-flex tw-flex-row">
         {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-5" key={i}>
+            <div className="tw-mr-3" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >
@@ -192,7 +199,7 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 pr-0">
+      <div className="sliderMonth tw-mt-5 tw-pr-0">
         <Slider {...settingsSliderMonth}>
           {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
@@ -200,22 +207,22 @@ export function StakingDateSelector(props: Props) {
                 <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
                   {monthName}
                   {currentYearDates.map((item, i) => {
-                    if (moment(item.date).format('MMM') === monthName) {
+                    if (dayjs(item.date).format('MMM') === monthName) {
                       return (
                         <div
                           key={i}
                           onClick={() => {
                             onItemSelect(item);
-                            setSelectedDay(moment(item.date).format('D'));
-                            setSelectedMonth(moment(item.date).format('MMM'));
+                            setSelectedDay(dayjs(item.date).format('D'));
+                            setSelectedMonth(dayjs(item.date).format('MMM'));
                           }}
                           className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
-                            selectedDay === moment(item.date).format('D') &&
-                            selectedMonth === moment(item.date).format('MMM') &&
+                            selectedDay === dayjs(item.date).format('D') &&
+                            selectedMonth === dayjs(item.date).format('MMM') &&
                             'tw-bg-opacity-30 tw-bg-theme-blue'
                           }`}
                         >
-                          {moment(item.date).format('D')}
+                          {dayjs(item.date).format('D')}
                         </div>
                       );
                     } else {

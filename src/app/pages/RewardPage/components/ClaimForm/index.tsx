@@ -1,9 +1,3 @@
-/**
- *
- * ClaimForm
- *
- */
-
 import React from 'react';
 import cn from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
@@ -13,7 +7,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { TxType } from 'store/global/transactions-store/types';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { gasLimit } from 'utils/classifiers';
@@ -62,7 +56,7 @@ export function ClaimForm({ className, address }: Props) {
         'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
-      <div className="text-center tw-text-xl">
+      <div className="tw-text-center tw-text-xl">
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
@@ -101,7 +95,9 @@ export function ClaimForm({ className, address }: Props) {
               disabled={
                 parseFloat(lockedBalance) === 0 ||
                 !lockedBalance ||
-                rewardsLocked
+                rewardsLocked ||
+                tx.status === TxStatus.PENDING ||
+                tx.status === TxStatus.PENDING_FOR_USER
               }
               onClick={handleSubmit}
               className="tw-w-full tw-mb-4"

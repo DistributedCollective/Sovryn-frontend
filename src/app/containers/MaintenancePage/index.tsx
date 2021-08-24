@@ -15,12 +15,12 @@ import { discordInvite } from 'utils/classifiers';
 export function MaintenancePage(props) {
   return (
     <div
-      className="align-items-center d-flex justify-content-center"
+      className="tw-items-center tw-flex tw-justify-center"
       style={{ height: '100vh', marginTop: '-4.4rem' }}
     >
-      <div className="text-center">
+      <div className="tw-text-center">
         <StyledLogo src={logoSvg} className="tw-mx-auto tw-mb-4" />
-        <div className="font-size-lg">
+        <div className="tw-text-lg">
           <Trans
             i18nKey={translations.maintenance.full}
             components={[

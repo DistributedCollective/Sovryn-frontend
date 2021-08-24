@@ -89,11 +89,11 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  MOC_lending: {
-    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-    abi: LoanTokenLogicStandard,
-    blockNumber: 1218721,
-  },
+  // MOC_lending: {
+  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1218721,
+  // },
   MOC_amm: {
     address: '0x34031D1cd14e2C80B0268B47eFf49643375aFaeb',
     abi: LiquidityPoolV1Converter,
@@ -272,18 +272,21 @@ export const contracts = {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
-  // these contracts are only deployed on testnet now so they need to be updated
   FISH_token: {
-    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90',
+    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90', // todo
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
+    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157', // todo
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41', // todo
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',

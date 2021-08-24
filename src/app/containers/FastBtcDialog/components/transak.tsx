@@ -44,8 +44,11 @@ export function OpenTransak({ address, onClose }: Props) {
       console.log('Set FastBTCDialog back to MAIN');
       onClose();
     });
-    // eslint-disable-next-line
-  }, [address]);
+
+    return () => {
+      transak.close();
+    };
+  }, [address, onClose]);
 
   return <></>;
 }

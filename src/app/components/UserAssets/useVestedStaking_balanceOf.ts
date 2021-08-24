@@ -41,6 +41,10 @@ export function useVestedStaking_balanceOf(address: string) {
         .call('vestingRegistryLM', 'getVesting', [address])
         .catch(reason => setError(reason));
 
+      const adr5 = await contractReader
+        .call('vestingRegistryFISH', 'getVesting', [address])
+        .catch(reason => setError(reason));
+
       if (adr1 !== ethGenesisAddress) {
         const vested = await contractReader
           .call('staking', 'balanceOf', [adr1])
@@ -73,16 +77,24 @@ export function useVestedStaking_balanceOf(address: string) {
         setLMVestedValue(String(lmVested));
       }
 
-      const babelFishVested = await contractReader
-        .call<string>('lockedFund', 'getVestedBalance', [address])
-        .catch(reason => setError(reason));
+      if (adr5 !== ethGenesisAddress) {
+        const lmVested = await contractReader
+          .call('staking', 'balanceOf', [adr5]) // bbf staking contract?
+          .catch(reason => setError(reason));
+        setBabelFishVestedValue(String(lmVested));
+      }
 
-      setBabelFishVestedValue(String(babelFishVested || 0));
+      // const babelFishVested = await contractReader
+      //   .call<string>('lockedFund', 'getVestedBalance', [address])
+      //   .catch(reason => setError(reason));
+      //
+      // setBabelFishVestedValue(String(babelFishVested || 0));
 
       if (
         adr1 === adr2 &&
         adr2 === adr3 &&
         adr3 === adr4 &&
+        adr4 === adr5 &&
         adr1 === ethGenesisAddress
       ) {
         setVestingContract(ethGenesisAddress);

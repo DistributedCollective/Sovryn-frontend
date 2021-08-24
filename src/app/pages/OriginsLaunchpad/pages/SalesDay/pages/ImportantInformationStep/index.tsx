@@ -57,13 +57,13 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             checked={checked}
             onChange={onCheckboxClick}
             label={t(baseTranslations.checkboxText)}
-            className="text-left tw-text-sm"
+            className="tw-text-left tw-text-sm"
           />
 
           <ActionButton
             text={t(baseTranslations.submitButtonText)}
             onClick={onSubmit}
-            className="tw-block tw-max-w-20rem tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
+            className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
             textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-5.5"
             disabled={!checked}
           />

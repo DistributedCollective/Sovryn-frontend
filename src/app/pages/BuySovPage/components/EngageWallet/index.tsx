@@ -16,8 +16,8 @@ export function EngageWalletStep() {
       title={t(translations.buySovPage.engage.title)}
       disabled={connected}
     >
-      <div className="disable-content mb-0" style={{ height: 180 }}>
-        <p>
+      <div className="disable-content tw-mb-0" style={{ height: 180 }}>
+        <p className="tw-mb-4">
           <Trans
             i18nKey={translations.buySovPage.engage.line1}
             components={[

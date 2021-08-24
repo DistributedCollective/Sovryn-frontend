@@ -37,6 +37,8 @@ import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -51,6 +53,11 @@ export function TradeForm() {
   const [amount, setAmount] = useState<string>('');
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
+
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
+
+  const [linkPairType] = useState(location.state?.spotTradingPair);
 
   const { pairType } = useSelector(selectSpotTradingPage);
 
@@ -81,9 +88,16 @@ export function TradeForm() {
   }, [balance, minReturn, sourceToken, weiAmount]);
 
   useEffect(() => {
-    setSourceToken(pairs[pairType][tradeType === TradingTypes.BUY ? 1 : 0]);
-    setTargetToken(pairs[pairType][tradeType === TradingTypes.BUY ? 0 : 1]);
-  }, [pairType, tradeType]);
+    setSourceToken(
+      pairs[linkPairType || pairType][tradeType === TradingTypes.BUY ? 1 : 0],
+    );
+    setTargetToken(
+      pairs[linkPairType || pairType][tradeType === TradingTypes.BUY ? 0 : 1],
+    );
+  }, [linkPairType, pairType, tradeType]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => linkPairType && history.replace(location.pathname), []);
 
   return (
     <>
@@ -98,7 +112,7 @@ export function TradeForm() {
         />
       )}
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
 
           <FormGroup
@@ -106,7 +120,7 @@ export function TradeForm() {
             className="tw-mt-6"
           >
             <Select
-              value={`${pairType}`}
+              value={`${linkPairType || pairType}`}
               options={pairList.map(pair => ({
                 key: `${pair}`,
                 label: pairs[pair],
@@ -187,7 +201,7 @@ export function TradeForm() {
           )}
         </div>
         {!spotLocked && (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+          <div className="tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
             <Button
               text={t(
                 tradeType === TradingTypes.BUY

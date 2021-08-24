@@ -42,7 +42,7 @@ const setJSON = (key: string, obj: any) =>
 
 // Details on implemented methods can be found here:
 // https://github.com/tradingview/charting_library/wiki/Saving-and-Loading-Charts/0918ee9f5215ebd5a06d0ec9ee2bdffbd5822342#api-handlers
-export default {
+const tradingChartStorage = {
   /** Chart Layout (drawing) methods **/
   getAllCharts: () => Promise.resolve(Object.values(getJSON(LAYOUT_KEY)) || []),
 
@@ -101,3 +101,5 @@ export default {
       : Promise.reject();
   },
 };
+
+export default tradingChartStorage;
