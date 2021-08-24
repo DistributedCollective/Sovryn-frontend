@@ -72,6 +72,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                           translations.landingPage.cryptocurrencyPrices
                             .marketCapTooltip
                         }
+                        components={[<strong className="tw-font-bold" />]}
                       />
                     </div>
                   }
