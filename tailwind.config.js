@@ -177,7 +177,6 @@ module.exports = {
         '5px': '0.3125rem',
         '10px': '0.625rem',
         '20px': '1.25rem',
-        '50%': '50%',
       },
       keyframes: {
         spin: {
