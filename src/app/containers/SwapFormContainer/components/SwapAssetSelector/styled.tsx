@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const StyledButton = styled.button.attrs(attrs => ({
   className:
-    'w-100 d-flex flex-row justify-content-between align-items-center p-0',
+    'tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-p-0',
 }))`
   position: relative;
   height: 40px;

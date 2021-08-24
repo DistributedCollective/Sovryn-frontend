@@ -18,10 +18,8 @@ export function useBorrowInterestRate(
   // Calculate loan tokens we depositing.
   useEffect(() => {
     let _totalDeposit = '0'; // loanTo
-    // let totalDeposit = props.loanTokenSent;
 
     if (weiAmount !== '0') {
-      // props.collateralTokenSent != '0'
       if (result.rate !== '0') {
         _totalDeposit = bignumber(weiAmount)
           .mul(result.rate)
@@ -31,8 +29,7 @@ export function useBorrowInterestRate(
       }
     }
     setTotalDeposit(_totalDeposit);
-    // eslint-disable-next-line
-  }, [JSON.stringify(result), weiAmount]);
+  }, [result?.rate, result?.precision, weiAmount]);
 
   useEffect(() => {
     setBorrowAmount(

@@ -104,7 +104,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
       </p>
 
       <ActionButton
-        className="mx-auto tw-mt-4 tw-rounded-lg tw-w-32"
+        className="tw-mx-auto tw-mt-4 tw-rounded-lg tw-w-32"
         textClassName="tw-text-base tw-font-semibold"
         text={t(translations.liquidity.transfer)}
         onClick={() => setTransferDialog(true)}

@@ -75,7 +75,7 @@
   },
   "tradingActivity": {
     "title": "Minhas operações",
-    "walletNote": "Primeiro conecte sua carteira!",
+    "walletNote": "A carteira precisa estar conectada.",
     "tabs": {
       "activeTrades": "Abertas",
       "tradingHistory": "Concluídas"
@@ -643,7 +643,7 @@
       "active": "A devolver",
       "history": "Devolvidos"
     },
-    "walletNote": "Primeiro conecte sua carteira!"
+    "walletNote": "A carteira precisa estar conectada."
   },
   "borrowHistory": {
     "table": {
@@ -874,6 +874,7 @@
     "meta": {
       "title": "Carteira"
     },
+    "emptyVestTable": "Não existem SOV reservados para você",
     "tableHeaders": {
       "asset": "Ativo",
       "totalBalance": "Saldo total",
@@ -927,7 +928,7 @@
     "title": "SOV",
     "tableHeaders": {
       "time": "Data e hora",
-      "vestingSchedule": "Cronograma",
+      "vestingSchedule": "Tipo",
       "amount": "Quantidade",
       "hash": "ID transação",
       "status": "Status"
@@ -1214,13 +1215,13 @@
       "lockedRewards": "Recompensas bloqueadas:",
       "claimibleRewards": "Recompensas reinvidicáveis",
       "OGRewards": "Recompensas OG"
-     },
+    },
     "historyTable": {
       "title": "Histórico",
       "tableHeaders": {
         "time": "Data e hora",
         "type": "Tipo",
-        "amount": "Ação",
+        "amount": "Quantidade",
         "transactionHash": "ID transação",
         "status": "Status"
       },
@@ -1230,6 +1231,7 @@
         "staking": "Investimento SOV",
         "referral": "Recompensa indicação"
       },
+      "walletHistory": "A carteira precisa estar conectada.",
       "emptyState": "Você não tem histórico de recompensas.",
       "loading": "Carregando..."
     }
@@ -1456,7 +1458,7 @@
       },
       "stake": {
         "title": "Rentabilizando seus SOV & Votando",
-        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem rendimentos que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
         "cta": "Rentabilizar SOV"
       }
     },

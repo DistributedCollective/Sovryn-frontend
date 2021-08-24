@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
@@ -36,14 +36,7 @@ export function TVL(props: Props) {
       .catch(e => console.error(e));
   }, [url]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   const rowData = [
     {
@@ -94,7 +87,7 @@ export function TVL(props: Props) {
       <tr
         key={key}
         className={`${
-          row.contract === 'Total' ? 'font-weight-bold border-top' : ''
+          row.contract === 'Total' ? 'tw-font-bold tw-border-t' : ''
         }`}
       >
         <td>{row.contract}</td>
@@ -116,7 +109,7 @@ export function TVL(props: Props) {
 
   return (
     <div>
-      <table className="w-100">
+      <table className="tw-w-full">
         <thead>
           <tr>
             <th className="">{t(translations.statsPage.tvl.type)}</th>
@@ -124,7 +117,7 @@ export function TVL(props: Props) {
             <th className="">{t(translations.statsPage.tvl.usd)}</th>
           </tr>
         </thead>
-        <tbody className="mt-5">{rows}</tbody>
+        <tbody className="tw-mt-12">{rows}</tbody>
       </table>
     </div>
   );

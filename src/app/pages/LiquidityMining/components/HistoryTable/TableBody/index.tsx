@@ -16,7 +16,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const { t } = useTranslation();
 
   return (
-    <tbody className="mt-5">
+    <tbody className="tw-mt-12">
       {items.map((item, index) => (
         <TableRow
           key={`${item.asset}/${index}`}
@@ -40,7 +40,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
       )}
       {items.length === 0 && !loading && (
         <tr key={'empty'}>
-          <td className="text-center" colSpan={99}>
+          <td className="tw-text-center" colSpan={99}>
             {t(translations.liquidityMining.historyTable.emptyState)}
           </td>
         </tr>

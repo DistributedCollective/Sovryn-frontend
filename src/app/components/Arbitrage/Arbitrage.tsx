@@ -9,7 +9,7 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { useFetch } from '../../hooks/useFetch';
 import { Asset } from '../../../types';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { fixNumber } from '../../../utils/helpers';
+import { fixNumber, isNullOrUndefined } from '../../../utils/helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
@@ -18,6 +18,17 @@ import type { Opportunity } from './models/opportunity';
 const s = translations.swapTradeForm;
 
 const minUsdForOpportunity = 10;
+
+export const isValidArbitrage = arbitrage => {
+  const rateToBalance = arbitrage?.rateToBalance;
+  return (
+    rateToBalance &&
+    !isNullOrUndefined(rateToBalance.earn) &&
+    !isNullOrUndefined(rateToBalance.amount) &&
+    !isNullOrUndefined(rateToBalance.rate) &&
+    rateToBalance.to
+  );
+};
 
 export function Arbitrage() {
   const { t } = useTranslation();
@@ -31,7 +42,7 @@ export function Arbitrage() {
   const opportunityArray = useMemo(
     () =>
       Object.values(data)
-        .filter(item => item.hasOwnProperty('rateToBalance'))
+        .filter(isValidArbitrage)
         .map(item => {
           const toToken = assetByTokenAddress(item.rateToBalance.to);
           const rate = assetRates.find(
@@ -67,21 +78,21 @@ export function Arbitrage() {
   return (
     <>
       {opportunity !== null && (
-        <div className="my-3">
-          <div className="text-white mb-5 p-3 rounded border border-gold ">
+        <div className="tw-my-3">
+          <div className="tw-text-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-gold">
             {t(s.arbitrage.best_rate)}{' '}
-            <span className="text-gold">
+            <span className="tw-text-gold">
               {toNumberFormat(opportunity.fromAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.fromToken} />
             </span>{' '}
             {t(s.arbitrage.for)}{' '}
-            <span className="text-gold">
+            <span className="tw-text-gold">
               {toNumberFormat(opportunity.toAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.toToken} />
             </span>
             <Popover
               content={
-                <div className="px-5 py-4 font-weight-light">
+                <div className="tw-px-12 tw-py-8 tw-font-light">
                   <p>
                     {t(s.arbitrage.popover_p1, {
                       fromAmount: toNumberFormat(opportunity.fromAmount, 6),
@@ -98,8 +109,8 @@ export function Arbitrage() {
                   </p>
                 </div>
               }
-              className="pl-3"
-              popoverClassName={'w-50 mx-1'}
+              className="tw-pl-4"
+              popoverClassName={'tw-w-1/2 tw-mx-1'}
             >
               <Icon icon={'info-sign'} />
             </Popover>

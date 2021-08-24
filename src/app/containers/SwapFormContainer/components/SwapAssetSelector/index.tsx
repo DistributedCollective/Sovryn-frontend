@@ -67,10 +67,10 @@ export function SwapAssetSelector(props: Props) {
       }}
     >
       <StyledButton>
-        <span className="px-3 pr-4 d-flex flex-row align-items-center justify-content-between flex-shrink-0 flex-grow-1">
+        <span className="tw-px-4 tw-pr-8 tw-flex tw-flex-row tw-items-center tw-justify-between tw-flex-shrink-0 tw-flex-grow">
           {selected ? (
             <>
-              <span className="d-flex flex-row justify-content-start align-items-center flex-shrink-0 flex-grow-1">
+              <span className="tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-shrink-0 tw-flex-grow">
                 <AssetRenderer imageSize={6} asset={props.value} showImage />
               </span>
             </>

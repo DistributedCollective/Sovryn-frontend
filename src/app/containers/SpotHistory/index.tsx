@@ -1,5 +1,11 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {
+  useCallback,
+  useMemo,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
+import axios, { CancelTokenSource } from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import { AssetDetails } from 'utils/models/asset-details';
@@ -21,23 +27,24 @@ export const SpotHistory: React.FC = () => {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [history, setHistory] = useState<any[]>([]);
+  const [currentHistory, setCurrentHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
   const retry = useTradeHistoryRetry();
 
-  let cancelTokenSource;
-  const getData = () => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
-    }
+  const cancelTokenSource = useRef<CancelTokenSource>();
 
-    cancelTokenSource = axios.CancelToken.source();
+  const getData = useCallback(() => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel();
+    }
+    cancelTokenSource.current = axios.CancelToken.source();
+
     axios
       .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.token,
+        cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
         setHistory(
@@ -72,7 +79,7 @@ export const SpotHistory: React.FC = () => {
         setCurrentHistory([]);
         setLoading(false);
       });
-  };
+  }, [account, url]);
 
   const getHistory = useCallback(() => {
     setLoading(true);
@@ -80,21 +87,23 @@ export const SpotHistory: React.FC = () => {
     setCurrentHistory([]);
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, setHistory, url, setCurrentHistory]);
+  }, [getData]);
 
   //GET HISTORY
   useEffect(() => {
     if (account) {
       getHistory();
     }
-  }, [account, getHistory, setCurrentHistory, retry]);
+  }, [account, getHistory, retry]);
 
-  const onPageChanged = data => {
-    const { currentPage, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    setCurrentHistory(history.slice(offset, offset + pageLimit));
-  };
+  const onPageChanged = useCallback(
+    data => {
+      const { currentPage, pageLimit } = data;
+      const offset = (currentPage - 1) * pageLimit;
+      setCurrentHistory(history.slice(offset, offset + pageLimit));
+    },
+    [history],
+  );
 
   const onGoingTransactions = useMemo(() => {
     return transactions
@@ -136,25 +145,25 @@ export const SpotHistory: React.FC = () => {
 
   return (
     <section>
-      <div className="sovryn-table p-3 mb-5">
-        <table className="w-100">
+      <div className="sovryn-table tw-p-4 tw-mb-12">
+        <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.time)}
               </th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.pair)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.orderType)}</th>
               <th>{t(translations.spotHistory.tableHeaders.amountPaid)}</th>
-              <th className="d-none d-lg-table-cell">
+              <th className="tw-hidden lg:tw-table-cell">
                 {t(translations.spotHistory.tableHeaders.amountReceived)}
               </th>
               <th>{t(translations.spotHistory.tableHeaders.status)}</th>
             </tr>
           </thead>
-          <tbody className="mt-5">
+          <tbody className="tw-mt-12">
             {loading && (
               <tr key={'loading'}>
                 <td colSpan={99}>
@@ -166,7 +175,7 @@ export const SpotHistory: React.FC = () => {
             )}
             {history.length === 0 && !loading && (
               <tr key={'empty'}>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   {t(translations.spotHistory.emptyState)}
                 </td>
               </tr>

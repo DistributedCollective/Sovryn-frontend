@@ -1,6 +1,6 @@
-import { useWalletContext } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
-import React, { Dispatch, useMemo } from 'react';
+import { WalletContext } from '@sovryn/react-wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
+import React, { Dispatch, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../../locales/i18n';
@@ -21,15 +21,14 @@ interface MainScreenProps {
 
 export function MainScreen({ state, dispatch }: MainScreenProps) {
   const { t } = useTranslation();
-  const { connected, wallet } = useWalletContext();
+  const { connected, wallet } = useContext(WalletContext);
 
   const isWrongChainId = useMemo(() => {
     return (
       connected &&
-      web3Wallets.includes(wallet.providerType) &&
+      isWeb3Wallet(wallet.providerType!) &&
       wallet.chainId !== currentChainId
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, wallet.chainId, wallet.providerType]);
 
   return (
@@ -110,7 +109,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
           )}
 
           {isWrongChainId && (
-            <p className="text-center">
+            <p className="tw-text-center">
               {t(translations.fastBtcDialog.instructions.chainId)}
             </p>
           )}
@@ -127,16 +126,6 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
                 }}
               />
             )}
-            {/*{state.step === Step.MAIN && (*/}
-            {/*  <FiatButton*/}
-            {/*    loading={state.deposit.loading}*/}
-            {/*    ready={state.ready}*/}
-            {/*    onClick={() => {*/}
-            {/*      dispatch(actions.generateDepositAddress());*/}
-            {/*      dispatch(actions.selectFiat());*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*)}*/}
           </div>
         </div>
       </div>

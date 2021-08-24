@@ -25,25 +25,27 @@ export function LoanTokenGraphs(props: Props) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(databaseRpcNodes[chainId], {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        method: 'custom_getLoanTokenHistory',
-        params: [
-          {
-            address: getLendingContract(props.lendingPool.getAsset()).address,
-          },
-        ],
-      }),
-    })
-      .then(e => e.json().then())
-      .then(e => {
-        setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+    if (chainId !== undefined) {
+      fetch(databaseRpcNodes[chainId], {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          method: 'custom_getLoanTokenHistory',
+          params: [
+            {
+              address: getLendingContract(props.lendingPool.getAsset()).address,
+            },
+          ],
+        }),
       })
-      .catch(console.error);
+        .then(e => e.json().then())
+        .then(e => {
+          setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+        })
+        .catch(console.error);
+    }
   }, [chainId, props.lendingPool]);
 
   if (!data.length) {

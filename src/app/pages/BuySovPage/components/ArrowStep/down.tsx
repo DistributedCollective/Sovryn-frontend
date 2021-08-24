@@ -10,7 +10,7 @@ const Img = styled.img`
 
 export function ArrowDown() {
   return (
-    <div className="d-flex justify-content-center align-items-center flex-grow-0 flex-shrink-0">
+    <div className="tw-flex tw-justify-center tw-items-center tw-flex-grow-0 tw-flex-shrink-0">
       <Img src={image} alt="Arrow" />
     </div>
   );
