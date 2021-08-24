@@ -35,9 +35,12 @@ export function StakingDateSelector(props: Props) {
   const currentDate = useMemo(() => {
     return new Date();
   }, []);
-  const curUserOffset = currentDate.getTimezoneOffset() / 60;
+
+  const currentUserOffset = currentDate.getTimezoneOffset() / 60;
   const onItemSelect = (item: { key: number }) =>
-    props.onClick(Number(dayjs(item.key).subtract(curUserOffset, 'hour')) / ms);
+    props.onClick(
+      Number(dayjs(item.key).subtract(currentUserOffset, 'hour')) / ms,
+    );
   const [currentYearDates, setCurrenYearDates] = useState<DateItem[]>([]);
   const [filteredDates, setFilteredDates] = useState<DateItem[]>([]);
   const [selectedYear, setSelectedYear] = useState('');
@@ -214,7 +217,7 @@ export function StakingDateSelector(props: Props) {
                           }`}
                         >
                           {dayjs(item.date)
-                            .subtract(curUserOffset, 'hour')
+                            .subtract(currentUserOffset, 'hour')
                             .format('D')}
                         </div>
                       );
