@@ -4,22 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Checkbox } from '@blueprintjs/core';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import {
-  stringToFixedPrecision,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
 
 interface IImportantInformationStepProps {
   tierId: number;
-  maxAmount: string;
-  depositRate: number;
   onSubmit?: () => void;
 }
 
 export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
-  maxAmount,
-  depositRate,
   tierId,
   onSubmit,
 }) => {
@@ -46,21 +37,17 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
         <div className="tw-flex">
           <div className="tw-text-left tw-max-w-40 tw-mr-20">
             <ListItem>{t(baseTranslations.information[1])}</ListItem>
-            <ListItem>
-              {t(baseTranslations.information[2], {
-                rbtcAmount: weiToNumberFormat(maxAmount, 4),
-                fishAmount: stringToFixedPrecision(
-                  String(numberFromWei(maxAmount) * depositRate),
-                  4,
-                ),
-              })}
-            </ListItem>
+            <ListItem>{t(baseTranslations.information[2])}</ListItem>
+            <ListItem>{t(baseTranslations.information[3])}</ListItem>
+            <ListItem>{t(baseTranslations.information[4])}</ListItem>
           </div>
 
           <div className="tw-text-left tw-max-w-40">
-            <ListItem>{t(baseTranslations.information[3])}</ListItem>
+            <ListItem>{t(baseTranslations.information[5])}</ListItem>
+            <ListItem>{t(baseTranslations.information[6])}</ListItem>
+            <ListItem>{t(baseTranslations.information[7])}</ListItem>
             {tierId === 2 && (
-              <ListItem>{t(baseTranslations.information[4])}</ListItem>
+              <ListItem>{t(baseTranslations.information[8])}</ListItem>
             )}
           </div>
         </div>

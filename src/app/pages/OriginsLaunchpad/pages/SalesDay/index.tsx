@@ -35,8 +35,6 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
       case 2:
         return (
           <ImportantInformationStep
-            maxAmount={info.maxAmount}
-            depositRate={info.depositRate}
             tierId={tierId}
             onSubmit={() => setStep(3)}
           />

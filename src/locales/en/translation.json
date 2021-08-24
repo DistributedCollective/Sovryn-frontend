@@ -319,9 +319,13 @@
         "privateSale": {
           "title": "Important Information about the the FISH Private Pre-Sale Process and Terms",
           "information": {
-            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH Pre-Sale! Welcome and thanks for your support!",
-            "2": "FISH available for purchase per wallet: {{rbtcAmount}} rBTC, equivalent to {{fishAmount}} FISH - Do not transfer more than this amount. Amounts sent in excess of this amount will be automatically returned to the address from which they were sent.",
-            "3": "FISH purchased as part of this sale, will vest linearly for 10 months. FISH markets are available on Sovryn and up to 40% of liquidity mining rewards will commence in Q3. FISH can be used to vote in BabelFish governance as soon as it begins to vest. For any questions, please ask the community in Discord or Telegram channels."
+            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH pre-sale! Welcome and thanks for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 28,571 FISH at a maximum purchase price of 0.04 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "FISH tokens purchased as part of this private pre-sale, will vest linearly for 10 months.",
+            "6": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "7": "For any questions, please ask the community in Discord or Telegram channels."
           },
           "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
           "submitButtonText": "I Understand"
@@ -330,9 +334,13 @@
           "title": "Important Information about the the FISH Public Pre-Sale Process and Terms",
           "information": {
             "1": "Welcome to the BabelFish FISH token pre-sale. Thank you kindly for your support!",
-            "2": "FISH available for purchase per wallet: {{rbtcAmount}} rBTC, equivalent to {{fishAmount}} FISH - Do not transfer more than this amount. Amounts sent in excess of this amount will be automatically returned to the address from which they were sent.",
-            "3": "Half the FISH purchased will vest upon completion of the sale, the other half will vest linearly for 10 consecutive months.",
-            "4": "FISH markets are available on Sovryn and up to 40% of liquidity mining rewards will commence in Q3. FISH can be used to vote in BabelFish governance as soon as it begins to vest. For any questions, please ask the community in Discord or Telegram channels."
+            "2": "The amount of FISH available for purchase per wallet is 27,272 FISH at a maximum purchase price of 0.06 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "Half the FISH purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for 10 consecutive months.",
+            "6": "The FISH tokens that are immediately vested will be available for withdrawal from Thursday, August 28, at 14:00 UTC. Please note that the FISH tokens purchased will need to be actively claimed by you on the Origins interface.",
+            "7": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "8": "For any questions, please ask the community in Discord or Telegram channels."
           },
           "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
           "submitButtonText": "I Understand"
