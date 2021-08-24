@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -25,45 +25,40 @@ interface ITxDialogProps {
   onUserConfirmed?: () => void;
 }
 
-export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
+export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
   const { t } = useTranslation();
   const { address } = useWalletContext();
-  const close = () => {
-    props.tx && props.tx.reset();
-  };
-  const confirm = () => {
-    props.tx.reset();
-  };
+
+  const close = useCallback(() => tx?.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
-  const oldStatus = usePrevious(props.tx.status);
+  const oldStatus = usePrevious(tx.status);
 
-  const { txData } = props.tx;
+  const { txData } = tx;
 
   useEffect(() => {
     if (
       oldStatus === TxStatus.PENDING_FOR_USER &&
-      props.tx.status === TxStatus.PENDING &&
-      props.onUserConfirmed
+      tx.status === TxStatus.PENDING &&
+      onUserConfirmed
     ) {
-      props.onUserConfirmed();
+      onUserConfirmed();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.tx.status]);
+  }, [tx.status, oldStatus, onUserConfirmed]);
 
   return (
     <Dialog
       isCloseButtonShown={false}
-      isOpen={props.tx.status !== TxStatus.NONE}
-      onClose={() => close()}
+      isOpen={tx.status !== TxStatus.NONE}
+      onClose={close}
       className={styles.dialog}
     >
-      <CloseButton onClick={() => close()}>
-        <span className="sr-only">Close Dialog</span>
+      <CloseButton onClick={close}>
+        <span className="tw-sr-only">Close Dialog</span>
       </CloseButton>
-      {props.tx.status === TxStatus.PENDING_FOR_USER && (
+      {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <div className="tw-mb-24 tw-normal-case tw-text-center tw-text-2xl tw-font-semibold">
             {t(translations.buySovPage.txDialog.pendingUser.title)}
@@ -77,14 +72,14 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
         </>
       )}
       {[TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
-        props.tx.status,
+        tx.status,
       ) && (
         <>
-          <Title txStatus={props.tx.status} />
-          <Status txStatus={props.tx.status} />
+          <Title txStatus={tx.status} />
+          <Status txStatus={tx.status} />
 
           <div className="tw-w-80 tw-mx-auto">
-            {!!props.tx.txHash && (
+            {!!tx.txHash && (
               <div className="tw-w-full tw-flex tw-justify-between tw-text-sm tw-font-extralight tw-tracking-normal">
                 <div>
                   <div className="tw-mb-3.5">
@@ -131,8 +126,8 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
 
                   <div>
                     <LinkToExplorer
-                      txHash={props.tx.txHash}
-                      text={prettyTx(props.tx.txHash)}
+                      txHash={tx.txHash}
+                      text={prettyTx(tx.txHash)}
                       className="tw-text-primary"
                     />
                   </div>
@@ -140,13 +135,13 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
               </div>
             )}
 
-            {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
+            {!tx.txHash && tx.status === TxStatus.FAILED && (
               <>
-                <p className="text-center">
+                <p className="tw-text-center">
                   {t(translations.buySovPage.txDialog.txStatus.aborted)}
                 </p>
                 {wallet === 'ledger' && (
-                  <p className="text-center">
+                  <p className="tw-text-center">
                     {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                   </p>
                 )}
@@ -155,9 +150,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
 
             <div className="tw-w-full">
               <ConfirmButton
-                onClick={() =>
-                  props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
-                }
+                onClick={close}
                 text={t(translations.common.close)}
                 className="tw-font-bold"
               />
@@ -171,7 +164,7 @@ export const TxDialog: React.FC<ITxDialogProps> = (props: ITxDialogProps) => {
                 />
               </div>
               <div className="tw-font-thin tw-text-sm tw-mx-auto tw-mt-1">
-                Powered by babelFish
+                {t(translations.BridgeDepositPage.poweredBy)}
               </div>
             </div>
           </div>

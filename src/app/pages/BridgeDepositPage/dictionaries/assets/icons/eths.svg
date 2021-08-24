@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <g id="Group_6401" data-name="Group 6401" transform="translate(-72 -803)">
+        <g id="Group_6006" data-name="Group 6006" transform="translate(72 803)">
+            <circle id="Ellipse_357" data-name="Ellipse 357" cx="15" cy="15" r="15"/>
+        </g>
+        <g id="Group_6005" data-name="Group 6005" transform="translate(80.8 807.8)">
+            <path id="Path_2577" data-name="Path 2577" d="M383.639,0,383.5.474V14.215l.139.139,6.378-3.77Z" transform="translate(-377.292 0)" fill="#d0d0d0"/>
+            <path id="Path_2578" data-name="Path 2578" d="M6.379,0,0,10.584l6.379,3.77V0Z" transform="translate(0 0)" fill="#fff"/>
+            <path id="Path_2579" data-name="Path 2579" d="M387.318,728.659l-.079.1v4.895l.079.229,6.382-8.988Z" transform="translate(-380.971 -713.148)" fill="#d0d0d0"/>
+            <path id="Path_2580" data-name="Path 2580" d="M6.379,733.878v-5.22L0,724.89Z" transform="translate(0 -713.148)" fill="#fff"/>
+            <path id="Path_2581" data-name="Path 2581" d="M392.07,479l6.378-3.77-6.378-2.9Z" transform="translate(-385.723 -464.673)" fill="#c4c4c4"/>
+            <path id="Path_2582" data-name="Path 2582" d="M0,475.229,6.379,479v-6.67Z" transform="translate(0 -464.673)" fill="#d6d6d6"/>
+        </g>
+    </g>
+</svg>

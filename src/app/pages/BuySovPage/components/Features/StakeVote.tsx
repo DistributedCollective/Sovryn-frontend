@@ -9,10 +9,10 @@ import { translations } from '../../../../../locales/i18n';
 export function StakeVote() {
   const { t } = useTranslation();
   return (
-    <Article className="w-100">
-      <h1 className="d-block text-center">
+    <Article className="tw-w-full">
+      <h2 className="tw-block tw-text-center">
         {t(translations.buySovPage.features.stake.title)}
-      </h1>
+      </h2>
       <Banner src={banner} alt="Banner" />
       <div className="content tw-font-thin tw-leading-snug">
         {t(translations.buySovPage.features.stake.text)}{' '}
@@ -24,7 +24,7 @@ export function StakeVote() {
           {t(translations.buySovPage.features.learnMore)}
         </a>
       </div>
-      <div className="container text-center">
+      <div className="tw-container tw-text-center">
         <a
           href="https://live.sovryn.app/stake"
           className="button"
@@ -43,11 +43,11 @@ const Article = styled.article`
   margin: 300px auto 70px;
   font-size: 16px;
   font-weight: 400;
-  h1 {
+  h2 {
     text-transform: none;
-    font-size: 36px;
-    line-height: 47px;
-    font-weight: 700;
+    font-size: 36px !important;
+    line-height: 47px !important;
+    font-weight: 700 !important;
     margin-bottom: 70px;
   }
 

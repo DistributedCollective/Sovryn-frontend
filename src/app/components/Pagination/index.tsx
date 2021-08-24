@@ -14,6 +14,7 @@ interface Props {
   pageLimit: number;
   pageNeighbours: number;
   onChange: (value: ChangeEvent) => void;
+  className?: string;
 }
 
 export function Pagination(props: Props) {
@@ -147,7 +148,7 @@ export function Pagination(props: Props) {
 
   return (
     <>
-      <nav aria-label="Pagination">
+      <nav className={props.className} aria-label="Pagination">
         <StyledList>
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)
@@ -160,7 +161,7 @@ export function Pagination(props: Props) {
                     onClick={handleMoveLeft}
                   >
                     <img src={iconBack} alt="Previous" />
-                    <span className="sr-only">Previous</span>
+                    <span className="tw-sr-only">Previous</span>
                   </a>
                 </li>
               );
@@ -174,7 +175,7 @@ export function Pagination(props: Props) {
                     onClick={handleMoveRight}
                   >
                     <img src={iconBack} className="icon-rotated" alt="Next" />
-                    <span className="sr-only">Next</span>
+                    <span className="tw-sr-only">Next</span>
                   </a>
                 </li>
               );

@@ -27,7 +27,7 @@
   background: none !important;
 
   .tab-content {
-    padding: $grid-gutter-width / 2;
+    padding: 15px;
     border-bottom: 5px;
     border-right: 5px;
     border-top: 1px;
@@ -44,19 +44,19 @@
 
     & .nav-item {
       font-size: 15px;
-      color: $text-muted;
+      color: $dark-gray;
       margin-right: 5px;
       border-right: 5px;
       border-top: 1px;
       border-left: 1px;
       border-bottom: 0;
       border-style: solid;
-      border-color: $text-muted;
+      border-color: $dark-gray;
       border-radius: 8px 8px 0 0;
       margin-bottom: -1px;
       border-bottom: 1px solid $white;
 
-      @include media-breakpoint-up(lg) {
+      @media (min-width: theme('screens.lg')) {
         font-size: 22px;
       }
 
@@ -98,7 +98,7 @@
 
 .sovryn-table {
   font-family: $font-family-montserrat;
-  font-weight: 100;
+  font-weight: normal;
   width: 100%;
   font-size: 14px;
   letter-spacing: 0;
@@ -147,7 +147,7 @@
     height: 80px;
 
     td {
-      padding: 0 30px;
+      padding: 0 22px;
       color: var(--light-gray);
       @media (max-width: 441px) {
         padding: 0 15px;
@@ -207,16 +207,16 @@ input {
 
 .bp3-dialog {
   @extend .sovryn-border;
-  @extend .bg-primary;
-  @extend .p-3;
+  @apply tw-p-3;
   font-family: var(--secondary-font);
+  background-color: theme('colors.dAppBackground');
 }
 
 .bp3-popover {
   &.bp3-select-popover {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      @extend .bg-primary;
+      background-color: theme('colors.dAppBackground');
 
       & .bp3-input-group {
         & input {
@@ -236,7 +236,7 @@ input {
   &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      @extend .bg-primary;
+      background-color: theme('colors.dAppBackground');
     }
 
     & .bp3-popover-arrow {
@@ -276,7 +276,7 @@ input {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
 
-  @include media-breakpoint-up(md) {
+  @media (min-width: theme('screens.md')) {
     width: 360px !important;
   }
 }
@@ -526,11 +526,11 @@ header {
 .swap-page {
   margin: 1rem auto;
 
-  @include media-breakpoint-up(lg) {
+  @media (min-width: theme('screens.lg')) {
     margin: 3rem auto;
   }
 
-  @include media-breakpoint-down(lg) {
+  @media (max-width: theme('screens.lg')) {
     max-width: 100%;
   }
   // swap form
@@ -540,7 +540,7 @@ header {
     justify-content: center;
     align-items: center;
 
-    @include media-breakpoint-up(lg) {
+    @media (min-width: theme('screens.lg')) {
       flex-direction: row;
     }
 
@@ -579,7 +579,7 @@ header {
       justify-content: center;
       transform: rotate(90deg);
 
-      @include media-breakpoint-up(lg) {
+      @media (min-width: theme('screens.lg')) {
         transform: none;
       }
 
@@ -796,7 +796,7 @@ header {
   margin: auto;
 }
 
-  /* Slider */
+/* Slider */
 .tw-slider {
   width: 100%;
 }
@@ -812,7 +812,7 @@ header {
 }
 
 .tw-slider .bp3-slider-progress.bp3-intent-primary {
-  background-color: #2274A5;
+  background-color: #2274a5;
 }
 
 .tw-slider .bp3-slider-handle {
@@ -830,7 +830,7 @@ header {
 
 .tw-slider .bp3-slider-label {
   top: 10px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 900;
   background-color: transparent;
 }
