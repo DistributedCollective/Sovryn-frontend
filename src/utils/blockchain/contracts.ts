@@ -273,7 +273,6 @@ export const contracts = {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
-  // these contracts are only deployed on testnet now so they need to be updated
   stakingRewards: {
     address: '0x8304FB3614c728B712e94F9D4DF6719fede6517F',
     abi: stakingRewardsProxyAbi,
