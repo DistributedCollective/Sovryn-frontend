@@ -1413,7 +1413,7 @@
       "title": "Pools AMM",
       "asset": "Ativos",
       "pool": "Pools",
-      "stakedBalance": "Saldo investido",
+      "stakedBalance": "Total investido",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
       "apy": "Juros anual"
