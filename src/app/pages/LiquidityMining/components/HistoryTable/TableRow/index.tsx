@@ -11,7 +11,7 @@ import { Asset } from 'types';
 
 interface ITableRowProps {
   pool: LiquidityPool;
-  time: string;
+  time: number;
   type: string;
   amount: string;
   txHash: string;

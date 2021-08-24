@@ -276,7 +276,7 @@
         "saleToken": "Sale Token",
         "project": "Project",
         "startDate": "Starts",
-        "startPrice": "Starts"
+        "startPrice": "Price"
       },
       "inputLabel": "Enter Email Address",
       "inputLabelName": "Name or Pseudonym",
@@ -1771,7 +1771,7 @@
       "lending": {
         "title": "Lending",
         "text": "Earn a passive income by lending your assets directly to borrowers or to margin traders and decrease your exposure to wider market performances and fluctuations. Sovryn’s non-custodial solution keeps you in control of your funds, and you are free to withdraw your assets at any time.",
-        "cta": "Trade"
+        "cta": "Lend"
       },
       "stake": {
         "title": "Stake & Vote",

@@ -22,10 +22,13 @@ import { useAccount } from '../../hooks/useAccount';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
+import { getNextMonday } from '../../../utils/dateHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 
 const pools = LiquidityPoolDictionary.list();
+
+const date = getNextMonday();
 
 export function LiquidityMining() {
   const { t } = useTranslation();
@@ -69,7 +72,7 @@ export function LiquidityMining() {
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 16',
+              date,
             })}
             linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -80,7 +83,7 @@ export function LiquidityMining() {
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 16',
+              date,
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -91,7 +94,7 @@ export function LiquidityMining() {
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 16',
+              date,
             })}
             linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             linkText={t(translations.liquidityMining.lootDropLink)}
@@ -102,7 +105,7 @@ export function LiquidityMining() {
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 16',
+              date,
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
             linkText={t(translations.liquidityMining.lootDropLink)}

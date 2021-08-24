@@ -14,6 +14,9 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import CurrencyContainer from './components/CurrencyContainer';
 import { HistoryTable } from './components/HistoryTable';
+import { getNextMonday } from '../../../utils/dateHelpers';
+
+const date = getNextMonday();
 
 const LendingPage: React.FC = () => {
   const { t } = useTranslation();
@@ -35,7 +38,7 @@ const LendingPage: React.FC = () => {
             title="15K SOV"
             asset1={Asset.XUSD}
             message={t(translations.liquidityMining.recalibration, {
-              date: 'August 16',
+              date,
             })}
             linkUrl="https://www.sovryn.app/blog/sov-is-diving-into-the-lending-pools"
             linkText={t(translations.liquidityMining.lootDropLink)}

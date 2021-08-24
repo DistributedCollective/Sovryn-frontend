@@ -1,8 +1,3 @@
-/**
- *
- * MetaMaskDiscouragementNotifyModal
- *
- */
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
@@ -19,7 +14,7 @@ interface Props {}
 const SESSION_KEY = 'mm-notify-shown';
 
 const testForMetaMask = () => {
-  const { ethereum } = window as any;
+  const { ethereum } = window;
   return !!(ethereum?.isMetaMask && !ethereum?.isNiftyWallet);
 };
 
