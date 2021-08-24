@@ -34,6 +34,17 @@ import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
 import { useTradeHistoryRetry } from '../../hooks/useTradeHistoryRetry';
+import { Nullable } from 'types';
+
+interface AssetRowData {
+  status: TxStatus;
+  timestamp: number;
+  transaction_hash: string;
+  returnVal: {
+    _fromAmount: string;
+    _toAmount: Nullable<string>;
+  };
+}
 
 export function SwapHistory() {
   const transactions = useSelector(selectTransactionArray);
@@ -101,21 +112,19 @@ export function SwapHistory() {
       )
       .map(item => {
         const { customData } = item;
-        let assetFrom = [] as any;
-        let assetTo = [] as any;
 
         if (!hasOngoingTransactions) {
           setHasOngoingTransactions(true);
         }
 
-        assetFrom = assets.find(
+        const assetFrom = assets.find(
           currency => currency.asset === customData?.sourceToken,
         );
-        assetTo = assets.find(
+        const assetTo = assets.find(
           currency => currency.asset === customData?.targetToken,
         );
 
-        const data = {
+        const data: AssetRowData = {
           status: item.status,
           timestamp: customData?.date,
           transaction_hash: item.transactionHash,
@@ -129,8 +138,8 @@ export function SwapHistory() {
           <AssetRow
             key={item.transactionHash}
             data={data}
-            itemFrom={assetFrom}
-            itemTo={assetTo}
+            itemFrom={assetFrom!}
+            itemTo={assetTo!}
           />
         );
       });
@@ -175,8 +184,8 @@ export function SwapHistory() {
             )}
             {onGoingTransactions}
             {currentHistory.map(item => {
-              let assetFrom = [] as any;
-              let assetTo = [] as any;
+              let assetFrom = {} as AssetDetails;
+              let assetTo = {} as AssetDetails;
               assets.map(currency => {
                 if (
                   getContractNameByAddress(item.from_token)?.includes(
@@ -220,7 +229,7 @@ export function SwapHistory() {
 }
 
 interface AssetProps {
-  data: any[] | any;
+  data: AssetRowData;
   itemFrom: AssetDetails;
   itemTo: AssetDetails;
 }

@@ -278,15 +278,15 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   FISH_token: {
-    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
   originsBase: {
-    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
   },
   babelfishAggregator: {

@@ -73,16 +73,11 @@ export function useVestedStaking_balanceOf(address: string) {
         setLMVestedValue(String(lmVested));
       }
 
-      const adr5 = await contractReader
-        .call('lockedFund', 'getVestedBalance', [address])
+      const babelFishVested = await contractReader
+        .call<string>('lockedFund', 'getVestedBalance', [address])
         .catch(reason => setError(reason));
 
-      if (adr5 && adr5 !== '0') {
-        const babelFishVested = await contractReader
-          .call<string>('lockedFund', 'getVestedBalance', [adr5])
-          .catch(reason => setError(reason));
-        setBabelFishVestedValue(String(babelFishVested));
-      }
+      setBabelFishVestedValue(String(babelFishVested || 0));
 
       if (
         adr1 === adr2 &&

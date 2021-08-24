@@ -2,11 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
-import {
-  TradingPairDictionary,
-  TradingPairType,
-} from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Option, Options } from 'app/components/Form/Select/types';
+import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { Text } from '@blueprintjs/core';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
@@ -28,14 +24,11 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-const pairs: Options<
-  TradingPairType,
-  React.ReactNode
-> = TradingPairDictionary.entries()
+const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
   .map(([type, item]) => ({
     key: type,
-    label: item.name,
+    label: item.name as string,
   }));
 
 export function TradeForm() {
@@ -86,11 +79,11 @@ export function TradeForm() {
           >
             <Select
               value={pairType}
-              options={pairs as any}
+              options={pairs}
               filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
               itemRenderer={renderItemNH}
-              valueRenderer={(item: Option) => (
+              valueRenderer={item => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}
                 </Text>

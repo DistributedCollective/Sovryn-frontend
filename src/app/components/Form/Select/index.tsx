@@ -8,9 +8,10 @@ import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
 import { areOptionsEqual, renderItem, filterItem } from './renderers';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
+import { Nullable } from 'types';
 
 interface Props<K = string, V = string, P = any> {
-  value: K;
+  value: Nullable<K>;
   options: Options<K, V, P>;
   onChange: (value: K, item: Option<K, V, P>) => void;
 
@@ -31,9 +32,10 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
     props,
   ]);
 
-  const getSelected = useCallback(() => {
-    return props.options.find(item => String(item.key) === String(props.value));
-  }, [props.options, props.value]);
+  const getSelected = useCallback(
+    () => props.options.find(item => item.key === props.value),
+    [props.options, props.value],
+  );
 
   const [selected, setSelected] = useState<Option<K, V, P> | undefined>(
     getSelected(),
