@@ -66,6 +66,7 @@ export function AmountSelector() {
       bnBalance.greaterThanOrEqualTo(bnAmount) &&
       bnAmount.greaterThan(0) &&
       bnAmount.greaterThanOrEqualTo(limits.returnData.getMinPerToken) &&
+      bnAmount.greaterThan(limits.returnData.getFeePerToken) &&
       bnAmount.lessThanOrEqualTo(limits.returnData.getMaxTokensAllowed) &&
       bignumber(limits.returnData.dailyLimit).greaterThanOrEqualTo(
         bnAmount.add(limits.returnData.spentToday),
@@ -77,6 +78,7 @@ export function AmountSelector() {
     balance.value,
     bridgeBalance.value,
     limits.returnData.dailyLimit,
+    limits.returnData.getFeePerToken,
     limits.returnData.getMaxTokensAllowed,
     limits.returnData.getMinPerToken,
     limits.returnData.spentToday,

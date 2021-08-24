@@ -18,7 +18,6 @@ interface Props {
   withdrawAmount: number;
   until: number;
   onChangeAmount: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
   balanceOf: CacheCallResponse;
   isValid: boolean;
   votePower?: number;

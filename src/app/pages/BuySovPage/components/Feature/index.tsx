@@ -20,7 +20,7 @@ export function Feature(props: Props) {
           props.reverse ? 'lg:tw-order-1' : 'lg:tw-order-0'
         } tw-order-1`}
       >
-        <h1>{props.title}</h1>
+        <h3>{props.title}</h3>
         <div className="content tw-font-thin tw-leading-snug">
           {props.content}
         </div>
@@ -58,7 +58,12 @@ const Article = styled.article`
   margin: 70px auto;
   font-size: 16px;
   font-weight: 400;
-  h1 {
+
+  + ${() => Article} {
+    margin-top: 160px;
+  }
+
+  h3 {
     text-transform: none;
     font-size: 26px;
     line-height: 32px;

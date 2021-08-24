@@ -28,7 +28,7 @@ const rskToEthTestnetAssets = [
     18,
     4,
     '0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c',
-    true,
+    false,
     CrossBridgeAsset.ETHS,
     true,
     false,

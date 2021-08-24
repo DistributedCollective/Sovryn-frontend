@@ -19,7 +19,7 @@ export interface LendingEvent {
   asset_amount: string;
   contract_address: string;
   event: LendingEventType;
-  time: number;
+  time: string;
   token_amount: string;
   txHash: string;
 }

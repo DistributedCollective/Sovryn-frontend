@@ -17,10 +17,10 @@ interface Props {
   timestamp?: number;
   onChangeAmount: (value: string) => void;
   onChangeTimestamp: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
   isValid: boolean;
   kickoff: CacheCallResponse;
-  stakes: undefined;
+  stakes: string[];
   votePower?: number;
   onCloseModal: () => void;
 }
@@ -32,7 +32,7 @@ export function StakeForm(props: Props) {
   const stakingLocked = checkMaintenance(States.STAKING);
 
   const txConf = {
-    gas: 250000,
+    gas: 450000,
   };
 
   return (
@@ -64,9 +64,7 @@ export function StakeForm(props: Props) {
           <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 10),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 10))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
             >
@@ -74,9 +72,7 @@ export function StakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 4),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 4))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
             >
@@ -84,9 +80,7 @@ export function StakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 2),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 2))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
             >
@@ -95,7 +89,7 @@ export function StakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  fromWei(((props.sovBalanceOf.value as any) / 4) * 3),
+                  fromWei((Number(props.sovBalance) / 4) * 3),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
@@ -103,9 +97,7 @@ export function StakeForm(props: Props) {
               75%
             </div>
             <div
-              onClick={() =>
-                props.onChangeAmount(fromWei(props.sovBalanceOf.value))
-              }
+              onClick={() => props.onChangeAmount(fromWei(props.sovBalance))}
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-theme-blue tw-tracking-tighter"
             >
               100%
