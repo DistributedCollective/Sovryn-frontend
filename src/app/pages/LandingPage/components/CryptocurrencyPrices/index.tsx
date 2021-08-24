@@ -12,6 +12,9 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { AssetDetails } from 'utils/models/asset-details';
+import { Icon, Popover } from '@blueprintjs/core';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { Trans } from 'react-i18next';
 
 interface ICryptocurrencyPricesProps {
   pairs?: IPairs;
@@ -24,6 +27,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
   pairs,
   assetData,
   isLoading,
+  assetLoading,
 }) => {
   const { t } = useTranslation();
 
@@ -57,7 +61,32 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             </th>
 
             <th className="tw-text-right">
-              {t(translations.landingPage.cryptocurrencyPrices.marketCap)}
+              <div className="tw-inline-flex tw-items-center">
+                {t(translations.landingPage.cryptocurrencyPrices.marketCap)}
+
+                <Popover
+                  content={
+                    <div className="tw-px-12 tw-py-8 tw-font-light">
+                      <Trans
+                        i18nKey={
+                          translations.landingPage.cryptocurrencyPrices
+                            .marketCapTooltip
+                        }
+                      />
+                    </div>
+                  }
+                  className="tw-pl-2"
+                  popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
+                >
+                  <Icon className="tw-cursor-pointer" icon={'info-sign'} />
+                </Popover>
+              </div>
+            </th>
+
+            <th className="tw-text-right">
+              {t(
+                translations.landingPage.cryptocurrencyPrices.circulatingSupply,
+              )}
             </th>
           </tr>
         </thead>
@@ -72,42 +101,45 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             </tr>
           )}
 
-          {list.map(pair => {
-            const assetDetails = AssetsDictionary.getByTokenContractAddress(
-              pair.base_id,
-            );
-            let rbtcRow;
-
-            if (assetDetails.asset === Asset.USDT) {
-              const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
-                pair.quote_id,
+          {!isLoading &&
+            list.map(pair => {
+              const assetDetails = AssetsDictionary.getByTokenContractAddress(
+                pair.base_id,
               );
-              rbtcRow = (
-                <Row
-                  key={pair.quote_id}
-                  assetDetails={rbtcDetails}
-                  price24h={1 / pair.price_change_percent_24h}
-                  priceWeek={1 / pair.price_change_week}
-                  lastPrice={1 / pair.last_price}
-                  assetData={assetData && assetData[pair?.quote_id]}
-                />
-              );
-            }
+              let rbtcRow;
 
-            return (
-              <>
-                {rbtcRow}
-                <Row
-                  key={pair.base_id}
-                  assetDetails={assetDetails}
-                  price24h={pair.price_change_percent_24h_usd}
-                  priceWeek={pair.price_change_week_usd}
-                  lastPrice={pair.last_price_usd}
-                  assetData={assetData && assetData[pair?.base_id]}
-                />
-              </>
-            );
-          })}
+              if (assetDetails.asset === Asset.USDT) {
+                const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
+                  pair.quote_id,
+                );
+                rbtcRow = (
+                  <Row
+                    key={pair.quote_id}
+                    assetDetails={rbtcDetails}
+                    price24h={-pair.price_change_percent_24h}
+                    priceWeek={-pair.price_change_week}
+                    lastPrice={1 / pair.last_price}
+                    assetData={assetData && assetData[pair?.quote_id]}
+                    assetLoading={assetLoading}
+                  />
+                );
+              }
+
+              return (
+                <>
+                  {rbtcRow}
+                  <Row
+                    key={pair.base_id}
+                    assetDetails={assetDetails}
+                    price24h={pair.price_change_percent_24h_usd}
+                    priceWeek={pair.price_change_week_usd}
+                    lastPrice={pair.last_price_usd}
+                    assetData={assetData && assetData[pair?.base_id]}
+                    assetLoading={assetLoading}
+                  />
+                </>
+              );
+            })}
         </tbody>
       </table>
     </>
@@ -120,6 +152,7 @@ interface IRowProps {
   price24h: number;
   priceWeek: number;
   lastPrice: number;
+  assetLoading: boolean;
 }
 
 export const Row: React.FC<IRowProps> = ({
@@ -128,6 +161,7 @@ export const Row: React.FC<IRowProps> = ({
   price24h,
   priceWeek,
   lastPrice,
+  assetLoading,
 }) => {
   if (!assetDetails) return null;
 
@@ -163,14 +197,31 @@ export const Row: React.FC<IRowProps> = ({
         </td>
 
         <td className={'tw-text-right tw-whitespace-nowrap'}>
-          {assetData?.circulating_supply
-            ? Number(
-                bignumber(assetData?.circulating_supply)
-                  .mul(lastPrice)
-                  .toFixed(0),
-              ).toLocaleString('en')
-            : ''}
-
+          <LoadableValue
+            loading={assetLoading}
+            value={
+              assetData?.circulating_supply
+                ? Number(
+                    bignumber(assetData?.circulating_supply)
+                      .mul(lastPrice)
+                      .toFixed(0),
+                  ).toLocaleString('en')
+                : ''
+            }
+          />
+          {}
+        </td>
+        <td className={'tw-text-right tw-whitespace-nowrap'}>
+          <LoadableValue
+            loading={assetLoading}
+            value={
+              assetData?.circulating_supply
+                ? Number(
+                    bignumber(assetData?.circulating_supply).toFixed(0),
+                  ).toLocaleString('en')
+                : ''
+            }
+          />
           {}
         </td>
       </tr>
@@ -183,8 +234,11 @@ interface IPriceChangeProps {
 }
 
 export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
-  const number = toNumberFormat(value, 2);
-  const noChange = number === '0.00';
+  let numberString = toNumberFormat(value, 2);
+  numberString =
+    numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
+  const noChange = numberString === '0';
+
   return (
     <div
       className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
@@ -192,7 +246,7 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
         'tw-text-green_light': value > 0 && !noChange,
       })}
     >
-      {number}%
+      {numberString}%
       {value > 0 && !noChange && (
         <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
       )}
