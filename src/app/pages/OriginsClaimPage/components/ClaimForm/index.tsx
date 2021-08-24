@@ -1,10 +1,4 @@
-/**
- *
- * ClaimForm
- *
- */
-
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -21,11 +15,11 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-interface Props {
-  className?: object;
+interface IClaimFormProps {
   address: string;
+  className?: string;
 }
-export function ClaimForm({ className, address }: Props) {
+export function ClaimForm({ className, address }: IClaimFormProps) {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
@@ -50,18 +44,17 @@ export function ClaimForm({ className, address }: Props) {
 
   const unlockTime = useMemo(() => Number(getWaitedTS) * 1000, [getWaitedTS]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     send(
       [address],
       {
         from: address,
-        // gas: gasLimit[TxType.LOCKED_FUND_WAITED_CLAIM],
       },
       {
         type: TxType.LOCKED_FUND_WAITED_CLAIM,
       },
     );
-  };
+  }, [address, send]);
 
   return (
     <div

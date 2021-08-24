@@ -1,9 +1,3 @@
-/**
- *
- * RewardPage
- *
- */
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -13,7 +7,7 @@ import { Footer } from '../../components/Footer';
 import { ClaimForm } from './components/ClaimForm';
 import { useAccount } from 'app/hooks/useAccount';
 
-export function OriginsClaimPage() {
+export const OriginsClaimPage: React.FC = () => {
   const { t } = useTranslation();
   const userAddress = useAccount();
 
@@ -37,4 +31,4 @@ export function OriginsClaimPage() {
       <Footer />
     </>
   );
-}
+};
