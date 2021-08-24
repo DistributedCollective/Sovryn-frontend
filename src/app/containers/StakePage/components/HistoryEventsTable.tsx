@@ -61,8 +61,8 @@ export function HistoryEventsTable() {
 
   return (
     <>
-      <div className="history-table tw-bg-gray-light tw-rounded-b tw-mb-10">
-        <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
+      <div className="history-table tw-rounded-b tw-mb-12">
+        <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-6">
           {t(translations.stake.history.title)}
         </p>
         <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">

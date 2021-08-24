@@ -70,14 +70,12 @@ export const StakePage: React.FC = () => {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
-          <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
-              {t(translations.stake.title)}
-            </h2>
-            <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
-              <i>{t(translations.stake.connect)}</i>
-            </div>
+        <div className="tw-container tw-px-6 tw-mx-auto">
+          <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+            {t(translations.stake.title)}
+          </h2>
+          <div className="tw-w-full tw-text-center tw-rounded-b tw-shadow tw-py-12 tw-mb-12">
+            <i>{t(translations.stake.connect)}</i>
           </div>
         </div>
       </main>
@@ -370,22 +368,22 @@ const InnerStakePage: React.FC = () => {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
+        <div className="tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
             <div className="lg:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
-              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-6 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
-                <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
+                <div className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
                   {balanceOf.loading && (
                     <Spinner size={20} className="tw-inline-block tw-m-2" />
                   )}
-                </p>
+                </div>
                 <Modal
                   show={stakeForm}
                   content={
@@ -444,7 +442,7 @@ const InnerStakePage: React.FC = () => {
                   </Tooltip>
                 )}
               </div>
-              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl tw-text-sm tw-w-full lg:tw-w-1/3 lg:tw-mb-0 lg:tw-mx-2 2xl:tw-w-1/4 ">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl tw-text-sm tw-w-full lg:tw-w-1/3 lg:tw-mb-6 lg:tw-mx-2 2xl:tw-w-1/4 ">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -462,16 +460,16 @@ const InnerStakePage: React.FC = () => {
                   );
                 })}
               </div>
-              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-6 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
-                <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
+                <div className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
                   {voteBalance.loading && (
                     <Spinner size={20} className="tw-inline-block tw-m-2" />
                   )}
-                </p>
+                </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
