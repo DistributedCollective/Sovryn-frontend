@@ -116,16 +116,23 @@ interface IPriceChangeProps {
 }
 
 export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
+  let numberString = toNumberFormat(value, 2);
+  numberString =
+    numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
+  const noChange = numberString === '0';
+
   return (
     <div
       className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
-        'tw-text-red_light': value < 0,
-        'tw-text-green_light': value > 0,
+        'tw-text-red_light': value < 0 && !noChange,
+        'tw-text-green_light': value > 0 && !noChange,
       })}
     >
-      {toNumberFormat(value, 2)}%
-      {value > 0 && <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />}
-      {value < 0 && (
+      {numberString}%
+      {value > 0 && !noChange && (
+        <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
+      )}
+      {value < 0 && !noChange && (
         <img className="tw-w-3 tw-ml-2" src={arrowDown} alt={'down'} />
       )}
     </div>
