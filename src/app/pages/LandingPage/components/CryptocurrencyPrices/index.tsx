@@ -6,8 +6,8 @@ import { IPairs, IPairData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { toNumberFormat } from 'utils/display-text/format';
-import arrowUp from 'assets/images/Icon_feather-arrow-up.svg';
-import arrowDown from 'assets/images/Icon_feather-arrow-down.svg';
+import arrowUp from 'assets/images/trend-arrow-up.svg';
+import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 
 interface ICryptocurrencyPricesProps {
@@ -119,8 +119,8 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
   return (
     <div
       className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
-        'tw-text-red_light': value < 0,
-        'tw-text-green_light': value > 0,
+        'tw-text-trade-short': value < 0,
+        'tw-text-trade-long': value > 0,
       })}
     >
       {toNumberFormat(value, 2)}%
