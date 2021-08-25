@@ -111,6 +111,9 @@ module.exports = {
       width: {},
       minWidth: theme => theme('width'),
       maxWidth: theme => theme('width'),
+      height: {},
+      minHeight: theme => theme('height'),
+      maxHeight: theme => theme('height'),
       borderRadius: {
         '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps
       },
