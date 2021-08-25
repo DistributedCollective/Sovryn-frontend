@@ -5,7 +5,7 @@ type RowTableProps = {
   className?: string;
 };
 export const RowTable: React.FC<RowTableProps> = ({ children, className }) => (
-  <div className={cn('xl:tw-w-139 2xl:tw-w-163', className)}>
+  <div className={cn('xl:tw-w-1/2', className)}>
     <table className="tw-w-full">{children}</table>
   </div>
 );

@@ -30,8 +30,8 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
           )}
         </DialogTitle>
 
-        <div className="tw-flex">
-          <div className="tw-text-left tw-max-w-40 tw-mr-20">
+        <div className="tw-flex tw-flex-col tw-gap-4 lg:tw-gap-20 lg:tw-flex-row">
+          <div className="tw-text-left tw-w-full lg:tw-w-1/2">
             <ListItem>
               {t(
                 translations.originsLaunchpad.saleDay.importantInformationStep
@@ -52,7 +52,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             </ListItem>
           </div>
 
-          <div className="tw-text-left tw-max-w-40">
+          <div className="tw-text-left tw-w-full lg:tw-w-1/2">
             <ListItem>
               {t(
                 translations.originsLaunchpad.saleDay.importantInformationStep
@@ -91,7 +91,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                 .submitButtonText,
             )}
             onClick={onSubmit}
-            className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
+            className="tw-block tw-h-10 tw-px-24 tw-mt-6 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
             textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-snug"
             disabled={!checked}
           />

@@ -32,7 +32,7 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   return (
     <div
       className={cn(
-        'tw-flex tw-min-w-122 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50',
+        'tw-flex tw-min-w-122 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-1/2',
         className,
       )}
     >

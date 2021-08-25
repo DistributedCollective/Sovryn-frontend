@@ -229,7 +229,6 @@ export function TradeDialog() {
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
-            className="tw-max-w-50"
           />
         </div>
       </Dialog>
