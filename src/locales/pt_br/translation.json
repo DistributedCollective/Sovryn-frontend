@@ -265,6 +265,8 @@
     "bitocracy": "Bitocracia",
     "spotTrade": "Operar spot",
     "origins": "Origens",
+    "launchpad": "Lançamentos",
+    "claim": "Reinvindicar",
     "rewards": "Recompensas"
   },
   "originsLaunchpad": {
@@ -292,6 +294,108 @@
         "saleDuration": "Duração da venda",
         "price": "Preço"
       }
+    },
+    "saleDay": {
+      "title": "{{token}} Origins Pre-Sale",
+      "engageWalletScreen": {
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "buttonText": "Engage Wallet",
+        "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
+        "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
+      },
+      "accessCodeVerificationStep": {
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "verified": {
+          "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
+          "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
+        },
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Pre-sale.",
+        "cta": "Continue",
+        "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
+      },
+      "importantInformationStep": {
+        "privateSale": {
+          "title": "Important Information about the the FISH Private Pre-Sale Process and Terms",
+          "information": {
+            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH pre-sale! Welcome and thanks for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 28,571 FISH at a maximum purchase price of 0.041 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "FISH tokens purchased as part of this private pre-sale, will vest linearly for approximately 10 months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "8": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        },
+        "publicSale": {
+          "title": "Important Information about the the FISH Public Pre-Sale Process and Terms",
+          "information": {
+            "1": "Welcome to the BabelFish FISH token pre-sale. Thank you kindly for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 27,272 FISH at a maximum purchase price of 0.062 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "Half the FISH purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "The FISH tokens that are immediately vested will be available for withdrawal from August 28, at 14:00 UTC.",
+            "8": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "9": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        }
+      },
+      "buyStep": {
+        "buyInformationLabels": {
+          "depositLimits": "Deposit limits",
+          "saleAllocation": "Pre-Sale Allocation",
+          "allocationRemaining": "Allocation Remaining",
+          "participatingWallets": "Participating Wallets",
+          "price": "Price",
+          "acceptedCurrencies": "Accepted currencies",
+          "tokenSaleEndTime": "Token Pre-Sale End Time"
+        },
+        "buyDialog": {
+          "enterAmount": "Enter Amount",
+          "tokenReceived": "{{token}} Received",
+          "transactionFee": "Transaction Fee",
+          "buyButton": "Buy {{token}}",
+          "isOverMaxLimit": "You cannot deposit more than max limit"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
+          "instruction2": "Please allow up to 5 minutes for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>"
+        }
+      },
+      "txDialog": {
+        "dateTime": "Data e hora",
+        "amountSent": "Quantidade enviada",
+        "amountReceived": "Quantidade recebida",
+        "txHash": "Tx Hash"
+      }
+    }
+  },
+  "originsClaim": {
+    "meta": {
+      "title": "Origins Claim",
+      "description": "Claim your Origins Purchases"
+    },
+    "claimForm": {
+      "title": "Saldo líquido",
+      "availble": "Total de FISH líquidos disponíveis:",
+      "cta": "Reivindicar",
+      "note": "Disponível para resgate em {{date}}.",
+      "unlockedNote": "Você receberá imediatamente {{amount}} FISH tokens na sua carteira."
+    },
+    "vestForm": {
+      "title": "Locked Balance",
+      "availble": "Total Locked FISH Available:",
+      "cta": "Start Vesting",
+      "note": "{{amount}} FISH tokens will be vested for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
     }
   },
   "trandingPositionSelector": {
