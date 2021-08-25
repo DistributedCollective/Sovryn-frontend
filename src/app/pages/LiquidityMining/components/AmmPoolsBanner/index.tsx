@@ -43,7 +43,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
     ) => {
       return await contractReader.callByAddress(
         token.getContractAddress(),
-        ERC20Abi as any,
+        ERC20Abi,
         'balanceOf',
         [account],
       );
@@ -53,8 +53,8 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
       const items: StateInterface[] = [];
       for (let pool of pools) {
         if (pool.version === 1) {
-          const balance = (await getBalance(pool, pool.supplyAssets[0])) as any;
-          if (balance !== '0') {
+          const balance = await getBalance(pool, pool.supplyAssets[0]);
+          if (typeof balance === 'string' && balance !== '0') {
             items.push({
               pool: pool.poolAsset,
               asset: pool.supplyAssets[0],
@@ -62,11 +62,8 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
             });
           }
         } else if (pool.version === 2) {
-          const balance1 = (await getBalance(
-            pool,
-            pool.supplyAssets[0],
-          )) as any;
-          if (balance1 !== '0') {
+          const balance1 = await getBalance(pool, pool.supplyAssets[0]);
+          if (typeof balance1 === 'string' && balance1 !== '0') {
             items.push({
               pool: pool.poolAsset,
               asset: pool.supplyAssets[0],
@@ -74,11 +71,8 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
             });
           }
 
-          const balance2 = (await getBalance(
-            pool,
-            pool.supplyAssets[1],
-          )) as any;
-          if (balance2 !== '0') {
+          const balance2 = await getBalance(pool, pool.supplyAssets[1]);
+          if (typeof balance2 === 'string' && balance2 !== '0') {
             items.push({
               pool: pool.poolAsset,
               asset: pool.supplyAssets[1],
@@ -110,7 +104,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
       </p>
 
       <ActionButton
-        className="mx-auto tw-mt-4 tw-rounded-lg tw-w-32"
+        className="tw-mx-auto tw-mt-4 tw-rounded-lg tw-w-32"
         textClassName="tw-text-base tw-font-semibold"
         text={t(translations.liquidity.transfer)}
         onClick={() => setTransferDialog(true)}

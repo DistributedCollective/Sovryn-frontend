@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-// import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
@@ -63,19 +62,6 @@ export function InfoBar() {
   return (
     <>
       <StyledInfoBar>
-        {/*<div className="col">*/}
-        {/*  <Text ellipsize tagName="p">*/}
-        {/*    {t(translations.buySovPage.stats.totalSupply)}*/}
-        {/*  </Text>*/}
-        {/*  <Text ellipsize tagName="p">*/}
-        {/*    <LoadableValue*/}
-        {/*      loading={totalSupplyLoading}*/}
-        {/*      value={weiToNumberFormat(totalSupply, 2)}*/}
-        {/*      tooltip={weiTo18(totalSupply)}*/}
-        {/*    />{' '}*/}
-        {/*    SOV*/}
-        {/*  </Text>*/}
-        {/*</div>*/}
         <div className="">
           <Text ellipsize tagName="p">
             {t(translations.buySovPage.stats.circulatingSupply)}
@@ -128,45 +114,60 @@ const StyledInfoBar = styled.div.attrs(() => ({
   border-top: 1px solid #d9d9d9;
   padding-top: 10px;
   border-bottom: 1px solid #d9d9d9;
-  padding-bottom: 6px;
-  max-width: 800px;
+  max-width: 1140px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 38px;
-  p {
-    font-size: 13px;
-    font-weight: 300;
-    margin-bottom: 0;
-    &:last-child {
-      font-size: 18px;
-      margin-bottom: 0;
-      font-weight: 400;
-      margin-top: 2px;
-    }
-  }
-  .col {
+  margin-top: 22px;
+  margin-bottom: 50px;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    vertical-align: baseline;
     padding: 0 7px;
-    @media (max-width: 1280px) {
-      flex-basis: 33%;
-    }
-  }
-  @media only screen and (max-width: 640px) {
-    & .col {
-      flex-basis: 50%;
-      & p:first-child {
-        margin-bottom: 5px;
-      }
-      margin-bottom: 25px;
-    }
-  }
-  & .last {
-    color: #fec004;
-    & .title {
+    margin-bottom: 10px;
+
+    p {
+      font-size: 12px;
       font-weight: 300;
-      letter-spacing: 0.6px;
+      margin-bottom: 0;
+
+      &:first-child {
+        line-height: 18px;
+        margin-top: 1px;
+        margin-right: 0.5em;
+      }
+
+      &:last-child {
+        font-size: 16px;
+        line-height: 19px;
+        margin-bottom: 0;
+        font-weight: 400;
+      }
     }
-    & .value {
-      font-weight: 600;
+
+    &.last {
+      color: #fec004;
+      & .title {
+        font-weight: 300;
+        letter-spacing: 0.6px;
+      }
+      & .value {
+        font-weight: 600;
+      }
+    }
+  }
+
+  @media (max-width: 1280px) {
+    div {
+      flex-basis: 33%;
+      flex-direction: column;
+      align-items: flex-start;
+
+      p:last-child {
+        margin-top: 2px;
+      }
     }
   }
 `;

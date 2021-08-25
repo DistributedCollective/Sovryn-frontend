@@ -21,10 +21,10 @@ type Props = {
 const WalletConnectorContainer: React.FC<Props> = props => {
   const {
     connected,
-    loading: connecting,
     address,
     connect,
     disconnect,
+    connecting,
   } = useWalletContext();
   const { t } = useTranslation();
   const simpleView = props.simpleView;
@@ -63,25 +63,30 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             placement={'bottom'}
             content={
-              <Menu>
-                <CopyToClipboard
-                  text={address}
-                  onCopy={() =>
-                    toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
-                  }
-                >
-                  <MenuItem
-                    icon="duplicate"
-                    text={t(translations.wallet.copy_address)}
-                  />
-                </CopyToClipboard>
-              </Menu>
+              address ? (
+                <Menu>
+                  <CopyToClipboard
+                    text={address}
+                    onCopy={() =>
+                      toastSuccess(
+                        <>{t(translations.onCopy.address)}</>,
+                        'copy',
+                      )
+                    }
+                  >
+                    <MenuItem
+                      icon="duplicate"
+                      text={t(translations.wallet.copy_address)}
+                    />
+                  </CopyToClipboard>
+                </Menu>
+              ) : undefined
             }
           >
             <>
               <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
-                  <span>{prettyTx(address, 4, 4)}</span>
+                  <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
                     <img
                       className="tw-rounded"

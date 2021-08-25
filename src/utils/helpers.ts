@@ -143,7 +143,7 @@ export function detectWeb3Wallet() {
   switch (walletService.providerType) {
     default:
     case ProviderType.WEB3:
-      const { ethereum } = window as any;
+      const { ethereum } = window;
       if (ethereum) {
         if (ethereum.isLiquality) return 'liquality';
         if (ethereum.isNiftyWallet) return 'nifty';
@@ -206,3 +206,5 @@ export const abbreviateNumber = (
   }
   return shortValue + suffixes[suffixNum];
 };
+
+export const isNullOrUndefined = val => val === undefined || val === null;

@@ -56,7 +56,7 @@ export function useTrading_totalDeposit(
               .div(collateralTokenSent)
               .toFixed(0);
           }
-          setTotalDeposit(
+          setTotalDeposit(totalDeposit =>
             bignumber(loanTokenAmount).add(totalDeposit).toFixed(0),
           );
         })
@@ -64,7 +64,6 @@ export function useTrading_totalDeposit(
     } else {
       setTotalDeposit(loanTokenSent);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     loanToken,
     collateralToken,
@@ -73,10 +72,6 @@ export function useTrading_totalDeposit(
     getOracleRate,
     getSwapExpectedReturn,
   ]);
-
-  useEffect(() => {
-    //
-  }, []);
 
   return totalDeposit;
 }

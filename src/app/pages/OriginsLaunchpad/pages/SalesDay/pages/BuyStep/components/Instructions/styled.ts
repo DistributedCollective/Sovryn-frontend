@@ -18,15 +18,6 @@ export const MainInstructionsWrapper = styled.div`
   margin-bottom: 4.125rem;
 `;
 
-export const NftInstructionsWrapper = styled.div`
-  margin-top: 1.5rem;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 100;
-  line-height: 1.125rem;
-  letter-spacing: 0;
-`;
-
 export const InstructionsSectionsWrapper = styled.div`
   margin-left: 5.75rem;
   text-align: left;

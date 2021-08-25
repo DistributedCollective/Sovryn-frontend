@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { ethGenesisAddress } from '../../../utils/classifiers';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { ethGenesisAddress } from 'utils/classifiers';
 
 export function useVestedStaking_balanceOf(address: string) {
   const [loading, setLoading] = useState(true);
@@ -20,6 +20,7 @@ export function useVestedStaking_balanceOf(address: string) {
     ethGenesisAddress,
   );
   const [lmVestingContract, setLMVestingContract] = useState(ethGenesisAddress);
+  const [bfVestingContract, setBfVestingContract] = useState(ethGenesisAddress);
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +40,10 @@ export function useVestedStaking_balanceOf(address: string) {
 
       const adr4 = await contractReader
         .call('vestingRegistryLM', 'getVesting', [address])
+        .catch(reason => setError(reason));
+
+      const adr5 = await contractReader
+        .call('vestingRegistryFISH', 'getVesting', [address])
         .catch(reason => setError(reason));
 
       if (adr1 !== ethGenesisAddress) {
@@ -73,21 +78,19 @@ export function useVestedStaking_balanceOf(address: string) {
         setLMVestedValue(String(lmVested));
       }
 
-      const adr5 = await contractReader
-        .call('lockedFund', 'getVestedBalance', [address])
-        .catch(reason => setError(reason));
-
-      if (adr5 && adr5 !== '0') {
-        const babelFishVested = await contractReader
-          .call<string>('lockedFund', 'getVestedBalance', [adr5])
+      if (adr5 !== ethGenesisAddress) {
+        const babelfishVested = await contractReader
+          .call('FISH_staking', 'balanceOf', [adr5])
           .catch(reason => setError(reason));
-        setBabelFishVestedValue(String(babelFishVested));
+        setBfVestingContract(String(adr5));
+        setBabelFishVestedValue(String(babelfishVested));
       }
 
       if (
         adr1 === adr2 &&
         adr2 === adr3 &&
         adr3 === adr4 &&
+        adr4 === adr5 &&
         adr1 === ethGenesisAddress
       ) {
         setVestingContract(ethGenesisAddress);
@@ -111,6 +114,7 @@ export function useVestedStaking_balanceOf(address: string) {
       .add(vestedValue)
       .add(originVestedValue)
       .add(lmVestedValue)
+      .add(babelFishVestedValue)
       .toString(),
     loading,
     error,
@@ -123,5 +127,6 @@ export function useVestedStaking_balanceOf(address: string) {
     lmVestedValue,
     lmVestingContract,
     babelFishVestedValue,
+    bfVestingContract,
   };
 }

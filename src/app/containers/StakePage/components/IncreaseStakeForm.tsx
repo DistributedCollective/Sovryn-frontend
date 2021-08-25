@@ -15,7 +15,7 @@ interface Props {
   amount: string;
   timestamp?: number;
   onChangeAmount: (value: string) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
   balanceOf: CacheCallResponse;
   isValid: boolean;
   votePower?: number;
@@ -28,7 +28,7 @@ export function IncreaseStakeForm(props: Props) {
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
   const txConf = {
-    gas: 250000,
+    gas: 450000,
   };
 
   return (
@@ -80,7 +80,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.1).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.1).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
@@ -90,7 +90,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.25).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.25).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
@@ -100,7 +100,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.5).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.5).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
@@ -110,7 +110,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(props.sovBalanceOf.value) * 0.75).toString(),
+                  (numberFromWei(Number(props.sovBalance)) * 0.75).toString(),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
@@ -119,9 +119,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  numberFromWei(props.sovBalanceOf.value).toString(),
-                )
+                props.onChangeAmount(numberFromWei(props.sovBalance).toString())
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-theme-blue tw-tracking-tighter"
             >
@@ -134,7 +132,7 @@ export function IncreaseStakeForm(props: Props) {
           >
             {t(translations.stake.increase.newVotingPower)}:
           </label>
-          <div className="flex space-x-4 tw-mb-3">
+          <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
               className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"

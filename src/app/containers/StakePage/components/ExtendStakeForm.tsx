@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
@@ -15,11 +15,12 @@ interface Props {
   amount: string;
   timestamp?: number;
   onChangeTimestamp: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
+  isSovBalanceLoading: boolean;
   isValid: boolean;
   kickoff: CacheCallResponse;
   balanceOf: CacheCallResponse;
-  stakes: undefined;
+  stakes: string[];
   votePower?: number;
   prevExtend: number;
   onCloseModal: () => void;
@@ -38,7 +39,7 @@ export function ExtendStakeForm(props: Props) {
         {t(translations.stake.extending.previousUntil)}:
         <br />
         <span className="tw-font-bold">
-          {moment(new Date(props.prevExtend * 1e3)).format('DD.MM.YYYY')}
+          {dayjs(props.prevExtend * 1e3).format('L')}
         </span>
       </div>
       <form onSubmit={props.handleSubmit}>
@@ -97,10 +98,10 @@ export function ExtendStakeForm(props: Props) {
             {t(translations.stake.extending.balance)}:{' '}
             <span
               className={`tw-text-gray-900 ${
-                props.sovBalanceOf.loading && 'skeleton'
+                props.isSovBalanceLoading && 'skeleton'
               }`}
             >
-              {numberFromWei(props.sovBalanceOf.value).toLocaleString()}
+              {numberFromWei(props.sovBalance).toLocaleString()}
             </span>{' '}
             {t(translations.stake.sov)}
             {Number(props.votePower) > 0 && (

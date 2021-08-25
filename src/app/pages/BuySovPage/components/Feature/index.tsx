@@ -14,9 +14,13 @@ interface Props {
 
 export function Feature(props: Props) {
   return (
-    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
-      <div className={`${props.reverse ? 'order-lg-1' : 'order-lg-0'} order-1`}>
-        <h1>{props.title}</h1>
+    <Article className="tw-flex tw-w-full tw-flex-col tw-justify-start tw-items-start lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+      <div
+        className={`${
+          props.reverse ? 'lg:tw-order-1' : 'lg:tw-order-0'
+        } tw-order-1`}
+      >
+        <h3>{props.title}</h3>
         <div className="content tw-font-thin tw-leading-snug">
           {props.content}
         </div>
@@ -40,8 +44,10 @@ export function Feature(props: Props) {
         alt="Item"
         style={props.imageStyle}
         className={`${
-          props.reverse ? 'order-lg-0 img-reverse' : 'order-lg-1 img-normal'
-        } order-0`}
+          props.reverse
+            ? 'lg:tw-order-0 img-reverse'
+            : 'lg:tw-order-1 img-normal'
+        } tw-order-0`}
       />
     </Article>
   );
@@ -52,7 +58,12 @@ const Article = styled.article`
   margin: 70px auto;
   font-size: 16px;
   font-weight: 400;
-  h1 {
+
+  + ${() => Article} {
+    margin-top: 160px;
+  }
+
+  h3 {
     text-transform: none;
     font-size: 26px;
     line-height: 32px;

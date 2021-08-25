@@ -3,12 +3,7 @@ import { initReactI18next } from 'react-i18next';
 
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import moment from 'moment';
-// moment locale en is not needed, it's the default.
-import 'moment/locale/es';
-import 'moment/locale/pt-br';
-import 'moment/locale/fr';
-
+// load i18next locales
 import en from './en/translation.json';
 import es from './es/translation.json';
 import pt_br from './pt_br/translation.json';
@@ -38,7 +33,9 @@ export const walletLanguageLocalStorageKey = 'i18nextLng'; // language key for @
 export type TranslationResource = typeof en;
 export type LanguageKey = keyof TranslationResource;
 
-export const translations: ConvertedToObjectType<TranslationResource> = {} as any;
+export const translations: ConvertedToObjectType<TranslationResource> = {} as ConvertedToObjectType<
+  TranslationResource
+>;
 
 /*
  * Converts the static JSON file into an object where keys are identical
@@ -57,10 +54,6 @@ const convertLanguageJsonToObject = (obj: any, dict: {}, current?: string) => {
     }
   });
 };
-
-i18next.on('languageChanged', (lng: string) => {
-  moment.locale(lng);
-});
 
 export const i18n = i18next
   // pass the i18n instance to react-i18next.

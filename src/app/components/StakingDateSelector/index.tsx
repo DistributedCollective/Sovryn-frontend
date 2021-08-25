@@ -1,11 +1,6 @@
-/**
- *
- * StakingDateSelector
- *
- */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Slider from 'react-slick';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Icon } from '@blueprintjs/core';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
 import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
@@ -13,8 +8,6 @@ import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-
-const maxPeriods = 78;
 
 interface DateItem {
   key: number;
@@ -27,104 +20,111 @@ interface Props {
   onClick: (value: number) => void;
   value?: number;
   startTs?: number;
-  stakes?: undefined;
+  stakes?: string[];
   prevExtend?: number;
   autoselect?: boolean;
   delegate?: boolean;
 }
 
+const MAX_PERIODS = 78;
+const ms = 1e3;
+
 export function StakingDateSelector(props: Props) {
   const { t } = useTranslation();
-  const onItemSelect = (item: { key: number }) => props.onClick(item.key / 1e3);
   const [dates, setDates] = useState<Date[]>([]);
-  const [currentYearDates, setCurrenYearDates] = useState<any>([]);
+  const currentDate = useMemo(() => {
+    return new Date();
+  }, []);
+
+  const currentUserOffset = currentDate.getTimezoneOffset() / 60;
+  const onItemSelect = (item: { key: number }) =>
+    props.onClick(
+      Number(dayjs(item.key).subtract(currentUserOffset, 'hour')) / ms,
+    );
+  const [currentYearDates, setCurrenYearDates] = useState<DateItem[]>([]);
   const [filteredDates, setFilteredDates] = useState<DateItem[]>([]);
-  const [itemDisabled, setItemDisabled] = useState<any>([]);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
+  const [availableYears, availableMonth] = useMemo(() => {
+    const availableYears = filteredDates
+      .map(yearDate => dayjs(yearDate.date).format('YYYY'))
+      .filter((year, index, arr) => arr.indexOf(year) === index);
 
-  const dateWithoutStake = filteredDates.reduce((unique: any, o: any) => {
-    let isFound = itemDisabled.some((b: { key: any }) => {
-      return b.key === o.key;
-    });
-    if (!isFound) unique.push(o);
-    return unique;
-  }, []);
-
-  const avaliableYears = dateWithoutStake
-    .map(yearDate => moment(yearDate.date).format('YYYY'))
-    .filter((year, index, arr) => arr.indexOf(year) === index);
-
-  const avaliableMonth = currentYearDates
-    .map(yearDate => moment(yearDate.date).format('MMM'))
-    .filter((month, index, arr) => arr.indexOf(month) === index);
+    const availableMonth = currentYearDates
+      .map(yearDate => dayjs(yearDate.date).format('MMM'))
+      .filter((month, index, arr) => arr.indexOf(month) === index);
+    return [availableYears, availableMonth];
+  }, [currentYearDates, filteredDates]);
 
   const getDatesByYear = useCallback(
     year => {
       let theBigDay = new Date();
       theBigDay.setFullYear(year);
       return setCurrenYearDates(
-        dateWithoutStake.filter(
+        filteredDates.filter(
           item => new Date(item.date).getFullYear() === theBigDay.getFullYear(),
         ),
       );
     },
-    [dateWithoutStake],
+    [filteredDates],
   );
 
   useEffect(() => {
-    let filtered: Date[] = [];
-    if (!!props.startTs) {
-      filtered = dates.filter(
-        item => item.getTime() > ((props.startTs as unknown) as number),
-      );
-    } else {
-      const now = Date.now() + 1.21e9; // added 14 days in ms
-      filtered = dates.filter(item => {
-        return item.getTime() > now;
-      });
-    }
-
     setFilteredDates(
-      filtered.map(item => ({
+      dates.map(item => ({
         key: item.getTime(),
         label: item.toLocaleDateString(),
         date: item,
       })),
     );
 
-    if (props.stakes && !props.delegate) {
-      setItemDisabled(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: moment(new Date(item * 1e3)).format('DD.MM.YYYY'),
-          date: new Date(item * 1e3),
-        })),
-      );
-    }
-
-    if (props.delegate) {
-      setFilteredDates(
-        (props.stakes as any).map((item: number) => ({
-          key: item * 1e3,
-          label: moment(new Date(item * 1e3)).format('DD.MM.YYYY'),
-          date: new Date(item * 1e3),
-        })),
-      );
+    if (props.stakes) {
+      const mappedStakes = props.stakes.map(item => ({
+        key: Number(item) * ms,
+        label: dayjs(new Date(Number(item) * ms)).format('L'),
+        date: new Date(Number(item) * ms),
+      }));
+      props.delegate && setFilteredDates(mappedStakes);
     }
   }, [dates, props.startTs, props.stakes, props.delegate]);
 
   useEffect(() => {
     if (props.kickoffTs) {
+      const contractDate = dayjs(props.kickoffTs * ms).toDate();
+      const contractOffset = contractDate.getTimezoneOffset() / 60;
+      const currentUserOffset = currentDate.getTimezoneOffset() / 60;
+
+      let contractDateDeployed = dayjs(props.kickoffTs * ms).add(
+        contractOffset,
+        'hour',
+      ); // get contract date in UTC-0
+      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); //get user offset
+
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      let lastDate = moment(props.kickoffTs * 1e3).clone();
-      for (let i = 1; i <= maxPeriods; i++) {
-        const date = lastDate.add(2, 'weeks');
-        dates.push(date.clone().toDate());
-        if ((props.prevExtend as any) <= date.unix()) {
-          datesFutured.push(date.clone().toDate());
+      //getting the last posible date in the contract that low then current date
+      for (let i = 1; contractDateDeployed.unix() < userDateUTC.unix(); i++) {
+        const intervalDate = contractDateDeployed.add(2, 'week');
+        contractDateDeployed = intervalDate;
+      }
+
+      for (let i = 1; i < MAX_PERIODS; i++) {
+        if (contractDateDeployed.unix() > userDateUTC.unix()) {
+          const date = contractDateDeployed.add(2, 'week');
+          contractDateDeployed = date;
+          if (!props.prevExtend) dates.push(date.toDate());
+          if (
+            props.prevExtend &&
+            dayjs(props.prevExtend * ms)
+              .add(contractOffset, 'hour')
+              .toDate()
+              .getTime() /
+              ms <
+              date.unix()
+          ) {
+            datesFutured.push(date.toDate());
+          }
         }
       }
       if (datesFutured.length) {
@@ -133,7 +133,7 @@ export function StakingDateSelector(props: Props) {
         setDates(dates);
       }
     }
-  }, [props.kickoffTs, props.value, props.prevExtend]);
+  }, [props.kickoffTs, props.value, props.prevExtend, currentDate]);
 
   const SampleNextArrow = props => {
     const { className, style, onClick } = props;
@@ -166,7 +166,7 @@ export function StakingDateSelector(props: Props) {
 
   return (
     <>
-      {avaliableYears.length > 0 && (
+      {availableYears.length > 0 && (
         <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
           {props.delegate
             ? t(translations.stake.dateSelector.selectDelegate)
@@ -174,16 +174,16 @@ export function StakingDateSelector(props: Props) {
         </label>
       )}
       <div className="tw-flex tw-flex-row">
-        {avaliableYears.map((year, i) => {
+        {availableYears.map((year, i) => {
           return (
-            <div className="tw-mr-5" key={i}>
+            <div className="tw-mr-3" key={i}>
               <button
                 type="button"
                 onClick={() => {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-4 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
                 }`}
               >
@@ -193,30 +193,32 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 pr-0">
+      <div className="sliderMonth tw-mt-5 tw-pr-0">
         <Slider {...settingsSliderMonth}>
-          {avaliableMonth.map((monthName: React.ReactNode, i) => {
+          {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
                 <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
                   {monthName}
                   {currentYearDates.map((item, i) => {
-                    if (moment(item.date).format('MMM') === monthName) {
+                    if (dayjs(item.date).format('MMM') === monthName) {
                       return (
                         <div
                           key={i}
                           onClick={() => {
                             onItemSelect(item);
-                            setSelectedDay(moment(item.date).format('D'));
-                            setSelectedMonth(moment(item.date).format('MMM'));
+                            setSelectedDay(dayjs(item.date).format('D'));
+                            setSelectedMonth(dayjs(item.date).format('MMM'));
                           }}
                           className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
-                            selectedDay === moment(item.date).format('D') &&
-                            selectedMonth === moment(item.date).format('MMM') &&
+                            selectedDay === dayjs(item.date).format('D') &&
+                            selectedMonth === dayjs(item.date).format('MMM') &&
                             'tw-bg-opacity-30 tw-bg-theme-blue'
                           }`}
                         >
-                          {moment(item.date).format('D')}
+                          {dayjs(item.date)
+                            .subtract(currentUserOffset, 'hour')
+                            .format('D')}
                         </div>
                       );
                     } else {
@@ -229,7 +231,7 @@ export function StakingDateSelector(props: Props) {
           })}
         </Slider>
       </div>
-      {avaliableYears.length <= 0 && (
+      {availableYears.length <= 0 && (
         <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
           {t(translations.stake.dateSelector.noneAvailable)}
         </p>

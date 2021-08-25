@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';
@@ -55,7 +55,11 @@ export function VestedHistory() {
         ...eventsHistoryVestingOrigin,
         ...eventsHistoryVestingTeam,
         ...eventsHistoryRewards,
-      ].slice(offset, offset + pageLimit),
+      ]
+        .sort(
+          (x, y) => dayjs(y.eventDate).valueOf() - dayjs(x.eventDate).valueOf(),
+        )
+        .slice(offset, offset + pageLimit),
     );
   };
 
@@ -73,13 +77,7 @@ export function VestedHistory() {
               ...v,
               type: t(translations.stake.currentVests.assetType.reward),
             }));
-            setEventsHistoryRewards(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryRewards(newRes);
           });
       }
       if (vesting.value !== ethGenesisAddress) {
@@ -89,13 +87,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
-            setEventsHistoryVesting(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVesting(newRes);
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
@@ -105,13 +97,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
-            setEventsHistoryVestingTeam(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingTeam(newRes);
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
@@ -121,13 +107,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
-            setEventsHistoryVestingOrigin(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingOrigin(newRes);
           });
       }
       try {
@@ -153,8 +133,8 @@ export function VestedHistory() {
   ]);
 
   return (
-    <div className="sovryn-table p-3 mb-5">
-      <table className="w-100">
+    <div className="sovryn-table tw-p-4 tw-mb-12">
+      <table className="tw-w-full">
         <thead>
           <tr>
             <th className="tw-text-left assets">
@@ -166,15 +146,15 @@ export function VestedHistory() {
             <th className="tw-text-left">
               {t(translations.vestedHistory.tableHeaders.amount)}
             </th>
-            <th className="tw-text-left hidden lg:tw-table-cell">
+            <th className="tw-text-left tw-hidden lg:tw-table-cell">
               {t(translations.vestedHistory.tableHeaders.hash)}
             </th>
-            <th className="tw-text-left hidden lg:tw-table-cell">
+            <th className="tw-text-left tw-hidden lg:tw-table-cell">
               {t(translations.vestedHistory.tableHeaders.status)}
             </th>
           </tr>
         </thead>
-        <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
+        <tbody className="tw-mt-5 tw-font-body tw-text-xs">
           {loading && (
             <tr key={'loading'}>
               <td colSpan={99}>
@@ -190,7 +170,7 @@ export function VestedHistory() {
             eventsHistoryVestingOrigin.length === 0 &&
             !loading && (
               <tr key={'empty'}>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   History is empty.
                 </td>
               </tr>
@@ -237,9 +217,10 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
   return (
     <tr>
       <td>
-        {moment
-          .tz(new Date(item.eventDate), 'GMT')
-          .format('DD/MM/YYYY - h:mm:ss a z')}
+        {dayjs
+          .tz(item.eventDate, 'UTC')
+          .tz(dayjs.tz.guess())
+          .format('L - LTS Z')}
       </td>
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <div className="assetname tw-flex tw-items-center">
@@ -267,20 +248,20 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         />
       </td>
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!item.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {item.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {item.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={item.transaction_hash}
-              className="text-gold font-weight-normal text-nowrap"
+              className="tw-text-gold tw-font-normal tw-text-nowrap"
             />
           </div>
           <div>

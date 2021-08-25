@@ -9,7 +9,7 @@ export function useStakeWithdraw() {
     withdraw: (weiAmount: string, timestamp: number) => {
       send(
         [weiAmount, timestamp, account],
-        { from: account },
+        { from: account, gas: 450000 },
         {
           type: TxType.STAKING_WITHDRAW,
         },

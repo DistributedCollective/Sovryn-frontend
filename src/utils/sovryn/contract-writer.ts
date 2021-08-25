@@ -1,9 +1,9 @@
 import { TransactionConfig } from 'web3-core';
 import { RevertInstructionError } from 'web3-core-helpers';
-import Contract from 'web3-eth-contract';
+import Web3Contract, { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { walletService } from '@sovryn/react-wallet';
-import { web3Wallets } from '@sovryn/wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 import { actions as txActions } from 'store/global/transactions-store/slice';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
@@ -12,7 +12,6 @@ import { contractReader } from './contract-reader';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types';
-
 import {
   getContract,
   getTokenContractName,
@@ -29,7 +28,7 @@ export interface CheckAndApproveResult {
 
 class ContractWriter {
   private sovryn: SovrynNetwork;
-  private contracts: { [address: string]: Contract.Contract } = {};
+  private contracts: { [address: string]: Contract } = {};
 
   constructor() {
     this.sovryn = Sovryn;
@@ -113,7 +112,6 @@ class ContractWriter {
     } catch (e) {
       dispatch(txActions.setLoading(false));
       dispatch(txActions.setTransactionRequestDialogError(e.message));
-      console.error('approve error?:', e);
       return {
         approveTx: null,
         nonce,
@@ -183,7 +181,7 @@ class ContractWriter {
           );
 
           // Browser wallets (extensions) signs and broadcasts transactions themselves
-          if (web3Wallets.includes(walletService.providerType)) {
+          if (isWeb3Wallet(walletService.providerType as ProviderType)) {
             resolve(signedTxOrTransactionHash);
           } else {
             // Broadcast signed transaction and retrieve txHash.
@@ -248,8 +246,8 @@ class ContractWriter {
   public getCustomContract(address: string, abi: AbiItem[]) {
     address = address.toLowerCase();
     if (!this.contracts.hasOwnProperty(address)) {
-      // @ts-ignore wrong typings for contract?
-      this.contracts[address] = new Contract(abi, address);
+      // had to be done, library has invalid typings.
+      this.contracts[address] = new (Web3Contract as any)(abi, address);
     }
     return this.contracts[address];
   }

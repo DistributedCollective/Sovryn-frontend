@@ -99,7 +99,7 @@ export function ClosePositionDialog(props: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-mb-6 tw-text-white tw-text-center tw-tracking-normal">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>

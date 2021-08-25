@@ -89,13 +89,13 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  MOC_lending: {
-    address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-    abi: LoanTokenLogicStandard,
-    blockNumber: 1218721,
-  },
+  // MOC_lending: {
+  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1218721,
+  // },
   MOC_amm: {
-    address: '0x432CF15Df918Db95ECFfD3e849539364D432E392',
+    address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -125,7 +125,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x346f086079d250E97Ad64C60CCaCbd64A5E50B79',
+    address: '0x169B7A8Fc9615797e118B464b4fF1f594Dcad7a4',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -155,7 +155,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0xa84f851b62aCc3af633ce9fB497893Bb2571e810',
+    address: '0xf46DC974edD1754D4815AaE44Ab4542fF39B898D',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -170,7 +170,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0xE1b2151943C1C8ddc92Df15b4Bb0D4bEE7b867a3',
+    address: '0x4F87d545B6E747433a80a6AA0dbEc962478aB271',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -248,7 +248,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x36B3b4C34906f6C6B5148b8d228cF6cD90837297',
+    address: '0x1Cecc8B488abcF9A0932E54328dD51980cbe86Ea',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -270,7 +270,7 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
+    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
@@ -278,16 +278,25 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   FISH_token: {
-    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
+    abi: StakingAbi,
+    blockNumber: 1218836,
+  },
   originsBase: {
-    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',

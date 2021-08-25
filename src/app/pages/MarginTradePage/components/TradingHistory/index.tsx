@@ -49,7 +49,7 @@ export interface CalculatedEvent {
   closeTxHash: string;
 }
 
-function normalizeEvent(event: EventData): CustomEvent {
+function normalizeEvent(event: EventData): CustomEvent | undefined {
   const loanToken = AssetsDictionary.getByTokenContractAddress(
     event.returnValues.loanToken,
   ).asset;
@@ -58,7 +58,9 @@ function normalizeEvent(event: EventData): CustomEvent {
   ).asset;
   const pair = TradingPairDictionary.findPair(loanToken, collateralToken);
 
-  if (pair === undefined) return undefined as any;
+  if (pair === undefined) {
+    return undefined;
+  }
 
   const position =
     pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
@@ -201,7 +203,7 @@ export function TradingHistory() {
         }
         const event = normalizeEvent(item);
         if (event !== undefined) {
-          items[loanId].push(normalizeEvent(item));
+          items[loanId].push(event);
         }
       });
 
