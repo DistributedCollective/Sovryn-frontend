@@ -1002,7 +1002,7 @@
       "buy": "Comprar",
       "claimSov": "Receber SOV",
       "redeemRBTC": "Resgatar rBTC",
-      "withdraw": "Sacar"
+      "withdraw": "Resgatar"
     },
     "convertDialog": {
       "title": "Converter",
@@ -1470,8 +1470,8 @@
   },
   "landingPage": {
     "meta": {
-      "title": "Negociações com SOV estão abertas!",
-      "description": "Negociações com SOV estão abertas!"
+      "title": "Bem-vindo à Sovryn",
+      "description": "DApp de negociação de bitcoin e plataforma de empréstimo"
     },
     "welcomeTitle": "Bem-vindo à Sovryn",
     "welcomeMessage": "DApp de negociação de bitcoin e plataforma de empréstimo",
