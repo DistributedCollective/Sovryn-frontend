@@ -277,19 +277,19 @@ export const contracts = {
     abi: FISHTokenAbi,
   },
   FISH_staking: {
-    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97', // todo
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
     abi: StakingAbi,
   },
   originsBase: {
-    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90', // todo
+    address: '0x9FabDA843C611210d7bA48056B75a1e1884522ef',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157', // todo
+    address: '0x704c35Cc2756d600a18C0f2DBbEe5507D4b351E8',
     abi: LockedFundAbi,
   },
   vestingRegistryFISH: {
-    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41', // todo
+    address: '0x036ab2DB0a3d1574469a4a7E09887Ed76fB56C41',
     abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
