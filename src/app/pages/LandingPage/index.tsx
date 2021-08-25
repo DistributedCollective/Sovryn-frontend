@@ -18,7 +18,7 @@ import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
 import babelfishBanner from 'assets/images/banner/babelFish-promo.svg';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
-import { IPairsData } from './components/CryptocurrencyPrices/types';
+import { IPairsData, IAssets } from './components/CryptocurrencyPrices/types';
 
 const url = backendUrl[currentChainId];
 
@@ -35,9 +35,12 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
   const [tvlData, setTvlData] = useState<TvlData>();
   const [pairsLoading, setPairsLoading] = useState(false);
   const [pairsData, setPairsData] = useState<IPairsData>();
+  const [assetLoading, setAssetLoading] = useState(false);
+  const [assetData, setAssetData] = useState<IAssets>();
 
   const cancelDataRequest = useRef<Canceler>();
   const cancelPairsDataRequest = useRef<Canceler>();
+  const cancelAssetDataRequest = useRef<Canceler>();
 
   const getTvlData = useCallback(() => {
     setTvlLoading(true);
@@ -52,9 +55,11 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       })
       .then(res => {
         setTvlData(res.data);
-        setTvlLoading(false);
       })
-      .catch(e => console.error(e));
+      .catch(e => console.error(e))
+      .finally(() => {
+        setTvlLoading(false);
+      });
   }, []);
 
   const getPairsData = useCallback(() => {
@@ -70,15 +75,38 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       })
       .then(res => {
         setPairsData(res.data);
-        setPairsLoading(false);
       })
-      .catch(e => console.error(e));
+      .catch(e => console.error(e))
+      .finally(() => {
+        setPairsLoading(false);
+      });
+  }, []);
+
+  const getAssetData = useCallback(() => {
+    setAssetLoading(true);
+    cancelAssetDataRequest.current && cancelAssetDataRequest.current();
+
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
+    axios
+      .get(url + '/api/v1/trading-pairs/assets', {
+        cancelToken,
+      })
+      .then(res => {
+        setAssetData(res.data);
+      })
+      .catch(e => console.error(e))
+      .finally(() => {
+        setAssetLoading(false);
+      });
   }, []);
 
   useInterval(
     () => {
       getTvlData();
       getPairsData();
+      getAssetData();
     },
     refreshInterval,
     { immediate: true },
@@ -137,6 +165,8 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             <CryptocurrencyPrices
               pairs={pairsData?.pairs}
               isLoading={pairsLoading}
+              assetData={assetData}
+              assetLoading={assetLoading}
             />
           </div>
 
