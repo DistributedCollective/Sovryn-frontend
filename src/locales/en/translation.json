@@ -56,7 +56,8 @@
     "delegateModal": "Sorry, delegating is currently under maintenance, please check our <0>discord</0> for updates.",
     "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
-    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates."
+    "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates."
   },
   "homePage": {
     "title": "Home Page",
@@ -267,6 +268,8 @@
     "bitocracy": "Bitocracy",
     "spotTrade": "Spot",
     "origins": "Origins",
+    "launchpad": "Launchpad",
+    "claim": "Claim",
     "rewards": "Rewards"
   },
   "originsLaunchpad": {
@@ -296,56 +299,78 @@
       }
     },
     "saleDay": {
-      "title": "{{token}} Origins Sale",
+      "title": "{{token}} Origins Pre-Sale",
       "engageWalletScreen": {
-        "dialogTitle": "Welcome to the {{token}} Origins Sale",
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
         "buttonText": "Engage Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
       },
       "accessCodeVerificationStep": {
-        "dialogTitle": "Welcome to the {{token}} Origins Sale",
-        "verified": "You have been given whitelist access to participate in the FISH Origins sale.",
-        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Sale.",
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "verified": {
+          "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
+          "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
+        },
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Pre-sale.",
         "cta": "Continue",
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
       "importantInformationStep": {
-        "title": "Important Information about the Origins Sale Process",
-        "information": {
-          "1": "Welcome to the SOV pre-order sale. In anticipation of the SOV token generation event (TGE), we are offering our early community members the opportunity to obtain community SOV (cSOV), subject to a bitocracy vote at SOV TGE.",
-          "2": "Shortly after SOV TGE, which will mark the launch of Sovryn Bitocracy v.2, the Sovryn governance members will cast their votes approving or rejecting the conversion of cSOV to SOV on a 1:1 basis. If this vote passes, cSOV holders will have the option to convert their cSOV to SOV.",
-          "3": "SOV received upon conversion from cSOV will be subject to a 10 month vesting period from the date of the end of SOV public sale, whereby 1/10 will be released approximately every 4 weeks until all converted SOV are transferable at the end of month 10.",
-          "4": "Please note that this will not be an automatic process, and will require an active opt-in by cSOV holders.",
-          "5": "cSOV holders that do not wish to convert their cSOV to SOV, will have the option to receive a refund of the funds they deposited as part of the pre-order sale for a period of up to two months after SOV TGE.",
-          "6": "If a cSOV holder does not actively opt-in to the cSOV to SOV conversion, they will automatically receive a refund of their pre-sale deposit, two months after the SOV TGE."
+        "privateSale": {
+          "title": "Important Information about the the FISH Private Pre-Sale Process and Terms",
+          "information": {
+            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH pre-sale! Welcome and thanks for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 28,571 FISH at a maximum purchase price of 0.041 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "FISH tokens purchased as part of this private pre-sale, will vest linearly for approximately 10 months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "8": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
         },
-        "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
-        "submitButtonText": "I Understand"
+        "publicSale": {
+          "title": "Important Information about the the FISH Public Pre-Sale Process and Terms",
+          "information": {
+            "1": "Welcome to the BabelFish FISH token pre-sale. Thank you kindly for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 27,272 FISH at a maximum purchase price of 0.062 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "Half the FISH purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "The FISH tokens that are immediately vested will be available for withdrawal from August 28, at 14:00 UTC.",
+            "8": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "9": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        }
       },
       "buyStep": {
         "buyInformationLabels": {
           "depositLimits": "Deposit limits",
-          "saleAllocation": "Sale Allocation",
+          "saleAllocation": "Pre-Sale Allocation",
           "allocationRemaining": "Allocation Remaining",
           "participatingWallets": "Participating Wallets",
           "price": "Price",
           "acceptedCurrencies": "Accepted currencies",
-          "tokenSaleEndTime": "Token Sale End Time"
+          "tokenSaleEndTime": "Token Pre-Sale End Time"
         },
         "buyDialog": {
           "enterAmount": "Enter Amount",
           "tokenReceived": "{{token}} Received",
           "transactionFee": "Transaction Fee",
-          "buyButton": "Buy {{token}}"
+          "buyButton": "Buy {{token}}",
+          "isOverMaxLimit": "You cannot deposit more than max limit"
         },
         "instructions": {
           "title": "Instructions",
           "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
-          "instruction2": "Please allow up to xx mins for the transaction to process",
-          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>",
-          "nftInstruction1": "By participating in the xxxxx xxxxxx xxxxx you earn this exclusive NFT, only minted for participants of this sale.  It will grant you super powers in the coming months so be sure to listen for announcements in the babelFish and Sovryn Discord channels.",
-          "nftInstruction2": "You will be able to view your NFT in your Sovryn portfolio after they are airdropped on the xxxxxxx"
+          "instruction2": "Please allow up to 5 minutes for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>"
         }
       },
       "txDialog": {
@@ -354,6 +379,26 @@
         "amountReceived": "Amount Received",
         "txHash": "Tx Hash"
       }
+    }
+  },
+  "originsClaim": {
+    "meta": {
+      "title": "Origins Claim",
+      "description": "Claim your Origins Purchases"
+    },
+    "claimForm": {
+      "title": "Liquid Balance",
+      "availble": "Total Liquid FISH Available:",
+      "cta": "Claim",
+      "note": "Withdrawal will be available at {{date}}.",
+      "unlockedNote": "You will instantly receive {{amount}} FISH tokens to your wallet."
+    },
+    "vestForm": {
+      "title": "Locked Balance",
+      "availble": "Total Locked FISH Available:",
+      "cta": "Start Vesting",
+      "note": "{{amount}} FISH tokens will be vested for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
     }
   },
   "trandingPositionSelector": {
@@ -547,7 +592,8 @@
         "genesis": "Genesis SOV",
         "origin": "Origin SOV",
         "team": "Team SOV",
-        "reward": "Reward SOV"
+        "reward": "Reward SOV",
+        "fish": "Origins FISH"
       }
     },
     "actions": {
