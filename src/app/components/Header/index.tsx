@@ -83,7 +83,6 @@ export function Header() {
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
     { to: '/origins/claim', title: t(translations.mainMenu.origins) },
-    { to: '/stats', title: t(translations.mainMenu.stats) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
@@ -364,9 +363,6 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavLink className="tw-header-link" to="/stats">
-                {t(translations.mainMenu.stats)}
-              </NavLink>
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
