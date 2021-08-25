@@ -47,7 +47,7 @@ const CurrencyRow: React.FC<Props> = ({
 
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full tw-max-w-8.75rem">
+      <div className="tw-ml-5 tw-w-full tw-max-w-36">
         {!depositLocked ? (
           <ActionButton
             text={t(translations.lendingPage.deposit)}

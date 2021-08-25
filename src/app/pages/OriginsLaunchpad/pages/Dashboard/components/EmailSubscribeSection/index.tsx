@@ -47,7 +47,7 @@ export const EmailSubscribeSection: React.FC = () => {
   }, []);
 
   return (
-    <div className="tw-max-w-20.5rem tw-mx-auto">
+    <div className="tw-max-w-84 tw-mx-auto">
       <FieldGroup
         label={`${t(translations.originsLaunchpad.upcomingSales.inputLabel)}:`}
         className="tw-text-sm tw-tracking-normal tw-font-thin"

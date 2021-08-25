@@ -65,8 +65,8 @@ module.exports = {
       'gray-7': '#8e8e8e',
       'gray-8': '#a2a2a2',
       'gray-9': '#c4c4c4',
-      white: '#ffffff',
       'sov-white': '#e8e8e8',
+      white: '#ffffff',
 
       'trade-long': '#17C3B2',
       'trade-long-75': '#17C3B2C0',
@@ -108,21 +108,9 @@ module.exports = {
       DEFAULT: theme('colors.gray-3'),
     }),
     extend: {
-      width: {
-        '100': '25rem',
-        '122': '30.5rem',
-        '150': '37.5rem',
-      },
+      width: {},
       minWidth: theme => theme('width'),
-      maxWidth: theme => ({
-        ...theme('width'),
-        '8.75rem': '8.75rem',
-        '15rem': '15rem',
-        '20rem': '20rem',
-        '20.5rem': '20.5rem',
-        '28.75rem': '28.75rem',
-        '31.25rem': '31.25rem',
-      }),
+      maxWidth: theme => theme('width'),
       borderRadius: {
         '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps
       },

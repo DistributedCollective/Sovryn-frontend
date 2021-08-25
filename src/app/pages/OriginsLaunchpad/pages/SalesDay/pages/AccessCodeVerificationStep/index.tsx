@@ -24,7 +24,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
     <>
       <img src={imgLargeNFT} alt="Dialog NFT" />
       <DialogWrapper>
-        <div className="tw-max-w-31.25rem">
+        <div className="tw-max-w-lg">
           <DialogTitle>
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
@@ -45,7 +45,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
           </div>
 
           {isVerified && (
-            <div className="tw-max-w-20rem tw-mx-auto">
+            <div className="tw-max-w-80 tw-mx-auto">
               <ActionButton
                 text={t(
                   translations.originsLaunchpad.saleDay
