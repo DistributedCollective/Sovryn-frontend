@@ -6,7 +6,7 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';

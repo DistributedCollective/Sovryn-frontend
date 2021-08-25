@@ -272,18 +272,25 @@ export const contracts = {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
-  // these contracts are only deployed on testnet now so they need to be updated
   FISH_token: {
-    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
     abi: FISHTokenAbi,
   },
+  FISH_staking: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: StakingAbi,
+  },
   originsBase: {
-    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90',
+    address: '0x9FabDA843C611210d7bA48056B75a1e1884522ef',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
+    address: '0x704c35Cc2756d600a18C0f2DBbEe5507D4b351E8',
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0x036ab2DB0a3d1574469a4a7E09887Ed76fB56C41',
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',

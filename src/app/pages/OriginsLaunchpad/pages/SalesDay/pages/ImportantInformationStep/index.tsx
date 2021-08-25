@@ -6,10 +6,12 @@ import { Checkbox } from '@blueprintjs/core';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface IImportantInformationStepProps {
+  tierId: number;
   onSubmit?: () => void;
 }
 
 export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
+  tierId,
   onSubmit,
 }) => {
   const { t } = useTranslation();
@@ -20,57 +22,33 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
     [setChecked],
   );
 
+  const baseTranslations =
+    tierId === 2
+      ? translations.originsLaunchpad.saleDay.importantInformationStep
+          .publicSale
+      : translations.originsLaunchpad.saleDay.importantInformationStep
+          .privateSale;
+
   return (
     <>
       <DialogWrapper>
-        <DialogTitle>
-          {t(
-            translations.originsLaunchpad.saleDay.importantInformationStep
-              .title,
-          )}
-        </DialogTitle>
+        <DialogTitle>{t(baseTranslations.title)}</DialogTitle>
 
         <div className="tw-flex">
           <div className="tw-text-left tw-max-w-40 tw-mr-20">
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[1],
-              )}
-            </ListItem>
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[2],
-              )}
-            </ListItem>
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[3],
-              )}
-            </ListItem>
+            <ListItem>{t(baseTranslations.information[1])}</ListItem>
+            <ListItem>{t(baseTranslations.information[2])}</ListItem>
+            <ListItem>{t(baseTranslations.information[3])}</ListItem>
+            <ListItem>{t(baseTranslations.information[4])}</ListItem>
           </div>
 
           <div className="tw-text-left tw-max-w-40">
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[4],
-              )}
-            </ListItem>
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[5],
-              )}
-            </ListItem>
-            <ListItem>
-              {t(
-                translations.originsLaunchpad.saleDay.importantInformationStep
-                  .information[6],
-              )}
-            </ListItem>
+            <ListItem>{t(baseTranslations.information[5])}</ListItem>
+            <ListItem>{t(baseTranslations.information[6])}</ListItem>
+            <ListItem>{t(baseTranslations.information[7])}</ListItem>
+            {tierId === 2 && (
+              <ListItem>{t(baseTranslations.information[8])}</ListItem>
+            )}
           </div>
         </div>
 
@@ -78,18 +56,12 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
           <Checkbox
             checked={checked}
             onChange={onCheckboxClick}
-            label={t(
-              translations.originsLaunchpad.saleDay.importantInformationStep
-                .checkboxText,
-            )}
+            label={t(baseTranslations.checkboxText)}
             className="tw-text-left tw-text-sm"
           />
 
           <ActionButton
-            text={t(
-              translations.originsLaunchpad.saleDay.importantInformationStep
-                .submitButtonText,
-            )}
+            text={t(baseTranslations.submitButtonText)}
             onClick={onSubmit}
             className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
             textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-5.5"
