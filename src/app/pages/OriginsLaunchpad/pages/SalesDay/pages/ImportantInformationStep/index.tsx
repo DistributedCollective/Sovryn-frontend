@@ -44,10 +44,13 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
 
           <div className="tw-text-left tw-max-w-40">
             <ListItem>{t(baseTranslations.information[5])}</ListItem>
-            <ListItem>{t(baseTranslations.information[6])}</ListItem>
+            <ListItem>
+              <strong>{t(baseTranslations.information[6])}</strong>
+            </ListItem>
             <ListItem>{t(baseTranslations.information[7])}</ListItem>
+            <ListItem>{t(baseTranslations.information[8])}</ListItem>
             {tierId === 2 && (
-              <ListItem>{t(baseTranslations.information[8])}</ListItem>
+              <ListItem>{t(baseTranslations.information[9])}</ListItem>
             )}
           </div>
         </div>
