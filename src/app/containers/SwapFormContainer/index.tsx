@@ -75,7 +75,7 @@ export function SwapFormContainer() {
         Promise.all(
           tokens.map(async item => {
             const asset = AssetsDictionary.getByTokenContractAddress(item);
-            if (!asset) {
+            if (!asset || !asset.hasAMM) {
               return null;
             }
             let token: string = '';

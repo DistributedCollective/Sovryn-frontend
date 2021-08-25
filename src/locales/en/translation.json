@@ -387,8 +387,8 @@
       "description": "Claim your Origins Purchases"
     },
     "claimForm": {
-      "title": "Liquid Balance",
-      "availble": "Total Liquid FISH Available:",
+      "title": "Claim FISH Balance",
+      "availble": "Total FISH Available:",
       "cta": "Claim",
       "note": "Withdrawal will be available at {{date}}.",
       "unlockedNote": "You will instantly receive {{amount}} FISH tokens to your wallet."

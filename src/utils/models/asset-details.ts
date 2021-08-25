@@ -18,6 +18,7 @@ export class AssetDetails {
     public name: string,
     public decimals: number,
     public logoSvg: string,
+    public hasAMM: boolean,
   ) {
     this.tokenContract = appContracts[this.getTokenContractName()];
     this.lendingContract = appContracts[this.getLendingContractName()];
