@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -33,6 +34,8 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+
+import styles from './index.module.scss';
 
 const s = translations.swapTradeForm;
 
@@ -234,10 +237,10 @@ export function SwapFormContainer() {
 
       <Arbitrage />
 
-      <div className="swap-form-container">
-        <div className="swap-form swap-form-send">
-          <div className="swap-form__title">{t(translations.swap.send)}</div>
-          <div className="swap-form__currency">
+      <div className={styles.swapFormContainer}>
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.send)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={sourceToken}
               items={sourceOptions}
@@ -245,10 +248,10 @@ export function SwapFormContainer() {
               onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={sourceToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
@@ -256,16 +259,16 @@ export function SwapFormContainer() {
             />
           </div>
         </div>
-        <div className="swap-revert-wrapper">
+        <div className={styles.swapRevertWrapper}>
           <div
-            className="swap-revert"
+            className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
           />
         </div>
-        <div className="swap-form swap-form-receive">
-          <div className="swap-form__title">{t(translations.swap.receive)}</div>
-          <div className="swap-form__currency">
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.receive)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={targetToken}
               items={targetOptions}
@@ -273,10 +276,10 @@ export function SwapFormContainer() {
               onChange={value => setTargetToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={targetToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <Input
               value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
@@ -287,8 +290,13 @@ export function SwapFormContainer() {
         </div>
       </div>
 
-      <div className="swap-btn-container">
-        <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center tw-tracking-normal">
+      <div className={styles.swapBtnContainer}>
+        <div
+          className={classNames(
+            styles.swapBtnHelper,
+            'tw-flex tw-items-center tw-justify-center tw-tracking-normal',
+          )}
+        >
           <span>
             {t(translations.swap.minimumReceived)}{' '}
             {weiToNumberFormat(minReturn, 6)}

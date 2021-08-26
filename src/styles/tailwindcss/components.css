@@ -1,4 +1,4 @@
-@import 'tailwindcss/components/index.css';
+@import './components/index.css';
 
 @layer components {
   .tw-link {
@@ -261,29 +261,4 @@
 }
 .assets {
   min-width: 115px;
-}
-
-.bp3-tooltip2 {
-  -webkit-box-shadow: 0 0 0 1px rgb(16 22 26 / 10%),
-    0 2px 4px rgb(16 22 26 / 20%), 0 8px 24px rgb(16 22 26 / 20%);
-  box-shadow: 0 0 0 1px rgb(16 22 26 / 10%), 0 2px 4px rgb(16 22 26 / 20%),
-    0 8px 24px rgb(16 22 26 / 20%);
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
-.bp3-tooltip2 .bp3-popover2-content {
-  padding: 10px 12px;
-  border-radius: 3px;
-  position: relative;
-}
-.bp3-tooltip2 .bp3-popover2-content {
-  background: black;
-  color: #f5f8fa;
-}
-.bp3-toast.bp3-intent-success {
-  background-color: theme('colors.turquoise');
-}
-.bp3-overlay-content,
-.bp3-overlay-content:focus {
-  outline: none;
 }

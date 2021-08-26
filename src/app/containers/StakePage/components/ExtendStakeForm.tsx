@@ -98,7 +98,7 @@ export function ExtendStakeForm(props: Props) {
             {t(translations.stake.extending.balance)}:{' '}
             <span
               className={`tw-text-gray-900 ${
-                props.isSovBalanceLoading && 'skeleton'
+                props.isSovBalanceLoading && 'tw-skeleton'
               }`}
             >
               {numberFromWei(props.sovBalance).toLocaleString()}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -16,8 +17,8 @@ import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { currentNetwork } from 'utils/classifiers';
-import { StyledBurger, StyledMenu, StyledLogo, StyledPopover } from './styled';
-import './index.scss';
+import styles from './index.module.scss';
+import { StyledBurger, StyledLogo, StyledMenu, StyledPopover } from './styled';
 
 const bridgeURL =
   currentNetwork === 'mainnet'
@@ -126,7 +127,7 @@ export function Header() {
       <StyledPopover
         interactionKind="hover"
         minimal={true}
-        popoverClassName="header-nav-popover"
+        popoverClassName={styles.headerNavPopover}
         content={content}
         hoverOpenDelay={0}
         hoverCloseDelay={0}
@@ -173,7 +174,7 @@ export function Header() {
 
   return (
     <>
-      <header>
+      <header className={classNames(styles.header, open && styles.open)}>
         <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
           <div className="xl:tw-hidden">
             <div ref={node}>

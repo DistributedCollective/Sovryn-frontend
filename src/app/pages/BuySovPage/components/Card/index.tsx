@@ -14,11 +14,9 @@ const H2 = styled.h2<H2Props>`
   font-weight: 500 !important;
   line-height: 26px !important;
   text-align: left;
-  vertical-align: baseline;
-  margin-bottom: 35px !important;
+  margin-bottom: 28px;
 
-  & > :first-child {
-    display: inline-block;
+  > .step {
     font-size: 48px;
     line-height: 48px;
     letter-spacing: 0.21px;
@@ -28,10 +26,14 @@ const H2 = styled.h2<H2Props>`
     font-variant-numeric: normal;
   }
 
-  & > :not(:first-child) {
+  > .title {
     font-size: 26px;
+    line-height: 24px;
+    font-weight: 600;
     letter-spacing: 0;
-    margin-bottom: 3px;
+    text-transform: none;
+    position: relative;
+    top: -5px;
   }
 `;
 

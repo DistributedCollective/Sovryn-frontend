@@ -327,7 +327,7 @@ const InnerStakePage: React.FC = () => {
                 </p>
                 <p
                   className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    balanceOf.loading && 'skeleton'
+                    balanceOf.loading && 'tw-skeleton'
                   }`}
                 >
                   {weiTo4(balanceOf.value)} SOV
@@ -414,7 +414,7 @@ const InnerStakePage: React.FC = () => {
                 </p>
                 <p
                   className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    voteBalance.loading && 'skeleton'
+                    voteBalance.loading && 'tw-skeleton'
                   }`}
                 >
                   {weiTo4(voteBalance.value)}

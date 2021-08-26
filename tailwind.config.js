@@ -88,6 +88,7 @@ module.exports = {
 
       // new
       Teal: '#4ecdc4',
+      foreground: '#D9D9D9',
       background: '#171717',
       'secondary-bg': '#414042',
       Field_bg: '#05182e',
@@ -203,6 +204,10 @@ module.exports = {
           marginRight: 'auto',
           marginLeft: 'auto',
           maxWidth: '100%',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+          marginLeft: 'auto',
+          marginRight: 'auto',
           '@screen sm': {
             maxWidth: '540px',
           },

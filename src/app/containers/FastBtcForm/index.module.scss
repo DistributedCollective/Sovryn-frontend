@@ -1,6 +1,6 @@
 .top-up-container {
   @media screen and (max-width: 767px) {
-    & .bp3-dialog {
+    & :global(.bp3-dialog) {
       width: 100%;
       height: 100vh;
       border: 0;
@@ -10,10 +10,10 @@
   }
 
   @media screen and (min-width: 992px) {
-    & .bp3-dialog {
+    & :global(.bp3-dialog) {
       transition: width 0.5s;
       will-change: width;
-      &.top-up-dialog__extend {
+      &.top-up-dialog-extend {
         width: 800px;
       }
     }
