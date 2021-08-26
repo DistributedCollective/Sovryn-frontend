@@ -43,9 +43,6 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               : t(
                   translations.originsLaunchpad.saleDay
                     .accessCodeVerificationStep.notVerified,
-                  {
-                    date: 'Aug 26 at 14:00 UTC',
-                  },
                 )}
           </div>
 
