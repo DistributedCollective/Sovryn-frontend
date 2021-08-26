@@ -1,0 +1,19 @@
+// new swap page
+.swap-page {
+  margin: 1rem auto;
+
+  @media (min-width: theme('screens.lg')) {
+    margin: 3rem auto;
+  }
+
+  @media (max-width: theme('screens.lg')) {
+    max-width: 100%;
+  }
+
+  // swap history table
+  .swap-history-table-container {
+    max-width: 1544px;
+    margin: auto;
+    margin-top: 95px;
+  }
+}

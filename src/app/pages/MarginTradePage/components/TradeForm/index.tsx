@@ -2,7 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
-import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
+import {
+  TradingPairDictionary,
+  TradingPairType,
+} from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { Text } from '@blueprintjs/core';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
@@ -31,13 +34,17 @@ const pairs = TradingPairDictionary.entries()
     label: item.name as string,
   }));
 
-export function TradeForm() {
+interface ITradeFormProps {
+  pairType: TradingPairType;
+}
+
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
-  const { pairType, collateral, leverage } = useSelector(selectMarginTradePage);
+  const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState<string>('');
@@ -157,4 +164,4 @@ export function TradeForm() {
       <TradeDialog />
     </>
   );
-}
+};

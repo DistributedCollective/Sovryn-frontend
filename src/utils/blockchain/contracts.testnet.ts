@@ -281,6 +281,11 @@ export const contracts = {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
+    abi: StakingAbi,
+    blockNumber: 1218836,
+  },
   originsBase: {
     address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
@@ -288,6 +293,10 @@ export const contracts = {
   lockedFund: {
     address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',

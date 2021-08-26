@@ -44,7 +44,7 @@ export function ChainSelector() {
           asset: sourceAsset,
         })}
       </div>
-      <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
+      <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
           <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />

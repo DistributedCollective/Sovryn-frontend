@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
+import classNames from 'classnames';
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
@@ -10,9 +11,9 @@ import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
 import { currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
-
-import '../_networkRibbon.scss';
 import { ActionButton } from 'app/components/Form/ActionButton';
+
+import styles from '../NetworkRibbon.module.scss';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -44,7 +45,7 @@ export function DetectionScreen(props: Props) {
         <div className="tw-mr-2">
           <img src={error_alert} alt="1" />
         </div>
-        <div className="tw-text-left subtitle">
+        <div className={classNames(styles.subtitle, 'tw-text-left')}>
           {netName
             ? t(translations.wrongNetworkDialog.networkAlert, {
                 name: netName,
@@ -65,7 +66,7 @@ export function DetectionScreen(props: Props) {
             <ActionButton
               text={t(translations.wrongNetworkDialog.metamask.connectButton)}
               onClick={addNetworkCallback}
-              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-lg tw-bg-primary tw-bg-opacity-5"
+              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-lg tw-bg-background tw-bg-opacity-5"
               textClassName="tw-text-lg tw-tracking-normal tw-leading-6 tw-font-semibold"
             />
           </div>
@@ -74,14 +75,17 @@ export function DetectionScreen(props: Props) {
       <div className="tw-flex tw-my-12 tw-flex-col tw-justify-center tw-items-center tw-text-center">
         <button
           onClick={props.onStart}
-          className="titleTut tw-font-body tw-mb-4"
+          className={classNames(styles.titleTut, 'tw-font-body tw-mb-4')}
         >
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
         </button>
         <button
-          className="tw-flex tw-items-center tw-justify-center titleTut tw-font-body"
+          className={classNames(
+            styles.titleTut,
+            'tw-flex tw-items-center tw-justify-center tw-font-body',
+          )}
           onClick={() => disconnect()}
         >
           <Icon icon="log-out" className="tw-text-gold tw-mr-1" iconSize={12} />{' '}

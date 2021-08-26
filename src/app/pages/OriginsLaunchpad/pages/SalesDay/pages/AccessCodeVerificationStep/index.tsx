@@ -1,6 +1,6 @@
 import React from 'react';
 import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DialogTitle, DialogWrapper } from './styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -36,7 +36,9 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             {isVerified
               ? t(
                   translations.originsLaunchpad.saleDay
-                    .accessCodeVerificationStep.verified,
+                    .accessCodeVerificationStep.verified[
+                    tierId === 2 ? 'publicSale' : 'privateSale'
+                  ],
                 )
               : t(
                   translations.originsLaunchpad.saleDay
@@ -52,14 +54,14 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                     .accessCodeVerificationStep.cta,
                 )}
                 onClick={onVerified}
-                className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
+                className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-background tw-bg-opacity-5"
                 textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
               />
             </div>
           )}
         </div>
 
-        {!isVerified && (
+        {/* {!isVerified && (
           <div>
             <Trans
               i18nKey={
@@ -78,7 +80,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               ]}
             />
           </div>
-        )}
+        )} */}
       </DialogWrapper>
     </>
   );
