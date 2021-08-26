@@ -4217,9 +4217,9 @@
     form-data "^3.0.0"
 
 "@types/node@*":
-  version "16.6.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.1.tgz#aee62c7b966f55fc66c7b6dfa1d58db2a616da61"
-  integrity sha512-Sr7BhXEAer9xyGuCN3Ek9eg9xPviCF2gfu9kTfuU2HkTVAMYSDeX40fvpmo72n5nansg3nsBjuQBrsS28r+NUw==
+  version "16.4.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.14.tgz#e27705ec2278b2355bd59f1952de23a152b9f208"
+  integrity sha512-GZpnVRNtv7sHDXIFncsERt+qvj4rzAgRQtnvzk3Z7OVNtThD2dHXYCMDNc80D5mv4JE278qo8biZCwcmkbdpqw==
 
 "@types/node@13.9.3":
   version "13.9.3"
@@ -12037,6 +12037,13 @@ html-void-elements@^1.0.0:
   resolved "https://registry.yarnpkg.com/html-void-elements/-/html-void-elements-1.0.5.tgz#ce9159494e86d95e45795b166c2021c2cfca4483"
   integrity sha512-uE/TxKuyNIcx44cIWnjr/rfIATDH7ZaOMmstu0CwhFG1Dunhlp4OC6/NMbhiwoq5BpW0ubi303qnEk/PZj614w==
 
+html-webpack-link-type-plugin@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/html-webpack-link-type-plugin/-/html-webpack-link-type-plugin-1.1.0.tgz#0f2ccecc2e0cc78f4048c4f308ea2815348c9db0"
+  integrity sha512-o2y4D4batARGcF3bXxXHbE2lV5VF7XOz7b9ynmjPjbV4piFIWMprWita2q4+vt1uw2ARMGSjGpBemQb8ehfJCg==
+  dependencies:
+    minimatch "3.0.4"
+
 html-webpack-plugin@4.0.0-beta.11:
   version "4.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.0.0-beta.11.tgz#3059a69144b5aecef97708196ca32f9e68677715"
@@ -12049,7 +12056,7 @@ html-webpack-plugin@4.0.0-beta.11:
     tapable "^1.1.3"
     util.promisify "1.0.0"
 
-html-webpack-plugin@^4.0.0:
+html-webpack-plugin@4.5.2, html-webpack-plugin@^4.0.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.5.2.tgz#76fc83fa1a0f12dd5f7da0404a54e2699666bc12"
   integrity sha512-q5oYdzjKUIPQVjOosjgvCHQOv9Ett9CYYHlgvJeXG0qQvdSojnBq4vAdQBwn1+yGveAwHCoe/rMR86ozX3+c2A==

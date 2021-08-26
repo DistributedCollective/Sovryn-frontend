@@ -15,8 +15,7 @@ import {
 } from 'utils/blockchain/requests/vesting';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { weiToNumberFormat } from 'utils/display-text/format';
-import { numberToUSD } from 'utils/display-text/format';
+import { numberToUSD, weiToNumberFormat } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 
 import { Asset } from '../../../../types/asset';
@@ -29,12 +28,35 @@ import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStake
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../../hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
+import { VestGroup } from './CurrentVests';
 
 interface Props {
   vestingAddress: string;
-  type: 'genesis' | 'origin' | 'team' | 'reward';
+  type: VestGroup;
   onDelegate: (a: number) => void;
 }
+
+const getAssetByVestingType = (type: VestGroup) => {
+  switch (type) {
+    case 'genesis':
+      return Asset.CSOV;
+    case 'fish':
+      return Asset.FISH;
+    default:
+      return Asset.SOV;
+  }
+};
+
+const getTokenContractNameByVestingType = (type: VestGroup) => {
+  switch (type) {
+    case 'genesis':
+      return 'CSOV_token';
+    case 'fish':
+      return 'FISH_token';
+    default:
+      return 'SOV_token';
+  }
+};
 
 export function VestingContract(props: Props) {
   const { t } = useTranslation();
@@ -58,7 +80,7 @@ export function VestingContract(props: Props) {
   const CSOV = AssetsDictionary.get(Asset.SOV);
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const rbtc = useCachedAssetPrice(
-    Asset[props.type === 'genesis' ? 'CSOV' : 'SOV'],
+    getAssetByVestingType(props.type),
     Asset.RBTC,
   );
   const dollarValue = useMemo(() => {
@@ -69,8 +91,9 @@ export function VestingContract(props: Props) {
       .toFixed(0);
   }, [dollars.value, lockedAmount, SOV.decimals]);
 
-  const token = props.type === 'genesis' ? 'CSOV_token' : 'SOV_token';
-  const tokenAddress = getContract(token).address;
+  const tokenAddress = getContract(
+    getTokenContractNameByVestingType(props.type),
+  ).address;
   const currency = useStaking_getAccumulatedFees(
     props.vestingAddress,
     tokenAddress,

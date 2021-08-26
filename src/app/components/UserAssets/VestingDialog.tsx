@@ -39,7 +39,11 @@ export function VestingDialog(props: Props) {
   );
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
-      send([address], { from: account }, { type: TxType.SOV_WITHDRAW_VESTING });
+      send(
+        [address.toLowerCase()],
+        { from: account },
+        { type: TxType.SOV_WITHDRAW_VESTING },
+      );
     }
   }, [account, address, send, tx]);
 
@@ -89,7 +93,7 @@ export function VestingDialog(props: Props) {
                 </div>
                 <FieldGroup label={t(translations.vestingDialog.receiver)}>
                   <InputField
-                    onChange={value => setAddress(value)}
+                    onChange={event => setAddress(event.target.value)}
                     value={address}
                   />
                 </FieldGroup>

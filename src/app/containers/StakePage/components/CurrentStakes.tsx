@@ -18,7 +18,7 @@ import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIG
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Tooltip } from '@blueprintjs/core';
+import { Tooltip, Spinner } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
 
 interface StakeItem {
@@ -76,18 +76,21 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
         setStakeLoad(false);
       });
     }
-
-    return () => {
-      setStakesArray([]);
-    };
   }, [account, dates, stakes]);
+
   return (
     <>
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
         {t(translations.stake.currentStakes.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+          {stakeLoad && (
+            <Spinner
+              size={20}
+              className="tw-absolute tw-top-4 tw-right-8 tw-text-white tw-z-index-100"
+            />
+          )}
           <StyledTable className="tw-w-full tw-text-sov-white">
             <thead>
               <tr>
@@ -115,14 +118,7 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
               </tr>
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-              {stakeLoad && !stakesArray?.length && (
-                <tr key="loading">
-                  <td colSpan={99} className="tw-text-center tw-font-normal">
-                    {t(translations.stake.loading)}
-                  </td>
-                </tr>
-              )}
-              {!stakeLoad && !stakesArray?.length && (
+              {!stakesArray?.length && (
                 <tr key="empty">
                   <td colSpan={99} className="tw-text-center tw-font-normal">
                     {t(translations.stake.nostake)}

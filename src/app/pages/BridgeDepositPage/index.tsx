@@ -19,7 +19,7 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
-import babelfishIcon from 'assets/images/babelfish.svg';
+import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';

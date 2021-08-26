@@ -43,6 +43,7 @@ import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
 import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
+import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
@@ -89,6 +90,7 @@ export function App() {
             <Route exact path="/reward" component={RewardPage} />
             <Route exact path="/wallet" component={WalletPage} />
             <Route exact path="/origins" component={OriginsLaunchpadPage} />
+            <Route exact path="/origins/claim" component={OriginsClaimPage} />
             <Route
               exact
               path="/cross-chain/deposit"
