@@ -312,7 +312,7 @@
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
           "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
         },
-        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Pre-sale.",
+        "notVerified": "Public sale starts {{date}}",
         "cta": "Continue",
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
