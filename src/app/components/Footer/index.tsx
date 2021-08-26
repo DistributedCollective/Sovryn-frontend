@@ -1,8 +1,3 @@
-/**
- *
- * Footer
- *
- */
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
