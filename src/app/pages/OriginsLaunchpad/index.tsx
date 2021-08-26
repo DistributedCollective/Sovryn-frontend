@@ -35,8 +35,8 @@ export const OriginsLaunchpad: React.FC = () => {
         ) : (
           <Dashboard />
         )}
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };
