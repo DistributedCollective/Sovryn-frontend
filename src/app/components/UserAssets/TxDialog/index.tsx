@@ -18,7 +18,7 @@ import { Status } from './Status';
 import { WalletLogo, getWalletName } from './WalletLogo';
 import { Asset } from 'types';
 import { Title } from './Title';
-import babelfishLogo from 'assets/images/babelfish.svg';
+import babelfishLogo from 'assets/images/tokens/babelfish.svg';
 
 interface ITxDialogProps {
   tx: ResetTxResponseInterface;
