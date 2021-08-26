@@ -409,7 +409,7 @@ const InnerStakePage: React.FC = () => {
                 {sovBalance !== '0' && !stakingLocked ? (
                   <button
                     type="button"
-                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary hover:tw-text-gray-1 tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
+                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
                     onClick={() => {
                       setTimestamp(0);
                       setAmount('');
@@ -437,7 +437,7 @@ const InnerStakePage: React.FC = () => {
                   >
                     <button
                       type="button"
-                      className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary  tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
+                      className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
                     >
                       {t(translations.stake.addStake)}
                     </button>
