@@ -384,8 +384,8 @@
       "description": "Claim your Origins Purchases"
     },
     "claimForm": {
-      "title": "Saldo líquido",
-      "availble": "Total de FISH líquidos disponíveis:",
+      "title": "Reivindicar saldo FISH",
+      "availble": "Total de FISH disponíveis:",
       "cta": "Reivindicar",
       "note": "Disponível para resgate em {{date}}.",
       "unlockedNote": "Você receberá imediatamente {{amount}} FISH tokens na sua carteira."
