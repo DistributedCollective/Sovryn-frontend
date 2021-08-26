@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import { MainScreen } from './components/MainScreen';
-import { TransackScreen } from './components/TransackScreen';
+import { TransakScreen } from './components/TransakScreen';
 import { TransactionScreen } from './components/TransactionScreen';
 import styles from './index.module.css';
 import { fastBtcDialogSaga } from './saga';
@@ -120,7 +120,7 @@ export function TransackDialog(props: Props) {
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <div className={styles.innerContainer}>
-              <TransackScreen state={state} dispatch={dispatch} />
+              <TransakScreen state={state} dispatch={dispatch} />
             </div>
           </div>
         </div>
