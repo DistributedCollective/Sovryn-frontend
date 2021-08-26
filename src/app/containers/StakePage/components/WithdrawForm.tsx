@@ -18,7 +18,6 @@ interface Props {
   withdrawAmount: number;
   until: number;
   onChangeAmount: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
   balanceOf: CacheCallResponse;
   isValid: boolean;
   votePower?: number;
@@ -182,7 +181,7 @@ export function WithdrawForm(props: Props) {
                     <input
                       readOnly
                       className={`tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline ${
-                        loadingWithdraw && 'skeleton'
+                        loadingWithdraw && 'tw-skeleton'
                       }`}
                       id="unstake"
                       type="text"

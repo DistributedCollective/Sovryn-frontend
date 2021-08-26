@@ -1,0 +1,46 @@
+
+.simpleView {
+  .engage-wallet {
+    height: 50px;
+    padding: 2px 0 2px 10px;
+    font-size: 22px;
+
+    span {
+      & > span:first-child {
+        min-width: 250px;
+      }
+    }
+
+    .logout {
+      height: 50px;
+      padding: 17px 12px;
+    }
+  }
+}
+
+.engage-wallet {
+  background: #383838;
+  height: 40px;
+  padding: 2px 0 2px 10px;
+  border-radius: 8px;
+  font-weight: 100;
+  font-size: 14px;
+  font-family: 'Work Sans', sans-serif;
+  min-width: 165px;
+  letter-spacing: 0;
+
+  .logout {
+    height: 40px;
+    padding: 12px 12px;
+    background: #686868;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fec004;
+    border-radius: 0 8px 8px 0;
+    margin-left: 0.7rem;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.36);
+    }
+  }
+}

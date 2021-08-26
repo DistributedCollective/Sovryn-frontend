@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Tooltip } from '@blueprintjs/core';
+import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import { getUSDSum } from 'utils/helpers';
 import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
@@ -50,10 +49,13 @@ import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
 import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ContractName } from 'utils/types/contracts';
+import { AssetDetails } from 'utils/models/asset-details';
+import { getUSDSum } from '../../../utils/helpers';
 
 const now = new Date();
 
-export function StakePage() {
+export const StakePage: React.FC = () => {
   const { t } = useTranslation();
 
   const isConnected = useIsConnected();
@@ -82,9 +84,9 @@ export function StakePage() {
       <Footer />
     </>
   );
-}
+};
 
-function InnerStakePage() {
+const InnerStakePage: React.FC = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const [amount, setAmount] = useState('');
@@ -93,32 +95,41 @@ function InnerStakePage() {
   const kickoffTs = useStaking_kickoffTs();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
-  const getStakes = useStaking_getStakes(account);
+  const { dates } = useStaking_getStakes(account).value;
   const balanceOf = useStaking_balanceOf(account);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
   const [stakeAmount, setStakeAmount] = useState(0);
   const [stakeForm, setStakeForm] = useState(false);
   const [extendForm, setExtendForm] = useState(false);
-  const [until, setUntil] = useState<number>(0 as any);
+  const [until, setUntil] = useState(0);
   const [delegateForm, setDelegateForm] = useState(false);
   const [isStakeDelegate, setIsStakeDelegate] = useState(true);
   const [withdrawForm, setWithdrawForm] = useState(false);
   const [increaseForm, setIncreaseForm] = useState(false);
   const voteBalance = useStaking_getCurrentVotes(account);
-  const [lockDate, setLockDate] = useState<number>(0 as any);
-  const [timestamp, setTimestamp] = useState<number>(0 as any);
+  const [lockDate, setLockDate] = useState(0);
+  const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
-  const [votingPower, setVotingPower] = useState<number>(0 as any);
-  const [withdrawAmount, setWithdrawAmount] = useState<number>(0 as any);
+  const [votingPower, setVotingPower] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
-  const [prevTimestamp, setPrevTimestamp] = useState<number>(undefined as any);
+  const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
+    undefined,
+  );
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
     Math.round(now.getTime() / 1e3),
   );
-  const [usdTotal, setUsdTotal] = useState(0) as any;
+  const [assetsUsd, setAssetsUsd] = useState<{
+    [assets: string]: number;
+  }>({});
+  const usdTotal = useMemo(() => getUSDSum(Object.values(assetsUsd)), [
+    assetsUsd,
+  ]);
   const assets = AssetsDictionary.list();
-  const sovBalanceOf = useAssetBalanceOf(Asset.SOV);
+  const { value: sovBalance, loading: sovBalanceLoading } = useAssetBalanceOf(
+    Asset.SOV,
+  );
   const { increase, ...increaseTx } = useStakeIncrease();
   const { stake, ...stakeTx } = useStakeStake();
   const { extend, ...extendTx } = useStakeExtend();
@@ -162,8 +173,8 @@ function InnerStakePage() {
 
     if (!num || isNaN(num) || num <= 0) return false;
     if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
-    return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf, timestamp, stakeTx.loading]);
+    return num * 1e18 <= Number(sovBalance);
+  }, [loading, amount, sovBalance, timestamp, stakeTx.loading]);
 
   const validateDelegateForm = useCallback(() => {
     if (loading) return false;
@@ -175,8 +186,8 @@ function InnerStakePage() {
     if (loading || increaseTx.loading) return false;
     const num = Number(amount);
     if (!num || isNaN(num) || num <= 0) return false;
-    return num * 1e18 <= Number(sovBalanceOf.value);
-  }, [loading, amount, sovBalanceOf, increaseTx.loading]);
+    return num * 1e18 <= Number(sovBalance);
+  }, [loading, amount, sovBalance, increaseTx.loading]);
 
   const validateWithdrawForm = useCallback(
     amount => {
@@ -225,7 +236,7 @@ function InnerStakePage() {
       let nonce = await contractReader.nonce(account);
       const allowance = (await staking_allowance(account)) as string;
       if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalanceOf.value);
+        await staking_approve(sovBalance);
         nonce += 1;
       }
       if (!stakeTx.loading) {
@@ -236,7 +247,7 @@ function InnerStakePage() {
     },
     [
       weiAmount,
-      sovBalanceOf.value,
+      sovBalance,
       account,
       timestamp,
       stakeForm,
@@ -303,11 +314,54 @@ function InnerStakePage() {
     [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
 
-  let usdTotalValue = [] as any;
-  const updateUsdTotal = e => {
-    usdTotalValue.push(e);
-    setUsdTotal(getUSDSum(usdTotalValue));
-  };
+  const updateUsdTotal = useCallback(
+    (asset: AssetDetails, e: number) =>
+      setAssetsUsd(assetsUsd => ({ ...assetsUsd, [asset.asset]: e })),
+    [],
+  );
+
+  const onDelegate = useCallback((a, b) => {
+    setTimestamp(b);
+    setIsStakeDelegate(true);
+    setAmount(numberFromWei(a).toString());
+    setDelegateForm(delegateForm => !delegateForm);
+  }, []);
+  const onExtend = useCallback((a, b) => {
+    setPrevTimestamp(b);
+    setTimestamp(b);
+    setAmount(numberFromWei(a).toString());
+    setStakeForm(false);
+    setExtendForm(true);
+    setIncreaseForm(false);
+    setWithdrawForm(false);
+  }, []);
+  const onIncrease = useCallback((a, b) => {
+    setTimestamp(b);
+    setAmount(numberFromWei(a).toString());
+    setUntil(b);
+    setStakeForm(false);
+    setExtendForm(false);
+    setIncreaseForm(true);
+    setWithdrawForm(false);
+  }, []);
+  const onUnstake = useCallback((a, b) => {
+    setAmount(numberFromWei(a).toString());
+    setWithdrawAmount(0);
+    setStakeAmount(a);
+    setTimestamp(b);
+    setUntil(b);
+    setStakeForm(false);
+    setExtendForm(false);
+    setIncreaseForm(false);
+    setWithdrawForm(true);
+  }, []);
+
+  const onDelegateVest = useCallback((timestamp, contractAddress) => {
+    setTimestamp(timestamp);
+    setIsStakeDelegate(false);
+    setVestingContractAddress(contractAddress);
+    setDelegateForm(delegateForm => !delegateForm);
+  }, []);
 
   return (
     <>
@@ -321,17 +375,16 @@ function InnerStakePage() {
             <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+            <div className="lg:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
-                <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    balanceOf.loading && 'skeleton'
-                  }`}
-                >
+                <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
+                  {balanceOf.loading && (
+                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                  )}
                 </p>
                 <Modal
                   show={stakeForm}
@@ -343,17 +396,17 @@ function InnerStakePage() {
                         timestamp={timestamp}
                         onChangeAmount={e => setAmount(e)}
                         onChangeTimestamp={e => setTimestamp(e)}
-                        sovBalanceOf={sovBalanceOf}
+                        sovBalance={sovBalance}
                         isValid={validateStakeForm()}
                         kickoff={kickoffTs}
-                        stakes={getStakes.value['dates']}
+                        stakes={dates}
                         votePower={votingPower}
                         onCloseModal={() => setStakeForm(!stakeForm)}
                       />
                     </>
                   }
                 />
-                {sovBalanceOf.value !== '0' && !stakingLocked ? (
+                {sovBalance !== '0' && !stakingLocked ? (
                   <button
                     type="button"
                     className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
@@ -391,7 +444,7 @@ function InnerStakePage() {
                   </Tooltip>
                 )}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl tw-text-sm tw-w-full lg:tw-w-1/3 lg:tw-mb-0 lg:tw-mx-2 2xl:tw-w-1/4 ">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
@@ -402,23 +455,22 @@ function InnerStakePage() {
                   if (item.asset === 'CSOV') return '';
                   return (
                     <FeeBlock
-                      usdTotal={e => updateUsdTotal(e)}
-                      key={i}
+                      usdTotal={updateUsdTotal}
+                      key={item.asset}
                       contractToken={item}
                     />
                   );
                 })}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
-                <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    voteBalance.loading && 'skeleton'
-                  }`}
-                >
+                <p className="xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
+                  {voteBalance.loading && (
+                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                  )}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
@@ -455,50 +507,12 @@ function InnerStakePage() {
               }
             />
             <CurrentStakes
-              onDelegate={(a, b) => {
-                setTimestamp(b);
-                setIsStakeDelegate(true);
-                setAmount(numberFromWei(a).toString());
-                setDelegateForm(!delegateForm);
-              }}
-              onExtend={(a, b) => {
-                setPrevTimestamp(b);
-                setTimestamp(b);
-                setAmount(numberFromWei(a).toString());
-                setStakeForm(false);
-                setExtendForm(true);
-                setIncreaseForm(false);
-                setWithdrawForm(false);
-              }}
-              onIncrease={(a, b) => {
-                setTimestamp(b);
-                setAmount(numberFromWei(a).toString());
-                setUntil(b);
-                setStakeForm(false);
-                setExtendForm(false);
-                setIncreaseForm(true);
-                setWithdrawForm(false);
-              }}
-              onUnstake={(a, b) => {
-                setAmount(numberFromWei(a).toString());
-                setWithdrawAmount(0);
-                setStakeAmount(a);
-                setTimestamp(b);
-                setUntil(b);
-                setStakeForm(false);
-                setExtendForm(false);
-                setIncreaseForm(false);
-                setWithdrawForm(true);
-              }}
+              onDelegate={onDelegate}
+              onExtend={onExtend}
+              onIncrease={onIncrease}
+              onUnstake={onUnstake}
             />
-            <CurrentVests
-              onDelegate={(timestamp, contractAddress) => {
-                setTimestamp(timestamp);
-                setIsStakeDelegate(false);
-                setVestingContractAddress(contractAddress);
-                setDelegateForm(!delegateForm);
-              }}
-            />
+            <CurrentVests onDelegate={onDelegateVest} />
             <HistoryEventsTable />
           </div>
           <TxDialog tx={increaseTx} />
@@ -520,7 +534,7 @@ function InnerStakePage() {
                           amount={amount}
                           timestamp={timestamp}
                           onChangeAmount={e => setAmount(e)}
-                          sovBalanceOf={sovBalanceOf}
+                          sovBalance={sovBalance}
                           isValid={validateIncreaseForm()}
                           balanceOf={balanceOf}
                           votePower={votingPower}
@@ -535,16 +549,17 @@ function InnerStakePage() {
                     show={extendForm}
                     content={
                       <>
-                        {kickoffTs.value !== '0' && (
+                        {kickoffTs.value !== '0' && prevTimestamp && (
                           <ExtendStakeForm
                             handleSubmit={handleExtendTimeSubmit}
                             amount={amount}
                             timestamp={0}
                             onChangeTimestamp={e => setTimestamp(e)}
-                            sovBalanceOf={sovBalanceOf}
+                            sovBalance={sovBalance}
+                            isSovBalanceLoading={sovBalanceLoading}
                             kickoff={kickoffTs}
                             isValid={validateExtendTimeForm()}
-                            stakes={getStakes.value['dates']}
+                            stakes={dates}
                             balanceOf={balanceOf}
                             votePower={votingPower}
                             prevExtend={prevTimestamp}
@@ -566,7 +581,6 @@ function InnerStakePage() {
                           amount={amount}
                           until={timestamp}
                           onChangeAmount={e => setWithdrawAmount(e)}
-                          sovBalanceOf={sovBalanceOf}
                           balanceOf={balanceOf}
                           isValid={validateWithdrawForm(amount)}
                           onCloseModal={() => setWithdrawForm(!withdrawForm)}
@@ -583,20 +597,21 @@ function InnerStakePage() {
       <Footer />
     </>
   );
+};
+
+interface IFeeBlockProps {
+  contractToken: AssetDetails;
+  usdTotal: (asset: AssetDetails, value: number) => void;
 }
 
-interface FeeProps {
-  contractToken: any;
-  usdTotal: (e: any) => void;
-}
-
-function FeeBlock({ contractToken, usdTotal }: FeeProps) {
+const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
   const account = useAccount();
   const { t } = useTranslation();
-  const token = (contractToken.asset +
-    (contractToken.asset === Asset.SOV ? '_token' : '_lending')) as any;
+  const token =
+    contractToken.asset +
+    (contractToken.asset === Asset.SOV ? '_token' : '_lending');
   const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token)?.address;
+  const tokenAddress = getContract(token as ContractName)?.address;
   const currency = useStaking_getAccumulatedFees(account, tokenAddress);
   const dollarValue = useMemo(() => {
     if (currency.value === null) return '';
@@ -622,8 +637,8 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
   );
 
   useEffect(() => {
-    usdTotal(Number(weiTo4(dollarValue)));
-  }, [currency.value, dollarValue, usdTotal]);
+    usdTotal(contractToken, Number(weiTo4(dollarValue)));
+  }, [contractToken, dollarValue, usdTotal]);
 
   return (
     <>
@@ -660,4 +675,4 @@ function FeeBlock({ contractToken, usdTotal }: FeeProps) {
       )}
     </>
   );
-}
+};

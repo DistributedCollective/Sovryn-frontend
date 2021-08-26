@@ -24,13 +24,23 @@ import { backendUrl } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 
+type HistoryItem = {
+  action: string;
+  amount: string;
+  lockedUntil: number;
+  status?: string;
+  staker: string; //address
+  timestamp: number;
+  txHash: string;
+};
+
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
-  const [eventsHistory, setEventsHistory] = useState<any>([]);
+  const [eventsHistory, setEventsHistory] = useState<HistoryItem[]>([]);
   const [isHistoryLoading, seIsHistoryLoading] = useState(false);
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [currentHistory, setCurrentHistory] = useState<HistoryItem[]>([]);
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
     const offset = (currentPage - 1) * pageLimit;
@@ -102,7 +112,7 @@ export function HistoryEventsTable() {
                       <td colSpan={5} className="tw-text-center tw-font-normal">
                         <button
                           type="button"
-                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-body"
+                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-body"
                           onClick={getHistory}
                         >
                           {t(translations.stake.history.viewHistory)}
@@ -127,16 +137,6 @@ export function HistoryEventsTable() {
     </>
   );
 }
-
-type HistoryItem = {
-  action: string;
-  amount: string;
-  lockedUntil: number;
-  status?: string;
-  staker: string; //address
-  timestamp: number;
-  txHash: string;
-};
 
 interface HistoryAsset {
   item: HistoryItem;
@@ -240,7 +240,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
 };
 
 interface History {
-  items: any;
+  items: HistoryItem[];
 }
 
 const HistoryTable: React.FC<History> = ({ items }) => {
@@ -249,7 +249,7 @@ const HistoryTable: React.FC<History> = ({ items }) => {
       {items.map((item, index) => {
         return (
           <HistoryTableAsset
-            key={item.txHash + item.newBalance}
+            key={item.txHash + item.action}
             item={item}
             index={index}
           />

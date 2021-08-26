@@ -17,8 +17,12 @@ import { Provider } from 'react-redux';
 
 // Import scss global styles
 import './styles/sass/styles.scss';
-import './styles/index.css';
+import './styles/tailwindcss/index.css';
 import '@sovryn/react-wallet/index.css';
+
+// Import global types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as GlobalTypes from './global';
 
 // Import root app
 import { App } from 'app';

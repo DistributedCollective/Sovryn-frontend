@@ -143,7 +143,7 @@ export function detectWeb3Wallet() {
   switch (walletService.providerType) {
     default:
     case ProviderType.WEB3:
-      const { ethereum } = window as any;
+      const { ethereum } = window;
       if (ethereum) {
         if (ethereum.isLiquality) return 'liquality';
         if (ethereum.isNiftyWallet) return 'nifty';
@@ -183,7 +183,7 @@ export function fixNumber(amount: any) {
   return amount;
 }
 
-export function getUSDSum(array: any[]) {
+export function getUSDSum(array: number[]) {
   return array.reduce(function (sum, value) {
     return sum + value;
   }, 0);

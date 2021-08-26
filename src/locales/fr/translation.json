@@ -122,7 +122,7 @@
       "cta": "Acheter du SOV",
       "enterAmount": "Entrer le montant",
       "minimumReceived": "Minimum reçu:",
-      "title": "Achetez du SOV avec du RBTC"
+      "title": "Achetez du SOV avec du <0>RBTC</0>"
     },
     "meta": {
       "description": "SOV  trading est maintenant en ligne!",
@@ -155,9 +155,9 @@
     "title": "Achetez du SOV exclusivement sur Sovryn!",
     "topUp": {
       "cta": "Recharger le portefeuille",
-      "line1": "Vous aurez besoin de RBTC dans votre portefeuille pour acheter du SOV et payer les frais de gas sur RSK Mainnet.",
-      "line2": "En savoir plus sur RBTC sur RSK",
-      "title": "Recharger du RBTC"
+      "line1": "Vous aurez besoin de <0>RBTC</0> dans votre portefeuille pour acheter du SOV et payer les frais de gas sur RSK Mainnet.",
+      "line2": "En savoir plus sur <0>RBTC</0> sur RSK",
+      "title": "Recharger du <0>RBTC</0>"
     },
     "txDialog": {
       "pendingUser": {

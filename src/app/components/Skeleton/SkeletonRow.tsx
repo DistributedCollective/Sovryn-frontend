@@ -29,7 +29,7 @@ export function SkeletonRow({ loadingText, className }: Props) {
         </div>
       </div>
       {loadingText && (
-        <div className="skeleton-overlay">
+        <div className="tw-skeleton-overlay">
           <div className="tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center">
             <>{loadingText}</>
           </div>

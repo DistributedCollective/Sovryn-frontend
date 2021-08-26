@@ -22,3 +22,12 @@ export type AmmHistory = {
   };
   balanceHistory: PoolBalanceData[];
 };
+
+export type UserInfo = {
+  amount: string;
+  accumulatedReward: string;
+};
+
+export type Balance = {
+  0: string;
+};

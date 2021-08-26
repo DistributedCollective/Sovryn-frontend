@@ -6,7 +6,6 @@ import {
   TradingPairDictionary,
   TradingPairType,
 } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Option, Options } from 'app/components/Form/Select/types';
 import { Text } from '@blueprintjs/core';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
@@ -28,23 +27,24 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-const pairs: Options<
-  TradingPairType,
-  React.ReactNode
-> = TradingPairDictionary.entries()
+const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
   .map(([type, item]) => ({
     key: type,
-    label: item.name,
+    label: item.name as string,
   }));
 
-export function TradeForm() {
+interface ITradeFormProps {
+  pairType: TradingPairType;
+}
+
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
-  const { pairType, collateral, leverage } = useSelector(selectMarginTradePage);
+  const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState<string>('');
@@ -86,11 +86,11 @@ export function TradeForm() {
           >
             <Select
               value={pairType}
-              options={pairs as any}
+              options={pairs}
               filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
               itemRenderer={renderItemNH}
-              valueRenderer={(item: Option) => (
+              valueRenderer={item => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}
                 </Text>
@@ -164,4 +164,4 @@ export function TradeForm() {
       <TradeDialog />
     </>
   );
-}
+};

@@ -10,7 +10,7 @@ import {
 import { actions } from 'store/global/transactions-store/slice';
 import { translations } from '../../../../locales/i18n';
 import { TradeButton } from '../../../components/TradeButton';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import wMetamask from 'assets/wallets/metamask.svg';
 import wNifty from 'assets/wallets/nifty.png';
 import wLiquality from 'assets/wallets/liquality.svg';
