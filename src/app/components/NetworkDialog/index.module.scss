@@ -15,6 +15,7 @@
 .content {
   height: calc(100vh - 40px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -51,14 +52,13 @@
   }
 
   .content {
-    display: block;
     height: auto;
     justify-content: normal;
     align-items: normal;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@screen xl {
   .dialog {
     padding: 30px 70px 70px;
     margin: 40px !important;

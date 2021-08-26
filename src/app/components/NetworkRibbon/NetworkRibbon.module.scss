@@ -1,16 +1,8 @@
-.title {
-  @apply tw-font-semibold tw-text-2xl tw-leading-none tw-normal-case;
-}
 
-.subtitle {
-  @apply tw-text-warning tw-font-light tw-text-sm tw-leading-snug  tw-normal-case;
-  width: 42%;
-}
-
-.titleTut {
-  @apply tw-text-primary tw-text-xs tw-leading-normal tw-font-medium tw-font-body tw-underline;
-  width: 35%;
-  padding: 0;
+.linkButton {
+  @apply tw-flex tw-items-center tw-justify-center
+    tw-min-w-80 tw-p-0 tw-mb-4
+    tw-text-primary tw-text-xs tw-leading-normal tw-font-medium tw-font-body tw-underline;
 
   &:hover {
     @apply tw-text-primary tw-no-underline;
