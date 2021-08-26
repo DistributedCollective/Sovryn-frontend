@@ -1,5 +1,5 @@
 import { useCacheCall } from './useCacheCall';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ContractName } from '../../utils/types/contracts';
 import { Nullable } from '../../types';
 
@@ -21,14 +21,10 @@ export function useCacheCallWithValue<T = string>(
     ...args,
   );
 
-  const [fixedValue, setFixedValue] = useState(
-    value !== null ? value : defaultValue,
-  );
-
-  useEffect(() => {
-    setFixedValue(value !== null ? value : defaultValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, JSON.stringify(defaultValue)]);
+  const fixedValue = useMemo(() => (value !== null ? value : defaultValue), [
+    value,
+    defaultValue,
+  ]);
 
   return { value: fixedValue, loading, error };
 }

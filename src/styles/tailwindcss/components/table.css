@@ -40,4 +40,10 @@
         @apply tw-text-sm tw-font-normal;
         @apply tw-py-4;
     }
+
+    .tw-table-responsive {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+    }
 }

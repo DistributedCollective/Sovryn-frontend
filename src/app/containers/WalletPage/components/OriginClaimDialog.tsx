@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import arrowDown from './arrow-down.svg';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';

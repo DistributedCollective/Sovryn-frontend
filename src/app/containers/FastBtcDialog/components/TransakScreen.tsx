@@ -11,7 +11,7 @@ import { Asset } from '../../../../types';
 import { actions } from '../slice';
 import { currentChainId } from '../../../../utils/classifiers';
 import { AssetRenderer } from '../../../components/AssetRenderer';
-import styles from '../index.module.css';
+import styles from '../index.module.scss';
 import { FastBtcDialogState } from '../types';
 import { FiatButton } from './FiatButton';
 

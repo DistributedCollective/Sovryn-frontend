@@ -1,0 +1,29 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    { "name": "@tailwind", "description": "PostCSS Tailwind injection" },
+    {
+      "name": "@apply",
+      "description": "PostCSS Tailwind inline apply utitity classes"
+    },
+    {
+      "name": "@layer",
+      "description": "PostCSS Tailwind put content into tailwind bucket"
+    },
+    {
+      "name": "@variants",
+      "description": "PostCSS Tailwind generates variants of contained classes"
+    },
+    {
+      "name": "@responsive",
+      "description": "PostCSS Tailwind generates responsive variants of contained classes"
+    },
+    {
+      "name": "@screen",
+      "description": "PostCSS Tailwind breakpoint (up direction)"
+    }
+  ],
+  "properties": [],
+  "pseudoClasses": [],
+  "pseudoElements": []
+}

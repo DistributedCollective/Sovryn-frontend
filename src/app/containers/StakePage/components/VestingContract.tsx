@@ -188,7 +188,7 @@ export function VestingContract(props: Props) {
               </div>
             </td>
             <td className="tw-text-left tw-font-normal">
-              <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
+              <p className={`tw-m-0 ${lockedAmount.loading && 'tw-skeleton'}`}>
                 {lockedAmount.value && (
                   <>
                     {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
@@ -202,14 +202,14 @@ export function VestingContract(props: Props) {
               </p>
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              <p className={`tw-m-0 ${delegateLoading && 'skeleton'}`}>
+              <p className={`tw-m-0 ${delegateLoading && 'tw-skeleton'}`}>
                 {delegate.length > 0 && (
                   <>
                     <AddressBadge
                       txHash={delegate}
                       startLength={6}
                       className={`tw-text-theme-blue hover:tw-underline ${
-                        delegateLoading && 'skeleton'
+                        delegateLoading && 'tw-skeleton'
                       }`}
                     />
                   </>
@@ -221,14 +221,14 @@ export function VestingContract(props: Props) {
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (
-                <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
+                <p className={`tw-m-0 ${!unlockDate && 'tw-skeleton'}`}>
                   {Math.abs(dayjs().diff(parseInt(unlockDate) * 1e3, 'days'))}{' '}
                   {t(translations.stake.days)}
                 </p>
               )}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
+              <p className={`tw-m-0 ${!stakingPeriodStart && 'tw-skeleton'}`}>
                 {dayjs
                   .tz(parseInt(unlockDate) * 1e3, 'UTC')
                   .tz(dayjs.tz.guess())

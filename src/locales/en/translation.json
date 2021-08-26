@@ -312,7 +312,7 @@
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
           "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
         },
-        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Pre-sale.",
+        "notVerified": "The $FISH public pre-sale will open at 14:00 UTC, get your RBTC ready!",
         "cta": "Continue",
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
@@ -387,8 +387,8 @@
       "description": "Claim your Origins Purchases"
     },
     "claimForm": {
-      "title": "Liquid Balance",
-      "availble": "Total Liquid FISH Available:",
+      "title": "Claim FISH Balance",
+      "availble": "Total FISH Available:",
       "cta": "Claim",
       "note": "Withdrawal will be available at {{date}}.",
       "unlockedNote": "You will instantly receive {{amount}} FISH tokens to your wallet."
