@@ -15,6 +15,7 @@ export interface IPairData {
   price_change_week: number;
   price_change_week_usd: number;
 }
+
 export interface IPairs {
   [key: string]: IPairData;
 }

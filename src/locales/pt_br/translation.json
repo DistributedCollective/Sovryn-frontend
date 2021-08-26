@@ -610,7 +610,7 @@
       "disabled": "Ativo não disponível para empréstimo."
     }
   },
-   "borrow": {
+  "borrow": {
     "meta": {
       "title": "Obter empréstimos"
     }
@@ -1408,7 +1408,7 @@
         "spotTrading": "Operando spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS", 
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
       "title": "Pools AMM",
       "asset": "Ativos",
@@ -1417,7 +1417,7 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
       "apy": "Juros anual"
-     },
+    },
     "banner": {
       "originsFish": "Pré-venda do token FISH ",
       "liveNow": "VENDA ABERTA!",
