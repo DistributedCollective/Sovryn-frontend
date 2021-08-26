@@ -20,6 +20,7 @@ interface Props {
 
 const CopySuccess = ({ copied }) => {
   const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -71,7 +72,13 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
               <div className="tw-qrcode-address-wrapper">
                 <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full">
                   <div className="tw-flex-shrink tw-flex-grow-0 tw-overflow-hidden tw-text-white">
-                    <Text ellipsize>{prettyTx(address, 15, 12)}</Text>
+                    <Text ellipsize>
+                      {address.length > 0 ? (
+                        <>{prettyTx(address, 15, 12)}</>
+                      ) : (
+                        <>{t(translations.fastBtcDialog.qr.generating)}</>
+                      )}
+                    </Text>
                   </div>
                   <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-4">
                     <svg
