@@ -5,7 +5,9 @@
   margin-top: 23px;
 
   .swap-btn-helper {
-    @apply tw-text-xs tw-text-sov-white tw-text-center;
+    @apply tw-flex tw-items-center tw-justify-center
+      tw-text-xs tw-text-sov-white tw-text-center tw-tracking-normal;
+      
     img {
       @apply tw-ml-2 tw-cursor-pointer;
     }

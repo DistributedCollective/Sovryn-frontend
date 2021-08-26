@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
-import classNames from 'classnames';
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';

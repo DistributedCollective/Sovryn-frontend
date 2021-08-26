@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { StepItem } from './index';
 
@@ -14,7 +14,7 @@ interface StepProps {
 export function Step({ step, current, active, isFirst, onClick }: StepProps) {
   return (
     <li
-      className={cn(
+      className={classNames(
         'tw-flex tw-items-center tw-cursor-pointer tw-transition tw-duration-700 tw-ease-in-out',
         {
           'tw-opacity-25': !active,
@@ -33,7 +33,7 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
             ></span>
           )}
           <span
-            className={cn(
+            className={classNames(
               'tw-absolute tw-border-sov-white tw-rounded-full tw-bg-sov-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
               {
                 'tw-w-2 tw-h-2': !active,
@@ -44,7 +44,7 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
             )}
           ></span>
           <span
-            className={cn(
+            className={classNames(
               'tw-absolute tw-border-sov-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-sov-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
               {
                 'tw-transform tw-scale-125': !!active,
@@ -54,7 +54,7 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
             )}
           ></span>
           <span
-            className={cn(
+            className={classNames(
               'tw-absolute tw-flex tw-items-center tw-justify-center tw-transform tw-border-sov-white tw-w-4 tw-h-4 tw-rounded-full tw-transition tw-duration-700 tw-ease-in-out',
               {
                 'tw-scale-0': !step?.icon,

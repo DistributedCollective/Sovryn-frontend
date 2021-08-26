@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -291,12 +290,7 @@ export function SwapFormContainer() {
       </div>
 
       <div className={styles.swapBtnContainer}>
-        <div
-          className={classNames(
-            styles.swapBtnHelper,
-            'tw-flex tw-items-center tw-justify-center tw-tracking-normal',
-          )}
-        >
+        <div className={styles.swapBtnHelper}>
           <span>
             {t(translations.swap.minimumReceived)}{' '}
             {weiToNumberFormat(minReturn, 6)}

@@ -85,12 +85,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             }
           >
             <>
-              <div
-                className={classNames(
-                  styles.engageWallet,
-                  'tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer',
-                )}
-              >
+              <div className={styles.engageWallet}>
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
                   <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
