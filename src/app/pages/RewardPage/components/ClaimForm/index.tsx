@@ -17,7 +17,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
 interface Props {
-  className?: object;
+  className?: string;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
@@ -65,7 +65,7 @@ export function ClaimForm({ className, address }: Props) {
             {t(translations.rewardPage.claimForm.availble)}
           </div>
           <Input
-            value={weiToNumberFormat(lockedBalance, 4)}
+            value={weiToNumberFormat(lockedBalance, 8)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />

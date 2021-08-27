@@ -34,8 +34,10 @@ export function RewardPage() {
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
-          <ClaimForm address={userAddress} />
-          <StakingRewardsClaimForm address={userAddress} className="tw-mt-8" />
+          <div className="tw-w-full tw-items-center tw-justify-center tw-flex tw-flex-col tw-space-y-8 lg:tw-flex-row lg:tw-space-x-8 lg:tw-space-y-0">
+            <ClaimForm address={userAddress} />
+            <StakingRewardsClaimForm address={userAddress} />
+          </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">
               {t(translations.rewardPage.historyTable.title)}

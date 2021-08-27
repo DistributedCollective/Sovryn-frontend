@@ -16,6 +16,7 @@
     "availableBalance": "Available Balance:",
     "maintenance": "Under Maintenance",
     "next": "Next",
+    "loading": "Loading...",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -1325,7 +1326,7 @@
     },
     "stakingForm": {
       "title": "Staking Rewards",
-      "available": "Total Reward SOV Available:",
+      "available": "Total Staking Rewards Available:",
       "cta": "Claim"
     },
     "totalEarned": "Total Rewards Earned:",
