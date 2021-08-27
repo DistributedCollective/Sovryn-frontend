@@ -16,6 +16,7 @@
     "availableBalance": "Available Balance:",
     "maintenance": "Under Maintenance",
     "next": "Next",
+    "loading": "Loading...",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -1369,6 +1370,11 @@
       "cta": "Claim",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
+    },
+    "stakingForm": {
+      "title": "Staking Rewards",
+      "available": "Total Staking Rewards Available:",
+      "cta": "Claim"
     },
     "totalEarned": "Total Rewards Earned:",
     "topData": {
