@@ -1,0 +1,37 @@
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background-color: theme('colors.black');
+
+  & > div:first-child {
+    min-height: 70px;
+  }
+
+  &.open {
+    height: 100vh;
+  }
+
+  select {
+    font-size: 16px;
+    font-family: theme('fontFamily.body');
+    font-weight: 100;
+    background-color: transparent;
+  }
+}
+
+// blueprintjs override
+:global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
+  border: none;
+  background-color: black !important;
+  overflow: hidden;
+  & :global(.bp3-menu) {
+    padding: 0;
+    & a {
+      font-weight: normal;
+    }
+  }
+}

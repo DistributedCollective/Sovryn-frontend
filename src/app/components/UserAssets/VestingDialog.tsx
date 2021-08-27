@@ -10,7 +10,7 @@ import { translations } from '../../../locales/i18n';
 import { TxType } from '../../../store/global/transactions-store/types';
 import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import arrowDown from '../../containers/WalletPage/components/arrow-down.svg';
-import styles from '../../containers/WalletPage/components/dialog.module.css';
+import styles from '../../containers/WalletPage/components/dialog.module.scss';
 import { useGetUnlockedVesting } from '../../hooks/staking/useGetUnlockedVesting';
 import { useAccount } from '../../hooks/useAccount';
 import { useSendToContractAddressTx } from '../../hooks/useSendToContractAddressTx';
@@ -39,7 +39,11 @@ export function VestingDialog(props: Props) {
   );
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
-      send([address], { from: account }, { type: TxType.SOV_WITHDRAW_VESTING });
+      send(
+        [address.toLowerCase()],
+        { from: account },
+        { type: TxType.SOV_WITHDRAW_VESTING },
+      );
     }
   }, [account, address, send, tx]);
 
@@ -89,7 +93,7 @@ export function VestingDialog(props: Props) {
                 </div>
                 <FieldGroup label={t(translations.vestingDialog.receiver)}>
                   <InputField
-                    onChange={value => setAddress(value)}
+                    onChange={event => setAddress(event.target.value)}
                     value={address}
                   />
                 </FieldGroup>

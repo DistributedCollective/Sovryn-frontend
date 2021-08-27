@@ -9,7 +9,7 @@ import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
 import { Dialog } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
 

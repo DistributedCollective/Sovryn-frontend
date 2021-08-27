@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import BorrowingContainer from '../../BorrowingContainer';
-import '../../assets/index.scss';
 import { selectLendBorrowSovryn } from '../../selectors';
 
 type Props = {};

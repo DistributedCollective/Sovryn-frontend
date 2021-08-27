@@ -30,6 +30,8 @@ const H2 = styled.h2<H2Props>`
 
   & > :not(:first-child) {
     font-size: 26px;
+    line-height: 24px;
+    font-weight: 600;
     letter-spacing: 0;
     margin-bottom: 3px;
   }

@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackLinkTypePlugin = require('html-webpack-link-type-plugin')
+  .HtmlWebpackLinkTypePlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -510,6 +512,7 @@ module.exports = function (webpackEnv) {
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
+                  localsConvention: 'camelCase',
                 },
                 'sass-loader',
               ),
@@ -566,10 +569,8 @@ module.exports = function (webpackEnv) {
                 minify: {
                   removeComments: true,
                   collapseWhitespace: true,
-                  removeRedundantAttributes: true,
                   useShortDoctype: true,
                   removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
                   keepClosingSlash: true,
                   minifyJS: true,
                   minifyCSS: true,
@@ -591,6 +592,18 @@ module.exports = function (webpackEnv) {
       // It will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      // Required to fix missing types on <link> tags, resulting in issues with brave (and IE11)
+      // https://github.com/jantimon/html-webpack-plugin/issues/726
+      new HtmlWebpackLinkTypePlugin({
+        '**/*.css': 'text/css',
+        '**/*.js': 'text/javascript',
+        '**/*.png': 'image/png',
+        '**/*.jpg': 'image/jpeg',
+        '**/*.jpeg': 'image/jpeg',
+        '**/*.gif': 'image/gif',
+        '**/*.webp': 'image/webp',
+        '**/*.bmp': 'image/bmp',
+      }),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -618,6 +631,7 @@ module.exports = function (webpackEnv) {
           // both options are optional
           filename: 'static/css/[name].[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          linkType: 'text/css',
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
