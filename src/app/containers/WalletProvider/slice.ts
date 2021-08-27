@@ -25,6 +25,7 @@ export const initialState: ContainerState = {
     isDialogOpen: false,
   },
   assetRates: [],
+  assetRatesLoading: true,
   processedBlocks: [],
 };
 
@@ -114,8 +115,12 @@ const walletProviderSlice = createSlice({
     whitelistDialog(state, { payload }: PayloadAction<boolean>) {
       state.whitelist.isDialogOpen = payload;
     },
+    getPrices(state) {
+      state.assetRatesLoading = true;
+    },
     setPrices(state, { payload }: PayloadAction<CachedAssetRate[]>) {
       state.assetRates = payload;
+      state.assetRatesLoading = false;
     },
     testTransactions() {},
   },

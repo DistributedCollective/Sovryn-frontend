@@ -281,6 +281,10 @@ export const contracts = {
     address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
     abi: FISHTokenAbi,
   },
+  FISH_amm: {
+    address: '0x1D2c04967E8b17168310fD7035cc219DE477bE82', // todo
+    abi: LiquidityPoolV1Converter,
+  },
   FISH_staking: {
     address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
     abi: StakingAbi,
