@@ -14,10 +14,10 @@ export const OriginsClaimPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t(translations.rewardPage.meta.title)}</title>
+        <title>{t(translations.originsClaim.meta.title)}</title>
         <meta
           name="description"
-          content={t(translations.rewardPage.meta.description)}
+          content={t(translations.originsClaim.meta.description)}
         />
       </Helmet>
 
