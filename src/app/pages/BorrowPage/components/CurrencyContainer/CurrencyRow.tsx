@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/macro';
-import clsx from 'clsx';
+import cn from 'classnames';
 import { Text } from '@blueprintjs/core';
 
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
@@ -33,7 +33,7 @@ const CurrencyRow: React.FC<Props> = ({
 
   return (
     <div
-      className={clsx(
+      className={cn(
         'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 currency-container tw-mb-4 tw-text-muted tw-cursor-pointer',
         active && 'currency-container__active',
       )}
