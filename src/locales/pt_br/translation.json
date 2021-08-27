@@ -15,6 +15,8 @@
     "withdraw": "Resgatar",
     "availableBalance": "Saldo disponível:",
     "maintenance": "Em manutenção",
+    "next": "Próximo",
+    "loading": "Carregando...",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -1311,7 +1313,7 @@
     },
     "claimForm": {
       "title": "Recompensas",
-      "availble": "Quantidade de SOV disponível:",
+      "availble": "Total de SOV disponíveis:",
       "cta": "Reivindicar",
       "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
@@ -1517,7 +1519,7 @@
       "title": "Pools AMM",
       "asset": "Ativos",
       "pool": "Pools",
-      "stakedBalance": "Total investido",
+      "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
       "apy": "Juros anual"
