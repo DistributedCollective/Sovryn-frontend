@@ -65,7 +65,7 @@ export class AssetsDictionary {
       ],
       [
         Asset.FISH,
-        new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, false),
+        new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, true),
       ],
     ],
   );
