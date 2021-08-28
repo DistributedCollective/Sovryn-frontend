@@ -6,7 +6,6 @@ import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import CurrencyContainer from './components/CurrencyContainer';
-import './assets/index.scss';
 import CurrencyDetails from './components/CurrencyDetails';
 import { Header } from 'app/components/Header';
 import { lendBorrowSovrynSaga } from './saga';

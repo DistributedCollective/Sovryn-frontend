@@ -16,7 +16,7 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import styled from 'styled-components/macro';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';

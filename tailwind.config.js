@@ -88,6 +88,7 @@ module.exports = {
 
       // new
       Teal: '#4ecdc4',
+      foreground: '#D9D9D9',
       background: '#171717',
       'secondary-bg': '#414042',
       Field_bg: '#05182e',
@@ -176,7 +177,6 @@ module.exports = {
         '5px': '0.3125rem',
         '10px': '0.625rem',
         '20px': '1.25rem',
-        '50%': '50%',
       },
       keyframes: {
         spin: {

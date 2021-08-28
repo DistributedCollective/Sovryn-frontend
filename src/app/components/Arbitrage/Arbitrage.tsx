@@ -44,24 +44,31 @@ export function Arbitrage() {
       Object.values(data)
         .filter(isValidArbitrage)
         .map(item => {
-          const toToken = assetByTokenAddress(item.rateToBalance.to);
-          const rate = assetRates.find(
-            item => item.source === toToken && item.target === Asset.USDT,
-          );
+          try {
+            const toToken = assetByTokenAddress(item.rateToBalance.to);
+            const rate = assetRates.find(
+              item => item.source === toToken && item.target === Asset.USDT,
+            );
+            return {
+              fromToken: assetByTokenAddress(item.rateToBalance.from),
+              toToken,
+              fromAmount: item.rateToBalance.amount,
+              toAmount: item.rateToBalance.rate,
+              earn: item.rateToBalance.earn,
+              earnUsd: rate
+                ? Number(
+                    bignumber(fixNumber(rate.value.rate))
+                      .mul(item.rateToBalance.earn)
+                      .div(rate.value.precision)
+                      .toFixed(18),
+                  )
+                : 0,
+            };
+          } catch (error) {
+            console.error(error);
+          }
           return {
-            fromToken: assetByTokenAddress(item.rateToBalance.from),
-            toToken,
-            fromAmount: item.rateToBalance.amount,
-            toAmount: item.rateToBalance.rate,
-            earn: item.rateToBalance.earn,
-            earnUsd: rate
-              ? Number(
-                  bignumber(fixNumber(rate.value.rate))
-                    .mul(item.rateToBalance.earn)
-                    .div(rate.value.precision)
-                    .toFixed(18),
-                )
-              : 0,
+            earnUsd: NaN,
           };
         })
         .sort((a, b) => b.earnUsd - a.earnUsd) as Opportunity[],

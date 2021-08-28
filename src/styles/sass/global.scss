@@ -1,0 +1,29 @@
+// global-styles.tsx
+body.originsLaunchpad {
+  @apply tw-bg-gray-800;
+}
+
+#root {
+  min-height: 100vh;
+  overflow: auto;
+  padding-top: 4.4rem;
+  &.openedMenu {
+    overflow: hidden;
+    height: 0;
+    min-height: 0;
+  }
+}
+
+#WEB3_CONNECT_MODAL_ID > div {
+  z-index: 30;
+}
+
+.mw-tooltip {
+  max-width: 250px;
+}
+
+@screen lg {
+  .mw-tooltip {
+    max-width: 600px;
+  }
+}

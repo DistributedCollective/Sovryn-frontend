@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import '../../assets/index.scss';
 
 import CurrencyRow from './CurrencyRow';
 import { Asset } from '../../../../../types/asset';
