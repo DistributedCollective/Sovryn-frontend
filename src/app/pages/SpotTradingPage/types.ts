@@ -37,6 +37,12 @@ export enum SpotPairType {
   BNB_XUSD = 'BNBS_XUSD',
   BNB_DOC = 'BNBS_DOC',
   BNB_MOC = 'BNBS_MOC',
+  FISH_RBTC = 'FISH_RBTC',
+  FISH_XUSD = 'FISH_XUSD',
+  FISH_USDT = 'FISH_USDT',
+  FISH_DOC = 'FISH_DOC',
+  FISH_ETH = 'FISH_ETH',
+  FISH_BNB = 'FISH_BNB',
 }
 
 export const pairs = {
@@ -74,6 +80,12 @@ export const pairs = {
   [SpotPairType.BNB_XUSD]: [Asset.BNB, Asset.XUSD],
   [SpotPairType.BNB_DOC]: [Asset.BNB, Asset.DOC],
   [SpotPairType.BNB_MOC]: [Asset.BNB, Asset.MOC],
+  [SpotPairType.FISH_RBTC]: [Asset.FISH, Asset.RBTC],
+  [SpotPairType.FISH_XUSD]: [Asset.FISH, Asset.XUSD],
+  [SpotPairType.FISH_USDT]: [Asset.FISH, Asset.USDT],
+  [SpotPairType.FISH_DOC]: [Asset.FISH, Asset.DOC],
+  [SpotPairType.FISH_ETH]: [Asset.FISH, Asset.ETH],
+  [SpotPairType.FISH_BNB]: [Asset.FISH, Asset.BNB],
 };
 
 export const pairList = [
@@ -111,6 +123,12 @@ export const pairList = [
   SpotPairType.BNB_XUSD,
   SpotPairType.BNB_DOC,
   SpotPairType.BNB_MOC,
+  SpotPairType.FISH_RBTC,
+  SpotPairType.FISH_XUSD,
+  SpotPairType.FISH_USDT,
+  SpotPairType.FISH_DOC,
+  SpotPairType.FISH_ETH,
+  SpotPairType.FISH_BNB,
 ];
 
 export interface SpotTradingPageState {
@@ -138,6 +156,15 @@ export const getOrder = (from: Asset, to: Asset) => {
     pair,
     pairAsset: pairs[pair],
   };
+};
+
+export const getAmmSpotPairs = () => {
+  return pairList.filter(item => {
+    const [assetA, assetB] = pairs[item];
+    return (
+      AssetsDictionary.get(assetA).hasAMM && AssetsDictionary.get(assetB).hasAMM
+    );
+  });
 };
 
 export type ContainerState = SpotTradingPageState;

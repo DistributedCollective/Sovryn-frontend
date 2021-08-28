@@ -15,6 +15,7 @@ interface IPreviousSalesCardProps {
   backgroundImage: string;
   price: string;
   className?: string;
+  cardClassName?: string;
 }
 
 export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
@@ -27,6 +28,7 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   backgroundImage,
   price,
   className,
+  cardClassName,
 }) => {
   const { t } = useTranslation();
   return (
@@ -36,7 +38,10 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
         className,
       )}
     >
-      <CardImage style={{ backgroundImage: `url(${backgroundImage})` }} />
+      <CardImage
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+        className={cn(cardClassName)}
+      />
       <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 2xl:tw-ml-11">
         <InfoRow
           label={t(

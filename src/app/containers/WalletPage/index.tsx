@@ -1,9 +1,3 @@
-/**
- *
- * WalletPage
- *
- */
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
