@@ -64,10 +64,10 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
     ) {
       fn = 'withdrawAndStakeTokens';
       args = [address];
-    } else if (parseFloat(getVestedBalance) > 0) {
+    } else if (parseFloat(getWaitedUnlockedBalance) > 0) {
       fn = 'withdrawWaitedUnlockedBalance';
       args = [address];
-    } else if (parseFloat(getWaitedUnlockedBalance) > 0) {
+    } else if (parseFloat(getVestedBalance) > 0) {
       fn = 'createVestingAndStake';
       args = [];
     }
