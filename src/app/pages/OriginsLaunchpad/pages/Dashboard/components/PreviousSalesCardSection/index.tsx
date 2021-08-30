@@ -9,7 +9,7 @@ import './module.scss';
 
 export const PreviousSalesCardSection: React.FC = () => (
   <PreviousSalesRowWrapper>
-    <PreviousSalesRow>
+    <PreviousSalesRow className="tw-overflow-x-auto">
       <PreviousSalesCard
         saleName="FISH Origins Sale"
         saleAllocation={`${toNumberFormat(19992000)} FISH`}
@@ -29,11 +29,9 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="3267"
         date="10th - 13th Feb 2021"
         saleDuration="Approx 48Hr"
-        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0 xl:tw-ml-8 xl:tw-ml-16 2xl:tw-ml-36"
+        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0"
         backgroundImage={imgOrigins}
       />
-    </PreviousSalesRow>
-    <PreviousSalesRow>
       <PreviousSalesCard
         saleName="SOV Genesis sale"
         saleAllocation={`${toNumberFormat(2641946.1868, 4)} CSOV`}
