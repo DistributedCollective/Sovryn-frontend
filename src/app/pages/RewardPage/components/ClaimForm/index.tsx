@@ -25,7 +25,7 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 
 interface Props {
-  className?: object;
+  className?: string;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
@@ -70,7 +70,7 @@ export function ClaimForm({ className, address }: Props) {
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
         <div>
           <Input
-            value={weiToNumberFormat(lockedBalance, 6)}
+            value={weiToNumberFormat(lockedBalance, 8)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />

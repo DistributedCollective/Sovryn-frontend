@@ -4,7 +4,7 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { ContractName } from 'utils/types/contracts';
 
 import { Nullable } from '../../types';
-import { useBlockSync } from './useAccount';
+import { useAccount, useBlockSync } from './useAccount';
 
 export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
@@ -28,6 +28,7 @@ export function useCacheCall<T = any>(
   ...args: any
 ): CacheCallResponse<T> {
   const syncBlockNumber = useBlockSync();
+  const account = useAccount();
 
   const [state, setState] = useState<any>({
     value: null,
@@ -40,7 +41,7 @@ export function useCacheCall<T = any>(
 
     try {
       contractReader
-        .call(contractName, methodName, args)
+        .call(contractName, methodName, args, account || undefined)
         .then(value => {
           setState(prevState => ({
             ...prevState,

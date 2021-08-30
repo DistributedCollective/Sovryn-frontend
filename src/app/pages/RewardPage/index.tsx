@@ -14,6 +14,7 @@ import { FeeForm } from './components/FeeForm';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidForm } from './components/LiquidForm';
 import { RewardForm } from './components/RewardForm';
+import { StakingRewardsClaimForm } from './components/StakingRewardsClaimForm';
 import { Tab } from './components/Tab';
 
 export function RewardPage() {

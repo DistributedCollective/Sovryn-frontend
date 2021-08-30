@@ -14,6 +14,7 @@ import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
@@ -277,9 +278,17 @@ export const contracts = {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
   },
+  stakingRewards: {
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
+    abi: stakingRewardsProxyAbi,
+  },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
+  },
+  FISH_amm: {
+    address: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+    abi: LiquidityPoolV1Converter,
   },
   FISH_staking: {
     address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',

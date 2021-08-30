@@ -16,6 +16,7 @@
     "availableBalance": "Available Balance:",
     "maintenance": "Under Maintenance",
     "next": "Next",
+    "loading": "Loading...",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -268,6 +269,7 @@
     "bitocracy": "Bitocracy",
     "spotTrade": "Spot",
     "origins": "Origins",
+    "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
     "rewards": "Rewards"
@@ -1369,6 +1371,11 @@
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
+    "stakingForm": {
+      "title": "Staking Rewards",
+      "available": "Total Staking Rewards Available:",
+      "cta": "Claim"
+    },
     "totalEarned": "Total Rewards Earned:",
     "sov": {
       "reward": "Reward SOV",
@@ -1535,8 +1542,8 @@
   },
   "landingPage": {
     "meta": {
-      "title": "SOV trading is now live!",
-      "description": "SOV trading is now live!"
+      "title": "Welcome to Sovryn",
+      "description": "The Decentralized Bitcoin Trading And Lending Platform"
     },
     "welcomeTitle": "Welcome to Sovryn",
     "welcomeMessage": "The decentralized bitcoin trading and lending platform",
@@ -1591,6 +1598,7 @@
       "originsFish": "Origins FISH token pre-sale",
       "liveNow": "LIVE NOW!",
       "buyNow": "Buy Now",
+      "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
       "timer": {
         "days": "DAYS",

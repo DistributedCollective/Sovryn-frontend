@@ -202,11 +202,11 @@ export const Row: React.FC<IRowProps> = ({
             loading={assetLoading}
             value={
               assetData?.circulating_supply
-                ? Number(
+                ? `${Number(
                     bignumber(assetData?.circulating_supply)
                       .mul(lastPrice)
                       .toFixed(0),
-                  ).toLocaleString('en')
+                  ).toLocaleString('en')} USD`
                 : ''
             }
           />
