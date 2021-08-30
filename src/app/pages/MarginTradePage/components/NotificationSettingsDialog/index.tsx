@@ -26,14 +26,17 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   return (
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className="tw-mw-340 tw-mx-auto">
-        {t(translations.marginTradePage.notificationSettingsDialog.title)}
-
-        <div>
-          {t(translations.marginTradePage.notificationSettingsDialog.notifyVia)}
+        <div className="tw-mb-8">
+          {t(translations.marginTradePage.notificationSettingsDialog.title)}
         </div>
 
-        <div>
-          <div className="tw-flex tw-justify-between">
+        <div className="tw-mb-6 tw-text-sm">
+          {t(translations.marginTradePage.notificationSettingsDialog.notifyVia)}
+          :
+        </div>
+
+        <div className="tw-mb-10">
+          <div className="tw-flex tw-justify-between tw-mb-1.5">
             <div>Telegram</div>
             <Switch
               checked={isTelegramActive}
@@ -52,18 +55,23 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
                 ? 'tw-pointer-events-none tw-opacity-30 tw-cursor-not-allowed'
                 : ''
             }
+            labelClassName="tw-text-sm tw-font-normal tw-mb-2"
           >
             <Input
               value={telegramUsername}
               onChange={setTelegramUsername}
-              placeholder="@username"
-              className="tw-rounded-lg"
+              placeholder={t(
+                translations.marginTradePage.notificationSettingsDialog
+                  .usernamePlaceholder,
+              )}
+              className="tw-rounded-lg tw-h-8"
+              inputClassName="tw-font-medium"
             />
           </FormGroup>
         </div>
 
-        <div>
-          <div className="tw-flex tw-justify-between">
+        <div className="tw-mb-6">
+          <div className="tw-flex tw-justify-between tw-mb-1.5">
             <div>Discord</div>
             <Switch
               checked={isDiscordActive}
@@ -82,22 +90,28 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
                 ? 'tw-pointer-events-none tw-opacity-30 tw-cursor-not-allowed'
                 : ''
             }
+            labelClassName="tw-text-sm tw-font-normal tw-mb-2"
           >
             <Input
               value={discordUsername}
               onChange={setDiscordUsername}
-              placeholder="@username"
-              className="tw-rounded-lg"
+              placeholder={t(
+                translations.marginTradePage.notificationSettingsDialog
+                  .usernamePlaceholder,
+              )}
+              className="tw-rounded-lg tw-h-8"
+              inputClassName="tw-font-medium"
             />
           </FormGroup>
         </div>
 
-        <div>
+        <div className="tw-text-sm">
           {t(
             translations.marginTradePage.notificationSettingsDialog
               .receiveNotificationTitle,
           )}
-          <div>
+          :
+          <div className="tw-mt-6">
             <div>
               -{' '}
               {t(
@@ -126,7 +140,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             )
           }
           disabled={!telegramUsername && !discordUsername}
-          className="tw-rounded-lg"
+          className="tw-rounded-lg tw-mt-10"
         />
       </div>
     </Dialog>
