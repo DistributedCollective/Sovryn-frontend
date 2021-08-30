@@ -22,7 +22,7 @@ interface Props {
 export function DelegateForm(props: Props) {
   const now = new Date();
   const [weight, setWeight] = useState('');
-  const [votingPower, setVotingPower] = useState<number>(0 as any);
+  const [votingPower, setVotingPower] = useState(0);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
   const getWeight = useStaking_computeWeightByDate(
     props.timestamp,

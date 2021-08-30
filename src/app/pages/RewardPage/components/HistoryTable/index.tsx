@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
-import { TableBody } from './TableBody';
+import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
 import axios, { CancelTokenSource } from 'axios';
@@ -11,7 +11,7 @@ const pageSize = 6;
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
+  const [history, setHistory] = useState<RewardEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);

@@ -1,8 +1,3 @@
-/**
- *
- * Pagination
- *
- */
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import iconBack from 'assets/images/genesis/arrow_back.svg';
@@ -19,6 +14,7 @@ interface Props {
   pageLimit: number;
   pageNeighbours: number;
   onChange: (value: ChangeEvent) => void;
+  className?: string;
 }
 
 export function Pagination(props: Props) {
@@ -32,12 +28,12 @@ export function Pagination(props: Props) {
    * Helper method for creating a range of numbers
    * range(1, 5) => [1, 2, 3, 4, 5]
    */
-  const range = (from, to, step = 1) => {
+  const range = (from: number, to: number, step = 1) => {
     let i = from;
-    const range = [];
+    const range: number[] = [];
 
     while (i <= to) {
-      range.push(i as never);
+      range.push(i);
       i += step;
     }
 
@@ -68,7 +64,7 @@ export function Pagination(props: Props) {
     if (totalPages > totalBlocks) {
       const startPage = Math.max(2, currentPage - pageNeighbours);
       const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours);
-      let pages = range(startPage, endPage);
+      let pages: (string | number)[] = range(startPage, endPage);
 
       /**
        * hasLeftSpill: has hidden pages to the left
@@ -83,21 +79,21 @@ export function Pagination(props: Props) {
         // handle: (1) < {5 6} [7] {8 9} (10)
         case hasLeftSpill && !hasRightSpill: {
           const extraPages = range(startPage - spillOffset, startPage - 1);
-          pages = [LEFT_PAGE, ...extraPages, ...pages] as any;
+          pages = [LEFT_PAGE, ...extraPages, ...pages];
           break;
         }
 
         // handle: (1) {2 3} [4] {5 6} > (10)
         case !hasLeftSpill && hasRightSpill: {
           const extraPages = range(endPage + 1, endPage + spillOffset);
-          pages = [...pages, ...extraPages, RIGHT_PAGE] as any;
+          pages = [...pages, ...extraPages, RIGHT_PAGE];
           break;
         }
 
         // handle: (1) < {4 5} [6] {7 8} > (10)
         case hasLeftSpill && hasRightSpill:
         default: {
-          pages = [LEFT_PAGE, ...pages, RIGHT_PAGE] as any;
+          pages = [LEFT_PAGE, ...pages, RIGHT_PAGE];
           break;
         }
       }
@@ -108,7 +104,7 @@ export function Pagination(props: Props) {
     return range(1, totalPages);
   };
 
-  const pages = fetchPageNumbers() as any;
+  const pages = fetchPageNumbers();
 
   const gotoPage = useCallback(
     page => {
@@ -152,7 +148,7 @@ export function Pagination(props: Props) {
 
   return (
     <>
-      <nav aria-label="Pagination">
+      <nav className={props.className} aria-label="Pagination">
         <StyledList>
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)

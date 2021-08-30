@@ -17,7 +17,7 @@ export function EngageWalletStep() {
       disabled={connected}
     >
       <div className="disable-content tw-mb-0" style={{ height: 180 }}>
-        <p>
+        <p className="tw-mb-4">
           <Trans
             i18nKey={translations.buySovPage.engage.line1}
             components={[

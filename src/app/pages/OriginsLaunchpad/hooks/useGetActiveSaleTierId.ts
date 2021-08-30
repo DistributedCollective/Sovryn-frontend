@@ -16,7 +16,7 @@ export const useGetActiveSaleTierId = () => {
     }
 
     contractReader.call('originsBase', 'readTierPartA', [i]).then(result => {
-      if (isActiveSale(result[3], result[4])) {
+      if (isActiveSale(result['_saleStartTS'], result['_saleEnd'])) {
         setActiveTierId(i);
       }
     });

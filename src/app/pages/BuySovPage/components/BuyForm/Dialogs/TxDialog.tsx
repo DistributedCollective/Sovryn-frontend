@@ -16,7 +16,7 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import styled from 'styled-components/macro';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
@@ -50,7 +50,7 @@ export function TxDialog(props: Props) {
     >
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
+          <h2>{t(translations.buySovPage.txDialog.pendingUser.title)}</h2>
           <WalletLogo wallet={wallet} />
           <p
             className="tw-text-center tw-mx-auto tw-w-full"
@@ -73,7 +73,7 @@ export function TxDialog(props: Props) {
           >
             <span className="tw-sr-only">Close Dialog</span>
           </button>
-          <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
+          <h2>{t(translations.buySovPage.txDialog.txStatus.title)}</h2>
           <StatusComponent status={props.tx.status} />
 
           {!!props.tx.txHash && (

@@ -12,7 +12,7 @@ import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import '../assets/index.scss';
+import styles from '../index.module.scss';
 import { Asset } from '../../../../types';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
@@ -149,7 +149,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
   );
 
   const popoverContent = (
-    <div className="bp3-popover-borrow">
+    <div className={styles.popoverBorrow}>
       {t(translations.lend.borrowingContainer.chooseDays)}
       <NumericInput
         min={1}

@@ -4,7 +4,7 @@ import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -18,7 +18,7 @@ import { Status } from './Status';
 import { WalletLogo, getWalletName } from './WalletLogo';
 import { Asset } from 'types';
 import { Title } from './Title';
-import babelfishLogo from 'assets/images/babelfish.svg';
+import babelfishLogo from 'assets/images/tokens/babelfish.svg';
 
 interface ITxDialogProps {
   tx: ResetTxResponseInterface;

@@ -5,7 +5,6 @@ import {
   InstructionsSectionsWrapper,
   InstructionsTitle,
   MainInstructionsWrapper,
-  NftInstructionsWrapper,
 } from './styled';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
@@ -66,21 +65,6 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
       </MainInstructionsWrapper>
 
       <img src={imgInstructions} alt="instructions" />
-
-      <NftInstructionsWrapper>
-        <div>
-          {t(
-            translations.originsLaunchpad.saleDay.buyStep.instructions
-              .nftInstruction1,
-          )}
-        </div>
-        <div className="tw-mt-6">
-          {t(
-            translations.originsLaunchpad.saleDay.buyStep.instructions
-              .nftInstruction2,
-          )}
-        </div>
-      </NftInstructionsWrapper>
     </InstructionsSectionsWrapper>
   );
 };

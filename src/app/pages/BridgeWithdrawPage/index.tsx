@@ -15,7 +15,7 @@ import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 import { ConfirmStep } from './components/ConfirmStep';
 import { Asset, Chain } from '../../../types';
-import babelfishIcon from 'assets/images/babelfish.svg';
+import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
@@ -87,7 +87,7 @@ export function BridgeWithdrawPage() {
             minHeight: 'calc(100% - 2.5rem)',
             minWidth: 'calc(100% - 2.5rem)',
           }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-absolute tw-pb-20"
+          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
         >
           <SwitchTransition>
             <CSSTransition

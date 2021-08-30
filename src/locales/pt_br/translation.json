@@ -230,7 +230,7 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Fornecido por <0>Bitcoin</0>",
+    "title": "Feito e disponibilizado por <0>Bitcoinheiros</0>",
     "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
@@ -265,6 +265,8 @@
     "bitocracy": "Bitocracia",
     "spotTrade": "Operar spot",
     "origins": "Origens",
+    "launchpad": "Lançamentos",
+    "claim": "Reinvindicar",
     "rewards": "Recompensas"
   },
   "originsLaunchpad": {
@@ -274,7 +276,7 @@
         "saleToken": "Token à venda",
         "project": "Projeto",
         "startDate": "Data de início",
-        "startPrice": "Preço inicial"
+        "startPrice": "Preço"
       },
       "inputLabel": "Insira um endereço de e-mail",
       "inputLabelName": "Nome ou apelido",
@@ -292,6 +294,108 @@
         "saleDuration": "Duração da venda",
         "price": "Preço"
       }
+    },
+    "saleDay": {
+      "title": "{{token}} Origins Pre-Sale",
+      "engageWalletScreen": {
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "buttonText": "Engage Wallet",
+        "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
+        "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
+      },
+      "accessCodeVerificationStep": {
+        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "verified": {
+          "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
+          "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
+        },
+        "notVerified": "Your wallet address has not been whitelisted for todays FISH Origins Pre-sale.",
+        "cta": "Continue",
+        "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
+      },
+      "importantInformationStep": {
+        "privateSale": {
+          "title": "Important Information about the the FISH Private Pre-Sale Process and Terms",
+          "information": {
+            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH pre-sale! Welcome and thanks for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 28,571 FISH at a maximum purchase price of 0.041 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "FISH tokens purchased as part of this private pre-sale, will vest linearly for approximately 10 months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "8": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        },
+        "publicSale": {
+          "title": "Important Information about the the FISH Public Pre-Sale Process and Terms",
+          "information": {
+            "1": "Welcome to the BabelFish FISH token pre-sale. Thank you kindly for your support!",
+            "2": "The amount of FISH available for purchase per wallet is 27,272 FISH at a maximum purchase price of 0.062 rBTC - Do not transfer more than this amount.",
+            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
+            "5": "Half the FISH purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
+            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
+            "7": "The FISH tokens that are immediately vested will be available for withdrawal from August 28, at 14:00 UTC.",
+            "8": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "9": "For any questions, please ask the community in Discord or Telegram channels."
+          },
+          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "submitButtonText": "I Understand"
+        }
+      },
+      "buyStep": {
+        "buyInformationLabels": {
+          "depositLimits": "Deposit limits",
+          "saleAllocation": "Pre-Sale Allocation",
+          "allocationRemaining": "Allocation Remaining",
+          "participatingWallets": "Participating Wallets",
+          "price": "Price",
+          "acceptedCurrencies": "Accepted currencies",
+          "tokenSaleEndTime": "Token Pre-Sale End Time"
+        },
+        "buyDialog": {
+          "enterAmount": "Enter Amount",
+          "tokenReceived": "{{token}} Received",
+          "transactionFee": "Transaction Fee",
+          "buyButton": "Buy {{token}}",
+          "isOverMaxLimit": "You cannot deposit more than max limit"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
+          "instruction2": "Please allow up to 5 minutes for the transaction to process",
+          "discordSupport": "For support please join us on <0>{{discordUrl}}</0>"
+        }
+      },
+      "txDialog": {
+        "dateTime": "Data e hora",
+        "amountSent": "Quantidade enviada",
+        "amountReceived": "Quantidade recebida",
+        "txHash": "Tx Hash"
+      }
+    }
+  },
+  "originsClaim": {
+    "meta": {
+      "title": "Origins Claim",
+      "description": "Claim your Origins Purchases"
+    },
+    "claimForm": {
+      "title": "Reivindicar saldo FISH",
+      "availble": "Total de FISH disponíveis:",
+      "cta": "Reivindicar",
+      "note": "Disponível para resgate em {{date}}.",
+      "unlockedNote": "Você receberá imediatamente {{amount}} FISH tokens na sua carteira."
+    },
+    "vestForm": {
+      "title": "Locked Balance",
+      "availble": "Total Locked FISH Available:",
+      "cta": "Start Vesting",
+      "note": "{{amount}} FISH tokens will be vested for 10 months with a 1 month cliff.",
+      "learn": "Learn more"
     }
   },
   "trandingPositionSelector": {
@@ -346,7 +450,7 @@
       "allVolumne": "TODO PERÍODO",
       "btc": "BTC",
       "usd": "USD",
-      "tvl": "TVL",
+      "tvl": "Valor total na Sovryn",
       "lending": "Dados de empréstimos"
     },
     "tvl": {
@@ -367,7 +471,7 @@
       "imBalance": "Desequilíbrio"
     },
     "asset": "Ativos",
-    "totalAssetSupplied": "Fornecidos",
+    "totalAssetSupplied": "Total",
     "totalAssetBorrowed": "Emprestados",
     "totalAvailable": "Disponíveis",
     "supplyAPR": "Juros anual (credor)",
@@ -397,6 +501,7 @@
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "sov": "SOV",
+    "days": "dias",
     "delegation": {
       "delegateTo": "Delegar para",
       "delegatedTo": "Delegado para",
@@ -415,7 +520,8 @@
       "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
       "penalty": "Resgatar SOV neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
-      "unstake": "Ok, resgatar SOV"
+      "unstake": "Ok, resgatar SOV",
+      "loading": "Carregando..."
     },
     "staking": {
       "title": "Rentabilizar SOV",
@@ -518,7 +624,7 @@
     "fee": "Lucro",
     "supply": "Adicionar liquidez",
     "withdraw": "Retirar liquidez",
-    "totalLiquidity": "Liquidez total",
+    "totalLiquidity": "Total",
     "transfer": "Transferir",
     "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
@@ -608,6 +714,11 @@
       "disabled": "Ativo não disponível para empréstimo."
     }
   },
+  "borrow": {
+    "meta": {
+      "title": "Obter empréstimos"
+    }
+  },
   "activeUserBorrows": {
     "text": "Você não tem empréstimos a devolver."
   },
@@ -654,7 +765,7 @@
         "timestamp": "Data"
       }
     },
-    "no_items": "Seu histórico de empréstimos está vazio."
+    "no_items": "Você não tem histórico de empréstimos devolvidos."
   },
   "rskConnectTutorial": {
     "browser_wallet": "Carteira de computador",
@@ -996,7 +1107,7 @@
       }
     },
     "poolChart": {
-      "totalLiquidity": "Liquidez total",
+      "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
       "available": "Disponíveis",
       "borrowed": "Emprestados"
@@ -1270,7 +1381,7 @@
       }
     },
     "openPositions": "Posições abertas",
-    "tradingHistory": "Histórico"
+    "tradingHistory": "Posições fechadas"
   },
   "spotTradingPage": {
     "meta": {
@@ -1298,6 +1409,9 @@
   "liquidityMining": {
     "deposit": "Adicionar",
     "withdraw": "Retirar",
+    "meta": {
+      "title": "Minerar liquidez"
+    },
     "explainer": {
       "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
       "startDate": "Start date: 1st April 2021, 12.00 UTC",
@@ -1353,6 +1467,206 @@
     "lootDropLink": "Saiba mais",
     "chartOverlayText": "Juros anual% Em breve!",
     "recalibration": "Próximo ajuste em {{date}}"
+  },
+  "landingPage": {
+    "meta": {
+      "title": "Bem-vindo à Sovryn",
+      "description": "DApp de negociação de bitcoin e plataforma de empréstimo"
+    },
+    "welcomeTitle": "Bem-vindo à Sovryn",
+    "welcomeMessage": "DApp de negociação de bitcoin e plataforma de empréstimo",
+    "tradingVolume": {
+      "dayVolumeTitle": "Volume 24 horas",
+      "tvlTitle": "Valor total",
+      "btc": "BTC",
+      "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Oportunidade de arbitragem",
+      "swap": "trocar",
+      "swapUp": "Trocar até ",
+      "for": "por até ",
+      "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
+    },
+    "tvl": {
+      "title": "Valor total na Sovryn",
+      "type": "Tipo de contrato",
+      "btc": "Valor (BTC)",
+      "usd": "Valor (USD)",
+      "protocol": "Contrato de protocolo",
+      "lend": "Contrato de empréstimo",
+      "amm": "Contrato Amm",
+      "staked": "Contrato Bitocracia",
+      "subtotal": "Sub total",
+      "total": "Total"
+    },
+    "promotions": {
+      "title": "Promoções",
+      "learnMore": "Saiba mais",
+      "sections": {
+        "lending": "Emprestando criptos",
+        "borrowing": "Obtendo empréstimos",
+        "yieldFarming": "Minerando liquidez",
+        "marginTrading": "Operando margem",
+        "swap": "Trocando criptos",
+        "spotTrading": "Operando spot"
+      }
+    },
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
+    "ammpool": {
+      "title": "Pools AMM",
+      "asset": "Ativos",
+      "pool": "Pools",
+      "stakedBalance": "Total investido",
+      "contractBalance": "Saldo do contrato",
+      "imBalance": "Desequilíbrio",
+      "apy": "Juros anual"
+    },
+    "banner": {
+      "originsFish": "Pré-venda do token FISH ",
+      "liveNow": "VENDA ABERTA!",
+      "buyNow": "Compre agora",
+      "soldOut": "FINALIZADA!",
+      "learnMore": "Saiba mais",
+      "timer": {
+        "days": "DIAS",
+        "hours": "HORAS",
+        "mins": "MINUTOS",
+        "secs": "SEGUNDOS"
+      }
+    },
+    "cryptocurrencyPrices": {
+      "title": "PREÇO DOS ATIVOS",
+      "asset": "Ativos",
+      "price": "Preço",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Valor de mercado",
+      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na sidechain RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na sidechain RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
+      "circulatingSupply": "Em circulação"
+    }
+  },
+  "BridgeDepositPage": {
+    "poweredBy": "Disponibilizado por babelFish",
+    "network": "Rede",
+    "changeWallet": "Deseja usar outra carteira?",
+    "chainSelector": {
+      "wrongNetwork": {
+        "title": "Mude para a rede {{network}}"
+      },
+      "chooseNetwork": {
+        "title": "Em qual rede está a cripto que você deseja depositar?"
+      }
+    },
+    "reviewStep": {
+      "title": "Revisar depósito",
+      "dateTime": "Data e hora",
+      "from": "De",
+      "token": "Token",
+      "amount": "Quantidade",
+      "bridgeFee": "Taxa de serviço",
+      "tx": "ID transação",
+      "confirmDeposit": "Confirmar depósito"
+    },
+    "walletSelector": {
+      "wrongNetwork": "Nós detectamos que você está na rede",
+      "switch": "Por favor mude para a rede {{network}} na sua",
+      "wallet": "carteira",
+      "howToConnect": "Como conectar na"
+    },
+    "amountSelector": {
+      "title": "Insira a quantidade a ser depositada",
+      "balance": "Meu saldo",
+      "dailyDepositLimits": "Limites diários de depósito",
+      "minAmount": "Quantidade mínima",
+      "maxAmount": "Quantidade máxima",
+      "dailyLimit": "Limite diário",
+      "dailyLimitSpent": "Limite diário usado",
+      "fee": "Taxa",
+      "aggregatorBalance": "Aggregator Balance",
+      "depositAmount": "Desejo depositar:"
+    },
+    "confirmStep": {
+      "pleaseWait": "Por favor aguarde",
+      "preparingTransaction": "Preparando transação",
+      "allowTransaction": "Permitir transação",
+      "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
+      "confirmTransaction": "Confirmar transação",
+      "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
+      "depositInProgress": "Processando depósito",
+      "depositComplete": "Depósito concluído",
+      "depositFailed": "Depósito falhou",
+      "transactionDenied": "Transação negada",
+      "rejectedByUser": "Rejeitada pelo usuário"
+    },
+    "returnToPortfolio": {
+      "title": "Conectar na RSK",
+      "connectNetwork": "Conectar",
+      "notConnected": "Para continuar você precisa conectar na sua",
+      "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
+      "switchNetwork": "Mudar rede",
+      "connected": "Tudo certo",
+      "return": "Voltar para o portfólio"
+    },
+    "tokenSelector": {
+      "title": "Qual cripto você deseja depositar?",
+      "notSupported": "Desculpe, não suportamos depósitos para {{targetAsset}} na rede {{network}}. Tente outra rede ou cripto."
+    }
+  },
+  "BridgeWithdrawPage": {
+    "chainSelector": {
+      "chooseNetwork": {
+        "title": "Para qual rede você deseja sacar seus {{asset}}?"
+      }
+    },
+    "reviewStep": {
+      "title": "Revisar saque {{symbol}}",
+      "dateTime": "Data e hora",
+      "from": "De",
+      "to": "Para",
+      "token": "Token",
+      "amount": "Quantidade",
+      "receiver": "Destinatário",
+      "bridgeFee": "Taxa de serviço",
+      "tx": "ID transação",
+      "confirm": "Confirmar saque"
+    },
+    "amountSelector": {
+      "title": "Insira a quantidade a ser sacada",
+      "balance": "Meu saldo",
+      "dailyBridgeLimits": "Limites diários do serviço",
+      "minAmount": "Quantidade mínima",
+      "maxAmount": "Quantidade máxima",
+      "dailyLimit": "Limite diário",
+      "dailyLimitSpent": "Limite diário usado",
+      "fee": "Taxa",
+      "aggregatorBalance": "Aggregator Balance",
+      "withdrawAmount": "Desejo sacar:",
+      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
+      "insufficientDaily": "Insufficient daily limit remaining."
+    },
+    "confirmStep": {
+      "pleaseWait": "Por favor aguarde",
+      "preparingTransaction": "Preparando transação",
+      "allowTransaction": "Permitir transação",
+      "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
+      "confirmTransaction": "Confirmar transação",
+      "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
+      "withdrawInProgress": "Processando saque",
+      "withdrawComplete": "Saque concluído",
+      "withdrawFailed": "Saque falhou",
+      "transactionDenied": "Transação negada",
+      "rejectedByUser": "Rejeitada pelo usuário"
+    },
+    "receiverSelector": {
+      "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
+      "confirm": "Por favor verifique e confirme"
+    },
+    "tokenSelector": {
+      "title": "Qual cripto você deseja sacar",
+      "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
+      "maxWithdrawal": "Máximo permitido:"
+    }
   },
   "buySovPage": {
     "meta": {

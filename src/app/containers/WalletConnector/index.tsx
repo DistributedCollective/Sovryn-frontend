@@ -4,6 +4,7 @@ import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import classNames from 'classnames';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
 
@@ -12,7 +13,7 @@ import { prettyTx } from 'utils/helpers';
 
 import { media } from '../../../styles/media';
 
-import '../../pages/BorrowPage/assets/index.scss';
+import styles from './index.module.scss';
 
 type Props = {
   simpleView: boolean;
@@ -28,7 +29,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   } = useWalletContext();
   const { t } = useTranslation();
   const simpleView = props.simpleView;
-  const simpleViewClass = simpleView ? 'simpleView' : '';
+  const simpleViewClass = simpleView ? styles.simpleView : '';
 
   const getWalletAddrBlockieImg = (): string => {
     return blockies
@@ -84,7 +85,12 @@ const WalletConnectorContainer: React.FC<Props> = props => {
             }
           >
             <>
-              <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
+              <div
+                className={classNames(
+                  styles.engageWallet,
+                  'tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer',
+                )}
+              >
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
                   <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
@@ -96,7 +102,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   </span>
                   <Icon
                     icon="log-out"
-                    className="logout"
+                    className={styles.logout}
                     onClick={() => disconnect()}
                   />
                 </span>

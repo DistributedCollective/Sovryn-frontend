@@ -19,7 +19,7 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
-import babelfishIcon from 'assets/images/babelfish.svg';
+import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
@@ -95,7 +95,7 @@ export function BridgeDepositPage() {
             minHeight: 'calc(100% - 2.5rem)',
             minWidth: 'calc(100% - 2.5rem)',
           }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-center tw-justify-around tw-absolute tw-pb-20"
+          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
         >
           <SwitchTransition>
             <CSSTransition
