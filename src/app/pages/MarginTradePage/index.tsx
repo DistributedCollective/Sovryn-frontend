@@ -21,10 +21,17 @@ import { TradingHistory } from './components/TradingHistory';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import styles from './index.module.scss';
+import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
+
+  const [
+    showNotificationSettingsModal,
+    setShowNotificationSettingsModal,
+  ] = useState(false);
 
   const { pairType } = useSelector(selectMarginTradePage);
   const { t } = useTranslation();
@@ -59,6 +66,14 @@ export function MarginTradePage() {
         />
       </Helmet>
       <Header />
+      <div className={styles.overview}>
+        <div>Overview</div>
+        <div>
+          <button onClick={() => setShowNotificationSettingsModal(true)}>
+            Enable notifications
+          </button>
+        </div>
+      </div>
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
@@ -93,6 +108,10 @@ export function MarginTradePage() {
         )}
       </div>
       <Footer />
+      <NotificationSettingsDialog
+        isOpen={showNotificationSettingsModal}
+        onClose={() => setShowNotificationSettingsModal(false)}
+      />
     </>
   );
 }
