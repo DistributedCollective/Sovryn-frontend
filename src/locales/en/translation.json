@@ -1454,6 +1454,10 @@
         "2": "Liquidation"
       },
       "submit": "Confirm"
+    },
+    "notificationsButton": {
+      "enable": "Enable notifications",
+      "enabled": "Notifications enabled"
     }
   },
   "spotTradingPage": {
