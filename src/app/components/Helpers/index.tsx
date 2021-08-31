@@ -9,14 +9,14 @@ export function RenderTradingPairName(asset1: Asset, asset2: Asset) {
   return (
     <>
       <div className="tw-flex tw-items-center">
-        <div className="tw-flex tw-mr-2">
+        <div className="tw-flex">
           <img
-            className="tw-w-6 tw-relative tw-z-10"
+            className="tw-w-7 tw-relative tw-z-10"
             src={assetPair1}
             alt={asset1}
           />
           <img
-            className="tw-w-6 tw-relative tw--left-3"
+            className="tw-w-7 tw-relative tw--left-3"
             src={assetPair2}
             alt={asset2}
           />

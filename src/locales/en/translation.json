@@ -1854,7 +1854,8 @@
     "actions": "Actions",
     "noData": "No data",
     "cta": {
-      "margin": "Add to Margin",
+      "increase": "Increase",
+      "margin": "Margin",
       "close": "Close"
     }
   },
