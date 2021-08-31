@@ -24,6 +24,7 @@ import { SpotHistory } from 'app/containers/SpotHistory';
 import { PriceHistory } from './components/PriceHistory';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useAccount } from 'app/hooks/useAccount';
+import { PairNavbar } from './components/PairNavbar';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -43,12 +44,13 @@ export function SpotTradingPage() {
         />
       </Helmet>
       <Header />
+      <PairNavbar />
       <div
         className={cn('tw-container tw-mt-9 tw-mx-auto tw-px-6', {
           'tw-hidden': !pairType.includes('SOV'),
         })}
       >
-        <PriceHistory />
+        {/* <PriceHistory /> */}
       </div>
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
@@ -57,16 +59,16 @@ export function SpotTradingPage() {
               'tw-flex-shrink tw-flex-grow tw-mb-12 xl:tw-pr-4 xl:tw-mb-0'
             }
           >
-            <TradingChart
+            {/* <TradingChart
               symbol={`${pairType}`.replace('_', '/')}
               theme={Theme.DARK}
-            />
+            /> */}
           </div>
           <div>
             <TradeForm />
           </div>
         </div>
-        <div className="tw-mt-10">
+        {/* <div className="tw-mt-10">
           <div className="tw-px-3">{t(translations.spotHistory.title)}</div>
           {!account ? (
             <SkeletonRow
@@ -76,7 +78,7 @@ export function SpotTradingPage() {
           ) : (
             <SpotHistory />
           )}
-        </div>
+        </div> */}
       </div>
       <Footer />
     </>

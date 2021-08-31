@@ -105,6 +105,7 @@ module.exports = {
       'dark-gray': '#656565',
       'light-gray': '#656565',
       gray_bg: '#404040',
+      gray_bg_dark: '#2C2C2C',
       teal: '#4ecdc4',
       gold: '#fec004',
       red: '#eb2106',
