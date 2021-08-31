@@ -10,6 +10,7 @@ function createSocketConnection() {
   const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
   const socket = io(`${origin}/`, {
     reconnectionDelayMax: 10000,
+    reconnectionAttempts: 3,
     path: pathname && pathname !== '/' ? pathname : '',
   });
   return new Promise(resolve => {

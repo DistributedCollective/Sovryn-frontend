@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { bignumber } from 'mathjs';
 import { LoadableValue } from '../LoadableValue';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { useGetFishDollarValue } from 'app/pages/OriginsLaunchpad/hooks/useGetFishDollarValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { Asset } from '../../../types';
+import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 
 interface IOriginsSaleRowProps {
   token: string;
@@ -22,7 +25,14 @@ export const OriginsSaleRow: React.FC<IOriginsSaleRowProps> = ({
   logo,
   loading,
 }) => {
-  const dollarValue = useGetFishDollarValue(Number(value));
+  const item = AssetsDictionary.get(Asset.FISH);
+  const dollars = useCachedAssetPrice(Asset.FISH, Asset.USDT);
+  const dollarValue = useMemo(() => {
+    return bignumber(value)
+      .mul(dollars.value)
+      .div(10 ** item.decimals)
+      .toFixed(0);
+  }, [dollars.value, value, item.decimals]);
 
   return (
     <tr key={token}>
@@ -40,11 +50,11 @@ export const OriginsSaleRow: React.FC<IOriginsSaleRowProps> = ({
       </td>
       <td className="tw-text-right">
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue.value, 4)), 4)}
-          loading={dollarValue.loading}
+          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          loading={dollars.loading}
         />
       </td>
-      <td className="tw-text-right"></td>
+      <td className="tw-text-right" />
     </tr>
   );
 };
