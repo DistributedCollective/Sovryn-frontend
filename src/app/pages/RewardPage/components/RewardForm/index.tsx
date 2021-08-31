@@ -13,6 +13,7 @@ import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionar
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
+import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
 import {
   Box,
@@ -48,15 +49,15 @@ export function RewardForm() {
         setLoading(false);
       });
   }, [url, userAddress]);
-  // const { events: lendSov, loading } = useGetContractPastEvents(
-  //   'lockedSov',
-  //   'Deposited',
-  // );
+  const { events: lendSov } = useGetContractPastEvents(
+    'lockedSov',
+    'Deposited',
+  );
   // const { events: liqSov } = useGetContractPastEvents(
   //   'liquidityMiningProxy',
   //   'RewardClaimed',
   // );
-
+  console.log('liqsov: ', lendSov);
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
       item => item.hasSovRewards,
