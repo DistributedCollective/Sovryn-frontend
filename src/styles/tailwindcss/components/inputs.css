@@ -21,6 +21,10 @@
     @apply tw-text-black;
     @apply tw-mr-5 !important;
   }
+  .tw-input-prepend {
+    @apply tw-text-black;
+    @apply tw-ml-5 !important;
+  }
 
   .tw-input-wrapper.readonly {
     @apply tw-bg-transparent tw-text-white tw-border tw-border-dark-1;
@@ -29,6 +33,9 @@
     @apply tw-text-white;
   }
   .tw-input-wrapper.readonly .tw-input-append {
+    @apply tw-text-white;
+  }
+  .tw-input-wrapper.readonly .tw-input-prepend {
     @apply tw-text-white;
   }
 }

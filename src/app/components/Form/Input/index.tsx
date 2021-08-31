@@ -9,6 +9,7 @@ interface InputProps {
   value: string;
   onChange?: (value: string) => void;
   appendElem?: React.ReactNode;
+  prependElem?: React.ReactNode;
   type?: InputType;
   className?: string;
   inputClassName?: string;
@@ -25,6 +26,7 @@ export function Input({
   className,
   inputClassName,
   appendElem,
+  prependElem,
   ...props
 }: InputProps) {
   const handleChange = useCallback(
@@ -46,6 +48,7 @@ export function Input({
         readonly: props.readOnly,
       })}
     >
+      {prependElem && <div className="tw-input-prepend">{prependElem}</div>}
       <input
         className={cn('tw-input', inputClassName)}
         lang={navigator.language}
