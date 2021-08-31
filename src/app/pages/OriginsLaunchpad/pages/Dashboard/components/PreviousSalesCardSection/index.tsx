@@ -13,9 +13,9 @@ export const PreviousSalesCardSection: React.FC = () => (
       <PreviousSalesCard
         saleName="FISH Origins Sale"
         saleAllocation={`${toNumberFormat(19992000)} FISH`}
-        totalRaised="TBC"
+        totalRaised="45.7298 BTC"
         price="229 Sats"
-        participatingWallets="TBC"
+        participatingWallets="1022"
         date="26th Aug 2021"
         saleDuration="Approx 30 minutes"
         cardClassName="fish-card"
