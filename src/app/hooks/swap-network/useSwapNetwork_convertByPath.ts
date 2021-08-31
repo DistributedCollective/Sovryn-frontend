@@ -1,7 +1,6 @@
-import { bignumber } from 'mathjs';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useSwapNetwork_convertByPath(
@@ -20,11 +19,7 @@ export function useSwapNetwork_convertByPath(
   );
   return {
     send: (nonce?: number, approveTx?: string | null) => {
-      let args = [
-        path,
-        amount,
-        bignumber(minReturn).minus(bignumber(minReturn).mul(0.005)).toFixed(0), // removes 0.5%
-      ];
+      let args = [path, amount, minReturn];
 
       let config: any = {
         from: account,
@@ -36,9 +31,7 @@ export function useSwapNetwork_convertByPath(
         args = [
           path,
           amount,
-          bignumber(minReturn)
-            .minus(bignumber(minReturn).mul(0.005))
-            .toFixed(0), // removes 0.5%
+          minReturn,
           account,
           '0x0000000000000000000000000000000000000000',
           '0',

@@ -20,6 +20,7 @@ interface Props {
 
 const CopySuccess = ({ copied }) => {
   const { t } = useTranslation();
+
   return (
     <div
       className={cn(
