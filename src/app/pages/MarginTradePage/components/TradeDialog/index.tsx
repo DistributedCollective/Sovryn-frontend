@@ -7,8 +7,8 @@ import { toWei } from 'web3-utils';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
-import { useSlippage } from '../../../BuySovPage/components/BuyForm/useSlippage';
-import { Slider } from '../../../BuySovPage/components/Slider';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { Slider } from 'app/components/Form/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 
