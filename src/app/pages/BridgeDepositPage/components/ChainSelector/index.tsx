@@ -36,7 +36,7 @@ export function ChainSelector() {
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
         {t(translations.BridgeDepositPage.chainSelector.chooseNetwork.title)}
       </div>
-      <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
+      <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
           <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />

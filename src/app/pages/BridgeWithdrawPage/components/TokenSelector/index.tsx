@@ -102,7 +102,7 @@ export function TokenSelector() {
         {t(translations.BridgeWithdrawPage.tokenSelector.title)}
       </div>
       {targetAssets.length > 0 ? (
-        <div className="tw-flex tw-gap-10 tw-px-2 tw-justify-center">
+        <div className="tw-flex tw-px-2 tw-justify-center">
           {targetAssets.map(item => {
             return (
               <TokenItem

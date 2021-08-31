@@ -21,7 +21,7 @@ import { VestingDialog } from './VestingDialog';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OriginsSaleRow } from './OriginsSaleRow';
-import babelfishLogo from 'assets/images/babelfish.svg';
+import babelfishLogo from 'assets/images/tokens/babelfish.svg';
 
 export function VestedAssets() {
   const { t } = useTranslation();

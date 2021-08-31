@@ -7,6 +7,8 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { VestingContract } from './VestingContract';
 
+export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish';
+
 interface Props {
   onDelegate: (timestamp: number, vestingAddress: string) => void;
 }
@@ -93,7 +95,7 @@ function useGetItems() {
   const [state, setState] = useState<{
     items: {
       address: string;
-      type: 'genesis' | 'origin' | 'team' | 'reward';
+      type: VestGroup;
     }[];
     error: string;
     loading: boolean;
@@ -109,7 +111,7 @@ function useGetItems() {
         try {
           const items: {
             address: string;
-            type: 'genesis' | 'origin' | 'team' | 'reward';
+            type: VestGroup;
           }[] = [];
           const vesting1 = (await contractReader.call(
             'vestingRegistry',
@@ -152,6 +154,16 @@ function useGetItems() {
             setState(prevState => ({ ...prevState, items }));
           }
 
+          const vesting5 = (await contractReader.call(
+            'vestingRegistryFISH',
+            'getVesting',
+            [account],
+          )) as string;
+          if (vesting5 && vesting5 !== ethGenesisAddress) {
+            items.push({ address: vesting5, type: 'fish' });
+            setState(prevState => ({ ...prevState, items }));
+          }
+
           resolve(items);
         } catch (e) {
           reject(e);
@@ -159,15 +171,12 @@ function useGetItems() {
       });
 
     if (account && account !== ethGenesisAddress) {
-      console.log('started loading for ', account);
       setState({ items: [], loading: true, error: '' });
       run()
         .then((value: any) => {
-          console.log('loaded for ', account, value);
           setState({ items: value, loading: false, error: '' });
         })
         .catch(e => {
-          console.log('errored', account, e);
           setState(prevState => ({
             ...prevState,
             loading: false,

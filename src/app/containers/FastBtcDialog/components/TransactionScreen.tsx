@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { FastBtcDialogState, TxId } from '../types';
-import styles from './transaction.module.css';
+import styles from './transaction.module.scss';
 import { prettyTx } from '../../../../utils/helpers';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 import { Button } from '@blueprintjs/core';

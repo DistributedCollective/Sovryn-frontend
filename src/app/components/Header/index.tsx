@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -16,8 +17,8 @@ import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import { currentNetwork } from 'utils/classifiers';
-import { StyledBurger, StyledMenu, StyledLogo, StyledPopover } from './styled';
-import './index.scss';
+import styles from './index.module.scss';
+import { StyledBurger, StyledLogo, StyledMenu, StyledPopover } from './styled';
 
 const bridgeURL =
   currentNetwork === 'mainnet'
@@ -82,7 +83,7 @@ export function Header() {
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
-    { to: '/stats', title: t(translations.mainMenu.stats) },
+    { to: '/origins/claim', title: t(translations.mainMenu.originsClaim) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
@@ -126,7 +127,7 @@ export function Header() {
       <StyledPopover
         interactionKind="hover"
         minimal={true}
-        popoverClassName="header-nav-popover"
+        popoverClassName={styles.headerNavPopover}
         content={content}
         hoverOpenDelay={0}
         hoverCloseDelay={0}
@@ -141,6 +142,7 @@ export function Header() {
     TRADE: 'trade',
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
+    ORIGINS: 'origins',
   };
 
   const isSectionOpen = (section: string) => {
@@ -148,6 +150,7 @@ export function Header() {
       [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
+      [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -171,7 +174,7 @@ export function Header() {
 
   return (
     <>
-      <header>
+      <header className={classNames(styles.header, open && styles.open)}>
         <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
           <div className="xl:tw-hidden">
             <div ref={node}>
@@ -334,12 +337,33 @@ export function Header() {
               >
                 {t(translations.mainMenu.bridge)}
               </a>
-              <NavLink className="tw-header-link" to="/origins">
-                {t(translations.mainMenu.origins)}
-              </NavLink>
-              <NavLink className="tw-header-link" to="/stats">
-                {t(translations.mainMenu.stats)}
-              </NavLink>
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.launchpad)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/origins')}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.claim)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/origins/claim')}
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.ORIGINS) && 'tw-font-bold'
+                  }`}
+                >
+                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                    {t(translations.mainMenu.origins)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">

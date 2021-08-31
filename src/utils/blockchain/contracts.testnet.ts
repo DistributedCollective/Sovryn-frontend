@@ -28,6 +28,7 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
@@ -277,9 +278,22 @@ export const contracts = {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
   },
+  stakingRewards: {
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
+    abi: stakingRewardsProxyAbi,
+  },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
+  },
+  FISH_amm: {
+    address: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+    abi: LiquidityPoolV1Converter,
+  },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
+    abi: StakingAbi,
+    blockNumber: 1218836,
   },
   originsBase: {
     address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
@@ -288,6 +302,10 @@ export const contracts = {
   lockedFund: {
     address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',

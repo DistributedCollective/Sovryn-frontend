@@ -6,6 +6,11 @@ import { Asset } from 'types';
 import { bignumber } from 'mathjs';
 import { useEffect, useMemo, useState } from 'react';
 
+/**
+ * It's sale price, not market price
+ * @deprecated
+ * @param fishAmount
+ */
 export const useGetFishDollarValue = (fishAmount: number) => {
   const [tierId, setTierId] = useState(0);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Slider as BPSlider } from '@blueprintjs/core/lib/esm/components/slider/slider';
 import cn from 'classnames';
+import styles from './index.module.scss';
 
 type LabelRendererFn = (value: number, opts?) => string | JSX.Element;
 
@@ -14,11 +15,12 @@ interface Props {
   labelStepSize?: number;
   labelRenderer?: boolean | LabelRendererFn;
   className?: string;
+  labelValues?: number[];
 }
 
 export function Slider({ className, ...props }: Props) {
   return (
-    <div className={cn('tw-slider', className)}>
+    <div className={cn(styles.host, className)}>
       <BPSlider {...props} />
     </div>
   );
