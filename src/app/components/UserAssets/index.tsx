@@ -26,7 +26,7 @@ import { AssetRenderer } from '../AssetRenderer/';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
-import { Button } from '../Button';
+import { Button, ButtonStyle } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { FishDollarValue } from './FishDollarValue';
@@ -147,7 +147,7 @@ export function UserAssets() {
           <div className="tw-text-center tw-mt-5">
             <Button
               text={t(translations.modal.close)}
-              inverted
+              style={ButtonStyle.inverted}
               onClick={() => {
                 setFastBtc(false);
                 setTransack(false);

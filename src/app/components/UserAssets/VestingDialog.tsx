@@ -14,7 +14,7 @@ import styles from '../../containers/WalletPage/components/dialog.module.scss';
 import { useGetUnlockedVesting } from '../../hooks/staking/useGetUnlockedVesting';
 import { useAccount } from '../../hooks/useAccount';
 import { useSendToContractAddressTx } from '../../hooks/useSendToContractAddressTx';
-import { Button } from '../Button';
+import { Button, ButtonStyle } from '../Button';
 import { DummyField } from '../DummyField';
 import { FieldGroup } from '../FieldGroup';
 import { InputField } from '../InputField';
@@ -121,7 +121,7 @@ export function VestingDialog(props: Props) {
                 />
                 <Button
                   text={t(translations.common.cancel)}
-                  inverted
+                  style={ButtonStyle.inverted}
                   onClick={() => props.onClose()}
                   className="tw-ml-4 tw-w-full"
                 />

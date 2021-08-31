@@ -1,36 +1,80 @@
-import React from 'react';
+import React, { MouseEventHandler, useMemo } from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
 
-type ButtonType = 'button' | 'submit' | 'reset';
+export enum ButtonType {
+  button = 'button',
+  submit = 'submit',
+  reset = 'reset',
+}
 
-interface Props {
+export enum ButtonColor {
+  primary = 'primary',
+  secondary = 'secondary',
+  tradeLong = 'tradeLong',
+  tradeShort = 'tradeShort',
+  success = 'success',
+  warning = 'warning',
+}
+
+export enum ButtonSize {
+  sm = 'sm',
+  md = 'md',
+  lg = 'lg',
+}
+
+export enum ButtonStyle {
+  normal = 'normal',
+  inverted = 'inverted',
+  transparent = 'transparent',
+  frosted = 'frosted',
+  link = 'link',
+}
+
+interface ButtonProps {
   text: React.ReactNode;
-  onClick?: () => void;
-  inverted?: boolean;
+  onClick?: MouseEventHandler;
   type?: ButtonType;
+  color?: ButtonColor;
+  size?: ButtonSize;
+  style?: ButtonStyle;
   disabled?: boolean;
   loading?: boolean;
   className?: string;
 }
-export function Button({ text, inverted, loading, ...props }: Props) {
+
+export const Button: React.FC<ButtonProps> = ({
+  text,
+  onClick,
+  color,
+  size,
+  style,
+  type,
+  loading,
+  disabled,
+  className,
+}) => {
   return (
     <button
-      {...props}
+      type={type}
+      disabled={disabled}
       className={classNames(
         styles.button,
-        props.className,
-        inverted && styles.inverted,
-        props.disabled && styles.disabled,
+        loading && styles.loading,
+        color && styles[color],
+        size && styles[size],
+        style && styles[style],
+        className,
       )}
     >
       {text}
     </button>
   );
-}
+};
 
 Button.defaultProps = {
-  type: 'button',
-  inverted: false,
-  onClick: () => {},
+  type: ButtonType.button,
+  color: ButtonColor.primary,
+  size: ButtonSize.md,
+  style: ButtonStyle.normal,
 };

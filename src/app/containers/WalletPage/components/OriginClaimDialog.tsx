@@ -6,7 +6,7 @@ import styles from './dialog.module.scss';
 import arrowDown from './arrow-down.svg';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';
-import { Button } from '../../../components/Button';
+import { Button, ButtonStyle } from '../../../components/Button';
 import { useAccount } from '../../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 import { useSendContractTx } from '../../../hooks/useSendContractTx';
@@ -201,7 +201,7 @@ export function OriginClaimDialog(props: Props) {
                     />
                     <Button
                       text="Cancel"
-                      inverted
+                      style={ButtonStyle.inverted}
                       onClick={() => props.onClose()}
                       className="tw-ml-4 tw-w-full"
                     />
