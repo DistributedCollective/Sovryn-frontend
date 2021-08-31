@@ -13,7 +13,7 @@ export class LiquidityPoolDictionary {
       Asset.SOV,
       new LiquidityPool(Asset.SOV, [
         new LiquidityPoolSupplyAsset(Asset.SOV, {
-          mainnet: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902',
+          mainnet: '0x09C5faF7723b13434ABdF1a65aB1B667BC02A902',
           testnet: '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
@@ -28,6 +28,19 @@ export class LiquidityPoolDictionary {
         new LiquidityPoolSupplyAsset(Asset.XUSD, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
           testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',
+          testnet: '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
+        }),
+      ]).setVersion(1),
+    ],
+    [
+      Asset.FISH,
+      new LiquidityPool(Asset.FISH, [
+        new LiquidityPoolSupplyAsset(Asset.FISH, {
+          mainnet: '0x35A74a38Fd7728F1c6BC39aE3b18C974b7979ddD',
+          testnet: '0xe41E262889f89b9a6331680606D9e9AabD01743e',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705',

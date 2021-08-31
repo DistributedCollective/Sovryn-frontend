@@ -115,7 +115,6 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                 );
                 rbtcRow = (
                   <Row
-                    key={pair.quote_id}
                     assetDetails={rbtcDetails}
                     price24h={-pair.price_change_percent_24h}
                     priceWeek={-pair.price_change_week}
@@ -127,10 +126,9 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               }
 
               return (
-                <>
+                <React.Fragment key={pair.base_id}>
                   {rbtcRow}
                   <Row
-                    key={pair.base_id}
                     assetDetails={assetDetails}
                     price24h={pair.price_change_percent_24h_usd}
                     priceWeek={pair.price_change_week_usd}
@@ -138,7 +136,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                     assetData={assetData && assetData[pair?.base_id]}
                     assetLoading={assetLoading}
                   />
-                </>
+                </React.Fragment>
               );
             })}
         </tbody>
@@ -182,7 +180,7 @@ export const Row: React.FC<IRowProps> = ({
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap">
-          {lastPrice?.toLocaleString('en', {
+          {(lastPrice || 0).toLocaleString('en', {
             maximumFractionDigits: 3,
             minimumFractionDigits: 2,
           })}{' '}
@@ -202,11 +200,11 @@ export const Row: React.FC<IRowProps> = ({
             loading={assetLoading}
             value={
               assetData?.circulating_supply
-                ? Number(
-                    bignumber(assetData?.circulating_supply)
-                      .mul(lastPrice)
+                ? `${Number(
+                    bignumber(assetData?.circulating_supply || '0')
+                      .mul(lastPrice || '0')
                       .toFixed(0),
-                  ).toLocaleString('en')
+                  ).toLocaleString('en')} USD`
                 : ''
             }
           />
@@ -218,7 +216,7 @@ export const Row: React.FC<IRowProps> = ({
             value={
               assetData?.circulating_supply
                 ? Number(
-                    bignumber(assetData?.circulating_supply).toFixed(0),
+                    bignumber(assetData?.circulating_supply || '0').toFixed(0),
                   ).toLocaleString('en')
                 : ''
             }
@@ -235,7 +233,7 @@ interface IPriceChangeProps {
 }
 
 export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
-  let numberString = toNumberFormat(value, 2);
+  let numberString = toNumberFormat(value || 0, 2);
   numberString =
     numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
   const noChange = numberString === '0';

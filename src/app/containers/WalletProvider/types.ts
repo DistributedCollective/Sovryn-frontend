@@ -16,6 +16,7 @@ export interface WalletProviderState {
   transactions: any;
   transactionStack: string[];
   assetRates: CachedAssetRate[];
+  assetRatesLoading: boolean;
   processedBlocks: number[];
   // whitelisting
   whitelist: IWhitelist;

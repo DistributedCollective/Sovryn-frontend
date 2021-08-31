@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import cn from 'classnames';
 
 import { Button } from 'app/components/Button';
 import { Timer } from './components/Timer/index';
@@ -24,6 +25,8 @@ export const Banner: React.FC<IBannerProps> = ({
   const { t } = useTranslation();
   const now = new Date().getTime();
   const [isLive, setIsLive] = useState(date < now);
+  /* change hardcoded close state for future sales */
+  const isClosed = true;
 
   return (
     <div className="tw-relative tw-w-full tw-h-full">
@@ -58,19 +61,28 @@ export const Banner: React.FC<IBannerProps> = ({
                 </a>
               </>
             )}
-            {isLive && (
-              <>
+            {(isLive || isClosed) && (
+              <div className={cn(isClosed && 'tw-mt-10')}>
                 <div className="tw-bg-gray-1 tw-px-14 tw-py-5 tw-rounded-10px tw-text-3xl tw-font-semibold tw-text-center">
-                  {t(translations.landingPage.banner.liveNow)}
+                  {isLive && !isClosed
+                    ? t(translations.landingPage.banner.liveNow)
+                    : isClosed
+                    ? t(translations.landingPage.banner.soldOut)
+                    : ''}
                 </div>
-                <Link className="tw-w-full tw-mt-4 tw-flex" to={buyLink}>
-                  <Button
-                    className="tw-w-full"
-                    text={t(translations.landingPage.banner.buyNow)}
-                    onClick={() => {}}
-                  />
-                </Link>
-              </>
+                {isLive && !isClosed && (
+                  <Link
+                    className={cn('tw-w-full tw-mt-4 tw-flex')}
+                    to={buyLink}
+                  >
+                    <Button
+                      className="tw-w-full"
+                      text={t(translations.landingPage.banner.buyNow)}
+                      onClick={() => {}}
+                    />
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         </div>

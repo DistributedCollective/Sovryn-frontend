@@ -19,9 +19,11 @@ export const DataRow: React.FC<IDataRowProps> = ({
   loading,
   className,
   contractClassName,
-}) =>
-  loading ||
-  !(btcValue && Number(btcValue) > 0 && usdValue && Number(usdValue) > 0) ? (
+}) => {
+  if (!loading && (!btcValue || !usdValue)) return null;
+
+  return loading ||
+    !(btcValue && Number(btcValue) > 0 && usdValue && Number(usdValue) > 0) ? (
     <tr className={cn('tw-h-16', className)} key={contractName}>
       <td className={className}>{contractName}</td>
       <td className={className}>
@@ -51,3 +53,4 @@ export const DataRow: React.FC<IDataRowProps> = ({
       </td>
     </tr>
   );
+};

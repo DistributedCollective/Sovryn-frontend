@@ -78,7 +78,7 @@ export function SwapFormContainer() {
         Promise.all(
           tokens.map(async item => {
             const asset = AssetsDictionary.getByTokenContractAddress(item);
-            if (!asset) {
+            if (!asset || !asset.hasAMM) {
               return null;
             }
             let token: string = '';
@@ -106,9 +106,7 @@ export function SwapFormContainer() {
         console.error(e);
       }
     }
-    if (tokens) {
-      getOptions();
-    }
+    if (tokens.length > 0) getOptions();
   }, [account, tokens]);
 
   useEffect(() => {
@@ -127,16 +125,16 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = tokenBalance;
+
     if (newOptions) {
-      setTargetOptions(
-        newOptions.filter(option => {
-          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
-            return false;
-          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
-            return false;
-          return option.key !== sourceToken;
-        }),
-      );
+      const filteredOptions = newOptions.filter(option => {
+        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== sourceToken;
+      });
+      if (filteredOptions.length > 0) setTargetOptions(filteredOptions);
     }
 
     let defaultTo: Asset | null = null;

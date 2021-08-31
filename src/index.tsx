@@ -29,9 +29,6 @@ import { App } from 'app';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
 import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
-import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
-import { MetaMaskDiscouragementNotifyModal } from './app/components/MetaMaskDiscouragementNotifyModal/Loadable';
-import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog';
 
 import { HelmetProvider } from 'react-helmet-async';
 
