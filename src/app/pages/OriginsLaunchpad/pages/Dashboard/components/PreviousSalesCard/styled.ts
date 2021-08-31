@@ -5,8 +5,20 @@ export const CardImage = styled.div`
   height: 24.8125rem;
   margin-bottom: 1rem;
 
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
   @media (min-width: 576px) {
     margin-bottom: 0;
+  }
+  @media (min-width: 1200px) {
+    width: 14rem;
+    height: 18.5885rem;
+  }
+  @media (min-width: 1440px) {
+    width: 18.6875rem;
+    height: 24.8125rem;
   }
 `;
 
