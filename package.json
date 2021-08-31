@@ -31,8 +31,8 @@
     "@types/styled-components": "5.0.1",
     "@types/testing-library__jest-dom": "5.0.2",
     "@types/webpack-env": "1.15.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.3",
-    "@typescript-eslint/parser": "^4.28.3",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "@visx/responsive": "1.1.0",
     "animate.css": "4.1.1",
     "autoprefixer": "10.2.4",
@@ -123,7 +123,7 @@
     "react-multi-carousel": "^2.6.3",
     "react-redux": "7.2.0",
     "react-router-dom": "5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "4.0.3",
     "react-slick": "0.28.1",
     "react-table": "7.5.1",
     "react-test-renderer": "16.13.0",
@@ -190,7 +190,7 @@
     "prettify": "prettier --write",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
+    "storybook:build": "build-storybook -s public -o build/storybook",
     "changelog": "bash ./bin/changelog",
     "preinstall": "bash ./bin/gh-pack && echo \"Running normally.\" || yarn install"
   },
@@ -288,12 +288,15 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "7.12.1",
     "@sentry/webpack-plugin": "1.13.0",
-    "@storybook/addon-actions": "^6.1.18",
-    "@storybook/addon-essentials": "^6.1.18",
-    "@storybook/addon-links": "^6.1.18",
-    "@storybook/node-logger": "^6.1.18",
-    "@storybook/preset-create-react-app": "^3.1.6",
-    "@storybook/react": "^6.1.18",
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/components": "^6.3.7",
+    "@storybook/core-events": "^6.3.7",
+    "@storybook/node-logger": "^6.3.7",
+    "@storybook/theming": "^6.3.7",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.7",
     "@types/mathjs": "6.0.5",
     "@types/socket.io-client": "1.4.34",
     "auto-changelog": "2.2.1",
@@ -306,8 +309,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }
