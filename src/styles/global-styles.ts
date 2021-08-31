@@ -8,6 +8,9 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     font-weight: 400;
   }
+  html {
+    overflow-x: auto !important;
+  }
 
   body {
     font-family: var(--primary-font);
