@@ -13,7 +13,7 @@ export class LiquidityPoolDictionary {
       Asset.SOV,
       new LiquidityPool(Asset.SOV, [
         new LiquidityPoolSupplyAsset(Asset.SOV, {
-          mainnet: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902',
+          mainnet: '0x09C5faF7723b13434ABdF1a65aB1B667BC02A902',
           testnet: '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
