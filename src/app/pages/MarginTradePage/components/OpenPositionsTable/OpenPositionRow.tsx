@@ -171,6 +171,7 @@ export function OpenPositionRow({ item }: Props) {
           </div>
           <AddToMarginDialog
             item={item}
+            positionSize={weiToNumberFormat(item.collateral, 4)}
             liquidationPrice={
               <>
                 {liquidationPrice}{' '}

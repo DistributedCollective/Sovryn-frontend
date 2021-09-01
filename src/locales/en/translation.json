@@ -1433,6 +1433,7 @@
       "leverage": "Leverage:",
       "asset": "Collateral:",
       "direction": "Pair:",
+      "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
@@ -1841,8 +1842,8 @@
   },
   "addToMargin": {
     "title": "Add to Margin",
-    "amount": "Amount to Add:",
-    "liquidationPrice": "Liquidation Price:"
+    "amount": "Increase margin by:",
+    "liquidationPrice": "Estimated Liquidation price:"
   },
   "openPositionTable": {
     "direction": "Direction",
