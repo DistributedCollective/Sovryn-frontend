@@ -51,6 +51,8 @@ const upgradePostCssLoader = rules =>
     .filter(Boolean);
 
 module.exports = async ({ config }) => {
+  // Upgrades postcss-loader from react-scripts to the newest version, to enable postcss 8.
+  // Also enforces the same postcss plugins as in the app.
   config.module.rules = upgradePostCssLoader(config.module.rules);
 
   config.module.rules[5].oneOf.forEach(rule =>
