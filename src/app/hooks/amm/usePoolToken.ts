@@ -20,6 +20,21 @@ export function usePoolToken(pool: Asset, asset: Asset) {
     getTokenContract(asset).address,
   );
 
+  const { value: anchor } = useCacheCallWithValue(
+    getAmmContractName(pool),
+    'anchor',
+    ethGenesisAddress,
+  );
+
+  // do not remove, we need this when adding new pools
+  useEffect(() => {
+    if (anchor !== ethGenesisAddress) {
+      // todo: hide console output (show only when flagged, for example using 'debug' package).
+      console.log(`${pool}_${asset} v1 poolToken: `, anchor);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchor]);
+
   return { value: useLocalPoolToken(pool, asset), loading, error };
 }
 

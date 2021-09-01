@@ -33,7 +33,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {tvlValueBtc?.toFixed(4)}{' '}
+              {(tvlValueBtc || 0)?.toFixed(4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -42,7 +42,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {tvlValueUsd?.toLocaleString('en', {
+                {(tvlValueUsd || 0)?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
@@ -63,7 +63,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {volumeBtc?.toFixed(4)}{' '}
+              {(volumeBtc || 0)?.toFixed(4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -72,7 +72,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {volumeUsd?.toLocaleString('en', {
+                {(volumeUsd || 0)?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
