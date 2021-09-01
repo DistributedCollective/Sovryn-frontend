@@ -23,11 +23,11 @@ import { PositionBlock } from './PositionBlock';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
-interface Props {
+interface IOpenPositionRowProps {
   item: ActiveLoan;
 }
 
-export function OpenPositionRow({ item }: Props) {
+export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -117,23 +117,6 @@ export function OpenPositionRow({ item }: Props) {
         </td>
         <td>
           <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
-            <ActionButton
-              text={t(translations.openPositionTable.cta.increase)}
-              onClick={() => setShowAddToMargin(true)}
-              className={`tw-border-none tw-pl-0 tw-pr-4 xl:tw-pr-2 2xl:tw-pr-5 ${
-                addToMarginLocked && 'tw-cursor-not-allowed'
-              }`}
-              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={addToMarginLocked}
-              title={
-                (addToMarginLocked &&
-                  t(translations.maintenance.addToMarginTrades).replace(
-                    /<\/?\d+>/g,
-                    '',
-                  )) ||
-                undefined
-              }
-            />
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import cn from 'classnames';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
@@ -23,9 +24,8 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
-import cn from 'classnames';
 
-interface AddToMarginDialogProps {
+interface IAddToMarginDialogProps {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
@@ -33,7 +33,7 @@ interface AddToMarginDialogProps {
   positionSize?: string;
 }
 
-export function AddToMarginDialog(props: AddToMarginDialogProps) {
+export function AddToMarginDialog(props: IAddToMarginDialogProps) {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item?.collateralToken || '',
@@ -43,7 +43,6 @@ export function AddToMarginDialog(props: AddToMarginDialogProps) {
   );
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
-
   const weiAmount = useWeiAmount(amount);
 
   const { send, ...tx } = useApproveAndAddMargin(
