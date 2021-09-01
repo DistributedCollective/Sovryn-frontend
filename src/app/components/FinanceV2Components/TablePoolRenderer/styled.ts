@@ -7,7 +7,7 @@ interface IPoolAssetProps {
 export const PoolAsset = styled.div<IPoolAssetProps>`
   display: flex;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 1.375;
 
   &:before {
     display: inline-block;

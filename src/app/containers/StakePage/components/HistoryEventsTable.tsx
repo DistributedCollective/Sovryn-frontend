@@ -61,7 +61,7 @@ export function HistoryEventsTable() {
 
   return (
     <>
-      <div className="history-table tw-bg-gray-light tw-rounded-b tw-mb-10">
+      <div className="history-table tw-bg-gray-1 tw-rounded-b tw-mb-10">
         <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
           {t(translations.stake.history.title)}
         </p>
@@ -112,7 +112,7 @@ export function HistoryEventsTable() {
                       <td colSpan={5} className="tw-text-center tw-font-normal">
                         <button
                           type="button"
-                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-body"
+                          className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-no-underline hover:tw-bg-primary hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-primary tw-text-sm tw-font-light tw-font-body"
                           onClick={getHistory}
                         >
                           {t(translations.stake.history.viewHistory)}
@@ -202,7 +202,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.txHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>
@@ -219,7 +219,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
             )}
             <LinkToExplorer
               txHash={item.txHash}
-              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
+              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
             />
           </div>
           <div>

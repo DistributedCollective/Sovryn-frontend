@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../store/global/transactions-store/selectors';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import classNames from 'classnames';
 
 interface Props {
   status: TxStatus;
@@ -81,13 +82,16 @@ export function SendTxProgress(props: Props) {
     return '!!! No description';
   };
 
-  let color = props.position === TradingPosition.LONG ? 'teal' : 'gold';
+  let color =
+    props.position === TradingPosition.LONG
+      ? 'tw-text-long'
+      : 'tw-text-primary';
 
   let mainText = getTitle(props.status, props.type);
   let subText = getDescription(props.status, props.type);
 
   if (props.status === TxStatus.FAILED) {
-    color = 'red';
+    color = 'tw-text-warning';
     if (!props.txHash) {
       mainText = getTitle('denied', props.type);
       subText = getDescription('denied', props.type);
@@ -100,7 +104,7 @@ export function SendTxProgress(props: Props) {
 
   return (
     <div
-      className={`tw-bg-white tw-text-black tw-p-6 tw-rounded tw-flex tw-flex-row tw-justify-between ${
+      className={`tw-bg-sov-white tw-text-black tw-p-6 tw-rounded tw-flex tw-flex-row tw-justify-between ${
         props.displayAbsolute ? 'tw-absolute tw-p-6' : 'tw-my-4 tw-px-4 tw-py-2'
       }`}
       style={{
@@ -113,11 +117,7 @@ export function SendTxProgress(props: Props) {
       {!tx && props.status === TxStatus.PENDING_FOR_USER && (
         <>
           <div className="tw-flex-grow-0 tw-flex-shrink tw-mr-4">
-            <Icon
-              icon="time"
-              iconSize={17}
-              style={{ color: `var(--${color})` }}
-            />
+            <Icon icon="time" iconSize={17} className={color} />
           </div>
           <div className="tw-flex-grow">
             {props.displayAbsolute && (
@@ -132,10 +132,7 @@ export function SendTxProgress(props: Props) {
                 <u>Close</u> X
               </div>
             )}
-            <div
-              className="tw-uppercase tw-font-bold"
-              style={{ color: `var(--${color})` }}
-            >
+            <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {t(translations.sendTxProgress.pending_for_user.title)}
             </div>
             <div className="tw-font-light">
@@ -151,7 +148,7 @@ export function SendTxProgress(props: Props) {
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
-              style={{ color: `var(--${color})` }}
+              className={color}
             />
           </div>
           <div className="tw-flex-grow">
@@ -165,10 +162,7 @@ export function SendTxProgress(props: Props) {
             >
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
-            <div
-              className="tw-uppercase tw-font-bold"
-              style={{ color: `var(--${color})` }}
-            >
+            <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {mainText}
             </div>
             <div className="tw-font-light">
@@ -206,7 +200,7 @@ export function SendTxProgress(props: Props) {
             <Icon
               icon={getIcon(props.status)}
               iconSize={17}
-              style={{ color: `var(--${color})` }}
+              className={color}
             />
           </div>
           <div className="tw-flex-grow">
@@ -220,10 +214,7 @@ export function SendTxProgress(props: Props) {
             >
               <u>{t(translations.sendTxProgress.texts.closeButton)}</u> X
             </div>
-            <div
-              className="tw-uppercase tw-font-bold"
-              style={{ color: `var(--${color})` }}
-            >
+            <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {mainText}
             </div>
             <div className="tw-font-light">{subText}</div>

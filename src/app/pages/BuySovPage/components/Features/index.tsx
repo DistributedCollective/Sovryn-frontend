@@ -121,7 +121,7 @@ export function Features() {
 }
 
 const How = styled.h2`
-  font-size: 36px !important;
-  line-height: 47px !important;
-  text-transform: none !important;
+  font-size: 2.5rem;
+  line-height: 1.25;
+  text-transform: none;
 `;

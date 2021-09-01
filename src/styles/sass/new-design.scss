@@ -1,94 +1,13 @@
 @import './custom-variables';
 
 .sovryn-border {
-  border: 1px;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: var(--light-gray);
-}
-
-.sovryn-border-left {
-  border-left: 1px solid $white;
-}
-
-.sovryn-border-top {
-  border-top: 1px solid $white;
-}
-
-.sovryn-border-bottom {
-  border-bottom: 1px solid $white;
-}
-
-.sovryn-border-right {
-  border-right: 1px solid $white;
-}
-
-.sovryn-tabs {
-  background: none !important;
-
-  .tab-content {
-    padding: 15px;
-    border-bottom: 5px;
-    border-right: 5px;
-    border-top: 1px;
-    border-left: 1px;
-    border-style: solid;
-    border-radius: 0 8px 8px 8px;
-    border-color: $white;
-    z-index: 1;
-  }
-
-  .nav-tabs {
-    border-bottom: 0;
-    flex-wrap: nowrap;
-
-    & .nav-item {
-      font-size: 15px;
-      color: $dark-gray;
-      margin-right: 5px;
-      border-right: 5px;
-      border-top: 1px;
-      border-left: 1px;
-      border-bottom: 0;
-      border-style: solid;
-      border-color: $dark-gray;
-      border-radius: 8px 8px 0 0;
-      margin-bottom: -1px;
-      border-bottom: 1px solid $white;
-
-      @media (min-width: theme('screens.lg')) {
-        font-size: 22px;
-      }
-
-      &.active {
-        color: $white;
-        border-color: $white;
-        border-bottom: 1px solid $dark;
-      }
-
-      &:not(.active) {
-        flex: 1;
-        max-width: fit-content;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-}
-
-.sovryn-tabs .custom-stats-tab {
-  border: none !important;
-  &.charts-active {
-    color: var(--gold);
-  }
+  @apply tw-border tw-border-sov-white tw-rounded-lg;
 }
 
 @mixin table-header {
+  @apply tw-text-base tw-text-sov-white;
   font-family: inherit;
   font-weight: inherit;
-  color: var(--light-gray);
-  font-size: 16px;
   padding: 0 22px;
   height: 45px;
   @media (max-width: 441px) {
@@ -97,17 +16,11 @@
 }
 
 .sovryn-table {
-  font-family: $font-family-montserrat;
-  font-weight: normal;
-  width: 100%;
-  font-size: 14px;
-  letter-spacing: 0;
+  @apply tw-w-full
+    tw-text-sm tw-font-normal tw-font-body tw-tracking-normal;
 
   &.sovryn-table-mobile {
-    font-size: 12px;
-    @media (max-width: 441px) {
-      font-size: 11px;
-    }
+    @apply tw-text-xs;
   }
 
   .table-header div {
@@ -124,18 +37,18 @@
     tr {
       &:nth-child(odd) {
         td {
-          background-color: #282828;
+          @apply tw-bg-gray-3;
 
           &:first-child {
-            border-radius: 6px 0 0 6px;
+            @apply tw-rounded-l-md;
           }
 
           &:last-child {
-            border-radius: 0 6px 6px 0;
+            @apply tw-rounded-r-md;
           }
 
           &:only-child {
-            border-radius: 6px;
+            @apply tw-rounded-md;
           }
         }
       }
@@ -144,18 +57,18 @@
 
   tbody tr,
   div.mobile-row {
-    height: 80px;
+    @apply tw-h-20;
 
     td {
-      padding: 0 22px;
-      color: var(--light-gray);
+      @apply tw-px-5 tw-py-0
+        tw-text-sov-white;
       @media (max-width: 441px) {
-        padding: 0 15px;
+        @apply tw-px-4;
       }
     }
 
     &:first-of-type {
-      border-top: none;
+      @apply tw-border-t-0
     }
 
     &.table-header {
@@ -163,37 +76,32 @@
 
       > td {
         @include table-header;
-        padding-top: 20px;
+        @apply tw-pt-5;
       }
     }
   }
 
   .mobile-row {
-    align-content: center;
+    @apply tw-content-center;
   }
 
   .sub-header div {
-    font-size: 8px;
+    @apply tw-text-tiny;
   }
 
   &.sovryn-table-mobile {
     [class^='col'] {
-      padding-left: 5px;
-      padding-right: 5px;
+      @apply tw-px-1.5;
     }
   }
 }
 
 //new styles for Sovryn
 button.button-round {
-  border: 1px solid;
-  margin-left: 15px;
-  border-radius: 25px !important;
-  font-family: $font-family-montserrat;
-  font-weight: 100;
-  font-size: 14px;
-  text-transform: none;
-  padding: 8px 17px;
+  @apply tw-px-5 tw-py-2 tw-ml-4
+    tw-border tw-rounded-3xl
+    tw-text-sm tw-font-thin tw-font-body tw-normal-case;
+
   transition: background 0.3s;
 
   &:hover {
@@ -215,21 +123,14 @@ button.button-width {
 }
 
 .image-bordered:before {
+  @apply tw-absolute tw--inset-2.5 
+    tw-bg-white tw-rounded-2xl
+    tw-overflow-hidden;
   content: '';
-  position: absolute;
-  background: white;
-  overflow: hidden;
-  left: -10px;
-  top: -10px;
-  right: -10px;
-  bottom: -10px;
-  border-radius: 16px;
 }
 
 .sov-title {
-  font-family: $font-family-montserrat;
-  font-weight: 400;
-  font-size: 28px;
+  @apply tw-text-3xl tw-font-body tw-font-normal;
 }
 
 .sov-table {
@@ -239,9 +140,9 @@ button.button-width {
   bottom: 30px;
 
   .table {
-    margin: 0;
-    background: white;
-    text-align: left;
+    @apply tw-m-0
+      tw-text-left
+      tw-bg-white;
 
     tr {
       height: auto;
@@ -249,8 +150,7 @@ button.button-width {
       &:last-child {
         td {
           div {
-            text-align: center;
-            font-size: 9px;
+            @apply tw-text-tiny tw-text-center;
           }
         }
       }
@@ -263,14 +163,9 @@ button.button-width {
 
     th,
     td {
+      @apply tw-font-body tw-text-sm tw-tracking-normal tw-align-middle tw-text-gray-6
+        tw-border tw-border-black;
       padding: 5px;
-      vertical-align: middle;
-      border: 1px solid black;
-      color: #707070;
-      font-family: $font-family-montserrat;
-      font-size: 14px;
-      line-height: 18px;
-      letter-spacing: 0;
     }
   }
 }
@@ -322,11 +217,11 @@ button.button-width {
 }
 
 .btn-trading[disabled] {
+  @apply tw-bg-gray-6;
   opacity: 0.5;
   cursor: not-allowed;
-  background: #656565 !important;
   &:hover {
-    background: #656565 !important;
+    @apply tw-bg-gray-6;
   }
 }
 

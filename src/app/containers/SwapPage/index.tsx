@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
@@ -25,11 +25,6 @@ interface Props {}
 export function SwapPage(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
-
-  useEffect(() => {
-    const bodyElement = document.getElementsByTagName('body')[0];
-    bodyElement.style.background = '#161616';
-  }, []);
 
   return (
     <>

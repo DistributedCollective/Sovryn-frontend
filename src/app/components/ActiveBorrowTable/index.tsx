@@ -2,7 +2,6 @@ import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Icon, Text } from '@blueprintjs/core';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/macro';
 import { Tooltip } from '@blueprintjs/core';
 
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -99,16 +98,21 @@ export function ActiveBorrowTable(props: Props) {
                   interactionKind="hover"
                   content={<>{t(translations.maintenance.stopBorrow)}</>}
                 >
-                  <StyledRepayButton className="tw-opacity-50 tw-cursor-not-allowed">
+                  <button
+                    type="button"
+                    className="tw-w-20 tw-h-8 tw-bg-gray-1 tw-text-success tw-border-2 tw-border-success tw-rounded-lg tw-opacity-50 tw-cursor-not-allowed"
+                  >
                     {t(translations.activeBorrowTable.repayButton)}
-                  </StyledRepayButton>
+                  </button>
                 </Tooltip>
               ) : (
-                <StyledRepayButton
+                <button
+                  type="button"
+                  className="tw-w-20 tw-h-8 tw-bg-gray-1 tw-text-success tw-border-2 tw-border-success tw-rounded-lg"
                   onClick={() => dispatch(actions.openRepayModal(item.loanId))}
                 >
                   {t(translations.activeBorrowTable.repayButton)}
-                </StyledRepayButton>
+                </button>
               )}
             </div>
           </div>
@@ -140,13 +144,13 @@ export function ActiveBorrowTable(props: Props) {
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           )
@@ -181,12 +185,3 @@ export function ActiveBorrowTable(props: Props) {
     </div>
   );
 }
-
-const StyledRepayButton = styled.button.attrs(_ => ({ type: 'button' }))`
-  border: 2px solid var(--green);
-  width: 77px;
-  height: 32px;
-  color: var(--green);
-  background-color: var(--primary);
-  border-radius: 8px;
-`;

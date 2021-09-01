@@ -50,7 +50,7 @@ export function PendingPositionRow({ item }: Props) {
               )}
               <LinkToExplorer
                 txHash={item.transactionHash}
-                className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
+                className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               />
             </div>
             <div>

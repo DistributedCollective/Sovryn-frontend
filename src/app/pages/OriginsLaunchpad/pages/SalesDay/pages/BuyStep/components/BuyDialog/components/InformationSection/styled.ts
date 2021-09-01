@@ -9,8 +9,8 @@ export const BuyInformationWrapper = styled.div`
 export const AllocationDiv = styled.div`
   width: 100%;
   height: 5px;
-  background-color: #fec004;
-  border-radius: 10px;
+  background-color: var(--primary);
+  border-radius: 0.75rem;
 `;
 
 interface IAllocationPercentageProps {
@@ -22,5 +22,5 @@ export const AllocationPercentage = styled.div<IAllocationPercentageProps>`
   width: ${props => `${props.width}%`};
   background-color: #533f00;
   opacity: 85%;
-  border-radius: 10px;
+  border-radius: 0.75rem;
 `;

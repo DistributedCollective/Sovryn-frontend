@@ -1,50 +1,47 @@
 @layer components {
-    .tw-btn-action {
-        height: 2.5rem;
-        line-height: 2.5rem;
-        border-radius: 1.25rem;
-        font-size: 0.875rem;
-        font-weight: 300;
+  .tw-btn-action {
+    @apply tw-flex tw-items-center tw-justify-center
+      tw-h-10
+      tw-px-5 tw-py-0
+      tw-text-sm tw-leading-loose tw-font-normal tw-normal-case tw-text-primary tw-leading-none
+      tw-border tw-border-primary tw-rounded-3xl
+      tw-transition
+      tw-no-underline;
+  }
 
-        @apply tw-normal-case tw-text-primary tw-leading-none;
-        @apply tw-border tw-border-primary;
-        @apply tw-px-5 tw-py-0;
+  .tw-btn-action:hover {
+    @apply tw-opacity-75
+      tw-no-underline;
+  }
 
-        @apply tw-transition;
-        @apply tw-no-underline tw-flex tw-items-center tw-justify-center;
-    }
+  .tw-btn-action:disabled {
+    @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
 
-    .tw-btn-action:hover {
-        @apply tw-opacity-75;
-        @apply tw-no-underline;
-    }
+  .tw-btn-action.loading,
+  .tw-btn-action.loading:disabled {
+    @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
+  }
 
-    .tw-btn-action:disabled {
-        @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
-    }
+  .tw-btn-action .bp3-spinner .bp3-spinner-head {
+    stroke: theme('colors.sov-white');
+  }
 
-    .tw-btn-action.loading,
-    .tw-btn-action.loading:disabled {
-        @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
-    }
+  .tw-btn-action .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.2);
+  }
 
-    .tw-btn-action .bp3-spinner .bp3-spinner-head {
-        stroke: theme('colors.white');
-    }
+  .tw-btn-action__spinner {
+    @apply tw-block 
+      tw-w-0
+      tw-opacity-0
+      tw-text-left 
+      tw-overflow-hidden;
+    transition: width 150ms, opacity 100ms;
+  }
 
-    .tw-btn-action .bp3-spinner .bp3-spinner-track {
-        stroke: rgba(255, 255, 255, 0.2);
-    }
-
-    .tw-btn-action__spinner {
-        @apply tw-block tw-overflow-hidden tw-text-left;
-        transition: width 150ms, opacity 100ms;
-        opacity: 0;
-        width: 0;
-    }
-
-    .tw-btn-action__spinner.active {
-        width: 2rem;
-        opacity: 100;
-    }
+  .tw-btn-action__spinner.active {
+    @apply tw-w-8
+      tw-opacity-100;
+  }
 }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const PreviousSalesRowWrapper = styled.div`
   border: 0.5px solid #ffffff;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding: 0.5rem 0.25rem;
   margin-top: 2.5rem;
 
@@ -14,7 +14,7 @@ export const PreviousSalesRowWrapper = styled.div`
 export const PreviousSalesRow = styled.div`
   display: flex;
   background-color: #1f1f1f;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   padding: 1.5rem 1rem;
   flex-direction: column;
   align-items: center;

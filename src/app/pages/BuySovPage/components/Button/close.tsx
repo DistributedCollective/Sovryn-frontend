@@ -15,13 +15,13 @@ const StyledButton = styled.button`
   height: 50px;
   width: 100%;
   margin-top: 40px;
-  border: 1px solid #fec004;
-  color: #fec004;
+  border: 1px solid var(--primary);
+  color: var(--primary);
   padding: 11px;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 900;
   background: rgba(254, 192, 4, 0.05);
-  border-radius: 10px;
+  border-radius: 0.75rem;
   text-transform: uppercase;
   line-height: 1;
   transition: background 0.3s;
