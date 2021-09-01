@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
 // import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
-import { Banner } from './components/Banner';
+//import { Banner } from './components/Banner';
+import { BabelSoldOutBanner } from './components/Banner/BabelSoldOutBanner';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from './components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
@@ -16,7 +17,6 @@ import { useInterval } from 'app/hooks/useInterval';
 import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
-import babelfishBanner from 'assets/images/banner/babelFish-promo.svg';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
 import { IPairsData, IAssets } from './components/CryptocurrencyPrices/types';
 
@@ -122,7 +122,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         />
       </Helmet>
       <Header />
-      <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-16 tw-px-4 2xl:tw-px-0">
+      <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-16 tw-px-4 2xl:tw-px-0 tw-w-full">
         <div className="tw-tracking-normal">
           <WelcomeTitle>
             {t(translations.landingPage.welcomeTitle)}
@@ -148,14 +148,15 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
               Should un comment this and remove Banner once the sale is over.
               <ArbitrageOpportunity /> 
             */}
-            <Banner
+            {/* <Banner
               title={t(translations.landingPage.banner.originsFish)}
               //remember month starts from 0
               date={Date.UTC(2021, 7, 26, 14, 0)}
               image={babelfishBanner}
               learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-utc-26-08-2021"
               buyLink="/origins"
-            />
+            /> */}
+            <BabelSoldOutBanner />
           </div>
         </div>
 

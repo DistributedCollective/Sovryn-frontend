@@ -82,7 +82,7 @@ export function Header() {
       title: t(translations.mainMenu.bridge),
     },
     { to: '/origins', title: t(translations.mainMenu.origins) },
-    { to: '/origins/claim', title: t(translations.mainMenu.origins) },
+    { to: '/origins/claim', title: t(translations.mainMenu.originsClaim) },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),

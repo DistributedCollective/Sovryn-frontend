@@ -9,6 +9,11 @@ interface Props {
   tokens: string;
 }
 
+/**
+ * @deprecated
+ * @param tokens
+ * @constructor
+ */
 export function FishDollarValue({ tokens }: Props) {
   const { value, loading } = useGetFishDollarValue(Number(tokens));
   return (
