@@ -21,9 +21,9 @@ interface StyledProps {
 }
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'btn',
+  className: 'btn hover:tw-text-gray-9',
 }))`
-  color: var(--white);
+  color: var(--sov-white);
   opacity: 0.25;
   padding: 0.313rem 0.625rem;
   background: transparent;

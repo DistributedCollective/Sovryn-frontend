@@ -9,7 +9,7 @@
 
   .tw-header-link,
   .tw-header-link:visited {
-    @apply tw-font-body tw-normal-case tw-no-underline tw-text-white tw-text-base tw-no-underline tw-transition;
+    @apply tw-font-body tw-normal-case tw-no-underline tw-text-sov-white tw-text-base tw-no-underline tw-transition;
   }
 
   .tw-header-link:hover,
@@ -18,7 +18,7 @@
   }
 
   .tw-header-link.active {
-    @apply tw-text-white tw-font-medium tw-no-underline;
+    @apply tw-text-sov-white tw-font-medium tw-no-underline;
   }
 
   /* form button styles */
@@ -30,7 +30,7 @@
     @apply tw-px-6 tw-py-2;
     @apply tw-border lg:tw-rounded;
     @apply tw-transition;
-    @apply tw-bg-primary tw-bg-opacity-5;
+    @apply tw-bg-primary tw-bg-opacity-10;
     @apply hover:tw-bg-opacity-25;
   }
 
@@ -86,37 +86,6 @@
   .tw-mw-340 {
     @apply tw-w-full;
     max-width: 340px;
-  }
-  /* staking */
-  .-ml-0\.25 {
-    margin-left: -0.063rem;
-  }
-  .-mt-0\.25 {
-    margin-top: -0.063rem;
-  }
-  .max-w-29 {
-    max-width: 29.3rem;
-  }
-
-  @media (min-width: 1200px) {
-    .max-w-130 {
-      max-width: 130px;
-    }
-    .max-h-12 {
-      max-height: 3.5rem;
-    }
-    .max-h-6 {
-      max-height: 6rem;
-    }
-    .leading-12 {
-      line-height: 3rem;
-    }
-  }
-
-  @media (min-width: 1700px) {
-    .max-w-15 {
-      max-width: 23.6rem;
-    }
   }
 }
 
@@ -178,10 +147,10 @@
 .slick-next:before,
 .slick-prev:before {
   font-family: slick;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1;
   opacity: 0.75;
-  color: theme('colors.white');
+  color: theme('colors.sov-white');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -243,19 +212,18 @@
   list-style: none;
 }
 .slick-dots li button {
+  @apply tw-w-2.5 tw-h-2.5
+    tw-bg-secondary tw-rounded-full
+    tw-cursor-pointer;
   font-size: 0;
-  width: 10px;
-  height: 10px;
-  background: theme('colors.white');
-  border-radius: 100%;
-  cursor: pointer;
   transition: background 0.3s;
 }
 .slick-dots li:not(.slick-active) button:hover {
-  opacity: 0.7;
+  @apply tw-opacity-70;
 }
+
 .slick-dots li.slick-active button {
-  background: theme('colors.theme.blue');
+  @apply tw-bg-secondary;
 }
 .assets {
   min-width: 115px;

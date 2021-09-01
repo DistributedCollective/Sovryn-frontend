@@ -107,7 +107,7 @@ export function BuyForm() {
         <div className="tw-px-0 lg:tw-px-8">
           <FieldGroup
             label={t(translations.buySovPage.form.enterAmount)}
-            labelColor="#E9EAE9"
+            labelColor="#e8e8e8"
           >
             <Input
               value={amount}
@@ -124,7 +124,7 @@ export function BuyForm() {
 
           <ArrowDown />
 
-          <FieldGroup label={t(s.fields.receive)} labelColor="#E9EAE9">
+          <FieldGroup label={t(s.fields.receive)} labelColor="#e8e8e8">
             <Dummy className="tw-flex tw-justify-between tw-items-center">
               <div>
                 <LoadableValue
@@ -160,7 +160,7 @@ export function BuyForm() {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-sm"
+                      className="tw-text-warning tw-text-sm"
                     >
                       x
                     </a>,
@@ -198,7 +198,7 @@ function tokenAddress(asset: Asset) {
 }
 
 const Slippage = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -214,10 +214,10 @@ const SlippageButton = styled.button`
 
 const Dummy = styled.div`
   border: 1px solid #575757;
-  color: #e9eae9;
+  color: #e8e8e8;
   height: 40px;
   padding: 11px 21px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   line-height: 1;
 `;

@@ -23,8 +23,8 @@ export function Button({
       onClick={() => onClick(tradingType)}
       className={cn(
         'tw-btn-trade',
-        { 'tw-btn-trade--short': tradingType === TradingTypes.SELL },
-        { 'tw-btn-trade--long': tradingType === TradingTypes.BUY },
+        { 'tw-bg-trade-short': tradingType === TradingTypes.SELL },
+        { 'tw-bg-trade-long': tradingType === TradingTypes.BUY },
         { loading: loading },
       )}
       {...props}

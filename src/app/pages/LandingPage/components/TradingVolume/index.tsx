@@ -24,8 +24,8 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="tw-rounded-20px tw-bg-black tw-mr-0 md:tw-mr-2 lg:tw-mr-6 xl:tw-mr-12 tw-flex tw-py-5">
-      <div className="tw-px-14 tw-py-2 tw-text-center tw-w-1/2 tw-border-r tw-border-white tw-flex tw-items-center tw-justify-center tw-flex-col">
+    <div className="tw-rounded-3xl tw-bg-black tw-mr-0 md:tw-mr-2 lg:tw-mr-6 xl:tw-mr-12 tw-flex tw-py-5">
+      <div className="tw-px-14 tw-py-2 tw-text-center tw-w-1/2 tw-border-r tw-border-sov-white tw-flex tw-items-center tw-justify-center tw-flex-col">
         <Title>{t(translations.landingPage.tradingVolume.tvlTitle)}</Title>
 
         <div>
@@ -33,7 +33,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {tvlValueBtc?.toFixed(4)}{' '}
+              {(tvlValueBtc || 0)?.toFixed(4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -42,7 +42,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {tvlValueUsd?.toLocaleString('en', {
+                {(tvlValueUsd || 0)?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
@@ -63,7 +63,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {volumeBtc?.toFixed(4)}{' '}
+              {(volumeBtc || 0)?.toFixed(4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -72,7 +72,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {volumeUsd?.toLocaleString('en', {
+                {(volumeUsd || 0)?.toLocaleString('en', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}

@@ -221,7 +221,7 @@ const StyledList = styled.ul.attrs(_ => ({
     justify-content: center;
     display: flex;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 1.125rem;
     border: none;
     background: transparent;
     margin: 0 0.1rem;

@@ -167,7 +167,7 @@ export function StakingDateSelector(props: Props) {
   return (
     <>
       {availableYears.length > 0 && (
-        <label className="tw-block tw-mt-8 tw-text-theme-white tw-text-md tw-font-medium tw-mb-2">
+        <label className="tw-block tw-mt-8 tw-text-sov-white tw-text-md tw-font-medium tw-mb-2">
           {props.delegate
             ? t(translations.stake.dateSelector.selectDelegate)
             : t(translations.stake.dateSelector.selectYear)}
@@ -183,8 +183,8 @@ export function StakingDateSelector(props: Props) {
                   getDatesByYear(year);
                   setSelectedYear(year);
                 }}
-                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
-                  selectedYear === year && 'tw-bg-opacity-30 tw-bg-theme-blue'
+                className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
+                  selectedYear === year && 'tw-bg-opacity-30 tw-bg-secondary'
                 }`}
               >
                 {year}
@@ -198,7 +198,7 @@ export function StakingDateSelector(props: Props) {
           {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
-                <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-gray-300">
+                <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-sov-white">
                   {monthName}
                   {currentYearDates.map((item, i) => {
                     if (dayjs(item.date).format('MMM') === monthName) {
@@ -210,10 +210,10 @@ export function StakingDateSelector(props: Props) {
                             setSelectedDay(dayjs(item.date).format('D'));
                             setSelectedMonth(dayjs(item.date).format('MMM'));
                           }}
-                          className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-theme-blue tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-theme-blue tw-tracking-tighter ${
+                          className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
                             selectedDay === dayjs(item.date).format('D') &&
                             selectedMonth === dayjs(item.date).format('MMM') &&
-                            'tw-bg-opacity-30 tw-bg-theme-blue'
+                            'tw-bg-opacity-30 tw-bg-secondary'
                           }`}
                         >
                           {dayjs(item.date)
@@ -232,7 +232,7 @@ export function StakingDateSelector(props: Props) {
         </Slider>
       </div>
       {availableYears.length <= 0 && (
-        <p className="tw-block tw-mt-4 tw-text-red tw-text-sm tw-font-medium tw-mb-2">
+        <p className="tw-block tw-mt-4 tw-text-warning tw-text-sm tw-font-medium tw-mb-2">
           {t(translations.stake.dateSelector.noneAvailable)}
         </p>
       )}

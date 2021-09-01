@@ -1,15 +1,11 @@
-@components {
+@layer components {
   .tw-skeleton {
+    @apply tw-text-transparent
+      tw-bg-sov-white tw-bg-opacity-20 tw-shadow-none tw-rounded-sm
+      tw-cursor-default tw-pointer-events-none tw-select-none;
+
     animation: skeleton-glow 1s linear infinite alternate;
-    background: rgba(206, 217, 224, 0.2);
     background-clip: padding-box !important;
-    border-color: rgba(206, 217, 224, 0.2) !important;
-    border-radius: 2px;
-    box-shadow: none !important;
-    color: transparent !important;
-    cursor: default;
-    pointer-events: none;
-    user-select: none;
   }
   .tw-skeleton *,
   .tw-skeleton:after,

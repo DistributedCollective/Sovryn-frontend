@@ -10,10 +10,10 @@
     }
 
     .tw-table tbody tr:nth-child(even) {
-        background-color: #191919;
+      @apply tw-bg-gray-1;
     }
     .tw-table tbody tr:nth-child(odd) {
-        background-color: #1F1F1F;
+      @apply tw-bg-gray-2;
     }
 
     .tw-table tbody tr:first-child td:first-child {
@@ -42,8 +42,6 @@
     }
 
     .tw-table-responsive {
-      display: block;
-      width: 100%;
-      overflow-x: auto;
+      @apply tw-block tw-w-full tw-overflow-auto;
     }
 }
