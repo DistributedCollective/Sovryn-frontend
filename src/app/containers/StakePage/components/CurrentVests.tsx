@@ -22,7 +22,7 @@ export function CurrentVests(props: Props) {
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
         {t(translations.stake.currentVests.title)}
       </p>
-      <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
+      <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
         <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto">
           <StyledTable className="tw-w-full">
             <thead>

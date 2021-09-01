@@ -1,27 +1,21 @@
 .dialogContainer {
+  @apply tw-w-full;
   max-width: 1000px;
-  width: 100%;
 }
 
 .container {
-  background-color: #000000;
-  color: #d9d9d9;
+  @apply tw-relative tw-w-full 
+    tw-text-sov-white tw-tracking-normal
+    tw-bg-black tw-rounded-2xl;
   max-width: 1000px;
-  width: 100%;
-  border-radius: 15px;
-  position: relative;
-  letter-spacing: 0;
 }
 
-.alertBlock{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
+.alertBlock {
+  @apply tw-flex tw-justify-center tw-items-center tw-mb-5;
 }
 
 .innerContainer {
-  padding: 30px;
+  @apply tw-p-8;
 }
 
 @media screen and (min-width: 920px) {
@@ -31,122 +25,75 @@
 }
 
 .title {
-  margin-bottom: 25px;
-  font-size: 28px;
-  line-height: 38px;
-  font-weight: 600;
-  text-align: center;
-  text-transform: none;
+  @apply tw-mb-6 
+    tw-text-3xl tw-leading-snug tw-font-semibold tw-normal-case tw-text-center;
 }
 
 .footer {
-  margin-top: 81px;
-  font-size: 16px;
-  text-align: center;
+  @apply tw-mt-20 tw-text-base tw-text-center;
 }
 
 .subtitle {
-  margin-bottom: 35px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  text-align: center;
-  text-transform: none;
-  width: 100%;
+  @apply tw-w-full tw-mb-9 
+    tw-text-base tw-leading-normal tw-font-medium tw-text-center tw-normal-case;
 }
 
 .subexp1 {
-  margin-bottom: 10px;
-  font-family: 'Montserrat';
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  text-align: left;
-  text-transform: none;
-  width: 100%;
+  @apply tw-w-full tw-mb-2.5
+    tw-text-base tw-leading-normal tw-font-light tw-font-body tw-text-left tw-normal-case;
 }
 
 .subexp2 {
-  margin-bottom: 35px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 100;
-  text-align: left;
-  text-transform: none;
-  width: 100%;
+  @apply tw-w-full tw-mb-9
+    tw-text-base tw-leading-normal tw-font-thin tw-font-body tw-text-left tw-normal-case;
 }
 .limitsTitle {
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 19px;
-  font-weight: 400;
+  @apply tw-mb-2.5
+    tw-text-base tw-leading-tight tw-font-normal;
 }
 
 .limitsValue {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  display: flex;
-  flex-direction: row;
-  max-width: 150px;
-  justify-content: space-between;
+  @apply tw-flex tw-flex-row tw-justify-between
+   tw-text-base tw-leading-normal tw-font-medium;
+
+  max-width: 140px;
 }
 
 .instructionsTitle {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 19px;
-  font-weight: 400;
-  color: #F4F4F4;
+  @apply tw-mt-5 tw-mb-2.5 
+    tw-text-base tw-leading-tight tw-font-normal tw-text-sov-white;
 }
 
 .supportLink {
-  color: #E9EAE9 !important;
-  text-decoration: underline;
-  font-weight: 400;
+  @apply tw-font-normal tw-text-sov-white tw-underline;
 }
 
 .instructionsValue {
-  margin-bottom: 35px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 100;
-  color: #E9EAE9;
+  @apply tw-mb-9 tw-text-sm tw-leading-relaxed tw-font-thin tw-text-sov-white;
 }
 
 .buttons {
-  display: flex;
-  justify-content: space-between;
+  @apply tw-flex tw-justify-between;
 }
 
 .arrowDown {
+  @apply tw-mx-auto tw-my-5;
   width: 30px;
-  margin: 25px auto;
 }
 
 .txFee {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 400;
-  margin: 20px 0 35px;
-  color: #ffffff;
+  @apply tw-mx-0 tw-mt-5 tw-mb-9 
+    tw-text-sm tw-leading-tight tw-font-normal tw-text-white;
 }
 
 .right {
-  right: 0;
+  @apply tw-right-0;
 }
 
 .close {
-  color: #fff;
-  opacity: 0.7;
-  cursor: pointer;
-  float: right;
-  margin-top: 16px;
-  margin-right: 20px;
-  font-size: 1.5rem;
-}
-
-.close:hover {
-  opacity: 0.9;
+  @apply tw-mt-4 tw-mr-5
+    tw-float-right
+    tw-text-2xl tw-text-white
+    tw-opacity-70 hover:tw-opacity-90
+    tw-cursor-pointer;
 }

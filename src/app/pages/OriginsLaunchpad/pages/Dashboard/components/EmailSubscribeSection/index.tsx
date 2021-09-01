@@ -47,7 +47,7 @@ export const EmailSubscribeSection: React.FC = () => {
   }, []);
 
   return (
-    <div className="tw-max-w-20.5rem tw-mx-auto">
+    <div className="tw-max-w-84 tw-mx-auto">
       <FieldGroup
         label={`${t(translations.originsLaunchpad.upcomingSales.inputLabel)}:`}
         className="tw-text-sm tw-tracking-normal tw-font-thin"
@@ -80,8 +80,8 @@ export const EmailSubscribeSection: React.FC = () => {
         onClick={handleSubmit}
         disabled={!valid || loading}
         loading={loading}
-        className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-background tw-bg-opacity-5"
-        textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
+        className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
+        textClassName="tw-text-lg tw-tracking-normal tw-leading-snug"
       />
     </div>
   );

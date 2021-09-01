@@ -38,7 +38,7 @@ export function Button({
             },
           )}
         >
-          <Spinner size={20} className="tw-fill-current tw-text-red-500" />
+          <Spinner size={20} className="tw-fill-current tw-text-warning" />
         </span>
         <span
           className={cn('tw-truncate tw-btn-loader__value', {

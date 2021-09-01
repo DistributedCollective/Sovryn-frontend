@@ -9,9 +9,9 @@ export const BuyButton = styled.button<IBuyButtonProps>`
   width: 100%;
   color: #000000;
   font-size: 1.25rem;
-  line-height: 1.5rem;
+  line-height: 1.25;
   font-weight: 700;
-  background: #fec004;
+  background: var(--primary);
   border-radius: 0.5rem;
   transition: opacity 0.3s;
   text-transform: uppercase;

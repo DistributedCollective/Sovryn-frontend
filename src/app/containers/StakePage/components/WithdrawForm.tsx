@@ -78,7 +78,7 @@ export function WithdrawForm(props: Props) {
             </h3>
             <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
               <label
-                className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
+                className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
                 htmlFor="amount"
               >
                 {t(translations.stake.withdraw.amountCurrentlyStaked)}:
@@ -86,25 +86,25 @@ export function WithdrawForm(props: Props) {
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
                   readOnly
-                  className="tw-appearance-none tw-border tw-border-solid tw-border-theme-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-theme-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+                  className="tw-appearance-none tw-border tw-border-solid tw-border-sov-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
                   id="amount"
                   type="text"
                   defaultValue={props.amount}
                 />
-                <span className="tw-text-theme-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+                <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
                   {t(translations.stake.sov)}
                 </span>
               </div>
 
               <label
-                className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+                className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                 htmlFor="amountAdd"
               >
                 {t(translations.stake.withdraw.amountToUnstake)}:
               </label>
               <div className="tw-flex tw-space-x-4 tw-relative">
                 <input
-                  className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-theme-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+                  className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
                   id="amountAdd"
                   type="text"
                   placeholder="Enter amount"
@@ -118,14 +118,14 @@ export function WithdrawForm(props: Props) {
                   {t(translations.stake.sov)}
                 </span>
               </div>
-              <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
+              <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4">
                 <div
                   onClick={() => {
                     let num = (Number(props.amount) / 10).toFixed(2);
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   10%
                 </div>
@@ -135,7 +135,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   25%
                 </div>
@@ -145,7 +145,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   50%
                 </div>
@@ -155,7 +155,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(num));
                     getEvent(Number(num));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
                 >
                   75%
                 </div>
@@ -164,7 +164,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(Number(props.amount));
                     getEvent(Number(props.amount));
                   }}
-                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-theme-blue tw-tracking-tighter"
+                  className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
                 >
                   100%
                 </div>
@@ -172,7 +172,7 @@ export function WithdrawForm(props: Props) {
               {Number(props.until) > Math.round(new Date().getTime() / 1e3) && (
                 <>
                   <label
-                    className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+                    className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
                     htmlFor="unstake"
                   >
                     {t(translations.stake.withdraw.forfeit)}:
@@ -180,7 +180,7 @@ export function WithdrawForm(props: Props) {
                   <div className="tw-flex tw-space-x-4">
                     <input
                       readOnly
-                      className={`tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline ${
+                      className={`tw-border tw-border-gray-3 tw-border-opacity-100 tw-border-solid tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline ${
                         loadingWithdraw && 'tw-skeleton'
                       }`}
                       id="unstake"
@@ -197,7 +197,7 @@ export function WithdrawForm(props: Props) {
                 </>
               )}
 
-              <div className="tw-block tw-text-theme-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
+              <div className="tw-block tw-text-sov-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
                 <TxFeeCalculator
                   args={[
                     props.withdrawAmount.toString(),
@@ -219,7 +219,7 @@ export function WithdrawForm(props: Props) {
                         href={discordInvite}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                       >
                         x
                       </a>,
@@ -232,7 +232,7 @@ export function WithdrawForm(props: Props) {
               {Number(props.until) > Math.round(new Date().getTime() / 1e3) ? (
                 <button
                   type="button"
-                  className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+                  className={`tw-uppercase tw-w-full tw-text-black tw-bg-primary tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
                     (!props.isValid ||
                       loadingWithdraw ||
                       forfeitWithdraw === 0 ||
@@ -255,7 +255,7 @@ export function WithdrawForm(props: Props) {
               ) : (
                 <button
                   type="submit"
-                  className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+                  className={`tw-uppercase tw-w-full tw-text-black tw-bg-primary tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
                     (!props.isValid || unstakingLocked) &&
                     'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
                   }`}
@@ -267,7 +267,7 @@ export function WithdrawForm(props: Props) {
               <button
                 type="button"
                 onClick={() => props.onCloseModal()}
-                className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+                className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
               >
                 {t(translations.stake.actions.cancel)}
               </button>

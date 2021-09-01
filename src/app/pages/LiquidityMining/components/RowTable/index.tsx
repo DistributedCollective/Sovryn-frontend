@@ -44,7 +44,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
   const { t } = useTranslation();
 
   return (
-    <RowTable className="2xl:tw-max-w-28.75rem tw-max-w-20.5rem">
+    <RowTable className="tw-w-full tw-max-w-80 2xl:tw-max-w-96 ">
       <thead className="tw-text-sm tw-tracking-normal">
         <tr>
           <TableHeader>

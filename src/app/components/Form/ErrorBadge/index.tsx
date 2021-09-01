@@ -6,7 +6,7 @@ interface Props {
 
 export function ErrorBadge(props: Props) {
   return (
-    <div className="tw-py-4 tw-my-3 tw-text-xs tw-text-red">
+    <div className="tw-py-4 tw-my-3 tw-text-xs tw-text-warning">
       {props.content}
     </div>
   );

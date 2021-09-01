@@ -64,8 +64,8 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
         <span
           className={
             order.orderType === TradingTypes.BUY
-              ? 'tw-text-tradingLong'
-              : 'tw-text-tradingShort'
+              ? 'tw-text-trade-long'
+              : 'tw-text-trade-short'
           }
         >
           {order.orderType === TradingTypes.BUY
@@ -89,17 +89,17 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
         <div className="tw-flex tw-items-center tw-justify-between md:tw-w-full lg:tw-w-5/6 tw-p-0">
           <div>
             {!data.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {data.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {data.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={data.transaction_hash}
-              className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
+              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               startLength={5}
               endLength={5}
             />

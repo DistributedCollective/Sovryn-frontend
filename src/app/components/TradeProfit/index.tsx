@@ -39,7 +39,7 @@ export function TradeProfit(props: Props) {
           </>
         }
       >
-        <span className={change < 0 ? 'tw-text-red' : 'tw-text-green'}>
+        <span className={change < 0 ? 'tw-text-warning' : 'tw-text-success'}>
           {change > 0 && '+'}
           {weiToNumberFormat(props.profit, 8)} {props.asset}
         </span>
@@ -54,7 +54,7 @@ function Change({ change }: { change: number }) {
     return (
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.up)}
-        <span className="tw-text-green">{toNumberFormat(change, 2)}</span>%
+        <span className="tw-text-success">{toNumberFormat(change, 2)}</span>%
       </>
     );
   }
@@ -62,7 +62,7 @@ function Change({ change }: { change: number }) {
     return (
       <>
         {t(translations.tradingHistoryPage.table.profitLabels.down)}
-        <span className="tw-text-red">
+        <span className="tw-text-warning">
           {toNumberFormat(Math.abs(change), 2)}
         </span>
         %

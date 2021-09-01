@@ -55,14 +55,14 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
       <form onSubmit={submitForm}>
         <div className="tw-mb-9 md:tw-px-9 tw-tracking-normal">
           <label
-            className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
+            className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="address"
           >
             {t(translations.stake.withdraw.receiveSovAt)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-theme-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-2 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="address"
               type="text"
               value={address}
@@ -72,13 +72,13 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
           </div>
 
           <label
-            className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+            className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
             {t(translations.stake.withdraw.unlockedSov)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-mb-3">
-            <div className="tw-border tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
+            <div className="tw-border tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline">
               {loading
                 ? t(translations.stake.withdraw.loading)
                 : numberFromWei(value)}
@@ -100,7 +100,7 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
                     href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                   >
                     x
                   </a>,
@@ -112,7 +112,7 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
-            className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+            className={`tw-uppercase tw-w-full tw-text-black tw-bg-primary tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
               (!validate() || withdrawVestsLocked) &&
               'tw-bg-opacity-25 tw-cursor-not-allowed'
             }`}
@@ -123,7 +123,7 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
           <button
             type="button"
             onClick={onCloseModal}
-            className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+            className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}
           </button>

@@ -47,7 +47,7 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
           </EngageButton>
         </div>
 
-        <div className="tw-max-w-28.75rem">
+        <div className="tw-max-w-md">
           <div>
             <Trans
               i18nKey={

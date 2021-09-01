@@ -1,43 +1,30 @@
 .title {
-    margin-bottom: 57px;
-    font-size: 28px;
-    line-height: 38px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: none;
+  @apply tw-text-center tw-text-3xl tw-leading-relaxed tw-font-medium tw-normal-case;
+  margin-bottom: 57px;
 }
 
 .subtitle {
-    margin-bottom: 27px;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 300;
-    text-align: center;
-    text-transform: none;
+  @apply tw-text-center tw-text-xl tw-leading-tight tw-font-light tw-normal-case;
+  margin-bottom: 27px;
 }
 
 .amountBlock {
-    display: inline-block;
-    margin: 0 auto 36px;
+  @apply tw-inline-block tw-mx-auto tw-mt-0 tw-mb-9;
 }
 
 .amountBlockBtc {
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
+  @apply tw-text-lg tw-leading-tight tw-font-medium;
 }
 
 .amountBlockUsd {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 18px;
+  @apply tw-text-sm tw-leading-snug tw-font-light;
 }
 
 .txData {
-    width: 230px;
+  width: 230px;
 }
 
 .arrowDown {
-    width: 30px;
-    margin: 25px auto;
+  width: 30px;
+  margin: 25px auto;
 }

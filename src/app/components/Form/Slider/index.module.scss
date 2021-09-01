@@ -8,12 +8,11 @@
 }
 
 .host :global(.bp3-slider-progress) {
-  height: 10px;
-  background-color: #707070;
+  @apply tw-h-2.5 tw-bg-gray-6;
 }
 
 .host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
-  background-color: #2274a5;
+  @apply tw-bg-secondary;
 }
 
 .host :global(.bp3-slider-handle) {
@@ -30,10 +29,9 @@
 }
 
 .host :global(.bp3-slider-label) {
-  top: 10px;
-  color: #ffffff;
-  font-weight: 900;
-  background-color: transparent;
+  @apply tw-top-2.5 
+    tw-bg-transparent
+    tw-font-black tw-text-white;
 }
 
 .host :global(.bp3-slider-handle) :global(.bp3-slider-label) {

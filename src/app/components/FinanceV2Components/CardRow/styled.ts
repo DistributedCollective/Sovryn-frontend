@@ -8,7 +8,7 @@ export const StyledCardRow = styled.div<IStyledCardRowProps>`
   background-color: #222222;
   display: flex;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding-right: 10px;
   border-left-width: 10px;
   border-left-color: ${props => `${props.leftColor || '#222222'}`};
