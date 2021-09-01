@@ -1,7 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { ActionButton } from 'app/components/Form/ActionButton';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import babelfishLogo from 'assets/images/tokens/babelfish.svg';
+
 import { translations } from '../../../locales/i18n';
 import { Asset } from '../../../types';
 import { weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -16,12 +21,9 @@ import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { LoadableValue } from '../LoadableValue';
 import { Skeleton } from '../PageSkeleton';
+import { OriginsSaleRow } from './OriginsSaleRow';
 import { useVestedStaking_balanceOf } from './useVestedStaking_balanceOf';
 import { VestingDialog } from './VestingDialog';
-import { ActionButton } from 'app/components/Form/ActionButton';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { OriginsSaleRow } from './OriginsSaleRow';
-import babelfishLogo from 'assets/images/tokens/babelfish.svg';
 
 export function VestedAssets() {
   const { t } = useTranslation();
