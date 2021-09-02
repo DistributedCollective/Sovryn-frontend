@@ -135,7 +135,7 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem histórico operações fechadas.",
+    "noClosedTrades": "Histórico vázio.",
     "table": {
       "direction": "Direção",
       "positionSize": "Tamanho da posição",
@@ -162,7 +162,7 @@
     "title": "Depositar-BTC",
     "history": {
       "title": "Histórico",
-      "empty": "Você não tem histórico de depósitos.",
+      "empty": "Histórico vázio.",
       "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
       "loading": "Carregando..."
     },
@@ -767,7 +767,7 @@
         "timestamp": "Data"
       }
     },
-    "no_items": "Você não tem histórico de empréstimos devolvidos."
+    "no_items": "Histórico vázio."
   },
   "rskConnectTutorial": {
     "browser_wallet": "Carteira de computador",
@@ -1035,7 +1035,7 @@
       "amountReceived": "Quantidade recebida",
       "status": "Status"
     },
-    "emptyState": "Você não tem histórico de resgates SOV."
+    "emptyState": "Histórico vázio."
   },
   "vestedHistory": {
     "title": "SOV",
@@ -1058,7 +1058,7 @@
       "transactionFee": "Taxa de transação",
       "status": "Status"
     },
-    "emptyState": "Você não tem histórico de operações spot."
+    "emptyState": "Histórico vázio."
   },
   "topUpHistory": {
     "meta": {
@@ -1073,7 +1073,7 @@
       "transferTx": "ID recebimento RBTC ",
       "txHash": "Transação"
     },
-    "emptyState": "Você não tem histórico de depósitos.",
+    "emptyState": "Histórico vázio.",
     "walletHistory": "A carteira precisa estar conectada.",
     "loading": "Carregando..."
   },
@@ -1141,7 +1141,7 @@
     },
     "historyTable": {
       "title": "Histórico",
-      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "emptyState": "Histórico vázio.",
       "tableHeaders": {
         "time": "Data e hora",
         "pool": "Pool",
@@ -1319,15 +1319,28 @@
       "learn": "Saiba mais"
     },
     "totalEarned": "Total ganho:",
+    "sov": {
+      "reward": "SOV bônus",
+      "liquid": "SOV líquido",
+      "fee": "Dividendos"
+    },
     "topData": {
-      "referralRewards": "Recompensas de convites",
-      "referrals": "Número de convites:",
-      "availableRewards": "Recompensas disponíveis:",
+      "referralRewards": "Bônus de indicação",
+      "referrals": "Número de indicações:",
+      "availableRewards": "Disponíveis:",
       "totalRewards": "Total ganho:",
-      "liquidityRewards": "Recompensas de liquidez",
-      "lockedRewards": "Recompensas bloqueadas:",
-      "claimibleRewards": "Recompensas reinvidicáveis",
-      "OGRewards": "Recompensas OG"
+      "liquidityRewards": "Bônus de liquidez",
+      "lendingRewards": "Bônus de empréstimo",
+      "tradingRewards": "Bônus de negociação",
+      "lockedRewards": "Bônus bloqueados:",
+      "claimibleRewards": "Bônus reinvidicáveis",
+      "stakingReward": "Bônus investimento SOV",
+      "referralReward": "Bônus de indicação"
+    },
+    "fee": {
+      "stakingFee": "Dividendo investimento SOV",
+      "referralFee": "Dividendo de indicação",
+      "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
       "title": "Histórico",
@@ -1339,13 +1352,15 @@
         "status": "Status"
       },
       "event": {
-        "liquidityMining": "Recompensa liquidez",
+        "lendingReward": "Bônus de empréstimo",
+        "liquidityReward": "Bônus de liquidez",
+        "tradingReward": "Bônus de negociação",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
-        "referral": "Recompensa indicação"
+        "referral": "Bônus de indicação"
       },
       "walletHistory": "A carteira precisa estar conectada.",
-      "emptyState": "Você não tem histórico de recompensas.",
+      "emptyState": "Histórico vázio.",
       "loading": "Carregando..."
     }
   },
@@ -1427,7 +1442,7 @@
     },
     "historyTable": {
       "title": "Histórico",
-      "emptyState": "Você não tem histórico de fornecimento de liquidez.",
+      "emptyState": "Histórico vázio.",
       "tableHeaders": {
         "time": "Data e hora",
         "pool": "Pool",
