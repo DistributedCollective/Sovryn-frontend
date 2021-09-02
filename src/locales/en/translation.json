@@ -1411,7 +1411,9 @@
         "status": "Status"
       },
       "event": {
-        "liquidityMining": "Liquidity Reward",
+        "lendingReward": "Lending Reward",
+        "liquidityReward": "Liquidity Reward",
+        "tradingReward": "Trading Reward",
         "vesting": "Vesting",
         "staking": "Staking",
         "referral": "Referrals Reward"

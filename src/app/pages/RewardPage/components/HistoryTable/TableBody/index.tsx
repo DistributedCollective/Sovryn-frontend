@@ -15,10 +15,9 @@ export interface RewardEvent {
 }
 
 export enum RewardEventType {
-  LIQUIDITY_MINING = 'liquidityMining',
-  VESTING = 'vesting',
-  STAKING = 'staking',
-  REFERRAL = 'referral',
+  DEPOSITED = 'Deposited',
+  REWARD_CLAIMED = 'RewardClaimed',
+  EARN_REWARD = 'EarnReward',
 }
 
 interface ITableBodyProps {
@@ -32,14 +31,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const getEventType = useCallback(
     type => {
       switch (type) {
-        case RewardEventType.LIQUIDITY_MINING:
-          return t(translations.rewardPage.historyTable.event.liquidityMining);
-        case RewardEventType.VESTING:
-          return t(translations.rewardPage.historyTable.event.vesting);
-        case RewardEventType.STAKING:
-          return t(translations.rewardPage.historyTable.event.staking);
-        case RewardEventType.REFERRAL:
-          return t(translations.rewardPage.historyTable.event.referral);
+        case RewardEventType.DEPOSITED:
+          return t(translations.rewardPage.historyTable.event.lendingReward);
+        case RewardEventType.REWARD_CLAIMED:
+          return t(translations.rewardPage.historyTable.event.liquidityReward);
+        case RewardEventType.EARN_REWARD:
+          return t(translations.rewardPage.historyTable.event.tradingReward);
         default:
           return type;
       }
