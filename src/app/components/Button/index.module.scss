@@ -97,7 +97,11 @@
     @apply tw-text-sov-white;
   }
 
-  &:not(.disabled):not(:disabled) {
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
     &:hover,
     &:focus,
     &:active {
@@ -114,7 +118,11 @@
     @apply tw-uppercase;
   }
 
-  &:not(.disabled):not(:disabled) {
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
     &:hover,
     &:focus,
     &:active {
@@ -130,7 +138,11 @@
     @apply tw-rounded-full;
   }
 
-  &:not(.disabled):not(:disabled) {
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
     &:hover,
     &:focus,
     &:active {
@@ -146,7 +158,11 @@
     @apply tw-rounded-full;
   }
 
-  &:not(.disabled):not(:disabled) {
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
     &:hover,
     &:focus,
     &:active {
@@ -158,7 +174,11 @@
 .button.link {
   @apply tw-h-auto tw-p-0 tw-bg-transparent tw-border-0 tw-font-bold;
 
-  &:not(.disabled):not(:disabled) {
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
     &:hover,
     &:focus {
       @apply tw-underline;
