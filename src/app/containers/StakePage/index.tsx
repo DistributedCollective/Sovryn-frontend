@@ -4,9 +4,8 @@ import Rsk3 from '@rsksmart/rsk3';
 import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
-
 import { translations } from 'locales/i18n';
-import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
+import { numberFromWei, weiTo4, fromWei } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -98,7 +97,7 @@ const InnerStakePage: React.FC = () => {
   const { dates } = useStaking_getStakes(account).value;
   const balanceOf = useStaking_balanceOf(account);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
-  const [stakeAmount, setStakeAmount] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState('0');
   const [stakeForm, setStakeForm] = useState(false);
   const [extendForm, setExtendForm] = useState(false);
   const [until, setUntil] = useState(0);
@@ -111,7 +110,7 @@ const InnerStakePage: React.FC = () => {
   const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
   const [votingPower, setVotingPower] = useState(0);
-  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState('0');
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
   const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
     undefined,
@@ -323,13 +322,13 @@ const InnerStakePage: React.FC = () => {
   const onDelegate = useCallback((a, b) => {
     setTimestamp(b);
     setIsStakeDelegate(true);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setDelegateForm(delegateForm => !delegateForm);
   }, []);
   const onExtend = useCallback((a, b) => {
     setPrevTimestamp(b);
     setTimestamp(b);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setStakeForm(false);
     setExtendForm(true);
     setIncreaseForm(false);
@@ -337,7 +336,7 @@ const InnerStakePage: React.FC = () => {
   }, []);
   const onIncrease = useCallback((a, b) => {
     setTimestamp(b);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setUntil(b);
     setStakeForm(false);
     setExtendForm(false);
@@ -345,8 +344,8 @@ const InnerStakePage: React.FC = () => {
     setWithdrawForm(false);
   }, []);
   const onUnstake = useCallback((a, b) => {
-    setAmount(numberFromWei(a).toString());
-    setWithdrawAmount(0);
+    setAmount(fromWei(a));
+    setWithdrawAmount('0');
     setStakeAmount(a);
     setTimestamp(b);
     setUntil(b);
