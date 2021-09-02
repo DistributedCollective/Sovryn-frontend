@@ -149,7 +149,11 @@ export function TutorialScreen(props: Props) {
           </div>
           <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
             <NavBtn onClick={handleBack}>
-              <Icon icon="caret-left" iconSize={24} className="tw-text-white" />
+              <Icon
+                icon="caret-left"
+                iconSize={24}
+                className="tw-text-sov-white"
+              />
             </NavBtn>
             {steps.map((_, i) => (
               <NavRound
@@ -162,7 +166,7 @@ export function TutorialScreen(props: Props) {
               <Icon
                 icon="caret-right"
                 iconSize={24}
-                className="tw-text-white"
+                className="tw-text-sov-white"
               />
             </NavBtn>
           </div>
@@ -218,19 +222,19 @@ const SubDetails = styled.div`
   /* justify-content: start; */
 `;
 const SettingsTitle = styled.div`
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const StepTitle = styled.div`
-  font-size: 26px;
+  font-size: 1.75rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const DetailTitle = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   text-align: left;
   color: white;

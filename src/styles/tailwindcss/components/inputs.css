@@ -2,7 +2,7 @@
   .tw-input-wrapper {
     height: 2.5rem;
     max-width: 340px;
-    @apply tw-bg-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded;
+    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded;
     @apply tw-font-semibold tw-font-body tw-text-black;
     @apply tw-w-full;
   }
@@ -15,7 +15,7 @@
   }
 
   .tw-input-label {
-    @apply tw-text-white;
+    @apply tw-text-sov-white;
   }
   .tw-input-append {
     @apply tw-text-black;
@@ -23,12 +23,12 @@
   }
 
   .tw-input-wrapper.readonly {
-    @apply tw-bg-transparent tw-text-white tw-border tw-border-dark-1;
+    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6;
   }
   .tw-input-wrapper.readonly .tw-input {
-    @apply tw-text-white;
+    @apply tw-text-sov-white;
   }
   .tw-input-wrapper.readonly .tw-input-append {
-    @apply tw-text-white;
+    @apply tw-text-sov-white;
   }
 }

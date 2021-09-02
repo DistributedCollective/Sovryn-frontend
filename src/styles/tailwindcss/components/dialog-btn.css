@@ -11,7 +11,7 @@
   }
 
   .tw-btn-dialog__secondary {
-    @apply tw-bg-dark tw-text-primary tw-border-primary;
+    @apply tw-bg-gray-1 tw-text-primary tw-border-primary;
   }
 
   .tw-btn-dialog:hover {
@@ -28,7 +28,7 @@
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.white');
+    stroke: theme('colors.sov-white');
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-track {

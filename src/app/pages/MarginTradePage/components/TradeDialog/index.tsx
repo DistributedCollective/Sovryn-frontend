@@ -99,7 +99,7 @@ export function TradeDialog() {
         onClose={() => dispatch(actions.closeTradingModal())}
       >
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
@@ -213,7 +213,7 @@ export function TradeDialog() {
                         href={discordInvite}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                       >
                         x
                       </a>,
@@ -229,7 +229,6 @@ export function TradeDialog() {
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
-            className="tw-max-w-50"
           />
         </div>
       </Dialog>

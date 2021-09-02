@@ -31,8 +31,8 @@ export const WLContainer = styled.div`
   overflow: hidden;
   width: 10rem;
   height: 10rem;
-  border-radius: 20px;
-  border: 5px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 5px solid #e8e8e8;
   margin: 0 auto 4.375rem;
   padding: 1.3rem 2.1rem 1rem 2.1rem;
 `;
@@ -42,7 +42,7 @@ export const WLImage = styled.img`
 
 export const TitleWrapper = styled.div`
   font-size: 1.75rem;
-  line-height: 2.125rem;
+  line-height: 1.25;
   letter-spacing: 0;
   font-weight: 600;
   margin: 0 auto;

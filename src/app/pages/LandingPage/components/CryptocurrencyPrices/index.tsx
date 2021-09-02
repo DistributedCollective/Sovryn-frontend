@@ -2,28 +2,40 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { translations } from 'locales/i18n';
-import { IPairs, IPairData } from './types';
+import { IPairs, IAssets, IAssetData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { toNumberFormat } from 'utils/display-text/format';
-import arrowUp from 'assets/images/Icon_feather-arrow-up.svg';
-import arrowDown from 'assets/images/Icon_feather-arrow-down.svg';
+import arrowUp from 'assets/images/trend-arrow-up.svg';
+import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { bignumber } from 'mathjs';
+import { Asset } from 'types';
+import { AssetDetails } from 'utils/models/asset-details';
+import { Icon, Popover } from '@blueprintjs/core';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { Trans } from 'react-i18next';
 
 interface ICryptocurrencyPricesProps {
   pairs?: IPairs;
   isLoading: boolean;
+  assetData?: IAssets;
+  assetLoading: boolean;
 }
 
 export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
   pairs,
+  assetData,
   isLoading,
+  assetLoading,
 }) => {
   const { t } = useTranslation();
 
   const list = useMemo(() => {
     if (!pairs) return [];
-    return Object.keys(pairs).map(key => pairs[key]);
+    return Object.keys(pairs)
+      .map(key => pairs[key])
+      .filter(pair => pair);
   }, [pairs]);
 
   if (!isLoading && !list.length) return null;
@@ -34,10 +46,12 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
         {t(translations.landingPage.cryptocurrencyPrices.title)}
       </div>
 
-      <table className="tw-w-full sovryn-table tw-min-w-150">
+      <table className="tw-w-full sovryn-table">
         <thead>
           <tr>
-            <th>{t(translations.landingPage.cryptocurrencyPrices.asset)}</th>
+            <th className="tw-text-left tw-min-w-36">
+              {t(translations.landingPage.cryptocurrencyPrices.asset)}
+            </th>
             <th className="tw-text-right">
               {t(translations.landingPage.cryptocurrencyPrices.price)}
             </th>
@@ -46,6 +60,36 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             </th>
             <th className="tw-text-right">
               {t(translations.landingPage.cryptocurrencyPrices['7d'])}
+            </th>
+
+            <th className="tw-text-right">
+              <div className="tw-inline-flex tw-items-center">
+                {t(translations.landingPage.cryptocurrencyPrices.marketCap)}
+
+                <Popover
+                  content={
+                    <div className="tw-px-12 tw-py-8 tw-font-light">
+                      <Trans
+                        i18nKey={
+                          translations.landingPage.cryptocurrencyPrices
+                            .marketCapTooltip
+                        }
+                        components={[<strong className="tw-font-bold" />]}
+                      />
+                    </div>
+                  }
+                  className="tw-pl-2"
+                  popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
+                >
+                  <Icon className="tw-cursor-pointer" icon={'info-sign'} />
+                </Popover>
+              </div>
+            </th>
+
+            <th className="tw-text-right">
+              {t(
+                translations.landingPage.cryptocurrencyPrices.circulatingSupply,
+              )}
             </th>
           </tr>
         </thead>
@@ -60,9 +104,43 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             </tr>
           )}
 
-          {list.map(pair => (
-            <Row pair={pair} key={pair.trading_pairs} />
-          ))}
+          {!isLoading &&
+            list.map(pair => {
+              const assetDetails = AssetsDictionary.getByTokenContractAddress(
+                pair.base_id,
+              );
+              let rbtcRow;
+
+              if (assetDetails.asset === Asset.USDT) {
+                const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
+                  pair.quote_id,
+                );
+                rbtcRow = (
+                  <Row
+                    assetDetails={rbtcDetails}
+                    price24h={-pair.price_change_percent_24h}
+                    priceWeek={-pair.price_change_week}
+                    lastPrice={1 / pair.last_price}
+                    assetData={assetData && assetData[pair?.quote_id]}
+                    assetLoading={assetLoading}
+                  />
+                );
+              }
+
+              return (
+                <React.Fragment key={pair.base_id}>
+                  {rbtcRow}
+                  <Row
+                    assetDetails={assetDetails}
+                    price24h={pair.price_change_percent_24h_usd}
+                    priceWeek={pair.price_change_week_usd}
+                    lastPrice={pair.last_price_usd}
+                    assetData={assetData && assetData[pair?.base_id]}
+                    assetLoading={assetLoading}
+                  />
+                </React.Fragment>
+              );
+            })}
         </tbody>
       </table>
     </>
@@ -70,11 +148,23 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
 };
 
 interface IRowProps {
-  pair: IPairData;
+  assetData?: IAssetData;
+  assetDetails?: AssetDetails;
+  price24h: number;
+  priceWeek: number;
+  lastPrice: number;
+  assetLoading: boolean;
 }
 
-export const Row: React.FC<IRowProps> = ({ pair }) => {
-  const assetDetails = AssetsDictionary.getByTokenContractAddress(pair.base_id);
+export const Row: React.FC<IRowProps> = ({
+  assetData,
+  assetDetails,
+  price24h,
+  priceWeek,
+  lastPrice,
+  assetLoading,
+}) => {
+  if (!assetDetails) return null;
 
   return (
     <>
@@ -92,7 +182,7 @@ export const Row: React.FC<IRowProps> = ({ pair }) => {
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap">
-          {pair.last_price_usd?.toLocaleString('en', {
+          {(lastPrice || 0).toLocaleString('en', {
             maximumFractionDigits: 3,
             minimumFractionDigits: 2,
           })}{' '}
@@ -100,11 +190,40 @@ export const Row: React.FC<IRowProps> = ({ pair }) => {
         </td>
 
         <td className={'tw-text-right tw-whitespace-nowrap'}>
-          <PriceChange value={pair.price_change_percent_24h_usd} />
+          <PriceChange value={price24h} />
         </td>
 
         <td className={'tw-text-right tw-whitespace-nowrap'}>
-          <PriceChange value={pair.price_change_week_usd} />
+          <PriceChange value={priceWeek} />
+        </td>
+
+        <td className={'tw-text-right tw-whitespace-nowrap'}>
+          <LoadableValue
+            loading={assetLoading}
+            value={
+              assetData?.circulating_supply
+                ? `${Number(
+                    bignumber(assetData?.circulating_supply || '0')
+                      .mul(lastPrice || '0')
+                      .toFixed(0),
+                  ).toLocaleString('en')} USD`
+                : ''
+            }
+          />
+          {}
+        </td>
+        <td className={'tw-text-right tw-whitespace-nowrap'}>
+          <LoadableValue
+            loading={assetLoading}
+            value={
+              assetData?.circulating_supply
+                ? Number(
+                    bignumber(assetData?.circulating_supply || '0').toFixed(0),
+                  ).toLocaleString('en')
+                : ''
+            }
+          />
+          {}
         </td>
       </tr>
     </>
@@ -116,16 +235,23 @@ interface IPriceChangeProps {
 }
 
 export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
+  let numberString = toNumberFormat(value || 0, 2);
+  numberString =
+    numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
+  const noChange = numberString === '0';
+
   return (
     <div
       className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
-        'tw-text-red_light': value < 0,
-        'tw-text-green_light': value > 0,
+        'tw-text-trade-short': value < 0 && !noChange,
+        'tw-text-trade-long': value > 0 && !noChange,
       })}
     >
-      {toNumberFormat(value, 2)}%
-      {value > 0 && <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />}
-      {value < 0 && (
+      {numberString}%
+      {value > 0 && !noChange && (
+        <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
+      )}
+      {value < 0 && !noChange && (
         <img className="tw-w-3 tw-ml-2" src={arrowDown} alt={'down'} />
       )}
     </div>

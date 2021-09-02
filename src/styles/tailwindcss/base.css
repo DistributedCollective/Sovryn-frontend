@@ -1,0 +1,81 @@
+@layer base {
+  html,
+  body {
+    @apply tw-h-full tw-w-full tw-font-normal;
+  }
+
+  body {
+    @apply tw-bg-gray-1 tw-text-sov-white tw-font-body tw-text-xs tw-leading-normal;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-stroke: 0.45px currentcolor;
+  }
+
+  @screen lg {
+    body {
+      @apply tw-text-base tw-leading-normal;
+    }
+  }
+
+  * {
+    @apply tw-font-body;
+  }
+
+  :focus {
+    outline: 0 !important;
+    outline-offset: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tw-text-sov-white tw-font-medium;
+    line-height: 1.2;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  a,
+  a:visited {
+    @apply tw-text-primary tw-no-underline tw-underline;
+  }
+
+  a:hover,
+  a:active {
+    @apply tw-text-primary tw-underline;
+  }
+
+  th {
+    text-align: inherit;
+  }
+
+
+
+  /* TODO: remove headline styles once the Headline Component is done. */
+  h1, h2, h3, h4 {
+    text-transform: uppercase;
+  }
+  
+  h1 {
+    @apply tw-text-4xl tw-font-semibold;
+  }
+
+  h2 {
+    @apply tw-m-0 tw-text-3xl tw-font-semibold tw-normal-case;
+  }
+
+  h3 {
+    @apply tw-m-0 tw-text-base tw-font-semibold;
+  }
+
+  h4 {
+    @apply tw-m-0 tw-text-base tw-font-medium tw-text-gray-7;
+  }
+}

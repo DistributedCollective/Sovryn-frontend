@@ -1,0 +1,19 @@
+.host {
+  @apply tw-relative tw-p-8;
+
+  :global(h1) {
+    @apply tw-mb-4 tw-text-center 
+      tw-text-2xl tw-font-semibold tw-font-body tw-capitalize 
+      tw-text-sov-white;
+  }
+}
+
+.wrongNetwork {
+  @apply tw-flex tw-items-center tw-fixed 
+    tw-top-4 tw-left-0 tw-right-0 tw-px-8 tw-py-4 tw-m-auto
+    tw-text-sm tw-text-warning 
+    tw-opacity-75 tw-bg-sov-white tw-border tw-border-gray-6 tw-rounded-xl;
+
+  width: 500px;
+  max-width: 90vw;
+}

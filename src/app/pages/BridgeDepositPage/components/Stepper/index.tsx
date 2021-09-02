@@ -26,7 +26,7 @@ export function Stepper({ steps, step, onClick }: Props) {
               transform: `translateY(${100 * activeIndex}%)`,
             }}
           >
-            <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-50% tw-mr-4 tw-border-white"></span>
+            <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-mr-4 tw-border-sov-white"></span>
           </div>
           <Step
             step={steps[0]}

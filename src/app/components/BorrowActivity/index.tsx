@@ -22,7 +22,7 @@ export function BorrowActivity(props: Props) {
   return (
     <div>
       <div className="tw-mt-12 tw-mb-6 tw-flex tw-flex-col md:tw-flex-row md:tw-justify-between md:tw-items-center">
-        <h3 className="tw-mt-0 tw-mb-4 md:tw-mb-0 tw-text-white">
+        <h3 className="tw-mt-0 tw-mb-4 md:tw-mb-0 tw-text-sov-white">
           {t(translations.borrowActivity.title)}
         </h3>
 

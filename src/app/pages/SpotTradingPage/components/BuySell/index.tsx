@@ -20,12 +20,12 @@ export function BuySell({ value, onChange }: Props) {
         className="tw-radio-group--primary"
       >
         <RadioGroup.Button
-          className="tw-btn-trade--long tw-btn-trade-content"
+          className="tw-bg-trade-long tw-btn-trade-content"
           value={TradingTypes.BUY}
           text={t(translations.spotTradingPage.tradeForm.buy)}
         />
         <RadioGroup.Button
-          className="tw-btn-trade--short tw-btn-trade-content"
+          className="tw-bg-trade-short tw-btn-trade-content"
           value={TradingTypes.SELL}
           text={t(translations.spotTradingPage.tradeForm.sell)}
         />

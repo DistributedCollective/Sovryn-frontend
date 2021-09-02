@@ -36,6 +36,9 @@ export function useMaintenance() {
   const maintenanceStates: MaintenanceStates = useSelector(selectMaintenance);
 
   const checkMaintenance = (name: States): boolean => {
+    if (!!process.env.REACT_APP_BYPASS_MAINTENANCE) {
+      return false;
+    }
     return maintenanceStates[name]?.maintenance_active;
   };
 
@@ -43,7 +46,7 @@ export function useMaintenance() {
     return Object.keys(maintenanceStates).reduce(
       (res, curr) =>
         Object.assign(res, {
-          [curr]: maintenanceStates[curr]?.maintenance_active,
+          [curr]: checkMaintenance(curr as States),
         }),
       {} as MaintenanceResult,
     );

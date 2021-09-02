@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Tooltip } from '@blueprintjs/core';
+import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 
@@ -51,6 +51,7 @@ import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ContractName } from 'utils/types/contracts';
 import { AssetDetails } from 'utils/models/asset-details';
+import { getUSDSum } from '../../../utils/helpers';
 
 const now = new Date();
 
@@ -69,12 +70,12 @@ export const StakePage: React.FC = () => {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
+        <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="tw-w-full tw-bg-gray-light tw-text-center tw-rounded-b tw-shadow tw-p-3">
+            <div className="tw-w-full tw-bg-gray-1 tw-text-center tw-rounded-b tw-shadow tw-p-3">
               <i>{t(translations.stake.connect)}</i>
             </div>
           </div>
@@ -119,7 +120,12 @@ const InnerStakePage: React.FC = () => {
     Number(lockDate),
     Math.round(now.getTime() / 1e3),
   );
-  const [usdTotal, setUsdTotal] = useState(0);
+  const [assetsUsd, setAssetsUsd] = useState<{
+    [assets: string]: number;
+  }>({});
+  const usdTotal = useMemo(() => getUSDSum(Object.values(assetsUsd)), [
+    assetsUsd,
+  ]);
   const assets = AssetsDictionary.list();
   const { value: sovBalance, loading: sovBalanceLoading } = useAssetBalanceOf(
     Asset.SOV,
@@ -308,6 +314,55 @@ const InnerStakePage: React.FC = () => {
     [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
 
+  const updateUsdTotal = useCallback(
+    (asset: AssetDetails, e: number) =>
+      setAssetsUsd(assetsUsd => ({ ...assetsUsd, [asset.asset]: e })),
+    [],
+  );
+
+  const onDelegate = useCallback((a, b) => {
+    setTimestamp(b);
+    setIsStakeDelegate(true);
+    setAmount(numberFromWei(a).toString());
+    setDelegateForm(delegateForm => !delegateForm);
+  }, []);
+  const onExtend = useCallback((a, b) => {
+    setPrevTimestamp(b);
+    setTimestamp(b);
+    setAmount(numberFromWei(a).toString());
+    setStakeForm(false);
+    setExtendForm(true);
+    setIncreaseForm(false);
+    setWithdrawForm(false);
+  }, []);
+  const onIncrease = useCallback((a, b) => {
+    setTimestamp(b);
+    setAmount(numberFromWei(a).toString());
+    setUntil(b);
+    setStakeForm(false);
+    setExtendForm(false);
+    setIncreaseForm(true);
+    setWithdrawForm(false);
+  }, []);
+  const onUnstake = useCallback((a, b) => {
+    setAmount(numberFromWei(a).toString());
+    setWithdrawAmount(0);
+    setStakeAmount(a);
+    setTimestamp(b);
+    setUntil(b);
+    setStakeForm(false);
+    setExtendForm(false);
+    setIncreaseForm(false);
+    setWithdrawForm(true);
+  }, []);
+
+  const onDelegateVest = useCallback((timestamp, contractAddress) => {
+    setTimestamp(timestamp);
+    setIsStakeDelegate(false);
+    setVestingContractAddress(contractAddress);
+    setDelegateForm(delegateForm => !delegateForm);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -315,22 +370,21 @@ const InnerStakePage: React.FC = () => {
       </Helmet>
       <Header />
       <main>
-        <div className="tw-bg-gray-700 tw-tracking-normal">
+        <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
               {t(translations.stake.title)}
             </h2>
-            <div className="xl:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+            <div className="lg:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
+              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
-                <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    balanceOf.loading && 'skeleton'
-                  }`}
-                >
+                <p className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
+                  {balanceOf.loading && (
+                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                  )}
                 </p>
                 <Modal
                   show={stakeForm}
@@ -355,7 +409,7 @@ const InnerStakePage: React.FC = () => {
                 {sovBalance !== '0' && !stakingLocked ? (
                   <button
                     type="button"
-                    className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold hover:tw-text-gray-light tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl"
+                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
                     onClick={() => {
                       setTimestamp(0);
                       setAmount('');
@@ -383,44 +437,43 @@ const InnerStakePage: React.FC = () => {
                   >
                     <button
                       type="button"
-                      className="tw-bg-gold tw-font-normal tw-bg-opacity-10 hover:tw-text-gold tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-gold  tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
+                      className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
                     >
                       {t(translations.stake.addStake)}
                     </button>
                   </Tooltip>
                 )}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-text-sm tw-mb-5 xl:tw-mb-0">
+              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl tw-text-sm tw-w-full lg:tw-w-1/3 lg:tw-mb-0 lg:tw-mx-2 2xl:tw-w-1/4 ">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.feeTitle)}
                 </p>
-                <p className="tw-text-4-5xl tw-mt-2 tw-mb-6">
+                <p className="tw-text-4xl tw-mt-2 tw-mb-6">
                   ≈ {numberToUSD(usdTotal, 4)}
                 </p>
                 {assets.map((item, i) => {
                   if (item.asset === 'CSOV') return '';
                   return (
                     <FeeBlock
-                      usdTotal={setUsdTotal}
-                      key={i}
+                      usdTotal={updateUsdTotal}
+                      key={item.asset}
                       contractToken={item}
                     />
                   );
                 })}
               </div>
-              <div className="xl:tw-mx-2 tw-bg-gray-800 tw-staking-box tw-p-8 tw-pb-6 tw-rounded-2xl tw-w-full xl:tw-w-1/4 tw-mb-5 xl:tw-mb-0">
+              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
-                <p
-                  className={`xl:tw-text-4-5xl tw-text-3xl tw-mt-2 tw-mb-6 ${
-                    voteBalance.loading && 'skeleton'
-                  }`}
-                >
+                <p className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
+                  {voteBalance.loading && (
+                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                  )}
                 </p>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <div className="tw-bg-gold tw-font-normal tw-bg-opacity-10 tw-hover:text-gold tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-gold tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-gold tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                  <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
                       href="https://bitocracy.sovryn.app/"
                       rel="noopener noreferrer"
@@ -454,50 +507,12 @@ const InnerStakePage: React.FC = () => {
               }
             />
             <CurrentStakes
-              onDelegate={(a, b) => {
-                setTimestamp(b);
-                setIsStakeDelegate(true);
-                setAmount(numberFromWei(a).toString());
-                setDelegateForm(!delegateForm);
-              }}
-              onExtend={(a, b) => {
-                setPrevTimestamp(b);
-                setTimestamp(b);
-                setAmount(numberFromWei(a).toString());
-                setStakeForm(false);
-                setExtendForm(true);
-                setIncreaseForm(false);
-                setWithdrawForm(false);
-              }}
-              onIncrease={(a, b) => {
-                setTimestamp(b);
-                setAmount(numberFromWei(a).toString());
-                setUntil(b);
-                setStakeForm(false);
-                setExtendForm(false);
-                setIncreaseForm(true);
-                setWithdrawForm(false);
-              }}
-              onUnstake={(a, b) => {
-                setAmount(numberFromWei(a).toString());
-                setWithdrawAmount(0);
-                setStakeAmount(a);
-                setTimestamp(b);
-                setUntil(b);
-                setStakeForm(false);
-                setExtendForm(false);
-                setIncreaseForm(false);
-                setWithdrawForm(true);
-              }}
+              onDelegate={onDelegate}
+              onExtend={onExtend}
+              onIncrease={onIncrease}
+              onUnstake={onUnstake}
             />
-            <CurrentVests
-              onDelegate={(timestamp, contractAddress) => {
-                setTimestamp(timestamp);
-                setIsStakeDelegate(false);
-                setVestingContractAddress(contractAddress);
-                setDelegateForm(!delegateForm);
-              }}
-            />
+            <CurrentVests onDelegate={onDelegateVest} />
             <HistoryEventsTable />
           </div>
           <TxDialog tx={increaseTx} />
@@ -586,7 +601,7 @@ const InnerStakePage: React.FC = () => {
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
-  usdTotal: (value: number) => void;
+  usdTotal: (asset: AssetDetails, value: number) => void;
 }
 
 const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
@@ -621,11 +636,9 @@ const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
     [tokenAddress, account],
   );
 
-  useEffect(() => usdTotal(Number(weiTo4(dollarValue))), [
-    currency.value,
-    dollarValue,
-    usdTotal,
-  ]);
+  useEffect(() => {
+    usdTotal(contractToken, Number(weiTo4(dollarValue)));
+  }, [contractToken, dollarValue, usdTotal]);
 
   return (
     <>
@@ -654,7 +667,7 @@ const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
           <button
             onClick={handleWithdrawFee}
             type="button"
-            className="tw-text-gold hover:tw-text-gold tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
+            className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>

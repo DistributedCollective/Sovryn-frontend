@@ -16,13 +16,13 @@ import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
 import { renderAssetPair } from 'app/components/Form/Select/renderers';
 import { BuySell } from '../BuySell';
-import { SpotPairType, TradingTypes } from '../../types';
+import { getAmmSpotPairs, SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { pairs, pairList } from '../../types';
+import { pairs } from '../../types';
 import { useSwapNetwork_rateByPath } from 'app/hooks/swap-network/useSwapNetwork_rateByPath';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -121,7 +121,7 @@ export function TradeForm() {
           >
             <Select
               value={`${linkPairType || pairType}`}
-              options={pairList.map(pair => ({
+              options={getAmmSpotPairs().map(pair => ({
                 key: `${pair}`,
                 label: pairs[pair],
               }))}
@@ -190,7 +190,7 @@ export function TradeForm() {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,

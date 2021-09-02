@@ -139,7 +139,7 @@ export function NotificationForm(props: Props) {
       </div>
       <Dialog isOpen={showForm} onClose={onClickClose}>
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-text-white tw-tracking-normal">
+          <h1 className="tw-text-sov-white tw-tracking-normal">
             {t(translations.notificationFormContainer.dialog.title)}
           </h1>
           {loading || response === 'pending' ? (

@@ -6,7 +6,7 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../components/Pagination';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { numberToUSD } from 'utils/display-text/format';
@@ -55,7 +55,11 @@ export function VestedHistory() {
         ...eventsHistoryVestingOrigin,
         ...eventsHistoryVestingTeam,
         ...eventsHistoryRewards,
-      ].slice(offset, offset + pageLimit),
+      ]
+        .sort(
+          (x, y) => dayjs(y.eventDate).valueOf() - dayjs(x.eventDate).valueOf(),
+        )
+        .slice(offset, offset + pageLimit),
     );
   };
 
@@ -73,13 +77,7 @@ export function VestedHistory() {
               ...v,
               type: t(translations.stake.currentVests.assetType.reward),
             }));
-            setEventsHistoryRewards(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryRewards(newRes);
           });
       }
       if (vesting.value !== ethGenesisAddress) {
@@ -89,13 +87,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
-            setEventsHistoryVesting(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVesting(newRes);
           });
       }
       if (vestingTeam.value !== ethGenesisAddress) {
@@ -105,13 +97,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
-            setEventsHistoryVestingTeam(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingTeam(newRes);
           });
       }
       if (vestingOrigin.value !== ethGenesisAddress) {
@@ -121,13 +107,7 @@ export function VestedHistory() {
           })
           .then(res => {
             const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
-            setEventsHistoryVestingOrigin(
-              (newRes as any).sort(
-                (x, y) =>
-                  new Date(y.eventDate).getTime() -
-                  new Date(x.eventDate).getTime(),
-              ),
-            );
+            setEventsHistoryVestingOrigin(newRes);
           });
       }
       try {
@@ -238,7 +218,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
     <tr>
       <td>
         {dayjs
-          .tz(parseInt(item.eventDate) * 1e3, 'UTC')
+          .tz(item.eventDate, 'UTC')
           .tz(dayjs.tz.guess())
           .format('L - LTS Z')}
       </td>
@@ -264,7 +244,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.transactionHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>
@@ -281,7 +261,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
             )}
             <LinkToExplorer
               txHash={item.transaction_hash}
-              className="tw-text-gold tw-font-normal tw-text-nowrap"
+              className="tw-text-primary tw-font-normal tw-text-nowrap"
             />
           </div>
           <div>

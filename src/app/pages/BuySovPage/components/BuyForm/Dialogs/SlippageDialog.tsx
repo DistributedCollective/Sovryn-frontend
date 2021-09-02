@@ -3,16 +3,16 @@ import styled from 'styled-components/macro';
 import { Dialog } from '../../../../../containers/Dialog';
 import { weiToNumberFormat } from '../../../../../../utils/display-text/format';
 import { useSlippage } from '../useSlippage';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
 import { CloseButton } from '../../Button/close';
 import { LoadableValue } from '../../../../../components/LoadableValue';
-import { Slider } from '../../Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { Asset } from 'types/asset';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from '../../../../../components/AssetRenderer';
+import { Slider } from '../../../../../components/Form/Slider';
 
 interface Props {
   isOpen: boolean;
@@ -48,7 +48,9 @@ export function SlippageDialog(props: Props) {
       <button data-close="" onClick={() => props.onClose()}>
         <span className="tw-sr-only">Close Dialog</span>
       </button>
-      <h2>{t(translations.buySovPage.slippageDialog.title)}</h2>
+      <h2 className="tw-mb-10 tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case">
+        {t(translations.buySovPage.slippageDialog.title)}
+      </h2>
 
       <div className="tw-px-4">
         <FormGroup label={t(translations.buySovPage.slippageDialog.tolerance)}>
@@ -98,10 +100,10 @@ export function SlippageDialog(props: Props) {
 
 const Dummy = styled.div`
   border: 1px solid #575757;
-  color: #e9eae9;
+  color: #e8e8e8;
   height: 48px;
   padding: 11px 21px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   line-height: 1;
 `;

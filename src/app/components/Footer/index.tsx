@@ -1,8 +1,3 @@
-/**
- *
- * Footer
- *
- */
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -18,7 +13,7 @@ export const Footer: React.FC = () => {
   const [optDialogOpen, setOptDialogOpen] = useState<boolean>(false);
 
   return (
-    <footer className="tw-mt-4 tw-bg-gray-100 tw-text-white tw-pt-5">
+    <footer className="tw-mt-4 tw-bg-gray-2 tw-text-sov-white tw-pt-5">
       <h6 className="tw-font-normal tw-text-base tw-text-center tw-w-full">
         <Trans
           i18nKey={translations.footer.title}
@@ -27,7 +22,7 @@ export const Footer: React.FC = () => {
       </h6>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-px-4 tw-mt-5">
         <div className="tw-flex-1">
-          <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-white">
+          <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-sov-white">
             <div className="tw-font-light tw-text-xs">
               <p className="tw-mb-0">
                 <Trans i18nKey={translations.footer.notice_1} />
@@ -84,7 +79,7 @@ export const Footer: React.FC = () => {
           </div>
           <div className="tw-text-base">
             <div
-              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-gold tw-underline tw-mt-3 md:tw-mt-6 tw-mb-3 md:tw-mb-0"
+              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-primary tw-underline tw-mt-3 md:tw-mt-6 tw-mb-3 md:tw-mb-0"
               onClick={e => setOptDialogOpen(true)}
             >
               {t(translations.footer.optOut)}
@@ -98,25 +93,25 @@ export const Footer: React.FC = () => {
             className="tw-w-20 md:tw-w-40 tw-absolute tw--top-8 tw-right-0"
           />
           {commitHash && (
-            <div className="tw-text-white tw-w-full tw-text-right tw-mb-2">
+            <div className="tw-text-sov-white tw-w-full tw-text-right tw-mb-2">
               {t(translations.footer.buildID)}:{' '}
               <a
                 href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${commitHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tw-font-normal tw-text-white"
+                className="tw-font-normal tw-text-sov-white"
               >
                 {commitHash.substr(0, 7)}
               </a>
             </div>
           )}
-          <div className="tw-text-tiny tw-text-white tw-w-full tw-text-right">
+          <div className="tw-text-tiny tw-text-sov-white tw-w-full tw-text-right">
             Charts powered by{' '}
             <a
               href="https://www.highcharts.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-font-normal tw-text-white"
+              className="tw-font-normal tw-text-sov-white"
             >
               Highcharts
             </a>

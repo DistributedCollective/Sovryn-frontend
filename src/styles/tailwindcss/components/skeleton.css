@@ -1,0 +1,30 @@
+@layer components {
+  .tw-skeleton {
+    @apply tw-text-transparent
+      tw-bg-sov-white tw-bg-opacity-20 tw-shadow-none tw-rounded-sm
+      tw-cursor-default tw-pointer-events-none tw-select-none;
+
+    animation: skeleton-glow 1s linear infinite alternate;
+    background-clip: padding-box !important;
+  }
+  .tw-skeleton *,
+  .tw-skeleton:after,
+  .tw-skeleton:before {
+    visibility: hidden !important;
+  }
+
+
+  .tw-skeleton-wrapper {
+    max-width: 100%;
+    overflow-x: hidden;
+    vertical-align: top;
+  }
+
+  .tw-skeleton-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}

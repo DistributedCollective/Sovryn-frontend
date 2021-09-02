@@ -1,8 +1,3 @@
-/**
- *
- * UserAssets
- *
- */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { bignumber } from 'mathjs';
@@ -34,7 +29,6 @@ import { Dialog } from '../../containers/Dialog';
 import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
-import { FishDollarValue } from './FishDollarValue';
 import { BridgeLink } from './BridgeLink';
 
 export function UserAssets() {
@@ -127,7 +121,7 @@ export function UserAssets() {
         }}
       >
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.common.maintenance)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
@@ -234,14 +228,10 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        {item.asset === Asset.FISH ? (
-          <FishDollarValue tokens={tokens} />
-        ) : (
-          <LoadableValue
-            value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
-            loading={dollars.loading}
-          />
-        )}
+        <LoadableValue
+          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+          loading={dollars.loading}
+        />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">

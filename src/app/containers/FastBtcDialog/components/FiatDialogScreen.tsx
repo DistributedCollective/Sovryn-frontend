@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FastBtcDialogState } from '../types';
 import { translations } from 'locales/i18n';
 import { actions } from '../slice';
-import styles from './transaction.module.css';
+import styles from './transaction.module.scss';
 import { FiatButton } from './FiatButton';
 
 interface Props {

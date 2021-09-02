@@ -18,7 +18,7 @@ import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIG
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Tooltip } from '@blueprintjs/core';
+import { Tooltip, Spinner } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
 
 interface StakeItem {
@@ -76,19 +76,22 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
         setStakeLoad(false);
       });
     }
-
-    return () => {
-      setStakesArray([]);
-    };
   }, [account, dates, stakes]);
+
   return (
     <>
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
         {t(translations.stake.currentStakes.title)}
       </p>
-      <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
-        <div className="tw-rounded-lg tw-border tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
-          <StyledTable className="tw-w-full tw-text-white">
+      <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
+        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+          {stakeLoad && (
+            <Spinner
+              size={20}
+              className="tw-absolute tw-top-4 tw-right-8 tw-text-white tw-z-index-100"
+            />
+          )}
+          <StyledTable className="tw-w-full tw-text-sov-white">
             <thead>
               <tr>
                 <th className="tw-text-left assets">
@@ -115,14 +118,7 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
               </tr>
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-              {stakeLoad && !stakesArray?.length && (
-                <tr key="loading">
-                  <td colSpan={99} className="tw-text-center tw-font-normal">
-                    {t(translations.stake.loading)}
-                  </td>
-                </tr>
-              )}
-              {!stakeLoad && !stakesArray?.length && (
+              {!stakesArray?.length && (
                 <tr key="empty">
                   <td colSpan={99} className="tw-text-center tw-font-normal">
                     {t(translations.stake.nostake)}
@@ -228,7 +224,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
           <AddressBadge
             txHash={item.delegate}
             startLength={6}
-            className="tw-text-theme-blue"
+            className="tw-text-secondary"
           />
         )}
         {!item.delegate && (
@@ -261,7 +257,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               >
                 <button
                   type="button"
-                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
                 >
                   {t(translations.stake.actions.increase)}
                 </button>
@@ -275,7 +271,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               >
                 <button
                   type="button"
-                  className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
                 >
                   {t(translations.stake.actions.extend)}
                 </button>
@@ -285,7 +281,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
             <>
               <button
                 type="button"
-                className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
+                className={`tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
                   !locked &&
                   'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent'
                 }`}
@@ -298,7 +294,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               </button>
               <button
                 type="button"
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
                 onClick={() =>
                   onExtend(Number(item.stakedAmount), Number(item.unlockDate))
                 }
@@ -318,7 +314,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
             >
               <button
                 type="button"
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
               >
                 {t(translations.stake.actions.unstake)}
               </button>
@@ -326,7 +322,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
           ) : (
             <button
               type="button"
-              className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+              className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
               onClick={() =>
                 onUnstake(Number(item.stakedAmount), Number(item.unlockDate))
               }
@@ -345,14 +341,14 @@ const AssetRow: React.FC<IAssetRowProps> = ({
             >
               <button
                 type="button"
-                className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
               >
                 {t(translations.stake.actions.delegate)}
               </button>
             </Tooltip>
           ) : (
             <button
-              className={`tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
+              className={`tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat ${
                 !locked && 'tw-opacity-50 tw-cursor-not-allowed'
               }`}
               onClick={() =>

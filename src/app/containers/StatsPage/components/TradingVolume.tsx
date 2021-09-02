@@ -76,7 +76,7 @@ export function TradingVolume(props: Props) {
           </h3>
         </div>
       </div>
-      <div className="tw-w-full tw-bg-gray-200 tw-border tw-border-black tw-border-t-0 tw-border-b-0">
+      <div className="tw-w-full tw-bg-gray-3 tw-border tw-border-black tw-border-t-0 tw-border-b-0">
         <div className="tw-text-center tw-p-4">
           <h3>
             {loading ? (
@@ -87,7 +87,7 @@ export function TradingVolume(props: Props) {
           </h3>
         </div>
       </div>
-      <div className="tw-w-full tw-bg-gray-200 ">
+      <div className="tw-w-full tw-bg-gray-3 ">
         <div className="tw-text-center tw-p-4">
           <h3>
             {loading ? (

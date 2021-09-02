@@ -17,7 +17,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
 interface Props {
-  className?: object;
+  className?: string;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
@@ -65,7 +65,7 @@ export function ClaimForm({ className, address }: Props) {
             {t(translations.rewardPage.claimForm.availble)}
           </div>
           <Input
-            value={weiToNumberFormat(lockedBalance, 4)}
+            value={weiToNumberFormat(lockedBalance, 8)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
@@ -81,7 +81,7 @@ export function ClaimForm({ className, address }: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,
@@ -105,7 +105,7 @@ export function ClaimForm({ className, address }: Props) {
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
+          <div className="tw-text-xs tw-font-thin">
             {t(translations.rewardPage.claimForm.note) + ' '}
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
