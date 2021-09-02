@@ -66,9 +66,10 @@ export function ClaimForm({ className, address }: Props) {
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
         <Tooltip content={weiTo18(lockedBalance)}>
           <Input
-            value={weiToNumberFormat(lockedBalance, 6)}
+            value={`${weiToNumberFormat(lockedBalance, 6)}...`}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
+            inputClassName="tw-text-center"
           />
         </Tooltip>
 

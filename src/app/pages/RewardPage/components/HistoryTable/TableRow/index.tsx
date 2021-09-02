@@ -7,6 +7,8 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 
 import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
+import { Tooltip } from '@blueprintjs/core';
+import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface ITableRowProps {
   time: number;
@@ -28,7 +30,13 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>{type}</td>
       <td>
-        {amount} <AssetSymbolRenderer asset={Asset.SOV} />
+        <Tooltip content={`${weiTo18(amount)} SOV`}>
+          <>
+            {weiToFixed(amount, 8)}{' '}
+            <span className="tw--ml-0.5 tw-mr-1">...</span>{' '}
+            <AssetSymbolRenderer asset={Asset.SOV} />
+          </>
+        </Tooltip>
       </td>
       <td>
         <LinkToExplorer

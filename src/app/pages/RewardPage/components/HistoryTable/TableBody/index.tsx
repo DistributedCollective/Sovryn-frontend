@@ -43,6 +43,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     },
     [t],
   );
+
   return (
     <tbody className="tw-mt-12">
       {items.map((item, index) => (
@@ -50,7 +51,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           key={index}
           time={item.timestamp}
           txHash={item.txHash}
-          amount={weiToFixed(item.amount, 8)}
+          amount={item.amount}
           type={getEventType(item.event)}
         />
       ))}
