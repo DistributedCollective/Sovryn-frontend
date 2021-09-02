@@ -1443,7 +1443,7 @@
       }
     },
     "openPositions": "Open positions",
-    "tradingHistory": "Margin order history"
+    "tradingHistory": "Margin order history",
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
