@@ -16,13 +16,13 @@ import { LiquidForm } from './components/LiquidForm';
 import { RewardForm } from './components/RewardForm';
 import { StakingRewardsClaimForm } from './components/StakingRewardsClaimForm';
 import { Tab } from './components/Tab';
+import { RewardTabType } from './types';
 
 export function RewardPage() {
   const { t } = useTranslation();
-  const [activeAssets, setActiveAssets] = useState(0);
-  // const [activeHistory, setActiveHistory] = useState(0);
-  // const connected = useIsConnected();
+  const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
   const address = useAccount();
+
   const { value: lockedBalance } = useCacheCallWithValue(
     'lockedSov',
     'getLockedBalance',
@@ -31,6 +31,7 @@ export function RewardPage() {
   );
   const rewardSov =
     parseFloat(weiTo18(lockedBalance)).toFixed(6).toString() + ' SOV';
+
   return (
     <>
       <Helmet>
@@ -52,31 +53,31 @@ export function RewardPage() {
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}
                   amount={rewardSov}
-                  active={activeAssets === 0}
-                  onClick={() => setActiveAssets(0)}
+                  active={activeTab === RewardTabType.REWARD_SOV}
+                  onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
                 />
               </div>
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.liquid)}
-                  active={activeAssets === 1}
-                  onClick={() => setActiveAssets(1)}
+                  active={activeTab === RewardTabType.LIQUID_SOV}
+                  onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
                   amount="32.274693 SOV"
                 />
               </div>
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.fee)}
-                  active={activeAssets === 2}
-                  onClick={() => setActiveAssets(2)}
+                  active={activeTab === RewardTabType.FEES_EARNED}
+                  onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
                   amount="0.02918284 RBTC"
                 />
               </div>
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
-              {activeAssets === 0 && <RewardForm />}
-              {activeAssets === 1 && <LiquidForm />}
-              {activeAssets === 2 && <FeeForm />}
+              {activeTab === RewardTabType.REWARD_SOV && <RewardForm />}
+              {activeTab === RewardTabType.LIQUID_SOV && <LiquidForm />}
+              {activeTab === RewardTabType.FEES_EARNED && <FeeForm />}
             </div>
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
@@ -91,7 +92,7 @@ export function RewardPage() {
                 className="tw-mt-2"
               />
             ) : (
-              <HistoryTable rewardType={activeAssets} />
+              <HistoryTable activeTab={activeTab} />
             )}
           </div>
         </div>

@@ -7,12 +7,28 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 
 import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
+import { RewardTabType } from '../../types';
 
 const pageSize = 6;
-interface RewardProps {
-  rewardType: number;
+
+const getHistoryEndpoint = (activeTab: RewardTabType) => {
+  switch (activeTab) {
+    case RewardTabType.REWARD_SOV:
+      return 'rewardsNew';
+    case RewardTabType.LIQUID_SOV:
+      return 'liquidSov';
+    case RewardTabType.FEES_EARNED:
+      return 'feesEarned';
+    default:
+      return 'rewardsNew';
+  }
+};
+
+interface IHistoryTableProps {
+  activeTab: RewardTabType;
 }
-export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
+
+export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState<RewardEvent[]>([]);
@@ -21,69 +37,27 @@ export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
   const [total, setTotal] = useState(0);
   const blockSync = useBlockSync();
 
-  const getRewardData = useCallback(() => {
-    axios
-      .get(
-        `${url}/v1/event-history/rewardsNew/${account}?page=${page}&pageSize=${pageSize}`,
-      )
-      .then(res => {
-        const { events, pagination } = res.data;
-        console.log('res: ', res.data);
-        setHistory(events || []);
-        setTotal(pagination.totalPages * pageSize);
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setLoading(false);
-      });
-  }, [url, account, page]);
-  const getLiqData = useCallback(() => {
-    axios
-      .get(
-        `${url}/v1/event-history/liquidSov/${account}?page=${page}&pageSize=${pageSize}`,
-      )
-      .then(res => {
-        const { events, pagination } = res.data;
-        setHistory(events || []);
-        setTotal(pagination.totalPages * pageSize);
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setLoading(false);
-      });
-  }, [url, account, page]);
-  const getEarnedData = useCallback(() => {
-    axios
-      .get(
-        `${url}/v1/event-history/feesEarned/${account}?page=${page}&pageSize=${pageSize}`,
-      )
-      .then(res => {
-        const { events, pagination } = res.data;
-        setHistory(events || []);
-        setTotal(pagination.totalPages * pageSize);
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setLoading(false);
-      });
-  }, [url, account, page]);
   const getHistory = useCallback(() => {
     setLoading(true);
     setHistory([]);
-    if (rewardType === 0) {
-      getRewardData();
-    } else if (rewardType === 1) {
-      getLiqData();
-    } else if (rewardType === 2) {
-      getEarnedData();
-    }
-  }, [setHistory, getRewardData, getLiqData, getEarnedData, rewardType]);
+
+    const historyEndpoint = getHistoryEndpoint(activeTab);
+
+    axios
+      .get(
+        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${pageSize}`,
+      )
+      .then(res => {
+        const { events, pagination } = res.data;
+        setHistory(events || []);
+        setTotal(pagination.totalPages * pageSize);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setLoading(false);
+      });
+  }, [activeTab, url, account, page]);
 
   useEffect(() => {
     if (account) {
@@ -91,10 +65,7 @@ export const HistoryTable: React.FC<RewardProps> = ({ rewardType }) => {
     }
   }, [account, getHistory, blockSync]);
 
-  const onPageChanged = useCallback(data => {
-    const { currentPage } = data;
-    setPage(currentPage);
-  }, []);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   return (
     <section>
