@@ -41,12 +41,14 @@ export function AmmBalance(props: Props) {
 
       <div className="tw-mt-7 tw-overflow-auto">
         <table
-          className="tw-text-left tw-border-separate tw-w-full sovryn-table tw-min-w-150"
+          className="tw-text-left tw-border-separate tw-w-full sovryn-table"
           style={{ borderSpacing: 0 }}
         >
           <thead>
             <tr>
-              <th>{t(translations.landingPage.ammpool.pool)}</th>
+              <th className="tw-text-left tw-min-w-40">
+                {t(translations.landingPage.ammpool.pool)}
+              </th>
               <th>{t(translations.landingPage.ammpool.asset)}</th>
               <th className="tw-text-right">
                 {t(translations.landingPage.ammpool.stakedBalance)}

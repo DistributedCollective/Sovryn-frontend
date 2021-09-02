@@ -86,14 +86,14 @@ export function Arbitrage() {
     <>
       {opportunity !== null && (
         <div className="tw-my-3">
-          <div className="tw-text-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-gold">
+          <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
             {t(s.arbitrage.best_rate)}{' '}
-            <span className="tw-text-gold">
+            <span className="tw-text-primary">
               {toNumberFormat(opportunity.fromAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.fromToken} />
             </span>{' '}
             {t(s.arbitrage.for)}{' '}
-            <span className="tw-text-gold">
+            <span className="tw-text-primary">
               {toNumberFormat(opportunity.toAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.toToken} />
             </span>

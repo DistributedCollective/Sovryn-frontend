@@ -12,11 +12,11 @@ import { PositionBlock } from './PositionBlock';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 
-interface Props {
+interface IPendingPositionRow {
   item: Transaction;
 }
 
-export function PendingPositionRow({ item }: Props) {
+export function PendingPositionRow({ item }: IPendingPositionRow) {
   const { customData } = item;
   const { t } = useTranslation();
 
@@ -50,7 +50,7 @@ export function PendingPositionRow({ item }: Props) {
               )}
               <LinkToExplorer
                 txHash={item.transactionHash}
-                className="tw-text-gold tw-font-normal tw-whitespace-nowrap"
+                className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               />
             </div>
             <div>

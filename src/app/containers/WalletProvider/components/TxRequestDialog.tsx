@@ -78,11 +78,11 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
-  border: 1px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`

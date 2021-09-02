@@ -106,7 +106,7 @@ export function NotificationFormComponent(props: Props) {
         </div>
         {props.response !== 'success' && props.response && (
           <div className="tw-grid tw-gap-8 tw--mx-4 tw-grid-cols-12 tw-p-4">
-            <p className="tw-text-red-500">{t(s.dialog.error)}</p>
+            <p className="tw-text-warning">{t(s.dialog.error)}</p>
           </div>
         )}
       </div>
@@ -116,17 +116,17 @@ export function NotificationFormComponent(props: Props) {
 
 const StyledButton = styled.button`
   color: var(--white);
-  background-color: var(--primary);
-  border-radius: 20px;
+  background-color: var(--gray-1);
+  border-radius: 1.25rem;
   padding: 5px 30px;
-  font-size: 12px;
+  font-size: 0.75rem;
   &:disabled {
     opacity: 0.7;
   }
   &:hover:not(:disabled) {
-    color: var(--Gold);
+    color: var(--primary);
   }
   ${media.lg`
-  font-size: 14px
+  font-size: 0.875rem
   `}
 `;

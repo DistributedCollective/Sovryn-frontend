@@ -23,11 +23,11 @@ import { PositionBlock } from './PositionBlock';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
-interface Props {
+interface IOpenPositionRowProps {
   item: ActiveLoan;
 }
 
-export function OpenPositionRow({ item }: Props) {
+export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -116,11 +116,11 @@ export function OpenPositionRow({ item }: Props) {
           </div>
         </td>
         <td>
-          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-end">
+          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}
-              className={`tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4 ${
+              className={`tw-border-none tw-pl-0 tw-pr-4 xl:tw-pr-2 2xl:tw-pr-5 ${
                 addToMarginLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
@@ -137,7 +137,7 @@ export function OpenPositionRow({ item }: Props) {
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
               onClick={() => setShowClosePosition(true)}
-              className={`tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 2xl:tw-pl-4 tw-pr-0 ${
+              className={`tw-border-none tw-ml-0 tw-pl-0 ${
                 closeTradesLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
@@ -154,6 +154,7 @@ export function OpenPositionRow({ item }: Props) {
           </div>
           <AddToMarginDialog
             item={item}
+            positionSize={weiToNumberFormat(item.collateral, 4)}
             liquidationPrice={
               <>
                 {liquidationPrice}{' '}

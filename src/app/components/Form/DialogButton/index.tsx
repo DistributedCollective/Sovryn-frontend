@@ -20,26 +20,14 @@ export function DialogButton({
   ...props
 }: Props) {
   return (
-    <div className="tw-flex tw-justify-between tw-items-center tw-space-x-3">
+    <div className="tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-items-center tw-gap-3">
       <button
-        className={cn('tw-btn-dialog tw-truncate', className)}
+        className={cn('tw-btn-dialog tw-truncate tw-min-w-full', className)}
         onClick={onConfirm}
         {...props}
       >
         {confirmLabel}
       </button>
-      {cancelLabel && onCancel && (
-        <button
-          className={cn(
-            'tw-btn-dialog tw-truncate tw-btn-dialog__secondary',
-            className,
-          )}
-          onClick={onCancel}
-          type="button"
-        >
-          {cancelLabel}
-        </button>
-      )}
     </div>
   );
 }

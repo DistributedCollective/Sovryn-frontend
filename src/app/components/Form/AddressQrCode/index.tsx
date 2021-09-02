@@ -20,10 +20,11 @@ interface Props {
 
 const CopySuccess = ({ copied }) => {
   const { t } = useTranslation();
+
   return (
     <div
       className={cn(
-        'tw-absolute tw--bottom-2 tw-left-0 tw-transform tw-translate-y-full tw-border tw-border-secondary tw-text-white tw-bg-secondary tw-bg-opacity-70 tw-px-6 tw-py-2 tw-text-center tw-w-full tw-transition-opacity tw-rounded-sm',
+        'tw-absolute tw--bottom-2 tw-left-0 tw-transform tw-translate-y-full tw-border tw-border-secondary tw-text-sov-white tw-bg-secondary tw-bg-opacity-70 tw-px-6 tw-py-2 tw-text-center tw-w-full tw-transition-opacity tw-rounded-sm',
         {
           'tw-opacity-100': copied,
           'tw-opacity-0': !copied,
@@ -41,7 +42,7 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
   const [copied, setCopied] = useState(false);
   return (
     <>
-      <div className="tw-text-lg tw-text-white tw-ml-8 tw-mb-2.5">
+      <div className="tw-text-lg tw-text-sov-white tw-ml-8 tw-mb-2.5">
         {t(translations.fastBtcDialog.qr.title)}
       </div>
       <div className="tw-qrcode-container">
@@ -51,7 +52,7 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
             value={`${uri || ''}${address}`}
             renderAs="svg"
             bgColor="var(--white)"
-            fgColor="var(--primary)"
+            fgColor="var(--gray-1)"
             includeMargin={false}
             className="rounded"
           />
@@ -70,8 +71,14 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
             >
               <div className="tw-qrcode-address-wrapper">
                 <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full">
-                  <div className="tw-flex-shrink tw-flex-grow-0 tw-overflow-hidden tw-text-white">
-                    <Text ellipsize>{prettyTx(address, 15, 12)}</Text>
+                  <div className="tw-flex-shrink tw-flex-grow-0 tw-overflow-hidden tw-text-sov-white">
+                    <Text ellipsize>
+                      {address.length > 0 ? (
+                        <>{prettyTx(address, 15, 12)}</>
+                      ) : (
+                        <>{t(translations.fastBtcDialog.qr.generating)}</>
+                      )}
+                    </Text>
                   </div>
                   <div className="tw-flex-shrink-0 tw-flex-grow-0 tw-ml-4">
                     <svg

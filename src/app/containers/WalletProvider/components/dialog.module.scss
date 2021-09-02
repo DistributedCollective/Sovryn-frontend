@@ -1,20 +1,15 @@
 .dialog {
-    background: #000000!important;
-    border: 0!important;
-    border-radius: 20px!important;
-    padding: 30px!important;
-    font-family: "Montserrat", sans-serif;
+    @apply tw-relative
+      tw-p-8
+      tw-font-body
+      tw-bg-black tw-border-0 tw-rounded-3xl;
+
     max-width: 468px;
-    position: relative;
 }
 
 .dialog h1 {
-    margin-bottom: 40px;
-    text-transform: none;
-    text-align: center;
-    font-size: 28px;
-    line-height: 34px;
-    font-weight: 600;
+  @apply tw-mb-10
+    tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case;
 }
 
 .dialog button[data-close] {

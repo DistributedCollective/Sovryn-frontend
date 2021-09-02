@@ -6,8 +6,8 @@ import { IPairs, IAssets, IAssetData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { toNumberFormat } from 'utils/display-text/format';
-import arrowUp from 'assets/images/Icon_feather-arrow-up.svg';
-import arrowDown from 'assets/images/Icon_feather-arrow-down.svg';
+import arrowUp from 'assets/images/trend-arrow-up.svg';
+import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
@@ -46,10 +46,12 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
         {t(translations.landingPage.cryptocurrencyPrices.title)}
       </div>
 
-      <table className="tw-w-full sovryn-table tw-min-w-150">
+      <table className="tw-w-full sovryn-table">
         <thead>
           <tr>
-            <th>{t(translations.landingPage.cryptocurrencyPrices.asset)}</th>
+            <th className="tw-text-left tw-min-w-36">
+              {t(translations.landingPage.cryptocurrencyPrices.asset)}
+            </th>
             <th className="tw-text-right">
               {t(translations.landingPage.cryptocurrencyPrices.price)}
             </th>
@@ -115,7 +117,6 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                 );
                 rbtcRow = (
                   <Row
-                    key={pair.quote_id}
                     assetDetails={rbtcDetails}
                     price24h={-pair.price_change_percent_24h}
                     priceWeek={-pair.price_change_week}
@@ -127,10 +128,9 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               }
 
               return (
-                <>
+                <React.Fragment key={pair.base_id}>
                   {rbtcRow}
                   <Row
-                    key={pair.base_id}
                     assetDetails={assetDetails}
                     price24h={pair.price_change_percent_24h_usd}
                     priceWeek={pair.price_change_week_usd}
@@ -138,7 +138,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                     assetData={assetData && assetData[pair?.base_id]}
                     assetLoading={assetLoading}
                   />
-                </>
+                </React.Fragment>
               );
             })}
         </tbody>
@@ -182,7 +182,7 @@ export const Row: React.FC<IRowProps> = ({
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap">
-          {lastPrice?.toLocaleString('en', {
+          {(lastPrice || 0).toLocaleString('en', {
             maximumFractionDigits: 3,
             minimumFractionDigits: 2,
           })}{' '}
@@ -203,8 +203,8 @@ export const Row: React.FC<IRowProps> = ({
             value={
               assetData?.circulating_supply
                 ? `${Number(
-                    bignumber(assetData?.circulating_supply)
-                      .mul(lastPrice)
+                    bignumber(assetData?.circulating_supply || '0')
+                      .mul(lastPrice || '0')
                       .toFixed(0),
                   ).toLocaleString('en')} USD`
                 : ''
@@ -218,7 +218,7 @@ export const Row: React.FC<IRowProps> = ({
             value={
               assetData?.circulating_supply
                 ? Number(
-                    bignumber(assetData?.circulating_supply).toFixed(0),
+                    bignumber(assetData?.circulating_supply || '0').toFixed(0),
                   ).toLocaleString('en')
                 : ''
             }
@@ -235,7 +235,7 @@ interface IPriceChangeProps {
 }
 
 export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
-  let numberString = toNumberFormat(value, 2);
+  let numberString = toNumberFormat(value || 0, 2);
   numberString =
     numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
   const noChange = numberString === '0';
@@ -243,8 +243,8 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
   return (
     <div
       className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
-        'tw-text-red_light': value < 0 && !noChange,
-        'tw-text-green_light': value > 0 && !noChange,
+        'tw-text-trade-short': value < 0 && !noChange,
+        'tw-text-trade-long': value > 0 && !noChange,
       })}
     >
       {numberString}%

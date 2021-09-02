@@ -26,14 +26,14 @@ const StyledHeader = styled.div.attrs(_ => ({
 `;
 
 const H1 = styled.h1`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-family: 'Montserrat';
   text-align: center;
   font-weight: bold;
   letter-spacing: 0;
   margin: 0;
   text-transform: none;
-  ${media.md`font-size: 36px; line-height: 47px; text-align: center;`}
+  ${media.md`font-size: 2.5rem; line-height: 1.25; text-align: center;`}
 `;
 
 interface Props {

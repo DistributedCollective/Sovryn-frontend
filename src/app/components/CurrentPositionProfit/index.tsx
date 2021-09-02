@@ -69,7 +69,9 @@ export function CurrentPositionProfit({
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="tw-text-green">{toNumberFormat(diff * 100, 2)}</span>
+          <span className="tw-text-success">
+            {toNumberFormat(diff * 100, 2)}
+          </span>
           %
         </>
       );
@@ -78,7 +80,7 @@ export function CurrentPositionProfit({
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.down)}
-          <span className="tw-text-red">
+          <span className="tw-text-warning">
             {toNumberFormat(Math.abs(diff * 100), 2)}
           </span>
           %
@@ -95,7 +97,7 @@ export function CurrentPositionProfit({
         loading={loading}
         value={
           <>
-            <span className={diff < 0 ? 'tw-text-red' : 'tw-text-green'}>
+            <span className={diff < 0 ? 'tw-text-warning' : 'tw-text-success'}>
               <div>
                 {diff > 0 && '+'}
                 {weiToNumberFormat(profit, 8)}{' '}

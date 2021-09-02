@@ -1,10 +1,12 @@
 import Web3 from 'web3';
 import { WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { bignumber } from 'mathjs';
+import { AbiItem } from 'web3-utils';
 import { store } from 'store/store';
 import { currentChainId, readNodes, databaseRpcNodes } from '../classifiers';
-import { AbiItem } from 'web3-utils';
 import { appContracts } from '../blockchain/app-contracts';
+import { gas } from '../blockchain/gas-price';
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
@@ -21,7 +23,13 @@ export class SovrynNetwork {
   public databaseContractList: Contract[] = [];
 
   constructor() {
-    this.initReadWeb3(currentChainId).then().catch();
+    this.initReadWeb3(currentChainId)
+      .then(async () => {
+        const gasPrice = await this.getOnChainGasPrice();
+        gas.set(gasPrice);
+        this.refreshGasPrice();
+      })
+      .catch();
   }
 
   public static Instance() {
@@ -33,6 +41,12 @@ export class SovrynNetwork {
 
   public store() {
     return this._store;
+  }
+
+  public async getOnChainGasPrice() {
+    const gasPrice = await this._readWeb3.eth.getGasPrice();
+    // add 1% to retrieved gas to confirm transactions faster.
+    return bignumber(gasPrice).mul(1.01).toFixed(0);
   }
 
   /**
@@ -196,5 +210,17 @@ export class SovrynNetwork {
       console.error('init database web3 fails.');
       console.error(e);
     }
+  }
+
+  private refreshGasPrice() {
+    setTimeout(async () => {
+      try {
+        const gasPrice = await this._readWeb3.eth.getGasPrice();
+        gas.set(gasPrice);
+        this.refreshGasPrice();
+      } catch (e) {
+        console.error('gas price update', e);
+      }
+    }, [35e3]); // updates price in 35s intervals (roughly for each block)
   }
 }

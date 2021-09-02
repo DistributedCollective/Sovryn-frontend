@@ -34,7 +34,7 @@ const CurrencyRow: React.FC<Props> = ({
     <div
       className={classNames(
         styles.currencyContainer,
-        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 tw-mb-4 tw-text-muted tw-cursor-pointer',
+        'sovryn-border tw-overflow-hidden tw-pb-0 tw-pt-1 lg:tw-pt-2 tw-mb-4 tw-text-gray-6 tw-cursor-pointer',
         active && styles.active,
       )}
       onClick={onClick}
@@ -58,7 +58,7 @@ const CurrencyRow: React.FC<Props> = ({
         )}
       >
         <div className="tw-w-3/6 tw-px-4">
-          <Text className="tw-text-muted">
+          <Text className="tw-text-gray-6">
             {t(translations.lend.currency.lendArp)}:
           </Text>
           <NextSupplyInterestRate
@@ -67,7 +67,7 @@ const CurrencyRow: React.FC<Props> = ({
           />
         </div>
         <div className="tw-w-3/6 tw-px-4">
-          <Text className="tw-text-muted">
+          <Text className="tw-text-gray-6">
             {t(translations.lend.currency.borrowArp)}:
           </Text>
           <NextBorrowInterestRate

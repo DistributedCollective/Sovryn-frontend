@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { isWeb3Wallet } from '@sovryn/wallet';
@@ -13,8 +12,6 @@ import { NetworkDialog } from '../NetworkDialog';
 import { DetectionScreen } from './component/DetectionScreen';
 import { TutorialScreen } from './component/TutorialScreen';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-
-import styles from './NetworkRibbon.module.scss';
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
@@ -47,7 +44,7 @@ export function NetworkRibbon(this: any) {
   return (
     <NetworkDialog isOpen={isOpen} className="tw-font-bold" size="normal">
       <div className="tw-py-2 tw-font-body">
-        <div className={classNames(styles.title, 'tw-text-center')}>
+        <div className="tw-font-semibold tw-text-2xl tw-leading-none tw-normal-case tw-text-center">
           {t(translations.wrongNetworkDialog.title)}{' '}
         </div>
       </div>

@@ -16,7 +16,7 @@ export const Digit: React.FC<IDigitProps> = ({ value, title }) => {
         {rightDigit}
       </span>
 
-      <span className="tw-absolute tw--bottom-3 tw-w-full tw-text-xxs tw-text-center">
+      <span className="tw-absolute tw--bottom-3 tw-w-full tw-text-tiny tw-text-center">
         {title}
       </span>
     </div>

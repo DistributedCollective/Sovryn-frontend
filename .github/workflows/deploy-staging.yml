@@ -33,6 +33,7 @@ jobs:
         run: yarn build
         env:
           REACT_APP_NETWORK: 'mainnet'
+          REACT_APP_BYPASS_MAINTENANCE: 'true'
 
       - name: Deploy to S3
         uses: raulanatol/aws-s3-docker-action@master

@@ -2,16 +2,16 @@
 @layer components {
   .tw-btn-dialog {
     width: 100%;
-    height: 3.125rem;
+    height: 2.8rem;
     letter-spacing: 0.1rem;
-    font-size: 1.25rem;
-    @apply tw-uppercase tw-border tw-rounded tw-bg-primary tw-border-primary tw-text-black;
+    font-size: 1.05rem;
+    @apply tw-uppercase tw-border tw-rounded-lg tw-bg-primary tw-border-primary tw-text-black;
     @apply tw-text-black tw-uppercase tw-font-extrabold tw-leading-none tw-font-body;
     @apply tw-px-6 tw-py-2 tw-transition;
   }
 
   .tw-btn-dialog__secondary {
-    @apply tw-bg-dark tw-text-primary tw-border-primary;
+    @apply tw-bg-gray-1 tw-text-primary tw-border-primary;
   }
 
   .tw-btn-dialog:hover {
@@ -28,7 +28,7 @@
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.white');
+    stroke: theme('colors.sov-white');
   }
 
   .tw-btn-dialog .bp3-spinner .bp3-spinner-track {

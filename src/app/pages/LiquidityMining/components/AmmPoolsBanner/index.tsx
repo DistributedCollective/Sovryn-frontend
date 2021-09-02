@@ -99,7 +99,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
 
   return (
     <div className="tw-my-5 tw-text-center">
-      <p className="tw-text-white tw-text-xl">
+      <p className="tw-text-sov-white tw-text-xl">
         {t(translations.liquidity.transferNote)}
       </p>
 

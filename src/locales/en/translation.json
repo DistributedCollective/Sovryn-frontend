@@ -1331,7 +1331,8 @@
       }
     },
     "qr": {
-      "title": "Send BTC to this address:"
+      "title": "Send BTC to this address:",
+      "generating": "Generating..."
     },
     "buttonBTC": "Generate deposit address",
     "buttonFiat": "Get rBTC with fiat",
@@ -1431,7 +1432,8 @@
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
-      "direction": "Direction:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
@@ -1440,8 +1442,8 @@
         "short": "Short"
       }
     },
-    "openPositions": "Open Positions",
-    "tradingHistory": "Trading History",
+    "openPositions": "Open positions",
+    "tradingHistory": "Margin order history"
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
@@ -1857,8 +1859,8 @@
   },
   "addToMargin": {
     "title": "Add to Margin",
-    "amount": "Amount to Add:",
-    "liquidationPrice": "Liquidation Price:"
+    "amount": "Increase margin by:",
+    "liquidationPrice": "Estimated Liquidation price:"
   },
   "openPositionTable": {
     "direction": "Direction",
@@ -1871,7 +1873,8 @@
     "actions": "Actions",
     "noData": "No data",
     "cta": {
-      "margin": "Add to Margin",
+      "increase": "Increase",
+      "margin": "Margin",
       "close": "Close"
     }
   },

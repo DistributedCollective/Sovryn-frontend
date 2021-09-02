@@ -13,7 +13,7 @@ export const ProfitLossRenderer: React.FC<IProfitLossRendererProps> = ({
   amount,
   asset,
 }) => (
-  <div className={isProfit ? 'tw-text-tradingLong' : 'tw-text-tradingShort'}>
+  <div className={isProfit ? 'tw-text-trade-long' : 'tw-text-trade-short'}>
     {isProfit ? '+ ' : '- '} {amount} <AssetSymbolRenderer asset={asset} />
   </div>
 );

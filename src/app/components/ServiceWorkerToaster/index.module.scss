@@ -1,11 +1,7 @@
 .dialog {
-  background-color: #2274a5bf !important;
-  border: 9px solid #2274A5;
-  border-radius: 20px;
-  opacity: 1;
+  @apply tw-opacity-100 tw-bg-secondary-75 tw-border-8 tw-border-secondary tw-rounded-3xl;
 }
+
 .close {
-  font-size: 10px;
-  height: 25px;
-  border-radius: 5px;
+  @apply tw-h-6 tw-text-tiny tw-rounded-md;
 }

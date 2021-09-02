@@ -9,7 +9,7 @@
 }
 
 article.bp3-dialog h1 {
-  @apply tw-text-white;
+  @apply tw-text-sov-white;
 }
 
 .bp3-tooltip2 {
@@ -21,16 +21,15 @@ article.bp3-dialog h1 {
   transform: scale(1);
 }
 .bp3-tooltip2 .bp3-popover2-content {
-  padding: 10px 12px;
-  border-radius: 3px;
-  position: relative;
+  @apply tw-relative
+    tw-px-3 tw-py-2.5
+    tw-rounded;
 }
 .bp3-tooltip2 .bp3-popover2-content {
-  background: black;
-  color: #f5f8fa;
+  @apply tw-text-sov-white tw-bg-black;
 }
 .bp3-toast.bp3-intent-success {
-  background-color: theme('colors.turquoise');
+  @apply tw-bg-trade-long;
 }
 .bp3-overlay-content,
 .bp3-overlay-content:focus {
@@ -43,28 +42,27 @@ article.bp3-dialog h1 {
 
 .bp3-dialog {
   @extend .sovryn-border;
-  @apply tw-p-3;
-  font-family: var(--secondary-font);
-  background-color: theme('colors.dAppBackground');
+  @apply tw-p-3
+    tw-bg-gray-1
+    tw-font-body;
 }
 
 .bp3-popover {
   &.bp3-select-popover {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      background-color: theme('colors.dAppBackground');
+      @apply tw-bg-gray-1;
 
       & .bp3-input-group {
         & input {
-          background-color: transparent;
-          border: 1px solid var(--light-gray);
-          color: var(--white);
+          @apply tw-bg-transparent tw-border tw-border-sov-white
+            tw-text-white;
         }
       }
     }
 
     & .bp3-popover-arrow-fill {
-      fill: var(--white);
+      fill: theme('colors.white');
     }
   }
 
@@ -72,7 +70,7 @@ article.bp3-dialog h1 {
   &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      background-color: theme('colors.dAppBackground');
+      @apply tw-bg-gray-1;
     }
 
     & .bp3-popover-arrow {
@@ -81,19 +79,19 @@ article.bp3-dialog h1 {
     }
 
     & .bp3-popover-arrow-fill {
-      fill: var(--white);
+      fill: theme('colors.white');
     }
   }
 
   & .bp3-menu {
+    @apply tw-bg-transparent;
     background-color: transparent;
 
     & .bp3-menu-item {
-      color: var(--white);
-      font-family: var(--secondary-font);
+      @apply tw-text-white tw-font-body;
 
       &.bp3-active {
-        background-color: var(--dark-gray);
+        @apply tw-bg-gray-6;
       }
     }
   }
@@ -101,36 +99,27 @@ article.bp3-dialog h1 {
 
 .bp3-toast {
   @extend .sovryn-border;
-  background-color: var(--primary);
+  @apply tw-bg-gray-1;
 }
 
 .bp3-drawer {
-  background-color: var(--primary);
-  color: var(--white);
-  width: 100% !important;
-  border-right: 5px solid var(--white);
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  @apply tw-w-full md:tw-w-80
+    tw-text-white
+    tw-bg-gray-1 tw-border-white tw-rounded-r-lg;
 
-  @media (min-width: theme('screens.md')) {
-    width: 360px !important;
-  }
+  border-right: 5px solid;
 }
-
-
-
-
 
 .bp3-control {
   & input:checked {
     & ~ .bp3-control-indicator {
-      background-color: var(--gold);
+      @apply tw-bg-primary;
     }
   }
 
   &:hover input:checked {
     & ~ .bp3-control-indicator {
-      background-color: var(--gold);
+      @apply tw-bg-primary;
     }
   }
 }

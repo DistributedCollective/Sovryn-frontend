@@ -3,19 +3,19 @@
   }
 
   .tw-form-group-label {
-    @apply tw-text-white tw-font-thin tw-text-base tw-tracking-normal;
+    @apply tw-text-sov-white tw-font-thin tw-text-sm tw-tracking-normal;
     @apply tw-block;
     @apply tw-mb-1;
   }
 
   .tw-form-group-content {
-    @apply tw-text-white tw-font-medium tw-text-base;
+    @apply tw-text-sov-white tw-font-medium tw-text-base;
     @apply tw-mb-2.5;
     @apply tw-block;
   }
 
   .tw-form-group-describe {
-    @apply tw-text-white tw-text-xs tw-font-normal;
+    @apply tw-text-sov-white tw-text-xs tw-font-normal;
     @apply tw-block;
   }
 }

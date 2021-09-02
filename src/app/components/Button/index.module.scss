@@ -1,35 +1,29 @@
 .button {
-    background: #FEC004;
-    border: 1px solid #FEC004;
-    color: #000000;
-    border-radius: 10px;
-    transition: background 0.3s, color 0.3s, border 0.3s;
-    cursor: pointer;
-    height: 50px;
-    padding: 0 25px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
+  @apply tw-text-xl tw-leading-6 tw-text-black tw-font-bold
+    tw-bg-primary tw-border tw-border-primary tw-rounded-xl
+    tw-cursor-pointer;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+  height: 50px;
+  padding: 0 25px;
 }
 
 .button:hover {
-    background: rgba(254, 192, 4, 0.8);
+  background: rgba(254, 192, 4, 0.8);
 }
 
 .button.inverted {
-    background: #000000;
-    color: #FEC004;
+  @apply tw-text-primary tw-bg-black;
 }
 
 .button.inverted:hover {
-    background: rgba(254, 192, 4, 0.25);
+  background: rgba(254, 192, 4, 0.25);
 }
 
 .button.inverted:active {
-    background: rgba(254, 192, 4, 0.5);
+  background: rgba(254, 192, 4, 0.5);
 }
 
-.button.disabled, .button:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
+.button.disabled,
+.button:disabled {
+  @apply tw-opacity-25 tw-cursor-not-allowed;
 }
