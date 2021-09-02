@@ -55,9 +55,5 @@ module.exports = async ({ config }) => {
   // Also enforces the same postcss plugins as in the app.
   config.module.rules = upgradePostCssLoader(config.module.rules);
 
-  config.module.rules[5].oneOf.forEach(rule =>
-    (Array.isArray(rule.use) ? rule.use : [rule.use]).forEach(console.log),
-  );
-
   return config;
 };
