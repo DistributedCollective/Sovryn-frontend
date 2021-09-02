@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -22,10 +22,18 @@ import { TradingHistory } from './components/TradingHistory';
 import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import styles from './index.module.scss';
+import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
+import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
+
+  const [
+    showNotificationSettingsModal,
+    setShowNotificationSettingsModal,
+  ] = useState(false);
 
   const { pairType } = useSelector(selectMarginTradePage);
   const { t } = useTranslation();
@@ -51,6 +59,11 @@ export function MarginTradePage() {
   const connected = useIsConnected();
   const [activeTab, setActiveTab] = useState(0);
 
+  const onNotificationSettingsClick = useCallback(
+    () => setShowNotificationSettingsModal(true),
+    [],
+  );
+
   return (
     <>
       <Helmet>
@@ -61,6 +74,22 @@ export function MarginTradePage() {
         />
       </Helmet>
       <Header />
+      <div className={styles.overview}>
+        <div>Overview</div>
+        <div>
+          <button
+            onClick={onNotificationSettingsClick}
+            className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
+          >
+            <img
+              src={imgNotificationBell}
+              alt="Notification bell"
+              className="tw-mr-1.5"
+            />{' '}
+            {t(translations.marginTradePage.notificationsButton.enable)}
+          </button>
+        </div>
+      </div>
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
@@ -98,6 +127,10 @@ export function MarginTradePage() {
         )}
       </div>
       <Footer />
+      <NotificationSettingsDialog
+        isOpen={showNotificationSettingsModal}
+        onClose={() => setShowNotificationSettingsModal(false)}
+      />
     </>
   );
 }
