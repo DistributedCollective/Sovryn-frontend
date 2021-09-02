@@ -1,6 +1,7 @@
 import React, { MouseEventHandler, useMemo } from 'react';
 import classNames from 'classnames';
 import styles from './index.module.scss';
+import { Link } from 'react-router-dom';
 
 export enum ButtonType {
   button = 'button',
@@ -21,6 +22,7 @@ export enum ButtonSize {
   sm = 'sm',
   md = 'md',
   lg = 'lg',
+  xl = 'xl',
 }
 
 export enum ButtonStyle {
@@ -31,8 +33,10 @@ export enum ButtonStyle {
   link = 'link',
 }
 
-interface ButtonProps {
+interface IButtonProps {
   text: React.ReactNode;
+  href?: string;
+  hrefExternal?: boolean;
   onClick?: MouseEventHandler;
   type?: ButtonType;
   color?: ButtonColor;
@@ -43,8 +47,10 @@ interface ButtonProps {
   className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<IButtonProps> = ({
   text,
+  href,
+  hrefExternal,
   onClick,
   color,
   size,
@@ -54,22 +60,56 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   className,
 }) => {
-  return (
-    <button
-      type={type}
-      disabled={disabled}
-      className={classNames(
+  const classNameComplete = useMemo(
+    () =>
+      classNames(
         styles.button,
         loading && styles.loading,
         color && styles[color],
         size && styles[size],
         style && styles[style],
+        disabled && styles.disabled,
         className,
-      )}
-    >
-      {text}
-    </button>
+      ),
+    [loading, color, size, style, disabled, className],
   );
+
+  const onClickWhenAllowed = !disabled && !loading ? onClick : undefined;
+
+  if (href) {
+    if (hrefExternal) {
+      return (
+        <a
+          className={classNameComplete}
+          href={href}
+          onClick={onClickWhenAllowed}
+        >
+          {text}
+        </a>
+      );
+    } else {
+      return (
+        <Link
+          to={href}
+          className={classNameComplete}
+          onClick={onClickWhenAllowed}
+        >
+          {text}
+        </Link>
+      );
+    }
+  } else {
+    return (
+      <button
+        type={type}
+        disabled={disabled}
+        className={classNameComplete}
+        onClick={onClickWhenAllowed}
+      >
+        {text}
+      </button>
+    );
+  }
 };
 
 Button.defaultProps = {

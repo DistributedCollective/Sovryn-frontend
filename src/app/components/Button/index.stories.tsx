@@ -24,7 +24,28 @@ const Template: Story<ComponentProps<typeof Button>> = args => (
 
 export const Default = Template.bind({});
 Default.args = {
-  text: 'Button Text',
+  text: 'Button',
+  type: ButtonType.button,
+  color: ButtonColor.primary,
+  style: ButtonStyle.normal,
+  size: ButtonSize.md,
+};
+
+export const LinkInternal = Template.bind({});
+LinkInternal.args = {
+  text: "Internal Link (Doesn't work in Storybook)",
+  href: '/?path=/story/atoms-button--default',
+  type: ButtonType.button,
+  color: ButtonColor.primary,
+  style: ButtonStyle.normal,
+  size: ButtonSize.md,
+};
+
+export const LinkExternal = Template.bind({});
+LinkExternal.args = {
+  text: 'External Link',
+  href: 'https://live.sovryn.app',
+  hrefExternal: true,
   type: ButtonType.button,
   color: ButtonColor.primary,
   style: ButtonStyle.normal,
@@ -32,11 +53,13 @@ Default.args = {
 };
 
 const renderButton = (
+  props,
   color: ButtonColor,
   style: ButtonStyle,
   size: ButtonSize,
 ) => (
   <Button
+    {...props}
     color={color}
     style={style}
     size={size}
@@ -44,48 +67,53 @@ const renderButton = (
   />
 );
 
-const bindRenderVariations = (color: ButtonColor) => () => {
-  return (
-    <>
-      <div className="tw-mb-4 tw-space-x-4">
-        {renderButton(color, ButtonStyle.normal, ButtonSize.lg)}
-        {renderButton(color, ButtonStyle.inverted, ButtonSize.lg)}
-        {renderButton(color, ButtonStyle.transparent, ButtonSize.lg)}
-        {renderButton(color, ButtonStyle.frosted, ButtonSize.lg)}
-        {renderButton(color, ButtonStyle.link, ButtonSize.lg)}
-      </div>
-      <div className="tw-mb-4 tw-space-x-4">
-        {renderButton(color, ButtonStyle.normal, ButtonSize.md)}
-        {renderButton(color, ButtonStyle.inverted, ButtonSize.md)}
-        {renderButton(color, ButtonStyle.transparent, ButtonSize.md)}
-        {renderButton(color, ButtonStyle.frosted, ButtonSize.md)}
-        {renderButton(color, ButtonStyle.link, ButtonSize.md)}
-      </div>
-      <div className="tw-mb-4 tw-space-x-4">
-        {renderButton(color, ButtonStyle.normal, ButtonSize.sm)}
-        {renderButton(color, ButtonStyle.inverted, ButtonSize.sm)}
-        {renderButton(color, ButtonStyle.transparent, ButtonSize.sm)}
-        {renderButton(color, ButtonStyle.frosted, ButtonSize.sm)}
-        {renderButton(color, ButtonStyle.link, ButtonSize.sm)}
-      </div>
-    </>
-  );
+const Variations = ({ color, ...props }) => (
+  <>
+    <div className="tw-flex tw-flex-row tw-justify-evenly tw-items-center tw-mb-4 tw-space-x-4">
+      {renderButton(props, color, ButtonStyle.normal, ButtonSize.xl)}
+      {renderButton(props, color, ButtonStyle.inverted, ButtonSize.xl)}
+      {renderButton(props, color, ButtonStyle.transparent, ButtonSize.xl)}
+      {renderButton(props, color, ButtonStyle.frosted, ButtonSize.xl)}
+      {renderButton(props, color, ButtonStyle.link, ButtonSize.xl)}
+    </div>
+    <div className="tw-flex tw-flex-row tw-justify-evenly tw-items-center tw-mb-4 tw-space-x-4">
+      {renderButton(props, color, ButtonStyle.normal, ButtonSize.lg)}
+      {renderButton(props, color, ButtonStyle.inverted, ButtonSize.lg)}
+      {renderButton(props, color, ButtonStyle.transparent, ButtonSize.lg)}
+      {renderButton(props, color, ButtonStyle.frosted, ButtonSize.lg)}
+      {renderButton(props, color, ButtonStyle.link, ButtonSize.lg)}
+    </div>
+    <div className="tw-flex tw-flex-row tw-justify-evenly tw-items-center tw-mb-4 tw-space-x-4">
+      {renderButton(props, color, ButtonStyle.normal, ButtonSize.md)}
+      {renderButton(props, color, ButtonStyle.inverted, ButtonSize.md)}
+      {renderButton(props, color, ButtonStyle.transparent, ButtonSize.md)}
+      {renderButton(props, color, ButtonStyle.frosted, ButtonSize.md)}
+      {renderButton(props, color, ButtonStyle.link, ButtonSize.md)}
+    </div>
+    <div className="tw-flex tw-flex-row tw-justify-evenly tw-items-center tw-mb-4 tw-space-x-4">
+      {renderButton(props, color, ButtonStyle.normal, ButtonSize.sm)}
+      {renderButton(props, color, ButtonStyle.inverted, ButtonSize.sm)}
+      {renderButton(props, color, ButtonStyle.transparent, ButtonSize.sm)}
+      {renderButton(props, color, ButtonStyle.frosted, ButtonSize.sm)}
+      {renderButton(props, color, ButtonStyle.link, ButtonSize.sm)}
+    </div>
+  </>
+);
+
+type AllVariationsProps = {
+  loading: boolean;
+  disabled: boolean;
+  href: string;
+  hrefExternal: boolean;
 };
 
-export const Primary: React.FC<{}> = bindRenderVariations(ButtonColor.primary);
-
-export const Secondary: React.FC<{}> = bindRenderVariations(
-  ButtonColor.secondary,
+export const AllVariations: React.FC<AllVariationsProps> = props => (
+  <>
+    <Variations {...props} color={ButtonColor.primary} />
+    <Variations {...props} color={ButtonColor.secondary} />
+    <Variations {...props} color={ButtonColor.tradeLong} />
+    <Variations {...props} color={ButtonColor.tradeShort} />
+    <Variations {...props} color={ButtonColor.success} />
+    <Variations {...props} color={ButtonColor.warning} />
+  </>
 );
-
-export const TradeLong: React.FC<{}> = bindRenderVariations(
-  ButtonColor.tradeLong,
-);
-
-export const TradeShort: React.FC<{}> = bindRenderVariations(
-  ButtonColor.tradeShort,
-);
-
-export const Success: React.FC<{}> = bindRenderVariations(ButtonColor.success);
-
-export const Warning: React.FC<{}> = bindRenderVariations(ButtonColor.warning);
