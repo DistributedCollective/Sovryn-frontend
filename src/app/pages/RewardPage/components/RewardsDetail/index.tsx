@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Wrapper, SecondarySection, SecondaryTitle } from './styled';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -49,14 +50,14 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           </div>
         </div>
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
-          {availableAmount} SOV
+          {weiToFixed(availableAmount, 6)} SOV
         </div>
       </div>
       <SecondarySection>
         <SecondaryTitle>
           {t(translations.rewardPage.topData.totalRewards)}
         </SecondaryTitle>
-        <div>{totalEarnedAmount} SOV</div>
+        {weiToFixed(totalEarnedAmount, 6)} SOV
       </SecondarySection>
     </Wrapper>
   );

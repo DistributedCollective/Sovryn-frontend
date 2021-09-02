@@ -1,10 +1,4 @@
 import cn from 'classnames';
-/**
- *
- * ClaimForm
- *
- */
-
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -23,6 +17,8 @@ import { discordInvite } from 'utils/classifiers';
 
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
+import { Tooltip } from '@blueprintjs/core';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface Props {
   className?: string;
@@ -68,13 +64,14 @@ export function ClaimForm({ className, address }: Props) {
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <div>
+        <Tooltip content={weiTo18(lockedBalance)}>
           <Input
-            value={weiToNumberFormat(lockedBalance, 8)}
+            value={weiToNumberFormat(lockedBalance, 6)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
-        </div>
+        </Tooltip>
+
         <div className="tw-mt-16">
           {rewardsLocked && (
             <ErrorBadge

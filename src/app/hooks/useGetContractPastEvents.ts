@@ -15,6 +15,7 @@ const filtersEventKeyMap = {
   CloseWithSwap: 'user',
   CloseWithDeposit: 'user',
   RewardClaimed: 'user',
+  EarnReward: '_userAddress', // WIP - this might change
   Deposited: '_userAddress',
 };
 

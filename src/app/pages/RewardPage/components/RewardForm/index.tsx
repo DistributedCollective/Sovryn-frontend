@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { bignumber } from 'mathjs';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAccount, useBlockSync } from 'app/hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
@@ -28,36 +28,21 @@ import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
-  const [liquidityRewards, setLiqRewards] = useState(0);
-  const [lendingRewards, setLendingRewards] = useState(0);
+  const [liquidityRewards, setLiqRewards] = useState('0');
+  const [lendingRewards, setLendingRewards] = useState('0');
   const url = backendUrl[currentChainId];
-  const [tradRewards, setTradeRewards] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const blockSync = useBlockSync();
-  const getRewardData = useCallback(() => {
+  const [tradeRewards, setTradeRewards] = useState('0');
+
+  useEffect(() => {
     axios
       .get(`${url}/v1/event-history/availableTradingRewards/${userAddress}`)
       .then(res => {
         const { events } = res.data;
-        console.log('res: ', res.data);
-        const rewards = parseFloat(weiTo18(events[0].sum));
-        setTradeRewards(rewards);
-        setLoading(false);
+        setTradeRewards(events[0].sum);
       })
-      .catch(e => {
-        console.log(e);
-        setLoading(false);
-      });
+      .catch(error => console.log(error));
   }, [url, userAddress]);
-  const { events: lendSov } = useGetContractPastEvents(
-    'lockedSov',
-    'Deposited',
-  );
-  // const { events: liqSov } = useGetContractPastEvents(
-  //   'liquidityMiningProxy',
-  //   'RewardClaimed',
-  // );
-  console.log('liqsov: ', lendSov);
+
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
       item => item.hasSovRewards,
@@ -65,7 +50,7 @@ export function RewardForm() {
     const lendingPools = LendingPoolDictionary.list().filter(
       item => item.useLM,
     );
-    getRewardData();
+
     if (userAddress !== '' && userAddress !== ethGenesisAddress) {
       const pools = ammPools.flatMap(item =>
         item.version === 1
@@ -85,31 +70,21 @@ export function RewardForm() {
                 key: `getUserAccumulatedReward_${index}_${item.asset}`,
                 parser: value => value[0].toString(),
               },
-              {
-                address: getContract('liquidityMiningProxy').address,
-                abi: getContract('liquidityMiningProxy').abi,
-                fnName: 'getUserInfo',
-                args: [item.getContractAddress(), userAddress],
-                key: `getUserInfo_${index}_${item.asset}`,
-                parser: value => value[0].accumulatedReward.toString(),
-              },
             ];
           }),
         )
         .then(result => {
-          console.log('result', result);
-          const total = Object.values(result.returnData)
-            .reduce(
-              (previousValue, currentValue) => previousValue.add(currentValue),
-              bignumber(0),
-            )
-            .toFixed(0);
-          const rewards = parseFloat(weiTo18(total));
-          setLiqRewards(rewards);
+          const total = Object.values(result.returnData).reduce(
+            (previousValue, currentValue) => previousValue.add(currentValue),
+            bignumber(0),
+          );
+
+          setLiqRewards(weiTo18(total));
         })
         .catch(error => {
           console.error('e', error);
         });
+
       bridgeNetwork
         .multiCall<{ [key: string]: string }>(
           Chain.RSK,
@@ -130,20 +105,53 @@ export function RewardForm() {
           }),
         )
         .then(result => {
-          const total = Object.values(result.returnData)
-            .reduce(
-              (previousValue, currentValue) => previousValue.add(currentValue),
-              bignumber(0),
-            )
-            .toFixed(0);
-          const rewards = parseFloat(weiTo18(total));
-          setLendingRewards(rewards);
+          const total = Object.values(result.returnData).reduce(
+            (previousValue, currentValue) => previousValue.add(currentValue),
+            bignumber(0),
+          );
+
+          setLendingRewards(weiTo18(total));
         })
         .catch(error => {
           console.error('e', error);
         });
     }
-  }, [getRewardData, userAddress]);
+  }, [userAddress]);
+
+  // Lending Rewards - Total Rewards Earned
+  const { events: lendingRewardEvents } = useGetContractPastEvents(
+    'lockedSov',
+    'Deposited',
+  );
+
+  const lendTotalRewardsEarned = useMemo(
+    () =>
+      lendingRewardEvents
+        .map(item => item.returnValues.sovAmount)
+        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
+    [lendingRewardEvents],
+  );
+
+  // Liquidity Rewards - Total Rewards Earned
+  const { events: liquidityRewardsEvents } = useGetContractPastEvents(
+    'liquidityMiningProxy',
+    'RewardClaimed',
+  );
+
+  const liquidityMiningTotalRewardsEarned = useMemo(
+    () =>
+      liquidityRewardsEvents
+        .map(item => item.returnValues.amount)
+        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
+    [liquidityRewardsEvents],
+  );
+
+  // Trading Rewards - Total Rewards Earned
+  const { events: tradingRewardsEvents } = useGetContractPastEvents(
+    'sovrynProtocol',
+    'EarnReward',
+  );
+
   return (
     <ContainerBox>
       <Box>
@@ -179,22 +187,22 @@ export function RewardForm() {
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.topData.tradingRewards)}
-          availableAmount={tradRewards.toFixed(6)}
+          availableAmount={tradeRewards}
           totalEarnedAmount={23.842027}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Green}
           title={t(translations.rewardPage.topData.lendingRewards)}
-          availableAmount={lendingRewards.toFixed(6)}
-          totalEarnedAmount={23.810427}
+          availableAmount={lendingRewards}
+          totalEarnedAmount={lendTotalRewardsEarned}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.topData.liquidityRewards)}
-          availableAmount={liquidityRewards.toFixed(6)}
-          totalEarnedAmount={23.843927}
+          availableAmount={liquidityRewards}
+          totalEarnedAmount={liquidityMiningTotalRewardsEarned}
         />
       </RewardDetailsWrapper>
     </ContainerBox>

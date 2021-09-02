@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
@@ -41,7 +41,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
         case RewardEventType.REFERRAL:
           return t(translations.rewardPage.historyTable.event.referral);
         default:
-          return '';
+          return type;
       }
     },
     [t],
@@ -53,7 +53,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           key={index}
           time={item.timestamp}
           txHash={item.txHash}
-          amount={weiTo4(item.amount)}
+          amount={weiToFixed(item.amount, 8)}
           type={getEventType(item.event)}
         />
       ))}

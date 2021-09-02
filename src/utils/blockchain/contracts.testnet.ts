@@ -33,11 +33,12 @@ import StakingAbi from './abi/Staking.json';
 import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
+import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi,
+    abi: bzxAbi && SovrynProtocolAbi,
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
