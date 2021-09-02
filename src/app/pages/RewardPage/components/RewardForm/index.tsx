@@ -152,6 +152,14 @@ export function RewardForm() {
     'EarnReward',
   );
 
+  const tradingTotalRewardsEarned = useMemo(
+    () =>
+      tradingRewardsEvents
+        .map(item => item.returnValues.amount)
+        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
+    [tradingRewardsEvents],
+  );
+
   return (
     <ContainerBox>
       <Box>
@@ -188,7 +196,7 @@ export function RewardForm() {
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.topData.tradingRewards)}
           availableAmount={tradeRewards}
-          totalEarnedAmount={23.842027}
+          totalEarnedAmount={tradingTotalRewardsEarned}
         />
 
         <RewardsDetail
