@@ -519,8 +519,8 @@
       "forfeit": "Multa por sacar SOV antes do prazo",
       "closeDialog": "Fechar janela",
       "reallyUnstake": "Você tem certeza de que deseja sacar seus SOV?",
-      "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
-      "penalty": "Sacar SOV neste momento fará com que você receba uma penalidade",
+      "stakeUnlockUntil": "Este investimento está agendado para ser desbloqueado somente em",
+      "penalty": "Sacar os SOV neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por sacar antes do prazo estabelecido",
       "unstake": "Ok, sacar SOV",
       "loading": "Carregando..."
