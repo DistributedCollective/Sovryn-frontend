@@ -235,17 +235,22 @@ const InnerStakePage: React.FC = () => {
   const handleStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
-      setLoading(true);
-      let nonce = await contractReader.nonce(account);
-      const allowance = (await staking_allowance(account)) as string;
-      if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalance);
-        nonce += 1;
-      }
-      if (!stakeTx.loading) {
-        stake(weiAmount, timestamp + 3600, nonce);
+      try {
+        setLoading(true);
+        let nonce = await contractReader.nonce(account);
+        const allowance = (await staking_allowance(account)) as string;
+        if (bignumber(allowance).lessThan(weiAmount)) {
+          await staking_approve(sovBalance);
+          nonce += 1;
+        }
+        if (!stakeTx.loading) {
+          stake(weiAmount, timestamp + 3600, nonce);
+          setStakeForm(!stakeForm);
+        }
         setLoading(false);
-        setStakeForm(!stakeForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
       }
     },
     [
@@ -287,18 +292,24 @@ const InnerStakePage: React.FC = () => {
 
   const handleIncreaseStakeSubmit = useCallback(
     async e => {
-      e.preventDefault();
-      setLoading(true);
-      let nonce = await contractReader.nonce(account);
-      const allowance = (await staking_allowance(account)) as string;
-      if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(weiAmount);
-        nonce += 1;
-      }
-      if (!increaseTx.loading) {
-        increase(weiAmount, timestamp, nonce);
+      try {
+        e.preventDefault();
+        setLoading(true);
+        let nonce = await contractReader.nonce(account);
+        const allowance = (await staking_allowance(account)) as string;
+        if (bignumber(allowance).lessThan(weiAmount)) {
+          await staking_approve(weiAmount);
+          nonce += 1;
+        }
+        if (!increaseTx.loading) {
+          increase(weiAmount, timestamp, nonce);
+          setLoading(false);
+          setIncreaseForm(!increaseForm);
+        }
         setLoading(false);
-        setIncreaseForm(!increaseForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
       }
     },
     [weiAmount, account, timestamp, increaseForm, increaseTx.loading, increase],

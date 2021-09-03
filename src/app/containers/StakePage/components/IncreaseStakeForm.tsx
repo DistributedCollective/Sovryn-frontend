@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
-import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
+import { numberFromWei, toWei, fromWei } from 'utils/blockchain/math-helpers';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
@@ -37,8 +37,7 @@ export function IncreaseStakeForm(props: Props) {
 
   useEffect(() => {
     //setting the max value for staking by default
-    if (initialStep)
-      props.onChangeAmount(numberFromWei(props.sovBalance).toString());
+    if (initialStep) props.onChangeAmount(fromWei(props.sovBalance));
     setInitialStep(false);
   }, [props, initialStep]);
 
@@ -90,9 +89,7 @@ export function IncreaseStakeForm(props: Props) {
           <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4 tw-mb-2">
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.1).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 10))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -100,9 +97,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.25).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 4))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -110,9 +105,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.5).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 2))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -121,7 +114,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.75).toString(),
+                  fromWei((Number(props.sovBalance) / 4) * 3),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -129,9 +122,7 @@ export function IncreaseStakeForm(props: Props) {
               75%
             </div>
             <div
-              onClick={() =>
-                props.onChangeAmount(numberFromWei(props.sovBalance).toString())
-              }
+              onClick={() => props.onChangeAmount(fromWei(props.sovBalance))}
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
             >
               100%
