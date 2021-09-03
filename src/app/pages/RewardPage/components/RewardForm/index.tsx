@@ -10,7 +10,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
-import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
@@ -28,7 +27,7 @@ import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 export function RewardForm() {
   const userAddress = useAccount();
   const { t } = useTranslation();
-  const [liquidityRewards, setLiqRewards] = useState('0');
+  const [liquidityRewards, setLiquidityRewards] = useState('0');
   const [lendingRewards, setLendingRewards] = useState('0');
   const url = backendUrl[currentChainId];
   const [tradeRewards, setTradeRewards] = useState('0');
@@ -78,8 +77,7 @@ export function RewardForm() {
             (previousValue, currentValue) => previousValue.add(currentValue),
             bignumber(0),
           );
-
-          setLiqRewards(weiTo18(total));
+          setLiquidityRewards(total.toString());
         })
         .catch(error => {
           console.error('e', error);
@@ -109,8 +107,7 @@ export function RewardForm() {
             (previousValue, currentValue) => previousValue.add(currentValue),
             bignumber(0),
           );
-
-          setLendingRewards(weiTo18(total));
+          setLendingRewards(total.toString());
         })
         .catch(error => {
           console.error('e', error);
