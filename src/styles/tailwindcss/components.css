@@ -214,7 +214,7 @@
 .slick-dots li button {
   @apply tw-w-2.5 tw-h-2.5
     tw-bg-secondary tw-rounded-full
-    tw-cursor-pointer;
+    tw-cursor-pointer tw-bg-sov-white;
   font-size: 0;
   transition: background 0.3s;
 }

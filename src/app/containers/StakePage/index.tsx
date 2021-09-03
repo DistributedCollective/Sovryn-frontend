@@ -5,7 +5,12 @@ import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { numberFromWei, weiTo4, fromWei } from 'utils/blockchain/math-helpers';
+import {
+  numberFromWei,
+  weiTo4,
+  toWei,
+  fromWei,
+} from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -168,11 +173,10 @@ const InnerStakePage: React.FC = () => {
   //Form Validations
   const validateStakeForm = useCallback(() => {
     if (loading || stakeTx.loading) return false;
-    const num = Number(amount);
-
-    if (!num || isNaN(num) || num <= 0) return false;
+    const num = toWei(amount);
+    if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
     if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
-    return num * 1e18 <= Number(sovBalance);
+    return bignumber(num).lessThanOrEqualTo(sovBalance);
   }, [loading, amount, sovBalance, timestamp, stakeTx.loading]);
 
   const validateDelegateForm = useCallback(() => {
@@ -183,17 +187,17 @@ const InnerStakePage: React.FC = () => {
 
   const validateIncreaseForm = useCallback(() => {
     if (loading || increaseTx.loading) return false;
-    const num = Number(amount);
-    if (!num || isNaN(num) || num <= 0) return false;
-    return num * 1e18 <= Number(sovBalance);
+    const num = toWei(amount);
+    if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
+    return bignumber(num).lessThanOrEqualTo(sovBalance);
   }, [loading, amount, sovBalance, increaseTx.loading]);
 
   const validateWithdrawForm = useCallback(
     amount => {
       if (loading) return false;
-      const num = Number(withdrawAmount);
-      if (!num || isNaN(num) || num <= 0) return false;
-      return num <= Number(amount);
+      const num = toWei(withdrawAmount);
+      if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
+      return bignumber(num).lessThanOrEqualTo(toWei(amount));
     },
     [withdrawAmount, loading],
   );
