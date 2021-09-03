@@ -1,0 +1,44 @@
+.headCell {
+  @apply tw-relative tw-px-5 tw-py-2.5;
+}
+
+.cell {
+  @apply tw-relative tw-px-5 tw-py-4;
+}
+
+.row {
+  &.even {
+    & > td {
+      @apply tw-bg-gray-2;
+    }
+    & > td:first-child {
+      @apply tw-rounded-l-lg;
+    }
+    & > td:last-child {
+      @apply tw-rounded-r-lg;
+    }
+  }
+
+  &.open {
+    & > td:first-child {
+      @apply tw-rounded-bl-none;
+    }
+    & > td:last-child {
+      @apply tw-rounded-br-none;
+    }
+  }
+}
+
+.readMoreRow {
+  &.even {
+    & > td {
+      @apply tw-bg-gray-2;
+    }
+    & > td:first-child {
+      @apply tw-rounded-bl-lg;
+    }
+    & > td:last-child {
+      @apply tw-rounded-br-lg;
+    }
+  }
+}
