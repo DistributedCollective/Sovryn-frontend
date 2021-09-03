@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
@@ -14,14 +14,28 @@ import { FeeForm } from './components/FeeForm';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidForm } from './components/LiquidForm';
 import { RewardForm } from './components/RewardForm';
-import { StakingRewardsClaimForm } from './components/StakingRewardsClaimForm';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 export function RewardPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
+  const [liquidSovClaimAmount, setLiquidSovClaimAmount] = useState('0');
   const address = useAccount();
+
+  useEffect(() => {
+    contractReader
+      .call<{ amount: string }>(
+        'stakingRewards',
+        'getStakerCurrentReward',
+        [true],
+        address,
+      )
+      .then(result => setLiquidSovClaimAmount(result.amount))
+      .catch(() => setLiquidSovClaimAmount('0'));
+  }, [address]);
 
   const { value: lockedBalance } = useCacheCallWithValue(
     'lockedSov',
@@ -29,6 +43,7 @@ export function RewardPage() {
     '',
     address,
   );
+
   const rewardSov =
     parseFloat(weiTo18(lockedBalance)).toFixed(6).toString() + ' SOV';
 
@@ -46,7 +61,6 @@ export function RewardPage() {
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
-          {/* <ClaimForm address={userAddress} /> */}
           <div className="tw-w-230">
             <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
               <div className="tw-w-full">
@@ -62,7 +76,7 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.liquid)}
                   active={activeTab === RewardTabType.LIQUID_SOV}
                   onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
-                  amount="32.274693 SOV"
+                  amount={weiToNumberFormat(liquidSovClaimAmount, 6)}
                 />
               </div>
               <div className="tw-w-full">
@@ -76,7 +90,9 @@ export function RewardPage() {
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
               {activeTab === RewardTabType.REWARD_SOV && <RewardForm />}
-              {activeTab === RewardTabType.LIQUID_SOV && <LiquidForm />}
+              {activeTab === RewardTabType.LIQUID_SOV && (
+                <LiquidForm amountToClaim={liquidSovClaimAmount} />
+              )}
               {activeTab === RewardTabType.FEES_EARNED && <FeeForm />}
             </div>
           </div>

@@ -15,6 +15,8 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite, ethGenesisAddress } from 'utils/classifiers';
 import { useBlockSync } from '../../../../hooks/useAccount';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
+import { Tooltip } from '@blueprintjs/core';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface Props {
   className?: string;
@@ -65,28 +67,26 @@ export function StakingRewardsClaimForm({ className, address }: Props) {
     <div
       className={cn(
         className,
-        'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
+        'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
       <div className="tw-text-center tw-text-xl">
         {t(translations.rewardPage.stakingForm.title)}
       </div>
-      <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <div>
-          <div className="tw-text-sm tw-mb-1">
-            {t(translations.rewardPage.stakingForm.available)}
-          </div>
+      <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
+        <Tooltip content={`${weiTo18(value.amount)} SOV`}>
           <Input
             value={
               value.loading
                 ? t(translations.common.loading)
-                : weiToNumberFormat(value.amount, 8)
+                : `${weiToNumberFormat(value.amount, 6)}...`
             }
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
+            inputClassName="tw-text-center"
           />
-        </div>
-        <div className={!rewardsLocked ? 'tw-mt-10' : undefined}>
+        </Tooltip>
+        <div className={!rewardsLocked ? 'tw-mt-16' : undefined}>
           {rewardsLocked && (
             <ErrorBadge
               content={

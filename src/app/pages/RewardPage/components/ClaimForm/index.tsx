@@ -64,7 +64,7 @@ export function ClaimForm({ className, address }: Props) {
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <Tooltip content={weiTo18(lockedBalance)}>
+        <Tooltip content={`${weiTo18(lockedBalance)} SOV`}>
           <Input
             value={`${weiToNumberFormat(lockedBalance, 6)}...`}
             readOnly={true}

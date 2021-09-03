@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Wrapper, SecondarySection, SecondaryTitle } from './styled';
-import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Tooltip } from '@blueprintjs/core';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -53,7 +54,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
           <Tooltip content={`${weiTo18(availableAmount)} SOV`}>
             <>
-              {weiToFixed(availableAmount, 6)}{' '}
+              {weiToNumberFormat(availableAmount, 6)}{' '}
               <span className="tw--ml-1 tw-mr-1">...</span> SOV
             </>
           </Tooltip>
@@ -65,7 +66,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         </SecondaryTitle>
         <Tooltip content={`${weiTo18(totalEarnedAmount)} SOV`}>
           <>
-            {weiToFixed(totalEarnedAmount, 6)}{' '}
+            {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
             <span className="tw--ml-1 tw-mr-1">...</span> SOV
           </>
         </Tooltip>
