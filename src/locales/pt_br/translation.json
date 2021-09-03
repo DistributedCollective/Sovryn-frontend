@@ -57,7 +57,7 @@
     "delegateModal": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "withdrawVests": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "claimRewards": "Desculpe, a opção de reivindicar recompensas está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+    "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
   },
   "homePage": {
     "title": "Página inicial",
@@ -105,9 +105,9 @@
       "earn": "Ganhe SOV minerando liquidez nos pools USDT/BTC ou SOV/RBTC",
       "datesUSDT": "Datas USDT/RBTC: 1 Abril 2021, 12.00 UTC  até 1 Maio 2021, 12.00 UTC",
       "datesSOV": "Datas SOV/RBTC: 13 Abril 2021 12.00 UTC até 11 Maio 2021 12.00 UTC",
-      "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
-      "depositRBTC": "Recompensa se depositar RBTC: 25,000 SOV",
-      "depositSOV": "Recompensa se depositar SOV/RBTC: 75,000 SOV (15k /por semana mais 15k extra para primeira semana)",
+      "depositUSDT": "Bônus se depositar USDT: 25,000 SOV",
+      "depositRBTC": "Bônus se depositar RBTC: 25,000 SOV",
+      "depositSOV": "Bônus se depositar SOV/RBTC: 75,000 SOV (15k /por semana mais 15k extra para primeira semana)",
       "sharePool": "Sua participação no pool é calculada pela:",
       "liquidityAdded": "liquidez adicionada por você * número de blocos mantidos",
       "totalAdded": "liquidez total adicionada * número de blocos mantidos",
@@ -119,9 +119,9 @@
       "provider": "*Este número pode aumentar ou diminuir dependendo de quanto liquidez outros fornecedores adiconarem ou removerem do pool",
       "asset": "Ativo",
       "sov": "25k SOV",
-      "reward": "Recompensa",
+      "reward": "Bônus",
       "pool": "Pool",
-      "rewardPool": "Sua participação atual no pool de recompensas*",
+      "rewardPool": "Sua participação atual no pool de bônus*",
       "rewardSOV": "Seus ganhos atuais de SOV*",
       "miningEvent": "Seus eventos de mineração de liquidez",
       "noAsset": "Você ainda não adicionou {{asset}} no pool de mineração de liquidez.",
@@ -256,7 +256,7 @@
     "lend": "Emprestar criptos",
     "borrow": "Obter empréstimos",
     "yieldFarm": "Minerar liquidez",
-    "reward": "Recompensas SOV",
+    "reward": "Bônus SOV",
     "staking": "Token SOV",
     "governance": "Governança",
     "forum": "Fórum",
@@ -269,7 +269,7 @@
     "origins": "Origens",
     "launchpad": "Lançamentos",
     "claim": "Reinvindicar",
-    "rewards": "Recompensas"
+    "rewards": "Bônus"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -589,7 +589,7 @@
         "genesis": "SOV Gênese",
         "origin": "SOV Origem",
         "team": "SOV Team",
-        "reward": "SOV Recompensa"
+        "reward": "SOV Bônus"
       }
     },
     "actions": {
@@ -1135,7 +1135,7 @@
         "title": "Resgatar ativo emprestado",
         "cta": "Resgatar",
         "amount": "Quantidade:",
-        "reward": "Recompensa:",
+        "reward": "Bônus:",
         "depositBalance": "Você emprestou: <0/> <1/>"
       }
     },
@@ -1308,14 +1308,14 @@
   },
   "rewardPage": {
     "meta": {
-      "title": "Recompensa",
-      "description": "Recompensa SOV"
+      "title": "Bônus",
+      "description": "Bônus SOV"
     },
     "claimForm": {
-      "title": "Recompensas",
+      "title": "Bônus",
       "availble": "Total de SOV disponíveis:",
       "cta": "Reivindicar",
-      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
     "totalEarned": "Total ganho:",
@@ -1495,7 +1495,7 @@
         "cta": "Resgatar",
         "amount": "Quantidade:",
         "asset": "Ativo:",
-        "reward": "Recompensa:"
+        "reward": "Bônus:"
       }
     },
     "lootDropLink": "Saiba mais",
@@ -1772,7 +1772,7 @@
       },
       "p4": {
         "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
-        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novas recompensas para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
+        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
         "cta": "Ganhe agora"
       }
     },
@@ -1884,7 +1884,7 @@
     "linkCopied": "Link copiado",
     "referralHistory": "Histórico",
     "terms": "Termos e condições",
-    "text": "Convide seus amigos e ganhe <1>recompensas em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
+    "text": "Convide seus amigos e ganhe <1>bônus em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
     "claim": "Reinvindicar",
     "tableHeaders": {
       "date": "Data e hora",
