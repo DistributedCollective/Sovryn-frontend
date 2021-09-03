@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -118,8 +118,9 @@ export function ReviewStep() {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
+          className="tw-mt-20 tw-w-80"
+          size={ButtonSize.lg}
           disabled={!isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}

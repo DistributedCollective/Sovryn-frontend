@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import cn from 'classnames';
 
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { Timer } from './components/Timer/index';
 import styles from './index.module.scss';
 
@@ -52,8 +52,9 @@ export const Banner: React.FC<IBannerProps> = ({
                   rel="noreferrer"
                 >
                   <Button
-                    className="tw-w-full"
                     text={t(translations.landingPage.banner.learnMore)}
+                    className="tw-w-full"
+                    size={ButtonSize.lg}
                   />
                 </a>
               </>
@@ -73,8 +74,8 @@ export const Banner: React.FC<IBannerProps> = ({
                     to={buyLink}
                   >
                     <Button
-                      className="tw-w-full"
                       text={t(translations.landingPage.banner.buyNow)}
+                      className="tw-w-full"
                       onClick={() => {}}
                     />
                   </Link>

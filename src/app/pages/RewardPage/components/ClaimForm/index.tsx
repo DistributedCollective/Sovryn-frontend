@@ -5,7 +5,7 @@ import { translations } from 'locales/i18n';
 import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
@@ -92,6 +92,9 @@ export function ClaimForm({ className, address }: Props) {
           )}
           {!rewardsLocked && (
             <Button
+              text={t(translations.rewardPage.claimForm.cta)}
+              className="tw-w-full tw-mb-4"
+              size={ButtonSize.lg}
               disabled={
                 parseFloat(lockedBalance) === 0 ||
                 !lockedBalance ||
@@ -100,8 +103,6 @@ export function ClaimForm({ className, address }: Props) {
                 tx.status === TxStatus.PENDING_FOR_USER
               }
               onClick={handleSubmit}
-              className="tw-w-full tw-mb-4"
-              text={t(translations.rewardPage.claimForm.cta)}
             />
           )}
 
