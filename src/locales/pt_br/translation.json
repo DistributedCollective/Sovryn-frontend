@@ -269,7 +269,7 @@
     "origins": "Origens",
     "launchpad": "Lançamentos",
     "claim": "Reinvindicar",
-    "rewards": "Bônus"
+    "rewards": "Recompensas"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -1623,7 +1623,7 @@
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "depositAmount": "Desejo depositar:"
     },
     "confirmStep": {
@@ -1680,10 +1680,10 @@
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "withdrawAmount": "Desejo sacar:",
-      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
-      "insufficientDaily": "Insufficient daily limit remaining."
+      "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
+      "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
