@@ -1312,11 +1312,17 @@
       "description": "Bônus SOV"
     },
     "claimForm": {
-      "title": "Bônus",
+      "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
-      "cta": "Reivindicar",
+      "cta": "REIVINDICAR",
       "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
+    },
+    "stakingForm": {
+      "title": "Staking Rewards",
+      "title": "Quantidade:",
+      "available": "Total Staking Rewards Available:",
+      "cta": "REINVINDICAR"
     },
     "totalEarned": "Total ganho:",
     "sov": {
