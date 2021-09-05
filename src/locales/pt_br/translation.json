@@ -1616,7 +1616,7 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyDepositLimits": "Limites diários de depósito",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
@@ -1673,7 +1673,7 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser sacada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyBridgeLimits": "Limites diários do serviço",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
