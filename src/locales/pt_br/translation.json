@@ -630,7 +630,7 @@
     "transfer": "Transferir",
     "transferNote": "Por favor, transfira a liquidez que você forneceu para nossas novas pools",
     "v1": {
-      "balance": "Meu saldo"
+      "balance": "Saldo disponível"
     },
     "PoolTransferDialog": {
       "title": "Atualizar pool"
