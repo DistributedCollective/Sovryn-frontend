@@ -405,7 +405,7 @@
     "short": "Vendido"
   },
   "assetWalletBalance": {
-    "accountBalance": "Meu saldo",
+    "accountBalance": "Saldo disponível",
     "suppliedBalance": "Você forneceu",
     "connect": "Conectar carteira"
   },
