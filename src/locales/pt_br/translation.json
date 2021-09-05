@@ -1381,7 +1381,7 @@
         "asset": "Colateral:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
-        "balance": "Meu saldo: <0/> <1/>",
+        "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
       "buttons": {
