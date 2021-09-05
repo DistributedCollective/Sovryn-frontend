@@ -1484,7 +1484,7 @@
       "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
       "tableHeaders": {
         "totalEarned": "Total ganho",
-        "balance": "Saldo",
+        "balance": "Saldo atual",
         "pl": "L/P",
         "rewards": "Bônus"
       }
