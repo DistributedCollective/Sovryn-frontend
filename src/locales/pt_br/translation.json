@@ -1738,7 +1738,7 @@
     "form": {
       "title": "Comprar SOV com <0>RBTC</0>",
       "enterAmount": "Insira a quantidade",
-      "availableBalance": "Meu saldo:",
+      "availableBalance": "Saldo disponível:",
       "minimumReceived": "Mínimo a receber:",
       "cta": "Comprar SOV"
     },
