@@ -19,7 +19,6 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
-import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import styles from './index.module.scss';
@@ -104,8 +103,6 @@ export function MarginTradePage() {
 
         {connected && (
           <>
-            <NotificationForm className="tw-ml-2 tw-inline-block" />
-
             <div className="tw-flex tw-items-center tw-mt-3 tw-text-sm">
               <Tab
                 text={t(translations.marginTradePage.openPositions)}
