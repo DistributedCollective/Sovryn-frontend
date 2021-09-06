@@ -1,10 +1,21 @@
 import classNames from 'classnames';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import detailsIcon from 'assets/images/ellipsis-h.svg';
 import styles from './index.module.scss';
+import { Dialog } from '../../containers/Dialog';
 
-type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'any';
+const BREAKPOINTS_ORDER: Breakpoint[] = [
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  '2xl',
+  '3xl',
+  'any',
+];
 
 type RowObject = { [param: string]: any };
 
@@ -16,7 +27,6 @@ type ColumnOptions<RowType extends RowObject> = {
   hideBelow?: null | Breakpoint;
   cellRenderer?: (
     row: RowType,
-    index: number,
     columnId: ColumnOptions<RowType>['id'],
   ) => ReactNode;
 };
@@ -27,7 +37,9 @@ type ITableProps<RowType extends RowObject> = {
   rows?: RowType[];
   rowKey?: (row: RowType) => number | string;
   noData?: ReactNode;
-  showReadMore?: boolean;
+  showDetails?: boolean;
+  detailsTitle?: string;
+  detailsModal?: (props: { row?: RowType }) => ReactNode;
 };
 
 // No React.FC, since it doesn't work with Generic PropType
@@ -37,9 +49,31 @@ export const Table = <RowType extends RowObject>({
   rows,
   rowKey,
   noData,
-  showReadMore,
+  showDetails,
+  detailsTitle,
+  detailsModal,
 }: ITableProps<RowType>) => {
   const { t } = useTranslation();
+  const [openRow, setOpenRow] = useState<RowType>();
+  const onShowDetails = useCallback(row => showDetails && setOpenRow(row), [
+    showDetails,
+  ]);
+  const onHideDetails = useCallback(() => setOpenRow(undefined), []);
+
+  const showDetailsBelow = useMemo(() => {
+    if (showDetails) {
+      const highestBreakpointIndex = columns.reduce(
+        (acc, column) =>
+          Math.max(
+            acc,
+            column.hideBelow ? BREAKPOINTS_ORDER.indexOf(column.hideBelow) : -1,
+          ),
+        -1,
+      );
+
+      return BREAKPOINTS_ORDER[highestBreakpointIndex];
+    }
+  }, [showDetails, columns]);
 
   return (
     <div
@@ -52,20 +86,32 @@ export const Table = <RowType extends RowObject>({
         <table className="tw-w-full tw-min-w-auto tw-h-full tw-min-h-auto">
           <thead>
             <tr>
-              {columns.map(column => (
+              {columns.map(column =>
+                column.hideBelow === 'any' ? null : (
+                  <th
+                    key={column.id.toString()}
+                    className={classNames(
+                      'tw-sticky tw-top-0 tw-z-10 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
+                      column.hideBelow &&
+                        column.hideBelow &&
+                        `tw-hidden ${column.hideBelow}:tw-table-cell`,
+                      column.align && `tw-text-${column.align}`,
+                      column.className,
+                    )}
+                  >
+                    {column.title}
+                  </th>
+                ),
+              )}
+              {showDetailsBelow && (
                 <th
-                  key={column.id.toString()}
                   className={classNames(
-                    'tw-sticky tw-top-0 tw-z-10 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
-                    column.hideBelow &&
-                      `tw-hidden ${column.hideBelow}:tw-table-cell`,
-                    column.align && `tw-text-${column.align}`,
-                    column.className,
+                    'tw-sticky tw-top-0 tw-z-10 tw-w-16 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
+                    showDetailsBelow !== 'any' &&
+                      `tw-table-cell ${showDetailsBelow}:tw-hidden`,
                   )}
-                >
-                  {column.title}
-                </th>
-              ))}
+                ></th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -76,11 +122,12 @@ export const Table = <RowType extends RowObject>({
                   columns={columns}
                   row={row}
                   index={index}
-                  showReadMore={showReadMore}
+                  showDetailsBelow={showDetailsBelow}
+                  onShowDetails={onShowDetails}
                 />
               ))
             ) : (
-              <tr className={classNames(styles.row, styles.even)}>
+              <tr className={styles.row}>
                 <td
                   className="tw-relative tw-px-5 tw-py-4 tw-text-center"
                   colSpan={999}
@@ -92,6 +139,44 @@ export const Table = <RowType extends RowObject>({
           </tbody>
         </table>
       </div>
+      {showDetails &&
+        (detailsModal ? (
+          detailsModal({ row: openRow })
+        ) : (
+          <Dialog isOpen={!!openRow} onClose={onHideDetails}>
+            <div className="tw-px-16">
+              <h2 className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold ">
+                {detailsTitle}
+              </h2>
+              <table>
+                <tbody>
+                  {openRow &&
+                    columns.map(column => (
+                      <tr>
+                        <th
+                          key={column.id.toString()}
+                          className="tw-pr-5 tw-py-2.5 tw-font-normal tw-text-gray-8"
+                        >
+                          {column.title}
+                        </th>
+                        <td
+                          key={column.id.toString()}
+                          className={classNames(
+                            'tw-py-2.5 tw-font-medium tw-text-sov-white',
+                            column.align && `tw-text-${column.align}`,
+                          )}
+                        >
+                          {column.cellRenderer
+                            ? column.cellRenderer(openRow, column.id)
+                            : openRow[column.id]}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </Dialog>
+        ))}
     </div>
   );
 };
@@ -100,27 +185,26 @@ type ITableRowProps<RowType extends RowObject> = {
   columns: ITableProps<RowType>['columns'];
   row: RowType;
   index: number;
-  showReadMore?: boolean;
+  showDetailsBelow?: Breakpoint;
+  onShowDetails?: (row: RowType) => void;
 };
 
 const TableRow = <RowType extends RowObject>({
   columns,
   row,
   index,
-  showReadMore,
+  showDetailsBelow,
+  onShowDetails,
 }: ITableRowProps<RowType>) => {
-  const [open, setOpen] = useState(false);
+  const onShowDetailsWrapped = useCallback(() => onShowDetails?.(row), [
+    onShowDetails,
+    row,
+  ]);
 
   const rowElement = (
-    <tr
-      className={classNames(
-        styles.row,
-        index % 2 === 0 && styles.even,
-        open && styles.open,
-      )}
-    >
-      {columns.map(column => {
-        return (
+    <tr className={classNames(styles.row)}>
+      {columns.map(column =>
+        column.hideBelow === 'any' ? null : (
           <td
             key={column.id.toString()}
             className={classNames(
@@ -130,31 +214,28 @@ const TableRow = <RowType extends RowObject>({
             )}
           >
             {column.cellRenderer
-              ? column.cellRenderer(row, index, column.id)
+              ? column.cellRenderer(row, column.id)
               : row[column.id]}
           </td>
-        );
-      })}
+        ),
+      )}
+      {showDetailsBelow && (
+        <td
+          className={classNames(
+            showDetailsBelow !== 'any' &&
+              `tw-table-cell ${showDetailsBelow}:tw-hidden`,
+          )}
+        >
+          <button
+            className="tw-relative tw-px-5 tw-py-4"
+            onClick={onShowDetailsWrapped}
+          >
+            <img src={detailsIcon} alt="show details" />
+          </button>
+        </td>
+      )}
     </tr>
   );
 
-  return showReadMore ? (
-    <>
-      {rowElement}
-      {open && (
-        <tr
-          className={classNames(
-            index % 2 === 0 && styles.even,
-            styles.readMoreRow,
-          )}
-        >
-          <td className="tw-relative tw-px-5 tw-py-4" colSpan={999}>
-            Not implemented yet
-          </td>
-        </tr>
-      )}
-    </>
-  ) : (
-    rowElement
-  );
+  return rowElement;
 };

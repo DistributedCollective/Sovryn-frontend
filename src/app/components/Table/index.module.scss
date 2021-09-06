@@ -1,5 +1,5 @@
 .row {
-  &.even {
+  &:nth-child(odd) {
     & > td {
       @apply tw-bg-gray-2;
     }
@@ -22,7 +22,7 @@
 }
 
 .readMoreRow {
-  &.even {
+  &:nth-child(odd) {
     & > td {
       @apply tw-bg-gray-2;
     }

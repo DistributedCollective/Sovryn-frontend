@@ -203,5 +203,6 @@ Responsive.args = {
     },
   ],
   rows: rowsLarge,
-  showReadMore: true,
+  detailsTitle: 'Transaction Details',
+  showDetails: true,
 };
