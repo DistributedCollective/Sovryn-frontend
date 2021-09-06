@@ -1,11 +1,3 @@
-.headCell {
-  @apply tw-relative tw-px-5 tw-py-2.5;
-}
-
-.cell {
-  @apply tw-relative tw-px-5 tw-py-4;
-}
-
 .row {
   &.even {
     & > td {
