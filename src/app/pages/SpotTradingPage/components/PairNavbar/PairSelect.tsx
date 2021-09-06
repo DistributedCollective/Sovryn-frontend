@@ -9,6 +9,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { actions } from '../../slice';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
+import styles from './index.module.scss';
 
 const categories = [
   {
@@ -46,7 +47,7 @@ export const PairSelect: React.FC = () => {
     <div ref={ref} className="tw-relative tw-w-64">
       <div
         onClick={() => setOpen(!open)}
-        className="tw-flex tw-items-center tw-py-3 tw-bg-gray-100 tw-px-8 tw-rounded-r-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
+        className="tw-flex tw-items-center tw-py-3 tw-bg-gray-2 tw-px-8 tw-rounded-r-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
       >
         <div className="tw-flex-1">
           <Pair pairType={pairType} />
@@ -60,10 +61,15 @@ export const PairSelect: React.FC = () => {
         />
       </div>
       {open && (
-        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-100 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-50">
+        <div
+          className={cn(
+            'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-50',
+            styles.pairsModal,
+          )}
+        >
           <Input
             value={search}
-            className="tw-min-w-122 tw-rounded-lg"
+            className={cn('tw-rounded-lg', styles.search)}
             inputClassName="tw-ml-0"
             onChange={setSearch}
             placeholder={'Search'}
