@@ -83,7 +83,7 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.liquid)}
                   active={activeTab === RewardTabType.LIQUID_SOV}
                   onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
-                  amount={weiToNumberFormat(liquidSovClaimAmount, 6)}
+                  amount={`${weiToNumberFormat(liquidSovClaimAmount, 6)} SOV`}
                 />
               </div>
               <div className="tw-w-full">

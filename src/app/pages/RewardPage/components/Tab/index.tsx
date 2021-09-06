@@ -23,7 +23,7 @@ export const Tab: React.FC<ITabProps> = ({
       disabled={isDisabled}
       onClick={onClick}
     >
-      <div>{text}</div>
+      <div className="tw-font-extralight">{text}</div>
       <div className="tw-text-2xl tw-font-semibold">{amount}</div>
     </StyledTab>
   );
@@ -40,10 +40,6 @@ const StyledTab = styled.button.attrs(_ => ({
   color: var(--light-gray);
   padding: 5px 10px;
   background-color: rgba(34, 34, 34, 0.5);
-  font-size: 18px;
-  font-weight: 100;
-  font-family: Montserrat;
-  text-transform: none;
   display: flex;
   flex-direction: column;
   align-items: center;

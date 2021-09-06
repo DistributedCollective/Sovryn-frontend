@@ -70,7 +70,7 @@ export function StakingRewardsClaimForm({ className, address }: Props) {
         'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
-      <div className="tw-text-center tw-text-xl">
+      <div className="tw-text-sm">
         {t(translations.rewardPage.stakingForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
@@ -83,7 +83,7 @@ export function StakingRewardsClaimForm({ className, address }: Props) {
             }
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
-            inputClassName="tw-text-center"
+            inputClassName="tw-text-center tw-text-2xl tw-font-normal"
           />
         </Tooltip>
         <div className={!rewardsLocked ? 'tw-mt-16' : undefined}>
