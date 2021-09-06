@@ -56,7 +56,7 @@ export function Feature(props: Props) {
 const Article = styled.article`
   max-width: 1200px;
   margin: 70px auto;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
 
   + ${() => Article} {
@@ -65,8 +65,8 @@ const Article = styled.article`
 
   h3 {
     text-transform: none;
-    font-size: 26px;
-    line-height: 32px;
+    font-size: 1.5rem;
+    line-height: 1.375;
     font-weight: 700;
     margin-bottom: 32px;
   }
@@ -92,27 +92,27 @@ const Article = styled.article`
     height: 40px;
     background: #2274a5;
     border: 1px solid #2274a5;
-    color: #e9eae9;
-    font-size: 16px;
+    color: #e8e8e8;
+    font-size: 1rem;
     line-height: 1;
     font-weight: 500;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     text-decoration: none;
     text-align: center;
     padding: 11px;
     margin-top: 40px;
     &:hover {
       opacity: 0.75;
-      color: #e9eae9;
+      color: #e8e8e8;
     }
   }
 
   a {
     text-decoration: underline;
-    color: #fec004;
+    color: var(--primary);
     &:hover {
-      color: #fec004;
+      color: var(--primary);
       text-decoration: none;
     }
   }

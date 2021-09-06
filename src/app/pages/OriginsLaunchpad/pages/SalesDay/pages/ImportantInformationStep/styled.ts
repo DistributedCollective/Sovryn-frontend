@@ -19,7 +19,7 @@ export const ListItem = styled.div`
   align-items: center;
   position: relative;
   font-size: 0.875rem;
-  line-height: 1.0625rem;
+  line-height: 1.25;
   letter-spacing: 0;
   font-weight: 100;
   margin-bottom: 1rem;

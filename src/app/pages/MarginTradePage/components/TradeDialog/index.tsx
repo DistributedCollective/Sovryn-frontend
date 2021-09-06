@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toWei } from 'web3-utils';
@@ -7,12 +7,13 @@ import { toWei } from 'web3-utils';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
-// import { useMaintenance } from '../../../BuySovPage/components/Slider';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { Slider } from 'app/components/Form/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 
 import { translations } from '../../../../../locales/i18n';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import {
   getLendingContractName,
   getTokenContract,
@@ -27,7 +28,6 @@ import {
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { Dialog } from '../../../../containers/Dialog';
-import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
@@ -36,6 +36,8 @@ import { actions } from '../../slice';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
+import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
+import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -47,7 +49,7 @@ export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  // const [slippage, setSlippage] = useState(0.5);
+  const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -60,12 +62,30 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
+  const { value: estimations } = useGetEstimatedMarginDetails(
+    loanToken,
+    leverage,
+    useLoanTokens ? amount : '0',
+    useLoanTokens ? '0' : amount,
+    collateralToken,
+  );
+
+  const { minReturn } = useSlippage(estimations.collateral, slippage);
+
+  const { price, loading } = useCurrentPositionPrice(
+    loanToken,
+    collateralToken,
+    estimations.principal,
+    position === TradingPosition.SHORT,
+  );
+
   const { trade, ...tx } = useApproveAndTrade(
     pair,
     position,
     collateral,
     leverage,
     amount,
+    minReturn,
   );
 
   const submit = () =>
@@ -85,6 +105,7 @@ export function TradeDialog() {
     useLoanTokens ? '0' : amount,
     getTokenContract(collateralToken).address,
     account, // trader
+    minReturn,
     '0x',
   ];
 
@@ -99,7 +120,7 @@ export function TradeDialog() {
         onClose={() => dispatch(actions.closeTradingModal())}
       >
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
@@ -156,26 +177,20 @@ export function TradeDialog() {
             />
           </div>
 
-          {/* TODO: enable Slippage and Renewal Date (https://github.com/DistributedCollective/Sovryn-frontend/issues/1568)*/}
-          {/* <LabelValuePair*/}
-          {/*  label="Renewal Date:"*/}
-          {/*  value={<>{weiToNumberFormat(15)}%</>}*/}
-          {/*/>*/}
-
-          {/*<FormGroup*/}
-          {/*  className="tw-mt-8"*/}
-          {/*  label={t(translations.buySovPage.slippageDialog.tolerance)}*/}
-          {/*>*/}
-          {/*  <Slider*/}
-          {/*    value={slippage}*/}
-          {/*    onChange={e => setSlippage(e)}*/}
-          {/*    min={0.1}*/}
-          {/*    max={1}*/}
-          {/*    stepSize={0.05}*/}
-          {/*    labelRenderer={value => <>{value}%</>}*/}
-          {/*    labelValues={[0.1, 0.25, 0.5, 0.75, 1]}*/}
-          {/*  />*/}
-          {/*</FormGroup> */}
+          <FormGroup
+            className="tw-mt-8"
+            label={t(translations.buySovPage.slippageDialog.tolerance)}
+          >
+            <Slider
+              value={slippage}
+              onChange={setSlippage}
+              min={0.1}
+              max={1}
+              stepSize={0.05}
+              labelRenderer={value => <>{value}%</>}
+              labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
+            />
+          </FormGroup>
 
           <FormGroup
             label={t(translations.marginTradePage.tradeDialog.entryPrice)}
@@ -183,13 +198,9 @@ export function TradeDialog() {
           >
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
-                <PricePrediction
-                  position={position}
-                  leverage={leverage}
-                  loanToken={loanToken}
-                  collateralToken={collateralToken}
-                  useLoanTokens={useLoanTokens}
-                  weiAmount={amount}
+                <LoadableValue
+                  loading={loading}
+                  value={<>{toNumberFormat(price, 2)}</>}
                 />
               </div>
               <div className="tw-input-append">{pair.longDetails.symbol}</div>
@@ -213,7 +224,7 @@ export function TradeDialog() {
                         href={discordInvite}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                       >
                         x
                       </a>,
@@ -229,7 +240,6 @@ export function TradeDialog() {
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
-            className="tw-max-w-50"
           />
         </div>
       </Dialog>

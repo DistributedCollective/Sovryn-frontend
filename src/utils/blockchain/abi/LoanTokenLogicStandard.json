@@ -502,37 +502,6 @@
     "constant": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "burnAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "useLM",
-        "type": "bool"
-      }
-    ],
-    "name": "burnToBTC",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "loanAmountPaid",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
         "internalType": "string",
         "name": "_name",
         "type": "string"
@@ -566,6 +535,41 @@
         "type": "bool"
       }
     ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "leverageAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanTokenSent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralTokenSent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "collateralTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minReturn",
+        "type": "uint256"
+      }
+    ],
+    "name": "checkPriceDivergence",
+    "outputs": [],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -945,12 +949,83 @@
         "type": "address"
       },
       {
+        "internalType": "uint256",
+        "name": "minReturn",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes",
         "name": "loanDataBytes",
         "type": "bytes"
       }
     ],
     "name": "marginTrade",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "leverageAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanTokenSent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralTokenSent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "collateralTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minReturn",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "affiliateReferrer",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "loanDataBytes",
+        "type": "bytes"
+      }
+    ],
+    "name": "marginTradeAffiliate",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1052,32 +1127,6 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "useLM",
-        "type": "bool"
-      }
-    ],
-    "name": "mintWithBTC",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "mintAmount",
-        "type": "uint256"
-      }
-    ],
-    "payable": true,
-    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -1429,6 +1478,21 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "target_",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,

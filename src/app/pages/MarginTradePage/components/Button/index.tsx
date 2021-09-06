@@ -17,8 +17,8 @@ export function Button({ position, onClick, loading, text, ...props }: Props) {
       onClick={() => onClick(position)}
       className={cn(
         'tw-btn-trade',
-        { 'tw-btn-trade--long': position === TradingPosition.LONG },
-        { 'tw-btn-trade--short': position === TradingPosition.SHORT },
+        { 'tw-bg-trade-long': position === TradingPosition.LONG },
+        { 'tw-bg-trade-short': position === TradingPosition.SHORT },
         { loading: loading },
       )}
       {...props}

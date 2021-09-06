@@ -1,9 +1,8 @@
-
 .simpleView {
   .engage-wallet {
+    @apply tw-px-0.5 tw-pt-0 tw-pb-2.5
+      tw-text-2xl;
     height: 50px;
-    padding: 2px 0 2px 10px;
-    font-size: 22px;
 
     span {
       & > span:first-child {
@@ -19,28 +18,25 @@
 }
 
 .engage-wallet {
-  background: #383838;
-  height: 40px;
-  padding: 2px 0 2px 10px;
-  border-radius: 8px;
-  font-weight: 100;
-  font-size: 14px;
-  font-family: 'Work Sans', sans-serif;
+  @apply tw-justify-center tw-items-center tw-hidden xl:tw-flex
+    tw-w-auto tw-h-10 tw-py-0.5 tw-pr-0 tw-pl-2.5
+    tw-text-sm tw-font-thin tw-font-body tw-tracking-normal
+    tw-bg-gray-4 tw-rounded-lg
+    tw-cursor-pointer;
+
   min-width: 165px;
-  letter-spacing: 0;
 
   .logout {
-    height: 40px;
-    padding: 12px 12px;
-    background: #686868;
-    cursor: pointer;
-    transition: background 0.3s;
-    color: #fec004;
-    border-radius: 0 8px 8px 0;
+    @apply tw-h-10 tw-p-3 
+      tw-text-primary 
+      tw-bg-gray-6 tw-rounded-l-none tw-rounded-r-lg
+      tw-cursor-pointer;
+
+    transition: background-color 0.3s;
     margin-left: 0.7rem;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.36);
+      @apply tw-bg-black tw-bg-opacity-25;
     }
   }
 }

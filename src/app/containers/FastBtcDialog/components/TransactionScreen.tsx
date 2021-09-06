@@ -66,8 +66,8 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
                   data-name="Path 2946"
                   d="M99.026,15.924,88.13,5v8.193H68.986v5.462H88.13v8.193Z"
                   transform="translate(35.312 -65.486) rotate(90)"
-                  fill="#e9eae9"
-                  stroke="#e9eae9"
+                  fill="#e8e8e8"
+                  stroke="#e8e8e8"
                   strokeWidth="7"
                 />
               </svg>
@@ -85,7 +85,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
               <LinkToExplorer
                 txHash={tx.txHash}
                 realBtc={state.txId === TxId.DEPOSIT}
-                className="tw-text-gold tw-font-light"
+                className="tw-text-primary tw-font-light"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
           <div className="tw-mt-12 tw-justify-center tw-items-center tw-flex tw-flex-row">
             <Button
               minimal
-              className="button-round tw-text-gold tw-text-lg tw-mx-auto"
+              className="button-round tw-text-primary tw-text-lg tw-mx-auto"
               text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />
