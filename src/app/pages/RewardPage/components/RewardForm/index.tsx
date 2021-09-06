@@ -23,6 +23,7 @@ import {
 } from '../../styled';
 import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
+import { calculatePercentageDistribution } from './utils';
 
 interface IRewardFormProps {
   amountToClaim: string;
@@ -161,6 +162,20 @@ export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
     [tradingRewardsEvents],
   );
 
+  const {
+    lendingPercentage,
+    tradingPercentage,
+    liquidityPercentage,
+  } = useMemo(
+    () =>
+      calculatePercentageDistribution(
+        lendingRewards,
+        tradeRewards,
+        liquidityRewards,
+      ),
+    [lendingRewards, liquidityRewards, tradeRewards],
+  );
+
   return (
     <ContainerBox>
       <Box>
@@ -174,22 +189,22 @@ export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
         <div className="tw-w-1/2">
           <div className="tw-flex tw-items-center tw-justify-evenly">
             <PieChart
-              firstPercentage={10}
-              secondPercentage={40}
-              thirdPercentage={50}
+              firstPercentage={lendingPercentage}
+              secondPercentage={tradingPercentage}
+              thirdPercentage={liquidityPercentage}
             />
             <div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
-                10% - Lending Rewards
+                {lendingPercentage.toFixed(4)} % - Lending Rewards
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green"></div>
-                40% - Trading Rewards
+                {tradingPercentage.toFixed(4)} % - Trading Rewards
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-gold"></div>
-                50% - Liquidity Rewards
+                {liquidityPercentage.toFixed(4)} % - Liquidity Rewards
               </div>
             </div>
           </div>
