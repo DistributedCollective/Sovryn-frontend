@@ -17,6 +17,7 @@ interface IRewardsDetailProps {
   title: string;
   availableAmount: number | string;
   totalEarnedAmount: number | string;
+  isInMainSection?: boolean;
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -37,11 +38,12 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   title,
   availableAmount,
   totalEarnedAmount,
+  isInMainSection,
 }) => {
   const { t } = useTranslation();
 
   return (
-    <Wrapper>
+    <Wrapper isInMainSection={isInMainSection}>
       <div className="tw-text-xl tw-font-medium tw-mb-8">{title}</div>
 
       <div className="tw-mb-6">

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SecondaryTitle = styled.div`
   font-size: 0.625rem;
@@ -11,9 +11,17 @@ export const SecondarySection = styled.div`
   margin-left: 1.75rem;
 `;
 
-export const Wrapper = styled.div`
-  width: 31%;
-  background-color: #282828;
-  padding: 1rem 1rem 1.5rem 1rem;
-  border-radius: 0.5rem;
+interface IWrapperProps {
+  isInMainSection?: boolean;
+}
+
+export const Wrapper = styled.div<IWrapperProps>`
+  ${props =>
+    !props.isInMainSection &&
+    css`
+      width: 31%;
+      background-color: #282828;
+      padding: 1rem 1rem 1.5rem 1rem;
+      border-radius: 0.5rem;
+    `}
 `;

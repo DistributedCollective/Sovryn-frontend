@@ -41,16 +41,16 @@ export const LiquidForm: React.FC<ILiquidFormProps> = ({ amountToClaim }) => {
           />
         </div>
         <Divider />
-        <div className="tw-w-1/2">TBD</div>
+        <div className="tw-w-1/2 tw-flex tw-justify-center">
+          <RewardsDetail
+            color={RewardsDetailColor.Grey}
+            title={t(translations.rewardPage.topData.stakingReward)}
+            availableAmount={amountToClaim}
+            totalEarnedAmount={totalRewardsEarned}
+            isInMainSection
+          />
+        </div>
       </Box>
-      <RewardDetailsWrapper>
-        <RewardsDetail
-          color={RewardsDetailColor.Grey}
-          title={t(translations.rewardPage.topData.stakingReward)}
-          availableAmount={amountToClaim}
-          totalEarnedAmount={totalRewardsEarned}
-        />
-      </RewardDetailsWrapper>
     </ContainerBox>
   );
 };
