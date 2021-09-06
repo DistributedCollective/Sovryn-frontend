@@ -30,7 +30,7 @@ interface StakeItem {
 interface ICurrentStakesProps {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
-  onUnstake: (a: number, b: number) => void;
+  onUnstake: (a: string, b: number) => void;
   onDelegate: (a: number, b: number) => void;
 }
 
@@ -149,7 +149,7 @@ interface IAssetRowProps {
   item: StakeItem;
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
-  onUnstake: (a: number, b: number) => void;
+  onUnstake: (a: string, b: number) => void;
   onDelegate: (a: number, b: number) => void;
 }
 
@@ -324,7 +324,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               type="button"
               className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
               onClick={() =>
-                onUnstake(Number(item.stakedAmount), Number(item.unlockDate))
+                onUnstake(item.stakedAmount, Number(item.unlockDate))
               }
             >
               {t(translations.stake.actions.unstake)}
