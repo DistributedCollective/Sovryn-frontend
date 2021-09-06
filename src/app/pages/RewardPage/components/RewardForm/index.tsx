@@ -21,10 +21,14 @@ import {
   PieChart,
   RewardDetailsWrapper,
 } from '../../styled';
-import { ClaimForm } from '../ClaimForm';
+import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 
-export function RewardForm() {
+interface IRewardFormProps {
+  amountToClaim: string;
+}
+
+export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
   const userAddress = useAccount();
   const { t } = useTranslation();
   const [liquidityRewards, setLiquidityRewards] = useState('0');
@@ -161,7 +165,10 @@ export function RewardForm() {
     <ContainerBox>
       <Box>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-          <ClaimForm address={userAddress} />
+          <RewardClaimForm
+            address={userAddress}
+            amountToClaim={amountToClaim}
+          />
         </div>
         <Divider />
         <div className="tw-w-1/2">
@@ -212,4 +219,4 @@ export function RewardForm() {
       </RewardDetailsWrapper>
     </ContainerBox>
   );
-}
+};

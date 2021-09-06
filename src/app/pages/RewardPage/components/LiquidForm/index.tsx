@@ -5,7 +5,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
-import { StakingRewardsClaimForm } from '../StakingRewardsClaimForm';
+import { LiquidClaimForm } from '../ClaimForms/LiquidClaimForm';
 import { Box, ContainerBox, Divider, RewardDetailsWrapper } from '../../styled';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 import { bignumber } from 'mathjs';
@@ -35,7 +35,10 @@ export const LiquidForm: React.FC<ILiquidFormProps> = ({ amountToClaim }) => {
     <ContainerBox>
       <Box>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-          <StakingRewardsClaimForm address={userAddress} />
+          <LiquidClaimForm
+            address={userAddress}
+            amountToClaim={amountToClaim}
+          />
         </div>
         <Divider />
         <div className="tw-w-1/2">TBD</div>

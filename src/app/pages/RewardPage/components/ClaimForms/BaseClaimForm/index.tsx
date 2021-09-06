@@ -1,61 +1,43 @@
-import cn from 'classnames';
-import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-
+import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Button } from 'app/components/Button';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { TxDialog } from 'app/components/UserAssets/TxDialog';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
+import classNames from 'classnames';
 import { translations } from 'locales/i18n';
-import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
-import { gasLimit } from 'utils/classifiers';
-import { discordInvite } from 'utils/classifiers';
-
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
-import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { Tooltip } from '@blueprintjs/core';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { discordInvite } from 'utils/classifiers';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
-interface Props {
+interface IBaseClaimFormProps {
   className?: string;
-  address: string;
+  amountToClaim: string;
+  tx: ResetTxResponseInterface;
+  footer?: JSX.Element;
+  onSubmit: () => void;
 }
-export function ClaimForm({ className, address }: Props) {
+
+export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
+  className,
+  amountToClaim,
+  tx,
+  footer,
+  onSubmit,
+}) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
 
-  const { send, ...tx } = useSendContractTx(
-    'lockedSov',
-    'createVestingAndStake',
-  );
-
-  const { value: lockedBalance } = useCacheCallWithValue(
-    'lockedSov',
-    'getLockedBalance',
-    '',
-    address,
-  );
-
-  const handleSubmit = () => {
-    send(
-      [],
-      {
-        from: address,
-        gas: gasLimit[TxType.LOCKED_SOV_CLAIM],
-      },
-      {
-        type: TxType.LOCKED_SOV_CLAIM,
-      },
-    );
-  };
   return (
     <div
-      className={cn(
+      className={classNames(
         className,
         'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
@@ -64,9 +46,9 @@ export function ClaimForm({ className, address }: Props) {
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <Tooltip content={`${weiTo18(lockedBalance)} SOV`}>
+        <Tooltip content={`${weiTo18(amountToClaim)} SOV`}>
           <Input
-            value={`${weiToNumberFormat(lockedBalance, 6)}...`}
+            value={`${weiToNumberFormat(amountToClaim, 6)}...`}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
             inputClassName="tw-text-center tw-text-2xl tw-font-normal"
@@ -96,32 +78,22 @@ export function ClaimForm({ className, address }: Props) {
           {!rewardsLocked && (
             <Button
               disabled={
-                parseFloat(lockedBalance) === 0 ||
-                !lockedBalance ||
+                parseFloat(amountToClaim) === 0 ||
+                !amountToClaim ||
                 rewardsLocked ||
                 tx.status === TxStatus.PENDING ||
                 tx.status === TxStatus.PENDING_FOR_USER
               }
-              onClick={handleSubmit}
+              onClick={onSubmit}
               className="tw-w-full tw-mb-4"
               text={t(translations.rewardPage.claimForm.cta)}
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
-            {t(translations.rewardPage.claimForm.note) + ' '}
-            <a
-              href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="tw-text-secondary tw-underline"
-            >
-              {t(translations.rewardPage.claimForm.learn)}
-            </a>
-          </div>
+          <div className="tw-text-tiny tw-font-thin">{footer}</div>
         </div>
       </div>
       <TxDialog tx={tx} />
     </div>
   );
-}
+};

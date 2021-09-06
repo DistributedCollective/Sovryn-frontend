@@ -95,7 +95,9 @@ export function RewardPage() {
               </div>
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
-              {activeTab === RewardTabType.REWARD_SOV && <RewardForm />}
+              {activeTab === RewardTabType.REWARD_SOV && (
+                <RewardForm amountToClaim={lockedBalance} />
+              )}
               {activeTab === RewardTabType.LIQUID_SOV && (
                 <LiquidForm amountToClaim={liquidSovClaimAmount} />
               )}
