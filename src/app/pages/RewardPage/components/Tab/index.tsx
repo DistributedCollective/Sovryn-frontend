@@ -3,14 +3,26 @@ import styled, { css } from 'styled-components/macro';
 
 interface ITabProps {
   text: string;
-  amount: string;
-  active: boolean;
-  onClick: () => void;
+  amount?: string;
+  active?: boolean;
+  isDisabled?: boolean;
+  onClick?: () => void;
 }
 
-export const Tab: React.FC<ITabProps> = ({ text, amount, active, onClick }) => {
+export const Tab: React.FC<ITabProps> = ({
+  text,
+  amount,
+  active,
+  isDisabled,
+  onClick,
+}) => {
   return (
-    <StyledTab active={active} onClick={onClick}>
+    <StyledTab
+      active={active}
+      isDisabled={isDisabled}
+      disabled={isDisabled}
+      onClick={onClick}
+    >
       <div>{text}</div>
       <div className="tw-text-2xl tw-font-semibold">{amount}</div>
     </StyledTab>
@@ -18,7 +30,8 @@ export const Tab: React.FC<ITabProps> = ({ text, amount, active, onClick }) => {
 };
 
 interface StyledProps {
-  active: boolean;
+  active?: boolean;
+  isDisabled?: boolean;
 }
 const StyledTab = styled.button.attrs(_ => ({
   type: 'button',
@@ -38,16 +51,23 @@ const StyledTab = styled.button.attrs(_ => ({
   height: 80px;
   width: 100%;
   background-color: rgba(34, 34, 34, 0.5);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   &:hover {
     color: var(--LightGrey);
   }
-  ${(props: StyledProps) =>
-    props.active &&
+  ${({ active }: StyledProps) =>
+    active &&
     css`
       font-weight: 400;
       background-color: rgba(34, 34, 34, 1);
       &:hover {
         color: var(--white);
       }
+    `}
+  ${({ isDisabled }: StyledProps) =>
+    isDisabled &&
+    css`
+      background-color: grey;
     `}
 `;

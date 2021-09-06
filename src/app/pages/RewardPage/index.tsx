@@ -10,7 +10,6 @@ import { translations } from 'locales/i18n';
 import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
-import { FeeForm } from './components/FeeForm';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidForm } from './components/LiquidForm';
 import { RewardForm } from './components/RewardForm';
@@ -80,12 +79,7 @@ export function RewardPage() {
                 />
               </div>
               <div className="tw-w-full">
-                <Tab
-                  text={t(translations.rewardPage.sov.fee)}
-                  active={activeTab === RewardTabType.FEES_EARNED}
-                  onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
-                  amount="0.02918284 RBTC"
-                />
+                <Tab text={t(translations.rewardPage.sov.fee)} isDisabled />
               </div>
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
@@ -93,7 +87,6 @@ export function RewardPage() {
               {activeTab === RewardTabType.LIQUID_SOV && (
                 <LiquidForm amountToClaim={liquidSovClaimAmount} />
               )}
-              {activeTab === RewardTabType.FEES_EARNED && <FeeForm />}
             </div>
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
