@@ -39,7 +39,7 @@ const StyledTab = styled.button.attrs(_ => ({
 }))`
   color: var(--light-gray);
   padding: 5px 10px;
-  background: transparent;
+  background-color: rgba(34, 34, 34, 0.5);
   font-size: 18px;
   font-weight: 100;
   font-family: Montserrat;
@@ -50,7 +50,6 @@ const StyledTab = styled.button.attrs(_ => ({
   justify-content: center;
   height: 80px;
   width: 100%;
-  background-color: rgba(34, 34, 34, 0.5);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   &:hover {
@@ -60,7 +59,7 @@ const StyledTab = styled.button.attrs(_ => ({
     active &&
     css`
       font-weight: 400;
-      background-color: rgba(34, 34, 34, 1);
+      background-color: #222222;
       &:hover {
         color: var(--white);
       }

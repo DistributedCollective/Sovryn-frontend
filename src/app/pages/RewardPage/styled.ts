@@ -63,3 +63,15 @@ export const Divider = styled.div`
   height: 150px;
   border-color: #e9eae9;
 `;
+
+export const StyledBackgroundImageWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 0.25;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-height: 43rem;
+`;

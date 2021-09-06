@@ -18,6 +18,10 @@ import { RewardTabType } from './types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { weiToNumberFormat } from 'utils/display-text/format';
 
+import imgSov from 'assets/images/reward/sov.svg';
+import imgBtc from 'assets/images/reward/Bitcoin.svg';
+import { StyledBackgroundImageWrapper } from './styled';
+
 export function RewardPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
@@ -58,10 +62,14 @@ export function RewardPage() {
 
       <Header />
 
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
+      <StyledBackgroundImageWrapper>
+        <img src={imgSov} alt="SOV" />
+        <img src={imgBtc} alt="BTC" />
+      </StyledBackgroundImageWrapper>
+      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6 tw-relative">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           <div className="tw-w-230">
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-24">
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}
@@ -79,7 +87,11 @@ export function RewardPage() {
                 />
               </div>
               <div className="tw-w-full">
-                <Tab text={t(translations.rewardPage.sov.fee)} isDisabled />
+                <Tab
+                  text={t(translations.rewardPage.sov.fee)}
+                  isDisabled
+                  amount="Coming soon"
+                />
               </div>
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
