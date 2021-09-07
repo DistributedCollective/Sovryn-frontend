@@ -1,38 +1,35 @@
-.row {
-  @apply tw-cursor-pointer sm:tw-cursor-auto;
-
-  &:nth-child(odd) {
-    & > td {
-      @apply tw-bg-gray-2;
-    }
-    & > td:first-child {
-      @apply tw-rounded-l-lg;
-    }
-    & > td:last-child {
-      @apply tw-rounded-r-lg;
-    }
+.headRow {
+  // Using ::before and ::after to enable border radii on on odd rows, even when the first-/last-child is hidden
+  &::before {
+    @apply tw-table-cell tw-sticky tw-top-0 tw-z-10  tw-w-4 tw-bg-gray-1;
+    content: '';
   }
 
-  &.open {
-    & > td:first-child {
-      @apply tw-rounded-bl-none;
-    }
-    & > td:last-child {
-      @apply tw-rounded-br-none;
-    }
+  &::after {
+    @apply tw-table-cell tw-sticky tw-top-0 tw-z-10  tw-w-2 tw-bg-gray-1;
+    content: '';
   }
 }
 
-.readMoreRow {
+.row {
+  @apply tw-cursor-pointer sm:tw-cursor-auto;
+
+  // Using ::before and ::after to enable border radii on on odd rows,o even when the first-/last-child is hidden
+  &::before {
+    @apply tw-table-cell tw-w-4 tw-rounded-l-lg;
+    content: '';
+  }
+
+  &::after {
+    @apply tw-table-cell tw-w-2 tw-rounded-r-lg;
+    content: '';
+  }
+
   &:nth-child(odd) {
-    & > td {
+    & > *,
+    &::before,
+    &::after {
       @apply tw-bg-gray-2;
-    }
-    & > td:first-child {
-      @apply tw-rounded-bl-lg;
-    }
-    & > td:last-child {
-      @apply tw-rounded-br-lg;
     }
   }
 }

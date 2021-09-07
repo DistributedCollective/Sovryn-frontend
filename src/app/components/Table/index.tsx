@@ -86,13 +86,13 @@ export const Table = <RowType extends RowObject>({
       <div className="tw-relative tw-flex-1 tw-overflow-auto">
         <table className="tw-w-full tw-min-w-auto tw-h-full tw-min-h-auto">
           <thead>
-            <tr>
+            <tr className={styles.headRow}>
               {columns.map(column =>
                 column.hideBelow === 'any' ? null : (
                   <th
                     key={column.id.toString()}
                     className={classNames(
-                      'tw-sticky tw-top-0 tw-z-10 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
+                      'tw-sticky tw-top-0 tw-z-10 tw-px-4 tw-pb-2.5 tw-bg-gray-1',
                       column.hideBelow &&
                         column.hideBelow &&
                         `tw-hidden ${column.hideBelow}:tw-table-cell`,
@@ -107,7 +107,7 @@ export const Table = <RowType extends RowObject>({
               {showDetailsBelow && (
                 <th
                   className={classNames(
-                    'tw-sticky tw-top-0 tw-z-10 tw-w-16 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
+                    'tw-sticky tw-top-0 tw-z-10 tw-w-16 tw-px-4 tw-pb-2.5 tw-bg-gray-1',
                     'tw-hidden sm:tw-table-cell',
                     showDetailsBelow !== 'any' &&
                       `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
@@ -131,7 +131,7 @@ export const Table = <RowType extends RowObject>({
             ) : (
               <tr className={styles.row}>
                 <td
-                  className="tw-relative tw-px-5 tw-py-4 tw-text-center"
+                  className="tw-relative tw-px-4 tw-py-4 tw-text-center"
                   colSpan={999}
                 >
                   {noData ? noData : t(translations.common.noData)}
@@ -219,7 +219,7 @@ const TableRow = <RowType extends RowObject>({
           <td
             key={column.id.toString()}
             className={classNames(
-              'tw-relative tw-px-5 tw-py-4',
+              'tw-relative tw-px-4 tw-py-4',
               column.hideBelow && `tw-hidden ${column.hideBelow}:tw-table-cell`,
               column.align && `tw-text-${column.align}`,
             )}
@@ -233,13 +233,13 @@ const TableRow = <RowType extends RowObject>({
       {showDetailsBelow && (
         <td
           className={classNames(
-            'tw-hidden sm:tw-table-cell',
+            'tw-hidden sm:tw-table-cell tw-text-right',
             showDetailsBelow !== 'any' &&
               `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
           )}
         >
           <button
-            className="tw-relative tw-px-5 tw-py-4"
+            className="tw-relative tw-px-4 tw-py-4"
             onClick={onShowDetailsWrapped}
           >
             <img src={detailsIcon} alt="show details" />
