@@ -11,8 +11,8 @@ import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { HistoryTable } from './components/HistoryTable';
-import { LiquidForm } from './components/LiquidForm';
-import { RewardForm } from './components/RewardForm';
+import { LiquidTab } from './components/LiquidTab';
+import { RewardTab } from './components/RewardTab';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -97,10 +97,10 @@ export function RewardPage() {
             </div>
             <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
               {activeTab === RewardTabType.REWARD_SOV && (
-                <RewardForm amountToClaim={lockedBalance} />
+                <RewardTab amountToClaim={lockedBalance} />
               )}
               {activeTab === RewardTabType.LIQUID_SOV && (
-                <LiquidForm amountToClaim={liquidSovClaimAmount} />
+                <LiquidTab amountToClaim={liquidSovClaimAmount} />
               )}
             </div>
           </MainSectionWrapper>

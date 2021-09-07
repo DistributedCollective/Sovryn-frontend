@@ -10,11 +10,11 @@ import { MainSection, Divider } from '../../styled';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 import { bignumber } from 'mathjs';
 
-interface ILiquidFormProps {
+interface ILiquidTabProps {
   amountToClaim: string;
 }
 
-export const LiquidForm: React.FC<ILiquidFormProps> = ({ amountToClaim }) => {
+export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
   const userAddress = useAccount();
   const { t } = useTranslation();
 

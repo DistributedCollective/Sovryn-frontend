@@ -19,11 +19,11 @@ import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
 
-interface IRewardFormProps {
+interface IRewardTabProps {
   amountToClaim: string;
 }
 
-export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
+export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
   const userAddress = useAccount();
   const { t } = useTranslation();
   const [liquidityRewards, setLiquidityRewards] = useState('0');

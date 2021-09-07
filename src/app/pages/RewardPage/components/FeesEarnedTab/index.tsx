@@ -8,7 +8,7 @@ import { MainSection, Divider } from '../../styled';
 
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 
-export function FeeForm() {
+export function FeesEarnedTab() {
   const { t } = useTranslation();
 
   const { value: amountToClaim } = useCacheCallWithValue(
