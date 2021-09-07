@@ -4,9 +4,13 @@ import Rsk3 from '@rsksmart/rsk3';
 import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
-
 import { translations } from 'locales/i18n';
-import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
+import {
+  numberFromWei,
+  weiTo4,
+  toWei,
+  fromWei,
+} from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -98,7 +102,7 @@ const InnerStakePage: React.FC = () => {
   const { dates } = useStaking_getStakes(account).value;
   const balanceOf = useStaking_balanceOf(account);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
-  const [stakeAmount, setStakeAmount] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState('0');
   const [stakeForm, setStakeForm] = useState(false);
   const [extendForm, setExtendForm] = useState(false);
   const [until, setUntil] = useState(0);
@@ -111,7 +115,7 @@ const InnerStakePage: React.FC = () => {
   const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
   const [votingPower, setVotingPower] = useState(0);
-  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState('0');
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
   const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
     undefined,
@@ -169,11 +173,10 @@ const InnerStakePage: React.FC = () => {
   //Form Validations
   const validateStakeForm = useCallback(() => {
     if (loading || stakeTx.loading) return false;
-    const num = Number(amount);
-
-    if (!num || isNaN(num) || num <= 0) return false;
+    const num = toWei(amount);
+    if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
     if (!timestamp || timestamp < Math.round(now.getTime() / 1e3)) return false;
-    return num * 1e18 <= Number(sovBalance);
+    return bignumber(num).lessThanOrEqualTo(sovBalance);
   }, [loading, amount, sovBalance, timestamp, stakeTx.loading]);
 
   const validateDelegateForm = useCallback(() => {
@@ -184,17 +187,17 @@ const InnerStakePage: React.FC = () => {
 
   const validateIncreaseForm = useCallback(() => {
     if (loading || increaseTx.loading) return false;
-    const num = Number(amount);
-    if (!num || isNaN(num) || num <= 0) return false;
-    return num * 1e18 <= Number(sovBalance);
+    const num = toWei(amount);
+    if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
+    return bignumber(num).lessThanOrEqualTo(sovBalance);
   }, [loading, amount, sovBalance, increaseTx.loading]);
 
   const validateWithdrawForm = useCallback(
     amount => {
       if (loading) return false;
-      const num = Number(withdrawAmount);
-      if (!num || isNaN(num) || num <= 0) return false;
-      return num <= Number(amount);
+      const num = toWei(withdrawAmount);
+      if (!num || bignumber(num).lessThanOrEqualTo(0)) return false;
+      return bignumber(num).lessThanOrEqualTo(toWei(amount));
     },
     [withdrawAmount, loading],
   );
@@ -232,17 +235,22 @@ const InnerStakePage: React.FC = () => {
   const handleStakeSubmit = useCallback(
     async e => {
       e.preventDefault();
-      setLoading(true);
-      let nonce = await contractReader.nonce(account);
-      const allowance = (await staking_allowance(account)) as string;
-      if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(sovBalance);
-        nonce += 1;
-      }
-      if (!stakeTx.loading) {
-        stake(weiAmount, timestamp + 3600, nonce);
+      try {
+        setLoading(true);
+        let nonce = await contractReader.nonce(account);
+        const allowance = (await staking_allowance(account)) as string;
+        if (bignumber(allowance).lessThan(weiAmount)) {
+          await staking_approve(sovBalance);
+          nonce += 1;
+        }
+        if (!stakeTx.loading) {
+          stake(weiAmount, timestamp + 3600, nonce);
+          setStakeForm(!stakeForm);
+        }
         setLoading(false);
-        setStakeForm(!stakeForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
       }
     },
     [
@@ -284,18 +292,24 @@ const InnerStakePage: React.FC = () => {
 
   const handleIncreaseStakeSubmit = useCallback(
     async e => {
-      e.preventDefault();
-      setLoading(true);
-      let nonce = await contractReader.nonce(account);
-      const allowance = (await staking_allowance(account)) as string;
-      if (bignumber(allowance).lessThan(weiAmount)) {
-        await staking_approve(weiAmount);
-        nonce += 1;
-      }
-      if (!increaseTx.loading) {
-        increase(weiAmount, timestamp, nonce);
+      try {
+        e.preventDefault();
+        setLoading(true);
+        let nonce = await contractReader.nonce(account);
+        const allowance = (await staking_allowance(account)) as string;
+        if (bignumber(allowance).lessThan(weiAmount)) {
+          await staking_approve(weiAmount);
+          nonce += 1;
+        }
+        if (!increaseTx.loading) {
+          increase(weiAmount, timestamp, nonce);
+          setLoading(false);
+          setIncreaseForm(!increaseForm);
+        }
         setLoading(false);
-        setIncreaseForm(!increaseForm);
+      } catch (e) {
+        setLoading(false);
+        console.error(e);
       }
     },
     [weiAmount, account, timestamp, increaseForm, increaseTx.loading, increase],
@@ -323,13 +337,13 @@ const InnerStakePage: React.FC = () => {
   const onDelegate = useCallback((a, b) => {
     setTimestamp(b);
     setIsStakeDelegate(true);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setDelegateForm(delegateForm => !delegateForm);
   }, []);
   const onExtend = useCallback((a, b) => {
     setPrevTimestamp(b);
     setTimestamp(b);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setStakeForm(false);
     setExtendForm(true);
     setIncreaseForm(false);
@@ -337,7 +351,7 @@ const InnerStakePage: React.FC = () => {
   }, []);
   const onIncrease = useCallback((a, b) => {
     setTimestamp(b);
-    setAmount(numberFromWei(a).toString());
+    setAmount(fromWei(a));
     setUntil(b);
     setStakeForm(false);
     setExtendForm(false);
@@ -345,8 +359,8 @@ const InnerStakePage: React.FC = () => {
     setWithdrawForm(false);
   }, []);
   const onUnstake = useCallback((a, b) => {
-    setAmount(numberFromWei(a).toString());
-    setWithdrawAmount(0);
+    setAmount(fromWei(a));
+    setWithdrawAmount('0');
     setStakeAmount(a);
     setTimestamp(b);
     setUntil(b);
