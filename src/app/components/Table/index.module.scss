@@ -1,4 +1,6 @@
 .row {
+  @apply tw-cursor-pointer sm:tw-cursor-auto;
+
   &:nth-child(odd) {
     & > td {
       @apply tw-bg-gray-2;

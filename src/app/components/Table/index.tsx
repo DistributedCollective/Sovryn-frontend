@@ -5,6 +5,7 @@ import { translations } from '../../../locales/i18n';
 import detailsIcon from 'assets/images/ellipsis-h.svg';
 import styles from './index.module.scss';
 import { Dialog } from '../../containers/Dialog';
+import { isChecked } from '../../../utils/helpers';
 
 type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'any';
 const BREAKPOINTS_ORDER: Breakpoint[] = [
@@ -107,8 +108,9 @@ export const Table = <RowType extends RowObject>({
                 <th
                   className={classNames(
                     'tw-sticky tw-top-0 tw-z-10 tw-w-16 tw-px-5 tw-pb-2.5 tw-bg-gray-1',
+                    'tw-hidden sm:tw-table-cell',
                     showDetailsBelow !== 'any' &&
-                      `tw-table-cell ${showDetailsBelow}:tw-hidden`,
+                      `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
                   )}
                 ></th>
               )}
@@ -144,7 +146,7 @@ export const Table = <RowType extends RowObject>({
           detailsModal({ row: openRow })
         ) : (
           <Dialog isOpen={!!openRow} onClose={onHideDetails}>
-            <div className="tw-px-16">
+            <div className="tw-px-4 sm:tw-px-8 md:tw-px-16">
               <h2 className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold ">
                 {detailsTitle}
               </h2>
@@ -201,8 +203,17 @@ const TableRow = <RowType extends RowObject>({
     row,
   ]);
 
+  const onRowClick = useCallback(
+    (event: React.MouseEvent) => {
+      if (showDetailsBelow && window.innerWidth < 576) {
+        onShowDetailsWrapped();
+      }
+    },
+    [showDetailsBelow, onShowDetailsWrapped],
+  );
+
   const rowElement = (
-    <tr className={classNames(styles.row)}>
+    <tr className={classNames(styles.row)} onClick={onRowClick}>
       {columns.map(column =>
         column.hideBelow === 'any' ? null : (
           <td
@@ -222,8 +233,9 @@ const TableRow = <RowType extends RowObject>({
       {showDetailsBelow && (
         <td
           className={classNames(
+            'tw-hidden sm:tw-table-cell',
             showDetailsBelow !== 'any' &&
-              `tw-table-cell ${showDetailsBelow}:tw-hidden`,
+              `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
           )}
         >
           <button
