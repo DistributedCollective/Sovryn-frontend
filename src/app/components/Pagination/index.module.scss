@@ -1,0 +1,40 @@
+.pagination {
+  margin-top: 1.5rem;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  li.page-item.active button.page-link {
+    background-color: #2274a5;
+  }
+  .page-item:last-child .page-link,
+  .page-item:first-child .page-link {
+    border-radius: 50%;
+  }
+  .page-link {
+    padding: 0;
+    min-height: 35px;
+    min-width: 35px;
+    text-align: center;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-weight: 500;
+    font-size: 1.125rem;
+    border: none;
+    background: transparent;
+    margin: 0 0.1rem;
+    transition: all 0.3s;
+    border-radius: 50%;
+    &:hover {
+      background-color: #2274a5;
+    }
+    img {
+      max-width: 32px;
+    }
+  }
+  .icon-rotated {
+    transform: rotate(180deg);
+  }
+}
