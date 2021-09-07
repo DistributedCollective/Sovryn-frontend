@@ -90,7 +90,7 @@ export function LiquidityMining() {
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
-            title="15K SOV"
+            title="30K SOV"
             asset1={Asset.SOV}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
