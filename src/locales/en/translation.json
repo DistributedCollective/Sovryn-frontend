@@ -190,7 +190,8 @@
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
       "amount": "Amount",
-      "startPrice": "Start Price"
+      "startPrice": "Start Price",
+      "advancedSettings": "Advanced Settings"
     },
     "buttons": {
       "submit": "Place Trade"
@@ -1416,9 +1417,10 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Collateral:",
+        "asset": "Asset to receive:",
         "leverage": "Leverage:",
-        "amount": "Amount:",
+        "amount": "Trade Amount:",
+        "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
       },
@@ -1437,6 +1439,8 @@
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
       "position": {
         "long": "Long",
         "short": "Short"

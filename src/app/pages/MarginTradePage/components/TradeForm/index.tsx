@@ -1,32 +1,34 @@
+import { Text } from '@blueprintjs/core';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { bignumber } from 'mathjs';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { AmountInput } from 'app/components/Form/AmountInput';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { Select } from 'app/components/Form/Select';
+import { renderItemNH } from 'app/components/Form/Select/renderers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+import settingImg from 'assets/images/settings-blue.svg';
+import { translations } from '../../../../../locales/i18n';
+import { TradingPosition } from '../../../../../types/trading-position';
 import {
   TradingPairDictionary,
   TradingPairType,
 } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Text } from '@blueprintjs/core';
-import { TradingPosition } from '../../../../../types/trading-position';
-import { LeverageSelector } from '../LeverageSelector';
-import { FormGroup } from 'app/components/Form/FormGroup';
-import { AmountInput } from 'app/components/Form/AmountInput';
-import { CollateralAssets } from '../CollateralAssets';
-import { Button } from '../Button';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { bignumber } from 'mathjs';
-import { useWalletContext } from '@sovryn/react-wallet';
-import { TradeDialog } from '../TradeDialog';
-import { useDispatch, useSelector } from 'react-redux';
+import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { renderItemNH } from 'app/components/Form/Select/renderers';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
-
+import { Button } from '../Button';
+import { CollateralAssets } from '../CollateralAssets';
+import { LeverageSelector } from '../LeverageSelector';
+import { TradeDialog } from '../TradeDialog';
+import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
 const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
   .map(([type, item]) => ({
@@ -48,7 +50,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState<string>('');
-
+  const [positionType, setPosition] = useState<TradingPosition>(
+    TradingPosition.LONG,
+  );
   const weiAmount = useWeiAmount(amount);
 
   useEffect(() => {
@@ -66,6 +70,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   }, [pair.collaterals, collateral, dispatch]);
 
   const submit = e => dispatch(actions.submit(e));
+  const selectPosition = e => {
+    setPosition(e);
+  };
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
@@ -78,9 +85,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-340 tw-mx-auto">
-          <FormGroup
+      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0">
+        {!openTradesLocked && (
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
+            <Button
+              text={t(translations.marginTradePage.tradeForm.buttons.long)}
+              position={TradingPosition.LONG}
+              onClick={submit}
+              // disabled={!validate || !connected || openTradesLocked}
+            />
+            <Button
+              text={t(translations.marginTradePage.tradeForm.buttons.short)}
+              position={TradingPosition.SHORT}
+              onClick={selectPosition}
+            />
+          </div>
+        )}
+        <div className="tw-mw-340 tw-mx-auto tw-mt-6">
+          {/* <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.pair)}
             className="tw-mb-6"
           >
@@ -96,7 +118,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 </Text>
               )}
             />
-          </FormGroup>
+          </FormGroup> */}
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
@@ -122,6 +144,18 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               asset={collateral}
             />
           </FormGroup>
+          <div className="tw-mt-6 tw-text-secondary tw-text-xs tw-flex">
+            <Trans
+              i18nKey={translations.marginTradeForm.fields.advancedSettings}
+            />
+            <img
+              alt="setting"
+              src={settingImg}
+              onClick={() => {
+                console.log('1123');
+              }}
+            />
+          </div>
         </div>
         <div className="tw-mt-12">
           {openTradesLocked && (
@@ -144,24 +178,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             />
           )}
         </div>
-        {!openTradesLocked && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={submit}
-              disabled={!validate || !connected || openTradesLocked}
-            />
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={submit}
-              disabled={!validate || !connected || openTradesLocked}
-            />
-          </div>
-        )}
       </div>
-      <TradeDialog />
+      <AdvancedSettingDialog />
     </>
   );
 };
