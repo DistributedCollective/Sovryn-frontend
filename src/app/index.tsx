@@ -48,6 +48,7 @@ import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
+import { DappyPage } from './pages/Dappy';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -92,6 +93,7 @@ export function App() {
             <Route exact path="/wallet" component={WalletPage} />
             <Route exact path="/origins" component={OriginsLaunchpadPage} />
             <Route exact path="/origins/claim" component={OriginsClaimPage} />
+            <Route exact path="/dappy-test" component={DappyPage} />
             <Route
               exact
               path="/cross-chain/deposit"
