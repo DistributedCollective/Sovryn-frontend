@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyledTab } from './styled';
+import classNames from 'classnames';
+import styles from './index.module.scss';
 
 interface ITabProps {
   text: string;
@@ -16,13 +17,17 @@ export const Tab: React.FC<ITabProps> = ({
   isDisabled,
   onClick,
 }) => (
-  <StyledTab
-    active={active}
-    isDisabled={isDisabled}
-    disabled={isDisabled}
+  <button
+    type="button"
+    className={classNames(
+      'btn',
+      styles['tab-button'],
+      active && styles['tab-button--active'],
+    )}
     onClick={onClick}
+    disabled={isDisabled}
   >
     <div className="tw-font-extralight">{text}</div>
     <div className="tw-text-2xl tw-font-semibold">{amount}</div>
-  </StyledTab>
+  </button>
 );
