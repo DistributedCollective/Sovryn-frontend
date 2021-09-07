@@ -39,7 +39,7 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
         <div className="tw-w-1/2 tw-flex tw-justify-center">
           <RewardsDetail
             color={RewardsDetailColor.Grey}
-            title={t(translations.rewardPage.topData.stakingReward)}
+            title={t(translations.rewardPage.stakingReward)}
             availableAmount={amountToClaim}
             totalEarnedAmount={totalRewardsEarned}
             isInMainSection

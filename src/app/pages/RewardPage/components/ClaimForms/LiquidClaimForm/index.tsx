@@ -10,7 +10,6 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   amountToClaim,
 }) => {
   const address = useAccount();
-
   const { send, ...tx } = useSendContractTx('stakingRewards', 'collectReward');
 
   const onSubmit = useCallback(() => {

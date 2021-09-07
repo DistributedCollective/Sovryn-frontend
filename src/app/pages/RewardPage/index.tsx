@@ -91,7 +91,7 @@ export function RewardPage() {
                 <Tab
                   text={t(translations.rewardPage.sov.fee)}
                   isDisabled
-                  amount="Coming soon"
+                  amount={t(translations.rewardPage.comingSoon)}
                 />
               </div>
             </div>

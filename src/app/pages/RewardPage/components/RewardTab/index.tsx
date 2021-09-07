@@ -64,15 +64,18 @@ export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
             <div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
-                {lendingPercentage.toFixed(4)} % - Lending Rewards
+                {lendingPercentage.toFixed(4)} % -{' '}
+                {t(translations.rewardPage.lendingRewards)}
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green-2"></div>
-                {tradingPercentage.toFixed(4)} % - Trading Rewards
+                {tradingPercentage.toFixed(4)} % -{' '}
+                {t(translations.rewardPage.tradingRewards)}
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center">
                 <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
-                {liquidityPercentage.toFixed(4)} % - Liquidity Rewards
+                {liquidityPercentage.toFixed(4)} % -{' '}
+                {t(translations.rewardPage.liquidityRewards)}
               </div>
             </div>
           </div>
@@ -81,21 +84,21 @@ export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
       <div className="tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-mt-8">
         <RewardsDetail
           color={RewardsDetailColor.Grey}
-          title={t(translations.rewardPage.topData.tradingRewards)}
+          title={t(translations.rewardPage.tradingRewards)}
           availableAmount={availableTradingRewards}
           totalEarnedAmount={totalTradingRewards}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Green}
-          title={t(translations.rewardPage.topData.lendingRewards)}
+          title={t(translations.rewardPage.lendingRewards)}
           availableAmount={availableLendingRewards}
           totalEarnedAmount={totalLendingRewards}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
-          title={t(translations.rewardPage.topData.liquidityRewards)}
+          title={t(translations.rewardPage.liquidityRewards)}
           availableAmount={availableLiquidityRewards}
           totalEarnedAmount={totalLiquidityRewards}
         />

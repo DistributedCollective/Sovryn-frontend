@@ -1361,13 +1361,22 @@
     "calculating": "Calculating..."
   },
   "rewardPage": {
+    "availableRewards": "Available Rewards:",
+    "totalRewards": "Total Rewards Earned:",
+    "liquidityRewards": "Liquidity Rewards",
+    "lendingRewards": "Lending Rewards",
+    "tradingRewards": "Trading Rewards",
+    "lockedRewards": "Locked Rewards:",
+    "claimableRewards": "Claimable Rewards",
+    "stakingReward": "Staking Rewards",
+    "comingSoon": "Coming Soon",
     "meta": {
       "title": "Reward",
       "description": "Reward SOV"
     },
     "claimForm": {
       "title": "Amount to claim:",
-      "availble": "Total Reward SOV Available:",
+      "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
@@ -1382,19 +1391,6 @@
       "reward": "Reward SOV",
       "liquid": "Liquid SOV",
       "fee": "Fees Earned"
-    },
-    "topData": {
-      "referralRewards": "Referral Rewards",
-      "referrals": "Number of referrals:",
-      "availableRewards": "Available Rewards:",
-      "totalRewards": "Total Rewards Earned:",
-      "liquidityRewards": "Liquidity Rewards",
-      "lendingRewards": "Lending Rewards",
-      "tradingRewards": "Trading Rewards",
-      "lockedRewards": "Locked Rewards:",
-      "claimibleRewards": "Claimible Rewards",
-      "stakingReward": "Staking Rewards",
-      "referralReward": "Referral Rewards"
     },
     "fee": {
       "stakingFee": "Staking Fees",

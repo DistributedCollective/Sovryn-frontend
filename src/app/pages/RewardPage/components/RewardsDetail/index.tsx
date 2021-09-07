@@ -50,7 +50,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <div className="tw-flex tw-items-center tw-mb-1.5">
           <div className={`tw-w-3 tw-h-3 tw-mr-4 ${getDetailColor(color)}`} />
           <div className="tw-text-xs">
-            {t(translations.rewardPage.topData.availableRewards)}
+            {t(translations.rewardPage.availableRewards)}
           </div>
         </div>
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
@@ -64,7 +64,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
       </div>
       <SecondarySection>
         <SecondaryTitle>
-          {t(translations.rewardPage.topData.totalRewards)}
+          {t(translations.rewardPage.totalRewards)}
         </SecondaryTitle>
         <Tooltip content={`${weiTo18(totalEarnedAmount)} SOV`}>
           <>
