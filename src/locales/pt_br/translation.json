@@ -1306,7 +1306,16 @@
     "receiver": "Receber SOV em:",
     "calculating": "Calculando..."
   },
-  "rewardPage": {
+   "rewardPage": {
+    "availableRewards": "Disponíveis:",
+    "totalRewards": "Total ganho:",
+    "liquidityRewards": "Bônus de liquidez",
+    "lendingRewards": "Bônus de empréstimo",
+    "tradingRewards": "Bônus de negociação",
+    "lockedRewards": "Bônus bloqueados:",
+    "claimableRewards": "Bônus reinvidicáveis",
+    "stakingReward": "Bônus de investimento",
+    "comingSoon": "Em breve",
     "meta": {
       "title": "Bônus",
       "description": "Bônus SOV"
@@ -1319,29 +1328,15 @@
       "learn": "Saiba mais"
     },
     "stakingForm": {
-      "title": "Staking Rewards",
       "title": "Quantidade:",
       "available": "Total Staking Rewards Available:",
       "cta": "REIVINDICAR"
     },
     "totalEarned": "Total ganho:",
-    "sov": {
+   "sov": {
       "reward": "SOV bônus",
       "liquid": "SOV líquido",
       "fee": "Dividendos"
-    },
-    "topData": {
-      "referralRewards": "Bônus de indicação",
-      "referrals": "Número de indicações:",
-      "availableRewards": "Disponíveis:",
-      "totalRewards": "Total ganho:",
-      "liquidityRewards": "Bônus de liquidez",
-      "lendingRewards": "Bônus de empréstimo",
-      "tradingRewards": "Bônus de negociação",
-      "lockedRewards": "Bônus bloqueados:",
-      "claimibleRewards": "Bônus reinvidicáveis",
-      "stakingReward": "Bônus investimento SOV",
-      "referralReward": "Bônus de indicação"
     },
     "fee": {
       "stakingFee": "Dividendo investimento SOV",
