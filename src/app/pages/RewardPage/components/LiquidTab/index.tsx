@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
@@ -15,7 +14,6 @@ interface ILiquidTabProps {
 }
 
 export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
-  const userAddress = useAccount();
   const { t } = useTranslation();
 
   const { events: stakingRewardEvents } = useGetContractPastEvents(
@@ -35,10 +33,7 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <MainSection>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-          <LiquidClaimForm
-            address={userAddress}
-            amountToClaim={amountToClaim}
-          />
+          <LiquidClaimForm amountToClaim={amountToClaim} />
         </div>
         <Divider />
         <div className="tw-w-1/2 tw-flex tw-justify-center">

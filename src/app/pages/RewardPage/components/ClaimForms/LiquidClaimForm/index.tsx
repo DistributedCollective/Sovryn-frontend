@@ -3,12 +3,14 @@ import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { BaseClaimForm } from '../BaseClaimForm';
 import { IClaimFormProps } from '../BaseClaimForm/types';
+import { useAccount } from 'app/hooks/useAccount';
 
 export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   className,
-  address,
   amountToClaim,
 }) => {
+  const address = useAccount();
+
   const { send, ...tx } = useSendContractTx('stakingRewards', 'collectReward');
 
   const onSubmit = useCallback(() => {

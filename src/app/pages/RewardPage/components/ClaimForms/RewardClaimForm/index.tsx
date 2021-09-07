@@ -8,12 +8,14 @@ import { gasLimit } from 'utils/classifiers';
 import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
 import { BaseClaimForm } from '../BaseClaimForm';
 import { IClaimFormProps } from '../BaseClaimForm/types';
+import { useAccount } from 'app/hooks/useAccount';
 
 export const RewardClaimForm: React.FC<IClaimFormProps> = ({
   className,
-  address,
   amountToClaim,
 }) => {
+  const address = useAccount();
+
   const { send, ...tx } = useSendContractTx(
     'lockedSov',
     'createVestingAndStake',
