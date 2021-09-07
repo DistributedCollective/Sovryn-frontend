@@ -20,7 +20,7 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 
 import imgSov from 'assets/images/reward/sov.svg';
 import imgBtc from 'assets/images/reward/Bitcoin.svg';
-import { StyledBackgroundImageWrapper } from './styled';
+import { MainSectionWrapper, StyledBackgroundImageWrapper } from './styled';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -69,7 +69,7 @@ export function RewardPage() {
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6 tw-relative">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
-          <div className="tw-w-230">
+          <MainSectionWrapper>
             <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-24">
               <div className="tw-w-full">
                 <Tab
@@ -103,7 +103,7 @@ export function RewardPage() {
                 <LiquidForm amountToClaim={liquidSovClaimAmount} />
               )}
             </div>
-          </div>
+          </MainSectionWrapper>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">
               {t(translations.rewardPage.historyTable.title)}

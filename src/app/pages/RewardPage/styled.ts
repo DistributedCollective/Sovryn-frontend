@@ -75,3 +75,7 @@ export const StyledBackgroundImageWrapper = styled.div`
   width: 100%;
   max-height: 43rem;
 `;
+
+export const MainSectionWrapper = styled.div`
+  width: 57.5rem;
+`;

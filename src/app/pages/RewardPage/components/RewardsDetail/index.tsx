@@ -25,9 +25,9 @@ const getDetailColor = (color: RewardsDetailColor): string => {
     case RewardsDetailColor.Grey:
       return 'tw-bg-white';
     case RewardsDetailColor.Green:
-      return 'tw-bg-green';
+      return 'tw-bg-green-2';
     case RewardsDetailColor.Yellow:
-      return 'tw-bg-gold';
+      return 'tw-bg-primary';
     default:
       return 'tw-bg-white';
   }
