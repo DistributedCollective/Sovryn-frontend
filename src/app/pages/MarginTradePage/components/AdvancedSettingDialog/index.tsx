@@ -3,20 +3,21 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { useMaintenance } from '../../../BuySovPage/components/Slider';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { FormGroup } from 'app/components/Form/FormGroup';
-import { discordInvite } from 'utils/classifiers';
+
+// import { translations } from '../../../BuySovPage/components/Slider';
+// import { useMaintenance } from 'app/hooks/useMaintenance';
+// import { TradingPosition } from 'types/trading-position';
+// import { discordInvite } from 'utils/classifiers';
 
 import { translations } from '../../../../../locales/i18n';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog } from '../../../../containers/Dialog';
-import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
+// import { selectMarginTradePage } from '../../../../hooks/trading/useApproveAndTrade';
 import { selectMarginTradePage } from '../../selectors';
-import { SlippageSelector } from '../SlippageSelector';
 import { actions } from '../../slice';
-import { TradingPosition } from 'types/trading-position';
+import { SlippageSelector } from '../SlippageSelector';
 
 export function AdvancedSettingDialog() {
   const { t } = useTranslation();
@@ -26,15 +27,7 @@ export function AdvancedSettingDialog() {
   // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
-  const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
-
-  const { trade, ...tx } = useApproveAndTrade(
-    pair,
-    position,
-    collateral,
-    leverage,
-    amount,
-  );
+  // const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
 
   return (
     <>
@@ -56,10 +49,6 @@ export function AdvancedSettingDialog() {
                 onChange={value => dispatch(actions.setLeverage(value))}
               />
             </FormGroup>
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.minEntry)}
-              value={pair.name}
-            />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.minLiq)}
               value={<>{toNumberFormat(leverage)}x</>}
