@@ -1,0 +1,18 @@
+.wrapper {
+    @apply tw-rounded-lg tw-pl-4 tw-pt-4 tw-pr-6 tw-pb-4;
+
+    width: 31%;
+    background-color: #282828;
+}
+
+.secondary-section {
+    @apply tw-ml-7;
+
+    color: #8e8e8e;
+}
+
+.secondary-title {
+    @apply tw-text-tiny tw-mb-2.5;
+
+    letter-spacing: 0.5px;
+}

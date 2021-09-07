@@ -1,10 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Wrapper, SecondarySection, SecondaryTitle } from './styled';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Tooltip } from '@blueprintjs/core';
 import { weiToNumberFormat } from 'utils/display-text/format';
+import styles from './index.module.scss';
+import classNames from 'classnames';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -43,7 +44,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Wrapper isInMainSection={isInMainSection}>
+    <div className={classNames(!isInMainSection && styles.wrapper)}>
       <div className="tw-text-xl tw-font-medium tw-mb-8">{title}</div>
 
       <div className="tw-mb-6">
@@ -62,17 +63,17 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           </Tooltip>
         </div>
       </div>
-      <SecondarySection>
-        <SecondaryTitle>
+      <div className={styles['secondary-section']}>
+        <div className={styles['secondary-title']}>
           {t(translations.rewardPage.totalRewards)}
-        </SecondaryTitle>
+        </div>
         <Tooltip content={`${weiTo18(totalEarnedAmount)} SOV`}>
           <>
             {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
             <span className="tw--ml-1 tw-mr-1">...</span> SOV
           </>
         </Tooltip>
-      </SecondarySection>
-    </Wrapper>
+      </div>
+    </div>
   );
 };
