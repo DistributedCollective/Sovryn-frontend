@@ -1306,7 +1306,7 @@
     "receiver": "Receber SOV em:",
     "calculating": "Calculando..."
   },
-   "rewardPage": {
+  "rewardPage": {
     "availableRewards": "Disponíveis:",
     "totalRewards": "Total ganho:",
     "liquidityRewards": "Bônus de liquidez",
