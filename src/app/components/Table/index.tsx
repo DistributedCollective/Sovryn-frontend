@@ -146,11 +146,11 @@ export const Table = <RowType extends RowObject>({
           detailsModal({ row: openRow })
         ) : (
           <Dialog isOpen={!!openRow} onClose={onHideDetails}>
-            <div className="tw-px-4 sm:tw-px-8 md:tw-px-16">
+            <div className="tw-px-12 sm:tw-px-16">
               <h2 className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold ">
                 {detailsTitle}
               </h2>
-              <table>
+              <table className="tw-w-full">
                 <tbody>
                   {openRow &&
                     columns.map(column => (
