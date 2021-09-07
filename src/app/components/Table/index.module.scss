@@ -1,5 +1,5 @@
 .headRow {
-  // Using ::before and ::after to enable border radii on on odd rows, even when the first-/last-child is hidden
+  // Using ::before and ::after to enable border radii on odd rows, even when the first-/last-child is hidden
   &::before {
     @apply tw-table-cell tw-sticky tw-top-0 tw-z-10  tw-w-4 tw-bg-gray-1;
     content: '';
@@ -14,7 +14,7 @@
 .row {
   @apply tw-cursor-pointer sm:tw-cursor-auto;
 
-  // Using ::before and ::after to enable border radii on on odd rows,o even when the first-/last-child is hidden
+  // Using ::before and ::after to enable border radii on odd rows, even when the first-/last-child is hidden
   &::before {
     @apply tw-table-cell tw-w-4 tw-rounded-l-lg;
     content: '';

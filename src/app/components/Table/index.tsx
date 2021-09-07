@@ -5,7 +5,6 @@ import { translations } from '../../../locales/i18n';
 import detailsIcon from 'assets/images/ellipsis-h.svg';
 import styles from './index.module.scss';
 import { Dialog } from '../../containers/Dialog';
-import { isChecked } from '../../../utils/helpers';
 
 type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'any';
 const BREAKPOINTS_ORDER: Breakpoint[] = [
@@ -43,7 +42,7 @@ type ITableProps<RowType extends RowObject> = {
   detailsModal?: (props: { row?: RowType }) => ReactNode;
 };
 
-// No React.FC, since it doesn't work with Generic PropType
+// No React.FC, since doesn't support Generic PropTypes
 export const Table = <RowType extends RowObject>({
   className,
   columns,
@@ -154,15 +153,11 @@ export const Table = <RowType extends RowObject>({
                 <tbody>
                   {openRow &&
                     columns.map(column => (
-                      <tr>
-                        <th
-                          key={column.id.toString()}
-                          className="tw-pr-5 tw-py-2.5 tw-font-normal tw-text-gray-8"
-                        >
+                      <tr key={column.id.toString()}>
+                        <th className="tw-pr-5 tw-py-2.5 tw-font-normal tw-text-gray-8">
                           {column.title}
                         </th>
                         <td
-                          key={column.id.toString()}
                           className={classNames(
                             'tw-py-2.5 tw-font-medium tw-text-sov-white',
                             column.align && `tw-text-${column.align}`,
