@@ -19,7 +19,7 @@ export const Timer: React.FC<ITimerProps> = ({ expiryTimestamp, onExpire }) => {
   });
 
   return (
-    <div className="tw-bg-gray-1 tw-px-5 tw-pt-3 tw-pb-7 tw-rounded-10px tw-text-3xl tw-font-semibold tw-flex tw-items-center">
+    <div className="tw-bg-gray-1 tw-px-5 tw-pt-3 tw-pb-7 tw-rounded-xl tw-text-3xl tw-font-semibold tw-flex tw-items-center">
       <Digit
         value={days}
         title={t(translations.landingPage.banner.timer.days)}

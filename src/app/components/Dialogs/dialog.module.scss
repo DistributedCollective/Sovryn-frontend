@@ -1,19 +1,18 @@
 .dialog {
-  background: #000000 !important;
-  border: 0 !important;
-  border-radius: 20px !important;
+  @apply tw-relative
+    tw-font-body
+    tw-bg-black tw-border-0 tw-rounded-3xl;
+
   padding: 30px 0 50px 0 !important;
-  font-family: 'Montserrat', sans-serif;
   max-width: 468px;
-  position: relative;
 }
 
 .dialog h1 {
   margin-bottom: 30px;
   text-transform: none;
   text-align: center;
-  font-size: 28px;
-  line-height: 34px;
+  font-size: 1.75rem;
+  line-height: 1.25;
   font-weight: 600;
 }
 

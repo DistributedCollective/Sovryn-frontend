@@ -14,7 +14,7 @@ export const InfoRow: React.FC<IInfoRowProps> = ({
   className,
 }) => (
   <div className={cn('tw-tracking-normal', className)}>
-    <div className="tw-text-sm tw-font-thin tw-tracking-normal tw-leading-4.5">
+    <div className="tw-text-sm tw-font-thin tw-tracking-normal tw-leading-tight">
       {label}:
     </div>
     <InfoRowValue>{value}</InfoRowValue>

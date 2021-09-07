@@ -28,7 +28,7 @@ const Button = styled.button`
   width: 100%;
   border-right: 0;
   transition: background-color;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   &:last-of-type {
     border-right: 1px solid #2274a5;

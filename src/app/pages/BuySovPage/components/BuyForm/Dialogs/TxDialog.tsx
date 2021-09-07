@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+import cn from 'classnames';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -50,7 +51,9 @@ export function TxDialog(props: Props) {
     >
       {props.tx.status === TxStatus.PENDING_FOR_USER && (
         <>
-          <h2>{t(translations.buySovPage.txDialog.pendingUser.title)}</h2>
+          <h2 className="tw-mb-10 tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case">
+            {t(translations.buySovPage.txDialog.pendingUser.title)}
+          </h2>
           <WalletLogo wallet={wallet} />
           <p
             className="tw-text-center tw-mx-auto tw-w-full"
@@ -73,7 +76,9 @@ export function TxDialog(props: Props) {
           >
             <span className="tw-sr-only">Close Dialog</span>
           </button>
-          <h2>{t(translations.buySovPage.txDialog.txStatus.title)}</h2>
+          <h2 className="tw-mb-10 tw-text-3xl tw-leading-tight tw-font-semibold tw-text-center tw-normal-case">
+            {t(translations.buySovPage.txDialog.txStatus.title)}
+          </h2>
           <StatusComponent status={props.tx.status} />
 
           {!!props.tx.txHash && (
@@ -156,7 +161,7 @@ const StyledStatus = styled.div`
     height: 100px;
   }
   p {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
   }
 `;
@@ -169,7 +174,7 @@ const StyledHashContainer = styled.div`
 
 const StyledHash = styled.div`
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 300;
   margin-bottom: 35px;
   strong {
@@ -195,7 +200,11 @@ const ExplorerLink = styled.div`
 function StatusComponent({ status }: { status: TxStatus }) {
   return (
     <StyledStatus>
-      <img src={getStatusImage(status)} alt="Status" />
+      <img
+        src={getStatusImage(status)}
+        className={cn(status === TxStatus.PENDING && 'tw-animate-spin')}
+        alt="Status"
+      />
       <p>{getStatus(status)}</p>
     </StyledStatus>
   );
@@ -204,11 +213,11 @@ function StatusComponent({ status }: { status: TxStatus }) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
-  border: 1px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`

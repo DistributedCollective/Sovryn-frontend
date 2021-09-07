@@ -39,25 +39,26 @@ const Div = styled.div`
   background-color: rgba(254, 192, 4, 0.25);
   padding: 31px;
   font-weight: 500;
-  border: 1px solid #e9eae9;
-  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 0.5rem;
   line-height: 1;
-  font-size: 16px;
+  font-size: 1rem;
   ${media.lg`
     padding-left: 100px;
     padding-right: 100px;
-    font-size: 24px;
+    font-size: 1.5rem;
   `}
 `;
 
-const Button = styled.button`
+const Button = styled.button.attrs(_ => ({
+  className: 'tw-bg-primary',
+}))`
   margin-left: 25px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   white-space: nowrap;
-  background-color: #fec004;
   color: #000;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: 900;
   padding: 13px 24px;
   line-height: 1;

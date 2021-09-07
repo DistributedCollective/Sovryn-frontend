@@ -34,16 +34,15 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
       <DialogWrapper>
         <DialogTitle>{t(baseTranslations.title)}</DialogTitle>
 
-        <div className="tw-flex">
-          <div className="tw-text-left tw-max-w-40 tw-mr-20">
+        <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
+          <div className="tw-text-left tw-max-w-1/5 tw-mr-20">
             <ListItem>{t(baseTranslations.information[1])}</ListItem>
             <ListItem>{t(baseTranslations.information[2])}</ListItem>
             <ListItem>{t(baseTranslations.information[3])}</ListItem>
             <ListItem>{t(baseTranslations.information[4])}</ListItem>
           </div>
 
-          <div className="tw-text-left tw-max-w-40">
-            <ListItem>{t(baseTranslations.information[5])}</ListItem>
+          <div className="tw-text-left tw-w-full lg:tw-w-1/2">
             <ListItem>
               <strong>{t(baseTranslations.information[6])}</strong>
             </ListItem>
@@ -66,8 +65,8 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
           <ActionButton
             text={t(baseTranslations.submitButtonText)}
             onClick={onSubmit}
-            className="tw-block tw-max-w-xs tw-h-10 tw-px-24 tw-mt-6 tw-rounded-10px tw-bg-background tw-bg-opacity-5"
-            textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-5.5"
+            className="tw-block tw-h-10 tw-px-24 tw-mt-6 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
+            textClassName="tw-text-lg tw-tracking-normal tw-font-normal tw-leading-snug"
             disabled={!checked}
           />
         </div>

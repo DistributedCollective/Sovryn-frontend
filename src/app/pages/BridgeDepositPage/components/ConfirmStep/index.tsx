@@ -185,7 +185,7 @@ export function ConfirmStep() {
                     <LinkToExplorer
                       txHash={tx.hash}
                       chainId={network.chainId}
-                      className="text-gold font-weight-normal text-nowrap tw-text-xs"
+                      className="text-primary font-weight-normal text-nowrap tw-text-xs"
                     />
                   </td>
                 </tr>

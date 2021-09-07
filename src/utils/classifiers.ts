@@ -49,7 +49,7 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 export const chartStorageKey = 'sovryn.charts';
 
 export const gasLimit = {
-  [TxType.TRADE]: 1750000,
+  [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 1500000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
@@ -65,6 +65,8 @@ export const gasLimit = {
   [TxType.LOCKED_SOV_CLAIM]: 3250000,
   [TxType.ORIGINS_SALE_BUY]: 300000,
   [TxType.CONVERT_RUSDT_TO_XUSD]: 150000,
+  [TxType.CROSS_CHAIN_DEPOSIT]: 280000,
+  [TxType.CROSS_CHAIN_WITHDRAW]: 280000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
