@@ -20,8 +20,8 @@ export const PieChart = styled.div<IPieChartProps>`
     conic-gradient(
       #e9eae9 0,
       #e9eae9 ${props => props.firstPercentage}%,
-      #00ce7d 0,
-      #00ce7d ${props => props.firstPercentage + props.secondPercentage}%,
+      #5aa897 0,
+      #5aa897 ${props => props.firstPercentage + props.secondPercentage}%,
       ${props =>
         props.thirdPercentage
           ? css`
@@ -29,19 +29,12 @@ export const PieChart = styled.div<IPieChartProps>`
       #fec004 100%
       `
           : css`
-    #00ce7d 100%
+    #5AA897 100%
     `}
     );
 `;
 
-export const ContainerBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-export const Box = styled.div`
+export const MainSection = styled.div`
   background-color: #222222;
   width: 100%;
   display: flex;
@@ -49,14 +42,7 @@ export const Box = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export const RewardDetailsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 2rem;
-`;
+
 export const Divider = styled.div`
   width: 0px;
   border-width: 1px;

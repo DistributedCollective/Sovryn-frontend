@@ -14,13 +14,7 @@ import { ethGenesisAddress } from '../../../../../utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../../../utils/dictionaries/liquidity-pool-dictionary';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
-import {
-  Box,
-  ContainerBox,
-  Divider,
-  PieChart,
-  RewardDetailsWrapper,
-} from '../../styled';
+import { MainSection, Divider, PieChart } from '../../styled';
 import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
@@ -177,8 +171,8 @@ export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
   );
 
   return (
-    <ContainerBox>
-      <Box>
+    <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
+      <MainSection>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
           <RewardClaimForm
             address={userAddress}
@@ -199,18 +193,18 @@ export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
                 {lendingPercentage.toFixed(4)} % - Lending Rewards
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
-                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green"></div>
+                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green-2"></div>
                 {tradingPercentage.toFixed(4)} % - Trading Rewards
               </div>
               <div className="tw-text-xs mb-2 tw-flex tw-items-center">
-                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-gold"></div>
+                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
                 {liquidityPercentage.toFixed(4)} % - Liquidity Rewards
               </div>
             </div>
           </div>
         </div>
-      </Box>
-      <RewardDetailsWrapper>
+      </MainSection>
+      <div className="tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-mt-8">
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.topData.tradingRewards)}
@@ -231,7 +225,7 @@ export const RewardForm: React.FC<IRewardFormProps> = ({ amountToClaim }) => {
           availableAmount={liquidityRewards}
           totalEarnedAmount={liquidityMiningTotalRewardsEarned}
         />
-      </RewardDetailsWrapper>
-    </ContainerBox>
+      </div>
+    </div>
   );
 };

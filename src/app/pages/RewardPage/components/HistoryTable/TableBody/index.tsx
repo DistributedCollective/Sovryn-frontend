@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
