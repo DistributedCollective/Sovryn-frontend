@@ -33,6 +33,8 @@ import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -304,5 +306,13 @@ export const contracts = {
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
     abi: BabelfishAggregatorAbi,
+  },
+  orderBook: {
+    address: '0xe1B0656D7f19751AB2C3077066f10F64584bC8C8',
+    abi: OrderBookAbi,
+  },
+  settlement: {
+    address: '0x9E1aabBDce2Ce4c5FcA62a09e1394782aB7bc195',
+    abi: SettlementAbi,
   },
 };

@@ -39,6 +39,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+import { useLimitOrder } from 'app/hooks/useLimitOrder';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -66,6 +67,7 @@ export function TradeForm() {
     tokenAddress(sourceToken),
     tokenAddress(targetToken),
   );
+  const { createOrder } = useLimitOrder(sourceToken, targetToken, weiAmount);
   const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
   const { minReturn } = useSlippage(rateByPath, slippage);
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
@@ -214,6 +216,15 @@ export function TradeForm() {
             />
           </div>
         )}
+
+        <div className="tw-mt-10 tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+          <Button
+            text={'Limit Order'}
+            tradingType={tradeType}
+            onClick={() => createOrder()}
+            disabled={!validate || !connected || spotLocked}
+          />
+        </div>
       </div>
       <TxDialog tx={tx} />
     </>
