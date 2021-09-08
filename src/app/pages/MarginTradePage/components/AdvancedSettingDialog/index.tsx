@@ -1,9 +1,10 @@
 import cn from 'classnames';
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
+import { Slider } from 'app/components/Form/Slider';
 
 // import { translations } from '../../../BuySovPage/components/Slider';
 // import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -17,7 +18,6 @@ import { Dialog } from '../../../../containers/Dialog';
 // import { selectMarginTradePage } from '../../../../hooks/trading/useApproveAndTrade';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-import { SlippageSelector } from '../SlippageSelector';
 
 export function AdvancedSettingDialog() {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ export function AdvancedSettingDialog() {
   );
   // const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
-
+  const [slippage, setSlippage] = useState(0.5);
   // const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
 
   return (
@@ -41,12 +41,17 @@ export function AdvancedSettingDialog() {
           </div>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
             <FormGroup
-              label={t(translations.marginTradePage.tradeForm.labels.slippage)}
-              className="tw-mb-6"
+              className="tw-mt-8"
+              label={t(translations.buySovPage.slippageDialog.tolerance)}
             >
-              <SlippageSelector
-                value={leverage}
-                onChange={value => dispatch(actions.setLeverage(value))}
+              <Slider
+                value={slippage}
+                onChange={setSlippage}
+                min={0.1}
+                max={1}
+                stepSize={0.05}
+                labelRenderer={value => <>{value}%</>}
+                labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
               />
             </FormGroup>
             <LabelValuePair
@@ -74,8 +79,8 @@ function LabelValuePair(props: LabelValuePairProps) {
         props.className,
       )}
     >
-      <div className="tw-truncate tw-w-7/12">{props.label}</div>
-      <div className="tw-truncate tw-w-5/12 tw-text-right">{props.value}</div>
+      <div className="tw-truncate">{props.label}</div>
+      <div className="tw-truncate tw-text-right">{props.value}</div>
     </div>
   );
 }

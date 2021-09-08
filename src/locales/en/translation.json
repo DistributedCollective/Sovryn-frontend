@@ -191,7 +191,10 @@
       "currency_placeholder": "Choose currency",
       "amount": "Amount",
       "startPrice": "Start Price",
-      "advancedSettings": "Advanced Settings"
+      "advancedSettings": "Advanced Settings",
+      "esEntryPrice": "Estimated Entry Price:",
+      "esLiquidationPrice": "Estimated Liquidation Price:",
+      "interestAPY": "Interest APY:"
     },
     "buttons": {
       "submit": "Place Trade"
