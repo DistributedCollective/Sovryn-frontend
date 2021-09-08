@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import {
+  calculateProfit,
   numberToUSD,
   toNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
-import { bignumber } from 'mathjs';
 import { AssetRenderer } from '../AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -21,26 +21,6 @@ interface Props {
   startPrice: number;
   isLong: boolean;
 }
-
-const calculateProfit = (
-  isLong: boolean,
-  currentPrice: number,
-  startPrice: number,
-  amount: string,
-): [string, number] => {
-  let profit = '0';
-
-  let diff = 1;
-  if (isLong) {
-    diff = (currentPrice - startPrice) / currentPrice;
-    profit = bignumber(amount).mul(diff).toFixed(0);
-  } else {
-    diff = (startPrice - currentPrice) / startPrice;
-    profit = bignumber(amount).mul(diff).toFixed(0);
-  }
-
-  return [profit, diff];
-};
 
 export function CurrentPositionProfit({
   source,
@@ -69,7 +49,7 @@ export function CurrentPositionProfit({
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="tw-text-success">
+          <span className="tw-text-trade-long">
             {toNumberFormat(diff * 100, 2)}
           </span>
           %
@@ -80,7 +60,7 @@ export function CurrentPositionProfit({
       return (
         <>
           {t(translations.tradingHistoryPage.table.profitLabels.down)}
-          <span className="tw-text-warning">
+          <span className="tw-text-trade-short">
             {toNumberFormat(Math.abs(diff * 100), 2)}
           </span>
           %
@@ -96,26 +76,22 @@ export function CurrentPositionProfit({
       <LoadableValue
         loading={loading}
         value={
-          <>
-            <span className={diff < 0 ? 'tw-text-warning' : 'tw-text-success'}>
-              <div>
-                {diff > 0 && '+'}
-                {weiToNumberFormat(profit, 8)}{' '}
-                <AssetRenderer asset={destination} />
-              </div>
-              ≈{' '}
-              <LoadableValue
-                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-                loading={dollarsLoading}
-              />
-            </span>
-          </>
+          <span
+            className={diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'}
+          >
+            <div>
+              {diff > 0 && '+'}
+              {weiToNumberFormat(profit, 8)}{' '}
+              <AssetRenderer asset={destination} />
+            </div>
+            ≈{' '}
+            <LoadableValue
+              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+              loading={dollarsLoading}
+            />
+          </span>
         }
-        tooltip={
-          <>
-            <Change />
-          </>
-        }
+        tooltip={<Change />}
       />
     </>
   );

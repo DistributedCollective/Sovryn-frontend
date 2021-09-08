@@ -64,13 +64,14 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       ),
     [item, isLong, leverage],
   );
+
+  const amount = bignumber(item.collateral).div(leverage).toFixed(0);
+
   if (pair === undefined) return <></>;
 
   const collateralAssetDetails = AssetsDictionary.get(collateralAsset);
 
   const startPrice = formatAsBTCPrice(item.startRate, isLong);
-
-  const amount = bignumber(item.collateral).div(leverage).toFixed(0);
 
   return (
     <>
@@ -98,7 +99,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
             {weiToNumberFormat(amount, 4)}{' '}
-            <AssetRenderer asset={pair.shortDetails.asset} /> ({leverage}x)
+            <AssetRenderer asset={collateralAssetDetails.asset} /> ({leverage}x)
           </div>
         </td>
         <td>

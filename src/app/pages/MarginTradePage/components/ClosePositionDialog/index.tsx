@@ -1,39 +1,49 @@
-/**
- *
- * ClosePositionDialog
- *
- */
-
 import React, { useEffect, useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
+import {
+  calculateProfit,
+  formatAsBTCPrice,
+  weiToNumberFormat,
+  toNumberFormat,
+} from 'utils/display-text/format';
+import { Asset } from '../../../../../types/asset';
 
+import { DummyField } from 'app/components/DummyField';
+import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+// import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
-
-import { translations } from '../../../../../locales/i18n';
-import { TxType } from '../../../../../store/global/transactions-store/types';
-import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
-import { gasLimit } from '../../../../../utils/classifiers';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { Dialog } from '../../../../containers/Dialog/Loadable';
-import { useCloseWithSwap } from '../../../../hooks/protocol/useCloseWithSwap';
-import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
-import { useAccount } from '../../../../hooks/useAccount';
-import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { translations } from 'locales/i18n';
+import { TxType } from 'store/global/transactions-store/types';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { gasLimit } from 'utils/classifiers';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { Dialog } from 'app/containers/Dialog/Loadable';
+import { useCloseWithSwap } from 'app/hooks/protocol/useCloseWithSwap';
+import { useAccount } from 'app/hooks/useAccount';
+import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { CollateralAssets } from '../CollateralAssets';
-
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
+import { useSwapNetwork_rateByPath } from 'app/hooks/swap-network/useSwapNetwork_rateByPath';
+import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import { discordInvite } from 'utils/classifiers';
 
-interface Props {
+interface IClosePositionDialogProps {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
+  positionSize?: string;
 }
 
 const getOptions = (item: ActiveLoan) => {
@@ -46,22 +56,35 @@ const getOptions = (item: ActiveLoan) => {
   ];
 };
 
-export function ClosePositionDialog(props: Props) {
+export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const receiver = useAccount();
 
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState<string>('0');
+  const [maxTargetAmount, setMaxTargetAmount] = useState('0');
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(props.item.collateralToken),
   );
 
+  const sourceToken = AssetsDictionary.getByTokenContractAddress(
+    props.item?.collateralToken || '',
+  );
+  const targetToken = AssetsDictionary.getByTokenContractAddress(
+    props.item?.loanToken || '',
+  );
+
   useEffect(() => {
-    setAmount('');
+    setAmount('0');
   }, [props.item.collateral]);
 
   const options = useMemo(() => getOptions(props.item), [props.item]);
   const isCollateral = useMemo(
     () => collateral === assetByTokenAddress(props.item.collateralToken),
     [collateral, props.item.collateralToken],
+  );
+
+  const pair = TradingPairDictionary.findPair(
+    sourceToken.asset,
+    targetToken.asset,
   );
 
   const weiAmount = useWeiAmount(amount);
@@ -78,31 +101,120 @@ export function ClosePositionDialog(props: Props) {
     send();
   };
 
-  const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
-
   const { t } = useTranslation();
-  const test = useTrading_testRates(
-    assetByTokenAddress(
-      isCollateral ? props.item.loanToken : props.item.collateralToken,
-    ),
-    assetByTokenAddress(
-      isCollateral ? props.item.collateralToken : props.item.loanToken,
-    ),
-    weiAmount,
-  );
 
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
-
   const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
+  const isLong = targetToken.asset === pair.longAsset;
+  const startPrice = formatAsBTCPrice(props.item.startRate, isLong);
+  const { loading, price } = useCurrentPositionPrice(
+    sourceToken.asset,
+    targetToken.asset,
+    toWei(amount),
+    isLong,
+  );
+  const [profit, diff] = calculateProfit(
+    isLong,
+    price,
+    startPrice,
+    toWei(amount),
+  );
+
+  function tokenAddress(asset: Asset) {
+    return AssetsDictionary.get(asset).getTokenContractAddress();
+  }
+  // const [slippage, setSlippage] = useState(0.5);
+  const { value: path } = useSwapNetwork_conversionPath(
+    tokenAddress(sourceToken.asset),
+    tokenAddress(targetToken.asset),
+  );
+  const { value: rateByPath } = useSwapNetwork_rateByPath(
+    path,
+    props.item.collateral,
+  );
+
+  useEffect(() => {
+    setAmount('0');
+    setMaxTargetAmount(rateByPath);
+  }, [isCollateral, rateByPath]);
+
+  const { minReturn } = useSlippage(toWei(amount), 0.5);
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    '1',
+    isCollateral ? props.item.collateral : maxTargetAmount,
+  );
 
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center tw-tracking-normal">
+          <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
+
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
+                {t(translations.marginTradePage.tradeDialog.pair)}
+              </div>
+              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
+                {pair.chartSymbol}
+              </div>
+            </div>
+            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
+                {t(translations.closeTradingPositionHandler.marginType)}
+              </div>
+              <div
+                className={cn('tw-text-sov-white tw-w-1/2 tw-ml-12', {
+                  'tw-text-trade-short': targetToken.asset !== pair.longAsset,
+                  'tw-text-trade-long': targetToken.asset === pair.longAsset,
+                })}
+              >
+                {leverageFromMargin(props.item.startMargin)}x
+              </div>
+            </div>
+            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
+                {t(translations.closeTradingPositionHandler.positionSize)}
+              </div>
+              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
+                {props.positionSize} <AssetRenderer asset={sourceToken.asset} />
+              </div>
+            </div>
+            <div className="tw-flex tw-flex-row tw-justify-start">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
+                {t(translations.closeTradingPositionHandler.pl)}
+              </div>
+              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
+                <LoadableValue
+                  loading={loading}
+                  value={
+                    <span
+                      className={
+                        diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
+                      }
+                    >
+                      <div>
+                        {diff > 0 && '+'}
+                        {weiToNumberFormat(profit, 6)}{' '}
+                        <AssetRenderer
+                          asset={
+                            isCollateral ? sourceToken.asset : targetToken.asset
+                          }
+                        />
+                        {amount !== '0' && (
+                          <>({toNumberFormat(diff * 100, 2)}%)</>
+                        )}
+                      </div>
+                    </span>
+                  }
+                />
+              </div>
+            </div>
+          </div>
 
           <CollateralAssets
             label={t(translations.closeTradingPositionHandler.withdrawIn)}
@@ -115,11 +227,35 @@ export function ClosePositionDialog(props: Props) {
             label={t(translations.closeTradingPositionHandler.amountToClose)}
             className="tw-mt-7"
           >
+            {isCollateral ? sourceToken.asset : targetToken.asset}
+            <br />
+            {isCollateral ? props.item.collateral : maxTargetAmount}
             <AmountInput
-              onChange={value => setAmount(value)}
               value={amount}
-              maxAmount={props.item.collateral}
+              onChange={value => setAmount(value)}
+              asset={isCollateral ? sourceToken.asset : targetToken.asset}
+              maxAmount={isCollateral ? props.item.collateral : maxTargetAmount}
             />
+          </FormGroup>
+
+          <FormGroup
+            label={t(translations.closeTradingPositionHandler.amountReceived)}
+            className="tw-mt-7"
+          >
+            <DummyField>{amount}</DummyField>
+            <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
+              <p>
+                {t(translations.closeTradingPositionHandler.minimumReceived)}
+              </p>
+              <div>
+                <LoadableValue
+                  loading={false}
+                  value={weiToNumberFormat(minReturn, 4)}
+                  tooltip={weiTo18(minReturn)}
+                />{' '}
+                {collateral}
+              </div>
+            </div>
           </FormGroup>
 
           <TxFeeCalculator
@@ -129,7 +265,7 @@ export function ClosePositionDialog(props: Props) {
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
           />
 
-          {(closeTradesLocked || test.diff > 5) && (
+          {/* {(closeTradesLocked || test.diff > 5) && (
             <ErrorBadge
               content={
                 closeTradesLocked ? (
@@ -164,13 +300,11 @@ export function ClosePositionDialog(props: Props) {
                 ) : undefined
               }
             />
-          )}
+          )} */}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}
-            disabled={
-              rest.loading || !valid || closeTradesLocked || test.diff > 5
-            }
+            disabled={rest.loading || !valid || closeTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={props.onCloseModal}
           />

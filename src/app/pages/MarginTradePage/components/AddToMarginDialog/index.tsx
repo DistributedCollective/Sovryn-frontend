@@ -73,21 +73,21 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             {t(translations.addToMargin.title)}
           </h1>
 
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw--mx-10 tw-mb-6 tw-rounded-lg tw-text-xs">
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-6 tw-rounded-lg tw-text-xs">
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
-              <div className="tw-w-1/3 tw-text-gray-10">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
                 {t(translations.marginTradePage.tradeDialog.pair)}
               </div>
-              <div className="tw-text-sov-white tw-ml-4 tw-w-1/3">
+              <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
                 {pair.chartSymbol}
               </div>
             </div>
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
-              <div className="tw-w-1/3 tw-text-gray-10">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
                 {t(translations.marginTradePage.tradeDialog.leverage)}
               </div>
               <div
-                className={cn('tw-text-sov-white tw-ml-4 tw-w-1/3', {
+                className={cn('tw-text-sov-white tw-ml-6 tw-w-1/3', {
                   'tw-text-trade-short': loanToken.asset !== pair.longAsset,
                   'tw-text-trade-long': loanToken.asset === pair.longAsset,
                 })}
@@ -96,10 +96,10 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
               </div>
             </div>
             <div className="tw-flex tw-flex-row tw-justify-center">
-              <div className="tw-w-1/3 tw-text-gray-10">
+              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
                 {t(translations.marginTradePage.tradeDialog.positionSize)}
               </div>
-              <div className="tw-text-sov-white tw-ml-4 tw-w-1/3">
+              <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
                 {props.positionSize}{' '}
                 <AssetRenderer asset={tokenDetails.asset} />
               </div>

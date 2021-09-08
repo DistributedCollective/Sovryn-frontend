@@ -1230,7 +1230,12 @@
   },
   "closeTradingPositionHandler": {
     "title": "Close Position",
-    "withdrawIn": "Asset:",
+    "withdrawIn": "Asset to receive:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "P/L:",
     "amountToClose": "Position amount to close:",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
