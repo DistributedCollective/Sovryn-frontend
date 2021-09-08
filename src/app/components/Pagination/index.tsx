@@ -90,13 +90,13 @@ export const Pagination: React.FC<IPaginationProps> = ({
   return (
     <>
       <nav className={className} aria-label="Pagination">
-        <ul className={styles.pagination}>
+        <ul className="tw-flex tw-justify-center tw-items-center tw-mt-6 tw-mb-0">
           {pages.map((page, index) => {
             if (page === PAGINATION_LEFT_PAGE)
               return (
-                <li key={page} className={styles.pageItem}>
+                <li key={page}>
                   <button
-                    className={styles.pageLink}
+                    className={styles.pageButton}
                     aria-label="Previous Page"
                     onClick={handleMoveLeft}
                   >
@@ -107,15 +107,15 @@ export const Pagination: React.FC<IPaginationProps> = ({
               );
             if (page === PAGINATION_RIGHT_PAGE)
               return (
-                <li key={page} className={styles.pageItem}>
+                <li key={page}>
                   <button
-                    className={styles.pageLink}
+                    className={styles.pageButton}
                     aria-label="Next Page"
                     onClick={handleMoveRight}
                   >
                     <img
                       src={iconBack}
-                      className={styles.iconRotated}
+                      className="tw-transform tw-rotate-180"
                       alt="Next"
                     />
                     <span className="tw-sr-only">Next</span>
@@ -123,14 +123,14 @@ export const Pagination: React.FC<IPaginationProps> = ({
                 </li>
               );
             return (
-              <li
-                key={page}
-                className={classNames(
-                  styles.pageItem,
-                  currentPage === page && styles.active,
-                )}
-              >
-                <button className={styles.pageLink} onClick={handleClick(page)}>
+              <li key={page}>
+                <button
+                  className={classNames(
+                    styles.pageButton,
+                    currentPage === page && 'tw-bg-secondary',
+                  )}
+                  onClick={handleClick(page)}
+                >
                   {page}
                 </button>
               </li>
