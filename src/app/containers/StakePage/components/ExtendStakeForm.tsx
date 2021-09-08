@@ -53,12 +53,12 @@ export function ExtendStakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
               readOnly
-              className="tw-appearance-none tw-border tw-border-solid tw-border-sov-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-border-solid tw-border-sov-white tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-pr-12 tw-pl-8 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amount"
               type="text"
               defaultValue={props.amount}
             />
-            <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
