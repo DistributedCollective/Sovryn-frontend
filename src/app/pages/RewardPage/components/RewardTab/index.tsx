@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { translations } from 'locales/i18n';
-
-import { MainSection, Divider, PieChart } from '../../styled';
+import { PieChart } from '../../styled';
+import styles from '../../index.module.scss';
 import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
@@ -49,11 +48,11 @@ export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
-      <MainSection>
+      <div className={styles['tab-main-section']}>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
           <RewardClaimForm amountToClaim={amountToClaim} />
         </div>
-        <Divider />
+        <div className={styles.divider} />
         <div className="tw-w-1/2">
           <div className="tw-flex tw-items-center tw-justify-evenly">
             <PieChart
@@ -80,7 +79,7 @@ export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
             </div>
           </div>
         </div>
-      </MainSection>
+      </div>
       <div className="tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-mt-8">
         <RewardsDetail
           color={RewardsDetailColor.Grey}

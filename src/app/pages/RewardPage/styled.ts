@@ -33,35 +33,3 @@ export const PieChart = styled.div<IPieChartProps>`
     `}
     );
 `;
-
-export const MainSection = styled.div`
-  background-color: #222222;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Divider = styled.div`
-  width: 0px;
-  border-width: 1px;
-  height: 150px;
-  border-color: #e9eae9;
-`;
-
-export const StyledBackgroundImageWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  opacity: 0.25;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-height: 43rem;
-`;
-
-export const MainSectionWrapper = styled.div`
-  width: 57.5rem;
-`;
