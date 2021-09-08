@@ -100,7 +100,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
                     aria-label="Previous Page"
                     onClick={handleMoveLeft}
                   >
-                    <img src={iconBack} alt="Previous" />
+                    <img className="tw-max-w-8" src={iconBack} alt="Previous" />
                     <span className="tw-sr-only">Previous</span>
                   </button>
                 </li>
@@ -115,7 +115,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
                   >
                     <img
                       src={iconBack}
-                      className="tw-transform tw-rotate-180"
+                      className="tw-max-w-8 tw-transform tw-rotate-180"
                       alt="Next"
                     />
                     <span className="tw-sr-only">Next</span>
