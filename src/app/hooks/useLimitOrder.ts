@@ -1,18 +1,19 @@
-import { getContract } from './../../utils/blockchain/contract-helpers';
+import { getContract } from '../../utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { walletService } from '@sovryn/react-wallet';
-import { getTokenContract } from '../../utils/blockchain/contract-helpers';
 import { useAccount } from 'app/hooks/useAccount';
-import { Asset } from '../../types/asset';
+import { Asset } from '../../types';
 
 import { ethers } from 'ethers';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { _TypedDataEncoder } from 'ethers/lib/utils';
+import { Order } from '../pages/SpotTradingPage/helpers';
+import { gas } from '../../utils/blockchain/gas-price';
+import { contractReader } from '../../utils/sovryn/contract-reader';
+import axios from 'axios';
 
 const apiUrl = 'http://18.217.222.156:3000/api/createOrder';
 
@@ -40,73 +41,47 @@ export function useLimitOrder(
       }
     }
 
-    const types = {
-      Order: [
-        { name: 'maker', type: 'address' },
-        { name: 'fromToken', type: 'address' },
-        { name: 'toToken', type: 'address' },
-        { name: 'amountIn', type: 'uint256' },
-        { name: 'amountOutMin', type: 'uint256' },
-        { name: 'recipient', type: 'address' },
-        { name: 'deadline', type: 'uint256' },
-      ],
-    };
+    const order = new Order(
+      account,
+      sourceToken,
+      targetToken,
+      amount,
+      amount,
+      account,
+      getDeadline(24).toString(),
+    );
 
-    const domain = {
-      name: 'OrderBook',
-      version: '1',
-      chainId,
-      verifyingContract: getContract('orderBook').address,
-    };
+    console.log({ order });
 
-    const value = {
-      maker: account,
-      fromToken: getTokenContract(sourceToken).address,
-      toToken: getTokenContract(targetToken).address,
-      amountIn: amount,
-      amountOutMin: ethers.utils.parseEther('0.003'),
-      recipient: account,
-      deadline: getDeadline(24),
-    };
+    // todo: signing inside of order.toArgs works only for browser wallets :(
+    const args = await order.toArgs(chainId!);
 
-    const digest = _TypedDataEncoder.hash(domain, types, value);
-    const signedTx = await walletService.signMessage(digest);
-    console.log('signedTx:', signedTx);
+    console.log({ args });
 
-    // let { v, r, s } = ethers.utils.splitSignature(flatSig);
+    const { address, abi } = getContract('orderBook');
+    const contract = new ethers.Contract(address, abi);
 
-    // const args = [
-    //   account,
-    //   getTokenContract(sourceToken).address,
-    //   getTokenContract(targetToken).address,
-    //   amountIn,
-    //   ethers.utils.parseEther('0.003'),
-    //   account,
-    //   getDeadline(24),
-    //   v,
-    //   r,
-    //   s,
-    // ];
+    const populated = await contract.populateTransaction.createOrder(args);
 
-    // const nonce = await contractReader.nonce(
-    //   walletService.address.toLowerCase(),
-    // );
+    console.log({ populated });
 
-    // const signedTx = await walletService.signTransaction({
-    //   to: tx.to?.toLowerCase(),
-    //   value: String(tx?.value || '0'),
-    //   nonce,
-    //   gasPrice: gas.get(),
-    //   gasLimit: '600000',
-    //   chainId,
-    // });
+    const nonce = await contractReader.nonce(account);
+
+    // todo: this would work only on hardware wallets
+    const signedTx = await walletService.signRawTransaction({
+      ...populated,
+      gasLimit: '600000',
+      gasPrice: gas.get(),
+      nonce,
+    } as any);
+
+    console.log({ signedTx });
 
     try {
       const { status, data } = await axios.post(apiUrl, {
         data: signedTx,
       });
-
-      console.log(data);
+      console.log(data, status);
     } catch (e) {
       console.log(e);
     }
