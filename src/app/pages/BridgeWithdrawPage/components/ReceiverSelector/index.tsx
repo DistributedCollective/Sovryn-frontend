@@ -13,8 +13,15 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { rskWalletAddressLength } from 'app/constants';
+import styles from './index.module.scss';
+import imgWarning from 'assets/images/warning_black_24dp.svg';
+import classNames from 'classnames';
 
-export function ReceiverSelector() {
+interface IReceiverSelectorProps {
+  address: string;
+}
+
+export function ReceiverSelector({ address }: IReceiverSelectorProps) {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.receiverSelector;
   const { targetChain, targetAsset, receiver } = useSelector(
@@ -41,6 +48,11 @@ export function ReceiverSelector() {
     return value && value.length === rskWalletAddressLength;
   }, [value]);
 
+  const shouldShowWarning = useMemo(() => value && value !== address, [
+    address,
+    value,
+  ]);
+
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
@@ -52,7 +64,16 @@ export function ReceiverSelector() {
             <Input value={value} onChange={val => setValue(val)} />
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-10 tw-mb-2">{t(trans.confirm)}</div>
+        <div className="text-center tw-mt-10 tw-mb-2">
+          {shouldShowWarning ? (
+            <span className={classNames(styles['address-warning'], 'tw-flex')}>
+              <img src={imgWarning} className="tw-mr-1.5" alt="warning" />
+              {t(trans.withdrawWarning)}
+            </span>
+          ) : (
+            t(trans.confirm)
+          )}
+        </div>
 
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
@@ -61,6 +82,8 @@ export function ReceiverSelector() {
           onClick={selectReceiver}
         />
       </div>
+
+      <div className="tw-text-xs tw-mt-28">{t(trans.withdrawDisclaimer)}</div>
     </div>
   );
 }

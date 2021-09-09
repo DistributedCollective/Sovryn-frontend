@@ -102,7 +102,7 @@ export function BridgeWithdrawPage() {
                 {step === WithdrawStep.TOKEN_SELECTOR && <TokenSelector />}
                 {step === WithdrawStep.AMOUNT_SELECTOR && <AmountSelector />}
                 {step === WithdrawStep.RECEIVER_SELECTOR && (
-                  <ReceiverSelector />
+                  <ReceiverSelector address={account} />
                 )}
                 {step === WithdrawStep.REVIEW && <ReviewStep />}
                 {[
