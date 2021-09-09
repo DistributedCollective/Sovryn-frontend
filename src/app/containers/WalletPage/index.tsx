@@ -7,7 +7,7 @@ import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
-import { Tab } from '../../components/Tab';
+import { OldTab } from '../../components/Tab/index.old';
 import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -50,21 +50,21 @@ export function WalletPage() {
         </div>
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
           <div className="tw-mr-2 tw-ml-2">
-            <Tab
+            <OldTab
               text={t(translations.walletPage.tabs.userAssets)}
               active={activeAssets === 0}
               onClick={() => setActiveAssets(0)}
             />
           </div>
           <div className="tw-mr-2 tw-ml-2">
-            <Tab
+            <OldTab
               text={t(translations.walletPage.tabs.vestedAssets)}
               active={activeAssets === 1}
               onClick={() => setActiveAssets(1)}
             />
           </div>
           <div>
-            <Tab
+            <OldTab
               text={t(translations.walletPage.tabs.userNFTS)}
               active={activeAssets === 2}
               onClick={() => setActiveAssets(2)}
@@ -94,21 +94,21 @@ export function WalletPage() {
         <div className="tw-container tw-max-w-none tw-mt-12">
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
             <div className="tw-mr-2 tw-ml-2">
-              <Tab
+              <OldTab
                 text={t(translations.topUpHistory.meta.title)}
                 active={activeHistory === 0}
                 onClick={() => setActiveHistory(0)}
               />
             </div>
             <div className="tw-mr-2 tw-ml-2">
-              <Tab
+              <OldTab
                 text={t(translations.swapHistory.title)}
                 active={activeHistory === 1}
                 onClick={() => setActiveHistory(1)}
               />
             </div>
             <div className="tw-mr-2 tw-ml-2">
-              <Tab
+              <OldTab
                 text={t(translations.vestedHistory.title)}
                 active={activeHistory === 2}
                 onClick={() => setActiveHistory(2)}

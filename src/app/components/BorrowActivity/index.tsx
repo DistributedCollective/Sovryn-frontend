@@ -10,7 +10,7 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { ActiveUserBorrows } from 'app/containers/ActiveUserBorrows';
 import { BorrowHistory } from 'app/containers/BorrowHistory/Loadable';
 
-import { Tab } from '../Tab';
+import { OldTab } from '../Tab/index.old';
 import { SkeletonRow } from '../Skeleton/SkeletonRow';
 
 interface Props {}
@@ -28,14 +28,14 @@ export function BorrowActivity(props: Props) {
 
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-start md:justify-content-end">
           <div className="tw-mr-4">
-            <Tab
+            <OldTab
               text={t(translations.borrowActivity.tabs.active)}
               active={activeBorrows}
               onClick={() => setActiveBorrows(true)}
             />
           </div>
           <div>
-            <Tab
+            <OldTab
               text={t(translations.borrowActivity.tabs.history)}
               active={!activeBorrows}
               onClick={() => setActiveBorrows(false)}
