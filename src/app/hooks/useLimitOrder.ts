@@ -1,6 +1,5 @@
 import { getContract } from '../../utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
-import { walletService } from '@sovryn/react-wallet';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from '../../types';
 
@@ -13,9 +12,9 @@ import {
 import { Order } from '../pages/SpotTradingPage/helpers';
 import { gas } from '../../utils/blockchain/gas-price';
 import { contractReader } from '../../utils/sovryn/contract-reader';
-import axios from 'axios';
-
-const apiUrl = 'http://18.217.222.156:3000/api/createOrder';
+import { useCallback } from 'react';
+import { TransactionConfig } from 'web3-core';
+import { useSendTx } from './useSendTx';
 
 const getDeadline = hoursFromNow =>
   ethers.BigNumber.from(Math.floor(Date.now() / 1000 + hoursFromNow * 3600));
@@ -28,7 +27,9 @@ export function useLimitOrder(
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
 
-  const createOrder = async () => {
+  const { send, ...tx } = useSendTx();
+
+  const createOrder = useCallback(async () => {
     let tx: CheckAndApproveResult = {};
     if (sourceToken !== Asset.RBTC) {
       tx = await contractWriter.checkAndApprove(
@@ -67,25 +68,13 @@ export function useLimitOrder(
 
     const nonce = await contractReader.nonce(account);
 
-    // todo: this would work only on hardware wallets
-    const signedTx = await walletService.signRawTransaction({
+    send({
       ...populated,
-      gasLimit: '600000',
+      gas: '600000',
       gasPrice: gas.get(),
       nonce,
-    } as any);
+    } as TransactionConfig);
+  }, [account, chainId, amount, sourceToken, targetToken, send]);
 
-    console.log({ signedTx });
-
-    try {
-      const { status, data } = await axios.post(apiUrl, {
-        data: signedTx,
-      });
-      console.log(data, status);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  return { createOrder };
+  return { createOrder, ...tx };
 }

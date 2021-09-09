@@ -67,7 +67,7 @@ export function TradeForm() {
     tokenAddress(sourceToken),
     tokenAddress(targetToken),
   );
-  const { createOrder } = useLimitOrder(sourceToken, targetToken, weiAmount);
+  const { createOrder, ...createTx } = useLimitOrder(sourceToken, targetToken, weiAmount);
   const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
   const { minReturn } = useSlippage(rateByPath, slippage);
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
@@ -227,6 +227,7 @@ export function TradeForm() {
         </div>
       </div>
       <TxDialog tx={tx} />
+      <TxDialog tx={createTx} />
     </>
   );
 }
