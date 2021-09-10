@@ -83,7 +83,12 @@ export function AmountSelector(props: AmountSelectorProps) {
     [balance, props],
   );
   return (
-    <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
+    <div
+      className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary"
+      style={{
+        maxWidth: '340px',
+      }}
+    >
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

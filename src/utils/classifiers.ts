@@ -65,6 +65,8 @@ export const gasLimit = {
   [TxType.LOCKED_SOV_CLAIM]: 3250000,
   [TxType.ORIGINS_SALE_BUY]: 300000,
   [TxType.CONVERT_RUSDT_TO_XUSD]: 150000,
+  [TxType.CROSS_CHAIN_DEPOSIT]: 280000,
+  [TxType.CROSS_CHAIN_WITHDRAW]: 280000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
