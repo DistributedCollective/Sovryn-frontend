@@ -23,20 +23,19 @@ import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { pairs } from '../../types';
-import { useSwapNetwork_rateByPath } from 'app/hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
@@ -45,6 +44,7 @@ export function TradeForm() {
   const { connected } = useWalletContext();
   const dispatch = useDispatch();
   const { checkMaintenance, States } = useMaintenance();
+  const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
@@ -62,16 +62,22 @@ export function TradeForm() {
   const { pairType } = useSelector(selectSpotTradingPage);
 
   const weiAmount = useWeiAmount(amount);
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
+
+  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    weiAmount,
   );
-  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
-    path,
+  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    targetToken,
+    account,
+    account,
     weiAmount,
     minReturn,
+    minReturn,
+    '0x',
   );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
@@ -218,7 +224,4 @@ export function TradeForm() {
       <TxDialog tx={tx} />
     </>
   );
-}
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
 }
