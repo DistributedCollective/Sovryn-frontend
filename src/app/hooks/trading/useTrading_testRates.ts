@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Asset } from 'types/asset';
-import { useSwapNetwork_resolveRate } from '../swap-network/useSwapNetwork_resolveRate';
-import { usePriceFeeds_QueryRate } from '../price-feeds/useQueryRate';
 import { bignumber, abs } from 'mathjs';
+import { Asset } from 'types/asset';
+import { usePriceFeeds_QueryRate } from '../price-feeds/useQueryRate';
+import { useSwapsExternal_getSwapExpectedReturn } from '../swap-network/useSwapsExternal_getSwapExpectedReturn';
 
 const diffPercentage = (A: string, B: string) => {
   // 100 * Math.abs( (A - B) / ( (A+B)/2 ) )
@@ -32,9 +32,9 @@ export function useTrading_testRates(
   const [diff, setDiff] = useState(0);
 
   const {
-    rate: swapRate,
+    value: swapRate,
     loading: loadingAmmRate,
-  } = useSwapNetwork_resolveRate(sourceAsset, destAsset, weiAmount);
+  } = useSwapsExternal_getSwapExpectedReturn(sourceAsset, destAsset, weiAmount);
 
   const { value, loading: loadingFeedRate } = usePriceFeeds_QueryRate(
     sourceAsset,

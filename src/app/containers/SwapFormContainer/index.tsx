@@ -8,9 +8,6 @@ import { Asset } from '../../../types';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -32,15 +29,13 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 import styles from './index.module.scss';
 
 const s = translations.swapTradeForm;
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-}
 
 interface Option {
   key: Asset;
@@ -168,19 +163,23 @@ export function SwapFormContainer() {
     }
   }, [tokens, sourceToken, targetToken, tokenBalance]);
 
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
+  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    weiAmount,
   );
-
-  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
 
   const { minReturn } = useSlippage(rateByPath, slippage);
 
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
-    path,
+  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    targetToken,
+    account,
+    account,
     weiAmount,
+    '0',
     minReturn,
+    '0x',
   );
 
   const location = useLocation<IPromotionLinkState>();
