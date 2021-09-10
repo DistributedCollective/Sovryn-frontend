@@ -1,14 +1,11 @@
-/**
- *
- * AddToMarginDialog
- *
- */
 import React, { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import cn from 'classnames';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { DummyField } from '../../../../components/DummyField';
@@ -28,14 +25,15 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
 
-interface Props {
+interface IAddToMarginDialogProps {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
   liquidationPrice?: React.ReactNode;
+  positionSize?: string;
 }
 
-export function AddToMarginDialog(props: Props) {
+export function AddToMarginDialog(props: IAddToMarginDialogProps) {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     props.item?.collateralToken || '',
@@ -45,7 +43,6 @@ export function AddToMarginDialog(props: Props) {
   );
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
-
   const weiAmount = useWeiAmount(amount);
 
   const { send, ...tx } = useApproveAndAddMargin(
@@ -72,22 +69,59 @@ export function AddToMarginDialog(props: Props) {
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
+          <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.addToMargin.title)}
           </h1>
 
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw--mx-10 tw-mb-6 tw-rounded-lg tw-text-xs">
+            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
+              <div className="tw-w-1/3 tw-text-gray-10">
+                {t(translations.marginTradePage.tradeDialog.pair)}
+              </div>
+              <div className="tw-text-sov-white tw-ml-4 tw-w-1/3">
+                {pair.chartSymbol}
+              </div>
+            </div>
+            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
+              <div className="tw-w-1/3 tw-text-gray-10">
+                {t(translations.marginTradePage.tradeDialog.leverage)}
+              </div>
+              <div
+                className={cn('tw-text-sov-white tw-ml-4 tw-w-1/3', {
+                  'tw-text-trade-short': loanToken.asset !== pair.longAsset,
+                  'tw-text-trade-long': loanToken.asset === pair.longAsset,
+                })}
+              >
+                {leverageFromMargin(props.item.startMargin)}x
+              </div>
+            </div>
+            <div className="tw-flex tw-flex-row tw-justify-center">
+              <div className="tw-w-1/3 tw-text-gray-10">
+                {t(translations.marginTradePage.tradeDialog.positionSize)}
+              </div>
+              <div className="tw-text-sov-white tw-ml-4 tw-w-1/3">
+                {props.positionSize}{' '}
+                <AssetRenderer asset={tokenDetails.asset} />
+              </div>
+            </div>
+          </div>
+
           <FormGroup
             label={t(translations.addToMargin.amount)}
-            className="tw-mb-12"
+            className="tw-mb-6"
           >
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
               asset={tokenDetails.asset}
+              showBalance={true}
             />
           </FormGroup>
 
-          <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
+          <FormGroup
+            label={t(translations.addToMargin.liquidationPrice)}
+            className="tw-mb-5"
+          >
             <DummyField>
               {props.liquidationPrice || (
                 <LiquidationPrice
@@ -142,7 +176,3 @@ export function AddToMarginDialog(props: Props) {
     </>
   );
 }
-
-AddToMarginDialog.defaultProps = {
-  item: {},
-};

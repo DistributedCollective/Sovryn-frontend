@@ -22,24 +22,12 @@ export function DialogButton({
   return (
     <div className="tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-items-center tw-gap-3">
       <button
-        className={cn('tw-btn-dialog tw-truncate tw-min-w-1/2', className)}
+        className={cn('tw-btn-dialog tw-truncate tw-min-w-full', className)}
         onClick={onConfirm}
         {...props}
       >
         {confirmLabel}
       </button>
-      {cancelLabel && onCancel && (
-        <button
-          className={cn(
-            'tw-btn-dialog tw-truncate tw-btn-dialog__secondary tw-min-w-1/2',
-            className,
-          )}
-          onClick={onCancel}
-          type="button"
-        >
-          {cancelLabel}
-        </button>
-      )}
     </div>
   );
 }

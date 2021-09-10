@@ -5,6 +5,7 @@ import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
+import { AvailableBalance } from '../../../components/AvailableBalance';
 import { Input } from '../Input';
 import {
   stringToFixedPrecision,
@@ -21,6 +22,7 @@ interface Props {
   placeholder?: string;
   maxAmount?: string;
   readonly?: boolean;
+  showBalance?: boolean;
 }
 
 export function AmountInput({
@@ -33,6 +35,7 @@ export function AmountInput({
   subText,
   maxAmount,
   readonly,
+  showBalance,
 }: Props) {
   return (
     <>
@@ -57,6 +60,7 @@ export function AmountInput({
           asset={asset}
           maxAmount={maxAmount}
           onChange={onChange}
+          showBalance={showBalance}
         />
       )}
     </>
@@ -68,6 +72,7 @@ const amounts = [10, 25, 50, 75, 100];
 interface AmountSelectorProps {
   asset?: Asset;
   maxAmount?: string;
+  showBalance?: boolean;
   onChange: (value: string, isTotal: boolean) => void;
 }
 
@@ -96,15 +101,22 @@ export function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value), isTotal);
   };
   return (
-    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
-      {amounts.map(value => (
-        <AmountSelectorButton
-          key={value}
-          text={`${value}%`}
-          onClick={() => handleChange(value)}
-        />
-      ))}
-    </div>
+    <>
+      {props.showBalance && (
+        <div className="tw-mt-2">
+          <AvailableBalance asset={props.asset || Asset.RBTC} />
+        </div>
+      )}
+      <div className="tw-h-5 tw-mt-2 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+        {amounts.map(value => (
+          <AmountSelectorButton
+            key={value}
+            text={`${value}%`}
+            onClick={() => handleChange(value)}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -117,7 +129,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      className="tw-h-5 tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
     >
       {props.text}
     </button>

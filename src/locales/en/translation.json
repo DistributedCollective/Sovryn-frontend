@@ -190,7 +190,11 @@
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
       "amount": "Amount",
-      "startPrice": "Start Price"
+      "startPrice": "Start Price",
+      "advancedSettings": "Advanced Settings",
+      "esEntryPrice": "Estimated Entry Price:",
+      "esLiquidationPrice": "Estimated Liquidation Price:",
+      "interestAPY": "Interest APY:"
     },
     "buttons": {
       "submit": "Place Trade"
@@ -1416,9 +1420,10 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Collateral:",
+        "asset": "Asset to receive:",
         "leverage": "Leverage:",
-        "amount": "Amount:",
+        "amount": "Trade Amount:",
+        "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
       },
@@ -1432,17 +1437,37 @@
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
-      "direction": "Direction:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
       "position": {
         "long": "Long",
         "short": "Short"
       }
     },
-    "openPositions": "Open Positions",
-    "tradingHistory": "Trading History"
+    "openPositions": "Open positions",
+    "tradingHistory": "Margin order history",
+    "notificationSettingsDialog": {
+      "title": "Margin Trade notification settings",
+      "notifyVia": "Notify via",
+      "telegramHandle": "Enter Telegram handle",
+      "discordHandle": "Enter Discord handle",
+      "usernamePlaceholder": "@username",
+      "receiveNotificationTitle": "You will receive a notification at",
+      "notificationEvents": {
+        "1": "25% margin",
+        "2": "Liquidation"
+      },
+      "submit": "Confirm"
+    },
+    "notificationsButton": {
+      "enable": "Enable notifications",
+      "enabled": "Notifications enabled"
+    }
   },
   "spotTradingPage": {
     "meta": {
@@ -1843,8 +1868,8 @@
   },
   "addToMargin": {
     "title": "Add to Margin",
-    "amount": "Amount to Add:",
-    "liquidationPrice": "Liquidation Price:"
+    "amount": "Increase margin by:",
+    "liquidationPrice": "Estimated Liquidation price:"
   },
   "openPositionTable": {
     "direction": "Direction",
@@ -1857,7 +1882,8 @@
     "actions": "Actions",
     "noData": "No data",
     "cta": {
-      "margin": "Add to Margin",
+      "increase": "Increase",
+      "margin": "Margin",
       "close": "Close"
     }
   },

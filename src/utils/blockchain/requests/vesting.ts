@@ -1,5 +1,6 @@
-import { contractWriter } from 'utils/sovryn/contract-writer';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { contractWriter } from 'utils/sovryn/contract-writer';
+
 import VestingABI from '../abi/Vesting.json';
 
 export function vesting_delegate(

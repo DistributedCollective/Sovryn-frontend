@@ -65,6 +65,7 @@ module.exports = {
       'gray-7': '#8e8e8e',
       'gray-8': '#a2a2a2',
       'gray-9': '#c4c4c4',
+      'gray-10': '#d9d9d9',
       'sov-white': '#e8e8e8',
       white: '#ffffff',
 
