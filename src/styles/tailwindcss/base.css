@@ -22,7 +22,7 @@
     @apply tw-font-body;
   }
 
-  :focus {
+  *:focus {
     outline: 0 !important;
     outline-offset: 0;
   }
