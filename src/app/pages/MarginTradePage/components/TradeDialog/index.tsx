@@ -29,22 +29,16 @@ import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { Dialog } from '../../../../containers/Dialog';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
-import { DialogButton } from 'app/components/Form/DialogButton';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../../../types';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
-import { translations } from '../../../../../locales/i18n';
-import { useTranslation, Trans } from 'react-i18next';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
 import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
 import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
+import { selectMarginTradePage } from '../../selectors';
+import { actions } from '../../slice';
 
 const maintenanceMargin = 15000000000000000000;
 

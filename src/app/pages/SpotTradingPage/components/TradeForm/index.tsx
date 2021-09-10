@@ -22,7 +22,7 @@ import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { pairs, pairList } from '../../types';
+import { pairs } from '../../types';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
