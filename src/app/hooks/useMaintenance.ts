@@ -14,6 +14,7 @@ enum States {
   WITHDRAW_LEND = 'withdrawLend',
   START_BORROW = 'startBorrow',
   STOP_BORROW = 'stopBorrow',
+  DEPOSIT_COLLATERAL_BORROW = 'depositCollateralBorrow',
   ADD_LIQUIDITY = 'addLiquidity',
   REMOVE_LIQUIDITY = 'removeLiquidity',
   FASTBTC = 'fastBTC',

@@ -11,6 +11,8 @@ export const initialState: ContainerState = {
   borrowAmount: '',
   repayItem: null,
   repayModalOpen: false,
+  depositCollateralItem: null,
+  depositCollateralModalOpen: false,
 };
 
 const lendBorrowSovrynSlice = createSlice({
@@ -33,6 +35,14 @@ const lendBorrowSovrynSlice = createSlice({
     closeRepayModal(state) {
       state.repayItem = null;
       state.repayModalOpen = false;
+    },
+    openDepositCollateral(state, { payload }: PayloadAction<string>) {
+      state.depositCollateralItem = payload;
+      state.depositCollateralModalOpen = true;
+    },
+    closeDepositCollateral(state) {
+      state.depositCollateralItem = null;
+      state.depositCollateralModalOpen = false;
     },
   },
 });
