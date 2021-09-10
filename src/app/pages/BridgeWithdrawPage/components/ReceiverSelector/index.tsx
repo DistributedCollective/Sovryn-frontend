@@ -24,6 +24,7 @@ interface IReceiverSelectorProps {
 export function ReceiverSelector({ address }: IReceiverSelectorProps) {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.receiverSelector;
+  const [showWarning, setShowWarning] = useState(false);
   const { targetChain, targetAsset, receiver } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -48,30 +49,45 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
     return value && value.length === rskWalletAddressLength;
   }, [value]);
 
-  const shouldShowWarning = useMemo(() => value && value !== address, [
-    address,
-    value,
-  ]);
-
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+    <div className="tw-flex tw-flex-col tw-items-center">
+      <div className="tw-flex tw-flex-col tw-items-center">
+        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-96">
           {t(trans.title, { currentNetwork })}
         </div>
         <div className="tw-w-80">
           <FormGroup label={`Receiving ${targetAsset} Address`}>
-            <Input value={value} onChange={val => setValue(val)} />
+            <Input
+              value={value}
+              onChange={val => setValue(val)}
+              onFocus={() => setShowWarning(true)}
+            />
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-10 tw-mb-2">
-          {shouldShowWarning ? (
-            <span className={classNames(styles['address-warning'], 'tw-flex')}>
-              <img src={imgWarning} className="tw-mr-1.5" alt="warning" />
-              {t(trans.withdrawWarning)}
-            </span>
+        <div className={classNames('text-center tw-pt-1', styles.warning)}>
+          {showWarning ? (
+            <div
+              className={classNames(
+                styles['address-warning'],
+                'tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center',
+              )}
+            >
+              <span className={'tw-flex tw-items-center'}>
+                <img src={imgWarning} className="tw-mr-1.5" alt="warning" />
+                {t(trans.withdrawWarning)}
+              </span>
+
+              <div
+                className={classNames(
+                  styles['withdraw-disclaimer'],
+                  'tw-text-xs tw-mt-4',
+                )}
+              >
+                {t(trans.withdrawDisclaimer)}
+              </div>
+            </div>
           ) : (
-            t(trans.confirm)
+            <div className="tw-mb-12">{t(trans.confirm)}</div>
           )}
         </div>
 
@@ -82,8 +98,6 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
           onClick={selectReceiver}
         />
       </div>
-
-      <div className="tw-text-xs tw-mt-28">{t(trans.withdrawDisclaimer)}</div>
     </div>
   );
 }
