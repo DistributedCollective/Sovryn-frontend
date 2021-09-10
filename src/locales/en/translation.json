@@ -1454,7 +1454,9 @@
       "sell_cta": "PLACE SELL",
       "amountReceived": "Amount Received",
       "buy": "BUY",
-      "sell": "SELL"
+      "sell": "SELL",
+      "market": "Market",
+      "limit": "Limit"
     },
     "priceHistory": {
       "turnover": "Turnover",

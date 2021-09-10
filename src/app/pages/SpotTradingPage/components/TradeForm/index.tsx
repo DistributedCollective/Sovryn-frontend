@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Select } from 'app/components/Form/Select';
-import { Option } from 'app/components/Form/Select/types';
-import { Text } from '@blueprintjs/core';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { Button } from '../Button';
@@ -11,12 +8,11 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
-import { actions } from '../../slice';
-import { renderAssetPair } from 'app/components/Form/Select/renderers';
 import { BuySell } from '../BuySell';
-import { getAmmSpotPairs, SpotPairType, TradingTypes } from '../../types';
+import { OrderType } from '../OrderType';
+import { OrderTypes, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
@@ -44,11 +40,11 @@ import { useLimitOrder } from 'app/hooks/useLimitOrder';
 export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
-  const dispatch = useDispatch();
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
+  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [slippage, setSlippage] = useState(0.5);
   const [amount, setAmount] = useState<string>('');
@@ -67,7 +63,11 @@ export function TradeForm() {
     tokenAddress(sourceToken),
     tokenAddress(targetToken),
   );
-  const { createOrder, ...createTx } = useLimitOrder(sourceToken, targetToken, weiAmount);
+  const { createOrder, ...createTx } = useLimitOrder(
+    sourceToken,
+    targetToken,
+    weiAmount,
+  );
   const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
   const { minReturn } = useSlippage(rateByPath, slippage);
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
@@ -116,36 +116,7 @@ export function TradeForm() {
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-340 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
-
-          <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.pair)}
-            className="tw-mt-6"
-          >
-            <Select
-              value={`${linkPairType || pairType}`}
-              options={getAmmSpotPairs().map(pair => ({
-                key: `${pair}`,
-                label: pairs[pair],
-              }))}
-              onChange={value =>
-                dispatch(
-                  actions.setPairType((value as unknown) as SpotPairType),
-                )
-              }
-              filterable={true}
-              itemRenderer={renderAssetPair}
-              valueRenderer={(item: Option<string, Asset[], any>) => (
-                <Text ellipsize className="tw-text-center">
-                  <AssetRenderer asset={item.label[0]} /> -{' '}
-                  <AssetRenderer asset={item.label[1]} />
-                </Text>
-              )}
-            />
-          </FormGroup>
-          <div className="tw-mb-6 tw-mt-2">
-            <AvailableBalance asset={sourceToken} />
-          </div>
-
+          <OrderType value={orderType} onChange={setOrderType} />
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
@@ -154,6 +125,9 @@ export function TradeForm() {
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
+            <div className="tw-mb-6 tw-mt-2">
+              <AvailableBalance asset={sourceToken} />
+            </div>
           </FormGroup>
 
           <ArrowDown />

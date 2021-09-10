@@ -37,7 +37,7 @@ const categories = [
 export const PairSelect: React.FC = () => {
   const ref = useRef(null);
   const { pairType } = useSelector(selectSpotTradingPage);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('SOV');
 
@@ -95,7 +95,11 @@ export const PairSelect: React.FC = () => {
             ))}
           </div>
           <div className="tw-mt-3">
-            <PairsList category={category} search={search} />
+            <PairsList
+              category={category}
+              search={search}
+              closePairList={() => setOpen(false)}
+            />
           </div>
         </div>
       )}
@@ -106,9 +110,14 @@ export const PairSelect: React.FC = () => {
 interface IPairsList {
   category: string;
   search: string;
+  closePairList: () => void;
 }
 
-export const PairsList: React.FC<IPairsList> = ({ category, search }) => {
+export const PairsList: React.FC<IPairsList> = ({
+  category,
+  search,
+  closePairList,
+}) => {
   const dispatch = useDispatch();
 
   const list = useMemo(() => {
@@ -132,6 +141,7 @@ export const PairsList: React.FC<IPairsList> = ({ category, search }) => {
             <tr
               onClick={() => {
                 dispatch(actions.setPairType(pair));
+                closePairList();
               }}
               className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75"
             >

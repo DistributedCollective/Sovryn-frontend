@@ -44,7 +44,7 @@ export function SpotTradingPage() {
         />
       </Helmet>
       <Header />
-      {/* <PairNavbar /> */}
+      <PairNavbar />
       <div
         className={cn('tw-container tw-mt-9 tw-mx-auto tw-px-6', {
           'tw-hidden': !pairType.includes('SOV'),
