@@ -45,7 +45,7 @@ export const DepositCollateralHandler: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const blockSync = useBlockSync();
 
-  const { value: loan, loading: loanLoading, getLoan } = useGetLoan();
+  const { value: loan, getLoan } = useGetLoan();
 
   useEffect(() => {
     if (depositCollateralItem) {
