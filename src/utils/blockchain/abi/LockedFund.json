@@ -215,6 +215,37 @@
         "internalType": "uint256",
         "name": "_amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_basisPoint",
+        "type": "uint256"
+      }
+    ],
+    "name": "WaitedUnlockedDeposited",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_userAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
       }
     ],
     "name": "Withdrawn",
@@ -373,9 +404,79 @@
         "internalType": "uint256",
         "name": "_basisPoint",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedOrWaited",
+        "type": "uint256"
+      }
+    ],
+    "name": "depositLocked",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_userAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_cliff",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_duration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_basisPoint",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockedOrWaited",
+        "type": "uint256"
       }
     ],
     "name": "depositVested",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_userAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_basisPoint",
+        "type": "uint256"
+      }
+    ],
+    "name": "depositWaitedUnlocked",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -741,21 +842,6 @@
       }
     ],
     "name": "withdrawAndStakeTokens",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_userAddress",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawAndStakeTokensFrom",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

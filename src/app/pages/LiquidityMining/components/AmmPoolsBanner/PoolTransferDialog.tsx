@@ -15,11 +15,11 @@ export function PoolTransferDialog({ ...props }: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+        <div className="tw-mw-340 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.liquidity.PoolTransferDialog.title)}
           </h1>
-          <div className="tw-mb-6 tw-text-white tw-text-center tw-font-light tw-text-sm">
+          <div className="tw-mb-6 tw-text-sov-white tw-text-center tw-font-light tw-text-sm">
             {t(translations.liquidity.PoolTransferDialog.subtitle)}
           </div>
           <div>{props.children}</div>

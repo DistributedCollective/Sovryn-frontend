@@ -3,7 +3,7 @@ import { Asset } from 'types/asset';
 import docIcon from 'assets/images/tokens/doc.svg';
 import usdtIcon from 'assets/images/tokens/usdt.svg';
 import xusdIcon from 'assets/images/tokens/xusd.svg';
-import rbtcIcon from 'assets/images/tokens/rbtc.png';
+import rbtcIcon from 'assets/images/tokens/rbtc.svg';
 import bproIcon from 'assets/images/tokens/bpro.svg';
 import sovIcon from 'assets/images/tokens/sov.svg';
 import ethIcon from 'assets/images/tokens/eth.svg';
@@ -18,33 +18,55 @@ export class AssetsDictionary {
     [
       [
         Asset.RBTC,
-        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon),
+        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon, true),
       ],
-      [Asset.SOV, new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon)],
-      [Asset.XUSD, new AssetDetails(Asset.XUSD, 'XUSD', 'XUSD', 18, xusdIcon)],
-      [Asset.ETH, new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon)],
+      [
+        Asset.SOV,
+        new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon, true),
+      ],
+      [
+        Asset.XUSD,
+        new AssetDetails(Asset.XUSD, 'XUSD', 'XUSD', 18, xusdIcon, true),
+      ],
+      [
+        Asset.ETH,
+        new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon, true),
+      ],
       [
         Asset.BNB,
-        new AssetDetails(Asset.BNB, 'BNB', 'Binance Coin', 18, bnbIcon),
+        new AssetDetails(Asset.BNB, 'BNB', 'Binance Coin', 18, bnbIcon, true),
       ],
-      [Asset.USDT, new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon)],
+      [
+        Asset.USDT,
+        new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon, true),
+      ],
       [
         Asset.MOC,
-        new AssetDetails(Asset.MOC, 'MoC', 'Money on Chain', 18, mocIcon),
+        new AssetDetails(Asset.MOC, 'MoC', 'Money on Chain', 18, mocIcon, true),
       ],
       [
         Asset.DOC,
-        new AssetDetails(Asset.DOC, 'DoC', 'Dollar on Chain', 18, docIcon),
+        new AssetDetails(
+          Asset.DOC,
+          'DoC',
+          'Dollar on Chain',
+          18,
+          docIcon,
+          true,
+        ),
       ],
       [
         Asset.BPRO,
-        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon),
+        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon, true),
       ],
       [
         Asset.CSOV,
-        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon),
+        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon, false),
       ],
-      [Asset.FISH, new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon)],
+      [
+        Asset.FISH,
+        new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, true),
+      ],
     ],
   );
 

@@ -10,8 +10,9 @@ import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
-const assetsWithoutOracle = [
+const assetsWithoutOracle: Asset[] = [
   Asset.SOV,
+  Asset.FISH,
   Asset.CSOV,
   Asset.ETH,
   Asset.MOC,
@@ -19,7 +20,7 @@ const assetsWithoutOracle = [
   Asset.BNB,
 ];
 
-const excludeAssets = [Asset.FISH];
+const excludeAssets: Asset[] = [Asset.CSOV];
 
 /**
  * use this only once
@@ -84,7 +85,7 @@ export function usePriceFeeds_tradingPairRates() {
     )?.value?.rate;
 
     for (let asset of assetsWithoutOracle) {
-      if (asset === Asset.CSOV) continue;
+      if (!AssetsDictionary.get(asset)?.hasAMM) continue;
       try {
         const btcToAsset = await getSwapRate(Asset.RBTC, asset, '1');
 
@@ -127,6 +128,7 @@ export function usePriceFeeds_tradingPairRates() {
   }, [getRate, getSwapRate]);
 
   useEffect(() => {
+    dispatch(actions.getPrices());
     getRates()
       .then(e => dispatch(actions.setPrices(JSON.parse(JSON.stringify(e)))))
       .catch(console.error);

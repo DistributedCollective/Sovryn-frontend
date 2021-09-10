@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { FastBtcDialogState, TxId } from '../types';
-import styles from './transaction.module.css';
+import styles from './transaction.module.scss';
 import { prettyTx } from '../../../../utils/helpers';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
 import { Button } from '@blueprintjs/core';
@@ -38,7 +38,7 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
         </i>
       </div>
 
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
         <div className={styles.amountBlock}>
           <div className={styles.amountBlockBtc}>
             {toNumberFormat(tx.value, 4)} BTC
@@ -46,9 +46,9 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
         </div>
       </div>
 
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center">
         <div className={styles.txData}>
-          <div className="px-1">
+          <div className="tw-px-1">
             <div>
               <strong>{t(translations.fastBtcDialog.transaction.from)}</strong>{' '}
               {prettyTx(state.deposit.address)}
@@ -66,8 +66,8 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
                   data-name="Path 2946"
                   d="M99.026,15.924,88.13,5v8.193H68.986v5.462H88.13v8.193Z"
                   transform="translate(35.312 -65.486) rotate(90)"
-                  fill="#e9eae9"
-                  stroke="#e9eae9"
+                  fill="#e8e8e8"
+                  stroke="#e8e8e8"
                   strokeWidth="7"
                 />
               </svg>
@@ -79,21 +79,21 @@ export function TransactionScreen({ state, dispatch, onClose }: Props) {
             </div>
           </div>
 
-          <div className="mt-4">
-            <div className="mt-2">
+          <div className="tw-mt-8">
+            <div className="tw-mt-2">
               <strong>{t(translations.fastBtcDialog.transaction.hash)}</strong>{' '}
               <LinkToExplorer
                 txHash={tx.txHash}
                 realBtc={state.txId === TxId.DEPOSIT}
-                className="text-gold font-weight-light"
+                className="tw-text-primary tw-font-light"
               />
             </div>
           </div>
 
-          <div className="mt-5 justify-content-center items-center d-flex flex-row">
+          <div className="tw-mt-12 tw-justify-center tw-items-center tw-flex tw-flex-row">
             <Button
               minimal
-              className="text-gold button-round font-size-lg mx-auto"
+              className="button-round tw-text-primary tw-text-lg tw-mx-auto"
               text={t(translations.fastBtcDialog.transaction.close)}
               onClick={onClose}
             />

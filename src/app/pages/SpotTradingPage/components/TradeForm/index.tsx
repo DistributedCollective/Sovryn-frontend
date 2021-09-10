@@ -16,7 +16,7 @@ import { selectSpotTradingPage } from '../../selectors';
 import { actions } from '../../slice';
 import { renderAssetPair } from 'app/components/Form/Select/renderers';
 import { BuySell } from '../BuySell';
-import { SpotPairType, TradingTypes } from '../../types';
+import { getAmmSpotPairs, SpotPairType, TradingTypes } from '../../types';
 import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
@@ -36,6 +36,8 @@ import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -51,6 +53,11 @@ export function TradeForm() {
   const [amount, setAmount] = useState<string>('');
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
+
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
+
+  const [linkPairType] = useState(location.state?.spotTradingPair);
 
   const { pairType } = useSelector(selectSpotTradingPage);
 
@@ -87,9 +94,16 @@ export function TradeForm() {
   }, [balance, minReturn, sourceToken, weiAmount]);
 
   useEffect(() => {
-    setSourceToken(pairs[pairType][tradeType === TradingTypes.BUY ? 1 : 0]);
-    setTargetToken(pairs[pairType][tradeType === TradingTypes.BUY ? 0 : 1]);
-  }, [pairType, tradeType]);
+    setSourceToken(
+      pairs[linkPairType || pairType][tradeType === TradingTypes.BUY ? 1 : 0],
+    );
+    setTargetToken(
+      pairs[linkPairType || pairType][tradeType === TradingTypes.BUY ? 0 : 1],
+    );
+  }, [linkPairType, pairType, tradeType]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => linkPairType && history.replace(location.pathname), []);
 
   return (
     <>
@@ -104,7 +118,7 @@ export function TradeForm() {
         />
       )}
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
 
           <FormGroup
@@ -112,8 +126,8 @@ export function TradeForm() {
             className="tw-mt-6"
           >
             <Select
-              value={`${pairType}`}
-              options={pairList.map(pair => ({
+              value={`${linkPairType || pairType}`}
+              options={getAmmSpotPairs().map(pair => ({
                 key: `${pair}`,
                 label: pairs[pair],
               }))}
@@ -182,7 +196,7 @@ export function TradeForm() {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,
@@ -193,7 +207,7 @@ export function TradeForm() {
           )}
         </div>
         {!spotLocked && (
-          <div className="tw-mw-320 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+          <div className="tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
             <Button
               text={t(
                 tradeType === TradingTypes.BUY

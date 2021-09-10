@@ -16,6 +16,7 @@ export enum TxType {
   STAKING_WITHDRAW = 'staking-withdraw',
   STAKING_EXTEND = 'staking-extend',
   STAKING_DELEGATE = 'staking-delegate',
+  VESTING_DELEGATE = 'vesting-delegate',
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',
@@ -38,8 +39,13 @@ export enum TxType {
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
+  STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
   ORIGINS_SALE_BUY = 'origins_sale_buy',
   CONVERT_RUSDT_TO_XUSD = 'convert_rusdt_to_xusd',
+  LOCKED_FUND_WAITED_CLAIM = 'locked_fund_waited_claim',
+  LOCKED_FUND_CREATE_STAKE = 'locked_fund_create_stake',
+  CROSS_CHAIN_DEPOSIT = 'cross_chain_deposit',
+  CROSS_CHAIN_WITHDRAW = 'cross_chain_withdraw',
 }
 
 export enum TxStatus {

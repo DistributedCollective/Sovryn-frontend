@@ -1,0 +1,7 @@
+.image {
+  @apply tw-w-full tw-h-full 
+    tw-rounded-2xl tw-border tw-border-solid tw-border-blue-1
+    tw-object-cover tw-object-left;
+
+  min-height: 240px;
+}

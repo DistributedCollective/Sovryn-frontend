@@ -17,6 +17,7 @@ import { useUserPoolData } from '../../hooks/useUserPoolData';
 import { Asset } from '../../../../../types';
 import { useCachedAssetRate } from '../../../../hooks/trading/useCachedAssetPrice';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
+import { Balance, UserInfo } from './types';
 
 interface Props {
   pool: LiquidityPool;
@@ -69,11 +70,12 @@ export function UserPoolInfo({
   useEffect(() => {
     if (!account) return;
     const getInfo = async (token: LiquidityPoolSupplyAsset) => {
-      const info = (await contractReader.call(
+      const info = await contractReader.call<UserInfo>(
         'liquidityMiningProxy',
         'getUserInfo',
         [token.getContractAddress(), account],
-      )) as any;
+      );
+
       return {
         amount: info ? info.amount : '0',
         reward: info ? info.accumulatedReward : '0',
@@ -87,17 +89,18 @@ export function UserPoolInfo({
       const {
         0: balance,
         // 1: fee,
-      } = await contractReader.call(
+      } = await contractReader.call<Balance>(
         getAmmContractName(pool.poolAsset),
         'removeLiquidityReturnAndFee',
         [token.getContractAddress(), amount],
       );
+
       return balance;
     };
 
     const retrieveV2Balance = async (
       token: LiquidityPoolSupplyAsset,
-      setReward: (value: any) => void,
+      setReward: (value: string) => void,
     ) => {
       const info = await getInfo(token);
       setReward(info.reward);
@@ -107,21 +110,23 @@ export function UserPoolInfo({
     const retrieveV1Balance = async () => {
       const info = await getInfo(token1);
       setInfoReward1(info.reward);
-      const supply = (await contractReader.call(
+      const supply = await contractReader.call<string>(
         getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
         'totalSupply',
         [],
-      )) as any;
-      const converterBalance1 = (await contractReader.call(
+      );
+
+      const converterBalance1 = await contractReader.call<string>(
         getTokenContractName(token1.asset),
         'balanceOf',
         [getAmmContract(pool.poolAsset).address],
-      )) as any;
-      const converterBalance2 = (await contractReader.call(
+      );
+
+      const converterBalance2 = await contractReader.call<string>(
         getTokenContractName(token2.asset),
         'balanceOf',
         [getAmmContract(pool.poolAsset).address],
-      )) as any;
+      );
 
       const balance1 = bignumber(info.amount)
         .div(supply)

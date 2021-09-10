@@ -4,28 +4,27 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
 import { translations } from 'locales/i18n';
 
 import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import { SwapFormContainer } from '../SwapFormContainer';
 import { SwapHistory } from '../SwapHistory';
+
+import styles from './index.module.scss';
 
 interface Props {}
 
 export function SwapPage(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
-
-  useEffect(() => {
-    const bodyElement = document.getElementsByTagName('body')[0];
-    bodyElement.style.background = '#161616';
-  }, []);
 
   return (
     <>
@@ -34,14 +33,12 @@ export function SwapPage(props: Props) {
         <meta name="description" content={t(translations.swap.meta)} />
       </Helmet>
       <Header />
-      <div className="container swap-page">
-        <div className="row">
-          <div className="col-12">
-            <SwapFormContainer />
-          </div>
+      <div className={classNames(styles.swapPage, 'tw-container')}>
+        <div>
+          <SwapFormContainer />
         </div>
-        <div className="row">
-          <div className="col-12 swap-history-table-container">
+        <div>
+          <div className={styles.swapHistoryTableContainer}>
             {!account ? (
               <SkeletonRow
                 loadingText={t(translations.topUpHistory.walletHistory)}
@@ -53,6 +50,7 @@ export function SwapPage(props: Props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

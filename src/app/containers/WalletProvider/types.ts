@@ -1,11 +1,13 @@
 /* --- STATE --- */
 
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
+import { Nullable } from '../../../types';
 
 export interface WalletProviderState {
-  address: string;
-  chainId: number;
-  networkId: number;
+  address?: string;
+  chainId?: number;
+  networkId?: number;
+  bridgeChainId: Nullable<number>;
   connected: boolean;
   connecting: boolean;
   blockNumber: number;
@@ -14,6 +16,7 @@ export interface WalletProviderState {
   transactions: any;
   transactionStack: string[];
   assetRates: CachedAssetRate[];
+  assetRatesLoading: boolean;
   processedBlocks: number[];
   // whitelisting
   whitelist: IWhitelist;

@@ -10,9 +10,10 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { Sovryn } from 'utils/sovryn';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import { AbiItem } from 'web3-utils';
 
 export function usePoolToken(pool: Asset, asset: Asset) {
-  const { value, loading, error } = useCacheCallWithValue(
+  const { loading, error } = useCacheCallWithValue(
     getAmmContractName(pool),
     'poolToken',
     ethGenesisAddress,
@@ -25,15 +26,10 @@ export function usePoolToken(pool: Asset, asset: Asset) {
     ethGenesisAddress,
   );
 
-  useEffect(() => {
-    if (value !== ethGenesisAddress) {
-      console.log(`${pool}_${asset} v2 poolToken: `, value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
+  // do not remove, we need this when adding new pools
   useEffect(() => {
     if (anchor !== ethGenesisAddress) {
+      // todo: hide console output (show only when flagged, for example using 'debug' package).
       console.log(`${pool}_${asset} v1 poolToken: `, anchor);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +58,7 @@ export function useLocalPoolToken(pool: Asset, asset: Asset) {
       ) {
         Sovryn.addWriteContract(contractName, {
           address: value,
-          abi: TokenAbi as any,
+          abi: TokenAbi as AbiItem[],
         });
       }
       if (
@@ -72,7 +68,7 @@ export function useLocalPoolToken(pool: Asset, asset: Asset) {
       ) {
         Sovryn.addReadContract(contractName, {
           address: value,
-          abi: TokenAbi as any,
+          abi: TokenAbi as AbiItem[],
         });
       }
     }

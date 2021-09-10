@@ -6,41 +6,45 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: staging_environment
+      name: Staging
       url: https://staging.sovryn.app
     concurrency:
-      group: staging_environment,
+      group: Staging
       cancel-in-progress: true
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      REACT_APP_NETWORK: 'mainnet'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Apply netrc creds for charting-library dependency
-        uses: little-core-labs/netrc-creds@master
-        with:
-          machine: github.com
-          login: ${{ secrets.CI_USER_TOKEN }}
 
-      - name: Install and Build
+      - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 'lts/erbium'
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn build
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@distributedcollective'
+
+      - name: Install NPM dependencies
+        run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_ACCESS_TOKEN }}
+
+      - name: Build
+        run: yarn build
+        env:
+          REACT_APP_NETWORK: 'mainnet'
+          REACT_APP_BYPASS_MAINTENANCE: 'true'
 
       - name: Deploy to S3
-        uses: reggionick/s3-deploy@v3
-        with:
-          folder: build
-          bucket: ${{ secrets.S3_BUCKET }}
-          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
-          #            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          #            invalidation: /
-          delete-removed: true
-          no-cache: false
-          private: true
+        uses: raulanatol/aws-s3-docker-action@master
+        env:
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_BUCKET_NAME:  '${{ secrets.AWS_S3_BUCKET }}'
+          AWS_REGION: us-east-2
+          SOURCE: build
+#          TARGET:
+          WITH_DELETE: true
+#          WITH_CLOUD_FRONT_INVALIDATION:
+#          AWS_CLOUDFRONT_DISTRIBUTION_ID:
+#          AWS_CLOUDFRONT_INVALIDATION_PATH:

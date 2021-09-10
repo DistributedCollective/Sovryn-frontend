@@ -7,8 +7,10 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { VestingContract } from './VestingContract';
 
+export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish';
+
 interface Props {
-  onDelegate: (a: number) => void;
+  onDelegate: (timestamp: number, vestingAddress: string) => void;
 }
 
 export function CurrentVests(props: Props) {
@@ -20,7 +22,7 @@ export function CurrentVests(props: Props) {
       <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
         {t(translations.stake.currentVests.title)}
       </p>
-      <div className="tw-bg-gray-light tw-rounded-b tw-shadow">
+      <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
         <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto">
           <StyledTable className="tw-w-full">
             <thead>
@@ -75,7 +77,9 @@ export function CurrentVests(props: Props) {
                   key={item.address}
                   vestingAddress={item.address}
                   type={item.type}
-                  onDelegate={props.onDelegate}
+                  onDelegate={timestamp =>
+                    props.onDelegate(timestamp, item.address)
+                  }
                 />
               ))}
             </tbody>
@@ -91,7 +95,7 @@ function useGetItems() {
   const [state, setState] = useState<{
     items: {
       address: string;
-      type: 'genesis' | 'origin' | 'team' | 'reward';
+      type: VestGroup;
     }[];
     error: string;
     loading: boolean;
@@ -107,7 +111,7 @@ function useGetItems() {
         try {
           const items: {
             address: string;
-            type: 'genesis' | 'origin' | 'team' | 'reward';
+            type: VestGroup;
           }[] = [];
           const vesting1 = (await contractReader.call(
             'vestingRegistry',
@@ -150,6 +154,16 @@ function useGetItems() {
             setState(prevState => ({ ...prevState, items }));
           }
 
+          const vesting5 = (await contractReader.call(
+            'vestingRegistryFISH',
+            'getVesting',
+            [account],
+          )) as string;
+          if (vesting5 && vesting5 !== ethGenesisAddress) {
+            items.push({ address: vesting5, type: 'fish' });
+            setState(prevState => ({ ...prevState, items }));
+          }
+
           resolve(items);
         } catch (e) {
           reject(e);
@@ -157,15 +171,12 @@ function useGetItems() {
       });
 
     if (account && account !== ethGenesisAddress) {
-      console.log('started loading for ', account);
       setState({ items: [], loading: true, error: '' });
       run()
         .then((value: any) => {
-          console.log('loaded for ', account, value);
           setState({ items: value, loading: false, error: '' });
         })
         .catch(e => {
-          console.log('errored', account, e);
           setState(prevState => ({
             ...prevState,
             loading: false,

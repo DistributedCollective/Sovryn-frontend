@@ -92,7 +92,7 @@ FormSelect.defaultProps = {
   loading: false,
   filterable: true,
   placeholder: 'Select something',
-  innerClasses: 'border tw-rounded',
+  innerClasses: 'tw-border tw-border-sov-white tw-border-solid tw-rounded',
 };
 
 interface StyledProps {
@@ -109,8 +109,8 @@ const StyledSelection = styled.button.attrs(_ => ({
   background-color: transparent;
   width: 100%;
   color: ${(props: StyledProps) =>
-    props.active ? `var(--white)` : `var(--light-gray)`};
-  font-size: 16px;
+    props.active ? `var(--white)` : `var(--sov-white)`};
+  font-size: 1rem;
   letter-spacing: 0;
   text-transform: none;
   font-weight: normal;

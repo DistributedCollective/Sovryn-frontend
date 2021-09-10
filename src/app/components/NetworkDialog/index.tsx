@@ -3,7 +3,7 @@ import { Overlay } from '@blueprintjs/core/lib/esm/components/overlay/overlay';
 import classNames from 'classnames';
 import * as React from 'react';
 
-import styles from './index.module.css';
+import styles from './index.module.scss';
 
 type DialogSize = 'normal' | 'large' | 'small';
 
@@ -25,8 +25,7 @@ export function NetworkDialog(props: Props) {
     >
       <div className={Classes.DIALOG_CONTAINER}>
         <article
-          // eslint-disable-next-line jsx-a11y/aria-role
-          role="modal"
+          role="dialog"
           className={classNames(
             Classes.DIALOG,
             styles.dialog,

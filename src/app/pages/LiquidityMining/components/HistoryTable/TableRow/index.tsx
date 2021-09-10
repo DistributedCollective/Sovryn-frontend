@@ -11,7 +11,7 @@ import { Asset } from 'types';
 
 interface ITableRowProps {
   pool: LiquidityPool;
-  time: string;
+  time: number;
   type: string;
   amount: string;
   txHash: string;
@@ -52,7 +52,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
       <td>
         <LinkToExplorer
           txHash={txHash}
-          className="text-gold font-weight-normal text-nowrap"
+          className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
           startLength={5}
           endLength={5}
         />

@@ -20,7 +20,7 @@
     "hintTwo": "Consigue instrucciones de cómo conectarse con <0>Metamask</0> o <1>Nifty</1> y a continuación, conecta tu cartera:"
   },
   "serviceWorkerToaster": {
-    "title": "Sovryn se ha actualizado a <br/> <0>Build ID: {{buildId}}</0>",
+    "title": "Sovryn se ha actualizado a <br/> <0>Build ID:</0> <1>{{buildId}}</1>",
     "notice": "Cierre todas las pestañas con Sovryn abierto para actualizar",
     "updateBtn": "ACTUALIZAR",
     "closeBtn": "Por favor déjame cerrar una operación"
@@ -700,13 +700,13 @@
       "cta": "Enganchar Cartera"
     },
     "topUp": {
-      "title": "Recargar RBTC",
-      "line1": "Vas a necesitar RBTC en tu cartera para poder comprar SOV y pagar las tarifas de gas en la Mainnet de RSK.",
-      "line2": "Conoce acerca de RBTC en RSK",
+      "title": "Recargar <0>RBTC</0>",
+      "line1": "Vas a necesitar <0>RBTC</0> en tu cartera para poder comprar SOV y pagar las tarifas de gas en la Mainnet de RSK.",
+      "line2": "Conoce acerca de <0>RBTC</0> en RSK",
       "cta": "Recargar Cartera"
     },
     "form": {
-      "title": "Comprar SOV con RBTC",
+      "title": "Comprar SOV con <0>RBTC</0>",
       "enterAmount": "Ingresar Monto",
       "availableBalance": "Saldo Disponible:",
       "minimumReceived": "Mínimo Admitido:",

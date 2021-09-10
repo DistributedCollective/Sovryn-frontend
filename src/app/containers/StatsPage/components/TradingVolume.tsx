@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
 import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
@@ -33,14 +33,7 @@ export function TradingVolume(props: Props) {
       .catch(e => console.error(e));
   }, [url]);
 
-  useInterval(() => {
-    getData();
-  }, props.rate * 1e3);
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useInterval(getData, props.rate * 1e3, { immediate: true });
 
   const rowData = [
     {
@@ -72,32 +65,35 @@ export function TradingVolume(props: Props) {
   ];
 
   const rows = rowData.map((row, key) => (
-    <div key={key} className="row sovryn-border mb-3 mt-2">
-      <div className="md:tw-w-1/3 tw-w-full">
-        <div className="text-center p-3">
+    <div
+      key={key}
+      className="sovryn-border tw-flex tw-flex-col md:tw-flex-row tw-mb-4 tw-mt-2 tw-overflow-hidden"
+    >
+      <div className="tw-w-full">
+        <div className="tw-text-center tw-p-4">
           <h3>
-            <div className="p-3 text-center w-100">{row.title}</div>
+            <div className="tw-p-4 tw-text-center tw-w-full">{row.title}</div>
           </h3>
         </div>
       </div>
-      <div className="md:tw-w-1/3 tw-w-full bg-secondary border border-black border-top-0 border-bottom-0">
-        <div className="text-center p-3">
+      <div className="tw-w-full tw-bg-gray-3 tw-border tw-border-black tw-border-t-0 tw-border-b-0">
+        <div className="tw-text-center tw-p-4">
           <h3>
             {loading ? (
               <SkeletonRow />
             ) : (
-              <div className="p-3 text-center w-100">{row.col1}</div>
+              <div className="tw-p-4 tw-text-center tw-w-full">{row.col1}</div>
             )}
           </h3>
         </div>
       </div>
-      <div className="md:tw-w-1/3 tw-w-full bg-secondary ">
-        <div className="text-center p-3">
+      <div className="tw-w-full tw-bg-gray-3 ">
+        <div className="tw-text-center tw-p-4">
           <h3>
             {loading ? (
               <SkeletonRow />
             ) : (
-              <div className="p-3 text-center w-100">{row.col2}</div>
+              <div className="tw-p-4 tw-text-center tw-w-full">{row.col2}</div>
             )}
           </h3>
         </div>

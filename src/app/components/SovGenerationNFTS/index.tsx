@@ -62,7 +62,7 @@ export function SovGenerationNFTS() {
   ];
 
   return (
-    <div className="sovryn-border tw-p-4 tw-mb-12 pb-5">
+    <div className="sovryn-border tw-p-4 tw-mb-12 tw-pb-12">
       <p className="tw-text-center sov-title tw-mb-12">
         SOV Generation 01 NFT's
       </p>
@@ -71,7 +71,7 @@ export function SovGenerationNFTS() {
           <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
             <div className="image-bordered">
               <img
-                className="tw-w-full tw-h-full tw-image-responsive"
+                className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                 src={bfntImg}
                 alt="Staying Sovryn for 10 halvings"
               />
@@ -88,7 +88,7 @@ export function SovGenerationNFTS() {
               >
                 <div className="image-bordered">
                   <img
-                    className="tw-w-full tw-h-full tw-image-responsive"
+                    className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                     src={item.image}
                     alt=""
                   />
@@ -122,36 +122,6 @@ export function SovGenerationNFTS() {
             )
           );
         })}
-        {/* <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
-          <div className="image-bordered">
-            <img className="tw-w-full tw-h-full tw-image-responsive" src={sov_2} alt="" />
-          </div>
-          <div className="sov-table">
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td>
-                    <b>SOVRYN whitelist</b>
-                  </td>
-                  <td rowSpan={2}>
-                    <img src={sov_icon} alt="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Exclusive Access</b>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SOVRYN OG</td>
-                  <td>
-                    <div>SOV-OG</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      </div>*/}
       </div>
     </div>
   );

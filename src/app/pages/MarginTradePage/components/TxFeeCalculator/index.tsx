@@ -60,15 +60,15 @@ export function TxFeeCalculator(props: Props) {
                 <>
                   {gasData} {props.symbol}
                   <br />
-                  <small className="tw-text-muted">
+                  <small className="tw-text-gray-6">
                     (gas price:{' '}
                     {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
                   </small>
                   <br />
-                  <small className="tw-text-muted">
+                  <small className="tw-text-gray-6">
                     (gas limit: {gasLimit} units)
                   </small>
-                  {error && <p className="tw-text-red">{error}</p>}
+                  {error && <p className="tw-text-warning">{error}</p>}
                 </>
               }
             />,

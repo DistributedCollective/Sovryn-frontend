@@ -6,7 +6,6 @@ import {
   TradingPairDictionary,
   TradingPairType,
 } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { Option, Options } from 'app/components/Form/Select/types';
 import { Text } from '@blueprintjs/core';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { LeverageSelector } from '../LeverageSelector';
@@ -28,23 +27,24 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-const pairs: Options<
-  TradingPairType,
-  React.ReactNode
-> = TradingPairDictionary.entries()
+const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
   .map(([type, item]) => ({
     key: type,
-    label: item.name,
+    label: item.name as string,
   }));
 
-export function TradeForm() {
+interface ITradeFormProps {
+  pairType: TradingPairType;
+}
+
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
-  const { pairType, collateral, leverage } = useSelector(selectMarginTradePage);
+  const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
   const [amount, setAmount] = useState<string>('');
@@ -63,8 +63,7 @@ export function TradeForm() {
     if (!pair.collaterals.includes(collateral)) {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
-    // eslint-disable-next-line
-  }, [pair.collaterals]);
+  }, [pair.collaterals, collateral, dispatch]);
 
   const submit = e => dispatch(actions.submit(e));
 
@@ -80,18 +79,18 @@ export function TradeForm() {
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-320 tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.pair)}
             className="tw-mb-6"
           >
             <Select
               value={pairType}
-              options={pairs as any}
+              options={pairs}
               filterable={false}
               onChange={value => dispatch(actions.setPairType(value))}
               itemRenderer={renderItemNH}
-              valueRenderer={(item: Option) => (
+              valueRenderer={item => (
                 <Text ellipsize className="tw-text-center">
                   {item.label}
                 </Text>
@@ -135,7 +134,7 @@ export function TradeForm() {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,
@@ -146,7 +145,7 @@ export function TradeForm() {
           )}
         </div>
         {!openTradesLocked && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-320 tw-mx-auto">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             <Button
               text={t(translations.marginTradePage.tradeForm.buttons.long)}
               position={TradingPosition.LONG}
@@ -165,4 +164,4 @@ export function TradeForm() {
       <TradeDialog />
     </>
   );
-}
+};

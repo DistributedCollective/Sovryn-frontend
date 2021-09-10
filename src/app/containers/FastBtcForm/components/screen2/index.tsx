@@ -35,13 +35,13 @@ export function Screen2({ state, dispatch }: Props) {
                 value={state.depositAddress}
                 renderAs="svg"
                 bgColor="var(--white)"
-                fgColor="var(--primary)"
+                fgColor="var(--gray-1)"
                 includeMargin={true}
                 className="tw-rounded tw-w-3/4 tw-h-3/4"
               />
             </div>
           </div>
-          <div className="btcAddress--screen2 bg-secondary tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer">
+          <div className="btcAddress--screen2 tw-bg-gray-3 tw-py-1 tw-px-4 tw-mt-4 tw-mx-6 tw-rounded tw-cursor-pointer">
             <CopyToClipboard
               text={state.depositAddress}
               onCopy={() =>
@@ -75,12 +75,6 @@ export function Screen2({ state, dispatch }: Props) {
               <li>
                 {t(translations.common.max)}: {state.maxDepositAmount} BTC
               </li>
-              {/*<li>*/}
-              {/*  {t(s.fee)} 1.00 USD*{' '}*/}
-              {/*  <span className="small">*/}
-              {/*    <em>{t(s.feeExplainer)}</em>*/}
-              {/*  </span>*/}
-              {/*</li>*/}
             </ul>
           </div>
           <div>
@@ -105,7 +99,7 @@ export function Screen2({ state, dispatch }: Props) {
         </div>
       </div>
       <div className="tw-flex tw-flex-row tw-justify-end">
-        <div className="sovryn-border small tw-p-2 tw-flex tw-flex-row tw-justify-between tw-items-center">
+        <div className="sovryn-border tw-text-sm tw-p-2 tw-flex tw-flex-row tw-justify-between tw-items-center">
           {t(s.txDetected)}
           <div
             className={`tw-ml-4 tw-circle tw-circle-${

@@ -14,9 +14,13 @@ interface Props {
 
 export function Feature(props: Props) {
   return (
-    <Article className="d-flex w-100 flex-column justify-content-start align-items-start flex-lg-row justify-content-lg-between align-items-lg-center">
-      <div className={`${props.reverse ? 'order-lg-1' : 'order-lg-0'} order-1`}>
-        <h1>{props.title}</h1>
+    <Article className="tw-flex tw-w-full tw-flex-col tw-justify-start tw-items-start lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
+      <div
+        className={`${
+          props.reverse ? 'lg:tw-order-1' : 'lg:tw-order-0'
+        } tw-order-1`}
+      >
+        <h3>{props.title}</h3>
         <div className="content tw-font-thin tw-leading-snug">
           {props.content}
         </div>
@@ -40,8 +44,10 @@ export function Feature(props: Props) {
         alt="Item"
         style={props.imageStyle}
         className={`${
-          props.reverse ? 'order-lg-0 img-reverse' : 'order-lg-1 img-normal'
-        } order-0`}
+          props.reverse
+            ? 'lg:tw-order-0 img-reverse'
+            : 'lg:tw-order-1 img-normal'
+        } tw-order-0`}
       />
     </Article>
   );
@@ -50,12 +56,17 @@ export function Feature(props: Props) {
 const Article = styled.article`
   max-width: 1200px;
   margin: 70px auto;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  h1 {
+
+  + ${() => Article} {
+    margin-top: 160px;
+  }
+
+  h3 {
     text-transform: none;
-    font-size: 26px;
-    line-height: 32px;
+    font-size: 1.5rem;
+    line-height: 1.375;
     font-weight: 700;
     margin-bottom: 32px;
   }
@@ -81,27 +92,27 @@ const Article = styled.article`
     height: 40px;
     background: #2274a5;
     border: 1px solid #2274a5;
-    color: #e9eae9;
-    font-size: 16px;
+    color: #e8e8e8;
+    font-size: 1rem;
     line-height: 1;
     font-weight: 500;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     text-decoration: none;
     text-align: center;
     padding: 11px;
     margin-top: 40px;
     &:hover {
       opacity: 0.75;
-      color: #e9eae9;
+      color: #e8e8e8;
     }
   }
 
   a {
     text-decoration: underline;
-    color: #fec004;
+    color: var(--primary);
     &:hover {
-      color: #fec004;
+      color: var(--primary);
       text-decoration: none;
     }
   }

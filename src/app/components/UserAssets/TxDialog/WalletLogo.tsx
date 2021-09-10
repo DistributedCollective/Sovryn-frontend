@@ -8,7 +8,7 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { WLContainer, WLImage } from './styled';
 
-const getWalletImage = wallet => {
+export const getWalletImage = wallet => {
   if (wallet === 'liquality') return wLiquality;
   if (wallet === 'nifty') return wNifty;
   if (wallet === 'portis') return wPortis;

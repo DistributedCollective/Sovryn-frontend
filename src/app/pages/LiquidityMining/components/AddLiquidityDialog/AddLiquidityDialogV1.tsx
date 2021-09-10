@@ -80,11 +80,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
     );
   }, [balance1, balance2, weiAmount1, weiAmount2]);
 
-  // const errorMessage = useMemo(() => {
-  //   if (!hasSufficientBalance)
-  //     return t(translations.validationErrors.insufficientBalance);
-  // }, [t, hasSufficientBalance]);
-
   const valid = useMemo(() => {
     return (
       hasSufficientBalance &&
@@ -112,8 +107,8 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-text-white tw-text-center tw-tracking-normal">
+        <div className="tw-mw-340 tw-mx-auto">
+          <h1 className="tw-text-sov-white tw-text-center tw-tracking-normal">
             {t(translations.liquidityMining.modals.deposit.title)}
           </h1>
 
@@ -141,14 +136,6 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               8,
             )}`}
           </div>
-          {/*<ArrowDown />*/}
-          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
           <TxFeeCalculator
             args={txFeeArgs}
             txConfig={{
@@ -169,7 +156,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,

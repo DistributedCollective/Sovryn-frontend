@@ -44,7 +44,9 @@ export function OpenPositionRow({ item }: Props) {
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
 
   const position =
-    pair.longAsset === loanAsset ? TradingPosition.LONG : TradingPosition.SHORT;
+    pair?.longAsset === loanAsset
+      ? TradingPosition.LONG
+      : TradingPosition.SHORT;
 
   const isLong = position === TradingPosition.LONG;
   const leverage = leverageFromMargin(item.startMargin);

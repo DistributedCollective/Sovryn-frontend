@@ -10,7 +10,8 @@ import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import '../../../components/Header/index.scss';
+import { AvailableBalance } from '../../../components/AvailableBalance';
+import { Asset } from 'types/asset';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -18,10 +19,10 @@ interface Props {
   timestamp?: number;
   onChangeAmount: (value: string) => void;
   onChangeTimestamp: (value: number) => void;
-  sovBalanceOf: CacheCallResponse;
+  sovBalance: string;
   isValid: boolean;
   kickoff: CacheCallResponse;
-  stakes: undefined;
+  stakes: string[];
   votePower?: number;
   onCloseModal: () => void;
 }
@@ -31,9 +32,8 @@ export function StakeForm(props: Props) {
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
-
   const txConf = {
-    gas: 250000,
+    gas: 450000,
   };
 
   return (
@@ -44,73 +44,69 @@ export function StakeForm(props: Props) {
       <form onSubmit={props.handleSubmit}>
         <div className="tw-mb-9 md:tw-px-8 tw-px-4 tw-tracking-normal">
           <label
-            className="tw-leading-4 tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2"
+            className="tw-leading-4 tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2"
             htmlFor="amount"
           >
             {t(translations.stake.staking.amountToStake)}:
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-theme-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-pr-12 tw-pl-8 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amount"
               type="text"
               value={props.amount}
               placeholder={t(translations.stake.staking.amountPlaceholder)}
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
-            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
-          <div className="tw-flex tw-rounded tw-border tw-border-theme-blue tw-mt-4">
+          <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4 tw-mb-2">
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 10),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 10))
               }
-              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
               10%
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 4),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 4))
               }
-              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
               25%
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  fromWei((props.sovBalanceOf.value as any) / 2),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 2))
               }
-              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
               50%
             </div>
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  fromWei(((props.sovBalanceOf.value as any) / 4) * 3),
+                  fromWei((Number(props.sovBalance) / 4) * 3),
                 )
               }
-              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-theme-blue tw-tracking-tighter tw-border-theme-blue"
+              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
               75%
             </div>
             <div
-              onClick={() =>
-                props.onChangeAmount(fromWei(props.sovBalanceOf.value))
-              }
-              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-theme-blue hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-theme-blue tw-tracking-tighter"
+              onClick={() => props.onChangeAmount(fromWei(props.sovBalance))}
+              className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
             >
               100%
             </div>
+          </div>
+          <div className="tw-flex tw-text-xs">
+            <AvailableBalance asset={Asset.SOV} />
+            <div className="tw-ml-1">{t(translations.stake.sov)}</div>
           </div>
 
           <StakingDateSelector
@@ -122,7 +118,7 @@ export function StakeForm(props: Props) {
           />
 
           <label
-            className="tw-block tw-text-theme-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
+            className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"
           >
             {t(translations.stake.staking.votingPowerReceived)}:
@@ -130,7 +126,7 @@ export function StakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-mb-3">
             <input
               readOnly
-              className="tw-border tw-border-gray-200 tw-border-opacity-100 tw-border-solid tw-text-theme-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-border tw-border-gray-3 tw-border-opacity-100 tw-border-solid tw-text-sov-white tw-appearance-none tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-3 tw-bg-transparent tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="voting-power"
               type="text"
               placeholder="0"
@@ -139,7 +135,7 @@ export function StakeForm(props: Props) {
           </div>
           <TxFeeCalculator
             args={[
-              Number(props.amount).toFixed(0).toString(),
+              Math.floor(Number(props.amount)).toFixed(0).toString(),
               props.timestamp,
               account,
               ethGenesisAddress,
@@ -159,7 +155,7 @@ export function StakeForm(props: Props) {
                     href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                   >
                     x
                   </a>,
@@ -171,7 +167,7 @@ export function StakeForm(props: Props) {
         <div className="tw-grid tw-grid-rows-1 tw-grid-flow-col tw-gap-4">
           <button
             type="submit"
-            className={`tw-uppercase tw-w-full tw-text-black tw-bg-gold tw-bg-opacity-1 tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+            className={`tw-uppercase tw-w-full tw-text-black tw-bg-primary tw-bg-opacity-1 tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
               (!props.isValid || stakingLocked) &&
               'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
             }`}
@@ -182,7 +178,7 @@ export function StakeForm(props: Props) {
           <button
             type="button"
             onClick={() => props.onCloseModal()}
-            className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+            className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
           >
             {t(translations.stake.actions.cancel)}
           </button>

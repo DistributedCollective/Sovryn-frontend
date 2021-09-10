@@ -1,8 +1,3 @@
-/**
- *
- * LoanTokenGraphs
- *
- */
 import React, { useEffect, useState, useMemo } from 'react';
 import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { LendingPool } from 'utils/models/lending-pool';
@@ -15,9 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 interface DataItem {
-  date: Date;
-  supply_apr: number;
   supply: number;
+  supply_apr: number;
+  borrow_apr: number;
+  timestamp: string;
 }
 
 interface Props {
@@ -29,25 +25,27 @@ export function LoanTokenGraphs(props: Props) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(databaseRpcNodes[chainId], {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        method: 'custom_getLoanTokenHistory',
-        params: [
-          {
-            address: getLendingContract(props.lendingPool.getAsset()).address,
-          },
-        ],
-      }),
-    })
-      .then(e => e.json().then())
-      .then(e => {
-        setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+    if (chainId !== undefined) {
+      fetch(databaseRpcNodes[chainId], {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          method: 'custom_getLoanTokenHistory',
+          params: [
+            {
+              address: getLendingContract(props.lendingPool.getAsset()).address,
+            },
+          ],
+        }),
       })
-      .catch(console.error);
+        .then(e => e.json().then())
+        .then(e => {
+          setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+        })
+        .catch(console.error);
+    }
   }, [chainId, props.lendingPool]);
 
   if (!data.length) {
@@ -71,14 +69,12 @@ function BarsGraph({ width, data }: BarsProps) {
   const height = 150;
 
   const supplyApr = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
     [data],
   );
 
   const borrowApr = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.borrow_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.borrow_apr / 1e8]),
     [data],
   );
 

@@ -1,20 +1,39 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 
-const H1 = styled.h1`
-  font-weight: 500;
+type H2Props = {
+  step: number;
+};
+
+const H2 = styled.h2<H2Props>`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  width: 100%;
   text-transform: none;
+  font-weight: 500 !important;
+  line-height: 26px !important;
   text-align: left;
-  margin-bottom: 28px;
-  .step {
-    font-size: 48px;
-    letter-spacing: 4.3px;
+  vertical-align: baseline;
+  margin-bottom: 35px !important;
+
+  & > :first-child {
+    display: inline-block;
+    font-size: 3rem;
+    line-height: 1;
+    letter-spacing: 0.21px;
+    margin-right: 10px;
+    text-align: right;
+    font-feature-settings: normal;
+    font-variant-numeric: normal;
   }
-  .title {
-    font-size: 26px;
+
+  & > :not(:first-child) {
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 600;
     letter-spacing: 0;
-    position: relative;
-    top: -5px;
+    margin-bottom: 3px;
   }
 `;
 
@@ -25,16 +44,17 @@ interface ContainerProps {
 
 const Container = styled.article`
   width: 298px;
+  max-width: 450px;
   min-height: 360px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   padding: 15px 30px;
   @media (max-width: 768px) {
     width: 100%;
   }
   a {
-    font-size: 16px;
+    font-size: 1rem;
     color: #2274a5;
     font-weight: 300;
     text-decoration: underline;
@@ -54,17 +74,11 @@ const Container = styled.article`
   ${props =>
     props.large &&
     css`
+      width: 100%;
+      min-width: 370px;
+      max-width: 450px;
       padding-bottom: 30px;
       margin: 0 auto;
-      @media (min-width: 768px) {
-        min-width: 450px;
-      }
-      @media (min-width: 1200px) {
-        min-width: 370px;
-      }
-      @media (min-width: 1300px) {
-        min-width: 450px;
-      }
     `}
 `;
 
@@ -81,13 +95,13 @@ export function Card(props: Props) {
     <Container
       disabled={props.disabled}
       large={props.large}
-      className="d-block bg-black d-flex flex-column justify-content-start align-items-center flex-grow-0 flex-shrink-0"
+      className="tw-bg-black tw-flex tw-flex-col tw-justify-start tw-items-center tw-flex-grow-0 tw-flex-shrink-0"
     >
-      <H1 className="d-flex w-100 justify-content-start align-items-end disable-content">
-        <span className="step">{props.step}.</span>{' '}
-        <span className="title">{props.title}</span>
-      </H1>
-      <div className="w-100 mb-3">{props.children}</div>
+      <H2 step={props.step}>
+        <span>{props.step}.</span>
+        <span>{props.title}</span>
+      </H2>
+      <div className="tw-w-full tw-mb-4">{props.children}</div>
     </Container>
   );
 }

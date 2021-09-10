@@ -26,20 +26,18 @@ export default function OptOutDialog(props: OptOutProps) {
 
   useEffect(() => {
     setOptIn(!(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [get]);
 
   useEffect(() => {
     if (props.open)
       setOptIn(!(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open, get]);
 
   return (
     <>
       <Dialog isOpen={props.open} onClose={props.onClose}>
-        <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+        <div className="tw-mw-340 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.analyticsDialog.title)}
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal">
@@ -51,7 +49,7 @@ export default function OptOutDialog(props: OptOutProps) {
                 name="analytics"
                 checked={optIn}
                 onChange={e => setOptIn(!!!optIn)}
-                className="small md:tw-col-span-8 sm:tw-col-span-12"
+                className="tw-text-sm md:tw-col-span-8 sm:tw-col-span-12"
               >
                 {t(translations.analyticsDialog.option)}
               </Checkbox>

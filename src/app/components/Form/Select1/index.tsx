@@ -7,7 +7,7 @@ import { isMobile } from 'utils/helpers';
 import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
 import { areOptionsEqual, filterItem, renderItem } from './renderers';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
 
 interface Props<K = string, V = string, P = any> {

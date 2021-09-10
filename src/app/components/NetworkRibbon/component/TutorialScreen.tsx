@@ -137,19 +137,23 @@ export function TutorialScreen(props: Props) {
   return (
     <>
       <BackButton onClick={props.onBack} />
-      <div className="d-flex flex-row justify-content-center align-items-center my-4 py-3">
+      <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-my-8 tw-py-4">
         <LeftBlock>
-          <div className="rounded p-2 text-center">
+          <div className="tw-rounded tw-p-4 tw-text-center">
             <img
               key={step}
               src={steps[step].image}
               alt={steps[step].title}
-              className="mx-auto tutorial-image"
+              className="tw-mx-auto tutorial-image"
             />
           </div>
-          <div className="d-flex flex-row justify-content-center align-items-center mt-1">
+          <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
             <NavBtn onClick={handleBack}>
-              <Icon icon="caret-left" iconSize={24} className="text-white" />
+              <Icon
+                icon="caret-left"
+                iconSize={24}
+                className="tw-text-sov-white"
+              />
             </NavBtn>
             {steps.map((_, i) => (
               <NavRound
@@ -159,36 +163,40 @@ export function TutorialScreen(props: Props) {
               />
             ))}
             <NavBtn onClick={handleNext}>
-              <Icon icon="caret-right" iconSize={24} className="text-white" />
+              <Icon
+                icon="caret-right"
+                iconSize={24}
+                className="tw-text-sov-white"
+              />
             </NavBtn>
           </div>
         </LeftBlock>
         <RightBlock>
           <StepTitle>{steps[step].step}</StepTitle>
-          <SettingsTitle className="mt-3">{steps[step].title}</SettingsTitle>
+          <SettingsTitle className="tw-mt-4">{steps[step].title}</SettingsTitle>
           {step === 3 && props.walletType === 'metamask' && (
             <>
-              <SettingsTitle className="mt-5">
+              <SettingsTitle className="tw-mt-12">
                 RSK Mainnet Settings
               </SettingsTitle>
               <Details>
                 <SubDetails>
-                  <DetailTitle className="mt-3">Network Name:</DetailTitle>
-                  <DetailTitle className="mt-3">New RPC Url:</DetailTitle>
-                  <DetailTitle className="mt-3">Chain Id:</DetailTitle>
-                  <DetailTitle className="mt-3">Symbol:</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">Network Name:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">New RPC Url:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">Chain Id:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">Symbol:</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     Block Explorer URL:
                   </DetailTitle>
                 </SubDetails>
                 <SubDetails>
-                  <DetailTitle className="mt-3">RSK Mainnet</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">RSK Mainnet</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     https://public-node.rsk.co
                   </DetailTitle>
-                  <DetailTitle className="mt-3">30</DetailTitle>
-                  <DetailTitle className="mt-3">RBTC</DetailTitle>
-                  <DetailTitle className="mt-3">
+                  <DetailTitle className="tw-mt-4">30</DetailTitle>
+                  <DetailTitle className="tw-mt-4">RBTC</DetailTitle>
+                  <DetailTitle className="tw-mt-4">
                     https://explorer.rsk.co
                   </DetailTitle>
                 </SubDetails>
@@ -201,76 +209,6 @@ export function TutorialScreen(props: Props) {
   );
 }
 
-// const Wrapper = styled.div`
-//   padding: 27px 5px;
-//   border-top: 3px solid white;
-//   border-bottom: 2px solid white;
-//   margin: 17px 0;
-// `;
-
-// const StyledDialog = styled.div.attrs(_ => ({
-//   className: 'bp3-dialog',
-// }))`
-//   background: #000000;
-//   border-radius: 6px;
-//   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2),
-//     0 18px 46px 6px rgba(0, 0, 0, 0.2);
-//   border: none;
-//   display: flex;
-//   flex-direction: column;
-//   margin: 30px;
-//   padding-bottom: 20px;
-//   pointer-events: all;
-//   user-select: text;
-//   position: relative;
-//   width: 100%;
-//   padding: 40px !important;
-//   ${media.lg`
-//   width: 1235px;
-//   padding: 40px 130px !important;
-//   `}
-// `;
-
-// const Close = styled.button.attrs(_ => ({
-//   type: 'button',
-// }))`
-//   background: url(${closeIcon}) center center no-repeat;
-//   background-size: 52px 52px;
-//   width: 52px;
-//   height: 52px;
-//   border: none;
-//   cursor: pointer;
-//   position: absolute;
-//   top: 20px;
-//   right: 20px;
-//   z-index: 20;
-//   padding: 0;
-// `;
-
-// const CloseButton = styled.button.attrs(_ => ({
-//   type: 'button',
-// }))`
-//   background: none;
-//   border: 1px solid var(--Gold);
-//   color: var(--Gold);
-//   border-radius: 10px;
-//   padding: 14px 70px;
-//   margin: 50px auto 0;
-//   opacity: 0.2;
-//   transition: opacity 0.5s;
-//   will-change: opacity;
-//   &:hover {
-//     opacity: 1;
-//   }
-// `;
-
-// const Title = styled.div`
-//   font-size: 28px;
-//   font-weight: 500;
-//   text-align: center;
-//   margin-bottom: 64px;
-//   margin-top: 40px;
-// `;
 const Details = styled.div`
   width: 70%;
   display: flex;
@@ -284,19 +222,19 @@ const SubDetails = styled.div`
   /* justify-content: start; */
 `;
 const SettingsTitle = styled.div`
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const StepTitle = styled.div`
-  font-size: 26px;
+  font-size: 1.75rem;
   font-weight: 500;
   text-align: left;
   color: white;
 `;
 const DetailTitle = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   text-align: left;
   color: white;
@@ -331,7 +269,7 @@ const RightBlock = styled.div`
 `;
 const NavRound = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0',
 }))`
   border: none;
   margin: 0 5px;
@@ -354,7 +292,7 @@ const NavRound = styled.button.attrs(_ => ({
 
 const NavBtn = styled.button.attrs(_ => ({
   type: 'button',
-  className: 'flex-grow-0 flex-shrink-0 d-flex align-items-center',
+  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
 }))`
   border: none;
   margin: 0 5px;

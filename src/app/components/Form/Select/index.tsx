@@ -8,9 +8,10 @@ import { translations } from 'locales/i18n';
 import { Option, Options } from './types';
 import { areOptionsEqual, renderItem, filterItem } from './renderers';
 import { ItemRenderer } from '@blueprintjs/select/lib/cjs';
+import { Nullable } from 'types';
 
 interface Props<K = string, V = string, P = any> {
-  value: K;
+  value: Nullable<K>;
   options: Options<K, V, P>;
   onChange: (value: K, item: Option<K, V, P>) => void;
 
@@ -31,9 +32,10 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
     props,
   ]);
 
-  const getSelected = useCallback(() => {
-    return props.options.find(item => String(item.key) === String(props.value));
-  }, [props.options, props.value]);
+  const getSelected = useCallback(
+    () => props.options.find(item => item.key === props.value),
+    [props.options, props.value],
+  );
 
   const [selected, setSelected] = useState<Option<K, V, P> | undefined>(
     getSelected(),
@@ -99,7 +101,7 @@ export function Select<K = string, V = string, P = any>(props: Props<K, V, P>) {
               data-name="Path 2912"
               d="M24.974,8.59,16.75,16.8,8.526,8.59,6,11.116l10.75,10.75L27.5,11.116Z"
               transform="translate(-6 -8.59)"
-              fill="#e9eae9"
+              fill="#e8e8e8"
             />
           </svg>
         </div>

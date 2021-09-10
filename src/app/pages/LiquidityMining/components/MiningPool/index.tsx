@@ -22,13 +22,16 @@ import type { AmmHistory } from './types';
 interface Props {
   pool: LiquidityPool;
   ammData: AmmHistory;
+  linkAsset?: Asset;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool, ammData }: Props) {
+export function MiningPool({ pool, ammData, linkAsset }: Props) {
   const { t } = useTranslation();
-  const [dialog, setDialog] = useState<DialogType>('none');
+  const [dialog, setDialog] = useState<DialogType>(
+    pool.poolAsset === linkAsset ? 'add' : 'none',
+  );
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
   const { checkMaintenances, States } = useMaintenance();
@@ -50,11 +53,11 @@ export function MiningPool({ pool, ammData }: Props) {
 
   const Actions = () => {
     return (
-      <div className="tw-ml-5 tw-w-full tw-max-w-8.75-rem">
+      <div className="tw-ml-5 tw-w-full tw-max-w-36">
         <ActionButton
           text={t(translations.liquidityMining.deposit)}
           onClick={() => setDialog('add')}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-ctaHover hover:tw-opacity-75"
+          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract || addliquidityLocked}
         />

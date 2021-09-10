@@ -26,8 +26,10 @@ function* fetchMaintenanceStatePeriodically() {
 }
 
 export function* maintenanceStateSaga() {
-  yield takeLatest(
-    actions.fetchMaintenance.type,
-    fetchMaintenanceStatePeriodically,
-  );
+  if (!process.env.REACT_APP_BYPASS_MAINTENANCE) {
+    yield takeLatest(
+      actions.fetchMaintenance.type,
+      fetchMaintenanceStatePeriodically,
+    );
+  }
 }

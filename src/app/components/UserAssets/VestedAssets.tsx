@@ -21,7 +21,7 @@ import { VestingDialog } from './VestingDialog';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OriginsSaleRow } from './OriginsSaleRow';
-import babelfishLogo from 'assets/images/babelfish.svg';
+import babelfishLogo from 'assets/images/tokens/babelfish.svg';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -70,10 +70,10 @@ export function VestedAssets() {
               <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.lockedAmount)}
               </th>
-              <th className="text-right d-none d-md-table-cell">
+              <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
               </th>
-              <th className="text-right">
+              <th className="tw-text-right">
                 {t(translations.userAssets.tableHeaders.action)}
               </th>
             </tr>
@@ -156,7 +156,7 @@ export function VestedAssets() {
                 </>
               ) : (
                 <tr>
-                  <td className="text-center" colSpan={99}>
+                  <td className="tw-text-center" colSpan={99}>
                     {t(translations.userAssets.emptyVestTable)}
                   </td>
                 </tr>

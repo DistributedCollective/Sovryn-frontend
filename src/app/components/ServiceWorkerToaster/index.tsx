@@ -3,26 +3,22 @@
  * ServiceWorkerToaster
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import * as serviceWorker from 'serviceWorker';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
 import { Dialog } from '@blueprintjs/core';
-import styled from 'styled-components/macro';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
-import axios from 'axios';
-import { soliditySha3 } from 'web3-utils';
-
-interface Props {}
+import classNames from 'classnames';
 
 //interval time to check sw
-const CHECK_TIME = 15e3; // 15 seconds
+const CHECK_TIME = 30e3; // 30 seconds
 const REOPEN_TIME = 120e3; // 120 seconds
-const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+const versionUrl = `${process.env.PUBLIC_URL}/version.json`;
 
-export function ServiceWorkerToaster(props: Props) {
+export function ServiceWorkerToaster() {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const [swRegistration, setSwRegistration] = useState<
@@ -30,44 +26,44 @@ export function ServiceWorkerToaster(props: Props) {
   >();
   const [intervalId, setIntervalId] = useState<number | null>(null);
   const [closeBtn, setCloseBtn] = useState(true);
-  const [newSW, setNewSW] = useState('');
-  const [oldSW, setOldSW] = useState('');
+  const [nextCommit, setNextCommit] = useState('');
   const { t } = useTranslation();
 
-  const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
+  const currentCommit = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
-  let cancelTokenSource;
-  const fetchSw = first => {
-    if (cancelTokenSource) {
-      cancelTokenSource.cancel();
-    }
-    cancelTokenSource = axios.CancelToken.source();
-
-    // TODO: change with native fetch
-    axios
-      .get(swUrl, {
-        headers: {
-          'Service-Worker': 'script',
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: '0',
-        },
-        cancelToken: cancelTokenSource.token,
-      })
-      .then(({ data }) => {
+  const fetchVersion = useCallback(async () => {
+    return fetch(versionUrl, {
+      headers: {
+        'Service-Worker': 'script',
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
+    })
+      .then(async response => {
+        const data = await response.json();
         if (!data) return;
-        const hash = soliditySha3(data);
-        if (first) setOldSW(hash || '');
-        else setNewSW(hash || '');
+        setNextCommit(data.commit || '');
       })
       .catch(() => {});
-  };
+  }, [setNextCommit]);
 
   useEffect(() => {
-    if (!oldSW && newSW) setOldSW(newSW);
-    if (oldSW && newSW && oldSW !== newSW) setShow(true);
+    if (
+      process.env.NODE_ENV === 'production' &&
+      currentCommit &&
+      nextCommit &&
+      currentCommit !== nextCommit
+    ) {
+      if (swRegistration && swRegistration.update) {
+        // Don't setShow(true) yet. Calling update triggers onUpdate below.
+        swRegistration.update();
+      } else {
+        setShow(true);
+      }
+    }
     // eslint-disable-next-line
-  }, [oldSW, newSW]);
+  }, [swRegistration, setShow, nextCommit]);
 
   const updateSW = () => {
     setUpdate(true);
@@ -92,38 +88,55 @@ export function ServiceWorkerToaster(props: Props) {
   };
 
   useEffect(() => {
-    fetchSw(true);
+    fetchVersion();
     serviceWorker.register({
-      onUpdate: registration => {
+      onUpdate: async registration => {
         setSwRegistration(registration);
+        if (nextCommit === currentCommit) {
+          await fetchVersion();
+        }
         setShow(true);
       },
+      onSuccess: registration => {
+        setSwRegistration(registration);
+      },
     });
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    const intId = setInterval(() => fetchSw(false), CHECK_TIME);
-    setIntervalId(intId);
-    return () => clearInterval(intId);
+
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    const intId = setInterval(() => fetchSw(false), CHECK_TIME);
-    setIntervalId(intId);
-    return () => clearInterval(intId);
+    if (process.env.NODE_ENV === 'production') {
+      const intId = setInterval(() => fetchVersion(), CHECK_TIME);
+      setIntervalId(intId);
+      return () => clearInterval(intId);
+    }
     // eslint-disable-next-line
   }, []);
 
   return (
     <Dialog isOpen={show} className={styles.dialog}>
-      <div className="tw-container tw-mx-auto tw-px-4 text-center">
-        <StyledLogo className="mx-auto tw-mb-6" src={logoSvg} />
-        <p className="tw-text-white tw-mb-6">
+      <div className="tw-container tw-mx-auto tw-px-4 tw-text-center">
+        <img
+          className="tw-w-30 tw-mx-auto tw-mb-6"
+          src={logoSvg}
+          alt="Sovryn"
+        />
+        <p className="tw-text-sov-white tw-mb-6">
           <Trans
             i18nKey={translations.serviceWorkerToaster.title}
-            components={[<strong></strong>]}
-            values={{ buildId: commitHash.substr(0, 7) }}
+            components={[
+              <strong></strong>,
+              <a
+                className="font-bold"
+                href={`https://github.com/DistributedCollective/Sovryn-frontend/commit/${nextCommit}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                id
+              </a>,
+            ]}
+            values={{ buildId: nextCommit.substr(0, 7) }}
           />
         </p>
         <p className="tw-mb-6">{t(translations.serviceWorkerToaster.notice)}</p>
@@ -137,7 +150,10 @@ export function ServiceWorkerToaster(props: Props) {
           />
           {closeBtn && (
             <Button
-              className={styles.close + ' text-gold bg-transparent'}
+              className={classNames(
+                styles.close,
+                'tw-text-primary tw-bg-transparent',
+              )}
               text={t(translations.serviceWorkerToaster.closeBtn)}
               onClick={() => closeDialog()}
             />
@@ -147,9 +163,3 @@ export function ServiceWorkerToaster(props: Props) {
     </Dialog>
   );
 }
-
-const StyledLogo = styled.img.attrs(_ => ({
-  alt: 'Sovryn',
-}))`
-  width: 120px;
-`;

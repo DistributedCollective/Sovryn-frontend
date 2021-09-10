@@ -1,12 +1,6 @@
-/**
- *
- * SwapFormContainer
- *
- */
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
@@ -24,7 +18,6 @@ import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
@@ -38,6 +31,9 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+
+import styles from './index.module.scss';
 
 const s = translations.swapTradeForm;
 
@@ -46,10 +42,11 @@ interface Option {
   label: string;
 }
 
+const xusdExcludes = [Asset.USDT, Asset.DOC];
+
 export function SwapFormContainer() {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
-  const { connect } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
@@ -68,7 +65,6 @@ export function SwapFormContainer() {
     [],
   );
   const [tokenBalance, setTokenBalance] = useState<any[]>([]);
-  const xusdExcludes = [Asset.USDT, Asset.DOC];
 
   useEffect(() => {
     async function getOptions() {
@@ -76,7 +72,7 @@ export function SwapFormContainer() {
         Promise.all(
           tokens.map(async item => {
             const asset = AssetsDictionary.getByTokenContractAddress(item);
-            if (!asset) {
+            if (!asset || !asset.hasAMM) {
               return null;
             }
             let token: string = '';
@@ -104,9 +100,7 @@ export function SwapFormContainer() {
         console.error(e);
       }
     }
-    if (tokens) {
-      getOptions();
-    }
+    if (tokens.length > 0) getOptions();
   }, [account, tokens]);
 
   useEffect(() => {
@@ -121,21 +115,20 @@ export function SwapFormContainer() {
     ) {
       setSourceToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, targetToken, sourceToken, tokenBalance]);
 
   useEffect(() => {
     const newOptions = tokenBalance;
+
     if (newOptions) {
-      setTargetOptions(
-        newOptions.filter(option => {
-          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
-            return false;
-          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
-            return false;
-          return option.key !== sourceToken;
-        }),
-      );
+      const filteredOptions = newOptions.filter(option => {
+        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== sourceToken;
+      });
+      if (filteredOptions.length > 0) setTargetOptions(filteredOptions);
     }
 
     let defaultTo: Asset | null = null;
@@ -168,7 +161,6 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, sourceToken, targetToken, tokenBalance]);
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
@@ -190,28 +182,34 @@ export function SwapFormContainer() {
     '0x',
   );
 
-  const { state } = useLocation();
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory<IPromotionLinkState>();
 
   useEffect(() => {
-    const params: any = (state as any)?.params;
-    if (params?.action && params?.action === 'swap' && params?.asset) {
-      const item = tokenBalance.find(item => item.key === params.asset);
+    if (location.state?.asset) {
+      const item = tokenBalance.find(
+        item => item.key === location.state?.asset,
+      );
       if (item) {
         setSourceToken(item.key);
       }
     }
-  }, [state, tokens, tokenBalance]);
+    if (location.state?.target) {
+      const item = tokenBalance.find(
+        item => item.key === location.state?.target,
+      );
+      if (item) {
+        setTargetToken(item.key);
+        history.replace(location.pathname);
+      }
+    }
+  }, [tokens, tokenBalance, location.state, location.pathname, history]);
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
     setSourceToken(targetToken);
     setTargetToken(_sourceToken);
     setAmount(fromWei(rateByPath));
-  };
-
-  const onSwap = () => {
-    if (isConnected) send();
-    else connect();
   };
 
   const validate = useMemo(() => {
@@ -235,10 +233,10 @@ export function SwapFormContainer() {
 
       <Arbitrage />
 
-      <div className="swap-form-container">
-        <div className="swap-form swap-form-send">
-          <div className="swap-form__title">{t(translations.swap.send)}</div>
-          <div className="swap-form__currency">
+      <div className={styles.swapFormContainer}>
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.send)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={sourceToken}
               items={sourceOptions}
@@ -246,10 +244,10 @@ export function SwapFormContainer() {
               onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={sourceToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
@@ -257,16 +255,16 @@ export function SwapFormContainer() {
             />
           </div>
         </div>
-        <div className="swap-revert-wrapper">
+        <div className={styles.swapRevertWrapper}>
           <div
-            className="swap-revert"
+            className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
           />
         </div>
-        <div className="swap-form swap-form-receive">
-          <div className="swap-form__title">{t(translations.swap.receive)}</div>
-          <div className="swap-form__currency">
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.receive)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={targetToken}
               items={targetOptions}
@@ -274,10 +272,10 @@ export function SwapFormContainer() {
               onChange={value => setTargetToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={targetToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <Input
               value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
@@ -288,8 +286,8 @@ export function SwapFormContainer() {
         </div>
       </div>
 
-      <div className="swap-btn-container">
-        <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center tw-tracking-normal">
+      <div className={styles.swapBtnContainer}>
+        <div className={styles.swapBtnHelper}>
           <span>
             {t(translations.swap.minimumReceived)}{' '}
             {weiToNumberFormat(minReturn, 6)}
@@ -310,7 +308,7 @@ export function SwapFormContainer() {
                     href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                   >
                     x
                   </a>,
@@ -320,8 +318,13 @@ export function SwapFormContainer() {
           />
         )}
         <BuyButton
-          disabled={tx.loading || (!validate && isConnected) || swapLocked}
-          onClick={() => onSwap()}
+          disabled={
+            tx.loading ||
+            !isConnected ||
+            (!validate && isConnected) ||
+            swapLocked
+          }
+          onClick={() => send()}
           text={t(translations.swap.cta)}
         />
       </div>

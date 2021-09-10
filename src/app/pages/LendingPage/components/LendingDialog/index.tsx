@@ -54,7 +54,6 @@ export function LendingDialog({
   const modalTranslation =
     translations.lendingPage.modal[type === 'add' ? 'deposit' : 'withdraw'];
   const [amount, setAmount] = useState<string>('');
-  // const isConnected = useIsConnected();
 
   const weiAmount = useWeiAmount(amount);
 
@@ -85,14 +84,26 @@ export function LendingDialog({
     isGreaterThanZero,
     hasSufficientBalance,
   ]);
+  const [isTotalClicked, setIsTotalClicked] = useState<boolean | undefined>();
 
-  const withdrawAmount = useMemo(
-    () =>
-      bignumber(weiAmount)
-        .mul(bignumber(depositedBalance).div(depositedAssetBalance))
-        .toFixed(0),
-    [weiAmount, depositedBalance, depositedAssetBalance],
+  const calculateWithdrawAmount = useCallback(() => {
+    let withdrawAmount = weiAmount;
+    //checking, if user want to withdraw full amount, this will update it
+    if (isTotalClicked) {
+      withdrawAmount = depositedAssetBalance;
+    }
+    return bignumber(withdrawAmount)
+      .mul(bignumber(depositedBalance).div(depositedAssetBalance))
+      .toFixed(0);
+  }, [depositedAssetBalance, depositedBalance, isTotalClicked, weiAmount]);
+
+  const [withdrawAmount, setWithdrawAmount] = useState(
+    calculateWithdrawAmount(),
   );
+
+  useEffect(() => {
+    setWithdrawAmount(calculateWithdrawAmount());
+  }, [calculateWithdrawAmount]);
 
   // LENDING
   const { lend, ...lendTx } = useLending_approveAndLend(currency, weiAmount);
@@ -164,20 +175,38 @@ export function LendingDialog({
   const handleSubmit = () =>
     type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
 
+  const handleChange = useCallback((newValue: string, isTotal?: boolean) => {
+    setAmount(newValue);
+    setIsTotalClicked(isTotal);
+  }, []);
+
+  const maxDepositText =
+    Number(maxAmount) > 0
+      ? ` ${t(translations.lendingPage.modal.deposit.max, {
+          limit: weiToNumberFormat(maxAmount, 4),
+          asset: currency,
+        })}`
+      : '';
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-text-white tw-text-center tw-tracking-normal">
+        <div className="tw-mw-340 tw-mx-auto">
+          <h1 className="tw-text-sov-white tw-text-center tw-tracking-normal">
             {t(modalTranslation.title)}
           </h1>
-
           <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.amount)}
+            label={
+              type === 'add'
+                ? `${t(
+                    translations.lendingPage.modal.deposit.amount,
+                  )}${maxDepositText}:`
+                : t(translations.lendingPage.modal.withdraw.amount)
+            }
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={(value, isTotal) => handleChange(value, isTotal)}
               asset={currency}
               maxAmount={
                 type === 'add'
@@ -188,11 +217,9 @@ export function LendingDialog({
           </FormGroup>
 
           <div className="tw-mb-4 tw-mt-2">
-            {/* {type === 'add' && <AvailableBalance asset={currency} />} */}
-
             {type === 'add' && (
               <div
-                className={cn('tw-text-error tw-text-sm tw-text-center', {
+                className={cn('tw-text-warning tw-text-sm tw-text-center', {
                   'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
                 })}
               >
@@ -242,26 +269,12 @@ export function LendingDialog({
               </div>
             </>
           )}
-
-          {/*<FormGroup label="Expected Reward:" className="tw-mb-5">*/}
-          {/*  <Input*/}
-          {/*    value="0"*/}
-          {/*    readOnly*/}
-          {/*    appendElem={<AssetRenderer asset={Asset.SOV} />}*/}
-          {/*  />*/}
-          {/*</FormGroup>*/}
-
           <TxFeeCalculator
             args={txFeeArgs}
             methodName={getMethodName()}
             contractName={contractName}
             className="tw-mt-6"
           />
-
-          {/*{topupLocked?.maintenance_active && (*/}
-          {/*  <ErrorBadge content={topupLocked?.message} />*/}
-          {/*)}*/}
-
           <DialogButton
             confirmLabel={t(modalTranslation.cta)}
             onConfirm={handleSubmit}

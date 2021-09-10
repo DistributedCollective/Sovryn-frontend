@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -15,7 +15,7 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
 import styled from 'styled-components/macro';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -28,51 +28,48 @@ interface Props {
   onSuccess?: () => void;
 }
 
-export function TxDialog(props: Props) {
+export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
   const { t } = useTranslation();
   const { address } = useWalletContext();
-  const close = () => {
-    props.tx && props.tx.reset();
-  };
-  const confirm = () => {
-    props.tx.reset();
-  };
+
+  const close = useCallback(() => tx.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
-  const oldStatus = usePrevious(props.tx.status);
+  const oldStatus = usePrevious(tx.status);
 
   useEffect(() => {
     if (
       oldStatus === TxStatus.PENDING_FOR_USER &&
-      props.tx.status === TxStatus.PENDING &&
-      props.onUserConfirmed
+      tx.status === TxStatus.PENDING &&
+      onUserConfirmed
     ) {
-      props.onUserConfirmed();
+      onUserConfirmed();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.tx.status]);
+  }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
-    if (props.tx.status === TxStatus.CONFIRMED && props.onSuccess) {
-      props.onSuccess();
+    if (tx.status === TxStatus.CONFIRMED && onSuccess) {
+      onSuccess();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.tx.status]);
+  }, [tx.status, onSuccess]);
 
   return (
     <Dialog
       isCloseButtonShown={false}
-      isOpen={props.tx.status !== TxStatus.NONE}
-      onClose={() => close()}
+      isOpen={tx.status !== TxStatus.NONE}
+      onClose={close}
       className={styles.dialog}
     >
-      {props.tx.status === TxStatus.PENDING_FOR_USER && (
+      {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
-          <p className="text-center mx-auto w-100" style={{ maxWidth: 266 }}>
+          <p
+            className="tw-text-center tw-mx-auto tw-w-full"
+            style={{ maxWidth: 266 }}
+          >
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -80,52 +77,46 @@ export function TxDialog(props: Props) {
         </>
       )}
       {[TxStatus.PENDING, TxStatus.CONFIRMED, TxStatus.FAILED].includes(
-        props.tx.status,
+        tx.status,
       ) && (
         <>
-          <button
-            data-close=""
-            className="dialog-close"
-            onClick={() => close()}
-          >
-            <span className="sr-only">Close Dialog</span>
+          <button data-close="" className="dialog-close" onClick={close}>
+            <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <StatusComponent status={props.tx.status} />
+          <StatusComponent status={tx.status} />
 
-          {!!props.tx.txHash && (
+          {!!tx.txHash && (
             <StyledHashContainer>
               <StyledHash>
-                <strong>Hash:</strong> {prettyTx(props.tx.txHash)}
+                <strong>Hash:</strong> {prettyTx(tx.txHash)}
               </StyledHash>
               <ExplorerLink>
                 <LinkToExplorer
-                  txHash={props.tx.txHash}
+                  txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="text-blue"
+                  className="tw-text-blue"
                 />
               </ExplorerLink>
             </StyledHashContainer>
           )}
 
-          {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
+          {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="text-center">
+              <p className="tw-text-center">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="text-center">
+                <p className="tw-text-center">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="mx-auto w-100">
+          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
             <ConfirmButton
-              onClick={() =>
-                props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
-              }
+              onClick={close}
               text={t(translations.common.close)}
             />
           </div>
@@ -178,7 +169,7 @@ const StyledStatus = styled.div`
     height: 100px;
   }
   p {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
   }
 `;
@@ -191,7 +182,7 @@ const StyledHashContainer = styled.div`
 
 const StyledHash = styled.div`
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 300;
   margin-bottom: 35px;
   strong {
@@ -201,14 +192,14 @@ const StyledHash = styled.div`
   }
 `;
 
-const ExplorerLink = styled.div`
+const ExplorerLink = styled.div.attrs(_ => ({
+  className: 'tw-text-secondary',
+}))`
   text-align: center;
   a {
-    color: #2274a5 !important;
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }
@@ -230,11 +221,11 @@ function StatusComponent({ status }: { status: TxStatus }) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
-  border: 1px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`
@@ -246,9 +237,9 @@ const WLImage = styled.img`
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
+    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
+      <div className="tw-truncate">{getWalletName(wallet)}</div>
     </WLContainer>
   );
 }

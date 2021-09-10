@@ -78,7 +78,7 @@ export function TopUpHistory() {
           <tbody className="tw-mt-12">
             {state.history.items.length === 0 && !state.history.loading && (
               <tr>
-                <td className="text-center" colSpan={99}>
+                <td className="tw-text-center" colSpan={99}>
                   {t(translations.topUpHistory.emptyState)}
                 </td>
               </tr>
@@ -117,7 +117,7 @@ export function TopUpHistory() {
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
                     <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
-                    <small className="tw-text-muted">
+                    <small className="tw-text-gray-6">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
                   </div>
@@ -131,7 +131,7 @@ export function TopUpHistory() {
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   )}
                 </td>
@@ -143,7 +143,7 @@ export function TopUpHistory() {
                   {item.type === 'transfer' && (
                     <LinkToExplorer
                       txHash={item.txHash}
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   )}
                 </td>

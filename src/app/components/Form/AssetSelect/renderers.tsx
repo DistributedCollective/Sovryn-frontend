@@ -36,9 +36,9 @@ export const valueRenderer = (item: Option) => {
     <Text
       ellipsize
       tagName="div"
-      className="flex flex-row items-center justify-start"
+      className="tw-flex tw-flex-row tw-items-center tw-justify-start"
     >
-      <img src={item.data} className="w-6 mr-2" alt={item.label} />
+      <img src={item.data} className="tw-w-6 tw-mr-2" alt={item.label} />
       {item.label || item.key}
     </Text>
   );

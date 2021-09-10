@@ -71,8 +71,8 @@ export function AddToMarginDialog(props: Props) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-320 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-white tw-text-center">
+        <div className="tw-mw-340 tw-mx-auto">
+          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.addToMargin.title)}
           </h1>
 
@@ -120,7 +120,7 @@ export function AddToMarginDialog(props: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,
