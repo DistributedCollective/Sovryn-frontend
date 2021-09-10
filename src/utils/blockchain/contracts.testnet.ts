@@ -1,3 +1,7 @@
+import tokenAbi from './abi/abiTestToken.json';
+import TestTokenABI from './abi/abiTestToken.json';
+import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 /**
  * Do not import this file directly.
  * Use getContract(contractName) helper
@@ -5,34 +9,30 @@
  */
 
 import bzxAbi from './abi/bzxAbi.json';
-import priceFeedsAbi from './abi/priceFeedAbi.json';
-import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
-import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
-import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
-import tokenAbi from './abi/abiTestToken.json';
-import TestTokenABI from './abi/abiTestToken.json';
-import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
-import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
-import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
-import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
-import SovrynNFTAbi from './abi/SovrynNFT.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
+import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import FISHTokenAbi from './abi/FISH.json';
+import LiquidityMiningAbi from './abi/LiquidityMining.json';
+import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
+import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
+import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
+import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
+import LockedFundAbi from './abi/LockedFund.json';
+import LockedSovAbi from './abi/LockedSOV.json';
+import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import priceFeedsAbi from './abi/priceFeedAbi.json';
+import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
+import SovrynNFTAbi from './abi/SovrynNFT.json';
+import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
+import StakingAbi from './abi/Staking.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
-import StakingAbi from './abi/Staking.json';
-import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
-import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
-import LiquidityMiningAbi from './abi/LiquidityMining.json';
-import LockedSovAbi from './abi/LockedSOV.json';
-import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
-import stakingRewardsProxyAbi from './abi/StakingRewards.json';
-import FISHTokenAbi from './abi/FISH.json';
-import OriginsBaseAbi from './abi/OriginsBase.json';
-import LockedFundAbi from './abi/LockedFund.json';
-import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -116,7 +116,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   XUSD_token: {
-    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    address: '  ',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
@@ -271,7 +271,7 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
+    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
