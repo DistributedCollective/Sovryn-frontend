@@ -26,7 +26,10 @@ import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNet
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
@@ -36,6 +39,8 @@ import { discordInvite } from 'utils/classifiers';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 import { useLimitOrder } from 'app/hooks/useLimitOrder';
+import settingImg from 'assets/images/settings-blue.svg';
+import styles from './index.module.scss';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -48,6 +53,7 @@ export function TradeForm() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [slippage, setSlippage] = useState(0.5);
   const [amount, setAmount] = useState<string>('');
+  const [limitPrice, setLimitPrice] = useState<string>('');
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
 
@@ -101,6 +107,14 @@ export function TradeForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => linkPairType && history.replace(location.pathname), []);
 
+  const order = () => {
+    if (orderType === OrderTypes.MARKET) {
+      send();
+    } else {
+      createOrder();
+    }
+  };
+
   return (
     <>
       {dialogOpen && (
@@ -124,13 +138,43 @@ export function TradeForm() {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
+              subElem={
+                <div className="tw-mb-2 tw-mt-2">
+                  <AvailableBalance
+                    className={styles['available-balance']}
+                    asset={sourceToken}
+                  />
+                </div>
+              }
             />
-            <div className="tw-mb-6 tw-mt-2">
-              <AvailableBalance asset={sourceToken} />
-            </div>
           </FormGroup>
 
-          <ArrowDown />
+          {orderType === OrderTypes.LIMIT && (
+            <FormGroup
+              className="tw-mt-8"
+              label={t(translations.spotTradingPage.tradeForm.limitPrice)}
+            >
+              <Input
+                value={stringToFixedPrecision(limitPrice, 6)}
+                onChange={setLimitPrice}
+                type="number"
+                appendElem={'sats'}
+                className="tw-rounded-lg"
+              />
+            </FormGroup>
+          )}
+
+          <div
+            onClick={() => setDialogOpen(true)}
+            className="tw-text-secondary tw-text-xs tw-inline-flex tw-items-center tw-cursor-pointer tw-mb-7"
+          >
+            {t(translations.spotTradingPage.tradeForm.advancedSettings)}
+            <img className="tw-ml-2" alt="setting" src={settingImg} />
+          </div>
+
+          {orderType === OrderTypes.MARKET && (
+            <div className={styles['market-gap']} />
+          )}
 
           <div className="swap-form__amount">
             <div className="tw-text-base tw-mb-1">
@@ -143,15 +187,13 @@ export function TradeForm() {
               appendElem={<AssetRenderer asset={targetToken} />}
             />
             <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-              <span className="tw-text-xs tw-whitespace-nowrap tw-mr-1">
-                {t(translations.swap.minimumReceived)}{' '}
-                {weiToNumberFormat(minReturn, 6)}
+              <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
+                <span>{t(translations.swap.minimumReceived)} </span>
+                <span>
+                  {weiToNumberFormat(minReturn, 6)}{' '}
+                  <AssetRenderer asset={targetToken} />
+                </span>
               </span>
-              <img
-                src={settingIcon}
-                alt="settings"
-                onClick={() => setDialogOpen(true)}
-              />
             </div>
           </div>
         </div>
@@ -185,20 +227,11 @@ export function TradeForm() {
                   : translations.spotTradingPage.tradeForm.sell_cta,
               )}
               tradingType={tradeType}
-              onClick={() => send()}
+              onClick={() => order()}
               disabled={!validate || !connected || spotLocked}
             />
           </div>
         )}
-
-        <div className="tw-mt-10 tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
-          <Button
-            text={'Limit Order'}
-            tradingType={tradeType}
-            onClick={() => createOrder()}
-            disabled={!validate || !connected || spotLocked}
-          />
-        </div>
       </div>
       <TxDialog tx={tx} />
       <TxDialog tx={createTx} />

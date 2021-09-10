@@ -19,6 +19,7 @@ interface Props {
   asset?: Asset;
   assetString?: string;
   subText?: string;
+  subElem?: React.ReactNode;
   placeholder?: string;
   maxAmount?: string;
   readonly?: boolean;
@@ -33,6 +34,7 @@ export function AmountInput({
   asset,
   assetString,
   subText,
+  subElem,
   maxAmount,
   readonly,
   showBalance,
@@ -55,6 +57,7 @@ export function AmountInput({
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
+      {subElem && <>{subElem}</>}
       {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
           asset={asset}

@@ -27,7 +27,7 @@ export function Button({
       type="button"
       onClick={() => onClick(tradingType)}
       className={cn(
-        'tw-text-sov-white tw-text-xl tw-font-bold tw-leading-none tw-font-body tw-rounded-lg tw-px-6 tw-transition hover:tw-opacity-75 tw-w-full',
+        'tw-text-sov-white tw-text-xl tw-font-bold tw-leading-none tw-font-body tw-rounded-lg tw-px-6 tw-transition tw-w-full',
         className,
         {
           'tw-bg-trade-short': tradingType === TradingTypes.SELL,
@@ -35,9 +35,11 @@ export function Button({
           'tw-py-2': small,
           'tw-py-4': !small,
           'tw-opacity-25': disabled,
+          'hover:tw-opacity-75': !disabled,
         },
         { loading: loading },
       )}
+      disabled={disabled}
       {...props}
     >
       {text}
