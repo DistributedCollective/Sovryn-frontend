@@ -14,7 +14,7 @@ import {
   weiToNumberFormat,
 } from 'utils/display-text/format';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { weiTo18, fromWei } from 'utils/blockchain/math-helpers';
 import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
@@ -121,13 +121,23 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
               </>
             }
           />
-          {/* {collateralAsset !== pair.shortAsset && (
-            <div>≈ {(weiToNumberFormat(item.startRate, 6))} <AssetRenderer asset={pair.shortDetails.asset} /></div>
+          {collateralAsset !== pair.shortAsset && (
+            <div>
+              ≈ {weiToNumberFormat(item.startRate, 6)}{' '}
+              <AssetRenderer asset={pair.shortDetails.asset} />
+            </div>
           )}
 
           {collateralAsset === pair.shortAsset && (
-            <div>≈ {toNumberFormat(Number(fromWei(amount)) * getEntryPrice(item, position), 6)} <AssetRenderer asset={pair.longDetails.asset} /></div>
-          )} */}
+            <div>
+              ≈{' '}
+              {toNumberFormat(
+                Number(fromWei(amount)) * getEntryPrice(item, position),
+                6,
+              )}{' '}
+              <AssetRenderer asset={pair.longDetails.asset} />
+            </div>
+          )}
         </div>
       </td>
       <td className="tw-hidden sm:tw-table-cell">
@@ -135,7 +145,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <CurrentPositionProfit
             source={loanAsset}
             destination={collateralAsset}
-            amount={amount}
+            amount={item.collateral}
             startPrice={startPrice}
             isLong={isLong}
           />

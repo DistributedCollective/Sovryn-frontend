@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import {
   calculateProfit,
   weiToNumberFormat,
   toNumberFormat,
 } from 'utils/display-text/format';
-
 import { DummyField } from 'app/components/DummyField';
 import { toWei, weiTo18, fromWei } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -30,10 +29,12 @@ import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
+import { discordInvite } from 'utils/classifiers';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -56,7 +57,6 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const receiver = useAccount();
 
   const [amount, setAmount] = useState<string>('0');
-  const [maxTargetAmount, setMaxTargetAmount] = useState('0');
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(props.item.collateralToken),
   );
@@ -84,15 +84,6 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const weiAmount = useWeiAmount(amount);
-
-  const { send, ...rest } = useCloseWithSwap(
-    props.item.loanId,
-    receiver,
-    weiAmount,
-    isCollateral,
-    '0x',
-  );
-
   const handleConfirmSwap = () => {
     send();
   };
@@ -115,6 +106,14 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     isLong,
   );
 
+  const { send, ...rest } = useCloseWithSwap(
+    props.item.loanId,
+    receiver,
+    weiAmount,
+    isCollateral,
+    '0x',
+  );
+
   const startPriceSource = getEntryPrice(props.item);
 
   const [profit, diff] = calculateProfit(
@@ -124,21 +123,15 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     weiAmount,
   );
 
-  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
-    sourceToken.asset,
-    targetToken.asset,
-    props.item.collateral,
-  );
-
-  useEffect(() => {
-    setAmount('0');
-    setMaxTargetAmount(rateByPath);
-  }, [isCollateral, rateByPath]);
-
-  const valid = useIsAmountWithinLimits(
+  const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
+  const test = useTrading_testRates(
+    assetByTokenAddress(
+      isCollateral ? props.item.loanToken : props.item.collateralToken,
+    ),
+    assetByTokenAddress(
+      isCollateral ? props.item.collateralToken : props.item.loanToken,
+    ),
     weiAmount,
-    '1',
-    isCollateral ? props.item.collateral : maxTargetAmount,
   );
 
   const totalAmount = Number(amount) + Number(fromWei(profit));
@@ -198,11 +191,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                       <div>
                         {diff > 0 && '+'}
                         {weiToNumberFormat(profit, 8)}{' '}
-                        <AssetRenderer
-                          asset={
-                            isCollateral ? sourceToken.asset : targetToken.asset
-                          }
-                        />
+                        <AssetRenderer asset={sourceToken.asset} />
                         {amount !== '0' && (
                           <div>({toNumberFormat(diff * 100, 2)}%)</div>
                         )}
@@ -228,8 +217,8 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
-              asset={isCollateral ? sourceToken.asset : targetToken.asset}
-              maxAmount={isCollateral ? props.item.collateral : maxTargetAmount}
+              asset={sourceToken.asset}
+              maxAmount={props.item.collateral}
             />
           </FormGroup>
 
@@ -246,9 +235,14 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                 <LoadableValue
                   loading={false}
                   value={weiToNumberFormat(minReturn, 4)}
-                  tooltip={weiTo18(minReturn)}
+                  tooltip={
+                    <>
+                      {weiTo18(minReturn)}{' '}
+                      <AssetRenderer asset={sourceToken.asset} />
+                    </>
+                  }
                 />{' '}
-                {collateral}
+                <AssetRenderer asset={sourceToken.asset} />
               </div>
             </div>
           </FormGroup>
@@ -260,7 +254,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
           />
 
-          {/* {(closeTradesLocked || test.diff > 5) && (
+          {(closeTradesLocked || test.diff > 5) && (
             <ErrorBadge
               content={
                 closeTradesLocked ? (
@@ -295,7 +289,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                 ) : undefined
               }
             />
-          )} */}
+          )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}

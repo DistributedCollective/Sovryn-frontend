@@ -1,10 +1,10 @@
+import { bignumber } from 'mathjs';
 import {
   weiToFixed,
   weiTo18,
   fromWei,
   roundToSmaller,
 } from '../blockchain/math-helpers';
-import { bignumber } from 'mathjs';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());

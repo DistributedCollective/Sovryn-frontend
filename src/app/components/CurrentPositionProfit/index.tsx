@@ -76,20 +76,35 @@ export function CurrentPositionProfit({
       <LoadableValue
         loading={loading}
         value={
-          <span
-            className={diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'}
-          >
+          <div className="tw-flex tw-items-center">
+            <span
+              className={
+                diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
+              }
+            >
+              <div>
+                {diff > 0 && '+'}
+                {weiToNumberFormat(profit, 6)}{' '}
+                <AssetRenderer asset={destination} />
+              </div>
+              ≈{' '}
+              <LoadableValue
+                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                loading={dollarsLoading}
+              />
+            </span>
             <div>
-              {diff > 0 && '+'}
-              {weiToNumberFormat(profit, 8)}{' '}
-              <AssetRenderer asset={destination} />
+              {diff > 0 ? (
+                <span className="tw-text-trade-long tw-ml-2">
+                  (+{toNumberFormat(diff * 100, 2)}%)
+                </span>
+              ) : (
+                <span className="tw-text-trade-short tw-ml-2">
+                  ({toNumberFormat(Math.abs(diff * 100), 2)}%)
+                </span>
+              )}
             </div>
-            ≈{' '}
-            <LoadableValue
-              value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-              loading={dollarsLoading}
-            />
-          </span>
+          </div>
         }
         tooltip={<Change />}
       />
