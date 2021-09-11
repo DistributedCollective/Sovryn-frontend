@@ -17,9 +17,13 @@ export function useCurrentPositionPrice(
   const getRate = useCallback(
     async (source: Asset, target: Asset, amount: string) => {
       const response = await rateProvider.getPrice(source, target, amount);
-      let _rate = toWei(bignumber(response).div(amount));
+      let _rate = toWei(bignumber(response as string).div(amount));
       try {
-        _rate = (await rateProvider.getRate(source, target, amount)) as string;
+        _rate = (await rateProvider.getDisagreementRate(
+          source,
+          target,
+          amount,
+        )) as string;
       } catch (e) {
         console.error(e);
       }
