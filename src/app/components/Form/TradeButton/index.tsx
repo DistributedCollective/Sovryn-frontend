@@ -13,8 +13,8 @@ export function TradeButton({ className, position, ...props }: Props) {
       className={cn(
         'tw-btn tw-btn-trade',
         className,
-        { 'tw-btn-trade--long': position === TradingPosition.LONG },
-        { 'tw-btn-trade--short': position === TradingPosition.SHORT },
+        { 'tw-bg-trade-long': position === TradingPosition.LONG },
+        { 'tw-bg-trade-short': position === TradingPosition.SHORT },
       )}
       {...props}
     />

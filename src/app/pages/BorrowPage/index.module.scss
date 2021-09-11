@@ -1,0 +1,149 @@
+@import '../../../styles/sass/custom-variables';
+
+.nav-item {
+  @apply tw-text-white tw-font-thin tw-font-body;
+
+  &.active {
+    @apply tw-font-semibold tw-no-underline;
+
+    &:hover {
+      @apply tw-text-white;
+    }
+  }
+
+  &:hover,
+  &:active {
+    @apply tw-text-primary tw-no-underline;
+  }
+}
+
+.header {
+  margin-bottom: 5%;
+}
+
+.main-container {
+  @apply tw-w-full tw-h-screen tw-overflow-auto tw-bg-gray-1;
+  padding: 4vh 7vw;
+  background-image: url('assets/img/bg@3x.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 0 250%;
+}
+
+.currency-row-link {
+  margin: 0;
+  padding: 0;
+}
+
+.currency-container {
+  @apply tw-border-gray-5;
+  will-change: border-color, height;
+  transition: border-color 0.3s, height 0.3s;
+
+  &.active {
+    @apply tw-text-white tw-border-white;
+  }
+}
+
+.currency {
+  display: flex;
+  align-items: center;
+
+  & p {
+    @apply tw-m-0 tw-p-0
+      tw-text-3xl tw-font-semibold tw-uppercase;
+  }
+
+  & > span {
+    @apply tw-text-sm;
+  }
+
+  & > div {
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.currency-title {
+  & h3 {
+    @apply tw-text-3xl tw-font-light;
+  }
+}
+
+.icon-btn {
+  background: none !important;
+
+  &:hover,
+  &:active,
+  &:focus {
+    //background: rgba(236, 236, 236, 0.23) !important;
+    & .bp3-icon > svg:not([fill]) {
+      @apply tw-fill-current tw-text-primary;
+    }
+  }
+}
+
+.loan-graph-container {
+  &-enter {
+    opacity: 0;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-axit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+}
+
+.deposit-button-group {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  & button {
+    @apply tw-w-full
+      tw-text-xs tw-font-bold;
+
+    @media screen and (min-width: 900px) {
+      @apply tw-text-2xl;
+    }
+  }
+
+  & button.disabled {
+    @apply tw-bg-gray-6 tw-border tw-border-gray-6;
+  }
+}
+
+.withdraw-content {
+  @apply tw-text-black
+    tw-bg-white tw-rounded-lg;
+
+  & h4 {
+    @apply tw-text-lg tw-text-black;
+  }
+}
+
+.empty-history {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popover-borrow {
+  padding: 20px;
+  text-align: center;
+
+  :global(.bp3-numeric-input) {
+    margin: 10px 0;
+  }
+}

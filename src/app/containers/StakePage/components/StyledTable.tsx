@@ -4,19 +4,15 @@ import { media } from '../../../../styles/media';
 export const StyledTable = styled.table`
   font-weight: 100;
   width: 100%;
-  font-size: 14px;
-  font-family: 'Work Sans';
+  font-size: 0.875rem;
 
   &.sovryn-table-mobile {
-    font-size: 12px;
-    @media (max-width: 335px) {
-      font-size: 11px;
-    }
+    font-size: 0.75rem;
   }
   .table-header div {
     font-weight: 300;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 0 22px;
     height: 45px;
   }
@@ -26,7 +22,7 @@ export const StyledTable = styled.table`
     th {
       font-weight: 300;
       color: white;
-      font-size: 14px;
+      font-size: 0.875rem;
       padding: 0 5px;
       height: 45px;
     }
@@ -40,15 +36,15 @@ export const StyledTable = styled.table`
       }
       td {
         &:first-child {
-          border-radius: 6px 0 0 6px;
+          border-radius: 0.375rem 0 0 0.375rem;
         }
 
         &:last-child {
-          border-radius: 0 6px 6px 0;
+          border-radius: 0 0.375rem 0.375rem 0;
         }
 
         &:only-child {
-          border-radius: 6px;
+          border-radius: 0.375rem;
         }
       }
     }
@@ -70,15 +66,15 @@ export const StyledTable = styled.table`
         td {
           background-color: #101010;
           &:first-child {
-            border-radius: 6px 0 0 6px;
+            border-radius: 0.375rem 0 0 0.375rem;
           }
 
           &:last-child {
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 0.375rem 0.375rem 0;
           }
 
           &:only-child {
-            border-radius: 6px;
+            border-radius: 0.375rem;
           }
         }
       }
@@ -103,7 +99,7 @@ export const StyledTable = styled.table`
       > td {
         font-weight: 300;
         color: white;
-        font-size: 16px;
+        font-size: 1rem;
         height: 45px;
         padding-top: 20px;
       }

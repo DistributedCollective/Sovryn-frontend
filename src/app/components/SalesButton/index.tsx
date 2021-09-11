@@ -7,16 +7,16 @@ export const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
   className: 'tw-flex tw-flex-row tw-justify-center tw-items-center',
 }))`
-  border: 1px solid var(--gold);
-  background: var(--gold5);
-  border-radius: 10px;
-  color: var(--gold);
+  border: 1px solid var(--primary);
+  background: var(--primary-10);
+  border-radius: 0.75rem;
+  color: var(--primary);
   min-width: 48px;
   height: 48px;
   font-family: 'Montserrat';
   font-weight: 300;
   letter-spacing: 0px;
-  font-size: 18px;
+  font-size: 1.125rem;
   text-align: center;
   text-transform: inherit;
   transition: background 0.3s;
@@ -28,7 +28,7 @@ export const StyledButton = styled.button.attrs(_ => ({
   }
   &:hover {
     text-decoration: none;
-    color: var(--gold);
+    color: var(--primary);
   }
   ${media.xl`
     min-width: 240px;
@@ -37,12 +37,12 @@ export const StyledButton = styled.button.attrs(_ => ({
 
     &:hover, &:focus {
       &:not([disabled]) {
-        background: var(--gold25) !important;
+        background: var(--primary-25) !important;
       }
     }
     &:active:hover {
       &:not([disabled]) {
-        background: var(--gold50) !important;
+        background: var(--primary-50) !important;
       }
     }
     `}

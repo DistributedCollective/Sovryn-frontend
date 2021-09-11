@@ -44,24 +44,31 @@ export function Arbitrage() {
       Object.values(data)
         .filter(isValidArbitrage)
         .map(item => {
-          const toToken = assetByTokenAddress(item.rateToBalance.to);
-          const rate = assetRates.find(
-            item => item.source === toToken && item.target === Asset.USDT,
-          );
+          try {
+            const toToken = assetByTokenAddress(item.rateToBalance.to);
+            const rate = assetRates.find(
+              item => item.source === toToken && item.target === Asset.USDT,
+            );
+            return {
+              fromToken: assetByTokenAddress(item.rateToBalance.from),
+              toToken,
+              fromAmount: item.rateToBalance.amount,
+              toAmount: item.rateToBalance.rate,
+              earn: item.rateToBalance.earn,
+              earnUsd: rate
+                ? Number(
+                    bignumber(fixNumber(rate.value.rate))
+                      .mul(item.rateToBalance.earn)
+                      .div(rate.value.precision)
+                      .toFixed(18),
+                  )
+                : 0,
+            };
+          } catch (error) {
+            console.error(error);
+          }
           return {
-            fromToken: assetByTokenAddress(item.rateToBalance.from),
-            toToken,
-            fromAmount: item.rateToBalance.amount,
-            toAmount: item.rateToBalance.rate,
-            earn: item.rateToBalance.earn,
-            earnUsd: rate
-              ? Number(
-                  bignumber(fixNumber(rate.value.rate))
-                    .mul(item.rateToBalance.earn)
-                    .div(rate.value.precision)
-                    .toFixed(18),
-                )
-              : 0,
+            earnUsd: NaN,
           };
         })
         .sort((a, b) => b.earnUsd - a.earnUsd) as Opportunity[],
@@ -79,14 +86,14 @@ export function Arbitrage() {
     <>
       {opportunity !== null && (
         <div className="tw-my-3">
-          <div className="tw-text-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-gold">
+          <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
             {t(s.arbitrage.best_rate)}{' '}
-            <span className="tw-text-gold">
+            <span className="tw-text-primary">
               {toNumberFormat(opportunity.fromAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.fromToken} />
             </span>{' '}
             {t(s.arbitrage.for)}{' '}
-            <span className="tw-text-gold">
+            <span className="tw-text-primary">
               {toNumberFormat(opportunity.toAmount, 6)}{' '}
               <AssetSymbolRenderer asset={opportunity.toToken} />
             </span>

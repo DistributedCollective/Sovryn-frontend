@@ -19,8 +19,8 @@ const H2 = styled.h2<H2Props>`
 
   & > :first-child {
     display: inline-block;
-    font-size: 48px;
-    line-height: 48px;
+    font-size: 3rem;
+    line-height: 1;
     letter-spacing: 0.21px;
     margin-right: 10px;
     text-align: right;
@@ -29,7 +29,9 @@ const H2 = styled.h2<H2Props>`
   }
 
   & > :not(:first-child) {
-    font-size: 26px;
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 600;
     letter-spacing: 0;
     margin-bottom: 3px;
   }
@@ -44,15 +46,15 @@ const Container = styled.article`
   width: 298px;
   max-width: 450px;
   min-height: 360px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   padding: 15px 30px;
   @media (max-width: 768px) {
     width: 100%;
   }
   a {
-    font-size: 16px;
+    font-size: 1rem;
     color: #2274a5;
     font-weight: 300;
     text-decoration: underline;
