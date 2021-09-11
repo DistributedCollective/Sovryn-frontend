@@ -8,8 +8,8 @@
   }
 
   .tw-input {
-    @apply tw-w-full tw-bg-transparent tw-text-black tw-appearance-none;
-    @apply tw-font-semibold tw-font-body tw-text-sm;
+    @apply tw-w-full tw-bg-transparent tw-text-black tw-appearance-none focus:tw-outline-none;
+    @apply tw-font-semibold tw-font-body tw-text-base;
     @apply tw-px-5;
     @apply tw-placeholder-black tw-placeholder-opacity-25;
   }

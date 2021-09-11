@@ -124,6 +124,7 @@ export default function Chart(props: ChartProps) {
     },
     xAxis: {
       type: 'datetime',
+      tickPixelInterval: 70,
       title: {
         text: props.xAxisProps?.title || undefined,
       },

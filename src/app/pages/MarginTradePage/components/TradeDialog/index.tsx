@@ -36,9 +36,9 @@ import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
-import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
+import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -76,13 +76,6 @@ export function TradeDialog() {
   );
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
-
-  const { price, loading } = useCurrentPositionPrice(
-    loanToken,
-    collateralToken,
-    estimations.principal,
-    position === TradingPosition.SHORT,
-  );
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -203,9 +196,13 @@ export function TradeDialog() {
           >
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
-                <LoadableValue
-                  loading={loading}
-                  value={<>{toNumberFormat(price, 2)}</>}
+                <PricePrediction
+                  position={position}
+                  leverage={leverage}
+                  loanToken={loanToken}
+                  collateralToken={collateralToken}
+                  useLoanTokens={useLoanTokens}
+                  weiAmount={amount}
                 />
               </div>
               <div className="tw-input-append">{pair.longDetails.symbol}</div>

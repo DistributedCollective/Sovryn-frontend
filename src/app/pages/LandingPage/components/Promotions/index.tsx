@@ -52,9 +52,9 @@ export const Promotions: React.FC = () => {
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Purple}
-            title="15K SOV rewards"
+            title="30K SOV rewards"
             duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            text="Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
             learnMoreLink="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}

@@ -1695,7 +1695,9 @@
     },
     "receiverSelector": {
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
-      "confirm": "Por favor verifique e confirme"
+      "confirm": "Por favor verifique e confirme",
+      "withdrawWarning": "Não envie para endereços de exchanges!",
+      "withdrawDisclaimer": "Saques para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja sacar?",
