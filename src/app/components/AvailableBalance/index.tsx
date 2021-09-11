@@ -17,7 +17,7 @@ export function AvailableBalance(props: Props) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
-    <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-6">
+    <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2">
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[

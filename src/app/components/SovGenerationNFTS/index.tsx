@@ -12,6 +12,8 @@ import bfntImg from 'assets/images/wallet/bnft.png';
 import sov_icon from 'assets/images/wallet/icon-sov.svg';
 import { useAccount } from '../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { useLoadSovNfts } from './useLoadSovNfts';
+import SovNftToken from './SovNftToken';
 
 export function SovGenerationNFTS() {
   const account = useAccount();
@@ -61,12 +63,18 @@ export function SovGenerationNFTS() {
     },
   ];
 
+  const { items } = useLoadSovNfts();
+
   return (
     <div className="sovryn-border tw-p-4 tw-mb-12 tw-pb-12">
       <p className="tw-text-center sov-title tw-mb-12">
         SOV Generation 01 NFT's
       </p>
       <div className="lg:tw-flex tw-text-center tw-items-center tw-justify-center">
+        {items.map(item => (
+          <SovNftToken key={item} tokenId={item} />
+        ))}
+
         {balanceBday !== '0' && (
           <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
             <div className="image-bordered">

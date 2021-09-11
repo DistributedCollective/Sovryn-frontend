@@ -32,12 +32,14 @@ import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
@@ -304,5 +306,9 @@ export const contracts = {
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
+    abi: nftAbi,
   },
 };

@@ -1230,7 +1230,12 @@
   },
   "closeTradingPositionHandler": {
     "title": "Close Position",
-    "withdrawIn": "Asset:",
+    "withdrawIn": "Asset to receive:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "P/L:",
     "amountToClose": "Position amount to close:",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
@@ -1745,7 +1750,9 @@
     },
     "receiverSelector": {
       "title": "Enter receiving {{currentNetwork}} wallet address",
-      "confirm": "Please check and confirm"
+      "confirm": "Please check and confirm",
+      "withdrawWarning": "Do not send to exchange addresses!",
+      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
     },
     "tokenSelector": {
       "title": "Select coin to withdraw to",

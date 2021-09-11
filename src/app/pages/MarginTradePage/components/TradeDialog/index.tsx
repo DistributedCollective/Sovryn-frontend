@@ -31,13 +31,14 @@ import { Dialog } from '../../../../containers/Dialog';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
-import { selectMarginTradePage } from '../../selectors';
-import { actions } from '../../slice';
+import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
-import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
+import { selectMarginTradePage } from '../../selectors';
+import { actions } from '../../slice';
+import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -62,6 +63,10 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
+  // todo: test if assets and amounts are correct here after contract is deployed
+  // todo: leverage may require custom amount to be entered
+  const { diff } = useTrading_testRates(loanToken, collateralToken, amount);
+
   const { value: estimations } = useGetEstimatedMarginDetails(
     loanToken,
     leverage,
@@ -71,13 +76,6 @@ export function TradeDialog() {
   );
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
-
-  const { price, loading } = useCurrentPositionPrice(
-    loanToken,
-    collateralToken,
-    estimations.principal,
-    position === TradingPosition.SHORT,
-  );
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -198,9 +196,13 @@ export function TradeDialog() {
           >
             <div className="tw-input-wrapper readonly">
               <div className="tw-input">
-                <LoadableValue
-                  loading={loading}
-                  value={<>{toNumberFormat(price, 2)}</>}
+                <PricePrediction
+                  position={position}
+                  leverage={leverage}
+                  loanToken={loanToken}
+                  collateralToken={collateralToken}
+                  useLoanTokens={useLoanTokens}
+                  weiAmount={amount}
                 />
               </div>
               <div className="tw-input-append">{pair.longDetails.symbol}</div>
@@ -233,11 +235,14 @@ export function TradeDialog() {
                 }
               />
             )}
+            {diff > 5 && (
+              <ErrorBadge content="Liquidity is too low to open position, please try again later." />
+            )}
           </div>
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
-            disabled={openTradesLocked}
+            disabled={openTradesLocked || diff > 5}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
           />
