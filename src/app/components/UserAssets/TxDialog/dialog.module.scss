@@ -1,0 +1,9 @@
+.dialog {
+    @apply tw-relative
+      tw-font-body
+      tw-bg-black tw-border-0 tw-rounded-3xl;
+
+    padding: 30px 40px 50px 40px!important;
+    max-width: 468px;
+    max-height: 592px;
+}

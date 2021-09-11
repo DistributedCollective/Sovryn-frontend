@@ -17,13 +17,12 @@ export function DummyField(props: Props) {
 }
 
 const Div = styled.div`
-  border-radius: 5px;
-  background-color: var(--secondary);
+  border-radius: 0.375rem;
+  background-color: var(--gray-3);
   color: var(--white);
   padding: 10px 14px;
-  font-size: 16px;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 400;
+  font-size: 1rem;
+  font-weight: 400;
   letter-spacing: 0;
   height: 48px;
 `;

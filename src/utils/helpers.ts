@@ -2,7 +2,7 @@ import { utils } from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
-import { Asset } from '../types/asset';
+import { Asset } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 
@@ -183,7 +183,7 @@ export function fixNumber(amount: any) {
   return amount;
 }
 
-export function getUSDSum(array: any[]) {
+export function getUSDSum(array: number[]) {
   return array.reduce(function (sum, value) {
     return sum + value;
   }, 0);

@@ -1,0 +1,133 @@
+// fix for blueprint overlay covering scrollbar - https://github.com/palantir/blueprint/issues/1008
+.bp3-overlay-backdrop {
+  display: none;
+  background: rgba(72, 72, 72, 0.92);
+}
+
+.bp3-overlay-open {
+  background-color: rgba(16, 22, 26, 0.7);
+}
+
+article.bp3-dialog h1 {
+  @apply tw-text-sov-white;
+}
+
+.bp3-tooltip2 {
+  -webkit-box-shadow: 0 0 0 1px rgba(16, 22, 26, 10%),
+    0 2px 4px rgba(16, 22, 26, 20%), 0 8px 24px rgba(16, 22, 26, 20%);
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 10%), 0 2px 4px rgba(16, 22, 26, 20%),
+    0 8px 24px rgba(16, 22, 26, 20%);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  @apply tw-relative
+    tw-px-3 tw-py-2.5
+    tw-rounded;
+}
+.bp3-tooltip2 .bp3-popover2-content {
+  @apply tw-text-sov-white tw-bg-black;
+}
+.bp3-toast.bp3-intent-success {
+  @apply tw-bg-trade-long;
+}
+.bp3-overlay-content,
+.bp3-overlay-content:focus {
+  outline: none;
+}
+
+.tw-block span.bp3-popover-target {
+  display: block;
+}
+
+.bp3-dialog {
+  @extend .sovryn-border;
+  @apply tw-p-3
+    tw-bg-gray-1
+    tw-font-body;
+}
+
+.bp3-popover {
+  &.bp3-select-popover {
+    & .bp3-popover-content {
+      @extend .sovryn-border;
+      @apply tw-bg-gray-1;
+
+      & .bp3-input-group {
+        & input {
+          @apply tw-bg-transparent tw-border tw-border-sov-white
+            tw-text-white;
+        }
+      }
+    }
+
+    & .bp3-popover-arrow-fill {
+      fill: theme('colors.white');
+    }
+  }
+
+  &,
+  &.bp3-tooltip {
+    & .bp3-popover-content {
+      @extend .sovryn-border;
+      @apply tw-bg-gray-1;
+    }
+
+    & .bp3-popover-arrow {
+      width: 30px;
+      height: 30px;
+    }
+
+    & .bp3-popover-arrow-fill {
+      fill: theme('colors.white');
+    }
+  }
+
+  & .bp3-menu {
+    @apply tw-bg-transparent;
+    background-color: transparent;
+
+    & .bp3-menu-item {
+      @apply tw-text-white tw-font-body;
+
+      &.bp3-active {
+        @apply tw-bg-gray-6;
+      }
+    }
+  }
+}
+
+.bp3-toast {
+  @extend .sovryn-border;
+  @apply tw-bg-gray-1;
+}
+
+.bp3-drawer {
+  @apply tw-w-full md:tw-w-80
+    tw-text-white
+    tw-bg-gray-1 tw-border-white tw-rounded-r-lg;
+
+  border-right: 5px solid;
+}
+
+.bp3-control {
+  & input:checked {
+    & ~ .bp3-control-indicator {
+      @apply tw-bg-primary;
+    }
+  }
+
+  &:hover input:checked {
+    & ~ .bp3-control-indicator {
+      @apply tw-bg-primary;
+    }
+  }
+}
+
+.bp3-control.bp3-checkbox input:checked ~ .bp3-control-indicator:before {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.bp3-control.bp3-checkbox input:indeterminate ~ .bp3-control-indicator:before {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11 7H5c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1z' fill='%23fff'/%3E%3C/svg%3E");
+}

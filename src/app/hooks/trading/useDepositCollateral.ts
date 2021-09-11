@@ -1,7 +1,7 @@
+import { toWei } from 'web3-utils';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
-import { toWei } from 'web3-utils';
+import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
 
 export function useDepositCollateral(

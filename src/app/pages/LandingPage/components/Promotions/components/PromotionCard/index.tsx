@@ -91,7 +91,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             <div className="tw-relative">
               <SectionTitle>{sectionTitle}</SectionTitle>
 
-              <div className="tw-max-w-15rem">
+              <div className="tw-max-w-60">
                 <CardTextTitle>{title}</CardTextTitle>
                 <div className="tw-text-xs tw-font-light tw-absolute tw-bottom-0">
                   {duration}

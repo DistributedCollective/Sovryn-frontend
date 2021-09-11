@@ -1,0 +1,99 @@
+.dialogContainer {
+  @apply tw-w-full;
+  max-width: 1000px;
+}
+
+.container {
+  @apply tw-relative tw-w-full 
+    tw-text-sov-white tw-tracking-normal
+    tw-bg-black tw-rounded-2xl;
+  max-width: 1000px;
+}
+
+.alertBlock {
+  @apply tw-flex tw-justify-center tw-items-center tw-mb-5;
+}
+
+.innerContainer {
+  @apply tw-p-8;
+}
+
+@media screen and (min-width: 920px) {
+  .innerContainer {
+    padding: 30px 113px 53px 113px;
+  }
+}
+
+.title {
+  @apply tw-mb-6 
+    tw-text-3xl tw-leading-snug tw-font-semibold tw-normal-case tw-text-center;
+}
+
+.footer {
+  @apply tw-mt-20 tw-text-base tw-text-center;
+}
+
+.subtitle {
+  @apply tw-w-full tw-mb-9 
+    tw-text-base tw-leading-normal tw-font-medium tw-text-center tw-normal-case;
+}
+
+.subexp1 {
+  @apply tw-w-full tw-mb-2.5
+    tw-text-base tw-leading-normal tw-font-light tw-font-body tw-text-left tw-normal-case;
+}
+
+.subexp2 {
+  @apply tw-w-full tw-mb-9
+    tw-text-base tw-leading-normal tw-font-thin tw-font-body tw-text-left tw-normal-case;
+}
+.limitsTitle {
+  @apply tw-mb-2.5
+    tw-text-base tw-leading-tight tw-font-normal;
+}
+
+.limitsValue {
+  @apply tw-flex tw-flex-row tw-justify-between
+   tw-text-base tw-leading-normal tw-font-medium;
+
+  max-width: 140px;
+}
+
+.instructionsTitle {
+  @apply tw-mt-5 tw-mb-2.5 
+    tw-text-base tw-leading-tight tw-font-normal tw-text-sov-white;
+}
+
+.supportLink {
+  @apply tw-font-normal tw-text-sov-white tw-underline;
+}
+
+.instructionsValue {
+  @apply tw-mb-9 tw-text-sm tw-leading-relaxed tw-font-thin tw-text-sov-white;
+}
+
+.buttons {
+  @apply tw-flex tw-justify-between;
+}
+
+.arrowDown {
+  @apply tw-mx-auto tw-my-5;
+  width: 30px;
+}
+
+.txFee {
+  @apply tw-mx-0 tw-mt-5 tw-mb-9 
+    tw-text-sm tw-leading-tight tw-font-normal tw-text-white;
+}
+
+.right {
+  @apply tw-right-0;
+}
+
+.close {
+  @apply tw-mt-4 tw-mr-5
+    tw-float-right
+    tw-text-2xl tw-text-white
+    tw-opacity-70 hover:tw-opacity-90
+    tw-cursor-pointer;
+}

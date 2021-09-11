@@ -15,7 +15,7 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
 import styled from 'styled-components/macro';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -169,7 +169,7 @@ const StyledStatus = styled.div`
     height: 100px;
   }
   p {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
   }
 `;
@@ -182,7 +182,7 @@ const StyledHashContainer = styled.div`
 
 const StyledHash = styled.div`
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 300;
   margin-bottom: 35px;
   strong {
@@ -192,14 +192,14 @@ const StyledHash = styled.div`
   }
 `;
 
-const ExplorerLink = styled.div`
+const ExplorerLink = styled.div.attrs(_ => ({
+  className: 'tw-text-secondary',
+}))`
   text-align: center;
   a {
-    color: #2274a5 !important;
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: #2274a5 !important;
       text-decoration: none !important;
     }
   }
@@ -221,11 +221,11 @@ function StatusComponent({ status }: { status: TxStatus }) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
-  border: 1px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`

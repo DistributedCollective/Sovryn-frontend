@@ -1,0 +1,13 @@
+@layer components {
+  .tw-circle {
+    @apply tw-rounded-full;
+    width: 15px;
+    height: 15px;
+  }
+  .tw-circle .tw-circle-warning {
+    @apply tw-bg-warning;
+  }
+  .tw-circle .tw.circle-green {
+    @apply tw-bg-success;
+  }
+}
