@@ -6,8 +6,13 @@ import {
   weiToNumberFormat,
   toNumberFormat,
 } from 'utils/display-text/format';
-import { DummyField } from 'app/components/DummyField';
-import { toWei, weiTo18, fromWei } from 'utils/blockchain/math-helpers';
+import { DummyInput } from 'app/components/Form/Input';
+import {
+  toWei,
+  weiTo18,
+  fromWei,
+  weiToFixed,
+} from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -29,12 +34,15 @@ import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
 import { discordInvite } from 'utils/classifiers';
+import { useSlippage } from './useSlippage';
+import { SlippageDialog } from './Dialogs/SlippageDialog';
+import settingIcon from 'assets/images/settings-blue.svg';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -60,6 +68,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(props.item.collateralToken),
   );
+  const [openSlippage, setOpenSlippage] = useState(false);
 
   const sourceToken = AssetsDictionary.getByTokenContractAddress(
     props.item?.collateralToken || '',
@@ -133,9 +142,9 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     ),
     weiAmount,
   );
-
+  const [slippage, setSlippage] = useState(0.5);
   const totalAmount = Number(amount) + Number(fromWei(profit));
-  const { minReturn } = useSlippage(toWei(totalAmount), 0.5);
+  const { minReturn } = useSlippage(toWei(totalAmount), slippage);
 
   return (
     <>
@@ -222,19 +231,37 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             />
           </FormGroup>
 
+          <div className="tw-my-0 tw-text-secondary tw-text-xs tw-flex">
+            <ActionButton
+              text={
+                <div className="tw-flex">
+                  {t(translations.marginTradeForm.fields.advancedSettings)}
+                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                </div>
+              }
+              onClick={() => setOpenSlippage(true)}
+              className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+              textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+            />
+          </div>
+
           <FormGroup
             label={t(translations.closeTradingPositionHandler.amountReceived)}
-            className="tw-mt-7"
+            className="tw-mt-3"
           >
-            <DummyField>{totalAmount}</DummyField>
+            <DummyInput
+              value={amount}
+              appendElem={<AssetRenderer asset={sourceToken.asset} />}
+              className="tw-h-10"
+            />
             <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
               <p>
                 {t(translations.closeTradingPositionHandler.minimumReceived)}
               </p>
-              <div>
+              <div className="tw-font-semibold">
                 <LoadableValue
                   loading={false}
-                  value={weiToNumberFormat(minReturn, 4)}
+                  value={weiToFixed(minReturn, 6)}
                   tooltip={
                     <>
                       {weiTo18(minReturn)}{' '}
@@ -252,6 +279,15 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             methodName="closeWithSwap"
             contractName="sovrynProtocol"
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
+          />
+
+          <SlippageDialog
+            isOpen={openSlippage}
+            onClose={() => setOpenSlippage(false)}
+            amount={toWei(totalAmount)}
+            value={slippage}
+            asset={assetByTokenAddress(props.item.collateralToken)}
+            onChange={value => setSlippage(value)}
           />
 
           {(closeTradesLocked || test.diff > 5) && (
