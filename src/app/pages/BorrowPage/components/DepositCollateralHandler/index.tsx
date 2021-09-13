@@ -23,6 +23,8 @@ import { useGetLoan } from '../../../../hooks/trading/useGetLoan';
 import { actions } from '../../slice';
 import { ResetTxResponseInterface } from '../../../../hooks/useSendContractTx';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
+import { useLoanMaintenance_depositCollateral } from '../../../../hooks/trading/useLoanMaintenance_depositCollateral';
+import { Asset } from '../../../../../types';
 
 // FIXME: implement increase loan collateral hook;
 const PLACEHOLDER: ResetTxResponseInterface & { send: () => void } = {
@@ -53,9 +55,7 @@ export const DepositCollateralHandler: React.FC<{}> = () => {
     }
   }, [depositCollateralItem, getLoan, blockSync]);
 
-  const { send, ...tx } = PLACEHOLDER;
-
-  const onConfirm = useCallback(() => send(), [send]);
+  const { send, ...tx } = useLoanMaintenance_depositCollateral();
 
   const onClose = useCallback(
     () => dispatch(actions.closeDepositCollateral()),
@@ -69,7 +69,7 @@ export const DepositCollateralHandler: React.FC<{}> = () => {
           <IncreaseCollateralForm
             loan={loan}
             tx={tx}
-            onConfirm={onConfirm}
+            onConfirm={send}
             onClose={onClose}
           />
         )}
@@ -82,7 +82,13 @@ export const DepositCollateralHandler: React.FC<{}> = () => {
 type IDepositCollateralFormProps = {
   loan: ActiveLoan;
   tx?: ResetTxResponseInterface;
-  onConfirm: () => void;
+  onConfirm: (
+    loanId: string,
+    amount: string,
+    collateralToken: Asset,
+    nonce?: number,
+    approveTx?: string | null,
+  ) => void;
   onClose: () => void;
 };
 
@@ -107,6 +113,11 @@ const IncreaseCollateralForm: React.FC<IDepositCollateralFormProps> = ({
   const { value: balance } = useAssetBalanceOf(collateralToken?.asset);
   const weiAmount = useWeiAmount(amount);
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
+
+  const onConfirmWrapped = useCallback(
+    () => onConfirm(loan.loanId, weiAmount, collateralToken.asset),
+    [onConfirm, loan, weiAmount, collateralToken],
+  );
 
   return (
     <div className="tw-mw-340 tw-mx-auto">
@@ -152,7 +163,7 @@ const IncreaseCollateralForm: React.FC<IDepositCollateralFormProps> = ({
       )}
       <DialogButton
         confirmLabel={t(translations.common.confirm)}
-        onConfirm={onConfirm}
+        onConfirm={onConfirmWrapped}
         disabled={isInMaintenance || tx?.loading || !valid || !canInteract}
         cancelLabel={t(translations.common.cancel)}
         onCancel={onClose}

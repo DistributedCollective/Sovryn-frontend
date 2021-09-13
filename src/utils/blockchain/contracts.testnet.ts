@@ -14,6 +14,7 @@ import TestTokenABI from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
+import LoanMaintenanceAbi from './abi/LoanMaintenance.json';
 import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
@@ -310,5 +311,9 @@ export const contracts = {
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',
     abi: BabelfishAggregatorAbi,
+  },
+  loanMaintenance: {
+    address: '0xfBaBD7D34908704D1A4Ca17881fcc674a492CE4B',
+    abi: LoanMaintenanceAbi,
   },
 };
