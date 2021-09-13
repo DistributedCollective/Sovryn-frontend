@@ -87,6 +87,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  RDOC_token: {
+    address: '0x7e2f245f7dc8e78576ecb13aefc0a101e9be1ad3',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
+  },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
     abi: TestTokenABI,

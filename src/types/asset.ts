@@ -3,6 +3,7 @@ export enum Asset {
   RBTC = 'RBTC',
   ETH = 'ETH',
   DOC = 'DOC',
+  RDOC = 'RDOC',
   USDT = 'USDT',
   XUSD = 'XUSD',
   BPRO = 'BPRO',
