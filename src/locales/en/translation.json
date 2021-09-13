@@ -1445,10 +1445,12 @@
       "direction": "Pair:",
       "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
-      "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Approx. Position Entry Price:",
+      "liquidationPrice": "Est. Liquidation price:",
+      "entryPrice": "Position Entry Price:",
       "minEntry": "Minimum Entry Price: ",
       "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
       "position": {
         "long": "Long",
         "short": "Short"
