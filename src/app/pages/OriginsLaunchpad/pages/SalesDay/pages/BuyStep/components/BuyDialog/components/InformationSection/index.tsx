@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { Asset } from 'types';
 import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { AllocationRemaining } from './AllocationRemaining';
@@ -40,11 +39,11 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
             {info.minAmount === '0'
               ? '0'
               : weiToNumberFormat(info.minAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
+            <AssetSymbolRenderer asset={info.depositToken} />
           </div>
           <div>
             • MAX: {weiToNumberFormat(info.maxAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
+            <AssetSymbolRenderer asset={info.depositToken} />
           </div>
         </div>
       </div>

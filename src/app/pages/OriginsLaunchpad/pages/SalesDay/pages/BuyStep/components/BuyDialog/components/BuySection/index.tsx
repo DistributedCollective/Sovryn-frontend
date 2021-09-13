@@ -77,7 +77,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           <AmountInput
             value={amount}
             onChange={value => setAmount(value)}
-            asset={Asset.RBTC}
+            asset={sourceToken}
           />
           {isOverMaxLimit && (
             <ErrorBadge
