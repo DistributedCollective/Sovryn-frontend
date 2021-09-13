@@ -115,18 +115,25 @@ export function BuyForm() {
               onChange={value => setAmount(value)}
               placeholder="0.0000"
               rightElement={<AssetRenderer asset={Asset.RBTC} />}
+              dataAttribute="buySovPage-enterAmount-field"
             />
             <Slippage>
-              <AvailableBalance asset={Asset.RBTC} />
+              <AvailableBalance
+                asset={Asset.RBTC}
+                dataAttribute="buySovPage-availableBalance-field"
+              />
             </Slippage>
-            <AmountButton onChange={changeAmount} />
+            <AmountButton
+              onChange={changeAmount}
+              dataAttribute="buySovPage-amount-"
+            />
           </FieldGroup>
 
           <ArrowDown />
 
           <FieldGroup label={t(s.fields.receive)} labelColor="#e8e8e8">
             <Dummy className="tw-flex tw-justify-between tw-items-center">
-              <div>
+              <div data-action-id="buySovPage-youReceive-amount-display">
                 <LoadableValue
                   value={<>{weiToNumberFormat(rateByPath, 4)}</>}
                   loading={loading}
@@ -144,7 +151,10 @@ export function BuyForm() {
                 />{' '}
                 SOV.
               </div>
-              <SlippageButton onClick={() => setOpenSlippage(true)}>
+              <SlippageButton
+                onClick={() => setOpenSlippage(true)}
+                data-action-id="buySovPage-minimum-received-gog"
+              >
                 <span className="tw-sr-only">Slippage</span>
               </SlippageButton>
             </Slippage>
@@ -175,6 +185,7 @@ export function BuyForm() {
               disabled={tx.loading || !validate || !connected || swapsLocked}
               onClick={() => send()}
               text={t(translations.buySovPage.form.cta)}
+              dataAttribute="buySovPage-buy-sov-btn"
             />
           )}
         </div>
