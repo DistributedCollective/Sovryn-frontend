@@ -60,10 +60,6 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
-  // todo: test if assets and amounts are correct here after contract is deployed
-  // todo: leverage may require custom amount to be entered
-  const { diff } = useTrading_testRates(loanToken, collateralToken, amount);
-
   const { value: estimations } = useGetEstimatedMarginDetails(
     loanToken,
     leverage,
@@ -241,14 +237,11 @@ export function TradeDialog() {
                 }
               />
             )}
-            {diff > 5 && (
-              <ErrorBadge content="Liquidity is too low to open position, please try again later." />
-            )}
           </div>
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
-            disabled={openTradesLocked || diff > 5}
+            disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
           />
