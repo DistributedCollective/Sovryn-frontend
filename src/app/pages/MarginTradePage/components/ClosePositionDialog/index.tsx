@@ -81,15 +81,6 @@ export function ClosePositionDialog(props: Props) {
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
 
   const { t } = useTranslation();
-  const test = useTrading_testRates(
-    assetByTokenAddress(
-      isCollateral ? props.item.loanToken : props.item.collateralToken,
-    ),
-    assetByTokenAddress(
-      isCollateral ? props.item.collateralToken : props.item.loanToken,
-    ),
-    weiAmount,
-  );
 
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
@@ -129,48 +120,10 @@ export function ClosePositionDialog(props: Props) {
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
           />
 
-          {(closeTradesLocked || test.diff > 5) && (
-            <ErrorBadge
-              content={
-                closeTradesLocked ? (
-                  <Trans
-                    i18nKey={translations.maintenance.closeMarginTrades}
-                    components={[
-                      <a
-                        href={discordInvite}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                      >
-                        x
-                      </a>,
-                    ]}
-                  />
-                ) : test.diff > 5 ? (
-                  <>
-                    <p className="tw-mb-1">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_1,
-                      )}
-                    </p>
-                    <p className="tw-mb-0">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_2,
-                      )}
-                    </p>
-                  </>
-                ) : undefined
-              }
-            />
-          )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}
-            disabled={
-              rest.loading || !valid || closeTradesLocked || test.diff > 5
-            }
+            disabled={rest.loading || !valid || closeTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={props.onCloseModal}
           />
