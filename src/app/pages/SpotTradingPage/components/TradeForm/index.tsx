@@ -33,18 +33,21 @@ import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-import { useAccount } from '../../../../hooks/useAccount';
+// import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+// import { useAccount } from '../../../../hooks/useAccount';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 
 export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const dispatch = useDispatch();
   const { checkMaintenance, States } = useMaintenance();
-  const account = useAccount();
+  // const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
@@ -69,15 +72,26 @@ export function TradeForm() {
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
+  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   minReturn,
+  //   minReturn,
+  //   '0x',
+  // );
+
+  const { value: path } = useSwapNetwork_conversionPath(
+    tokenAddress(sourceToken),
+    tokenAddress(targetToken),
+  );
+
+  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+    path,
     weiAmount,
     minReturn,
-    minReturn,
-    '0x',
   );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
@@ -224,4 +238,8 @@ export function TradeForm() {
       <TxDialog tx={tx} />
     </>
   );
+}
+
+function tokenAddress(asset: Asset) {
+  return AssetsDictionary.get(asset).getTokenContractAddress();
 }
