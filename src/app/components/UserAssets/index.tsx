@@ -30,6 +30,7 @@ import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
+import { UnWrapDialog } from './UnWrapDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -52,6 +53,7 @@ export function UserAssets() {
   const [fastBtc, setFastBtc] = useState(false);
   const [transack, setTransack] = useState(false);
   const [conversionDialog, setConversionDialog] = useState(false);
+  const [unwrapDialog, setUnwrapDialog] = useState(false);
 
   return (
     <>
@@ -99,6 +101,7 @@ export function UserAssets() {
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
                   onConvert={() => setConversionDialog(true)}
+                  onUnWrap={() => setUnwrapDialog(true)}
                 />
               ))}
           </tbody>
@@ -109,6 +112,10 @@ export function UserAssets() {
       <ConversionDialog
         isOpen={conversionDialog}
         onClose={() => setConversionDialog(false)}
+      />
+      <UnWrapDialog
+        isOpen={unwrapDialog}
+        onClose={() => setUnwrapDialog(false)}
       />
       <Dialog
         isOpen={
@@ -155,10 +162,6 @@ export function UserAssets() {
           </div>
         </div>
       </Dialog>
-      <ConversionDialog
-        isOpen={conversionDialog}
-        onClose={() => setConversionDialog(false)}
-      />
     </>
   );
 }
@@ -168,9 +171,16 @@ interface AssetProps {
   onFastBtc: () => void;
   onTransack: () => void;
   onConvert: () => void;
+  onUnWrap: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
+function AssetRow({
+  item,
+  onFastBtc,
+  onTransack,
+  onConvert,
+  onUnWrap,
+}: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -255,6 +265,12 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
           )}
           {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
             <BridgeLink asset={item.asset} />
+          )}
+          {item.asset === Asset.WRBTC && (
+            <ActionButton
+              text={t(translations.userAssets.actions.unwrap)}
+              onClick={onUnWrap}
+            />
           )}
         </div>
       </td>
