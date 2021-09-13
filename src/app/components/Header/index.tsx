@@ -49,50 +49,88 @@ export function Header() {
     );
   };
   const pages = [
-    { to: '/buy-sov', title: t(translations.mainMenu.buySov), exact: true },
+    {
+      to: '/buy-sov',
+      title: t(translations.mainMenu.buySov),
+      exact: true,
+      dataAttribute: 'tradeMenu-buy-sov-btn',
+    },
     {
       to: '/swap',
       title: t(translations.mainMenu.swap),
+      dataAttribute: 'tradeMenu-swap-btn',
     },
     {
       to: '/spot',
       title: t(translations.mainMenu.spotTrade),
+      dataAttribute: 'tradeMenu-spot-btn',
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
+      dataAttribute: 'tradeMenu-margin-btn',
     },
     {
       to: '/lend',
       title: t(translations.mainMenu.lend),
+      dataAttribute: 'financeMenu-lend-btn',
     },
     {
       to: '/borrow',
       title: t(translations.mainMenu.borrow),
+      dataAttribute: 'financeMenu-borrow-btn',
     },
-    { to: '/yield-farm', title: t(translations.mainMenu.yieldFarm) },
+    {
+      to: '/yield-farm',
+      title: t(translations.mainMenu.yieldFarm),
+      dataAttribute: 'financeMenu-yieldFarm-btn',
+    },
     {
       to: 'https://bitocracy.sovryn.app',
       title: t(translations.mainMenu.governance),
+      dataAttribute: 'bitocracyMenu-governance-btn',
     },
-    { to: '/stake', title: t(translations.mainMenu.staking) },
-    { to: '/reward', title: t(translations.mainMenu.reward) },
-    { to: '/wallet', title: t(translations.mainMenu.wallet) },
+    {
+      to: '/stake',
+      title: t(translations.mainMenu.staking),
+      dataAttribute: 'bitocracyMenu-stake-btn',
+    },
+    {
+      to: '/reward',
+      title: t(translations.mainMenu.reward),
+      dataAttribute: 'headerMenu-rewards-btn',
+    },
+    {
+      to: '/wallet',
+      title: t(translations.mainMenu.wallet),
+      dataAttribute: 'headerMenu-portfolio-btn',
+    },
     {
       to: bridgeURL,
       title: t(translations.mainMenu.bridge),
+      dataAttribute: 'headerMenu-bridge-btn',
     },
-    { to: '/origins', title: t(translations.mainMenu.origins) },
-    { to: '/origins/claim', title: t(translations.mainMenu.originsClaim) },
+    {
+      to: '/origins',
+      title: t(translations.mainMenu.origins),
+      dataAttribute: 'originsMenu-launchpad-btn',
+    },
+    {
+      to: '/origins/claim',
+      title: t(translations.mainMenu.originsClaim),
+      dataAttribute: 'originsMenu-claim-btn',
+    },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
+      dataAttribute: 'headerMenu-help-btn',
     },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
       to: string;
       title: string;
+      dataAttribute: string;
       onClick?: () => void;
       beforeOpen?: () => void;
     } = item;
@@ -105,6 +143,7 @@ export function Header() {
           href={link.to}
           target="_blank"
           rel="noreferrer noopener"
+          data-action-id={link.dataAttribute}
         />
       );
     }
@@ -118,6 +157,7 @@ export function Header() {
           link.onClick ? link.onClick() : history.push(link.to);
           setOpen(false);
         }}
+        data-action-id={link.dataAttribute}
       />
     );
   });
@@ -199,6 +239,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/buy-sov');
                       }}
+                      data-action-id="tradeMenu-buy-sov-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.swap)}
@@ -206,6 +247,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/swap');
                       }}
+                      data-action-id="tradeMenu-swap-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.spotTrade)}
@@ -213,6 +255,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/spot');
                       }}
+                      data-action-id="tradeMenu-spot-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
@@ -220,6 +263,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/trade');
                       }}
+                      data-action-id="tradeMenu-margin-btn"
                     />
                   </BPMenu>
                 }
@@ -229,7 +273,10 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="headerMenu-trade-btn"
+                  >
                     {t(translations.mainMenu.trade)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -242,16 +289,19 @@ export function Header() {
                       text={t(translations.mainMenu.lend)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/lend')}
+                      data-action-id="financeMenu-lend-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/borrow')}
+                      data-action-id="financeMenu-borrow-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.yieldFarm)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/yield-farm')}
+                      data-action-id="financeMenu-yieldFarm-btn"
                     />
                   </BPMenu>
                 }
@@ -261,7 +311,10 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="headerMenu-finance-btn"
+                  >
                     {t(translations.mainMenu.finance)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -276,6 +329,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/stake');
                       }}
+                      data-action-id="bitocracyMenu-stake-btn"
                     />
                     <MenuItem
                       icon={
@@ -289,6 +343,7 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
+                      data-action-id="bitocracyMenu-governance-btn"
                     />
                     <MenuItem
                       icon={
@@ -302,6 +357,7 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.forum)}
                       className="bp3-popover-dismiss"
+                      data-action-id="bitocracyMenu-forum-btn"
                     />
                   </BPMenu>
                 }
@@ -311,7 +367,10 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.BITOCRACY) && 'font-weight-bold'
                   }`}
                 >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="headerMenu-bitocracy-btn"
+                  >
                     {t(translations.mainMenu.bitocracy)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
@@ -320,6 +379,7 @@ export function Header() {
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
                 to="/reward"
+                data-action-id="headerMenu-reward-btn"
               >
                 {t(translations.mainMenu.rewards)}
               </NavLink>
@@ -327,6 +387,7 @@ export function Header() {
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
                 to="/wallet"
+                data-action-id="headerMenu-portfolio-btn"
               >
                 {t(translations.mainMenu.wallet)}
               </NavLink>
@@ -335,6 +396,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tw-header-link"
+                data-action-id="headerMenu-bridge-btn"
               >
                 {t(translations.mainMenu.bridge)}
               </a>
@@ -345,11 +407,13 @@ export function Header() {
                       text={t(translations.mainMenu.launchpad)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/origins')}
+                      data-action-id="originsMenu-launchpad-btn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.claim)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/origins/claim')}
+                      data-action-id="originsMenu-claim-btn"
                     />
                   </BPMenu>
                 }
@@ -359,7 +423,10 @@ export function Header() {
                     isSectionOpen(SECTION_TYPE.ORIGINS) && 'tw-font-bold'
                   }`}
                 >
-                  <span className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer">
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="headerMenu-origins-btn"
+                  >
                     {t(translations.mainMenu.origins)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
