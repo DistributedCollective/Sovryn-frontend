@@ -29,6 +29,7 @@ export enum TxType {
   REMOVE_LIQUIDITY = 'remove_liquidity',
   DEPOSIT_COLLATERAL = 'deposit_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
+  SWAP_EXTERNAL = 'swap_external',
   OTHER = 'other',
   SALE_BUY_SOV = 'sale_buy_sov',
   SOV_REIMBURSE = 'sov_reimburse',

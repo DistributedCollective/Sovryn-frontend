@@ -13,7 +13,7 @@ import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, gasLimit } from 'utils/classifiers';
 import { bignumber } from 'mathjs';
 
 interface IClaimFormProps {
@@ -81,6 +81,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
       args,
       {
         from: address,
+        gas: gasLimit[TxType.LOCKED_FUND_WAITED_CLAIM],
       },
       {
         type: TxType.LOCKED_FUND_WAITED_CLAIM,
