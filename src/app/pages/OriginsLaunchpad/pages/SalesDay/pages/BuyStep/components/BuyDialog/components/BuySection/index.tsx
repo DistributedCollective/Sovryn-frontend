@@ -67,7 +67,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     <BuyWrapper>
       <div className="tw-max-w-xs tw-mx-auto">
         <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-white">
+          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog
                 .enterAmount,
@@ -100,7 +100,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
         />
 
         <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-white">
+          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog
                 .tokenReceived,

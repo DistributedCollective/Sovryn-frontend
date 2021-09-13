@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Dialog } from '../../containers/Dialog/Loadable';
-import logo from 'assets/images/sovryn-logo-staked.svg';
+import logo from 'assets/images/sovryn-logo-horz-white.png';
 import { isMobile } from 'utils/helpers';
 import { noop } from '../../constants';
 import { Checkbox } from '@blueprintjs/core';

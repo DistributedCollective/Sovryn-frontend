@@ -192,7 +192,7 @@ export function LendingDialog({
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-text-white tw-text-center tw-tracking-normal">
+          <h1 className="tw-text-sov-white tw-text-center tw-tracking-normal">
             {t(modalTranslation.title)}
           </h1>
           <FormGroup
@@ -219,7 +219,7 @@ export function LendingDialog({
           <div className="tw-mb-4 tw-mt-2">
             {type === 'add' && (
               <div
-                className={cn('tw-text-error tw-text-sm tw-text-center', {
+                className={cn('tw-text-warning tw-text-sm tw-text-center', {
                   'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
                 })}
               >

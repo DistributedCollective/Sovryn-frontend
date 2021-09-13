@@ -111,6 +111,7 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 balance={getBalance(item.asset)}
+                loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
               />
             );

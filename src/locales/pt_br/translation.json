@@ -12,9 +12,11 @@
     "confirmed": "Confirmada",
     "failed": "Falhou",
     "deposit": "Depositar",
-    "withdraw": "Resgatar",
+    "withdraw": "Sacar",
     "availableBalance": "Saldo disponível:",
     "maintenance": "Em manutenção",
+    "next": "Próximo",
+    "loading": "Carregando...",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -47,15 +49,15 @@
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "stakingModal": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "unstaking": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-    "unstakingModal": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "withdrawEarnedFees": "Desculpe, a opção de resgatar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "unstaking": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "unstakingModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "withdrawEarnedFees": "Desculpe, a opção de sacar dividendos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateStakes": "Desculpe, delegating stakes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateVests": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "delegateModal": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "withdrawVests": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-    "withdrawVestsModal": "Desculpe, a opção de resgatar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "claimRewards": "Desculpe, a opção de reivindicar recompensas está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+    "withdrawVests": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
   },
   "homePage": {
     "title": "Página inicial",
@@ -103,9 +105,9 @@
       "earn": "Ganhe SOV minerando liquidez nos pools USDT/BTC ou SOV/RBTC",
       "datesUSDT": "Datas USDT/RBTC: 1 Abril 2021, 12.00 UTC  até 1 Maio 2021, 12.00 UTC",
       "datesSOV": "Datas SOV/RBTC: 13 Abril 2021 12.00 UTC até 11 Maio 2021 12.00 UTC",
-      "depositUSDT": "Recompensa se depositar USDT: 25,000 SOV",
-      "depositRBTC": "Recompensa se depositar RBTC: 25,000 SOV",
-      "depositSOV": "Recompensa se depositar SOV/RBTC: 75,000 SOV (15k /por semana mais 15k extra para primeira semana)",
+      "depositUSDT": "Bônus se depositar USDT: 25,000 SOV",
+      "depositRBTC": "Bônus se depositar RBTC: 25,000 SOV",
+      "depositSOV": "Bônus se depositar SOV/RBTC: 75,000 SOV (15k /por semana mais 15k extra para primeira semana)",
       "sharePool": "Sua participação no pool é calculada pela:",
       "liquidityAdded": "liquidez adicionada por você * número de blocos mantidos",
       "totalAdded": "liquidez total adicionada * número de blocos mantidos",
@@ -117,9 +119,9 @@
       "provider": "*Este número pode aumentar ou diminuir dependendo de quanto liquidez outros fornecedores adiconarem ou removerem do pool",
       "asset": "Ativo",
       "sov": "25k SOV",
-      "reward": "Recompensa",
+      "reward": "Bônus",
       "pool": "Pool",
-      "rewardPool": "Sua participação atual no pool de recompensas*",
+      "rewardPool": "Sua participação atual no pool de bônus*",
       "rewardSOV": "Seus ganhos atuais de SOV*",
       "miningEvent": "Seus eventos de mineração de liquidez",
       "noAsset": "Você ainda não adicionou {{asset}} no pool de mineração de liquidez.",
@@ -133,7 +135,7 @@
   "tradingHistoryPage": {
     "title": "Histórico de operações",
     "auth": "Por favor, conecte e autorize sua carteira.",
-    "noClosedTrades": "Você não tem histórico operações fechadas.",
+    "noClosedTrades": "Histórico vázio.",
     "table": {
       "direction": "Direção",
       "positionSize": "Tamanho da posição",
@@ -160,7 +162,7 @@
     "title": "Depositar-BTC",
     "history": {
       "title": "Histórico",
-      "empty": "Você não tem histórico de depósitos.",
+      "empty": "Histórico vázio.",
       "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
       "loading": "Carregando..."
     },
@@ -254,7 +256,7 @@
     "lend": "Emprestar criptos",
     "borrow": "Obter empréstimos",
     "yieldFarm": "Minerar liquidez",
-    "reward": "Recompensas SOV",
+    "reward": "Bônus SOV",
     "staking": "Token SOV",
     "governance": "Governança",
     "forum": "Fórum",
@@ -509,18 +511,18 @@
       "address": "Insira ou cole o endereço"
     },
     "withdraw": {
-      "title": "Resgatar SOV",
+      "title": "Sacar SOV",
       "amountCurrentlyStaked": "Quantidade atualmente investida",
-      "amountToUnstake": "Quantidade a ser resgatada",
+      "amountToUnstake": "Quantidade a ser sacada",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
-      "forfeit": "Multa por resgatar SOV antes do prazo",
+      "forfeit": "Multa por sacar SOV antes do prazo",
       "closeDialog": "Fechar janela",
-      "reallyUnstake": "Você tem certeza de que deseja resgatar seus SOV?",
-      "stakeUnlockUntil": "Este investimento não está agendado para ser desbloqueado até",
-      "penalty": "Resgatar SOV neste momento fará com que você receba uma penalidade",
-      "penaltyZero": "Será cobrado de você alguns SOV por resgatar antes do prazo estabelecido",
-      "unstake": "Ok, resgatar SOV",
+      "reallyUnstake": "Você tem certeza de que deseja sacar seus SOV?",
+      "stakeUnlockUntil": "Este investimento está agendado para ser desbloqueado somente em",
+      "penalty": "Sacar os SOV neste momento fará com que você receba uma penalidade",
+      "penaltyZero": "Será cobrado de você alguns SOV por sacar antes do prazo estabelecido",
+      "unstake": "Ok, sacar SOV",
       "loading": "Carregando..."
     },
     "staking": {
@@ -550,12 +552,12 @@
       "status": "Status",
       "actions": {
         "stake": "Novo investimento",
-        "unstake": "Resgatar investimento",
-        "feeWithdraw": "Resgatar dividendo",
+        "unstake": "Sacar investimento",
+        "feeWithdraw": "Sacar dividendo",
         "increase": "Aumentar",
         "extend": "Estender",
         "delegate": "Delegar",
-        "withdraw": "Resgatar SOV reservado"
+        "withdraw": "Sacar SOV reservado"
       }
     },
     "increase": {
@@ -587,19 +589,19 @@
         "genesis": "SOV Gênese",
         "origin": "SOV Origem",
         "team": "SOV Team",
-        "reward": "SOV Recompensa"
+        "reward": "SOV Bônus"
       }
     },
     "actions": {
       "title": "Ação",
       "increase": "Aumentar",
       "extend": "Estender",
-      "unstake": "Resgatar",
+      "unstake": "Sacar",
       "delegate": "Delegar",
       "confirm": "Confirmar",
       "cancel": "Cancelar",
-      "withdraw": "Resgatar",
-      "withdrawFees": "Resgatar lucro"
+      "withdraw": "Sacar",
+      "withdrawFees": "Sacar lucro"
     },
     "dateSelector": {
       "noneAvailable": "Sem datas disponíveis.",
@@ -765,7 +767,7 @@
         "timestamp": "Data"
       }
     },
-    "no_items": "Você não tem histórico de empréstimos devolvidos."
+    "no_items": "Histórico vázio."
   },
   "rskConnectTutorial": {
     "browser_wallet": "Carteira de computador",
@@ -1001,8 +1003,8 @@
       "trade": "Margem",
       "buy": "Comprar",
       "claimSov": "Receber SOV",
-      "redeemRBTC": "Resgatar rBTC",
-      "withdraw": "Resgatar"
+      "redeemRBTC": "Sacar rBTC",
+      "withdraw": "Sacar"
     },
     "convertDialog": {
       "title": "Converter",
@@ -1033,7 +1035,7 @@
       "amountReceived": "Quantidade recebida",
       "status": "Status"
     },
-    "emptyState": "Você não tem histórico de resgates SOV."
+    "emptyState": "Histórico vázio."
   },
   "vestedHistory": {
     "title": "SOV",
@@ -1056,7 +1058,7 @@
       "transactionFee": "Taxa de transação",
       "status": "Status"
     },
-    "emptyState": "Você não tem histórico de operações spot."
+    "emptyState": "Histórico vázio."
   },
   "topUpHistory": {
     "meta": {
@@ -1071,7 +1073,7 @@
       "transferTx": "ID recebimento RBTC ",
       "txHash": "Transação"
     },
-    "emptyState": "Você não tem histórico de depósitos.",
+    "emptyState": "Histórico vázio.",
     "walletHistory": "A carteira precisa estar conectada.",
     "loading": "Carregando..."
   },
@@ -1118,7 +1120,7 @@
         "apy": "Juros anual",
         "yourDeposit": "Você emprestou",
         "myProfit": "Rendimento",
-        "rewards": "Recompensas"
+        "rewards": "Bônus"
       }
     },
     "modal": {
@@ -1133,13 +1135,13 @@
         "title": "Resgatar ativo emprestado",
         "cta": "Resgatar",
         "amount": "Quantidade:",
-        "reward": "Recompensa:",
+        "reward": "Bônus:",
         "depositBalance": "Você emprestou: <0/> <1/>"
       }
     },
     "historyTable": {
       "title": "Histórico",
-      "emptyState": "Você não tem histórico de empréstimos de ativos.",
+      "emptyState": "Histórico vázio.",
       "tableHeaders": {
         "time": "Data e hora",
         "pool": "Pool",
@@ -1298,34 +1300,48 @@
     "address": "O endereço foi copiado para a área de transferência."
   },
   "vestingDialog": {
-    "title": "Resgatar SOV",
+    "title": "Sacar SOV",
     "subtitle": "Esta transação requer rBTC para pagar as taxas.",
     "amount": "Quantidade:",
     "receiver": "Receber SOV em:",
     "calculating": "Calculando..."
   },
   "rewardPage": {
+    "availableRewards": "Disponíveis:",
+    "totalRewards": "Total ganho:",
+    "liquidityRewards": "Bônus de liquidez",
+    "lendingRewards": "Bônus de empréstimo",
+    "tradingRewards": "Bônus de negociação",
+    "lockedRewards": "Bônus bloqueados:",
+    "claimableRewards": "Bônus reinvidicáveis",
+    "stakingReward": "Bônus de investimento",
+    "comingSoon": "Em breve",
     "meta": {
-      "title": "Recompensa",
-      "description": "Recompensa SOV"
+      "title": "Bônus",
+      "description": "Bônus SOV"
     },
     "claimForm": {
-      "title": "Recompensas",
-      "availble": "Quantidade de SOV disponível:",
-      "cta": "Reivindicar",
-      "note": "Ao reivindicar suas recompensas, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
+      "title": "Quantidade:",
+      "availble": "Total de SOV disponíveis:",
+      "cta": "REIVINDICAR",
+      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de sacá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
+    "stakingForm": {
+      "title": "Quantidade:",
+      "available": "Total Staking Rewards Available:",
+      "cta": "REIVINDICAR"
+    },
     "totalEarned": "Total ganho:",
-    "topData": {
-      "referralRewards": "Recompensas de convites",
-      "referrals": "Número de convites:",
-      "availableRewards": "Recompensas disponíveis:",
-      "totalRewards": "Total ganho:",
-      "liquidityRewards": "Recompensas de liquidez",
-      "lockedRewards": "Recompensas bloqueadas:",
-      "claimibleRewards": "Recompensas reinvidicáveis",
-      "OGRewards": "Recompensas OG"
+    "sov": {
+      "reward": "SOV bônus",
+      "liquid": "SOV líquido",
+      "fee": "Dividendos"
+    },
+    "fee": {
+      "stakingFee": "Dividendo investimento SOV",
+      "referralFee": "Dividendo de indicação",
+      "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
       "title": "Histórico",
@@ -1337,13 +1353,15 @@
         "status": "Status"
       },
       "event": {
-        "liquidityMining": "Recompensa liquidez",
+        "lendingReward": "Bônus de empréstimo",
+        "liquidityReward": "Bônus de liquidez",
+        "tradingReward": "Bônus de negociação",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
-        "referral": "Recompensa indicação"
+        "referral": "Bônus de indicação"
       },
       "walletHistory": "A carteira precisa estar conectada.",
-      "emptyState": "Você não tem histórico de recompensas.",
+      "emptyState": "Histórico vázio.",
       "loading": "Carregando..."
     }
   },
@@ -1381,7 +1399,24 @@
       }
     },
     "openPositions": "Posições abertas",
-    "tradingHistory": "Posições fechadas"
+    "tradingHistory": "Posições fechadas",
+    "notificationSettingsDialog": {
+      "title": "Configurações de notificação",
+      "notifyVia": "Notificar via",
+      "telegramHandle": "Insira seu nome de usuário do Telegram",
+      "discordHandle": "Insira seu nome de usuário do Discord",
+      "usernamePlaceholder": "@usuário",
+      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
+      "notificationEvents": {
+        "1": "25% margem",
+        "2": "Liquidação"
+      },
+      "submit": "Confirmar"
+    },
+    "notificationsButton": {
+      "enable": "Ativar notificações",
+      "enabled": "Notificações habilitadas"
+    }
   },
   "spotTradingPage": {
     "meta": {
@@ -1425,7 +1460,7 @@
     },
     "historyTable": {
       "title": "Histórico",
-      "emptyState": "Você não tem histórico de fornecimento de liquidez.",
+      "emptyState": "Histórico vázio.",
       "tableHeaders": {
         "time": "Data e hora",
         "pool": "Pool",
@@ -1444,9 +1479,9 @@
       "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
       "tableHeaders": {
         "totalEarned": "Total ganho",
-        "balance": "Saldo",
+        "balance": "Saldo atual",
         "pl": "L/P",
-        "rewards": "Recompensas"
+        "rewards": "Bônus"
       }
     },
     "modals": {
@@ -1461,7 +1496,7 @@
         "cta": "Resgatar",
         "amount": "Quantidade:",
         "asset": "Ativo:",
-        "reward": "Recompensa:"
+        "reward": "Bônus:"
       }
     },
     "lootDropLink": "Saiba mais",
@@ -1514,10 +1549,10 @@
     },
     "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
-      "title": "Pools AMM",
+      "title": "POOLS AMM",
       "asset": "Ativos",
       "pool": "Pools",
-      "stakedBalance": "Total investido",
+      "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
       "apy": "Juros anual"
@@ -1542,7 +1577,7 @@
       "24h": "24h%",
       "7d": "7d%",
       "marketCap": "Valor de mercado",
-      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na sidechain RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na sidechain RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
+      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na rede RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na rede RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
       "circulatingSupply": "Em circulação"
     }
   },
@@ -1576,14 +1611,14 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyDepositLimits": "Limites diários de depósito",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "depositAmount": "Desejo depositar:"
     },
     "confirmStep": {
@@ -1633,17 +1668,17 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser sacada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyBridgeLimits": "Limites diários do serviço",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "withdrawAmount": "Desejo sacar:",
-      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
-      "insufficientDaily": "Insufficient daily limit remaining."
+      "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
+      "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
@@ -1660,10 +1695,12 @@
     },
     "receiverSelector": {
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
-      "confirm": "Por favor verifique e confirme"
+      "confirm": "Por favor verifique e confirme",
+      "withdrawWarning": "Não envie para endereços de exchanges!",
+      "withdrawDisclaimer": "Saques para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
-      "title": "Qual cripto você deseja sacar",
+      "title": "Qual cripto você deseja sacar?",
       "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
@@ -1738,7 +1775,7 @@
       },
       "p4": {
         "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
-        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novas recompensas para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
+        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
         "cta": "Ganhe agora"
       }
     },
@@ -1762,7 +1799,7 @@
       },
       "liquidity": {
         "title": "Adicionando liquidez",
-        "text": "A Sovryn funcionando na sidechain de Bitcoin Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
+        "text": "A Sovryn funcionando na rede Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
         "cta": "Adicionar"
       },
       "lending": {
@@ -1800,8 +1837,8 @@
     }
   },
   "claimOriginBanner": {
-    "text": "Seu SOV está pronto para ser resgatado!",
-    "cta": "Resgatar SOV"
+    "text": "Seu SOV está pronto para ser sacado!",
+    "cta": "Sacar SOV"
   },
   "escrowPage": {
     "meta": {
@@ -1850,7 +1887,7 @@
     "linkCopied": "Link copiado",
     "referralHistory": "Histórico",
     "terms": "Termos e condições",
-    "text": "Convide seus amigos e ganhe <1>recompensas em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
+    "text": "Convide seus amigos e ganhe <1>bônus em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
     "claim": "Reinvindicar",
     "tableHeaders": {
       "date": "Data e hora",

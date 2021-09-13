@@ -10,7 +10,7 @@ export const DirectionBlock = styled.div`
   flex-shrink: 0;
   width: 40px;
   height: 60px;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background-color: ${(props: DirectionBlockProps) =>
     props.position === TradingPosition.LONG ? '#17C3B2' : '#D74E09'};
 `;

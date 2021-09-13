@@ -19,7 +19,7 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
-import babelfishIcon from 'assets/images/babelfish.svg';
+import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
@@ -77,7 +77,7 @@ export function BridgeDepositPage() {
   return (
     <>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg tw-relative"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
         <UserWallet address={receiver} />
