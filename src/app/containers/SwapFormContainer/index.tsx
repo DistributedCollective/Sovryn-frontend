@@ -23,17 +23,22 @@ import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
 import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
 import { useAccount } from '../../hooks/useAccount';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
+import {
+  // getTokenContract,
+  getTokenContractName,
+} from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+// import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 import styles from './index.module.scss';
+import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 
 const s = translations.swapTradeForm;
 
@@ -171,16 +176,27 @@ export function SwapFormContainer() {
 
   const { minReturn } = useSlippage(rateByPath, slippage);
 
-  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
+  const { value: path } = useSwapNetwork_conversionPath(
+    tokenAddress(sourceToken),
+    tokenAddress(targetToken),
   );
+
+  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+    path,
+    weiAmount,
+    minReturn,
+  );
+
+  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
@@ -332,4 +348,8 @@ export function SwapFormContainer() {
       <TxDialog tx={tx} />
     </>
   );
+}
+
+function tokenAddress(asset: Asset) {
+  return AssetsDictionary.get(asset).getTokenContractAddress();
 }
