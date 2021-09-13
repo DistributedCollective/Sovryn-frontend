@@ -22,23 +22,8 @@ import { useBlockSync } from '../../../../hooks/useAccount';
 import { useGetLoan } from '../../../../hooks/trading/useGetLoan';
 import { actions } from '../../slice';
 import { ResetTxResponseInterface } from '../../../../hooks/useSendContractTx';
-import { TxStatus } from '../../../../../store/global/transactions-store/types';
 import { useLoanMaintenance_depositCollateral } from '../../../../hooks/trading/useLoanMaintenance_depositCollateral';
 import { Asset } from '../../../../../types';
-
-// FIXME: implement increase loan collateral hook;
-const PLACEHOLDER: ResetTxResponseInterface & { send: () => void } = {
-  send: () => {
-    const warning = 'LOAN INCREASE COLLATERAL NOT IMPLEMENTED!';
-    console.warn(warning);
-    window.alert(warning);
-  },
-  loading: false,
-  reset: () => undefined,
-  status: TxStatus.NONE,
-  txData: null,
-  txHash: 'NOT IMPLEMENTED',
-};
 
 export const DepositCollateralHandler: React.FC<{}> = () => {
   const { depositCollateralItem, depositCollateralModalOpen } = useSelector(
