@@ -62,6 +62,11 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
   },
+  WRBTC_token: {
+    address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
+    abi: abiTestWBRTCToken,
+    blockNumber: 2742415,
+  },
   RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,

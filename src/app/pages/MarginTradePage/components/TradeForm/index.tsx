@@ -22,7 +22,7 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
+// import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
 import { Button } from '../Button';
 import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
@@ -219,7 +219,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           />
         </div>
       </div>
-      <AdvancedSettingDialog />
+      {/* <AdvancedSettingDialog /> */}
       <TradeDialog />
     </>
   );

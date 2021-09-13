@@ -63,8 +63,6 @@ const getOptions = (item: ActiveLoan) => {
 
 export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const receiver = useAccount();
-  console.log(props);
-
   const [amount, setAmount] = useState<string>('0');
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(props.item.collateralToken),
