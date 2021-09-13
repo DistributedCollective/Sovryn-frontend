@@ -1435,6 +1435,10 @@
       "buttons": {
         "long": "Long",
         "short": "Short"
+      },
+      "placePosition": {
+        "placeLong": " Place Long",
+        "placeShort": "Place Short"
       }
     },
     "tradeDialog": {

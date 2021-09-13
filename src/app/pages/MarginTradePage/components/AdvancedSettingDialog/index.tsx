@@ -2,33 +2,19 @@ import cn from 'classnames';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { Slider } from 'app/components/Form/Slider';
-
-// import { translations } from '../../../BuySovPage/components/Slider';
-// import { useMaintenance } from 'app/hooks/useMaintenance';
-// import { TradingPosition } from 'types/trading-position';
-// import { discordInvite } from 'utils/classifiers';
-
 import { translations } from '../../../../../locales/i18n';
-import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog } from '../../../../containers/Dialog';
-// import { selectMarginTradePage } from '../../../../hooks/trading/useApproveAndTrade';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 
 export function AdvancedSettingDialog() {
   const { t } = useTranslation();
-  const { position, amount, pairType, collateral, leverage } = useSelector(
-    selectMarginTradePage,
-  );
-  // const [slippage, setSlippage] = useState(0.5);
+  const { position, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
   const [slippage, setSlippage] = useState(0.5);
-  // const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
-
   return (
     <>
       <Dialog

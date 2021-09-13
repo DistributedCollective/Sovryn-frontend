@@ -63,6 +63,7 @@ const getOptions = (item: ActiveLoan) => {
 
 export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const receiver = useAccount();
+  console.log(props);
 
   const [amount, setAmount] = useState<string>('0');
   const [collateral, setCollateral] = useState(
@@ -155,40 +156,34 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           </h1>
 
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.pair)}
-              </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
-                {pair.chartSymbol}
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.marginType)}
-              </div>
-              <div
-                className={cn('tw-text-sov-white tw-w-1/2 tw-ml-12', {
-                  'tw-text-trade-short': targetToken.asset !== pair.longAsset,
-                  'tw-text-trade-long': targetToken.asset === pair.longAsset,
-                })}
-              >
-                {leverageFromMargin(props.item.startMargin)}x
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.positionSize)}
-              </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
-                {props.positionSize} <AssetRenderer asset={sourceToken.asset} />
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.pl)}
-              </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.pair)}
+              value={pair.chartSymbol}
+            />
+            <LabelValuePair
+              label={t(translations.closeTradingPositionHandler.marginType)}
+              value={<>{leverageFromMargin(props.item.startMargin)}x</>}
+              className={cn({
+                'tw-text-trade-short': targetToken.asset !== pair.longAsset,
+                'tw-text-trade-long': targetToken.asset === pair.longAsset,
+              })}
+            />
+            <LabelValuePair
+              label={t(translations.closeTradingPositionHandler.positionSize)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(props.item.collateral, 4)}
+                    tooltip={fromWei(props.item.collateral)}
+                  />{' '}
+                  <AssetRenderer asset={sourceToken.asset} />
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(translations.closeTradingPositionHandler.pl)}
+              value={
                 <LoadableValue
                   loading={loading}
                   value={
@@ -199,7 +194,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                     >
                       <div>
                         {diff > 0 && '+'}
-                        {weiToNumberFormat(profit, 8)}{' '}
+                        {weiToNumberFormat(profit, 6)}{' '}
                         <AssetRenderer asset={sourceToken.asset} />
                         {amount !== '0' && (
                           <div>({toNumberFormat(diff * 100, 2)}%)</div>
@@ -208,8 +203,8 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                     </span>
                   }
                 />
-              </div>
-            </div>
+              }
+            />
           </div>
 
           <CollateralAssets
@@ -345,3 +340,25 @@ ClosePositionDialog.defaultProps = {
     collateral: '0',
   },
 };
+
+interface LabelValuePairProps {
+  label: React.ReactNode;
+  value: React.ReactNode;
+  className?: string;
+}
+
+function LabelValuePair(props: LabelValuePairProps) {
+  return (
+    <div
+      className={cn(
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
+        props.className,
+      )}
+    >
+      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
+        {props.label}
+      </div>
+      <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
+    </div>
+  );
+}

@@ -24,6 +24,9 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { fromWei } from 'utils/blockchain/math-helpers';
 
 interface IAddToMarginDialogProps {
   item: ActiveLoan;
@@ -73,37 +76,32 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             {t(translations.addToMargin.title)}
           </h1>
 
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-6 tw-rounded-lg tw-text-xs">
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.pair)}
-              </div>
-              <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
-                {pair.chartSymbol}
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.leverage)}
-              </div>
-              <div
-                className={cn('tw-text-sov-white tw-ml-6 tw-w-1/3', {
-                  'tw-text-trade-short': loanToken.asset !== pair.longAsset,
-                  'tw-text-trade-long': loanToken.asset === pair.longAsset,
-                })}
-              >
-                {leverageFromMargin(props.item.startMargin)}x
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-justify-center">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.positionSize)}
-              </div>
-              <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
-                {props.positionSize}{' '}
-                <AssetRenderer asset={tokenDetails.asset} />
-              </div>
-            </div>
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.pair)}
+              value={pair.chartSymbol}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.leverage)}
+              value={<>{leverageFromMargin(props.item.startMargin)}x</>}
+              className={cn({
+                'tw-text-trade-short': loanToken.asset !== pair.longAsset,
+                'tw-text-trade-long': loanToken.asset === pair.longAsset,
+              })}
+            />
+            <LabelValuePair
+              label={t(translations.closeTradingPositionHandler.positionSize)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(props.item.collateral, 4)}
+                    tooltip={fromWei(props.item.collateral)}
+                  />{' '}
+                  <AssetRenderer asset={tokenDetails.asset} />
+                </>
+              }
+            />
           </div>
 
           <FormGroup
@@ -174,5 +172,27 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
       </Dialog>
       <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
     </>
+  );
+}
+
+interface LabelValuePairProps {
+  label: React.ReactNode;
+  value: React.ReactNode;
+  className?: string;
+}
+
+function LabelValuePair(props: LabelValuePairProps) {
+  return (
+    <div
+      className={cn(
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
+        props.className,
+      )}
+    >
+      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
+        {props.label}
+      </div>
+      <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
+    </div>
   );
 }

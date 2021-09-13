@@ -47,7 +47,7 @@ export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  const [slippage, setSlippage] = useState(0.5);
+  const [slippage] = useState(0.5);
   const dispatch = useDispatch();
 
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);

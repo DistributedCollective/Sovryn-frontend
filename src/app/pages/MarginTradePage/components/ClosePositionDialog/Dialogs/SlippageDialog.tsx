@@ -74,7 +74,7 @@ export function SlippageDialog(props: Props) {
             <DummyInput
               value={<>{fromWei(minReturn)}</>}
               appendElem={<AssetRenderer asset={props.asset || Asset.SOV} />}
-              className="tw-h-10"
+              className="tw-h-10 tw-truncate"
             />
           </FormGroup>
 
