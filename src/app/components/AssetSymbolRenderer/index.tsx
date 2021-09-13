@@ -1,7 +1,7 @@
 import React from 'react';
 import { Asset } from '../../../types';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 
 const symbolMap = {
   [Asset.RBTC]: (

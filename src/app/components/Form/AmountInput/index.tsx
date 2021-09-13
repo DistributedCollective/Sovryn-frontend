@@ -96,7 +96,7 @@ export function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value), isTotal);
   };
   return (
-    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-5px tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

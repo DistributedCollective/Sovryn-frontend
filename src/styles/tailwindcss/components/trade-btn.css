@@ -11,8 +11,8 @@
   }
   .tw-btn-trade,
   .tw-btn-trade-content {
-    @apply tw-text-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
-    @apply tw-text-white;
+    @apply tw-text-sov-white tw-uppercase tw-text-2xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-text-sov-white;
   }
 
   .tw-btn-trade:hover {
@@ -28,16 +28,8 @@
     @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
   }
 
-  .tw-btn-trade--long {
-    background: #17c3b2;
-  }
-
-  .tw-btn-trade--short {
-    background: #d74e09;
-  }
-
   .tw-btn-trade .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.white');
+    stroke: theme('colors.sov-white');
   }
 
   .tw-btn-trade .bp3-spinner .bp3-spinner-track {

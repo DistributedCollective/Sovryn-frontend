@@ -15,7 +15,7 @@ import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 import { ConfirmStep } from './components/ConfirmStep';
 import { Asset, Chain } from '../../../types';
-import babelfishIcon from 'assets/images/babelfish.svg';
+import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
@@ -71,7 +71,7 @@ export function BridgeWithdrawPage() {
   return (
     <>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray_bg tw-relative"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
         <UserWallet address={account} />
@@ -102,7 +102,7 @@ export function BridgeWithdrawPage() {
                 {step === WithdrawStep.TOKEN_SELECTOR && <TokenSelector />}
                 {step === WithdrawStep.AMOUNT_SELECTOR && <AmountSelector />}
                 {step === WithdrawStep.RECEIVER_SELECTOR && (
-                  <ReceiverSelector />
+                  <ReceiverSelector address={account} />
                 )}
                 {step === WithdrawStep.REVIEW && <ReviewStep />}
                 {[

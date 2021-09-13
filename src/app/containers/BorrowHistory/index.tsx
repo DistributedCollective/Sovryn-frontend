@@ -109,13 +109,13 @@ export function BorrowHistory(props: Props) {
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           )

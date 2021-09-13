@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
-import styles from '../../components/Dialogs/dialog.module.css';
+import styles from '../../components/Dialogs/dialog.module.scss';
 
 interface Props {
   isOpen: boolean;

@@ -18,7 +18,7 @@ export function FiatButton({ loading, ready, onClick, disabled }: Props) {
       <div className="tw-justify-center tw-items-center tw-flex tw-flex-row tw-w-full">
         <Button
           minimal
-          className="button-width button-round tw-text-gold tw-text-lg tw-mx-auto"
+          className="button-width button-round tw-text-primary tw-text-lg tw-mx-auto"
           text={
             <Trans
               i18nKey={translations.fastBtcDialog.fiatDialog.title}

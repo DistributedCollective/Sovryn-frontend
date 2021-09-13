@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import arrowDown from './arrow-down.svg';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';
@@ -71,7 +71,7 @@ export function OriginClaimDialog(props: Props) {
                 <>
                   <h2 className={styles.title}>Redemption Successful</h2>
 
-                  <div className="tw-mx-auto tw-my-12 tw-text-center">
+                  <div className="tw-mx-auto tw-my-12 tw-text-center tw-text-long">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="51.969"
@@ -83,7 +83,7 @@ export function OriginClaimDialog(props: Props) {
                         data-name="Path 2993"
                         d="M39.912,16.5,22.788,33.623l-9.329-9.3L9.8,27.985,22.788,40.977,43.576,20.189ZM27.985,2A25.985,25.985,0,1,0,53.969,27.985,25.994,25.994,0,0,0,27.985,2Zm0,46.772A20.788,20.788,0,1,1,48.772,27.985,20.782,20.782,0,0,1,27.985,48.772Z"
                         transform="translate(-2 -2)"
-                        fill="#4ecdc4"
+                        fill="currentColor"
                       />
                     </svg>
                   </div>
@@ -113,7 +113,7 @@ export function OriginClaimDialog(props: Props) {
                     <div className="tw-mr-8">Tx Hash:</div>
                     <LinkToExplorer
                       txHash={tx.txHash}
-                      className="tw-text-gold"
+                      className="tw-text-primary"
                     />
                   </div>
 

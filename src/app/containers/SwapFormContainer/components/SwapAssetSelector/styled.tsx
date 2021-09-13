@@ -8,10 +8,9 @@ export const StyledButton = styled.button.attrs(attrs => ({
   height: 40px;
   background-color: #222222;
   border: 1px solid #575757;
-  border-radius: 8px;
-  color: #e9eae9;
-  font-family: Montserrat-SemiBold;
-  font-size: 16px;
+  border-radius: 0.5rem;
+  color: #e8e8e8;
+  font-size: 1rem;
   font-family: 'Montserrat', sans-serif;
 `;
 

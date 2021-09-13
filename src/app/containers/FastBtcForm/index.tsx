@@ -13,7 +13,7 @@ import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { selectFastBtcForm } from './selectors';
 
-import './index.scss';
+import styles from './index.module.scss';
 
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import logo from '../../../assets/images/sovryn-logo-white-inline.svg';
@@ -61,7 +61,7 @@ export function FastBtcForm(props: Props) {
       hasBackdrop={true}
       className={classNames(
         Classes.OVERLAY_SCROLL_CONTAINER,
-        'top-up-container',
+        styles.topUpContainer,
       )}
     >
       <div className={classNames(Classes.DIALOG_CONTAINER)}>
@@ -69,7 +69,7 @@ export function FastBtcForm(props: Props) {
           className={classNames(
             Classes.DIALOG,
             'tw-relative',
-            state.step === 2 ? 'top-up-dialog__extend' : '',
+            state.step === 2 ? styles.topUpContainerExtend : '',
           )}
           style={props.style}
         >

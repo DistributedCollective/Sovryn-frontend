@@ -28,6 +28,8 @@ import { AssetModel } from './types/asset-model';
 import { bridgeNetwork } from './utils/bridge-network';
 import { bignumber } from 'mathjs';
 import { ethers } from 'ethers';
+import { TxType } from 'store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
 
 const { log } = debug('bridge/saga.ts');
 
@@ -237,7 +239,10 @@ function* confirmTransfer() {
           nonce,
           data: txData,
           value: nativeValue,
-          gasLimit: nonce !== undefined ? 250000 : undefined,
+          gasLimit:
+            nonce !== undefined
+              ? gasLimit[TxType.CROSS_CHAIN_DEPOSIT]
+              : undefined,
         },
       );
 
