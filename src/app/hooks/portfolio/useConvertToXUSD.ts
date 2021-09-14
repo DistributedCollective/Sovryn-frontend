@@ -12,16 +12,16 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { Asset } from 'types/asset';
 
-export const useConvertToXUSD = (asset?: Asset) => {
+export const useConvertToXUSD = (asset: Asset) => {
   const account = useAccount();
   const { send, ...rest } = useSendContractTx('babelfishAggregator', 'mintTo');
 
   return {
     convert: async (weiAmount: string) => {
-      let tx: CheckAndApproveResult = {};
+      let tx: CheckAndApproveResult;
 
       tx = await contractWriter.checkAndApprove(
-        asset!,
+        asset,
         getContract('babelfishAggregator').address,
         weiAmount,
       );
@@ -31,7 +31,7 @@ export const useConvertToXUSD = (asset?: Asset) => {
       }
 
       send(
-        [getTokenContract(asset!).address, weiAmount, account],
+        [getTokenContract(asset).address, weiAmount, account],
         {
           from: account,
           gas: gasLimit[TxType.CONVERT_RUSDT_TO_XUSD],

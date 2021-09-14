@@ -75,11 +75,7 @@ export const ConversionDialogContent: React.FC<IConversionDialogContentProps> = 
           label={`${t(translations.userAssets.convertDialog.from)}:`}
           labelClassName="tw-text-sm"
         >
-          <AmountInput
-            value={amount}
-            onChange={value => setAmount(value)}
-            asset={asset}
-          />
+          <AmountInput value={amount} onChange={setAmount} asset={asset} />
         </FormGroup>
 
         <Img src={image} alt="Arrow" />
