@@ -6,13 +6,11 @@ import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { Dashboard } from './pages/Dashboard';
 import { SalesDay } from './pages/SalesDay';
-/* undo once Fish contract has active sale tier reset to 0 */
-//import { useGetActiveSaleTierId } from './hooks/useGetActiveSaleTierId';
+import { useGetActiveSaleTierId } from './hooks/useGetActiveSaleTierId';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
-  /* undo once Fish contract has active sale tier reset to 0 */
-  const activeTierId = 0; //useGetActiveSaleTierId();
+  const activeTierId = useGetActiveSaleTierId(); // TODO: Adjust the hook so a sale is not active when sold out
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -33,7 +31,7 @@ export const OriginsLaunchpad: React.FC = () => {
 
       <div className="tw-container tw-pt-11 tw-font-body">
         {activeTierId > 0 ? (
-          <SalesDay tierId={activeTierId} saleName="FISH" />
+          <SalesDay tierId={activeTierId} saleName="Origin" />
         ) : (
           <Dashboard />
         )}
