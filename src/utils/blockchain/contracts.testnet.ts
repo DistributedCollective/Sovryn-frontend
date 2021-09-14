@@ -35,11 +35,13 @@ import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SettlementAbi from './abi/Settlement.json';
 import OrderBookAbi from './abi/OrderBook.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -61,6 +63,11 @@ export const contracts = {
     address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
+  },
+  WRBTC_token: {
+    address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+    abi: abiTestWBRTCToken,
+    blockNumber: 1205599,
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
@@ -320,5 +327,9 @@ export const contracts = {
   settlement: {
     address: '0x9E1aabBDce2Ce4c5FcA62a09e1394782aB7bc195',
     abi: SettlementAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
+    abi: nftAbi,
   },
 };

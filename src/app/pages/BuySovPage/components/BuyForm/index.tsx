@@ -3,21 +3,17 @@ import styled from 'styled-components/macro';
 import { Card } from '../Card';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { maxMinusFee } from '../../../../../utils/helpers';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { FieldGroup } from '../../../../components/FieldGroup';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from '../../../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { useSlippage } from './useSlippage';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
-import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { TxDialog } from './Dialogs/TxDialog';
 import { bignumber } from 'mathjs';
 import { BuyButton } from '../Button/buy';
@@ -27,10 +23,12 @@ import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useAccount } from '../../../../hooks/useAccount';
 
 const s = translations.swapTradeForm;
 
@@ -47,25 +45,27 @@ export function BuyForm() {
   const [amount, setAmount] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
+  const account = useAccount();
 
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(Asset.RBTC),
-    tokenAddress(Asset.SOV),
-  );
-
-  const { value: rateByPath, loading } = useSwapNetwork_rateByPath(
-    path,
+  const { value: rateByPath, loading } = useSwapsExternal_getSwapExpectedReturn(
+    Asset.RBTC,
+    Asset.SOV,
     weiAmount,
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
 
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
-    path,
+  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+    Asset.RBTC,
+    Asset.SOV,
+    account,
+    account,
     weiAmount,
     minReturn,
+    minReturn,
+    '0x',
   );
 
   const validate = useMemo(() => {
@@ -191,10 +191,6 @@ export function BuyForm() {
       <TxDialog tx={tx} />
     </>
   );
-}
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
 }
 
 const Slippage = styled.div`

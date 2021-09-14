@@ -8,6 +8,7 @@ type InputType = 'text' | 'email' | 'password' | 'number';
 interface InputProps {
   value: string;
   onChange?: (value: string) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   appendElem?: React.ReactNode;
   prependElem?: React.ReactNode;
   type?: InputType;
