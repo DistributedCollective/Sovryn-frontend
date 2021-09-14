@@ -63,10 +63,10 @@ export function PerpetualPage() {
   return (
     <>
       <Helmet>
-        <title>{t(translations.marginTradePage.meta.title)}</title>
+        <title>{t(translations.perpetualPage.meta.title)}</title>
         <meta
           name="description"
-          content={t(translations.marginTradePage.meta.description)}
+          content={t(translations.perpetualPage.meta.description)}
         />
       </Helmet>
       <Header />
@@ -112,14 +112,19 @@ export function PerpetualPage() {
           <>
             <div className="tw-flex tw-items-center tw-text-sm">
               <Tab
-                text={t(translations.marginTradePage.openPositions)}
+                text={t(translations.perpetualPage.openPositions)}
                 active={activeTab === 0}
                 onClick={() => setActiveTab(0)}
               />
               <Tab
-                text={t(translations.marginTradePage.tradingHistory)}
+                text={t(translations.perpetualPage.closedPositions)}
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
+              />
+              <Tab
+                text={t(translations.perpetualPage.orderHistory)}
+                active={activeTab === 2}
+                onClick={() => setActiveTab(2)}
               />
             </div>
 

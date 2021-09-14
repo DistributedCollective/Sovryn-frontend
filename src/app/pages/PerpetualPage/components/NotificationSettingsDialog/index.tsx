@@ -39,12 +39,11 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     <Dialog isOpen={isOpen} onClose={onClose}>
       <div className="tw-mw-340 tw-mx-auto">
         <div className="tw-mb-8">
-          {t(translations.marginTradePage.notificationSettingsDialog.title)}
+          {t(translations.perpetualPage.notificationSettingsDialog.title)}
         </div>
 
         <div className="tw-mb-6 tw-text-sm">
-          {t(translations.marginTradePage.notificationSettingsDialog.notifyVia)}
-          :
+          {t(translations.perpetualPage.notificationSettingsDialog.notifyVia)}:
         </div>
 
         <div className="tw-mb-10">
@@ -67,7 +66,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
           <FormGroup
             label={`${t(
-              translations.marginTradePage.notificationSettingsDialog
+              translations.perpetualPage.notificationSettingsDialog
                 .telegramHandle,
             )}:`}
             className={
@@ -81,7 +80,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               value={telegramUsername}
               onChange={setTelegramUsername}
               placeholder={t(
-                translations.marginTradePage.notificationSettingsDialog
+                translations.perpetualPage.notificationSettingsDialog
                   .usernamePlaceholder,
               )}
               className="tw-rounded-lg tw-h-8"
@@ -106,7 +105,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
           <FormGroup
             label={`${t(
-              translations.marginTradePage.notificationSettingsDialog
+              translations.perpetualPage.notificationSettingsDialog
                 .discordHandle,
             )}:`}
             className={
@@ -120,7 +119,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               value={discordUsername}
               onChange={setDiscordUsername}
               placeholder={t(
-                translations.marginTradePage.notificationSettingsDialog
+                translations.perpetualPage.notificationSettingsDialog
                   .usernamePlaceholder,
               )}
               className="tw-rounded-lg tw-h-8"
@@ -131,7 +130,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
         <div className="tw-text-sm">
           {t(
-            translations.marginTradePage.notificationSettingsDialog
+            translations.perpetualPage.notificationSettingsDialog
               .receiveNotificationTitle,
           )}
           :
@@ -139,7 +138,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             <div>
               -{' '}
               {t(
-                translations.marginTradePage.notificationSettingsDialog
+                translations.perpetualPage.notificationSettingsDialog
                   .notificationEvents[1],
               )}
             </div>
@@ -147,7 +146,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             <div>
               -{' '}
               {t(
-                translations.marginTradePage.notificationSettingsDialog
+                translations.perpetualPage.notificationSettingsDialog
                   .notificationEvents[2],
               )}
             </div>
@@ -156,7 +155,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
         <DialogButton
           confirmLabel={t(
-            translations.marginTradePage.notificationSettingsDialog.submit,
+            translations.perpetualPage.notificationSettingsDialog.submit,
           )}
           onConfirm={() =>
             console.log(

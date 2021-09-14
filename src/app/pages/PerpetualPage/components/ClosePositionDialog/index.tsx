@@ -157,7 +157,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
               <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.pair)}
+                {t(translations.perpetualPage.tradeDialog.pair)}
               </div>
               <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
                 {pair.chartSymbol}

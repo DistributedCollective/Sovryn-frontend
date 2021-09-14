@@ -114,13 +114,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
+              text={t(translations.perpetualPage.tradeForm.buttons.long)}
               position={TradingPosition.LONG}
               onClick={selectPosition}
               // disabled={!validate || !connected || openTradesLocked}
             />
             <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
+              text={t(translations.perpetualPage.tradeForm.buttons.short)}
               position={TradingPosition.SHORT}
               onClick={selectPosition}
             />
@@ -134,7 +134,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           />
           <AvailableBalance asset={collateral} />
           <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.leverage)}
+            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             className="tw-mb-6"
           >
             <LeverageSelector
@@ -144,7 +144,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           </FormGroup>
 
           <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.amount)}
+            label={t(translations.perpetualPage.tradeForm.labels.amount)}
           >
             <AmountInput
               value={amountA}

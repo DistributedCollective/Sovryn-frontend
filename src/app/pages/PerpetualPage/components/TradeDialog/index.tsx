@@ -113,15 +113,15 @@ export function TradeDialog() {
       >
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
-            {t(translations.marginTradePage.tradeDialog.title)}
+            {t(translations.perpetualPage.tradeDialog.title)}
           </h1>
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.pair)}
+              label={t(translations.perpetualPage.tradeDialog.pair)}
               value={pair.chartSymbol}
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.leverage)}
+              label={t(translations.perpetualPage.tradeDialog.leverage)}
               value={<>{toNumberFormat(leverage)}x</>}
               className={cn({
                 'tw-text-trade-short': position === TradingPosition.SHORT,
@@ -129,7 +129,7 @@ export function TradeDialog() {
               })}
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.asset)}
+              label={t(translations.perpetualPage.tradeDialog.asset)}
               value={
                 <>
                   <LoadableValue
@@ -143,18 +143,16 @@ export function TradeDialog() {
             />
             <LabelValuePair
               label={t(
-                translations.marginTradePage.tradeDialog.maintananceMargin,
+                translations.perpetualPage.tradeDialog.maintananceMargin,
               )}
               value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
+              label={t(translations.perpetualPage.tradeDialog.interestAPR)}
               value={<>-</>}
             />
             <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.liquidationPrice,
-              )}
+              label={t(translations.perpetualPage.tradeDialog.liquidationPrice)}
               value={
                 <>
                   <LiquidationPrice
@@ -168,13 +166,13 @@ export function TradeDialog() {
               }
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.renewalDate)}
+              label={t(translations.perpetualPage.tradeDialog.renewalDate)}
               value={<>-</>}
             />
           </div>
 
           <FormGroup
-            label={t(translations.marginTradePage.tradeDialog.entryPrice)}
+            label={t(translations.perpetualPage.tradeDialog.entryPrice)}
             className="tw-mt-3"
           >
             <DummyInput
@@ -193,7 +191,7 @@ export function TradeDialog() {
             />
             <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
               <p className="tw-mb-3">
-                {t(translations.marginTradePage.tradeDialog.minEntry)}
+                {t(translations.perpetualPage.tradeDialog.minEntry)}
               </p>
               <div className="tw-font-semibold">
                 <LoadableValue

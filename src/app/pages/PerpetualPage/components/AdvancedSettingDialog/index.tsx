@@ -44,7 +44,7 @@ export function AdvancedSettingDialog() {
               />
             </FormGroup>
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.minLiq)}
+              label={t(translations.perpetualPage.tradeDialog.minLiq)}
               value={<>{toNumberFormat(leverage)}x</>}
             />
           </div>

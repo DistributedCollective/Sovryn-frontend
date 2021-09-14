@@ -43,7 +43,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
   return (
     <>
       <FormGroup
-        label={label || t(translations.marginTradePage.tradeForm.labels.asset)}
+        label={label || t(translations.perpetualPage.tradeForm.labels.asset)}
       >
         <RadioGroup
           value={value}

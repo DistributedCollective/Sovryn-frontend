@@ -76,7 +76,7 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-6 tw-rounded-lg tw-text-xs">
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
               <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.pair)}
+                {t(translations.perpetualPage.tradeDialog.pair)}
               </div>
               <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
                 {pair.chartSymbol}
@@ -84,7 +84,7 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             </div>
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-center">
               <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.leverage)}
+                {t(translations.perpetualPage.tradeDialog.leverage)}
               </div>
               <div
                 className={cn('tw-text-sov-white tw-ml-6 tw-w-1/3', {
@@ -97,7 +97,7 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             </div>
             <div className="tw-flex tw-flex-row tw-justify-center">
               <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.marginTradePage.tradeDialog.positionSize)}
+                {t(translations.perpetualPage.tradeDialog.positionSize)}
               </div>
               <div className="tw-text-sov-white tw-ml-6 tw-w-1/3">
                 {props.positionSize}{' '}
