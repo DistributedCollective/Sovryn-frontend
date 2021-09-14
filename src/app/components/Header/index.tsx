@@ -63,6 +63,10 @@ export function Header() {
       title: t(translations.mainMenu.marginTrade),
     },
     {
+      to: '/perpetuals',
+      title: t(translations.mainMenu.perpetuals),
+    },
+    {
       to: '/lend',
       title: t(translations.mainMenu.lend),
     },
@@ -148,7 +152,13 @@ export function Header() {
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
+      [SECTION_TYPE.TRADE]: [
+        '/buy-sov',
+        '/swap',
+        '/trade',
+        '/spot',
+        '/perpetuals',
+      ],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
@@ -219,6 +229,13 @@ export function Header() {
                       className="bp3-popover-dismiss"
                       onClick={() => {
                         history.push('/trade');
+                      }}
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.perpetuals)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => {
+                        history.push('/perpetuals');
                       }}
                     />
                   </BPMenu>

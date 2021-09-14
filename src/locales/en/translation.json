@@ -258,6 +258,7 @@
     "trade": "Trade",
     "swap": "Swap",
     "marginTrade": "Margin",
+    "perpetuals": "Perpetuals",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
