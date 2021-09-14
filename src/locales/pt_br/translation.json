@@ -269,7 +269,7 @@
     "origins": "Origens",
     "launchpad": "Lançamentos",
     "claim": "Reinvindicar",
-    "rewards": "Bônus"
+    "rewards": "Recompensas"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -1307,6 +1307,15 @@
     "calculating": "Calculando..."
   },
   "rewardPage": {
+    "availableRewards": "Disponíveis:",
+    "totalRewards": "Total ganho:",
+    "liquidityRewards": "Bônus de liquidez",
+    "lendingRewards": "Bônus de empréstimo",
+    "tradingRewards": "Bônus de negociação",
+    "lockedRewards": "Bônus bloqueados:",
+    "claimableRewards": "Bônus reinvidicáveis",
+    "stakingReward": "Bônus de investimento",
+    "comingSoon": "Em breve",
     "meta": {
       "title": "Bônus",
       "description": "Bônus SOV"
@@ -1315,11 +1324,10 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de resgatá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de sacá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
-      "title": "Staking Rewards",
       "title": "Quantidade:",
       "available": "Total Staking Rewards Available:",
       "cta": "REIVINDICAR"
@@ -1329,19 +1337,6 @@
       "reward": "SOV bônus",
       "liquid": "SOV líquido",
       "fee": "Dividendos"
-    },
-    "topData": {
-      "referralRewards": "Bônus de indicação",
-      "referrals": "Número de indicações:",
-      "availableRewards": "Disponíveis:",
-      "totalRewards": "Total ganho:",
-      "liquidityRewards": "Bônus de liquidez",
-      "lendingRewards": "Bônus de empréstimo",
-      "tradingRewards": "Bônus de negociação",
-      "lockedRewards": "Bônus bloqueados:",
-      "claimibleRewards": "Bônus reinvidicáveis",
-      "stakingReward": "Bônus investimento SOV",
-      "referralReward": "Bônus de indicação"
     },
     "fee": {
       "stakingFee": "Dividendo investimento SOV",
@@ -1484,7 +1479,7 @@
       "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
       "tableHeaders": {
         "totalEarned": "Total ganho",
-        "balance": "Saldo",
+        "balance": "Saldo atual",
         "pl": "L/P",
         "rewards": "Bônus"
       }
@@ -1616,14 +1611,14 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyDepositLimits": "Limites diários de depósito",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "depositAmount": "Desejo depositar:"
     },
     "confirmStep": {
@@ -1673,17 +1668,17 @@
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser sacada",
-      "balance": "Meu saldo",
+      "balance": "Saldo disponível",
       "dailyBridgeLimits": "Limites diários do serviço",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
-      "aggregatorBalance": "Aggregator Balance",
+      "aggregatorBalance": "Disponível",
       "withdrawAmount": "Desejo sacar:",
-      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
-      "insufficientDaily": "Insufficient daily limit remaining."
+      "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
+      "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
@@ -1700,7 +1695,9 @@
     },
     "receiverSelector": {
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
-      "confirm": "Por favor verifique e confirme"
+      "confirm": "Por favor verifique e confirme",
+      "withdrawWarning": "Não envie para endereços de exchanges!",
+      "withdrawDisclaimer": "Saques para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja sacar?",

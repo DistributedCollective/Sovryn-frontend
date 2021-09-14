@@ -1,7 +1,6 @@
 import tokenAbi from './abi/abiTestToken.json';
 import TestTokenABI from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
-import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 /**
  * Do not import this file directly.
  * Use getContract(contractName) helper
@@ -34,11 +33,14 @@ import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
+import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi && SovrynProtocolAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -60,6 +62,11 @@ export const contracts = {
     address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
+  },
+  WRBTC_token: {
+    address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+    abi: abiTestWBRTCToken,
+    blockNumber: 1205599,
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
@@ -311,5 +318,9 @@ export const contracts = {
   babelfishAggregator: {
     address: '0xca8b437d9d586b938CE000e765476A0594856b51',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
+    abi: nftAbi,
   },
 };
