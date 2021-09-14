@@ -1,10 +1,9 @@
-/* --- STATE --- */
-import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
+import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 
 export interface PerpetualsPageState {
-  pairType: TradingPairType;
+  pairType: PerpetualPairType;
   collateral: Asset;
   amount: string;
   leverage: number;

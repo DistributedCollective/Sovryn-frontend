@@ -9,12 +9,12 @@ import { Slider } from 'app/components/Form/Slider';
 import { translations } from '../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog } from '../../../../containers/Dialog';
-import { selectMarginTradePage } from '../../selectors';
+import { selectPerpetualsPage } from '../../selectors';
 import { actions } from '../../slice';
 
 export function AdvancedSettingDialog() {
   const { t } = useTranslation();
-  const { position, leverage } = useSelector(selectMarginTradePage);
+  const { position, leverage } = useSelector(selectPerpetualsPage);
   const dispatch = useDispatch();
   const [slippage, setSlippage] = useState(0.5);
 

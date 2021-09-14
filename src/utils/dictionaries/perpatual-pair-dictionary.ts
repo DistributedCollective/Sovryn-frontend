@@ -7,7 +7,7 @@ export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
 }
 
-export class TradingPairDictionary {
+export class PerpetualPairDictionary {
   /**
    * @deprecated
    */
@@ -25,7 +25,7 @@ export class TradingPairDictionary {
       new PerpetualPair(
         PerpetualPairType.BTCUSD,
         RenderTradingPairName(Asset.RBTC, Asset.XUSD),
-        PerpetualPairType.BTCUSD.toString(),
+        'RBTC/USDT',
         Asset.XUSD,
         Asset.RBTC,
         [Asset.RBTC, Asset.XUSD],

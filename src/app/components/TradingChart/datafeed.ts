@@ -89,7 +89,7 @@ const tradingChartDataFeeds = {
       timezone: 'Etc/UTC',
       ticker: symbolName,
       minmov: 1, //0.00000001,
-      pricescale: symbolName.split('/')[1].match(/USDT|DOC/) ? 100 : 100000000,
+      pricescale: symbolName.split('/')[1]?.match(/USDT|DOC/) ? 100 : 100000000,
       has_intraday: true,
       intraday_multipliers: ['10'],
       supported_resolution: supportedResolutions,

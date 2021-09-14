@@ -3,10 +3,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'types';
 import { initialState } from './slice';
 
-const selectDomain = (state: RootState) =>
-  state.marginTradePage || initialState;
+const selectDomain = (state: RootState) => state.perpetualsPage || initialState;
 
-export const selectMarginTradePage = createSelector(
+export const selectPerpetualsPage = createSelector(
   [selectDomain],
-  marginTradePageState => marginTradePageState,
+  perpetualsPageState => perpetualsPageState,
 );

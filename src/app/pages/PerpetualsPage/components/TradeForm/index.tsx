@@ -16,14 +16,14 @@ import { getLendingContractName } from '../../../../../utils/blockchain/contract
 import { translations } from '../../../../../locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
 import {
-  TradingPairDictionary,
-  TradingPairType,
-} from '../../../../../utils/dictionaries/trading-pair-dictionary';
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { selectMarginTradePage } from '../../selectors';
+import { selectPerpetualsPage } from '../../selectors';
 import { actions } from '../../slice';
 import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
 import { Button } from '../Button';
@@ -33,9 +33,10 @@ import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEs
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetuals_resolvePairTokens';
 
 interface ITradeFormProps {
-  pairType: TradingPairType;
+  pairType: PerpetualPairType;
 }
 const maintenanceMargin = 15000000000000000000;
 
@@ -51,19 +52,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
   const weiAmount = useWeiAmount(amountA);
   const { position, amount, collateral, leverage } = useSelector(
-    selectMarginTradePage,
+    selectPerpetualsPage,
   );
   const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
-  const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
   const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
 
   const {
     loanToken,
     collateralToken,
     useLoanTokens,
-  } = useTrading_resolvePairTokens(pair, position, collateral);
+  } = usePerpetual_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
   const { value: estimations } = useGetEstimatedMarginDetails(

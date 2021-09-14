@@ -8,11 +8,9 @@ import { useInjectReducer } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey } from './slice';
-import { selectMarginTradePage } from './selectors';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
-import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-
+import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
@@ -20,9 +18,9 @@ import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
-import styles from './index.module.scss';
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
-import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
+import { selectPerpetualsPage } from './selectors';
+import { DataCard } from './components/DataCard';
 
 export function PerpetualsPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -32,24 +30,25 @@ export function PerpetualsPage() {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const { pairType } = useSelector(selectMarginTradePage);
+  const { pairType } = useSelector(selectPerpetualsPage);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
 
   const [linkPairType, setLinkPairType] = useState(
-    location.state?.marginTradingPair,
+    location.state?.perpetualsPair,
   );
 
   useEffect(() => {
-    setLinkPairType(location.state?.marginTradingPair);
+    setLinkPairType(location.state?.perpetualsPair);
     history.replace(location.pathname);
+    // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pair = useMemo(
-    () => TradingPairDictionary.get(linkPairType || pairType),
+    () => PerpetualPairDictionary.get(linkPairType || pairType),
     [linkPairType, pairType],
   );
 
@@ -71,37 +70,47 @@ export function PerpetualsPage() {
         />
       </Helmet>
       <Header />
-      <div className={styles.overview}>
-        <div>Overview</div>
-        <div>
-          <button
-            onClick={onNotificationSettingsClick}
-            className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
-          >
-            <img
-              src={imgNotificationBell}
-              alt="Notification bell"
-              className="tw-mr-1.5"
-            />{' '}
-            {t(translations.marginTradePage.notificationsButton.enable)}
-          </button>
+      <div className="tw-w-full tw-bg-gray-2 tw-py-2">
+        <div className="tw-container">
+          <div>Pair Select Placeholder{/*TODO: implement pair select*/}</div>
         </div>
       </div>
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
-          <div
-            className={
-              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
-            }
-          >
-            <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
+      <div className="tw-w-full tw-bg-black tw-py-2">
+        <div className="tw-container">
+          <div>
+            Contract Details Placeholder
+            {/*TODO: implement contract details bar*/}
           </div>
+        </div>
+      </div>
+      <div className="tw-container tw-mt-5">
+        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2 tw-mb-8">
+          <DataCard
+            className="xl:tw-w-1/6"
+            title={`AMM Depth (${pairType.toString()})`}
+          >
+            {/*TODO: implement AMM Depth Graph*/}
+          </DataCard>
+          <div className="tw-flex tw-flex-col xl:tw-w-1/3 tw-max-w-none tw-space-y-2">
+            <DataCard title={`Chart (${pairType.toString()})`}>
+              <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
+            </DataCard>
+            <DataCard title={`Depth Chart (${pairType.toString()})`}>
+              {/*TODO: implement Depth Chart Graph*/}
+            </DataCard>
+          </div>
+          <DataCard
+            className="tw-flex-grow xl:tw-w-1/6"
+            title={`Recent Trades (${pairType.toString()})`}
+          >
+            {/*TODO: implement Recent Trades Graph*/}
+          </DataCard>
           <TradeForm pairType={linkPairType || pairType} />
         </div>
 
         {connected && (
           <>
-            <div className="tw-flex tw-items-center tw-mt-3 tw-text-sm">
+            <div className="tw-flex tw-items-center tw-text-sm">
               <Tab
                 text={t(translations.marginTradePage.openPositions)}
                 active={activeTab === 0}
@@ -114,7 +123,7 @@ export function PerpetualsPage() {
               />
             </div>
 
-            <div className="tw-w-full tw-px-5">
+            <div className="tw-w-full tw-mb-24">
               {activeTab === 0 && <OpenPositionsTable />}
               {activeTab === 1 && <TradingHistory />}
             </div>

@@ -17,24 +17,24 @@ import {
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { fromWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
-// import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
-import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from 'app/hooks/useAccount';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
-import { selectMarginTradePage } from '../../selectors';
+import { selectPerpetualsPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
+import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetuals_resolvePairTokens';
+import { usePlaceholderTransaction } from '../../hooks/usePlaceholderTransaction';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -44,19 +44,18 @@ export function TradeDialog() {
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const { position, amount, pairType, collateral, leverage } = useSelector(
-    selectMarginTradePage,
+    selectPerpetualsPage,
   );
   const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
-  const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
-  // const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const {
     loanToken,
     collateralToken,
     useLoanTokens,
-  } = useTrading_resolvePairTokens(pair, position, collateral);
+  } = usePerpetual_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
   const { value: estimations } = useGetEstimatedMarginDetails(
@@ -69,7 +68,8 @@ export function TradeDialog() {
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
 
-  const { trade, ...tx } = useApproveAndTrade(
+  // TODO: implement useApproveAndTradePerpepatual
+  const { send: trade, ...tx } = usePlaceholderTransaction(
     pair,
     position,
     collateral,
@@ -79,14 +79,16 @@ export function TradeDialog() {
   );
 
   const submit = () =>
-    trade({
-      pair,
-      position,
-      collateralToken,
-      collateral,
-      leverage,
-      amount,
-    });
+    trade([
+      {
+        pair,
+        position,
+        collateralToken,
+        collateral,
+        leverage,
+        amount,
+      },
+    ]);
 
   const txArgs = [
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
