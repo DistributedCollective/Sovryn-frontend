@@ -22,6 +22,17 @@ export class AssetsDictionary {
         new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon, true),
       ],
       [
+        Asset.WRBTC,
+        new AssetDetails(
+          Asset.WRBTC,
+          'WRBTC',
+          'Wrapped Bitcoin',
+          18,
+          rbtcIcon,
+          false,
+        ),
+      ],
+      [
         Asset.SOV,
         new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon, true),
       ],
