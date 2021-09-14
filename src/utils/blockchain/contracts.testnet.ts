@@ -93,7 +93,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   RDOC_token: {
-    address: '0x7e2f245f7dc8e78576ecb13aefc0a101e9be1ad3',
+    address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
     abi: TestTokenABI,
     blockNumber: 1764664,
   },
