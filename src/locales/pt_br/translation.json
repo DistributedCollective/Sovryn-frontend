@@ -1317,7 +1317,7 @@
     "stakingReward": "Bônus de investimento",
     "comingSoon": "Em breve",
     "meta": {
-      "title": "Bônus",
+      "title": "Recompensas",
       "description": "Bônus SOV"
     },
     "claimForm": {
@@ -1392,7 +1392,7 @@
       "direction": "Direção:",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço apróximado de entrada:",
+      "entryPrice": "Preço aproximado de entrada:",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
