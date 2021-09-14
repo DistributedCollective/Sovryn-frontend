@@ -49,7 +49,7 @@ const bscToRskAssets = [
     CrossBridgeAsset.XUSD,
     true,
     true,
-    ethsAggregatorRSK,
+    xusdAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param
     [CrossBridgeAsset.XUSD],
   ),
