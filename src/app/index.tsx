@@ -47,7 +47,7 @@ import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
-import { PerpetualsPage } from './pages/PerpetualsPage';
+import { PerpetualPage } from './pages/PerpetualPage';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -81,7 +81,7 @@ export function App() {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
-            <Route exact path="/perpetuals" component={PerpetualsPage} />
+            <Route exact path="/perpetual" component={PerpetualPage} />
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendingPage} />

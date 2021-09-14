@@ -27,13 +27,13 @@ import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
-import { selectPerpetualsPage } from '../../selectors';
+import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
-import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetuals_resolvePairTokens';
+import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 import { usePlaceholderTransaction } from '../../hooks/usePlaceholderTransaction';
 
 const maintenanceMargin = 15000000000000000000;
@@ -44,7 +44,7 @@ export function TradeDialog() {
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const { position, amount, pairType, collateral, leverage } = useSelector(
-    selectPerpetualsPage,
+    selectPerpetualPage,
   );
   const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();

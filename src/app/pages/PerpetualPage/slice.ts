@@ -14,8 +14,8 @@ export const initialState: ContainerState = {
   position: (undefined as unknown) as TradingPosition,
 };
 
-const perpetualsPageSlice = createSlice({
-  name: 'perpetualsPage',
+const perpetualPageSlice = createSlice({
+  name: 'perpetualPage',
   initialState,
   reducers: {
     setPairType(state, { payload }: PayloadAction<PerpetualPairType>) {
@@ -39,4 +39,4 @@ const perpetualsPageSlice = createSlice({
   },
 });
 
-export const { actions, reducer, name: sliceKey } = perpetualsPageSlice;
+export const { actions, reducer, name: sliceKey } = perpetualPageSlice;

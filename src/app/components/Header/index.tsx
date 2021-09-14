@@ -63,8 +63,8 @@ export function Header() {
       title: t(translations.mainMenu.marginTrade),
     },
     {
-      to: '/perpetuals',
-      title: t(translations.mainMenu.perpetuals),
+      to: '/perpetual',
+      title: t(translations.mainMenu.perpetual),
     },
     {
       to: '/lend',
@@ -157,7 +157,7 @@ export function Header() {
         '/swap',
         '/trade',
         '/spot',
-        '/perpetuals',
+        '/perpetual',
       ],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
@@ -232,10 +232,10 @@ export function Header() {
                       }}
                     />
                     <MenuItem
-                      text={t(translations.mainMenu.perpetuals)}
+                      text={t(translations.mainMenu.perpetual)}
                       className="bp3-popover-dismiss"
                       onClick={() => {
-                        history.push('/perpetuals');
+                        history.push('/perpetual');
                       }}
                     />
                   </BPMenu>

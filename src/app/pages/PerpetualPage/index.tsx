@@ -19,10 +19,10 @@ import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
-import { selectPerpetualsPage } from './selectors';
+import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 
-export function PerpetualsPage() {
+export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
 
   const [
@@ -30,18 +30,18 @@ export function PerpetualsPage() {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const { pairType } = useSelector(selectPerpetualsPage);
+  const { pairType } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
 
   const [linkPairType, setLinkPairType] = useState(
-    location.state?.perpetualsPair,
+    location.state?.perpetualPair,
   );
 
   useEffect(() => {
-    setLinkPairType(location.state?.perpetualsPair);
+    setLinkPairType(location.state?.perpetualPair);
     history.replace(location.pathname);
     // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps

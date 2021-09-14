@@ -31,5 +31,5 @@ export interface IPromotionLinkState {
   target?: Asset;
   marginTradingPair?: TradingPairType;
   spotTradingPair?: SpotPairType;
-  perpetualsPair?: PerpetualPairType;
+  perpetualPair?: PerpetualPairType;
 }

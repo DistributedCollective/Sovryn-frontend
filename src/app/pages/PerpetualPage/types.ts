@@ -2,7 +2,7 @@ import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 
-export interface PerpetualsPageState {
+export interface PerpetualPageState {
   pairType: PerpetualPairType;
   collateral: Asset;
   amount: string;
@@ -10,4 +10,4 @@ export interface PerpetualsPageState {
   position: TradingPosition;
 }
 
-export type ContainerState = PerpetualsPageState;
+export type ContainerState = PerpetualPageState;

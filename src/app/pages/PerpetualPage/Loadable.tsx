@@ -10,6 +10,6 @@ import { PageSkeleton } from 'app/components/PageSkeleton';
 
 export const MarginTradePage = lazyLoad(
   () => import('./index'),
-  module => module.PerpetualsPage,
+  module => module.PerpetualPage,
   { fallback: <PageSkeleton /> },
 );

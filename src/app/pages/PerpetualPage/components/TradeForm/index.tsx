@@ -23,7 +23,7 @@ import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTradi
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { selectPerpetualsPage } from '../../selectors';
+import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
 import { Button } from '../Button';
@@ -33,7 +33,7 @@ import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEs
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
-import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetuals_resolvePairTokens';
+import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 
 interface ITradeFormProps {
   pairType: PerpetualPairType;
@@ -52,7 +52,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
   const weiAmount = useWeiAmount(amountA);
   const { position, amount, collateral, leverage } = useSelector(
-    selectPerpetualsPage,
+    selectPerpetualPage,
   );
   const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
