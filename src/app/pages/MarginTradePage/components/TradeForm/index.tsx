@@ -1,14 +1,14 @@
-import cn from 'classnames';
-import { useWalletContext } from '@sovryn/react-wallet';
-import { bignumber } from 'mathjs';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
+import { bignumber } from 'mathjs';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import settingImg from 'assets/images/settings-blue.svg';
+import settingIcon from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
@@ -22,7 +22,7 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-// import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
+import { ActionButton } from 'app/components/Form/ActionButton';
 import { Button } from '../Button';
 import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
@@ -31,6 +31,9 @@ import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat } from 'utils/display-text/format';
+import { SlippageDialog } from '../../components/ClosePositionDialog/Dialogs/SlippageDialog';
+import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
+import { ActiveLoan } from 'types/active-loan';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -40,7 +43,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
-
+  const [openSlippage, setOpenSlippage] = useState(false);
   const [amountA, setAmount] = useState<string>('');
   const [positionType, setPositionType] = useState<TradingPosition>(
     TradingPosition.LONG,
@@ -66,12 +69,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
   const submit = e => dispatch(actions.submit(e));
 
+  console.log('estimations', estimations);
+
   const { price } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
     estimations.principal,
     positionType === TradingPosition.SHORT,
   );
+  console.log(price);
+
   useEffect(() => {
     dispatch(actions.setAmount(weiAmount));
   }, [weiAmount, dispatch]);
@@ -80,6 +87,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     if (!pair.collaterals.includes(collateral)) {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
+    setAmount('0');
   }, [pair.collaterals, collateral, dispatch]);
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
@@ -90,6 +98,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       bignumber(weiAmount).lessThanOrEqualTo(tokenBalance)
     );
   }, [weiAmount, tokenBalance]);
+  const [slippage, setSlippage] = useState(0.5);
 
   return (
     <>
@@ -140,23 +149,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               asset={collateral}
             />
           </FormGroup>
-          <div className="tw-my-6 tw-text-secondary tw-text-xs tw-flex">
-            <Trans
-              i18nKey={translations.marginTradeForm.fields.advancedSettings}
-            />
-            <img
-              alt="setting"
-              src={settingImg}
-              onClick={() => {
-                console.log('1123');
-              }}
+
+          <div className="tw-mt-3 tw-mb-5 tw-text-secondary tw-text-xs tw-flex">
+            <ActionButton
+              text={
+                <div className="tw-flex">
+                  {t(translations.marginTradeForm.fields.advancedSettings)}
+                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                </div>
+              }
+              onClick={() => setOpenSlippage(true)}
+              className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+              textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
             />
           </div>
+
           <LabelValuePair
             label={t(translations.marginTradeForm.fields.esEntryPrice)}
             value={
               <>
-                {toNumberFormat(price, 2)} {pair.longDetails.symbol}
+                {toNumberFormat(price, 6)} {pair.longDetails.symbol}
               </>
             }
           />
@@ -219,7 +231,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           />
         </div>
       </div>
-      {/* <AdvancedSettingDialog /> */}
+
+      <SlippageDialog
+        isOpen={openSlippage}
+        onClose={() => setOpenSlippage(false)}
+        amount={toWei(amountA)}
+        value={slippage}
+        asset={collateral}
+        onChange={value => setSlippage(value)}
+      />
       <TradeDialog />
     </>
   );
@@ -242,4 +262,17 @@ function LabelValuePair(props: LabelValuePairProps) {
       <div className="tw-truncate tw-text-right">{props.value}</div>
     </div>
   );
+}
+
+function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
+  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
+  return 1 / Number(weiTo18(item.startRate));
+}
+
+function getInterestAPR(item: ActiveLoan) {
+  return bignumber(item.interestOwedPerDay)
+    .mul(365)
+    .div(item.principal)
+    .mul(100)
+    .toNumber();
 }
