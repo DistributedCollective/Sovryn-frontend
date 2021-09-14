@@ -29,9 +29,8 @@
 }
 
 .host :global(.bp3-slider-label) {
-  @apply tw-top-2.5 
-    tw-bg-transparent
-    tw-font-black tw-text-white;
+  @apply tw-text-white tw-text-sm tw-font-semibold
+    tw-top-2.5;
 }
 
 .host :global(.bp3-slider-handle) :global(.bp3-slider-label) {

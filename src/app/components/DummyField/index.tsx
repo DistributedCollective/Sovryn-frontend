@@ -24,7 +24,7 @@ const Div = styled.div`
   color: var(--white);
   padding: 10px 14px;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0;
   height: 40px;
 `;

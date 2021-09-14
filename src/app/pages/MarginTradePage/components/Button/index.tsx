@@ -8,9 +8,17 @@ interface Props {
   onClick: (position: TradingPosition) => void;
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 }
 
-export function Button({ position, onClick, loading, text, ...props }: Props) {
+export function Button({
+  position,
+  onClick,
+  loading,
+  className,
+  text,
+  ...props
+}: Props) {
   return (
     <button
       type="button"
@@ -20,6 +28,7 @@ export function Button({ position, onClick, loading, text, ...props }: Props) {
         { 'tw-bg-trade-long': position === TradingPosition.LONG },
         { 'tw-bg-trade-short': position === TradingPosition.SHORT },
         { loading: loading },
+        className,
       )}
       {...props}
     >

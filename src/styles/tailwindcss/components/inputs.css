@@ -2,14 +2,14 @@
   .tw-input-wrapper {
     height: 1.875rem;
     max-width: 320px;
-    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded;
+    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-md;
     @apply tw-font-semibold tw-font-body tw-text-black;
     @apply tw-w-full;
   }
 
   .tw-input {
-    @apply tw-w-full tw-bg-transparent tw-text-black tw-appearance-none;
-    @apply tw-font-semibold tw-font-body tw-text-sm;
+    @apply tw-w-full tw-bg-transparent tw-text-black tw-appearance-none focus:tw-outline-none;
+    @apply tw-font-semibold tw-font-body tw-text-base;
     @apply tw-px-5;
     @apply tw-placeholder-black tw-placeholder-opacity-25;
   }

@@ -110,7 +110,7 @@ export function AmountSelector(props: AmountSelectorProps) {
           <AvailableBalance asset={props.asset || Asset.RBTC} />
         </div>
       )}
-      <div className="tw-h-5 tw-mt-2 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+      <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
         {amounts.map(value => (
           <AmountSelectorButton
             key={value}

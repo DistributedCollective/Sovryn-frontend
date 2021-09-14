@@ -1248,7 +1248,12 @@
   },
   "closeTradingPositionHandler": {
     "title": "Close Position",
-    "withdrawIn": "Asset:",
+    "withdrawIn": "Asset to receive:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "P/L:",
     "amountToClose": "Position amount to close:",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
@@ -1448,6 +1453,10 @@
       "buttons": {
         "long": "Long",
         "short": "Short"
+      },
+      "placePosition": {
+        "placeLong": " Place Long",
+        "placeShort": "Place Short"
       }
     },
     "tradeDialog": {
@@ -1458,10 +1467,12 @@
       "direction": "Pair:",
       "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
-      "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Approx. Position Entry Price:",
+      "liquidationPrice": "Est. Liquidation price:",
+      "entryPrice": "Position Entry Price:",
       "minEntry": "Minimum Entry Price: ",
       "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
       "position": {
         "long": "Long",
         "short": "Short"

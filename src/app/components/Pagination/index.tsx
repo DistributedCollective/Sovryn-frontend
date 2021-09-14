@@ -227,6 +227,7 @@ const StyledList = styled.ul.attrs(_ => ({
     margin: 0 0.1rem;
     transition: all 0.3s;
     border-radius: 50%;
+    text-decoration: none;
     &:hover {
       background-color: #2274a5;
     }

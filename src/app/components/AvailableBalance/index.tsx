@@ -20,7 +20,7 @@ export function AvailableBalance(props: Props) {
   return (
     <div
       className={cn(
-        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-6',
+        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2',
         props.className,
       )}
     >
