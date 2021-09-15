@@ -10,6 +10,7 @@ import ethIcon from 'assets/images/tokens/eth.svg';
 import bnbIcon from 'assets/images/tokens/bnb.svg';
 import mocIcon from 'assets/images/tokens/moc.svg';
 import fishIcon from 'assets/images/tokens/babelfish.svg';
+import rifToken from 'assets/images/tokens/rif.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -77,6 +78,10 @@ export class AssetsDictionary {
       [
         Asset.FISH,
         new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, true),
+      ],
+      [
+        Asset.RIF,
+        new AssetDetails(Asset.RIF, 'RIF', 'RIF', 18, rifToken, true),
       ],
     ],
   );
