@@ -21,6 +21,7 @@ import { IPromotionLinkState } from '../LandingPage/components/Promotions/compon
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
+import { AmmDepthChart } from './components/AmmDepthChart';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -72,7 +73,10 @@ export function PerpetualPage() {
       <Header />
       <div className="tw-w-full tw-bg-gray-2 tw-py-2">
         <div className="tw-container">
-          <div>Pair Select Placeholder{/*TODO: implement pair select*/}</div>
+          <div>
+            Pair Select Placeholder
+            {/*TODO: implement pair select*/}
+          </div>
         </div>
       </div>
       <div className="tw-w-full tw-bg-black tw-py-2">
@@ -89,7 +93,7 @@ export function PerpetualPage() {
             className="xl:tw-w-1/6"
             title={`AMM Depth (${pairType.toString()})`}
           >
-            {/*TODO: implement AMM Depth Graph*/}
+            <AmmDepthChart pair={pair} />
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-w-1/3 tw-max-w-none tw-space-y-2">
             <DataCard title={`Chart (${pairType.toString()})`}>

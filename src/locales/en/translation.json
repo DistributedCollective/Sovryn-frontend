@@ -1482,6 +1482,13 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "ammDepth": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "total": "Total (<0/>)",
+      "indexPrice": "Index Price:",
+      "markPrice": "Mark Price:"
+    },
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
