@@ -1,13 +1,15 @@
+import { Checkbox } from '@blueprintjs/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../locales/i18n';
-import { Checkbox } from '@blueprintjs/core';
 import styled from 'styled-components/macro';
+
+import { isMobile } from 'utils/helpers';
+
+import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
-import logo from './logo.svg';
 import SalesButton from '../SalesButton';
-import { isMobile } from 'utils/helpers';
+import logo from './logo.svg';
 
 interface Props {}
 
@@ -49,7 +51,8 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
         >
           {t(translations.notifyDialog.heading)}
         </div>
-        {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />}
+        {/* {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />} */}
+        <GeneralAlert />
       </div>
 
       <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-12 tw-mb-6">
