@@ -14,7 +14,7 @@ export const DataCard: React.FC<IDataCardProps> = ({
 }) => (
   <div
     className={classNames(
-      'tw-flex-1 tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
+      'tw-flex tw-flex-col tw-flex-1 tw-min-w-min tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
       className,
     )}
   >
