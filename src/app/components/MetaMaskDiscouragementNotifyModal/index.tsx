@@ -1,7 +1,6 @@
 import { Checkbox } from '@blueprintjs/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/macro';
 
 import { isMobile } from 'utils/helpers';
 
