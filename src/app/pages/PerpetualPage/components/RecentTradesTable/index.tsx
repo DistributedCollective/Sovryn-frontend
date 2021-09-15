@@ -1,0 +1,52 @@
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { translations } from 'locales/i18n';
+import React from 'react';
+import { Trans } from 'react-i18next';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { usePerpetual_RecentTradesTable } from '../../hooks/usePerpetual_RecentTradesTable';
+import styles from './index.module.scss';
+import { RecentTradesTableRow } from './components/RecentTablesRow/index';
+
+type IRecentTradesTableProps = {
+  pair: PerpetualPair;
+};
+
+export const RecentTradesTable: React.FC<IRecentTradesTableProps> = ({
+  pair,
+}) => {
+  const data = usePerpetual_RecentTradesTable();
+
+  return (
+    <table className={styles['recent-trades-table']}>
+      <thead className="tw-bg-black tw-sticky tw-top-0 tw-z-10">
+        <tr>
+          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+            <Trans
+              i18nKey={translations.perpetualPage.recentTrades.price}
+              components={[<AssetSymbolRenderer asset={pair.longAsset} />]}
+            />
+          </th>
+          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+            <Trans
+              i18nKey={translations.perpetualPage.recentTrades.size}
+              components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
+            />
+          </th>
+          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+            <Trans
+              i18nKey={translations.perpetualPage.recentTrades.time}
+              components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
+            />
+          </th>
+          <th />
+        </tr>
+      </thead>
+      <tbody>
+        {data &&
+          data.map((item, index) => (
+            <RecentTradesTableRow row={item} isOddRow={index % 2 === 0} />
+          ))}
+      </tbody>
+    </table>
+  );
+};

@@ -1489,6 +1489,11 @@
       "indexPrice": "Index Price:",
       "markPrice": "Mark Price:"
     },
+    "recentTrades": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
