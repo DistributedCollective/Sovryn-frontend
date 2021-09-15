@@ -17,11 +17,12 @@ export type AmmDepthChartData = {
   longs: AmmDepthChartDataEntry[];
 };
 
-//
-
 let previousPrice = 0;
 
-const placeholderFetch = async (blockId): Promise<AmmDepthChartData> => {
+const placeholderFetch = async (
+  pair: PerpetualPair,
+  blockId: number,
+): Promise<AmmDepthChartData> => {
   console.warn(
     'PlaceholderFetch used by usePerpetual_AmmDepthChart! NOT IMPLEMENTED YET!',
   );
@@ -68,14 +69,15 @@ export const usePerpetual_AmmDepthChart = (pair: PerpetualPair) => {
   const [data, setData] = useState<AmmDepthChartData | null>();
 
   useEffect(() => {
-    placeholderFetch(blockId).then(data => {
+    // TODO: implement AmmDepthChart data fetching
+    placeholderFetch(pair, blockId).then(data => {
       if (data) {
         setData(data);
       } else {
         setData(null);
       }
     });
-  }, [blockId]);
+  }, [pair, blockId]);
 
   return data;
 };
