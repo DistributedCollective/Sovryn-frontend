@@ -320,7 +320,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
-    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
   },
   sovrynNFT: {

@@ -40,6 +40,7 @@ export const useConvertToXUSD = (asset: Asset) => {
         {
           type: TxType.CONVERT_RUSDT_TO_XUSD,
           assetAmount: weiAmount,
+          asset,
           customData: { date: new Date().getTime() / 1000 },
         },
       );
