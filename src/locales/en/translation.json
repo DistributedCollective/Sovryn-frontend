@@ -1375,7 +1375,7 @@
     "title": "Withdraw Vesting",
     "subtitle": "This transaction requires rBTC for gas.",
     "amount": "Amount to Withdraw:",
-    "receiver": "Receive SOV to:",
+    "receiver": "Receive {{asset}} to:",
     "calculating": "Calculating..."
   },
   "rewardPage": {

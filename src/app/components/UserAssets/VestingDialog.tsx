@@ -29,7 +29,7 @@ interface Props {
 export function VestingDialog(props: Props) {
   const { t } = useTranslation();
   const account = useAccount();
-  const { value, loading } = useGetUnlockedVesting(props.address);
+  const { value, loading } = useGetUnlockedVesting('staking', props.address);
   const [address, setAddress] = useState(account);
 
   const { send, ...tx } = useSendToContractAddressTx(
