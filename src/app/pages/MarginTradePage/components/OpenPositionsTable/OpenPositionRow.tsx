@@ -151,7 +151,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           />
         </div>
       </td>
-      <td className="tw-hidden 2xl:tw-table-cell">
+      <td className="tw-hidden xl:tw-table-cell">
         <div className="tw-truncate">
           {toNumberFormat(getInterestAPR(item), 2)}%
         </div>

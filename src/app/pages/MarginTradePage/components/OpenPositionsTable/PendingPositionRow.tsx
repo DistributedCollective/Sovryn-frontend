@@ -27,19 +27,24 @@ export function PendingPositionRow({ item }: IPendingPositionRow) {
   return (
     <>
       <tr>
-        <td>
+        <td className="tw-w-full">
           <PositionBlock
             position={customData?.position}
             name={customData?.pair.name}
           />
         </td>
-        <td colSpan={6}>
+        <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
             {weiToNumberFormat(customData?.amount, 4)}{' '}
             <AssetRenderer asset={collateralAssetDetails.asset} />
           </div>
         </td>
-        <td>
+        <td className="tw-w-full tw-hidden xl:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden md:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden xl:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden sm:tw-table-cell">-</td>
+        <td className="tw-w-32 tw-hidden xl:tw-table-cell">-</td>
+        <td className="tw-w-full">
           <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
             <div>
               {item.status === TxStatus.FAILED && (

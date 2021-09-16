@@ -93,7 +93,7 @@ export function CurrentPositionProfit({
                 loading={dollarsLoading}
               />
             </span>
-            <div>
+            <div className="tw-hidden 2xl:tw-table">
               {diff > 0 ? (
                 <span className="tw-text-trade-long tw-ml-2">
                   (+{toNumberFormat(diff * 100, 2)}%)

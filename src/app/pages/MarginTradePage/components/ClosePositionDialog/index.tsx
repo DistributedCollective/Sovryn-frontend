@@ -37,10 +37,10 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
+import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
 import { discordInvite } from 'utils/classifiers';
-import { useSlippage } from './useSlippage';
-import { SlippageDialog } from './Dialogs/SlippageDialog';
+import { useSlippage } from '../SlippageDialog/useSlippage';
+import { SlippageDialog } from '../SlippageDialog';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { bignumber } from 'mathjs';

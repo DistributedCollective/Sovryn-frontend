@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 import { Dialog } from 'app/containers/Dialog';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
@@ -8,10 +9,11 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
 import { DummyInput } from 'app/components/Form/Input';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { useSlippage } from '../useSlippage';
+import { useSlippage } from './useSlippage';
 import styles from './dialog.module.scss';
-import { ConfirmButton } from '../Button/confirm';
-import { CloseButton } from '../Button/close';
+import { ConfirmButton } from './Button/confirm';
+import { CloseButton } from './Button/close';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 interface Props {
   isOpen: boolean;
@@ -20,6 +22,7 @@ interface Props {
   value: number;
   onChange: (value: number) => void;
   asset?: Asset;
+  isTrade?: boolean;
 }
 
 export function SlippageDialog(props: Props) {
@@ -68,15 +71,30 @@ export function SlippageDialog(props: Props) {
             />
           </FormGroup>
 
-          <FormGroup
-            label={t(translations.buySovPage.slippageDialog.minimumReceived)}
-          >
-            <DummyInput
-              value={<>{fromWei(minReturn)}</>}
-              appendElem={<AssetRenderer asset={props.asset || Asset.SOV} />}
-              className="tw-h-10 tw-truncate"
-            />
-          </FormGroup>
+          {props.isTrade ? (
+            <>
+              <LabelValuePair
+                label={t(translations.marginTradePage.tradeDialog.minEntry)}
+                value={
+                  <>
+                    {weiToNumberFormat(minReturn, 2)}{' '}
+                    <AssetRenderer asset={props.asset || Asset.SOV} />
+                  </>
+                }
+                className="tw-mt-5"
+              />
+            </>
+          ) : (
+            <FormGroup
+              label={t(translations.buySovPage.slippageDialog.minimumReceived)}
+            >
+              <DummyInput
+                value={<>{fromWei(minReturn)}</>}
+                appendElem={<AssetRenderer asset={props.asset || Asset.SOV} />}
+                className="tw-h-10 tw-truncate"
+              />
+            </FormGroup>
+          )}
 
           <div className="tw-flex tw-w-full tw-justify-between tw-items-center">
             <ConfirmButton
@@ -93,5 +111,25 @@ export function SlippageDialog(props: Props) {
         </div>
       </div>
     </Dialog>
+  );
+}
+
+interface LabelValuePairProps {
+  label: React.ReactNode;
+  value: React.ReactNode;
+  className?: string;
+}
+
+function LabelValuePair(props: LabelValuePairProps) {
+  return (
+    <div
+      className={cn(
+        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
+        props.className,
+      )}
+    >
+      <div className="tw-truncate ">{props.label}</div>
+      <div className="tw-truncate tw-text-right">{props.value}</div>
+    </div>
   );
 }
