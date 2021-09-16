@@ -8,6 +8,7 @@ import {
   numberToPercent,
   toNumberFormat,
 } from '../../../../../utils/display-text/format';
+import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 
 type IContractDetailsProps = {
   pair: PerpetualPair;
@@ -31,11 +32,25 @@ export const ContractDetails: React.FC<IContractDetailsProps> = ({ pair }) => {
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.volume24h)}
-          value={data?.volume24h && toNumberFormat(data.volume24h, 0)}
+          value={
+            data?.volume24h && (
+              <>
+                {toNumberFormat(data.volume24h, 2)}{' '}
+                <AssetSymbolRenderer asset={pair.longAsset} />
+              </>
+            )
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.openInterest)}
-          value={data?.openInterest && toNumberFormat(data.openInterest, 0)}
+          value={
+            data?.openInterest && (
+              <>
+                {toNumberFormat(data.openInterest, 2)}{' '}
+                <AssetSymbolRenderer asset={pair.longAsset} />
+              </>
+            )
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.fundingRate)}
@@ -50,7 +65,14 @@ export const ContractDetails: React.FC<IContractDetailsProps> = ({ pair }) => {
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.contractValue)}
-          value={data?.contractValue && toNumberFormat(data.contractValue, 0)}
+          value={
+            data?.contractValue && (
+              <>
+                {toNumberFormat(data.contractValue, 2)}{' '}
+                <AssetSymbolRenderer asset={pair.longAsset} />
+              </>
+            )
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.lotSize)}
@@ -58,7 +80,14 @@ export const ContractDetails: React.FC<IContractDetailsProps> = ({ pair }) => {
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
-          value={data?.minTradeAmount && toNumberFormat(data.minTradeAmount, 0)}
+          value={
+            data?.minTradeAmount && (
+              <>
+                {toNumberFormat(data.minTradeAmount, 2)}{' '}
+                <AssetSymbolRenderer asset={pair.longAsset} />
+              </>
+            )
+          }
         />
       </div>
     </div>
