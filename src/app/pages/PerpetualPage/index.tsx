@@ -23,6 +23,7 @@ import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
+import { ContractDetails } from './components/ContractDetails';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -80,14 +81,7 @@ export function PerpetualPage() {
           </div>
         </div>
       </div>
-      <div className="tw-w-full tw-bg-black tw-py-2">
-        <div className="tw-container">
-          <div>
-            Contract Details Placeholder
-            {/*TODO: implement contract details bar*/}
-          </div>
-        </div>
-      </div>
+      <ContractDetails pair={pair} />
       <div className="tw-container tw-mt-5">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2 tw-mb-8">
           <DataCard

@@ -36,12 +36,11 @@ export function numberToUSD(value: number, decimals: number) {
 }
 
 export function numberToPercent(value: number, decimals: number) {
-  return (
-    value.toLocaleString(navigator.language, {
-      maximumFractionDigits: decimals,
-      minimumFractionDigits: decimals,
-    }) + ' %'
-  );
+  return value.toLocaleString(navigator.language, {
+    style: 'percent',
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function formatAsBTCPrice(value, isLongPosition: boolean): number {

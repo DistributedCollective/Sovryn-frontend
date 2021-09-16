@@ -71,11 +71,7 @@ export const usePerpetual_AmmDepthChart = (pair: PerpetualPair) => {
   useEffect(() => {
     // TODO: implement AmmDepthChart data fetching
     placeholderFetch(pair, blockId).then(data => {
-      if (data) {
-        setData(data);
-      } else {
-        setData(null);
-      }
+      setData(data);
     });
   }, [pair, blockId]);
 

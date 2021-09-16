@@ -1489,6 +1489,17 @@
       "indexPrice": "Index Price:",
       "markPrice": "Mark Price:"
     },
+    "contractDetails": {
+      "title": "Contract Details:",
+      "indexPrice": "Index Price:",
+      "volume24h": "24hr Volume:",
+      "openInterest": "Open Interest:",
+      "fundingRate": "Funding Rate: ",
+      "fundingRate4hr": "in 4hrs",
+      "contractValue": "ContractValue:",
+      "lotSize": "Lot Size:",
+      "minTradeAmount": "Min Trade Amount:"
+    },
     "recentTrades": {
       "price": "Price (<0/>)",
       "size": "Size (<0/>)",
