@@ -109,6 +109,9 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               const assetDetails = AssetsDictionary.getByTokenContractAddress(
                 pair.base_id,
               );
+              if (!assetDetails) {
+                return;
+              }
               let rbtcRow;
 
               if (assetDetails.asset === Asset.USDT) {

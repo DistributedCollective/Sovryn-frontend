@@ -146,18 +146,22 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         </div>
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={submit}
-              disabled={!validate || !connected || openTradesLocked}
-            />
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={submit}
-              disabled={!validate || !connected || openTradesLocked}
-            />
+            {pair.canOpenLong && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.long)}
+                position={TradingPosition.LONG}
+                onClick={submit}
+                disabled={!validate || !connected || openTradesLocked}
+              />
+            )}
+            {pair.canOpenShort && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.short)}
+                position={TradingPosition.SHORT}
+                onClick={submit}
+                disabled={!validate || !connected || openTradesLocked}
+              />
+            )}
           </div>
         )}
       </div>
