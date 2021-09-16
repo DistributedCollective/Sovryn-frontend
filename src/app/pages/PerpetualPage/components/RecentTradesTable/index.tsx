@@ -17,7 +17,7 @@ export const RecentTradesTable: React.FC<IRecentTradesTableProps> = ({
   const data = usePerpetual_RecentTradesTable();
 
   return (
-    <table className={styles['recent-trades-table']}>
+    <table className={styles.recentTradesTable}>
       <thead className="tw-bg-black tw-sticky tw-top-0 tw-z-10">
         <tr>
           <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">

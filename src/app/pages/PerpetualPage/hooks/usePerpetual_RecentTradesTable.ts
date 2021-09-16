@@ -47,6 +47,7 @@ export const usePerpetual_RecentTradesTable = () => {
   const blockId = useBlockSync();
   const [data, setData] = useState<RecentTradesDataEntry[] | null>();
 
+  // TODO: This is just a placeholder, implement a real fetching of recent trades
   useEffect(() => {
     generatePlaceholderData().then(data => {
       data ? setData(data) : setData(null);

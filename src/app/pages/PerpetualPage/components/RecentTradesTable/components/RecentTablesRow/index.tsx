@@ -34,7 +34,7 @@ export const RecentTradesTableRow: React.FC<IRecentTradesTableRowProps> = ({
         className={classNames(
           'tw-px-4 tw-py-1 tw-text-right tw-font-semibold tw-flex',
           isOddRow && 'tw-rounded-l',
-          priceColor && priceColor,
+          priceColor,
         )}
       >
         {priceChangeImage ? (
