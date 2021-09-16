@@ -128,8 +128,13 @@ export function PerpetualPage() {
             </div>
 
             <div className="tw-w-full tw-mb-24">
-              {activeTab === 0 && <OpenPositionsTable />}
-              {activeTab === 1 && <TradingHistory />}
+              {activeTab === 0 && <OpenPositionsTable perPage={5} />}
+              {activeTab === 1 && (
+                <div>
+                  NOT IMPLEMENTED {/*TODO: implement closed positions table*/}
+                </div>
+              )}
+              {activeTab === 2 && <TradingHistory />}
             </div>
           </>
         )}
