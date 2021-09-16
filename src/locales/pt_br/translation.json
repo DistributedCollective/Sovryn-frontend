@@ -1373,7 +1373,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Colateral:",
+        "asset": "Ativo de garantia:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
@@ -1388,7 +1388,7 @@
       "title": "Revisar transação",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
-      "asset": "Colateral:",
+      "asset": "Ativo de garantia:",
       "direction": "Direção:",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
