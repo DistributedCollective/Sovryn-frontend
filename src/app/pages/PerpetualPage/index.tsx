@@ -22,6 +22,7 @@ import { NotificationSettingsDialog } from './components/NotificationSettingsDia
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
+import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
 
 export function PerpetualPage() {
@@ -101,7 +102,7 @@ export function PerpetualPage() {
             className="tw-flex-grow xl:tw-w-1/6"
             title={`Recent Trades (${pairType.toString()})`}
           >
-            {/*TODO: implement Recent Trades Graph*/}
+            <RecentTradesTable pair={pair} />
           </DataCard>
           <TradeForm pairType={linkPairType || pairType} />
         </div>

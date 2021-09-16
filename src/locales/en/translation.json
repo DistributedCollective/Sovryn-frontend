@@ -1500,6 +1500,11 @@
       "lotSize": "Lot Size:",
       "minTradeAmount": "Min Trade Amount:"
     },
+    "recentTrades": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
