@@ -1676,7 +1676,7 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
-      "withdrawAmount": "Desejo sacar:",
+      "withdrawAmount": "Quantidade:",
       "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
       "insufficientDaily": "Limite diário excedido."
     },
