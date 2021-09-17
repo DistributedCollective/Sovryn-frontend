@@ -76,6 +76,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     );
   }, [weiAmount, tokenBalance]);
 
+  const buttonDisabled = useMemo(
+    () => !validate || !connected || openTradesLocked,
+    [validate, connected, openTradesLocked],
+  );
+
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
@@ -151,7 +156,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.long)}
                 position={TradingPosition.LONG}
                 onClick={submit}
-                disabled={!validate || !connected || openTradesLocked}
+                disabled={buttonDisabled}
               />
             )}
             {pair.canOpenShort && (
@@ -159,7 +164,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.short)}
                 position={TradingPosition.SHORT}
                 onClick={submit}
-                disabled={!validate || !connected || openTradesLocked}
+                disabled={buttonDisabled}
               />
             )}
           </div>

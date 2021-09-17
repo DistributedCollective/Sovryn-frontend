@@ -10,9 +10,9 @@ export enum TradingPairType {
   BPRO_XUSD = 'BPRO_XUSD',
   BPRO_USDT = 'BPRO_USDT',
   BPRO_DOC = 'BPRO_DOC',
+  BPRO_SOV = 'BPRO_SOV',
   SOV_XUSD = 'SOV_XUSD',
   SOV_DOC = 'SOV_DOC',
-  BPRO_SOV = 'BPRO_SOV',
 }
 
 export class TradingPairDictionary {
