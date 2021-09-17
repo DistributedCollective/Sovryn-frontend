@@ -41,6 +41,7 @@ import settingImg from 'assets/images/settings-blue.svg';
 import styles from './index.module.scss';
 import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { LimitOrderSetting } from '../LimitOrderSetting';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -144,6 +145,12 @@ export function TradeForm() {
           onChange={value => setSlippage(value)}
         />
       )}
+      <LimitOrderSetting
+        isOpen={true}
+        duration={20}
+        onClose={() => setDialogOpen(false)}
+        onChange={value => setSlippage(value)}
+      />
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-340 tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
