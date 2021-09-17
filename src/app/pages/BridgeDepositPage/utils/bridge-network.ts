@@ -204,7 +204,9 @@ export class BridgeNetwork {
     if (isWeb3Wallet(walletService.providerType as ProviderType)) {
       return signedTxOrTransactionHash;
     } else {
-      return this.getProvider(chain).sendTransaction(signedTxOrTransactionHash);
+      return await this.getProvider(chain)
+        .sendTransaction(signedTxOrTransactionHash)
+        .then(response => response.hash);
     }
   }
 

@@ -32,7 +32,7 @@ export function WalletSelector() {
 
   const { bridgeChainId } = useSelector(selectWalletProvider);
   const { chain } = useSelector(selectBridgeDepositPage);
-  const chainId = parseInt(ethereum.chainId as string);
+  const chainId = parseInt(ethereum?.chainId as string);
 
   const walletName = detectWeb3Wallet();
 
