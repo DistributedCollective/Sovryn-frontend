@@ -10,6 +10,7 @@ export enum TradeType {
 }
 
 export type RecentTradesDataEntry = {
+  id: string;
   type: TradeType;
   priceChange: TradePriceChange;
   price: number;

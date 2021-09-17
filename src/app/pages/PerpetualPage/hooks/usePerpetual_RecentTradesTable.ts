@@ -32,6 +32,7 @@ const generatePlaceholderData = async (): Promise<RecentTradesDataEntry[]> => {
     const randomNumber = Math.random();
 
     result.push({
+      id: i.toString(),
       type: randomNumber < 0.5 ? TradeType.SELL : TradeType.BUY,
       price: initialPrice + i,
       priceChange: getPriceChange(),

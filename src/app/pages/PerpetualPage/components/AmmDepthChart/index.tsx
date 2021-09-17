@@ -177,13 +177,15 @@ const AmmDepthChartRow: React.FC<IAmmDepthChartRowProps> = ({
   maxTotal,
   isOddRow,
 }) => {
+  const backgroundClassName = isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1';
+
   return (
     <tr key={row.price}>
       <td
         className={classNames(
-          'tw-px-4 tw-py-1 tw-text-right tw-font-semibold',
+          'tw-px-4 tw-py-1 tw-text-right tw-font-semibold tw-rounded-l',
           type === 'short' ? 'tw-text-trade-short' : 'tw-text-trade-long',
-          isOddRow && 'tw-bg-gray-3 tw-rounded-l',
+          backgroundClassName,
         )}
       >
         {row.price}
@@ -191,15 +193,15 @@ const AmmDepthChartRow: React.FC<IAmmDepthChartRowProps> = ({
       <td
         className={classNames(
           'tw-px-4 tw-py-1 tw-text-right',
-          isOddRow && 'tw-bg-gray-3',
+          backgroundClassName,
         )}
       >
         {row.size}
       </td>
       <td
         className={classNames(
-          'tw-relative tw-px-4 tw-py-1 tw-text-right',
-          isOddRow && 'tw-bg-gray-3 tw-rounded-r',
+          'tw-relative tw-px-4 tw-py-1 tw-text-right tw-rounded-r',
+          backgroundClassName,
         )}
       >
         <span

@@ -44,7 +44,11 @@ export const RecentTradesTable: React.FC<IRecentTradesTableProps> = ({
       <tbody>
         {data &&
           data.map((item, index) => (
-            <RecentTradesTableRow row={item} isOddRow={index % 2 === 0} />
+            <RecentTradesTableRow
+              key={item.id}
+              row={item}
+              isOddRow={index % 2 === 0}
+            />
           ))}
       </tbody>
     </table>
