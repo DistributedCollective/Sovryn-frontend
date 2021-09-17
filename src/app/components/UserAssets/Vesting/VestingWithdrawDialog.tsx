@@ -2,9 +2,10 @@ import { Classes, Overlay } from '@blueprintjs/core';
 import React from 'react';
 import { FullVesting } from './useListOfUserVestings';
 import { VestingWithdrawForm } from './VestingWithdrawForm';
+import type { Nullable } from 'types';
 
 interface VestingWithdrawDialogProps {
-  vesting: FullVesting;
+  vesting: Nullable<FullVesting>;
   isOpen: boolean;
   onClose: () => void;
 }

@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Skeleton } from '../PageSkeleton';
 import {
   FullVesting,
   useListOfUserVestings,
 } from './Vesting/useListOfUserVestings';
-import VestedItem from './Vesting/VestedItem';
+import { VestedItem } from './Vesting/VestedItem';
 import { VestingWithdrawDialog } from './Vesting/VestingWithdrawDialog';
+import type { Nullable } from 'types';
 
 export function VestedAssets() {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export function VestedAssets() {
   const { loading, items } = useListOfUserVestings();
 
   const [open, setOpen] = useState(false);
-  const [vesting, setVesting] = useState<FullVesting>(null!);
+  const [vesting, setVesting] = useState<Nullable<FullVesting>>(null);
 
   const onWithdraw = useCallback((value: FullVesting) => {
     setOpen(true);
@@ -27,8 +28,13 @@ export function VestedAssets() {
 
   const onClose = useCallback(() => {
     setOpen(false);
-    setVesting(null!);
+    setVesting(null);
   }, []);
+
+  const isVestedLoaded = useMemo(
+    () => connected && account && !loading && items.length > 0,
+    [connected, account, loading, items.length],
+  );
 
   return (
     <>
@@ -67,26 +73,23 @@ export function VestedAssets() {
                 </tr>
               </>
             )}
-            {connected &&
-              account &&
-              !loading &&
-              (items.length ? (
-                <>
-                  {items.map(item => (
-                    <VestedItem
-                      key={item.vestingContract}
-                      vesting={item}
-                      onWithdraw={onWithdraw}
-                    />
-                  ))}
-                </>
-              ) : (
-                <tr>
-                  <td className="tw-text-center" colSpan={99}>
-                    {t(translations.userAssets.emptyVestTable)}
-                  </td>
-                </tr>
-              ))}
+            {isVestedLoaded ? (
+              <>
+                {items.map(item => (
+                  <VestedItem
+                    key={item.vestingContract}
+                    vesting={item}
+                    onWithdraw={onWithdraw}
+                  />
+                ))}
+              </>
+            ) : (
+              <tr>
+                <td className="tw-text-center" colSpan={99}>
+                  {t(translations.userAssets.emptyVestTable)}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

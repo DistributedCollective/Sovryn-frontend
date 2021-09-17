@@ -1,47 +1,39 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core';
-import { bignumber } from 'mathjs';
-import { Asset } from '../../../../types';
 import { LoadableValue } from '../../LoadableValue';
 import {
   numberToUSD,
   weiToNumberFormat,
 } from '../../../../utils/display-text/format';
-import { weiToFixed } from '../../../../utils/blockchain/math-helpers';
+import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import { translations } from '../../../../locales/i18n';
 import { ActionButton } from '../../Form/ActionButton';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { useMaintenance } from '../../../hooks/useMaintenance';
-import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
 import { FullVesting } from './useListOfUserVestings';
+import { useDollarValue } from '../../../hooks/useDollarValue';
 
 type VestedItemProps = {
   vesting: FullVesting;
   onWithdraw: (vesting: FullVesting) => void;
 };
 
-const VestedItem: React.FC<VestedItemProps> = ({ vesting, onWithdraw }) => {
-  const { logoSvg, symbol, decimals } = AssetsDictionary.get(vesting.asset);
+export const VestedItem: React.FC<VestedItemProps> = ({
+  vesting,
+  onWithdraw,
+}) => {
+  const { logoSvg, symbol } = AssetsDictionary.get(vesting.asset);
 
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawLocked = checkMaintenance(States.WITHDRAW_VESTS);
-  const dollars = useCachedAssetPrice(vesting.asset, Asset.USDT);
-  const dollarValue = useMemo(() => {
-    if ([Asset.USDT, Asset.DOC].includes(vesting.asset)) {
-      return vesting.balance;
-    } else {
-      return bignumber(vesting.balance)
-        .mul(dollars.value)
-        .div(10 ** decimals)
-        .toFixed(0);
-    }
-  }, [dollars.value, vesting.balance, vesting.asset, decimals]);
+  const dollarValue = useDollarValue(vesting.asset, vesting.balance);
 
-  const handleOnWithdraw = useCallback(() => {
-    onWithdraw(vesting);
-  }, [vesting, onWithdraw]);
+  const handleOnWithdraw = useCallback(() => onWithdraw(vesting), [
+    vesting,
+    onWithdraw,
+  ]);
 
   return (
     <tr>
@@ -56,8 +48,8 @@ const VestedItem: React.FC<VestedItemProps> = ({ vesting, onWithdraw }) => {
       <td className="tw-text-right">{weiToNumberFormat(vesting.balance, 4)}</td>
       <td className="tw-text-right">
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
-          loading={dollars.loading}
+          value={numberToUSD(Number(weiTo4(dollarValue.value)), 4)}
+          loading={dollarValue.loading}
         />
       </td>
       <td className="tw-text-right">
@@ -85,5 +77,3 @@ const VestedItem: React.FC<VestedItemProps> = ({ vesting, onWithdraw }) => {
     </tr>
   );
 };
-
-export default VestedItem;
