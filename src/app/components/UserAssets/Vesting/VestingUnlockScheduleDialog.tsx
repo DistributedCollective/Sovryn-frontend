@@ -6,17 +6,17 @@ import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { Dialog } from '../../../containers/Dialog';
 
-interface Props {
+interface VestingUnlockScheduleDialogProps {
   vesting: FullVesting;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function VestingUnlockScheduleDialog({
+export const VestingUnlockScheduleDialog: React.FC<VestingUnlockScheduleDialogProps> = ({
   vesting,
   isOpen,
   onClose,
-}: Props) {
+}) => {
   const schedule = useMemo(
     () =>
       vesting.stakes.dates.map((date, index) => ({
@@ -53,4 +53,4 @@ export function VestingUnlockScheduleDialog({
       </Dialog>
     </>
   );
-}
+};

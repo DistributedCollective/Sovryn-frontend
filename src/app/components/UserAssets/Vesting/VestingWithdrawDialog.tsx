@@ -3,13 +3,17 @@ import React from 'react';
 import { FullVesting } from './useListOfUserVestings';
 import { VestingWithdrawForm } from './VestingWithdrawForm';
 
-interface Props {
+interface VestingWithdrawDialogProps {
   vesting: FullVesting;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function VestingWithdrawDialog({ vesting, isOpen, onClose }: Props) {
+export const VestingWithdrawDialog: React.FC<VestingWithdrawDialogProps> = ({
+  vesting,
+  isOpen,
+  onClose,
+}) => {
   return (
     <>
       <Overlay
@@ -30,4 +34,4 @@ export function VestingWithdrawDialog({ vesting, isOpen, onClose }: Props) {
       </Overlay>
     </>
   );
-}
+};

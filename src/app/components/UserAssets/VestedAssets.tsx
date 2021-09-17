@@ -79,57 +79,6 @@ export function VestedAssets() {
                       onWithdraw={onWithdraw}
                     />
                   ))}
-                  {/*{result.vestedValue !== '0' && (*/}
-                  {/*  <AssetRow*/}
-                  {/*    item={item}*/}
-                  {/*    title="Genesis SOV"*/}
-                  {/*    value={result.vestedValue}*/}
-                  {/*    loading={result.loading}*/}
-                  {/*    contract={result.vestingContract}*/}
-                  {/*    onWithdraw={onWithdraw}*/}
-                  {/*  />*/}
-                  {/*)}*/}
-
-                  {/*{result.originVestedValue !== '0' && (*/}
-                  {/*  <AssetRow*/}
-                  {/*    item={item}*/}
-                  {/*    title="Origins SOV"*/}
-                  {/*    value={result.originVestedValue}*/}
-                  {/*    loading={result.loading}*/}
-                  {/*    contract={result.originVestingContract}*/}
-                  {/*    onWithdraw={onWithdraw}*/}
-                  {/*  />*/}
-                  {/*)}*/}
-
-                  {/*{result.teamVestedValue !== '0' && (*/}
-                  {/*  <AssetRow*/}
-                  {/*    item={item}*/}
-                  {/*    title="Team SOV"*/}
-                  {/*    value={result.teamVestedValue}*/}
-                  {/*    loading={result.loading}*/}
-                  {/*    contract={result.teamVestingContract}*/}
-                  {/*    onWithdraw={onWithdraw}*/}
-                  {/*  />*/}
-                  {/*)}*/}
-                  {/*{result.lmVestingContract !== ethGenesisAddress && (*/}
-                  {/*  <AssetRow*/}
-                  {/*    item={item}*/}
-                  {/*    title="Reward SOV"*/}
-                  {/*    value={result.lmVestedValue}*/}
-                  {/*    loading={result.loading}*/}
-                  {/*    contract={result.lmVestingContract}*/}
-                  {/*    onWithdraw={onWithdraw}*/}
-                  {/*  />*/}
-                  {/*)}*/}
-                  {/*{result.babelFishVestedValue !== '0' && (*/}
-                  {/*  <OriginsSaleRow*/}
-                  {/*    token="FISH"*/}
-                  {/*    value={result.babelFishVestedValue}*/}
-                  {/*    title="Origins FISH"*/}
-                  {/*    logo={babelfishLogo}*/}
-                  {/*    loading={result.loading}*/}
-                  {/*  />*/}
-                  {/*)}*/}
                 </>
               ) : (
                 <tr>
