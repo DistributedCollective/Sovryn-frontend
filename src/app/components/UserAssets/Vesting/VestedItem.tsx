@@ -56,7 +56,7 @@ const VestedItem: React.FC<VestedItemProps> = ({ vesting, onWithdraw }) => {
       <td className="tw-text-right">{weiToNumberFormat(vesting.balance, 4)}</td>
       <td className="tw-text-right">
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
           loading={dollars.loading}
         />
       </td>
