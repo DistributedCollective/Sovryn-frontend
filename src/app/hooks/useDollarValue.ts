@@ -10,7 +10,7 @@ export function useDollarValue(asset: Asset, weiAmount: string) {
 
   const value = useMemo(() => {
     const { decimals } = AssetsDictionary.get(asset);
-    if ([Asset.USDT, Asset.DOC].includes(asset)) {
+    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(asset)) {
       return weiAmount;
     } else {
       return bignumber(weiAmount)
