@@ -20,6 +20,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
     [States.ADD_TO_MARGIN_TRADES]: addToMarginLocked,
   } = checkMaintenances();
+  // TODO: implement maintenance stops for actions!
 
   const pair = PerpetualPairDictionary.get(item.pair as PerpetualPairType);
   const type = item.position > 0 ? TradingPosition.LONG : TradingPosition.SHORT;

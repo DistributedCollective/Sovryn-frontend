@@ -64,7 +64,10 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
           minimumFractionDigits: min,
           maximumFractionDigits: max,
         }),
-        numberValue.toLocaleString(i18n.language),
+        numberValue.toLocaleString(i18n.language, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 18,
+        }),
       ];
     }
 
