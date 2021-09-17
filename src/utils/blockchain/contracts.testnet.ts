@@ -92,6 +92,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  RDOC_token: {
+    address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
+  },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
     abi: TestTokenABI,
@@ -315,7 +320,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
-    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
   },
   sovrynNFT: {

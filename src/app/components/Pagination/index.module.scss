@@ -1,0 +1,7 @@
+.pageButton {
+  @apply tw-flex tw-justify-center tw-items-center
+      tw-h-9 tw-min-w-9 tw-p-0 tw-mx-0.5
+      tw-font-medium tw-text-lg tw-text-center tw-text-white
+      tw-bg-transparent hover:tw-bg-secondary tw-border-0 tw-rounded-full
+      tw-transition-colors tw-duration-300;
+}
