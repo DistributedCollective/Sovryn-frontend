@@ -1,6 +1,6 @@
 import React from 'react';
 import { TradingPosition } from 'types/trading-position';
-import { numberToPercent } from 'utils/display-text/format';
+import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
@@ -10,6 +10,7 @@ import {
 } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import classNames from 'classnames';
+import { AssetValue } from '../../../../components/AssetValue';
 
 interface IOpenPositionRowProps {
   item: OpenPositionEntry;
@@ -36,69 +37,76 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           isLong ? 'tw-text-trade-long' : 'tw-text-trade-short',
         )}
       >
-        {pair.chartSymbol}
+        {pair.name}
       </td>
       <td
         className={classNames(
-          'tw-hidden xl:tw-table-cell',
+          'tw-text-right',
           isLong ? 'tw-text-trade-long' : 'tw-text-trade-short',
         )}
       >
-        {item.position} <AssetRenderer asset={pair.longAsset} />
+        <AssetValue value={item.position} asset={pair.longAsset} />
       </td>
-      <td className="tw-hidden xl:tw-table-cell">
-        {item.value} <AssetRenderer asset={pair.shortAsset} />
+      <td className="tw-text-right tw-hidden xl:tw-table-cell">
+        <AssetValue value={item.value} asset={pair.shortAsset} />
       </td>
-      <td className="tw-hidden md:tw-table-cell">
-        {item.entryPrice} <AssetRenderer asset={pair.longAsset} />
+      <td className="tw-text-right tw-hidden md:tw-table-cell">
+        <AssetValue value={item.entryPrice} asset={pair.longAsset} />
       </td>
-      <td className="tw-hidden md:tw-table-cell">
-        {item.markPrice} <AssetRenderer asset={pair.longAsset} />
+      <td className="tw-text-right tw-hidden xl:tw-table-cell">
+        <AssetValue value={item.markPrice} asset={pair.longAsset} />
       </td>
-      <td className="tw-hidden md:tw-table-cell tw-text-trade-short">
-        {item.liquidationPrice} <AssetRenderer asset={pair.longAsset} />
+      <td className="tw-text-right tw-hidden xl:tw-table-cell tw-text-trade-short">
+        <AssetValue value={item.liquidationPrice} asset={pair.longAsset} />
       </td>
-      <td className="tw-hidden md:tw-table-cell">
-        {item.margin} <AssetRenderer asset={pair.shortAsset} />
-        {` (${item.leverage.toPrecision(3)}x)`}
+      <td className="tw-text-right">
+        <AssetValue value={item.margin} asset={pair.shortAsset} />
+        {` (${toNumberFormat(item.leverage, 2)}x)`}
       </td>
       <td
         className={classNames(
-          'tw-hidden md:tw-table-cell',
           item.unrealized?.[0] >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
-        <div className="tw-block">
-          <div>
-            {item.unrealized?.[0]} <AssetRenderer asset={pair.shortAsset} />
+        <div className="tw-flex tw-flex-row tw-items-center">
+          <div className="tw-mr-2">
+            <AssetValue
+              className="tw-block"
+              value={item.unrealized?.[0]}
+              asset={pair.shortAsset}
+            />
+            <AssetValue
+              className="tw-block"
+              value={item.unrealized?.[1]}
+              asset={pair.longAsset}
+            />
           </div>
           <div>
-            {item.unrealized?.[1]} <AssetRenderer asset={pair.longAsset} />
+            ({item.unrealized?.[2] > 0 ? '+' : ''}
+            {numberToPercent(item.unrealized?.[2], 1)})
           </div>
-        </div>
-        <div>
-          ({item.unrealized?.[2] > 0 ? '+' : ''}
-          {numberToPercent(item.unrealized?.[2], 1)})
         </div>
       </td>
       <td
         className={classNames(
-          'tw-hidden md:tw-table-cell',
+          'tw-hidden 2xl:tw-table-cell',
           item.unrealized?.[0] >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
-        <div className="tw-block">
-          <div>
-            {item.realized?.[0]} <AssetRenderer asset={pair.shortAsset} />
-          </div>
-          <div>
-            {item.realized?.[1]} <AssetRenderer asset={pair.longAsset} />
-          </div>
-        </div>
+        <AssetValue
+          className="tw-block"
+          value={item.realized?.[0]}
+          asset={pair.shortAsset}
+        />
+        <AssetValue
+          className="tw-block"
+          value={item.realized?.[1]}
+          asset={pair.longAsset}
+        />
       </td>
       <td>
         <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start"></div>
