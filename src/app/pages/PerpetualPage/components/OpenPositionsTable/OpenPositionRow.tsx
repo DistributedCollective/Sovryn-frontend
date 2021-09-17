@@ -1,14 +1,12 @@
 import React from 'react';
 import { TradingPosition } from 'types/trading-position';
 import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
-import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import classNames from 'classnames';
 import { AssetValue } from '../../../../components/AssetValue';
 
@@ -109,7 +107,9 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
         />
       </td>
       <td>
-        <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start"></div>
+        <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
+          {/* TODO: implement OpenPosition Actions */}
+        </div>
       </td>
     </tr>
   );

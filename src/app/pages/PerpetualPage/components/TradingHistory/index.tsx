@@ -14,7 +14,6 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { TradeProfit } from 'app/components/TradeProfit';
-import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Pagination } from '../../../../components/Pagination';
@@ -275,7 +274,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
 
         return {
           item: item,
-          icon: <PositionBlock position={item.position} name={pair.name} />,
+          icon: pair.name,
           leverage: `${weiToFixed(item.leverage, 1)}x`,
           positionSize: (
             <Tooltip content={weiTo18(item.positionSize)}>

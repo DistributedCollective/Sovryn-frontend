@@ -8,9 +8,9 @@ import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dicti
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Transaction, TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { PositionBlock } from './PositionBlock';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import { AssetValue } from '../../../../components/AssetValue';
 
 interface IPendingPositionRow {
   item: Transaction;
@@ -24,13 +24,15 @@ export function PendingPositionRow({ item }: IPendingPositionRow) {
     customData?.collateralToken,
   );
 
+  // TODO: implement OpenPositions PendingPositionRow
   return (
     <>
       <tr>
-        <td>
-          <PositionBlock
-            position={customData?.position}
-            name={customData?.pair.name}
+        <td>{customData?.pair.name}</td>
+        <td className={'tw-text-right'}>
+          <AssetValue
+            value={customData?.position}
+            asset={customData?.pair.longAsset}
           />
         </td>
         <td colSpan={6}>
