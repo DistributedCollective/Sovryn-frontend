@@ -27,7 +27,7 @@ const VestedItem: React.FC<VestedItemProps> = ({ vesting, onWithdraw }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawLocked = checkMaintenance(States.WITHDRAW_VESTS);
-  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
+  const dollars = useCachedAssetPrice(vesting.asset, Asset.USDT);
   const dollarValue = useMemo(() => {
     if ([Asset.USDT, Asset.DOC].includes(vesting.asset)) {
       return vesting.balance;
