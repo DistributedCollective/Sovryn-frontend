@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { AssetSymbolRenderer } from '../AssetSymbolRenderer/index';
+import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 
 type ImageSizes = 4 | 5 | 6 | 8 | 12;
 
