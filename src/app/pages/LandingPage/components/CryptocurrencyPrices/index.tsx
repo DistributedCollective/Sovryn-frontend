@@ -110,7 +110,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                 pair.base_id,
               );
               if (!assetDetails) {
-                return;
+                return <></>;
               }
               let rbtcRow;
 
