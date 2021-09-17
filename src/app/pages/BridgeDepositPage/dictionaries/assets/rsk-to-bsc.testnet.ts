@@ -1,4 +1,4 @@
-import sovIcon from './icons/sov.svg';
+// import sovIcon from './icons/sov.svg';
 import ethsIcon from './icons/eths.svg';
 import xusdIcon from './icons/xusd.svg';
 import bnbsIcon from './icons/bnbs.svg';
@@ -9,21 +9,21 @@ import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.testnet';
 import { bnbsAggregatorRSK } from './bsc-to-rsk.testnet';
 
 const rskToBscTestnet = [
-  new AssetModel(
-    CrossBridgeAsset.SOV,
-    'SOV',
-    sovIcon,
-    18,
-    4,
-    '0x6a9A07972D07E58f0daF5122D11e069288A375fB',
-    false,
-    CrossBridgeAsset.SOV,
-    false,
-    false,
-    undefined,
-    undefined,
-    [CrossBridgeAsset.BSOV],
-  ),
+  // new AssetModel(
+  //   CrossBridgeAsset.SOV,
+  //   'SOV',
+  //   sovIcon,
+  //   18,
+  //   4,
+  //   '0x6a9A07972D07E58f0daF5122D11e069288A375fB',
+  //   false,
+  //   CrossBridgeAsset.SOV,
+  //   false,
+  //   false,
+  //   undefined,
+  //   undefined,
+  //   [CrossBridgeAsset.BSOV],
+  // ),
   new AssetModel(
     CrossBridgeAsset.BNBS,
     'BNBs',

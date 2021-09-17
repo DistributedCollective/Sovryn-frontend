@@ -278,9 +278,9 @@ function AssetRow({
               onClick={() => onConvert(item.asset)}
             />
           )}
-          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <BridgeLink asset={item.asset} />
-          )}
+          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
+            item.asset,
+          ) && <BridgeLink asset={item.asset} />}
           {item.asset === Asset.WRBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.unwrap)}

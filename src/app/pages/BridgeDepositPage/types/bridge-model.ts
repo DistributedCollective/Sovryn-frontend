@@ -18,4 +18,8 @@ export class BridgeModel {
   public getAsset(asset: CrossBridgeAsset) {
     return this.assets.find(item => item.asset === asset);
   }
+
+  public getAssetFromGroup(asset: CrossBridgeAsset) {
+    return this.assets.find(item => item.group === asset);
+  }
 }
