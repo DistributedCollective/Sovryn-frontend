@@ -1376,7 +1376,8 @@
     "subtitle": "This transaction requires rBTC for gas.",
     "amount": "Amount to Withdraw:",
     "receiver": "Receive {{asset}} to:",
-    "calculating": "Calculating..."
+    "calculating": "Calculating...",
+    "schedule": "Unlock schedule"
   },
   "rewardPage": {
     "meta": {

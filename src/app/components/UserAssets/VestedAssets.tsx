@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -20,15 +20,15 @@ export function VestedAssets() {
   const [open, setOpen] = useState(false);
   const [vesting, setVesting] = useState<FullVesting>(null!);
 
-  const onWithdraw = (value: FullVesting) => {
+  const onWithdraw = useCallback((value: FullVesting) => {
     setOpen(true);
     setVesting(value);
-  };
+  }, []);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setOpen(false);
     setVesting(null!);
-  };
+  }, []);
 
   return (
     <>

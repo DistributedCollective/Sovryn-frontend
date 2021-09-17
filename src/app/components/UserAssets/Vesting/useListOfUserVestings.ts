@@ -70,7 +70,7 @@ const possibleVestings: Vesting[] = [
   },
 ];
 
-export function useListOfUserVestings() {
+export function useListOfUserVestings(asset?: Asset) {
   const account = useAccount();
 
   const [items, setItems] = useState<FullVesting[]>([]);
@@ -84,10 +84,14 @@ export function useListOfUserVestings() {
       setLoading(true);
 
       const run = async () => {
+        // restrict list to requested asset only if needed
+        const filteredVestings: FullVesting[] = possibleVestings.filter(item =>
+          asset ? item.asset === asset : true,
+        ) as FullVesting[];
         // get vesting contracts
         const { returnData: contracts } = await bridgeNetwork.multiCall(
           Chain.RSK,
-          possibleVestings.map((item, index) => {
+          filteredVestings.map((item, index) => {
             return {
               address: getContract(item.registry).address,
               abi: vestingRegistryAbi,
@@ -99,7 +103,7 @@ export function useListOfUserVestings() {
           }),
         );
 
-        const vestings = (possibleVestings as FullVesting[])
+        const vestings = filteredVestings
           .map((item, index) => {
             item.vestingContract = contracts[index];
             return item;
@@ -191,7 +195,7 @@ export function useListOfUserVestings() {
           setLoading(false);
         });
     }
-  }, [account]);
+  }, [account, asset]);
 
   return { items, loading };
 }

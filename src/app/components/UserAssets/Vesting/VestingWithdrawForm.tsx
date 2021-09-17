@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAccount } from '../../../hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
@@ -15,9 +15,10 @@ import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import classNames from 'classnames';
 import arrowDown from '../../../containers/WalletPage/components/arrow-down.svg';
 import { InputField } from '../../InputField';
-import { SendTxProgress } from '../../SendTxProgress';
 import { Button } from '../../Button';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
+import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
+import { TxDialog } from '../../Dialogs/TxDialog';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -51,76 +52,96 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     }
   }, [account, address, send, tx]);
 
-  useEffect(() => {
-    console.log('vesting data', vesting);
-  }, [vesting]);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const openSchedule = useCallback(event => {
+    event.preventDefault();
+    setScheduleOpen(true);
+  }, []);
+  const closeSchedule = useCallback(() => setScheduleOpen(false), []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <h2 className={styles.title}>{t(translations.vestingDialog.title)}</h2>
-        <p>{t(translations.vestingDialog.subtitle)}</p>
-        <FieldGroup label={t(translations.vestingDialog.amount)}>
-          <DummyField>
-            <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
-              <div className="tw-w-full tw-flex-grow tw-text-center">
-                {loading
-                  ? t(translations.vestingDialog.calculating)
-                  : weiTo4(value)}
+    <>
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <h2 className={styles.title}>
+            {t(translations.vestingDialog.title)}
+          </h2>
+          <p>{t(translations.vestingDialog.subtitle)}</p>
+          <FieldGroup label={t(translations.vestingDialog.amount)}>
+            <DummyField>
+              <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
+                <div className="tw-w-full tw-flex-grow tw-text-center">
+                  {loading
+                    ? t(translations.vestingDialog.calculating)
+                    : weiTo4(value)}
+                </div>
+                <div
+                  className={classNames(
+                    'tw-flex-shrink tw-flex-grow-0 tw-absolute',
+                    styles.right,
+                  )}
+                >
+                  <AssetSymbolRenderer asset={vesting.asset} />
+                </div>
               </div>
-              <div
-                className={classNames(
-                  'tw-flex-shrink tw-flex-grow-0 tw-absolute',
-                  styles.right,
-                )}
+            </DummyField>
+            <div className="tw-text-right tw-mt-2">
+              <span
+                className="tw-link tw-cursor-pointer tw-text-xs"
+                onClick={openSchedule}
               >
-                <AssetSymbolRenderer asset={vesting.asset} />
-              </div>
+                {t(translations.vestingDialog.schedule)}
+              </span>
             </div>
-          </DummyField>
-        </FieldGroup>
-        <div className="tw-mx-auto tw-text-center">
-          <img src={arrowDown} alt="Arrow Down" className={styles.arrowDown} />
+          </FieldGroup>
+          <div className="tw-mx-auto tw-text-center">
+            <img
+              src={arrowDown}
+              alt="Arrow Down"
+              className={styles.arrowDown}
+            />
+          </div>
+          <FieldGroup
+            label={t(translations.vestingDialog.receiver, {
+              asset: vesting.asset,
+            })}
+          >
+            <InputField
+              onChange={event => setAddress(event.target.value)}
+              value={address}
+            />
+          </FieldGroup>
+
+          <div className={styles.txFee}>
+            {t(translations.common.fee, { amount: '0.000014' })}
+          </div>
         </div>
-        <FieldGroup
-          label={t(translations.vestingDialog.receiver, {
-            asset: vesting.asset,
-          })}
-        >
-          <InputField
-            onChange={event => setAddress(event.target.value)}
-            value={address}
+
+        <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
+          <Button
+            text={t(translations.common.confirm)}
+            onClick={() => handleSubmit()}
+            className={`tw-mr-4 tw-w-full ${
+              value === '0' ||
+              (tx.loading && `tw-opacity-25 tw-cursor-not-allowed`)
+            }`}
+            loading={tx.loading}
+            disabled={value === '0' || tx.loading}
           />
-        </FieldGroup>
-        <div className={styles.txFee}>
-          {t(translations.common.fee, { amount: '0.000014' })}
+          <Button
+            text={t(translations.common.cancel)}
+            inverted
+            onClick={onClose}
+            className="tw-ml-4 tw-w-full"
+          />
         </div>
       </div>
-
-      <SendTxProgress
-        {...tx}
-        type={TxType.SOV_REIMBURSE}
-        displayAbsolute={false}
+      <VestingUnlockScheduleDialog
+        vesting={vesting}
+        isOpen={scheduleOpen}
+        onClose={closeSchedule}
       />
-
-      <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
-        <Button
-          text={t(translations.common.confirm)}
-          onClick={() => handleSubmit()}
-          className={`tw-mr-4 tw-w-full ${
-            value === '0' ||
-            (tx.loading && `tw-opacity-25 tw-cursor-not-allowed`)
-          }`}
-          loading={tx.loading}
-          disabled={value === '0' || tx.loading}
-        />
-        <Button
-          text={t(translations.common.cancel)}
-          inverted
-          onClick={onClose}
-          className="tw-ml-4 tw-w-full"
-        />
-      </div>
-    </div>
+      <TxDialog tx={tx} />
+    </>
   );
 };
