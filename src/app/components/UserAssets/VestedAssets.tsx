@@ -55,7 +55,7 @@ export function VestedAssets() {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {(!connected || loading) && (
+            {!connected || loading ? (
               <>
                 <tr>
                   <td>
@@ -72,23 +72,26 @@ export function VestedAssets() {
                   </td>
                 </tr>
               </>
-            )}
-            {isVestedLoaded ? (
-              <>
-                {items.map(item => (
-                  <VestedItem
-                    key={item.vestingContract}
-                    vesting={item}
-                    onWithdraw={onWithdraw}
-                  />
-                ))}
-              </>
             ) : (
-              <tr>
-                <td className="tw-text-center" colSpan={99}>
-                  {t(translations.userAssets.emptyVestTable)}
-                </td>
-              </tr>
+              <>
+                {isVestedLoaded ? (
+                  <>
+                    {items.map(item => (
+                      <VestedItem
+                        key={item.vestingContract}
+                        vesting={item}
+                        onWithdraw={onWithdraw}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <tr>
+                    <td className="tw-text-center" colSpan={99}>
+                      {t(translations.userAssets.emptyVestTable)}
+                    </td>
+                  </tr>
+                )}
+              </>
             )}
           </tbody>
         </table>
