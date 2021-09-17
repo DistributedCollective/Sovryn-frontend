@@ -47,7 +47,9 @@ export function TokenSelector() {
       (
         BridgeDictionary.get(chain as Chain, targetChain)?.assets || []
       ).filter(item =>
-        item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset),
+        item.usesAggregator
+          ? item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset)
+          : item.group === targetAsset,
       ),
     [chain, targetAsset, targetChain],
   );

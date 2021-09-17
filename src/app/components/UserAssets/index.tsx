@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -263,9 +263,9 @@ function AssetRow({
               onClick={onConvert}
             />
           )}
-          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <BridgeLink asset={item.asset} />
-          )}
+          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
+            item.asset,
+          ) && <BridgeLink asset={item.asset} />}
           {item.asset === Asset.WRBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.unwrap)}
