@@ -66,7 +66,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     useLoanTokens ? '0' : amount,
     collateralToken,
   );
-  const submit = () => setIsTradingDialogOpen(true);
 
   const { price } = useCurrentPositionPrice(
     loanToken,
@@ -233,7 +232,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   )
             }
             position={positionType}
-            onClick={submit}
+            onClick={() => setIsTradingDialogOpen(true)}
             disabled={!validate || !connected || openTradesLocked}
           />
         </div>

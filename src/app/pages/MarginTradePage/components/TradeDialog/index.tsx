@@ -68,7 +68,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     collateralToken,
   );
 
-  const { minReturn } = useSlippage(props.price, props.slippage);
+  const { minReturn } = useSlippage(estimations.collateral, props.slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
