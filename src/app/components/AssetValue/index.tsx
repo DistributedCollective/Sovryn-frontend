@@ -45,8 +45,6 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
   maxDecimals,
   className,
 }) => {
-  const [, i18n] = useTranslation();
-
   const [formattedValue, fullFormattedValue] = useMemo(() => {
     if (value) {
       let min = minDecimals;
@@ -60,11 +58,11 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
         typeof value === 'string' ? numberFromWei(value) : value;
 
       return [
-        numberValue.toLocaleString(i18n.language, {
+        numberValue.toLocaleString(navigator.language, {
           minimumFractionDigits: min,
           maximumFractionDigits: max,
         }),
-        numberValue.toLocaleString(i18n.language, {
+        numberValue.toLocaleString(navigator.language, {
           minimumFractionDigits: 0,
           maximumFractionDigits: 18,
         }),
@@ -72,7 +70,7 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
     }
 
     return [];
-  }, [value, minDecimals, maxDecimals, mode, asset, i18n.language]);
+  }, [value, minDecimals, maxDecimals, mode, asset]);
 
   if (!formattedValue) {
     return null;
