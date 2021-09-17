@@ -12,10 +12,8 @@ export type OpenPositionEntry = {
   liquidationPrice: number;
   margin: number;
   leverage: number;
-  /** [shortAssetValue, longAssetValue, returnOnEquity] */
-  unrealized: [number, number, number];
-  /** [shortAssetValue, longAssetValue] */
-  realized: [number, number];
+  unrealized: { shortValue: number; longValue: number; reo: number };
+  realized: { shortValue: number; longValue: number };
 };
 
 const placeholderFetch = async (
@@ -43,8 +41,15 @@ const placeholderFetch = async (
       liquidationPrice: markPrice - position,
       margin: value * 3,
       leverage: 3.115,
-      unrealized: [value * 2, position * 2, position / 200],
-      realized: [value, position],
+      unrealized: {
+        shortValue: value * 2,
+        longValue: position * 2,
+        reo: position / 200,
+      },
+      realized: {
+        shortValue: value,
+        longValue: position,
+      },
     });
   }
 

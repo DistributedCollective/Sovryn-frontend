@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TradingPosition } from 'types/trading-position';
 import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -23,9 +23,6 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   // TODO: implement maintenance stops for actions!
 
   const pair = PerpetualPairDictionary.get(item.pair as PerpetualPairType);
-  const type = item.position > 0 ? TradingPosition.LONG : TradingPosition.SHORT;
-
-  const isLong = type === TradingPosition.LONG;
 
   if (pair === undefined) return null;
 
@@ -33,7 +30,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
     <tr>
       <td
         className={classNames(
-          isLong ? 'tw-text-trade-long' : 'tw-text-trade-short',
+          item.position > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
         )}
       >
         {pair.name}
@@ -41,7 +38,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       <td
         className={classNames(
           'tw-text-right',
-          isLong ? 'tw-text-trade-long' : 'tw-text-trade-short',
+          item.position > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
         )}
       >
         <AssetValue value={item.position} asset={pair.longAsset} />
@@ -64,7 +61,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       </td>
       <td
         className={classNames(
-          item.unrealized?.[0] >= 0
+          item.unrealized.shortValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
@@ -73,37 +70,37 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <div className="tw-mr-2">
             <AssetValue
               className="tw-block"
-              value={item.unrealized?.[0]}
+              value={item.unrealized.shortValue}
               asset={pair.shortAsset}
             />
             <AssetValue
               className="tw-block"
-              value={item.unrealized?.[1]}
+              value={item.unrealized.longValue}
               asset={pair.longAsset}
             />
           </div>
           <div>
-            ({item.unrealized?.[2] > 0 ? '+' : ''}
-            {numberToPercent(item.unrealized?.[2], 1)})
+            ({item.unrealized.reo > 0 ? '+' : ''}
+            {numberToPercent(item.unrealized.reo, 1)})
           </div>
         </div>
       </td>
       <td
         className={classNames(
           'tw-hidden 2xl:tw-table-cell',
-          item.unrealized?.[0] >= 0
+          item.realized.shortValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
         <AssetValue
           className="tw-block"
-          value={item.realized?.[0]}
+          value={item.realized.shortValue}
           asset={pair.shortAsset}
         />
         <AssetValue
           className="tw-block"
-          value={item.realized?.[1]}
+          value={item.realized.longValue}
           asset={pair.longAsset}
         />
       </td>

@@ -57,41 +57,41 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
       <table className="sovryn-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-min-w-40">
+            <th className="tw-min-w-40 tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.pair)}
             </th>
-            <th className="tw-text-right">
+            <th className="tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.positionSize)}
             </th>
-            <th className="tw-text-right tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.value)}
             </th>
-            <th className="tw-text-right tw-hidden md:tw-table-cell">
+            <th className="tw-hidden md:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.entryPrice)}
             </th>
-            <th className="tw-text-right tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.markPrice)}
             </th>
-            <th className="tw-text-right tw-text-trade-short tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm tw-text-trade-short">
               {t(
                 translations.perpetualPage.openPositionsTable.liquidationPrice,
               )}
             </th>
-            <th className="tw-text-right">
+            <th className="tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.margin)}
             </th>
-            <th className="">
+            <th className="tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.unrealized)}
             </th>
-            <th className="tw-hidden 2xl:tw-table-cell">
+            <th className="tw-text-sm tw-hidden 2xl:tw-table-cell ">
               {t(translations.perpetualPage.openPositionsTable.realized)}
             </th>
-            <th className="">
+            <th className="tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.actions)}
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tw-text-xs">
           {isEmpty && (
             <tr>
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
