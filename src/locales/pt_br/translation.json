@@ -513,7 +513,7 @@
     "withdraw": {
       "title": "Sacar SOV",
       "amountCurrentlyStaked": "Quantidade atualmente investida",
-      "amountToUnstake": "Quantidade",
+      "amountToUnstake": "Quantidade a ser sacada",
       "receiveSovAt": "Receber SOV em",
       "unlockedSov": "SOV desbloqueado",
       "forfeit": "Multa por sacar SOV antes do prazo",
