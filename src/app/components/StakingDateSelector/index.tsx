@@ -105,13 +105,13 @@ export function StakingDateSelector(props: Props) {
       const datesFutured: Date[] = [];
       //getting the last posible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() < userDateUTC.unix(); i++) {
-        const intervalDate = contractDateDeployed.add(2, 'week');
+        const intervalDate = contractDateDeployed.add(1, 'day');
         contractDateDeployed = intervalDate;
       }
 
       for (let i = 1; i < MAX_PERIODS; i++) {
         if (contractDateDeployed.unix() > userDateUTC.unix()) {
-          const date = contractDateDeployed.add(2, 'week');
+          const date = contractDateDeployed.add(1, 'day');
           contractDateDeployed = date;
           if (!props.prevExtend) dates.push(date.toDate());
           if (
