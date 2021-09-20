@@ -244,6 +244,9 @@ function AssetRow({
     }
   }, [dollars.value, tokens, item.asset, item.decimals]);
 
+  if (tokens === '0' && item.hideIfZero)
+    return <React.Fragment key={item.asset} />;
+
   return (
     <tr key={item.asset}>
       <td>
@@ -272,7 +275,7 @@ function AssetRow({
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
+          {[Asset.USDT /*, Asset.RDOC*/].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.convert)}
               onClick={() => onConvert(item.asset)}
