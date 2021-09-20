@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { TradingPosition } from 'types/trading-position';
+import React from 'react';
 import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
@@ -77,11 +76,12 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
               className="tw-block"
               value={item.unrealized.longValue}
               asset={pair.longAsset}
+              isApproximation
             />
           </div>
           <div>
-            ({item.unrealized.reo > 0 ? '+' : ''}
-            {numberToPercent(item.unrealized.reo, 1)})
+            ({item.unrealized.roe > 0 ? '+' : ''}
+            {numberToPercent(item.unrealized.roe, 1)})
           </div>
         </div>
       </td>
@@ -102,6 +102,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           className="tw-block"
           value={item.realized.longValue}
           asset={pair.longAsset}
+          isApproximation
         />
       </td>
       <td>

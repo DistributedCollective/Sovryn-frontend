@@ -12,7 +12,7 @@ export type OpenPositionEntry = {
   liquidationPrice: number;
   margin: number;
   leverage: number;
-  unrealized: { shortValue: number; longValue: number; reo: number };
+  unrealized: { shortValue: number; longValue: number; roe: number };
   realized: { shortValue: number; longValue: number };
 };
 
@@ -44,7 +44,7 @@ const placeholderFetch = async (
       unrealized: {
         shortValue: value * 2,
         longValue: position * 2,
-        reo: position / 200,
+        roe: position / 200,
       },
       realized: {
         shortValue: value,

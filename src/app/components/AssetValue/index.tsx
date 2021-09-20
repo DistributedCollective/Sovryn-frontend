@@ -13,6 +13,7 @@ type IAssetValueProps = {
   minDecimals?: number;
   maxDecimals?: number;
   className?: string;
+  isApproximation?: boolean;
 };
 
 export const AssetValue: React.FC<IAssetValueProps> = ({
@@ -23,6 +24,7 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
   minDecimals = 0,
   maxDecimals = 6,
   className,
+  isApproximation = false,
 }) => {
   const [formattedValue, fullFormattedValue] = useMemo(() => {
     if (!value && value !== 0) {
@@ -57,6 +59,7 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
 
   const assetValue = (
     <span className={className}>
+      {isApproximation && '≈ '}
       {formattedValue}
       {asset && (
         <>
@@ -75,6 +78,7 @@ export const AssetValue: React.FC<IAssetValueProps> = ({
         interactionKind="hover"
         content={
           <>
+            {isApproximation && '≈ '}
             {fullFormattedValue}
             {asset && (
               <>
