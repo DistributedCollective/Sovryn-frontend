@@ -3,10 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core';
 import { LoadableValue } from '../../LoadableValue';
 import {
-  numberToUSD,
   weiToNumberFormat,
+  weiToUSD,
 } from '../../../../utils/display-text/format';
-import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import { translations } from '../../../../locales/i18n';
 import { ActionButton } from '../../Form/ActionButton';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
@@ -48,7 +47,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
       <td className="tw-text-right">{weiToNumberFormat(vesting.balance, 4)}</td>
       <td className="tw-text-right">
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue.value)), 4)}
+          value={weiToUSD(dollarValue.value)}
           loading={dollarValue.loading}
         />
       </td>

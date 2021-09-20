@@ -15,10 +15,10 @@ import {
 } from 'utils/blockchain/requests/vesting';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { numberToUSD, weiToNumberFormat } from 'utils/display-text/format';
+import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { AddressBadge } from '../../../components/AddressBadge';
 import { LoadableValue } from '../../../components/LoadableValue';
 import { Modal } from '../../../components/Modal';
@@ -194,7 +194,7 @@ export function VestingContract(props: Props) {
                     {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
-                      value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+                      value={weiToUSD(dollarValue)}
                       loading={dollars.loading}
                     />
                   </>

@@ -4,15 +4,14 @@ import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
 import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
 import {
-  numberToUSD,
   weiToNumberFormat,
+  weiToUSD,
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
@@ -247,7 +246,7 @@ function AssetRow({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue.value)), 4)}
+          value={weiToUSD(dollarValue.value)}
           loading={dollarValue.loading}
         />
       </td>

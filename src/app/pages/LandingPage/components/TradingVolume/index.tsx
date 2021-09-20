@@ -1,8 +1,9 @@
 import React from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
-import { Title, VolumeValue } from './styled';
 import { translations } from 'locales/i18n';
+import { toNumberFormat } from 'utils/display-text/format';
+import { Title, VolumeValue } from './styled';
 
 interface ITradingVolumeProps {
   tvlLoading: boolean;
@@ -33,7 +34,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {(tvlValueBtc || 0)?.toFixed(4)}{' '}
+              {toNumberFormat(tvlValueBtc || 0, 4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -42,10 +43,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {(tvlValueUsd || 0)?.toLocaleString('en', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                {toNumberFormat(tvlValueUsd || 0, 2)}{' '}
                 {t(translations.landingPage.tradingVolume.usd)}
               </span>
             </>
@@ -63,7 +61,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <SkeletonRow />
           ) : (
             <VolumeValue>
-              {(volumeBtc || 0)?.toFixed(4)}{' '}
+              {toNumberFormat(volumeBtc || 0, 4)}{' '}
               {t(translations.landingPage.tradingVolume.btc)}
             </VolumeValue>
           )}
@@ -72,10 +70,7 @@ export const TradingVolume: React.FC<ITradingVolumeProps> = ({
             <>
               ≈{' '}
               <span className="tw-tracking-normal">
-                {(volumeUsd || 0)?.toLocaleString('en', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                {toNumberFormat(volumeUsd || 0, 2)}{' '}
                 {t(translations.landingPage.tradingVolume.usd)}
               </span>
             </>
