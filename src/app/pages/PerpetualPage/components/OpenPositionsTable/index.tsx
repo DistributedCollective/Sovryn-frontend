@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
@@ -10,6 +9,7 @@ import { Pagination } from '../../../../components/Pagination';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 
 interface IOpenPositionsTableProps {
   perPage: number;
@@ -20,18 +20,11 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
 
-  const { value, loading } = useGetActiveLoans(
-    useAccount(),
-    0,
-    1000,
-    1,
-    false,
-    false,
-  );
+  const { data, loading } = usePerpetual_OpenPosition(useAccount());
 
   const items = useMemo(
-    () => value.slice(page * perPage - perPage, page * perPage),
-    [perPage, page, value],
+    () => (data ? data.slice(page * perPage - perPage, page * perPage) : []),
+    [perPage, page, data],
   );
 
   const isEmpty = !loading && !items.length && !transactions.length;
@@ -47,7 +40,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
           {transactions
             .filter(
               tx =>
-                tx.type === TxType.TRADE &&
+                tx.type === TxType.PERPETUAL_OPEN &&
                 [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
             )
             .reverse()
@@ -61,36 +54,44 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
 
   return (
     <>
-      <table className="tw-table">
+      <table className="sovryn-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-w-full">
-              {t(translations.openPositionTable.direction)}
+            <th className="tw-min-w-40 tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.pair)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
-              {t(translations.openPositionTable.positionSize)}
+            <th className="tw-text-right tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.positionSize)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
-              {t(translations.openPositionTable.entryPrice)}
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.value)}
             </th>
-            <th className="tw-w-full tw-hidden md:tw-table-cell">
-              {t(translations.openPositionTable.liquidationPrice)}
+            <th className="tw-hidden md:tw-table-cell tw-text-right tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.entryPrice)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
-              {t(translations.openPositionTable.positionMargin)}
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.markPrice)}
             </th>
-            <th className="tw-w-full tw-hidden sm:tw-table-cell">
-              {t(translations.openPositionTable.unrealizedPL)}
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm tw-text-trade-short">
+              {t(
+                translations.perpetualPage.openPositionsTable.liquidationPrice,
+              )}
             </th>
-            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
-              {t(translations.openPositionTable.interestAPR)}
+            <th className="tw-text-right tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.margin)}
             </th>
-            <th className="tw-w-full">
-              {t(translations.openPositionTable.actions)}
+            <th className="tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.unrealized)}
+            </th>
+            <th className="tw-text-sm tw-hidden 2xl:tw-table-cell ">
+              {t(translations.perpetualPage.openPositionsTable.realized)}
+            </th>
+            <th className="tw-text-sm">
+              {t(translations.perpetualPage.openPositionsTable.actions)}
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tw-text-xs">
           {isEmpty && (
             <tr>
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
@@ -106,19 +107,15 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             </tr>
           )}
 
-          {items.length > 0 && (
-            <>
-              {items.map(item => (
-                <OpenPositionRow key={item.loanId} item={item} />
-              ))}
-            </>
-          )}
+          {items?.map(item => (
+            <OpenPositionRow key={item.id} item={item} />
+          ))}
         </tbody>
       </table>
 
-      {value.length > 0 && (
+      {items.length > 0 && (
         <Pagination
-          totalRecords={value.length}
+          totalRecords={items.length}
           pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}

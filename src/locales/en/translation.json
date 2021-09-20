@@ -1560,6 +1560,18 @@
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
+    "openPositionsTable": {
+      "pair": "Pair",
+      "positionSize": "Position Size",
+      "value": "Value",
+      "entryPrice": "Entry Price",
+      "markPrice": "Mark Price",
+      "liquidationPrice": "Liq. Price",
+      "margin": "Margin",
+      "unrealized": "Unrealized P&L (ROE %)",
+      "realized": "Realized P&L",
+      "actions": "Actions"
+    },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
