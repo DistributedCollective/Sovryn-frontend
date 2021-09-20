@@ -105,28 +105,38 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     setPositionType(TradingPosition.SHORT);
     dispatch(actions.submit(TradingPosition.SHORT));
   }, [dispatch]);
+  const buttonDisabled = useMemo(
+    () => !validate || !connected || openTradesLocked,
+    [validate, connected, openTradesLocked],
+  );
 
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0">
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={handlePositionLong}
-              className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                'tw-opacity-100': positionType === TradingPosition.LONG,
-              })}
-            />
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={handlePositionShort}
-              className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                'tw-opacity-100': positionType === TradingPosition.SHORT,
-              })}
-            />
+            {pair.canOpenLong && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.long)}
+                position={TradingPosition.LONG}
+                onClick={handlePositionLong}
+                className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
+                  'tw-opacity-100': positionType === TradingPosition.LONG,
+                })}
+                disabled={buttonDisabled}
+              />
+            )}
+            {pair.canOpenShort && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.short)}
+                position={TradingPosition.SHORT}
+                onClick={handlePositionShort}
+                className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
+                  'tw-opacity-100': positionType === TradingPosition.SHORT,
+                })}
+                disabled={buttonDisabled}
+              />
+            )}
           </div>
         )}
         <div className="tw-mw-340 tw-mx-auto tw-mt-5">
@@ -169,93 +179,99 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
             />
           </div>
-
-          <LabelValuePair
-            label={t(translations.marginTradeForm.fields.esEntryPrice)}
-            value={
-              <>
-                {toNumberFormat(price, 2)} {pair.longDetails.symbol}
-              </>
-            }
-          />
-          <LabelValuePair
-            label={t(translations.marginTradeForm.fields.esLiquidationPrice)}
-            value={
-              <>
-                <LiquidationPrice
-                  asset={pair.shortAsset}
-                  assetLong={pair.longAsset}
-                  leverage={leverage}
-                  position={positionType}
-                />{' '}
-                {pair.longDetails.symbol}
-              </>
-            }
-          />
-          <LabelValuePair
-            label={t(translations.marginTradeForm.fields.interestAPY)}
-            value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
-          />
-
-          <div className="tw-mt-6">
-            {openTradesLocked && (
-              <ErrorBadge
-                content={
-                  <Trans
-                    i18nKey={translations.maintenance.openMarginTrades}
-                    components={[
-                      <a
-                        href={discordInvite}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                      >
-                        x
-                      </a>,
-                    ]}
-                  />
+          {!openTradesLocked && (
+            <>
+              <LabelValuePair
+                label={t(translations.marginTradeForm.fields.esEntryPrice)}
+                value={
+                  <>
+                    {toNumberFormat(price, 2)} {pair.longDetails.symbol}
+                  </>
                 }
               />
-            )}
-          </div>
+              <LabelValuePair
+                label={t(
+                  translations.marginTradeForm.fields.esLiquidationPrice,
+                )}
+                value={
+                  <>
+                    <LiquidationPrice
+                      asset={pair.shortAsset}
+                      assetLong={pair.longAsset}
+                      leverage={leverage}
+                      position={positionType}
+                    />{' '}
+                    {pair.longDetails.symbol}
+                  </>
+                }
+              />
+              <LabelValuePair
+                label={t(translations.marginTradeForm.fields.interestAPY)}
+                value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
+              />
 
-          <Button
-            text={
-              positionType === TradingPosition.LONG
-                ? t(
-                    translations.marginTradePage.tradeForm.placePosition
-                      .placeLong,
-                  )
-                : t(
-                    translations.marginTradePage.tradeForm.placePosition
-                      .placeShort,
-                  )
-            }
-            position={positionType}
-            onClick={() => setIsTradingDialogOpen(true)}
-            disabled={!validate || !connected || openTradesLocked}
-          />
+              <div className="tw-mt-6">
+                {openTradesLocked && (
+                  <ErrorBadge
+                    content={
+                      <Trans
+                        i18nKey={translations.maintenance.openMarginTrades}
+                        components={[
+                          <a
+                            href={discordInvite}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                          >
+                            x
+                          </a>,
+                        ]}
+                      />
+                    }
+                  />
+                )}
+              </div>
+
+              <Button
+                text={
+                  positionType === TradingPosition.LONG
+                    ? t(
+                        translations.marginTradePage.tradeForm.placePosition
+                          .placeLong,
+                      )
+                    : t(
+                        translations.marginTradePage.tradeForm.placePosition
+                          .placeShort,
+                      )
+                }
+                position={positionType}
+                onClick={() => setIsTradingDialogOpen(true)}
+                disabled={!validate || !connected || openTradesLocked}
+              />
+            </>
+          )}
         </div>
-      </div>
 
-      <SlippageDialog
-        isOpen={openSlippage}
-        onClose={() => setOpenSlippage(false)}
-        amount={toWei(price)}
-        value={slippage}
-        asset={collateralToken}
-        onChange={value => setSlippage(value)}
-        isTrade={true}
-      />
-      <TradeDialog
-        onCloseModal={() => setIsTradingDialogOpen(false)}
-        isOpen={isTradingDialogOpen}
-        price={toWei(price)}
-        slippage={slippage}
-      />
+        <SlippageDialog
+          isOpen={openSlippage}
+          onClose={() => setOpenSlippage(false)}
+          amount={toWei(price)}
+          value={slippage}
+          asset={collateralToken}
+          onChange={value => setSlippage(value)}
+          isTrade={true}
+        />
+        <TradeDialog
+          onCloseModal={() => setIsTradingDialogOpen(false)}
+          isOpen={isTradingDialogOpen}
+          price={toWei(price)}
+          slippage={slippage}
+        />
+      </div>
     </>
   );
 };
+
 interface LabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
