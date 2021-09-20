@@ -18,9 +18,10 @@ const assetsWithoutOracle: Asset[] = [
   Asset.MOC,
   Asset.XUSD,
   Asset.BNB,
+  Asset.RDOC,
 ];
 
-const excludeAssets: Asset[] = [Asset.CSOV];
+const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC];
 
 /**
  * use this only once

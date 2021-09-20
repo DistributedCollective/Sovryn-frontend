@@ -4,6 +4,7 @@ export enum Asset {
   WRBTC = 'WRBTC',
   ETH = 'ETH',
   DOC = 'DOC',
+  RDOC = 'RDOC',
   USDT = 'USDT',
   XUSD = 'XUSD',
   BPRO = 'BPRO',
