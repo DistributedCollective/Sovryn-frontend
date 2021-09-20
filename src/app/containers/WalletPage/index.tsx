@@ -91,7 +91,7 @@ export function WalletPage() {
         )}
       </div>
       {connected && account && (
-        <div className="tw-container tw-max-w-none tw-mt-12">
+        <div className="tw-container tw-mt-12">
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
             <div className="tw-mr-2 tw-ml-2">
               <Tab

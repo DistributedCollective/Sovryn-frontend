@@ -69,6 +69,9 @@ export const gasLimit = {
   [TxType.CROSS_CHAIN_WITHDRAW]: 280000,
   [TxType.SWAP_EXTERNAL]: 950000,
   [TxType.LOCKED_FUND_WAITED_CLAIM]: 3000000,
+  [TxType.UNWRAP_WRBTC]: 50000,
+  [TxType.STAKING_WITHDRAW]: 500000,
+  [TxType.DEPOSIT_COLLATERAL]: 150000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

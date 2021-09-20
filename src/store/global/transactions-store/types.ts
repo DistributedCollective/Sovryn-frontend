@@ -46,6 +46,7 @@ export enum TxType {
   LOCKED_FUND_CREATE_STAKE = 'locked_fund_create_stake',
   CROSS_CHAIN_DEPOSIT = 'cross_chain_deposit',
   CROSS_CHAIN_WITHDRAW = 'cross_chain_withdraw',
+  UNWRAP_WRBTC = 'unwrap_wrbtc',
 }
 
 export enum TxStatus {

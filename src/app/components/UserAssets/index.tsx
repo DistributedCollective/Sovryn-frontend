@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -30,6 +30,7 @@ import { Button } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
+import { UnWrapDialog } from './UnWrapDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -52,6 +53,18 @@ export function UserAssets() {
   const [fastBtc, setFastBtc] = useState(false);
   const [transack, setTransack] = useState(false);
   const [conversionDialog, setConversionDialog] = useState(false);
+  const [unwrapDialog, setUnwrapDialog] = useState(false);
+  const [conversionToken, setConversionToken] = useState<Asset>(null!);
+
+  const onConvertOpen = useCallback((asset: Asset) => {
+    setConversionToken(asset);
+    setConversionDialog(true);
+  }, []);
+
+  const onConvertClose = useCallback(() => {
+    setConversionToken(null!);
+    setConversionDialog(false);
+  }, []);
 
   return (
     <>
@@ -98,7 +111,8 @@ export function UserAssets() {
                   item={item}
                   onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
-                  onConvert={() => setConversionDialog(true)}
+                  onConvert={onConvertOpen}
+                  onUnWrap={() => setUnwrapDialog(true)}
                 />
               ))}
           </tbody>
@@ -108,7 +122,12 @@ export function UserAssets() {
       <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
       <ConversionDialog
         isOpen={conversionDialog}
-        onClose={() => setConversionDialog(false)}
+        asset={conversionToken}
+        onClose={onConvertClose}
+      />
+      <UnWrapDialog
+        isOpen={unwrapDialog}
+        onClose={() => setUnwrapDialog(false)}
       />
       <Dialog
         isOpen={
@@ -155,10 +174,6 @@ export function UserAssets() {
           </div>
         </div>
       </Dialog>
-      <ConversionDialog
-        isOpen={conversionDialog}
-        onClose={() => setConversionDialog(false)}
-      />
     </>
   );
 }
@@ -167,10 +182,17 @@ interface AssetProps {
   item: AssetDetails;
   onFastBtc: () => void;
   onTransack: () => void;
-  onConvert: () => void;
+  onConvert: (asset: Asset) => void;
+  onUnWrap: () => void;
 }
 
-function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
+function AssetRow({
+  item,
+  onFastBtc,
+  onTransack,
+  onConvert,
+  onUnWrap,
+}: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -185,11 +207,14 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
       if (item.asset === Asset.RBTC) {
         tokenA = await Sovryn.getWeb3().eth.getBalance(account);
       } else {
-        tokenA = await contractReader.call(
-          getTokenContractName(item.asset),
-          'balanceOf',
-          [account],
-        );
+        tokenA = await contractReader
+          .call<string>(getTokenContractName(item.asset), 'balanceOf', [
+            account,
+          ])
+          .catch(e => {
+            console.error('failed to load balance of ', item.asset, e);
+            return '0';
+          });
       }
 
       let tokenB: string = '0';
@@ -209,7 +234,7 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
   }, [item.asset, account, blockSync]);
 
   const dollarValue = useMemo(() => {
-    if ([Asset.USDT, Asset.DOC].includes(item.asset)) {
+    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(item.asset)) {
       return tokens;
     } else {
       return bignumber(tokens)
@@ -218,6 +243,9 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
         .toFixed(0);
     }
   }, [dollars.value, tokens, item.asset, item.decimals]);
+
+  if (tokens === '0' && item.hideIfZero)
+    return <React.Fragment key={item.asset} />;
 
   return (
     <tr key={item.asset}>
@@ -247,14 +275,20 @@ function AssetRow({ item, onFastBtc, onTransack, onConvert }: AssetProps) {
               onClick={() => onFastBtc()}
             />
           )}
-          {item.asset === Asset.USDT && (
+          {[Asset.USDT /*, Asset.RDOC*/].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.convert)}
-              onClick={onConvert}
+              onClick={() => onConvert(item.asset)}
             />
           )}
-          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <BridgeLink asset={item.asset} />
+          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
+            item.asset,
+          ) && <BridgeLink asset={item.asset} />}
+          {item.asset === Asset.WRBTC && (
+            <ActionButton
+              text={t(translations.userAssets.actions.unwrap)}
+              onClick={onUnWrap}
+            />
           )}
         </div>
       </td>

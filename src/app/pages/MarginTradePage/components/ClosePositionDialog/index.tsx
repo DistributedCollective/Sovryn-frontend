@@ -31,6 +31,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
+
 import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';

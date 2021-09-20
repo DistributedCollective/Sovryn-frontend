@@ -1054,6 +1054,7 @@
       "deposit": "Deposit",
       "fastBtc": "FastBTC",
       "convert": "Convert to XUSD",
+      "unwrap": "Unwrap to RBTC",
       "swap": "Swap",
       "trade": "Margin Trade",
       "buy": "Buy",
@@ -1066,6 +1067,23 @@
       "from": "From",
       "to": "To",
       "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
+    },
+    "unwrapDialog": {
+      "title": "Unwrap WRBTC",
+      "from": "From",
+      "to": "To",
+      "cta": "Unwrap to RBTC",
       "txDialog": {
         "titleInProgress": "Transaction in Progress",
         "titleCompleted": "Transaction Complete",

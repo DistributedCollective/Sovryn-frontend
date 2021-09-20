@@ -10,6 +10,7 @@ import ethIcon from 'assets/images/tokens/eth.svg';
 import bnbIcon from 'assets/images/tokens/bnb.svg';
 import mocIcon from 'assets/images/tokens/moc.svg';
 import fishIcon from 'assets/images/tokens/babelfish.svg';
+import rdoc from 'assets/images/tokens/rifd.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -19,6 +20,18 @@ export class AssetsDictionary {
       [
         Asset.RBTC,
         new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon, true),
+      ],
+      [
+        Asset.WRBTC,
+        new AssetDetails(
+          Asset.WRBTC,
+          'WRBTC',
+          'Wrapped Bitcoin',
+          18,
+          rbtcIcon,
+          false,
+          true,
+        ),
       ],
       [
         Asset.SOV,
@@ -52,6 +65,18 @@ export class AssetsDictionary {
           'Dollar on Chain',
           18,
           docIcon,
+          true,
+        ),
+      ],
+      [
+        Asset.RDOC,
+        new AssetDetails(
+          Asset.RDOC,
+          'RDOC',
+          'RIF Dollar on Chain',
+          18,
+          rdoc,
+          false,
           true,
         ),
       ],

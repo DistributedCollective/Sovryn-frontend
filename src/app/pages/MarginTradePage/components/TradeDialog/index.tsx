@@ -26,7 +26,7 @@ import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from 'app/hooks/useAccount';
-import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
+
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
