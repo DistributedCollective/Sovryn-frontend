@@ -30,6 +30,7 @@ export class AssetsDictionary {
           18,
           rbtcIcon,
           false,
+          true,
         ),
       ],
       [
@@ -76,6 +77,7 @@ export class AssetsDictionary {
           18,
           rdoc,
           false,
+          true,
         ),
       ],
       [

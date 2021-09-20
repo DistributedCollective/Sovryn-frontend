@@ -234,6 +234,9 @@ function AssetRow({
 
   const dollarValue = useDollarValue(item.asset, tokens);
 
+  if (tokens === '0' && item.hideIfZero)
+    return <React.Fragment key={item.asset} />;
+
   return (
     <tr key={item.asset}>
       <td>
@@ -262,15 +265,15 @@ function AssetRow({
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
+          {[Asset.USDT /*, Asset.RDOC*/].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.convert)}
               onClick={() => onConvert(item.asset)}
             />
           )}
-          {[Asset.ETH, Asset.XUSD, Asset.BNB].includes(item.asset) && (
-            <BridgeLink asset={item.asset} />
-          )}
+          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
+            item.asset,
+          ) && <BridgeLink asset={item.asset} />}
           {item.asset === Asset.WRBTC && (
             <ActionButton
               text={t(translations.userAssets.actions.unwrap)}
