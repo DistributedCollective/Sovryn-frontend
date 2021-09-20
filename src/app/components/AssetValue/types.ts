@@ -4,8 +4,10 @@ import { Asset } from '../../../types';
 export const AssetDecimals: { [key in Asset]: number } = {
   CSOV: 2,
   RBTC: 6,
+  WRBTC: 6,
   ETH: 5,
   DOC: 2,
+  RDOC: 2,
   USDT: 2,
   XUSD: 2,
   BPRO: 6,
