@@ -12,6 +12,7 @@ import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictiona
 import { useMaintenance } from '../../../hooks/useMaintenance';
 import { FullVesting } from './useListOfUserVestings';
 import { useDollarValue } from '../../../hooks/useDollarValue';
+import { useGetVesting } from './useGetVesting';
 
 type VestedItemProps = {
   vesting: FullVesting;
@@ -22,15 +23,17 @@ export const VestedItem: React.FC<VestedItemProps> = ({
   vesting,
   onWithdraw,
 }) => {
+  const { value, loading } = useGetVesting(vesting);
+
   const { logoSvg, symbol } = AssetsDictionary.get(vesting.asset);
 
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawLocked = checkMaintenance(States.WITHDRAW_VESTS);
-  const dollarValue = useDollarValue(vesting.asset, vesting.balance);
+  const dollarValue = useDollarValue(vesting.asset, value.balance);
 
-  const handleOnWithdraw = useCallback(() => onWithdraw(vesting), [
-    vesting,
+  const handleOnWithdraw = useCallback(() => onWithdraw(value), [
+    value,
     onWithdraw,
   ]);
 
@@ -44,11 +47,16 @@ export const VestedItem: React.FC<VestedItemProps> = ({
         />{' '}
         {vesting.label || symbol}
       </td>
-      <td className="tw-text-right">{weiToNumberFormat(vesting.balance, 4)}</td>
+      <td className="tw-text-right">
+        <LoadableValue
+          loading={loading}
+          value={weiToNumberFormat(value.balance, 4)}
+        />
+      </td>
       <td className="tw-text-right">
         <LoadableValue
           value={weiToUSD(dollarValue.value)}
-          loading={dollarValue.loading}
+          loading={dollarValue.loading || loading}
         />
       </td>
       <td className="tw-text-right">
@@ -70,6 +78,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
             className="tw-inline-block"
             text={t(translations.userAssets.actions.withdraw)}
             onClick={handleOnWithdraw}
+            disabled={loading}
           />
         )}
       </td>

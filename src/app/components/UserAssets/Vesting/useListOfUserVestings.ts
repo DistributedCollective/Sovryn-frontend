@@ -8,12 +8,10 @@ import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { Chain } from '../../../../types';
 
 import vestingRegistryAbi from 'utils/blockchain/abi/VestingRegistry.json';
-import stakingAbi from 'utils/blockchain/abi/Staking.json';
-// import vestingAbi from 'utils/blockchain/abi/Vesting.json';
 
 type RegistryMethodTypes = 'getVesting' | 'getTeamVesting';
 
-type Vesting = {
+export type Vesting = {
   asset: Asset;
   label: string;
   registry: ContractName;
@@ -103,85 +101,12 @@ export function useListOfUserVestings(asset?: Asset) {
           }),
         );
 
-        const vestings = filteredVestings
+        return filteredVestings
           .map((item, index) => {
             item.vestingContract = contracts[index];
             return item;
           })
           .filter(item => item.vestingContract !== ethGenesisAddress);
-
-        // get vesting info
-        const mc = vestings
-          .map((item, index) => {
-            return [
-              {
-                address: getContract(item.staking).address,
-                abi: stakingAbi,
-                fnName: 'balanceOf',
-                args: [item.vestingContract],
-                key: `${index}/balance`,
-                parser: val => val[0].toString(),
-              },
-              {
-                address: getContract(item.staking).address,
-                abi: stakingAbi,
-                fnName: 'getStakes',
-                args: [item.vestingContract],
-                key: `${index}/stakes`,
-                parser: val => ({
-                  dates: val[0].map(item => new Date(item.toNumber() * 1000)),
-                  stakes: val[1].map(item => item.toString()),
-                }),
-              },
-              // will be useful in the future, leaving commented to retrieve data faster for now.
-              // {
-              //   address: item.vestingContract!,
-              //   abi: vestingAbi,
-              //   fnName: 'cliff',
-              //   args: [],
-              //   key: `${index}/cliff`,
-              //   parser: val => val[0].toString(),
-              // },
-              // {
-              //   address: item.vestingContract!,
-              //   abi: vestingAbi,
-              //   fnName: 'duration',
-              //   args: [],
-              //   key: `${index}/duration`,
-              //   parser: val => val[0].toString(),
-              // },
-              // {
-              //   address: item.vestingContract!,
-              //   abi: vestingAbi,
-              //   fnName: 'startDate',
-              //   args: [],
-              //   key: `${index}/startDate`,
-              //   parser: val => new Date(val[0].toNumber() * 1000),
-              // },
-              // {
-              //   address: item.vestingContract!,
-              //   abi: vestingAbi,
-              //   fnName: 'endDate',
-              //   args: [],
-              //   key: `${index}/endDate`,
-              //   parser: val => new Date(val[0].toNumber() * 1000),
-              // },
-            ];
-          })
-          .flat(1);
-
-        const { returnData: info } = await bridgeNetwork.multiCall(
-          Chain.RSK,
-          mc,
-        );
-
-        return vestings
-          .map((item, index) => {
-            item.balance = info[`${index}/balance`];
-            item.stakes = info[`${index}/stakes`];
-            return item;
-          })
-          .filter(item => item.balance !== '0');
       };
 
       run()
