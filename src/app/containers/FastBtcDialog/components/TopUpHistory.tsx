@@ -3,7 +3,7 @@
  * TopUpHistory
  *
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,7 +26,7 @@ export function TopUpHistory() {
   const account = useAccount();
   const state = useSelector(selectFastBtcDialog);
   const dispatch = useDispatch();
-
+  const [history, setHistory] = useState([]) as any;
   const asset = AssetsDictionary.get(Asset.RBTC);
 
   useEffect(() => {
@@ -38,7 +38,11 @@ export function TopUpHistory() {
   useEffect(() => {
     if (state.ready && account) {
       dispatch(actions.getHistory(account));
-
+      setHistory(
+        state.history.items.sort(
+          (x, y) => parseFloat(y.dateAdded) - parseFloat(x.dateAdded),
+        ),
+      );
       const timer = setInterval(() => {
         dispatch(actions.getHistory(account));
       }, 15e3);
@@ -96,7 +100,7 @@ export function TopUpHistory() {
                 </td>
               </tr>
             )}
-            {state.history.items.map(item => (
+            {history.map(item => (
               <tr key={item.txHash}>
                 <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <DisplayDate

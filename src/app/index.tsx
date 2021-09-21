@@ -8,45 +8,41 @@
 
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import { currentNetwork } from 'utils/classifiers';
-import { useAppTheme } from './hooks/app/useAppTheme';
-import { useMaintenance } from './hooks/useMaintenance';
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
 import {
   actions as maintenanceActions,
-  maintenanceSlice,
   reducer as maintenanceReducer,
+  maintenanceSlice,
 } from 'store/global/maintenance-store/slice';
-import { maintenanceStateSaga } from 'store/global/maintenance-store/saga';
-import { useDispatch } from 'react-redux';
+import { currentNetwork } from 'utils/classifiers';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import { NetworkRibbon } from './components/NetworkRibbon/NetworkRibbon';
-import { MaintenancePage } from './containers/MaintenancePage';
-import { WalletProvider } from './containers/WalletProvider';
-
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
-
-import { SwapPage } from './containers/SwapPage/Loadable';
-import { RewardPage } from './pages/RewardPage/Loadable';
-import { BorrowPage } from './pages/BorrowPage/Loadable';
-import { LendingPage } from './pages/LendingPage/Loadable';
+import { MaintenancePage } from './containers/MaintenancePage';
 import { StakePage } from './containers/StakePage/Loadable';
-
-import { LandingPage } from './pages/LandingPage/Loadable';
-import { BuySovPage } from './pages/BuySovPage/Loadable';
-
-import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
-import { MarginTradePage } from './pages/MarginTradePage/Loadable';
-import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
-import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
-import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
+import { SwapPage } from './containers/SwapPage/Loadable';
+import { WalletPage } from './containers/WalletPage/Loadable';
+import { WalletProvider } from './containers/WalletProvider';
+import { useAppTheme } from './hooks/app/useAppTheme';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
+import { useMaintenance } from './hooks/useMaintenance';
+import { BorrowPage } from './pages/BorrowPage/Loadable';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
+import { BuySovPage } from './pages/BuySovPage/Loadable';
+import { LandingPage } from './pages/LandingPage/Loadable';
+import { LendingPage } from './pages/LendingPage/Loadable';
+import { LiquidityMiningPage } from './pages/LiquidityMining/Loadable';
+import { MarginTradePage } from './pages/MarginTradePage/Loadable';
+import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
+import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
+import { RewardPage } from './pages/RewardPage/Loadable';
+import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
