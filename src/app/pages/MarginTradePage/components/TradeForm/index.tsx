@@ -54,9 +54,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const [openSlippage, setOpenSlippage] = useState(false);
   const [tradeAmount, setTradeAmount] = useState<string>('');
-  const [positionType, setPositionType] = useState<TradingPosition>(
-    TradingPosition.LONG,
-  );
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(tradeAmount);
   const { position, amount, collateral, leverage } = useSelector(
@@ -81,12 +78,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     loanToken,
     collateralToken,
     estimations.principal,
-    positionType === TradingPosition.SHORT,
+    position === TradingPosition.SHORT,
   );
 
   useEffect(() => {
     dispatch(actions.setAmount(weiAmount));
   }, [weiAmount, dispatch]);
+
+  useEffect(() => {
+    if (pair.canOpenLong && !pair.canOpenShort)
+      dispatch(actions.submit(TradingPosition.LONG));
+    if (!pair.canOpenLong && pair.canOpenShort)
+      dispatch(actions.submit(TradingPosition.SHORT));
+  }, [pair.canOpenLong, pair.canOpenShort, dispatch]);
 
   useEffect(() => {
     if (!pair.collaterals.includes(collateral)) {
@@ -107,12 +111,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
 
   const handlePositionLong = useCallback(() => {
-    setPositionType(TradingPosition.LONG);
     dispatch(actions.submit(TradingPosition.LONG));
   }, [dispatch]);
 
   const handlePositionShort = useCallback(() => {
-    setPositionType(TradingPosition.SHORT);
     dispatch(actions.submit(TradingPosition.SHORT));
   }, [dispatch]);
   const buttonDisabled = useMemo(
@@ -131,9 +133,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 position={TradingPosition.LONG}
                 onClick={handlePositionLong}
                 className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                  'tw-opacity-100': positionType === TradingPosition.LONG,
+                  'tw-opacity-100': position === TradingPosition.LONG,
                 })}
-                disabled={buttonDisabled}
               />
             )}
             {pair.canOpenShort && (
@@ -142,9 +143,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 position={TradingPosition.SHORT}
                 onClick={handlePositionShort}
                 className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                  'tw-opacity-100': positionType === TradingPosition.SHORT,
+                  'tw-opacity-100': position === TradingPosition.SHORT,
                 })}
-                disabled={buttonDisabled}
               />
             )}
           </div>
@@ -226,7 +226,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                       asset={pair.shortAsset}
                       assetLong={pair.longAsset}
                       leverage={leverage}
-                      position={positionType}
+                      position={position}
                     />{' '}
                     {pair.longDetails.symbol}
                   </>
@@ -261,7 +261,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
               <Button
                 text={
-                  positionType === TradingPosition.LONG
+                  position === TradingPosition.LONG
                     ? t(
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
@@ -271,9 +271,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                           .placeShort,
                       )
                 }
-                position={positionType}
+                position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
-                disabled={!validate || !connected || openTradesLocked}
+                disabled={buttonDisabled}
               />
             </>
           )}

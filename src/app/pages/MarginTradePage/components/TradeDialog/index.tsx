@@ -129,7 +129,15 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.leverage)}
-              value={<>{toNumberFormat(leverage)}x</>}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={toNumberFormat(leverage) + 'x'}
+                    tooltip={position}
+                  />
+                </>
+              }
               className={cn({
                 'tw-text-trade-short': position === TradingPosition.SHORT,
                 'tw-text-trade-long': position === TradingPosition.LONG,
