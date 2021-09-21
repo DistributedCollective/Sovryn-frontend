@@ -1374,7 +1374,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Ativo de garantia:",
+        "asset": "Ativo:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
