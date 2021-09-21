@@ -35,6 +35,8 @@ import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import nftAbi from './abi/nftAbi.json';
+import perpetualManagerAbi from './abi/PerpetualManager.json';
+import marginTokenAbi from './abi/MarginToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -326,5 +328,13 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
+  },
+  perpetualManages: {
+    address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',
+    abi: perpetualManagerAbi,
+  },
+  marginToken: {
+    address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
+    abi: marginTokenAbi,
   },
 };
