@@ -64,7 +64,7 @@ export class TradingPairDictionary {
       new TradingPair(
         TradingPairType.SOV_RBTC,
         RenderTradingPairName(Asset.SOV, Asset.RBTC),
-        'SOV/BPRO',
+        'SOV/RBTC',
         Asset.RBTC,
         Asset.SOV,
         [Asset.SOV, Asset.RBTC],
