@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import * as Highcharts from 'highcharts';
 import highchartsBoost from 'highcharts/modules/boost';
@@ -109,105 +109,97 @@ highchartsBoost(Highcharts);
 
 type IDepthChartProps = {
   className?: String;
+  bids?: number[][];
+  asks?: number[][];
+  max?: number;
 };
 
-const options = {
-  chart: {
-    zoomType: 'x',
-    type: 'column',
-    backgroundColor: 'transparent',
-  },
-  title: {
-    text: null,
-  },
-  xAxis: {
-    lineWidth: 0,
-    gridLineWidth: 0,
-    title: null,
-    tickLength: 0,
-    maxPadding: 0,
-    labels: {
-      style: {
-        color: 'white',
+export const DepthChart: React.FC<IDepthChartProps> = ({
+  className,
+  bids = [],
+  asks = [],
+  max,
+}) => {
+  const [options] = useState({
+    chart: {
+      zoomType: 'x',
+      type: 'column',
+      backgroundColor: 'transparent',
+    },
+    title: {
+      text: null,
+    },
+    xAxis: {
+      lineWidth: 0,
+      gridLineWidth: 0,
+      title: null,
+      tickLength: 0,
+      maxPadding: 0,
+      labels: {
+        style: {
+          color: 'white',
+        },
       },
     },
-  },
-  yAxis: {
-    lineWidth: 0,
-    gridLineWidth: 0,
-    title: null,
-    labels: {
-      align: 'right',
-      style: {
-        color: 'white',
+    yAxis: {
+      lineWidth: 0,
+      gridLineWidth: 0,
+      title: null,
+      labels: {
+        align: 'right',
+        style: {
+          color: 'white',
+        },
+      },
+      max,
+    },
+    legend: {
+      enabled: false,
+    },
+    tooltip: {
+      headerFormat:
+        '<span style="font-size=10px;">Price: {point.key}</span><br/>',
+      valueDecimals: 2,
+    },
+    plotOptions: {
+      column: {
+        borderRadius: 8,
+        shadow: true,
+        groupPadding: 0,
+        pointPlacement: 'between',
+        pointRange: 26,
+        pointWidth: 26,
+        opacity: 0.75,
+        // borderRadiusTopLeft: 5,
+        // borderRadiusTopRight: 5,
       },
     },
-    max: 500000,
-  },
-  legend: {
-    enabled: false,
-  },
-  tooltip: {
-    headerFormat:
-      '<span style="font-size=10px;">Price: {point.key}</span><br/>',
-    valueDecimals: 2,
-  },
-  plotOptions: {
-    column: {
-      borderRadius: 8,
-      shadow: true,
-      groupPadding: 0,
-      pointPlacement: 'between',
-      pointRange: 20,
-      pointWidth: 20,
-      opacity: 0.75,
-      // borderRadiusTopLeft: 5,
-      // borderRadiusTopRight: 5,
-    },
-  },
-  series: [
-    {
-      name: 'Bids',
-      data: [
-        [40000, 500000],
-        [41000, 400000],
-        [42000, 300000],
-        [43000, 330000],
-        [44000, 250000],
-        [45000, 200000],
-        [46000, 150000],
-        [47000, 130000],
-      ],
-      color: '#17C3B2',
-      borderColor: '#17C3B2',
-      borderRadius: 4,
-    },
+    series: [
+      {
+        name: 'Bids',
+        data: bids,
+        color: '#17C3B2',
+        borderColor: '#17C3B2',
+        borderRadius: 4,
+      },
+      {
+        name: 'Asks',
+        data: asks,
+        color: '#CE4B09',
+        borderColor: '#CE4B09',
+        borderRadius: 4,
+      },
+    ],
+  });
 
-    {
-      name: 'Asks',
-      data: [
-        [48000, 130000],
-        [49000, 150000],
-        [50000, 200000],
-        [51000, 250000],
-        [52000, 330000],
-        [53000, 300000],
-        [54000, 400000],
-        [55000, 500000],
-      ],
-      color: '#CE4B09',
-      borderColor: '#CE4B09',
-      borderRadius: 4,
-    },
-  ],
+  return (
+    <div
+      className={classNames(
+        'tw-flex tw-flex-col tw-flex-1 tw-min-w-min tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
+        className,
+      )}
+    >
+      <HighchartsReact highcharts={Highcharts} options={options} />
+    </div>
+  );
 };
-export const DepthChart: React.FC<IDepthChartProps> = ({ className }) => (
-  <div
-    className={classNames(
-      'tw-flex tw-flex-col tw-flex-1 tw-min-w-min tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
-      className,
-    )}
-  >
-    <HighchartsReact highcharts={Highcharts} options={options} />
-  </div>
-);

@@ -64,6 +64,27 @@ export function PerpetualPage() {
     [],
   );
 
+  const asks = [
+    [40000, 500000],
+    [41000, 400000],
+    [42000, 300000],
+    [43000, 330000],
+    [44000, 250000],
+    [45000, 200000],
+    [46000, 150000],
+    [47000, 130000],
+  ];
+  const bids = [
+    [48000, 130000],
+    [49000, 150000],
+    [50000, 200000],
+    [51000, 250000],
+    [52000, 330000],
+    [53000, 300000],
+    [54000, 400000],
+    [55000, 500000],
+  ];
+
   return (
     <>
       <Helmet>
@@ -97,7 +118,7 @@ export function PerpetualPage() {
             </DataCard>
             <DataCard title={`Depth Chart (${pairType.toString()})`}>
               {/*TODO: implement Depth Chart Graph*/}
-              <DepthChart />
+              <DepthChart asks={asks} bids={bids} max={500000} />
             </DataCard>
           </div>
           <DataCard
