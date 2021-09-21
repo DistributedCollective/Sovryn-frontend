@@ -246,13 +246,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             onConfirm={() => submit()}
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() => dispatch(actions.closeTradingModal())}
+            onCancel={() => dispatch(actions.closeTradingModal(position))}
           />
         </div>
       </Dialog>
       <TxDialog
         tx={tx}
-        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+        onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
       />
     </>
   );

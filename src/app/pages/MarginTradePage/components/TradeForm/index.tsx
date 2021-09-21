@@ -11,6 +11,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
+import { Text } from '@blueprintjs/core';
 import { TradingPosition } from 'types/trading-position';
 import {
   TradingPairDictionary,
@@ -33,6 +34,15 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageDialog } from '../SlippageDialog';
 import { toWei } from 'utils/blockchain/math-helpers';
+import { renderItemNH } from 'app/components/Form/Select/renderers';
+import { Select } from 'app/components/Form/Select';
+
+const pairs = TradingPairDictionary.entries()
+  .filter(value => !value[1].deprecated)
+  .map(([type, item]) => ({
+    key: type,
+    label: item.name as string,
+  }));
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -140,6 +150,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           </div>
         )}
         <div className="tw-mw-340 tw-mx-auto tw-mt-5">
+          <FormGroup
+            label={t(translations.marginTradePage.tradeForm.labels.pair)}
+            className="tw-mb-6"
+          >
+            <Select
+              value={pairType}
+              options={pairs}
+              filterable={false}
+              onChange={value => dispatch(actions.setPairType(value))}
+              itemRenderer={renderItemNH}
+              valueRenderer={item => (
+                <Text ellipsize className="tw-text-center">
+                  {item.label}
+                </Text>
+              )}
+            />
+          </FormGroup>
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}

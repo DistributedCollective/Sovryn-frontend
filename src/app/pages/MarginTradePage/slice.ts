@@ -33,8 +33,8 @@ const marginTradePageSlice = createSlice({
     submit(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
     },
-    closeTradingModal(state) {
-      state.position = (undefined as unknown) as TradingPosition;
+    closeTradingModal(state, { payload }: PayloadAction<TradingPosition>) {
+      state.position = payload;
     },
   },
 });
