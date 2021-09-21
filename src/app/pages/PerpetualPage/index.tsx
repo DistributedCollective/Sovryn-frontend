@@ -14,7 +14,7 @@ import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpatual-p
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { useIsConnected } from '../../hooks/useAccount';
+import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
@@ -24,6 +24,14 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
+import { useSendContractTx } from 'app/hooks/useSendContractTx';
+import { toWei } from 'utils/blockchain/math-helpers';
+import { usePerpetual_depositMarginToken } from './hooks/usePerpetual_depositMarginToken';
+import { usePerpetual_withdrawMarginToken } from './hooks/usePerpetual_withdrawMarginToken';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { PERPETUAL_ID } from './utils';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { BigNumber } from 'ethers';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -62,6 +70,25 @@ export function PerpetualPage() {
     () => setShowNotificationSettingsModal(true),
     [],
   );
+
+  // This can be used for testing Deposit/Withdraw and also you can mint margin tokens
+
+  // const { send, ...txState } = useSendContractTx('PERPETUALS_token', 'mint');
+  // const onMintClick = useCallback(() => send([account, toWei(200)]), [
+  //   account,
+  //   send,
+  // ]);
+
+  // const { deposit, ...depositTx } = usePerpetual_depositMarginToken();
+  // const onDepositClick = useCallback(() => deposit('20'), [deposit]);
+
+  // const { withdraw, ...withdrawTx } = usePerpetual_withdrawMarginToken();
+  // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
+
+  // const { send: sendMargin, ...rest } = useSendContractTx(
+  //   'perpetualManager',
+  //   'getMarginAccount',
+  // );
 
   return (
     <>
@@ -106,6 +133,16 @@ export function PerpetualPage() {
           </DataCard>
           <TradeForm pairType={linkPairType || pairType} />
         </div>
+
+        {/* This can be used for testing Deposit/Withdraw and also you can mint margin tokens */}
+
+        {/* <button onClick={onMintClick}>Mint 200 margin tokens</button>
+        <button className="tw-block" onClick={onDepositClick}>
+          Deposit 20 margin tokens
+        </button>
+        <button className="tw-block" onClick={onWithdrawClick}>
+          Withdraw 20 margin tokens
+        </button> */}
 
         {connected && (
           <>
