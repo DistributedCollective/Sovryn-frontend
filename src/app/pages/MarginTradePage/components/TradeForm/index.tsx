@@ -91,27 +91,32 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     );
   }, [weiAmount, tokenBalance]);
 
+  const buttonDisabled = useMemo(
+    () => !validate || !connected || openTradesLocked,
+    [validate, connected, openTradesLocked],
+  );
+
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0">
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={() => setPositionType(TradingPosition.LONG)}
-              className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                'tw-opacity-100': positionType === TradingPosition.LONG,
-              })}
-            />
-            <Button
-              text={t(translations.marginTradePage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={() => setPositionType(TradingPosition.SHORT)}
-              className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
-                'tw-opacity-100': positionType === TradingPosition.SHORT,
-              })}
-            />
+            {pair.canOpenLong && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.long)}
+                position={TradingPosition.LONG}
+                onClick={submit}
+                disabled={buttonDisabled}
+              />
+            )}
+            {pair.canOpenShort && (
+              <Button
+                text={t(translations.marginTradePage.tradeForm.buttons.short)}
+                position={TradingPosition.SHORT}
+                onClick={submit}
+                disabled={buttonDisabled}
+              />
+            )}
           </div>
         )}
         <div className="tw-mw-340 tw-mx-auto tw-mt-5">

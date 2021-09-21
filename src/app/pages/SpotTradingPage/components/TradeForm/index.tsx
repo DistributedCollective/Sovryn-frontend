@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -12,11 +12,17 @@ import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { BuySell } from '../BuySell';
 import { OrderType } from '../OrderType';
-import { OrderTypes, TradingTypes } from '../../types';
+import {
+  getAmmSpotPairs,
+  OrderTypes,
+  pairs,
+  SpotPairType,
+  TradingTypes,
+} from '../../types';
+import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-import { pairs } from '../../types';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
@@ -31,8 +37,8 @@ import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-// import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-// import { useAccount } from '../../../../hooks/useAccount';
+import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useAccount } from '../../../../hooks/useAccount';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
@@ -47,7 +53,7 @@ export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  // const account = useAccount();
+  const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
@@ -73,16 +79,20 @@ export function TradeForm() {
     targetToken,
     weiAmount,
   );
-  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-  //   sourceToken,
-  //   targetToken,
-  //   account,
-  //   account,
-  //   weiAmount,
-  //   '0',
-  //   minReturn,
-  //   '0x',
-  // );
+  const { minReturn } = useSlippage(rateByPath, slippage);
+  const {
+    send: sendExternal,
+    ...txExternal
+  } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    targetToken,
+    account,
+    account,
+    weiAmount,
+    '0',
+    minReturn,
+    '0x',
+  );
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),
@@ -93,8 +103,8 @@ export function TradeForm() {
     targetToken,
     weiAmount,
   );
-  const { minReturn } = useSlippage(rateByPath, slippage);
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+
+  const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
     path,
     weiAmount,
     minReturn,
@@ -125,6 +135,17 @@ export function TradeForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => linkPairType && history.replace(location.pathname), []);
 
+  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
+    targetToken,
+    txExternal,
+    txPath,
+  ]);
+
+  const send = useCallback(
+    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
+    [targetToken, sendPath, sendExternal],
+  );
+
   const order = () => {
     if (orderType === OrderTypes.MARKET) {
       send();
@@ -132,7 +153,6 @@ export function TradeForm() {
       createOrder();
     }
   };
-
   return (
     <>
       {dialogOpen && (
@@ -251,7 +271,7 @@ export function TradeForm() {
                   : translations.spotTradingPage.tradeForm.sell_cta,
               )}
               tradingType={tradeType}
-              onClick={() => order()}
+              onClick={order}
               disabled={!validate || !connected || spotLocked}
             />
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
@@ -33,7 +33,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-// import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 import styles from './index.module.scss';
@@ -181,22 +181,25 @@ export function SwapFormContainer() {
     tokenAddress(targetToken),
   );
 
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+  const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
     path,
     weiAmount,
     minReturn,
   );
 
-  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-  //   sourceToken,
-  //   targetToken,
-  //   account,
-  //   account,
-  //   weiAmount,
-  //   '0',
-  //   minReturn,
-  //   '0x',
-  // );
+  const {
+    send: sendExternal,
+    ...txExternal
+  } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    targetToken,
+    account,
+    account,
+    weiAmount,
+    '0',
+    minReturn,
+    '0x',
+  );
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
@@ -235,6 +238,17 @@ export function SwapFormContainer() {
       targetToken !== sourceToken
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
+
+  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
+    targetToken,
+    txExternal,
+    txPath,
+  ]);
+
+  const send = useCallback(
+    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
+    [targetToken, sendPath, sendExternal],
+  );
 
   return (
     <>
@@ -340,7 +354,7 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={() => send()}
+          onClick={send}
           text={t(translations.swap.cta)}
         />
       </div>
