@@ -37,12 +37,13 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useTrading_testRates } from '../../../../hooks/trading/useTrading_testRates';
+import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
 import { discordInvite } from 'utils/classifiers';
-import { useSlippage } from './useSlippage';
-import { SlippageDialog } from './Dialogs/SlippageDialog';
+import { useSlippage } from '../SlippageDialog/useSlippage';
+import { SlippageDialog } from '../SlippageDialog';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { bignumber } from 'mathjs';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -80,6 +81,9 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     setAmount('0');
   }, [props.item.collateral]);
 
+  const leverage = leverageFromMargin(props.item.startMargin);
+  const maxAmount = bignumber(props.item.collateral).div(leverage).toFixed(0);
+
   const options = useMemo(() => getOptions(props.item), [props.item]);
   const isCollateral = useMemo(
     () => collateral === assetByTokenAddress(props.item.collateralToken),
@@ -92,7 +96,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const weiAmount = useWeiAmount(amount);
-  const handleConfirmSwap = () => {
+  const handleConfirm = () => {
     send();
   };
 
@@ -117,7 +121,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const { send, ...rest } = useCloseWithSwap(
     props.item.loanId,
     receiver,
-    weiAmount,
+    bignumber(weiAmount).mul(leverage).toString(),
     isCollateral,
     '0x',
   );
@@ -160,7 +164,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             />
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.marginType)}
-              value={<>{leverageFromMargin(props.item.startMargin)}x</>}
+              value={<>{leverage}x</>}
               className={cn({
                 'tw-text-trade-short': targetToken.asset !== pair.longAsset,
                 'tw-text-trade-long': targetToken.asset === pair.longAsset,
@@ -220,7 +224,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken.asset}
-              maxAmount={props.item.collateral}
+              maxAmount={maxAmount}
             />
           </FormGroup>
 
@@ -321,7 +325,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
-            onConfirm={() => handleConfirmSwap()}
+            onConfirm={() => handleConfirm()}
             disabled={rest.loading || !valid || closeTradesLocked}
             cancelLabel={t(translations.common.cancel)}
             onCancel={props.onCloseModal}

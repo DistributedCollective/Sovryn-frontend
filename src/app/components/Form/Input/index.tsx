@@ -87,7 +87,9 @@ export function DummyInput({
         readonly: props.readOnly,
       })}
     >
-      <div className={cn('tw-input', inputClassName)}>{value}</div>
+      <div className={cn('tw-input tw-truncate tw-pr-0', inputClassName)}>
+        {value}
+      </div>
       {appendElem && <div className="tw-input-append">{appendElem}</div>}
     </div>
   );

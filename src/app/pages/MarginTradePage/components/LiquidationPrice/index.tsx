@@ -1,8 +1,3 @@
-/**
- *
- * BorrowLiquidationPrice
- *
- */
 import React from 'react';
 import { Asset } from 'types/asset';
 import { TradingPosition } from 'types/trading-position';
@@ -13,14 +8,14 @@ import { bignumber } from 'mathjs';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 
-interface Props {
+interface ILiquidationPriceProps {
   asset: Asset;
   assetLong: Asset;
   leverage: number;
   position: TradingPosition;
 }
 
-export function LiquidationPrice(props: Props) {
+export function LiquidationPrice(props: ILiquidationPriceProps) {
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
     props.asset,
     props.assetLong,

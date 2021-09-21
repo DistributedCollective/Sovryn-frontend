@@ -260,7 +260,7 @@ export function TradingHistory() {
 function HistoryTable(props: { items: CalculatedEvent[] }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const pageLimit = 10;
+  const pageLimit = 5;
 
   const data = React.useMemo(() => {
     return props.items

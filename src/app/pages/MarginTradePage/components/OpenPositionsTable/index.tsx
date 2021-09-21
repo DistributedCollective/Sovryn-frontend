@@ -82,7 +82,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-w-full tw-hidden sm:tw-table-cell">
               {t(translations.openPositionTable.unrealizedPL)}
             </th>
-            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+            <th className="tw-w-32 tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.interestAPR)}
             </th>
             <th className="tw-w-full">

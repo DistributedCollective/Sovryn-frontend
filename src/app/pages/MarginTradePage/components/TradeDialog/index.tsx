@@ -1,23 +1,20 @@
 import cn from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { toWei } from 'web3-utils';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { fromWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
-// import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
@@ -26,7 +23,6 @@ import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from 'app/hooks/useAccount';
-// import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
@@ -36,10 +32,15 @@ import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
+import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 
 const maintenanceMargin = 15000000000000000000;
-
-export function TradeDialog() {
+interface ITradeDialogProps {
+  slippage: number;
+  isOpen: boolean;
+  onCloseModal: () => void;
+}
+export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
@@ -47,11 +48,9 @@ export function TradeDialog() {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  const [slippage] = useState(0.5);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
-  // const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
 
   const {
     loanToken,
@@ -68,7 +67,19 @@ export function TradeDialog() {
     collateralToken,
   );
 
-  const { minReturn } = useSlippage(estimations.collateral, slippage);
+  const { price } = useCurrentPositionPrice(
+    loanToken,
+    collateralToken,
+    estimations.principal,
+    position === TradingPosition.SHORT,
+  );
+
+  const { minReturn: minReturnCollateral } = useSlippage(
+    estimations.collateral,
+    props.slippage,
+  );
+
+  const { minReturn } = useSlippage(toWei(price), props.slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -76,7 +87,7 @@ export function TradeDialog() {
     collateral,
     leverage,
     amount,
-    minReturn,
+    minReturnCollateral,
   );
 
   const submit = () =>
@@ -106,10 +117,7 @@ export function TradeDialog() {
 
   return (
     <>
-      <Dialog
-        isOpen={!!position}
-        onClose={() => dispatch(actions.closeTradingModal())}
-      >
+      <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
@@ -144,11 +152,11 @@ export function TradeDialog() {
               label={t(
                 translations.marginTradePage.tradeDialog.maintananceMargin,
               )}
-              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
+              value={<>{weiToNumberFormat(maintenanceMargin)} %</>}
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.interestAPR)}
-              value={<>-</>}
+              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
             />
             <LabelValuePair
               label={t(
@@ -166,10 +174,10 @@ export function TradeDialog() {
                 </>
               }
             />
-            <LabelValuePair
+            {/* <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.renewalDate)}
               value={<>-</>}
-            />
+            /> */}
           </div>
 
           <FormGroup
@@ -197,13 +205,8 @@ export function TradeDialog() {
               <div className="tw-font-semibold">
                 <LoadableValue
                   loading={false}
-                  value={weiToFixed(minReturn, 6)}
-                  tooltip={
-                    <>
-                      {weiTo18(minReturn)}
-                      {pair.longDetails.symbol}
-                    </>
-                  }
+                  value={weiToNumberFormat(minReturn, 2)}
+                  tooltip={minReturn}
                 />{' '}
                 {pair.longDetails.symbol}
               </div>
@@ -243,17 +246,17 @@ export function TradeDialog() {
             onConfirm={() => submit()}
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() => dispatch(actions.closeTradingModal())}
+            onCancel={() => dispatch(actions.closeTradingModal(position))}
           />
         </div>
       </Dialog>
       <TxDialog
         tx={tx}
-        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+        onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
       />
     </>
   );
-}
+};
 
 interface LabelValuePairProps {
   label: React.ReactNode;

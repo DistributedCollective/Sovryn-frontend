@@ -103,7 +103,7 @@ export function MarginTradePage() {
 
         {connected && (
           <>
-            <div className="tw-flex tw-items-center tw-mt-3 tw-text-sm">
+            <div className="sm:tw-flex tw-items-center tw-mt-3 tw-text-sm sm:tw-text-left tw-text-center">
               <Tab
                 text={t(translations.marginTradePage.openPositions)}
                 active={activeTab === 0}
@@ -116,7 +116,7 @@ export function MarginTradePage() {
               />
             </div>
 
-            <div className="tw-w-full tw-px-5">
+            <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
               {activeTab === 1 && <TradingHistory />}
             </div>
