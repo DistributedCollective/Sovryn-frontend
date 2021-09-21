@@ -24,6 +24,7 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
+import { DepthChart } from './components/DepthChart';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -96,6 +97,7 @@ export function PerpetualPage() {
             </DataCard>
             <DataCard title={`Depth Chart (${pairType.toString()})`}>
               {/*TODO: implement Depth Chart Graph*/}
+              <DepthChart />
             </DataCard>
           </div>
           <DataCard
