@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackLinkTypePlugin = require('html-webpack-link-type-plugin')
+  .HtmlWebpackLinkTypePlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -310,6 +312,10 @@ module.exports = function (webpackEnv) {
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
+        // Ensure singular react version in the bundle
+        // Fixes yarn link issue with @sovryn/react-wallet
+        // https://github.com/facebook/react/issues/13991
+        react: path.resolve(__dirname, '../node_modules', 'react'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -506,6 +512,7 @@ module.exports = function (webpackEnv) {
                   modules: {
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
+                  localsConvention: 'camelCase',
                 },
                 'sass-loader',
               ),
@@ -562,10 +569,8 @@ module.exports = function (webpackEnv) {
                 minify: {
                   removeComments: true,
                   collapseWhitespace: true,
-                  removeRedundantAttributes: true,
                   useShortDoctype: true,
                   removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
                   keepClosingSlash: true,
                   minifyJS: true,
                   minifyCSS: true,
@@ -587,6 +592,18 @@ module.exports = function (webpackEnv) {
       // It will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      // Required to fix missing types on <link> tags, resulting in issues with brave (and IE11)
+      // https://github.com/jantimon/html-webpack-plugin/issues/726
+      new HtmlWebpackLinkTypePlugin({
+        '**/*.css': 'text/css',
+        '**/*.js': 'text/javascript',
+        '**/*.png': 'image/png',
+        '**/*.jpg': 'image/jpeg',
+        '**/*.jpeg': 'image/jpeg',
+        '**/*.gif': 'image/gif',
+        '**/*.webp': 'image/webp',
+        '**/*.bmp': 'image/bmp',
+      }),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -614,6 +631,7 @@ module.exports = function (webpackEnv) {
           // both options are optional
           filename: 'static/css/[name].[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          linkType: 'text/css',
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
@@ -639,12 +657,6 @@ module.exports = function (webpackEnv) {
           };
         },
       }),
-      // Moment.js is an extremely popular library that bundles large locale files
-      // by default due to how webpack interprets its code. This is a practical
-      // solution that requires the user to opt into importing specific locales.
-      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-      // You can remove this if you don't use Moment.js:
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
       isEnvProduction &&

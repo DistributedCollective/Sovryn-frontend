@@ -9,10 +9,10 @@ import { translations } from '../../../../../locales/i18n';
 export function StakeVote() {
   const { t } = useTranslation();
   return (
-    <Article className="w-100">
-      <h1 className="d-block text-center">
+    <Article className="tw-w-full">
+      <h2 className="tw-block tw-text-center">
         {t(translations.buySovPage.features.stake.title)}
-      </h1>
+      </h2>
       <Banner src={banner} alt="Banner" />
       <div className="content tw-font-thin tw-leading-snug">
         {t(translations.buySovPage.features.stake.text)}{' '}
@@ -24,7 +24,7 @@ export function StakeVote() {
           {t(translations.buySovPage.features.learnMore)}
         </a>
       </div>
-      <div className="container text-center">
+      <div className="tw-container tw-text-center">
         <a
           href="https://live.sovryn.app/stake"
           className="button"
@@ -41,12 +41,12 @@ export function StakeVote() {
 const Article = styled.article`
   max-width: 1200px;
   margin: 300px auto 70px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  h1 {
+  h2 {
     text-transform: none;
-    font-size: 36px;
-    line-height: 47px;
+    font-size: 2.5rem;
+    line-height: 1.25;
     font-weight: 700;
     margin-bottom: 70px;
   }
@@ -61,26 +61,26 @@ const Article = styled.article`
     height: 40px;
     background: #2274a5;
     border: 1px solid #2274a5;
-    color: #e9eae9;
-    font-size: 16px;
+    color: #e8e8e8;
+    font-size: 1rem;
     line-height: 1;
     font-weight: 500;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     text-decoration: none;
     text-align: center;
     padding: 11px;
     &:hover {
       opacity: 0.75;
-      color: #e9eae9;
+      color: #e8e8e8;
     }
   }
 
   a {
     text-decoration: underline;
-    color: #fec004;
+    color: var(--primary);
     &:hover {
-      color: #fec004;
+      color: var(--primary);
       text-decoration: none;
     }
   }

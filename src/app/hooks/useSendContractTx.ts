@@ -62,11 +62,6 @@ export function useSendContractTx(
       config: TransactionConfig = {},
       options: TransactionOptions = {},
     ) => {
-      // dispatch(
-      //   actions.openTransactionRequestDialog({
-      //     type: options?.type || TxType.NONE,
-      //   }),
-      // );
       setTxId(TxStatus.PENDING_FOR_USER);
       if (
         !config.hasOwnProperty('gas') &&
@@ -134,7 +129,7 @@ export function useSendContractTx(
           TxStatus.PENDING_FOR_USER,
           TxStatus.CONFIRMED,
           TxStatus.FAILED,
-        ].includes(txId as any)
+        ].includes(txId as TxStatus)
       ? txId
       : TxStatus.PENDING,
     loading: loading,

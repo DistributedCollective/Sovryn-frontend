@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Classes, Overlay } from '@blueprintjs/core';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import arrowDown from './arrow-down.svg';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';
@@ -65,13 +65,13 @@ export function OriginClaimDialog(props: Props) {
         canEscapeKeyClose
       >
         <div className="custom-dialog-container">
-          <div className="custom-dialog font-family-montserrat">
+          <div className="custom-dialog tw-font-body">
             <div className={styles.container}>
               {tx.status === TxStatus.CONFIRMED ? (
                 <>
                   <h2 className={styles.title}>Redemption Successful</h2>
 
-                  <div className="mx-auto my-5 text-center">
+                  <div className="tw-mx-auto tw-my-12 tw-text-center tw-text-long">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="51.969"
@@ -83,15 +83,12 @@ export function OriginClaimDialog(props: Props) {
                         data-name="Path 2993"
                         d="M39.912,16.5,22.788,33.623l-9.329-9.3L9.8,27.985,22.788,40.977,43.576,20.189ZM27.985,2A25.985,25.985,0,1,0,53.969,27.985,25.994,25.994,0,0,0,27.985,2Zm0,46.772A20.788,20.788,0,1,1,48.772,27.985,20.782,20.782,0,0,1,27.985,48.772Z"
                         transform="translate(-2 -2)"
-                        fill="#4ecdc4"
+                        fill="currentColor"
                       />
                     </svg>
                   </div>
 
-                  {/*<p className="text-center mb-4">*/}
-                  {/*  Please check your email for confirmation*/}
-                  {/*</p>*/}
-                  <p className="text-center">
+                  <p className="tw-text-center">
                     You will now be able to see your vested SOV
                     <br />
                     in our{' '}
@@ -106,22 +103,25 @@ export function OriginClaimDialog(props: Props) {
                   </p>
 
                   <p
-                    className="font-weight-bold text-center mt-4 mx-auto"
+                    className="tw-font-bold tw-text-center tw-mt-8 tw-mx-auto"
                     style={{ maxWidth: 290 }}
                   >
                     Congratulations you are also now owner of SOV!
                   </p>
 
-                  <div className="mt-5 d-flex align-items-center justify-content-center">
-                    <div className="mr-4">Tx Hash:</div>
-                    <LinkToExplorer txHash={tx.txHash} className="text-gold" />
+                  <div className="tw-mt-12 tw-flex tw-items-center tw-justify-center">
+                    <div className="tw-mr-8">Tx Hash:</div>
+                    <LinkToExplorer
+                      txHash={tx.txHash}
+                      className="tw-text-primary"
+                    />
                   </div>
 
-                  <div className="mt-5 w-100 text-center">
+                  <div className="tw-mt-12 tw-w-full tw-text-center">
                     <Button
                       text="Check SOV"
                       onClick={() => props.onClose()}
-                      className="mx-auto"
+                      className="tw-mx-auto"
                     />
                   </div>
                 </>
@@ -132,13 +132,13 @@ export function OriginClaimDialog(props: Props) {
                     <p>This transaction requires rBTC for gas.</p>
                     <FieldGroup label="Origins BTC deposit:">
                       <DummyField>
-                        <div className="w-100 d-flex justify-content-between align-items-center position-relative">
-                          <div className="w-100 flex-grow-1 text-center">
+                        <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
+                          <div className="tw-w-full tw-flex-grow tw-text-center">
                             {toNumberFormat(Number(btcAmount) / 1e8, 5)}
                           </div>
                           <div
                             className={classNames(
-                              'flex-shrink-1 flex-grow-0 position-absolute',
+                              'tw-flex-shrink tw-flex-grow-0 tw-absolute',
                               styles.right,
                             )}
                           >
@@ -147,7 +147,7 @@ export function OriginClaimDialog(props: Props) {
                         </div>
                       </DummyField>
                     </FieldGroup>
-                    <div className="mx-auto text-center">
+                    <div className="tw-mx-auto tw-text-center">
                       <img
                         src={arrowDown}
                         alt="Arrow Down"
@@ -160,13 +160,13 @@ export function OriginClaimDialog(props: Props) {
                       )} sats.`}
                     >
                       <DummyField>
-                        <div className="w-100 d-flex justify-content-between align-items-center position-relative">
-                          <div className="w-100 flex-grow-1 text-center">
+                        <div className="tw-w-full tw-flex tw-justify-between tw-items-center tw-relative">
+                          <div className="tw-w-full tw-flex-grow tw-text-center">
                             {weiToNumberFormat(sovAmount, 2)}
                           </div>
                           <div
                             className={classNames(
-                              'flex-shrink-1 flex-grow-0 position-absolute',
+                              'tw-flex-shrink tw-flex-grow tw-absolute',
                               styles.right,
                             )}
                           >
@@ -184,11 +184,11 @@ export function OriginClaimDialog(props: Props) {
                     displayAbsolute={false}
                   />
 
-                  <div className="d-flex flex-row justify-content-between align-items-center">
+                  <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
                     <Button
                       text="Confirm"
                       onClick={() => handleSubmit()}
-                      className="mr-3 w-100"
+                      className="tw-mr-4 tw-w-full"
                       loading={tx.loading || loading}
                       disabled={
                         tx.loading ||
@@ -203,7 +203,7 @@ export function OriginClaimDialog(props: Props) {
                       text="Cancel"
                       inverted
                       onClick={() => props.onClose()}
-                      className="ml-3 w-100"
+                      className="tw-ml-4 tw-w-full"
                     />
                   </div>
                 </>

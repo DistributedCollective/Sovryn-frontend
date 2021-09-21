@@ -1,9 +1,3 @@
-/**
- *
- * BorrowHistory
- *
- */
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTable, useSortBy } from 'react-table';
@@ -62,6 +56,7 @@ export function BorrowHistory(props: Props) {
   const data = React.useMemo(() => {
     return events.map(item => {
       const timestamp = String(
+        // EventData is incorrectly typed in web3-eth-contract
         new Date((item as any).eventDate).getTime() / 1e3,
       );
       return {
@@ -114,13 +109,13 @@ export function BorrowHistory(props: Props) {
                           column.isSortedDesc ? (
                             <Icon
                               icon="sort-desc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           ) : (
                             <Icon
                               icon="sort-asc"
-                              className="tw-text-white"
+                              className="tw-text-sov-white"
                               iconSize={15}
                             />
                           )

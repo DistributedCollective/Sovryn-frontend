@@ -29,6 +29,7 @@ export enum TxType {
   REMOVE_LIQUIDITY = 'remove_liquidity',
   DEPOSIT_COLLATERAL = 'deposit_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
+  SWAP_EXTERNAL = 'swap_external',
   OTHER = 'other',
   SALE_BUY_SOV = 'sale_buy_sov',
   SOV_REIMBURSE = 'sov_reimburse',
@@ -38,8 +39,14 @@ export enum TxType {
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
+  STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
   ORIGINS_SALE_BUY = 'origins_sale_buy',
   CONVERT_RUSDT_TO_XUSD = 'convert_rusdt_to_xusd',
+  LOCKED_FUND_WAITED_CLAIM = 'locked_fund_waited_claim',
+  LOCKED_FUND_CREATE_STAKE = 'locked_fund_create_stake',
+  CROSS_CHAIN_DEPOSIT = 'cross_chain_deposit',
+  CROSS_CHAIN_WITHDRAW = 'cross_chain_withdraw',
+  UNWRAP_WRBTC = 'unwrap_wrbtc',
 }
 
 export enum TxStatus {

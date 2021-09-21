@@ -61,6 +61,6 @@
         <path id="Path_304" data-name="Path 304" d="M692-1331.271h48.632v46.895H692Z" transform="translate(-633.816 1327.562)" fill="#fff"/>
       </g>
     </g>
-    <text id="Alpha" transform="translate(737 -1242.271)" fill="#e9eae9" font-size="12" font-family="Orbitron-Medium, Orbitron" font-weight="500" letter-spacing="0.3em" opacity="0.848"><tspan x="0" y="0">Alpha</tspan></text>
+    <text id="Alpha" transform="translate(737 -1242.271)" fill="#e8e8e8" font-size="12" font-family="Orbitron-Medium, Orbitron" font-weight="500" letter-spacing="0.3em" opacity="0.848"><tspan x="0" y="0">Alpha</tspan></text>
   </g>
 </svg>

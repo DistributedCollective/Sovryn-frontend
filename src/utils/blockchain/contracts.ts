@@ -32,11 +32,14 @@ import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x5A0D867e0D70Fcc6Ade25C3F1B89d618b5B4Eaa7',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
@@ -58,6 +61,11 @@ export const contracts = {
     address: '0x31A0F8400c75d52FdB413372233F28E3bdFB1c06',
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
+  },
+  WRBTC_token: {
+    address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
+    abi: abiTestWBRTCToken,
+    blockNumber: 2742415,
   },
   RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
@@ -84,6 +92,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 2742633,
   },
+  RDOC_token: {
+    address: '0x2d919f19D4892381d58EdEbEcA66D5642ceF1A1F',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
+  },
   MOC_token: {
     address: '0x9aC7Fe28967b30e3a4E6E03286D715B42B453d10',
     abi: TestTokenABI,
@@ -95,7 +108,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x9996E5F902d2d804E9eD0DdB1B628D1EBf6Bb6fE',
+    address: '0x34031D1cd14e2C80B0268B47eFf49643375aFaeb',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -125,7 +138,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x303401D9AB4394AEaE4156F1A21C620eED56E22C',
+    address: '0x029448377a56c15928ec783baf6ca736ed99a57f',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -155,7 +168,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   ETH_amm: {
-    address: '0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20',
+    address: '0xcef26b429e272960d8fa2ea190b06df5dd8f68e2',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -170,7 +183,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e',
+    address: '0x3a36919f1d6729ea8bd2a04f72bd9d5396f7e549',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -248,7 +261,7 @@ export const contracts = {
     blockNumber: 3100260,
   },
   SOV_amm: {
-    address: '0x1D2c04967E8b17168310fD7035cc219DE477bE82',
+    address: '0x3fd679b01ddab34da8f72b7ec301aa75ea25f338',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -272,21 +285,40 @@ export const contracts = {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
-  // these contracts are only deployed on testnet now so they need to be updated
+  stakingRewards: {
+    address: '0x8304FB3614c728B712e94F9D4DF6719fede6517F',
+    abi: stakingRewardsProxyAbi,
+  },
   FISH_token: {
-    address: '0x4B8E6fAf15E6Da5426D4d27FcAABc66a759dBB15',
+    address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
     abi: FISHTokenAbi,
   },
+  FISH_amm: {
+    address: '0xe731DA93034D769c2045B1ee137D42E1Aa23C18e',
+    abi: LiquidityPoolV1Converter,
+  },
+  FISH_staking: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: StakingAbi,
+  },
   originsBase: {
-    address: '0x614528858f1D4e6D3e9Ef4f868771c93b4799D90',
+    address: '0x9FabDA843C611210d7bA48056B75a1e1884522ef',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x1DDAf77DE0c18af5dc9457C4DB83F13652618157',
+    address: '0x704c35Cc2756d600a18C0f2DBbEe5507D4b351E8',
     abi: LockedFundAbi,
+  },
+  vestingRegistryFISH: {
+    address: '0x036ab2DB0a3d1574469a4a7E09887Ed76fB56C41',
+    abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
+    abi: nftAbi,
   },
 };

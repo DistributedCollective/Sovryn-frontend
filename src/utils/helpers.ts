@@ -2,7 +2,7 @@ import { utils } from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
-import { Asset } from '../types/asset';
+import { Asset } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 
@@ -143,7 +143,7 @@ export function detectWeb3Wallet() {
   switch (walletService.providerType) {
     default:
     case ProviderType.WEB3:
-      const { ethereum } = window as any;
+      const { ethereum } = window;
       if (ethereum) {
         if (ethereum.isLiquality) return 'liquality';
         if (ethereum.isNiftyWallet) return 'nifty';
@@ -183,7 +183,7 @@ export function fixNumber(amount: any) {
   return amount;
 }
 
-export function getUSDSum(array: any[]) {
+export function getUSDSum(array: number[]) {
   return array.reduce(function (sum, value) {
     return sum + value;
   }, 0);
@@ -206,3 +206,5 @@ export const abbreviateNumber = (
   }
   return shortValue + suffixes[suffixNum];
 };
+
+export const isNullOrUndefined = val => val === undefined || val === null;

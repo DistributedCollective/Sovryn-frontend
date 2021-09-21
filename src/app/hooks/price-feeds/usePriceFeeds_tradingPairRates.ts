@@ -10,16 +10,18 @@ import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 
-const assetsWithoutOracle = [
+const assetsWithoutOracle: Asset[] = [
   Asset.SOV,
+  Asset.FISH,
   Asset.CSOV,
   Asset.ETH,
   Asset.MOC,
   Asset.XUSD,
   Asset.BNB,
+  Asset.RDOC,
 ];
 
-const excludeAssets = [Asset.FISH];
+const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC];
 
 /**
  * use this only once
@@ -37,14 +39,15 @@ export function usePriceFeeds_tradingPairRates() {
 
   const getSwapRate = useCallback(
     async (sourceAsset: Asset, destAsset: Asset, amount: string = '1') => {
-      const path = await contractReader.call('swapNetwork', 'conversionPath', [
-        getTokenContract(sourceAsset).address,
-        getTokenContract(destAsset).address,
-      ]);
-      return await contractReader.call('swapNetwork', 'rateByPath', [
-        path,
-        amount,
-      ]);
+      return await contractReader.call(
+        'sovrynProtocol',
+        'getSwapExpectedReturn',
+        [
+          getTokenContract(sourceAsset).address,
+          getTokenContract(destAsset).address,
+          amount,
+        ],
+      );
     },
     [],
   );
@@ -83,7 +86,7 @@ export function usePriceFeeds_tradingPairRates() {
     )?.value?.rate;
 
     for (let asset of assetsWithoutOracle) {
-      if (asset === Asset.CSOV) continue;
+      if (!AssetsDictionary.get(asset)?.hasAMM) continue;
       try {
         const btcToAsset = await getSwapRate(Asset.RBTC, asset, '1');
 
@@ -126,6 +129,7 @@ export function usePriceFeeds_tradingPairRates() {
   }, [getRate, getSwapRate]);
 
   useEffect(() => {
+    dispatch(actions.getPrices());
     getRates()
       .then(e => dispatch(actions.setPrices(JSON.parse(JSON.stringify(e)))))
       .catch(console.error);

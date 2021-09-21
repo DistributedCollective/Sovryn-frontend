@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -11,9 +10,9 @@ import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
 import { currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
-
-import '../_networkRibbon.scss';
 import { ActionButton } from 'app/components/Form/ActionButton';
+
+import styles from '../NetworkRibbon.module.scss';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -25,13 +24,12 @@ interface Props {
 
 export function DetectionScreen(props: Props) {
   var logo: any = null;
-  const { ethereum } = window as any;
+  const { ethereum } = window;
   const { t } = useTranslation();
-  const chainId = parseInt(ethereum.chainId as string);
+  const chainId = parseInt(ethereum?.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
-  // eslint-disable-next-line array-callback-return
-  const netName = netData.find(item => item.chainId === chainId)?.chain || 0;
+  const netName = netData.find(item => item.chainId === chainId)?.chain;
   if (props.walletType === 'metamask') {
     logo = metamask;
   } else if (props.walletType === 'liquality') {
@@ -42,51 +40,51 @@ export function DetectionScreen(props: Props) {
   const { disconnect } = useWalletContext();
   return (
     <>
-      <div className="d-flex my-3 justify-content-center flex-row pt-3 pb-5 font-family-montserrat">
-        <div className="mr-2">
+      <div className="tw-flex tw-my-4 tw-pt-4 sm:tw-pb-12 tw-justify-center tw-flex-row  tw-font-body">
+        <div className="tw-mr-2">
           <img src={error_alert} alt="1" />
         </div>
-        <div className="text-left subtitle">
-          {t(translations.wrongNetworkDialog.networkAlert, {
-            name: netName,
-          })}
+        <div className="tw-w-full tw-max-w-5/12 tw-text-warning tw-font-light tw-text-sm tw-leading-snug tw-normal-case tw-text-left">
+          {netName
+            ? t(translations.wrongNetworkDialog.networkAlert, {
+                name: netName,
+              })
+            : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
             string: walletName,
           })}
         </div>
       </div>
-      <div className="d-flex mt-3 mb-5 justify-content-center flex-row pb-5 font-family-montserrat">
-        <div className="d-flex flex-row justify-content-center align-items-center logo">
-          <img alt="1" src={logo} className="text-center" />
+      <div className="tw-flex tw-mx-4 tw-mb-8 md:tw-mb-12 xl:tw-mb-24 tw-justify-center tw-flex-col sm:tw-flex-row tw-font-body">
+        <div className="tw-flex tw-flex-row tw-justify-center tw-items-center logo">
+          <img alt="1" src={logo} className="tw-text-center" />
         </div>
         {props.walletType === 'metamask' && (
-          <div className="tw-flex tw-items-center tw-ml-12">
+          <div className="tw-flex tw-items-center tw-mt-4 sm:tw-mt-0 sm:tw-ml-12">
             <ActionButton
               text={t(translations.wrongNetworkDialog.metamask.connectButton)}
               onClick={addNetworkCallback}
-              className="tw-block tw-w-full tw-h-10 tw-px-9 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
-              textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5 tw-font-semibold"
+              className="tw-block tw-w-full tw-px-9 tw-rounded-lg tw-bg-gray-1 tw-bg-opacity-10"
+              textClassName="tw-text-lg tw-tracking-normal tw-leading-6 tw-font-semibold"
             />
           </div>
         )}
       </div>
-      <div className="d-flex my-5 flex-column justify-content-center align-items-center text-center">
-        <a
-          onClick={props.onStart}
-          className="titleTut font-family-montserrat mb-3"
-        >
+      <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center">
+        <button onClick={props.onStart} className={styles.linkButton}>
           {t(translations.wrongNetworkDialog.tutorialGuide, {
             wallet: walletName,
           })}{' '}
-        </a>
-        <a
-          className="d-flex align-items-center justify-content-center titleTut font-family-montserrat"
-          onClick={() => disconnect()}
-        >
-          <Icon icon="log-out" className="tw-text-gold mr-1" iconSize={12} />{' '}
+        </button>
+        <button className={styles.linkButton} onClick={() => disconnect()}>
+          <Icon
+            icon="log-out"
+            className="tw-text-primary tw-mr-1"
+            iconSize={12}
+          />{' '}
           {t(translations.wallet.disconnect)}
-        </a>
+        </button>
       </div>
     </>
   );

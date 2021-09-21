@@ -3,7 +3,7 @@
  * AssetWalletBalance
  *
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Asset } from 'types/asset';
 import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
@@ -11,7 +11,7 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useBlockSync, useIsConnected } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from '../LoadableValue';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
  * @constructor
  */
 export function AssetWalletBalance(props: Props) {
-  const { connect } = useWalletContext();
+  const { connect } = useContext(WalletContext);
   const { value, loading } = useAssetBalanceOf(props.asset);
   const { t } = useTranslation();
   const connected = useIsConnected();
@@ -39,23 +39,23 @@ export function AssetWalletBalance(props: Props) {
 
   return (
     <div>
-      <div className="tw-font-bold tw-text-muted tw-mb-2">
+      <div className="tw-font-bold tw-text-gray-6 tw-mb-2">
         {t(translations.assetWalletBalance.accountBalance)}
       </div>
       {!connected && (
         <button
           onClick={() => connect()}
-          className="bg-transparent btn-link text-white border-0 d-block text-left text-nowrap"
+          className="tw-bg-transparent tw-text-sov-white tw-border-0 tw-block tw-text-left tw-whitespace-nowrap hover:tw-underline"
         >
           {t(translations.assetWalletBalance.connect)}
         </button>
       )}
       {connected && (
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-          <span className="tw-text-muted">
+          <span className="tw-text-gray-6">
             <AssetRenderer asset={props.asset} />
           </span>
-          <span className="tw-text-white tw-font-bold tw-ml-2">
+          <span className="tw-text-sov-white tw-font-bold tw-ml-2">
             <LoadableValue
               value={weiToFixed(value, 4)}
               loading={loading}

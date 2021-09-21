@@ -1,6 +1,6 @@
 import React from 'react';
 import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DialogTitle, DialogWrapper } from './styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -24,7 +24,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
     <>
       <img src={imgLargeNFT} alt="Dialog NFT" />
       <DialogWrapper>
-        <div className="tw-max-w-31.25rem">
+        <div className="tw-max-w-lg">
           <DialogTitle>
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
@@ -36,7 +36,9 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             {isVerified
               ? t(
                   translations.originsLaunchpad.saleDay
-                    .accessCodeVerificationStep.verified,
+                    .accessCodeVerificationStep.verified[
+                    tierId === 2 ? 'publicSale' : 'privateSale'
+                  ],
                 )
               : t(
                   translations.originsLaunchpad.saleDay
@@ -45,21 +47,21 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
           </div>
 
           {isVerified && (
-            <div className="tw-max-w-20rem tw-mx-auto">
+            <div className="tw-max-w-80 tw-mx-auto">
               <ActionButton
                 text={t(
                   translations.originsLaunchpad.saleDay
                     .accessCodeVerificationStep.cta,
                 )}
                 onClick={onVerified}
-                className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-10px tw-bg-primary tw-bg-opacity-5"
-                textClassName="tw-text-lg tw-tracking-normal tw-leading-5.5"
+                className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
+                textClassName="tw-text-lg tw-tracking-normal tw-leading-snug"
               />
             </div>
           )}
         </div>
 
-        {!isVerified && (
+        {/* {!isVerified && (
           <div>
             <Trans
               i18nKey={
@@ -78,7 +80,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               ]}
             />
           </div>
-        )}
+        )} */}
       </DialogWrapper>
     </>
   );

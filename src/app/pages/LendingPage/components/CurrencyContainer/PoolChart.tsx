@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface DataItem {
-  timestamp: Date;
+  timestamp: string;
   supply_apr: number;
   supply: number;
 }
@@ -48,35 +48,36 @@ export function PoolChart(props: Props) {
   const asset = props.pool.getAsset();
 
   useEffect(() => {
-    fetch(databaseRpcNodes[chainId], {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        method: 'custom_getLoanTokenHistory',
-        params: [
-          {
-            address: getLendingContract(asset).address,
-          },
-        ],
-      }),
-    })
-      .then(e => e.json().then())
-      .then(e => {
-        setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+    if (chainId) {
+      fetch(databaseRpcNodes[chainId], {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          method: 'custom_getLoanTokenHistory',
+          params: [
+            {
+              address: getLendingContract(asset).address,
+            },
+          ],
+        }),
       })
-      .catch(console.error);
+        .then(e => e.json().then())
+        .then(e => {
+          setData(e.slice(-28)); //last 7 days of data in 6hr chunks
+        })
+        .catch(console.error);
+    }
   }, [asset, chainId, props.pool]);
 
   const supplyApr: [number, number][] = useMemo(
-    () =>
-      (data as any[]).map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
     [data],
   );
 
   const totalLiq: [number, number][] = useMemo(
-    () => (data as any[]).map(i => [Date.parse(i.timestamp), i.supply / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), i.supply / 1e8]),
     [data],
   );
 

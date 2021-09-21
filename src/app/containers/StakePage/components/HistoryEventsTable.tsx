@@ -2,19 +2,18 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import axios from 'axios';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import styled from 'styled-components/macro';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../../components/Pagination';
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from '../../../components/LoadableValue';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -24,13 +23,23 @@ import { backendUrl } from 'utils/classifiers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 
+type HistoryItem = {
+  action: string;
+  amount: string;
+  lockedUntil: number;
+  status?: string;
+  staker: string; //address
+  timestamp: number;
+  txHash: string;
+};
+
 export function HistoryEventsTable() {
   const { t } = useTranslation();
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
-  const [eventsHistory, setEventsHistory] = useState<any>([]);
+  const [eventsHistory, setEventsHistory] = useState<HistoryItem[]>([]);
   const [isHistoryLoading, seIsHistoryLoading] = useState(false);
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
+  const [currentHistory, setCurrentHistory] = useState<HistoryItem[]>([]);
   const onPageChanged = data => {
     const { currentPage, pageLimit } = data;
     const offset = (currentPage - 1) * pageLimit;
@@ -38,23 +47,25 @@ export function HistoryEventsTable() {
   };
 
   const getHistory = useCallback(() => {
-    seIsHistoryLoading(true);
-    axios
-      .get(`${backendUrl[chainId]}/events/stake/${account}`)
-      .then(({ data }) => {
-        setEventsHistory(data?.events);
-        seIsHistoryLoading(false);
-      });
+    if (chainId) {
+      seIsHistoryLoading(true);
+      axios
+        .get(`${backendUrl[chainId]}/events/stake/${account}`)
+        .then(({ data }) => {
+          setEventsHistory(data?.events);
+          seIsHistoryLoading(false);
+        });
+    }
   }, [account, chainId]);
 
   return (
     <>
-      <div className="history-table tw-bg-gray-light tw-rounded-b tw-mb-10">
+      <div className="history-table tw-bg-gray-1 tw-rounded-b tw-mb-10">
         <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
           {t(translations.stake.history.title)}
         </p>
         <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">
-          <StyledTable className="w-full">
+          <StyledTable className="tw-w-full">
             <thead>
               <tr>
                 <th className="tw-text-left assets">
@@ -66,15 +77,15 @@ export function HistoryEventsTable() {
                 <th className="tw-text-left">
                   {t(translations.stake.history.stakedAmount)}
                 </th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
                   {t(translations.stake.history.hash)}
                 </th>
-                <th className="tw-text-left hidden lg:tw-table-cell">
+                <th className="tw-text-left tw-hidden lg:tw-table-cell">
                   {t(translations.stake.history.status)}
                 </th>
               </tr>
             </thead>
-            <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
+            <tbody className="tw-mt-5 tw-font-body tw-text-xs">
               {currentHistory.length > 0 && (
                 <HistoryTable items={currentHistory} />
               )}
@@ -100,7 +111,7 @@ export function HistoryEventsTable() {
                       <td colSpan={5} className="tw-text-center tw-font-normal">
                         <button
                           type="button"
-                          className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-no-underline hover:tw-bg-gold hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-bordered tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-gold tw-text-sm tw-font-light tw-font-montserrat"
+                          className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-no-underline hover:tw-bg-primary hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-primary tw-text-sm tw-font-light tw-font-body"
                           onClick={getHistory}
                         >
                           {t(translations.stake.history.viewHistory)}
@@ -125,16 +136,6 @@ export function HistoryEventsTable() {
     </>
   );
 }
-
-type HistoryItem = {
-  action: string;
-  amount: string;
-  lockedUntil: number;
-  status?: string;
-  staker: string; //address
-  timestamp: number;
-  txHash: string;
-};
 
 interface HistoryAsset {
   item: HistoryItem;
@@ -176,9 +177,10 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
   return (
     <tr>
       <td>
-        {moment
-          .tz(new Date(item.timestamp * 1e3), 'GMT')
-          .format('DD/MM/YYYY - h:mm:ss a z')}
+        {dayjs
+          .tz(item.timestamp * 1e3, 'UTC')
+          .tz(dayjs.tz.guess())
+          .format('L - LTS Z')}
       </td>
       <td>{getActionName(item.action)}</td>
       <td className="tw-text-left tw-font-normal">
@@ -187,7 +189,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
             {numberFromWei(item.amount)} SOV
             <br />≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+              value={weiToUSD(dollarValue)}
               loading={dollars.loading}
             />
           </>
@@ -199,24 +201,24 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.txHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>
-        <div className="d-flex align-items-center justify-content-between col-lg-10 col-md-12 p-0">
+        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
             {!item.status && (
-              <p className="m-0">{t(translations.common.confirmed)}</p>
+              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
             {item.status === TxStatus.FAILED && (
-              <p className="m-0">{t(translations.common.failed)}</p>
+              <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
             {item.status === TxStatus.PENDING && (
-              <p className="m-0">{t(translations.common.pending)}</p>
+              <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               txHash={item.txHash}
-              className="text-gold font-weight-normal text-nowrap"
+              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
             />
           </div>
           <div>
@@ -237,7 +239,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
 };
 
 interface History {
-  items: any;
+  items: HistoryItem[];
 }
 
 const HistoryTable: React.FC<History> = ({ items }) => {
@@ -246,7 +248,7 @@ const HistoryTable: React.FC<History> = ({ items }) => {
       {items.map((item, index) => {
         return (
           <HistoryTableAsset
-            key={item.txHash + item.newBalance}
+            key={item.txHash + item.action}
             item={item}
             index={index}
           />

@@ -14,11 +14,18 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error', prettierOptions],
+    '@typescript-eslint/ban-ts-comment': 'error',
   },
   overrides: [
     {
       files: ['**/*.ts?(x)'],
       rules: { 'prettier/prettier': ['warn', prettierOptions] },
+    },
+    {
+      files: ['**/*.stories.*'],
+      rules: {
+        'import/no-anonymous-default-export': 'off',
+      },
     },
   ],
 };

@@ -8,6 +8,7 @@ type InputType = 'text' | 'email' | 'password' | 'number';
 interface InputProps {
   value: string;
   onChange?: (value: string) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   appendElem?: React.ReactNode;
   type?: InputType;
   className?: string;
@@ -48,6 +49,7 @@ export function Input({
     >
       <input
         className={cn('tw-input', inputClassName)}
+        lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
         {...props}

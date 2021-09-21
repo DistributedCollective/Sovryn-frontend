@@ -1,7 +1,5 @@
 import React from 'react';
-import { Container, Nav, Tab } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import '../../assets/index.scss';
 
 import CurrencyRow from './CurrencyRow';
 import { Asset } from '../../../../../types/asset';
@@ -23,36 +21,20 @@ const CurrencyContainer: React.FC<Props> = ({ state, setState }) => {
   const weiBorrowAmount = useWeiAmount(borrowAmount);
   const weiLendAmount = useWeiAmount(lendAmount);
   return (
-    <Container className="tw-flex tw-flex-col tw-w-full tw-p-0">
-      <Tab.Container id="left-tabs" defaultActiveKey={state}>
-        <Nav
-          onSelect={k => setState(k as Asset)}
-          className="tw-flex tw-flex-col currency-nav"
-          variant="pills"
-        >
-          {currencyRows.map(info => {
-            return (
-              <Nav.Link
-                key={info.getAsset()}
-                eventKey={info.getAsset()}
-                className="currency-row-link tw-w-full"
-              >
-                <CurrencyRow
-                  lendingPool={info}
-                  active={state === info.getAsset()}
-                  lendingAmount={
-                    state === info.getAsset() ? weiLendAmount : '0'
-                  }
-                  borrowAmount={
-                    state === info.getAsset() ? weiBorrowAmount : '0'
-                  }
-                />
-              </Nav.Link>
-            );
-          })}
-        </Nav>
-      </Tab.Container>
-    </Container>
+    <div className="tw-container tw-mx-auto tw-flex tw-flex-col tw-w-full tw-p-0">
+      {currencyRows.map(info => {
+        return (
+          <CurrencyRow
+            key={info.getAsset()}
+            lendingPool={info}
+            active={state === info.getAsset()}
+            lendingAmount={state === info.getAsset() ? weiLendAmount : '0'}
+            borrowAmount={state === info.getAsset() ? weiBorrowAmount : '0'}
+            onClick={() => setState(info.getAsset())}
+          />
+        );
+      })}
+    </div>
   );
 };
 

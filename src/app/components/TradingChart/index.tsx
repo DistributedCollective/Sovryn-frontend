@@ -6,7 +6,7 @@
  * and make any relevant changes before updating the library version:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import cn from 'classnames';
 import {
   widget,
@@ -16,6 +16,7 @@ import {
 import { Skeleton } from '../PageSkeleton';
 import Datafeed from './datafeed';
 import Storage from './storage';
+import { noop } from '../../constants';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -69,7 +70,6 @@ export function TradingChart(props: ChartContainerProps) {
         ],
       };
 
-      // eslint-disable-next-line
       const myChart = new widget(widgetOptions);
       setChart(myChart);
       myChart.onChartReady(() => {
@@ -77,29 +77,30 @@ export function TradingChart(props: ChartContainerProps) {
       });
 
       return () => {
-        chart?.remove();
+        myChart.remove();
         setHasCharts(false);
         setChart(null);
       };
     } catch (e) {
+      console.error(e);
       setHasCharts(false);
     }
+
+    // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (chart)
-      chart.chart().setSymbol(props.symbol, () => {
-        console.log('changed symbol');
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.symbol]);
+  useLayoutEffect(() => {
+    if (chart && hasCharts) {
+      chart.chart().setSymbol(props.symbol, noop);
+    }
+  }, [chart, hasCharts, props.symbol]);
 
   return (
     <div
       className={cn(
-        'tw-w-full tw-h-full d-flex tw-rounded tw-overflow-hidden',
-        hasCharts && 'border',
+        'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
+        hasCharts && 'tw-border',
       )}
       style={{ minWidth: 270, minHeight: 500 }}
     >
@@ -108,34 +109,34 @@ export function TradingChart(props: ChartContainerProps) {
           id="tv_chart_container"
           className={cn(
             'tv-chart-container tw-flex-grow',
-            !hasCharts && 'd-none',
+            !hasCharts && 'tw-hidden',
           )}
         />
         <div
           className={cn(
-            'tw-w-full tw-h-full align-content-end',
-            hasCharts ? 'd-none' : 'd-flex',
+            'tw-w-full tw-h-full tw-content-end tw-gap-4',
+            hasCharts ? 'tw-hidden' : 'tw-flex',
           )}
         >
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="50%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="30%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="80%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="70%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="65%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="30%" />
           </div>
-          <div className="col d-flex flex-column justify-content-end align-content-end h-100 w-100">
+          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
             <Skeleton height="55%" />
           </div>
         </div>

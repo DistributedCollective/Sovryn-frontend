@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -71,9 +70,11 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
       <a
         href="https://wiki.sovryn.app/en/technical-documents/sip-repository"
         target="_blank"
-        className="tw-absolute tw-top-0 tw-left-0 tw-block tw-w-full tw-h-full"
+        className="tw-absolute tw-top-0 tw-left-0 tw-block tw-w-full tw-h-full tw-opacity-0 tw-select-none"
         rel="noopener noreferrer"
-      />
+      >
+        Sovryn Improvement Proposals
+      </a>
     </CardWrapper>
   );
 };

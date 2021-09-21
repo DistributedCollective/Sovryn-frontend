@@ -2,26 +2,20 @@ import { Classes, Overlay } from '@blueprintjs/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-/**
- *
- * FastBtcDialog
- *
- */
+
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import { MainScreen } from './components/MainScreen';
-import { TransackScreen } from './components/TransackScreen';
+import { TransakScreen } from './components/TransakScreen';
 import { TransactionScreen } from './components/TransactionScreen';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import { fastBtcDialogSaga } from './saga';
 import { selectFastBtcDialog } from './selectors';
 import { actions, reducer, sliceKey } from './slice';
 import { Step } from './types';
-
-import './_overlayfix.scss';
 
 interface Props {
   isOpen: boolean;
@@ -56,7 +50,7 @@ export function FastBtcDialog(props: Props) {
       <div className="custom-dialog-container">
         <div
           className={classNames(
-            'custom-dialog font-family-montserrat',
+            'custom-dialog tw-font-body',
             styles.dialogContainer,
           )}
         >
@@ -111,7 +105,7 @@ export function TransackDialog(props: Props) {
       <div className="custom-dialog-container">
         <div
           className={classNames(
-            'custom-dialog font-family-montserrat',
+            'custom-dialog tw-font-body',
             styles.dialogContainer,
           )}
         >
@@ -120,7 +114,7 @@ export function TransackDialog(props: Props) {
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <div className={styles.innerContainer}>
-              <TransackScreen state={state} dispatch={dispatch} />
+              <TransakScreen state={state} dispatch={dispatch} />
             </div>
           </div>
         </div>

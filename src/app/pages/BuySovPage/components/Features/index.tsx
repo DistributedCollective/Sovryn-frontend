@@ -14,7 +14,7 @@ export function Features() {
   const { t } = useTranslation();
   return (
     <>
-      <div className="w-100 text-center">
+      <div className="tw-w-full tw-text-center">
         <How>{t(translations.buySovPage.features.title)}</How>
       </div>
 
@@ -120,8 +120,8 @@ export function Features() {
   );
 }
 
-const How = styled.h1`
-  font-size: 36px;
-  line-height: 47px;
+const How = styled.h2`
+  font-size: 2.5rem;
+  line-height: 1.25;
   text-transform: none;
 `;

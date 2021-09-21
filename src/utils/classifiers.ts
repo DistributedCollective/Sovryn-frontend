@@ -1,20 +1,25 @@
 import { TxType } from '../store/global/transactions-store/types';
+import { AppMode } from '../types';
 
 export const chains = {
   mainnet: 30,
   testnet: 31,
 };
 
-export const currentNetwork =
-  String(process.env.REACT_APP_NETWORK).toLowerCase() || 'mainnet';
+export const currentNetwork: AppMode | string =
+  String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
+  1: 'https://etherscan.io',
+  3: 'https://ropsten.etherscan.io',
   30: 'https://explorer.rsk.co',
   31: 'https://explorer.testnet.rsk.co',
   btc_30: 'https://live.blockcypher.com/btc',
   btc_31: 'https://live.blockcypher.com/btc-testnet',
+  56: 'https://bscscan.com',
+  97: 'https://testnet.bscscan.com',
 };
 
 export const readNodes = {
@@ -44,8 +49,8 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 export const chartStorageKey = 'sovryn.charts';
 
 export const gasLimit = {
-  [TxType.TRADE]: 1750000,
-  [TxType.CLOSE_WITH_SWAP]: 1000000,
+  [TxType.TRADE]: 3750000,
+  [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
@@ -60,6 +65,13 @@ export const gasLimit = {
   [TxType.LOCKED_SOV_CLAIM]: 3250000,
   [TxType.ORIGINS_SALE_BUY]: 300000,
   [TxType.CONVERT_RUSDT_TO_XUSD]: 150000,
+  [TxType.CROSS_CHAIN_DEPOSIT]: 280000,
+  [TxType.CROSS_CHAIN_WITHDRAW]: 280000,
+  [TxType.SWAP_EXTERNAL]: 950000,
+  [TxType.LOCKED_FUND_WAITED_CLAIM]: 3000000,
+  [TxType.UNWRAP_WRBTC]: 50000,
+  [TxType.STAKING_WITHDRAW]: 500000,
+  [TxType.DEPOSIT_COLLATERAL]: 150000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

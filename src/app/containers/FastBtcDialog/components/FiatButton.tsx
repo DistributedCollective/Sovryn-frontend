@@ -15,10 +15,10 @@ interface Props {
 export function FiatButton({ loading, ready, onClick, disabled }: Props) {
   return (
     <>
-      <div className="justify-content-center items-center d-flex flex-row w-100">
+      <div className="tw-justify-center tw-items-center tw-flex tw-flex-row tw-w-full">
         <Button
           minimal
-          className="text-gold button-width button-round font-size-lg mx-auto"
+          className="button-round tw-text-primary tw-text-lg tw-mx-auto"
           text={
             <Trans
               i18nKey={translations.fastBtcDialog.fiatDialog.title}

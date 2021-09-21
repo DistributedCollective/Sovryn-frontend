@@ -10,7 +10,7 @@ import {
 import { actions } from 'store/global/transactions-store/slice';
 import { translations } from '../../../../locales/i18n';
 import { TradeButton } from '../../../components/TradeButton';
-import styles from './dialog.module.css';
+import styles from './dialog.module.scss';
 import wMetamask from 'assets/wallets/metamask.svg';
 import wNifty from 'assets/wallets/nifty.png';
 import wLiquality from 'assets/wallets/liquality.svg';
@@ -78,11 +78,11 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
 const WLContainer = styled.div`
   width: 98px;
   height: 98px;
-  border-radius: 20px;
-  border: 1px solid #e9eae9;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
   margin: 0 auto 35px;
   div {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`
@@ -114,9 +114,11 @@ function getWalletImage(wallet) {
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="d-flex flex-column justify-content-center align-items-center overflow-hidden">
+    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="text-nowrap text-truncate">{getWalletName(wallet)}</div>
+      <div className="tw-whitespace-nowrap tw-truncate">
+        {getWalletName(wallet)}
+      </div>
     </WLContainer>
   );
 }

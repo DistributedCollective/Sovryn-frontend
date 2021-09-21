@@ -1,7 +1,7 @@
 @layer components {
   .tw-radio-group {
     max-width: 320px;
-    @apply tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-border tw-border-white tw-overflow-hidden tw-divide-x tw-divide-white;
+    @apply tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-rounded-lg tw-border tw-border-sov-white tw-overflow-hidden tw-divide-x tw-divide-white;
   }
 
   .tw-radio-group__label {

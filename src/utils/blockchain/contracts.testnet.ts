@@ -28,15 +28,18 @@ import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -58,6 +61,11 @@ export const contracts = {
     address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
+  },
+  WRBTC_token: {
+    address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+    abi: abiTestWBRTCToken,
+    blockNumber: 1205599,
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
@@ -84,6 +92,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  RDOC_token: {
+    address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
+  },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
     abi: TestTokenABI,
@@ -95,7 +108,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x1D8ee38d4ab6457f5b4E79fAa77A89EfEEa05018',
+    address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -125,7 +138,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x720848d6A8fd68728444F5F7b36F66a5C1255c6b',
+    address: '0x169B7A8Fc9615797e118B464b4fF1f594Dcad7a4',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -155,7 +168,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   ETH_amm: {
-    address: '0x9dc1f6441D930AF3f6520ADDA393C5545f14061d',
+    address: '0xf46DC974edD1754D4815AaE44Ab4542fF39B898D',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -170,7 +183,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0x157F2d3702AF9AFF74fF1Ec9329850E596626f33',
+    address: '0x4F87d545B6E747433a80a6AA0dbEc962478aB271',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -248,7 +261,7 @@ export const contracts = {
     blockNumber: 1606431,
   },
   SOV_amm: {
-    address: '0x27E029719598c68708D238B5eA0A5188700acFe4',
+    address: '0x1Cecc8B488abcF9A0932E54328dD51980cbe86Ea',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -270,27 +283,48 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0x6b94Da2d05039173d017359553D685Acfbaa782F',
+    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
     abi: feeSharingProxyAbi,
   },
+  stakingRewards: {
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
+    abi: stakingRewardsProxyAbi,
+  },
   FISH_token: {
-    address: '0xF769f619E3b9DBCd552E62dF217D5DC095f6a42b',
+    address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
   },
+  FISH_amm: {
+    address: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+    abi: LiquidityPoolV1Converter,
+  },
+  FISH_staking: {
+    address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
+    abi: StakingAbi,
+    blockNumber: 1218836,
+  },
   originsBase: {
-    address: '0xf4963730a7A1E1aA06E01A0C70Ae465Ba7C4a9E3',
+    address: '0xef0CF4969a9c0F55716327a63E05BCF9c7a7b472',
     abi: OriginsBaseAbi,
   },
   lockedFund: {
-    address: '0x0188907C12ddE77ddD41500Ae7263aD6BF243B29',
+    address: '0xF5655Fb1d8A97828dF5Ab095DF81789db03B8dC0',
     abi: LockedFundAbi,
   },
+  vestingRegistryFISH: {
+    address: '0xFd8ea2e5e8591fA791d44731499cDF2e81CD6a41',
+    abi: VestingRegistryAbi,
+  },
   babelfishAggregator: {
-    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
+    abi: nftAbi,
   },
 };

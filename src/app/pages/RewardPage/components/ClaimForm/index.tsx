@@ -1,9 +1,3 @@
-/**
- *
- * ClaimForm
- *
- */
-
 import React from 'react';
 import cn from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
@@ -13,7 +7,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { Button } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { TxType } from 'store/global/transactions-store/types';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { gasLimit } from 'utils/classifiers';
@@ -23,7 +17,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
 interface Props {
-  className?: object;
+  className?: string;
   address: string;
 }
 export function ClaimForm({ className, address }: Props) {
@@ -62,7 +56,7 @@ export function ClaimForm({ className, address }: Props) {
         'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
-      <div className="text-center tw-text-xl">
+      <div className="tw-text-center tw-text-xl">
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-px-8 tw-mt-6 tw-flex-1 tw-flex tw-flex-col tw-justify-center">
@@ -71,7 +65,7 @@ export function ClaimForm({ className, address }: Props) {
             {t(translations.rewardPage.claimForm.availble)}
           </div>
           <Input
-            value={weiToNumberFormat(lockedBalance, 4)}
+            value={weiToNumberFormat(lockedBalance, 8)}
             readOnly={true}
             appendElem={<AssetRenderer asset={Asset.SOV} />}
           />
@@ -87,7 +81,7 @@ export function ClaimForm({ className, address }: Props) {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-text-Red tw-underline hover:tw-no-underline"
+                      className="tw-text-warning tw-underline hover:tw-no-underline"
                     >
                       x
                     </a>,
@@ -101,7 +95,9 @@ export function ClaimForm({ className, address }: Props) {
               disabled={
                 parseFloat(lockedBalance) === 0 ||
                 !lockedBalance ||
-                rewardsLocked
+                rewardsLocked ||
+                tx.status === TxStatus.PENDING ||
+                tx.status === TxStatus.PENDING_FOR_USER
               }
               onClick={handleSubmit}
               className="tw-w-full tw-mb-4"
@@ -109,7 +105,7 @@ export function ClaimForm({ className, address }: Props) {
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
+          <div className="tw-text-xs tw-font-thin">
             {t(translations.rewardPage.claimForm.note) + ' '}
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"

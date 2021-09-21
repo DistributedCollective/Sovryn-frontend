@@ -4,13 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
-import { Dashboard } from './pages/Dashboard/index';
-import { SalesDay } from './pages/SalesDay/index';
-import { useGetActiveSaleTierId } from './hooks/useGetActiveSaleTierId';
+import { Dashboard } from './pages/Dashboard';
+import { SalesDay } from './pages/SalesDay';
+/* undo once Fish contract has active sale tier reset to 0 */
+//import { useGetActiveSaleTierId } from './hooks/useGetActiveSaleTierId';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
-  const activeTierId = useGetActiveSaleTierId();
+  /* undo once Fish contract has active sale tier reset to 0 */
+  const activeTierId = 0; //useGetActiveSaleTierId();
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -29,14 +31,14 @@ export const OriginsLaunchpad: React.FC = () => {
       </Helmet>
       <Header />
 
-      <div className="container tw-pt-11 font-family-montserrat">
+      <div className="tw-container tw-pt-11 tw-font-body">
         {activeTierId > 0 ? (
           <SalesDay tierId={activeTierId} saleName="FISH" />
         ) : (
           <Dashboard />
         )}
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

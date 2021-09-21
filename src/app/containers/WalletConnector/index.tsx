@@ -4,6 +4,7 @@ import blockies from 'ethereum-blockies';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import classNames from 'classnames';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
 
@@ -12,7 +13,7 @@ import { prettyTx } from 'utils/helpers';
 
 import { media } from '../../../styles/media';
 
-import '../../pages/BorrowPage/assets/index.scss';
+import styles from './index.module.scss';
 
 type Props = {
   simpleView: boolean;
@@ -21,14 +22,14 @@ type Props = {
 const WalletConnectorContainer: React.FC<Props> = props => {
   const {
     connected,
-    loading: connecting,
     address,
     connect,
     disconnect,
+    connecting,
   } = useWalletContext();
   const { t } = useTranslation();
   const simpleView = props.simpleView;
-  const simpleViewClass = simpleView ? 'simpleView' : '';
+  const simpleViewClass = simpleView ? styles.simpleView : '';
 
   const getWalletAddrBlockieImg = (): string => {
     return blockies
@@ -49,7 +50,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
       {!connected && !address ? (
         <StyledButton
           onClick={() => connect()}
-          className="tw-flex tw-justify-center tw-items-center tw-bg-ctaHover hover:tw-opacity-75"
+          className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
         >
           {connecting && <Spinner size={22} />}
           {!connecting && (
@@ -63,25 +64,30 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           <Popover
             placement={'bottom'}
             content={
-              <Menu>
-                <CopyToClipboard
-                  text={address}
-                  onCopy={() =>
-                    toastSuccess(<>{t(translations.onCopy.address)}</>, 'copy')
-                  }
-                >
-                  <MenuItem
-                    icon="duplicate"
-                    text={t(translations.wallet.copy_address)}
-                  />
-                </CopyToClipboard>
-              </Menu>
+              address ? (
+                <Menu>
+                  <CopyToClipboard
+                    text={address}
+                    onCopy={() =>
+                      toastSuccess(
+                        <>{t(translations.onCopy.address)}</>,
+                        'copy',
+                      )
+                    }
+                  >
+                    <MenuItem
+                      icon="duplicate"
+                      text={t(translations.wallet.copy_address)}
+                    />
+                  </CopyToClipboard>
+                </Menu>
+              ) : undefined
             }
           >
             <>
-              <div className="engage-wallet tw-w-auto tw-justify-center tw-items-center tw-hidden xl:tw-flex tw-cursor-pointer">
+              <div className={styles.engageWallet}>
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
-                  <span>{prettyTx(address, 4, 4)}</span>
+                  <span>{prettyTx(address || '', 4, 4)}</span>
                   <span className="tw-pl-2">
                     <img
                       className="tw-rounded"
@@ -91,7 +97,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                   </span>
                   <Icon
                     icon="log-out"
-                    className="logout"
+                    className={styles.logout}
                     onClick={() => disconnect()}
                   />
                 </span>
@@ -109,8 +115,9 @@ const WalletConnectorContainer: React.FC<Props> = props => {
 
 export default WalletConnectorContainer;
 
-const StyledButton = styled.button.attrs(_ => ({
+const StyledButton = styled.button.attrs(({ className }) => ({
   type: 'button',
+  className: classNames(className, 'xl:tw-text-primary'),
 }))`
   border: none;
   background: none;
@@ -126,13 +133,12 @@ const StyledButton = styled.button.attrs(_ => ({
     height: 40px;
     padding: 5px 26px;
     font-weight: 100;
-    color: #FEC004;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-family: 'Montserrat';
     letter-spacing: -1px;
     text-transform: capitalize;
     transition: all .3s;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     &:hover {
       background: rgba(254,192,4, 0.25) !important;
     }

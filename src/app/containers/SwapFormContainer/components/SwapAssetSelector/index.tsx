@@ -1,14 +1,8 @@
-/**
- *
- * SwapAssetSelector
- *
- */
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Nullable } from 'types';
+import { Asset } from 'types';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   areOptionsEqual,
@@ -24,7 +18,7 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 const Selector = Select.ofType<SelectItem>();
 
 interface Props {
-  value: Nullable<any>;
+  value: Asset;
   items: Array<SelectItem>;
   placeholder: string;
   onChange: (customer: SelectItem) => void;
@@ -73,10 +67,10 @@ export function SwapAssetSelector(props: Props) {
       }}
     >
       <StyledButton>
-        <span className="px-3 pr-4 d-flex flex-row align-items-center justify-content-between flex-shrink-0 flex-grow-1">
+        <span className="tw-px-4 tw-pr-8 tw-flex tw-flex-row tw-items-center tw-justify-between tw-flex-shrink-0 tw-flex-grow">
           {selected ? (
             <>
-              <span className="d-flex flex-row justify-content-start align-items-center flex-shrink-0 flex-grow-1">
+              <span className="tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-shrink-0 tw-flex-grow">
                 <AssetRenderer imageSize={6} asset={props.value} showImage />
               </span>
             </>
@@ -114,9 +108,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
         <Text ellipsize>
           <div className="tw-flex tw-flex-items-center tw-justify-between">
             <AssetRenderer asset={item.key} showImage imageSize={5} />{' '}
-            <div className="tw-text-xs tw-gray-100">
-              {weiToNumberFormat(item.value, 4)}
-            </div>
+            <div className="tw-text-xs">{weiToNumberFormat(item.value, 4)}</div>
           </div>
         </Text>
       }

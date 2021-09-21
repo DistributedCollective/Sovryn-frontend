@@ -1,11 +1,4 @@
-/**
- *
- * LinkToExplorer
- *
- */
-import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import React, { useMemo } from 'react';
 import { blockExplorers, currentChainId } from '../../../utils/classifiers';
 
 interface Props {
@@ -13,13 +6,14 @@ interface Props {
   startLength: number;
   endLength: number;
   className: string;
+  chainId?: number;
   realBtc?: boolean;
   text?: string;
 }
 
 export function LinkToExplorer(props: Props) {
-  const handleTx = useCallback(() => {
-    if (props.txHash && props.startLength && props.endLength) {
+  const txHash = useMemo(() => {
+    if (props.txHash?.length && props.startLength && props.endLength) {
       const start = props.txHash.substr(0, props.startLength);
       const end = props.txHash.substr(-props.endLength);
       return `${start} ··· ${end}`;
@@ -27,25 +21,12 @@ export function LinkToExplorer(props: Props) {
     return props.txHash;
   }, [props.txHash, props.startLength, props.endLength]);
 
-  const getUrl = useCallback(() => {
+  const url = useMemo(() => {
     if (props.realBtc) {
       return blockExplorers[`btc_${currentChainId}`];
     }
-    return blockExplorers[currentChainId];
-  }, [props.realBtc]);
-
-  const [txHash, setTxHash] = useState(handleTx());
-  const [url, setUrl] = useState(getUrl());
-
-  const { chainId } = useSelector(selectWalletProvider);
-
-  useEffect(() => {
-    setTxHash(handleTx());
-  }, [handleTx, props.txHash, props.startLength, props.endLength]);
-
-  useEffect(() => {
-    setUrl(getUrl());
-  }, [chainId, getUrl]);
+    return blockExplorers[props.chainId || currentChainId];
+  }, [props.realBtc, props.chainId]);
 
   return (
     <a
@@ -62,5 +43,5 @@ export function LinkToExplorer(props: Props) {
 LinkToExplorer.defaultProps = {
   startLength: 10,
   endLength: 4,
-  className: 'tw-ml-1 tw-text-white',
+  className: 'tw-ml-1 tw-text-sov-white',
 };

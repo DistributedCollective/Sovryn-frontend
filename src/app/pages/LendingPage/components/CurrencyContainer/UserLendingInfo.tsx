@@ -1,28 +1,32 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import { RowTable } from 'app/components/FinanceV2Components/RowTable';
-import { TableBody } from 'app/components/FinanceV2Components/RowTable/TableBody';
+
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
 import {
   TableBodyData,
   TableHeader,
 } from 'app/components/FinanceV2Components/RowTable/styled';
-import { LendingPool } from 'utils/models/lending-pool';
+import { LoadableValue } from 'app/components/LoadableValue';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
-import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
 import { useLending_balanceOf } from 'app/hooks/lending/useLending_balanceOf';
 import { useLending_checkpointPrice } from 'app/hooks/lending/useLending_checkpointPrice';
 import { useLending_tokenPrice } from 'app/hooks/lending/useLending_tokenPrice';
-import { bignumber } from 'mathjs';
 import { weiToFixed, weiTo18 } from 'utils/blockchain/math-helpers';
+import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useAccount } from 'app/hooks/useAccount';
-import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
-import { LoadableValue } from 'app/components/LoadableValue';
-import { AssetRenderer } from 'app/components/AssetRenderer';
+import { useLiquidityMining_getPoolId } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getPoolId';
 import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { useLiquidityMining_getUserInfoList } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserInfoList';
+import { translations } from 'locales/i18n';
 import { Asset } from 'types';
+import { getLendingContract } from 'utils/blockchain/contract-helpers';
+import { LendingPool } from 'utils/models/lending-pool';
+
+import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
+import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
 
 interface IUserLendingInfoProps {
   lendingPool: LendingPool;
@@ -45,6 +49,27 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
+  const {
+    value: userInfoList,
+    loading: userInfoListLoading,
+  } = useLiquidityMining_getUserInfoList();
+  const {
+    value: poolID,
+    loading: poolIDLoading,
+  } = useLiquidityMining_getPoolId(getLendingContract(asset).address);
+
+  const recentRewardSOV = useMemo(
+    () =>
+      userInfoListLoading === false &&
+      poolIDLoading === false &&
+      userInfoList &&
+      userInfoList[poolID] &&
+      userInfoList[poolID][2]
+        ? userInfoList[poolID][2]
+        : 0,
+    [userInfoList, poolID, userInfoListLoading, poolIDLoading],
+  );
+
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
     account,
@@ -71,18 +96,16 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
 
   const balance = useMemo(() => {
     return bignumber(balanceCall).minus(profitCall).toString();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceCall, profitCall, asset]);
+  }, [balanceCall, profitCall]);
 
   const totalProfit = useMemo(() => {
     return bignumber(tokenPrice)
       .sub(checkpointPrice)
       .mul(totalBalance)
-      .div(Math.pow(10, assetDecimals + 1))
+      .div(Math.pow(10, assetDecimals))
       .add(profitCall)
       .toFixed(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, asset]);
+  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
 
   useEffect(() => {
     if (balance !== '0') {
@@ -91,7 +114,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   }, [balance, onNonEmptyBalance]);
 
   return (
-    <RowTable className="tw-w-100 tw-max-w-31.25rem">
+    <RowTable className="tw-w-full tw-max-w-lg">
       <thead className="tw-text-sm tw-tracking-normal">
         <tr>
           <TableHeader>
@@ -163,10 +186,13 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 loading={rewardsLoading}
                 value={
                   <>
-                    {weiToFixed(rewards, 8)} <AssetRenderer asset={Asset.SOV} />
+                    {weiToFixed(bignumber(rewards).add(recentRewardSOV), 8)}{' '}
+                    <AssetRenderer asset={Asset.SOV} />
                   </>
                 }
-                tooltip={<>{weiTo18(rewards)}</>}
+                tooltip={
+                  <>{weiTo18(bignumber(rewards).add(recentRewardSOV))}</>
+                }
               />
             </TableBodyData>
           </>

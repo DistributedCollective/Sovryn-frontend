@@ -7,7 +7,7 @@ export const UpcomingSalesCardSection: React.FC = () => (
   <UpcomingSalesCard
     saleToken="FISH Token"
     project="babelFish"
-    startDate="TBC"
+    startDate="26.8.21 14:00 UTC"
     startPrice="TBC"
     backgroundImage={imgBabelfish}
   />

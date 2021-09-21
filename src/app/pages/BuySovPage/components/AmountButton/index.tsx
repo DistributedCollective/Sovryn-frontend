@@ -9,7 +9,7 @@ const items = [10, 25, 50, 75, 100];
 
 export function AmountButton(props: Props) {
   return (
-    <Container className="d-flex flex-row align-items-center justify-content-around">
+    <Container className="tw-flex tw-flex-row tw-items-center tw-justify-around">
       {items.map(item => (
         <Button key={item} onClick={() => props.onChange(item)}>
           {item}%
@@ -28,7 +28,7 @@ const Button = styled.button`
   width: 100%;
   border-right: 0;
   transition: background-color;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   &:last-of-type {
     border-right: 1px solid #2274a5;

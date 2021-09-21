@@ -45,9 +45,9 @@ const Wrapper = styled.div`
 const Title = styled.div`
   margin-top: -8vh;
   font-weight: bold;
-  font-size: 3.375rem;
+  font-size: 3.25rem;
 
   span {
-    font-size: 3.125rem;
+    font-size: 3.25rem;
   }
 `;
