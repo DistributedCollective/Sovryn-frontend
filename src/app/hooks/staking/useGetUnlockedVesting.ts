@@ -6,10 +6,14 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 import { Nullable } from 'types';
+import { ContractName } from '../../../utils/types/contracts';
 
 const TWO_WEEKS = 1209600;
 
-export function useGetUnlockedVesting(vestingAddress: string) {
+export function useGetUnlockedVesting(
+  stakingContractName: ContractName,
+  vestingAddress: string,
+) {
   const account = useAccount();
   const syncBlock = useBlockSync();
   const [loading, setLoading] = useState(false);
@@ -37,7 +41,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
           ),
         );
         const allUnlocked = await contractReader.call(
-          'staking',
+          stakingContractName,
           'allUnlocked',
           [],
         );
@@ -59,7 +63,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
 
         for (let i = startDate + cliff; i <= end; i += TWO_WEEKS) {
           const stake: string = (await contractReader.call(
-            'staking',
+            stakingContractName,
             'getPriorUserStakeByDate',
             [vestingAddress, i, blockNumber - 1],
           )) as string;
@@ -84,7 +88,7 @@ export function useGetUnlockedVesting(vestingAddress: string) {
         })
         .finally(() => setLoading(false));
     }
-  }, [account, vestingAddress, syncBlock]);
+  }, [account, vestingAddress, syncBlock, stakingContractName]);
 
   return { value: amount, loading, error: err };
 }

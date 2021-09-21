@@ -174,10 +174,10 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
                 </>
               }
             />
-            <LabelValuePair
+            {/* <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.renewalDate)}
               value={<>-</>}
-            />
+            /> */}
           </div>
 
           <FormGroup

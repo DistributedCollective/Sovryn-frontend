@@ -1,22 +1,18 @@
+import { Checkbox } from '@blueprintjs/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { isMobile } from 'utils/helpers';
+
 import { translations } from '../../../locales/i18n';
-import { Checkbox } from '@blueprintjs/core';
-import styled from 'styled-components/macro';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
-import logo from './logo.svg';
 import SalesButton from '../SalesButton';
-import { isMobile } from 'utils/helpers';
+import logo from './logo.svg';
 
 interface Props {}
 
 const SESSION_KEY = 'mm-notify-shown';
-
-const testForMetaMask = () => {
-  const { ethereum } = window;
-  return !!(ethereum?.isMetaMask && !ethereum?.isNiftyWallet);
-};
 
 const shouldModalBeVisible = () => !isMobile() && !local.getItem(SESSION_KEY);
 
@@ -49,7 +45,7 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
         >
           {t(translations.notifyDialog.heading)}
         </div>
-        {testForMetaMask() ? <MetaMaskAlert /> : <GeneralAlert />}
+        <GeneralAlert />
       </div>
 
       <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-mt-12 tw-mb-6">
@@ -104,90 +100,6 @@ function GeneralAlert() {
           </a>
           {t(translations.notifyDialog.generalAlert.p5_3)}
         </p>
-      </div>
-    </>
-  );
-}
-
-function MetaMaskAlert() {
-  const { t } = useTranslation();
-
-  const StyledList = styled.ul`
-    padding-inline-start: 0px; //reset default browser list style
-    margin-left: 1rem;
-  `;
-
-  return (
-    <>
-      <p className="tw-font-bold">
-        {t(translations.notifyDialog.metamaskAlert.p1)}
-      </p>
-      <div className="tw-px-4 tw-text-left">
-        <p>
-          {t(translations.notifyDialog.metamaskAlert.p2_1)}
-          <a
-            href="https://chrome.google.com/webstore/detail/liquality-wallet/kpfopkelmapcoipemfendmdcghnegimn"
-            className="tw-font-light tw-text-primary"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {t(translations.notifyDialog.metamaskAlert.p2_2)}
-          </a>
-          {t(translations.notifyDialog.metamaskAlert.p2_3)}
-          <a
-            href="https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid"
-            className="tw-font-light tw-text-primary"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {t(translations.notifyDialog.metamaskAlert.p2_4)}
-          </a>
-          {t(translations.notifyDialog.metamaskAlert.p2_5)}
-        </p>
-
-        <StyledList>
-          <li className="tw-mb-4">
-            <div className="tw-font-bold tw-mb-1">
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors
-                  .defaultGasPrice.title,
-              )}
-            </div>
-            <div>
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors
-                  .defaultGasPrice.description,
-              )}
-            </div>
-          </li>
-          <li className="tw-mb-4">
-            <div className="tw-font-bold tw-mb-1">
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors.checksum
-                  .title,
-              )}
-            </div>
-            <div>
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors.checksum
-                  .description,
-              )}
-            </div>
-          </li>
-          <li className="tw-mb-4">
-            <div className="tw-font-bold tw-mb-1">
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors.price.title,
-              )}
-            </div>
-            <div>
-              {t(
-                translations.notifyDialog.metamaskAlert.knownErrors.price
-                  .description,
-              )}
-            </div>
-          </li>
-        </StyledList>
       </div>
     </>
   );
