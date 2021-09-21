@@ -1303,8 +1303,9 @@
     "title": "Sacar SOV",
     "subtitle": "Esta transação requer rBTC para pagar as taxas.",
     "amount": "Quantidade:",
-    "receiver": "Receber SOV em:",
-    "calculating": "Calculando..."
+    "receiver": "Receber {{asset}} em:",
+    "calculating": "Calculando...",
+    "schedule": "Programação de desbloqueio"
   },
   "rewardPage": {
     "availableRewards": "Disponíveis:",
