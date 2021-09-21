@@ -12,7 +12,7 @@ import {
   fromWei,
 } from 'utils/blockchain/math-helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { numberToUSD } from 'utils/display-text/format';
+import { numberToUSD, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import {
@@ -463,7 +463,7 @@ const InnerStakePage: React.FC = () => {
                   {t(translations.stake.feeTitle)}
                 </p>
                 <p className="tw-text-4xl tw-mt-2 tw-mb-6">
-                  ≈ {numberToUSD(usdTotal, 4)}
+                  ≈ {numberToUSD(usdTotal)}
                 </p>
                 {assets.map((item, i) => {
                   if (item.asset === 'CSOV') return '';
@@ -674,7 +674,7 @@ const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
           <div className="tw-w-1/2 tw-ml-6">
             {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+              value={weiToUSD(dollarValue)}
               loading={dollars.loading}
             />
           </div>

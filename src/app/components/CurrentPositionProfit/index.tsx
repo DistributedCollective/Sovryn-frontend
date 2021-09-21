@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import {
-  numberToUSD,
   toNumberFormat,
   weiToNumberFormat,
+  weiToUSD,
 } from 'utils/display-text/format';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../LoadableValue';
 import { bignumber } from 'mathjs';
 import { AssetRenderer } from '../AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface Props {
   source: Asset;
@@ -105,7 +104,7 @@ export function CurrentPositionProfit({
               </div>
               ≈{' '}
               <LoadableValue
-                value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+                value={weiToUSD(dollarValue)}
                 loading={dollarsLoading}
               />
             </span>

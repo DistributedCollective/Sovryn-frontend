@@ -74,7 +74,6 @@ export const SpotHistory: React.FC = () => {
         setLoading(false);
       })
       .catch(e => {
-        console.log(e);
         setHistory([]);
         setCurrentHistory([]);
         setLoading(false);
