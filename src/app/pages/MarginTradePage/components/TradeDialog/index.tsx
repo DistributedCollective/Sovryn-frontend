@@ -2,7 +2,6 @@ import cn from 'classnames';
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { toWei } from 'web3-utils';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -15,7 +14,7 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { fromWei } from 'utils/blockchain/math-helpers';
+import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
@@ -33,11 +32,11 @@ import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
+import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 
 const maintenanceMargin = 15000000000000000000;
 interface ITradeDialogProps {
   slippage: number;
-  price: string;
   isOpen: boolean;
   onCloseModal: () => void;
 }
@@ -68,7 +67,19 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     collateralToken,
   );
 
-  const { minReturn } = useSlippage(props.price, props.slippage);
+  const { price } = useCurrentPositionPrice(
+    loanToken,
+    collateralToken,
+    estimations.principal,
+    position === TradingPosition.SHORT,
+  );
+
+  const { minReturn: minReturnCollateral } = useSlippage(
+    estimations.collateral,
+    props.slippage,
+  );
+
+  const { minReturn } = useSlippage(toWei(price), props.slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -76,7 +87,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     collateral,
     leverage,
     amount,
-    minReturn,
+    minReturnCollateral,
   );
 
   const submit = () =>

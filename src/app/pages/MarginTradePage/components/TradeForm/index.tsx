@@ -264,7 +264,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen}
-          price={toWei(price)}
           slippage={slippage}
         />
       </div>
