@@ -126,22 +126,15 @@ export function TradeForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => linkPairType && history.replace(location.pathname), []);
 
-  const tx = useMemo(
-    () =>
-      targetToken === Asset.RBTC ||
-      [sourceToken, targetToken].includes(Asset.BNB)
-        ? txPath
-        : txExternal,
-    [sourceToken, targetToken, txExternal, txPath],
-  );
+  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
+    targetToken,
+    txExternal,
+    txPath,
+  ]);
 
   const send = useCallback(
-    () =>
-      targetToken === Asset.RBTC ||
-      [sourceToken, targetToken].includes(Asset.BNB)
-        ? sendPath()
-        : sendExternal(),
-    [sourceToken, targetToken, sendPath, sendExternal],
+    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
+    [targetToken, sendPath, sendExternal],
   );
 
   return (
