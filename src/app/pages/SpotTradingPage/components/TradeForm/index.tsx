@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -12,14 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { BuySell } from '../BuySell';
 import { OrderType } from '../OrderType';
-import {
-  getAmmSpotPairs,
-  OrderTypes,
-  pairs,
-  SpotPairType,
-  TradingTypes,
-} from '../../types';
-import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
+import { OrderTypes, pairs, TradingTypes } from '../../types';
 import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -31,39 +24,35 @@ import {
   stringToFixedPrecision,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-import { useAccount } from '../../../../hooks/useAccount';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
-import { useLimitOrder } from 'app/hooks/useLimitOrder';
 import settingImg from 'assets/images/settings-blue.svg';
 import styles from './index.module.scss';
-import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { LimitOrderSetting } from '../LimitOrderSetting';
+import { TradeDialog } from '../TradeDialog';
 
 export function TradeForm() {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
+  const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
   const [orderType, setOrderType] = useState(OrderTypes.MARKET);
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [slippageDialog, setSlippageDialog] = useState<boolean>(false);
   const [slippage, setSlippage] = useState(0.5);
   const [amount, setAmount] = useState<string>('');
   const [limitPrice, setLimitPrice] = useState<string>('');
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
+  const [limitSetting, setLimitSetting] = useState<boolean>(false);
+  const [duration, setDuration] = useState<number>(0);
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
@@ -80,35 +69,6 @@ export function TradeForm() {
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
-
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
-  );
-  const { createOrder, ...createTx } = useLimitOrder(
-    sourceToken,
-    targetToken,
-    weiAmount,
-  );
-
-  const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
-    path,
-    weiAmount,
-    minReturn,
-  );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const gasLimit = 340000;
@@ -135,41 +95,35 @@ export function TradeForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => linkPairType && history.replace(location.pathname), []);
 
-  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
-    targetToken,
-    txExternal,
-    txPath,
-  ]);
-
-  const send = useCallback(
-    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
-    [targetToken, sendPath, sendExternal],
-  );
-
-  const order = () => {
-    if (orderType === OrderTypes.MARKET) {
-      send();
-    } else {
-      createOrder();
-    }
-  };
   return (
     <>
-      {dialogOpen && (
-        <SlippageDialog
-          isOpen={dialogOpen}
-          amount={rateByPath}
-          value={slippage}
-          asset={targetToken}
-          onClose={() => setDialogOpen(false)}
-          onChange={value => setSlippage(value)}
-        />
-      )}
-      <LimitOrderSetting
-        isOpen={true}
-        duration={20}
-        onClose={() => setDialogOpen(false)}
+      <SlippageDialog
+        isOpen={slippageDialog}
+        amount={rateByPath}
+        value={slippage}
+        asset={targetToken}
+        onClose={() => setSlippageDialog(false)}
         onChange={value => setSlippage(value)}
+      />
+      <LimitOrderSetting
+        isOpen={limitSetting}
+        value={duration}
+        onClose={() => setLimitSetting(false)}
+        onChange={value => setDuration(value)}
+      />
+      <TradeDialog
+        onCloseModal={() => setIsTradingDialogOpen(false)}
+        isOpen={isTradingDialogOpen}
+        slippage={slippage}
+        tradeType={tradeType}
+        orderType={orderType}
+        amount={amount}
+        minReturn={minReturn}
+        targetToken={targetToken}
+        sourceToken={sourceToken}
+        expectedReturn={rateByPath}
+        limitPrice={limitPrice}
+        duration={duration}
       />
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mw-340 tw-mx-auto">
@@ -209,7 +163,11 @@ export function TradeForm() {
           )}
 
           <div
-            onClick={() => setDialogOpen(true)}
+            onClick={() =>
+              orderType === OrderTypes.MARKET
+                ? setSlippageDialog(true)
+                : setLimitSetting(true)
+            }
             className="tw-text-secondary tw-text-xs tw-inline-flex tw-items-center tw-cursor-pointer tw-mb-7"
           >
             {t(translations.spotTradingPage.tradeForm.advancedSettings)}
@@ -271,18 +229,12 @@ export function TradeForm() {
                   : translations.spotTradingPage.tradeForm.sell_cta,
               )}
               tradingType={tradeType}
-              onClick={order}
+              onClick={() => setIsTradingDialogOpen(true)}
               disabled={!validate || !connected || spotLocked}
             />
           </div>
         )}
       </div>
-      <TxDialog tx={tx} />
-      <TxDialog tx={createTx} />
     </>
   );
-}
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
 }

@@ -1508,8 +1508,8 @@
       "buy_cta": "PLACE BUY ORDER",
       "sell_cta": "PLACE SELL ORDER",
       "amountReceived": "Amount Received",
-      "buy": "BUY",
-      "sell": "SELL",
+      "buy": "Buy",
+      "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
@@ -1518,6 +1518,28 @@
     "priceHistory": {
       "turnover": "Turnover",
       "lastTradedPrice": "Last traded price"
+    },
+    "history": {
+      "marketOrder": "Market order history",
+      "openLimitOrders": "Open limit orders",
+      "limitOrderHistory": "Limit order history"
+    },
+    "tradeDialog": {
+      "marketTitle": "Review Market Trade",
+      "limitTitle": "Review Limit Order",
+      "tradingPair": "Trading Pair:",
+      "orderType": "Order Type:",
+      "tradeAmount": "Trade Amount:",
+      "limitPrice": "Limit Price:",
+      "duration": "Duration:"
+    },
+    "limitOrderSetting": {
+      "title": "Advanced Settings",
+      "duration": "Duration:",
+      "untilCancelled": "Until cancelled",
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "partialFilled": "Allow partial filled order:"
     }
   },
   "form": {

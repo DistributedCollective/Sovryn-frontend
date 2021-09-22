@@ -16,13 +16,16 @@ import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { useSendTx } from './useSendTx';
 
-const getDeadline = hoursFromNow =>
-  ethers.BigNumber.from(Math.floor(Date.now() / 1000 + hoursFromNow * 3600));
+const getDeadline = daysFromNow =>
+  ethers.BigNumber.from(
+    Math.floor(Date.now() / 1000 + daysFromNow * 24 * 3600),
+  );
 
 export function useLimitOrder(
   sourceToken: Asset,
   targetToken: Asset,
   amount: string,
+  duration: number = 365,
 ) {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -49,7 +52,7 @@ export function useLimitOrder(
       amount,
       amount,
       account,
-      getDeadline(24).toString(),
+      getDeadline(duration).toString(),
     );
 
     console.log({ order });
