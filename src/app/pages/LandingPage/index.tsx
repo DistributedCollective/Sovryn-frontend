@@ -144,9 +144,9 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-w-full md:tw-w-5/12">
-            {/*
+            {/* 
               Should un comment this and remove Banner once the sale is over.
-              <ArbitrageOpportunity />
+              <ArbitrageOpportunity /> 
             */}
             {/* <Banner
               title={t(translations.landingPage.banner.originsFish)}
