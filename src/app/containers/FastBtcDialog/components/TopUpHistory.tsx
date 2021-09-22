@@ -3,7 +3,7 @@
  * TopUpHistory
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,9 +26,17 @@ export function TopUpHistory() {
   const account = useAccount();
   const state = useSelector(selectFastBtcDialog);
   const dispatch = useDispatch();
-  const [history, setHistory] = useState([]) as any;
   const asset = AssetsDictionary.get(Asset.RBTC);
-
+  const [historyData, setHistory] = useState<any>([]);
+  dispatch(actions.getHistory(account));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const history = useMemo(() => {
+    setHistory(
+      state.history.items.sort(
+        (x, y) => parseFloat(y.dateAdded) - parseFloat(x.dateAdded),
+      ),
+    );
+  }, [state.history.items]);
   useEffect(() => {
     if (isConnected && account) {
       dispatch(actions.init());
@@ -37,12 +45,6 @@ export function TopUpHistory() {
 
   useEffect(() => {
     if (state.ready && account) {
-      dispatch(actions.getHistory(account));
-      setHistory(
-        state.history.items.sort(
-          (x, y) => parseFloat(y.dateAdded) - parseFloat(x.dateAdded),
-        ),
-      );
       const timer = setInterval(() => {
         dispatch(actions.getHistory(account));
       }, 15e3);
@@ -100,7 +102,7 @@ export function TopUpHistory() {
                 </td>
               </tr>
             )}
-            {history.map(item => (
+            {historyData.map(item => (
               <tr key={item.txHash}>
                 <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <DisplayDate
