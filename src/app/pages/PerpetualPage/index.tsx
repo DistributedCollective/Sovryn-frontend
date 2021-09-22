@@ -25,6 +25,8 @@ import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
 import { DepthChart } from './components/DepthChart';
+import styles from './index.module.scss';
+import classNames from 'classnames';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -64,27 +66,6 @@ export function PerpetualPage() {
     [],
   );
 
-  const asks = [
-    [40000, 500000],
-    [41000, 400000],
-    [42000, 300000],
-    [43000, 330000],
-    [44000, 250000],
-    [45000, 200000],
-    [46000, 150000],
-    [47000, 130000],
-  ];
-  const bids = [
-    [48000, 130000],
-    [49000, 150000],
-    [50000, 200000],
-    [51000, 250000],
-    [52000, 330000],
-    [53000, 300000],
-    [54000, 400000],
-    [55000, 500000],
-  ];
-
   return (
     <>
       <Helmet>
@@ -105,7 +86,12 @@ export function PerpetualPage() {
       </div>
       <ContractDetails pair={pair} />
       <div className="tw-container tw-mt-5">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2 tw-mb-8">
+        <div
+          className={classNames(
+            'xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2',
+            styles.chartAreaWrapper,
+          )}
+        >
           <DataCard
             className="xl:tw-w-1/6"
             title={`AMM Depth (${pairType.toString()})`}
@@ -113,12 +99,23 @@ export function PerpetualPage() {
             <AmmDepthChart pair={pair} />
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-w-1/3 tw-max-w-none tw-space-y-2">
-            <DataCard title={`Chart (${pairType.toString()})`}>
-              <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
+            <DataCard
+              title={`Chart (${pairType.toString()})`}
+              className={styles.tradingChartWrapper}
+              hasCustomHeight
+            >
+              <TradingChart
+                symbol={pair.chartSymbol}
+                theme={Theme.DARK}
+                hasCustomDimensions
+              />
             </DataCard>
-            <DataCard title={`Depth Chart (${pairType.toString()})`}>
-              {/*TODO: implement Depth Chart Graph*/}
-              <DepthChart asks={asks} bids={bids} max={500000} />
+
+            <DataCard
+              title={`Depth Chart (${pairType.toString()})`}
+              className={styles.depthChartWrapper}
+            >
+              <DepthChart />
             </DataCard>
           </div>
           <DataCard
