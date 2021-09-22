@@ -1178,7 +1178,7 @@
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
-    "amountReceived": "Amount received:",
+    "amountReceived": "Quantidade a receber:",
     "marginType": "Margin Type:",
     "positionSize": "Tamanho da posição:",
     "minimumReceived": "Mínimo a receber:",
