@@ -1,636 +1,35 @@
 [
   {
-    "inputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "EarnReward",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sourceToken",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "destToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "sourceAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "destAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "ExternalSwap",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sourceToken",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "destToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "borrower",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "sourceAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "destAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "LoanSwap",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "payer",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "PayBorrowingFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "payer",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "PayLendingFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "payer",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "PayTradingFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "asset",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "VaultDeposit",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "asset",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "VaultWithdraw",
-    "type": "event"
-  },
-  {
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "fallback"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "admin",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "affiliateFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "affiliateRewardsHeld",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "affiliateTradingTokenFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "affiliatesReferrerBalances",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "affiliatesUserReferrer",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "borrowerNonce",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "borrowerOrders",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "lockedAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minLoanTerm",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maxLoanTerm",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "createdTimestamp",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "expirationTimestamp",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "borrowingFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "borrowingFeeTokensHeld",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "borrowingFeeTokensPaid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "sourceToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "destToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "sourceTokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minReturn",
-        "type": "uint256"
-      }
-    ],
-    "name": "checkPriceDivergence",
+    "constant": false,
+    "inputs": [{ "name": "_onlyOwnerCanUpdateRegistry", "type": "bool" }],
+    "name": "restrictRegistryUpdate",
     "outputs": [],
     "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_token", "type": "address" },
+      { "name": "_register", "type": "bool" }
+    ],
+    "name": "registerEtherToken",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "constant": true,
     "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" }
     ],
-    "name": "delegatedManagers",
+    "name": "getReturnByPath",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "feeRebatePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "feesController",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "sourceToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "destToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "sourceTokenAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "getSwapExpectedReturn",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+      { "name": "", "type": "uint256" },
+      { "name": "", "type": "uint256" }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -639,14 +38,15 @@
   {
     "constant": false,
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "target",
-        "type": "address"
-      }
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
     ],
-    "name": "initialize",
-    "outputs": [],
+    "name": "claimAndConvertFor2",
+    "outputs": [{ "name": "", "type": "uint256" }],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
@@ -654,695 +54,32 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "isOwner",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "lenderInterest",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "principalTotal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "owedPerDay",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "owedTotal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paidTotal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "updatedTimestamp",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "lenderOrders",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "lockedAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minLoanTerm",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maxLoanTerm",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "createdTimestamp",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "expirationTimestamp",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "lendingFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "lendingFeeTokensHeld",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "lendingFeeTokensPaid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "liquidationIncentivePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "loanInterest",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "owedPerDay",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "depositTotal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "updatedTimestamp",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "loanParams",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "id",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bool",
-        "name": "active",
-        "type": "bool"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "loanToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "collateralToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minInitialMargin",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maintenanceMargin",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maxLoanTerm",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "loanPoolToUnderlying",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "loans",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "id",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "loanParamsId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "pendingTradesId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bool",
-        "name": "active",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "principal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateral",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "startTimestamp",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "endTimestamp",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "startMargin",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "startRate",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "borrower",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "lender",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "lockedSOVAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "bytes4",
-        "name": "",
-        "type": "bytes4"
-      }
-    ],
-    "name": "logicTargets",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "maxDisagreement",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "maxSwapSize",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "minReferralsToPayout",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "priceFeeds",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "protocolAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "protocolTokenAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "protocolTokenHeld",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "protocolTokenPaid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "rolloverBaseReward",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "rolloverFlexFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "sourceBuffer",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "sovTokenAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "sovrynSwapContractRegistryAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "supportedTokens",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "name": "onlyOwnerCanUpdateRegistry",
+    "outputs": [{ "name": "", "type": "bool" }],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": false,
+    "inputs": [],
+    "name": "updateRegistry",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "sourceToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "destToken",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "returnToSender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "sourceTokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "requiredDestTokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minReturn",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "swapData",
-        "type": "bytes"
-      }
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
     ],
-    "name": "swapExternal",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "destTokenAmountReceived",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "sourceTokenAmountUsed",
-        "type": "uint256"
-      }
-    ],
+    "name": "convert2",
+    "outputs": [{ "name": "", "type": "uint256" }],
     "payable": true,
     "stateMutability": "payable",
     "type": "function"
@@ -1350,71 +87,8 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "swapsImpl",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "tradingFeePercent",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "tradingFeeTokensHeld",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "tradingFeeTokensPaid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "name": "maxAffiliateFee",
+    "outputs": [{ "name": "", "type": "uint256" }],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -1422,13 +96,11 @@
   {
     "constant": false,
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+      { "name": "_token", "type": "address" },
+      { "name": "_to", "type": "address" },
+      { "name": "_amount", "type": "uint256" }
     ],
-    "name": "transferOwnership",
+    "name": "withdrawTokens",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -1436,59 +108,285 @@
   },
   {
     "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "underlyingToLoanPool",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
+    "name": "prevRegistry",
+    "outputs": [{ "name": "", "type": "address" }],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "userNotFirstTradeFlag",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "constant": false,
+    "inputs": [],
+    "name": "acceptOwnership",
+    "outputs": [],
     "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "constant": true,
     "inputs": [],
-    "name": "wrbtcToken",
-    "outputs": [
-      {
-        "internalType": "contract IWrbtcERC20",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "name": "registry",
+    "outputs": [{ "name": "", "type": "address" }],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" }
+    ],
+    "name": "rateByPath",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "name": "", "type": "address" }],
+    "name": "etherTokens",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_sovrynSwapX", "type": "address" },
+      { "name": "_conversionId", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" }
+    ],
+    "name": "completeXConversion",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
+    ],
+    "name": "convertFor2",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" }
+    ],
+    "name": "claimAndConvertFor",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "restoreRegistry",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
+    ],
+    "name": "convertByPath",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_targetBlockchain", "type": "bytes32" },
+      { "name": "_targetAccount", "type": "bytes32" },
+      { "name": "_conversionId", "type": "uint256" }
+    ],
+    "name": "xConvert",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" }
+    ],
+    "name": "claimAndConvert",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_beneficiary", "type": "address" }
+    ],
+    "name": "convertFor",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_targetBlockchain", "type": "bytes32" },
+      { "name": "_targetAccount", "type": "bytes32" },
+      { "name": "_conversionId", "type": "uint256" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
+    ],
+    "name": "xConvert2",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "newOwner",
+    "outputs": [{ "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      { "name": "_sourceToken", "type": "address" },
+      { "name": "_targetToken", "type": "address" }
+    ],
+    "name": "conversionPath",
+    "outputs": [{ "name": "", "type": "address[]" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" },
+      { "name": "_affiliateAccount", "type": "address" },
+      { "name": "_affiliateFee", "type": "uint256" }
+    ],
+    "name": "claimAndConvert2",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "_newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "_path", "type": "address[]" },
+      { "name": "_amount", "type": "uint256" },
+      { "name": "_minReturn", "type": "uint256" }
+    ],
+    "name": "convert",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [{ "name": "_maxAffiliateFee", "type": "uint256" }],
+    "name": "setMaxAffiliateFee",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "name": "_registry", "type": "address" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "_smartToken", "type": "address" },
+      { "indexed": true, "name": "_fromToken", "type": "address" },
+      { "indexed": true, "name": "_toToken", "type": "address" },
+      { "indexed": false, "name": "_fromAmount", "type": "uint256" },
+      { "indexed": false, "name": "_toAmount", "type": "uint256" },
+      { "indexed": false, "name": "_trader", "type": "address" }
+    ],
+    "name": "Conversion",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "_prevOwner", "type": "address" },
+      { "indexed": true, "name": "_newOwner", "type": "address" }
+    ],
+    "name": "OwnerUpdate",
+    "type": "event"
   }
 ]
