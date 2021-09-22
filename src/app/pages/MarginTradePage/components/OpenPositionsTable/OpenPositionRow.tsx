@@ -77,7 +77,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <LoadableValue
             value={
               <>
-                {weiToNumberFormat(item.collateral, 4)}{' '}
+                {weiToNumberFormat(item.collateral, 6)}{' '}
                 <AssetRenderer asset={collateralAssetDetails.asset} /> (
                 {leverage}x)
               </>
@@ -109,7 +109,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <LoadableValue
             value={
               <>
-                {weiToNumberFormat(amount, 4)}{' '}
+                {weiToNumberFormat(amount, 6)}{' '}
                 <AssetRenderer asset={collateralAssetDetails.asset} />
               </>
             }
