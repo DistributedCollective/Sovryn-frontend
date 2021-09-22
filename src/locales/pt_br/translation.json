@@ -189,7 +189,11 @@
       "currency": "Ativo",
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
-      "startPrice": "Preço de entrada"
+      "startPrice": "Preço de entrada",
+      "advancedSettings": "Configurações avançadas",
+      "esEntryPrice": "Preço estimado de entrada:",
+      "esLiquidationPrice": "Preço estimado de liquidação:",
+      "interestAPY": "Juros anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -1174,6 +1178,11 @@
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "L/P:",
     "amountToClose": "Quantidade:",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
@@ -1377,12 +1386,17 @@
         "asset": "Ativo:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
+        "slippage": "Slippage Tolerance:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Comprado",
         "short": "Vendido"
+      },
+      "placePosition": {
+        "placeLong": "Operar comprado",
+        "placeShort": "Operar vendido"
       }
     },
     "tradeDialog": {
@@ -1390,10 +1404,14 @@
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
       "asset": "Ativo de garantia:",
-      "direction": "Direção:",
+      "direction": "Par de negociação:",
+      "positionSize": "Tamanho da posição",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço aproximado de entrada:",
+      "entryPrice": "Preço de entrada da posição:",
+      "minLiq": "Preço mínimo de liquidação: ",
+      "interestAPR": "Juros anual",
+      "renewalDate": "Data de renovação:",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
