@@ -66,6 +66,13 @@ const possibleVestings: Vesting[] = [
     registryMethod: 'getVesting',
     staking: 'FISH_staking',
   },
+  {
+    asset: Asset.FISH,
+    label: 'Airdrop FISH',
+    registry: 'vestingRegistryFISH',
+    registryMethod: 'getTeamVesting',
+    staking: 'FISH_staking',
+  },
 ];
 
 export function useListOfUserVestings(asset?: Asset) {
