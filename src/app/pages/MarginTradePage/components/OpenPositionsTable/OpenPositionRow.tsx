@@ -77,7 +77,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <LoadableValue
             value={
               <>
-                {weiToNumberFormat(item.collateral, 6)}{' '}
+                {weiToNumberFormat(item.collateral, 8)}{' '}
                 <AssetRenderer asset={collateralAssetDetails.asset} /> (
                 {leverage}x)
               </>
@@ -109,7 +109,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           <LoadableValue
             value={
               <>
-                {weiToNumberFormat(amount, 6)}{' '}
+                {weiToNumberFormat(amount, 8)}{' '}
                 <AssetRenderer asset={collateralAssetDetails.asset} />
               </>
             }
@@ -123,7 +123,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           />
           {collateralAsset !== pair.shortAsset && (
             <div>
-              ≈ {weiToNumberFormat(item.startRate, 6)}{' '}
+              ≈ {weiToNumberFormat(item.startRate, 8)}{' '}
               <AssetRenderer asset={pair.shortDetails.asset} />
             </div>
           )}
@@ -133,7 +133,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
               ≈{' '}
               {toNumberFormat(
                 Number(fromWei(amount)) * getEntryPrice(item, position),
-                6,
+                8,
               )}{' '}
               <AssetRenderer asset={pair.longDetails.asset} />
             </div>
@@ -151,7 +151,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           />
         </div>
       </td>
-      <td className="tw-hidden xl:tw-table-cell">
+      <td className="tw-hidden 2xl:tw-table-cell">
         <div className="tw-truncate">
           {toNumberFormat(getInterestAPR(item), 2)}%
         </div>
