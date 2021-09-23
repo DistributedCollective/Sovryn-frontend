@@ -86,7 +86,15 @@ export class AssetsDictionary {
       ],
       [
         Asset.CSOV,
-        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon, false),
+        new AssetDetails(
+          Asset.CSOV,
+          'C-SOV',
+          'C-Sovryn',
+          18,
+          sovIcon,
+          false,
+          true,
+        ),
       ],
       [
         Asset.FISH,
