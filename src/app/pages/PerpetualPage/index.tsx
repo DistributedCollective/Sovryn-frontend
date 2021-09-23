@@ -24,6 +24,9 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
+import { DepthChart } from './components/DepthChart';
+import styles from './index.module.scss';
+import classNames from 'classnames';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -83,7 +86,12 @@ export function PerpetualPage() {
       </div>
       <ContractDetails pair={pair} />
       <div className="tw-container tw-mt-5">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2 tw-mb-8">
+        <div
+          className={classNames(
+            'xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2',
+            styles.chartAreaWrapper,
+          )}
+        >
           <DataCard
             className="xl:tw-w-1/6"
             title={`AMM Depth (${pairType.toString()})`}
@@ -91,11 +99,23 @@ export function PerpetualPage() {
             <AmmDepthChart pair={pair} />
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-w-1/3 tw-max-w-none tw-space-y-2">
-            <DataCard title={`Chart (${pairType.toString()})`}>
-              <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
+            <DataCard
+              title={`Chart (${pairType.toString()})`}
+              className={styles.tradingChartWrapper}
+              hasCustomHeight
+            >
+              <TradingChart
+                symbol={pair.chartSymbol}
+                theme={Theme.DARK}
+                hasCustomDimensions
+              />
             </DataCard>
-            <DataCard title={`Depth Chart (${pairType.toString()})`}>
-              {/*TODO: implement Depth Chart Graph*/}
+
+            <DataCard
+              title={`Depth Chart (${pairType.toString()})`}
+              className={styles.depthChartWrapper}
+            >
+              <DepthChart />
             </DataCard>
           </div>
           <DataCard
