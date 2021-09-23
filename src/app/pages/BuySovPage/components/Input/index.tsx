@@ -10,7 +10,7 @@ interface Props {
   type: string;
   placeholder?: string;
   invalid?: boolean;
-  dataAttribute?: string;
+  dataActionId?: string;
 }
 
 export function Input(props: Props) {
@@ -23,7 +23,7 @@ export function Input(props: Props) {
             value={props.value}
             placeholder={props.placeholder}
             onChange={e => props.onChange(handleNumberInput(e, true))}
-            data-action-id={props.dataAttribute}
+            data-action-id={props.dataActionId}
           />
         </div>
         {props.rightElement && <>{props.rightElement}</>}

@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 
 interface Props {
   onChange: (value: number) => void;
-  dataAttribute?: string;
+  dataActionId?: string;
 }
 
 const items = [10, 25, 50, 75, 100];
@@ -15,7 +15,7 @@ export function AmountButton(props: Props) {
         <Button
           key={item}
           onClick={() => props.onChange(item)}
-          data-action-id={`${props.dataAttribute}${item}%`}
+          data-action-id={`${props.dataActionId}-amountSelectorButton-${item}%`}
         >
           {item}%
         </Button>
