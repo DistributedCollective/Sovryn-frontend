@@ -25,6 +25,7 @@ export function useLimitOrder(
   sourceToken: Asset,
   targetToken: Asset,
   amount: string,
+  amountOutMin: string,
   duration: number = 365,
 ) {
   const account = useAccount();
@@ -50,7 +51,7 @@ export function useLimitOrder(
       sourceToken,
       targetToken,
       amount,
-      amount,
+      amountOutMin,
       account,
       getDeadline(duration).toString(),
     );
@@ -77,7 +78,47 @@ export function useLimitOrder(
       gasPrice: gas.get(),
       nonce,
     } as TransactionConfig);
-  }, [account, chainId, amount, sourceToken, targetToken, send]);
+  }, [
+    sourceToken,
+    account,
+    targetToken,
+    amount,
+    amountOutMin,
+    duration,
+    chainId,
+    send,
+  ]);
 
   return { createOrder, ...tx };
+}
+
+export function useCancelLimitOrder() {
+  const account = useAccount();
+
+  const { send, ...tx } = useSendTx();
+
+  const cancelOrder = useCallback(
+    async (orderHash: string) => {
+      const { address, abi } = getContract('settlement');
+      const contract = new ethers.Contract(address, abi);
+
+      const populated = await contract.populateTransaction.cancelOrder(
+        orderHash,
+      );
+
+      console.log({ populated });
+
+      const nonce = await contractReader.nonce(account);
+
+      send({
+        ...populated,
+        gas: '600000',
+        gasPrice: gas.get(),
+        nonce,
+      } as TransactionConfig);
+    },
+    [account, send],
+  );
+
+  return { cancelOrder, ...tx };
 }
