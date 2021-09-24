@@ -46,19 +46,19 @@ export const AmmDepthChart: React.FC<IAmmDepthChartProps> = ({ pair }) => {
     <table className="tw-w-full tw-h-full tw-text-xs tw-leading-tight">
       <thead>
         <tr>
-          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.price}
               components={[<AssetSymbolRenderer asset={pair.longAsset} />]}
             />
           </th>
-          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.size}
               components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
             />
           </th>
-          <th className="tw-h-6 tw-px-4 tw-pb-1 tw-text-right">
+          <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.total}
               components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
