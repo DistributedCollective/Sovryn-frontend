@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import {
   calculateProfit,
@@ -12,6 +10,7 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
+import { fromWei } from 'utils/blockchain/math-helpers';
 
 interface Props {
   source: Asset;
@@ -28,7 +27,6 @@ export function CurrentPositionProfit({
   startPrice,
   isLong,
 }: Props) {
-  const { t } = useTranslation();
   const { loading, price } = useCurrentPositionPrice(
     destination,
     source,
@@ -43,33 +41,6 @@ export function CurrentPositionProfit({
     profit,
   );
 
-  function Change() {
-    if (diff > 0) {
-      return (
-        <>
-          {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="tw-text-trade-long">
-            {toNumberFormat(diff * 100, 2)}
-          </span>
-          %
-        </>
-      );
-    }
-    if (diff < 0) {
-      return (
-        <>
-          {t(translations.tradingHistoryPage.table.profitLabels.down)}
-          <span className="tw-text-trade-short">
-            {toNumberFormat(Math.abs(diff * 100), 2)}
-          </span>
-          %
-        </>
-      );
-    }
-    return (
-      <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>
-    );
-  }
   return (
     <>
       <LoadableValue
@@ -83,7 +54,15 @@ export function CurrentPositionProfit({
             >
               <div>
                 {diff > 0 && '+'}
-                {weiToNumberFormat(profit, 6)}{' '}
+                <LoadableValue
+                  value={weiToNumberFormat(profit, 6)}
+                  loading={false}
+                  tooltip={
+                    <>
+                      {fromWei(profit)} <AssetRenderer asset={destination} />
+                    </>
+                  }
+                />{' '}
                 <AssetRenderer asset={destination} />
               </div>
               ≈{' '}
@@ -99,13 +78,12 @@ export function CurrentPositionProfit({
                 </span>
               ) : (
                 <span className="tw-text-trade-short tw-ml-2">
-                  ({toNumberFormat(Math.abs(diff * 100), 2)}%)
+                  (-{toNumberFormat(Math.abs(diff * 100), 2)}%)
                 </span>
               )}
             </div>
           </div>
         }
-        tooltip={<Change />}
       />
     </>
   );

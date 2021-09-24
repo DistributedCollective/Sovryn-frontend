@@ -51,14 +51,11 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const amount = bignumber(item.collateral).div(leverage).toFixed(0);
   const liquidationPrice = useMemo(
     () =>
-      toNumberFormat(
-        calculateLiquidation(
-          isLong,
-          leverage,
-          item.maintenanceMargin,
-          item.startRate,
-        ),
-        4,
+      calculateLiquidation(
+        isLong,
+        leverage,
+        item.maintenanceMargin,
+        item.startRate,
       ),
     [item, isLong, leverage],
   );
@@ -95,13 +92,40 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       </td>
       <td className="tw-hidden xl:tw-table-cell">
         <div className="tw-whitespace-nowrap">
-          {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
-          <AssetRenderer asset={pair.longDetails.asset} />
+          <LoadableValue
+            value={
+              <>
+                {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            }
+            loading={false}
+            tooltip={
+              <>
+                {getEntryPrice(item, position)}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            }
+          />
         </div>
       </td>
       <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
-          {liquidationPrice} <AssetRenderer asset={pair.longDetails.asset} />
+          <LoadableValue
+            value={
+              <>
+                {toNumberFormat(liquidationPrice, 4)}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            }
+            loading={false}
+            tooltip={
+              <>
+                {liquidationPrice}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            }
+          />
         </div>
       </td>
       <td className="tw-hidden xl:tw-table-cell">
