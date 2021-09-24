@@ -1,6 +1,7 @@
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 /* --- STATE --- */
 import { Asset } from 'types/asset';
+import { BigNumber } from 'ethers';
 
 export enum SpotPairType {
   SOV_RBTC = 'SOV_RBTC',
@@ -173,3 +174,24 @@ export const getAmmSpotPairs = () => {
 };
 
 export type ContainerState = SpotTradingPageState;
+
+export type LimitOrder = {
+  hash?: string;
+  maker: string;
+  fromToken: string;
+  toToken: string;
+  amountIn: BigNumber;
+  amountOutMin: BigNumber;
+  recipient: string;
+  deadline: BigNumber;
+  v: string;
+  r: string;
+  s: string;
+};
+
+export interface ITradeFormProps {
+  sourceToken: Asset;
+  targetToken: Asset;
+  tradeType: TradingTypes;
+  hidden: boolean;
+}
