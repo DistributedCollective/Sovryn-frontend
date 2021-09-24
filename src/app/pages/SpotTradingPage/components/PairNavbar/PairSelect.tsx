@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import { Input } from 'app/components/Form/Input';
-import { pairList, pairs, SpotPairType } from '../../types';
+import { pairs, SpotPairType } from '../../types';
 import cn from 'classnames';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -46,9 +46,10 @@ const categories = [
 
 interface IPairSelect {
   storageKey: string;
+  pairList: SpotPairType[];
 }
 
-export const PairSelect: React.FC<IPairSelect> = ({ storageKey }) => {
+export const PairSelect: React.FC<IPairSelect> = ({ storageKey, pairList }) => {
   const ref = useRef(null);
   const { pairType } = useSelector(selectSpotTradingPage);
   const [open, setOpen] = useState(false);
@@ -119,6 +120,7 @@ export const PairSelect: React.FC<IPairSelect> = ({ storageKey }) => {
               search={search}
               closePairList={() => setOpen(false)}
               storageKey={storageKey}
+              pairList={pairList}
             />
           </div>
         </div>
@@ -132,6 +134,7 @@ interface IPairsList {
   search: string;
   closePairList: () => void;
   storageKey: string;
+  pairList: string[];
 }
 
 export const PairsList: React.FC<IPairsList> = ({
@@ -139,6 +142,7 @@ export const PairsList: React.FC<IPairsList> = ({
   search,
   closePairList,
   storageKey,
+  pairList,
 }) => {
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();
@@ -150,7 +154,7 @@ export const PairsList: React.FC<IPairsList> = ({
           pair =>
             pair.includes(category) && pair.includes(search.toUpperCase()),
         );
-  }, [category, favList, search]);
+  }, [category, favList, pairList, search]);
 
   useEffect(() => {
     setFavoriteList(storageKey, favList);
@@ -207,7 +211,10 @@ export const PairsList: React.FC<IPairsList> = ({
               <td onClick={() => selectPair(pair)} className="tw-text-right">
                 0.0091898 / 10.00USD
               </td>
-              <td onClick={() => selectPair(pair)} className="tw-text-right">
+              <td
+                onClick={() => selectPair(pair)}
+                className="tw-text-right tw-text-trade-long"
+              >
                 +28.37%
               </td>
             </tr>

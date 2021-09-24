@@ -22,8 +22,6 @@ import { Footer } from '../../components/Footer';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { SpotHistory } from 'app/containers/SpotHistory';
-import { PriceHistory } from './components/PriceHistory';
-import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from './components/PairNavbar';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
@@ -32,7 +30,7 @@ export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: spotTradingPageSaga });
 
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
 
   const { t } = useTranslation();
   const { pairType } = useSelector(selectSpotTradingPage);
@@ -49,13 +47,13 @@ export function SpotTradingPage() {
       </Helmet>
       <Header />
       <PairNavbar />
-      <div
+      {/* <div
         className={cn('tw-container tw-mt-9 tw-mx-auto tw-px-6', {
           'tw-hidden': !pairType.includes('SOV'),
         })}
       >
-        {/* <PriceHistory /> */}
-      </div>
+        <PriceHistory />
+      </div> */}
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
           <div
@@ -63,10 +61,10 @@ export function SpotTradingPage() {
               'tw-flex-shrink tw-flex-grow tw-mb-12 xl:tw-pr-4 xl:tw-mb-0'
             }
           >
-            {/* <TradingChart
+            <TradingChart
               symbol={`${pairType}`.replace('_', '/')}
               theme={Theme.DARK}
-            /> */}
+            />
           </div>
           <div>
             <TradeForm />
@@ -86,16 +84,21 @@ export function SpotTradingPage() {
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
               />
-              <Tab
+              {/* <Tab
                 text={t(translations.spotTradingPage.history.limitOrderHistory)}
                 active={activeTab === 2}
                 onClick={() => setActiveTab(2)}
-              />
+              /> */}
             </div>
 
             <div className="tw-w-full sm:tw-px-5">
-              {activeTab === 0 && <SpotHistory />}
-              {activeTab === 1 && <OpenPositionsTable />}
+              <div className={cn({ 'tw-hidden': activeTab !== 0 })}>
+                <SpotHistory />
+              </div>
+
+              <div className={cn({ 'tw-hidden': activeTab !== 1 })}>
+                <OpenPositionsTable />
+              </div>
             </div>
           </div>
         )}

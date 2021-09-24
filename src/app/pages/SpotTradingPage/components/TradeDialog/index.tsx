@@ -111,7 +111,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               value={
                 <>
                   {stringToFixedPrecision(amount, 6)}{' '}
-                  <AssetRenderer asset={targetToken} />
+                  <AssetRenderer asset={sourceToken} />
                 </>
               }
             />
@@ -168,15 +168,17 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
             />
-            <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-              <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
-                <span>{t(translations.swap.minimumReceived)} </span>
-                <span>
-                  {weiToNumberFormat(minReturn, 6)}{' '}
-                  <AssetRenderer asset={targetToken} />
+            {orderType === OrderTypes.MARKET && (
+              <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
+                <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
+                  <span>{t(translations.swap.minimumReceived)} </span>
+                  <span>
+                    {weiToNumberFormat(minReturn, 6)}{' '}
+                    <AssetRenderer asset={targetToken} />
+                  </span>
                 </span>
-              </span>
-            </div>
+              </div>
+            )}
           </div>
 
           {/* <TxFeeCalculator
