@@ -264,7 +264,7 @@ function AssetRow({
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.USDT /*, Asset.RDOC*/].includes(item.asset) && (
+          {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.convert)}
               onClick={() => onConvert(item.asset)}
