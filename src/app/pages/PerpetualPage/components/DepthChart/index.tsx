@@ -99,8 +99,10 @@ export const DepthChart: React.FC<IDepthChartProps> = ({ className }) => {
       },
       yAxis: [
         {
+          tickAmount: 6,
           lineWidth: 1,
           gridLineWidth: 1,
+          gridLineColor: '#484848',
           title: null,
           tickWidth: 1,
           tickLength: 5,
