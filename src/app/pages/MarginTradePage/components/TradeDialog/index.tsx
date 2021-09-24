@@ -90,7 +90,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     minReturnCollateral,
   );
 
-  const submit = () =>
+  const submit = () => {
     trade({
       pair,
       position,
@@ -99,6 +99,8 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
       leverage,
       amount,
     });
+    props.onCloseModal();
+  };
 
   const txArgs = [
     '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
