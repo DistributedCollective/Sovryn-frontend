@@ -17,7 +17,6 @@ import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import settingImg from 'assets/images/settings-blue.svg';
 import styles from './index.module.scss';
 import { LimitOrderSetting } from '../LimitOrderSetting';
@@ -55,12 +54,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
 
   const weiAmount = useWeiAmount(amount);
   const weiAmountOut = useWeiAmount(amountOut);
-
-  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
-    sourceToken,
-    targetToken,
-    weiAmount,
-  );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const gasLimit = 340000;

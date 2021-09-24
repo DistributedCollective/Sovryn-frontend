@@ -12,12 +12,14 @@ import { translations } from 'locales/i18n';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import cn from 'classnames';
+// import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 interface IOpenPositionRowProps {
   item: LimitOrder;
 }
 
 export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { t } = useTranslation();
+  // const account = useAccount();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -26,6 +28,22 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
 
   const fromToken = getTokenFromAddress(item.fromToken);
   const toToken = getTokenFromAddress(item.toToken);
+
+  // const {
+  //   value: canceledOrders,
+  //   loading: loadingCanceledOrders,
+  // } = useCacheCallWithValue<Array<String>>(
+  //   'settlement',
+  //   'canceledOfHash',
+  //   '',
+  //   account,
+  // );
+
+  // useEffect(() => {
+  //   if (!loadingCanceledOrders) {
+  //     console.log('canceledOrders: ', canceledOrders);
+  //   }
+  // }, [canceledOrders, loadingCanceledOrders]);
 
   const tradeType = useMemo(() => {
     return pairList.find(

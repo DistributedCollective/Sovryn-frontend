@@ -34,17 +34,6 @@ function orderParser(orderArray = []): LimitOrder {
   };
 }
 
-// async function getCanceledHashes() {
-//   const settlement = new ethers.Contract(
-//     config.contracts.settlement,
-//     settlementAbi,
-//     provider,
-//   );
-//   const filter = settlement.filters.OrderCanceled(null);
-//   const events = await settlement.queryFilter(filter);
-//   return events.map(event => event.args && event.args[0]).filter(h => !!h);
-// }
-
 export function useGetLimitOrders(
   account: string,
   page: number = 0,
@@ -55,22 +44,6 @@ export function useGetLimitOrders(
   const { value: hashes, loading: loadingHashes } = useCacheCallWithValue<
     Array<String>
   >('orderBook', 'hashesOfMaker', [], account, page, limit);
-
-  const {
-    value: canceledOrders,
-    loading: loadingCanceledOrders,
-  } = useCacheCallWithValue<Array<String>>(
-    'settlement',
-    'canceledOfHash',
-    false,
-    '0xe384588b31c03959a897f983c9ba18e653100c9fdcfe019f2282a5ff078c49a2',
-  );
-
-  useEffect(() => {
-    if (!loadingCanceledOrders) {
-      console.log('canceledOrders: ', canceledOrders);
-    }
-  }, [canceledOrders, loadingCanceledOrders]);
 
   useEffect(() => {
     setLoading(true);

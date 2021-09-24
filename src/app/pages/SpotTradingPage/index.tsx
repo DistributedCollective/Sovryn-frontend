@@ -21,10 +21,10 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
-import { SpotHistory } from 'app/containers/SpotHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from './components/PairNavbar';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
+import { SpotHistory } from './components/SpotHistory';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -91,7 +91,7 @@ export function SpotTradingPage() {
               /> */}
             </div>
 
-            <div className="tw-w-full sm:tw-px-5">
+            <div className="tw-w-full sm:tw-px-5 tw-mb-10">
               <div className={cn({ 'tw-hidden': activeTab !== 0 })}>
                 <SpotHistory />
               </div>

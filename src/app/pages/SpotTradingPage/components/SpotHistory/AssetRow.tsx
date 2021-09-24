@@ -83,8 +83,8 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
       </td>
 
       <td>
-        <div className="tw-flex tw-items-center tw-justify-between md:tw-w-full lg:tw-w-5/6 tw-p-0">
-          <div>
+        <div className="tw-flex tw-items-center tw-p-0">
+          <div className="tw-w-32">
             {!data.status && (
               <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}

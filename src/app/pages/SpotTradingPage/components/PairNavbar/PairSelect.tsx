@@ -108,6 +108,7 @@ export const PairSelect: React.FC<IPairSelect> = ({ storageKey, pairList }) => {
                     'tw-text-opacity-25': category !== item.value,
                   },
                 )}
+                key={item.value}
                 onClick={() => setCategory(item.value)}
               >
                 {item.label}
