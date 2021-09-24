@@ -65,13 +65,13 @@ export function LimitOrderSetting({ onChange, value, onClose, isOpen }: Props) {
             ))}
           </div>
         </FormGroup>
-
-        <FormGroup className="tw-mt-8" label={t(trans.partialFilled)}>
+        {/* The smart contract doesn't support it yet */}
+        {/* <FormGroup className="tw-mt-8" label={t(trans.partialFilled)}>
           <div className="tw-h-8 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
             <DurationButton text={'Yes'} active={false} onClick={() => {}} />
             <DurationButton text={'No'} active={false} onClick={() => {}} />
           </div>
-        </FormGroup>
+        </FormGroup> */}
       </div>
     </Dialog>
   );

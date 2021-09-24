@@ -1540,6 +1540,22 @@
       "day_one": "{{count}} day",
       "day_other": "{{count}} days",
       "partialFilled": "Allow partial filled order:"
+    },
+    "openLimitOrders": {
+      "dateTime": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "tradeAmount": "Trade Amount",
+      "limitPrice": "Limit Price",
+      "amountReceive": "Amount to Receive",
+      "duration": "Duration",
+      "deadline": "Deadline",
+      "actions": "Action",
+      "noData": "No Data",
+      "cta": {
+        "edit": "Edit",
+        "close": "Close"
+      }
     }
   },
   "form": {

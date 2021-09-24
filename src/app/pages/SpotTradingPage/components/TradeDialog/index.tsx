@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -11,44 +11,35 @@ import {
   stringToFixedPrecision,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { Dialog } from 'app/containers/Dialog';
-import { useAccount } from 'app/hooks/useAccount';
 import { OrderTypes, TradingTypes } from '../../types';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { bignumber } from 'mathjs';
-import { maxMinusFee } from 'utils/helpers';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-import { useLimitOrder } from 'app/hooks/useLimitOrder';
-import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { Input } from 'app/components/Form/Input';
 import { useWalletContext } from '@sovryn/react-wallet';
 
 interface ITradeDialogProps {
-  slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
+  submit: () => void;
   tradeType: TradingTypes;
+  slippage?: number;
   orderType: OrderTypes;
-  minReturn: string;
+  minReturn?: string;
   amount: string;
   expectedReturn: string;
   targetToken: Asset;
   sourceToken: Asset;
-  limitPrice: string;
-  duration: number;
+  limitPrice?: string;
+  duration?: number;
 }
 
 export const TradeDialog: React.FC<ITradeDialogProps> = ({
   limitPrice,
   isOpen,
   onCloseModal,
+  submit,
   tradeType,
   orderType,
   amount,
@@ -59,76 +50,9 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   duration,
 }) => {
   const { t } = useTranslation();
-  const account = useAccount();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
-
-  const weiAmount = useWeiAmount(amount);
-
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
-
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
-  );
-  const { createOrder, ...limitOrderTx } = useLimitOrder(
-    sourceToken,
-    targetToken,
-    weiAmount,
-    duration,
-  );
-
-  const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
-    path,
-    weiAmount,
-    minReturn,
-  );
-
-  const { value: balance } = useAssetBalanceOf(sourceToken);
-  const gasLimit = 340000;
-
-  const validate = useMemo(() => {
-    return (
-      bignumber(weiAmount).greaterThan(0) &&
-      bignumber(minReturn).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, gasLimit),
-      )
-    );
-  }, [balance, minReturn, sourceToken, weiAmount]);
-
-  const tx = useMemo(() => {
-    if (orderType === OrderTypes.LIMIT) {
-      return limitOrderTx;
-    }
-    return targetToken === Asset.RBTC ? txPath : txExternal;
-  }, [orderType, targetToken, txPath, txExternal, limitOrderTx]);
-
-  const send = useCallback(
-    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
-    [targetToken, sendPath, sendExternal],
-  );
-
-  const submit = () => {
-    if (orderType === OrderTypes.MARKET) {
-      send();
-    } else {
-      createOrder();
-    }
-  };
 
   const getOrderTypeLabel = useCallback(() => {
     const orderLabel =
@@ -194,10 +118,19 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
 
             {orderType === OrderTypes.LIMIT && (
               <>
-                <LabelValuePair
-                  label={t(translations.spotTradingPage.tradeDialog.limitPrice)}
-                  value={<>{stringToFixedPrecision(limitPrice, 6)} sats</>}
-                />
+                {limitPrice && (
+                  <LabelValuePair
+                    label={t(
+                      translations.spotTradingPage.tradeDialog.limitPrice,
+                    )}
+                    value={
+                      <>
+                        {stringToFixedPrecision(limitPrice, 6)}{' '}
+                        <AssetRenderer asset={sourceToken} />
+                      </>
+                    }
+                  />
+                )}
                 <LabelValuePair
                   label={t(translations.spotTradingPage.tradeDialog.duration)}
                   value={
@@ -230,7 +163,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               {t(translations.spotTradingPage.tradeForm.amountReceived)}:
             </div>
             <Input
-              value={weiToFixed(expectedReturn, 6)}
+              value={expectedReturn}
               onChange={() => {}}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
@@ -277,13 +210,12 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
-            disabled={spotLocked || !validate || !connected}
+            disabled={spotLocked || !connected}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => onCloseModal()}
           />
         </div>
       </Dialog>
-      <TxDialog tx={tx} />
     </>
   );
 };
@@ -294,7 +226,7 @@ interface LabelValuePairProps {
   className?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
+export function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
       className={cn(
