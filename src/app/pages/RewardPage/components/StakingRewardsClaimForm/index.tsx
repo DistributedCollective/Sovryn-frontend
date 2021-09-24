@@ -33,14 +33,9 @@ export function StakingRewardsClaimForm({ className, address }: Props) {
     if (address && address !== ethGenesisAddress) {
       setValue({ amount: '0', loading: true });
       contractReader
-        .call<{ amount: string }>(
-          'stakingRewards',
-          'getStakerCurrentReward',
-          [true],
-          address,
-        )
+        .call<string>('stakingRewards', 'getClaimableReward', [true], address)
         .then(result => {
-          setValue({ amount: result.amount, loading: false });
+          setValue({ amount: result, loading: false });
         })
         .catch(error => {
           setValue({ amount: '0', loading: false });
