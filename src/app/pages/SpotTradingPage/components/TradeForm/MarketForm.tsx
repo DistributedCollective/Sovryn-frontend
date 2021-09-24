@@ -40,13 +40,14 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
-  const account = useAccount();
-
   const { checkMaintenance, States } = useMaintenance();
+  const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
-  const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
   const [slippageDialog, setSlippageDialog] = useState<boolean>(false);
+  const [isTradingDialogOpen, setIsTradingDialogOpen] = useState<boolean>(
+    false,
+  );
   const [slippage, setSlippage] = useState(0.5);
   const [amount, setAmount] = useState<string>('');
 
@@ -58,25 +59,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-
-  const { value: balance } = useAssetBalanceOf(sourceToken);
-  const gasLimit = 340000;
-
-  const validate = useMemo(() => {
-    return (
-      bignumber(weiAmount).greaterThan(0) &&
-      bignumber(minReturn).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, gasLimit),
-      )
-    );
-  }, [balance, minReturn, sourceToken, weiAmount]);
-
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
-  );
-
   const {
     send: sendExternal,
     ...txExternal
@@ -91,20 +73,40 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     '0x',
   );
 
+  const { value: path } = useSwapNetwork_conversionPath(
+    tokenAddress(sourceToken),
+    tokenAddress(targetToken),
+  );
+
   const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
     path,
     weiAmount,
     minReturn,
   );
 
+  const { value: balance } = useAssetBalanceOf(sourceToken);
+  const gasLimit = 340000;
+
+  const validate = useMemo(() => {
+    return (
+      bignumber(weiAmount).greaterThan(0) &&
+      bignumber(minReturn).greaterThan(0) &&
+      bignumber(weiAmount).lessThanOrEqualTo(
+        maxMinusFee(balance, sourceToken, gasLimit),
+      )
+    );
+  }, [balance, minReturn, sourceToken, weiAmount]);
+
+  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
+    targetToken,
+    txExternal,
+    txPath,
+  ]);
+
   const send = useCallback(
     () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
     [targetToken, sendPath, sendExternal],
   );
-
-  const tx = useMemo(() => {
-    return targetToken === Asset.RBTC ? txPath : txExternal;
-  }, [targetToken, txPath, txExternal]);
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
