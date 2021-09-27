@@ -21,6 +21,7 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import imgSov from 'assets/images/reward/sov.svg';
 import imgBtc from 'assets/images/reward/Bitcoin.svg';
 import styles from './index.module.scss';
+import { FeesEarnedTab } from './components/FeesEarnedTab';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -90,7 +91,8 @@ export function RewardPage() {
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.fee)}
-                  isDisabled
+                  active={activeTab === RewardTabType.FEES_EARNED}
+                  onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
                   amount={t(translations.rewardPage.comingSoon)}
                 />
               </div>
@@ -102,6 +104,7 @@ export function RewardPage() {
               {activeTab === RewardTabType.LIQUID_SOV && (
                 <LiquidTab amountToClaim={liquidSovClaimAmount} />
               )}
+              {activeTab === RewardTabType.FEES_EARNED && <FeesEarnedTab />}
             </div>
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">

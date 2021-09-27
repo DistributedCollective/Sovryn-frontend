@@ -4,13 +4,20 @@ import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
+import { useAccount } from 'app/hooks/useAccount';
+import { getContract } from 'utils/blockchain/contract-helpers';
 
 export function FeesEarnedTab() {
   const { t } = useTranslation();
 
+  const address = useAccount();
+
   const { value: amountToClaim } = useCacheCallWithValue(
     'feeSharingProxy',
     'getAccumulatedFees',
+    '0',
+    address,
+    getContract('RBTC_lending').address,
   );
 
   return (
@@ -23,7 +30,7 @@ export function FeesEarnedTab() {
             color={RewardsDetailColor.Yellow}
             title={t(translations.rewardPage.fee.stakingFee)}
             availableAmount={amountToClaim}
-            totalEarnedAmount={73.5927}
+            totalEarnedAmount={0}
             isInMainSection
           />
         </div>
