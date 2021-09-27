@@ -11,13 +11,17 @@ import { AssetRenderer } from '../AssetRenderer';
 
 interface IAvailableBalanceProps {
   asset: Asset;
+  dataAttribute?: string;
 }
 
 export function AvailableBalance(props: IAvailableBalanceProps) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
-    <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full">
+    <div
+      className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full"
+      data-action-id={props.dataAttribute}
+    >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[
