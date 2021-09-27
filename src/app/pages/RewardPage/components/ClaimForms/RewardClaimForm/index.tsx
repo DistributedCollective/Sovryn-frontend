@@ -3,7 +3,7 @@ import { Trans } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
 import { TxType } from 'store/global/transactions-store/types';
-import { gasLimit } from 'utils/classifiers';
+import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 
 import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
 import { BaseClaimForm } from '../BaseClaimForm';
@@ -17,13 +17,13 @@ export const RewardClaimForm: React.FC<IClaimFormProps> = ({
   const address = useAccount();
 
   const { send, ...tx } = useSendContractTx(
-    'lockedSov',
-    'createVestingAndStake',
+    'liquidityMiningProxy',
+    'claimRewardFromAllPools',
   );
 
   const onSubmit = useCallback(() => {
     send(
-      [],
+      [ethGenesisAddress],
       {
         from: address,
         gas: gasLimit[TxType.LOCKED_SOV_CLAIM],

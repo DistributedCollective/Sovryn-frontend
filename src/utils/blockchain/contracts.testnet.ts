@@ -40,7 +40,7 @@ import nftAbi from './abi/nftAbi.json';
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: [...bzxAbi, ...SwapsExternalAbi],
+    abi: [...bzxAbi, ...SwapsExternalAbi, ...SovrynProtocolAbi],
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {

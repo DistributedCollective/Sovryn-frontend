@@ -1,20 +1,22 @@
-import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { bignumber } from 'mathjs';
-import { useMemo } from 'react';
+import { useAccount } from 'app/hooks/useAccount';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 
 export const useGetTotalTradingRewards = (): string => {
-  const { events: tradingRewardsEvents } = useGetContractPastEvents(
-    'sovrynProtocol',
-    'EarnReward',
-  );
+  const url = backendUrl[currentChainId];
+  const [totalTradingRewards, setTotalTradingRewards] = useState('0');
+  const address = useAccount();
 
-  const totalTradingRewards = useMemo(
-    () =>
-      tradingRewardsEvents
-        .map(item => item.returnValues.amount)
-        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
-    [tradingRewardsEvents],
-  );
+  useEffect(() => {
+    axios
+      .get(`${url}/v1/event-history/availableRewardSov/${address}`)
+      .then(res => {
+        const { events } = res.data;
+        setTotalTradingRewards(events[0].sum);
+      })
+      .catch(error => console.log(error));
+  }, [url, address]);
 
   return totalTradingRewards;
 };
