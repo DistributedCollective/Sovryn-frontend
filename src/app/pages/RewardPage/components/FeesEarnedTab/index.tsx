@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
@@ -7,6 +7,8 @@ import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 import { useAccount } from 'app/hooks/useAccount';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { FeesEarnedClaimForm } from '../ClaimForms/FeesEarnedClaimForm/index';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { bignumber } from 'mathjs';
 
 export function FeesEarnedTab() {
   const { t } = useTranslation();
@@ -21,6 +23,23 @@ export function FeesEarnedTab() {
     getContract('RBTC_lending').address,
   );
 
+  const { events: feesEarnedEvents } = useGetContractPastEvents(
+    'feeSharingProxy',
+    'UserFeeWithdrawn',
+  );
+
+  const totalRewardsEarned = useMemo(
+    () =>
+      feesEarnedEvents
+        .filter(
+          item =>
+            item.returnValues.token === getContract('RBTC_lending').address,
+        )
+        .map(item => item.returnValues.amount)
+        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
+    [feesEarnedEvents],
+  );
+
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <div className={styles['tab-main-section']}>
@@ -33,7 +52,7 @@ export function FeesEarnedTab() {
             color={RewardsDetailColor.Yellow}
             title={t(translations.rewardPage.fee.stakingFee)}
             availableAmount={amountToClaim}
-            totalEarnedAmount={0}
+            totalEarnedAmount={totalRewardsEarned}
             isInMainSection
           />
         </div>
