@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import dayjs from 'dayjs';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useAccount } from '../../../hooks/useAccount';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { StyledTable } from './StyledTable';
 import { translations } from 'locales/i18n';
 import { AddressBadge } from '../../../components/AddressBadge';
@@ -185,7 +185,8 @@ const AssetRow: React.FC<IAssetRowProps> = ({
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = bignumber(Number(item.stakedAmount))
     .mul(dollars.value)
-    .div(10 ** SOV.decimals);
+    .div(10 ** SOV.decimals)
+    .toFixed(0);
   useEffect(() => {
     setWeight(getWeight.value);
     if (Number(WEIGHT_FACTOR.value) && Number(weight)) {
@@ -212,7 +213,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
         {weiTo4(item.stakedAmount)} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+          value={weiToUSD(dollarValue)}
           loading={dollars.loading}
         />
       </td>

@@ -9,16 +9,16 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
+import { weiToUSD } from 'utils/display-text/format';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { LoadableValue } from '../../components/LoadableValue';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { numberToUSD } from 'utils/display-text/format';
 import { eventReader } from 'utils/sovryn/event-reader';
 
 import { Asset } from '../../../types/asset';
 import { LinkToExplorer } from '../../components/LinkToExplorer';
-import { LoadableValue } from '../../components/LoadableValue';
 import { Pagination } from '../../components/Pagination';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
@@ -26,7 +26,6 @@ import { useVesting_getOriginVesting } from '../../hooks/staking/useVesting_getO
 import { useVesting_getRewards } from '../../hooks/staking/useVesting_getRewards';
 import { useVesting_getTeamVesting } from '../../hooks/staking/useVesting_getTeamVesting';
 import { useVesting_getVesting } from '../../hooks/staking/useVesting_getVesting';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
 
 export function VestedHistory() {
@@ -238,7 +237,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         {numberFromWei(item.returnValues.amount)} SOV
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={weiToUSD(dollarValue)}
           loading={dollars.loading}
         />
       </td>

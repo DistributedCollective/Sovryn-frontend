@@ -1,9 +1,3 @@
-/**
- *
- * AmountField
- *
- */
-
 import React from 'react';
 import { handleNumberInput } from 'utils/helpers';
 import styled, { css } from 'styled-components/macro';
@@ -16,6 +10,7 @@ interface Props {
   type: string;
   placeholder?: string;
   invalid?: boolean;
+  dataActionId?: string;
 }
 
 export function Input(props: Props) {
@@ -28,6 +23,7 @@ export function Input(props: Props) {
             value={props.value}
             placeholder={props.placeholder}
             onChange={e => props.onChange(handleNumberInput(e, true))}
+            data-action-id={props.dataActionId}
           />
         </div>
         {props.rightElement && <>{props.rightElement}</>}

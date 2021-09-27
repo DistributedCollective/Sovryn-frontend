@@ -24,6 +24,11 @@ const symbolMap = {
       BNB<em>S</em>
     </>
   ),
+  [Asset.RDOC]: (
+    <>
+      <em>R</em>DOC
+    </>
+  ),
 };
 
 export function getAssetSymbol(asset: Asset) {

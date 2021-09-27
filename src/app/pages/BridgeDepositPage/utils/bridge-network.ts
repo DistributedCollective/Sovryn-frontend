@@ -145,7 +145,7 @@ export class BridgeNetwork {
       'aggregate',
       [data],
     ).then(({ blockNumber, returnData }) => {
-      const data: T = ({} as unknown) as T;
+      const data: T = {} as any;
       callData.forEach((item, index) => {
         const value = this.decodeFunctionResult(
           chain,
@@ -204,7 +204,9 @@ export class BridgeNetwork {
     if (isWeb3Wallet(walletService.providerType as ProviderType)) {
       return signedTxOrTransactionHash;
     } else {
-      return this.getProvider(chain).sendTransaction(signedTxOrTransactionHash);
+      return await this.getProvider(chain)
+        .sendTransaction(signedTxOrTransactionHash)
+        .then(response => response.hash);
     }
   }
 

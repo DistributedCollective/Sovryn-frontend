@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { TradingPosition } from '../../../types/trading-position';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { useGetEstimatedMarginDetails } from '../../hooks/trading/useGetEstimatedMarginDetails';
 import { useCurrentPositionPrice } from '../../hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../../components/LoadableValue';
@@ -48,6 +48,6 @@ export function PricePrediction({
   );
 
   return (
-    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 2)}</>} />
+    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 6)}</>} />
   );
 }

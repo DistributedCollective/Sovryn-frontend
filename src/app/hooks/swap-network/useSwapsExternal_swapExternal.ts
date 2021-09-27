@@ -2,6 +2,7 @@ import { useSendContractTx } from '../useSendContractTx';
 import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
 import { getTokenContract } from '../../../utils/blockchain/contract-helpers';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useSwapsExternal_swapExternal(
   sourceToken: Asset,
@@ -29,6 +30,7 @@ export function useSwapsExternal_swapExternal(
         ],
         {
           value: sourceToken === Asset.RBTC ? sourceTokenAmount : '0',
+          gas: gasLimit[TxType.SWAP_EXTERNAL],
         },
         {
           type: TxType.SWAP_EXTERNAL,
