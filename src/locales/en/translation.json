@@ -493,8 +493,11 @@
     "meta": "Swap",
     "cta": "Swap",
     "minimumReceived": "Minimum received:",
-    "send": "Send",
-    "receive": "Receive"
+    "send": "Token to swap",
+    "receive": "Token to receive",
+    "receiveAmount": "Amount to Receive",
+    "tradeAmount": "Trade Amount",
+    "advancedSettings": "Advanced Settings"
   },
   "stake": {
     "title": "Staking/Vesting",

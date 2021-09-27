@@ -9,25 +9,30 @@ import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
 
-interface Props {
+interface IAvailableBalanceProps {
   asset: Asset;
 }
 
-export function AvailableBalance(props: Props) {
+export function AvailableBalance(props: IAvailableBalanceProps) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
-    <div className="tw-mb-8 tw-truncate tw-text-xs tw-font-light tw-tracking-normal">
+    <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full">
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[
           <LoadableValue
-            value={weiToNumberFormat(value, 6)}
+            value={
+              <div className="tw-font-semibold">
+                {weiToNumberFormat(value, 4)}{' '}
+                <AssetRenderer asset={asset.asset} />
+              </div>
+            }
             loading={loading}
             tooltip={
-              <>
+              <div className="tw-font-semibold">
                 {fromWei(value)} <AssetRenderer asset={asset.asset} />
-              </>
+              </div>
             }
           />,
         ]}
