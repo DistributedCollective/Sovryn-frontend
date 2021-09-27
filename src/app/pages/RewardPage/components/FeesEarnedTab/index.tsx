@@ -6,6 +6,7 @@ import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 import { useAccount } from 'app/hooks/useAccount';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { FeesEarnedClaimForm } from '../ClaimForms/FeesEarnedClaimForm/index';
 
 export function FeesEarnedTab() {
   const { t } = useTranslation();
@@ -23,7 +24,9 @@ export function FeesEarnedTab() {
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <div className={styles['tab-main-section']}>
-        <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center"></div>
+        <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
+          <FeesEarnedClaimForm amountToClaim={amountToClaim} />
+        </div>
         <div className={styles.divider} />
         <div className="tw-w-1/2 tw-flex tw-justify-center">
           <RewardsDetail
