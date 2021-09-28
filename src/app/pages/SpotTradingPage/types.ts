@@ -184,6 +184,7 @@ export type LimitOrder = {
   amountOutMin: BigNumber;
   recipient: string;
   deadline: BigNumber;
+  created: BigNumber;
   v: string;
   r: string;
   s: string;

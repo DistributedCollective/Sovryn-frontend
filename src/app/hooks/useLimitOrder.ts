@@ -46,6 +46,8 @@ export function useLimitOrder(
       }
     }
 
+    const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
+
     const order = new Order(
       account,
       sourceToken,
@@ -53,7 +55,8 @@ export function useLimitOrder(
       amount,
       amountOutMin,
       account,
-      getDeadline(duration).toString(),
+      getDeadline(duration > 0 ? duration : 365).toString(),
+      created.toString(),
     );
 
     console.log({ order });

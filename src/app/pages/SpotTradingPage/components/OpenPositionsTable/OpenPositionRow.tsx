@@ -5,12 +5,13 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { LimitOrder, pairList, TradingTypes } from '../../types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { bignumber } from 'mathjs';
 import cn from 'classnames';
 // import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 interface IOpenPositionRowProps {
@@ -45,6 +46,13 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   //   }
   // }, [canceledOrders, loadingCanceledOrders]);
 
+  // console.log(
+  //   'item.amountIn.div(item.amountOutMin): ',
+  //   item.amountIn,
+  //   item.amountOutMin,
+  //   item.amountIn.div(item.amountOutMin),
+  // );
+
   const tradeType = useMemo(() => {
     return pairList.find(
       item => item === `${toToken?.asset}_${fromToken?.asset}`,
@@ -61,7 +69,12 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
 
   return (
     <tr>
-      <td className="tw-hidden xl:tw-table-cell">
+      <td>
+        <DisplayDate
+          timestamp={new Date(item.created.toNumber()).getTime().toString()}
+        />
+      </td>
+      <td>
         <div className={'tw-flex tw-items-center tw-select-none'}>
           <div className="tw-rounded-full tw-z-10">
             <img
@@ -86,7 +99,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
         </div>
       </td>
       <td
-        className={cn('tw-hidden xl:tw-table-cell', {
+        className={cn('', {
           'tw-text-trade-short': tradeType === TradingTypes.SELL,
           'tw-text-trade-long': tradeType === TradingTypes.BUY,
         })}
@@ -97,20 +110,31 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           : t(translations.spotTradingPage.tradeForm.sell)}
       </td>
       <td className="tw-hidden md:tw-table-cell">
-        {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
+        {weiToNumberFormat(item.amountIn.toString(), 4)}{' '}
         <AssetRenderer asset={fromToken.asset} />
       </td>
-      <td className="tw-hidden xl:tw-table-cell">
-        {weiToNumberFormat(item.amountOutMin.toString(), 6)}{' '}
+
+      <td className="tw-hidden md:tw-table-cell">
+        {toNumberFormat(
+          bignumber(item.amountIn.toString())
+            .div(item.amountOutMin.toString())
+            .toString(),
+          4,
+        )}{' '}
+        <AssetRenderer asset={fromToken.asset} />
+      </td>
+      <td>
+        {weiToNumberFormat(item.amountOutMin.toString(), 4)}{' '}
         <AssetRenderer asset={toToken.asset} />
       </td>
-      <td className="tw-hidden sm:tw-table-cell">
+      <td>
         <DisplayDate
           timestamp={new Date(item.deadline.toNumber()).getTime().toString()}
         />
       </td>
+
       <td>
-        <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
+        <div className="tw-flex tw-items-center">
           <ActionButton
             text={t(translations.openPositionTable.cta.close)}
             onClick={() => setShowClosePosition(true)}

@@ -36,13 +36,11 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
       <table className="tw-table">
         <thead>
           <tr>
-            {/* <th className="tw-w-full">{t(trans.dateTime)}</th> */}
+            <th className="tw-w-full">{t(trans.dateTime)}</th>
             <th className="tw-w-full">{t(trans.pair)}</th>
             <th className="tw-w-full">{t(trans.orderType)}</th>
             <th className="tw-w-full">{t(trans.tradeAmount)}</th>
-            {/* <th className="tw-w-full">
-              {t(trans.limitPrice)}
-            </th> */}
+            <th className="tw-w-full">{t(trans.limitPrice)}</th>
             <th className="tw-w-full">{t(trans.amountReceive)}</th>
             <th className="tw-w-full">{t(trans.deadline)}</th>
             <th className="tw-w-full">{t(trans.actions)}</th>

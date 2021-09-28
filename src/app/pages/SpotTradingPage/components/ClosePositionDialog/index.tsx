@@ -11,8 +11,9 @@ import { AssetDetails } from 'utils/models/asset-details';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Input } from 'app/components/Form/Input';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import cn from 'classnames';
+import { bignumber } from 'mathjs';
 interface IClosePositionDialogProps {
   item: LimitOrder;
   showModal: boolean;
@@ -75,6 +76,20 @@ export function ClosePositionDialog({
                   {tradeType === TradingTypes.BUY
                     ? t(translations.spotTradingPage.tradeForm.buy)
                     : t(translations.spotTradingPage.tradeForm.sell)}
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(translations.spotTradingPage.tradeDialog.limitPrice)}
+              value={
+                <>
+                  {toNumberFormat(
+                    bignumber(item.amountIn.toString())
+                      .div(item.amountOutMin.toString())
+                      .toString(),
+                    4,
+                  )}{' '}
+                  <AssetRenderer asset={fromToken.asset} />
                 </>
               }
             />

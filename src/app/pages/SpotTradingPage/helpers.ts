@@ -22,6 +22,7 @@ export class Order {
     private readonly amountOutMin: string,
     private readonly recipient: string = maker,
     private readonly deadline: string,
+    private readonly created: string,
     private readonly v?: number,
     private readonly r?: string,
     private readonly s?: string,
@@ -42,6 +43,7 @@ export class Order {
           'uint256',
           'address',
           'uint256',
+          'uint256',
         ],
         [
           Order.ORDER_TYPEHASH,
@@ -52,6 +54,7 @@ export class Order {
           this.amountOutMin,
           this.recipient,
           this.deadline,
+          this.created,
         ],
       ),
     );
@@ -73,6 +76,7 @@ export class Order {
         { name: 'amountOutMin', type: 'uint256' },
         { name: 'recipient', type: 'address' },
         { name: 'deadline', type: 'uint256' },
+        { name: 'created', type: 'uint256' },
       ],
     };
     const value = {
@@ -83,6 +87,7 @@ export class Order {
       amountOutMin: this.amountOutMin,
       recipient: this.recipient,
       deadline: this.deadline,
+      created: this.created,
     };
 
     const payload = _TypedDataEncoder.getPayload(domain, types, value);
@@ -106,6 +111,7 @@ export class Order {
       this.amountOutMin,
       this.recipient,
       this.deadline,
+      this.created,
       v,
       r,
       s,
