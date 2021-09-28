@@ -32,6 +32,7 @@ export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
       tx={tx}
       onSubmit={onSubmit}
       footer={<Footer />}
+      claimAsset={Asset.RBTC}
     />
   );
 };

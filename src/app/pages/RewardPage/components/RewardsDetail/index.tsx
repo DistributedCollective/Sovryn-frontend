@@ -6,6 +6,7 @@ import { Tooltip } from '@blueprintjs/core';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import styles from './index.module.scss';
 import classNames from 'classnames';
+import { Asset } from 'types';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -20,6 +21,7 @@ interface IRewardsDetailProps {
   totalEarnedAmount: number | string;
   isInMainSection?: boolean;
   isComingSoon?: boolean;
+  asset?: Asset;
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -42,6 +44,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   totalEarnedAmount,
   isInMainSection,
   isComingSoon,
+  asset = Asset.SOV,
 }) => {
   const { t } = useTranslation();
 
@@ -67,10 +70,10 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           </div>
         </div>
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
-          <Tooltip content={`${weiTo18(availableAmount)} SOV`}>
+          <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
             <>
               {weiToNumberFormat(availableAmount, 6)}{' '}
-              <span className="tw--ml-1 tw-mr-1">...</span> SOV
+              <span className="tw--ml-1 tw-mr-1">...</span> {asset}
             </>
           </Tooltip>
         </div>
@@ -79,10 +82,10 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <div className={styles['secondary-title']}>
           {t(translations.rewardPage.totalRewards)}
         </div>
-        <Tooltip content={`${weiTo18(totalEarnedAmount)} SOV`}>
+        <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
           <>
             {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
-            <span className="tw--ml-1 tw-mr-1">...</span> SOV
+            <span className="tw--ml-1 tw-mr-1">...</span> {asset}
           </>
         </Tooltip>
       </div>

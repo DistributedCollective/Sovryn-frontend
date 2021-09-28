@@ -22,6 +22,7 @@ interface IBaseClaimFormProps {
   tx: ResetTxResponseInterface;
   footer?: JSX.Element;
   onSubmit: () => void;
+  claimAsset?: Asset;
 }
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
@@ -30,6 +31,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   tx,
   footer,
   onSubmit,
+  claimAsset = Asset.SOV,
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -46,11 +48,11 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <Tooltip content={`${weiTo18(amountToClaim)} SOV`}>
+        <Tooltip content={`${weiTo18(amountToClaim)} ${claimAsset}`}>
           <Input
             value={`${weiToNumberFormat(amountToClaim, 6)}...`}
             readOnly={true}
-            appendElem={<AssetRenderer asset={Asset.SOV} />}
+            appendElem={<AssetRenderer asset={claimAsset} />}
             inputClassName="tw-text-center tw-text-2xl tw-font-normal"
           />
         </Tooltip>

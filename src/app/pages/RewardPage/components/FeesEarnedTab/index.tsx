@@ -10,6 +10,7 @@ import { FeesEarnedClaimForm } from '../ClaimForms/FeesEarnedClaimForm/index';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { bignumber } from 'mathjs';
 import { PieChart } from '../../styled';
+import { Asset } from 'types';
 
 export function FeesEarnedTab() {
   const { t } = useTranslation();
@@ -76,12 +77,14 @@ export function FeesEarnedTab() {
           title={t(translations.rewardPage.fee.stakingFee)}
           availableAmount={amountToClaim}
           totalEarnedAmount={totalRewardsEarned}
+          asset={Asset.RBTC}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.referralReward)}
           availableAmount={0}
           totalEarnedAmount={0}
+          asset={Asset.RBTC}
           isComingSoon
         />
       </div>
