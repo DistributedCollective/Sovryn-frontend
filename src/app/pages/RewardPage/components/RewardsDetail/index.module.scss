@@ -1,8 +1,13 @@
 .wrapper {
-    @apply tw-rounded-lg tw-pl-4 tw-pt-4 tw-pr-6 tw-pb-4;
+    @apply tw-rounded-lg tw-pl-4 tw-pt-4 tw-pr-6 tw-pb-4 tw-relative;
 
     width: 31%;
     background-color: #282828;
+}
+
+.comingSoon {
+    @apply tw-absolute tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center tw-top-0 tw-left-0 tw-text-xl tw-rounded-lg;
+    background: rgba(0,0,16,0.65);
 }
 
 .secondary-section {

@@ -19,6 +19,7 @@ interface IRewardsDetailProps {
   availableAmount: number | string;
   totalEarnedAmount: number | string;
   isInMainSection?: boolean;
+  isComingSoon?: boolean;
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -40,11 +41,22 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   availableAmount,
   totalEarnedAmount,
   isInMainSection,
+  isComingSoon,
 }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={classNames(!isInMainSection && styles.wrapper)}>
+    <div
+      className={classNames(
+        !isInMainSection && styles.wrapper,
+        isComingSoon && 'tw-cursor-not-allowed',
+      )}
+    >
+      {isComingSoon && (
+        <div className={styles.comingSoon}>
+          {t(translations.rewardPage.comingSoon)}
+        </div>
+      )}
       <div className="tw-text-xl tw-font-medium tw-mb-8">{title}</div>
 
       <div className="tw-mb-6">
