@@ -8,6 +8,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
+import { bignumber } from 'mathjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -48,14 +49,23 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
         {t(translations.rewardPage.claimForm.title)}
       </div>
       <div className="tw-mt-1 tw-w-full tw-flex-1 tw-flex tw-flex-col tw-justify-center">
-        <Tooltip content={`${weiTo18(amountToClaim)} ${claimAsset}`}>
+        {bignumber(amountToClaim).greaterThan(0) ? (
+          <Tooltip content={`${weiTo18(amountToClaim)} ${claimAsset}`}>
+            <Input
+              value={`${weiToNumberFormat(amountToClaim, 6)}...`}
+              readOnly={true}
+              appendElem={<AssetRenderer asset={claimAsset} />}
+              inputClassName="tw-text-center tw-text-2xl tw-font-normal"
+            />
+          </Tooltip>
+        ) : (
           <Input
-            value={`${weiToNumberFormat(amountToClaim, 6)}...`}
+            value="0"
             readOnly={true}
             appendElem={<AssetRenderer asset={claimAsset} />}
             inputClassName="tw-text-center tw-text-2xl tw-font-normal"
           />
-        </Tooltip>
+        )}
 
         <div className="tw-mt-16">
           {rewardsLocked && (

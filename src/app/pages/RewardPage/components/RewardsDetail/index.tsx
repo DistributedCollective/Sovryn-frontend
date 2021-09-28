@@ -7,6 +7,7 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import { Asset } from 'types';
+import { bignumber } from 'mathjs';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -70,24 +71,32 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           </div>
         </div>
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
-          <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
-            <>
-              {weiToNumberFormat(availableAmount, 6)}{' '}
-              <span className="tw--ml-1 tw-mr-1">...</span> {asset}
-            </>
-          </Tooltip>
+          {bignumber(availableAmount).greaterThan(0) ? (
+            <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
+              <>
+                {weiToNumberFormat(availableAmount, 6)}{' '}
+                <span className="tw--ml-1 tw-mr-1">...</span> {asset}
+              </>
+            </Tooltip>
+          ) : (
+            <>0 {asset}</>
+          )}
         </div>
       </div>
       <div className={styles['secondary-section']}>
         <div className={styles['secondary-title']}>
           {t(translations.rewardPage.totalRewards)}
         </div>
-        <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
-          <>
-            {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
-            <span className="tw--ml-1 tw-mr-1">...</span> {asset}
-          </>
-        </Tooltip>
+        {bignumber(totalEarnedAmount).greaterThan(0) ? (
+          <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
+            <>
+              {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
+              <span className="tw--ml-1 tw-mr-1">...</span> {asset}
+            </>
+          </Tooltip>
+        ) : (
+          <>0 {asset}</>
+        )}
       </div>
     </div>
   );
