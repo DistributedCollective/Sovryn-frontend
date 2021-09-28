@@ -12,6 +12,7 @@ import cn from 'classnames';
 interface Props {
   asset: Asset;
   className?: string;
+  dataAttribute?: string;
 }
 
 export function AvailableBalance(props: Props) {
@@ -23,6 +24,7 @@ export function AvailableBalance(props: Props) {
         'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2',
         props.className,
       )}
+      data-action-id={props.dataAttribute}
     >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
