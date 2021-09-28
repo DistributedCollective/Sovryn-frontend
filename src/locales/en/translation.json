@@ -1401,6 +1401,14 @@
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
       "learn": "Learn more"
     },
+    "liquidClaimForm": {
+      "note": "Claiming your rewards automatically adds them your SOV portfolio balance.",
+      "learn": "Learn more"
+    },
+    "feesEarnedClaimForm": {
+      "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
+      "learn": "Learn more"
+    },
     "stakingForm": {
       "title": "Amount to claim:",
       "available": "Total Staking Rewards Available:",

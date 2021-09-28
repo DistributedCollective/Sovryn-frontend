@@ -5,6 +5,10 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { TxType } from 'store/global/transactions-store/types';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { Asset } from 'types';
 
 export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
   className,
@@ -27,6 +31,24 @@ export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
       amountToClaim={amountToClaim}
       tx={tx}
       onSubmit={onSubmit}
+      footer={<Footer />}
     />
   );
 };
+
+const Footer: React.FC = () => (
+  <>
+    <Trans
+      i18nKey={translations.rewardPage.feesEarnedClaimForm.note}
+      components={[<AssetRenderer asset={Asset.RBTC} />]}
+    />{' '}
+    <a
+      href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"
+      target="_blank"
+      rel="noreferrer noopener"
+      className="tw-text-secondary tw-underline"
+    >
+      <Trans i18nKey={translations.rewardPage.feesEarnedClaimForm.learn} />
+    </a>
+  </>
+);

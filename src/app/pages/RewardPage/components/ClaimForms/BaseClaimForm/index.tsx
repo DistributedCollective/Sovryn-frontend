@@ -90,7 +90,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">{footer}</div>
+          <div className="tw-text-xs">{footer}</div>
         </div>
       </div>
       <TxDialog tx={tx} />
