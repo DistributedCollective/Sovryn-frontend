@@ -26,10 +26,10 @@ export const RewardClaimForm: React.FC<IClaimFormProps> = ({
       [ethGenesisAddress],
       {
         from: address,
-        gas: gasLimit[TxType.LOCKED_SOV_CLAIM],
+        gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
       },
       {
-        type: TxType.LOCKED_SOV_CLAIM,
+        type: TxType.CLAIM_VESTED_SOV_REWARDS,
       },
     );
   }, [address, send]);
