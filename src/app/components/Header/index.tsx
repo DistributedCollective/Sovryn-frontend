@@ -53,84 +53,84 @@ export function Header() {
       to: '/buy-sov',
       title: t(translations.mainMenu.buySov),
       exact: true,
-      dataAttribute: 'header-trade-link-buySov',
+      dataActionId: 'header-trade-link-buySov',
     },
     {
       to: '/swap',
       title: t(translations.mainMenu.swap),
-      dataAttribute: 'header-trade-link-swap',
+      dataActionId: 'header-trade-link-swap',
     },
     {
       to: '/spot',
       title: t(translations.mainMenu.spotTrade),
-      dataAttribute: 'header-trade-link-spot',
+      dataActionId: 'header-trade-link-spot',
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
-      dataAttribute: 'header-trade-link-margin',
+      dataActionId: 'header-trade-link-margin',
     },
     {
       to: '/lend',
       title: t(translations.mainMenu.lend),
-      dataAttribute: 'header-finance-link-lend',
+      dataActionId: 'header-finance-link-lend',
     },
     {
       to: '/borrow',
       title: t(translations.mainMenu.borrow),
-      dataAttribute: 'header-finance-link-borrow',
+      dataActionId: 'header-finance-link-borrow',
     },
     {
       to: '/yield-farm',
       title: t(translations.mainMenu.yieldFarm),
-      dataAttribute: 'header-finance-link-yieldFarm',
+      dataActionId: 'header-finance-link-yieldFarm',
     },
     {
       to: 'https://bitocracy.sovryn.app',
       title: t(translations.mainMenu.governance),
-      dataAttribute: 'header-bitocracy-link-governance',
+      dataActionId: 'header-bitocracy-link-governance',
     },
     {
       to: '/stake',
       title: t(translations.mainMenu.staking),
-      dataAttribute: 'header-bitocracy-link-stake',
+      dataActionId: 'header-bitocracy-link-stake',
     },
     {
       to: '/reward',
       title: t(translations.mainMenu.reward),
-      dataAttribute: 'header-link-rewards',
+      dataActionId: 'header-link-rewards',
     },
     {
       to: '/wallet',
       title: t(translations.mainMenu.wallet),
-      dataAttribute: 'header-link-portfolio',
+      dataActionId: 'header-link-portfolio',
     },
     {
       to: bridgeURL,
       title: t(translations.mainMenu.bridge),
-      dataAttribute: 'header-link-bridge',
+      dataActionId: 'header-link-bridge',
     },
     {
       to: '/origins',
       title: t(translations.mainMenu.origins),
-      dataAttribute: 'header-origins-link-launchpad',
+      dataActionId: 'header-origins-link-launchpad',
     },
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataAttribute: 'header-origins-link-claim',
+      dataActionId: 'header-origins-link-claim',
     },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
-      dataAttribute: 'header-link-help',
+      dataActionId: 'header-link-help',
     },
   ];
   const menuItems = pages.map((item, index) => {
     let link: {
       to: string;
       title: string;
-      dataAttribute: string;
+      dataActionId: string;
       onClick?: () => void;
       beforeOpen?: () => void;
     } = item;
@@ -143,7 +143,7 @@ export function Header() {
           href={link.to}
           target="_blank"
           rel="noreferrer noopener"
-          data-action-id={link.dataAttribute}
+          data-action-id={link.dataActionId}
         />
       );
     }
@@ -157,7 +157,7 @@ export function Header() {
           link.onClick ? link.onClick() : history.push(link.to);
           setOpen(false);
         }}
-        data-action-id={link.dataAttribute}
+        data-action-id={link.dataActionId}
       />
     );
   });
@@ -440,6 +440,7 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               className="tw-header-link tw-hidden xl:tw-block"
+              data-action-id="header-link-help"
             >
               {t(translations.mainMenu.help)}
             </a>
