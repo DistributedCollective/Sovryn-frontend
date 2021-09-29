@@ -103,12 +103,12 @@ export function Header() {
     {
       to: '/wallet',
       title: t(translations.mainMenu.wallet),
-      dataAttribute: 'header-portfolio-link-wallet',
+      dataAttribute: 'header-link-portfolio',
     },
     {
       to: bridgeURL,
       title: t(translations.mainMenu.bridge),
-      dataAttribute: 'header-bridge',
+      dataAttribute: 'header-link-bridge',
     },
     {
       to: '/origins',
@@ -123,7 +123,7 @@ export function Header() {
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
-      dataAttribute: 'header-help',
+      dataAttribute: 'header-link-help',
     },
   ];
   const menuItems = pages.map((item, index) => {
