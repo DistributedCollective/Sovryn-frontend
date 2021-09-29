@@ -1326,7 +1326,7 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus SOV recompensa, eles ficam bloqueados por 10 meses com a possibilidade de liberá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus SOV recompensa, eles ficam bloqueados por 10 meses. A cada mês é liberada uma quantidade que irá aparecer na aba SOV líquido.",
       "learn": "Saiba mais"
     },
     "liquidClaimForm": {
