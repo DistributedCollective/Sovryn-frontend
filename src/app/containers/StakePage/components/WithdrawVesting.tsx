@@ -23,7 +23,7 @@ export function WithdrawVesting({ vesting, onCloseModal }: Props) {
   const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
   const [sending, setSending] = useState(false);
-  const { value, loading } = useGetUnlockedVesting(vesting);
+  const { value, loading } = useGetUnlockedVesting('staking', vesting);
 
   const validate = () => {
     return (

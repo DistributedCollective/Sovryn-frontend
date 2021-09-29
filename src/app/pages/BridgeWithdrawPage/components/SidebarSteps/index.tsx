@@ -182,7 +182,7 @@ export function SidebarSteps() {
 
   return (
     <>
-      {step < WithdrawStep.PROCESSING && (
+      {step < WithdrawStep.CONFIRM && (
         <div
           onClick={handleBack}
           className="tw-absolute tw-top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none"

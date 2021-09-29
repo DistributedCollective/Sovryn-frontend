@@ -1,6 +1,7 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useStakeWithdraw() {
   const account = useAccount();
@@ -9,7 +10,7 @@ export function useStakeWithdraw() {
     withdraw: (weiAmount: string, timestamp: number) => {
       send(
         [weiAmount, timestamp, account],
-        { from: account, gas: 450000 },
+        { from: account, gas: gasLimit[TxType.STAKING_WITHDRAW] },
         {
           type: TxType.STAKING_WITHDRAW,
         },

@@ -62,6 +62,11 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
   },
+  WRBTC_token: {
+    address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
+    abi: abiTestWBRTCToken,
+    blockNumber: 2742415,
+  },
   RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
@@ -86,6 +91,11 @@ export const contracts = {
     address: '0xd715192612F03D20BaE53a5054aF530C9Bb0fA3f',
     abi: LiquidityPoolV2Converter,
     blockNumber: 2742633,
+  },
+  RDOC_token: {
+    address: '0x2d919f19D4892381d58EdEbEcA66D5642ceF1A1F',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
   },
   MOC_token: {
     address: '0x9aC7Fe28967b30e3a4E6E03286D715B42B453d10',

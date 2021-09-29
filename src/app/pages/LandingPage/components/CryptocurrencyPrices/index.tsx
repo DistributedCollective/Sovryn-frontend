@@ -5,7 +5,7 @@ import { translations } from 'locales/i18n';
 import { IPairs, IAssets, IAssetData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { toNumberFormat } from 'utils/display-text/format';
+import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
 import arrowUp from 'assets/images/trend-arrow-up.svg';
 import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
@@ -109,6 +109,9 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               const assetDetails = AssetsDictionary.getByTokenContractAddress(
                 pair.base_id,
               );
+              if (!assetDetails) {
+                return <></>;
+              }
               let rbtcRow;
 
               if (assetDetails.asset === Asset.USDT) {
@@ -164,7 +167,7 @@ export const Row: React.FC<IRowProps> = ({
   lastPrice,
   assetLoading,
 }) => {
-  if (!assetDetails) return null;
+  if (!assetDetails) return <></>;
 
   return (
     <>
@@ -182,11 +185,7 @@ export const Row: React.FC<IRowProps> = ({
         </td>
 
         <td className="tw-text-right tw-whitespace-nowrap">
-          {(lastPrice || 0).toLocaleString('en', {
-            maximumFractionDigits: 3,
-            minimumFractionDigits: 2,
-          })}{' '}
-          USD
+          {numberToUSD(lastPrice || 0)}
         </td>
 
         <td className={'tw-text-right tw-whitespace-nowrap'}>
@@ -202,28 +201,25 @@ export const Row: React.FC<IRowProps> = ({
             loading={assetLoading}
             value={
               assetData?.circulating_supply
-                ? `${Number(
+                ? `${numberToUSD(
                     bignumber(assetData?.circulating_supply || '0')
                       .mul(lastPrice || '0')
-                      .toFixed(0),
-                  ).toLocaleString('en')} USD`
+                      .toNumber(),
+                    0,
+                  )}`
                 : ''
             }
           />
-          {}
         </td>
         <td className={'tw-text-right tw-whitespace-nowrap'}>
           <LoadableValue
             loading={assetLoading}
             value={
               assetData?.circulating_supply
-                ? Number(
-                    bignumber(assetData?.circulating_supply || '0').toFixed(0),
-                  ).toLocaleString('en')
+                ? toNumberFormat(assetData?.circulating_supply || 0, 2)
                 : ''
             }
           />
-          {}
         </td>
       </tr>
     </>
