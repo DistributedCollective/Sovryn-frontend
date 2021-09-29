@@ -108,7 +108,7 @@ export const contracts = {
     blockNumber: 1218833,
   },
   RIF_token: {
-    address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', // todo
+    address: '0x2acc95758f8b5f583470ba265eb685a8f45fc9d5',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
@@ -118,7 +118,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   RIF_amm: {
-    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD', // todo
+    address: '0x1769044CBa7aD37719badE16Cc71EC3f027b943D',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
