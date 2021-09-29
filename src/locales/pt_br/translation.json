@@ -1346,6 +1346,7 @@
     },
     "historyTable": {
       "title": "Histórico",
+      "titleFeesEarned": "Histórico",
       "tableHeaders": {
         "time": "Data e hora",
         "type": "Tipo",
