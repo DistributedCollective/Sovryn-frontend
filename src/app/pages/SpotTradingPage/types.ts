@@ -38,6 +38,7 @@ export enum SpotPairType {
   BNB_DOC = 'BNBS_DOC',
   BNB_MOC = 'BNBS_MOC',
   FISH_RBTC = 'FISH_RBTC',
+  FISH_SOV = 'FISH_SOV',
   FISH_XUSD = 'FISH_XUSD',
   FISH_USDT = 'FISH_USDT',
   FISH_DOC = 'FISH_DOC',
@@ -45,6 +46,7 @@ export enum SpotPairType {
   FISH_BNB = 'FISH_BNB',
   // RIF
   RIF_RBTC = 'RIF_RBTC',
+  RIF_SOV = 'RIF_SOV',
   RIF_XUSD = 'RIF_XUSD',
   RIF_USDT = 'RIF_USDT',
   RIF_DOC = 'RIF_DOC',
@@ -89,6 +91,7 @@ export const pairs = {
   [SpotPairType.BNB_DOC]: [Asset.BNB, Asset.DOC],
   [SpotPairType.BNB_MOC]: [Asset.BNB, Asset.MOC],
   [SpotPairType.FISH_RBTC]: [Asset.FISH, Asset.RBTC],
+  [SpotPairType.FISH_SOV]: [Asset.FISH, Asset.SOV],
   [SpotPairType.FISH_XUSD]: [Asset.FISH, Asset.XUSD],
   [SpotPairType.FISH_USDT]: [Asset.FISH, Asset.USDT],
   [SpotPairType.FISH_DOC]: [Asset.FISH, Asset.DOC],
@@ -96,6 +99,7 @@ export const pairs = {
   [SpotPairType.FISH_BNB]: [Asset.FISH, Asset.BNB],
   // RIF
   [SpotPairType.RIF_RBTC]: [Asset.RIF, Asset.RBTC],
+  [SpotPairType.RIF_SOV]: [Asset.RIF, Asset.SOV],
   [SpotPairType.RIF_XUSD]: [Asset.RIF, Asset.XUSD],
   [SpotPairType.RIF_USDT]: [Asset.RIF, Asset.USDT],
   [SpotPairType.RIF_DOC]: [Asset.RIF, Asset.DOC],
@@ -140,6 +144,7 @@ export const pairList = [
   SpotPairType.BNB_DOC,
   SpotPairType.BNB_MOC,
   SpotPairType.FISH_RBTC,
+  SpotPairType.FISH_SOV,
   SpotPairType.FISH_XUSD,
   SpotPairType.FISH_USDT,
   SpotPairType.FISH_DOC,
@@ -147,6 +152,7 @@ export const pairList = [
   SpotPairType.FISH_BNB,
   // RIF
   SpotPairType.RIF_RBTC,
+  SpotPairType.RIF_SOV,
   SpotPairType.RIF_XUSD,
   SpotPairType.RIF_USDT,
   SpotPairType.RIF_DOC,
