@@ -14,6 +14,18 @@ export function weiToNumberFormat(value: any, decimals: number = 0) {
   return toNumberFormat(Number(fromWei(value || '0')), decimals);
 }
 
+export function weiToUSD(
+  value: string,
+  decimals: number = 4,
+  minDecimals: number = decimals,
+) {
+  return numberToUSD(
+    Number(weiToFixed(value, decimals)),
+    decimals,
+    minDecimals,
+  );
+}
+
 export function toNumberFormat(value: number | string, decimals: number = 0) {
   if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
@@ -22,7 +34,11 @@ export function toNumberFormat(value: number | string, decimals: number = 0) {
   });
 }
 
-export function numberToUSD(value: number, decimals: number) {
+export function numberToUSD(
+  value: number,
+  decimals: number = 4,
+  minDecimals: number = decimals,
+) {
   if (value === null) {
     return null;
   }
@@ -31,7 +47,7 @@ export function numberToUSD(value: number, decimals: number) {
     currency: 'USD',
     currencyDisplay: 'code',
     maximumFractionDigits: decimals,
-    minimumFractionDigits: 0,
+    minimumFractionDigits: minDecimals,
   });
 }
 
