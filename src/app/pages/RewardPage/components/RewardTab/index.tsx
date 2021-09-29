@@ -6,24 +6,24 @@ import styles from '../../index.module.scss';
 import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
-import { useGetAvailableTradingRewards } from './hooks/useGetAvailableTradingRewards';
-import { useGetAvailableLiquidityRewards } from './hooks/useGetAvailableLiquidityRewards';
-import { useGetAvailableLendingRewards } from './hooks/useGetAvailableLendingRewards';
 import { useGetTotalTradingRewards } from './hooks/useGetTotalTradingRewards';
 import { useGetTotalLiquidityRewards } from './hooks/useGetTotalLiquidityRewards';
 import { useGetTotalLendingRewards } from './hooks/useGetTotalLendingRewards';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface IRewardTabProps {
+  availableTradingRewards: string;
+  availableLiquidityRewards: string;
+  availableLendingRewards: string;
   amountToClaim: string;
 }
 
-export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
+export const RewardTab: React.FC<IRewardTabProps> = ({
+  availableTradingRewards,
+  availableLiquidityRewards,
+  availableLendingRewards,
+  amountToClaim,
+}) => {
   const { t } = useTranslation();
-
-  const availableTradingRewards = useGetAvailableTradingRewards();
-  const availableLiquidityRewards = useGetAvailableLiquidityRewards();
-  const availableLendingRewards = useGetAvailableLendingRewards();
 
   const totalTradingRewards = useGetTotalTradingRewards();
   const totalLiquidityRewards = useGetTotalLiquidityRewards();
@@ -47,25 +47,11 @@ export const RewardTab: React.FC<IRewardTabProps> = ({ amountToClaim }) => {
     ],
   );
 
-  const claimAmount = useMemo(
-    () =>
-      weiTo18(
-        availableLiquidityRewards +
-          availableLendingRewards +
-          availableTradingRewards,
-      ),
-    [
-      availableLendingRewards,
-      availableLiquidityRewards,
-      availableTradingRewards,
-    ],
-  );
-
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <div className={styles['tab-main-section']}>
         <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-          <RewardClaimForm amountToClaim={claimAmount} />
+          <RewardClaimForm amountToClaim={amountToClaim} />
         </div>
         <div className={styles.divider} />
         <div className="tw-w-1/2">

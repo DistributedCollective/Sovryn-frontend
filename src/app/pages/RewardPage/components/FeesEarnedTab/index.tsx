@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
-import { useAccount } from 'app/hooks/useAccount';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { FeesEarnedClaimForm } from '../ClaimForms/FeesEarnedClaimForm/index';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
@@ -12,18 +10,14 @@ import { bignumber } from 'mathjs';
 import { PieChart } from '../../styled';
 import { Asset } from 'types';
 
-export function FeesEarnedTab() {
+interface IFeesEarnedTabProps {
+  amountToClaim: string;
+}
+
+export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
+  amountToClaim,
+}) => {
   const { t } = useTranslation();
-
-  const address = useAccount();
-
-  const { value: amountToClaim } = useCacheCallWithValue(
-    'feeSharingProxy',
-    'getAccumulatedFees',
-    '0',
-    address,
-    getContract('RBTC_lending').address,
-  );
 
   const { events: feesEarnedEvents } = useGetContractPastEvents(
     'feeSharingProxy',
@@ -90,4 +84,4 @@ export function FeesEarnedTab() {
       </div>
     </div>
   );
-}
+};
