@@ -1316,6 +1316,7 @@
     "lockedRewards": "Bônus bloqueados:",
     "claimableRewards": "Bônus reinvidicáveis",
     "stakingReward": "Bônus de investimento",
+    "referralReward": "Bônus de indicação",
     "comingSoon": "Em breve",
     "meta": {
       "title": "Recompensas",
@@ -1325,7 +1326,15 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de sacá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus SOV recompensa, eles ficam bloqueados por 10 meses. A cada mês é liberada uma quantidade disponibilizada na aba SOV líquido.",
+      "learn": "Saiba mais"
+    },
+    "liquidClaimForm": {
+      "note": "Ao reivindicar seus SOV líquido, eles automaticamente são adicionados no seu saldo SOV no portfólio.",
+      "learn": "Saiba mais"
+    },
+    "feesEarnedClaimForm": {
+      "note": "Ao reivindicar seus dividendos, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
@@ -1335,12 +1344,12 @@
     },
     "totalEarned": "Total ganho:",
     "sov": {
-      "reward": "SOV bônus",
+      "reward": "SOV recompensa",
       "liquid": "SOV líquido",
       "fee": "Dividendos"
     },
     "fee": {
-      "stakingFee": "Dividendo investimento SOV",
+      "stakingFee": "Dividendo de investimento",
       "referralFee": "Dividendo de indicação",
       "tradingRebate": "Trading Rebate"
     },
