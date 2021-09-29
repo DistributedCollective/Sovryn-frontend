@@ -1427,6 +1427,7 @@
     },
     "historyTable": {
       "title": "Reward SOV History",
+      "titleFeesEarned": "Fees Earned History",
       "tableHeaders": {
         "time": "Date",
         "type": "Type",

@@ -104,7 +104,9 @@ export function RewardPage() {
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">
-              {t(translations.rewardPage.historyTable.title)}
+              {activeTab === RewardTabType.FEES_EARNED
+                ? t(translations.rewardPage.historyTable.titleFeesEarned)
+                : t(translations.rewardPage.historyTable.title)}
             </div>
             {!address ? (
               <SkeletonRow
