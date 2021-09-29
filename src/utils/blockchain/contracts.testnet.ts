@@ -112,6 +112,21 @@ export const contracts = {
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
+  RIF_token: {
+    address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // RIF_lending: {
+  //   address: '',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  RIF_amm: {
+    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
   USDT_token: {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
     abi: TestTokenABI,
