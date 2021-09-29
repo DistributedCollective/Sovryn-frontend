@@ -98,7 +98,7 @@ export function Header() {
     {
       to: '/reward',
       title: t(translations.mainMenu.reward),
-      dataAttribute: 'header-bitocracy-link-rewards',
+      dataAttribute: 'header-link-rewards',
     },
     {
       to: '/wallet',
@@ -239,7 +239,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/buy-sov');
                       }}
-                      data-action-id="tradeMenu-buy-sov-btn"
+                      data-action-id="header-trade-link-buySov"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.swap)}
@@ -247,7 +247,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/swap');
                       }}
-                      data-action-id="tradeMenu-swap-btn"
+                      data-action-id="header-trade-link-swap"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.spotTrade)}
@@ -255,7 +255,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/spot');
                       }}
-                      data-action-id="tradeMenu-spot-btn"
+                      data-action-id="header-trade-link-spot"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
@@ -263,7 +263,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/trade');
                       }}
-                      data-action-id="tradeMenu-margin-btn"
+                      data-action-id="header-trade-link-margin"
                     />
                   </BPMenu>
                 }
@@ -275,7 +275,7 @@ export function Header() {
                 >
                   <span
                     className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                    data-action-id="headerMenu-trade-btn"
+                    data-action-id="header-link-trade"
                   >
                     {t(translations.mainMenu.trade)}
                   </span>
@@ -289,19 +289,19 @@ export function Header() {
                       text={t(translations.mainMenu.lend)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/lend')}
-                      data-action-id="financeMenu-lend-btn"
+                      data-action-id="header-finance-link-lend"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/borrow')}
-                      data-action-id="financeMenu-borrow-btn"
+                      data-action-id="header-finance-link-borrow"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.yieldFarm)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/yield-farm')}
-                      data-action-id="financeMenu-yieldFarm-btn"
+                      data-action-id="header-finance-link-yieldFarm"
                     />
                   </BPMenu>
                 }
@@ -313,7 +313,7 @@ export function Header() {
                 >
                   <span
                     className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                    data-action-id="headerMenu-finance-btn"
+                    data-action-id="header-link-finance"
                   >
                     {t(translations.mainMenu.finance)}
                   </span>
@@ -329,7 +329,7 @@ export function Header() {
                       onClick={() => {
                         history.push('/stake');
                       }}
-                      data-action-id="bitocracyMenu-stake-btn"
+                      data-action-id="header-bitocracy-link-stake"
                     />
                     <MenuItem
                       icon={
@@ -343,7 +343,7 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.governance)}
                       className="bp3-popover-dismiss"
-                      data-action-id="bitocracyMenu-governance-btn"
+                      data-action-id="header-bitocracy-link-governance"
                     />
                     <MenuItem
                       icon={
@@ -357,7 +357,7 @@ export function Header() {
                       target="_blank"
                       text={t(translations.mainMenu.forum)}
                       className="bp3-popover-dismiss"
-                      data-action-id="bitocracyMenu-forum-btn"
+                      data-action-id="header-bitocracy-link-forum"
                     />
                   </BPMenu>
                 }
@@ -369,7 +369,7 @@ export function Header() {
                 >
                   <span
                     className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                    data-action-id="headerMenu-bitocracy-btn"
+                    data-action-id="header-link-bitocracy"
                   >
                     {t(translations.mainMenu.bitocracy)}
                   </span>
@@ -379,7 +379,7 @@ export function Header() {
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
                 to="/reward"
-                data-action-id="headerMenu-reward-btn"
+                data-action-id="header-link-rewards"
               >
                 {t(translations.mainMenu.rewards)}
               </NavLink>
@@ -387,7 +387,7 @@ export function Header() {
               <NavLink
                 className="tw-header-link tw-mr-2 2xl:tw-mr-3"
                 to="/wallet"
-                data-action-id="headerMenu-portfolio-btn"
+                data-action-id="header-link-portfolio"
               >
                 {t(translations.mainMenu.wallet)}
               </NavLink>
@@ -396,7 +396,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tw-header-link"
-                data-action-id="headerMenu-bridge-btn"
+                data-action-id="header-link-bridge"
               >
                 {t(translations.mainMenu.bridge)}
               </a>
@@ -407,13 +407,13 @@ export function Header() {
                       text={t(translations.mainMenu.launchpad)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/origins')}
-                      data-action-id="originsMenu-launchpad-btn"
+                      data-action-id="header-origins-link-launchpad"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.claim)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/origins/claim')}
-                      data-action-id="originsMenu-claim-btn"
+                      data-action-id="header-origins-link-claim"
                     />
                   </BPMenu>
                 }
@@ -425,7 +425,7 @@ export function Header() {
                 >
                   <span
                     className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                    data-action-id="headerMenu-origins-btn"
+                    data-action-id="header-link-origins"
                   >
                     {t(translations.mainMenu.origins)}
                   </span>
