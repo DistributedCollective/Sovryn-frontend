@@ -1,13 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { useAccount } from 'app/hooks/useAccount';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { translations } from 'locales/i18n';
 
-import { weiTo18 } from '../../../utils/blockchain/math-helpers';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { HistoryTable } from './components/HistoryTable';
@@ -15,61 +12,31 @@ import { LiquidTab } from './components/LiquidTab';
 import { RewardTab } from './components/RewardTab';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
-import { contractReader } from 'utils/sovryn/contract-reader';
 
 import imgSov from 'assets/images/reward/sov.svg';
 import imgBtc from 'assets/images/reward/Bitcoin.svg';
 import styles from './index.module.scss';
 import { FeesEarnedTab } from './components/FeesEarnedTab';
-import { useGetAvailableLendingRewards } from './components/RewardTab/hooks/useGetAvailableLendingRewards';
-import { useGetAvailableTradingRewards } from './components/RewardTab/hooks/useGetAvailableTradingRewards';
-import { useGetAvailableLiquidityRewards } from './components/RewardTab/hooks/useGetAvailableLiquidityRewards';
-import { getContract } from 'utils/blockchain/contract-helpers';
 import { Asset } from 'types';
+import { useGetLiquidSovClaimAmount } from './hooks/useGetLiquidSovClaimAmount';
+import { useGetRewardSovClaimAmount } from './hooks/useGetRewardSovClaimAmount';
+import { useGetFeesEarnedClaimAmount } from './hooks/useGetFeesEarnedClaimAmount';
+import { useAccount } from 'app/hooks/useAccount';
 
 export function RewardPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
-  const [liquidSovClaimAmount, setLiquidSovClaimAmount] = useState('0');
   const address = useAccount();
 
-  useEffect(() => {
-    contractReader
-      .call<{ amount: string }>(
-        'stakingRewards',
-        'getStakerCurrentReward',
-        [true],
-        address,
-      )
-      .then(result => setLiquidSovClaimAmount(result.amount))
-      .catch(() => setLiquidSovClaimAmount('0'));
-  }, [address]);
+  const {
+    availableLendingRewards,
+    availableTradingRewards,
+    availableLiquidityRewards,
+    amountToClaim: rewardSovClaimAmount,
+  } = useGetRewardSovClaimAmount();
 
-  const availableLendingRewards = useGetAvailableLendingRewards();
-  const availableTradingRewards = useGetAvailableTradingRewards();
-  const availableLiquidityRewards = useGetAvailableLiquidityRewards();
-
-  const rewardTabClaimAmount = useMemo(
-    () =>
-      weiTo18(
-        availableLiquidityRewards +
-          availableLendingRewards +
-          availableTradingRewards,
-      ),
-    [
-      availableLendingRewards,
-      availableLiquidityRewards,
-      availableTradingRewards,
-    ],
-  );
-
-  const { value: feesEarnedAmountToClaim } = useCacheCallWithValue(
-    'feeSharingProxy',
-    'getAccumulatedFees',
-    '0',
-    address,
-    getContract('RBTC_lending').address,
-  );
+  const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
+  const feesEarnedClaimAmount = useGetFeesEarnedClaimAmount();
 
   return (
     <>
@@ -95,7 +62,7 @@ export function RewardPage() {
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}
-                  amountToClaim={rewardTabClaimAmount}
+                  amountToClaim={rewardSovClaimAmount}
                   active={activeTab === RewardTabType.REWARD_SOV}
                   onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
                 />
@@ -113,7 +80,7 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.fee)}
                   active={activeTab === RewardTabType.FEES_EARNED}
                   onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
-                  amountToClaim={feesEarnedAmountToClaim}
+                  amountToClaim={feesEarnedClaimAmount}
                   asset={Asset.RBTC}
                 />
               </div>
@@ -124,14 +91,14 @@ export function RewardPage() {
                   availableLendingRewards={availableLendingRewards}
                   availableLiquidityRewards={availableLiquidityRewards}
                   availableTradingRewards={availableTradingRewards}
-                  amountToClaim={rewardTabClaimAmount}
+                  amountToClaim={rewardSovClaimAmount}
                 />
               )}
               {activeTab === RewardTabType.LIQUID_SOV && (
                 <LiquidTab amountToClaim={liquidSovClaimAmount} />
               )}
               {activeTab === RewardTabType.FEES_EARNED && (
-                <FeesEarnedTab amountToClaim={feesEarnedAmountToClaim} />
+                <FeesEarnedTab amountToClaim={feesEarnedClaimAmount} />
               )}
             </div>
           </div>
