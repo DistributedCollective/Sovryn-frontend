@@ -17,6 +17,8 @@ export enum RewardEventType {
   DEPOSITED = 'Deposited',
   REWARD_CLAIMED = 'RewardClaimed',
   EARN_REWARD = 'EarnReward',
+  REWARD_WITHDRAWN = 'RewardWithdrawn',
+  PAY_TRADING_FEE_TO_AFFILIATE = 'PayTradingFeeToAffiliate',
 }
 
 interface ITableBodyProps {
@@ -36,6 +38,10 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           return t(translations.rewardPage.historyTable.event.liquidityReward);
         case RewardEventType.EARN_REWARD:
           return t(translations.rewardPage.historyTable.event.tradingReward);
+        case RewardEventType.REWARD_WITHDRAWN:
+          return t(translations.rewardPage.historyTable.event.stakingReward);
+        case RewardEventType.PAY_TRADING_FEE_TO_AFFILIATE:
+          return t(translations.rewardPage.historyTable.event.referralReward);
         default:
           return type;
       }

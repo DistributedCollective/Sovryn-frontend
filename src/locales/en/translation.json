@@ -1439,6 +1439,8 @@
         "lendingReward": "Lending Reward",
         "liquidityReward": "Liquidity Reward",
         "tradingReward": "Trading Reward",
+        "stakingReward": "Staking Reward",
+        "referralReward": "Referral Reward",
         "vesting": "Vesting",
         "staking": "Staking",
         "referral": "Referrals Reward"
