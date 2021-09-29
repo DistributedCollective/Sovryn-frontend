@@ -1326,7 +1326,7 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus SOV bônus, eles ficam bloqueados por 10 meses com a possibilidade de liberá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus SOV recompensa, eles ficam bloqueados por 10 meses com a possibilidade de liberá-los gradativamente a cada mês.",
       "learn": "Saiba mais"
     },
     "liquidClaimForm": {
@@ -1344,7 +1344,7 @@
     },
     "totalEarned": "Total ganho:",
     "sov": {
-      "reward": "SOV bônus",
+      "reward": "SOV recompensa",
       "liquid": "SOV líquido",
       "fee": "Dividendos"
     },
