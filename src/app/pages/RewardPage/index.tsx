@@ -16,7 +16,6 @@ import { RewardTab } from './components/RewardTab';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { weiToNumberFormat } from 'utils/display-text/format';
 
 import imgSov from 'assets/images/reward/sov.svg';
 import imgBtc from 'assets/images/reward/Bitcoin.svg';
@@ -26,6 +25,7 @@ import { useGetAvailableLendingRewards } from './components/RewardTab/hooks/useG
 import { useGetAvailableTradingRewards } from './components/RewardTab/hooks/useGetAvailableTradingRewards';
 import { useGetAvailableLiquidityRewards } from './components/RewardTab/hooks/useGetAvailableLiquidityRewards';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { Asset } from 'types';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ export function RewardPage() {
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}
-                  amount={`${weiToNumberFormat(rewardTabClaimAmount, 6)} SOV`}
+                  amountToClaim={rewardTabClaimAmount}
                   active={activeTab === RewardTabType.REWARD_SOV}
                   onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
                 />
@@ -105,7 +105,7 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.liquid)}
                   active={activeTab === RewardTabType.LIQUID_SOV}
                   onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
-                  amount={`${weiToNumberFormat(liquidSovClaimAmount, 6)} SOV`}
+                  amountToClaim={liquidSovClaimAmount}
                 />
               </div>
               <div className="tw-w-full">
@@ -113,10 +113,8 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.fee)}
                   active={activeTab === RewardTabType.FEES_EARNED}
                   onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
-                  amount={`${weiToNumberFormat(
-                    feesEarnedAmountToClaim,
-                    6,
-                  )} RBTC`}
+                  amountToClaim={feesEarnedAmountToClaim}
+                  asset={Asset.RBTC}
                 />
               </div>
             </div>

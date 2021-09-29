@@ -12,6 +12,7 @@ interface CurrencyProps {
   assetString?: string;
   showImage?: boolean;
   imageSize?: ImageSizes;
+  assetClassName?: string;
 }
 
 export function AssetRenderer(props: CurrencyProps) {
@@ -31,6 +32,7 @@ export function AssetRenderer(props: CurrencyProps) {
       <AssetSymbolRenderer
         asset={props.asset}
         assetString={props.assetString}
+        assetClassName={props.assetClassName}
       />
     </span>
   );
