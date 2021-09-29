@@ -1,29 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
-import iconNewTab from 'assets/images/iconNewTab.svg';
-import { usePageViews } from 'app/hooks/useAnalytics';
-import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { MenuItem, Menu as BPMenu, Position, Popover } from '@blueprintjs/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Menu as BPMenu, MenuItem, Popover, Position } from '@blueprintjs/core';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
+
+import { usePageViews } from 'app/hooks/useAnalytics';
+import iconNewTab from 'assets/images/iconNewTab.svg';
 import { translations } from 'locales/i18n';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+
+import WalletConnector from '../../containers/WalletConnector';
+import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
 import {
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
 } from '../../pages/BorrowPage/slice';
-import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
-import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
-import { currentNetwork } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { StyledBurger, StyledLogo, StyledMenu } from './styled';
-
-const bridgeURL =
-  currentNetwork === 'mainnet'
-    ? 'https://bridge.sovryn.app'
-    : 'https://bridge.test.sovryn.app/';
 
 export function Header() {
   const { t } = useTranslation();
@@ -106,11 +102,6 @@ export function Header() {
       dataActionId: 'header-link-portfolio',
     },
     {
-      to: bridgeURL,
-      title: t(translations.mainMenu.bridge),
-      dataActionId: 'header-link-bridge',
-    },
-    {
       to: '/origins',
       title: t(translations.mainMenu.origins),
       dataActionId: 'header-origins-link-launchpad',
@@ -118,7 +109,7 @@ export function Header() {
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-origins-link-claim',
+      dataActionId: 'header-link-portfolio',
     },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
@@ -391,15 +382,6 @@ export function Header() {
               >
                 {t(translations.mainMenu.wallet)}
               </NavLink>
-              <a
-                href={bridgeURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tw-header-link"
-                data-action-id="header-link-bridge"
-              >
-                {t(translations.mainMenu.bridge)}
-              </a>
               <NavPopover
                 content={
                   <BPMenu>
