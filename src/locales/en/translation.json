@@ -1099,13 +1099,16 @@
     "title": "Swap History",
     "tableHeaders": {
       "time": "Date/Time",
-      "from": "From",
+      "from": "Sending Asset",
       "amountSent": "Amount Sent",
-      "to": "To",
+      "to": "Receiving Asset",
       "amountReceived": "Amount Received",
-      "status": "Status"
+      "status": "Status",
+      "transactionFee":"Transaction Fee",
+      "gasFee": "Gas Fee"
     },
-    "emptyState": "History is empty."
+    "emptyState": "History is empty.",
+    "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
     "title": "Vested History",

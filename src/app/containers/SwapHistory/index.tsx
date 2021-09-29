@@ -146,8 +146,11 @@ export function SwapHistory() {
 
   return (
     <section>
-      <div className="sovryn-table tw-p-4 tw-mb-12">
-        <table className="tw-w-full">
+      <p className="tw-font-normal tw-m-0 tw-px-4">
+        {t(translations.swapHistory.recentSwapHistory)}
+      </p>
+      <div className="tw-p-4 tw-pt-0 tw-mb-12">
+        <table className="tw-table">
           <thead>
             <tr>
               <th className="tw-hidden lg:tw-table-cell">
@@ -253,25 +256,32 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <img
-          className="tw-hidden lg:tw-inline tw-mr-2"
-          style={{ height: '40px' }}
+          className="tw-hidden lg:tw-inline tw-mr-1"
+          style={{ height: '29px' }}
           src={itemFrom.logoSvg}
           alt={itemFrom.asset}
         />{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
-      <td>{numberFromWei(data.returnVal._fromAmount)}</td>
+      <td>
+        {numberFromWei(data.returnVal._fromAmount)}{' '}
+        <AssetRenderer asset={itemFrom.asset} />
+      </td>
       <td>
         <img
-          className="tw-joddem lg:tw-inline tw-mr-2"
-          style={{ height: '40px' }}
+          className="lg:tw-inline tw-mr-1"
+          style={{ height: '29px' }}
           src={itemTo.logoSvg}
           alt={itemTo.asset}
         />{' '}
         <AssetRenderer asset={itemTo.asset} />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
-        <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
+        <div>
+          {numberFromWei(data.returnVal._toAmount)}{' '}
+          <AssetRenderer asset={itemTo.asset} />
+        </div>
+        ≈{' '}
         <LoadableValue
           value={weiToUSD(dollarValue || '0')}
           loading={dollars.loading}

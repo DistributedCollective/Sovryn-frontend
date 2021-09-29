@@ -57,10 +57,8 @@
 
   tbody tr,
   div.mobile-row {
-    @apply tw-h-20;
-
     td {
-      @apply tw-px-5 tw-py-0
+      @apply tw-px-5 tw-py-3
         tw-text-sov-white;
       @media (max-width: 441px) {
         @apply tw-px-4;
