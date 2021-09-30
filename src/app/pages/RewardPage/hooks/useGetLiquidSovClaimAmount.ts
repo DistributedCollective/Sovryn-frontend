@@ -8,13 +8,11 @@ export const useGetLiquidSovClaimAmount = () => {
 
   useEffect(() => {
     contractReader
-      .call<{ amount: string }>(
-        'stakingRewards',
-        'getClaimableReward',
-        [true],
-        address,
-      )
-      .then(result => setLiquidSovClaimAmount(result.amount))
+      .call<string>('stakingRewards', 'getClaimableReward', [true], address)
+      .then(result => {
+        console.log(result);
+        setLiquidSovClaimAmount(result);
+      })
       .catch(() => setLiquidSovClaimAmount('0'));
   }, [address]);
 
