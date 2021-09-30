@@ -1358,6 +1358,9 @@
         "lendingReward": "Bônus de empréstimo",
         "liquidityReward": "Bônus de liquidez",
         "tradingReward": "Bônus de negociação",
+        "stakingReward": "Bônus de investimento",
+        "referralReward": "Bônus de indicação",
+        "feesReward": "Fees Reward",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
         "referral": "Bônus de indicação"
