@@ -10,7 +10,7 @@ export const useGetLiquidSovClaimAmount = () => {
     contractReader
       .call<{ amount: string }>(
         'stakingRewards',
-        'getStakerCurrentReward',
+        'getClaimableReward',
         [true],
         address,
       )
