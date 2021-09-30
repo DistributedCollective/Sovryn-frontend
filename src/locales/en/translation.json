@@ -1441,6 +1441,7 @@
         "tradingReward": "Trading Reward",
         "stakingReward": "Staking Reward",
         "referralReward": "Referral Reward",
+        "feesReward": "Fees Reward",
         "vesting": "Vesting",
         "staking": "Staking",
         "referral": "Referrals Reward"
