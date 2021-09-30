@@ -11,6 +11,7 @@ import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
@@ -285,8 +286,9 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
-    address: '0x51B787d9e18B4b8CF9618e44fE6b79A85C75787C', //short staking period testnet address
-    abi: feeSharingProxyAbi,
+    address: '0x739c857361e8ACC134aa8956F11EbE0529897C1f', //short staking period testnet address
+    //abi: feeSharingProxyAbi,
+    abi: feeSharingProxyShortAbi, //short staking period testnet abi
   },
   stakingRewards: {
     address: '0x168BF3A853eDcBb12276F96cf373a990eA8eab7B', //short staking period testnet address
