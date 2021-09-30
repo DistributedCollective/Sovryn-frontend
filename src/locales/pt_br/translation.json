@@ -1341,7 +1341,7 @@
     },
     "fee": {
       "stakingFee": "Dividendo investimento SOV",
-      "referralFee": "Dividendo de indicação",
+      "referralFee": "Comissão por indicação",
       "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
@@ -1359,11 +1359,11 @@
         "liquidityReward": "Bônus de liquidez",
         "tradingReward": "Bônus de negociação",
         "stakingReward": "Bônus de investimento",
-        "referralReward": "Bônus de indicação",
+        "referralReward": "Comissão por indicação",
         "feesReward": "Fees Reward",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
-        "referral": "Bônus de indicação"
+        "referral": "Comissão por indicação"
       },
       "walletHistory": "A carteira precisa estar conectada.",
       "emptyState": "Histórico vázio.",
