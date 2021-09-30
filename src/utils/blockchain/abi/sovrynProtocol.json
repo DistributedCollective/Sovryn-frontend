@@ -294,6 +294,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "basisPoint",
+        "type": "uint256"
       }
     ],
     "name": "EarnReward",
@@ -330,6 +336,12 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "basisPoint",
         "type": "uint256"
       }
     ],
@@ -1402,6 +1414,31 @@
       },
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "oldValue",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newValue",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetSwapExternalFeePercent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "oldValue",
         "type": "address"
@@ -1439,6 +1476,31 @@
       }
     ],
     "name": "SetTradingFeePercent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldBasisPoint",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newBasisPoint",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetTradingRebateRewardsBasisPoint",
     "type": "event"
   },
   {
@@ -2382,6 +2444,11 @@
             "type": "address"
           },
           {
+            "internalType": "address",
+            "name": "borrower",
+            "type": "address"
+          },
+          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -2439,6 +2506,11 @@
           {
             "internalType": "uint256",
             "name": "maxSeizable",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "creationTimestamp",
             "type": "uint256"
           }
         ],
@@ -2554,6 +2626,27 @@
         "internalType": "address[]",
         "name": "tokensList",
         "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address"
+      }
+    ],
+    "name": "getAffiliatesTokenRewardsValueInRbtc",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "rbtcTotalAmount",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -2784,6 +2877,11 @@
             "type": "address"
           },
           {
+            "internalType": "address",
+            "name": "borrower",
+            "type": "address"
+          },
+          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -2841,6 +2939,11 @@
           {
             "internalType": "uint256",
             "name": "maxSeizable",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "creationTimestamp",
             "type": "uint256"
           }
         ],
@@ -3184,6 +3287,21 @@
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "getSwapExternalFeePercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "swapExternalFeePercent",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "internalType": "string",
@@ -3218,6 +3336,21 @@
       }
     ],
     "name": "getTotalPrincipal",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getTradingRebateRewardsBasisPoint",
     "outputs": [
       {
         "internalType": "uint256",
@@ -3283,6 +3416,11 @@
             "type": "address"
           },
           {
+            "internalType": "address",
+            "name": "borrower",
+            "type": "address"
+          },
+          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -3341,6 +3479,11 @@
             "internalType": "uint256",
             "name": "maxSeizable",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "creationTimestamp",
+            "type": "uint256"
           }
         ],
         "internalType": "struct ISovryn.LoanReturnData[]",
@@ -3398,6 +3541,21 @@
     "constant": true,
     "inputs": [],
     "name": "isOwner",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "isProtocolPaused",
     "outputs": [
       {
         "internalType": "bool",
@@ -3858,6 +4016,27 @@
     "constant": true,
     "inputs": [],
     "name": "maxSwapSize",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanParamsId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "minInitialMargin",
     "outputs": [
       {
         "internalType": "uint256",
@@ -4530,6 +4709,21 @@
     "constant": false,
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "newValue",
+        "type": "uint256"
+      }
+    ],
+    "name": "setSwapExternalFeePercent",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "internalType": "address",
         "name": "newContract",
         "type": "address"
@@ -4571,6 +4765,21 @@
       }
     ],
     "name": "setTradingFeePercent",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newBasisPoint",
+        "type": "uint256"
+      }
+    ],
+    "name": "setTradingRebateRewardsBasisPoint",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

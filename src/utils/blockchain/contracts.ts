@@ -3,7 +3,6 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
-
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
@@ -31,6 +30,7 @@ import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
+import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';

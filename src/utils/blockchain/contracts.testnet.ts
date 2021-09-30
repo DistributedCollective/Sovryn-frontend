@@ -6,8 +6,6 @@ import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
-
-import bzxAbi from './abi/bzxAbi.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
@@ -34,13 +32,12 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
-import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: [...bzxAbi, ...SwapsExternalAbi, ...SovrynProtocolAbi],
+    abi: SovrynProtocolAbi,
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -238,7 +235,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
+    address: '0xd931AC508b303b61b499B3Bdb451b9c29873CbF5', //short staking period testnet address
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -288,11 +285,11 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
-    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
+    address: '0x51B787d9e18B4b8CF9618e44fE6b79A85C75787C', //short staking period testnet address
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x168BF3A853eDcBb12276F96cf373a990eA8eab7B', //short staking period testnet address
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
