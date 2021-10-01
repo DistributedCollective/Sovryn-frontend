@@ -1303,8 +1303,9 @@
     "title": "Sacar SOV",
     "subtitle": "Esta transação requer rBTC para pagar as taxas.",
     "amount": "Quantidade:",
-    "receiver": "Receber SOV em:",
-    "calculating": "Calculando..."
+    "receiver": "Receber {{asset}} em:",
+    "calculating": "Calculando...",
+    "schedule": "Programação de desbloqueio"
   },
   "rewardPage": {
     "availableRewards": "Disponíveis:",
@@ -1317,7 +1318,7 @@
     "stakingReward": "Bônus de investimento",
     "comingSoon": "Em breve",
     "meta": {
-      "title": "Bônus",
+      "title": "Recompensas",
       "description": "Bônus SOV"
     },
     "claimForm": {
@@ -1373,7 +1374,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Colateral:",
+        "asset": "Ativo:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
@@ -1388,11 +1389,11 @@
       "title": "Revisar transação",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
-      "asset": "Colateral:",
+      "asset": "Ativo de garantia:",
       "direction": "Direção:",
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço apróximado de entrada:",
+      "entryPrice": "Preço aproximado de entrada:",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
@@ -1619,7 +1620,7 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
-      "depositAmount": "Desejo depositar:"
+      "depositAmount": "Quantidade:"
     },
     "confirmStep": {
       "pleaseWait": "Por favor aguarde",
@@ -1676,7 +1677,7 @@
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
-      "withdrawAmount": "Desejo sacar:",
+      "withdrawAmount": "Quantidade:",
       "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
       "insufficientDaily": "Limite diário excedido."
     },

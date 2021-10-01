@@ -3,18 +3,21 @@ import React from 'react';
 
 type IDataCardProps = {
   title: string;
+  hasCustomHeight?: boolean;
   className?: String;
   children: React.ReactNode;
 };
 
 export const DataCard: React.FC<IDataCardProps> = ({
   title,
+  hasCustomHeight,
   className,
   children,
 }) => (
   <div
     className={classNames(
-      'tw-flex tw-flex-col tw-flex-1 tw-min-w-min tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
+      'tw-flex tw-flex-col tw-min-w-min tw-px-4 tw-pt-1.5 tw-pb-4 tw-bg-black tw-rounded-xl',
+      !hasCustomHeight && 'tw-flex-1',
       className,
     )}
   >
