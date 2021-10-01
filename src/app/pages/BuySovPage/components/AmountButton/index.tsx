@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 interface Props {
   onChange: (value: number) => void;
+  dataActionId?: string;
 }
 
 const items = [10, 25, 50, 75, 100];
@@ -11,7 +12,11 @@ export function AmountButton(props: Props) {
   return (
     <Container className="tw-flex tw-flex-row tw-items-center tw-justify-around">
       {items.map(item => (
-        <Button key={item} onClick={() => props.onChange(item)}>
+        <Button
+          key={item}
+          onClick={() => props.onChange(item)}
+          data-action-id={`${props.dataActionId}-amountSelectorButton-${item}%`}
+        >
           {item}%
         </Button>
       ))}

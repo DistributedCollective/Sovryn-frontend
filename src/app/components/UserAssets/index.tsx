@@ -4,16 +4,14 @@ import { bignumber } from 'mathjs';
 import { translations } from '../../../locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { weiTo4 } from '../../../utils/blockchain/math-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
 import {
-  numberToUSD,
   weiToNumberFormat,
+  weiToUSD,
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
@@ -31,6 +29,7 @@ import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
+import { useDollarValue } from '../../hooks/useDollarValue';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -197,7 +196,6 @@ function AssetRow({
   const account = useAccount();
   const [loading, setLoading] = useState(true);
   const [tokens, setTokens] = useState('0');
-  const dollars = useCachedAssetPrice(item.asset, Asset.USDT);
   const blockSync = useBlockSync();
 
   useEffect(() => {
@@ -233,16 +231,7 @@ function AssetRow({
     get().catch();
   }, [item.asset, account, blockSync]);
 
-  const dollarValue = useMemo(() => {
-    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(item.asset)) {
-      return tokens;
-    } else {
-      return bignumber(tokens)
-        .mul(dollars.value)
-        .div(10 ** item.decimals)
-        .toFixed(0);
-    }
-  }, [dollars.value, tokens, item.asset, item.decimals]);
+  const dollarValue = useDollarValue(item.asset, tokens);
 
   if (tokens === '0' && item.hideIfZero)
     return <React.Fragment key={item.asset} />;
@@ -257,8 +246,8 @@ function AssetRow({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
-          loading={dollars.loading}
+          value={weiToUSD(dollarValue.value)}
+          loading={dollarValue.loading}
         />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
@@ -275,7 +264,7 @@ function AssetRow({
               onClick={() => onFastBtc()}
             />
           )}
-          {[Asset.USDT /*, Asset.RDOC*/].includes(item.asset) && (
+          {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
             <ActionButton
               text={t(translations.userAssets.actions.convert)}
               onClick={() => onConvert(item.asset)}

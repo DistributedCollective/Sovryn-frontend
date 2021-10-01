@@ -29,7 +29,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app/',
-  31: 'https://api.test.sovryn.app/fastbtc',
+  31: 'https://fastbtc.test.sovryn.app/',
 };
 
 export const databaseRpcNodes = {
@@ -50,7 +50,7 @@ export const chartStorageKey = 'sovryn.charts';
 
 export const gasLimit = {
   [TxType.TRADE]: 3750000,
-  [TxType.CLOSE_WITH_SWAP]: 1500000,
+  [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
