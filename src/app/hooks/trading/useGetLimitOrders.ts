@@ -56,7 +56,7 @@ export function useGetLimitOrders(
   const [canceledOrders, setCanceledOrders] = useState<null | ICanceledOrders>(
     null,
   );
-  const [filledOrders, setFilledOrders] = useState<null | IFilledOrders>(null);
+  const [filledOrders] = useState<null | IFilledOrders>(null);
 
   const { value: hashes, loading: loadingHashes } = useCacheCallWithValue<
     Array<String>

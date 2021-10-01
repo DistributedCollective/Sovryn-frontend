@@ -1,4 +1,5 @@
-import { getContract } from '../../utils/blockchain/contract-helpers';
+import { contractReader } from './../../utils/sovryn/contract-reader';
+import { getContract as getContractData } from '../../utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from '../../types';
@@ -11,7 +12,6 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { Order } from '../pages/SpotTradingPage/helpers';
 import { gas } from '../../utils/blockchain/gas-price';
-import { contractReader } from '../../utils/sovryn/contract-reader';
 import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { useSendTx } from './useSendTx';
@@ -44,6 +44,14 @@ export function useLimitOrder(
       if (tx.rejected) {
         return;
       }
+    } else {
+      try {
+        await contractWriter.send('settlement', 'deposit', [account], {
+          value: amount,
+        });
+      } catch (error) {
+        return;
+      }
     }
 
     const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
@@ -66,8 +74,7 @@ export function useLimitOrder(
 
     console.log({ args });
 
-    const { address, abi } = getContract('orderBook');
-    const contract = new ethers.Contract(address, abi);
+    const contract = getContract('orderBook');
 
     const populated = await contract.populateTransaction.createOrder(args);
 
@@ -95,15 +102,22 @@ export function useLimitOrder(
   return { createOrder, ...tx };
 }
 
-export function useCancelLimitOrder() {
+export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
   const account = useAccount();
 
   const { send, ...tx } = useSendTx();
 
   const cancelOrder = useCallback(
     async (orderHash: string) => {
-      const { address, abi } = getContract('settlement');
-      const contract = new ethers.Contract(address, abi);
+      const contract = getContract('settlement');
+
+      // try {
+      //   if (sourceToken === Asset.RBTC) {
+      //     await contractReader.call('settlement', 'withdraw', [amount]);
+      //   }
+      // } catch (error) {
+      //   return;
+      // }
 
       const populated = await contract.populateTransaction.cancelOrder(
         orderHash,
@@ -120,8 +134,13 @@ export function useCancelLimitOrder() {
         nonce,
       } as TransactionConfig);
     },
-    [account, send],
+    [account, amount, send, sourceToken],
   );
 
   return { cancelOrder, ...tx };
 }
+
+const getContract = contract => {
+  const { address, abi } = getContractData(contract);
+  return new ethers.Contract(address, abi);
+};

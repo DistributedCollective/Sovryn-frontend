@@ -32,7 +32,10 @@ export function ClosePositionDialog({
   tradeType,
 }: IClosePositionDialogProps) {
   const { t } = useTranslation();
-  const { cancelOrder, ...tx } = useCancelLimitOrder();
+  const { cancelOrder, ...tx } = useCancelLimitOrder(
+    fromToken.asset,
+    item.amountIn.toString(),
+  );
 
   const submit = () => {
     if (item.hash) {
