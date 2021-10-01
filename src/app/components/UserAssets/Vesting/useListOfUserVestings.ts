@@ -1,45 +1,10 @@
-import { ContractName } from 'utils/types/contracts';
 import { Asset } from 'types/asset';
-import { useAccount } from '../../../hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { useEffect, useState } from 'react';
-import { ethGenesisAddress } from '../../../../utils/classifiers';
-import { bridgeNetwork } from '../../../pages/BridgeDepositPage/utils/bridge-network';
-import { getContract } from '../../../../utils/blockchain/contract-helpers';
-import { Chain } from '../../../../types';
-
-import vestingRegistryAbi from 'utils/blockchain/abi/VestingRegistry.json';
+import { ethGenesisAddress } from 'utils/classifiers';
+import { Vesting, FullVesting, DetailsProps } from './types';
 import { useVesting_getVestingsOf } from 'app/hooks/staking/useVesting_getVestingsOf';
 import { contractReader } from 'utils/sovryn/contract-reader';
-
-type RegistryMethodTypes = 'getVestingAddr' | 'getTeamVesting';
-
-export type Vesting = {
-  asset: Asset;
-  label: string;
-  registry: ContractName;
-  registryMethod: RegistryMethodTypes;
-  staking: ContractName;
-  type: string;
-  typeCreation: string;
-  cliff: string;
-  duration: string;
-};
-
-type StakesProp = {
-  dates: Date[];
-  stakes: string[];
-};
-
-type DetailsProps = {
-  cliff: string;
-  duration: string;
-};
-
-export type FullVesting = Vesting & {
-  vestingContract: string;
-  balance: string;
-  stakes: StakesProp;
-};
 
 export function useListOfUserVestings(asset?: Asset) {
   const account = useAccount();
@@ -73,28 +38,29 @@ export function useListOfUserVestings(asset?: Asset) {
 
               const labelGenesys =
                 typeCreation[index] === '1' && type[index] === '1'
-                  ? 'Genesys SOV'
+                  ? 'genesis'
                   : '';
               const labelTeam =
                 typeCreation[index] === '1' && type[index] === '0'
-                  ? 'Team SOV'
+                  ? 'team'
                   : '';
               const labelReward =
                 typeCreation[index] === '3' && type[index] === '1'
-                  ? 'Reward SOV'
+                  ? 'reward'
                   : '';
               const registryMethod =
                 type[index] === '0' ? 'getTeamVesting' : 'getVestingAddr';
 
               return {
                 asset: Asset.SOV,
-                label: labelGenesys || labelTeam || labelReward,
                 registry: 'vestingRegistry',
                 registryMethod: registryMethod,
                 staking: 'staking',
+                type: labelGenesys || labelTeam || labelReward,
                 typeCreation: typeCreation[index],
                 cliff: vestingDetails.cliff,
                 duration: vestingDetails.duration,
+                vestingContract: address[index],
               } as Vesting;
             }),
           ).then(result => {
@@ -115,34 +81,7 @@ export function useListOfUserVestings(asset?: Asset) {
     } else {
       setLoading(true);
       const run = async () => {
-        // restrict list to requested asset only if needed
-        const filteredVestings: FullVesting[] = possibleVestings.filter(item =>
-          asset ? item.asset === asset : true,
-        ) as FullVesting[];
-
-        // get vesting contracts
-        const { returnData: contracts } = await bridgeNetwork.multiCall(
-          Chain.RSK,
-          filteredVestings.map((item, index) => {
-            return {
-              address: getContract(item.registry).address,
-              abi: vestingRegistryAbi,
-              fnName: item.registryMethod,
-              args: [account, item.cliff, item.duration, item.typeCreation],
-              key: index.toString(),
-              parser: val => val[0].toString(),
-            };
-          }),
-        );
-
-        console.log(filteredVestings);
-
-        return filteredVestings
-          .map((item, index) => {
-            item.vestingContract = contracts[index];
-            return item;
-          })
-          .filter(item => item.vestingContract !== ethGenesisAddress);
+        return possibleVestings as FullVesting[];
       };
       run()
         .then(result => {
