@@ -595,7 +595,8 @@
         "origin": "Origin SOV",
         "team": "Team SOV",
         "reward": "Reward SOV",
-        "fish": "Origins FISH"
+        "fish": "Origins FISH",
+        "fishAirdrop": "Airdrop FISH"
       }
     },
     "actions": {

@@ -27,7 +27,7 @@ export type DetailsProps = {
 
 type RegistryMethodTypes = 'getVestingAddr' | 'getTeamVesting';
 
-export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish';
+export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish' | 'fishAirdrop';
 
 type StakesProp = {
   dates: Date[];

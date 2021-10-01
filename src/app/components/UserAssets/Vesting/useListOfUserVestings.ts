@@ -36,18 +36,33 @@ export function useListOfUserVestings(asset?: Asset) {
                 [item],
               );
 
+              const labelTeam =
+                typeCreation[index] === '1' && type[index] === '0'
+                  ? 'team'
+                  : '';
               const labelGenesys =
                 typeCreation[index] === '1' && type[index] === '1'
                   ? 'genesis'
                   : '';
-              const labelTeam =
-                typeCreation[index] === '1' && type[index] === '0'
-                  ? 'team'
+
+              const labelAirdropFish =
+                typeCreation[index] === '2' && type[index] === '0'
+                  ? 'fishAirdrop'
+                  : '';
+              const labelFish =
+                typeCreation[index] === '2' && type[index] === '1'
+                  ? 'fish'
+                  : '';
+
+              const labelOrigin =
+                typeCreation[index] === '3' && type[index] === '0'
+                  ? 'origin'
                   : '';
               const labelReward =
                 typeCreation[index] === '3' && type[index] === '1'
                   ? 'reward'
                   : '';
+
               const registryMethod =
                 type[index] === '0' ? 'getTeamVesting' : 'getVestingAddr';
 
@@ -55,8 +70,15 @@ export function useListOfUserVestings(asset?: Asset) {
                 asset: Asset.SOV,
                 registry: 'vestingRegistry',
                 registryMethod: registryMethod,
-                staking: 'staking',
-                type: labelGenesys || labelTeam || labelReward,
+                staking:
+                  typeCreation[index] === '2' ? 'FISH_staking' : 'staking',
+                type:
+                  labelGenesys ||
+                  labelTeam ||
+                  labelReward ||
+                  labelAirdropFish ||
+                  labelOrigin ||
+                  labelFish,
                 typeCreation: typeCreation[index],
                 cliff: vestingDetails.cliff,
                 duration: vestingDetails.duration,
