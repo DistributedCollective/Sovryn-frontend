@@ -66,6 +66,25 @@ export function PerpetualPage() {
     [],
   );
 
+  // This can be used for testing Deposit/Withdraw and also you can mint margin tokens
+
+  // const { send, ...txState } = useSendContractTx('PERPETUALS_token', 'mint');
+  // const onMintClick = useCallback(() => send([account, toWei(200)]), [
+  //   account,
+  //   send,
+  // ]);
+
+  // const { deposit, ...depositTx } = usePerpetual_depositMarginToken();
+  // const onDepositClick = useCallback(() => deposit('20'), [deposit]);
+
+  // const { withdraw, ...withdrawTx } = usePerpetual_withdrawMarginToken();
+  // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
+
+  // const { send: sendMargin, ...rest } = useSendContractTx(
+  //   'perpetualManager',
+  //   'getMarginAccount',
+  // );
+
   return (
     <>
       <Helmet>
@@ -126,6 +145,16 @@ export function PerpetualPage() {
           </DataCard>
           <TradeForm pairType={linkPairType || pairType} />
         </div>
+
+        {/* This can be used for testing Deposit/Withdraw and also you can mint margin tokens */}
+
+        {/* <button onClick={onMintClick}>Mint 200 margin tokens</button>
+        <button className="tw-block" onClick={onDepositClick}>
+          Deposit 20 margin tokens
+        </button>
+        <button className="tw-block" onClick={onWithdrawClick}>
+          Withdraw 20 margin tokens
+        </button> */}
 
         {connected && (
           <>

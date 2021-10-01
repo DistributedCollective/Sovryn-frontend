@@ -101,6 +101,18 @@ export class AssetsDictionary {
         Asset.FISH,
         new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, true),
       ],
+      // Uncomment if you want to test Deposit/Withdraw of margin tokens
+      // [
+      //   Asset.PERPETUALS,
+      //   new AssetDetails(
+      //     Asset.PERPETUALS,
+      //     'PERPETUALS',
+      //     'PERPETUALS',
+      //     18,
+      //     fishIcon,
+      //     true,
+      //   ),
+      // ],
       [
         Asset.RIF,
         new AssetDetails(Asset.RIF, 'RIF', 'RIF', 18, rifToken, true),
