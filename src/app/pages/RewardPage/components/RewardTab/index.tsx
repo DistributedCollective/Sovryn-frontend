@@ -9,6 +9,9 @@ import { calculatePercentageDistribution } from './utils';
 import { useGetTotalTradingRewards } from './hooks/useGetTotalTradingRewards';
 import { useGetTotalLiquidityRewards } from './hooks/useGetTotalLiquidityRewards';
 import { useGetTotalLendingRewards } from './hooks/useGetTotalLendingRewards';
+import { bignumber } from 'mathjs';
+import { BulletPoint, NoRewardInfo } from '../../components/NoRewardInfo/index';
+import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 
 interface IRewardTabProps {
   availableTradingRewards: string;
@@ -50,36 +53,42 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <div className={styles['tab-main-section']}>
-        <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-          <RewardClaimForm amountToClaim={amountToClaim} />
-        </div>
-        <div className={styles.divider} />
-        <div className="tw-w-1/2">
-          <div className="tw-flex tw-items-center tw-justify-evenly">
-            <PieChart
-              firstPercentage={lendingPercentage}
-              secondPercentage={tradingPercentage}
-              thirdPercentage={liquidityPercentage}
-            />
-            <div>
-              <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
-                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
-                {lendingPercentage.toFixed(4)} % -{' '}
-                {t(translations.rewardPage.lendingRewards)}
-              </div>
-              <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
-                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green-2"></div>
-                {tradingPercentage.toFixed(4)} % -{' '}
-                {t(translations.rewardPage.tradingRewards)}
-              </div>
-              <div className="tw-text-xs mb-2 tw-flex tw-items-center">
-                <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
-                {liquidityPercentage.toFixed(4)} % -{' '}
-                {t(translations.rewardPage.liquidityRewards)}
+        {bignumber(amountToClaim).equals(0) ? (
+          <NoRewardInfo image={imgNoClaim} text={<NoRewardInfoText />} />
+        ) : (
+          <>
+            <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
+              <RewardClaimForm amountToClaim={amountToClaim} />
+            </div>
+            <div className={styles.divider} />
+            <div className="tw-w-1/2">
+              <div className="tw-flex tw-items-center tw-justify-evenly">
+                <PieChart
+                  firstPercentage={lendingPercentage}
+                  secondPercentage={tradingPercentage}
+                  thirdPercentage={liquidityPercentage}
+                />
+                <div>
+                  <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
+                    <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
+                    {lendingPercentage.toFixed(4)} % -{' '}
+                    {t(translations.rewardPage.lendingRewards)}
+                  </div>
+                  <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
+                    <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green-2"></div>
+                    {tradingPercentage.toFixed(4)} % -{' '}
+                    {t(translations.rewardPage.tradingRewards)}
+                  </div>
+                  <div className="tw-text-xs mb-2 tw-flex tw-items-center">
+                    <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
+                    {liquidityPercentage.toFixed(4)} % -{' '}
+                    {t(translations.rewardPage.liquidityRewards)}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
       <div className="tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-mt-8">
         <RewardsDetail
@@ -104,5 +113,46 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
         />
       </div>
     </div>
+  );
+};
+
+const NoRewardInfoText: React.FC = () => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <div className="tw-text-xl tw-font-medium tw-mb-5 tw-tracking-normal">
+        {t(translations.rewardPage.noRewardInfoText.rewardSovTab.title)}
+      </div>
+      <div className="tw-text-xs tw-tracking-normal tw-font-light tw-mb-5">
+        {t(
+          translations.rewardPage.noRewardInfoText.rewardSovTab
+            .recommendationsTitle,
+        )}
+      </div>
+      <div className="tw-text-sm">
+        <div className="tw-mb-4">
+          <BulletPoint />{' '}
+          {t(
+            translations.rewardPage.noRewardInfoText.rewardSovTab
+              .recommendation1,
+          )}
+        </div>
+        <div className="tw-mb-4">
+          <BulletPoint />{' '}
+          {t(
+            translations.rewardPage.noRewardInfoText.rewardSovTab
+              .recommendation2,
+          )}
+        </div>
+        <div>
+          <BulletPoint />{' '}
+          {t(
+            translations.rewardPage.noRewardInfoText.rewardSovTab
+              .recommendation3,
+          )}
+        </div>
+      </div>
+    </>
   );
 };

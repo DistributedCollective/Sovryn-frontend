@@ -1390,6 +1390,23 @@
     "stakingReward": "Staking Rewards",
     "referralReward": "Referral Rewards",
     "comingSoon": "Coming Soon",
+    "noRewardInfoText": {
+      "rewardSovTab": {
+        "title": "You do not have any Reward SOV",
+        "recommendationsTitle": "In order to earn Reward SOV you will need to either:",
+        "recommendation1": "Lend collateral to one of the lending pools with with an active SOV reward event on it",
+        "recommendation2": "Add liquidity to one of the yield farming pools with SOV Rewards",
+        "recommendation3": "Margin trade any asset pair on Sovryn"
+      },
+      "liquidSovTab": {
+        "title": "You do not have any Liquid SOV",
+        "recommendationsTitle": "Replace this with final recommendations"
+      },
+      "feesEarnedTab": {
+        "title": "You do not have any Fees Earned",
+        "recommendationsTitle": "Replace this with final recommendations"
+      }
+    },
     "meta": {
       "title": "Reward",
       "description": "Reward SOV"
