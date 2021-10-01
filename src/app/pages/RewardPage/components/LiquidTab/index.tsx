@@ -98,6 +98,20 @@ const NoRewardInfoText: React.FC = () => {
             .recommendationsTitle,
         )}
       </div>
+      <div className="tw-text-sm">
+        <div className={styles.ul}>
+          {t(
+            translations.rewardPage.noRewardInfoText.liquidSovTab
+              .recommendation1,
+          )}
+        </div>
+        <div className={styles.ul}>
+          {t(
+            translations.rewardPage.noRewardInfoText.liquidSovTab
+              .recommendation2,
+          )}
+        </div>
+      </div>
     </>
   );
 };

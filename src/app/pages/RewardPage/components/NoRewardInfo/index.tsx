@@ -14,7 +14,3 @@ export const NoRewardInfo: React.FC<INoRewardInfoProps> = ({ image, text }) => {
     </div>
   );
 };
-
-export const BulletPoint: React.FC = () => (
-  <span className="tw-text-lg tw-font-bold">•</span>
-);

@@ -108,6 +108,20 @@ const NoRewardInfoText: React.FC = () => {
             .recommendationsTitle,
         )}
       </div>
+      <div className="tw-text-sm">
+        <div className={styles.ul}>
+          {t(
+            translations.rewardPage.noRewardInfoText.feesEarnedTab
+              .recommendation1,
+          )}
+        </div>
+        <div className={styles.ul}>
+          {t(
+            translations.rewardPage.noRewardInfoText.feesEarnedTab
+              .recommendation2,
+          )}
+        </div>
+      </div>
     </>
   );
 };

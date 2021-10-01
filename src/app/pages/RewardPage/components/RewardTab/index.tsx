@@ -10,8 +10,9 @@ import { useGetTotalTradingRewards } from './hooks/useGetTotalTradingRewards';
 import { useGetTotalLiquidityRewards } from './hooks/useGetTotalLiquidityRewards';
 import { useGetTotalLendingRewards } from './hooks/useGetTotalLendingRewards';
 import { bignumber } from 'mathjs';
-import { BulletPoint, NoRewardInfo } from '../../components/NoRewardInfo/index';
+import { NoRewardInfo } from '../../components/NoRewardInfo/index';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
+import classNames from 'classnames';
 
 interface IRewardTabProps {
   availableTradingRewards: string;
@@ -131,22 +132,19 @@ const NoRewardInfoText: React.FC = () => {
         )}
       </div>
       <div className="tw-text-sm">
-        <div className="tw-mb-4">
-          <BulletPoint />{' '}
+        <div className={classNames(styles.ul, 'tw-mb-4')}>
           {t(
             translations.rewardPage.noRewardInfoText.rewardSovTab
               .recommendation1,
           )}
         </div>
-        <div className="tw-mb-4">
-          <BulletPoint />{' '}
+        <div className={classNames(styles.ul, 'tw-mb-4')}>
           {t(
             translations.rewardPage.noRewardInfoText.rewardSovTab
               .recommendation2,
           )}
         </div>
-        <div>
-          <BulletPoint />{' '}
+        <div className={styles.ul}>
           {t(
             translations.rewardPage.noRewardInfoText.rewardSovTab
               .recommendation3,
