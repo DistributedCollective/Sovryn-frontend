@@ -6,7 +6,8 @@ import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
 // import { ArbitrageOpportunity } from './components/ArbitrageOpportunity';
 //import { Banner } from './components/Banner';
-import { BabelSoldOutBanner } from './components/Banner/BabelSoldOutBanner';
+// import { BabelSoldOutBanner } from './components/Banner/BabelSoldOutBanner';
+import { GetStartedBanner } from './components/Banner/GetStartedBanner';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from './components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
@@ -156,7 +157,8 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
               learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-utc-26-08-2021"
               buyLink="/origins"
             /> */}
-            <BabelSoldOutBanner />
+            {/* <BabelSoldOutBanner /> */}
+            <GetStartedBanner />
           </div>
         </div>
 
