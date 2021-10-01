@@ -1318,6 +1318,23 @@
     "stakingReward": "Bônus de investimento",
     "referralReward": "Bônus de indicação",
     "comingSoon": "Em breve",
+    "noRewardInfoText": {
+      "rewardSovTab": {
+        "title": "Você não possui SOV recompensa",
+        "recommendationsTitle": "Ganhe SOV recompensa das seguintes formas:",
+        "recommendation1": "Emprestando cripto que faça parte de promoção em andamento, ou",
+        "recommendation2": "Minerando liquidez em algum pool com promoção em andamento, ou",
+        "recommendation3": "Operando margem em qualquer par de criptos na Sovryn"
+      },
+      "liquidSovTab": {
+        "title": "Você não possui SOV líquido",
+        "recommendationsTitle": "Replace this with final recommendations"
+      },
+      "feesEarnedTab": {
+        "title": "Você não possui Dividendos e afins a receber",
+        "recommendationsTitle": "Replace this with final recommendations"
+      }
+    },
     "meta": {
       "title": "Recompensas",
       "description": "Bônus SOV"
