@@ -1328,11 +1328,15 @@
       },
       "liquidSovTab": {
         "title": "Você não possui SOV líquido",
-        "recommendationsTitle": "Replace this with final recommendations"
+        "recommendationsTitle": "Ganhe SOV líquido das seguintes formas:",
+        "recommendation1": "Investindo seus SOV",
+        "recommendation2": "Operando margem em qualquer par de criptos na Sovryn"
       },
       "feesEarnedTab": {
         "title": "Você não possui dividendos e afins a receber",
-        "recommendationsTitle": "Replace this with final recommendations"
+        "recommendationsTitle": "Ganhe dividendos e afins em rBTC das seguintes formas"
+        "recommendation1": "Investindo seus SOV",
+        "recommendation2": "Quando os usuários indicados por você realizam transações na Sovryn"
       }
     },
     "meta": {
