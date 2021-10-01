@@ -1337,7 +1337,7 @@
     "sov": {
       "reward": "SOV bônus",
       "liquid": "SOV líquido",
-      "fee": "Dividendos"
+      "fee": "Dividendos e afins"
     },
     "fee": {
       "stakingFee": "Investimento SOV",
@@ -1360,7 +1360,7 @@
         "tradingReward": "Bônus de negociação",
         "stakingReward": "Bônus de investimento",
         "referralReward": "Programa de afiliados",
-        "feesReward": "Dividendos e afins",
+        "feesReward": "Dividendos",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
         "referral": "Programa de afiliados"
