@@ -75,3 +75,6 @@ export const gasLimit = {
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
+
+export const VAULT_WITHDRAW_LOG_SIGNATURE_HASH =
+  '0xc44aeefa68e8b9c1ad5f7be4b0dd194580f81f5c362862e72196503a320eb7a1';

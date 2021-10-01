@@ -1246,6 +1246,8 @@
     "title": "Close Position",
     "withdrawIn": "Asset:",
     "amountToClose": "Position amount to close:",
+    "withdrawAmount": "You will get:",
+    "simulationFailed": "Transaction will not close: {{error}}",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
       "line_2": "Try another return asset or wait for arbiters to re-balance."
