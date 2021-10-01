@@ -1,0 +1,39 @@
+.host {
+  @apply tw-w-full tw-h-12;
+}
+
+.host :global(.bp3-slider-track) {
+  border-radius: 5px;
+  height: 10px;
+}
+
+.host :global(.bp3-slider-progress) {
+  @apply tw-h-2.5 tw-bg-gray-6;
+}
+
+.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
+  @apply tw-bg-secondary;
+}
+
+.host :global(.bp3-slider-handle) {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+}
+
+.host :global(.bp3-slider-axis) {
+  width: calc(100% - 0.75rem);
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.host :global(.bp3-slider-label) {
+  @apply tw-top-2.5 
+    tw-bg-transparent
+    tw-font-black tw-text-white;
+}
+
+.host :global(.bp3-slider-handle) :global(.bp3-slider-label) {
+  display: none;
+}

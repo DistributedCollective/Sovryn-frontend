@@ -63,7 +63,7 @@ export const ArbitrageOpportunity: React.FC = () => {
     <div>
       <div className="tw-text-base tw-flex tw-items-center tw-gap-3 tw-tracking-wider">
         {t(translations.landingPage.arbitrageOpportunity.title)}
-        <div className="tw-flex-1 tw-h-px tw-bg-white" />
+        <div className="tw-flex-1 tw-h-px tw-bg-sov-white" />
       </div>
       <div className="tw-flex tw-flex-col tw-mt-5">
         <table
@@ -120,7 +120,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                         />
                       </div>
 
-                      <div className="tw-font-light text-white tw-ml-2.5 tw-flex-1">
+                      <div className="tw-font-light text-sov-white tw-ml-2.5 tw-flex-1">
                         {t(
                           translations.landingPage.arbitrageOpportunity.swapUp,
                         )}{' '}
@@ -137,7 +137,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                       <div className="tw-flex tw-items-center">
                         <Popover
                           content={
-                            <div className="tw-px-5 tw-py-4 tw-font-weight-light">
+                            <div className="tw-px-5 tw-py-4 tw-font-light">
                               <p>
                                 {t(
                                   translations.swapTradeForm.arbitrage

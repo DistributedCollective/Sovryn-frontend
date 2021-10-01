@@ -15,10 +15,10 @@ import {
 } from 'utils/blockchain/requests/vesting';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { numberToUSD, weiToNumberFormat } from 'utils/display-text/format';
+import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { AddressBadge } from '../../../components/AddressBadge';
 import { LoadableValue } from '../../../components/LoadableValue';
 import { Modal } from '../../../components/Modal';
@@ -188,13 +188,13 @@ export function VestingContract(props: Props) {
               </div>
             </td>
             <td className="tw-text-left tw-font-normal">
-              <p className={`tw-m-0 ${lockedAmount.loading && 'skeleton'}`}>
+              <p className={`tw-m-0 ${lockedAmount.loading && 'tw-skeleton'}`}>
                 {lockedAmount.value && (
                   <>
                     {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
-                      value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+                      value={weiToUSD(dollarValue)}
                       loading={dollars.loading}
                     />
                   </>
@@ -202,14 +202,14 @@ export function VestingContract(props: Props) {
               </p>
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              <p className={`tw-m-0 ${delegateLoading && 'skeleton'}`}>
+              <p className={`tw-m-0 ${delegateLoading && 'tw-skeleton'}`}>
                 {delegate.length > 0 && (
                   <>
                     <AddressBadge
                       txHash={delegate}
                       startLength={6}
-                      className={`tw-text-theme-blue hover:tw-underline ${
-                        delegateLoading && 'skeleton'
+                      className={`tw-text-secondary hover:tw-underline ${
+                        delegateLoading && 'tw-skeleton'
                       }`}
                     />
                   </>
@@ -221,14 +221,14 @@ export function VestingContract(props: Props) {
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
               {locked && (
-                <p className={`tw-m-0 ${!unlockDate && 'skeleton'}`}>
+                <p className={`tw-m-0 ${!unlockDate && 'tw-skeleton'}`}>
                   {Math.abs(dayjs().diff(parseInt(unlockDate) * 1e3, 'days'))}{' '}
                   {t(translations.stake.days)}
                 </p>
               )}
             </td>
             <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-              <p className={`tw-m-0 ${!stakingPeriodStart && 'skeleton'}`}>
+              <p className={`tw-m-0 ${!stakingPeriodStart && 'tw-skeleton'}`}>
                 {dayjs
                   .tz(parseInt(unlockDate) * 1e3, 'UTC')
                   .tz(dayjs.tz.guess())
@@ -252,14 +252,14 @@ export function VestingContract(props: Props) {
                   >
                     <button
                       type="button"
-                      className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                      className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
                     >
                       {t(translations.stake.actions.delegate)}
                     </button>
                   </Tooltip>
                 ) : (
                   <button
-                    className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                    className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
                     onClick={() => props.onDelegate(Number(unlockDate))}
                   >
                     {t(translations.stake.actions.delegate)}
@@ -275,7 +275,7 @@ export function VestingContract(props: Props) {
                   >
                     <button
                       type="button"
-                      className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                      className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
                     >
                       {t(translations.stake.actions.withdraw)}
                     </button>
@@ -283,7 +283,7 @@ export function VestingContract(props: Props) {
                 ) : (
                   <button
                     type="button"
-                    className="tw-text-gold tw-tracking-normal hover:tw-text-gold hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                    className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
                     onClick={() => setShowWithdraw(true)}
                     disabled={
                       !props.vestingAddress ||

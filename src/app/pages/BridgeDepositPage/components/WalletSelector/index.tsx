@@ -8,7 +8,6 @@ import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import styled from 'styled-components/macro';
 import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
@@ -24,6 +23,7 @@ import {
   addNetwork,
   metamaskDefaultChains,
 } from 'utils/metamaskHelpers';
+import styles from './index.module.scss';
 
 export function WalletSelector() {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ export function WalletSelector() {
 
   const { bridgeChainId } = useSelector(selectWalletProvider);
   const { chain } = useSelector(selectBridgeDepositPage);
-  const chainId = parseInt(ethereum.chainId as string);
+  const chainId = parseInt(ethereum?.chainId as string);
 
   const walletName = detectWeb3Wallet();
 
@@ -95,10 +95,10 @@ export function WalletSelector() {
   }, [network]);
 
   return (
-    <WalletWrapper className="tw-relative tw-p-8">
+    <div className={styles.host}>
       {state === 'wrong-network' && (
         <>
-          <WrongNetwork className="tw-flex tw-items-center tw-fixed tw-top-4 tw-px-8 tw-py-4 tw-text-sm">
+          <div className={styles.wrongNetwork}>
             <img className="tw-mr-2" src={error_alert} alt="err" />
             <div>
               {t(translations.BridgeDepositPage.walletSelector.wrongNetwork)}{' '}
@@ -109,7 +109,7 @@ export function WalletSelector() {
               <span className="tw-capitalize">{walletName}</span>{' '}
               {t(translations.BridgeDepositPage.walletSelector.wallet)}
             </div>
-          </WrongNetwork>
+          </div>
           <div className="tw-mb-20 tw-mt-10 tw-text-2xl tw-text-center tw-font-semibold">
             {t(
               translations.BridgeDepositPage.chainSelector.wrongNetwork.title,
@@ -133,7 +133,7 @@ export function WalletSelector() {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-gold tw-underline tw-my-2"
+              className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline tw-my-2"
             >
               {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}
@@ -153,7 +153,7 @@ export function WalletSelector() {
 
             <div
               onClick={() => walletContext.disconnect()}
-              className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-8"
+              className="tw-cursor-pointer tw-font-semibold tw-text-sov-white tw-underline tw-text-center tw-mt-8"
             >
               {t(translations.BridgeDepositPage.changeWallet)}
             </div>
@@ -171,30 +171,6 @@ export function WalletSelector() {
           }
         />
       )}
-    </WalletWrapper>
+    </div>
   );
 }
-export const WalletWrapper = styled.div`
-  h1 {
-    color: #d9d9d9;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: 600 !important;
-    font-family: Montserrat, sans-serif !important;
-    text-transform: capitalize;
-    margin-bottom: 1rem;
-  }
-`;
-
-export const WrongNetwork = styled.div`
-  width: 500px;
-  max-width: 90vw;
-  background: #e9eae9;
-  border: 1px solid #707070;
-  border-radius: 10px;
-  opacity: 0.75;
-  color: #a52222;
-  left: 0;
-  right: 0;
-  margin: auto;
-`;

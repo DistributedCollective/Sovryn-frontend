@@ -18,9 +18,11 @@ const assetsWithoutOracle: Asset[] = [
   Asset.MOC,
   Asset.XUSD,
   Asset.BNB,
+  Asset.RIF,
+  Asset.RDOC,
 ];
 
-const excludeAssets: Asset[] = [Asset.CSOV];
+const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC];
 
 /**
  * use this only once
@@ -38,14 +40,15 @@ export function usePriceFeeds_tradingPairRates() {
 
   const getSwapRate = useCallback(
     async (sourceAsset: Asset, destAsset: Asset, amount: string = '1') => {
-      const path = await contractReader.call('swapNetwork', 'conversionPath', [
-        getTokenContract(sourceAsset).address,
-        getTokenContract(destAsset).address,
-      ]);
-      return await contractReader.call('swapNetwork', 'rateByPath', [
-        path,
-        amount,
-      ]);
+      return await contractReader.call(
+        'sovrynProtocol',
+        'getSwapExpectedReturn',
+        [
+          getTokenContract(sourceAsset).address,
+          getTokenContract(destAsset).address,
+          amount,
+        ],
+      );
     },
     [],
   );

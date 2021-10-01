@@ -9,11 +9,10 @@ import { Pagination } from '../../components/Pagination';
 import { Asset } from '../../../types';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from '../../components/LoadableValue';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
@@ -236,7 +235,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         {numberFromWei(item.returnValues.amount)} SOV
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
+          value={weiToUSD(dollarValue)}
           loading={dollars.loading}
         />
       </td>
@@ -244,7 +243,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
         <LinkToExplorer
           txHash={item.transactionHash}
           startLength={6}
-          className="tw-text-theme-blue hover:tw-underline"
+          className="tw-text-secondary hover:tw-underline"
         />
       </td>
       <td>
@@ -261,7 +260,7 @@ const HisoryTableAsset: React.FC<HisoryAsset> = ({ item }) => {
             )}
             <LinkToExplorer
               txHash={item.transaction_hash}
-              className="tw-text-gold tw-font-normal tw-text-nowrap"
+              className="tw-text-primary tw-font-normal tw-text-nowrap"
             />
           </div>
           <div>

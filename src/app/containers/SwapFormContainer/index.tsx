@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -8,9 +8,6 @@ import { Asset } from '../../../types';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from '../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useCanInteract } from '../../hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -32,13 +29,15 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
-const s = translations.swapTradeForm;
+import styles from './index.module.scss';
+import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
 
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-}
+const s = translations.swapTradeForm;
 
 interface Option {
   key: Asset;
@@ -103,9 +102,7 @@ export function SwapFormContainer() {
         console.error(e);
       }
     }
-    if (tokens) {
-      getOptions();
-    }
+    if (tokens.length > 0) getOptions();
   }, [account, tokens]);
 
   useEffect(() => {
@@ -124,16 +121,16 @@ export function SwapFormContainer() {
 
   useEffect(() => {
     const newOptions = tokenBalance;
+
     if (newOptions) {
-      setTargetOptions(
-        newOptions.filter(option => {
-          if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
-            return false;
-          if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
-            return false;
-          return option.key !== sourceToken;
-        }),
-      );
+      const filteredOptions = newOptions.filter(option => {
+        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
+          return false;
+        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
+          return false;
+        return option.key !== sourceToken;
+      });
+      if (filteredOptions.length > 0) setTargetOptions(filteredOptions);
     }
 
     let defaultTo: Asset | null = null;
@@ -168,19 +165,37 @@ export function SwapFormContainer() {
     }
   }, [tokens, sourceToken, targetToken, tokenBalance]);
 
+  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    weiAmount,
+  );
+
+  const { minReturn } = useSlippage(rateByPath, slippage);
+
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),
     tokenAddress(targetToken),
   );
 
-  const { value: rateByPath } = useSwapNetwork_rateByPath(path, weiAmount);
-
-  const { minReturn } = useSlippage(rateByPath, slippage);
-
-  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+  const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
     path,
     weiAmount,
     minReturn,
+  );
+
+  const {
+    send: sendExternal,
+    ...txExternal
+  } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    targetToken,
+    account,
+    account,
+    weiAmount,
+    '0',
+    minReturn,
+    '0x',
   );
 
   const location = useLocation<IPromotionLinkState>();
@@ -221,6 +236,24 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
+  const tx = useMemo(
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? txPath
+        : txExternal,
+    [targetToken, sourceToken, txExternal, txPath],
+  );
+
+  const send = useCallback(
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? sendPath()
+        : sendExternal(),
+    [targetToken, sourceToken, sendPath, sendExternal],
+  );
+
   return (
     <>
       <SlippageDialog
@@ -234,10 +267,10 @@ export function SwapFormContainer() {
 
       <Arbitrage />
 
-      <div className="swap-form-container">
-        <div className="swap-form swap-form-send">
-          <div className="swap-form__title">{t(translations.swap.send)}</div>
-          <div className="swap-form__currency">
+      <div className={styles.swapFormContainer}>
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.send)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={sourceToken}
               items={sourceOptions}
@@ -245,10 +278,10 @@ export function SwapFormContainer() {
               onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={sourceToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
@@ -256,16 +289,16 @@ export function SwapFormContainer() {
             />
           </div>
         </div>
-        <div className="swap-revert-wrapper">
+        <div className={styles.swapRevertWrapper}>
           <div
-            className="swap-revert"
+            className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
           />
         </div>
-        <div className="swap-form swap-form-receive">
-          <div className="swap-form__title">{t(translations.swap.receive)}</div>
-          <div className="swap-form__currency">
+        <div className={styles.swapForm}>
+          <div className={styles.title}>{t(translations.swap.receive)}</div>
+          <div className={styles.currency}>
             <SwapAssetSelector
               value={targetToken}
               items={targetOptions}
@@ -273,10 +306,10 @@ export function SwapFormContainer() {
               onChange={value => setTargetToken(value.key)}
             />
           </div>
-          <div className="swap-form__available-balance">
+          <div className={styles.availableBalance}>
             <AvailableBalance asset={targetToken} />
           </div>
-          <div className="swap-form__amount">
+          <div className={styles.amount}>
             <Input
               value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
@@ -287,8 +320,8 @@ export function SwapFormContainer() {
         </div>
       </div>
 
-      <div className="swap-btn-container">
-        <div className="swap-btn-helper tw-flex tw-items-center tw-justify-center tw-tracking-normal">
+      <div className={styles.swapBtnContainer}>
+        <div className={styles.swapBtnHelper}>
           <span>
             {t(translations.swap.minimumReceived)}{' '}
             {weiToNumberFormat(minReturn, 6)}
@@ -309,7 +342,7 @@ export function SwapFormContainer() {
                     href={discordInvite}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                   >
                     x
                   </a>,
@@ -325,7 +358,7 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={() => send()}
+          onClick={send}
           text={t(translations.swap.cta)}
         />
       </div>
@@ -333,4 +366,8 @@ export function SwapFormContainer() {
       <TxDialog tx={tx} />
     </>
   );
+}
+
+function tokenAddress(asset: Asset) {
+  return AssetsDictionary.get(asset).getTokenContractAddress();
 }

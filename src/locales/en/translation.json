@@ -1049,6 +1049,7 @@
       "deposit": "Deposit",
       "fastBtc": "FastBTC",
       "convert": "Convert to XUSD",
+      "unwrap": "Unwrap to RBTC",
       "swap": "Swap",
       "trade": "Margin Trade",
       "buy": "Buy",
@@ -1061,6 +1062,23 @@
       "from": "From",
       "to": "To",
       "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
+    },
+    "unwrapDialog": {
+      "title": "Unwrap WRBTC",
+      "from": "From",
+      "to": "To",
+      "cta": "Unwrap to RBTC",
       "txDialog": {
         "titleInProgress": "Transaction in Progress",
         "titleCompleted": "Transaction Complete",
@@ -1357,8 +1375,9 @@
     "title": "Withdraw Vesting",
     "subtitle": "This transaction requires rBTC for gas.",
     "amount": "Amount to Withdraw:",
-    "receiver": "Receive SOV to:",
-    "calculating": "Calculating..."
+    "receiver": "Receive {{asset}} to:",
+    "calculating": "Calculating...",
+    "schedule": "Unlock schedule"
   },
   "rewardPage": {
     "meta": {
@@ -1436,6 +1455,7 @@
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
+      "estimationErrorNote": "Due to a display error, the price your order fills at may differ from the price shown in the order summary before confirmation. However, your order will still be protected from filling at a worse price than that allowed by your slippage tolerance setting, and may even fill at a better price than that displayed. We have identified a fix for this issue and will be updating the app ASAP.",
       "position": {
         "long": "Long",
         "short": "Short"
@@ -1588,6 +1608,7 @@
       "buyNow": "Buy Now",
       "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
+      "getStarted": "Get Started",
       "timer": {
         "days": "DAYS",
         "hours": "HOURS",
@@ -1720,7 +1741,9 @@
     },
     "receiverSelector": {
       "title": "Enter receiving {{currentNetwork}} wallet address",
-      "confirm": "Please check and confirm"
+      "confirm": "Please check and confirm",
+      "withdrawWarning": "Do not send to exchange addresses!",
+      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
     },
     "tokenSelector": {
       "title": "Select coin to withdraw to",

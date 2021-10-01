@@ -129,7 +129,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
     margin-bottom: 10px;
 
     p {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       margin-bottom: 0;
 

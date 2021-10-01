@@ -10,7 +10,6 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { GlobalStyle } from 'styles/global-styles';
 import { currentNetwork } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
@@ -118,7 +117,6 @@ export function App() {
           </Switch>
         </WalletProvider>
       )}
-      <GlobalStyle />
     </BrowserRouter>
   );
 }

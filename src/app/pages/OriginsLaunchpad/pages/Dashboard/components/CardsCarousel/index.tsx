@@ -22,7 +22,7 @@ const responsive = {
 };
 
 export const CardsCarousel: React.FC = ({ children }) => (
-  <div className="tw-max-w-90 tw-mx-auto">
+  <div className="tw-max-w-11/12 tw-mx-auto">
     <Carousel
       responsive={responsive}
       arrows

@@ -8,10 +8,10 @@ import * as serviceWorker from 'serviceWorker';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
 import { Dialog } from '@blueprintjs/core';
-import styled from 'styled-components/macro';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import logoSvg from 'assets/images/sovryn-logo-horz-white.png';
 import { Button } from '../Button';
+import classNames from 'classnames';
 
 //interval time to check sw
 const CHECK_TIME = 30e3; // 30 seconds
@@ -117,8 +117,12 @@ export function ServiceWorkerToaster() {
   return (
     <Dialog isOpen={show} className={styles.dialog}>
       <div className="tw-container tw-mx-auto tw-px-4 tw-text-center">
-        <StyledLogo className="tw-mx-auto tw-mb-6" src={logoSvg} />
-        <p className="tw-text-white tw-mb-6">
+        <img
+          className="tw-w-30 tw-mx-auto tw-mb-6"
+          src={logoSvg}
+          alt="Sovryn"
+        />
+        <p className="tw-text-sov-white tw-mb-6">
           <Trans
             i18nKey={translations.serviceWorkerToaster.title}
             components={[
@@ -146,7 +150,10 @@ export function ServiceWorkerToaster() {
           />
           {closeBtn && (
             <Button
-              className={styles.close + ' tw-text-gold tw-bg-transparent'}
+              className={classNames(
+                styles.close,
+                'tw-text-primary tw-bg-transparent',
+              )}
               text={t(translations.serviceWorkerToaster.closeBtn)}
               onClick={() => closeDialog()}
             />
@@ -156,9 +163,3 @@ export function ServiceWorkerToaster() {
     </Dialog>
   );
 }
-
-const StyledLogo = styled.img.attrs(_ => ({
-  alt: 'Sovryn',
-}))`
-  width: 120px;
-`;

@@ -13,7 +13,7 @@ interface Props {
 
 export function LinkToExplorer(props: Props) {
   const txHash = useMemo(() => {
-    if (props.txHash && props.startLength && props.endLength) {
+    if (props.txHash?.length && props.startLength && props.endLength) {
       const start = props.txHash.substr(0, props.startLength);
       const end = props.txHash.substr(-props.endLength);
       return `${start} ··· ${end}`;
@@ -43,5 +43,5 @@ export function LinkToExplorer(props: Props) {
 LinkToExplorer.defaultProps = {
   startLength: 10,
   endLength: 4,
-  className: 'tw-ml-1 tw-text-white',
+  className: 'tw-ml-1 tw-text-sov-white',
 };

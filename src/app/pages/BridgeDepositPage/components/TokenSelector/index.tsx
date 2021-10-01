@@ -47,7 +47,9 @@ export function TokenSelector() {
       (
         BridgeDictionary.get(chain as Chain, targetChain)?.assets || []
       ).filter(item =>
-        item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset),
+        item.usesAggregator
+          ? item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset)
+          : item.group === targetAsset,
       ),
     [chain, targetAsset, targetChain],
   );
@@ -115,7 +117,7 @@ export function TokenSelector() {
 
       <div
         onClick={() => disconnect()}
-        className="tw-cursor-pointer tw-font-semibold tw-text-white tw-underline tw-text-center tw-mt-20"
+        className="tw-cursor-pointer tw-font-semibold tw-text-sov-white tw-underline tw-text-center tw-mt-20"
       >
         {t(translations.BridgeDepositPage.changeWallet)}
       </div>

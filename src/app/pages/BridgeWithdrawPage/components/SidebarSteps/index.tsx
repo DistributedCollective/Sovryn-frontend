@@ -114,7 +114,7 @@ export function SidebarSteps() {
         currentAsset.minDecimals,
       );
       prvSteps[WithdrawStep.AMOUNT_SELECTOR].icon = (
-        <div className="tw-h-full tw-w-full tw-rounded-full tw-bg-white tw-flex tw-items-center tw-justify-center">
+        <div className="tw-h-full tw-w-full tw-rounded-full tw-bg-sov-white tw-flex tw-items-center tw-justify-center">
           <img
             className={'tw-object-contain tw-h-3 tw-w-3'}
             src={walletIcon}
@@ -126,10 +126,10 @@ export function SidebarSteps() {
 
     if (step === WithdrawStep.COMPLETE) {
       prvSteps[WithdrawStep.COMPLETE].icon = (
-        <div className="tw-bg-gray_bg tw-object-contain tw-h-4.5 tw-w-4.5 tw-rounded-full">
+        <div className="tw-bg-gray-4 tw-object-contain tw-h-4.5 tw-w-4.5 tw-rounded-full">
           <img
             className={
-              'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-gray_bg tw-border tw-border-gray_bg'
+              'tw-object-contain tw-h-full tw-w-full tw-rounded-full tw-bg-gray-4 tw-border tw-border-gray-4'
             }
             src={iconSuccess}
             title={t(translations.common.confirmed)}
@@ -182,7 +182,7 @@ export function SidebarSteps() {
 
   return (
     <>
-      {step < WithdrawStep.PROCESSING && (
+      {step < WithdrawStep.CONFIRM && (
         <div
           onClick={handleBack}
           className="tw-absolute tw-top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none"

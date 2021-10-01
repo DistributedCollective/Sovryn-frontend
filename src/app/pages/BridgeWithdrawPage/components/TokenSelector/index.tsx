@@ -14,10 +14,12 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { BridgeNetworkDictionary } from 'app/pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
+import { useAccount } from '../../../../hooks/useAccount';
 
 export function TokenSelector() {
   const { t } = useTranslation();
 
+  const account = useAccount();
   const { chain, targetChain, targetAsset, sourceAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -64,8 +66,10 @@ export function TokenSelector() {
         ).toLowerCase(),
         abi: erc20Abi,
         fnName: 'balanceOf',
-        args: [currentAsset.aggregatorContractAddress?.toLowerCase()],
-        key: item.symbol,
+        args: [
+          currentAsset.aggregatorContractAddress?.toLowerCase() || account,
+        ],
+        key: item.asset,
       };
     });
 
@@ -86,15 +90,18 @@ export function TokenSelector() {
           setBalances([]);
         });
     }
-  }, [chain, targetChain, targetAsset, targetAssets, currentAsset]);
+  }, [chain, targetChain, targetAsset, targetAssets, currentAsset, account]);
 
   const network = useMemo(
     () => BridgeNetworkDictionary.get(targetChain as Chain),
     [targetChain],
   );
 
-  const getBalance = (asset: CrossBridgeAsset) =>
-    balances.find(item => item.key === asset)?.value || '0';
+  const getBalance = useCallback(
+    (asset: CrossBridgeAsset) =>
+      balances.find(item => item.key === asset)?.value || '0',
+    [balances],
+  );
 
   return (
     <div>
@@ -111,6 +118,7 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 balance={getBalance(item.asset)}
+                loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
               />
             );

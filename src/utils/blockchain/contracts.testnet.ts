@@ -33,11 +33,13 @@ import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi,
+    abi: [...bzxAbi, ...SwapsExternalAbi],
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -59,6 +61,11 @@ export const contracts = {
     address: '0x7816c4E1b61eE09c25974325cc20B056963423b1',
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
+  },
+  WRBTC_token: {
+    address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+    abi: abiTestWBRTCToken,
+    blockNumber: 1205599,
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
@@ -85,6 +92,11 @@ export const contracts = {
     abi: LiquidityPoolV2Converter,
     blockNumber: 1218833,
   },
+  RDOC_token: {
+    address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
+    abi: TestTokenABI,
+    blockNumber: 1764664,
+  },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
     abi: TestTokenABI,
@@ -97,6 +109,21 @@ export const contracts = {
   // },
   MOC_amm: {
     address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
+  RIF_token: {
+    address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // RIF_lending: {
+  //   address: '',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  RIF_amm: {
+    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -308,7 +335,11 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
-    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
+    abi: nftAbi,
   },
 };

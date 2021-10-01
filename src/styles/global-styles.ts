@@ -33,9 +33,6 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
     overflow: auto;
     padding-top: 4.4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     &.openedMenu {
       overflow: hidden;
       height: 0;

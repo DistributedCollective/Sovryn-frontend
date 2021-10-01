@@ -19,6 +19,8 @@ import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridg
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import styles from './index.module.scss';
+import cn from 'classnames';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -131,7 +133,12 @@ export function AmountSelector() {
               )}{' '}
               {currentAsset.symbol}
               {(!checkBridgeBalance || !checkSpentToday) && (
-                <div className="tw-absolute tw-b-0 tw-l-0 tw-text-Red">
+                <div
+                  className={cn(
+                    styles.warning,
+                    'tw-absolute tw-b-0 tw-l-0 tw-text-Red',
+                  )}
+                >
                   {!checkBridgeBalance
                     ? t(trans.insufficientAggregator)
                     : t(trans.insufficientDaily)}
@@ -141,7 +148,6 @@ export function AmountSelector() {
           </FormGroup>
         </div>
         <div className="text-center tw-mt-4 tw-mb-2">
-          {' '}
           {t(trans.dailyBridgeLimits)}
         </div>
         <Table>

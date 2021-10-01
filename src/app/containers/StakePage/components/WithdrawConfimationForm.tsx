@@ -39,7 +39,7 @@ export function WithdrawConfirmationForm(props: Props) {
         <StyledStatus>
           <img src={iconReject} alt="attention" className="tw-m-auto" />
         </StyledStatus>
-        <p className="tw-text-red tw-text-center">
+        <p className="tw-text-warning tw-text-center">
           {t(translations.stake.withdraw.stakeUnlockUntil)}:
         </p>
         <div className="tw-text-center tw-text-xl tw-font-normal tw-mb-8 tw-mt-4">
@@ -51,13 +51,13 @@ export function WithdrawConfirmationForm(props: Props) {
 
         {props.forfeit === 0 ? (
           <>
-            <p className="tw-text-red tw-text-center">
+            <p className="tw-text-warning tw-text-center">
               {t(translations.stake.withdraw.penaltyZero)}
             </p>
           </>
         ) : (
           <>
-            <p className="tw-text-red tw-text-center">
+            <p className="tw-text-warning tw-text-center">
               {t(translations.stake.withdraw.penalty)}:
             </p>
             <div className="tw-text-center tw-text-lg tw-font-semibold">
@@ -76,7 +76,7 @@ export function WithdrawConfirmationForm(props: Props) {
                   href={discordInvite}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="tw-text-Red tw-text-xs tw-underline hover:tw-no-underline"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
                 >
                   x
                 </a>,
@@ -88,7 +88,7 @@ export function WithdrawConfirmationForm(props: Props) {
       <div className="md:tw-px-16 tw-mb-8">
         <button
           type="submit"
-          className={`tw-uppercase tw-mb-5 tw-w-full tw-text-black tw-bg-gold tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
+          className={`tw-uppercase tw-mb-5 tw-w-full tw-text-black tw-bg-primary tw-text-xl tw-font-extrabold tw-px-4 hover:tw-bg-opacity-80 tw-py-2 tw-rounded-lg tw-transition tw-duration-500 tw-ease-in-out ${
             unstakingLocked &&
             'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
           }`}
@@ -101,7 +101,7 @@ export function WithdrawConfirmationForm(props: Props) {
           onClick={() => {
             props.onCloseModal();
           }}
-          className="tw-border tw-border-gold tw-rounded-lg tw-text-gold tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-gold hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+          className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
         >
           {t(translations.stake.actions.cancel)}
         </button>

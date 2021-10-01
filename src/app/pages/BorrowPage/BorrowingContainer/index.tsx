@@ -12,7 +12,7 @@ import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../hooks/useWeiAmount';
 import { useApproveAndBorrow } from '../../../hooks/trading/useApproveAndBorrow';
 import { useIsAmountWithinLimits } from '../../../hooks/useIsAmountWithinLimits';
-import '../assets/index.scss';
+import styles from '../index.module.scss';
 import { Asset } from '../../../../types';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { FormSelect } from '../../../components/FormSelect';
@@ -149,7 +149,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
   );
 
   const popoverContent = (
-    <div className="bp3-popover-borrow">
+    <div className={styles.popoverBorrow}>
       {t(translations.lend.borrowingContainer.chooseDays)}
       <NumericInput
         min={1}
@@ -203,12 +203,12 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
         )}
         <div className="tw-col-span-12">
           <div className="tw-grid tw-grid-cols-12 tw--mx-4">
-            <div className="tw-col-span-12 tw-text-muted tw-px-4">
+            <div className="tw-col-span-12 tw-text-gray-6 tw-px-4">
               {
                 <>
                   {t(translations.lend.borrowingContainer.tokenAssetCollateral)}{' '}
                   {maxAmount !== '0' && !loadingLimit && (
-                    <span className="tw-text-muted">
+                    <span className="tw-text-gray-6">
                       (Max: {weiTo4(maxAmount)} {tokenToCollarate})
                     </span>
                   )}

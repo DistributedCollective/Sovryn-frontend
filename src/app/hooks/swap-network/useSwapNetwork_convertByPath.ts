@@ -2,6 +2,7 @@ import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useSwapNetwork_convertByPath(
   sourceToken: Asset,
@@ -24,6 +25,7 @@ export function useSwapNetwork_convertByPath(
       let config: any = {
         from: account,
         value: sourceToken === Asset.RBTC ? amount : '0',
+        gas: gasLimit[TxType.CONVERT_BY_PATH],
         nonce,
       };
 
@@ -39,6 +41,7 @@ export function useSwapNetwork_convertByPath(
 
         config = {
           from: account,
+          gas: gasLimit[TxType.CONVERT_BY_PATH],
           nonce,
         };
       }

@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import { Popover } from '@blueprintjs/core';
 import { ReactComponent as SovLogo } from '../../../assets/images/sovryn-logo-alpha.svg';
 import { media } from '../../../styles/media';
 
@@ -29,7 +28,7 @@ export const StyledMenu = styled.nav<StyledProps>`
     list-style-type: none;
   }
   a {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     padding: 1.5rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
@@ -61,7 +60,7 @@ export const StyledBurger = styled.button<StyledProps>`
     width: 2rem;
     height: 0.25rem;
     background: white;
-    border-radius: 10px;
+    border-radius: 0.75rem;
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;
@@ -95,10 +94,4 @@ export const StyledLogo = styled(SovLogo).attrs(_ => ({
     height: 53px;
     margin: 0;
   `}
-`;
-
-export const StyledPopover = styled(Popover)`
-  &:hover {
-    color: #2274a5;
-  }
 `;
