@@ -1315,8 +1315,8 @@
     "tradingRewards": "Bônus de negociação",
     "lockedRewards": "Bônus bloqueados:",
     "claimableRewards": "Bônus reinvidicáveis",
-    "stakingReward": "Bônus de investimento",
-    "referralReward": "Bônus de indicação",
+    "stakingReward": "Bônus de investimento SOV",
+    "referralReward": "Programa de afiliados",
     "comingSoon": "Em breve",
     "noRewardInfoText": {
       "rewardSovTab": {
