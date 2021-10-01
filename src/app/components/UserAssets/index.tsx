@@ -30,6 +30,7 @@ import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
 import { useDollarValue } from '../../hooks/useDollarValue';
+import { Link } from 'react-router-dom';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -278,6 +279,16 @@ function AssetRow({
               text={t(translations.userAssets.actions.unwrap)}
               onClick={onUnWrap}
             />
+          )}
+          {item.asset === Asset.XUSD && (
+            <Link
+              className="tw-btn-action"
+              to={{
+                pathname: '/dappy-test',
+              }}
+            >
+              <span>Off-Ramp</span>
+            </Link>
           )}
         </div>
       </td>
