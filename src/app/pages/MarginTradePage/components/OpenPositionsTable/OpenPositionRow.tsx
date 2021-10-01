@@ -8,7 +8,6 @@ import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading
 import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
 import { TradingPosition } from '../../../../../types/trading-position';
 import {
-  calculateLiquidation,
   formatAsBTCPrice,
   toNumberFormat,
   weiToNumberFormat,
@@ -22,6 +21,7 @@ import { CurrentPositionProfit } from '../../../../components/CurrentPositionPro
 import { PositionBlock } from './PositionBlock';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { LoadableValue } from '../../../../components/LoadableValue';
 
 interface Props {
   item: ActiveLoan;
@@ -51,19 +51,30 @@ export function OpenPositionRow({ item }: Props) {
   const isLong = position === TradingPosition.LONG;
   const leverage = leverageFromMargin(item.startMargin);
 
-  const liquidationPrice = useMemo(
-    () =>
-      toNumberFormat(
-        calculateLiquidation(
-          isLong,
-          leverage,
-          item.maintenanceMargin,
-          item.startRate,
-        ),
-        4,
+  //liquidation_collateralToLoanRate = ((maintenance_margin * principal / 10^20) + principal) / collateral * 10^18
+  //If SHORT -> 10^36 / liquidation_collateralToLoanRate
+
+  const liquidationPrice = useMemo(() => {
+    const liquidation_collateralToLoanRate = bignumber(
+      bignumber(
+        bignumber(item.maintenanceMargin)
+          .mul(item.principal)
+          .div(10 ** 20)
+          .add(item.principal),
       ),
-    [item, isLong, leverage],
-  );
+    )
+      .div(item.collateral)
+      .mul(10 ** 18);
+
+    if (isLong) {
+      return liquidation_collateralToLoanRate.div(10 ** 18).toString();
+    }
+    return bignumber(10 ** 36)
+      .div(liquidation_collateralToLoanRate)
+      .div(10 ** 18)
+      .toString();
+  }, [item, isLong]);
+
   if (pair === undefined) return <></>;
 
   const collateralAssetDetails = AssetsDictionary.get(collateralAsset);
@@ -80,25 +91,57 @@ export function OpenPositionRow({ item }: Props) {
         </td>
         <td>
           <div className="tw-whitespace-nowrap">
-            {weiToNumberFormat(item.collateral, 4)}{' '}
-            <AssetRenderer asset={collateralAssetDetails.asset} />
+            <LoadableValue
+              value={
+                <>
+                  {weiToNumberFormat(item.collateral, 4)}{' '}
+                  <AssetRenderer asset={collateralAssetDetails.asset} />
+                </>
+              }
+              tooltip={weiToNumberFormat(item.collateral, 18)}
+            />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
-            <AssetRenderer asset={pair.longDetails.asset} />
+            <LoadableValue
+              value={
+                <>
+                  {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
+              tooltip={toNumberFormat(getEntryPrice(item, position), 18)}
+            />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            {liquidationPrice} <AssetRenderer asset={pair.longDetails.asset} />
+            <LoadableValue
+              value={
+                <>
+                  {toNumberFormat(liquidationPrice, 4)}{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
+              tooltip={toNumberFormat(liquidationPrice, 18)}
+            />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
-            {weiToNumberFormat(amount, 4)}{' '}
-            <AssetRenderer asset={pair.shortDetails.asset} /> ({leverage}x)
+            <LoadableValue
+              value={
+                <>
+                  {weiToNumberFormat(amount, 4)}{' '}
+                  <AssetRenderer
+                    asset={assetByTokenAddress(item.collateralToken)}
+                  />{' '}
+                  ({leverage}x)
+                </>
+              }
+              tooltip={weiToNumberFormat(amount, 18)}
+            />
           </div>
         </td>
         <td>

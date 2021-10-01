@@ -76,5 +76,10 @@ export const gasLimit = {
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
 
+export const useTenderlySimulator = !!process.env.REACT_APP_ESTIMATOR_URI;
+
+export const TRADE_LOG_SIGNATURE_HASH =
+  '0xf640c1cfe1a912a0b0152b5a542e5c2403142eed75b06cde526cee54b1580e5c';
+
 export const VAULT_WITHDRAW_LOG_SIGNATURE_HASH =
   '0xc44aeefa68e8b9c1ad5f7be4b0dd194580f81f5c362862e72196503a320eb7a1';

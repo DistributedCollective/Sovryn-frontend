@@ -1,5 +1,6 @@
 import { SimulatorResponse, TxTuple } from './types';
 import { FAKE_SIMULATOR_TX_DATA } from './helpers';
+import { useTenderlySimulator } from '../classifiers';
 
 const prepareBody = (networkId: string, tx: TxTuple) => {
   // todo: this is how body will provided to our backend service
@@ -28,7 +29,7 @@ export const simulateTx = async (
   tx: TxTuple,
   signal?: AbortSignal,
 ): Promise<SimulatorResponse> => {
-  if (!process.env.REACT_APP_ESTIMATOR_URI) {
+  if (!useTenderlySimulator) {
     const fakeResponse: SimulatorResponse =
       tx.length === 2
         ? [FAKE_SIMULATOR_TX_DATA, FAKE_SIMULATOR_TX_DATA]

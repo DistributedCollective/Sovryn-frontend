@@ -8,7 +8,7 @@ import { Tooltip } from '@blueprintjs/core';
 
 interface Props {
   value: React.ReactNode;
-  loading: boolean;
+  loading?: boolean;
   loaderContent: React.ReactNode;
   tooltip?: React.ReactNode;
 }
@@ -36,5 +36,6 @@ export function LoadableValue(props: Props) {
 }
 
 LoadableValue.defaultProps = {
+  loading: false,
   loaderContent: 'Loading some value.',
 };
