@@ -95,16 +95,18 @@ export function PerpetualPage() {
         />
       </Helmet>
       <Header />
-      <div className="tw-w-full tw-bg-gray-2 tw-py-2">
-        <div className="tw-container">
-          <div>
-            Pair Select Placeholder
-            {/*TODO: implement pair select*/}
+      <div className={styles.topInfoWrapper}>
+        <div className="tw-w-full tw-bg-gray-2 tw-py-2">
+          <div className="tw-container">
+            <div>
+              Pair Select Placeholder
+              {/*TODO: implement pair select*/}
+            </div>
           </div>
         </div>
+        <ContractDetails pair={pair} />
       </div>
-      <ContractDetails pair={pair} />
-      <div className="tw-container tw-mt-5">
+      <div className={styles.mainAreaWrapper}>
         <div
           className={classNames(
             'xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2',
