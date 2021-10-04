@@ -1321,7 +1321,7 @@
     "noRewardInfoText": {
       "rewardSovTab": {
         "title": "Você não possui SOV Recompensa",
-        "recommendationsTitle": "Você pode ganhar SOV Recompensa das seguintes formas:",
+        "recommendationsTitle": "Ganhe SOV Recompensa das seguintes formas:",
         "recommendation1": "Emprestando cripto que faça parte de promoção em andamento",
         "recommendation2": "Minerando liquidez em algum pool com promoção em andamento",
         "recommendation3": "Operando margem em qualquer par de criptos na Sovryn"
