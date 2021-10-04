@@ -4,8 +4,6 @@ import { ContractName } from 'utils/types/contracts';
 export type Vesting = {
   asset: Asset;
   label: string;
-  registry: ContractName;
-  registryMethod: RegistryMethodTypes;
   staking: ContractName;
   type: VestGroup;
   typeCreation: string;
@@ -24,8 +22,6 @@ export type DetailsProps = {
   cliff: string;
   duration: string;
 };
-
-type RegistryMethodTypes = 'getVestingAddr' | 'getTeamVesting';
 
 export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish' | 'fishAirdrop';
 
