@@ -292,7 +292,7 @@ export const contracts = {
   },
   stakingRewards: {
     address: '0x168BF3A853eDcBb12276F96cf373a990eA8eab7B', //short staking period testnet address
-    abi: stakingRewardsProxyAbi,
+    abi: stakingRewardsProxyAbi, //short staking period testnet abi
   },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',

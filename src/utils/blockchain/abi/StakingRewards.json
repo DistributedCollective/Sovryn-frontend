@@ -327,6 +327,32 @@
   },
   {
     "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "stakingActivity",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "lastStakingActivityTime",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "lastStakingActivityBlock",
+        "type": "uint128"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [],
     "name": "startTime",
     "outputs": [
