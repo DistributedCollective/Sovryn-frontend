@@ -19,6 +19,7 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
   // bignumber(useGetAvailableLiquidityRewards())
   //   .mul(10 ** 4)
   //   .toFixed();
+
   const amountToClaim = useMemo(
     () =>
       (
