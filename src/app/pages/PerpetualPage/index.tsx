@@ -8,7 +8,7 @@ import { useInjectReducer } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey } from './slice';
-import { Header } from '../../components/Header';
+import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
@@ -94,7 +94,7 @@ export function PerpetualPage() {
           content={t(translations.perpetualPage.meta.description)}
         />
       </Helmet>
-      <Header />
+      <HeaderLabs />
       <div className={styles.topInfoWrapper}>
         <div className="tw-w-full tw-bg-gray-2 tw-py-2">
           <div className="tw-container">
