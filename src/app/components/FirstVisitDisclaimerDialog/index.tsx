@@ -8,15 +8,16 @@ import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
-import logo from './logo.svg';
+import logo from 'assets/images/sovryn-logo-white.svg';
 
 interface Props {}
 
+// previously MetaMask disclaimer, 'mm-…' remains to not anoy users.
 const SESSION_KEY = 'mm-notify-shown';
 
 const shouldModalBeVisible = () => !isMobile() && !local.getItem(SESSION_KEY);
 
-export function MetaMaskDiscouragementNotifyModal(props: Props) {
+export function FirstVisitDisclaimerDialog(props: Props) {
   const { t } = useTranslation();
   const [show, setShow] = useState(shouldModalBeVisible());
   const [checked, setChecked] = useState(false);
@@ -38,7 +39,7 @@ export function MetaMaskDiscouragementNotifyModal(props: Props) {
       className="tw-w-full tw-max-w-4xl tw-p-6"
     >
       <div className="tw-font-light tw-text-center tw-w-full tw-max-w-2xl tw-mx-auto">
-        <img src={logo} alt="MetaMask" className="tw-mb-4" />
+        <img src={logo} alt="Sovryn Logo" className="tw-mb-4" />
         <div
           className="tw-font-bold tw-text-center tw-mb-6"
           style={{ fontSize: '25px' }}
