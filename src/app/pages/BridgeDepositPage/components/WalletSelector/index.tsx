@@ -13,8 +13,9 @@ import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { SelectBox } from '../SelectBox';
 import { actions } from '../../slice';
+import { discordInvite } from 'utils/classifiers';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -24,9 +25,14 @@ import {
   metamaskDefaultChains,
 } from 'utils/metamaskHelpers';
 import styles from './index.module.scss';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export function WalletSelector() {
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+
   const dispatch = useDispatch();
   const { ethereum } = window as any;
 
@@ -116,6 +122,25 @@ export function WalletSelector() {
               { network: network?.name },
             )}
           </div>
+          {bridgeLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.bridgeSteps}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
           <div className="tw-flex tw-flex-col tw-gap-2 tw-px-2 tw-items-center">
             <SelectBox onClick={() => {}}>
               <img
@@ -162,14 +187,35 @@ export function WalletSelector() {
       )}
 
       {state === 'choose-network' && (
-        <WalletConnectionView
-          onStep={step => console.log('step: ', step)}
-          onCompleted={step => console.log('step: ', step)}
-          hideInstructionLink={true}
-          enableSoftwareWallet={
-            process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true'
-          }
-        />
+        <>
+          {bridgeLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.bridgeSteps}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-center tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+          <WalletConnectionView
+            onStep={step => console.log('step: ', step)}
+            onCompleted={step => console.log('step: ', step)}
+            hideInstructionLink={true}
+            enableSoftwareWallet={
+              process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true'
+            }
+          />
+        </>
       )}
     </div>
   );

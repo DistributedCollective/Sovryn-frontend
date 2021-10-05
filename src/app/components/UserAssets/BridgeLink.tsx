@@ -1,9 +1,12 @@
 import React from 'react';
-import { useAccount } from 'app/hooks/useAccount';
+import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Tooltip } from '@blueprintjs/core';
+
+import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface Props {
   asset: Asset;
@@ -12,26 +15,59 @@ interface Props {
 export function BridgeLink({ asset }: Props) {
   const receiver = useAccount();
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  //const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const bridgeLocked = false;
+
   return (
     <>
-      <Link
-        className="tw-btn-action"
-        to={{
-          pathname: '/cross-chain/deposit',
-          state: { receiver, asset },
-        }}
-      >
-        <span>{t(translations.common.deposit)}</span>
-      </Link>
-      <Link
-        className="tw-btn-action"
-        to={{
-          pathname: '/cross-chain/withdraw',
-          state: { receiver, asset },
-        }}
-      >
-        <span>{t(translations.common.withdraw)}</span>
-      </Link>
+      {bridgeLocked ? (
+        <>
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            interactionKind="hover"
+            content={<>{t(translations.maintenance.bridge)}</>}
+          >
+            <div className="tw-btn-action tw-cursor-not-allowed">
+              {t(translations.common.deposit)}
+            </div>
+          </Tooltip>
+          <Tooltip
+            position="bottom"
+            hoverOpenDelay={0}
+            hoverCloseDelay={0}
+            interactionKind="hover"
+            content={<>{t(translations.maintenance.bridge)}</>}
+          >
+            <div className="tw-btn-action tw-cursor-not-allowed">
+              {t(translations.common.withdraw)}
+            </div>
+          </Tooltip>
+        </>
+      ) : (
+        <>
+          <Link
+            className="tw-btn-action"
+            to={{
+              pathname: '/cross-chain/deposit',
+              state: { receiver, asset },
+            }}
+          >
+            <span>{t(translations.common.deposit)}</span>
+          </Link>
+          <Link
+            className="tw-btn-action"
+            to={{
+              pathname: '/cross-chain/withdraw',
+              state: { receiver, asset },
+            }}
+          >
+            <span>{t(translations.common.withdraw)}</span>
+          </Link>
+        </>
+      )}
     </>
   );
 }

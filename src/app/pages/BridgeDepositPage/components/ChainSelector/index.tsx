@@ -5,17 +5,21 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { actions } from '../../slice';
 import { Chain } from '../../../../../types';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
-import { currentChainId } from '../../../../../utils/classifiers';
+import { currentChainId, discordInvite } from 'utils/classifiers';
 import { SelectBox } from '../SelectBox';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { selectBridgeDepositPage } from '../../selectors';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export function ChainSelector() {
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const { targetAsset } = useSelector(selectBridgeDepositPage);
 
@@ -46,7 +50,11 @@ export function ChainSelector() {
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
-          <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
+          <SelectBox
+            key={item.chain}
+            onClick={() => selectNetwork(item.chain)}
+            disabled={bridgeLocked}
+          >
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
             <div>
               <span className="tw-uppercase">{item.chain} </span>{' '}
@@ -55,6 +63,25 @@ export function ChainSelector() {
           </SelectBox>
         ))}
       </div>
+      {bridgeLocked && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
     </div>
   );
 }
