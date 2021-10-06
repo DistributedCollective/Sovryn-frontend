@@ -1,10 +1,6 @@
-import { Menu as BPMenu, MenuItem, Popover, Position } from '@blueprintjs/core';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { translations } from 'locales/i18n';
