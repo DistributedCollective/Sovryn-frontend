@@ -24,9 +24,6 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
-import { DepthChart } from './components/DepthChart';
-import styles from './index.module.scss';
-import classNames from 'classnames';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -135,8 +132,10 @@ export function PerpetualPage() {
           >
             <RecentTradesTable pair={pair} />
           </DataCard>
-          <div className="xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-            <div className="tw-h-24 tw-bg-gray-4 tw-rounded-lg"></div>
+          <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+            <div className="tw-h-24 tw-bg-gray-4 tw-rounded-lg">
+              {/*TODO: implement Account Balance*/}
+            </div>
             <TradeForm pairType={linkPairType || pairType} />
           </div>
         </div>
