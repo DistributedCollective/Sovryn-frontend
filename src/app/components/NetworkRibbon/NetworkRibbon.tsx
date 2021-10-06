@@ -12,6 +12,7 @@ import { NetworkDialog } from '../NetworkDialog';
 import { DetectionScreen } from './component/DetectionScreen';
 import { TutorialScreen } from './component/TutorialScreen';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
+import networks from './component/network.json';
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
@@ -21,13 +22,19 @@ export function NetworkRibbon(this: any) {
   const { t } = useTranslation();
 
   const isOpen = useMemo(() => {
-    if (bridgeChainId !== null || location.pathname.startsWith('/cross-chain'))
+    console.log('bridgeChainId: ', bridgeChainId);
+    console.log('currentChainId: ', currentChainId);
+    console.log('wallet.chainId: ', wallet.chainId);
+    if (
+      !connected ||
+      !isWeb3Wallet(wallet.providerType!) ||
+      location.pathname.startsWith('/cross-chain')
+    )
       return false;
-    return (
-      connected &&
-      isWeb3Wallet(wallet.providerType!) &&
-      wallet.chainId !== currentChainId
-    );
+
+    if (bridgeChainId) return wallet.chainId !== bridgeChainId;
+
+    return wallet.chainId !== currentChainId;
   }, [
     bridgeChainId,
     location.pathname,
@@ -35,6 +42,12 @@ export function NetworkRibbon(this: any) {
     wallet.providerType,
     wallet.chainId,
   ]);
+
+  const targetNetwork = useMemo(() => {
+    return networks.find(
+      item => item.chainId === (bridgeChainId || currentChainId),
+    );
+  }, [bridgeChainId]);
 
   const [startTut, setStart] = useState(false);
 
@@ -45,11 +58,18 @@ export function NetworkRibbon(this: any) {
     <NetworkDialog isOpen={isOpen} className="tw-font-bold" size="normal">
       <div className="tw-py-2 tw-font-body">
         <div className="tw-font-semibold tw-text-2xl tw-leading-none tw-normal-case tw-text-center">
-          {t(translations.wrongNetworkDialog.title)}{' '}
+          {t(translations.wrongNetworkDialog.title, {
+            name: `${targetNetwork?.chain} ${targetNetwork?.network}`,
+          })}{' '}
         </div>
       </div>
       {!startTut ? (
-        <DetectionScreen onStart={handleTutDialog} walletType={walletName} />
+        <DetectionScreen
+          onStart={handleTutDialog}
+          walletType={walletName}
+          network={targetNetwork?.network}
+          chain={targetNetwork?.chain}
+        />
       ) : (
         <TutorialScreen walletType={walletName} onBack={handleBack} />
       )}
