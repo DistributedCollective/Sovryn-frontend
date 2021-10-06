@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { bignumber } from 'mathjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
@@ -19,7 +19,6 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
-import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -34,11 +33,12 @@ import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
+import { DataCard } from '../DataCard';
+import classNames from 'classnames';
 
 interface ITradeFormProps {
   pairType: PerpetualPairType;
 }
-const maintenanceMargin = 15000000000000000000;
 
 export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
@@ -77,18 +77,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
   const submit = e => dispatch(actions.submit(e));
-  const selectPosition = e => {
-    submit(e);
-    setPosition(e);
-  };
+  const bindSelectPosition = useCallback(
+    (postion: TradingPosition) => () => {
+      submit(postion);
+      setPosition(postion);
+    },
+    [submit, setPosition],
+  );
 
   const { price, loading } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
     estimations.principal,
-    positionType === TradingPosition.SHORT,
+    positionType === TradingPosition.LONG,
   );
-  console.log('positioL ', positionType);
+
   useEffect(() => {
     dispatch(actions.setAmount(weiAmount));
   }, [weiAmount, dispatch]);
@@ -110,35 +113,46 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0">
+      <DataCard
+        title={
+          connected
+            ? t(translations.perpetualPage.tradeForm.titles.order)
+            : t(translations.perpetualPage.tradeForm.titles.welcome)
+        }
+      >
         {!openTradesLocked && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
-            <Button
-              text={t(translations.perpetualPage.tradeForm.buttons.long)}
-              position={TradingPosition.LONG}
-              onClick={selectPosition}
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5">
+            <button
+              className={classNames(
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg',
+                position !== TradingPosition.LONG &&
+                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duraction-300',
+              )}
+              onClick={bindSelectPosition(TradingPosition.LONG)}
               // disabled={!validate || !connected || openTradesLocked}
-            />
-            <Button
-              text={t(translations.perpetualPage.tradeForm.buttons.short)}
-              position={TradingPosition.SHORT}
-              onClick={selectPosition}
-            />
+            >
+              {t(translations.perpetualPage.tradeForm.buttons.buy)}
+            </button>
+            <button
+              className={classNames(
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-short tw-rounded-lg',
+                position !== TradingPosition.SHORT &&
+                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duraction-300',
+              )}
+              onClick={bindSelectPosition(TradingPosition.SHORT)}
+            >
+              {t(translations.perpetualPage.tradeForm.buttons.sell)}
+            </button>
           </div>
         )}
         <div className="tw-mw-340 tw-mx-auto tw-mt-6">
-          <CollateralAssets
-            value={collateral}
-            onChange={value => dispatch(actions.setCollateral(value))}
-            options={pair.collaterals}
-          />
-          <AvailableBalance asset={collateral} />
           <FormGroup
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             className="tw-mb-6"
           >
             <LeverageSelector
               value={leverage}
+              steps={[1, 2, 3, 5, 10, 15]}
               onChange={value => dispatch(actions.setLeverage(value))}
             />
           </FormGroup>
@@ -212,7 +226,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             />
           )}
         </div>
-      </div>
+      </DataCard>
       <AdvancedSettingDialog />
       {/* <TradeDialog /> */}
     </>

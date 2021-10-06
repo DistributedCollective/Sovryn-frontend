@@ -12,7 +12,13 @@ import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 
-export function AdvancedSettingDialog() {
+type IAdvancedSettingDialogProps = {
+  isOpen?: boolean;
+};
+
+export const AdvancedSettingDialog: React.FC<IAdvancedSettingDialogProps> = ({
+  isOpen,
+}) => {
   const { t } = useTranslation();
   const { position, leverage } = useSelector(selectPerpetualPage);
   const dispatch = useDispatch();
@@ -21,7 +27,7 @@ export function AdvancedSettingDialog() {
   return (
     <>
       <Dialog
-        isOpen={!!position}
+        isOpen={!!isOpen}
         onClose={() => dispatch(actions.closeTradingModal())}
       >
         <div className="tw-mw-340 tw-mx-auto">
@@ -52,7 +58,7 @@ export function AdvancedSettingDialog() {
       </Dialog>
     </>
   );
-}
+};
 
 interface LabelValuePairProps {
   label: React.ReactNode;

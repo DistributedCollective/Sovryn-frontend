@@ -2,7 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { ContainerState } from './types';
 import { Asset } from '../../../types';
-import type { TradingPosition } from '../../../types/trading-position';
+import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 
 // The initial state of the MarginTradePage container
@@ -11,7 +11,7 @@ export const initialState: ContainerState = {
   collateral: Asset.RBTC,
   amount: '0',
   leverage: 2,
-  position: (undefined as unknown) as TradingPosition,
+  position: TradingPosition.LONG,
 };
 
 const perpetualPageSlice = createSlice({
@@ -33,9 +33,7 @@ const perpetualPageSlice = createSlice({
     submit(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
     },
-    closeTradingModal(state) {
-      state.position = (undefined as unknown) as TradingPosition;
-    },
+    closeTradingModal(state) {},
   },
 });
 

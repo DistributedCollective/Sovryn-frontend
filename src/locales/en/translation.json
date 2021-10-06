@@ -1525,24 +1525,28 @@
       "time": "Time"
     },
     "tradeForm": {
+      "titles": {
+        "order": "Place New Order",
+        "welcome": "Welcome to Sovryn Perpetuals"
+      },
       "labels": {
         "pair": "Pair:",
         "asset": "Asset to receive:",
-        "leverage": "Leverage:",
+        "leverage": "Position Leverage:",
         "amount": "Trade Amount:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
       },
       "buttons": {
-        "long": "Long",
-        "short": "Short"
+        "buy": "Buy",
+        "sell": "Sell"
       }
     },
     "tradeDialog": {
       "title": "Review Transaction",
       "pair": "Trading Pair:",
-      "leverage": "Leverage:",
+      "leverage": "Position Leverage:",
       "asset": "Collateral:",
       "direction": "Pair:",
       "positionSize": "Position Size",
