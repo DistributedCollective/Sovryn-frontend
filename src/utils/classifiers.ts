@@ -29,7 +29,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app/',
-  31: 'https://api.test.sovryn.app/fastbtc',
+  31: 'https://fastbtc.test.sovryn.app/',
 };
 
 export const databaseRpcNodes = {

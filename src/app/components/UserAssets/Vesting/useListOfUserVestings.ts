@@ -1,121 +1,135 @@
-import { ContractName } from 'utils/types/contracts';
 import { Asset } from 'types/asset';
-import { useAccount } from '../../../hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { useEffect, useState } from 'react';
-import { ethGenesisAddress } from '../../../../utils/classifiers';
-import { bridgeNetwork } from '../../../pages/BridgeDepositPage/utils/bridge-network';
-import { getContract } from '../../../../utils/blockchain/contract-helpers';
-import { Chain } from '../../../../types';
-
-import vestingRegistryAbi from 'utils/blockchain/abi/VestingRegistry.json';
-
-type RegistryMethodTypes = 'getVesting' | 'getTeamVesting';
-
-export type Vesting = {
-  asset: Asset;
-  label: string;
-  registry: ContractName;
-  registryMethod: RegistryMethodTypes;
-  staking: ContractName;
-};
-
-type StakesProp = {
-  dates: Date[];
-  stakes: string[];
-};
-
-export type FullVesting = Vesting & {
-  vestingContract: string;
-  balance: string;
-  stakes: StakesProp;
-};
-
-const possibleVestings: Vesting[] = [
-  {
-    asset: Asset.SOV,
-    label: 'Genesis SOV',
-    registry: 'vestingRegistry',
-    registryMethod: 'getVesting',
-    staking: 'staking',
-  },
-  {
-    asset: Asset.SOV,
-    label: 'Reward SOV',
-    registry: 'vestingRegistryLM',
-    registryMethod: 'getVesting',
-    staking: 'staking',
-  },
-  {
-    asset: Asset.SOV,
-    label: 'Team SOV',
-    registry: 'vestingRegistry',
-    registryMethod: 'getTeamVesting',
-    staking: 'staking',
-  },
-  {
-    asset: Asset.SOV,
-    label: 'Origin SOV',
-    registry: 'vestingRegistryOrigin',
-    registryMethod: 'getVesting',
-    staking: 'staking',
-  },
-  {
-    asset: Asset.FISH,
-    label: 'Origin FISH',
-    registry: 'vestingRegistryFISH',
-    registryMethod: 'getVesting',
-    staking: 'FISH_staking',
-  },
-  {
-    asset: Asset.FISH,
-    label: 'Airdrop FISH',
-    registry: 'vestingRegistryFISH',
-    registryMethod: 'getTeamVesting',
-    staking: 'FISH_staking',
-  },
-];
+import { ethGenesisAddress } from 'utils/classifiers';
+import { Vesting, FullVesting } from './types';
+import { useVesting_getVestingsOf } from 'app/hooks/staking/useVesting_getVestingsOf';
+import { useVesting_getVestingFish } from 'app/hooks/staking/useVesting_getVestingFish';
+import { useVesting_getVestingFishAirdrop } from 'app/hooks/staking/useVesting_getVestingFishAirdrop';
 
 export function useListOfUserVestings(asset?: Asset) {
   const account = useAccount();
-
   const [items, setItems] = useState<FullVesting[]>([]);
   const [loading, setLoading] = useState(false);
+  const {
+    loading: loadingVestings,
+    value: vestingsContracts,
+  } = useVesting_getVestingsOf(account);
+  const [possibleVestings, setPossibleVestings] = useState<Vesting[]>([]);
+
+  const { value: fishOrigins } = useVesting_getVestingFish(account);
+  const { value: fishAirdrop } = useVesting_getVestingFishAirdrop(account);
 
   useEffect(() => {
-    if (!account || account === ethGenesisAddress) {
+    async function getVestings() {
+      try {
+        const address: string[] = [],
+          type: string[] = [],
+          typeCreation: string[] = [];
+        if (!loadingVestings) {
+          for (let i in vestingsContracts) {
+            address.push(vestingsContracts[i].vestingAddress);
+            type.push(vestingsContracts[i].vestingType);
+            typeCreation.push(vestingsContracts[i].vestingCreationType);
+          }
+          //for FISH ORIGIN
+          if (fishOrigins.length) {
+            if (fishOrigins !== ethGenesisAddress) {
+              address.push(fishOrigins);
+              type.push('fish');
+              typeCreation.push('vestingRegistryFISH');
+            }
+          }
+          //for FISH AIRDROP
+          if (fishAirdrop.length) {
+            if (fishAirdrop !== ethGenesisAddress) {
+              address.push(fishAirdrop);
+              type.push('fish');
+              typeCreation.push('vestingRegistryFISH');
+            }
+          }
+          Promise.all(
+            address.map(async (item, index) => {
+              // 'type' can be 0 or 1, 0 - Team Vesting, 1 - Vesting
+              // 'typeCreation' can be 1, 2, 3 representing Vesting Registry 1, Vesting Registry 2 and Vesting Registry 3
+              const labelTeam =
+                typeCreation[index] === '1' && type[index] === '0'
+                  ? 'team'
+                  : '';
+              const labelGenesys =
+                typeCreation[index] === '1' && type[index] === '1'
+                  ? 'genesis'
+                  : '';
+              const labelOrigin =
+                typeCreation[index] === '2' && type[index] === '1'
+                  ? 'origin'
+                  : '';
+              const labelReward =
+                typeCreation[index] === '3' && type[index] === '1'
+                  ? 'reward'
+                  : '';
+              const labelFishOrigin =
+                typeCreation[index] === 'vestingRegistryFISH' &&
+                type[index] === 'fish'
+                  ? 'fish'
+                  : '';
+              const labelFishAirdrop =
+                typeCreation[index] === 'vestingRegistryFISH' &&
+                type[index] === 'fishAirdrop'
+                  ? 'fishAirdrop'
+                  : '';
+
+              const assetType =
+                typeCreation[index] === 'vestingRegistryFISH'
+                  ? Asset.FISH
+                  : Asset.SOV;
+
+              const regystryType =
+                typeCreation[index] === 'vestingRegistryFISH'
+                  ? 'FISH_staking'
+                  : 'staking';
+
+              return {
+                asset: assetType,
+                staking: regystryType,
+                type:
+                  labelGenesys ||
+                  labelTeam ||
+                  labelReward ||
+                  labelOrigin ||
+                  labelFishOrigin ||
+                  labelFishAirdrop,
+                typeCreation: typeCreation[index],
+                vestingContract: address[index],
+              } as Vesting;
+            }),
+          ).then(result => {
+            setPossibleVestings(result);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    getVestings();
+  }, [
+    vestingsContracts,
+    loadingVestings,
+    account,
+    asset,
+    fishAirdrop,
+    fishOrigins,
+  ]);
+
+  useEffect(() => {
+    if (!account || account === ethGenesisAddress || !possibleVestings.length) {
       setItems([]);
       setLoading(false);
     } else {
       setLoading(true);
-
       const run = async () => {
-        // restrict list to requested asset only if needed
-        const filteredVestings: FullVesting[] = possibleVestings.filter(item =>
-          asset ? item.asset === asset : true,
-        ) as FullVesting[];
-        // get vesting contracts
-        const { returnData: contracts } = await bridgeNetwork.multiCall(
-          Chain.RSK,
-          filteredVestings.map((item, index) => {
-            return {
-              address: getContract(item.registry).address,
-              abi: vestingRegistryAbi,
-              fnName: item.registryMethod,
-              args: [account],
-              key: index.toString(),
-              parser: val => val[0].toString(),
-            };
-          }),
-        );
-
-        return filteredVestings
-          .map((item, index) => {
-            item.vestingContract = contracts[index];
-            return item;
-          })
-          .filter(item => item.vestingContract !== ethGenesisAddress);
+        return possibleVestings as FullVesting[];
       };
-
       run()
         .then(result => {
           setItems(result);
@@ -127,7 +141,7 @@ export function useListOfUserVestings(asset?: Asset) {
           setLoading(false);
         });
     }
-  }, [account, asset]);
+  }, [account, asset, possibleVestings]);
 
   return { items, loading };
 }

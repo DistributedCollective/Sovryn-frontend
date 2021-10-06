@@ -595,7 +595,8 @@
         "origin": "Origin SOV",
         "team": "Team SOV",
         "reward": "Reward SOV",
-        "fish": "Origins FISH"
+        "fish": "Origins FISH",
+        "fishAirdrop": "Airdrop FISH"
       }
     },
     "actions": {
@@ -1500,6 +1501,7 @@
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
+      "estimationErrorNote": "Due to a display error, the price your order fills at may differ from the price shown in the order summary before confirmation. However, your order will still be protected from filling at a worse price than that allowed by your slippage tolerance setting, and may even fill at a better price than that displayed. We have identified a fix for this issue and will be updating the app ASAP.",
       "position": {
         "long": "Long",
         "short": "Short"
@@ -1652,6 +1654,7 @@
       "buyNow": "Buy Now",
       "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
+      "getStarted": "Get Started",
       "timer": {
         "days": "DAYS",
         "hours": "HOURS",

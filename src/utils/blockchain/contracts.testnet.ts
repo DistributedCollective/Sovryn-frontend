@@ -11,7 +11,7 @@ import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
-import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
+// import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
@@ -108,6 +108,21 @@ export const contracts = {
   // },
   MOC_amm: {
     address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
+    abi: LiquidityPoolV1Converter,
+    blockNumber: 1218833,
+  },
+  RIF_token: {
+    address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
+    abi: TestTokenABI,
+    blockNumber: 1408174,
+  },
+  // RIF_lending: {
+  //   address: '',
+  //   abi: LoanTokenLogicStandard,
+  //   blockNumber: 1406290,
+  // },
+  RIF_amm: {
+    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -217,7 +232,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   vestingRegistry: {
-    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    address: '0x09e8659B6d204C6b1bED2BFF8E3F43F834A5Bbc4',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
@@ -236,7 +251,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xd931AC508b303b61b499B3Bdb451b9c29873CbF5', //short staking period testnet address
+    address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3', //short staking period testnet address
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -286,12 +301,11 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
-    address: '0x1F41C758f65E6d985AE3c373BD4B721EE6c63960', //short staking period testnet address
-    //abi: feeSharingProxyAbi,
-    abi: feeSharingProxyShortAbi, //short staking period testnet abi
+    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
+    abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x168BF3A853eDcBb12276F96cf373a990eA8eab7B', //short staking period testnet address
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D', //short staking period testnet address
     abi: stakingRewardsProxyAbi, //short staking period testnet abi
   },
   FISH_token: {
