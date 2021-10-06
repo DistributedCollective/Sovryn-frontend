@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -238,15 +238,22 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
-    targetToken,
-    txExternal,
-    txPath,
-  ]);
+  const tx = useMemo(
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? txPath
+        : txExternal,
+    [targetToken, sourceToken, txExternal, txPath],
+  );
 
   const send = useCallback(
-    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
-    [targetToken, sendPath, sendExternal],
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? sendPath()
+        : sendExternal(),
+    [targetToken, sourceToken, sendPath, sendExternal],
   );
 
   return (
