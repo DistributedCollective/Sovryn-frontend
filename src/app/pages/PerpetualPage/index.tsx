@@ -95,7 +95,7 @@ export function PerpetualPage() {
         />
       </Helmet>
       <Header />
-      <div className={styles.topInfoWrapper}>
+      <div className={'tw-w-full'}>
         <div className="tw-w-full tw-bg-gray-2 tw-py-2">
           <div className="tw-container">
             <div>
@@ -106,46 +106,39 @@ export function PerpetualPage() {
         </div>
         <ContractDetails pair={pair} />
       </div>
-      <div className={styles.mainAreaWrapper}>
+      <div className={'tw-container tw-mt-5'}>
         <div
-          className={classNames(
-            'xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2',
-            styles.chartAreaWrapper,
-          )}
+          className={
+            'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
+          }
         >
           <DataCard
-            className="xl:tw-w-1/6"
+            className="xl:tw-w-1/5"
             title={`AMM Depth (${pairType.toString()})`}
           >
             <AmmDepthChart pair={pair} />
           </DataCard>
-          <div className="tw-flex tw-flex-col xl:tw-w-1/3 tw-max-w-none tw-space-y-2">
-            <DataCard
-              title={`Chart (${pairType.toString()})`}
-              className={styles.tradingChartWrapper}
-              hasCustomHeight
-            >
-              <TradingChart
-                symbol={pair.chartSymbol}
-                theme={Theme.DARK}
-                hasCustomDimensions
-              />
-            </DataCard>
-
-            <DataCard
-              title={`Depth Chart (${pairType.toString()})`}
-              className={styles.depthChartWrapper}
-            >
-              <DepthChart />
-            </DataCard>
-          </div>
           <DataCard
-            className="tw-flex-grow xl:tw-w-1/6"
+            title={`Chart (${pairType.toString()})`}
+            className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
+            hasCustomHeight
+          >
+            <TradingChart
+              symbol={pair.chartSymbol}
+              theme={Theme.DARK}
+              hasCustomDimensions
+            />
+          </DataCard>
+          <DataCard
+            className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
             title={`Recent Trades (${pairType.toString()})`}
           >
             <RecentTradesTable pair={pair} />
           </DataCard>
-          <TradeForm pairType={linkPairType || pairType} />
+          <div className="xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+            <div className="tw-h-24 tw-bg-gray-4 tw-rounded-lg"></div>
+            <TradeForm pairType={linkPairType || pairType} />
+          </div>
         </div>
 
         {/* This can be used for testing Deposit/Withdraw and also you can mint margin tokens */}
