@@ -258,7 +258,6 @@
     "trade": "Trade",
     "swap": "Swap",
     "marginTrade": "Margin",
-    "perpetual": "Perpetual",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
@@ -277,7 +276,9 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "perpetual": "Perpetual"
   },
   "originsLaunchpad": {
     "upcomingSales": {
