@@ -36,6 +36,9 @@ const perpetualPageSlice = createSlice({
     closeTradingModal(state) {
       state.position = (undefined as unknown) as TradingPosition;
     },
+    reset(state) {
+      state.amount = '';
+    },
   },
 });
 

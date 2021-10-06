@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
+import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
 import { useInjectReducer } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
-import { reducer, sliceKey } from './slice';
+import { reducer, sliceKey, actions } from './slice';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpatual-pair-dictionary';
@@ -27,9 +28,16 @@ import { ContractDetails } from './components/ContractDetails';
 import { DepthChart } from './components/DepthChart';
 import styles from './index.module.scss';
 import classNames from 'classnames';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { ChainId } from 'types';
+import { ProviderType } from '@sovryn/wallet';
+import { currentNetwork } from 'utils/classifiers';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
+
+  const dispatch = useDispatch();
+  const walletContext = useWalletContext();
 
   const [
     showNotificationSettingsModal,
@@ -49,6 +57,26 @@ export function PerpetualPage() {
   useEffect(() => {
     setLinkPairType(location.state?.perpetualPair);
     history.replace(location.pathname);
+
+    if (walletContext.provider !== ProviderType.WEB3) {
+      walletContext.disconnect();
+    }
+
+    //set the bridge chain id to Matic
+    dispatch(
+      walletProviderActions.setBridgeChainId(
+        currentNetwork === 'mainnet'
+          ? ChainId.MATIC_MAINNET
+          : ChainId.MATIC_TESTNET,
+      ),
+    );
+
+    return () => {
+      // Unset bridge settings
+      dispatch(walletProviderActions.setBridgeChainId(null));
+      dispatch(actions.reset());
+    };
+
     // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -107,6 +135,7 @@ export function PerpetualPage() {
         <ContractDetails pair={pair} />
       </div>
       <div className={styles.mainAreaWrapper}>
+        <button onClick={() => walletContext.connect()}>connect</button>
         <div
           className={classNames(
             'xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2',
