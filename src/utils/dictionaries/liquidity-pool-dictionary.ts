@@ -139,6 +139,19 @@ export class LiquidityPoolDictionary {
         }),
       ]),
     ],
+    [
+      Asset.RIF,
+      new LiquidityPool(Asset.RIF, [
+        new LiquidityPoolSupplyAsset(Asset.RIF, {
+          mainnet: '0xAE66117C8105a65D914fB47d37a127E879244319',
+          testnet: '0x67fAA17ce83b14B2EA0e643A9030B133edD3Cc43',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
+          testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
+        }),
+      ]).setVersion(1),
+    ],
   ]);
 
   public static get(asset: Asset): LiquidityPool {
