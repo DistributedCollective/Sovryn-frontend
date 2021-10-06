@@ -5,12 +5,7 @@ import { bridgeNetwork } from '../../../pages/BridgeDepositPage/utils/bridge-net
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { Chain } from '../../../../types';
 import stakingAbi from 'utils/blockchain/abi/Staking.json';
-import { FullVesting } from './types';
-
-type StakesProp = {
-  dates: Date[];
-  stakes: string[];
-};
+import { FullVesting, StakesProp } from './types';
 
 const fillEmptyVesting = (vesting: FullVesting) => ({
   ...vesting,
