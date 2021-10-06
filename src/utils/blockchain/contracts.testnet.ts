@@ -10,8 +10,8 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
-import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
-// import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
+// import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
@@ -302,7 +302,7 @@ export const contracts = {
   },
   feeSharingProxy: {
     address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
-    abi: feeSharingProxyAbi,
+    abi: feeSharingProxyShortAbi,
   },
   stakingRewards: {
     address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D', //short staking period testnet address
