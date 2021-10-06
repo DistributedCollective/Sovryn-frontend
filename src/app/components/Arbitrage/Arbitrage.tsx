@@ -14,6 +14,7 @@ import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
 import type { Opportunity } from './models/opportunity';
+import { ActionButton } from '../Form/ActionButton';
 
 const s = translations.swapTradeForm;
 
@@ -84,6 +85,26 @@ export function Arbitrage() {
 
   return (
     <>
+      <div>
+        <div className="tw-flex tw-items-center tw-m-auto tw-w-full tw-max-w-3xl tw-mb-3">
+          <p className="tw-m-0 tw-whitespace-nowrap tw-mr-8">Arbitrage opportunity</p>
+          <div className="tw-border-t tw-border-sov-white tw-w-full"></div>
+        </div>
+        <div className="tw-bg-gray-5 tw-rounded-lg tw-py-3 tw-px-5 tw-m-auto tw-w-full tw-max-w-3xl tw-mb-11 tw-flex tw-items-center tw-justify-between">
+          <p className="tw-font-light tw-m-0 tw-text-sov-white tw-text-sm tw-mr-3">
+            Earn <span className="tw-text-success tw-font-semibold">+125.02%</span> above the market on swapping BPro for RBTC
+          </p>
+
+          <div className="tw-flex tw-items-center">
+            <Icon icon="info-sign" className="tw-cursor-pointer" />
+            <ActionButton
+              text={t(translations.mainMenu.swap)}
+              className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-25 hover:tw-opacity-75 tw-ml-4"
+              textClassName="tw-text-base"
+            />
+          </div>
+        </div>
+      </div>
       {opportunity !== null && (
         <div className="tw-my-3">
           <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
