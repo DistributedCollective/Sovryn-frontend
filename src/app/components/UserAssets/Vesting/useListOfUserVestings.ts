@@ -15,7 +15,6 @@ export function useListOfUserVestings(asset?: Asset) {
     loading: loadingVestings,
     value: vestingsContracts,
   } = useVesting_getVestingsOf(account);
-  const [possibleVestings, setPossibleVestings] = useState<Vesting[]>([]);
 
   const { value: fishOrigins } = useVesting_getVestingFish(account);
   const { value: fishAirdrop } = useVesting_getVestingFishAirdrop(account);
@@ -23,9 +22,11 @@ export function useListOfUserVestings(asset?: Asset) {
   useEffect(() => {
     async function getVestings() {
       try {
-        const address: string[] = [],
-          type: string[] = [],
-          typeCreation: string[] = [];
+        setLoading(true);
+        const address: string[] = [];
+        const type: string[] = [];
+        const typeCreation: string[] = [];
+
         if (!loadingVestings) {
           for (let i in vestingsContracts) {
             address.push(vestingsContracts[i].vestingAddress);
@@ -49,66 +50,46 @@ export function useListOfUserVestings(asset?: Asset) {
             }
           }
           Promise.all(
-            address.map(async (item, index) => {
-              // 'type' can be 0 or 1, 0 - Team Vesting, 1 - Vesting
-              // 'typeCreation' can be 1, 2, 3 representing Vesting Registry 1, Vesting Registry 2 and Vesting Registry 3
-              const labelTeam =
-                typeCreation[index] === '1' && type[index] === '0'
-                  ? 'team'
-                  : '';
-              const labelGenesys =
-                typeCreation[index] === '1' && type[index] === '1'
-                  ? 'genesis'
-                  : '';
-              const labelOrigin =
-                typeCreation[index] === '2' && type[index] === '1'
-                  ? 'origin'
-                  : '';
-              const labelReward =
-                typeCreation[index] === '3' && type[index] === '1'
-                  ? 'reward'
-                  : '';
-              const labelFishOrigin =
-                typeCreation[index] === 'vestingRegistryFISH' &&
-                type[index] === 'fish'
-                  ? 'fish'
-                  : '';
-              const labelFishAirdrop =
-                typeCreation[index] === 'vestingRegistryFISH' &&
-                type[index] === 'fishAirdrop'
-                  ? 'fishAirdrop'
-                  : '';
+            address.map(
+              async (item, index): Promise<Vesting> => {
+                // 'type' can be 0 or 1, 0 - Team Vesting, 1 - Vesting, fish, fishAirdrop
+                // 'typeCreation' can be 1, 2, 3 representing Vesting Registry 1, Vesting Registry 2 and Vesting Registry 3
+                const label = {
+                  '0 1': 'team',
+                  '1 1': 'genesis',
+                  '1 2': 'origin',
+                  '1 3': 'reward',
+                  'fish vestingRegistryFISH': 'fish',
+                  'fishAirdrop vestingRegistryFISH': 'fishAirdrop',
+                }[`${type[index]} ${typeCreation[index]}`];
 
-              const assetType =
-                typeCreation[index] === 'vestingRegistryFISH'
-                  ? Asset.FISH
-                  : Asset.SOV;
+                const assetType =
+                  typeCreation[index] === 'vestingRegistryFISH'
+                    ? Asset.FISH
+                    : Asset.SOV;
 
-              const regystryType =
-                typeCreation[index] === 'vestingRegistryFISH'
-                  ? 'FISH_staking'
-                  : 'staking';
+                const regystryType =
+                  typeCreation[index] === 'vestingRegistryFISH'
+                    ? 'FISH_staking'
+                    : 'staking';
 
-              return {
-                asset: assetType,
-                staking: regystryType,
-                type:
-                  labelGenesys ||
-                  labelTeam ||
-                  labelReward ||
-                  labelOrigin ||
-                  labelFishOrigin ||
-                  labelFishAirdrop,
-                typeCreation: typeCreation[index],
-                vestingContract: address[index],
-              } as Vesting;
-            }),
-          ).then(result => {
-            setPossibleVestings(result);
+                return {
+                  asset: assetType,
+                  staking: regystryType,
+                  type: label,
+                  typeCreation: typeCreation[index],
+                  vestingContract: address[index],
+                };
+              },
+            ),
+          ).then((result: any) => {
+            setItems(result);
+            setLoading(false);
           });
         }
       } catch (e) {
         console.error(e);
+        setLoading(false);
       }
     }
     getVestings();
@@ -120,28 +101,6 @@ export function useListOfUserVestings(asset?: Asset) {
     fishAirdrop,
     fishOrigins,
   ]);
-
-  useEffect(() => {
-    if (!account || account === ethGenesisAddress || !possibleVestings.length) {
-      setItems([]);
-      setLoading(false);
-    } else {
-      setLoading(true);
-      const run = async () => {
-        return possibleVestings as FullVesting[];
-      };
-      run()
-        .then(result => {
-          setItems(result);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error(error);
-          setItems([]);
-          setLoading(false);
-        });
-    }
-  }, [account, asset, possibleVestings]);
 
   return { items, loading };
 }
