@@ -8,7 +8,10 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 
 export const useGetAvailableLiquidityRewards = (): string => {
-  const [liquidityRewards, setLiquidityRewards] = useState('0');
+  const [liquidityRewards, setLiquidityRewards] = useState({
+    accumulatedRewards: '0',
+    userRewards: '0',
+  });
   const address = useAccount();
 
   useEffect(() => {
@@ -42,7 +45,40 @@ export const useGetAvailableLiquidityRewards = (): string => {
             (previousValue, currentValue) => previousValue.add(currentValue),
             bignumber(0),
           );
-          setLiquidityRewards(total.toString());
+          setLiquidityRewards(value => ({
+            ...value,
+            accumulatedRewards: total.toString(),
+          }));
+        })
+        .catch(error => {
+          console.error('e', error);
+        });
+
+      bridgeNetwork
+        .multiCall<{ [key: string]: string }>(
+          Chain.RSK,
+          pools.flatMap((item, index) => {
+            return [
+              {
+                address: getContract('liquidityMiningProxy').address,
+                abi: getContract('liquidityMiningProxy').abi,
+                fnName: 'getUserInfo',
+                args: [item.getContractAddress(), address],
+                key: `getUserInfo_${index}_${item.asset}`,
+                parser: value => value[0].accumulatedReward.toString(),
+              },
+            ];
+          }),
+        )
+        .then(result => {
+          const total = Object.values(result.returnData).reduce(
+            (prevValue, currValue) => prevValue.add(currValue),
+            bignumber(0),
+          );
+          setLiquidityRewards(value => ({
+            ...value,
+            userRewards: total.toString(),
+          }));
         })
         .catch(error => {
           console.error('e', error);
@@ -50,5 +86,7 @@ export const useGetAvailableLiquidityRewards = (): string => {
     }
   }, [address]);
 
-  return liquidityRewards;
+  return bignumber(liquidityRewards.accumulatedRewards)
+    .add(liquidityRewards.userRewards)
+    .toString();
 };
