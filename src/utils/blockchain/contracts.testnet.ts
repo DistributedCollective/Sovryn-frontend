@@ -301,8 +301,8 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
-    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
-    abi: feeSharingProxyShortAbi,
+    address: '0x85B19DD6E3c6cCC54D40c1bAEC15058962B8245b', //short staking period testnet address
+    abi: feeSharingProxyShortAbi, //short staking period testnet abi
   },
   stakingRewards: {
     address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D', //short staking period testnet address
