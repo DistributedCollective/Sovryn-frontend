@@ -36,6 +36,7 @@ import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolve
 import { DataCard } from '../DataCard';
 import classNames from 'classnames';
 import { ActionButton } from '../../../../components/Form/ActionButton';
+import { PerpetualTradeType } from '../../types';
 
 interface ITradeFormProps {
   pairType: PerpetualPairType;
@@ -51,6 +52,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [positionType, setPosition] = useState<TradingPosition>(
     TradingPosition.LONG,
   );
+
+  const [tradeType, setTradeType] = useState<PerpetualTradeType>(
+    PerpetualTradeType.MARKET,
+  );
+
   const weiAmount = useWeiAmount(amountA);
   const { position, amount, collateral, leverage } = useSelector(
     selectPerpetualPage,
@@ -77,8 +83,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
-  const submit = e => dispatch(actions.submit(e));
+  const submit = useCallback(e => dispatch(actions.submit(e)), [dispatch]);
+
   const bindSelectPosition = useCallback(
+    (postion: TradingPosition) => () => {
+      submit(postion);
+      setPosition(postion);
+    },
+    [submit, setPosition],
+  );
+
+  const bindSelect = useCallback(
     (postion: TradingPosition) => () => {
       submit(postion);
       setPosition(postion);
