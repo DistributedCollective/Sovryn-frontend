@@ -35,6 +35,7 @@ import { DummyInput } from 'app/components/Form/Input';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
 import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 import { usePlaceholderTransaction } from '../../hooks/usePlaceholderTransaction';
+import { PerpetualPageModals } from '../../types';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -109,7 +110,7 @@ export function TradeDialog() {
     <>
       <Dialog
         isOpen={!!position}
-        onClose={() => dispatch(actions.closeTradingModal())}
+        onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
       >
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
@@ -242,13 +243,17 @@ export function TradeDialog() {
             onConfirm={() => submit()}
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() => dispatch(actions.closeTradingModal())}
+            onCancel={() =>
+              dispatch(actions.setModal(PerpetualPageModals.NONE))
+            }
           />
         </div>
       </Dialog>
       <TxDialog
         tx={tx}
-        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+        onUserConfirmed={() =>
+          dispatch(actions.setModal(PerpetualPageModals.NONE))
+        }
       />
     </>
   );

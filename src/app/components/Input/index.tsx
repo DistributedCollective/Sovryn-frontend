@@ -35,10 +35,10 @@ export const Input: React.FC<IInputProps> = ({
   const onStepDown = useCallback(event => inputRef.current?.stepDown(), []);
 
   return (
-    <div className="tw-relative">
+    <div className={classNames('tw-relative', className)}>
       <input
         ref={inputRef}
-        className={classNames(styles.input, className)}
+        className={styles.input}
         type={type}
         step={step}
         data-action-id={dataActionId}

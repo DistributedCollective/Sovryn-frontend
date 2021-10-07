@@ -1539,7 +1539,8 @@
         "pair": "Pair:",
         "asset": "Asset to receive:",
         "leverage": "Position Leverage:",
-        "amount": "Trade Amount:",
+        "orderValue": "Order Value:",
+        "limitPrice": "Limit Price:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
@@ -1548,6 +1549,8 @@
         "buy": "Buy",
         "sell": "Sell",
         "connect": "Connect Wallet",
+        "market": "Market",
+        "limit": "Limit",
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",

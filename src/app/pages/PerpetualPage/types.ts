@@ -7,12 +7,19 @@ export enum PerpetualTradeType {
   LIMIT = 'LIMIT',
 }
 
+export enum PerpetualPageModals {
+  NONE = 'NONE',
+  TRADE_SETTINGS = 'TRADE_SETTINGS',
+}
+
 export interface PerpetualPageState {
   pairType: PerpetualPairType;
+  tradeType: PerpetualTradeType;
   collateral: Asset;
   amount: string;
   leverage: number;
   position: TradingPosition;
+  modal: PerpetualPageModals;
 }
 
 export type ContainerState = PerpetualPageState;

@@ -11,6 +11,7 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
+import { PerpetualPageModals } from '../../types';
 
 type IAdvancedSettingDialogProps = {
   isOpen?: boolean;
@@ -20,15 +21,15 @@ export const AdvancedSettingDialog: React.FC<IAdvancedSettingDialogProps> = ({
   isOpen,
 }) => {
   const { t } = useTranslation();
-  const { position, leverage } = useSelector(selectPerpetualPage);
+  const { modal, position, leverage } = useSelector(selectPerpetualPage);
   const dispatch = useDispatch();
   const [slippage, setSlippage] = useState(0.5);
 
   return (
     <>
       <Dialog
-        isOpen={!!isOpen}
-        onClose={() => dispatch(actions.closeTradingModal())}
+        isOpen={modal === PerpetualPageModals.TRADE_SETTINGS}
+        onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
       >
         <div className="tw-mw-340 tw-mx-auto">
           <div className="tw-mb-6 text-left">
