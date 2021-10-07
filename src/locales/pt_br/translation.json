@@ -770,10 +770,10 @@
     "no_items": "Histórico vázio."
    },
   "wrongNetworkDialog": {
-    "title": "Change to {{name}} Network",
-    "networkAlert": "We detected that you are on {{name}} network.",
-    "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
+    "title": "Mude para a rede {{name}}",
+    "networkAlert": "Detectamos que você está conectado na rede {{name}}.",
+    "networkAlertUnknown": "Detectamos que você está conectado em uma outra rede.",
+    "walletAelrt": "Por favor mude para a rede {{network}} na sua carteira {{wallet}}.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",
       "networkName": "RSK Mainnet Settings",
@@ -782,14 +782,14 @@
       "explorerUrl": "RSK Mainnet Settings",
       "chainId": "Chain Id"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
+    "tutorialGuide": "Veja como conectar a carteira {{wallet}} na rede principal da RSK",
     "stepTitle": {
-      "step1": "Step 01:",
-      "step2": "Step 02:",
-      "step3": "Step 03:",
-      "step4": "Step 04:",
-      "step5": "Step 05:",
-      "step6": "Step 06:"
+      "step1": "Passo 01:",
+      "step2": "Passo 02:",
+      "step3": "Passo 03:",
+      "step4": "Passo 04:",
+      "step5": "Passo 05:",
+      "step6": "Passo 06:"
     },
     "metamask": {
       "step1": "Open up Metamask in your browser",
