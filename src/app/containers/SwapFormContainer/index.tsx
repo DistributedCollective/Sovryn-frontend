@@ -37,6 +37,7 @@ import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions
 import styles from './index.module.scss';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { ReviewDialog } from './components/ReviewDialog';
 
 interface Option {
   key: Asset;
@@ -55,6 +56,7 @@ export function SwapFormContainer() {
   }, []);
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.SOV);
@@ -256,6 +258,11 @@ export function SwapFormContainer() {
     [targetToken, sourceToken, sendPath, sendExternal],
   );
 
+  const setSwapTokents = useCallback((source: Asset, target: Asset) => {
+    setSourceToken(source);
+    setTargetToken(target);
+  }, []);
+
   return (
     <>
       <SlippageDialog
@@ -267,7 +274,7 @@ export function SwapFormContainer() {
         onChange={value => setSlippage(value)}
       />
 
-      <Arbitrage />
+      <Arbitrage onClick={(source, target) => setSwapTokents(source, target)} />
 
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
@@ -347,6 +354,12 @@ export function SwapFormContainer() {
             onClick={() => setDialogOpen(true)}
             className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
             textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+            disabled={
+              tx.loading ||
+              !isConnected ||
+              (!validate && isConnected) ||
+              swapLocked
+            }
           />
         </div>
         {swapLocked && (
@@ -375,12 +388,22 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={send}
+          onClick={() => setIsReviewDialogOpen(true)}
           text={t(translations.swap.cta)}
         />
       </div>
 
       <TxDialog tx={tx} />
+
+      <ReviewDialog
+        isOpen={isReviewDialogOpen}
+        onConfirm={() => send()}
+        onClose={() => setIsReviewDialogOpen(!isReviewDialogOpen)}
+        sourceToken={sourceToken}
+        targetToken={targetToken}
+        amount={amount}
+        amountReceived={rateByPath}
+      />
     </>
   );
 }

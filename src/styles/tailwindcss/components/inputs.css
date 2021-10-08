@@ -2,7 +2,7 @@
   .tw-input-wrapper {
     height: 1.875rem;
     max-width: 320px;
-    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-lg;
+    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-md;
     @apply tw-font-semibold tw-font-body tw-text-black;
     @apply tw-w-full;
   }

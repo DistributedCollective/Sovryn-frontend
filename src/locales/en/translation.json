@@ -215,7 +215,13 @@
       "for": "for up to",
       "popover_p1": "Users can help balance the Sovryn AMM (automated market maker) when arbitrage opportunities arise. Currently, up to {{fromAmount}} {{fromToken}} can be swapped for up to {{toAmount}} {{toToken}}.",
       "popover_p2": "This is {{earn}} {{toToken}} more than the market price."
-    }
+    },
+    "reviewSwap": "Review Swap",
+    "swapAsset": "Swap Asset:",
+    "amount": "Amount:",
+    "amountReceived": "Amount Received:",
+    "receiveAsset": "Receive Asset:",
+    "minimumReceived": "Minimum Received:"
   },
   "amountField": {
     "placeholder": "Enter amount",
@@ -1792,9 +1798,10 @@
       "cta": "Buy SOV"
     },
     "slippageDialog": {
-      "title": "Adjust Slippage",
+      "title": "Advanced Settings",
       "tolerance": "Slippage Tolerance:",
-      "minimumReceived": "Minimum Received"
+      "minimumReceived": "Minimum Received",
+      "minEntryPrice": "Minimum Entry Price"
     },
     "txDialog": {
       "pendingUser": {

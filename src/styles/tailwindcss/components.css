@@ -85,7 +85,7 @@
 
   .tw-mw-340 {
     @apply tw-w-full;
-    max-width: 340px;
+    max-width: 320px;
   }
 }
 
