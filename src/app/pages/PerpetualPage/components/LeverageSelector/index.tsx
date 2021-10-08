@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Slider } from 'app/components/Form/Slider';
+import { Slider, SliderType } from 'app/components/Form/Slider';
 
 interface ILeverageSelectorProps {
   value: number;
@@ -26,6 +26,7 @@ export const LeverageSelector: React.FC<ILeverageSelectorProps> = ({
       max={steps.length - 1}
       stepSize={1}
       labelRenderer={value => `${steps[value]}x`}
+      type={SliderType.gradient}
     />
   );
 };

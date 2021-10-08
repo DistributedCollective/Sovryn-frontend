@@ -5,6 +5,12 @@ import styles from './index.module.scss';
 
 type LabelRendererFn = (value: number, opts?) => string | JSX.Element;
 
+export enum SliderType {
+  primary = 'primary',
+  secondary = 'secondary',
+  gradient = 'gradient',
+}
+
 interface Props {
   value: number;
   onChange?: (value: number) => void;
@@ -17,12 +23,17 @@ interface Props {
   className?: string;
   labelValues?: number[];
   dataActionId?: string;
+  type?: SliderType;
 }
 
-export function Slider({ className, ...props }: Props) {
+export function Slider({
+  className,
+  type = SliderType.secondary,
+  ...props
+}: Props) {
   return (
     <div
-      className={cn(styles.host, className)}
+      className={cn(styles.host, styles[type], className)}
       data-action-id={props.dataActionId}
     >
       <BPSlider {...props} />
