@@ -14,7 +14,7 @@ type IInputProps = {
   readOnly?: boolean;
   className?: string;
   dataActionId?: string;
-  onChange: (value: IInputProps['value']) => void;
+  onChange: (value: HTMLInputElement['value']) => void;
 };
 
 export const Input: React.FC<IInputProps> = ({

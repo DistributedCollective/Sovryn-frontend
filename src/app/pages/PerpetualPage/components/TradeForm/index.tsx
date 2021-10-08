@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { bignumber } from 'mathjs';
+import { bignumber, string } from 'mathjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, Translation, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,7 +31,10 @@ import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  formatAsNumber,
+  toNumberFormat,
+} from '../../../../../utils/display-text/format';
 import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 import { DataCard } from '../DataCard';
 import classNames from 'classnames';
@@ -41,6 +44,9 @@ import { TradeType } from '../RecentTradesTable/types';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
+import { TradeButton } from '../../../../components/TradeButton';
+import { AssetDecimals } from '../../../../components/AssetValue/types';
+import { toWei } from 'web3-utils';
 
 interface ITradeFormProps {
   pairType: PerpetualPairType;
@@ -48,11 +54,11 @@ interface ITradeFormProps {
 
 export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { connected, connect } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
-  const [amountA, setAmount] = useState<string>('');
   const [positionType, setPosition] = useState<TradingPosition>(
     TradingPosition.LONG,
   );
@@ -61,12 +67,33 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     PerpetualTradeType.MARKET,
   );
 
-  const weiAmount = useWeiAmount(amountA);
   const { position, amount, collateral, leverage } = useSelector(
     selectPerpetualPage,
   );
+
+  const [orderAmount, setOrderAmount] = useState<string>('');
+  const onChangeOrderAmount = useCallback(
+    (value: string) => {
+      setOrderAmount(value);
+      if (value) {
+        dispatch(actions.setAmount(toWei(value)));
+      }
+    },
+    [setOrderAmount, dispatch],
+  );
+
+  const [orderLimit, setOrderLimit] = useState<string>('');
+  const onChangeOrderLimit = useCallback(
+    (value: string) => {
+      setOrderLimit(value);
+      if (value) {
+        dispatch(actions.setLimit(toWei(value)));
+      }
+    },
+    [setOrderLimit, dispatch],
+  );
+
   const [slippage, setSlippage] = useState(0.5);
-  const dispatch = useDispatch();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
   const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
@@ -116,10 +143,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
 
   useEffect(() => {
-    dispatch(actions.setAmount(weiAmount));
-  }, [weiAmount, dispatch]);
-
-  useEffect(() => {
     if (!pair.collaterals.includes(collateral)) {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
@@ -127,12 +150,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
-  const validate = useMemo(() => {
-    return (
-      bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(tokenBalance)
-    );
-  }, [weiAmount, tokenBalance]);
+  const tradeButtonLabel = useMemo(() => {
+    const i18nKey = {
+      LONG_LIMIT: translations.perpetualPage.tradeForm.buttons.buyLimit,
+      LONG_MARKET: translations.perpetualPage.tradeForm.buttons.buyMarket,
+      SELL_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
+      SELL_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
+    }[`${position}_${tradeType}`];
+    console.log(i18nKey);
+
+    return i18nKey && t(i18nKey);
+  }, [t, position, tradeType]);
 
   if (!connected) {
     return (
@@ -170,8 +198,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   } else {
     return (
       <>
-        <DataCard title={t(translations.perpetualPage.tradeForm.titles.order)}>
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-6">
+        <DataCard
+          title={t(translations.perpetualPage.tradeForm.titles.order)}
+          className="tw-relative tw-pb-16"
+        >
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
             <button
               className={classNames(
                 'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg',
@@ -194,7 +225,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               {t(translations.perpetualPage.tradeForm.buttons.sell)}
             </button>
           </div>
-          <div className="tw-flex tw-flex-row tw-items-start">
+          <div className="tw-flex tw-flex-row tw-items-start tw-mb-5">
             <button
               className={classNames(
                 'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
@@ -217,69 +248,90 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               {t(translations.perpetualPage.tradeForm.buttons.limit)}
             </button>
           </div>
-          <div className="tw-mw-340 tw-mx-auto tw-mt-6">
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-              <label>
-                {t(translations.perpetualPage.tradeForm.labels.orderValue)}
-              </label>
-              <div className="tw-mx-4 tw-text-right">
-                <AssetSymbolRenderer asset={pair.shortAsset} />
-              </div>
-              <Input
-                className="tw-w-2/5"
-                type="number"
-                step={0.001}
-                min={0}
-                onChange={console.log}
-              />
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.orderValue)}
+            </label>
+            <div className="tw-mx-4 tw-text-right">
+              <AssetSymbolRenderer asset={pair.shortAsset} />
             </div>
-            {tradeType === PerpetualTradeType.LIMIT && (
-              <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-                <label>
-                  {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
-                </label>
-                <div className="tw-mx-4 tw-text-right">
-                  <AssetSymbolRenderer asset={pair.longAsset} />
-                </div>
-                <Input
-                  className="tw-w-2/5"
-                  type="number"
-                  step={0.1}
-                  max={0}
-                  onChange={console.log}
-                />
-              </div>
-            )}
-
-            <FormGroup
-              label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-              className="tw-p-4 tw-pb-1 tw-mt-8 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
-            >
-              <LeverageSelector
-                value={leverage}
-                steps={[1, 2, 3, 5, 10, 15]}
-                onChange={value => dispatch(actions.setLeverage(value))}
-              />
-            </FormGroup>
-
-            <div className="tw-text-secondary tw-text-xs tw-flex">
-              <button className="tw-flex tw-flex-row" onClick={onShowSettings}>
-                <Trans
-                  i18nKey={translations.marginTradeForm.fields.advancedSettings}
-                />
-                <img
-                  className="tw-ml-2"
-                  alt="setting"
-                  src={settingImg}
-                  onClick={() => {
-                    console.log('1123');
-                  }}
-                />
-              </button>
-            </div>
+            <Input
+              className="tw-w-2/5"
+              type="number"
+              value={orderAmount}
+              step={0.001}
+              min={0}
+              onChange={onChangeOrderAmount}
+            />
           </div>
-          <div className="tw-mt-12">
-            {openTradesLocked && (
+          <div
+            className={classNames(
+              'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
+              tradeType !== PerpetualTradeType.LIMIT && 'tw-hidden',
+            )}
+          >
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
+            </label>
+            <div className="tw-mx-4 tw-text-right">
+              <AssetSymbolRenderer asset={pair.longAsset} />
+            </div>
+            <Input
+              className="tw-w-2/5"
+              type="number"
+              value={orderLimit}
+              step={0.1}
+              min={0}
+              onChange={onChangeOrderLimit}
+            />
+          </div>
+
+          <FormGroup
+            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+            className="tw-p-4 tw-pb-1 tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
+          >
+            <LeverageSelector
+              value={leverage}
+              steps={[1, 2, 3, 5, 10, 15]}
+              onChange={value => dispatch(actions.setLeverage(value))}
+            />
+          </FormGroup>
+
+          <div className="tw-mb-2 tw-text-secondary tw-text-xs">
+            <button className="tw-flex tw-flex-row" onClick={onShowSettings}>
+              <Trans
+                i18nKey={translations.marginTradeForm.fields.advancedSettings}
+              />
+              <img
+                className="tw-ml-2"
+                alt="setting"
+                src={settingImg}
+                onClick={() => {
+                  console.log('1123');
+                }}
+              />
+            </button>
+          </div>
+          <div className="tw-absolute tw-bottom-4 tw-left-4 tw-right-4">
+            {!openTradesLocked ? (
+              <button
+                className={classNames(
+                  'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-opacity-100 hover:tw-opacity-75 tw-transition-opacity tw-duration-300',
+                  position === TradingPosition.LONG
+                    ? 'tw-bg-trade-long'
+                    : 'tw-bg-trade-short',
+                )}
+                onClick={bindSelectPosition(TradingPosition.LONG)}
+                // disabled={!validate || !connected || openTradesLocked}
+              >
+                <span className="tw-mr-2">{tradeButtonLabel}</span>
+                <span>
+                  {formatAsNumber(orderAmount, AssetDecimals[pair.shortAsset])}
+                  {` @ ${position === TradingPosition.LONG ? '≥' : '≤'} `}
+                  {formatAsNumber(price, AssetDecimals[pair.longAsset])}
+                </span>
+              </button>
+            ) : (
               <ErrorBadge
                 content={
                   <Trans
@@ -306,22 +358,3 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     );
   }
 };
-interface LabelValuePairProps {
-  label: React.ReactNode;
-  value: React.ReactNode;
-  className?: string;
-}
-
-function LabelValuePair(props: LabelValuePairProps) {
-  return (
-    <div
-      className={cn(
-        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-4',
-        props.className,
-      )}
-    >
-      <div className="tw-truncate ">{props.label}</div>
-      <div className="tw-truncate tw-text-right">{props.value}</div>
-    </div>
-  );
-}

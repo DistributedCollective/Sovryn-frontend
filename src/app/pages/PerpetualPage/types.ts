@@ -17,6 +17,7 @@ export interface PerpetualPageState {
   tradeType: PerpetualTradeType;
   collateral: Asset;
   amount: string;
+  limit: string;
   leverage: number;
   position: TradingPosition;
   modal: PerpetualPageModals;

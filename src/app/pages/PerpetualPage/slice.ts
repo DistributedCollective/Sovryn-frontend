@@ -15,6 +15,7 @@ export const initialState: ContainerState = {
   tradeType: PerpetualTradeType.MARKET,
   collateral: Asset.RBTC,
   amount: '0',
+  limit: '0',
   leverage: 2,
   position: TradingPosition.LONG,
   modal: PerpetualPageModals.NONE,
@@ -38,6 +39,9 @@ const perpetualPageSlice = createSlice({
     },
     setAmount(state, { payload }: PayloadAction<string>) {
       state.amount = payload;
+    },
+    setLimit(state, { payload }: PayloadAction<string>) {
+      state.limit = payload;
     },
     setPosition(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
