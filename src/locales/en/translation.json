@@ -211,8 +211,9 @@
       "switchAssets": "Switch Assets"
     },
     "arbitrage": {
-      "best_rate": "Arbitrage opportunity: swap up to",
-      "for": "for up to",
+      "best_rate": "Arbitrage opportunity",
+      "for": "for",
+      "text": "Earn <0>{{percent}}</0> above the market on swapping <1></1> for <2></2>",
       "popover_p1": "Users can help balance the Sovryn AMM (automated market maker) when arbitrage opportunities arise. Currently, up to {{fromAmount}} {{fromToken}} can be swapped for up to {{toAmount}} {{toToken}}.",
       "popover_p2": "This is {{earn}} {{toToken}} more than the market price."
     },
