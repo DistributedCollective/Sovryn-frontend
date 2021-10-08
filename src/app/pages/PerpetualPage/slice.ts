@@ -49,6 +49,9 @@ const perpetualPageSlice = createSlice({
     setModal(state, { payload }: PayloadAction<PerpetualPageModals>) {
       state.modal = payload;
     },
+    reset(state) {
+      state.amount = '';
+    },
   },
 });
 

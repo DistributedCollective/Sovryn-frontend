@@ -20,6 +20,8 @@ const addNetworkCallback =
 interface Props {
   onStart: () => void;
   walletType: string;
+  network?: string;
+  chain?: string;
 }
 
 export function DetectionScreen(props: Props) {
@@ -52,7 +54,8 @@ export function DetectionScreen(props: Props) {
             : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
           {t(translations.wrongNetworkDialog.walletAelrt, {
-            string: walletName,
+            wallet: walletName,
+            network: `${props.chain} ${props.network}`,
           })}
         </div>
       </div>
@@ -60,7 +63,7 @@ export function DetectionScreen(props: Props) {
         <div className="tw-flex tw-flex-row tw-justify-center tw-items-center logo">
           <img alt="1" src={logo} className="tw-text-center" />
         </div>
-        {props.walletType === 'metamask' && (
+        {props.walletType === 'metamask' && props.chain === 'RSK' && (
           <div className="tw-flex tw-items-center tw-mt-4 sm:tw-mt-0 sm:tw-ml-12">
             <ActionButton
               text={t(translations.wrongNetworkDialog.metamask.connectButton)}
@@ -72,11 +75,13 @@ export function DetectionScreen(props: Props) {
         )}
       </div>
       <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center">
-        <button onClick={props.onStart} className={styles.linkButton}>
-          {t(translations.wrongNetworkDialog.tutorialGuide, {
-            wallet: walletName,
-          })}{' '}
-        </button>
+        {props.chain === 'RSK' && (
+          <button onClick={props.onStart} className={styles.linkButton}>
+            {t(translations.wrongNetworkDialog.tutorialGuide, {
+              wallet: walletName,
+            })}{' '}
+          </button>
+        )}
         <button className={styles.linkButton} onClick={() => disconnect()}>
           <Icon
             icon="log-out"

@@ -258,7 +258,6 @@
     "trade": "Trade",
     "swap": "Swap",
     "marginTrade": "Margin",
-    "perpetual": "Perpetual",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
@@ -277,7 +276,9 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "perpetual": "Perpetual"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -781,10 +782,10 @@
     "no_items": "Your borrow history is empty."
   },
   "wrongNetworkDialog": {
-    "title": "Change to RSK Network",
+    "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
+    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",
       "networkName": "RSK Mainnet Settings",

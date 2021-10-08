@@ -180,20 +180,16 @@ export function Header() {
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
     ORIGINS: 'origins',
+    LABS: 'labs',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: [
-        '/buy-sov',
-        '/swap',
-        '/trade',
-        '/spot',
-        '/perpetual',
-      ],
+      [SECTION_TYPE.TRADE]: ['/buy-sov', '/swap', '/trade', '/spot'],
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
+      [SECTION_TYPE.LABS]: ['/perpetual'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -266,13 +262,6 @@ export function Header() {
                         history.push('/trade');
                       }}
                       data-action-id="header-trade-link-margin"
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.perpetual)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => {
-                        history.push('/perpetual');
-                      }}
                     />
                   </BPMenu>
                 }
@@ -432,6 +421,32 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.perpetual)}
+                      className="bp3-popover-dismiss"
+                      onClick={() => history.push('/perpetual')}
+                      data-action-id="header-labs-link-perpetual"
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                  }`}
+                >
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="header-link-labs"
+                  >
+                    {t(translations.mainMenu.labs)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
@@ -447,7 +462,7 @@ export function Header() {
             <div className="2xl:tw-mr-4">
               <LanguageToggle />
             </div>
-            <WalletConnector simpleView={false} />
+            <WalletConnector />
           </div>
         </div>
       </header>

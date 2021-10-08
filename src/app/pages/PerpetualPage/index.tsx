@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
+import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
 import { useInjectReducer } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
-import { reducer, sliceKey } from './slice';
-import { Header } from '../../components/Header';
+import { reducer, sliceKey, actions } from './slice';
+import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
@@ -24,9 +25,17 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
+import { currentNetwork } from '../../../utils/classifiers';
+import { ChainId } from '../../../types';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { ProviderType } from '@sovryn/wallet';
+import styles from './index.module.scss';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
+
+  const dispatch = useDispatch();
+  const walletContext = useWalletContext();
 
   const [
     showNotificationSettingsModal,
@@ -46,6 +55,26 @@ export function PerpetualPage() {
   useEffect(() => {
     setLinkPairType(location.state?.perpetualPair);
     history.replace(location.pathname);
+
+    if (walletContext.provider !== ProviderType.WEB3) {
+      walletContext.disconnect();
+    }
+
+    //set the bridge chain id to Matic
+    dispatch(
+      walletProviderActions.setBridgeChainId(
+        currentNetwork === 'mainnet'
+          ? ChainId.MATIC_MAINNET
+          : ChainId.MATIC_TESTNET,
+      ),
+    );
+
+    return () => {
+      // Unset bridge settings
+      dispatch(walletProviderActions.setBridgeChainId(null));
+      dispatch(actions.reset());
+    };
+
     // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -91,8 +120,8 @@ export function PerpetualPage() {
           content={t(translations.perpetualPage.meta.description)}
         />
       </Helmet>
-      <Header />
-      <div className={'tw-w-full'}>
+      <HeaderLabs />
+      <div className="tw-relative tw--top-2.5 tw-w-full">
         <div className="tw-w-full tw-bg-gray-2 tw-py-2">
           <div className="tw-container">
             <div>
