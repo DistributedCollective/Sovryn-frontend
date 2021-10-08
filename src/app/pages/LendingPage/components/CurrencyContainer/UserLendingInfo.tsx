@@ -17,9 +17,8 @@ import { useLending_tokenPrice } from 'app/hooks/lending/useLending_tokenPrice';
 import { weiToFixed, weiTo18 } from 'utils/blockchain/math-helpers';
 import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useAccount } from 'app/hooks/useAccount';
-import { useLiquidityMining_getPoolId } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getPoolId';
 import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
-import { useLiquidityMining_getUserInfoList } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserInfoList';
+import { useLending_recentRewardSOV } from 'app/hooks/lending/useLending_recentRewardSOV';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
@@ -49,26 +48,8 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  const {
-    value: userInfoList,
-    loading: userInfoListLoading,
-  } = useLiquidityMining_getUserInfoList();
-  const {
-    value: poolID,
-    loading: poolIDLoading,
-  } = useLiquidityMining_getPoolId(getLendingContract(asset).address);
 
-  const recentRewardSOV = useMemo(
-    () =>
-      userInfoListLoading === false &&
-      poolIDLoading === false &&
-      userInfoList &&
-      userInfoList[poolID] &&
-      userInfoList[poolID][2]
-        ? userInfoList[poolID][2]
-        : 0,
-    [userInfoList, poolID, userInfoListLoading, poolIDLoading],
-  );
+  const recentRewardSOV = useLending_recentRewardSOV(asset);
 
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
