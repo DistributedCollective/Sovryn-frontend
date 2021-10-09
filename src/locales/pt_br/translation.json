@@ -1372,17 +1372,35 @@
       "description": "Operar margem"
     },
     "tradeForm": {
+      "titles": {
+        "order": "Inserir nova ordem",
+        "welcome": "Operar perpétuos na Sovryn"
+      },
+      "text": {
+        "welcome1": "Esta é uma prévia do painel de perpétuos.\n Os dados de mercado ao lado são reais.",
+        "welcome2": "Para começar a operar perpétuos na Sovryn, você precisa:",
+        "welcome3": "<0>Conectar uma carteira</0> <0>Estar conectado à rede Polygon</0> <0>Adicionar fundos à sua conta depositando BTC</0>",
+        "welcome4": "Novo na Sovryn? <0>Leia nosso guia de primeiros passos</0>"
+      },
       "labels": {
         "pair": "Par de negociação:",
         "asset": "Ativo:",
         "leverage": "Alavancagem:",
-        "amount": "Quantidade:",
+        "orderValue": "Valor da ordem:",
+        "limitPrice": "Preço máximo:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
       "buttons": {
-        "long": "Comprado",
-        "short": "Vendido"
+        "buy": "Compra",
+        "sell": "Venda",
+        "connect": "Conectar carteira",
+        "market": "Mercado",
+        "limit": "Limitada",
+        "buyMarket": "Comprar a mercado",
+        "buyLimit": "Comprar a limite",
+        "sellMarket": "Vender a mercado",
+        "sellLimit": "Vender a limite"
       }
     },
     "tradeDialog": {
