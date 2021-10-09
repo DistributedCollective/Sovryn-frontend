@@ -1428,12 +1428,58 @@
       "buy_cta": "COMPRAR",
       "sell_cta": "VENDER",
       "amountReceived": "Receber",
-      "buy": "COMPRA",
-      "sell": "VENDA"
+      "buy": "Compra",
+      "sell": "Venda"
+      "market": "Mercado",
+      "limit": "Limitada",
+      "advancedSettings": "Configurações avançadas",
+      "limitPrice": "Preço máximo:"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
       "lastTradedPrice": "Último preço"
+      },
+    "history": {
+      "marketOrder": "Histórico de ordens a mercado",
+      "openLimitOrders": "Ordens a limite abertas",
+      "limitOrderHistory": "Histórico de ordens a limite"
+    },
+    "tradeDialog": {
+      "marketTitle": "Revisar ordem a mercado",
+      "limitTitle": "Revisar ordem a limite",
+      "tradingPair": "Par de negociação:",
+      "orderType": "Tipo de ordem:",
+      "tradeAmount": "Quantidade negociada:",
+      "limitPrice": "Preço máximo:",
+      "duration": "Duração:"
+    },
+    "limitOrderSetting": {
+      "title": "Configurações avançadas",
+      "duration": "Duração:",
+      "untilCancelled": "Até cancelar",
+      "day_one": "{{count}} dia",
+      "day_other": "{{count}} dias",
+      "partialFilled": "Permitir ordem parcialmente executada:"
+    },
+    "openLimitOrders": {
+      "dateTime": "Data e hora",
+      "pair": "Par",
+      "orderType": "Tipo de ordem",
+      "tradeAmount": "Quantidade negociada",
+      "limitPrice": "Preço máximo",
+      "amountReceive": "Quantidade a receber",
+      "duration": "Duração",
+      "deadline": "Prazo",
+      "actions": "Ação",
+      "noData": "Sem dados",
+      "cta": {
+        "edit": "Editar",
+        "close": "Fechar"
+      }
+    },
+    "cancelDialog": {
+      "title": "Cancelar ordem limitada",
+      "cta": "CANCELAR ORDEM LIMITADA"
     }
   },
   "form": {
