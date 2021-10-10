@@ -1409,6 +1409,7 @@
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
       "entryPrice": "Preço de entrada da posição:",
+      "minEntry": "Preço mínimo de entrada:",
       "minLiq": "Preço mínimo de liquidação:",
       "interestAPR": "Juros anual",
       "renewalDate": "Data de renovação:",
