@@ -1403,7 +1403,7 @@
       "title": "Revisar transação",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
-      "asset": "Ativo:",
+      "asset": "Ativo de garantia:",
       "direction": "Par de negociação:",
       "positionSize": "Tamanho da posição",
       "maintananceMargin": "Margem de manutenção:",
