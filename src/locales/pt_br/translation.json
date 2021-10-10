@@ -1386,7 +1386,7 @@
         "asset": "Ativo:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
-        "slippage": "Slippage Tolerance:",
+        "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
