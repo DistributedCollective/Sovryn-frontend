@@ -117,11 +117,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const submit = useCallback(e => dispatch(actions.setPosition(e)), [dispatch]);
 
   const bindSelectPosition = useCallback(
-    (postion: TradingPosition) => () => {
-      submit(postion);
-      setPosition(postion);
+    (position: TradingPosition) => () => {
+      dispatch(actions.setPosition(position));
+      setPosition(position);
     },
-    [submit, setPosition],
+    [dispatch, setPosition],
   );
 
   const bindSelectTradeType = useCallback(
@@ -154,8 +154,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     const i18nKey = {
       LONG_LIMIT: translations.perpetualPage.tradeForm.buttons.buyLimit,
       LONG_MARKET: translations.perpetualPage.tradeForm.buttons.buyMarket,
-      SELL_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
-      SELL_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
+      SHORT_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
+      SHORT_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
     }[`${position}_${tradeType}`];
     console.log(i18nKey);
 
