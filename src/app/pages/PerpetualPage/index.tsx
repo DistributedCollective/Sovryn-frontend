@@ -30,6 +30,9 @@ import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import styles from './index.module.scss';
+import { AccountBalanceCard } from './components/AccountBalanceCard/AccountBalanceCard';
+import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
+import { AccountBalanceDialog } from './components/AccountBalanceDialog/AccountBalanceDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -43,6 +46,7 @@ export function PerpetualPage() {
   ] = useState(false);
 
   const { pairType } = useSelector(selectPerpetualPage);
+  const balance = usePerpetual_accountBalance(pairType);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -162,10 +166,8 @@ export function PerpetualPage() {
             <RecentTradesTable pair={pair} />
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-            <div className="tw-h-24 tw-bg-gray-4 tw-rounded-lg">
-              {/*TODO: implement Account Balance*/}
-            </div>
-            <TradeForm pairType={linkPairType || pairType} />
+            <AccountBalanceCard balance={balance} />
+            <TradeForm pairType={linkPairType || pairType} balance={balance} />
           </div>
         </div>
 
@@ -216,6 +218,7 @@ export function PerpetualPage() {
         isOpen={showNotificationSettingsModal}
         onClose={() => setShowNotificationSettingsModal(false)}
       />
+      <AccountBalanceDialog />
     </>
   );
 }

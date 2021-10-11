@@ -10,6 +10,9 @@ export enum PerpetualTradeType {
 export enum PerpetualPageModals {
   NONE = 'NONE',
   TRADE_SETTINGS = 'TRADE_SETTINGS',
+  ACCOUNT_BALANCE = 'ACCOUNT_BALANCE',
+  FASTBTC_DEPOSIT = 'FASTBTC_DEPOSIT',
+  FASTBTC_WITHDRAW = 'FASTBTC_WITHDRAW',
 }
 
 export interface PerpetualPageState {
