@@ -23,7 +23,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 
   const { events: feesEarnedEvents } = useGetContractPastEvents(
     'feeSharingProxy',
-    'UserFeeWithdrawn',
+    'FeeWithdrawn',
   );
 
   const totalRewardsEarned = useMemo(
