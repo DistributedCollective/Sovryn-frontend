@@ -30,6 +30,7 @@ import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import styles from './index.module.scss';
+import { TradeReviewDialog } from './components/TradeReviewDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -216,6 +217,7 @@ export function PerpetualPage() {
         isOpen={showNotificationSettingsModal}
         onClose={() => setShowNotificationSettingsModal(false)}
       />
+      <TradeReviewDialog />
     </>
   );
 }

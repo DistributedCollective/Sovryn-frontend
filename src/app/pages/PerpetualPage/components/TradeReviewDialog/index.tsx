@@ -39,14 +39,19 @@ import { PerpetualPageModals } from '../../types';
 
 const maintenanceMargin = 15000000000000000000;
 
-export function TradeDialog() {
+export const TradeReviewDialog: React.FC = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
-  const { position, amount, pairType, collateral, leverage } = useSelector(
-    selectPerpetualPage,
-  );
+  const {
+    modal,
+    position,
+    amount,
+    pairType,
+    collateral,
+    leverage,
+  } = useSelector(selectPerpetualPage);
   const [slippage, setSlippage] = useState(0.5);
   const dispatch = useDispatch();
 
@@ -109,7 +114,7 @@ export function TradeDialog() {
   return (
     <>
       <Dialog
-        isOpen={!!position}
+        isOpen={modal === PerpetualPageModals.TRADE_REVIEW}
         onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
       >
         <div className="tw-mw-340 tw-mx-auto">
@@ -257,7 +262,7 @@ export function TradeDialog() {
       />
     </>
   );
-}
+};
 
 interface LabelValuePairProps {
   label: React.ReactNode;

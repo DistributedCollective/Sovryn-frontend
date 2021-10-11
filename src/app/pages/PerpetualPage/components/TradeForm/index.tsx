@@ -114,7 +114,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
 
   const { minReturn } = useSlippage(estimations.collateral, slippage);
-  const submit = useCallback(e => dispatch(actions.setPosition(e)), [dispatch]);
+  const submit = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW)),
+    [dispatch],
+  );
 
   const bindSelectPosition = useCallback(
     (position: TradingPosition) => () => {
@@ -321,7 +324,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                     ? 'tw-bg-trade-long'
                     : 'tw-bg-trade-short',
                 )}
-                onClick={bindSelectPosition(TradingPosition.LONG)}
+                onClick={submit}
                 // disabled={!validate || !connected || openTradesLocked}
               >
                 <span className="tw-mr-2">{tradeButtonLabel}</span>
@@ -353,7 +356,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           </div>
         </DataCard>
         <AdvancedSettingDialog />
-        {/* <TradeDialog /> */}
       </>
     );
   }

@@ -10,6 +10,7 @@ export enum PerpetualTradeType {
 export enum PerpetualPageModals {
   NONE = 'NONE',
   TRADE_SETTINGS = 'TRADE_SETTINGS',
+  TRADE_REVIEW = 'TRADE_REVIEW',
 }
 
 export interface PerpetualPageState {
@@ -21,6 +22,7 @@ export interface PerpetualPageState {
   leverage: number;
   position: TradingPosition;
   modal: PerpetualPageModals;
+  modalOptions?: { [param: string]: any };
 }
 
 export type ContainerState = PerpetualPageState;
