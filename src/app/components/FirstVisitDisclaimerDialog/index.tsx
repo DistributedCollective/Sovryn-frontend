@@ -10,14 +10,12 @@ import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
 import logo from 'assets/images/sovryn-logo-white.svg';
 
-interface Props {}
-
 // previously MetaMask disclaimer, 'mm-…' remains to not anoy users.
 const SESSION_KEY = 'mm-notify-shown';
 
 const shouldModalBeVisible = () => !isMobile() && !local.getItem(SESSION_KEY);
 
-export function FirstVisitDisclaimerDialog(props: Props) {
+export const FirstVisitDisclaimerDialog: React.FC = () => {
   const { t } = useTranslation();
   const [show, setShow] = useState(shouldModalBeVisible());
   const [checked, setChecked] = useState(false);
@@ -65,9 +63,9 @@ export function FirstVisitDisclaimerDialog(props: Props) {
       </div>
     </Dialog>
   );
-}
+};
 
-function GeneralAlert() {
+const GeneralAlert: React.FC = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -104,4 +102,4 @@ function GeneralAlert() {
       </div>
     </>
   );
-}
+};
