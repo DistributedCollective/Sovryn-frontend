@@ -110,7 +110,9 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.liquidityRewards)}
           availableAmount={availableLiquidityRewards}
-          totalEarnedAmount={totalLiquidityRewards}
+          totalEarnedAmount={bignumber(totalLiquidityRewards)
+            .add(availableLiquidityRewards)
+            .toString()}
         />
       </div>
     </div>
