@@ -19,7 +19,7 @@ export function HeaderLabs() {
   return (
     <header className={styles.header}>
       <div className="tw-container tw-flex tw-justify-between tw-items-center tw-py-1.5 tw-px-2 xl:tw-pr-8 tw-mx-auto tw-text-black">
-        <div className="tw-w-1/4">
+        <div className="tw-flex tw-items-start tw-w-1/4">
           <Link to="/">
             <ArrowBack className={styles.backArrow} />
           </Link>
@@ -30,15 +30,6 @@ export function HeaderLabs() {
           </div>
         </div>
         <div className="tw-w-1/4 tw-flex tw-justify-end tw-items-center">
-          <a
-            href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tw-header-link tw-hidden xl:tw-block"
-            data-action-id="header-link-help"
-          >
-            {t(translations.mainMenu.help)}
-          </a>
           <div className="xl:tw-mr-4">
             <LanguageToggle innerClasses="tw-text-black tw-h-8" />
           </div>
