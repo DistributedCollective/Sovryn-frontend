@@ -627,6 +627,9 @@ module.exports = function (webpackEnv) {
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       isEnvProduction &&
         new MiniCssExtractPlugin({
+          // Ignore order is required to remove warnings, because of import order in different code splits.
+          // With .module.scss order issues should have no effect on styling.
+          ignoreOrder: true,
           // Options similar to the same options in webpackOptions.output
           // both options are optional
           filename: 'static/css/[name].[contenthash:8].css',
