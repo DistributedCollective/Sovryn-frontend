@@ -19,7 +19,7 @@ export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
     'numTokenCheckpoints',
-    '100',
+    100,
     getContract('RBTC_lending').address,
   );
   const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
