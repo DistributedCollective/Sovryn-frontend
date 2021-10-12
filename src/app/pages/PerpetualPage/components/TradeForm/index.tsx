@@ -168,22 +168,29 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         className="tw-flex-grow tw-text-xs"
         title={t(translations.perpetualPage.tradeForm.titles.welcome)}
       >
-        <p>{t(translations.perpetualPage.tradeForm.text.welcome1)}</p>
+        <p className="tw-mt-4">
+          {t(translations.perpetualPage.tradeForm.text.welcome1)}
+        </p>
         <p className="tw-mb-2">
           {t(translations.perpetualPage.tradeForm.text.welcome2)}
         </p>
-        <ul className="tw-ml-4 tw-mb-4 tw-list-disc">
+        <ul className="tw-ml-4 tw-mb-8 tw-list-disc">
           <Trans
             i18nKey={translations.perpetualPage.tradeForm.text.welcome3}
-            components={[<li className="tw-mb-2" />]}
+            components={[<li className="tw-mb-1" />]}
           />
         </ul>
-        <p className="tw-mb-10">
+        <p className="tw-mb-11">
           {/* TODO: add href to quickstart guide */}
           <Trans
             i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
             components={[
-              <a href="https://wiki.sovryn.app/">Quickstart Guide</a>,
+              <a
+                className="tw-text-secondary tw-underline"
+                href="https://wiki.sovryn.app/"
+              >
+                Quickstart Guide
+              </a>,
             ]}
           />
         </p>
