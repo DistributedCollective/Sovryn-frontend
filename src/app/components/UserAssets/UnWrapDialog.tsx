@@ -10,7 +10,6 @@ import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { bignumber } from 'mathjs';
 import { BuyButton, Img } from './styled';
-import styles from 'app/components/Dialogs/dialog.module.scss';
 import image from 'assets/images/arrow-down.svg';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
@@ -60,12 +59,7 @@ export const UnWrapDialog: React.FC<IConversionDialogProps> = ({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        isCloseButtonShown={true}
-        onClose={onClose}
-        className={styles.dialog}
-      >
+      <Dialog isOpen={isOpen} isCloseButtonShown={true} onClose={onClose}>
         <div className="tw-max-w-xs tw-mx-auto">
           <div className="tw-text-2xl tw-text-center tw-font-semibold tw-mb-8">
             {t(translations.userAssets.unwrapDialog.title)}

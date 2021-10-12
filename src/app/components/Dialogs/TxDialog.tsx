@@ -60,7 +60,6 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
       onClose={close}
-      className={styles.dialog}
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
