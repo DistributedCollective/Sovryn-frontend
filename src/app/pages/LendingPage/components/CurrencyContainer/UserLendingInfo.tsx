@@ -24,6 +24,7 @@ import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { LendingPool } from 'utils/models/lending-pool';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
@@ -94,10 +95,9 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     loading: tokenPriceLoading,
   } = useLending_tokenPrice(asset);
 
-  const balance = useMemo(() => {
-    return bignumber(balanceCall).minus(profitCall).toString();
-  }, [balanceCall, profitCall]);
+  const { useLM } = LendingPoolDictionary.get(asset);
 
+  // this only gets used for LM enabled lending pools
   const totalProfit = useMemo(() => {
     return bignumber(tokenPrice)
       .sub(checkpointPrice)
@@ -106,6 +106,13 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
       .add(profitCall)
       .toFixed(0);
   }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
+
+  // calculation for LM enabled lending pools uses totalProfit to get correct balance
+  const balance = useMemo(() => {
+    let result = bignumber(balanceCall);
+    result = useLM ? result.minus(totalProfit) : result.minus(profitCall);
+    return result.toString();
+  }, [balanceCall, profitCall, totalProfit, useLM]);
 
   useEffect(() => {
     if (balance !== '0') {
@@ -173,12 +180,14 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(totalProfit).greaterThanOrEqualTo(0)}
-                    amount={weiToFixed(totalProfit, 8)}
+                    isProfit={bignumber(
+                      useLM ? totalProfit : profitCall,
+                    ).greaterThanOrEqualTo(0)}
+                    amount={weiToFixed(useLM ? totalProfit : profitCall, 8)}
                     asset={asset}
                   />
                 }
-                tooltip={<>{weiTo18(totalProfit)}</>}
+                tooltip={<>{weiTo18(useLM ? totalProfit : profitCall)}</>}
               />
             </TableBodyData>
             <TableBodyData>
