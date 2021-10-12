@@ -3,18 +3,17 @@ import classNames from 'classnames';
 import React, { useCallback, useRef } from 'react';
 import styles from './index.module.scss';
 
-type IInputProps = {
-  value?: HTMLInputProps['value'];
-  type: HTMLInputProps['type'];
-  placeholder?: HTMLInputProps['placeholder'];
-  min?: HTMLInputProps['min'];
-  max?: HTMLInputProps['max'];
-  step?: HTMLInputProps['step'];
+type IInputProps = Partial<
+  Pick<
+    HTMLInputProps,
+    'value' | 'type' | 'placeholder' | 'min' | 'max' | 'step'
+  >
+> & {
   disabled?: boolean;
   readOnly?: boolean;
   className?: string;
   dataActionId?: string;
-  onChange: (value: HTMLInputElement['value']) => void;
+  onChange: (value: string) => void;
 };
 
 export const Input: React.FC<IInputProps> = ({

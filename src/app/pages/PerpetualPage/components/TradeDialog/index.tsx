@@ -36,6 +36,7 @@ import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpa
 import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 import { usePlaceholderTransaction } from '../../hooks/usePlaceholderTransaction';
 import { PerpetualPageModals } from '../../types';
+import { useCallback } from 'hoist-non-react-statics/node_modules/@types/react';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -106,12 +107,14 @@ export function TradeDialog() {
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
+  const onClose = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
+    [dispatch],
+  );
+
   return (
     <>
-      <Dialog
-        isOpen={!!position}
-        onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
-      >
+      <Dialog isOpen={!!position} onClose={onClose}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.perpetualPage.tradeDialog.title)}
