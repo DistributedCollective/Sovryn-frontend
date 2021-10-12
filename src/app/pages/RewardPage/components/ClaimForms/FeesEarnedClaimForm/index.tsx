@@ -9,21 +9,28 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
 export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
   className,
   amountToClaim,
 }) => {
   const address = useAccount();
+  const { value: maxCheckpoints } = useCacheCallWithValue(
+    'feeSharingProxy',
+    'numTokenCheckpoints',
+    '100',
+    getContract('RBTC_lending').address,
+  );
   const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
 
   const onSubmit = useCallback(() => {
     send(
-      [getContract('RBTC_lending').address, 1, address],
+      [getContract('RBTC_lending').address, maxCheckpoints, address],
       { from: address },
       { type: TxType.STAKING_REWARDS_CLAIM },
     );
-  }, [address, send]);
+  }, [address, maxCheckpoints, send]);
 
   return (
     <BaseClaimForm

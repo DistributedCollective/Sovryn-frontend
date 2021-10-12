@@ -18,7 +18,7 @@ const filtersEventKeyMap = {
   EarnReward: 'receiver',
   Deposited: '_userAddress',
   RewardWithdrawn: 'receiver',
-  FeeWithdrawn: 'receiver',
+  UserFeeWithdrawn: 'receiver',
 };
 
 export function useGetContractPastEvents(

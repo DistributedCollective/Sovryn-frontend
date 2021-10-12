@@ -23,7 +23,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 
   const { events: feesEarnedEvents } = useGetContractPastEvents(
     'feeSharingProxy',
-    'FeeWithdrawn',
+    'UserFeeWithdrawn',
   );
 
   const totalRewardsEarned = useMemo(
@@ -34,8 +34,11 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
             item.returnValues.token === getContract('RBTC_lending').address,
         )
         .map(item => item.returnValues.amount)
-        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
-    [feesEarnedEvents],
+        .reduce(
+          (prevValue, curValue) => prevValue.add(curValue),
+          bignumber(amountToClaim),
+        ),
+    [amountToClaim, feesEarnedEvents],
   );
 
   return (
