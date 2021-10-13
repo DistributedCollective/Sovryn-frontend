@@ -108,11 +108,13 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
 
   // calculation for LM enabled lending pools uses totalProfit to get correct balance
+  const poolProfit = useMemo(() => {
+    return useLM ? totalProfit : profitCall;
+  }, [useLM, totalProfit, profitCall]);
+
   const balance = useMemo(() => {
-    let result = bignumber(balanceCall);
-    result = useLM ? result.minus(totalProfit) : result.minus(profitCall);
-    return result.toString();
-  }, [balanceCall, profitCall, totalProfit, useLM]);
+    return bignumber(balanceCall).minus(poolProfit).toString();
+  }, [balanceCall, poolProfit]);
 
   useEffect(() => {
     if (balance !== '0') {
@@ -180,14 +182,12 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(
-                      useLM ? totalProfit : profitCall,
-                    ).greaterThanOrEqualTo(0)}
-                    amount={weiToFixed(useLM ? totalProfit : profitCall, 8)}
+                    isProfit={bignumber(poolProfit).greaterThanOrEqualTo(0)}
+                    amount={weiToFixed(poolProfit, 8)}
                     asset={asset}
                   />
                 }
-                tooltip={<>{weiTo18(useLM ? totalProfit : profitCall)}</>}
+                tooltip={<>{weiTo18(poolProfit)}</>}
               />
             </TableBodyData>
             <TableBodyData>
