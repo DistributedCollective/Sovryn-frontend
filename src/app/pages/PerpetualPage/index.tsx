@@ -30,9 +30,9 @@ import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import styles from './index.module.scss';
-import { AccountBalanceCard } from './components/AccountBalanceCard/AccountBalanceCard';
+import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
-import { AccountBalanceDialog } from './components/AccountBalanceDialog/AccountBalanceDialog';
+import { AccountBalanceDialog } from './components/AccountBalanceDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });

@@ -11,6 +11,14 @@
   .dialog {
     padding: 30px 0 50px 0 !important;
     max-width: 468px;
+    
+    &.md {
+      @apply tw-max-w-3xl tw-w-full;
+    }
+  
+    &.lg {
+      @apply tw-max-w-5xl tw-w-full;
+    }
   }
 }
 
