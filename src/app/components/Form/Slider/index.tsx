@@ -30,13 +30,11 @@ export const Slider: React.FC<ISliderProps> = ({
   className,
   type = SliderType.secondary,
   ...props
-}) => {
-  return (
-    <div
-      className={cn(styles.host, styles[type], className)}
-      data-action-id={props.dataActionId}
-    >
-      <BPSlider {...props} />
-    </div>
-  );
-};
+}) => (
+  <div
+    className={cn(styles.host, styles[type], className)}
+    data-action-id={props.dataActionId}
+  >
+    <BPSlider {...props} />
+  </div>
+);
