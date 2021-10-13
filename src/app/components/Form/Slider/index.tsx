@@ -5,7 +5,13 @@ import styles from './index.module.scss';
 
 type LabelRendererFn = (value: number, opts?) => string | JSX.Element;
 
-interface Props {
+export enum SliderType {
+  primary = 'primary',
+  secondary = 'secondary',
+  gradient = 'gradient',
+}
+
+type ISliderProps = {
   value: number;
   onChange?: (value: number) => void;
   onRelease?: (value: number) => void;
@@ -17,15 +23,18 @@ interface Props {
   className?: string;
   labelValues?: number[];
   dataActionId?: string;
-}
+  type?: SliderType;
+};
 
-export function Slider({ className, ...props }: Props) {
-  return (
-    <div
-      className={cn(styles.host, className)}
-      data-action-id={props.dataActionId}
-    >
-      <BPSlider {...props} />
-    </div>
-  );
-}
+export const Slider: React.FC<ISliderProps> = ({
+  className,
+  type = SliderType.secondary,
+  ...props
+}) => (
+  <div
+    className={cn(styles.host, styles[type], className)}
+    data-action-id={props.dataActionId}
+  >
+    <BPSlider {...props} />
+  </div>
+);

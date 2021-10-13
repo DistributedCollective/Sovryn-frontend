@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,18 +11,30 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
+import { PerpetualPageModals } from '../../types';
 
-export function AdvancedSettingDialog() {
+type IAdvancedSettingDialogProps = {
+  isOpen?: boolean;
+};
+
+export const AdvancedSettingDialog: React.FC<IAdvancedSettingDialogProps> = ({
+  isOpen,
+}) => {
   const { t } = useTranslation();
-  const { position, leverage } = useSelector(selectPerpetualPage);
+  const { modal, position, leverage } = useSelector(selectPerpetualPage);
   const dispatch = useDispatch();
   const [slippage, setSlippage] = useState(0.5);
+
+  const onClose = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
+    [dispatch],
+  );
 
   return (
     <>
       <Dialog
-        isOpen={!!position}
-        onClose={() => dispatch(actions.closeTradingModal())}
+        isOpen={modal === PerpetualPageModals.TRADE_SETTINGS}
+        onClose={onClose}
       >
         <div className="tw-mw-340 tw-mx-auto">
           <div className="tw-mb-6 text-left">
@@ -52,7 +64,7 @@ export function AdvancedSettingDialog() {
       </Dialog>
     </>
   );
-}
+};
 
 interface LabelValuePairProps {
   label: React.ReactNode;

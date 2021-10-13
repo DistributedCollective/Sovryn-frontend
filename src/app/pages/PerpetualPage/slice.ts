@@ -1,17 +1,24 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState } from './types';
+import {
+  ContainerState,
+  PerpetualPageModals,
+  PerpetualTradeType,
+} from './types';
 import { Asset } from '../../../types';
-import type { TradingPosition } from '../../../types/trading-position';
+import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
 
 // The initial state of the MarginTradePage container
 export const initialState: ContainerState = {
   pairType: PerpetualPairType.BTCUSD,
+  tradeType: PerpetualTradeType.MARKET,
   collateral: Asset.RBTC,
   amount: '0',
+  limit: '0',
   leverage: 2,
-  position: (undefined as unknown) as TradingPosition,
+  position: TradingPosition.LONG,
+  modal: PerpetualPageModals.NONE,
 };
 
 const perpetualPageSlice = createSlice({
@@ -20,6 +27,9 @@ const perpetualPageSlice = createSlice({
   reducers: {
     setPairType(state, { payload }: PayloadAction<PerpetualPairType>) {
       state.pairType = payload;
+    },
+    setTradeType(state, { payload }: PayloadAction<PerpetualTradeType>) {
+      state.tradeType = payload;
     },
     setCollateral(state, { payload }: PayloadAction<Asset>) {
       state.collateral = payload;
@@ -30,11 +40,14 @@ const perpetualPageSlice = createSlice({
     setAmount(state, { payload }: PayloadAction<string>) {
       state.amount = payload;
     },
-    submit(state, { payload }: PayloadAction<TradingPosition>) {
+    setLimit(state, { payload }: PayloadAction<string>) {
+      state.limit = payload;
+    },
+    setPosition(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
     },
-    closeTradingModal(state) {
-      state.position = (undefined as unknown) as TradingPosition;
+    setModal(state, { payload }: PayloadAction<PerpetualPageModals>) {
+      state.modal = payload;
     },
     reset(state) {
       state.amount = '';

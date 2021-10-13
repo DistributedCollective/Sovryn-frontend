@@ -1,20 +1,32 @@
-import React from 'react';
-import { Slider } from 'app/components/Form/Slider';
+import React, { useCallback, useMemo } from 'react';
+import { Slider, SliderType } from 'app/components/Form/Slider';
 
-interface Props {
+interface ILeverageSelectorProps {
   value: number;
+  steps: number[];
   onChange: (value: number) => void;
 }
 
-export function LeverageSelector(props: Props) {
+export const LeverageSelector: React.FC<ILeverageSelectorProps> = ({
+  value,
+  steps,
+  onChange,
+}) => {
+  const sliderValue = useMemo(() => steps.indexOf(value), [value, steps]);
+  const onChangeWrapped = useCallback(value => onChange(steps[value]), [
+    steps,
+    onChange,
+  ]);
+
   return (
     <Slider
-      value={props.value}
-      onChange={value => props.onChange(value)}
-      min={2}
-      max={5}
+      value={sliderValue}
+      onChange={onChangeWrapped}
+      min={0}
+      max={steps.length - 1}
       stepSize={1}
-      labelRenderer={value => <>{value}x</>}
+      labelRenderer={value => `${steps[value]}x`}
+      type={SliderType.gradient}
     />
   );
-}
+};

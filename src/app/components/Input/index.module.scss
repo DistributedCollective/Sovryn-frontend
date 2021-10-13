@@ -1,0 +1,49 @@
+.input {
+  @apply tw-w-full tw-h-8 tw-p-2 tw-leading-none tw-text-base tw-font-semibold tw-text-black tw-bg-sov-white tw-rounded-lg;
+
+  &[type='number'] {
+    @apply tw-text-right;
+    appearance: textfield;
+    
+    &[step] {
+      @apply tw-pr-7;
+    }
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+.stepButton {
+  @apply tw-absolute tw-right-0 tw-flex tw-items-center tw-justify-center tw-h-4 tw-w-6 
+    tw-transition-opacity tw-duration-300 hover:tw-opacity-50;
+
+  padding: 3px;
+
+  & > span {
+    @apply tw-w-0 tw-h-0;
+  }
+
+  &.up {
+    @apply tw-top-0 tw-items-end;
+
+    & > span {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid theme('colors.black');
+    }
+  }
+
+  &.down {
+    @apply tw-bottom-0 tw-items-start;
+
+    & > span {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid theme('colors.black');
+    }
+  }
+}
