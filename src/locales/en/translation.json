@@ -1504,10 +1504,10 @@
     },
     "accountBalance": {
       "title": "Sovryn Labs Perpetual Account",
-      "total": "Total Balance: <0/>",
+      "total": "Total Balance:",
       "pending": "Pending transfer…",
       "available": "Available Balance",
-      "inPosition": "In positions",
+      "inPositions": "In positions",
       "unrealized": "Unrealized P&L",
       "viewHistory": "View Transaction History",
       "deposit": "Deposit",

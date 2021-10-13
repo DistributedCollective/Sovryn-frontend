@@ -9,15 +9,34 @@ import { useEffect, useState } from 'react';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpatual-pair-dictionary';
 
+type AccountBalance = {
+  total: string;
+  available: string;
+  inPositions: string;
+  unrealized: string;
+};
+
 export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
   const blockId = useBlockSync();
-  const [balance, setBalance] = useState<string | null>(null);
+  const [data, setData] = useState<AccountBalance>();
 
-  // TODO: implement perpetual account balance fetching
+  // TODO: implement perpetual account Data fetching
 
   useEffect(() => {
-    setBalance(toWei(1337.7331));
+    setData({
+      total: toWei(1337.7331),
+      available: toWei(500),
+      inPositions: toWei(700),
+      unrealized: toWei(37.7331),
+    });
   }, [blockId]);
 
-  return balance;
+  return (
+    data || {
+      total: '',
+      available: '',
+      inPositions: '',
+      unrealized: '',
+    }
+  );
 };

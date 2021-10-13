@@ -13,11 +13,15 @@ type IBarCompositionChartEntry = {
 
 type IBarCompositionChartProps = {
   className?: string;
+  totalLabel?: React.ReactNode;
+  totalValueLabel?: React.ReactNode;
   entries: IBarCompositionChartEntry[];
 };
 
 export const BarCompositionChart: React.FC<IBarCompositionChartProps> = ({
   className,
+  totalLabel,
+  totalValueLabel,
   entries,
 }) => {
   const total = useMemo(
@@ -27,12 +31,18 @@ export const BarCompositionChart: React.FC<IBarCompositionChartProps> = ({
 
   return (
     <div className={className}>
+      {totalLabel && totalValueLabel && (
+        <div className="tw-flex tw-flex-col sm:tw-flex-row tw-mb-12 tw-text-xl tw-font-medium">
+          <div className="tw-mr-2 tw-font-semibold">{totalLabel}</div>
+          <div>{totalValueLabel}</div>
+        </div>
+      )}
       <div className="tw-flex tw-flex-row tw-space-x-0.5 tw-mb-12">
         {entries.map(entry => (
           <BarSegment {...entry} total={total} />
         ))}
       </div>
-      <div className="tw-flex tw-flex-row tw-space-x-2">
+      <div className="tw-flex tw-flex-row tw-flex-wrap">
         {entries.map(entry => (
           <BarLabel {...entry} />
         ))}
@@ -56,7 +66,7 @@ const BarSegment: React.FC<IBarSegmentProps> = ({
   const style = useMemo(
     () => ({
       width: (value / total) * 100 + '%',
-      color,
+      backgroundColor: color,
     }),
     [value, total, color],
   );
@@ -87,14 +97,19 @@ const BarLabel: React.FC<IBarCompositionChartEntry> = ({
   }
 
   return (
-    <div className="tw-flex tw-flex-row">
+    <div className="tw-flex tw-flex-row tw-w-1/3 tw-min-w-max tw-mb-2">
       <div
-        className={classNames('tw-w-3.5 tw-h-3.5 tw-mr-2', colorClassName)}
-        style={{ color }}
+        className={classNames(
+          'tw-flex-none tw-w-3.5 tw-h-3.5 tw-mr-2',
+          colorClassName,
+        )}
+        style={{
+          backgroundColor: color,
+        }}
       />
-      <div className="tw-flex tw-flex-col">
-        <div>{label}</div>
-        <div>{valueLabel}</div>
+      <div className="tw-flex tw-flex-col tw-mr-4">
+        <div className="tw-text-xs tw-leading-tight tw-mb-2">{label}</div>
+        <div className="tw-text-lg tw-font-medium">{valueLabel}</div>
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ export function PerpetualPage() {
   ] = useState(false);
 
   const { pairType } = useSelector(selectPerpetualPage);
-  const balance = usePerpetual_accountBalance(pairType);
+  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -166,8 +166,11 @@ export function PerpetualPage() {
             <RecentTradesTable pair={pair} />
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-            <AccountBalanceCard balance={balance} />
-            <TradeForm pairType={linkPairType || pairType} balance={balance} />
+            <AccountBalanceCard balance={availableBalance} />
+            <TradeForm
+              pairType={linkPairType || pairType}
+              balance={availableBalance}
+            />
           </div>
         </div>
 
@@ -218,7 +221,7 @@ export function PerpetualPage() {
         isOpen={showNotificationSettingsModal}
         onClose={() => setShowNotificationSettingsModal(false)}
       />
-      <AccountBalanceDialog />
+      <AccountBalanceDialog pairType={pairType} />
     </>
   );
 }
