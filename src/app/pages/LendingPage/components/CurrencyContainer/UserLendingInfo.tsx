@@ -98,23 +98,28 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   const { useLM } = LendingPoolDictionary.get(asset);
 
   // this only gets used for LM enabled lending pools
-  const totalProfit = useMemo(() => {
-    return bignumber(tokenPrice)
-      .sub(checkpointPrice)
-      .mul(totalBalance)
-      .div(Math.pow(10, assetDecimals))
-      .add(profitCall)
-      .toFixed(0);
-  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
+  const totalProfit = useMemo(
+    () =>
+      bignumber(tokenPrice)
+        .sub(checkpointPrice)
+        .mul(totalBalance)
+        .div(Math.pow(10, assetDecimals))
+        .add(profitCall)
+        .toFixed(0),
+    [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals],
+  );
 
   // calculation for LM enabled lending pools uses totalProfit to get correct balance
-  const poolProfit = useMemo(() => {
-    return useLM ? totalProfit : profitCall;
-  }, [useLM, totalProfit, profitCall]);
+  const poolProfit = useMemo(() => (useLM ? totalProfit : profitCall), [
+    useLM,
+    totalProfit,
+    profitCall,
+  ]);
 
-  const balance = useMemo(() => {
-    return bignumber(balanceCall).minus(poolProfit).toString();
-  }, [balanceCall, poolProfit]);
+  const balance = useMemo(
+    () => bignumber(balanceCall).minus(poolProfit).toString(),
+    [balanceCall, poolProfit],
+  );
 
   useEffect(() => {
     if (balance !== '0') {
