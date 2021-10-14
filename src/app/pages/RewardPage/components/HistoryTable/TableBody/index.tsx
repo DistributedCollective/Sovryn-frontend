@@ -5,6 +5,7 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 
 import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
+import { Asset } from 'types';
 
 export interface RewardEvent {
   amount: string;
@@ -54,6 +55,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     [t],
   );
 
+  const getEventAsset = useCallback(
+    type =>
+      type === RewardEventType.USER_FEE_WITHDRAWN ? Asset.RBTC : Asset.SOV,
+    [],
+  );
+
   return (
     <tbody className="tw-mt-12">
       {items.map((item, index) => (
@@ -63,6 +70,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           txHash={item.txHash}
           amount={item.amount}
           type={getEventType(item.event)}
+          asset={getEventAsset(item.event)}
         />
       ))}
 

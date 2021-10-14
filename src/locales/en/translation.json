@@ -1406,8 +1406,8 @@
         "recommendation2": "Margin trade any asset pair on Sovryn"
       },
       "feesEarnedTab": {
-        "title": "You have not earned any BTC",
-        "recommendationsTitle": "In order to earn BTC you will need to either:",
+        "title": "You have not earned any <0/>",
+        "recommendationsTitle": "In order to earn <0/> you will need to either:",
         "recommendation1": "Stake SOV",
         "recommendation2": "Have active users use your affiliate link"
       }

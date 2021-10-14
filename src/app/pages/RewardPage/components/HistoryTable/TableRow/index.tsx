@@ -15,6 +15,7 @@ interface ITableRowProps {
   type: string;
   amount: string;
   txHash: string;
+  asset: Asset;
 }
 
 export const TableRow: React.FC<ITableRowProps> = ({
@@ -22,6 +23,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
   type,
   amount,
   txHash,
+  asset,
 }) => {
   return (
     <tr className="tw-text-xs">
@@ -30,11 +32,11 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>{type}</td>
       <td>
-        <Tooltip content={`${weiTo18(amount)} SOV`}>
+        <Tooltip content={`${weiTo18(amount)} ${asset}`}>
           <>
             {weiToFixed(amount, 8)}{' '}
             <span className="tw--ml-0.5 tw-mr-1">...</span>{' '}
-            <AssetSymbolRenderer asset={Asset.SOV} />
+            <AssetSymbolRenderer asset={asset} />
           </>
         </Tooltip>
       </td>

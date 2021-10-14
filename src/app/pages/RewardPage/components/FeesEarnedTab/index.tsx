@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
@@ -11,6 +11,7 @@ import { PieChart } from '../../styled';
 import { Asset } from 'types';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -103,13 +104,19 @@ const NoRewardInfoText: React.FC = () => {
   return (
     <>
       <div className="tw-text-xl tw-font-medium tw-mb-5 tw-tracking-normal">
-        {t(translations.rewardPage.noRewardInfoText.feesEarnedTab.title)}
+        <Trans
+          i18nKey={translations.rewardPage.noRewardInfoText.feesEarnedTab.title}
+          components={[<AssetRenderer asset={Asset.RBTC} />]}
+        />
       </div>
       <div className="tw-text-xs tw-tracking-normal tw-font-light tw-mb-5">
-        {t(
-          translations.rewardPage.noRewardInfoText.feesEarnedTab
-            .recommendationsTitle,
-        )}
+        <Trans
+          i18nKey={
+            translations.rewardPage.noRewardInfoText.feesEarnedTab
+              .recommendationsTitle
+          }
+          components={[<AssetRenderer asset={Asset.RBTC} />]}
+        />
       </div>
       <div className="tw-text-sm">
         <div className={styles.ul}>
