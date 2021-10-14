@@ -10,7 +10,7 @@ import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
 import logo from 'assets/images/sovryn-logo-white.svg';
 
-// previously MetaMask disclaimer, 'mm-…' remains to not anoy users.
+// previously MetaMask disclaimer, 'mm-…' remains to not annoy users.
 const SESSION_KEY = 'mm-notify-shown';
 
 const shouldModalBeVisible = () => !isMobile() && !local.getItem(SESSION_KEY);
