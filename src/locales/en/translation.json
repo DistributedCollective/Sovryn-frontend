@@ -1401,13 +1401,13 @@
       },
       "liquidSovTab": {
         "title": "You do not have any Liquid SOV",
-        "recommendationsTitle": "In order to earn Liquid SOV you will need to either:",
+        "recommendationsTitle": "In order to earn Liquid SOV you will need to:",
         "recommendation1": "Stake SOV",
         "recommendation2": "Margin trade any asset pair on Sovryn"
       },
       "feesEarnedTab": {
         "title": "You have not earned any <0/>",
-        "recommendationsTitle": "In order to earn <0/> you will need to either:",
+        "recommendationsTitle": "In order to earn <0/> you will need to:",
         "recommendation1": "Stake SOV",
         "recommendation2": "Have active users use your affiliate link"
       }

@@ -105,12 +105,6 @@ const NoRewardInfoText: React.FC = () => {
               .recommendation1,
           )}
         </div>
-        <div className={styles.ul}>
-          {t(
-            translations.rewardPage.noRewardInfoText.liquidSovTab
-              .recommendation2,
-          )}
-        </div>
       </div>
     </>
   );

@@ -125,12 +125,6 @@ const NoRewardInfoText: React.FC = () => {
               .recommendation1,
           )}
         </div>
-        <div className={styles.ul}>
-          {t(
-            translations.rewardPage.noRewardInfoText.feesEarnedTab
-              .recommendation2,
-          )}
-        </div>
       </div>
     </>
   );
