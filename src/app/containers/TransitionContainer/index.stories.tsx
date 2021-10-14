@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { TransitionContainer, TransitionContainerAnimation } from './index';
+import { TransitionContainer, TransitionAnimation } from './index';
 
 export default {
   title: 'Atoms/TransitionContainer',
@@ -8,17 +8,15 @@ export default {
 };
 
 const Transitions = [
-  TransitionContainerAnimation.slideLeft,
-  TransitionContainerAnimation.slideUp,
-  TransitionContainerAnimation.slideRight,
-  TransitionContainerAnimation.slideDown,
+  TransitionAnimation.slideLeft,
+  TransitionAnimation.slideUp,
+  TransitionAnimation.slideRight,
+  TransitionAnimation.slideDown,
 ];
 
 export const Basic = ({ animateHeight = true }) => {
   const [active, setActive] = useState(0);
-  const [animation, setAnimation] = useState(
-    TransitionContainerAnimation.slideLeft,
-  );
+  const [animation, setAnimation] = useState(TransitionAnimation.slideLeft);
 
   const onAnimationStarted = useCallback(() => {
     setAnimation(Transitions[active]);
@@ -33,12 +31,15 @@ export const Basic = ({ animateHeight = true }) => {
         onAnimationStarted={onAnimationStarted}
       >
         {active === 0 && (
-          <button
-            className="tw-p-8 tw-text-black tw-bg-primary"
-            onClick={() => setActive(1)}
-          >
-            Alpha
-          </button>
+          <div>
+            <button
+              className="tw-p-8 tw-text-black tw-bg-primary"
+              onClick={() => setActive(1)}
+            >
+              Alpha
+            </button>
+            <p>TransitionContainer itself does not incude the background.</p>
+          </div>
         )}
         {active === 1 && (
           <button

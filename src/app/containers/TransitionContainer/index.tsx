@@ -1,16 +1,10 @@
 import classNames from 'classnames';
-import React, {
-  useCallback,
-  useState,
-  useRef,
-  useLayoutEffect,
-  useEffect,
-} from 'react';
+import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useResizeObserver } from '../../hooks/useResizeObserver';
 import styles from './index.module.scss';
 
-export enum TransitionContainerAnimation {
+export enum TransitionAnimation {
   fade = 'fade',
   slideLeft = 'slideLeft',
   slideRight = 'slideRight',
@@ -55,7 +49,7 @@ type ITransitionContainerProps = {
   children: React.ReactNode;
   animateHeight?: boolean;
   duration?: number;
-  animation?: TransitionContainerAnimation;
+  animation?: TransitionAnimation;
   onAnimationStarted?: () => void;
 };
 
@@ -64,7 +58,7 @@ export const TransitionContainer: React.FC<ITransitionContainerProps> = ({
   children,
   animateHeight = true,
   duration = 1000,
-  animation = TransitionContainerAnimation.fade,
+  animation = TransitionAnimation.fade,
   onAnimationStarted,
 }) => {
   const { ref, dimensions } = useResizeObserver<HTMLDivElement>();
